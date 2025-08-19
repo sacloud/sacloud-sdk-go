@@ -65,16 +65,6 @@
               "schema": {
                 "$ref": "#/components/schemas/AlertProjectCreate"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/AlertProjectCreate"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/AlertProjectCreate"
-              }
             }
           },
           "required": true
@@ -157,16 +147,6 @@
               "schema": {
                 "$ref": "#/components/schemas/AlertProject"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/AlertProject"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/AlertProject"
-              }
             }
           }
         },
@@ -208,16 +188,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedAlertProject"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedAlertProject"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedAlertProject"
               }
@@ -469,16 +439,6 @@
               "schema": {
                 "$ref": "#/components/schemas/NotificationTarget"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/NotificationTarget"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/NotificationTarget"
-              }
             }
           },
           "required": true
@@ -569,16 +529,6 @@
               "schema": {
                 "$ref": "#/components/schemas/NotificationTarget"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/NotificationTarget"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/NotificationTarget"
-              }
             }
           },
           "required": true
@@ -625,16 +575,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedNotificationTarget"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedNotificationTarget"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedNotificationTarget"
               }
@@ -759,16 +699,6 @@
               "schema": {
                 "$ref": "#/components/schemas/AlertRule"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/AlertRule"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/AlertRule"
-              }
             }
           },
           "required": true
@@ -859,16 +789,6 @@
               "schema": {
                 "$ref": "#/components/schemas/AlertRule"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/AlertRule"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/AlertRule"
-              }
             }
           },
           "required": true
@@ -915,16 +835,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedAlertRule"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedAlertRule"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedAlertRule"
               }
@@ -1166,16 +1076,6 @@
               "schema": {
                 "$ref": "#/components/schemas/DashboardProjectCreate"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/DashboardProjectCreate"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/DashboardProjectCreate"
-              }
             }
           },
           "required": true
@@ -1258,16 +1158,6 @@
               "schema": {
                 "$ref": "#/components/schemas/DashboardProject"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/DashboardProject"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/DashboardProject"
-              }
             }
           }
         },
@@ -1309,16 +1199,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedDashboardProject"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedDashboardProject"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedDashboardProject"
               }
@@ -1442,16 +1322,6 @@
               "schema": {
                 "$ref": "#/components/schemas/LogRouting"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/LogRouting"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/LogRouting"
-              }
             }
           },
           "required": true
@@ -1534,16 +1404,6 @@
               "schema": {
                 "$ref": "#/components/schemas/LogRouting"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/LogRouting"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/LogRouting"
-              }
             }
           },
           "required": true
@@ -1586,16 +1446,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedLogRouting"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedLogRouting"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedLogRouting"
               }
@@ -1748,16 +1598,6 @@
               "schema": {
                 "$ref": "#/components/schemas/LogTableCreate"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/LogTableCreate"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/LogTableCreate"
-              }
             }
           },
           "required": true
@@ -1847,16 +1687,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/LogTableAccessKey"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/LogTableAccessKey"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/LogTableAccessKey"
               }
@@ -1959,16 +1789,6 @@
               "schema": {
                 "$ref": "#/components/schemas/LogTableAccessKey"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/LogTableAccessKey"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/LogTableAccessKey"
-              }
             }
           }
         },
@@ -2019,16 +1839,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedLogTableAccessKey"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedLogTableAccessKey"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedLogTableAccessKey"
               }
@@ -2150,16 +1960,6 @@
               "schema": {
                 "$ref": "#/components/schemas/LogTable"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/LogTable"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/LogTable"
-              }
             }
           }
         },
@@ -2201,16 +2001,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedLogTable"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedLogTable"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedLogTable"
               }
@@ -2292,16 +2082,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProvisioningCreate"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/ProvisioningCreate"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/ProvisioningCreate"
               }
@@ -2419,16 +2199,6 @@
               "schema": {
                 "$ref": "#/components/schemas/MetricsRouting"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsRouting"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsRouting"
-              }
             }
           },
           "required": true
@@ -2511,16 +2281,6 @@
               "schema": {
                 "$ref": "#/components/schemas/MetricsRouting"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsRouting"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsRouting"
-              }
             }
           },
           "required": true
@@ -2563,16 +2323,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsRouting"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsRouting"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedMetricsRouting"
               }
@@ -2697,16 +2447,6 @@
               "schema": {
                 "$ref": "#/components/schemas/MetricsTankCreate"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsTankCreate"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsTankCreate"
-              }
             }
           },
           "required": true
@@ -2796,16 +2536,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsTankAccessKey"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsTankAccessKey"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/MetricsTankAccessKey"
               }
@@ -2908,16 +2638,6 @@
               "schema": {
                 "$ref": "#/components/schemas/MetricsTankAccessKey"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsTankAccessKey"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsTankAccessKey"
-              }
             }
           }
         },
@@ -2968,16 +2688,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsTankAccessKey"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsTankAccessKey"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedMetricsTankAccessKey"
               }
@@ -3099,16 +2809,6 @@
               "schema": {
                 "$ref": "#/components/schemas/MetricsTank"
               }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsTank"
-              }
-            },
-            "multipart/form-data": {
-              "schema": {
-                "$ref": "#/components/schemas/MetricsTank"
-              }
             }
           }
         },
@@ -3150,16 +2850,6 @@
         "requestBody": {
           "content": {
             "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsTank"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsTank"
-              }
-            },
-            "multipart/form-data": {
               "schema": {
                 "$ref": "#/components/schemas/PatchedMetricsTank"
               }
