@@ -1,4 +1,4 @@
-// Copyright 2025- The sacloud/monitoring-api-go Authors
+// Copyright 2025- The sacloud/monitoring-suite-api-go Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package monitoring_api
+package monitoringsuite
 
 const Version = "0.1.0"

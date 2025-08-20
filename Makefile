@@ -1,8 +1,8 @@
 #====================
-AUTHOR         ?= The sacloud/monitoring-api-go Authors
+AUTHOR         ?= The sacloud/monitoring-suite-api-go Authors
 COPYRIGHT_YEAR ?= 2022-2025
 
-BIN            ?= monitoring-api-go
+BIN            ?= monitoring-suite-api-go
 GO_FILES       ?= $(shell find . -name '*.go')
 
 include includes/go/common.mk
