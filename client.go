@@ -52,9 +52,19 @@ func NewClient(params ...client.ClientParam) (*v1.Client, error) {
 }
 
 func NewClientWithApiUrl(apiUrl string, params ...client.ClientParam) (*v1.Client, error) {
+	return NewClientWithApiUrlAndClient(apiUrl, nil, params...)
+}
+
+func NewClientWithApiUrlAndClient(apiUrl string, apiClient *http.Client, params ...client.ClientParam) (*v1.Client, error) {
+	var cli client.ClientParam
+	if apiClient == nil {
+		cli = func(i *client.ClientParams) {}
+	} else {
+		cli = client.WithHTTPClient(apiClient)
+	}
 	ua := client.WithUserAgent(UserAgent)
 	opts := client.WithOptions(&client.Options{RequestCustomizers: RequestCustomizers})
-	c, err := client.NewClient(apiUrl, append(params, ua, opts)...)
+	c, err := client.NewClient(apiUrl, append(params, ua, cli, opts)...)
 	if err != nil {
 		return nil, NewError("NewClientWithApiUrl", err)
 	}

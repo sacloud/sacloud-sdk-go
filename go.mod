@@ -9,7 +9,7 @@ require (
 	github.com/go-faster/jx v1.1.0
 	github.com/google/uuid v1.6.0
 	github.com/ogen-go/ogen v1.14.0
-	github.com/sacloud/api-client-go v0.3.2
+	github.com/sacloud/api-client-go v0.3.3
 	github.com/sacloud/go-http v0.1.9
 	github.com/stretchr/testify v1.10.0
 )
