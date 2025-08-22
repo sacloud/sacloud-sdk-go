@@ -64,7 +64,7 @@ func (p *publisherOp) Read(ctx context.Context, code string) (*v1.Publisher, err
 			return nil, NewAPIError("Publisher.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return nil, NewAPIError("Publisher.Read", http.StatusInternalServerError, errors.Wrap(err, "internal server error"))
+		return nil, NewAPIError("Publisher.Read", 0, err)
 	} else {
 		pub := &v1.Publisher{
 			Code:        result.GetCode(),
