@@ -36,7 +36,9 @@ func newTestClient(v any, s ...int) *v1.Client {
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
 		w.WriteHeader(s[0])
-		w.Write(j)
+		if _, e = w.Write(j); e != nil {
+			panic(e)
+		}
 	})
 	sv := httptest.NewServer(h)
 	c, e := NewClientWithApiUrlAndClient(sv.URL, sv.Client())
