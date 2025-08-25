@@ -26,6 +26,13 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+type ErrorResponse struct {
+	Code    string `json:"error_code"`
+	Message string `json:"error_msg"`
+	IsOk    bool   `json:"is_ok"`
+	Status  int    `json:"status"`
+}
+
 func newTestClient(v any, s ...int) *v1.Client {
 	s = append(s, http.StatusOK)
 	j, e := json.Marshal(v)
@@ -35,7 +42,12 @@ func newTestClient(v any, s ...int) *v1.Client {
 
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		w.WriteHeader(s[0])
+		st := s[0]
+
+		w.WriteHeader(st)
+		if st == http.StatusNoContent {
+			return
+		}
 		if _, e = w.Write(j); e != nil {
 			panic(e)
 		}
@@ -124,12 +136,7 @@ func TestPublisherOp_Read_200(t *testing.T) {
 }
 
 func TestPublisherOp_Read_404(t *testing.T) {
-	expected := struct {
-		Code    string `json:"error_code"`
-		Message string `json:"error_msg"`
-		IsOk    bool   `json:"is_ok"`
-		Status  int    `json:"status"`
-	}{
+	expected := ErrorResponse{
 		Code:    "not_found",
 		Message: "No Publisher matches the given query.",
 		IsOk:    false,
