@@ -18,6 +18,7 @@ import (
 	"context"
 	"net/http"
 	"testing"
+	"time"
 
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
@@ -31,6 +32,10 @@ var TemplateMetricsTank = func() v1.MetricsTank {
 	for _, tag := range []string{"tag1", "tag2"} {
 		ret.Tags = append(ret.Tags, tag)
 	}
+	// time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
+	t := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
+	ret.SetCreatedAt(t)
+	ret.SetUpdatedAt(t)
 	return ret
 }()
 
@@ -41,6 +46,10 @@ var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
 	for _, tag := range []string{"tag1", "tag2"} {
 		ret.Tags = append(ret.Tags, tag)
 	}
+	// 同上
+	t := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
+	ret.SetCreatedAt(t)
+	ret.SetUpdatedAt(t)
 	return ret
 }()
 
