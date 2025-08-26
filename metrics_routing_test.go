@@ -24,25 +24,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var TemplateMetricsRouting = func() v1.MetricsRouting {
-	var r v1.MetricsRouting
-
-	r.SetFake()
-	r.SetPublisher(TemplatePublisher)
-	r.SetMetricsStorage(TemplateMetricsTank)
-	return r
-}()
-
-var TemplateWrappedMetricsRouting = func() v1.WrappedMetricsRouting {
-	var r v1.WrappedMetricsRouting
-
-	r.SetFake()
-	r.SetPublisher(TemplatePublisher)
-	r.SetMetricsStorage(TemplateMetricsTank)
-	r.SetIsOk(true) // それはそう
-	return r
-}()
-
 func TestMetricsRoutingOp_List(t *testing.T) {
 	expected := v1.PaginatedMetricsRoutingList{
 		IsOk:    v1.NewOptBool(true),

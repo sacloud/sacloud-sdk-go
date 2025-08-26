@@ -18,54 +18,11 @@ import (
 	"context"
 	"net/http"
 	"testing"
-	"time"
 
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
 )
-
-var TemplateMetricsTank = func() v1.MetricsTank {
-	var ret v1.MetricsTank
-
-	ret.SetFake()
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
-	// time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
-	t := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
-	ret.SetCreatedAt(t)
-	ret.SetUpdatedAt(t)
-	return ret
-}()
-
-var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
-	var ret v1.WrappedMetricsTank
-
-	ret.SetFake()
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
-	// 同上
-	t := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
-	ret.SetCreatedAt(t)
-	ret.SetUpdatedAt(t)
-	return ret
-}()
-
-var TemplateAccessKey = func() v1.MetricsTankAccessKey {
-	var ret v1.MetricsTankAccessKey
-
-	ret.SetFake()
-	return ret
-}()
-
-var TemplateWrappedAccessKey = func() v1.WrappedMetricsTankAccessKey {
-	var ret v1.WrappedMetricsTankAccessKey
-
-	ret.SetFake()
-	return ret
-}()
 
 func TestMetricsStorageOp_List(t *testing.T) {
 	expected := v1.PaginatedMetricsTankList{

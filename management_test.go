@@ -24,12 +24,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var TemplateProvisioning = func() v1.Provisioning {
-	var ret v1.Provisioning
-	ret.SetFake()
-	return ret
-}()
-
 func TestManagementOp_ResourceLimits(t *testing.T) {
 	var res v1.ResourcesLimits
 	res.SetFake()
