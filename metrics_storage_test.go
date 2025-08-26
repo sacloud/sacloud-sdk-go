@@ -19,48 +19,44 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
 )
 
-var TemplateMetricsTank = v1.MetricsTank{
-	ID:          v1.NewNilInt64(12345),
-	Name:        v1.NewOptString("test-tank"),
-	Description: v1.NewOptString("This is a test metrics tank"),
-	IsSystem:    false,
-	AccountID:   "test-account",
-	ResourceID:  v1.NewNilInt(12345),
-	Endpoints:   v1.MetricsTankEndpoints{Address: "127.0.0.1"},
-	Usage:       v1.MetricsTankUsage{MetricsRoutings: 1, AlertRules: 2, LogRecordingRules: 3},
-	Tags:        []string{"tag1", "tag2"},
-}
+var TemplateMetricsTank = func() v1.MetricsTank {
+	var ret v1.MetricsTank
 
-var TemplateWrappedMetricsTank = v1.WrappedMetricsTank{
-	ID:          12345,
-	Name:        v1.NewOptString("test-tank"),
-	Description: v1.NewOptString("This is a test metrics tank"),
-	IsSystem:    false,
-	AccountID:   "test-account",
-	ResourceID:  v1.NewNilInt(12345),
-	Endpoints:   v1.WrappedMetricsTankEndpoints{Address: "127.0.0.1"},
-	Usage:       v1.WrappedMetricsTankUsage{MetricsRoutings: 1, AlertRules: 2, LogRecordingRules: 3},
-	Tags:        []string{"tag1", "tag2"},
-}
+	ret.SetFake()
+	for _, tag := range []string{"tag1", "tag2"} {
+		ret.Tags = append(ret.Tags, tag)
+	}
+	return ret
+}()
 
-var TemplateAccessKey = v1.MetricsTankAccessKey{
-	ID:          12345,
-	Secret:      uuid.Must(uuid.NewRandom()),
-	Description: v1.NewOptString("This is a test access key"),
-}
+var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
+	var ret v1.WrappedMetricsTank
 
-var TemplateWrappedAccessKey = v1.WrappedMetricsTankAccessKey{
-	ID:          12345,
-	Secret:      uuid.Must(uuid.NewRandom()),
-	Description: v1.NewOptString("This is a test access key"),
-	IsOk:        true,
-}
+	ret.SetFake()
+	for _, tag := range []string{"tag1", "tag2"} {
+		ret.Tags = append(ret.Tags, tag)
+	}
+	return ret
+}()
+
+var TemplateAccessKey = func() v1.MetricsTankAccessKey {
+	var ret v1.MetricsTankAccessKey
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateWrappedAccessKey = func() v1.WrappedMetricsTankAccessKey {
+	var ret v1.WrappedMetricsTankAccessKey
+
+	ret.SetFake()
+	return ret
+}()
 
 func TestMetricsStorageOp_List(t *testing.T) {
 	expected := v1.PaginatedMetricsTankList{
@@ -79,16 +75,13 @@ func TestMetricsStorageOp_List(t *testing.T) {
 	require.Equal(t, 1, len(tanks))
 
 	tank := tanks[0]
-	require.Equal(t, v1.OptString{Value: "test-tank", Set: true}, tank.GetName())
-	require.Equal(t, v1.OptString{Value: "This is a test metrics tank", Set: true}, tank.GetDescription())
-	require.Equal(t, false, tank.GetIsSystem())
-	require.Equal(t, "test-account", tank.GetAccountID())
-	require.Equal(t, v1.NewNilInt(12345), tank.GetResourceID())
-	require.Equal(t, "127.0.0.1", (&tank.Endpoints).GetAddress())
-
-	require.Equal(t, 1, (&tank.Usage).GetMetricsRoutings())
-	require.Equal(t, 2, (&tank.Usage).GetAlertRules())
-	require.Equal(t, 3, (&tank.Usage).GetLogRecordingRules())
+	require.Equal(t, TemplateMetricsTank.GetName(), tank.GetName())
+	require.Equal(t, TemplateMetricsTank.GetDescription(), tank.GetDescription())
+	require.Equal(t, TemplateMetricsTank.GetIsSystem(), tank.GetIsSystem())
+	require.Equal(t, TemplateMetricsTank.GetAccountID(), tank.GetAccountID())
+	require.Equal(t, TemplateMetricsTank.GetResourceID(), tank.GetResourceID())
+	require.Equal(t, TemplateMetricsTank.GetEndpoints(), tank.GetEndpoints())
+	require.Equal(t, TemplateMetricsTank.GetUsage(), tank.GetUsage())
 }
 
 func TestMetricsStorageOp_List_403(t *testing.T) {
@@ -270,8 +263,8 @@ func TestMetricsStorageOp_ListKeys(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, keys)
 	require.Equal(t, 1, len(keys))
-	require.Equal(t, int64(12345), keys[0].ID)
-	require.Contains(t, keys[0].Description.Value, "test access key")
+	require.Equal(t, TemplateAccessKey.GetID(), keys[0].GetID())
+	require.Contains(t, keys[0].GetDescription().Value, TemplateAccessKey.GetDescription().Value)
 }
 
 func TestMetricsStorageOp_ListKeys_403(t *testing.T) {
@@ -299,8 +292,8 @@ func TestMetricsStorageOp_CreateKey(t *testing.T) {
 	key, err := api.CreateKey(ctx, 12345, &TemplateAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
-	require.Equal(t, int64(12345), key.ID)
-	require.Contains(t, key.Description.Value, "test access key")
+	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
+	require.Contains(t, key.GetDescription().Value, TemplateWrappedAccessKey.GetDescription().Value)
 }
 
 func TestMetricsStorageOp_CreateKey_403(t *testing.T) {
@@ -328,8 +321,8 @@ func TestMetricsStorageOp_ReadKey(t *testing.T) {
 	key, err := api.ReadKey(ctx, 12345, 3)
 	require.NoError(t, err)
 	require.NotNil(t, key)
-	require.Equal(t, int64(12345), key.ID)
-	require.Contains(t, key.Description.Value, "test access key")
+	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
+	require.Contains(t, key.GetDescription().Value, TemplateWrappedAccessKey.GetDescription().Value)
 }
 
 func TestMetricsStorageOp_ReadKey_403(t *testing.T) {
@@ -357,8 +350,8 @@ func TestMetricsStorageOp_UpdateKey(t *testing.T) {
 	key, err := api.UpdateKey(ctx, 12345, 4, &TemplateAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
-	require.Equal(t, int64(12345), key.ID)
-	require.Contains(t, key.Description.Value, "test access key")
+	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
+	require.Contains(t, key.GetDescription().Value, TemplateWrappedAccessKey.GetDescription().Value)
 }
 
 func TestMetricsStorageOp_UpdateKey_403(t *testing.T) {
