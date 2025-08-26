@@ -41,12 +41,7 @@ func TestManagementOp_ResourceLimits(t *testing.T) {
 }
 
 func TestManagementOp_ResourceLimits_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "insufficient privileges",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "insufficient privileges")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
 	ctx := context.Background()
@@ -72,12 +67,7 @@ func TestManagementOp_ProvisioningRead(t *testing.T) {
 }
 
 func TestManagementOp_ProvisioningRead_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "insufficient privileges",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "insufficient privileges")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
 	ctx := context.Background()
@@ -106,12 +96,7 @@ func TestManagementOp_ProvisioningCreate(t *testing.T) {
 }
 
 func TestManagementOp_ProvisioningCreate_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "insufficient privileges",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "insufficient privileges")
 	req := v1.ProvisioningCreate{}
 	req.SetFake()
 	client := newTestClient(expected, http.StatusBadRequest)

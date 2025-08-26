@@ -79,12 +79,7 @@ func TestPublisherOp_Read_200(t *testing.T) {
 }
 
 func TestPublisherOp_Read_404(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "not_found",
-		Message: "No Publisher matches the given query.",
-		IsOk:    false,
-		Status:  404,
-	}
+	expected := newErrorResponse(404, "No Publisher matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewPublisherOp(client)
 	ctx := context.Background()

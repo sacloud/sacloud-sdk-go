@@ -59,12 +59,7 @@ func TestMetricsRoutingOp_Read(t *testing.T) {
 }
 
 func TestMetricsRoutingOp_Read_404(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "not_found",
-		Message: "No MetricsRouting matches the given query.",
-		IsOk:    false,
-		Status:  404,
-	}
+	expected := newErrorResponse(404, "No MetricsRouting matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
@@ -130,12 +125,7 @@ func TestMetricsRoutingOp_Update(t *testing.T) {
 }
 
 func TestMetricsRoutingOp_Update_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "Invalid update parameters.",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
@@ -157,12 +147,7 @@ func TestMetricsRoutingOp_Delete(t *testing.T) {
 }
 
 func TestMetricsRoutingOp_Delete_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "Invalid delete request.",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()

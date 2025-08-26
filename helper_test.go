@@ -31,6 +31,15 @@ type ErrorResponse struct {
 	Status  int    `json:"status"`
 }
 
+func newErrorResponse(status int, message string) ErrorResponse {
+	return ErrorResponse{
+		Code:    http.StatusText(status),
+		Message: message,
+		IsOk:    false,
+		Status:  status,
+	}
+}
+
 func newTestClient(v any, s ...int) *v1.Client {
 	s = append(s, http.StatusOK)
 	j, e := json.Marshal(v)
