@@ -67,6 +67,9 @@ func newTestClient(v any, s ...int) *v1.Client {
 	return c
 }
 
+// time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
+var TemplateTime time.Time = time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
+
 var TemplatePublisher = func() v1.Publisher {
 	var ret v1.Publisher
 
@@ -87,10 +90,8 @@ var TemplateMetricsTank = func() v1.MetricsTank {
 	for _, tag := range []string{"tag1", "tag2"} {
 		ret.Tags = append(ret.Tags, tag)
 	}
-	// time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
-	t := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
-	ret.SetCreatedAt(t)
-	ret.SetUpdatedAt(t)
+	ret.SetCreatedAt(TemplateTime)
+	ret.SetUpdatedAt(TemplateTime)
 	return ret
 }()
 
@@ -101,10 +102,8 @@ var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
 	for _, tag := range []string{"tag1", "tag2"} {
 		ret.Tags = append(ret.Tags, tag)
 	}
-	// 同上
-	t := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
-	ret.SetCreatedAt(t)
-	ret.SetUpdatedAt(t)
+	ret.SetCreatedAt(TemplateTime)
+	ret.SetUpdatedAt(TemplateTime)
 	return ret
 }()
 
@@ -182,6 +181,7 @@ var TemplateLogTable = func() v1.LogTable {
 	ret.SetFake()
 	ret.SetEndpoints(TemplateLogTableEndpoints)
 	ret.SetUsage(TemplateLogTableUsage)
+	ret.SetCreatedAt(TemplateTime)
 	for _, tag := range []string{"tag1", "tag2"} {
 		ret.Tags = append(ret.Tags, tag)
 	}
@@ -194,8 +194,28 @@ var TemplateWrappedLogTable = func() v1.WrappedLogTable {
 	ret.SetFake()
 	ret.SetEndpoints(TemplateWrappedLogTableEndpoints)
 	ret.SetUsage(TemplateWrappedLogTableUsage)
+	ret.SetCreatedAt(TemplateTime)
 	for _, tag := range []string{"tag1", "tag2"} {
 		ret.Tags = append(ret.Tags, tag)
 	}
 	return ret
+}()
+
+var TemplateLogRouting = func() v1.LogRouting {
+	var r v1.LogRouting
+
+	r.SetFake()
+	r.SetPublisher(TemplatePublisher)
+	r.SetLogStorage(TemplateLogTable)
+	return r
+}()
+
+var TemplateWrappedLogRouting = func() v1.WrappedLogRouting {
+	var r v1.WrappedLogRouting
+
+	r.SetFake()
+	r.SetPublisher(TemplatePublisher)
+	r.SetLogStorage(TemplateLogTable)
+	r.IsOk = true
+	return r
 }()
