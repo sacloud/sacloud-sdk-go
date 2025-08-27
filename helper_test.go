@@ -108,7 +108,7 @@ var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
 	return ret
 }()
 
-var TemplateAccessKey = func() v1.MetricsTankAccessKey {
+var TemplateMetricsTankAccessKey = func() v1.MetricsTankAccessKey {
 	var ret v1.MetricsTankAccessKey
 
 	ret.SetFake()
@@ -138,5 +138,64 @@ var TemplateWrappedAccessKey = func() v1.WrappedMetricsTankAccessKey {
 	var ret v1.WrappedMetricsTankAccessKey
 
 	ret.SetFake()
+	return ret
+}()
+
+var TemplateLogTableAccessKey = func() v1.LogTableAccessKey {
+	var ret v1.LogTableAccessKey
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateLogTableEndpoints = func() v1.LogTableEndpoints {
+	var ret v1.LogTableEndpoints
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateWrappedLogTableEndpoints = func() v1.WrappedLogTableEndpoints {
+	var ret v1.WrappedLogTableEndpoints
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateLogTableUsage = func() v1.LogTableUsage {
+	var ret v1.LogTableUsage
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateWrappedLogTableUsage = func() v1.WrappedLogTableUsage {
+	var ret v1.WrappedLogTableUsage
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateLogTable = func() v1.LogTable {
+	var ret v1.LogTable
+
+	ret.SetFake()
+	ret.SetEndpoints(TemplateLogTableEndpoints)
+	ret.SetUsage(TemplateLogTableUsage)
+	for _, tag := range []string{"tag1", "tag2"} {
+		ret.Tags = append(ret.Tags, tag)
+	}
+	return ret
+}()
+
+var TemplateWrappedLogTable = func() v1.WrappedLogTable {
+	var ret v1.WrappedLogTable
+
+	ret.SetFake()
+	ret.SetEndpoints(TemplateWrappedLogTableEndpoints)
+	ret.SetUsage(TemplateWrappedLogTableUsage)
+	for _, tag := range []string{"tag1", "tag2"} {
+		ret.Tags = append(ret.Tags, tag)
+	}
 	return ret
 }()
