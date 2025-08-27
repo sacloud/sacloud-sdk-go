@@ -45,6 +45,7 @@ func convertRouting(res v1.WrappedMetricsRouting) v1.MetricsRouting {
 	var ret v1.MetricsRouting
 
 	ret.SetID(res.GetID())
+	ret.SetResourceID(res.GetResourceID())
 	ret.SetPublisher(res.GetPublisher())
 	ret.SetPublisherCode(res.GetPublisherCode())
 	ret.SetVariant(res.GetVariant())
@@ -52,17 +53,6 @@ func convertRouting(res v1.WrappedMetricsRouting) v1.MetricsRouting {
 	ret.SetMetricsStorageID(res.GetMetricsStorageID())
 	ret.SetCreatedAt(res.GetCreatedAt())
 	ret.SetUpdatedAt(res.GetUpdatedAt())
-
-	rid := res.GetResourceID()
-	if rid.IsSet() {
-		var val v1.OptNilInt64
-		if v, ok := rid.Get(); ok {
-			val.SetTo(v)
-		} else {
-			val.SetToNull()
-		}
-		ret.SetResourceID(val)
-	} // else { panic } // or ...?
 	return ret
 }
 
