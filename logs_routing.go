@@ -44,6 +44,7 @@ func NewLogRoutingOp(client *v1.Client) LogRoutingAPI {
 func convertLogRouting(res v1.WrappedLogRouting) v1.LogRouting {
 	var ret v1.LogRouting
 	ret.SetID(res.GetID())
+	ret.SetResourceID(res.GetResourceID())
 	ret.SetPublisher(res.GetPublisher())
 	ret.SetPublisherCode(res.GetPublisherCode())
 	ret.SetVariant(res.GetVariant())
@@ -51,16 +52,6 @@ func convertLogRouting(res v1.WrappedLogRouting) v1.LogRouting {
 	ret.SetLogStorageID(res.GetLogStorageID())
 	ret.SetCreatedAt(res.GetCreatedAt())
 	ret.SetUpdatedAt(res.GetUpdatedAt())
-	rid := res.GetResourceID()
-	if rid.IsSet() {
-		var val v1.OptNilInt64
-		if v, ok := rid.Get(); ok {
-			val.SetTo(v)
-		} else {
-			val.SetToNull()
-		}
-		ret.SetResourceID(val)
-	}
 	return ret
 }
 
