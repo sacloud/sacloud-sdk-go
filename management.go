@@ -39,8 +39,8 @@ func NewManagementOp(client *v1.Client) ManagementAPI {
 	return &managementOp{client: client}
 }
 
-func (m *managementOp) ResourceLimits(ctx context.Context) (*v1.ResourcesLimits, error) {
-	ret, err := m.client.GetResourcesLimits(ctx)
+func (op *managementOp) ResourceLimits(ctx context.Context) (*v1.ResourcesLimits, error) {
+	ret, err := op.client.GetResourcesLimits(ctx)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusBadRequest:
@@ -55,8 +55,8 @@ func (m *managementOp) ResourceLimits(ctx context.Context) (*v1.ResourcesLimits,
 	}
 }
 
-func (m *managementOp) ProvisioningRead(ctx context.Context) (*v1.Provisioning, error) {
-	ret, err := m.client.GetProvisioningState(ctx)
+func (op *managementOp) ProvisioningRead(ctx context.Context) (*v1.Provisioning, error) {
+	ret, err := op.client.GetProvisioningState(ctx)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusBadRequest:
@@ -71,10 +71,10 @@ func (m *managementOp) ProvisioningRead(ctx context.Context) (*v1.Provisioning, 
 	}
 }
 
-func (m *managementOp) ProvisioningCreate(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error) {
+func (op *managementOp) ProvisioningCreate(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error) {
 	opt := v1.OptProvisioningCreate{}
 	opt.SetTo(request)
-	ret, err := m.client.PostProvisioningInitialize(ctx, opt)
+	ret, err := op.client.PostProvisioningInitialize(ctx, opt)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusBadRequest:
