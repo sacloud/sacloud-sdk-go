@@ -219,3 +219,26 @@ var TemplateWrappedLogRouting = func() v1.WrappedLogRouting {
 	r.IsOk = true
 	return r
 }()
+
+var TemplateDashboardProject = func() v1.DashboardProject {
+	var ret v1.DashboardProject
+
+	ret.SetFake()
+	for _, tag := range []string{"tag1", "tag2"} {
+		ret.Tags = append(ret.Tags, tag)
+	}
+	ret.SetCreatedAt(TemplateTime)
+	return ret
+}()
+
+var TemplateWrappedDashboardProject = func() v1.WrappedDashboardProject {
+	var ret v1.WrappedDashboardProject
+
+	ret.SetFake()
+	for _, tag := range []string{"tag1", "tag2"} {
+		ret.Tags = append(ret.Tags, tag)
+	}
+	ret.SetCreatedAt(TemplateTime)
+	ret.SetIsOk(true)
+	return ret
+}()
