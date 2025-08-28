@@ -1,4 +1,4 @@
-// Copyright 2022-2025 The sacloud/go-template Authors
+// Copyright 2025- The sacloud/monitoring-suite-api-go Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,15 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package main
+package monitoringsuite
 
 import (
-	"fmt"
+	"testing"
 
-	"github.com/sacloud/go-template/version"
+	"github.com/stretchr/testify/require"
 )
 
-func main() {
-	fmt.Println("ALEA IACTA EST")
-	fmt.Println("version", version.FullVersion())
+func TestNewClient(t *testing.T) {
+	c, err := NewClient()
+	require.NoError(t, err)
+	require.NotNil(t, c)
+}
+
+func TestNewClientWithApiUrl_OtherZone(t *testing.T) {
+	c, err := NewClientWithApiUrl("https://secure.sakura.ad.jp/cloud/zone/tk1b/api/monitoring/1.0/")
+	require.NoError(t, err)
+	require.NotNil(t, c)
 }

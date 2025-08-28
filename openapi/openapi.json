@@ -1,0 +1,6665 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "モニタリングスイート API ドキュメント",
+    "version": "1.0.0",
+    "description": "\n---\n「モニタリングスイート」が提供するAPIの利用方法とサンプルを公開しております。\n# 基本的な使い方\n## APIキーの発行\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## 入力パラメータ\n\nAPIの入力には送信先URLに対して、いくつかのヘッダーとAPIキーを送信します。\n\n* 認証方式はHTTP Basic認証です。APIキーのアクセストークンをユーザーID、アクセストークンシークレットをパスワードとして指定します。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -x GET \\\n     'https://secure.sakura.ad.jp/cloud/zone/is1a/api/monitoring/1.0/logs/storages/'\n```\n\n## 出力結果と応答コード（HTTPステータスコード）\n\nAPIからの結果は、「応答コード（HTTPステータスコード）」と、「JSON形式(UTF-8)の結果」として出力されます。\n\n応答コードは、リクエストが成功したのか、失敗したのか大まかな情報を判断することができるもので、例えば失敗したときには、なぜこのような結果になったのかなど、具体的な情報は応答コードと主に返された本文を見ることで把握することができます。\n\n| 結果                                | 応答コード/status   |\n|-------------------------------------|---------------------|\n| 成功（要求を受け付けた）             | 2xx                 |\n| 失敗（要求が受け付けられなかった）  | 4xx, 5xx            |\n",
+    "contact": {
+      "name": "SAKURA internet Inc."
+    },
+    "license": {
+      "name": "Copyright(C) SAKURA internet Inc. all rights reserved."
+    }
+  },
+  "paths": {
+    "/alerts/projects/": {
+      "get": {
+        "operationId": "alerts_projects_list",
+        "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedAlertProjectList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートプロジェクト一覧取得API"
+      },
+      "post": {
+        "operationId": "alerts_projects_create",
+        "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertProjectCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertProject"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートプロジェクト作成API"
+      }
+    },
+    "/alerts/projects/{id}/": {
+      "get": {
+        "operationId": "alerts_projects_retrieve",
+        "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Alert Project.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedAlertProject"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートプロジェクト詳細取得API"
+      },
+      "put": {
+        "operationId": "alerts_projects_update",
+        "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Alert Project.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertProject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedAlertProject"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートプロジェクト更新API"
+      },
+      "patch": {
+        "operationId": "alerts_projects_partial_update",
+        "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Alert Project.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedAlertProject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedAlertProject"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートプロジェクト部分更新API"
+      },
+      "delete": {
+        "operationId": "alerts_projects_destroy",
+        "description": "アラートプロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Alert Project.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "アラートプロジェクト削除API"
+      }
+    },
+    "/alerts/projects/{project_pk}/histories/": {
+      "get": {
+        "operationId": "alerts_projects_histories_list",
+        "description": "アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "open",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "severity",
+            "schema": {
+              "type": "string",
+              "x-spec-enum-id": "5eaa11275f222ea2",
+              "enum": [
+                "critical",
+                "warning"
+              ]
+            },
+            "description": "* `warning` - Warning\n* `critical` - Critical"
+          },
+          {
+            "in": "query",
+            "name": "startsAt",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedHistoryList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラート履歴一覧取得API"
+      }
+    },
+    "/alerts/projects/{project_pk}/histories/{id}/": {
+      "get": {
+        "operationId": "alerts_projects_histories_retrieve",
+        "description": "アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this Alert History.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/History"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラート履歴詳細取得API"
+      }
+    },
+    "/alerts/projects/{project_pk}/notification-targets/": {
+      "get": {
+        "operationId": "alerts_projects_notification_targets_list",
+        "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "service_type",
+            "schema": {
+              "type": "string",
+              "x-spec-enum-id": "fc90dab081bffe89",
+              "enum": [
+                "SAKURA_SIMPLE_NOTICE"
+              ]
+            },
+            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice"
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedNotificationTargetList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "通知対象一覧取得API"
+      },
+      "post": {
+        "operationId": "alerts_projects_notification_targets_create",
+        "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationTarget"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationTarget"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "通知対象作成API"
+      }
+    },
+    "/alerts/projects/{project_pk}/notification-targets/{id}/": {
+      "get": {
+        "operationId": "alerts_projects_notification_targets_retrieve",
+        "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this notification target.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationTarget"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "通知対象詳細取得API"
+      },
+      "put": {
+        "operationId": "alerts_projects_notification_targets_update",
+        "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this notification target.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotificationTarget"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationTarget"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "通知対象更新API"
+      },
+      "patch": {
+        "operationId": "alerts_projects_notification_targets_partial_update",
+        "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this notification target.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedNotificationTarget"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotificationTarget"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "通知対象部分更新API"
+      },
+      "delete": {
+        "operationId": "alerts_projects_notification_targets_destroy",
+        "description": "アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this notification target.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "通知対象削除API"
+      }
+    },
+    "/alerts/projects/{project_pk}/rules/": {
+      "get": {
+        "operationId": "alerts_projects_rules_list",
+        "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedAlertRuleList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートルール一覧取得API"
+      },
+      "post": {
+        "operationId": "alerts_projects_rules_create",
+        "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertRule"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRule"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートルール作成API"
+      }
+    },
+    "/alerts/projects/{project_pk}/rules/{id}/": {
+      "get": {
+        "operationId": "alerts_projects_rules_retrieve",
+        "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this Alert Rule.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRule"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートルール詳細取得API"
+      },
+      "put": {
+        "operationId": "alerts_projects_rules_update",
+        "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this Alert Rule.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlertRule"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRule"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートルール更新API"
+      },
+      "patch": {
+        "operationId": "alerts_projects_rules_partial_update",
+        "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this Alert Rule.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedAlertRule"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AlertRule"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートルール部分更新API"
+      },
+      "delete": {
+        "operationId": "alerts_projects_rules_destroy",
+        "description": "アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this Alert Rule.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "アラートルール削除API"
+      }
+    },
+    "/alerts/projects/{project_pk}/rules/{rule_pk}/histories/": {
+      "get": {
+        "operationId": "alerts_projects_rules_histories_list",
+        "description": "アラートプロジェクト内のルール履歴を取得するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "open",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "rule_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "severity",
+            "schema": {
+              "type": "string",
+              "x-spec-enum-id": "5eaa11275f222ea2",
+              "enum": [
+                "critical",
+                "warning"
+              ]
+            },
+            "description": "* `warning` - Warning\n* `critical` - Critical"
+          },
+          {
+            "in": "query",
+            "name": "startsAt",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedHistoryList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートルール履歴一覧取得API"
+      }
+    },
+    "/alerts/projects/{project_pk}/rules/{rule_pk}/histories/{id}/": {
+      "get": {
+        "operationId": "alerts_projects_rules_histories_retrieve",
+        "description": "アラートプロジェクト内のルール履歴を取得するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this Alert History.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "project_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "rule_pk",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "アラート"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/History"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "アラートルール履歴詳細取得API"
+      }
+    },
+    "/dashboards/projects/": {
+      "get": {
+        "operationId": "dashboards_projects_list",
+        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "可視化"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedDashboardProjectList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "可視化プロジェクト一覧取得API"
+      },
+      "post": {
+        "operationId": "dashboards_projects_create",
+        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "tags": [
+          "可視化"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DashboardProjectCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DashboardProject"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "可視化プロジェクト作成API"
+      }
+    },
+    "/dashboards/projects/{id}/": {
+      "get": {
+        "operationId": "dashboards_projects_retrieve",
+        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Dashboard Project.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "可視化"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedDashboardProject"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "可視化プロジェクト詳細取得API"
+      },
+      "put": {
+        "operationId": "dashboards_projects_update",
+        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Dashboard Project.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "可視化"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DashboardProject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedDashboardProject"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "可視化プロジェクト更新API"
+      },
+      "patch": {
+        "operationId": "dashboards_projects_partial_update",
+        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Dashboard Project.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "可視化"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedDashboardProject"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedDashboardProject"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "可視化プロジェクト部分更新API"
+      },
+      "delete": {
+        "operationId": "dashboards_projects_destroy",
+        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Dashboard Project.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "可視化"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "可視化プロジェクト削除API"
+      }
+    },
+    "/logs/routings/": {
+      "get": {
+        "operationId": "logs_routings_list",
+        "description": "ログルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "publisher__code",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "ログルーティング"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedLogRoutingList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログルーティング一覧取得API"
+      },
+      "post": {
+        "operationId": "logs_routings_create",
+        "description": "ログルーティングを管理するためのAPIエンドポイントです。",
+        "tags": [
+          "ログルーティング"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogRouting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogRouting"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログルーティング作成API"
+      }
+    },
+    "/logs/routings/{id}/": {
+      "get": {
+        "operationId": "logs_routings_retrieve",
+        "description": "ログルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Routing log.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログルーティング"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogRouting"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログルーティング詳細取得API"
+      },
+      "put": {
+        "operationId": "logs_routings_update",
+        "description": "ログルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Routing log.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログルーティング"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogRouting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogRouting"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログルーティング更新API"
+      },
+      "patch": {
+        "operationId": "logs_routings_partial_update",
+        "description": "ログルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Routing log.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログルーティング"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedLogRouting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogRouting"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログルーティング部分更新API"
+      },
+      "delete": {
+        "operationId": "logs_routings_destroy",
+        "description": "ログルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Routing log.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログルーティング"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "ログルーティング削除API"
+      }
+    },
+    "/logs/storages/": {
+      "get": {
+        "operationId": "logs_storages_list",
+        "description": "ログストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "account_id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "bucket__classification",
+            "schema": {
+              "type": "string",
+              "x-spec-enum-id": "df2281a88cfd7485",
+              "enum": [
+                "separated",
+                "shared"
+              ]
+            },
+            "description": "* `shared` - 共有\n* `separated` - 分離"
+          },
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "is_system",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Is system"
+          },
+          {
+            "in": "query",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "type": "string",
+              "x-spec-enum-id": "92dc54c3d141ecb6",
+              "enum": [
+                "assigned",
+                "deleted",
+                "free",
+                "init"
+              ]
+            },
+            "description": "* `init` - 初期化中\n* `free` - 未割り当て\n* `assigned` - 割り当て済み\n* `deleted` - 削除済み"
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedLogTableList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージ一覧取得API"
+      },
+      "post": {
+        "operationId": "logs_storages_create",
+        "description": "ログストレージを管理するためのAPIエンドポイントです。",
+        "tags": [
+          "ログストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogTableCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogTable"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージ作成API"
+      }
+    },
+    "/logs/storages/{log_resource_id}/keys/": {
+      "get": {
+        "operationId": "logs_storages_keys_list",
+        "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "log_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedLogTableAccessKeyList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージのアクセスキー一覧取得API"
+      },
+      "post": {
+        "operationId": "logs_storages_keys_create",
+        "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "log_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogTableAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogTableAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージのアクセスキー作成API"
+      }
+    },
+    "/logs/storages/{log_resource_id}/keys/{id}/": {
+      "get": {
+        "operationId": "logs_storages_keys_retrieve",
+        "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Logs AccessKey.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "log_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogTableAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージのアクセスキー詳細取得API"
+      },
+      "put": {
+        "operationId": "logs_storages_keys_update",
+        "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Logs AccessKey.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "log_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogTableAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogTableAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージのアクセスキー更新API"
+      },
+      "patch": {
+        "operationId": "logs_storages_keys_partial_update",
+        "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Logs AccessKey.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "log_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedLogTableAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogTableAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージのアクセスキー部分更新API"
+      },
+      "delete": {
+        "operationId": "logs_storages_keys_destroy",
+        "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Logs AccessKey.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "log_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "ログストレージのアクセスキー削除API"
+      }
+    },
+    "/logs/storages/{resource_id}/": {
+      "get": {
+        "operationId": "logs_storages_retrieve",
+        "description": "ログストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogTable"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージ詳細取得API"
+      },
+      "put": {
+        "operationId": "logs_storages_update",
+        "description": "ログストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogTable"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogTable"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージ更新API"
+      },
+      "patch": {
+        "operationId": "logs_storages_partial_update",
+        "description": "ログストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedLogTable"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedLogTable"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "ログストレージ部分更新API"
+      },
+      "delete": {
+        "operationId": "logs_storages_destroy",
+        "description": "ログストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "ログストレージ削除API"
+      }
+    },
+    "/management/limits/": {
+      "get": {
+        "operationId": "get_resources_limits",
+        "description": "アカウントのリソース上限（ログストレージ、メトリクスストレージ、アラートプロジェクト、ダッシュボード）を取得するAPIエンドポイントです。",
+        "tags": [
+          "管理"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResourcesLimits"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "リソース制限取得API"
+      }
+    },
+    "/management/provisioning/initialize/": {
+      "post": {
+        "operationId": "post_provisioning_initialize",
+        "description": "リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。",
+        "tags": [
+          "管理"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProvisioningCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Provisioning"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "プロビジョニング（初期化）API"
+      }
+    },
+    "/management/provisioning/state/": {
+      "get": {
+        "operationId": "get_provisioning_state",
+        "description": "リソース（ログストレージ、メトリクスストレージ）のプロビジョニング状態を確認するAPIエンドポイントです。",
+        "tags": [
+          "管理"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Provisioning"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "プロビジョニング状態取得API"
+      }
+    },
+    "/metrics/routings/": {
+      "get": {
+        "operationId": "metrics_routings_list",
+        "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "publisher__code",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "variant",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "メトリクスルーティング"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedMetricsRoutingList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスルーティング一覧取得API"
+      },
+      "post": {
+        "operationId": "metrics_routings_create",
+        "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
+        "tags": [
+          "メトリクスルーティング"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetricsRouting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsRouting"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスルーティング作成API"
+      }
+    },
+    "/metrics/routings/{id}/": {
+      "get": {
+        "operationId": "metrics_routings_retrieve",
+        "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Routing metric.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスルーティング"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsRouting"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスルーティング詳細取得API"
+      },
+      "put": {
+        "operationId": "metrics_routings_update",
+        "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Routing metric.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスルーティング"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetricsRouting"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsRouting"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスルーティング更新API"
+      },
+      "patch": {
+        "operationId": "metrics_routings_partial_update",
+        "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Routing metric.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスルーティング"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedMetricsRouting"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsRouting"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスルーティング部分更新API"
+      },
+      "delete": {
+        "operationId": "metrics_routings_destroy",
+        "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Routing metric.",
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスルーティング"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "メトリクスルーティング削除API"
+      }
+    },
+    "/metrics/storages/": {
+      "get": {
+        "operationId": "metrics_storages_list",
+        "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "account_id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "is_system",
+            "schema": {
+              "type": "boolean"
+            },
+            "description": "Is system"
+          },
+          {
+            "in": "query",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedMetricsTankList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージ一覧取得API"
+      },
+      "post": {
+        "operationId": "metrics_storages_create",
+        "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetricsTankCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricsTank"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージ作成API"
+      }
+    },
+    "/metrics/storages/{metrics_resource_id}/keys/": {
+      "get": {
+        "operationId": "metrics_storages_keys_list",
+        "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "metrics_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedMetricsTankAccessKeyList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージのアクセスキー一覧取得API"
+      },
+      "post": {
+        "operationId": "metrics_storages_keys_create",
+        "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "metrics_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetricsTankAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsTankAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージのアクセスキー作成API"
+      }
+    },
+    "/metrics/storages/{metrics_resource_id}/keys/{id}/": {
+      "get": {
+        "operationId": "metrics_storages_keys_retrieve",
+        "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Metrics AccessKey.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "metrics_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsTankAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージのアクセスキー詳細取得API"
+      },
+      "put": {
+        "operationId": "metrics_storages_keys_update",
+        "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Metrics AccessKey.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "metrics_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetricsTankAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsTankAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージのアクセスキー更新API"
+      },
+      "patch": {
+        "operationId": "metrics_storages_keys_partial_update",
+        "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Metrics AccessKey.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "metrics_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedMetricsTankAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsTankAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージのアクセスキー部分更新API"
+      },
+      "delete": {
+        "operationId": "metrics_storages_keys_destroy",
+        "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "minimum": 0,
+              "maximum": 999999999999,
+              "example": 110000000000
+            },
+            "description": "A unique integer value identifying this Metrics AccessKey.",
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "metrics_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "メトリクスストレージのアクセスキー削除API"
+      }
+    },
+    "/metrics/storages/{resource_id}/": {
+      "get": {
+        "operationId": "metrics_storages_retrieve",
+        "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsTank"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージ詳細取得API"
+      },
+      "put": {
+        "operationId": "metrics_storages_update",
+        "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MetricsTank"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsTank"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージ更新API"
+      },
+      "patch": {
+        "operationId": "metrics_storages_partial_update",
+        "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedMetricsTank"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedMetricsTank"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "メトリクスストレージ部分更新API"
+      },
+      "delete": {
+        "operationId": "metrics_storages_destroy",
+        "description": "メトリクスストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "メトリクスストレージ削除API"
+      }
+    },
+    "/publishers/": {
+      "get": {
+        "operationId": "publishers_list",
+        "description": "連携サービス情報を取得するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "連携サービス"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPublisherList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "連携サービス一覧取得API"
+      }
+    },
+    "/publishers/{code}/": {
+      "get": {
+        "operationId": "publishers_retrieve",
+        "description": "連携サービス情報を取得するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "code",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "連携サービス"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedPublisher"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "連携サービス詳細取得API"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AlertProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "rules_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "notification_targets_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "notification_routing_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "histories_url": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "histories_url",
+          "icon",
+          "id",
+          "is_system",
+          "notification_routing_url",
+          "notification_targets_url",
+          "resource_id",
+          "rules_url",
+          "tags"
+        ]
+      },
+      "AlertProjectCreate": {
+        "type": "object",
+        "properties": {
+          "is_system": {
+            "type": "boolean",
+            "default": false
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "name"
+        ]
+      },
+      "AlertRule": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "project_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "tank_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "query": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "template": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "open": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "enabled_warning": {
+            "type": "boolean",
+            "title": "Enabled"
+          },
+          "enabled_critical": {
+            "type": "boolean"
+          },
+          "threshold_warning": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 256
+          },
+          "threshold_critical": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 256
+          },
+          "threshold_duration_warning": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Threshold duration"
+          },
+          "threshold_duration_critical": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "history_url": {
+            "type": "string",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "history_url",
+          "id",
+          "open",
+          "project_id",
+          "query",
+          "tank_id"
+        ]
+      },
+      "AndMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type1"
+          },
+          "matchers": {
+            "items": {
+              "$ref": "#/components/schemas/FieldMatcher"
+            },
+            "title": "Matchers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "type",
+          "matchers"
+        ],
+        "title": "AndMatcher",
+        "type": "object"
+      },
+      "DashboardProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "icon",
+          "id",
+          "is_system",
+          "resource_id",
+          "tags"
+        ]
+      },
+      "DashboardProjectCreate": {
+        "type": "object",
+        "properties": {
+          "is_system": {
+            "type": "boolean",
+            "default": false
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "name"
+        ]
+      },
+      "EnumMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type4"
+          },
+          "field": {
+            "$ref": "#/components/schemas/FieldModel"
+          },
+          "value": {
+            "items": {
+              "$ref": "#/components/schemas/ValueEnum"
+            },
+            "title": "Value",
+            "type": "array"
+          }
+        },
+        "required": [
+          "type",
+          "field",
+          "value"
+        ],
+        "title": "EnumMatcher",
+        "type": "object"
+      },
+      "FieldMatcher": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/OrMatcher"
+          },
+          {
+            "$ref": "#/components/schemas/AndMatcher"
+          },
+          {
+            "$ref": "#/components/schemas/StrMatcher"
+          },
+          {
+            "$ref": "#/components/schemas/NumMatcher"
+          },
+          {
+            "$ref": "#/components/schemas/EnumMatcher"
+          },
+          {
+            "$ref": "#/components/schemas/MapKeyExistsMatcher"
+          },
+          {
+            "$ref": "#/components/schemas/MapKeyValueMatcher"
+          }
+        ],
+        "title": "FieldMatcher"
+      },
+      "FieldModel": {
+        "enum": [
+          "severity"
+        ],
+        "title": "FieldModel",
+        "type": "string"
+      },
+      "History": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "project_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "rule_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Starts_at"
+          },
+          "endsAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "title": "Ends_at"
+          },
+          "open": {
+            "type": "boolean"
+          },
+          "labels": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "severity": {
+            "enum": [
+              "warning",
+              "critical"
+            ],
+            "type": "string",
+            "description": "* `warning` - Warning\n* `critical` - Critical",
+            "x-spec-enum-id": "5eaa11275f222ea2"
+          },
+          "query": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "threshold": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "value": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "required": [
+          "id",
+          "labels",
+          "open",
+          "project_id",
+          "rule_id",
+          "severity",
+          "startsAt"
+        ]
+      },
+      "InternalLogTable": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "table_name": {
+            "type": "string",
+            "title": "Iceberg table name",
+            "maxLength": 64
+          },
+          "status": {
+            "enum": [
+              "init",
+              "free",
+              "assigned",
+              "deleted"
+            ],
+            "type": "string",
+            "description": "* `init` - 初期化中\n* `free` - 未割り当て\n* `assigned` - 割り当て済み\n* `deleted` - 削除済み",
+            "x-spec-enum-id": "92dc54c3d141ecb6"
+          },
+          "expire_day": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          },
+          "endpoints": {
+            "type": "object",
+            "properties": {
+              "ingester": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "insecure": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "query": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "required": [
+              "ingester",
+              "query"
+            ],
+            "readOnly": true
+          },
+          "bucket": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/StorageBucket"
+              }
+            ],
+            "readOnly": true
+          },
+          "bucket_id": {
+            "type": "integer",
+            "writeOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "rate_limit": {
+            "type": "object",
+            "properties": {
+              "row": {
+                "type": "integer",
+                "format": "int64"
+              },
+              "request": {
+                "type": "integer",
+                "format": "int64"
+              }
+            },
+            "required": [
+              "row",
+              "request"
+            ],
+            "readOnly": true
+          }
+        },
+        "required": [
+          "account_id",
+          "bucket",
+          "bucket_id",
+          "created_at",
+          "endpoints",
+          "id",
+          "is_system",
+          "rate_limit",
+          "resource_id",
+          "updated_at"
+        ]
+      },
+      "InternalMetricsTank": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          },
+          "cluster": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MetricsCluster"
+              }
+            ],
+            "readOnly": true
+          },
+          "cluster_id": {
+            "type": "integer",
+            "writeOnly": true
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id"
+          }
+        },
+        "required": [
+          "cluster",
+          "cluster_id",
+          "created_at",
+          "id",
+          "updated_at"
+        ]
+      },
+      "InternalRoutingMultipleConfigRequest": {
+        "type": "object",
+        "properties": {
+          "account_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "account_ids"
+        ]
+      },
+      "LogRecordingRule": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "log_storage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LogTable"
+              }
+            ],
+            "readOnly": true
+          },
+          "log_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "metrics_storage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MetricsTank"
+              }
+            ],
+            "readOnly": true
+          },
+          "metrics_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "rule": {
+            "$ref": "#/components/schemas/LogRecordingRuleModel"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "created_at",
+          "id",
+          "log_storage",
+          "log_storage_id",
+          "metrics_storage",
+          "metrics_storage_id",
+          "rule",
+          "updated_at"
+        ]
+      },
+      "LogRecordingRuleModel": {
+        "properties": {
+          "version": {
+            "$ref": "#/components/schemas/LogRecordingRuleVersionEnum"
+          },
+          "query": {
+            "$ref": "#/components/schemas/LogRecordingRuleV1"
+          }
+        },
+        "required": [
+          "version",
+          "query"
+        ],
+        "title": "LogRecordingRuleModel",
+        "type": "object"
+      },
+      "LogRecordingRuleV1": {
+        "properties": {
+          "matchers": {
+            "items": {
+              "$ref": "#/components/schemas/FieldMatcher"
+            },
+            "title": "Matchers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "matchers"
+        ],
+        "title": "LogRecordingRuleV1",
+        "type": "object"
+      },
+      "LogRecordingRuleVersionEnum": {
+        "enum": [
+          "v1"
+        ],
+        "title": "LogRecordingRuleVersionEnum",
+        "type": "string"
+      },
+      "LogRouting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "publisher": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Publisher"
+              }
+            ],
+            "readOnly": true
+          },
+          "publisher_code": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "variant": {
+            "type": "string"
+          },
+          "log_storage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LogTable"
+              }
+            ],
+            "readOnly": true
+          },
+          "log_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Create datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          }
+        },
+        "required": [
+          "created_at",
+          "id",
+          "log_storage",
+          "log_storage_id",
+          "publisher",
+          "publisher_code",
+          "updated_at",
+          "variant"
+        ]
+      },
+      "LogTable": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "expire_day": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "endpoints": {
+            "type": "object",
+            "properties": {
+              "ingester": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "insecure": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "address"
+                ]
+              }
+            },
+            "required": [
+              "ingester"
+            ],
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "log_routings": {
+                "type": "integer"
+              },
+              "log_recording_rules": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "log_routings",
+              "log_recording_rules"
+            ],
+            "readOnly": true
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "endpoints",
+          "icon",
+          "id",
+          "is_system",
+          "resource_id",
+          "tags",
+          "usage"
+        ]
+      },
+      "LogTableAccessKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "secret": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "id",
+          "secret"
+        ]
+      },
+      "LogTableCreate": {
+        "type": "object",
+        "properties": {
+          "classification": {
+            "enum": [
+              "shared",
+              "separated"
+            ],
+            "type": "string",
+            "description": "* `shared` - 共有\n* `separated` - 分離",
+            "x-spec-enum-id": "df2281a88cfd7485",
+            "default": "shared"
+          },
+          "is_system": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "description",
+          "is_system",
+          "name"
+        ]
+      },
+      "MapFieldName": {
+        "enum": [
+          "resource_labels",
+          "labels"
+        ],
+        "title": "MapFieldName",
+        "type": "string"
+      },
+      "MapKeyExistsMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type5"
+          },
+          "field": {
+            "$ref": "#/components/schemas/MapFieldName"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "field",
+          "key"
+        ],
+        "title": "MapKeyExistsMatcher",
+        "type": "object"
+      },
+      "MapKeyValueMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type6"
+          },
+          "field": {
+            "$ref": "#/components/schemas/MapFieldName"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "type",
+          "field",
+          "key",
+          "value"
+        ],
+        "title": "MapKeyValueMatcher",
+        "type": "object"
+      },
+      "MetricsCluster": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "insert_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "select_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          }
+        },
+        "required": [
+          "created_at",
+          "id",
+          "insert_endpoints",
+          "select_endpoints"
+        ]
+      },
+      "MetricsRouting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "publisher": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Publisher"
+              }
+            ],
+            "readOnly": true
+          },
+          "publisher_code": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "variant": {
+            "type": "string"
+          },
+          "metrics_storage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MetricsTank"
+              }
+            ],
+            "readOnly": true
+          },
+          "metrics_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Create datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          }
+        },
+        "required": [
+          "created_at",
+          "id",
+          "metrics_storage",
+          "metrics_storage_id",
+          "publisher",
+          "publisher_code",
+          "updated_at",
+          "variant"
+        ]
+      },
+      "MetricsTank": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "endpoints": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "address"
+            ],
+            "readOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "metrics_routings": {
+                "type": "integer"
+              },
+              "alert_rules": {
+                "type": "integer"
+              },
+              "log_recording_rules": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "metrics_routings",
+              "alert_rules",
+              "log_recording_rules"
+            ],
+            "readOnly": true
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "endpoints",
+          "icon",
+          "id",
+          "is_system",
+          "resource_id",
+          "tags",
+          "updated_at",
+          "usage"
+        ]
+      },
+      "MetricsTankAccessKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "secret": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "id",
+          "secret"
+        ]
+      },
+      "MetricsTankCreate": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "is_system": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "description",
+          "is_system",
+          "name"
+        ]
+      },
+      "NotificationRouting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "project_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "match_labels": {
+            "type": "string",
+            "title": "Match rule labels",
+            "maxLength": 1024
+          }
+        },
+        "required": [
+          "id",
+          "project_id"
+        ]
+      },
+      "NotificationTarget": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "project_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "service_type": {
+            "enum": [
+              "SAKURA_SIMPLE_NOTICE"
+            ],
+            "type": "string",
+            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice",
+            "x-spec-enum-id": "fc90dab081bffe89"
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "config": {
+            "type": "object",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "config",
+          "id",
+          "project_id",
+          "service_type",
+          "url"
+        ]
+      },
+      "NumMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type3"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/Operator1"
+          },
+          "field": {
+            "$ref": "#/components/schemas/NumberFieldName"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number"
+          },
+          "value_list": {
+            "description": "use only multi-eq",
+            "items": {
+              "type": "number"
+            },
+            "title": "Value List",
+            "type": "array"
+          }
+        },
+        "required": [
+          "type",
+          "operator",
+          "field",
+          "value",
+          "value_list"
+        ],
+        "title": "NumMatcher",
+        "type": "object"
+      },
+      "NumberFieldName": {
+        "enum": [
+          "http_request_size",
+          "http_status",
+          "http_response_size",
+          "http_remote_port",
+          "http_latency_ns",
+          "http_cache_fill_bytes",
+          "sakuracloud_resource"
+        ],
+        "title": "NumberFieldName",
+        "type": "string"
+      },
+      "Operator": {
+        "enum": [
+          "eq",
+          "ne",
+          "gt",
+          "lt",
+          "gte",
+          "lte",
+          "multi-eq",
+          "like",
+          "ilike"
+        ],
+        "title": "Operator",
+        "type": "string"
+      },
+      "Operator1": {
+        "enum": [
+          "eq",
+          "ne",
+          "gt",
+          "lt",
+          "gte",
+          "lte",
+          "multi-eq"
+        ],
+        "title": "Operator1",
+        "type": "string"
+      },
+      "OrMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "matchers": {
+            "items": {
+              "$ref": "#/components/schemas/FieldMatcher"
+            },
+            "title": "Matchers",
+            "type": "array"
+          }
+        },
+        "required": [
+          "type",
+          "matchers"
+        ],
+        "title": "OrMatcher",
+        "type": "object"
+      },
+      "PaginatedAlertProjectList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlertProject"
+            }
+          }
+        }
+      },
+      "PaginatedAlertRuleList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AlertRule"
+            }
+          }
+        }
+      },
+      "PaginatedDashboardProjectList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DashboardProject"
+            }
+          }
+        }
+      },
+      "PaginatedHistoryList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/History"
+            }
+          }
+        }
+      },
+      "PaginatedLogRecordingRuleList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogRecordingRule"
+            }
+          }
+        }
+      },
+      "PaginatedLogRoutingList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogRouting"
+            }
+          }
+        }
+      },
+      "PaginatedLogTableAccessKeyList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogTableAccessKey"
+            }
+          }
+        }
+      },
+      "PaginatedLogTableList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogTable"
+            }
+          }
+        }
+      },
+      "PaginatedMetricsRoutingList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetricsRouting"
+            }
+          }
+        }
+      },
+      "PaginatedMetricsTankAccessKeyList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetricsTankAccessKey"
+            }
+          }
+        }
+      },
+      "PaginatedMetricsTankList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetricsTank"
+            }
+          }
+        }
+      },
+      "PaginatedNotificationRoutingList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationRouting"
+            }
+          }
+        }
+      },
+      "PaginatedNotificationTargetList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/NotificationTarget"
+            }
+          }
+        }
+      },
+      "PaginatedPublisherList": {
+        "type": "object",
+        "required": [
+          "count",
+          "from",
+          "total",
+          "results"
+        ],
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "from": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123
+          },
+          "is_ok": {
+            "type": "boolean",
+            "example": true
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Publisher"
+            }
+          }
+        }
+      },
+      "PatchedAlertProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "rules_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "notification_targets_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "notification_routing_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "histories_url": {
+            "type": "string",
+            "readOnly": true
+          }
+        }
+      },
+      "PatchedAlertRule": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "project_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "tank_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "query": {
+            "type": "string",
+            "maxLength": 4096
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "template": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "open": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "enabled_warning": {
+            "type": "boolean",
+            "title": "Enabled"
+          },
+          "enabled_critical": {
+            "type": "boolean"
+          },
+          "threshold_warning": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 256
+          },
+          "threshold_critical": {
+            "type": "string",
+            "nullable": true,
+            "maxLength": 256
+          },
+          "threshold_duration_warning": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Threshold duration"
+          },
+          "threshold_duration_critical": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "history_url": {
+            "type": "string",
+            "readOnly": true
+          }
+        }
+      },
+      "PatchedDashboardProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          }
+        }
+      },
+      "PatchedLogRouting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "publisher": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Publisher"
+              }
+            ],
+            "readOnly": true
+          },
+          "publisher_code": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "variant": {
+            "type": "string"
+          },
+          "log_storage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LogTable"
+              }
+            ],
+            "readOnly": true
+          },
+          "log_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Create datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          }
+        }
+      },
+      "PatchedLogTable": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Cloud resource id",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "expire_day": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "endpoints": {
+            "type": "object",
+            "properties": {
+              "ingester": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "insecure": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "address"
+                ]
+              }
+            },
+            "required": [
+              "ingester"
+            ],
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "log_routings": {
+                "type": "integer"
+              },
+              "log_recording_rules": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "log_routings",
+              "log_recording_rules"
+            ],
+            "readOnly": true
+          }
+        }
+      },
+      "PatchedLogTableAccessKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "secret": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "PatchedMetricsRouting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "publisher": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Publisher"
+              }
+            ],
+            "readOnly": true
+          },
+          "publisher_code": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "variant": {
+            "type": "string"
+          },
+          "metrics_storage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MetricsTank"
+              }
+            ],
+            "readOnly": true
+          },
+          "metrics_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Create datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          }
+        }
+      },
+      "PatchedMetricsTank": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Cloud resource id",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "endpoints": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "address"
+            ],
+            "readOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "metrics_routings": {
+                "type": "integer"
+              },
+              "alert_rules": {
+                "type": "integer"
+              },
+              "log_recording_rules": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "metrics_routings",
+              "alert_rules",
+              "log_recording_rules"
+            ],
+            "readOnly": true
+          }
+        }
+      },
+      "PatchedMetricsTankAccessKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "secret": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "PatchedNotificationRouting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "project_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "match_labels": {
+            "type": "string",
+            "title": "Match rule labels",
+            "maxLength": 1024
+          }
+        }
+      },
+      "PatchedNotificationTarget": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "project_id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "service_type": {
+            "enum": [
+              "SAKURA_SIMPLE_NOTICE"
+            ],
+            "type": "string",
+            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice",
+            "x-spec-enum-id": "fc90dab081bffe89"
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "config": {
+            "type": "object",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 100
+          }
+        }
+      },
+      "Provisioning": {
+        "type": "object",
+        "properties": {
+          "logs": {
+            "$ref": "#/components/schemas/ProvisioningExist"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/ProvisioningExist"
+          }
+        },
+        "required": [
+          "logs",
+          "metrics"
+        ]
+      },
+      "ProvisioningCreate": {
+        "type": "object",
+        "properties": {
+          "logs": {
+            "$ref": "#/components/schemas/ProvisioningExist"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/ProvisioningExist"
+          }
+        }
+      },
+      "ProvisioningExist": {
+        "type": "object",
+        "properties": {
+          "system_exist": {
+            "type": "boolean"
+          },
+          "user_exist": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "system_exist",
+          "user_exist"
+        ]
+      },
+      "Publisher": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublisherVariant"
+            },
+            "readOnly": true
+          }
+        },
+        "required": [
+          "code",
+          "variants"
+        ]
+      },
+      "PublisherAccessKeyIssue": {
+        "type": "object",
+        "properties": {
+          "account_id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "account_id"
+        ]
+      },
+      "PublisherAccessKeyResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "publisher": {
+            "type": "integer"
+          },
+          "account_id": {
+            "type": "string",
+            "maxLength": 20
+          },
+          "secret": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "id",
+          "publisher"
+        ]
+      },
+      "PublisherVariant": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "storage": {
+            "enum": [
+              "metrics",
+              "logs"
+            ],
+            "type": "string",
+            "description": "* `metrics` - metrics\n* `logs` - logs",
+            "x-spec-enum-id": "24daeefb04f172ac"
+          },
+          "system": {
+            "enum": [
+              "disallow",
+              "required"
+            ],
+            "type": "string",
+            "description": "* `disallow` - disallow\n* `required` - required",
+            "x-spec-enum-id": "753020b5ff95d9fa"
+          },
+          "metrics_prefix": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "label",
+          "name",
+          "storage",
+          "system"
+        ]
+      },
+      "ResourceItemLimits": {
+        "type": "object",
+        "properties": {
+          "max_user_count": {
+            "type": "integer"
+          }
+        },
+        "required": [
+          "max_user_count"
+        ]
+      },
+      "ResourcesLimits": {
+        "type": "object",
+        "properties": {
+          "logs": {
+            "$ref": "#/components/schemas/ResourceItemLimits"
+          },
+          "metrics": {
+            "$ref": "#/components/schemas/ResourceItemLimits"
+          },
+          "alerts": {
+            "$ref": "#/components/schemas/ResourceItemLimits"
+          },
+          "dashboards": {
+            "$ref": "#/components/schemas/ResourceItemLimits"
+          }
+        },
+        "required": [
+          "alerts",
+          "dashboards",
+          "logs",
+          "metrics"
+        ]
+      },
+      "RoutingMultipleConfigItem": {
+        "type": "object",
+        "properties": {
+          "publisher_code": {
+            "type": "string"
+          },
+          "variant_name": {
+            "type": "string"
+          },
+          "account_id": {
+            "type": "string"
+          },
+          "storage": {
+            "type": "string"
+          },
+          "logs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoutingMultipleConfigLogItem"
+            }
+          },
+          "metrics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoutingMultipleConfigMetricItem"
+            }
+          },
+          "metrics_prefix": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "account_id",
+          "logs",
+          "metrics",
+          "metrics_prefix",
+          "publisher_code",
+          "storage",
+          "variant_name"
+        ]
+      },
+      "RoutingMultipleConfigLogItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "table_name": {
+            "type": "string"
+          },
+          "resource_id_for": {
+            "type": "integer",
+            "nullable": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          }
+        },
+        "required": [
+          "id",
+          "resource_id_for",
+          "table_name"
+        ]
+      },
+      "RoutingMultipleConfigMetricItem": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "resource_id_for": {
+            "type": "integer",
+            "nullable": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "insert_endpoints": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "insert_endpoints",
+          "resource_id_for"
+        ]
+      },
+      "StorageBucket": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "endpoint": {
+            "type": "string",
+            "description": "Storage Gatewayからアクセス可能なURL",
+            "maxLength": 256
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "bucket_name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "access_key_id": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "secret_access_key": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "use_tls": {
+            "type": "boolean"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          }
+        },
+        "required": [
+          "access_key_id",
+          "bucket_name",
+          "created_at",
+          "endpoint",
+          "id",
+          "secret_access_key",
+          "updated_at"
+        ]
+      },
+      "StrMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type2"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/Operator"
+          },
+          "field": {
+            "$ref": "#/components/schemas/StringFieldName"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          },
+          "value_list": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Value List",
+            "type": "array"
+          }
+        },
+        "required": [
+          "type",
+          "operator",
+          "field",
+          "value",
+          "value_list"
+        ],
+        "title": "StrMatcher",
+        "type": "object"
+      },
+      "StringFieldName": {
+        "enum": [
+          "log_name",
+          "insert_id",
+          "resource_type",
+          "http_request_method",
+          "http_request_url",
+          "http_user_agent",
+          "http_remote_ip",
+          "http_server_ip",
+          "http_referer",
+          "http_protocol",
+          "http_schema",
+          "http_user",
+          "source_loc_file",
+          "source_line",
+          "source_function",
+          "text_payload",
+          "json_payload",
+          "sakuracloud_publisher",
+          "sakuracloud_variant",
+          "sakuracloud_account"
+        ],
+        "title": "StringFieldName",
+        "type": "string"
+      },
+      "Type": {
+        "enum": [
+          "or"
+        ],
+        "title": "Type",
+        "type": "string"
+      },
+      "Type1": {
+        "enum": [
+          "and"
+        ],
+        "title": "Type1",
+        "type": "string"
+      },
+      "Type2": {
+        "enum": [
+          "string"
+        ],
+        "title": "Type2",
+        "type": "string"
+      },
+      "Type3": {
+        "enum": [
+          "number"
+        ],
+        "title": "Type3",
+        "type": "string"
+      },
+      "Type4": {
+        "enum": [
+          "enum"
+        ],
+        "title": "Type4",
+        "type": "string"
+      },
+      "Type5": {
+        "enum": [
+          "map-key-exists"
+        ],
+        "title": "Type5",
+        "type": "string"
+      },
+      "Type6": {
+        "enum": [
+          "map-key-value-matcher"
+        ],
+        "title": "Type6",
+        "type": "string"
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "username": {
+            "type": "string",
+            "title": "ユーザー名",
+            "description": "この項目は必須です。半角アルファベット、半角数字、@/./+/-/_ で150文字以下にしてください。",
+            "pattern": "^[\\w.@+-]+$",
+            "maxLength": 150
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "title": "メールアドレス",
+            "maxLength": 254
+          }
+        },
+        "required": [
+          "id",
+          "username"
+        ]
+      },
+      "ValueEnum": {
+        "enum": [
+          "DEFAULT",
+          "DEBUG",
+          "INFO",
+          "NOTICE",
+          "WARNING",
+          "ERROR",
+          "CRITICAL",
+          "ALERT",
+          "EMERGENCY"
+        ],
+        "title": "ValueEnum",
+        "type": "string"
+      },
+      "WrappedAlertProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "rules_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "notification_targets_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "notification_routing_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "histories_url": {
+            "type": "string",
+            "readOnly": true
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "histories_url",
+          "icon",
+          "id",
+          "is_ok",
+          "is_system",
+          "notification_routing_url",
+          "notification_targets_url",
+          "resource_id",
+          "rules_url",
+          "tags"
+        ]
+      },
+      "WrappedDashboardProject": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "icon",
+          "id",
+          "is_ok",
+          "is_system",
+          "resource_id",
+          "tags"
+        ]
+      },
+      "WrappedLogRouting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "publisher": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Publisher"
+              }
+            ],
+            "readOnly": true
+          },
+          "publisher_code": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "variant": {
+            "type": "string"
+          },
+          "log_storage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/LogTable"
+              }
+            ],
+            "readOnly": true
+          },
+          "log_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Create datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "created_at",
+          "id",
+          "is_ok",
+          "log_storage",
+          "log_storage_id",
+          "publisher",
+          "publisher_code",
+          "updated_at",
+          "variant"
+        ]
+      },
+      "WrappedLogTable": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Cloud resource id",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "expire_day": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "endpoints": {
+            "type": "object",
+            "properties": {
+              "ingester": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "insecure": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "address"
+                ]
+              }
+            },
+            "required": [
+              "ingester"
+            ],
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "log_routings": {
+                "type": "integer"
+              },
+              "log_recording_rules": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "log_routings",
+              "log_recording_rules"
+            ],
+            "readOnly": true
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "endpoints",
+          "icon",
+          "id",
+          "is_ok",
+          "is_system",
+          "resource_id",
+          "tags",
+          "usage"
+        ]
+      },
+      "WrappedLogTableAccessKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "secret": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "is_ok",
+          "secret"
+        ]
+      },
+      "WrappedMetricsRouting": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "publisher": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Publisher"
+              }
+            ],
+            "readOnly": true
+          },
+          "publisher_code": {
+            "type": "string",
+            "writeOnly": true
+          },
+          "variant": {
+            "type": "string"
+          },
+          "metrics_storage": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/MetricsTank"
+              }
+            ],
+            "readOnly": true
+          },
+          "metrics_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Create datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "created_at",
+          "id",
+          "is_ok",
+          "metrics_storage",
+          "metrics_storage_id",
+          "publisher",
+          "publisher_code",
+          "updated_at",
+          "variant"
+        ]
+      },
+      "WrappedMetricsTank": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Cloud resource id",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "readOnly": true
+          },
+          "icon": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "nullable": true,
+            "readOnly": true
+          },
+          "is_system": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "account_id": {
+            "type": "string",
+            "readOnly": true,
+            "title": "Cloud account id"
+          },
+          "resource_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "endpoints": {
+            "type": "object",
+            "properties": {
+              "address": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "address"
+            ],
+            "readOnly": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Register datetime"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true,
+            "title": "Update datetime"
+          },
+          "usage": {
+            "type": "object",
+            "properties": {
+              "metrics_routings": {
+                "type": "integer"
+              },
+              "alert_rules": {
+                "type": "integer"
+              },
+              "log_recording_rules": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "metrics_routings",
+              "alert_rules",
+              "log_recording_rules"
+            ],
+            "readOnly": true
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "account_id",
+          "created_at",
+          "endpoints",
+          "icon",
+          "id",
+          "is_ok",
+          "is_system",
+          "resource_id",
+          "tags",
+          "updated_at",
+          "usage"
+        ]
+      },
+      "WrappedMetricsTankAccessKey": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "secret": {
+            "type": "string",
+            "format": "uuid",
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "is_ok",
+          "secret"
+        ]
+      },
+      "WrappedPublisher": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "variants": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublisherVariant"
+            },
+            "readOnly": true
+          },
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "code",
+          "is_ok",
+          "variants"
+        ]
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "https://secure.sakura.ad.jp/cloud/zone/is1a/api/monitoring/1.0/"
+    }
+  ]
+}
