@@ -87,6 +87,7 @@ var TemplateMetricsTank = func() v1.MetricsTank {
 	var ret v1.MetricsTank
 
 	ret.SetFake()
+	ret.SetID(v1.NewNilInt64(0))
 	for _, tag := range []string{"tag1", "tag2"} {
 		ret.Tags = append(ret.Tags, tag)
 	}
@@ -179,6 +180,7 @@ var TemplateLogTable = func() v1.LogTable {
 	var ret v1.LogTable
 
 	ret.SetFake()
+	ret.SetID(v1.NewNilInt64(0))
 	ret.SetEndpoints(TemplateLogTableEndpoints)
 	ret.SetUsage(TemplateLogTableUsage)
 	ret.SetCreatedAt(TemplateTime)

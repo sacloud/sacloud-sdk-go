@@ -47,58 +47,6 @@ func NewMetricsStorageOp(client *v1.Client) MetricsStorageAPI {
 	return &metricsStorageOp{client: client}
 }
 
-func convertIcon(wrapped v1.WrappedMetricsTankIcon) v1.NilMetricsTankIcon {
-	var icon v1.MetricsTankIcon
-
-	icon.SetID(wrapped.GetID())
-	return v1.NewNilMetricsTankIcon(icon)
-}
-
-func convertEndpoints(wrapped v1.WrappedMetricsTankEndpoints) v1.MetricsTankEndpoints {
-	var endpoints v1.MetricsTankEndpoints
-
-	endpoints.SetAddress(wrapped.GetAddress())
-	return endpoints
-}
-
-func convertUsage(wrapped v1.WrappedMetricsTankUsage) v1.MetricsTankUsage {
-	var usage v1.MetricsTankUsage
-
-	usage.SetMetricsRoutings(wrapped.GetMetricsRoutings())
-	usage.SetAlertRules(wrapped.GetAlertRules())
-	usage.SetLogRecordingRules(wrapped.GetLogRecordingRules())
-	return usage
-}
-
-func convertTank(result v1.WrappedMetricsTank) v1.MetricsTank {
-	var tank v1.MetricsTank
-
-	tank.SetID(v1.NewNilInt64(result.GetID()))
-	tank.SetName(result.GetName())
-	tank.SetDescription(result.GetDescription())
-	tank.SetTags(result.GetTags())
-	if wt, ok := result.GetIcon().Get(); ok {
-		tank.SetIcon(convertIcon(wt))
-	}
-	tank.SetIsSystem(result.GetIsSystem())
-	tank.SetAccountID(result.GetAccountID())
-	tank.SetResourceID(result.GetResourceID())
-	tank.SetEndpoints(convertEndpoints(result.GetEndpoints()))
-	tank.SetCreatedAt(result.GetCreatedAt())
-	tank.SetUpdatedAt(result.GetUpdatedAt())
-	tank.SetUsage(convertUsage(result.GetUsage()))
-	return tank
-}
-
-func convertKey(result v1.WrappedMetricsTankAccessKey) v1.MetricsTankAccessKey {
-	var key v1.MetricsTankAccessKey
-
-	key.SetID(result.GetID())
-	key.SetSecret(result.GetSecret())
-	key.SetDescription(result.GetDescription())
-	return key
-}
-
 func (op *metricsStorageOp) List(ctx context.Context, count int, from int) ([]v1.MetricsTank, error) {
 	params := v1.MetricsStoragesListParams{}
 	params.Count.SetTo(count)
@@ -133,8 +81,8 @@ func (op *metricsStorageOp) Read(ctx context.Context, resourceID int64) (*v1.Met
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.Read", 0, err)
 	} else {
-		ret := convertTank(*result)
-		return &ret, nil
+		ret := new(v1.MetricsTank)
+		return Unwrap(ret, result)
 	}
 }
 
@@ -172,8 +120,8 @@ func (op *metricsStorageOp) Update(ctx context.Context, id int64, resource *v1.M
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.Update", 0, err)
 	} else {
-		ret := convertTank(*result)
-		return &ret, nil
+		ret := new(v1.MetricsTank)
+		return Unwrap(ret, result)
 	}
 }
 
@@ -232,8 +180,8 @@ func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId int
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.CreateKey", 0, err)
 	} else {
-		key := convertKey(*result)
-		return &key, nil
+		ret := new(v1.MetricsTankAccessKey)
+		return Unwrap(ret, result)
 	}
 }
 
@@ -252,8 +200,8 @@ func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId int64
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.ReadKey", 0, err)
 	} else {
-		key := convertKey(*result)
-		return &key, nil
+		ret := new(v1.MetricsTankAccessKey)
+		return Unwrap(ret, result)
 	}
 }
 
@@ -273,8 +221,8 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId int
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.UpdateKey", 0, err)
 	} else {
-		key := convertKey(*result)
-		return &key, nil
+		ret := new(v1.MetricsTankAccessKey)
+		return Unwrap(ret, result)
 	}
 }
 

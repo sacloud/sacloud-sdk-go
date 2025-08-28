@@ -41,34 +41,6 @@ func NewDashboardOp(client *v1.Client) DashboardProjectAPI {
 	return &dashboardOp{client: client}
 }
 
-func convertDashboardProjectIcon(res v1.NilWrappedDashboardProjectIcon) v1.NilDashboardProjectIcon {
-	var ret v1.NilDashboardProjectIcon
-
-	if wrapped, ok := res.Get(); ok {
-		var icon v1.DashboardProjectIcon
-
-		icon.SetID(wrapped.GetID())
-		ret.SetTo(icon)
-	} else {
-		ret.SetToNull()
-	}
-	return ret
-}
-
-func convertDashboardProject(res v1.WrappedDashboardProject) v1.DashboardProject {
-	var ret v1.DashboardProject
-
-	ret.SetID(res.GetID())
-	ret.SetName(res.GetName())
-	ret.SetDescription(res.GetDescription())
-	ret.SetIsSystem(res.GetIsSystem())
-	ret.SetTags(res.GetTags())
-	ret.SetIcon(convertDashboardProjectIcon(res.GetIcon()))
-	ret.SetAccountID(res.GetAccountID())
-	ret.SetResourceID(res.GetResourceID())
-	ret.SetCreatedAt(res.GetCreatedAt())
-	return ret
-}
 func (op *dashboardOp) List(ctx context.Context, count int, from int) ([]v1.DashboardProject, error) {
 
 	resp, err := op.client.DashboardsProjectsList(ctx, v1.DashboardsProjectsListParams{
@@ -113,8 +85,8 @@ func (op *dashboardOp) Read(ctx context.Context, id int64) (*v1.DashboardProject
 	} else if err != nil {
 		return nil, NewAPIError("DashboardProject.Read", 0, err)
 	} else {
-		ret := convertDashboardProject(*resp)
-		return &ret, nil
+		ret := new(v1.DashboardProject)
+		return Unwrap(ret, resp)
 	}
 }
 func (op *dashboardOp) Update(ctx context.Context, id int64, request *v1.DashboardProject) (*v1.DashboardProject, error) {
@@ -132,8 +104,8 @@ func (op *dashboardOp) Update(ctx context.Context, id int64, request *v1.Dashboa
 	} else if err != nil {
 		return nil, NewAPIError("DashboardProject.Update", 0, err)
 	} else {
-		ret := convertDashboardProject(*resp)
-		return &ret, nil
+		ret := new(v1.DashboardProject)
+		return Unwrap(ret, resp)
 	}
 }
 

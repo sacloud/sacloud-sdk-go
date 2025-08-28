@@ -41,21 +41,6 @@ func NewMetricsRoutingOp(client *v1.Client) MetricsRoutingAPI {
 	return &metricsRoutingOp{client: client}
 }
 
-func convertRouting(res v1.WrappedMetricsRouting) v1.MetricsRouting {
-	var ret v1.MetricsRouting
-
-	ret.SetID(res.GetID())
-	ret.SetResourceID(res.GetResourceID())
-	ret.SetPublisher(res.GetPublisher())
-	ret.SetPublisherCode(res.GetPublisherCode())
-	ret.SetVariant(res.GetVariant())
-	ret.SetMetricsStorage(res.GetMetricsStorage())
-	ret.SetMetricsStorageID(res.GetMetricsStorageID())
-	ret.SetCreatedAt(res.GetCreatedAt())
-	ret.SetUpdatedAt(res.GetUpdatedAt())
-	return ret
-}
-
 func (op *metricsRoutingOp) List(ctx context.Context, params v1.MetricsRoutingsListParams) ([]v1.MetricsRouting, error) {
 	resp, err := op.client.MetricsRoutingsList(ctx, params)
 	if err != nil {
@@ -78,8 +63,8 @@ func (op *metricsRoutingOp) Create(ctx context.Context, request v1.MetricsRoutin
 	} else if err != nil {
 		return nil, NewAPIError("MetricsRouting.Create", 0, err)
 	} else {
-		ret := convertRouting(*resp)
-		return &ret, nil
+		ret := new(v1.MetricsRouting)
+		return Unwrap(ret, resp)
 	}
 }
 
@@ -97,8 +82,8 @@ func (op *metricsRoutingOp) Read(ctx context.Context, id int64) (*v1.MetricsRout
 	} else if err != nil {
 		return nil, NewAPIError("MetricsRouting.Read", 0, err)
 	} else {
-		ret := convertRouting(*resp)
-		return &ret, nil
+		ret := new(v1.MetricsRouting)
+		return Unwrap(ret, resp)
 	}
 }
 
@@ -116,8 +101,8 @@ func (op *metricsRoutingOp) Update(ctx context.Context, id int64, request *v1.Me
 	} else if err != nil {
 		return nil, NewAPIError("MetricsRouting.Update", 0, err)
 	} else {
-		ret := convertRouting(*resp)
-		return &ret, nil
+		ret := new(v1.MetricsRouting)
+		return Unwrap(ret, resp)
 	}
 }
 

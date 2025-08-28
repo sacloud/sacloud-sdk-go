@@ -47,69 +47,6 @@ func NewLogsStorageOp(client *v1.Client) LogsStorageAPI {
 	return &logsStorageOp{client: client}
 }
 
-func convertLogIcon(wrapped v1.WrappedLogTableIcon) v1.NilLogTableIcon {
-	var icon v1.LogTableIcon
-
-	icon.SetID(wrapped.GetID())
-	return v1.NewNilLogTableIcon(icon)
-}
-
-func convertLogTableEndpointsIngester(wrapped v1.WrappedLogTableEndpointsIngester) v1.LogTableEndpointsIngester {
-	var ret v1.LogTableEndpointsIngester
-
-	ret.SetAddress(wrapped.GetAddress())
-	ret.SetInsecure(wrapped.GetInsecure())
-	return ret
-}
-
-func convertLogEndpoints(wrapped v1.WrappedLogTableEndpoints) v1.LogTableEndpoints {
-	var ret v1.LogTableEndpoints
-
-	wi := wrapped.GetIngester()
-	raw := convertLogTableEndpointsIngester(wi)
-	ret.SetIngester(raw)
-	return ret
-}
-
-func convertLogUsage(wrapped v1.WrappedLogTableUsage) v1.LogTableUsage {
-	var ret v1.LogTableUsage
-
-	ret.SetLogRoutings(wrapped.GetLogRoutings())
-	ret.SetLogRecordingRules(wrapped.GetLogRecordingRules())
-	return ret
-}
-
-func convertLogTable(wrapped v1.WrappedLogTable) v1.LogTable {
-	var ret v1.LogTable
-	ret.SetID(v1.NewNilInt64(wrapped.GetID()))
-	ret.SetName(wrapped.GetName())
-	ret.SetDescription(wrapped.GetDescription())
-	ret.SetTags(wrapped.GetTags())
-	if wt, ok := wrapped.GetIcon().Get(); ok {
-		ret.SetIcon(convertLogIcon(wt))
-	} else {
-		var icon v1.NilLogTableIcon
-		icon.SetToNull()
-		ret.SetIcon(icon)
-	}
-	ret.SetExpireDay(wrapped.GetExpireDay())
-	ret.SetCreatedAt(wrapped.GetCreatedAt())
-	ret.SetEndpoints(convertLogEndpoints(wrapped.GetEndpoints()))
-	ret.SetAccountID(wrapped.GetAccountID())
-	ret.SetResourceID(wrapped.GetResourceID())
-	ret.SetIsSystem(wrapped.GetIsSystem())
-	ret.SetUsage(convertLogUsage(wrapped.GetUsage()))
-	return ret
-}
-
-func convertLogKey(wrapped v1.WrappedLogTableAccessKey) v1.LogTableAccessKey {
-	var ret v1.LogTableAccessKey
-	ret.SetID(wrapped.GetID())
-	ret.SetSecret(wrapped.GetSecret())
-	ret.SetDescription(wrapped.GetDescription())
-	return ret
-}
-
 func (op *logsStorageOp) List(ctx context.Context, params v1.LogsStoragesListParams) ([]v1.LogTable, error) {
 	result, err := op.client.LogsStoragesList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -141,8 +78,8 @@ func (op *logsStorageOp) Read(ctx context.Context, resourceID int64) (*v1.LogTab
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.Read", 0, err)
 	} else {
-		ret := convertLogTable(*result)
-		return &ret, nil
+		ret := new(v1.LogTable)
+		return Unwrap(ret, result)
 	}
 }
 
@@ -180,8 +117,8 @@ func (op *logsStorageOp) Update(ctx context.Context, id int64, resource *v1.LogT
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.Update", 0, err)
 	} else {
-		ret := convertLogTable(*result)
-		return &ret, nil
+		ret := new(v1.LogTable)
+		return Unwrap(ret, result)
 	}
 }
 
@@ -244,8 +181,8 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId int64, req
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.CreateKey", 0, err)
 	} else {
-		key := convertLogKey(*result)
-		return &key, nil
+		ret := new(v1.LogTableAccessKey)
+		return Unwrap(ret, result)
 	}
 }
 
@@ -264,8 +201,8 @@ func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId int64, id in
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
 	} else {
-		key := convertLogKey(*result)
-		return &key, nil
+		ret := new(v1.LogTableAccessKey)
+		return Unwrap(ret, result)
 	}
 }
 
@@ -285,8 +222,8 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId int64, id 
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
 	} else {
-		key := convertLogKey(*result)
-		return &key, nil
+		key := new(v1.LogTableAccessKey)
+		return Unwrap(key, result)
 	}
 }
 
