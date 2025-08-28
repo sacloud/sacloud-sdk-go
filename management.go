@@ -72,9 +72,7 @@ func (op *managementOp) ProvisioningRead(ctx context.Context) (*v1.Provisioning,
 }
 
 func (op *managementOp) ProvisioningCreate(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error) {
-	opt := v1.OptProvisioningCreate{}
-	opt.SetTo(request)
-	ret, err := op.client.PostProvisioningInitialize(ctx, opt)
+	ret, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreate(request))
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusBadRequest:
