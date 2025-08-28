@@ -25,8 +25,8 @@ import (
 
 type ManagementAPI interface {
 	ResourceLimits(ctx context.Context) (*v1.ResourcesLimits, error)
-	ProvisioningRead(ctx context.Context) (*v1.Provisioning, error)
-	ProvisioningCreate(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error)
+	ReadProvisioning(ctx context.Context) (*v1.Provisioning, error)
+	CreateProvisioning(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error)
 }
 
 var _ ManagementAPI = (*managementOp)(nil)
@@ -55,7 +55,7 @@ func (op *managementOp) ResourceLimits(ctx context.Context) (*v1.ResourcesLimits
 	}
 }
 
-func (op *managementOp) ProvisioningRead(ctx context.Context) (*v1.Provisioning, error) {
+func (op *managementOp) ReadProvisioning(ctx context.Context) (*v1.Provisioning, error) {
 	ret, err := op.client.GetProvisioningState(ctx)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -71,7 +71,7 @@ func (op *managementOp) ProvisioningRead(ctx context.Context) (*v1.Provisioning,
 	}
 }
 
-func (op *managementOp) ProvisioningCreate(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error) {
+func (op *managementOp) CreateProvisioning(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error) {
 	ret, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreate(request))
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
