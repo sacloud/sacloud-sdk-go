@@ -59,7 +59,7 @@ func convertRouting(res v1.WrappedMetricsRouting) v1.MetricsRouting {
 func (op *metricsRoutingOp) List(ctx context.Context, params v1.MetricsRoutingsListParams) ([]v1.MetricsRouting, error) {
 	resp, err := op.client.MetricsRoutingsList(ctx, params)
 	if err != nil {
-		return nil, err
+		return nil, NewAPIError("MetricsRouting.List", 0, err)
 	}
 	return resp.Results, nil
 }
