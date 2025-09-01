@@ -33,6 +33,19 @@ type ErrorResponse struct {
 	Status  int    `json:"status"`
 }
 
+var TemplatePublisher = func() v1.Publisher {
+	var ret v1.Publisher
+
+	ret.SetFake()
+	for range 3 {
+		var v v1.PublisherVariant
+
+		v.SetFake()
+		ret.Variants = append(ret.Variants, v)
+	}
+	return ret
+}()
+
 func newTestClient(v any, s ...int) *v1.Client {
 	s = append(s, http.StatusOK)
 	j, e := json.Marshal(v)
@@ -62,23 +75,10 @@ func newTestClient(v any, s ...int) *v1.Client {
 
 func TestPublisherOp_List(t *testing.T) {
 	expected := v1.PaginatedPublisherList{
-		IsOk:  v1.NewOptBool(true),
-		Count: 1,
-		From:  0,
-		Results: []v1.Publisher{
-			{
-				Code:        "test-publisher",
-				Description: v1.NewOptString("This is a test publisher"),
-				Variants: []v1.PublisherVariant{
-					{
-						Label:   "test-variant",
-						Name:    "Test Variant",
-						Storage: "metrics",
-						System:  "disallow",
-					},
-				},
-			},
-		},
+		IsOk:    v1.NewOptBool(true),
+		Count:   1,
+		From:    0,
+		Results: []v1.Publisher{TemplatePublisher},
 	}
 	client := newTestClient(expected)
 	api := NewPublisherOp(client)
@@ -90,31 +90,24 @@ func TestPublisherOp_List(t *testing.T) {
 	require.Equal(t, 1, len(publishers))
 
 	p := publishers[0]
-	require.Equal(t, "test-publisher", p.GetCode())
-	require.Equal(t, v1.OptString{Value: "This is a test publisher", Set: true}, p.GetDescription())
-	require.Equal(t, 1, len(p.GetVariants()))
-
-	e := p.GetVariants()[0]
-	require.Equal(t, "test-variant", e.GetLabel())
-	require.Equal(t, "Test Variant", e.GetName())
-	require.Equal(t, v1.PublisherVariantStorageMetrics, e.GetStorage())
-	require.Equal(t, v1.PublisherVariantSystemDisallow, e.GetSystem())
+	require.Equal(t, TemplatePublisher.GetCode(), p.GetCode())
+	require.Equal(t, TemplatePublisher.GetDescription(), p.GetDescription())
+	require.Equal(t, 3, len(p.GetVariants()))
+	for i, v := range p.GetVariants() {
+		ev := TemplatePublisher.GetVariants()[i]
+		require.Equal(t, ev.GetLabel(), v.GetLabel())
+		require.Equal(t, ev.GetName(), v.GetName())
+		require.Equal(t, ev.GetStorage(), v.GetStorage())
+		require.Equal(t, ev.GetSystem(), v.GetSystem())
+	}
 }
 
 func TestPublisherOp_Read_200(t *testing.T) {
-	expected := v1.WrappedPublisher{
-		IsOk:        true,
-		Code:        "test-publisher",
-		Description: v1.NewOptString("This is a test publisher"),
-		Variants: []v1.PublisherVariant{
-			{
-				Label:   "test-variant",
-				Name:    "Test Variant",
-				Storage: "metrics",
-				System:  "disallow",
-			},
-		},
-	}
+	var expected v1.WrappedPublisher
+	var variant v1.PublisherVariant
+	expected.SetFake()
+	variant.SetFake()
+	expected.SetVariants([]v1.PublisherVariant{variant})
 	client := newTestClient(expected)
 	api := NewPublisherOp(client)
 	ctx := context.Background()
@@ -125,9 +118,8 @@ func TestPublisherOp_Read_200(t *testing.T) {
 	require.Equal(t, expected.GetCode(), actual.GetCode())
 	require.Equal(t, expected.GetDescription(), actual.GetDescription())
 	require.Equal(t, len(expected.GetVariants()), len(actual.GetVariants()))
-	for i := range expected.GetVariants() {
+	for i, va := range expected.GetVariants() {
 		ve := expected.GetVariants()[i]
-		va := actual.GetVariants()[i]
 		require.Equal(t, ve.GetLabel(), va.GetLabel())
 		require.Equal(t, ve.GetName(), va.GetName())
 		require.Equal(t, ve.GetStorage(), va.GetStorage())
