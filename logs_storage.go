@@ -209,8 +209,6 @@ func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId int64, coun
 		From:          v1.NewOptInt(from),
 		LogResourceID: logResourceId,
 	}
-	params.Count.SetTo(count)
-	params.From.SetTo(from)
 	result, err := op.client.LogsStoragesKeysList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
