@@ -76,7 +76,7 @@ func (op *dashboardProjectOp) List(ctx context.Context, count int, from int) ([]
 		From:  v1.NewOptInt(from),
 	})
 	if err != nil {
-		return nil, err
+		return nil, NewAPIError("DashboardProject.List", 0, err)
 	}
 	return resp.Results, nil
 }
