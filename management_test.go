@@ -52,33 +52,33 @@ func TestManagementOp_ResourceLimits_400(t *testing.T) {
 	require.ErrorContains(t, err, "insufficient privileges")
 }
 
-func TestManagementOp_ProvisioningRead(t *testing.T) {
+func TestManagementOp_ReadProvisioning(t *testing.T) {
 	var res v1.Provisioning
 	res.SetFake()
 	client := newTestClient(res)
 	api := NewManagementOp(client)
 	ctx := context.Background()
 
-	prov, err := api.ProvisioningRead(ctx)
+	prov, err := api.ReadProvisioning(ctx)
 	require.NoError(t, err)
 	require.NotNil(t, prov)
 	require.Equal(t, res.GetLogs(), prov.GetLogs())
 	require.Equal(t, res.GetMetrics(), prov.GetMetrics())
 }
 
-func TestManagementOp_ProvisioningRead_400(t *testing.T) {
+func TestManagementOp_ReadProvisioning_400(t *testing.T) {
 	expected := newErrorResponse(400, "insufficient privileges")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
 	ctx := context.Background()
 
-	prov, err := api.ProvisioningRead(ctx)
+	prov, err := api.ReadProvisioning(ctx)
 	require.Nil(t, prov)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient privileges")
 }
 
-func TestManagementOp_ProvisioningCreate(t *testing.T) {
+func TestManagementOp_CreateProvisioning(t *testing.T) {
 	var req v1.ProvisioningCreate
 	var res v1.Provisioning
 	res.SetFake()
@@ -88,14 +88,14 @@ func TestManagementOp_ProvisioningCreate(t *testing.T) {
 	api := NewManagementOp(client)
 	ctx := context.Background()
 
-	prov, err := api.ProvisioningCreate(ctx, req)
+	prov, err := api.CreateProvisioning(ctx, req)
 	require.NoError(t, err)
 	require.NotNil(t, prov)
 	require.Equal(t, res.GetLogs(), prov.GetLogs())
 	require.Equal(t, res.GetMetrics(), prov.GetMetrics())
 }
 
-func TestManagementOp_ProvisioningCreate_400(t *testing.T) {
+func TestManagementOp_CreateProvisioning_400(t *testing.T) {
 	expected := newErrorResponse(400, "insufficient privileges")
 	req := v1.ProvisioningCreate{}
 	req.SetFake()
@@ -103,7 +103,7 @@ func TestManagementOp_ProvisioningCreate_400(t *testing.T) {
 	api := NewManagementOp(client)
 	ctx := context.Background()
 
-	prov, err := api.ProvisioningCreate(ctx, req)
+	prov, err := api.CreateProvisioning(ctx, req)
 	require.Nil(t, prov)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient privileges")
