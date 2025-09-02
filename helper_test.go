@@ -267,3 +267,10 @@ var TemplateHistory = func() v1.History {
 	ret.SetFake()
 	return ret
 }()
+
+var TemplateAlertRule = func() v1.AlertRule {
+	var ret v1.AlertRule
+
+	ret.SetFake()
+	return ret
+}()
