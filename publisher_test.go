@@ -16,62 +16,13 @@ package monitoringsuite_test
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
-	"net/http/httptest"
 	"testing"
 
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
 )
-
-type ErrorResponse struct {
-	Code    string `json:"error_code"`
-	Message string `json:"error_msg"`
-	IsOk    bool   `json:"is_ok"`
-	Status  int    `json:"status"`
-}
-
-var TemplatePublisher = func() v1.Publisher {
-	var ret v1.Publisher
-
-	ret.SetFake()
-	for range 3 {
-		var v v1.PublisherVariant
-
-		v.SetFake()
-		ret.Variants = append(ret.Variants, v)
-	}
-	return ret
-}()
-
-func newTestClient(v any, s ...int) *v1.Client {
-	s = append(s, http.StatusOK)
-	j, e := json.Marshal(v)
-	if e != nil {
-		panic(e)
-	}
-
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		st := s[0]
-
-		w.WriteHeader(st)
-		if st == http.StatusNoContent {
-			return
-		}
-		if _, e = w.Write(j); e != nil {
-			panic(e)
-		}
-	})
-	sv := httptest.NewServer(h)
-	c, e := NewClientWithApiUrlAndClient(sv.URL, sv.Client())
-	if e != nil {
-		panic(e)
-	}
-	return c
-}
 
 func TestPublisherOp_List(t *testing.T) {
 	expected := v1.PaginatedPublisherList{
@@ -128,12 +79,7 @@ func TestPublisherOp_Read_200(t *testing.T) {
 }
 
 func TestPublisherOp_Read_404(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "not_found",
-		Message: "No Publisher matches the given query.",
-		IsOk:    false,
-		Status:  404,
-	}
+	expected := newErrorResponse(404, "No Publisher matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewPublisherOp(client)
 	ctx := context.Background()

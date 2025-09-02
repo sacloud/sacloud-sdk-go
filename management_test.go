@@ -24,12 +24,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-var TemplateProvisioning = func() v1.Provisioning {
-	var ret v1.Provisioning
-	ret.SetFake()
-	return ret
-}()
-
 func TestManagementOp_ResourceLimits(t *testing.T) {
 	var res v1.ResourcesLimits
 	res.SetFake()
@@ -47,12 +41,7 @@ func TestManagementOp_ResourceLimits(t *testing.T) {
 }
 
 func TestManagementOp_ResourceLimits_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "insufficient privileges",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "insufficient privileges")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
 	ctx := context.Background()
@@ -78,12 +67,7 @@ func TestManagementOp_ReadProvisioning(t *testing.T) {
 }
 
 func TestManagementOp_ReadProvisioning_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "insufficient privileges",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "insufficient privileges")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
 	ctx := context.Background()
@@ -112,12 +96,7 @@ func TestManagementOp_CreateProvisioning(t *testing.T) {
 }
 
 func TestManagementOp_CreateProvisioning_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "insufficient privileges",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "insufficient privileges")
 	req := v1.ProvisioningCreate{}
 	req.SetFake()
 	client := newTestClient(expected, http.StatusBadRequest)

@@ -18,54 +18,11 @@ import (
 	"context"
 	"net/http"
 	"testing"
-	"time"
 
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
 )
-
-var TemplateMetricsTank = func() v1.MetricsTank {
-	var ret v1.MetricsTank
-
-	ret.SetFake()
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
-	// time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
-	t := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
-	ret.SetCreatedAt(t)
-	ret.SetUpdatedAt(t)
-	return ret
-}()
-
-var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
-	var ret v1.WrappedMetricsTank
-
-	ret.SetFake()
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
-	// 同上
-	t := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
-	ret.SetCreatedAt(t)
-	ret.SetUpdatedAt(t)
-	return ret
-}()
-
-var TemplateAccessKey = func() v1.MetricsTankAccessKey {
-	var ret v1.MetricsTankAccessKey
-
-	ret.SetFake()
-	return ret
-}()
-
-var TemplateWrappedAccessKey = func() v1.WrappedMetricsTankAccessKey {
-	var ret v1.WrappedMetricsTankAccessKey
-
-	ret.SetFake()
-	return ret
-}()
 
 func TestMetricsStorageOp_List(t *testing.T) {
 	expected := v1.PaginatedMetricsTankList{
@@ -94,12 +51,7 @@ func TestMetricsStorageOp_List(t *testing.T) {
 }
 
 func TestMetricsStorageOp_List_403(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "forbidden",
-		Message: "request not authorized",
-		IsOk:    false,
-		Status:  403,
-	}
+	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -131,12 +83,7 @@ func TestMetricsStorageOp_Read(t *testing.T) {
 }
 
 func TestMetricsStorageOp_Read_404(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "not_found",
-		Message: "No MetricsTank matches the given query.",
-		IsOk:    false,
-		Status:  404,
-	}
+	expected := newErrorResponse(404, "No MetricsTank matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -173,12 +120,7 @@ func TestMetricsStorageOp_Create(t *testing.T) {
 }
 
 func TestMetricsStorageOp_Create_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "Invalid request body.",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -214,12 +156,7 @@ func TestMetricsStorageOp_Update(t *testing.T) {
 }
 
 func TestMetricsStorageOp_Update_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "Invalid update parameters.",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -240,12 +177,7 @@ func TestMetricsStorageOp_Delete(t *testing.T) {
 }
 
 func TestMetricsStorageOp_Delete_400(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "bad_request",
-		Message: "Invalid delete request.",
-		IsOk:    false,
-		Status:  400,
-	}
+	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -277,12 +209,7 @@ func TestMetricsStorageOp_ListKeys(t *testing.T) {
 }
 
 func TestMetricsStorageOp_ListKeys_403(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "forbidden",
-		Message: "request not authorized",
-		IsOk:    false,
-		Status:  403,
-	}
+	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -306,12 +233,7 @@ func TestMetricsStorageOp_CreateKey(t *testing.T) {
 }
 
 func TestMetricsStorageOp_CreateKey_403(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "forbidden",
-		Message: "request not authorized",
-		IsOk:    false,
-		Status:  403,
-	}
+	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -335,12 +257,7 @@ func TestMetricsStorageOp_ReadKey(t *testing.T) {
 }
 
 func TestMetricsStorageOp_ReadKey_403(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "forbidden",
-		Message: "request not authorized",
-		IsOk:    false,
-		Status:  403,
-	}
+	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -364,12 +281,7 @@ func TestMetricsStorageOp_UpdateKey(t *testing.T) {
 }
 
 func TestMetricsStorageOp_UpdateKey_403(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "forbidden",
-		Message: "request not authorized",
-		IsOk:    false,
-		Status:  403,
-	}
+	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -390,12 +302,7 @@ func TestMetricsStorageOp_DeleteKey(t *testing.T) {
 }
 
 func TestMetricsStorageOp_DeleteKey_403(t *testing.T) {
-	expected := ErrorResponse{
-		Code:    "forbidden",
-		Message: "request not authorized",
-		IsOk:    false,
-		Status:  403,
-	}
+	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
