@@ -197,6 +197,25 @@ var TemplateWrappedLogTable = func() v1.WrappedLogTable {
 	return ret
 }()
 
+var TemplateAlertProject = func() v1.AlertProject {
+	var ret v1.AlertProject
+
+	ret.SetFake()
+	ret.SetCreatedAt(TemplateTime)
+	ret.SetTags(TemplateTags)
+	return ret
+}()
+
+var TemplateWrappedAlertProject = func() v1.WrappedAlertProject {
+	var ret v1.WrappedAlertProject
+
+	ret.SetFake()
+	ret.SetCreatedAt(TemplateTime)
+	ret.SetTags(TemplateTags)
+	ret.SetIsOk(true)
+	return ret
+}()
+
 var TemplateLogRouting = func() v1.LogRouting {
 	var r v1.LogRouting
 
@@ -212,7 +231,7 @@ var TemplateWrappedLogRouting = func() v1.WrappedLogRouting {
 	r.SetFake()
 	r.SetPublisher(TemplatePublisher)
 	r.SetLogStorage(TemplateLogTable)
-	r.IsOk = true
+	r.SetIsOk(true)
 	return r
 }()
 
@@ -220,9 +239,7 @@ var TemplateDashboardProject = func() v1.DashboardProject {
 	var ret v1.DashboardProject
 
 	ret.SetFake()
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
+	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	return ret
 }()
@@ -231,9 +248,7 @@ var TemplateWrappedDashboardProject = func() v1.WrappedDashboardProject {
 	var ret v1.WrappedDashboardProject
 
 	ret.SetFake()
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
+	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetIsOk(true)
 	return ret
