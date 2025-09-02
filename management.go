@@ -60,12 +60,12 @@ func (op *managementOp) ReadProvisioning(ctx context.Context) (*v1.Provisioning,
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusBadRequest:
-			return nil, NewAPIError("Management.ProvisioningRead", e.StatusCode, errors.Wrap(err, "insufficient privileges to issue this API"))
+			return nil, NewAPIError("Management.ReadProvisioning", e.StatusCode, errors.Wrap(err, "insufficient privileges to issue this API"))
 		default:
-			return nil, NewAPIError("Management.ProvisioningRead", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return nil, NewAPIError("Management.ReadProvisioning", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return nil, NewAPIError("Management.ProvisioningRead", 0, err)
+		return nil, NewAPIError("Management.ReadProvisioning", 0, err)
 	} else {
 		return ret, nil
 	}
@@ -76,12 +76,12 @@ func (op *managementOp) CreateProvisioning(ctx context.Context, request v1.Provi
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusBadRequest:
-			return nil, NewAPIError("Management.ProvisioningCreate", e.StatusCode, errors.Wrap(err, "insufficient privileges to issue this API"))
+			return nil, NewAPIError("Management.CreateProvisioning", e.StatusCode, errors.Wrap(err, "insufficient privileges to issue this API"))
 		default:
-			return nil, NewAPIError("Management.ProvisioningCreate", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return nil, NewAPIError("Management.CreateProvisioning", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return nil, NewAPIError("Management.ProvisioningCreate", 0, err)
+		return nil, NewAPIError("Management.CreateProvisioning", 0, err)
 	} else {
 		return ret, nil
 	}
