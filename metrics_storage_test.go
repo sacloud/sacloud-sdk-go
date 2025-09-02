@@ -194,7 +194,7 @@ func TestMetricsStorageOp_ListKeys(t *testing.T) {
 		IsOk:    v1.NewOptBool(true),
 		Count:   1,
 		From:    0,
-		Results: []v1.MetricsTankAccessKey{TemplateAccessKey},
+		Results: []v1.MetricsTankAccessKey{TemplateMetricsTankAccessKey},
 	}
 	client := newTestClient(expected)
 	api := NewMetricsStorageOp(client)
@@ -204,8 +204,8 @@ func TestMetricsStorageOp_ListKeys(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, keys)
 	require.Equal(t, 1, len(keys))
-	require.Equal(t, TemplateAccessKey.GetID(), keys[0].GetID())
-	require.Contains(t, keys[0].GetDescription().Value, TemplateAccessKey.GetDescription().Value)
+	require.Equal(t, TemplateMetricsTankAccessKey.GetID(), keys[0].GetID())
+	require.Contains(t, keys[0].GetDescription().Value, TemplateMetricsTankAccessKey.GetDescription().Value)
 }
 
 func TestMetricsStorageOp_ListKeys_403(t *testing.T) {
@@ -225,7 +225,7 @@ func TestMetricsStorageOp_CreateKey(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, 12345, &TemplateAccessKey)
+	key, err := api.CreateKey(ctx, 12345, &TemplateMetricsTankAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -238,7 +238,7 @@ func TestMetricsStorageOp_CreateKey_403(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, 12345, &TemplateAccessKey)
+	key, err := api.CreateKey(ctx, 12345, &TemplateMetricsTankAccessKey)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -273,7 +273,7 @@ func TestMetricsStorageOp_UpdateKey(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, 12345, 4, &TemplateAccessKey)
+	key, err := api.UpdateKey(ctx, 12345, 4, &TemplateMetricsTankAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -286,7 +286,7 @@ func TestMetricsStorageOp_UpdateKey_403(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, 12345, 4, &TemplateAccessKey)
+	key, err := api.UpdateKey(ctx, 12345, 4, &TemplateMetricsTankAccessKey)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
