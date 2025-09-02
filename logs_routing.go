@@ -41,20 +41,6 @@ func NewLogRoutingOp(client *v1.Client) LogRoutingAPI {
 	return &logRoutingOp{client: client}
 }
 
-func convertLogRouting(res v1.WrappedLogRouting) v1.LogRouting {
-	var ret v1.LogRouting
-	ret.SetID(res.GetID())
-	ret.SetResourceID(res.GetResourceID())
-	ret.SetPublisher(res.GetPublisher())
-	ret.SetPublisherCode(res.GetPublisherCode())
-	ret.SetVariant(res.GetVariant())
-	ret.SetLogStorage(res.GetLogStorage())
-	ret.SetLogStorageID(res.GetLogStorageID())
-	ret.SetCreatedAt(res.GetCreatedAt())
-	ret.SetUpdatedAt(res.GetUpdatedAt())
-	return ret
-}
-
 func (op *logRoutingOp) List(ctx context.Context, params v1.LogsRoutingsListParams) ([]v1.LogRouting, error) {
 	resp, err := op.client.LogsRoutingsList(ctx, params)
 	if err != nil {
@@ -77,8 +63,8 @@ func (op *logRoutingOp) Create(ctx context.Context, request v1.LogRouting) (*v1.
 	} else if err != nil {
 		return nil, NewAPIError("LogRouting.Create", 0, err)
 	} else {
-		ret := convertLogRouting(*resp)
-		return &ret, nil
+		ret := new(v1.LogRouting)
+		return Unwrap(ret, resp)
 	}
 }
 
@@ -96,8 +82,8 @@ func (op *logRoutingOp) Read(ctx context.Context, id int64) (*v1.LogRouting, err
 	} else if err != nil {
 		return nil, NewAPIError("LogRouting.Read", 0, err)
 	} else {
-		ret := convertLogRouting(*resp)
-		return &ret, nil
+		ret := new(v1.LogRouting)
+		return Unwrap(ret, resp)
 	}
 }
 
@@ -115,8 +101,8 @@ func (op *logRoutingOp) Update(ctx context.Context, id int64, request *v1.LogRou
 	} else if err != nil {
 		return nil, NewAPIError("LogRouting.Update", 0, err)
 	} else {
-		ret := convertLogRouting(*resp)
-		return &ret, nil
+		ret := new(v1.LogRouting)
+		return Unwrap(ret, resp)
 	}
 }
 
