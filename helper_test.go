@@ -70,6 +70,8 @@ func newTestClient(v any, s ...int) *v1.Client {
 // time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
 var TemplateTime time.Time = time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 
+var TemplateTags = []string{"tag1", "tag2"}
+
 var TemplatePublisher = func() v1.Publisher {
 	var ret v1.Publisher
 
@@ -88,7 +90,7 @@ var TemplateMetricsTank = func() v1.MetricsTank {
 
 	ret.SetFake()
 	ret.SetID(v1.NewNilInt64(0))
-	ret.SetTags([]string{"tag1", "tag2"})
+	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetUpdatedAt(TemplateTime)
 	return ret
@@ -98,7 +100,7 @@ var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
 	var ret v1.WrappedMetricsTank
 
 	ret.SetFake()
-	ret.SetTags([]string{"tag1", "tag2"})
+	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetUpdatedAt(TemplateTime)
 	return ret
@@ -180,7 +182,7 @@ var TemplateLogTable = func() v1.LogTable {
 	ret.SetEndpoints(TemplateLogTableEndpoints)
 	ret.SetUsage(TemplateLogTableUsage)
 	ret.SetCreatedAt(TemplateTime)
-	ret.SetTags([]string{"tag1", "tag2"})
+	ret.SetTags(TemplateTags)
 	return ret
 }()
 
@@ -191,7 +193,7 @@ var TemplateWrappedLogTable = func() v1.WrappedLogTable {
 	ret.SetEndpoints(TemplateWrappedLogTableEndpoints)
 	ret.SetUsage(TemplateWrappedLogTableUsage)
 	ret.SetCreatedAt(TemplateTime)
-	ret.SetTags([]string{"tag1", "tag2"})
+	ret.SetTags(TemplateTags)
 	return ret
 }()
 
@@ -200,7 +202,7 @@ var TemplateAlertProject = func() v1.AlertProject {
 
 	ret.SetFake()
 	ret.SetCreatedAt(TemplateTime)
-	ret.SetTags([]string{"tag1", "tag2"})
+	ret.SetTags(TemplateTags)
 	return ret
 }()
 
@@ -209,7 +211,7 @@ var TemplateWrappedAlertProject = func() v1.WrappedAlertProject {
 
 	ret.SetFake()
 	ret.SetCreatedAt(TemplateTime)
-	ret.SetTags([]string{"tag1", "tag2"})
+	ret.SetTags(TemplateTags)
 	ret.SetIsOk(true)
 	return ret
 }()
@@ -237,7 +239,7 @@ var TemplateDashboardProject = func() v1.DashboardProject {
 	var ret v1.DashboardProject
 
 	ret.SetFake()
-	ret.SetTags([]string{"tag1", "tag2"})
+	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	return ret
 }()
@@ -246,7 +248,7 @@ var TemplateWrappedDashboardProject = func() v1.WrappedDashboardProject {
 	var ret v1.WrappedDashboardProject
 
 	ret.SetFake()
-	ret.SetTags([]string{"tag1", "tag2"})
+	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetIsOk(true)
 	return ret
