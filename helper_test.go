@@ -70,6 +70,8 @@ func newTestClient(v any, s ...int) *v1.Client {
 // time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
 var TemplateTime time.Time = time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 
+var TemplateTags = []string{"tag1", "tag2"}
+
 var TemplatePublisher = func() v1.Publisher {
 	var ret v1.Publisher
 
@@ -88,9 +90,7 @@ var TemplateMetricsTank = func() v1.MetricsTank {
 
 	ret.SetFake()
 	ret.SetID(v1.NewNilInt64(0))
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
+	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetUpdatedAt(TemplateTime)
 	return ret
@@ -100,9 +100,7 @@ var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
 	var ret v1.WrappedMetricsTank
 
 	ret.SetFake()
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
+	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetUpdatedAt(TemplateTime)
 	return ret
@@ -184,9 +182,7 @@ var TemplateLogTable = func() v1.LogTable {
 	ret.SetEndpoints(TemplateLogTableEndpoints)
 	ret.SetUsage(TemplateLogTableUsage)
 	ret.SetCreatedAt(TemplateTime)
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
+	ret.SetTags(TemplateTags)
 	return ret
 }()
 
@@ -197,9 +193,7 @@ var TemplateWrappedLogTable = func() v1.WrappedLogTable {
 	ret.SetEndpoints(TemplateWrappedLogTableEndpoints)
 	ret.SetUsage(TemplateWrappedLogTableUsage)
 	ret.SetCreatedAt(TemplateTime)
-	for _, tag := range []string{"tag1", "tag2"} {
-		ret.Tags = append(ret.Tags, tag)
-	}
+	ret.SetTags(TemplateTags)
 	return ret
 }()
 
