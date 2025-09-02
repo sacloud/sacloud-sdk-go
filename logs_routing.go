@@ -58,7 +58,7 @@ func convertLogRouting(res v1.WrappedLogRouting) v1.LogRouting {
 func (op *logRoutingOp) List(ctx context.Context, params v1.LogsRoutingsListParams) ([]v1.LogRouting, error) {
 	resp, err := op.client.LogsRoutingsList(ctx, params)
 	if err != nil {
-		return nil, err
+		return nil, NewAPIError("LogRouting.List", 0, err)
 	}
 	return resp.Results, nil
 }
