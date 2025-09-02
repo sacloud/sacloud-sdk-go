@@ -15,17 +15,13 @@
 package monitoringsuite
 
 import (
+	"encoding/json"
 	"reflect"
 
 	"github.com/go-faster/errors"
 )
 
-type Something interface {
-	MarshalJSON() ([]byte, error)
-	UnmarshalJSON([]byte) error
-}
-
-func Unwrap[T, U Something](dst T, src U) (T, error) {
+func Unwrap[T json.Unmarshaler, U json.Marshaler](dst T, src U) (T, error) {
 	// :FIXME: I know it's super inefficient, but works anyways...
 	// Contributions welcomed.
 	if bytes, err := src.MarshalJSON(); err != nil {
