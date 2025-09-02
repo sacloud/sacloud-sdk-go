@@ -31,14 +31,14 @@ type DashboardProjectAPI interface {
 	Delete(ctx context.Context, id int64) error
 }
 
-var _ DashboardProjectAPI = (*dashboardOp)(nil)
+var _ DashboardProjectAPI = (*dashboardProjectOp)(nil)
 
-type dashboardOp struct {
+type dashboardProjectOp struct {
 	client *v1.Client
 }
 
 func NewDashboardOp(client *v1.Client) DashboardProjectAPI {
-	return &dashboardOp{client: client}
+	return &dashboardProjectOp{client: client}
 }
 
 func convertDashboardProjectIcon(res v1.NilWrappedDashboardProjectIcon) v1.NilDashboardProjectIcon {
@@ -69,7 +69,7 @@ func convertDashboardProject(res v1.WrappedDashboardProject) v1.DashboardProject
 	ret.SetCreatedAt(res.GetCreatedAt())
 	return ret
 }
-func (op *dashboardOp) List(ctx context.Context, count int, from int) ([]v1.DashboardProject, error) {
+func (op *dashboardProjectOp) List(ctx context.Context, count int, from int) ([]v1.DashboardProject, error) {
 
 	resp, err := op.client.DashboardsProjectsList(ctx, v1.DashboardsProjectsListParams{
 		Count: v1.NewOptInt(count),
@@ -81,7 +81,7 @@ func (op *dashboardOp) List(ctx context.Context, count int, from int) ([]v1.Dash
 	return resp.Results, nil
 }
 
-func (op *dashboardOp) Create(ctx context.Context, request v1.DashboardProjectCreate) (*v1.DashboardProject, error) {
+func (op *dashboardProjectOp) Create(ctx context.Context, request v1.DashboardProjectCreate) (*v1.DashboardProject, error) {
 	resp, err := op.client.DashboardsProjectsCreate(ctx, &request)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -99,7 +99,7 @@ func (op *dashboardOp) Create(ctx context.Context, request v1.DashboardProjectCr
 	}
 }
 
-func (op *dashboardOp) Read(ctx context.Context, id int64) (*v1.DashboardProject, error) {
+func (op *dashboardProjectOp) Read(ctx context.Context, id int64) (*v1.DashboardProject, error) {
 	resp, err := op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -117,7 +117,7 @@ func (op *dashboardOp) Read(ctx context.Context, id int64) (*v1.DashboardProject
 		return &ret, nil
 	}
 }
-func (op *dashboardOp) Update(ctx context.Context, id int64, request *v1.DashboardProject) (*v1.DashboardProject, error) {
+func (op *dashboardProjectOp) Update(ctx context.Context, id int64, request *v1.DashboardProject) (*v1.DashboardProject, error) {
 	req := v1.NewOptDashboardProject(*request)
 	resp, err := op.client.DashboardsProjectsUpdate(ctx, req, v1.DashboardsProjectsUpdateParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -137,7 +137,7 @@ func (op *dashboardOp) Update(ctx context.Context, id int64, request *v1.Dashboa
 	}
 }
 
-func (op *dashboardOp) Delete(ctx context.Context, id int64) error {
+func (op *dashboardProjectOp) Delete(ctx context.Context, id int64) error {
 	err := op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
