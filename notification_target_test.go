@@ -69,7 +69,7 @@ func TestNotificationTargetService_Read(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Read(ctx, int64(TemplateNotificationTarget.GetID()))
+	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateNotificationTarget.GetID(), actual.GetID())
@@ -86,7 +86,7 @@ func TestNotificationTargetService_Read_404(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	_, err := api.Read(ctx, 12345)
+	_, err := api.Read(ctx, "12345")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
 }
@@ -115,7 +115,7 @@ func TestNotificationTargetService_Update(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	updated, err := api.Update(ctx, int64(nt.GetID()), &nt)
+	updated, err := api.Update(ctx, "12345", &nt)
 	require.NoError(t, err)
 	require.NotNil(t, updated)
 	require.Equal(t, nt.GetID(), updated.GetID())
@@ -133,7 +133,7 @@ func TestNotificationTargetService_Update_400(t *testing.T) {
 	ctx := context.Background()
 
 	nt := v1.NotificationTarget{}
-	updated, err := api.Update(ctx, 0, &nt)
+	updated, err := api.Update(ctx, "0", &nt)
 	require.Nil(t, updated)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
@@ -145,7 +145,7 @@ func TestNotificationTargetService_Delete(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, int64(TemplateNotificationTarget.GetID()))
+	err := api.Delete(ctx, "12345")
 	require.NoError(t, err)
 }
 
@@ -155,7 +155,7 @@ func TestNotificationTargetService_Delete_400(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, 0)
+	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }

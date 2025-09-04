@@ -46,7 +46,7 @@ func TestMetricsRoutingOp_Read(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	res, err := api.Read(ctx, TemplateWrappedMetricsRouting.GetID())
+	res, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetID(), res.GetID())
@@ -64,7 +64,7 @@ func TestMetricsRoutingOp_Read_404(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	routing, err := api.Read(ctx, 99999)
+	routing, err := api.Read(ctx, "99999")
 	require.Nil(t, routing)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
@@ -112,7 +112,7 @@ func TestMetricsRoutingOp_Update(t *testing.T) {
 	ctx := context.Background()
 
 	updateReq := TemplateMetricsRouting
-	res, err := api.Update(ctx, TemplateWrappedMetricsRouting.GetID(), &updateReq)
+	res, err := api.Update(ctx, "12345", &updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetID(), res.GetID())
@@ -131,7 +131,7 @@ func TestMetricsRoutingOp_Update_400(t *testing.T) {
 	ctx := context.Background()
 
 	updateReq := v1.MetricsRouting{}
-	routing, err := api.Update(ctx, 0, &updateReq)
+	routing, err := api.Update(ctx, "0", &updateReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
@@ -142,7 +142,7 @@ func TestMetricsRoutingOp_Delete(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, TemplateMetricsRouting.GetID())
+	err := api.Delete(ctx, "12345")
 	require.NoError(t, err)
 }
 
@@ -152,7 +152,7 @@ func TestMetricsRoutingOp_Delete_400(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, 0)
+	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }
