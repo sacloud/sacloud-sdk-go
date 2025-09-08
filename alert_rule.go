@@ -51,7 +51,7 @@ func (op *alertRuleOp) List(ctx context.Context, params v1.AlertsProjectsRulesLi
 		case http.StatusForbidden:
 			return nil, NewAPIError("AlertRule.List", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
 		case http.StatusNotFound:
-			return nil, NewAPIError("AlertRule.Create", e.StatusCode, errors.Wrap(err, "project not found"))
+			return nil, NewAPIError("AlertRule.List", e.StatusCode, errors.Wrap(err, "project not found"))
 		default:
 			return nil, NewAPIError("AlertRule.List", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
