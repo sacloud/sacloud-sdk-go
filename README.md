@@ -44,7 +44,7 @@ APIの詳細は[GoDoc](https://pkg.go.dev/github.com/sacloud/monitoring-suite-ap
 
 ## OpenAPI仕様について
 
-`openapi/openapi.json`は[さくらのクラウド監視スイートAPIマニュアル](https://manual.sakura.ad.jp/api/cloud/monitoring-suite/)からダウンロードしたものを一部加工しています。
+`openapi/openapi.json`は[モニタリングスイート API ドキュメント](https://manual.sakura.ad.jp/api/cloud/monitoring-suite/)からダウンロードしたものを一部加工しています。
 
 ```console
 $ jq 'del(.paths.[].[].requestBody.content.["application/x-www-form-urlencoded", "multipart/form-data"])' openapi.json
