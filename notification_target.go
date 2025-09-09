@@ -62,6 +62,7 @@ func (op *notificationTargetOp) Read(ctx context.Context, id string) (*v1.Notifi
 	if err != nil {
 		return nil, NewAPIError("NotificationTarget.Retrieve", 0, err)
 	}
+	// :TODO: AlertsProjectsNotificationTargetsRetrieveParams() taking int instead of int64 can be subject to change
 	params := v1.AlertsProjectsNotificationTargetsRetrieveParams{ID: int(intId)}
 	result, err := op.client.AlertsProjectsNotificationTargetsRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -106,6 +107,7 @@ func (op *notificationTargetOp) Update(ctx context.Context, id string, resource 
 	if err != nil {
 		return nil, NewAPIError("NotificationTarget.Update", 0, err)
 	}
+	// :TODO: AlertsProjectsNotificationTargetsUpdateParams() taking int instead of int64 can be subject to change
 	params := v1.AlertsProjectsNotificationTargetsUpdateParams{ID: int(intId)}
 	result, err := op.client.AlertsProjectsNotificationTargetsUpdate(ctx, resource, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -130,6 +132,7 @@ func (op *notificationTargetOp) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		return NewAPIError("NotificationTarget.Delete", 0, err)
 	}
+	// :TODO: AlertsProjectsNotificationTargetsDestroyParams() taking int instead of int64 can be subject to change
 	params := v1.AlertsProjectsNotificationTargetsDestroyParams{ID: int(intId)}
 	err = op.client.AlertsProjectsNotificationTargetsDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
