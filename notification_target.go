@@ -57,6 +57,7 @@ func (op *notificationTargetOp) List(ctx context.Context, params v1.AlertsProjec
 }
 
 func (op *notificationTargetOp) Read(ctx context.Context, id int64) (*v1.NotificationTarget, error) {
+	// :TODO: AlertsProjectsNotificationTargetsRetrieveParams() taking int instead of int64 can be subject to change
 	params := v1.AlertsProjectsNotificationTargetsRetrieveParams{ID: int(id)}
 	result, err := op.client.AlertsProjectsNotificationTargetsRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -97,6 +98,7 @@ func (op *notificationTargetOp) Create(ctx context.Context, params v1.Notificati
 }
 
 func (op *notificationTargetOp) Update(ctx context.Context, id int64, resource *v1.NotificationTarget) (*v1.NotificationTarget, error) {
+	// :TODO: AlertsProjectsNotificationTargetsUpdateParams() taking int instead of int64 can be subject to change
 	params := v1.AlertsProjectsNotificationTargetsUpdateParams{ID: int(id)}
 	result, err := op.client.AlertsProjectsNotificationTargetsUpdate(ctx, resource, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -117,6 +119,7 @@ func (op *notificationTargetOp) Update(ctx context.Context, id int64, resource *
 }
 
 func (op *notificationTargetOp) Delete(ctx context.Context, id int64) error {
+	// :TODO: AlertsProjectsNotificationTargetsDestroyParams() taking int instead of int64 can be subject to change
 	params := v1.AlertsProjectsNotificationTargetsDestroyParams{ID: int(id)}
 	err := op.client.AlertsProjectsNotificationTargetsDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
