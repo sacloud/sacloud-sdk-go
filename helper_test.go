@@ -253,3 +253,24 @@ var TemplateWrappedDashboardProject = func() v1.WrappedDashboardProject {
 	ret.SetIsOk(true)
 	return ret
 }()
+
+var TemplateNotificationTarget = func() v1.NotificationTarget {
+	var ret v1.NotificationTarget
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateHistory = func() v1.History {
+	var ret v1.History
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateAlertRule = func() v1.AlertRule {
+	var ret v1.AlertRule
+
+	ret.SetFake()
+	return ret
+}()

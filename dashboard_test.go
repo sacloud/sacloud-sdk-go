@@ -50,7 +50,7 @@ func TestDashboardOp_Read(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	res, err := api.Read(ctx, TemplateWrappedDashboardProject.GetID())
+	res, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedDashboardProject.GetID(), res.GetID())
@@ -68,7 +68,7 @@ func TestDashboardOp_Read_404(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	project, err := api.Read(ctx, 99999)
+	project, err := api.Read(ctx, "99999")
 	require.Nil(t, project)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
@@ -104,7 +104,7 @@ func TestDashboardOp_Update(t *testing.T) {
 	ctx := context.Background()
 
 	updateReq := TemplateDashboardProject
-	res, err := api.Update(ctx, TemplateWrappedDashboardProject.GetID(), &updateReq)
+	res, err := api.Update(ctx, "12345", &updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, res)
 }
@@ -116,7 +116,7 @@ func TestDashboardOp_Update_400(t *testing.T) {
 	ctx := context.Background()
 
 	updateReq := v1.DashboardProject{}
-	project, err := api.Update(ctx, 0, &updateReq)
+	project, err := api.Update(ctx, "0", &updateReq)
 	require.Nil(t, project)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
@@ -127,7 +127,7 @@ func TestDashboardOp_Delete(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, TemplateDashboardProject.GetID())
+	err := api.Delete(ctx, "12345")
 	require.NoError(t, err)
 }
 
@@ -137,7 +137,7 @@ func TestDashboardOp_Delete_400(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, 0)
+	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }

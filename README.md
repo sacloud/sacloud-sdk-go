@@ -1,39 +1,65 @@
-# sacloud/go-template
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/go-template.svg)](https://pkg.go.dev/github.com/sacloud/go-template)
-[![Tests](https://github.com/sacloud/go-template/workflows/Tests/badge.svg)](https://github.com/sacloud/go-template/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/go-template)](https://goreportcard.com/report/github.com/sacloud/go-template)
+# monitoring-suite-api-go
 
-さくらのクラウド向けOSSプロダクトでのプロジェクトテンプレート(Go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/monitoring-suite-api-go.svg)](https://pkg.go.dev/github.com/sacloud/monitoring-suite-api-go)
+[![Tests](https://github.com/sacloud/monitoring-suite-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/monitoring-suite-api-go/actions/workflows/tests.yaml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/monitoring-suite-api-go)](https://goreportcard.com/report/github.com/sacloud/monitoring-suite-api-go)
+
+さくらのクラウド「モニタリングスイート」APIのGoクライアントライブラリ
 
 ## 概要
 
-さくらのクラウド向けOSSプロダクトでGo言語を中心に用いるプロジェクトのためのテンプレート
+このライブラリは、さくらのクラウド「モニタリングスイート」APIをGo言語から利用するためのクライアントです。
+OpenAPI仕様から自動生成された型安全なAPIクライアントと、それをラップして使い勝手を向上させたクライアントを提供します。
+
+> [!WARNING]
+> v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
+
+
+## インストール
+
+```bash
+go get github.com/sacloud/monitoring-suite-api-go
+```
 
 ## 使い方
 
-GitHubでリポジトリを作成する際にテンプレートとしてsacloud/go-templateを選択して作成します。  
-![テンプレートの選択](docs/new_repo.png)
+```go
+import (
+    "context"
 
-次に`go-teplate`という文字列を自身のプロジェクトのものに置き換えてください。
+    "github.com/sacloud/monitoring-suite-api-go"
+)
 
-例: exampleという名前のプロジェクトを作成する場合
-
-```bash
-# 作成したプロジェクトのディレクトリに移動
-cd example
-# 置き換え
-find . -type f | xargs sed -i '' -e "s/go-template/example/g"
+ctx := context.Background()
+client, err := monitoringsuite.NewClient()
+if err != nil {
+	// エラーハンドリング
+}
+// 例: アラートプロジェクト一覧取得
+projects, err := NewAlertProjectOp(client).List(ctx, 32768, 0)
 ```
 
-### DockerイメージをGitHub Container Registryで公開する際の注意点
+APIの詳細は[GoDoc](https://pkg.go.dev/github.com/sacloud/monitoring-suite-api-go)や`apis/v1/`配下の型定義を参照してください。
 
-デフォルトでは`CR_PAT`が渡されないためGitHub Actionsでのイメージのビルド/プッシュに失敗します。
-また、パッケージを公開したい場合は初回のみ手作業が必要です。
+## OpenAPI仕様について
 
-このためDockerイメージをGitHub Container Registryで公開したい場合はオーガニゼーション管理者にご相談ください。
+`openapi/openapi.json`は[モニタリングスイート API ドキュメント](https://manual.sakura.ad.jp/api/cloud/monitoring-suite/)からダウンロードしたものを一部加工しています。
 
-## License
+```console
+$ jq 'del(.paths.[].[].requestBody.content.["application/x-www-form-urlencoded", "multipart/form-data"])' openapi.json
+```
 
-`go-template` Copyright (C) 2022-2025 The sacloud/go-template authors.
-This project is published under [Apache 2.0 License](LICENSE).
+## 開発
+
+ビルドやテストはMakefile経由で実行できます。
+
+```bash
+make
+make test
+```
+
+## ライセンス
+
+Copyright (C) 2022-2025 The sacloud/monitoring-suite-api-go Authors.
+このプロジェクトは[Apache 2.0 License](LICENSE)の下で公開されています。

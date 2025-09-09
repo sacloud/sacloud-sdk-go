@@ -46,7 +46,7 @@ func TestLogRoutingOp_Read(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	res, err := api.Read(ctx, TemplateWrappedLogRouting.GetID())
+	res, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedLogRouting.GetID(), res.GetID())
@@ -64,7 +64,7 @@ func TestLogRoutingOp_Read_404(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	routing, err := api.Read(ctx, 99999)
+	routing, err := api.Read(ctx, "99999")
 	require.Nil(t, routing)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
@@ -107,7 +107,7 @@ func TestLogRoutingOp_Update(t *testing.T) {
 	ctx := context.Background()
 
 	updateReq := TemplateLogRouting
-	res, err := api.Update(ctx, TemplateWrappedLogRouting.GetID(), &updateReq)
+	res, err := api.Update(ctx, "12345", &updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedLogRouting.GetID(), res.GetID())
@@ -126,7 +126,7 @@ func TestLogRoutingOp_Update_400(t *testing.T) {
 	ctx := context.Background()
 
 	updateReq := v1.LogRouting{}
-	routing, err := api.Update(ctx, 0, &updateReq)
+	routing, err := api.Update(ctx, "0", &updateReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
@@ -137,7 +137,7 @@ func TestLogRoutingOp_Delete(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, TemplateLogRouting.GetID())
+	err := api.Delete(ctx, "12345")
 	require.NoError(t, err)
 }
 
@@ -147,7 +147,7 @@ func TestLogRoutingOp_Delete_400(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, 0)
+	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }

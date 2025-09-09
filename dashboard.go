@@ -17,6 +17,7 @@ package monitoringsuite
 import (
 	"context"
 	"net/http"
+	"strconv"
 
 	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
@@ -26,9 +27,9 @@ import (
 type DashboardProjectAPI interface {
 	List(ctx context.Context, count int, from int) ([]v1.DashboardProject, error)
 	Create(ctx context.Context, request v1.DashboardProjectCreate) (*v1.DashboardProject, error)
-	Read(ctx context.Context, id int64) (*v1.DashboardProject, error)
-	Update(ctx context.Context, id int64, request *v1.DashboardProject) (*v1.DashboardProject, error)
-	Delete(ctx context.Context, id int64) error
+	Read(ctx context.Context, id string) (*v1.DashboardProject, error)
+	Update(ctx context.Context, id string, request *v1.DashboardProject) (*v1.DashboardProject, error)
+	Delete(ctx context.Context, id string) error
 }
 
 var _ DashboardProjectAPI = (*dashboardProjectOp)(nil)
@@ -71,8 +72,12 @@ func (op *dashboardProjectOp) Create(ctx context.Context, request v1.DashboardPr
 	}
 }
 
-func (op *dashboardProjectOp) Read(ctx context.Context, id int64) (*v1.DashboardProject, error) {
-	resp, err := op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ID: id})
+func (op *dashboardProjectOp) Read(ctx context.Context, id string) (*v1.DashboardProject, error) {
+	intId, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("DashboardProject.Read", 0, err)
+	}
+	resp, err := op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -89,9 +94,13 @@ func (op *dashboardProjectOp) Read(ctx context.Context, id int64) (*v1.Dashboard
 		return Unwrap(ret, resp)
 	}
 }
-func (op *dashboardProjectOp) Update(ctx context.Context, id int64, request *v1.DashboardProject) (*v1.DashboardProject, error) {
+func (op *dashboardProjectOp) Update(ctx context.Context, id string, request *v1.DashboardProject) (*v1.DashboardProject, error) {
+	intId, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("DashboardProject.Update", 0, err)
+	}
 	req := v1.NewOptDashboardProject(*request)
-	resp, err := op.client.DashboardsProjectsUpdate(ctx, req, v1.DashboardsProjectsUpdateParams{ID: id})
+	resp, err := op.client.DashboardsProjectsUpdate(ctx, req, v1.DashboardsProjectsUpdateParams{ID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -109,8 +118,12 @@ func (op *dashboardProjectOp) Update(ctx context.Context, id int64, request *v1.
 	}
 }
 
-func (op *dashboardProjectOp) Delete(ctx context.Context, id int64) error {
-	err := op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{ID: id})
+func (op *dashboardProjectOp) Delete(ctx context.Context, id string) error {
+	intId, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return NewAPIError("DashboardProject.Delete", 0, err)
+	}
+	err = op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{ID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:

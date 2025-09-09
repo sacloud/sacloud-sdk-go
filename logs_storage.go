@@ -17,6 +17,7 @@ package monitoringsuite
 import (
 	"context"
 	"net/http"
+	"strconv"
 
 	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
@@ -26,15 +27,15 @@ import (
 type LogsStorageAPI interface {
 	List(ctx context.Context, params v1.LogsStoragesListParams) ([]v1.LogTable, error)
 	Create(ctx context.Context, params v1.LogTableCreate) (*v1.LogTable, error)
-	Read(ctx context.Context, id int64) (*v1.LogTable, error)
-	Update(ctx context.Context, id int64, request *v1.LogTable) (*v1.LogTable, error)
-	Delete(ctx context.Context, id int64) error
+	Read(ctx context.Context, id string) (*v1.LogTable, error)
+	Update(ctx context.Context, id string, request *v1.LogTable) (*v1.LogTable, error)
+	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, logResourceId int64, count int, from int) ([]v1.LogTableAccessKey, error)
-	CreateKey(ctx context.Context, logResourceId int64, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error)
-	ReadKey(ctx context.Context, logResourceId int64, id int64) (*v1.LogTableAccessKey, error)
-	UpdateKey(ctx context.Context, logResourceId int64, id int64, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error)
-	DeleteKey(ctx context.Context, logResourceId int64, id int64) error
+	ListKeys(ctx context.Context, logResourceId string, count int, from int) ([]v1.LogTableAccessKey, error)
+	CreateKey(ctx context.Context, logResourceId string, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error)
+	ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogTableAccessKey, error)
+	UpdateKey(ctx context.Context, logResourceId string, id string, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error)
+	DeleteKey(ctx context.Context, logResourceId string, id string) error
 }
 
 var _ LogsStorageAPI = (*logsStorageOp)(nil)
@@ -63,8 +64,12 @@ func (op *logsStorageOp) List(ctx context.Context, params v1.LogsStoragesListPar
 	}
 }
 
-func (op *logsStorageOp) Read(ctx context.Context, resourceID int64) (*v1.LogTable, error) {
-	params := v1.LogsStoragesRetrieveParams{ResourceID: resourceID}
+func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogTable, error) {
+	id, err := strconv.ParseInt(resourceID, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("LogsStorage.Read", 0, err)
+	}
+	params := v1.LogsStoragesRetrieveParams{ResourceID: id}
 	result, err := op.client.LogsStoragesRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -101,8 +106,12 @@ func (op *logsStorageOp) Create(ctx context.Context, params v1.LogTableCreate) (
 	}
 }
 
-func (op *logsStorageOp) Update(ctx context.Context, id int64, resource *v1.LogTable) (*v1.LogTable, error) {
-	params := v1.LogsStoragesUpdateParams{ResourceID: id}
+func (op *logsStorageOp) Update(ctx context.Context, id string, resource *v1.LogTable) (*v1.LogTable, error) {
+	rid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("LogsStorage.Update", 0, err)
+	}
+	params := v1.LogsStoragesUpdateParams{ResourceID: rid}
 	body := v1.NewOptLogTable(*resource)
 	result, err := op.client.LogsStoragesUpdate(ctx, body, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -122,9 +131,13 @@ func (op *logsStorageOp) Update(ctx context.Context, id int64, resource *v1.LogT
 	}
 }
 
-func (op *logsStorageOp) Delete(ctx context.Context, id int64) error {
-	params := v1.LogsStoragesDestroyParams{ResourceID: id}
-	err := op.client.LogsStoragesDestroy(ctx, params)
+func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
+	rid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return NewAPIError("LogsStorage.Delete", 0, err)
+	}
+	params := v1.LogsStoragesDestroyParams{ResourceID: rid}
+	err = op.client.LogsStoragesDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -140,11 +153,15 @@ func (op *logsStorageOp) Delete(ctx context.Context, id int64) error {
 	return nil
 }
 
-func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId int64, count int, from int) ([]v1.LogTableAccessKey, error) {
+func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count int, from int) ([]v1.LogTableAccessKey, error) {
+	rid, err := strconv.ParseInt(logResourceId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("LogsStorage.ListKeys", 0, err)
+	}
 	params := v1.LogsStoragesKeysListParams{
 		Count:         v1.NewOptInt(count),
 		From:          v1.NewOptInt(from),
-		LogResourceID: logResourceId,
+		LogResourceID: rid,
 	}
 	result, err := op.client.LogsStoragesKeysList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -161,8 +178,12 @@ func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId int64, coun
 	}
 }
 
-func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId int64, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error) {
-	params := v1.LogsStoragesKeysCreateParams{LogResourceID: logResourceId}
+func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error) {
+	rid, err := strconv.ParseInt(logResourceId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("LogsStorage.CreateKey", 0, err)
+	}
+	params := v1.LogsStoragesKeysCreateParams{LogResourceID: rid}
 	opt := v1.NewOptLogTableAccessKey(*request)
 	result, err := op.client.LogsStoragesKeysCreate(ctx, opt, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -184,8 +205,16 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId int64, req
 	}
 }
 
-func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId int64, id int64) (*v1.LogTableAccessKey, error) {
-	params := v1.LogsStoragesKeysRetrieveParams{LogResourceID: logResourceId, ID: id}
+func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogTableAccessKey, error) {
+	rid, err := strconv.ParseInt(logResourceId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
+	}
+	kid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
+	}
+	params := v1.LogsStoragesKeysRetrieveParams{LogResourceID: rid, ID: kid}
 	result, err := op.client.LogsStoragesKeysRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -204,8 +233,16 @@ func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId int64, id in
 	}
 }
 
-func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId int64, id int64, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error) {
-	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: logResourceId, ID: id}
+func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id string, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error) {
+	rid, err := strconv.ParseInt(logResourceId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
+	}
+	kid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
+	}
+	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: rid, ID: kid}
 	opt := v1.NewOptLogTableAccessKey(*request)
 	result, err := op.client.LogsStoragesKeysUpdate(ctx, opt, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -225,9 +262,17 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId int64, id 
 	}
 }
 
-func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId int64, id int64) error {
-	params := v1.LogsStoragesKeysDestroyParams{LogResourceID: logResourceId, ID: id}
-	err := op.client.LogsStoragesKeysDestroy(ctx, params)
+func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId string, id string) error {
+	rid, err := strconv.ParseInt(logResourceId, 10, 64)
+	if err != nil {
+		return NewAPIError("LogsStorage.DeleteKey", 0, err)
+	}
+	kid, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		return NewAPIError("LogsStorage.DeleteKey", 0, err)
+	}
+	params := v1.LogsStoragesKeysDestroyParams{LogResourceID: rid, ID: kid}
+	err = op.client.LogsStoragesKeysDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
