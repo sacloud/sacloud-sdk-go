@@ -74,7 +74,7 @@ func TestLogsStorageOp_Read(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Read(ctx, 12345)
+	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedLogTable.GetName(), actual.GetName())
@@ -96,7 +96,7 @@ func TestLogsStorageOp_Read_404(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	_, err := api.Read(ctx, 12345)
+	_, err := api.Read(ctx, "12345")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
 }
@@ -146,7 +146,7 @@ func TestLogsStorageOp_Update(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, 54321, &TemplateLogTable)
+	actual, err := api.Update(ctx, "54321", &TemplateLogTable)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedLogTable.GetName(), actual.GetName())
@@ -164,7 +164,7 @@ func TestLogsStorageOp_Update_400(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, 0, &TemplateLogTable)
+	actual, err := api.Update(ctx, "0", &TemplateLogTable)
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -175,7 +175,7 @@ func TestLogsStorageOp_Delete(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, 54321)
+	err := api.Delete(ctx, "54321")
 	require.NoError(t, err)
 }
 
@@ -185,7 +185,7 @@ func TestLogsStorageOp_Delete_400(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, 0)
+	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }
@@ -203,7 +203,7 @@ func TestLogsStorageOp_ListKeys(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	keys, err := api.ListKeys(ctx, 12345, 1, 0)
+	keys, err := api.ListKeys(ctx, "12345", 1, 0)
 	require.NoError(t, err)
 	require.NotNil(t, keys)
 	require.Equal(t, 1, len(keys))
@@ -217,7 +217,7 @@ func TestLogsStorageOp_ListKeys_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	keys, err := api.ListKeys(ctx, 12345, 1, 0)
+	keys, err := api.ListKeys(ctx, "12345", 1, 0)
 	require.Nil(t, keys)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -228,7 +228,7 @@ func TestLogsStorageOp_CreateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, 12345, &TemplateLogTableAccessKey)
+	key, err := api.CreateKey(ctx, "12345", &TemplateLogTableAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -241,7 +241,7 @@ func TestLogsStorageOp_CreateKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, 12345, &TemplateLogTableAccessKey)
+	key, err := api.CreateKey(ctx, "12345", &TemplateLogTableAccessKey)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -252,7 +252,7 @@ func TestLogsStorageOp_ReadKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.ReadKey(ctx, 12345, 3)
+	key, err := api.ReadKey(ctx, "12345", "3")
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -265,7 +265,7 @@ func TestLogsStorageOp_ReadKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.ReadKey(ctx, 12345, 3)
+	key, err := api.ReadKey(ctx, "12345", "3")
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -276,7 +276,7 @@ func TestLogsStorageOp_UpdateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, 12345, 4, &TemplateLogTableAccessKey)
+	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateLogTableAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -289,7 +289,7 @@ func TestLogsStorageOp_UpdateKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, 12345, 4, &TemplateLogTableAccessKey)
+	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateLogTableAccessKey)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -300,7 +300,7 @@ func TestLogsStorageOp_DeleteKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	err := api.DeleteKey(ctx, 12345, 5)
+	err := api.DeleteKey(ctx, "12345", "5")
 	require.NoError(t, err)
 }
 
@@ -310,7 +310,7 @@ func TestLogsStorageOp_DeleteKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	err := api.DeleteKey(ctx, 12345, 5)
+	err := api.DeleteKey(ctx, "12345", "5")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
 }
