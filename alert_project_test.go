@@ -63,7 +63,7 @@ func TestAlertProjectOp_Read(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Read(ctx, 12345)
+	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedAlertProject.GetName(), actual.GetName())
@@ -80,7 +80,7 @@ func TestAlertProjectOp_Read_404(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	_, err := api.Read(ctx, 12345)
+	_, err := api.Read(ctx, "12345")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
 }
@@ -128,7 +128,7 @@ func TestAlertProjectOp_Update(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, 54321, &TemplateAlertProject)
+	actual, err := api.Update(ctx, "54321", &TemplateAlertProject)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedAlertProject.GetName(), actual.GetName())
@@ -145,7 +145,7 @@ func TestAlertProjectOp_Update_400(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, 0, &TemplateAlertProject)
+	actual, err := api.Update(ctx, "0", &TemplateAlertProject)
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -156,7 +156,7 @@ func TestAlertProjectOp_Delete(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, 54321)
+	err := api.Delete(ctx, "54321")
 	require.NoError(t, err)
 }
 
@@ -166,7 +166,7 @@ func TestAlertProjectOp_Delete_400(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, 0)
+	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }
@@ -208,7 +208,7 @@ func TestAlertProjectOp_ReadHistory(t *testing.T) {
 	client := newTestClient(TemplateHistory)
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
-	history, err := api.ReadHistory(ctx, 12345, 1)
+	history, err := api.ReadHistory(ctx, "12345", "1")
 	require.NoError(t, err)
 	require.NotNil(t, history)
 	require.Equal(t, TemplateHistory.GetID(), history.GetID())
@@ -220,7 +220,7 @@ func TestAlertProjectOp_ReadHistory_404(t *testing.T) {
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
-	_, err := api.ReadHistory(ctx, 12345, 999)
+	_, err := api.ReadHistory(ctx, "12345", "999")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "not found")
 }

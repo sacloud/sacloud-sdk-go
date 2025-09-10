@@ -17,6 +17,7 @@ package monitoringsuite
 import (
 	"context"
 	"net/http"
+	"strconv"
 
 	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
@@ -25,13 +26,13 @@ import (
 
 type AlertRuleAPI interface {
 	List(ctx context.Context, params v1.AlertsProjectsRulesListParams) ([]v1.AlertRule, error)
-	Create(ctx context.Context, projectId int64, params *v1.AlertRule) (*v1.AlertRule, error)
-	Read(ctx context.Context, projectId int64, ruleId int64) (*v1.AlertRule, error)
-	Update(ctx context.Context, projectId int64, ruleId int64, params *v1.AlertRule) (*v1.AlertRule, error)
-	Delete(ctx context.Context, projectId int64, ruleId int64) error
+	Create(ctx context.Context, projectId string, params *v1.AlertRule) (*v1.AlertRule, error)
+	Read(ctx context.Context, projectId string, ruleId string) (*v1.AlertRule, error)
+	Update(ctx context.Context, projectId string, ruleId string, params *v1.AlertRule) (*v1.AlertRule, error)
+	Delete(ctx context.Context, projectId string, ruleId string) error
 
 	ListHistories(ctx context.Context, params v1.AlertsProjectsRulesHistoriesListParams) ([]v1.History, error)
-	ReadHistory(ctx context.Context, projectId int64, ruleId int64, historyId int64) (*v1.History, error)
+	ReadHistory(ctx context.Context, projectId string, ruleId string, historyId string) (*v1.History, error)
 }
 
 var _ AlertRuleAPI = (*alertRuleOp)(nil)
@@ -62,9 +63,13 @@ func (op *alertRuleOp) List(ctx context.Context, params v1.AlertsProjectsRulesLi
 	}
 }
 
-func (op *alertRuleOp) Create(ctx context.Context, projectId int64, params *v1.AlertRule) (*v1.AlertRule, error) {
+func (op *alertRuleOp) Create(ctx context.Context, projectId string, params *v1.AlertRule) (*v1.AlertRule, error) {
+	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.Create", 0, err)
+	}
 	query := v1.AlertsProjectsRulesCreateParams{
-		ProjectPk: int(projectId),
+		ProjectPk: int(intProjectId),
 	}
 	result, err := op.client.AlertsProjectsRulesCreate(ctx, params, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -85,10 +90,18 @@ func (op *alertRuleOp) Create(ctx context.Context, projectId int64, params *v1.A
 	}
 }
 
-func (op *alertRuleOp) Read(ctx context.Context, projectId int64, ruleId int64) (*v1.AlertRule, error) {
+func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId string) (*v1.AlertRule, error) {
+	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.Read", 0, err)
+	}
+	intRuleId, err := strconv.ParseInt(ruleId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.Read", 0, err)
+	}
 	query := v1.AlertsProjectsRulesRetrieveParams{
-		ProjectPk: int(projectId),
-		ID:        int(ruleId),
+		ProjectPk: int(intProjectId),
+		ID:        int(intRuleId),
 	}
 	result, err := op.client.AlertsProjectsRulesRetrieve(ctx, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -106,10 +119,18 @@ func (op *alertRuleOp) Read(ctx context.Context, projectId int64, ruleId int64) 
 	return result, nil
 }
 
-func (op *alertRuleOp) Update(ctx context.Context, projectId int64, ruleId int64, params *v1.AlertRule) (*v1.AlertRule, error) {
+func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId string, params *v1.AlertRule) (*v1.AlertRule, error) {
+	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.Update", 0, err)
+	}
+	intRuleId, err := strconv.ParseInt(ruleId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.Update", 0, err)
+	}
 	query := v1.AlertsProjectsRulesUpdateParams{
-		ProjectPk: int(projectId),
-		ID:        int(ruleId),
+		ProjectPk: int(intProjectId),
+		ID:        int(intRuleId),
 	}
 	result, err := op.client.AlertsProjectsRulesUpdate(ctx, params, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -129,12 +150,20 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId int64, ruleId int64
 	return result, nil
 }
 
-func (op *alertRuleOp) Delete(ctx context.Context, projectId int64, ruleId int64) error {
-	query := v1.AlertsProjectsRulesDestroyParams{
-		ProjectPk: int(projectId),
-		ID:        int(ruleId),
+func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId string) error {
+	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+	if err != nil {
+		return NewAPIError("AlertRule.Delete", 0, err)
 	}
-	err := op.client.AlertsProjectsRulesDestroy(ctx, query)
+	intRuleId, err := strconv.ParseInt(ruleId, 10, 64)
+	if err != nil {
+		return NewAPIError("AlertRule.Delete", 0, err)
+	}
+	query := v1.AlertsProjectsRulesDestroyParams{
+		ProjectPk: int(intProjectId),
+		ID:        int(intRuleId),
+	}
+	err = op.client.AlertsProjectsRulesDestroy(ctx, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -170,11 +199,23 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, params v1.AlertsProjec
 	}
 }
 
-func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId int64, ruleId int64, historyId int64) (*v1.History, error) {
+func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId string, historyId string) (*v1.History, error) {
+	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
+	}
+	intRuleId, err := strconv.ParseInt(ruleId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
+	}
+	intHistoryId, err := strconv.ParseInt(historyId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
+	}
 	query := v1.AlertsProjectsRulesHistoriesRetrieveParams{
-		ProjectPk: int(projectId),
-		RulePk:    int(ruleId),
-		ID:        int(historyId),
+		ProjectPk: int(intProjectId),
+		RulePk:    int(intRuleId),
+		ID:        int(intHistoryId),
 	}
 	result, err := op.client.AlertsProjectsRulesHistoriesRetrieve(ctx, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
