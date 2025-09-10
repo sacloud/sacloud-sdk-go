@@ -30,6 +30,9 @@ type AlertProjectAPI interface {
 	Read(ctx context.Context, id int64) (*v1.WrappedAlertProject, error)
 	Update(ctx context.Context, id int64, request *v1.AlertProject) (*v1.WrappedAlertProject, error)
 	Delete(ctx context.Context, id int64) error
+
+	ListHistories(ctx context.Context, params v1.AlertsProjectsHistoriesListParams) ([]v1.History, error)
+	ReadHistory(ctx context.Context, projectId int64, historyId int64) (*v1.History, error)
 }
 
 var _ AlertProjectAPI = (*alertProjectOp)(nil)
@@ -136,4 +139,44 @@ func (op *alertProjectOp) Delete(ctx context.Context, id int64) error {
 		return NewAPIError("AlertProject.Delete", 0, err)
 	}
 	return nil
+}
+
+func (op *alertProjectOp) ListHistories(ctx context.Context, params v1.AlertsProjectsHistoriesListParams) ([]v1.History, error) {
+	result, err := op.client.AlertsProjectsHistoriesList(ctx, params)
+	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
+		switch e.StatusCode {
+		case http.StatusForbidden:
+			return nil, NewAPIError("AlertProject.ListHistories", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+		case http.StatusNotFound:
+			return nil, NewAPIError("AlertProject.ListHistories", e.StatusCode, errors.Wrap(err, "project not found"))
+		default:
+			return nil, NewAPIError("AlertProject.ListHistories", e.StatusCode, errors.Wrap(err, "internal server error"))
+		}
+	} else if err != nil {
+		return nil, NewAPIError("AlertProject.ListHistories", 0, err)
+	} else {
+		return result.GetResults(), nil
+	}
+}
+
+func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId int64, historyId int64) (*v1.History, error) {
+	p := v1.AlertsProjectsHistoriesRetrieveParams{
+		ID:        int(historyId),
+		ProjectPk: int(projectId),
+	}
+	result, err := op.client.AlertsProjectsHistoriesRetrieve(ctx, p)
+	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
+		switch e.StatusCode {
+		case http.StatusForbidden:
+			return nil, NewAPIError("AlertProject.ReadHistory", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+		case http.StatusNotFound:
+			return nil, NewAPIError("AlertProject.ReadHistory", e.StatusCode, errors.Wrap(err, "alert history not found"))
+		default:
+			return nil, NewAPIError("AlertProject.ReadHistory", e.StatusCode, errors.Wrap(err, "internal server error"))
+		}
+	} else if err != nil {
+		return nil, NewAPIError("AlertProject.ReadHistory", 0, err)
+	} else {
+		return result, nil
+	}
 }
