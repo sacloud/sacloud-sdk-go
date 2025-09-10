@@ -25,11 +25,11 @@ import (
 )
 
 func TestMetricsStorageOp_List(t *testing.T) {
-	expected := v1.PaginatedMetricsTankList{
+	expected := v1.PaginatedMetricsStorageList{
 		IsOk:    v1.NewOptBool(true),
 		Count:   1,
 		From:    0,
-		Results: []v1.MetricsTank{TemplateMetricsTank},
+		Results: []v1.MetricsStorage{TemplateMetricsStorage},
 	}
 	client := newTestClient(expected)
 	api := NewMetricsStorageOp(client)
@@ -41,13 +41,13 @@ func TestMetricsStorageOp_List(t *testing.T) {
 	require.Equal(t, 1, len(tanks))
 
 	tank := tanks[0]
-	require.Equal(t, TemplateMetricsTank.GetName(), tank.GetName())
-	require.Equal(t, TemplateMetricsTank.GetDescription(), tank.GetDescription())
-	require.Equal(t, TemplateMetricsTank.GetIsSystem(), tank.GetIsSystem())
-	require.Equal(t, TemplateMetricsTank.GetAccountID(), tank.GetAccountID())
-	require.Equal(t, TemplateMetricsTank.GetResourceID(), tank.GetResourceID())
-	require.Equal(t, TemplateMetricsTank.GetEndpoints(), tank.GetEndpoints())
-	require.Equal(t, TemplateMetricsTank.GetUsage(), tank.GetUsage())
+	require.Equal(t, TemplateMetricsStorage.GetName(), tank.GetName())
+	require.Equal(t, TemplateMetricsStorage.GetDescription(), tank.GetDescription())
+	require.Equal(t, TemplateMetricsStorage.GetIsSystem(), tank.GetIsSystem())
+	require.Equal(t, TemplateMetricsStorage.GetAccountID(), tank.GetAccountID())
+	require.Equal(t, TemplateMetricsStorage.GetResourceID(), tank.GetResourceID())
+	require.Equal(t, TemplateMetricsStorage.GetEndpoints(), tank.GetEndpoints())
+	require.Equal(t, TemplateMetricsStorage.GetUsage(), tank.GetUsage())
 }
 
 func TestMetricsStorageOp_List_403(t *testing.T) {
@@ -63,27 +63,27 @@ func TestMetricsStorageOp_List_403(t *testing.T) {
 }
 
 func TestMetricsStorageOp_Read(t *testing.T) {
-	client := newTestClient(TemplateWrappedMetricsTank)
+	client := newTestClient(TemplateWrappedMetricsStorage)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
 	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, TemplateWrappedMetricsTank.GetName(), actual.GetName())
-	require.Equal(t, TemplateWrappedMetricsTank.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateWrappedMetricsTank.GetIsSystem(), actual.GetIsSystem())
-	require.Equal(t, TemplateWrappedMetricsTank.GetAccountID(), actual.GetAccountID())
-	require.Equal(t, TemplateWrappedMetricsTank.GetResourceID(), actual.GetResourceID())
-	require.Equal(t, (&TemplateWrappedMetricsTank.Endpoints).GetAddress(), (&actual.Endpoints).GetAddress())
-	require.Equal(t, (&TemplateWrappedMetricsTank.Usage).GetMetricsRoutings(), (&actual.Usage).GetMetricsRoutings())
-	require.Equal(t, (&TemplateWrappedMetricsTank.Usage).GetAlertRules(), (&actual.Usage).GetAlertRules())
-	require.Equal(t, (&TemplateWrappedMetricsTank.Usage).GetLogRecordingRules(), (&actual.Usage).GetLogRecordingRules())
-	require.Equal(t, TemplateWrappedMetricsTank.GetTags(), actual.GetTags())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetName(), actual.GetName())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetDescription(), actual.GetDescription())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetIsSystem(), actual.GetIsSystem())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetAccountID(), actual.GetAccountID())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetResourceID(), actual.GetResourceID())
+	require.Equal(t, (&TemplateWrappedMetricsStorage.Endpoints).GetAddress(), (&actual.Endpoints).GetAddress())
+	require.Equal(t, (&TemplateWrappedMetricsStorage.Usage).GetMetricsRoutings(), (&actual.Usage).GetMetricsRoutings())
+	require.Equal(t, (&TemplateWrappedMetricsStorage.Usage).GetAlertRules(), (&actual.Usage).GetAlertRules())
+	require.Equal(t, (&TemplateWrappedMetricsStorage.Usage).GetLogMeasureRules(), (&actual.Usage).GetLogMeasureRules())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetTags(), actual.GetTags())
 }
 
 func TestMetricsStorageOp_Read_404(t *testing.T) {
-	expected := newErrorResponse(404, "No MetricsTank matches the given query.")
+	expected := newErrorResponse(404, "No MetricsStorage matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
@@ -95,11 +95,11 @@ func TestMetricsStorageOp_Read_404(t *testing.T) {
 }
 
 func TestMetricsStorageOp_Create(t *testing.T) {
-	client := newTestClient(TemplateMetricsTank, http.StatusCreated)
+	client := newTestClient(TemplateMetricsStorage, http.StatusCreated)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	createReq := v1.MetricsTankCreate{
+	createReq := v1.MetricsStorageCreate{
 		Name:        "created-tank",
 		Description: "Created metrics tank",
 		IsSystem:    false,
@@ -107,16 +107,16 @@ func TestMetricsStorageOp_Create(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, TemplateMetricsTank.GetName(), actual.GetName())
-	require.Equal(t, TemplateMetricsTank.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateMetricsTank.GetIsSystem(), actual.GetIsSystem())
-	require.Equal(t, TemplateMetricsTank.GetAccountID(), actual.GetAccountID())
-	require.Equal(t, TemplateMetricsTank.GetResourceID(), actual.GetResourceID())
-	require.Equal(t, (&TemplateMetricsTank.Endpoints).GetAddress(), (&actual.Endpoints).GetAddress())
-	require.Equal(t, (&TemplateMetricsTank.Usage).GetMetricsRoutings(), (&actual.Usage).GetMetricsRoutings())
-	require.Equal(t, (&TemplateMetricsTank.Usage).GetAlertRules(), (&actual.Usage).GetAlertRules())
-	require.Equal(t, (&TemplateMetricsTank.Usage).GetLogRecordingRules(), (&actual.Usage).GetLogRecordingRules())
-	require.Equal(t, TemplateMetricsTank.GetTags(), actual.GetTags())
+	require.Equal(t, TemplateMetricsStorage.GetName(), actual.GetName())
+	require.Equal(t, TemplateMetricsStorage.GetDescription(), actual.GetDescription())
+	require.Equal(t, TemplateMetricsStorage.GetIsSystem(), actual.GetIsSystem())
+	require.Equal(t, TemplateMetricsStorage.GetAccountID(), actual.GetAccountID())
+	require.Equal(t, TemplateMetricsStorage.GetResourceID(), actual.GetResourceID())
+	require.Equal(t, (&TemplateMetricsStorage.Endpoints).GetAddress(), (&actual.Endpoints).GetAddress())
+	require.Equal(t, (&TemplateMetricsStorage.Usage).GetMetricsRoutings(), (&actual.Usage).GetMetricsRoutings())
+	require.Equal(t, (&TemplateMetricsStorage.Usage).GetAlertRules(), (&actual.Usage).GetAlertRules())
+	require.Equal(t, (&TemplateMetricsStorage.Usage).GetLogMeasureRules(), (&actual.Usage).GetLogMeasureRules())
+	require.Equal(t, TemplateMetricsStorage.GetTags(), actual.GetTags())
 }
 
 func TestMetricsStorageOp_Create_400(t *testing.T) {
@@ -125,7 +125,7 @@ func TestMetricsStorageOp_Create_400(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	createReq := v1.MetricsTankCreate{
+	createReq := v1.MetricsStorageCreate{
 		Name:        "",
 		Description: "",
 		IsSystem:    false,
@@ -137,22 +137,22 @@ func TestMetricsStorageOp_Create_400(t *testing.T) {
 }
 
 func TestMetricsStorageOp_Update(t *testing.T) {
-	client := newTestClient(TemplateWrappedMetricsTank)
+	client := newTestClient(TemplateWrappedMetricsStorage)
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, "54321", &TemplateMetricsTank)
+	actual, err := api.Update(ctx, "54321", &TemplateMetricsStorage)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, TemplateWrappedMetricsTank.GetName(), actual.GetName())
-	require.Equal(t, TemplateWrappedMetricsTank.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateWrappedMetricsTank.GetIsSystem(), actual.GetIsSystem())
-	require.Equal(t, TemplateWrappedMetricsTank.GetAccountID(), actual.GetAccountID())
-	require.Equal(t, TemplateWrappedMetricsTank.GetResourceID(), actual.GetResourceID())
-	require.Equal(t, (&TemplateWrappedMetricsTank.Endpoints).GetAddress(), (&actual.Endpoints).GetAddress())
-	require.Equal(t, (&TemplateWrappedMetricsTank.Usage).GetMetricsRoutings(), (&actual.Usage).GetMetricsRoutings())
-	require.Equal(t, (&TemplateWrappedMetricsTank.Usage).GetAlertRules(), (&actual.Usage).GetAlertRules())
-	require.Equal(t, (&TemplateWrappedMetricsTank.Usage).GetLogRecordingRules(), (&actual.Usage).GetLogRecordingRules())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetName(), actual.GetName())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetDescription(), actual.GetDescription())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetIsSystem(), actual.GetIsSystem())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetAccountID(), actual.GetAccountID())
+	require.Equal(t, TemplateWrappedMetricsStorage.GetResourceID(), actual.GetResourceID())
+	require.Equal(t, (&TemplateWrappedMetricsStorage.Endpoints).GetAddress(), (&actual.Endpoints).GetAddress())
+	require.Equal(t, (&TemplateWrappedMetricsStorage.Usage).GetMetricsRoutings(), (&actual.Usage).GetMetricsRoutings())
+	require.Equal(t, (&TemplateWrappedMetricsStorage.Usage).GetAlertRules(), (&actual.Usage).GetAlertRules())
+	require.Equal(t, (&TemplateWrappedMetricsStorage.Usage).GetLogMeasureRules(), (&actual.Usage).GetLogMeasureRules())
 }
 
 func TestMetricsStorageOp_Update_400(t *testing.T) {
@@ -161,7 +161,7 @@ func TestMetricsStorageOp_Update_400(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, "0", &TemplateMetricsTank)
+	actual, err := api.Update(ctx, "0", &TemplateMetricsStorage)
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -190,11 +190,11 @@ func TestMetricsStorageOp_Delete_400(t *testing.T) {
 // --- Access Key API tests ---
 
 func TestMetricsStorageOp_ListKeys(t *testing.T) {
-	expected := v1.PaginatedMetricsTankAccessKeyList{
+	expected := v1.PaginatedMetricsStorageAccessKeyList{
 		IsOk:    v1.NewOptBool(true),
 		Count:   1,
 		From:    0,
-		Results: []v1.MetricsTankAccessKey{TemplateMetricsTankAccessKey},
+		Results: []v1.MetricsStorageAccessKey{TemplateMetricsStorageAccessKey},
 	}
 	client := newTestClient(expected)
 	api := NewMetricsStorageOp(client)
@@ -204,8 +204,8 @@ func TestMetricsStorageOp_ListKeys(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, keys)
 	require.Equal(t, 1, len(keys))
-	require.Equal(t, TemplateMetricsTankAccessKey.GetID(), keys[0].GetID())
-	require.Contains(t, keys[0].GetDescription().Value, TemplateMetricsTankAccessKey.GetDescription().Value)
+	require.Equal(t, TemplateMetricsStorageAccessKey.GetID(), keys[0].GetID())
+	require.Contains(t, keys[0].GetDescription().Value, TemplateMetricsStorageAccessKey.GetDescription().Value)
 }
 
 func TestMetricsStorageOp_ListKeys_403(t *testing.T) {
@@ -225,7 +225,7 @@ func TestMetricsStorageOp_CreateKey(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, "12345", &TemplateMetricsTankAccessKey)
+	key, err := api.CreateKey(ctx, "12345", &TemplateMetricsStorageAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -238,7 +238,7 @@ func TestMetricsStorageOp_CreateKey_403(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, "12345", &TemplateMetricsTankAccessKey)
+	key, err := api.CreateKey(ctx, "12345", &TemplateMetricsStorageAccessKey)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -273,7 +273,7 @@ func TestMetricsStorageOp_UpdateKey(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateMetricsTankAccessKey)
+	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateMetricsStorageAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -286,7 +286,7 @@ func TestMetricsStorageOp_UpdateKey_403(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateMetricsTankAccessKey)
+	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateMetricsStorageAccessKey)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")

@@ -25,16 +25,16 @@ import (
 )
 
 type LogsStorageAPI interface {
-	List(ctx context.Context, params v1.LogsStoragesListParams) ([]v1.LogTable, error)
-	Create(ctx context.Context, params v1.LogTableCreate) (*v1.LogTable, error)
-	Read(ctx context.Context, id string) (*v1.LogTable, error)
-	Update(ctx context.Context, id string, request *v1.LogTable) (*v1.LogTable, error)
+	List(ctx context.Context, params v1.LogsStoragesListParams) ([]v1.LogStorage, error)
+	Create(ctx context.Context, params v1.LogStorageCreate) (*v1.LogStorage, error)
+	Read(ctx context.Context, id string) (*v1.LogStorage, error)
+	Update(ctx context.Context, id string, request *v1.LogStorage) (*v1.LogStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, logResourceId string, count int, from int) ([]v1.LogTableAccessKey, error)
-	CreateKey(ctx context.Context, logResourceId string, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error)
-	ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogTableAccessKey, error)
-	UpdateKey(ctx context.Context, logResourceId string, id string, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error)
+	ListKeys(ctx context.Context, logResourceId string, count int, from int) ([]v1.LogStorageAccessKey, error)
+	CreateKey(ctx context.Context, logResourceId string, request *v1.LogStorageAccessKey) (*v1.LogStorageAccessKey, error)
+	ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogStorageAccessKey, error)
+	UpdateKey(ctx context.Context, logResourceId string, id string, request *v1.LogStorageAccessKey) (*v1.LogStorageAccessKey, error)
 	DeleteKey(ctx context.Context, logResourceId string, id string) error
 }
 
@@ -48,7 +48,7 @@ func NewLogsStorageOp(client *v1.Client) LogsStorageAPI {
 	return &logsStorageOp{client: client}
 }
 
-func (op *logsStorageOp) List(ctx context.Context, params v1.LogsStoragesListParams) ([]v1.LogTable, error) {
+func (op *logsStorageOp) List(ctx context.Context, params v1.LogsStoragesListParams) ([]v1.LogStorage, error) {
 	result, err := op.client.LogsStoragesList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -64,7 +64,7 @@ func (op *logsStorageOp) List(ctx context.Context, params v1.LogsStoragesListPar
 	}
 }
 
-func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogTable, error) {
+func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogStorage, error) {
 	id, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.Read", 0, err)
@@ -83,12 +83,12 @@ func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogTa
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.Read", 0, err)
 	} else {
-		ret := new(v1.LogTable)
+		ret := new(v1.LogStorage)
 		return Unwrap(ret, result)
 	}
 }
 
-func (op *logsStorageOp) Create(ctx context.Context, params v1.LogTableCreate) (*v1.LogTable, error) {
+func (op *logsStorageOp) Create(ctx context.Context, params v1.LogStorageCreate) (*v1.LogStorage, error) {
 	result, err := op.client.LogsStoragesCreate(ctx, &params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -106,13 +106,13 @@ func (op *logsStorageOp) Create(ctx context.Context, params v1.LogTableCreate) (
 	}
 }
 
-func (op *logsStorageOp) Update(ctx context.Context, id string, resource *v1.LogTable) (*v1.LogTable, error) {
+func (op *logsStorageOp) Update(ctx context.Context, id string, resource *v1.LogStorage) (*v1.LogStorage, error) {
 	rid, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.Update", 0, err)
 	}
 	params := v1.LogsStoragesUpdateParams{ResourceID: rid}
-	body := v1.NewOptLogTable(*resource)
+	body := v1.NewOptLogStorage(*resource)
 	result, err := op.client.LogsStoragesUpdate(ctx, body, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -126,7 +126,7 @@ func (op *logsStorageOp) Update(ctx context.Context, id string, resource *v1.Log
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.Update", 0, err)
 	} else {
-		ret := new(v1.LogTable)
+		ret := new(v1.LogStorage)
 		return Unwrap(ret, result)
 	}
 }
@@ -153,7 +153,7 @@ func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count int, from int) ([]v1.LogTableAccessKey, error) {
+func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count int, from int) ([]v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.ListKeys", 0, err)
@@ -178,13 +178,13 @@ func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, cou
 	}
 }
 
-func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error) {
+func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, request *v1.LogStorageAccessKey) (*v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.CreateKey", 0, err)
 	}
 	params := v1.LogsStoragesKeysCreateParams{LogResourceID: rid}
-	opt := v1.NewOptLogTableAccessKey(*request)
+	opt := v1.NewOptLogStorageAccessKey(*request)
 	result, err := op.client.LogsStoragesKeysCreate(ctx, opt, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -200,12 +200,12 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, re
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.CreateKey", 0, err)
 	} else {
-		ret := new(v1.LogTableAccessKey)
+		ret := new(v1.LogStorageAccessKey)
 		return Unwrap(ret, result)
 	}
 }
 
-func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogTableAccessKey, error) {
+func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
@@ -228,12 +228,12 @@ func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id s
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
 	} else {
-		ret := new(v1.LogTableAccessKey)
+		ret := new(v1.LogStorageAccessKey)
 		return Unwrap(ret, result)
 	}
 }
 
-func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id string, request *v1.LogTableAccessKey) (*v1.LogTableAccessKey, error) {
+func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id string, request *v1.LogStorageAccessKey) (*v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
@@ -243,7 +243,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
 	}
 	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: rid, ID: kid}
-	opt := v1.NewOptLogTableAccessKey(*request)
+	opt := v1.NewOptLogStorageAccessKey(*request)
 	result, err := op.client.LogsStoragesKeysUpdate(ctx, opt, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -257,7 +257,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 	} else if err != nil {
 		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
 	} else {
-		key := new(v1.LogTableAccessKey)
+		key := new(v1.LogStorageAccessKey)
 		return Unwrap(key, result)
 	}
 }

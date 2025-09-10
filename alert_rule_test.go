@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/google/uuid"
 	monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
 
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
@@ -44,7 +45,7 @@ func TestAlertRuleOp_List(t *testing.T) {
 	require.NotNil(t, rules)
 	require.Equal(t, 1, len(rules))
 	rule := rules[0]
-	require.Equal(t, TemplateAlertRule.GetID(), rule.GetID())
+	require.Equal(t, TemplateAlertRule.GetUID(), rule.GetUID())
 	require.Equal(t, TemplateAlertRule.GetProjectID(), rule.GetProjectID())
 	require.Equal(t, TemplateAlertRule.GetName(), rule.GetName())
 	require.Equal(t, TemplateAlertRule.GetQuery(), rule.GetQuery())
@@ -65,10 +66,10 @@ func TestAlertRuleOp_Read(t *testing.T) {
 	client := newTestClient(TemplateAlertRule)
 	api := monitoringsuite.NewAlertRuleOp(client)
 	ctx := context.Background()
-	actual, err := api.Read(ctx, "12345", "56789")
+	actual, err := api.Read(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, TemplateAlertRule.GetID(), actual.GetID())
+	require.Equal(t, TemplateAlertRule.GetUID(), actual.GetUID())
 	require.Equal(t, TemplateAlertRule.GetProjectID(), actual.GetProjectID())
 	require.Equal(t, TemplateAlertRule.GetName(), actual.GetName())
 	require.Equal(t, TemplateAlertRule.GetQuery(), actual.GetQuery())
@@ -79,7 +80,7 @@ func TestAlertRuleOp_Read_404(t *testing.T) {
 	client := newTestClient(expected, http.StatusNotFound)
 	api := monitoringsuite.NewAlertRuleOp(client)
 	ctx := context.Background()
-	_, err := api.Read(ctx, "12345", "99999")
+	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
 }
@@ -112,7 +113,7 @@ func TestAlertRuleOp_Update(t *testing.T) {
 	api := monitoringsuite.NewAlertRuleOp(client)
 	ctx := context.Background()
 	rule := &TemplateAlertRule
-	actual, err := api.Update(ctx, "12345", "56789", rule)
+	actual, err := api.Update(ctx, "12345", uuid.New(), rule)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, rule.GetName(), actual.GetName())
@@ -124,7 +125,7 @@ func TestAlertRuleOp_Update_400(t *testing.T) {
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := monitoringsuite.NewAlertRuleOp(client)
 	ctx := context.Background()
-	actual, err := api.Update(ctx, "12345", "56789", &v1.AlertRule{})
+	actual, err := api.Update(ctx, "12345", uuid.New(), &v1.AlertRule{})
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -135,7 +136,7 @@ func TestAlertRuleOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := monitoringsuite.NewAlertRuleOp(client)
 	ctx := context.Background()
-	err := api.Delete(ctx, "12345", "56789")
+	err := api.Delete(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 }
 
@@ -144,7 +145,7 @@ func TestAlertRuleOp_Delete_400(t *testing.T) {
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := monitoringsuite.NewAlertRuleOp(client)
 	ctx := context.Background()
-	err := api.Delete(ctx, "12345", "56789")
+	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }
@@ -167,8 +168,8 @@ func TestAlertRuleOp_ListHistories(t *testing.T) {
 	histories, err := api.ListHistories(ctx, params)
 	require.NoError(t, err)
 	require.Equal(t, 1, len(histories))
-	require.Equal(t, TemplateHistory.GetID(), histories[0].GetID())
-	require.Equal(t, TemplateHistory.GetRuleID(), histories[0].GetRuleID())
+	require.Equal(t, TemplateHistory.GetUID(), histories[0].GetUID())
+	require.Equal(t, TemplateHistory.GetRuleUID(), histories[0].GetRuleUID())
 }
 
 func TestAlertRuleOp_ListHistories_403(t *testing.T) {
@@ -186,10 +187,10 @@ func TestAlertRuleOp_ReadHistory(t *testing.T) {
 	client := newTestClient(TemplateHistory)
 	api := monitoringsuite.NewAlertRuleOp(client)
 	ctx := context.Background()
-	actual, err := api.ReadHistory(ctx, "123", "456", "789")
+	actual, err := api.ReadHistory(ctx, "123", uuid.New(), uuid.New())
 	require.NoError(t, err)
-	require.Equal(t, TemplateHistory.GetID(), actual.GetID())
-	require.Equal(t, TemplateHistory.GetRuleID(), actual.GetRuleID())
+	require.Equal(t, TemplateHistory.GetUID(), actual.GetUID())
+	require.Equal(t, TemplateHistory.GetRuleUID(), actual.GetRuleUID())
 }
 
 func TestAlertRuleOp_ReadHistory_404(t *testing.T) {
@@ -197,7 +198,7 @@ func TestAlertRuleOp_ReadHistory_404(t *testing.T) {
 	client := newTestClient(expected, http.StatusNotFound)
 	api := monitoringsuite.NewAlertRuleOp(client)
 	ctx := context.Background()
-	_, err := api.ReadHistory(ctx, "123", "456", "789")
+	_, err := api.ReadHistory(ctx, "123", uuid.New(), uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
 }

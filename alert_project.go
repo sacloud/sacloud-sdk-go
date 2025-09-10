@@ -20,6 +20,7 @@ import (
 	"strconv"
 
 	"github.com/go-faster/errors"
+	"github.com/google/uuid"
 	ogen "github.com/ogen-go/ogen/validate"
 	params "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
@@ -33,7 +34,7 @@ type AlertProjectAPI interface {
 	Delete(ctx context.Context, id string) error
 
 	ListHistories(ctx context.Context, params v1.AlertsProjectsHistoriesListParams) ([]v1.History, error)
-	ReadHistory(ctx context.Context, projectId string, historyId string) (*v1.History, error)
+	ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error)
 }
 
 var _ AlertProjectAPI = (*alertProjectOp)(nil)
@@ -70,7 +71,7 @@ func (op *alertProjectOp) Read(ctx context.Context, id string) (*v1.WrappedAlert
 	if err != nil {
 		return nil, NewAPIError("AlertProject.Read", 0, err)
 	}
-	p := params.AlertsProjectsRetrieveParams{ID: intId}
+	p := params.AlertsProjectsRetrieveParams{ResourceID: intId}
 	result, err := op.client.AlertsProjectsRetrieve(ctx, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -112,7 +113,7 @@ func (op *alertProjectOp) Update(ctx context.Context, id string, resource *v1.Al
 	if err != nil {
 		return nil, NewAPIError("AlertProject.Update", 0, err)
 	}
-	p := params.AlertsProjectsUpdateParams{ID: intId}
+	p := params.AlertsProjectsUpdateParams{ResourceID: intId}
 	body := v1.NewOptAlertProject(*resource)
 	result, err := op.client.AlertsProjectsUpdate(ctx, body, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -137,7 +138,7 @@ func (op *alertProjectOp) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		return NewAPIError("AlertProject.Delete", 0, err)
 	}
-	p := params.AlertsProjectsDestroyParams{ID: intId}
+	p := params.AlertsProjectsDestroyParams{ResourceID: intId}
 	err = op.client.AlertsProjectsDestroy(ctx, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -172,18 +173,14 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params v1.AlertsPro
 	}
 }
 
-func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId string, historyId string) (*v1.History, error) {
+func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertProject.ReadHistory", 0, err)
 	}
-	intHistoryId, err := strconv.ParseInt(historyId, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("AlertProject.ReadHistory", 0, err)
-	}
 	p := v1.AlertsProjectsHistoriesRetrieveParams{
-		ID:        int(intHistoryId),
-		ProjectPk: int(intProjectId),
+		UID:               historyId,
+		ProjectResourceID: int(intProjectId),
 	}
 	result, err := op.client.AlertsProjectsHistoriesRetrieve(ctx, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {

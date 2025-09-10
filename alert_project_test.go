@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
@@ -189,7 +190,7 @@ func TestAlertProjectOp_ListHistories(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, histories)
 	require.Equal(t, 1, len(histories))
-	require.Equal(t, TemplateHistory.GetID(), histories[0].GetID())
+	require.Equal(t, TemplateHistory.GetUID(), histories[0].GetUID())
 	require.Equal(t, TemplateHistory.GetProjectID(), histories[0].GetProjectID())
 }
 
@@ -208,10 +209,10 @@ func TestAlertProjectOp_ReadHistory(t *testing.T) {
 	client := newTestClient(TemplateHistory)
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
-	history, err := api.ReadHistory(ctx, "12345", "1")
+	history, err := api.ReadHistory(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, history)
-	require.Equal(t, TemplateHistory.GetID(), history.GetID())
+	require.Equal(t, TemplateHistory.GetUID(), history.GetUID())
 	require.Equal(t, TemplateHistory.GetProjectID(), history.GetProjectID())
 }
 
@@ -220,7 +221,7 @@ func TestAlertProjectOp_ReadHistory_404(t *testing.T) {
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
-	_, err := api.ReadHistory(ctx, "12345", "999")
+	_, err := api.ReadHistory(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "not found")
 }

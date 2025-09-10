@@ -20,6 +20,7 @@ import (
 	"strconv"
 
 	"github.com/go-faster/errors"
+	"github.com/google/uuid"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
@@ -27,12 +28,12 @@ import (
 type AlertRuleAPI interface {
 	List(ctx context.Context, params v1.AlertsProjectsRulesListParams) ([]v1.AlertRule, error)
 	Create(ctx context.Context, projectId string, params *v1.AlertRule) (*v1.AlertRule, error)
-	Read(ctx context.Context, projectId string, ruleId string) (*v1.AlertRule, error)
-	Update(ctx context.Context, projectId string, ruleId string, params *v1.AlertRule) (*v1.AlertRule, error)
-	Delete(ctx context.Context, projectId string, ruleId string) error
+	Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.AlertRule, error)
+	Update(ctx context.Context, projectId string, ruleId uuid.UUID, params *v1.AlertRule) (*v1.AlertRule, error)
+	Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error
 
 	ListHistories(ctx context.Context, params v1.AlertsProjectsRulesHistoriesListParams) ([]v1.History, error)
-	ReadHistory(ctx context.Context, projectId string, ruleId string, historyId string) (*v1.History, error)
+	ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error)
 }
 
 var _ AlertRuleAPI = (*alertRuleOp)(nil)
@@ -69,7 +70,7 @@ func (op *alertRuleOp) Create(ctx context.Context, projectId string, params *v1.
 		return nil, NewAPIError("AlertRule.Create", 0, err)
 	}
 	query := v1.AlertsProjectsRulesCreateParams{
-		ProjectPk: int(intProjectId),
+		ProjectResourceID: intProjectId,
 	}
 	result, err := op.client.AlertsProjectsRulesCreate(ctx, params, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -90,18 +91,14 @@ func (op *alertRuleOp) Create(ctx context.Context, projectId string, params *v1.
 	}
 }
 
-func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId string) (*v1.AlertRule, error) {
+func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.AlertRule, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.Read", 0, err)
 	}
-	intRuleId, err := strconv.ParseInt(ruleId, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("AlertRule.Read", 0, err)
-	}
 	query := v1.AlertsProjectsRulesRetrieveParams{
-		ProjectPk: int(intProjectId),
-		ID:        int(intRuleId),
+		ProjectResourceID: intProjectId,
+		UID:               ruleId,
 	}
 	result, err := op.client.AlertsProjectsRulesRetrieve(ctx, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -119,18 +116,14 @@ func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId string
 	return result, nil
 }
 
-func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId string, params *v1.AlertRule) (*v1.AlertRule, error) {
+func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, params *v1.AlertRule) (*v1.AlertRule, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.Update", 0, err)
 	}
-	intRuleId, err := strconv.ParseInt(ruleId, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("AlertRule.Update", 0, err)
-	}
 	query := v1.AlertsProjectsRulesUpdateParams{
-		ProjectPk: int(intProjectId),
-		ID:        int(intRuleId),
+		ProjectResourceID: intProjectId,
+		UID:               ruleId,
 	}
 	result, err := op.client.AlertsProjectsRulesUpdate(ctx, params, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -150,18 +143,14 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId stri
 	return result, nil
 }
 
-func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId string) error {
+func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return NewAPIError("AlertRule.Delete", 0, err)
 	}
-	intRuleId, err := strconv.ParseInt(ruleId, 10, 64)
-	if err != nil {
-		return NewAPIError("AlertRule.Delete", 0, err)
-	}
 	query := v1.AlertsProjectsRulesDestroyParams{
-		ProjectPk: int(intProjectId),
-		ID:        int(intRuleId),
+		ProjectResourceID: intProjectId,
+		UID:               ruleId,
 	}
 	err = op.client.AlertsProjectsRulesDestroy(ctx, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -199,23 +188,15 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, params v1.AlertsProjec
 	}
 }
 
-func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId string, historyId string) (*v1.History, error) {
+func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
 	}
-	intRuleId, err := strconv.ParseInt(ruleId, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
-	}
-	intHistoryId, err := strconv.ParseInt(historyId, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
-	}
 	query := v1.AlertsProjectsRulesHistoriesRetrieveParams{
-		ProjectPk: int(intProjectId),
-		RulePk:    int(intRuleId),
-		ID:        int(intHistoryId),
+		ProjectResourceID: int(intProjectId),
+		RuleUID:           ruleId,
+		UID:               historyId,
 	}
 	result, err := op.client.AlertsProjectsRulesHistoriesRetrieve(ctx, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
