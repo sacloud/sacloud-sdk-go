@@ -4824,7 +4824,19 @@
             "$ref": "#/components/schemas/MapKeyValueMatcher"
           }
         ],
-        "title": "FieldMatcher"
+        "title": "FieldMatcher",
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "or": "#/components/schemas/OrMatcher",
+            "and": "#/components/schemas/AndMatcher",
+            "string": "#/components/schemas/StrMatcher",
+            "number": "#/components/schemas/NumMatcher",
+            "enum": "#/components/schemas/EnumMatcher",
+            "map-key-exists": "#/components/schemas/MapKeyExistsMatcher",
+            "map-key-value-matcher": "#/components/schemas/MapKeyValueMatcher"
+          }
+        }
       },
       "FieldModel": {
         "enum": [
@@ -4981,9 +4993,7 @@
           "created_at",
           "id",
           "log_storage",
-          "log_storage_id",
           "metrics_storage",
-          "metrics_storage_id",
           "project_id",
           "rule",
           "uid",
@@ -5099,9 +5109,7 @@
           "created_at",
           "id",
           "log_storage",
-          "log_storage_id",
           "publisher",
-          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -5535,9 +5543,7 @@
           "created_at",
           "id",
           "metrics_storage",
-          "metrics_storage_id",
           "publisher",
-          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -5842,8 +5848,6 @@
         "required": [
           "match_labels",
           "notification_target",
-          "notification_target_uid",
-          "order",
           "project_id",
           "uid"
         ]
@@ -8329,9 +8333,7 @@
           "id",
           "is_ok",
           "log_storage",
-          "log_storage_id",
           "publisher",
-          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -8574,9 +8576,7 @@
           "id",
           "is_ok",
           "metrics_storage",
-          "metrics_storage_id",
           "publisher",
-          "publisher_code",
           "uid",
           "updated_at",
           "variant"
