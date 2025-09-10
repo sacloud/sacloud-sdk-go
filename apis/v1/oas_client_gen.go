@@ -4,6 +4,7 @@ package v1
 
 import (
 	"context"
+	"fmt"
 	"net/url"
 	"strings"
 
@@ -12,6 +13,7 @@ import (
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/uri"
+	"github.com/ogen-go/ogen/validate"
 )
 
 func trimTrailingSlashes(u *url.URL) {
@@ -31,19 +33,19 @@ type Invoker interface {
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 	//
-	// DELETE /alerts/projects/{id}/
+	// DELETE /alerts/projects/{resource_id}/
 	AlertsProjectsDestroy(ctx context.Context, params AlertsProjectsDestroyParams) error
 	// AlertsProjectsHistoriesList invokes alerts_projects_histories_list operation.
 	//
 	// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{project_pk}/histories/
+	// GET /alerts/projects/{project_resource_id}/histories/
 	AlertsProjectsHistoriesList(ctx context.Context, params AlertsProjectsHistoriesListParams) (*PaginatedHistoryList, error)
 	// AlertsProjectsHistoriesRetrieve invokes alerts_projects_histories_retrieve operation.
 	//
 	// アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{project_pk}/histories/{id}/
+	// GET /alerts/projects/{project_resource_id}/histories/{uid}/
 	AlertsProjectsHistoriesRetrieve(ctx context.Context, params AlertsProjectsHistoriesRetrieveParams) (*History, error)
 	// AlertsProjectsList invokes alerts_projects_list operation.
 	//
@@ -51,107 +53,185 @@ type Invoker interface {
 	//
 	// GET /alerts/projects/
 	AlertsProjectsList(ctx context.Context, params AlertsProjectsListParams) (*PaginatedAlertProjectList, error)
+	// AlertsProjectsLogMeasureRulesCreate invokes alerts_projects_log_measure_rules_create operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// POST /alerts/projects/{project_resource_id}/log-measure-rules/
+	AlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesCreateParams) (*LogMeasureRule, error)
+	// AlertsProjectsLogMeasureRulesDestroy invokes alerts_projects_log_measure_rules_destroy operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// DELETE /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
+	AlertsProjectsLogMeasureRulesDestroy(ctx context.Context, params AlertsProjectsLogMeasureRulesDestroyParams) error
+	// AlertsProjectsLogMeasureRulesList invokes alerts_projects_log_measure_rules_list operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{project_resource_id}/log-measure-rules/
+	AlertsProjectsLogMeasureRulesList(ctx context.Context, params AlertsProjectsLogMeasureRulesListParams) (*PaginatedLogMeasureRuleList, error)
+	// AlertsProjectsLogMeasureRulesPartialUpdate invokes alerts_projects_log_measure_rules_partial_update operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// PATCH /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
+	AlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRule, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (*LogMeasureRule, error)
+	// AlertsProjectsLogMeasureRulesRetrieve invokes alerts_projects_log_measure_rules_retrieve operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
+	AlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, params AlertsProjectsLogMeasureRulesRetrieveParams) (*LogMeasureRule, error)
+	// AlertsProjectsLogMeasureRulesUpdate invokes alerts_projects_log_measure_rules_update operation.
+	//
+	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
+	AlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesUpdateParams) (*LogMeasureRule, error)
+	// AlertsProjectsNotificationRoutingsCreate invokes alerts_projects_notification_routings_create operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// POST /alerts/projects/{project_resource_id}/notification-routings/
+	AlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsCreateParams) (*NotificationRouting, error)
+	// AlertsProjectsNotificationRoutingsDestroy invokes alerts_projects_notification_routings_destroy operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// DELETE /alerts/projects/{project_resource_id}/notification-routings/{uid}/
+	AlertsProjectsNotificationRoutingsDestroy(ctx context.Context, params AlertsProjectsNotificationRoutingsDestroyParams) error
+	// AlertsProjectsNotificationRoutingsList invokes alerts_projects_notification_routings_list operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{project_resource_id}/notification-routings/
+	AlertsProjectsNotificationRoutingsList(ctx context.Context, params AlertsProjectsNotificationRoutingsListParams) (*PaginatedNotificationRoutingList, error)
+	// AlertsProjectsNotificationRoutingsPartialUpdate invokes alerts_projects_notification_routings_partial_update operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// PATCH /alerts/projects/{project_resource_id}/notification-routings/{uid}/
+	AlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRouting, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (*NotificationRouting, error)
+	// AlertsProjectsNotificationRoutingsReorderUpdate invokes alerts_projects_notification_routings_reorder_update operation.
+	//
+	// アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{project_resource_id}/notification-routings/reorder/
+	AlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrder, params AlertsProjectsNotificationRoutingsReorderUpdateParams) error
+	// AlertsProjectsNotificationRoutingsRetrieve invokes alerts_projects_notification_routings_retrieve operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// GET /alerts/projects/{project_resource_id}/notification-routings/{uid}/
+	AlertsProjectsNotificationRoutingsRetrieve(ctx context.Context, params AlertsProjectsNotificationRoutingsRetrieveParams) (*NotificationRouting, error)
+	// AlertsProjectsNotificationRoutingsUpdate invokes alerts_projects_notification_routings_update operation.
+	//
+	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+	//
+	// PUT /alerts/projects/{project_resource_id}/notification-routings/{uid}/
+	AlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsUpdateParams) (*NotificationRouting, error)
 	// AlertsProjectsNotificationTargetsCreate invokes alerts_projects_notification_targets_create operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
-	// POST /alerts/projects/{project_pk}/notification-targets/
+	// POST /alerts/projects/{project_resource_id}/notification-targets/
 	AlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsCreateParams) (*NotificationTarget, error)
 	// AlertsProjectsNotificationTargetsDestroy invokes alerts_projects_notification_targets_destroy operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
-	// DELETE /alerts/projects/{project_pk}/notification-targets/{id}/
+	// DELETE /alerts/projects/{project_resource_id}/notification-targets/{uid}/
 	AlertsProjectsNotificationTargetsDestroy(ctx context.Context, params AlertsProjectsNotificationTargetsDestroyParams) error
 	// AlertsProjectsNotificationTargetsList invokes alerts_projects_notification_targets_list operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{project_pk}/notification-targets/
+	// GET /alerts/projects/{project_resource_id}/notification-targets/
 	AlertsProjectsNotificationTargetsList(ctx context.Context, params AlertsProjectsNotificationTargetsListParams) (*PaginatedNotificationTargetList, error)
 	// AlertsProjectsNotificationTargetsPartialUpdate invokes alerts_projects_notification_targets_partial_update operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
-	// PATCH /alerts/projects/{project_pk}/notification-targets/{id}/
+	// PATCH /alerts/projects/{project_resource_id}/notification-targets/{uid}/
 	AlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTarget, params AlertsProjectsNotificationTargetsPartialUpdateParams) (*NotificationTarget, error)
 	// AlertsProjectsNotificationTargetsRetrieve invokes alerts_projects_notification_targets_retrieve operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{project_pk}/notification-targets/{id}/
+	// GET /alerts/projects/{project_resource_id}/notification-targets/{uid}/
 	AlertsProjectsNotificationTargetsRetrieve(ctx context.Context, params AlertsProjectsNotificationTargetsRetrieveParams) (*NotificationTarget, error)
 	// AlertsProjectsNotificationTargetsUpdate invokes alerts_projects_notification_targets_update operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
-	// PUT /alerts/projects/{project_pk}/notification-targets/{id}/
+	// PUT /alerts/projects/{project_resource_id}/notification-targets/{uid}/
 	AlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsUpdateParams) (*NotificationTarget, error)
 	// AlertsProjectsPartialUpdate invokes alerts_projects_partial_update operation.
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 	//
-	// PATCH /alerts/projects/{id}/
+	// PATCH /alerts/projects/{resource_id}/
 	AlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProject, params AlertsProjectsPartialUpdateParams) (*WrappedAlertProject, error)
 	// AlertsProjectsRetrieve invokes alerts_projects_retrieve operation.
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{id}/
+	// GET /alerts/projects/{resource_id}/
 	AlertsProjectsRetrieve(ctx context.Context, params AlertsProjectsRetrieveParams) (*WrappedAlertProject, error)
 	// AlertsProjectsRulesCreate invokes alerts_projects_rules_create operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
-	// POST /alerts/projects/{project_pk}/rules/
+	// POST /alerts/projects/{project_resource_id}/rules/
 	AlertsProjectsRulesCreate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesCreateParams) (*AlertRule, error)
 	// AlertsProjectsRulesDestroy invokes alerts_projects_rules_destroy operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
-	// DELETE /alerts/projects/{project_pk}/rules/{id}/
+	// DELETE /alerts/projects/{project_resource_id}/rules/{uid}/
 	AlertsProjectsRulesDestroy(ctx context.Context, params AlertsProjectsRulesDestroyParams) error
 	// AlertsProjectsRulesHistoriesList invokes alerts_projects_rules_histories_list operation.
 	//
-	// アラートプロジェクト内のルール履歴を取得するAPIエンドポイントです。.
+	// ルール内のアラート履歴を取得するAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{project_pk}/rules/{rule_pk}/histories/
+	// GET /alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/
 	AlertsProjectsRulesHistoriesList(ctx context.Context, params AlertsProjectsRulesHistoriesListParams) (*PaginatedHistoryList, error)
 	// AlertsProjectsRulesHistoriesRetrieve invokes alerts_projects_rules_histories_retrieve operation.
 	//
-	// アラートプロジェクト内のルール履歴を取得するAPIエンドポイントです。.
+	// ルール内のアラート履歴を取得するAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{project_pk}/rules/{rule_pk}/histories/{id}/
+	// GET /alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/{uid}/
 	AlertsProjectsRulesHistoriesRetrieve(ctx context.Context, params AlertsProjectsRulesHistoriesRetrieveParams) (*History, error)
 	// AlertsProjectsRulesList invokes alerts_projects_rules_list operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{project_pk}/rules/
+	// GET /alerts/projects/{project_resource_id}/rules/
 	AlertsProjectsRulesList(ctx context.Context, params AlertsProjectsRulesListParams) (*PaginatedAlertRuleList, error)
 	// AlertsProjectsRulesPartialUpdate invokes alerts_projects_rules_partial_update operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
-	// PATCH /alerts/projects/{project_pk}/rules/{id}/
+	// PATCH /alerts/projects/{project_resource_id}/rules/{uid}/
 	AlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRule, params AlertsProjectsRulesPartialUpdateParams) (*AlertRule, error)
 	// AlertsProjectsRulesRetrieve invokes alerts_projects_rules_retrieve operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
-	// GET /alerts/projects/{project_pk}/rules/{id}/
+	// GET /alerts/projects/{project_resource_id}/rules/{uid}/
 	AlertsProjectsRulesRetrieve(ctx context.Context, params AlertsProjectsRulesRetrieveParams) (*AlertRule, error)
 	// AlertsProjectsRulesUpdate invokes alerts_projects_rules_update operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
-	// PUT /alerts/projects/{project_pk}/rules/{id}/
+	// PUT /alerts/projects/{project_resource_id}/rules/{uid}/
 	AlertsProjectsRulesUpdate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesUpdateParams) (*AlertRule, error)
 	// AlertsProjectsUpdate invokes alerts_projects_update operation.
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 	//
-	// PUT /alerts/projects/{id}/
+	// PUT /alerts/projects/{resource_id}/
 	AlertsProjectsUpdate(ctx context.Context, request OptAlertProject, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error)
 	// DashboardsProjectsCreate invokes dashboards_projects_create operation.
 	//
@@ -242,7 +322,7 @@ type Invoker interface {
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// POST /logs/storages/
-	LogsStoragesCreate(ctx context.Context, request *LogTableCreate) (*LogTable, error)
+	LogsStoragesCreate(ctx context.Context, request *LogStorageCreate) (*LogStorage, error)
 	// LogsStoragesDestroy invokes logs_storages_destroy operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
@@ -254,7 +334,7 @@ type Invoker interface {
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// POST /logs/storages/{log_resource_id}/keys/
-	LogsStoragesKeysCreate(ctx context.Context, request OptLogTableAccessKey, params LogsStoragesKeysCreateParams) (*WrappedLogTableAccessKey, error)
+	LogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysCreateParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesKeysDestroy invokes logs_storages_keys_destroy operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
@@ -266,49 +346,49 @@ type Invoker interface {
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// GET /logs/storages/{log_resource_id}/keys/
-	LogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (*PaginatedLogTableAccessKeyList, error)
+	LogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (*PaginatedLogStorageAccessKeyList, error)
 	// LogsStoragesKeysPartialUpdate invokes logs_storages_keys_partial_update operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PATCH /logs/storages/{log_resource_id}/keys/{id}/
-	LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogTableAccessKey, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogTableAccessKey, error)
+	LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKey, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesKeysRetrieve invokes logs_storages_keys_retrieve operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// GET /logs/storages/{log_resource_id}/keys/{id}/
-	LogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (*WrappedLogTableAccessKey, error)
+	LogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesKeysUpdate invokes logs_storages_keys_update operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PUT /logs/storages/{log_resource_id}/keys/{id}/
-	LogsStoragesKeysUpdate(ctx context.Context, request OptLogTableAccessKey, params LogsStoragesKeysUpdateParams) (*WrappedLogTableAccessKey, error)
+	LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesList invokes logs_storages_list operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// GET /logs/storages/
-	LogsStoragesList(ctx context.Context, params LogsStoragesListParams) (*PaginatedLogTableList, error)
+	LogsStoragesList(ctx context.Context, params LogsStoragesListParams) (*PaginatedLogStorageList, error)
 	// LogsStoragesPartialUpdate invokes logs_storages_partial_update operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /logs/storages/{resource_id}/
-	LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogTable, params LogsStoragesPartialUpdateParams) (*WrappedLogTable, error)
+	LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorage, params LogsStoragesPartialUpdateParams) (*WrappedLogStorage, error)
 	// LogsStoragesRetrieve invokes logs_storages_retrieve operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// GET /logs/storages/{resource_id}/
-	LogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (*WrappedLogTable, error)
+	LogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (*WrappedLogStorage, error)
 	// LogsStoragesUpdate invokes logs_storages_update operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /logs/storages/{resource_id}/
-	LogsStoragesUpdate(ctx context.Context, request OptLogTable, params LogsStoragesUpdateParams) (*WrappedLogTable, error)
+	LogsStoragesUpdate(ctx context.Context, request OptLogStorage, params LogsStoragesUpdateParams) (*WrappedLogStorage, error)
 	// MetricsRoutingsCreate invokes metrics_routings_create operation.
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
@@ -350,7 +430,7 @@ type Invoker interface {
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// POST /metrics/storages/
-	MetricsStoragesCreate(ctx context.Context, request *MetricsTankCreate) (*MetricsTank, error)
+	MetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreate) (*MetricsStorage, error)
 	// MetricsStoragesDestroy invokes metrics_storages_destroy operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
@@ -362,7 +442,7 @@ type Invoker interface {
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// POST /metrics/storages/{metrics_resource_id}/keys/
-	MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsTankAccessKey, params MetricsStoragesKeysCreateParams) (*WrappedMetricsTankAccessKey, error)
+	MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysCreateParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesKeysDestroy invokes metrics_storages_keys_destroy operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
@@ -374,49 +454,49 @@ type Invoker interface {
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// GET /metrics/storages/{metrics_resource_id}/keys/
-	MetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (*PaginatedMetricsTankAccessKeyList, error)
+	MetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (*PaginatedMetricsStorageAccessKeyList, error)
 	// MetricsStoragesKeysPartialUpdate invokes metrics_storages_keys_partial_update operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PATCH /metrics/storages/{metrics_resource_id}/keys/{id}/
-	MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsTankAccessKey, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsTankAccessKey, error)
+	MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKey, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesKeysRetrieve invokes metrics_storages_keys_retrieve operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// GET /metrics/storages/{metrics_resource_id}/keys/{id}/
-	MetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (*WrappedMetricsTankAccessKey, error)
+	MetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesKeysUpdate invokes metrics_storages_keys_update operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PUT /metrics/storages/{metrics_resource_id}/keys/{id}/
-	MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsTankAccessKey, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsTankAccessKey, error)
+	MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesList invokes metrics_storages_list operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// GET /metrics/storages/
-	MetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (*PaginatedMetricsTankList, error)
+	MetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (*PaginatedMetricsStorageList, error)
 	// MetricsStoragesPartialUpdate invokes metrics_storages_partial_update operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /metrics/storages/{resource_id}/
-	MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsTank, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsTank, error)
+	MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorage, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsStorage, error)
 	// MetricsStoragesRetrieve invokes metrics_storages_retrieve operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// GET /metrics/storages/{resource_id}/
-	MetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (*WrappedMetricsTank, error)
+	MetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (*WrappedMetricsStorage, error)
 	// MetricsStoragesUpdate invokes metrics_storages_update operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /metrics/storages/{resource_id}/
-	MetricsStoragesUpdate(ctx context.Context, request OptMetricsTank, params MetricsStoragesUpdateParams) (*WrappedMetricsTank, error)
+	MetricsStoragesUpdate(ctx context.Context, request OptMetricsStorage, params MetricsStoragesUpdateParams) (*WrappedMetricsStorage, error)
 	// PostProvisioningInitialize invokes post_provisioning_initialize operation.
 	//
 	// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
@@ -519,7 +599,7 @@ func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertPro
 //
 // アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
-// DELETE /alerts/projects/{id}/
+// DELETE /alerts/projects/{resource_id}/
 func (c *Client) AlertsProjectsDestroy(ctx context.Context, params AlertsProjectsDestroyParams) error {
 	_, err := c.sendAlertsProjectsDestroy(ctx, params)
 	return err
@@ -531,14 +611,14 @@ func (c *Client) sendAlertsProjectsDestroy(ctx context.Context, params AlertsPro
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "id" parameter.
+		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -574,7 +654,7 @@ func (c *Client) sendAlertsProjectsDestroy(ctx context.Context, params AlertsPro
 //
 // アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_pk}/histories/
+// GET /alerts/projects/{project_resource_id}/histories/
 func (c *Client) AlertsProjectsHistoriesList(ctx context.Context, params AlertsProjectsHistoriesListParams) (*PaginatedHistoryList, error) {
 	res, err := c.sendAlertsProjectsHistoriesList(ctx, params)
 	return res, err
@@ -586,14 +666,14 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.IntToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -717,7 +797,7 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 //
 // アラートプロジェクト内のアラート履歴を取得するAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_pk}/histories/{id}/
+// GET /alerts/projects/{project_resource_id}/histories/{uid}/
 func (c *Client) AlertsProjectsHistoriesRetrieve(ctx context.Context, params AlertsProjectsHistoriesRetrieveParams) (*History, error) {
 	res, err := c.sendAlertsProjectsHistoriesRetrieve(ctx, params)
 	return res, err
@@ -729,14 +809,14 @@ func (c *Client) sendAlertsProjectsHistoriesRetrieve(ctx context.Context, params
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.IntToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -748,14 +828,14 @@ func (c *Client) sendAlertsProjectsHistoriesRetrieve(ctx context.Context, params
 	}
 	pathParts[2] = "/histories/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -860,11 +940,1118 @@ func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjec
 	return result, nil
 }
 
+// AlertsProjectsLogMeasureRulesCreate invokes alerts_projects_log_measure_rules_create operation.
+//
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+//
+// POST /alerts/projects/{project_resource_id}/log-measure-rules/
+func (c *Client) AlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesCreateParams) (*LogMeasureRule, error) {
+	res, err := c.sendAlertsProjectsLogMeasureRulesCreate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesCreateParams) (res *LogMeasureRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAlertsProjectsLogMeasureRulesCreateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsLogMeasureRulesCreateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsLogMeasureRulesDestroy invokes alerts_projects_log_measure_rules_destroy operation.
+//
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+//
+// DELETE /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
+func (c *Client) AlertsProjectsLogMeasureRulesDestroy(ctx context.Context, params AlertsProjectsLogMeasureRulesDestroyParams) error {
+	_, err := c.sendAlertsProjectsLogMeasureRulesDestroy(ctx, params)
+	return err
+}
+
+func (c *Client) sendAlertsProjectsLogMeasureRulesDestroy(ctx context.Context, params AlertsProjectsLogMeasureRulesDestroyParams) (res *AlertsProjectsLogMeasureRulesDestroyNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsLogMeasureRulesDestroyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsLogMeasureRulesList invokes alerts_projects_log_measure_rules_list operation.
+//
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+//
+// GET /alerts/projects/{project_resource_id}/log-measure-rules/
+func (c *Client) AlertsProjectsLogMeasureRulesList(ctx context.Context, params AlertsProjectsLogMeasureRulesListParams) (*PaginatedLogMeasureRuleList, error) {
+	res, err := c.sendAlertsProjectsLogMeasureRulesList(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, params AlertsProjectsLogMeasureRulesListParams) (res *PaginatedLogMeasureRuleList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "from" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "from",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "log_storage_id" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "log_storage_id",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.LogStorageID.Get(); ok {
+				return e.EncodeValue(conv.Int64ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "metrics_storage_id" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "metrics_storage_id",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.MetricsStorageID.Get(); ok {
+				return e.EncodeValue(conv.Int64ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsLogMeasureRulesListResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsLogMeasureRulesPartialUpdate invokes alerts_projects_log_measure_rules_partial_update operation.
+//
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+//
+// PATCH /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
+func (c *Client) AlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRule, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (*LogMeasureRule, error) {
+	res, err := c.sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRule, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (res *LogMeasureRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAlertsProjectsLogMeasureRulesPartialUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsLogMeasureRulesPartialUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsLogMeasureRulesRetrieve invokes alerts_projects_log_measure_rules_retrieve operation.
+//
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+//
+// GET /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
+func (c *Client) AlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, params AlertsProjectsLogMeasureRulesRetrieveParams) (*LogMeasureRule, error) {
+	res, err := c.sendAlertsProjectsLogMeasureRulesRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, params AlertsProjectsLogMeasureRulesRetrieveParams) (res *LogMeasureRule, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsLogMeasureRulesRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsLogMeasureRulesUpdate invokes alerts_projects_log_measure_rules_update operation.
+//
+// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
+func (c *Client) AlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesUpdateParams) (*LogMeasureRule, error) {
+	res, err := c.sendAlertsProjectsLogMeasureRulesUpdate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesUpdateParams) (res *LogMeasureRule, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/log-measure-rules/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAlertsProjectsLogMeasureRulesUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsLogMeasureRulesUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsNotificationRoutingsCreate invokes alerts_projects_notification_routings_create operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// POST /alerts/projects/{project_resource_id}/notification-routings/
+func (c *Client) AlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsCreateParams) (*NotificationRouting, error) {
+	res, err := c.sendAlertsProjectsNotificationRoutingsCreate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsCreateParams) (res *NotificationRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAlertsProjectsNotificationRoutingsCreateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsNotificationRoutingsCreateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsNotificationRoutingsDestroy invokes alerts_projects_notification_routings_destroy operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// DELETE /alerts/projects/{project_resource_id}/notification-routings/{uid}/
+func (c *Client) AlertsProjectsNotificationRoutingsDestroy(ctx context.Context, params AlertsProjectsNotificationRoutingsDestroyParams) error {
+	_, err := c.sendAlertsProjectsNotificationRoutingsDestroy(ctx, params)
+	return err
+}
+
+func (c *Client) sendAlertsProjectsNotificationRoutingsDestroy(ctx context.Context, params AlertsProjectsNotificationRoutingsDestroyParams) (res *AlertsProjectsNotificationRoutingsDestroyNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsNotificationRoutingsDestroyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsNotificationRoutingsList invokes alerts_projects_notification_routings_list operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// GET /alerts/projects/{project_resource_id}/notification-routings/
+func (c *Client) AlertsProjectsNotificationRoutingsList(ctx context.Context, params AlertsProjectsNotificationRoutingsListParams) (*PaginatedNotificationRoutingList, error) {
+	res, err := c.sendAlertsProjectsNotificationRoutingsList(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context, params AlertsProjectsNotificationRoutingsListParams) (res *PaginatedNotificationRoutingList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "from" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "from",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "target" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "target",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Target.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsNotificationRoutingsListResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsNotificationRoutingsPartialUpdate invokes alerts_projects_notification_routings_partial_update operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// PATCH /alerts/projects/{project_resource_id}/notification-routings/{uid}/
+func (c *Client) AlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRouting, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (*NotificationRouting, error) {
+	res, err := c.sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRouting, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (res *NotificationRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAlertsProjectsNotificationRoutingsPartialUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsNotificationRoutingsPartialUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsNotificationRoutingsReorderUpdate invokes alerts_projects_notification_routings_reorder_update operation.
+//
+// アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{project_resource_id}/notification-routings/reorder/
+func (c *Client) AlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrder, params AlertsProjectsNotificationRoutingsReorderUpdateParams) error {
+	_, err := c.sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx, request, params)
+	return err
+}
+
+func (c *Client) sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrder, params AlertsProjectsNotificationRoutingsReorderUpdateParams) (res *AlertsProjectsNotificationRoutingsReorderUpdateNoContent, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if request == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range request {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/reorder/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAlertsProjectsNotificationRoutingsReorderUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsNotificationRoutingsReorderUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsNotificationRoutingsRetrieve invokes alerts_projects_notification_routings_retrieve operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// GET /alerts/projects/{project_resource_id}/notification-routings/{uid}/
+func (c *Client) AlertsProjectsNotificationRoutingsRetrieve(ctx context.Context, params AlertsProjectsNotificationRoutingsRetrieveParams) (*NotificationRouting, error) {
+	res, err := c.sendAlertsProjectsNotificationRoutingsRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsNotificationRoutingsRetrieve(ctx context.Context, params AlertsProjectsNotificationRoutingsRetrieveParams) (res *NotificationRouting, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsNotificationRoutingsRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// AlertsProjectsNotificationRoutingsUpdate invokes alerts_projects_notification_routings_update operation.
+//
+// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
+//
+// PUT /alerts/projects/{project_resource_id}/notification-routings/{uid}/
+func (c *Client) AlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsUpdateParams) (*NotificationRouting, error) {
+	res, err := c.sendAlertsProjectsNotificationRoutingsUpdate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendAlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsUpdateParams) (res *NotificationRouting, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/alerts/projects/"
+	{
+		// Encode "project_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "project_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/notification-routings/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAlertsProjectsNotificationRoutingsUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAlertsProjectsNotificationRoutingsUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // AlertsProjectsNotificationTargetsCreate invokes alerts_projects_notification_targets_create operation.
 //
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
-// POST /alerts/projects/{project_pk}/notification-targets/
+// POST /alerts/projects/{project_resource_id}/notification-targets/
 func (c *Client) AlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsCreateParams) (*NotificationTarget, error) {
 	res, err := c.sendAlertsProjectsNotificationTargetsCreate(ctx, request, params)
 	return res, err
@@ -885,14 +2072,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsCreate(ctx context.Context
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -931,7 +2118,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsCreate(ctx context.Context
 //
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
-// DELETE /alerts/projects/{project_pk}/notification-targets/{id}/
+// DELETE /alerts/projects/{project_resource_id}/notification-targets/{uid}/
 func (c *Client) AlertsProjectsNotificationTargetsDestroy(ctx context.Context, params AlertsProjectsNotificationTargetsDestroyParams) error {
 	_, err := c.sendAlertsProjectsNotificationTargetsDestroy(ctx, params)
 	return err
@@ -943,14 +2130,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsDestroy(ctx context.Contex
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -962,14 +2149,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsDestroy(ctx context.Contex
 	}
 	pathParts[2] = "/notification-targets/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1005,7 +2192,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsDestroy(ctx context.Contex
 //
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_pk}/notification-targets/
+// GET /alerts/projects/{project_resource_id}/notification-targets/
 func (c *Client) AlertsProjectsNotificationTargetsList(ctx context.Context, params AlertsProjectsNotificationTargetsListParams) (*PaginatedNotificationTargetList, error) {
 	res, err := c.sendAlertsProjectsNotificationTargetsList(ctx, params)
 	return res, err
@@ -1017,14 +2204,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1114,7 +2301,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 //
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
-// PATCH /alerts/projects/{project_pk}/notification-targets/{id}/
+// PATCH /alerts/projects/{project_resource_id}/notification-targets/{uid}/
 func (c *Client) AlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTarget, params AlertsProjectsNotificationTargetsPartialUpdateParams) (*NotificationTarget, error) {
 	res, err := c.sendAlertsProjectsNotificationTargetsPartialUpdate(ctx, request, params)
 	return res, err
@@ -1142,14 +2329,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsPartialUpdate(ctx context.
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1161,14 +2348,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsPartialUpdate(ctx context.
 	}
 	pathParts[2] = "/notification-targets/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1207,7 +2394,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsPartialUpdate(ctx context.
 //
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_pk}/notification-targets/{id}/
+// GET /alerts/projects/{project_resource_id}/notification-targets/{uid}/
 func (c *Client) AlertsProjectsNotificationTargetsRetrieve(ctx context.Context, params AlertsProjectsNotificationTargetsRetrieveParams) (*NotificationTarget, error) {
 	res, err := c.sendAlertsProjectsNotificationTargetsRetrieve(ctx, params)
 	return res, err
@@ -1219,14 +2406,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsRetrieve(ctx context.Conte
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1238,14 +2425,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsRetrieve(ctx context.Conte
 	}
 	pathParts[2] = "/notification-targets/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1281,7 +2468,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsRetrieve(ctx context.Conte
 //
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
-// PUT /alerts/projects/{project_pk}/notification-targets/{id}/
+// PUT /alerts/projects/{project_resource_id}/notification-targets/{uid}/
 func (c *Client) AlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsUpdateParams) (*NotificationTarget, error) {
 	res, err := c.sendAlertsProjectsNotificationTargetsUpdate(ctx, request, params)
 	return res, err
@@ -1302,14 +2489,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1321,14 +2508,14 @@ func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context
 	}
 	pathParts[2] = "/notification-targets/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1367,7 +2554,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context
 //
 // アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
-// PATCH /alerts/projects/{id}/
+// PATCH /alerts/projects/{resource_id}/
 func (c *Client) AlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProject, params AlertsProjectsPartialUpdateParams) (*WrappedAlertProject, error) {
 	res, err := c.sendAlertsProjectsPartialUpdate(ctx, request, params)
 	return res, err
@@ -1395,14 +2582,14 @@ func (c *Client) sendAlertsProjectsPartialUpdate(ctx context.Context, request Op
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "id" parameter.
+		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1441,7 +2628,7 @@ func (c *Client) sendAlertsProjectsPartialUpdate(ctx context.Context, request Op
 //
 // アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
-// GET /alerts/projects/{id}/
+// GET /alerts/projects/{resource_id}/
 func (c *Client) AlertsProjectsRetrieve(ctx context.Context, params AlertsProjectsRetrieveParams) (*WrappedAlertProject, error) {
 	res, err := c.sendAlertsProjectsRetrieve(ctx, params)
 	return res, err
@@ -1453,14 +2640,14 @@ func (c *Client) sendAlertsProjectsRetrieve(ctx context.Context, params AlertsPr
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "id" parameter.
+		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1496,7 +2683,7 @@ func (c *Client) sendAlertsProjectsRetrieve(ctx context.Context, params AlertsPr
 //
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
-// POST /alerts/projects/{project_pk}/rules/
+// POST /alerts/projects/{project_resource_id}/rules/
 func (c *Client) AlertsProjectsRulesCreate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesCreateParams) (*AlertRule, error) {
 	res, err := c.sendAlertsProjectsRulesCreate(ctx, request, params)
 	return res, err
@@ -1517,14 +2704,14 @@ func (c *Client) sendAlertsProjectsRulesCreate(ctx context.Context, request *Ale
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1563,7 +2750,7 @@ func (c *Client) sendAlertsProjectsRulesCreate(ctx context.Context, request *Ale
 //
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
-// DELETE /alerts/projects/{project_pk}/rules/{id}/
+// DELETE /alerts/projects/{project_resource_id}/rules/{uid}/
 func (c *Client) AlertsProjectsRulesDestroy(ctx context.Context, params AlertsProjectsRulesDestroyParams) error {
 	_, err := c.sendAlertsProjectsRulesDestroy(ctx, params)
 	return err
@@ -1575,14 +2762,14 @@ func (c *Client) sendAlertsProjectsRulesDestroy(ctx context.Context, params Aler
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1594,14 +2781,14 @@ func (c *Client) sendAlertsProjectsRulesDestroy(ctx context.Context, params Aler
 	}
 	pathParts[2] = "/rules/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1635,9 +2822,9 @@ func (c *Client) sendAlertsProjectsRulesDestroy(ctx context.Context, params Aler
 
 // AlertsProjectsRulesHistoriesList invokes alerts_projects_rules_histories_list operation.
 //
-// アラートプロジェクト内のルール履歴を取得するAPIエンドポイントです。.
+// ルール内のアラート履歴を取得するAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_pk}/rules/{rule_pk}/histories/
+// GET /alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/
 func (c *Client) AlertsProjectsRulesHistoriesList(ctx context.Context, params AlertsProjectsRulesHistoriesListParams) (*PaginatedHistoryList, error) {
 	res, err := c.sendAlertsProjectsRulesHistoriesList(ctx, params)
 	return res, err
@@ -1649,14 +2836,14 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.IntToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1668,14 +2855,14 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 	}
 	pathParts[2] = "/rules/"
 	{
-		// Encode "rule_pk" parameter.
+		// Encode "rule_uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "rule_pk",
+			Param:   "rule_uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.RulePk))
+			return e.EncodeValue(conv.UUIDToString(params.RuleUID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1797,9 +2984,9 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 
 // AlertsProjectsRulesHistoriesRetrieve invokes alerts_projects_rules_histories_retrieve operation.
 //
-// アラートプロジェクト内のルール履歴を取得するAPIエンドポイントです。.
+// ルール内のアラート履歴を取得するAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_pk}/rules/{rule_pk}/histories/{id}/
+// GET /alerts/projects/{project_resource_id}/rules/{rule_uid}/histories/{uid}/
 func (c *Client) AlertsProjectsRulesHistoriesRetrieve(ctx context.Context, params AlertsProjectsRulesHistoriesRetrieveParams) (*History, error) {
 	res, err := c.sendAlertsProjectsRulesHistoriesRetrieve(ctx, params)
 	return res, err
@@ -1811,14 +2998,14 @@ func (c *Client) sendAlertsProjectsRulesHistoriesRetrieve(ctx context.Context, p
 	var pathParts [7]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.IntToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1830,14 +3017,14 @@ func (c *Client) sendAlertsProjectsRulesHistoriesRetrieve(ctx context.Context, p
 	}
 	pathParts[2] = "/rules/"
 	{
-		// Encode "rule_pk" parameter.
+		// Encode "rule_uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "rule_pk",
+			Param:   "rule_uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.RulePk))
+			return e.EncodeValue(conv.UUIDToString(params.RuleUID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1849,14 +3036,14 @@ func (c *Client) sendAlertsProjectsRulesHistoriesRetrieve(ctx context.Context, p
 	}
 	pathParts[4] = "/histories/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1892,7 +3079,7 @@ func (c *Client) sendAlertsProjectsRulesHistoriesRetrieve(ctx context.Context, p
 //
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_pk}/rules/
+// GET /alerts/projects/{project_resource_id}/rules/
 func (c *Client) AlertsProjectsRulesList(ctx context.Context, params AlertsProjectsRulesListParams) (*PaginatedAlertRuleList, error) {
 	res, err := c.sendAlertsProjectsRulesList(ctx, params)
 	return res, err
@@ -1904,14 +3091,14 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1984,7 +3171,7 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 //
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
-// PATCH /alerts/projects/{project_pk}/rules/{id}/
+// PATCH /alerts/projects/{project_resource_id}/rules/{uid}/
 func (c *Client) AlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRule, params AlertsProjectsRulesPartialUpdateParams) (*AlertRule, error) {
 	res, err := c.sendAlertsProjectsRulesPartialUpdate(ctx, request, params)
 	return res, err
@@ -2012,14 +3199,14 @@ func (c *Client) sendAlertsProjectsRulesPartialUpdate(ctx context.Context, reque
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -2031,14 +3218,14 @@ func (c *Client) sendAlertsProjectsRulesPartialUpdate(ctx context.Context, reque
 	}
 	pathParts[2] = "/rules/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -2077,7 +3264,7 @@ func (c *Client) sendAlertsProjectsRulesPartialUpdate(ctx context.Context, reque
 //
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
-// GET /alerts/projects/{project_pk}/rules/{id}/
+// GET /alerts/projects/{project_resource_id}/rules/{uid}/
 func (c *Client) AlertsProjectsRulesRetrieve(ctx context.Context, params AlertsProjectsRulesRetrieveParams) (*AlertRule, error) {
 	res, err := c.sendAlertsProjectsRulesRetrieve(ctx, params)
 	return res, err
@@ -2089,14 +3276,14 @@ func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params Ale
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -2108,14 +3295,14 @@ func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params Ale
 	}
 	pathParts[2] = "/rules/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -2151,7 +3338,7 @@ func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params Ale
 //
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
-// PUT /alerts/projects/{project_pk}/rules/{id}/
+// PUT /alerts/projects/{project_resource_id}/rules/{uid}/
 func (c *Client) AlertsProjectsRulesUpdate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesUpdateParams) (*AlertRule, error) {
 	res, err := c.sendAlertsProjectsRulesUpdate(ctx, request, params)
 	return res, err
@@ -2172,14 +3359,14 @@ func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *Ale
 	var pathParts [5]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "project_pk" parameter.
+		// Encode "project_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "project_pk",
+			Param:   "project_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectPk))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -2191,14 +3378,14 @@ func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *Ale
 	}
 	pathParts[2] = "/rules/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -2237,7 +3424,7 @@ func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *Ale
 //
 // アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
-// PUT /alerts/projects/{id}/
+// PUT /alerts/projects/{resource_id}/
 func (c *Client) AlertsProjectsUpdate(ctx context.Context, request OptAlertProject, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error) {
 	res, err := c.sendAlertsProjectsUpdate(ctx, request, params)
 	return res, err
@@ -2265,14 +3452,14 @@ func (c *Client) sendAlertsProjectsUpdate(ctx context.Context, request OptAlertP
 	var pathParts [3]string
 	pathParts[0] = "/alerts/projects/"
 	{
-		// Encode "id" parameter.
+		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3177,12 +4364,12 @@ func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRouting
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // POST /logs/storages/
-func (c *Client) LogsStoragesCreate(ctx context.Context, request *LogTableCreate) (*LogTable, error) {
+func (c *Client) LogsStoragesCreate(ctx context.Context, request *LogStorageCreate) (*LogStorage, error) {
 	res, err := c.sendLogsStoragesCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesCreate(ctx context.Context, request *LogTableCreate) (res *LogTable, err error) {
+func (c *Client) sendLogsStoragesCreate(ctx context.Context, request *LogStorageCreate) (res *LogStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -3280,12 +4467,12 @@ func (c *Client) sendLogsStoragesDestroy(ctx context.Context, params LogsStorage
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // POST /logs/storages/{log_resource_id}/keys/
-func (c *Client) LogsStoragesKeysCreate(ctx context.Context, request OptLogTableAccessKey, params LogsStoragesKeysCreateParams) (*WrappedLogTableAccessKey, error) {
+func (c *Client) LogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysCreateParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysCreate(ctx context.Context, request OptLogTableAccessKey, params LogsStoragesKeysCreateParams) (res *WrappedLogTableAccessKey, err error) {
+func (c *Client) sendLogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysCreateParams) (res *WrappedLogStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -3428,12 +4615,12 @@ func (c *Client) sendLogsStoragesKeysDestroy(ctx context.Context, params LogsSto
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // GET /logs/storages/{log_resource_id}/keys/
-func (c *Client) LogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (*PaginatedLogTableAccessKeyList, error) {
+func (c *Client) LogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (*PaginatedLogStorageAccessKeyList, error) {
 	res, err := c.sendLogsStoragesKeysList(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (res *PaginatedLogTableAccessKeyList, err error) {
+func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStoragesKeysListParams) (res *PaginatedLogStorageAccessKeyList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -3520,12 +4707,12 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PATCH /logs/storages/{log_resource_id}/keys/{id}/
-func (c *Client) LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogTableAccessKey, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogTableAccessKey, error) {
+func (c *Client) LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKey, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogTableAccessKey, params LogsStoragesKeysPartialUpdateParams) (res *WrappedLogTableAccessKey, err error) {
+func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKey, params LogsStoragesKeysPartialUpdateParams) (res *WrappedLogStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -3613,12 +4800,12 @@ func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request 
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // GET /logs/storages/{log_resource_id}/keys/{id}/
-func (c *Client) LogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (*WrappedLogTableAccessKey, error) {
+func (c *Client) LogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysRetrieve(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (res *WrappedLogTableAccessKey, err error) {
+func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (res *WrappedLogStorageAccessKey, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -3687,12 +4874,12 @@ func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsSt
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PUT /logs/storages/{log_resource_id}/keys/{id}/
-func (c *Client) LogsStoragesKeysUpdate(ctx context.Context, request OptLogTableAccessKey, params LogsStoragesKeysUpdateParams) (*WrappedLogTableAccessKey, error) {
+func (c *Client) LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogTableAccessKey, params LogsStoragesKeysUpdateParams) (res *WrappedLogTableAccessKey, err error) {
+func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysUpdateParams) (res *WrappedLogStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -3780,12 +4967,12 @@ func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogT
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // GET /logs/storages/
-func (c *Client) LogsStoragesList(ctx context.Context, params LogsStoragesListParams) (*PaginatedLogTableList, error) {
+func (c *Client) LogsStoragesList(ctx context.Context, params LogsStoragesListParams) (*PaginatedLogStorageList, error) {
 	res, err := c.sendLogsStoragesList(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesListParams) (res *PaginatedLogTableList, err error) {
+func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesListParams) (res *PaginatedLogStorageList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -3938,12 +5125,12 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // PATCH /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogTable, params LogsStoragesPartialUpdateParams) (*WrappedLogTable, error) {
+func (c *Client) LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorage, params LogsStoragesPartialUpdateParams) (*WrappedLogStorage, error) {
 	res, err := c.sendLogsStoragesPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogTable, params LogsStoragesPartialUpdateParams) (res *WrappedLogTable, err error) {
+func (c *Client) sendLogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorage, params LogsStoragesPartialUpdateParams) (res *WrappedLogStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -4012,12 +5199,12 @@ func (c *Client) sendLogsStoragesPartialUpdate(ctx context.Context, request OptP
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // GET /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (*WrappedLogTable, error) {
+func (c *Client) LogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (*WrappedLogStorage, error) {
 	res, err := c.sendLogsStoragesRetrieve(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (res *WrappedLogTable, err error) {
+func (c *Client) sendLogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (res *WrappedLogStorage, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -4067,12 +5254,12 @@ func (c *Client) sendLogsStoragesRetrieve(ctx context.Context, params LogsStorag
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // PUT /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesUpdate(ctx context.Context, request OptLogTable, params LogsStoragesUpdateParams) (*WrappedLogTable, error) {
+func (c *Client) LogsStoragesUpdate(ctx context.Context, request OptLogStorage, params LogsStoragesUpdateParams) (*WrappedLogStorage, error) {
 	res, err := c.sendLogsStoragesUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesUpdate(ctx context.Context, request OptLogTable, params LogsStoragesUpdateParams) (res *WrappedLogTable, err error) {
+func (c *Client) sendLogsStoragesUpdate(ctx context.Context, request OptLogStorage, params LogsStoragesUpdateParams) (res *WrappedLogStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -4564,12 +5751,12 @@ func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *Metrics
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // POST /metrics/storages/
-func (c *Client) MetricsStoragesCreate(ctx context.Context, request *MetricsTankCreate) (*MetricsTank, error) {
+func (c *Client) MetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreate) (*MetricsStorage, error) {
 	res, err := c.sendMetricsStoragesCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesCreate(ctx context.Context, request *MetricsTankCreate) (res *MetricsTank, err error) {
+func (c *Client) sendMetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreate) (res *MetricsStorage, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -4658,12 +5845,12 @@ func (c *Client) sendMetricsStoragesDestroy(ctx context.Context, params MetricsS
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // POST /metrics/storages/{metrics_resource_id}/keys/
-func (c *Client) MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsTankAccessKey, params MetricsStoragesKeysCreateParams) (*WrappedMetricsTankAccessKey, error) {
+func (c *Client) MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysCreateParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysCreate(ctx context.Context, request OptMetricsTankAccessKey, params MetricsStoragesKeysCreateParams) (res *WrappedMetricsTankAccessKey, err error) {
+func (c *Client) sendMetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysCreateParams) (res *WrappedMetricsStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -4806,12 +5993,12 @@ func (c *Client) sendMetricsStoragesKeysDestroy(ctx context.Context, params Metr
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // GET /metrics/storages/{metrics_resource_id}/keys/
-func (c *Client) MetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (*PaginatedMetricsTankAccessKeyList, error) {
+func (c *Client) MetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (*PaginatedMetricsStorageAccessKeyList, error) {
 	res, err := c.sendMetricsStoragesKeysList(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (res *PaginatedMetricsTankAccessKeyList, err error) {
+func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params MetricsStoragesKeysListParams) (res *PaginatedMetricsStorageAccessKeyList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -4898,12 +6085,12 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PATCH /metrics/storages/{metrics_resource_id}/keys/{id}/
-func (c *Client) MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsTankAccessKey, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsTankAccessKey, error) {
+func (c *Client) MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKey, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsTankAccessKey, params MetricsStoragesKeysPartialUpdateParams) (res *WrappedMetricsTankAccessKey, err error) {
+func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKey, params MetricsStoragesKeysPartialUpdateParams) (res *WrappedMetricsStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -4991,12 +6178,12 @@ func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, reque
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // GET /metrics/storages/{metrics_resource_id}/keys/{id}/
-func (c *Client) MetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (*WrappedMetricsTankAccessKey, error) {
+func (c *Client) MetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysRetrieve(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (res *WrappedMetricsTankAccessKey, err error) {
+func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (res *WrappedMetricsStorageAccessKey, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -5065,12 +6252,12 @@ func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params Met
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PUT /metrics/storages/{metrics_resource_id}/keys/{id}/
-func (c *Client) MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsTankAccessKey, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsTankAccessKey, error) {
+func (c *Client) MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsTankAccessKey, params MetricsStoragesKeysUpdateParams) (res *WrappedMetricsTankAccessKey, err error) {
+func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysUpdateParams) (res *WrappedMetricsStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -5158,12 +6345,12 @@ func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptM
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // GET /metrics/storages/
-func (c *Client) MetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (*PaginatedMetricsTankList, error) {
+func (c *Client) MetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (*PaginatedMetricsStorageList, error) {
 	res, err := c.sendMetricsStoragesList(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (res *PaginatedMetricsTankList, err error) {
+func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStoragesListParams) (res *PaginatedMetricsStorageList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -5282,12 +6469,12 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // PATCH /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsTank, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsTank, error) {
+func (c *Client) MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorage, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsStorage, error) {
 	res, err := c.sendMetricsStoragesPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsTank, params MetricsStoragesPartialUpdateParams) (res *WrappedMetricsTank, err error) {
+func (c *Client) sendMetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorage, params MetricsStoragesPartialUpdateParams) (res *WrappedMetricsStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -5356,12 +6543,12 @@ func (c *Client) sendMetricsStoragesPartialUpdate(ctx context.Context, request O
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // GET /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (*WrappedMetricsTank, error) {
+func (c *Client) MetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (*WrappedMetricsStorage, error) {
 	res, err := c.sendMetricsStoragesRetrieve(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (res *WrappedMetricsTank, err error) {
+func (c *Client) sendMetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (res *WrappedMetricsStorage, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -5411,12 +6598,12 @@ func (c *Client) sendMetricsStoragesRetrieve(ctx context.Context, params Metrics
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // PUT /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesUpdate(ctx context.Context, request OptMetricsTank, params MetricsStoragesUpdateParams) (*WrappedMetricsTank, error) {
+func (c *Client) MetricsStoragesUpdate(ctx context.Context, request OptMetricsStorage, params MetricsStoragesUpdateParams) (*WrappedMetricsStorage, error) {
 	res, err := c.sendMetricsStoragesUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetricsTank, params MetricsStoragesUpdateParams) (res *WrappedMetricsTank, err error) {
+func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetricsStorage, params MetricsStoragesUpdateParams) (res *WrappedMetricsStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {

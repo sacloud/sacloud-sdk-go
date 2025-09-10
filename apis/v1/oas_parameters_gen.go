@@ -2,10 +2,13 @@
 
 package v1
 
+import (
+	"github.com/google/uuid"
+)
+
 // AlertsProjectsDestroyParams is parameters of alerts_projects_destroy operation.
 type AlertsProjectsDestroyParams struct {
-	// A unique integer value identifying this Alert Project.
-	ID int64
+	ResourceID int64
 }
 
 // AlertsProjectsHistoriesListParams is parameters of alerts_projects_histories_list operation.
@@ -13,9 +16,9 @@ type AlertsProjectsHistoriesListParams struct {
 	// Number of results to return per page.
 	Count OptInt
 	// The initial index from which to return the results.
-	From      OptInt
-	Open      OptBool
-	ProjectPk int
+	From              OptInt
+	Open              OptBool
+	ProjectResourceID int
 	// * `warning` - Warning
 	// * `critical` - Critical.
 	Severity OptAlertsProjectsHistoriesListSeverity
@@ -24,9 +27,8 @@ type AlertsProjectsHistoriesListParams struct {
 
 // AlertsProjectsHistoriesRetrieveParams is parameters of alerts_projects_histories_retrieve operation.
 type AlertsProjectsHistoriesRetrieveParams struct {
-	// A unique integer value identifying this Alert History.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int
+	UID               uuid.UUID
 }
 
 // AlertsProjectsListParams is parameters of alerts_projects_list operation.
@@ -37,16 +39,99 @@ type AlertsProjectsListParams struct {
 	From OptInt
 }
 
+// AlertsProjectsLogMeasureRulesCreateParams is parameters of alerts_projects_log_measure_rules_create operation.
+type AlertsProjectsLogMeasureRulesCreateParams struct {
+	ProjectResourceID int64
+}
+
+// AlertsProjectsLogMeasureRulesDestroyParams is parameters of alerts_projects_log_measure_rules_destroy operation.
+type AlertsProjectsLogMeasureRulesDestroyParams struct {
+	ProjectResourceID int64
+	UID               uuid.UUID
+}
+
+// AlertsProjectsLogMeasureRulesListParams is parameters of alerts_projects_log_measure_rules_list operation.
+type AlertsProjectsLogMeasureRulesListParams struct {
+	// Number of results to return per page.
+	Count OptInt
+	// The initial index from which to return the results.
+	From              OptInt
+	LogStorageID      OptInt64
+	MetricsStorageID  OptInt64
+	ProjectResourceID int64
+}
+
+// AlertsProjectsLogMeasureRulesPartialUpdateParams is parameters of alerts_projects_log_measure_rules_partial_update operation.
+type AlertsProjectsLogMeasureRulesPartialUpdateParams struct {
+	ProjectResourceID int64
+	UID               uuid.UUID
+}
+
+// AlertsProjectsLogMeasureRulesRetrieveParams is parameters of alerts_projects_log_measure_rules_retrieve operation.
+type AlertsProjectsLogMeasureRulesRetrieveParams struct {
+	ProjectResourceID int64
+	UID               uuid.UUID
+}
+
+// AlertsProjectsLogMeasureRulesUpdateParams is parameters of alerts_projects_log_measure_rules_update operation.
+type AlertsProjectsLogMeasureRulesUpdateParams struct {
+	ProjectResourceID int64
+	UID               uuid.UUID
+}
+
+// AlertsProjectsNotificationRoutingsCreateParams is parameters of alerts_projects_notification_routings_create operation.
+type AlertsProjectsNotificationRoutingsCreateParams struct {
+	ProjectResourceID int64
+}
+
+// AlertsProjectsNotificationRoutingsDestroyParams is parameters of alerts_projects_notification_routings_destroy operation.
+type AlertsProjectsNotificationRoutingsDestroyParams struct {
+	ProjectResourceID int64
+	UID               uuid.UUID
+}
+
+// AlertsProjectsNotificationRoutingsListParams is parameters of alerts_projects_notification_routings_list operation.
+type AlertsProjectsNotificationRoutingsListParams struct {
+	// Number of results to return per page.
+	Count OptInt
+	// The initial index from which to return the results.
+	From              OptInt
+	ProjectResourceID int64
+	Target            OptInt
+}
+
+// AlertsProjectsNotificationRoutingsPartialUpdateParams is parameters of alerts_projects_notification_routings_partial_update operation.
+type AlertsProjectsNotificationRoutingsPartialUpdateParams struct {
+	ProjectResourceID int64
+	UID               uuid.UUID
+}
+
+// AlertsProjectsNotificationRoutingsReorderUpdateParams is parameters of alerts_projects_notification_routings_reorder_update operation.
+type AlertsProjectsNotificationRoutingsReorderUpdateParams struct {
+	ProjectResourceID int64
+}
+
+// AlertsProjectsNotificationRoutingsRetrieveParams is parameters of alerts_projects_notification_routings_retrieve operation.
+type AlertsProjectsNotificationRoutingsRetrieveParams struct {
+	ProjectResourceID int64
+	UID               uuid.UUID
+}
+
+// AlertsProjectsNotificationRoutingsUpdateParams is parameters of alerts_projects_notification_routings_update operation.
+type AlertsProjectsNotificationRoutingsUpdateParams struct {
+	ProjectResourceID int64
+	UID               uuid.UUID
+}
+
 // AlertsProjectsNotificationTargetsCreateParams is parameters of alerts_projects_notification_targets_create operation.
 type AlertsProjectsNotificationTargetsCreateParams struct {
-	ProjectPk int
+	ProjectResourceID int64
 }
 
 // AlertsProjectsNotificationTargetsDestroyParams is parameters of alerts_projects_notification_targets_destroy operation.
 type AlertsProjectsNotificationTargetsDestroyParams struct {
-	// A unique integer value identifying this notification target.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int64
+	UID               uuid.UUID
 }
 
 // AlertsProjectsNotificationTargetsListParams is parameters of alerts_projects_notification_targets_list operation.
@@ -54,55 +139,49 @@ type AlertsProjectsNotificationTargetsListParams struct {
 	// Number of results to return per page.
 	Count OptInt
 	// The initial index from which to return the results.
-	From      OptInt
-	ProjectPk int
+	From              OptInt
+	ProjectResourceID int64
 	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice.
 	ServiceType OptAlertsProjectsNotificationTargetsListServiceType
 }
 
 // AlertsProjectsNotificationTargetsPartialUpdateParams is parameters of alerts_projects_notification_targets_partial_update operation.
 type AlertsProjectsNotificationTargetsPartialUpdateParams struct {
-	// A unique integer value identifying this notification target.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int64
+	UID               uuid.UUID
 }
 
 // AlertsProjectsNotificationTargetsRetrieveParams is parameters of alerts_projects_notification_targets_retrieve operation.
 type AlertsProjectsNotificationTargetsRetrieveParams struct {
-	// A unique integer value identifying this notification target.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int64
+	UID               uuid.UUID
 }
 
 // AlertsProjectsNotificationTargetsUpdateParams is parameters of alerts_projects_notification_targets_update operation.
 type AlertsProjectsNotificationTargetsUpdateParams struct {
-	// A unique integer value identifying this notification target.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int64
+	UID               uuid.UUID
 }
 
 // AlertsProjectsPartialUpdateParams is parameters of alerts_projects_partial_update operation.
 type AlertsProjectsPartialUpdateParams struct {
-	// A unique integer value identifying this Alert Project.
-	ID int64
+	ResourceID int64
 }
 
 // AlertsProjectsRetrieveParams is parameters of alerts_projects_retrieve operation.
 type AlertsProjectsRetrieveParams struct {
-	// A unique integer value identifying this Alert Project.
-	ID int64
+	ResourceID int64
 }
 
 // AlertsProjectsRulesCreateParams is parameters of alerts_projects_rules_create operation.
 type AlertsProjectsRulesCreateParams struct {
-	ProjectPk int
+	ProjectResourceID int64
 }
 
 // AlertsProjectsRulesDestroyParams is parameters of alerts_projects_rules_destroy operation.
 type AlertsProjectsRulesDestroyParams struct {
-	// A unique integer value identifying this Alert Rule.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int64
+	UID               uuid.UUID
 }
 
 // AlertsProjectsRulesHistoriesListParams is parameters of alerts_projects_rules_histories_list operation.
@@ -110,10 +189,10 @@ type AlertsProjectsRulesHistoriesListParams struct {
 	// Number of results to return per page.
 	Count OptInt
 	// The initial index from which to return the results.
-	From      OptInt
-	Open      OptBool
-	ProjectPk int
-	RulePk    int
+	From              OptInt
+	Open              OptBool
+	ProjectResourceID int
+	RuleUID           uuid.UUID
 	// * `warning` - Warning
 	// * `critical` - Critical.
 	Severity OptAlertsProjectsRulesHistoriesListSeverity
@@ -122,10 +201,9 @@ type AlertsProjectsRulesHistoriesListParams struct {
 
 // AlertsProjectsRulesHistoriesRetrieveParams is parameters of alerts_projects_rules_histories_retrieve operation.
 type AlertsProjectsRulesHistoriesRetrieveParams struct {
-	// A unique integer value identifying this Alert History.
-	ID        int
-	ProjectPk int
-	RulePk    int
+	ProjectResourceID int
+	RuleUID           uuid.UUID
+	UID               uuid.UUID
 }
 
 // AlertsProjectsRulesListParams is parameters of alerts_projects_rules_list operation.
@@ -133,35 +211,31 @@ type AlertsProjectsRulesListParams struct {
 	// Number of results to return per page.
 	Count OptInt
 	// The initial index from which to return the results.
-	From      OptInt
-	ProjectPk int
+	From              OptInt
+	ProjectResourceID int64
 }
 
 // AlertsProjectsRulesPartialUpdateParams is parameters of alerts_projects_rules_partial_update operation.
 type AlertsProjectsRulesPartialUpdateParams struct {
-	// A unique integer value identifying this Alert Rule.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int64
+	UID               uuid.UUID
 }
 
 // AlertsProjectsRulesRetrieveParams is parameters of alerts_projects_rules_retrieve operation.
 type AlertsProjectsRulesRetrieveParams struct {
-	// A unique integer value identifying this Alert Rule.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int64
+	UID               uuid.UUID
 }
 
 // AlertsProjectsRulesUpdateParams is parameters of alerts_projects_rules_update operation.
 type AlertsProjectsRulesUpdateParams struct {
-	// A unique integer value identifying this Alert Rule.
-	ID        int
-	ProjectPk int
+	ProjectResourceID int64
+	UID               uuid.UUID
 }
 
 // AlertsProjectsUpdateParams is parameters of alerts_projects_update operation.
 type AlertsProjectsUpdateParams struct {
-	// A unique integer value identifying this Alert Project.
-	ID int64
+	ResourceID int64
 }
 
 // DashboardsProjectsDestroyParams is parameters of dashboards_projects_destroy operation.

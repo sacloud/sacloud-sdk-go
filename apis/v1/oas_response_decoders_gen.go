@@ -223,6 +223,533 @@ func decodeAlertsProjectsListResponse(resp *http.Response) (res *PaginatedAlertP
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
+func decodeAlertsProjectsLogMeasureRulesCreateResponse(resp *http.Response) (res *LogMeasureRule, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response LogMeasureRule
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsLogMeasureRulesDestroyResponse(resp *http.Response) (res *AlertsProjectsLogMeasureRulesDestroyNoContent, _ error) {
+	switch resp.StatusCode {
+	case 204:
+		// Code 204.
+		return &AlertsProjectsLogMeasureRulesDestroyNoContent{}, nil
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsLogMeasureRulesListResponse(resp *http.Response) (res *PaginatedLogMeasureRuleList, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PaginatedLogMeasureRuleList
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsLogMeasureRulesPartialUpdateResponse(resp *http.Response) (res *LogMeasureRule, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response LogMeasureRule
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsLogMeasureRulesRetrieveResponse(resp *http.Response) (res *LogMeasureRule, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response LogMeasureRule
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsLogMeasureRulesUpdateResponse(resp *http.Response) (res *LogMeasureRule, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response LogMeasureRule
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsNotificationRoutingsCreateResponse(resp *http.Response) (res *NotificationRouting, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response NotificationRouting
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsNotificationRoutingsDestroyResponse(resp *http.Response) (res *AlertsProjectsNotificationRoutingsDestroyNoContent, _ error) {
+	switch resp.StatusCode {
+	case 204:
+		// Code 204.
+		return &AlertsProjectsNotificationRoutingsDestroyNoContent{}, nil
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsNotificationRoutingsListResponse(resp *http.Response) (res *PaginatedNotificationRoutingList, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PaginatedNotificationRoutingList
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsNotificationRoutingsPartialUpdateResponse(resp *http.Response) (res *NotificationRouting, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response NotificationRouting
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsNotificationRoutingsReorderUpdateResponse(resp *http.Response) (res *AlertsProjectsNotificationRoutingsReorderUpdateNoContent, _ error) {
+	switch resp.StatusCode {
+	case 204:
+		// Code 204.
+		return &AlertsProjectsNotificationRoutingsReorderUpdateNoContent{}, nil
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsNotificationRoutingsRetrieveResponse(resp *http.Response) (res *NotificationRouting, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response NotificationRouting
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
+func decodeAlertsProjectsNotificationRoutingsUpdateResponse(resp *http.Response) (res *NotificationRouting, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response NotificationRouting
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+}
+
 func decodeAlertsProjectsNotificationTargetsCreateResponse(resp *http.Response) (res *NotificationTarget, _ error) {
 	switch resp.StatusCode {
 	case 201:
@@ -1591,7 +2118,7 @@ func decodeLogsRoutingsUpdateResponse(resp *http.Response) (res *WrappedLogRouti
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesCreateResponse(resp *http.Response) (res *LogTable, _ error) {
+func decodeLogsStoragesCreateResponse(resp *http.Response) (res *LogStorage, _ error) {
 	switch resp.StatusCode {
 	case 201:
 		// Code 201.
@@ -1607,7 +2134,7 @@ func decodeLogsStoragesCreateResponse(resp *http.Response) (res *LogTable, _ err
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response LogTable
+			var response LogStorage
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1650,7 +2177,7 @@ func decodeLogsStoragesDestroyResponse(resp *http.Response) (res *LogsStoragesDe
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedLogTableAccessKey, _ error) {
+func decodeLogsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedLogStorageAccessKey, _ error) {
 	switch resp.StatusCode {
 	case 201:
 		// Code 201.
@@ -1666,7 +2193,7 @@ func decodeLogsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedLogT
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedLogTableAccessKey
+			var response WrappedLogStorageAccessKey
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1709,7 +2236,7 @@ func decodeLogsStoragesKeysDestroyResponse(resp *http.Response) (res *LogsStorag
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesKeysListResponse(resp *http.Response) (res *PaginatedLogTableAccessKeyList, _ error) {
+func decodeLogsStoragesKeysListResponse(resp *http.Response) (res *PaginatedLogStorageAccessKeyList, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -1725,7 +2252,7 @@ func decodeLogsStoragesKeysListResponse(resp *http.Response) (res *PaginatedLogT
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response PaginatedLogTableAccessKeyList
+			var response PaginatedLogStorageAccessKeyList
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1759,7 +2286,7 @@ func decodeLogsStoragesKeysListResponse(resp *http.Response) (res *PaginatedLogT
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *WrappedLogTableAccessKey, _ error) {
+func decodeLogsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *WrappedLogStorageAccessKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -1775,7 +2302,7 @@ func decodeLogsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *Wrap
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedLogTableAccessKey
+			var response WrappedLogStorageAccessKey
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1809,7 +2336,7 @@ func decodeLogsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *Wrap
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedLogTableAccessKey, _ error) {
+func decodeLogsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedLogStorageAccessKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -1825,7 +2352,7 @@ func decodeLogsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedLo
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedLogTableAccessKey
+			var response WrappedLogStorageAccessKey
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1859,7 +2386,7 @@ func decodeLogsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedLo
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedLogTableAccessKey, _ error) {
+func decodeLogsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedLogStorageAccessKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -1875,7 +2402,7 @@ func decodeLogsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedLogT
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedLogTableAccessKey
+			var response WrappedLogStorageAccessKey
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1909,7 +2436,7 @@ func decodeLogsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedLogT
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesListResponse(resp *http.Response) (res *PaginatedLogTableList, _ error) {
+func decodeLogsStoragesListResponse(resp *http.Response) (res *PaginatedLogStorageList, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -1925,7 +2452,7 @@ func decodeLogsStoragesListResponse(resp *http.Response) (res *PaginatedLogTable
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response PaginatedLogTableList
+			var response PaginatedLogStorageList
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -1959,7 +2486,7 @@ func decodeLogsStoragesListResponse(resp *http.Response) (res *PaginatedLogTable
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedLogTable, _ error) {
+func decodeLogsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedLogStorage, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -1975,7 +2502,7 @@ func decodeLogsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedL
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedLogTable
+			var response WrappedLogStorage
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2009,7 +2536,7 @@ func decodeLogsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedL
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesRetrieveResponse(resp *http.Response) (res *WrappedLogTable, _ error) {
+func decodeLogsStoragesRetrieveResponse(resp *http.Response) (res *WrappedLogStorage, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2025,7 +2552,7 @@ func decodeLogsStoragesRetrieveResponse(resp *http.Response) (res *WrappedLogTab
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedLogTable
+			var response WrappedLogStorage
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2059,7 +2586,7 @@ func decodeLogsStoragesRetrieveResponse(resp *http.Response) (res *WrappedLogTab
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeLogsStoragesUpdateResponse(resp *http.Response) (res *WrappedLogTable, _ error) {
+func decodeLogsStoragesUpdateResponse(resp *http.Response) (res *WrappedLogStorage, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2075,7 +2602,7 @@ func decodeLogsStoragesUpdateResponse(resp *http.Response) (res *WrappedLogTable
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedLogTable
+			var response WrappedLogStorage
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2368,7 +2895,7 @@ func decodeMetricsRoutingsUpdateResponse(resp *http.Response) (res *WrappedMetri
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesCreateResponse(resp *http.Response) (res *MetricsTank, _ error) {
+func decodeMetricsStoragesCreateResponse(resp *http.Response) (res *MetricsStorage, _ error) {
 	switch resp.StatusCode {
 	case 201:
 		// Code 201.
@@ -2384,7 +2911,7 @@ func decodeMetricsStoragesCreateResponse(resp *http.Response) (res *MetricsTank,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response MetricsTank
+			var response MetricsStorage
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2427,7 +2954,7 @@ func decodeMetricsStoragesDestroyResponse(resp *http.Response) (res *MetricsStor
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedMetricsTankAccessKey, _ error) {
+func decodeMetricsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedMetricsStorageAccessKey, _ error) {
 	switch resp.StatusCode {
 	case 201:
 		// Code 201.
@@ -2443,7 +2970,7 @@ func decodeMetricsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedM
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedMetricsTankAccessKey
+			var response WrappedMetricsStorageAccessKey
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2486,7 +3013,7 @@ func decodeMetricsStoragesKeysDestroyResponse(resp *http.Response) (res *Metrics
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesKeysListResponse(resp *http.Response) (res *PaginatedMetricsTankAccessKeyList, _ error) {
+func decodeMetricsStoragesKeysListResponse(resp *http.Response) (res *PaginatedMetricsStorageAccessKeyList, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2502,7 +3029,7 @@ func decodeMetricsStoragesKeysListResponse(resp *http.Response) (res *PaginatedM
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response PaginatedMetricsTankAccessKeyList
+			var response PaginatedMetricsStorageAccessKeyList
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2536,7 +3063,7 @@ func decodeMetricsStoragesKeysListResponse(resp *http.Response) (res *PaginatedM
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *WrappedMetricsTankAccessKey, _ error) {
+func decodeMetricsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *WrappedMetricsStorageAccessKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2552,7 +3079,7 @@ func decodeMetricsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *W
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedMetricsTankAccessKey
+			var response WrappedMetricsStorageAccessKey
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2586,7 +3113,7 @@ func decodeMetricsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *W
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedMetricsTankAccessKey, _ error) {
+func decodeMetricsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedMetricsStorageAccessKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2602,7 +3129,7 @@ func decodeMetricsStoragesKeysRetrieveResponse(resp *http.Response) (res *Wrappe
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedMetricsTankAccessKey
+			var response WrappedMetricsStorageAccessKey
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2636,7 +3163,7 @@ func decodeMetricsStoragesKeysRetrieveResponse(resp *http.Response) (res *Wrappe
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedMetricsTankAccessKey, _ error) {
+func decodeMetricsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedMetricsStorageAccessKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2652,7 +3179,7 @@ func decodeMetricsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedM
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedMetricsTankAccessKey
+			var response WrappedMetricsStorageAccessKey
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2686,7 +3213,7 @@ func decodeMetricsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedM
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesListResponse(resp *http.Response) (res *PaginatedMetricsTankList, _ error) {
+func decodeMetricsStoragesListResponse(resp *http.Response) (res *PaginatedMetricsStorageList, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2702,7 +3229,7 @@ func decodeMetricsStoragesListResponse(resp *http.Response) (res *PaginatedMetri
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response PaginatedMetricsTankList
+			var response PaginatedMetricsStorageList
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2736,7 +3263,7 @@ func decodeMetricsStoragesListResponse(resp *http.Response) (res *PaginatedMetri
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedMetricsTank, _ error) {
+func decodeMetricsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedMetricsStorage, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2752,7 +3279,7 @@ func decodeMetricsStoragesPartialUpdateResponse(resp *http.Response) (res *Wrapp
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedMetricsTank
+			var response WrappedMetricsStorage
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2786,7 +3313,7 @@ func decodeMetricsStoragesPartialUpdateResponse(resp *http.Response) (res *Wrapp
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesRetrieveResponse(resp *http.Response) (res *WrappedMetricsTank, _ error) {
+func decodeMetricsStoragesRetrieveResponse(resp *http.Response) (res *WrappedMetricsStorage, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2802,7 +3329,7 @@ func decodeMetricsStoragesRetrieveResponse(resp *http.Response) (res *WrappedMet
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedMetricsTank
+			var response WrappedMetricsStorage
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2836,7 +3363,7 @@ func decodeMetricsStoragesRetrieveResponse(resp *http.Response) (res *WrappedMet
 	return res, validate.UnexpectedStatusCode(resp.StatusCode)
 }
 
-func decodeMetricsStoragesUpdateResponse(resp *http.Response) (res *WrappedMetricsTank, _ error) {
+func decodeMetricsStoragesUpdateResponse(resp *http.Response) (res *WrappedMetricsStorage, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -2852,7 +3379,7 @@ func decodeMetricsStoragesUpdateResponse(resp *http.Response) (res *WrappedMetri
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedMetricsTank
+			var response WrappedMetricsStorage
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
