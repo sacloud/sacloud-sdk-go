@@ -60,7 +60,7 @@ func (op *notificationTargetOp) List(ctx context.Context, params v1.AlertsProjec
 func (op *notificationTargetOp) Read(ctx context.Context, id string) (*v1.NotificationTarget, error) {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationTarget.Retrieve", 0, err)
+		return nil, NewAPIError("NotificationTarget.Read", 0, err)
 	}
 	// :TODO: AlertsProjectsNotificationTargetsRetrieveParams() taking int instead of int64 can be subject to change
 	params := v1.AlertsProjectsNotificationTargetsRetrieveParams{ID: int(intId)}
@@ -68,14 +68,14 @@ func (op *notificationTargetOp) Read(ctx context.Context, id string) (*v1.Notifi
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
-			return nil, NewAPIError("NotificationTarget.Retrieve", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+			return nil, NewAPIError("NotificationTarget.Read", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
 		case http.StatusNotFound:
-			return nil, NewAPIError("NotificationTarget.Retrieve", e.StatusCode, errors.Wrap(err, "notification target not found"))
+			return nil, NewAPIError("NotificationTarget.Read", e.StatusCode, errors.Wrap(err, "notification target not found"))
 		default:
-			return nil, NewAPIError("NotificationTarget.Retrieve", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return nil, NewAPIError("NotificationTarget.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return nil, NewAPIError("NotificationTarget.Retrieve", 0, err)
+		return nil, NewAPIError("NotificationTarget.Read", 0, err)
 	} else {
 		ret := new(v1.NotificationTarget)
 		return Unwrap(ret, result)
