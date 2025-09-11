@@ -28,3 +28,12 @@ func intoOpt[T, U any, P interface {
 	}
 	return opt
 }
+
+func intoNil[T any, P interface {
+	*T
+	SetToNull()
+}]() T {
+	var zero T
+	P(&zero).SetToNull()
+	return zero
+}
