@@ -35,7 +35,7 @@ func TestPublisherOp_List(t *testing.T) {
 	api := NewPublisherOp(client)
 	ctx := context.Background()
 
-	publishers, err := api.List(ctx, 1, 0)
+	publishers, err := api.List(ctx, nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, publishers)
 	require.Equal(t, 1, len(publishers))

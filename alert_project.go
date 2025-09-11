@@ -27,7 +27,7 @@ import (
 )
 
 type AlertProjectAPI interface {
-	List(ctx context.Context, count int, from int) ([]v1.AlertProject, error)
+	List(ctx context.Context, count *int, from *int) ([]v1.AlertProject, error)
 	Create(ctx context.Context, params v1.AlertProjectCreate) (*v1.AlertProject, error)
 	Read(ctx context.Context, id string) (*v1.WrappedAlertProject, error)
 	Update(ctx context.Context, id string, request *v1.AlertProject) (*v1.WrappedAlertProject, error)
@@ -47,10 +47,10 @@ func NewAlertProjectOp(client *v1.Client) AlertProjectAPI {
 	return &alertProjectOp{client: client}
 }
 
-func (op *alertProjectOp) List(ctx context.Context, count int, from int) ([]v1.AlertProject, error) {
-	result, err := op.client.AlertsProjectsList(ctx, params.AlertsProjectsListParams{
-		Count: v1.NewOptInt(count),
-		From:  v1.NewOptInt(from),
+func (op *alertProjectOp) List(ctx context.Context, count *int, from *int) ([]v1.AlertProject, error) {
+	result, err := op.client.AlertsProjectsList(ctx, v1.AlertsProjectsListParams{
+		Count: intoOpt[v1.OptInt](count),
+		From:  intoOpt[v1.OptInt](from),
 	})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
