@@ -18,7 +18,7 @@ type AlertsProjectsHistoriesListParams struct {
 	// The initial index from which to return the results.
 	From              OptInt
 	Open              OptBool
-	ProjectResourceID int
+	ProjectResourceID int64
 	// * `warning` - Warning
 	// * `critical` - Critical.
 	Severity OptAlertsProjectsHistoriesListSeverity
@@ -27,7 +27,7 @@ type AlertsProjectsHistoriesListParams struct {
 
 // AlertsProjectsHistoriesRetrieveParams is parameters of alerts_projects_histories_retrieve operation.
 type AlertsProjectsHistoriesRetrieveParams struct {
-	ProjectResourceID int
+	ProjectResourceID int64
 	UID               uuid.UUID
 }
 
@@ -191,7 +191,7 @@ type AlertsProjectsRulesHistoriesListParams struct {
 	// The initial index from which to return the results.
 	From              OptInt
 	Open              OptBool
-	ProjectResourceID int
+	ProjectResourceID int64
 	RuleUID           uuid.UUID
 	// * `warning` - Warning
 	// * `critical` - Critical.
@@ -201,7 +201,7 @@ type AlertsProjectsRulesHistoriesListParams struct {
 
 // AlertsProjectsRulesHistoriesRetrieveParams is parameters of alerts_projects_rules_histories_retrieve operation.
 type AlertsProjectsRulesHistoriesRetrieveParams struct {
-	ProjectResourceID int
+	ProjectResourceID int64
 	RuleUID           uuid.UUID
 	UID               uuid.UUID
 }

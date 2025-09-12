@@ -673,7 +673,7 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -816,7 +816,7 @@ func (c *Client) sendAlertsProjectsHistoriesRetrieve(ctx context.Context, params
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -2843,7 +2843,7 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3005,7 +3005,7 @@ func (c *Client) sendAlertsProjectsRulesHistoriesRetrieve(ctx context.Context, p
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.ProjectResourceID))
+			return e.EncodeValue(conv.Int64ToString(params.ProjectResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
