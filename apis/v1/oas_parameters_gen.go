@@ -478,7 +478,7 @@ type MetricsStoragesListParams struct {
 	From OptInt
 	// Is system.
 	IsSystem   OptBool
-	ResourceID OptInt
+	ResourceID OptInt64
 }
 
 // MetricsStoragesPartialUpdateParams is parameters of metrics_storages_partial_update operation.
