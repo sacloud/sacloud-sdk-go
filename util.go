@@ -28,3 +28,28 @@ func intoOpt[T, U any, P interface {
 	}
 	return opt
 }
+
+// generic-ish type cast helper function
+func intoNil[T, U any, P interface {
+	*T
+	SetTo(u U)
+	SetToNull()
+}](v *U) T {
+	var opt T
+	if v == nil {
+		P(&opt).SetToNull()
+	} else {
+		P(&opt).SetTo(*v)
+	}
+	return opt
+}
+
+// generic-ish type cast helper function
+func intoOptNil[T, U any, P interface {
+	*T
+	SetTo(u U)
+	SetToNull()
+	Reset()
+}](v *U) T {
+	return intoOpt[T, U, P](v)
+}

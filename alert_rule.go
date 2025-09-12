@@ -18,6 +18,7 @@ import (
 	"context"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/google/uuid"
@@ -26,13 +27,13 @@ import (
 )
 
 type AlertRuleAPI interface {
-	List(ctx context.Context, params v1.AlertsProjectsRulesListParams) ([]v1.AlertRule, error)
-	Create(ctx context.Context, projectId string, params *v1.AlertRule) (*v1.AlertRule, error)
+	List(ctx context.Context, projectId string, count *int, from *int) ([]v1.AlertRule, error)
+	Create(ctx context.Context, projectId string, params AlertRuleCreateParams) (*v1.AlertRule, error)
 	Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.AlertRule, error)
-	Update(ctx context.Context, projectId string, ruleId uuid.UUID, params *v1.AlertRule) (*v1.AlertRule, error)
+	Update(ctx context.Context, projectId string, ruleId uuid.UUID, params AlertRuleUpdateParams) (*v1.AlertRule, error)
 	Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error
 
-	ListHistories(ctx context.Context, params v1.AlertsProjectsRulesHistoriesListParams) ([]v1.History, error)
+	ListHistories(ctx context.Context, params AlertRuleListHistoriesParams) ([]v1.History, error)
 	ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error)
 }
 
@@ -46,7 +47,16 @@ func NewAlertRuleOp(client *v1.Client) AlertRuleAPI {
 	return &alertRuleOp{client: client}
 }
 
-func (op *alertRuleOp) List(ctx context.Context, params v1.AlertsProjectsRulesListParams) ([]v1.AlertRule, error) {
+func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int, from *int) ([]v1.AlertRule, error) {
+	id, err := strconv.ParseInt(projectId, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.List", 0, err)
+	}
+	params := v1.AlertsProjectsRulesListParams{
+		ProjectResourceID: id,
+		Count:             intoOpt[v1.OptInt](count),
+		From:              intoOpt[v1.OptInt](from),
+	}
 	result, err := op.client.AlertsProjectsRulesList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -64,10 +74,41 @@ func (op *alertRuleOp) List(ctx context.Context, params v1.AlertsProjectsRulesLi
 	}
 }
 
-func (op *alertRuleOp) Create(ctx context.Context, projectId string, params *v1.AlertRule) (*v1.AlertRule, error) {
+type AlertRuleCreateParams struct {
+	MetricsStorageID          string // mandatory
+	Name                      *string
+	Query                     string // mandatory
+	Format                    *string
+	Template                  *string
+	EnabledWarning            *bool
+	EnabledCritical           *bool
+	ThresholdWarning          *string
+	ThresholdCritical         *string
+	ThresholdDurationWarning  *int64
+	ThresholdDurationCritical *int64
+}
+
+func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRuleCreateParams) (*v1.AlertRule, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.Create", 0, err)
+		return nil, NewAPIError("AlertRule.Create", 0, errors.Wrap(err, "invalid ProjectID"))
+	}
+	intStorageId, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.Create", 0, errors.Wrap(err, "invalid MetricsStorageID"))
+	}
+	params := &v1.AlertRule{
+		MetricsStorageID:          intoNil[v1.NilInt64](&intStorageId),
+		Name:                      intoOpt[v1.OptString](p.Name),
+		Query:                     p.Query,
+		Format:                    intoOpt[v1.OptString](p.Format),
+		Template:                  intoOpt[v1.OptString](p.Template),
+		EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
+		EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
+		ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
+		ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
+		ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
+		ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
 	}
 	query := v1.AlertsProjectsRulesCreateParams{
 		ProjectResourceID: intProjectId,
@@ -116,16 +157,51 @@ func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.U
 	return result, nil
 }
 
-func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, params *v1.AlertRule) (*v1.AlertRule, error) {
+type AlertRuleUpdateParams struct {
+	MetricsStorageID          *string
+	Name                      *string
+	Query                     *string
+	Format                    *string
+	Template                  *string
+	EnabledWarning            *bool
+	EnabledCritical           *bool
+	ThresholdWarning          *string
+	ThresholdCritical         *string
+	ThresholdDurationWarning  *int64
+	ThresholdDurationCritical *int64
+}
+
+func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleUpdateParams) (*v1.AlertRule, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.Update", 0, err)
 	}
-	query := v1.AlertsProjectsRulesUpdateParams{
+	query := v1.AlertsProjectsRulesPartialUpdateParams{
 		ProjectResourceID: intProjectId,
 		UID:               ruleId,
 	}
-	result, err := op.client.AlertsProjectsRulesUpdate(ctx, params, query)
+	var pintStorageId *int64
+	if p.MetricsStorageID == nil {
+		pintStorageId = nil
+	} else if intStorageId, err := strconv.ParseInt(*p.MetricsStorageID, 10, 64); err != nil {
+		return nil, NewAPIError("AlertRule.Create", 0, errors.Wrap(err, "invalid MetricsStorageID"))
+	} else {
+		pintStorageId = &intStorageId
+	}
+	params := v1.NewOptPatchedAlertRule(v1.PatchedAlertRule{
+		MetricsStorageID:          intoOptNil[v1.OptNilInt64](pintStorageId),
+		Name:                      intoOpt[v1.OptString](p.Name),
+		Query:                     intoOpt[v1.OptString](p.Query),
+		Format:                    intoOpt[v1.OptString](p.Format),
+		Template:                  intoOpt[v1.OptString](p.Template),
+		EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
+		EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
+		ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
+		ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
+		ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
+		ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
+	})
+	result, err := op.client.AlertsProjectsRulesPartialUpdate(ctx, params, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -170,7 +246,30 @@ func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid
 	return nil
 }
 
-func (op *alertRuleOp) ListHistories(ctx context.Context, params v1.AlertsProjectsRulesHistoriesListParams) ([]v1.History, error) {
+type AlertRuleListHistoriesParams struct {
+	ProjectID string    // mandatory
+	RuleUID   uuid.UUID // mandatory
+	Count     *int
+	From      *int
+	Open      *bool
+	Severity  *v1.AlertsProjectsRulesHistoriesListSeverity
+	StartsAt  *time.Time
+}
+
+func (op *alertRuleOp) ListHistories(ctx context.Context, p AlertRuleListHistoriesParams) ([]v1.History, error) {
+	intProjectId, err := strconv.ParseInt(p.ProjectID, 10, 32)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.ListHistories", 0, err)
+	}
+	params := v1.AlertsProjectsRulesHistoriesListParams{
+		ProjectResourceID: intProjectId,
+		RuleUID:           p.RuleUID,
+		Count:             intoOpt[v1.OptInt](p.Count),
+		From:              intoOpt[v1.OptInt](p.From),
+		Open:              intoOpt[v1.OptBool](p.Open),
+		Severity:          intoOpt[v1.OptAlertsProjectsRulesHistoriesListSeverity](p.Severity),
+		StartsAt:          intoOpt[v1.OptDateTime](p.StartsAt),
+	}
 	result, err := op.client.AlertsProjectsRulesHistoriesList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -189,7 +288,7 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, params v1.AlertsProjec
 }
 
 func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+	intProjectId, err := strconv.ParseInt(projectId, 10, 32)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
 	}

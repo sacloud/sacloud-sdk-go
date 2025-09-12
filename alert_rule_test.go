@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
+	. "github.com/sacloud/monitoring-suite-api-go"
 
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
@@ -34,13 +34,9 @@ func TestAlertRuleOp_List(t *testing.T) {
 		Results: []v1.AlertRule{TemplateAlertRule},
 	}
 	client := newTestClient(expected)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
-	params := v1.AlertsProjectsRulesListParams{
-		Count: v1.NewOptInt(32),
-		From:  v1.NewOptInt(0),
-	}
-	rules, err := api.List(ctx, params)
+	rules, err := api.List(ctx, "12345", nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, rules)
 	require.Equal(t, 1, len(rules))
@@ -54,17 +50,16 @@ func TestAlertRuleOp_List(t *testing.T) {
 func TestAlertRuleOp_List_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
-	params := v1.AlertsProjectsRulesListParams{}
-	_, err := api.List(ctx, params)
+	_, err := api.List(ctx, "12345", nil, nil)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permission")
 }
 
 func TestAlertRuleOp_Read(t *testing.T) {
 	client := newTestClient(TemplateAlertRule)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
 	actual, err := api.Read(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -78,7 +73,7 @@ func TestAlertRuleOp_Read(t *testing.T) {
 func TestAlertRuleOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No AlertRule matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
@@ -87,22 +82,24 @@ func TestAlertRuleOp_Read_404(t *testing.T) {
 
 func TestAlertRuleOp_Create(t *testing.T) {
 	client := newTestClient(TemplateAlertRule, http.StatusCreated)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
-	rule := &TemplateAlertRule
-	actual, err := api.Create(ctx, "12345", rule)
+	actual, err := api.Create(ctx, "12345", AlertRuleCreateParams{
+		MetricsStorageID: "56789",
+		Query:            "q",
+	})
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, rule.GetName(), actual.GetName())
-	require.Equal(t, rule.GetQuery(), actual.GetQuery())
+	require.Equal(t, TemplateAlertRule.GetName(), actual.GetName())
+	require.Equal(t, TemplateAlertRule.GetQuery(), actual.GetQuery())
 }
 
 func TestAlertRuleOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
-	actual, err := api.Create(ctx, "12345", &v1.AlertRule{})
+	actual, err := api.Create(ctx, "12345", AlertRuleCreateParams{MetricsStorageID: "56789"})
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -110,22 +107,24 @@ func TestAlertRuleOp_Create_400(t *testing.T) {
 
 func TestAlertRuleOp_Update(t *testing.T) {
 	client := newTestClient(TemplateAlertRule)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
-	rule := &TemplateAlertRule
-	actual, err := api.Update(ctx, "12345", uuid.New(), rule)
+	name := "rule"
+	actual, err := api.Update(ctx, "12345", uuid.New(), AlertRuleUpdateParams{
+		Name: &name,
+	})
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, rule.GetName(), actual.GetName())
-	require.Equal(t, rule.GetQuery(), actual.GetQuery())
+	require.Equal(t, TemplateAlertRule.GetName(), actual.GetName())
+	require.Equal(t, TemplateAlertRule.GetQuery(), actual.GetQuery())
 }
 
 func TestAlertRuleOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
-	actual, err := api.Update(ctx, "12345", uuid.New(), &v1.AlertRule{})
+	actual, err := api.Update(ctx, "12345", uuid.New(), AlertRuleUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -134,7 +133,7 @@ func TestAlertRuleOp_Update_400(t *testing.T) {
 // ...existing code...
 func TestAlertRuleOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -143,7 +142,7 @@ func TestAlertRuleOp_Delete(t *testing.T) {
 func TestAlertRuleOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
@@ -159,11 +158,13 @@ func TestAlertRuleOp_ListHistories(t *testing.T) {
 		Results: []v1.History{TemplateHistory},
 	}
 	client := newTestClient(expected)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
-	params := v1.AlertsProjectsRulesHistoriesListParams{
-		Count: v1.NewOptInt(10),
-		From:  v1.NewOptInt(0),
+	params := AlertRuleListHistoriesParams{
+		ProjectID: "12345",
+		RuleUID:   uuid.New(),
+		Count:     nil,
+		From:      nil,
 	}
 	histories, err := api.ListHistories(ctx, params)
 	require.NoError(t, err)
@@ -175,9 +176,14 @@ func TestAlertRuleOp_ListHistories(t *testing.T) {
 func TestAlertRuleOp_ListHistories_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
-	params := v1.AlertsProjectsRulesHistoriesListParams{}
+	params := AlertRuleListHistoriesParams{
+		ProjectID: "12345",
+		RuleUID:   uuid.New(),
+		Count:     nil,
+		From:      nil,
+	}
 	_, err := api.ListHistories(ctx, params)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permission")
@@ -185,7 +191,7 @@ func TestAlertRuleOp_ListHistories_403(t *testing.T) {
 
 func TestAlertRuleOp_ReadHistory(t *testing.T) {
 	client := newTestClient(TemplateHistory)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
 	actual, err := api.ReadHistory(ctx, "123", uuid.New(), uuid.New())
 	require.NoError(t, err)
@@ -196,7 +202,7 @@ func TestAlertRuleOp_ReadHistory(t *testing.T) {
 func TestAlertRuleOp_ReadHistory_404(t *testing.T) {
 	expected := newErrorResponse(404, "No History matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
-	api := monitoringsuite.NewAlertRuleOp(client)
+	api := NewAlertRuleOp(client)
 	ctx := context.Background()
 	_, err := api.ReadHistory(ctx, "123", uuid.New(), uuid.New())
 	require.Error(t, err)
