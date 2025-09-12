@@ -142,15 +142,12 @@ func (op *metricsStorageOp) Update(ctx context.Context, id string, params Metric
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.Update", 0, err)
 	}
-	query := v1.MetricsStoragesUpdateParams{ResourceID: rid}
-	body := v1.NewOptMetricsStorage(v1.MetricsStorage{
+	query := v1.MetricsStoragesPartialUpdateParams{ResourceID: rid}
+	body := v1.NewOptPatchedMetricsStorage(v1.PatchedMetricsStorage{
 		Name:        intoOpt[v1.OptString](params.Name),
 		Description: intoOpt[v1.OptString](params.Description),
-		Tags:        []string{},
-		Icon:        intoNil[v1.NilMetricsStorageIcon](),
-		ResourceID:  intoNil[v1.NilInt64](),
 	})
-	result, err := op.client.MetricsStoragesUpdate(ctx, body, query)
+	result, err := op.client.MetricsStoragesPartialUpdate(ctx, body, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
