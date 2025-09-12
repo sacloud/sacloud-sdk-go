@@ -25,6 +25,120 @@ func encodeAlertsProjectsCreateRequest(
 	return nil
 }
 
+func encodeAlertsProjectsLogMeasureRulesCreateRequest(
+	req *LogMeasureRule,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeAlertsProjectsLogMeasureRulesPartialUpdateRequest(
+	req OptPatchedLogMeasureRule,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeAlertsProjectsLogMeasureRulesUpdateRequest(
+	req *LogMeasureRule,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeAlertsProjectsNotificationRoutingsCreateRequest(
+	req *NotificationRouting,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeAlertsProjectsNotificationRoutingsPartialUpdateRequest(
+	req OptPatchedNotificationRouting,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeAlertsProjectsNotificationRoutingsReorderUpdateRequest(
+	req []NotificationRoutingOrder,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		e.ArrStart()
+		for _, elem := range req {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeAlertsProjectsNotificationRoutingsUpdateRequest(
+	req *NotificationRouting,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeAlertsProjectsNotificationTargetsCreateRequest(
 	req *NotificationTarget,
 	r *http.Request,
@@ -264,7 +378,7 @@ func encodeLogsRoutingsUpdateRequest(
 }
 
 func encodeLogsStoragesCreateRequest(
-	req *LogTableCreate,
+	req *LogStorageCreate,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -278,7 +392,7 @@ func encodeLogsStoragesCreateRequest(
 }
 
 func encodeLogsStoragesKeysCreateRequest(
-	req OptLogTableAccessKey,
+	req OptLogStorageAccessKey,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -298,7 +412,7 @@ func encodeLogsStoragesKeysCreateRequest(
 }
 
 func encodeLogsStoragesKeysPartialUpdateRequest(
-	req OptPatchedLogTableAccessKey,
+	req OptPatchedLogStorageAccessKey,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -318,7 +432,7 @@ func encodeLogsStoragesKeysPartialUpdateRequest(
 }
 
 func encodeLogsStoragesKeysUpdateRequest(
-	req OptLogTableAccessKey,
+	req OptLogStorageAccessKey,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -338,7 +452,7 @@ func encodeLogsStoragesKeysUpdateRequest(
 }
 
 func encodeLogsStoragesPartialUpdateRequest(
-	req OptPatchedLogTable,
+	req OptPatchedLogStorage,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -358,7 +472,7 @@ func encodeLogsStoragesPartialUpdateRequest(
 }
 
 func encodeLogsStoragesUpdateRequest(
-	req OptLogTable,
+	req OptLogStorage,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -426,7 +540,7 @@ func encodeMetricsRoutingsUpdateRequest(
 }
 
 func encodeMetricsStoragesCreateRequest(
-	req *MetricsTankCreate,
+	req *MetricsStorageCreate,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -440,7 +554,7 @@ func encodeMetricsStoragesCreateRequest(
 }
 
 func encodeMetricsStoragesKeysCreateRequest(
-	req OptMetricsTankAccessKey,
+	req OptMetricsStorageAccessKey,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -460,7 +574,7 @@ func encodeMetricsStoragesKeysCreateRequest(
 }
 
 func encodeMetricsStoragesKeysPartialUpdateRequest(
-	req OptPatchedMetricsTankAccessKey,
+	req OptPatchedMetricsStorageAccessKey,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -480,7 +594,7 @@ func encodeMetricsStoragesKeysPartialUpdateRequest(
 }
 
 func encodeMetricsStoragesKeysUpdateRequest(
-	req OptMetricsTankAccessKey,
+	req OptMetricsStorageAccessKey,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -500,7 +614,7 @@ func encodeMetricsStoragesKeysUpdateRequest(
 }
 
 func encodeMetricsStoragesPartialUpdateRequest(
-	req OptPatchedMetricsTank,
+	req OptPatchedMetricsStorage,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -520,7 +634,7 @@ func encodeMetricsStoragesPartialUpdateRequest(
 }
 
 func encodeMetricsStoragesUpdateRequest(
-	req OptMetricsTank,
+	req OptMetricsStorage,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

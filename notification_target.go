@@ -15,10 +15,11 @@ package monitoringsuite
 
 import (
 	"context"
+	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/go-faster/errors"
+	"github.com/google/uuid"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
@@ -26,9 +27,9 @@ import (
 type NotificationTargetAPI interface {
 	List(ctx context.Context, params v1.AlertsProjectsNotificationTargetsListParams) ([]v1.NotificationTarget, error)
 	Create(ctx context.Context, params v1.NotificationTarget) (*v1.NotificationTarget, error)
-	Read(ctx context.Context, id string) (*v1.NotificationTarget, error)
-	Update(ctx context.Context, id string, request *v1.NotificationTarget) (*v1.NotificationTarget, error)
-	Delete(ctx context.Context, id string) error
+	Read(ctx context.Context, id uuid.UUID) (*v1.NotificationTarget, error)
+	Update(ctx context.Context, id uuid.UUID, request *v1.NotificationTarget) (*v1.NotificationTarget, error)
+	Delete(ctx context.Context, id uuid.UUID) error
 }
 
 var _ NotificationTargetAPI = (*notificationTargetOp)(nil)
@@ -57,13 +58,9 @@ func (op *notificationTargetOp) List(ctx context.Context, params v1.AlertsProjec
 	}
 }
 
-func (op *notificationTargetOp) Read(ctx context.Context, id string) (*v1.NotificationTarget, error) {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("NotificationTarget.Read", 0, err)
-	}
+func (op *notificationTargetOp) Read(ctx context.Context, id uuid.UUID) (*v1.NotificationTarget, error) {
 	// :TODO: AlertsProjectsNotificationTargetsRetrieveParams() taking int instead of int64 can be subject to change
-	params := v1.AlertsProjectsNotificationTargetsRetrieveParams{ID: int(intId)}
+	params := v1.AlertsProjectsNotificationTargetsRetrieveParams{UID: id}
 	result, err := op.client.AlertsProjectsNotificationTargetsRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -84,7 +81,11 @@ func (op *notificationTargetOp) Read(ctx context.Context, id string) (*v1.Notifi
 
 func (op *notificationTargetOp) Create(ctx context.Context, params v1.NotificationTarget) (*v1.NotificationTarget, error) {
 	// project_pk is required for creation, extract from params.ProjectID
-	createParams := v1.AlertsProjectsNotificationTargetsCreateParams{ProjectPk: params.ProjectID}
+	projectResourceID, ok := params.GetProjectID().Get()
+	if !ok {
+		return nil, NewAPIError("NotificationTarget.Create", 0, fmt.Errorf("ProjectID is required for %v", params.GetProjectID()))
+	}
+	createParams := v1.AlertsProjectsNotificationTargetsCreateParams{ProjectResourceID: projectResourceID}
 	result, err := op.client.AlertsProjectsNotificationTargetsCreate(ctx, &params, createParams)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -102,13 +103,8 @@ func (op *notificationTargetOp) Create(ctx context.Context, params v1.Notificati
 	}
 }
 
-func (op *notificationTargetOp) Update(ctx context.Context, id string, resource *v1.NotificationTarget) (*v1.NotificationTarget, error) {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("NotificationTarget.Update", 0, err)
-	}
-	// :TODO: AlertsProjectsNotificationTargetsUpdateParams() taking int instead of int64 can be subject to change
-	params := v1.AlertsProjectsNotificationTargetsUpdateParams{ID: int(intId)}
+func (op *notificationTargetOp) Update(ctx context.Context, id uuid.UUID, resource *v1.NotificationTarget) (*v1.NotificationTarget, error) {
+	params := v1.AlertsProjectsNotificationTargetsUpdateParams{UID: id}
 	result, err := op.client.AlertsProjectsNotificationTargetsUpdate(ctx, resource, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -127,25 +123,20 @@ func (op *notificationTargetOp) Update(ctx context.Context, id string, resource 
 	}
 }
 
-func (op *notificationTargetOp) Delete(ctx context.Context, id string) error {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return NewAPIError("NotificationTarget.Delete", 0, err)
-	}
-	// :TODO: AlertsProjectsNotificationTargetsDestroyParams() taking int instead of int64 can be subject to change
-	params := v1.AlertsProjectsNotificationTargetsDestroyParams{ID: int(intId)}
-	err = op.client.AlertsProjectsNotificationTargetsDestroy(ctx, params)
+func (op *notificationTargetOp) Delete(ctx context.Context, id uuid.UUID) error {
+	params := v1.AlertsProjectsNotificationTargetsDestroyParams{UID: id}
+	err := op.client.AlertsProjectsNotificationTargetsDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
-			return NewAPIError("NotificationTarget.Remove", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+			return NewAPIError("NotificationTarget.Delete", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
 		case http.StatusBadRequest:
-			return NewAPIError("NotificationTarget.Remove", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
+			return NewAPIError("NotificationTarget.Delete", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
 		default:
-			return NewAPIError("NotificationTarget.Remove", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return NewAPIError("NotificationTarget.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return NewAPIError("NotificationTarget.Remove", 0, err)
+		return NewAPIError("NotificationTarget.Delete", 0, err)
 	}
 	return nil
 }

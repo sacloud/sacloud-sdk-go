@@ -25,16 +25,16 @@ import (
 )
 
 type MetricsStorageAPI interface {
-	List(ctx context.Context, count int, from int) ([]v1.MetricsTank, error)
-	Create(ctx context.Context, request v1.MetricsTankCreate) (*v1.MetricsTank, error)
-	Read(ctx context.Context, id string) (*v1.MetricsTank, error)
-	Update(ctx context.Context, id string, request *v1.MetricsTank) (*v1.MetricsTank, error)
+	List(ctx context.Context, count int, from int) ([]v1.MetricsStorage, error)
+	Create(ctx context.Context, request v1.MetricsStorageCreate) (*v1.MetricsStorage, error)
+	Read(ctx context.Context, id string) (*v1.MetricsStorage, error)
+	Update(ctx context.Context, id string, request *v1.MetricsStorage) (*v1.MetricsStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, metricsResourceId string, count int, from int) ([]v1.MetricsTankAccessKey, error)
-	CreateKey(ctx context.Context, metricsResourceId string, request *v1.MetricsTankAccessKey) (*v1.MetricsTankAccessKey, error)
-	ReadKey(ctx context.Context, metricsResourceId string, id string) (*v1.MetricsTankAccessKey, error)
-	UpdateKey(ctx context.Context, metricsResourceId string, id string, request *v1.MetricsTankAccessKey) (*v1.MetricsTankAccessKey, error)
+	ListKeys(ctx context.Context, metricsResourceId string, count int, from int) ([]v1.MetricsStorageAccessKey, error)
+	CreateKey(ctx context.Context, metricsResourceId string, request *v1.MetricsStorageAccessKey) (*v1.MetricsStorageAccessKey, error)
+	ReadKey(ctx context.Context, metricsResourceId string, id string) (*v1.MetricsStorageAccessKey, error)
+	UpdateKey(ctx context.Context, metricsResourceId string, id string, request *v1.MetricsStorageAccessKey) (*v1.MetricsStorageAccessKey, error)
 	DeleteKey(ctx context.Context, metricsResourceId string, id string) error
 }
 
@@ -48,7 +48,7 @@ func NewMetricsStorageOp(client *v1.Client) MetricsStorageAPI {
 	return &metricsStorageOp{client: client}
 }
 
-func (op *metricsStorageOp) List(ctx context.Context, count int, from int) ([]v1.MetricsTank, error) {
+func (op *metricsStorageOp) List(ctx context.Context, count int, from int) ([]v1.MetricsStorage, error) {
 	params := v1.MetricsStoragesListParams{}
 	params.Count.SetTo(count)
 	params.From.SetTo(from)
@@ -67,7 +67,7 @@ func (op *metricsStorageOp) List(ctx context.Context, count int, from int) ([]v1
 	}
 }
 
-func (op *metricsStorageOp) Read(ctx context.Context, resourceID string) (*v1.MetricsTank, error) {
+func (op *metricsStorageOp) Read(ctx context.Context, resourceID string) (*v1.MetricsStorage, error) {
 	id, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.Read", 0, err)
@@ -86,12 +86,12 @@ func (op *metricsStorageOp) Read(ctx context.Context, resourceID string) (*v1.Me
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.Read", 0, err)
 	} else {
-		ret := new(v1.MetricsTank)
+		ret := new(v1.MetricsStorage)
 		return Unwrap(ret, result)
 	}
 }
 
-func (op *metricsStorageOp) Create(ctx context.Context, body v1.MetricsTankCreate) (*v1.MetricsTank, error) {
+func (op *metricsStorageOp) Create(ctx context.Context, body v1.MetricsStorageCreate) (*v1.MetricsStorage, error) {
 	result, err := op.client.MetricsStoragesCreate(ctx, &body)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -109,13 +109,13 @@ func (op *metricsStorageOp) Create(ctx context.Context, body v1.MetricsTankCreat
 	}
 }
 
-func (op *metricsStorageOp) Update(ctx context.Context, id string, resource *v1.MetricsTank) (*v1.MetricsTank, error) {
+func (op *metricsStorageOp) Update(ctx context.Context, id string, resource *v1.MetricsStorage) (*v1.MetricsStorage, error) {
 	rid, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.Update", 0, err)
 	}
 	query := v1.MetricsStoragesUpdateParams{ResourceID: rid}
-	body := v1.NewOptMetricsTank(*resource)
+	body := v1.NewOptMetricsStorage(*resource)
 	result, err := op.client.MetricsStoragesUpdate(ctx, body, query)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -129,7 +129,7 @@ func (op *metricsStorageOp) Update(ctx context.Context, id string, resource *v1.
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.Update", 0, err)
 	} else {
-		ret := new(v1.MetricsTank)
+		ret := new(v1.MetricsStorage)
 		return Unwrap(ret, result)
 	}
 }
@@ -156,7 +156,7 @@ func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error
 	return nil
 }
 
-func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count int, from int) ([]v1.MetricsTankAccessKey, error) {
+func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count int, from int) ([]v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.ListKeys", 0, err)
@@ -179,13 +179,13 @@ func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId stri
 	}
 }
 
-func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId string, request *v1.MetricsTankAccessKey) (*v1.MetricsTankAccessKey, error) {
+func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId string, request *v1.MetricsStorageAccessKey) (*v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.CreateKey", 0, err)
 	}
 	params := v1.MetricsStoragesKeysCreateParams{MetricsResourceID: rid}
-	opt := v1.NewOptMetricsTankAccessKey(*request)
+	opt := v1.NewOptMetricsStorageAccessKey(*request)
 	result, err := op.client.MetricsStoragesKeysCreate(ctx, opt, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -201,12 +201,12 @@ func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId str
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.CreateKey", 0, err)
 	} else {
-		ret := new(v1.MetricsTankAccessKey)
+		ret := new(v1.MetricsStorageAccessKey)
 		return Unwrap(ret, result)
 	}
 }
 
-func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId string, id string) (*v1.MetricsTankAccessKey, error) {
+func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId string, id string) (*v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.ReadKey", 0, err)
@@ -229,12 +229,12 @@ func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId strin
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.ReadKey", 0, err)
 	} else {
-		ret := new(v1.MetricsTankAccessKey)
+		ret := new(v1.MetricsStorageAccessKey)
 		return Unwrap(ret, result)
 	}
 }
 
-func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId string, id string, request *v1.MetricsTankAccessKey) (*v1.MetricsTankAccessKey, error) {
+func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId string, id string, request *v1.MetricsStorageAccessKey) (*v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.UpdateKey", 0, err)
@@ -244,7 +244,7 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 		return nil, NewAPIError("MetricsStorage.UpdateKey", 0, err)
 	}
 	params := v1.MetricsStoragesKeysUpdateParams{MetricsResourceID: rid, ID: kid}
-	opt := v1.NewOptMetricsTankAccessKey(*request)
+	opt := v1.NewOptMetricsStorageAccessKey(*request)
 	result, err := op.client.MetricsStoragesKeysUpdate(ctx, opt, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -258,7 +258,7 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 	} else if err != nil {
 		return nil, NewAPIError("MetricsStorage.UpdateKey", 0, err)
 	} else {
-		ret := new(v1.MetricsTankAccessKey)
+		ret := new(v1.MetricsStorageAccessKey)
 		return Unwrap(ret, result)
 	}
 }

@@ -85,29 +85,30 @@ var TemplatePublisher = func() v1.Publisher {
 	return ret
 }()
 
-var TemplateMetricsTank = func() v1.MetricsTank {
-	var ret v1.MetricsTank
+var TemplateMetricsStorage = func() v1.MetricsStorage {
+	var ret v1.MetricsStorage
 
 	ret.SetFake()
-	ret.SetID(v1.NewNilInt64(0))
+	ret.SetID(^0)
 	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetUpdatedAt(TemplateTime)
 	return ret
 }()
 
-var TemplateWrappedMetricsTank = func() v1.WrappedMetricsTank {
-	var ret v1.WrappedMetricsTank
+var TemplateWrappedMetricsStorage = func() v1.WrappedMetricsStorage {
+	var ret v1.WrappedMetricsStorage
 
 	ret.SetFake()
+	ret.SetID(^0)
 	ret.SetTags(TemplateTags)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetUpdatedAt(TemplateTime)
 	return ret
 }()
 
-var TemplateMetricsTankAccessKey = func() v1.MetricsTankAccessKey {
-	var ret v1.MetricsTankAccessKey
+var TemplateMetricsStorageAccessKey = func() v1.MetricsStorageAccessKey {
+	var ret v1.MetricsStorageAccessKey
 
 	ret.SetFake()
 	return ret
@@ -118,7 +119,7 @@ var TemplateMetricsRouting = func() v1.MetricsRouting {
 
 	r.SetFake()
 	r.SetPublisher(TemplatePublisher)
-	r.SetMetricsStorage(TemplateMetricsTank)
+	r.SetMetricsStorage(TemplateMetricsStorage)
 	return r
 }()
 
@@ -127,71 +128,72 @@ var TemplateWrappedMetricsRouting = func() v1.WrappedMetricsRouting {
 
 	r.SetFake()
 	r.SetPublisher(TemplatePublisher)
-	r.SetMetricsStorage(TemplateMetricsTank)
+	r.SetMetricsStorage(TemplateMetricsStorage)
 	r.SetIsOk(true) // それはそう
 	return r
 }()
 
-var TemplateWrappedAccessKey = func() v1.WrappedMetricsTankAccessKey {
-	var ret v1.WrappedMetricsTankAccessKey
+var TemplateWrappedAccessKey = func() v1.WrappedMetricsStorageAccessKey {
+	var ret v1.WrappedMetricsStorageAccessKey
 
 	ret.SetFake()
 	return ret
 }()
 
-var TemplateLogTableAccessKey = func() v1.LogTableAccessKey {
-	var ret v1.LogTableAccessKey
+var TemplateLogStorageAccessKey = func() v1.LogStorageAccessKey {
+	var ret v1.LogStorageAccessKey
 
 	ret.SetFake()
 	return ret
 }()
 
-var TemplateLogTableEndpoints = func() v1.LogTableEndpoints {
-	var ret v1.LogTableEndpoints
+var TemplateLogStorageEndpoints = func() v1.LogStorageEndpoints {
+	var ret v1.LogStorageEndpoints
 
 	ret.SetFake()
 	return ret
 }()
 
-var TemplateWrappedLogTableEndpoints = func() v1.WrappedLogTableEndpoints {
-	var ret v1.WrappedLogTableEndpoints
+var TemplateWrappedLogStorageEndpoints = func() v1.WrappedLogStorageEndpoints {
+	var ret v1.WrappedLogStorageEndpoints
 
 	ret.SetFake()
 	return ret
 }()
 
-var TemplateLogTableUsage = func() v1.LogTableUsage {
-	var ret v1.LogTableUsage
+var TemplateLogStorageUsage = func() v1.LogStorageUsage {
+	var ret v1.LogStorageUsage
 
 	ret.SetFake()
 	return ret
 }()
 
-var TemplateWrappedLogTableUsage = func() v1.WrappedLogTableUsage {
-	var ret v1.WrappedLogTableUsage
+var TemplateWrappedLogStorageUsage = func() v1.WrappedLogStorageUsage {
+	var ret v1.WrappedLogStorageUsage
 
 	ret.SetFake()
 	return ret
 }()
 
-var TemplateLogTable = func() v1.LogTable {
-	var ret v1.LogTable
+var TemplateLogStorage = func() v1.LogStorage {
+	var ret v1.LogStorage
 
 	ret.SetFake()
-	ret.SetID(v1.NewNilInt64(0))
-	ret.SetEndpoints(TemplateLogTableEndpoints)
-	ret.SetUsage(TemplateLogTableUsage)
+	ret.SetID(^0)
+	ret.SetEndpoints(TemplateLogStorageEndpoints)
+	ret.SetUsage(TemplateLogStorageUsage)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetTags(TemplateTags)
 	return ret
 }()
 
-var TemplateWrappedLogTable = func() v1.WrappedLogTable {
-	var ret v1.WrappedLogTable
+var TemplateWrappedLogStorage = func() v1.WrappedLogStorage {
+	var ret v1.WrappedLogStorage
 
 	ret.SetFake()
-	ret.SetEndpoints(TemplateWrappedLogTableEndpoints)
-	ret.SetUsage(TemplateWrappedLogTableUsage)
+	ret.SetID(^0)
+	ret.SetEndpoints(TemplateWrappedLogStorageEndpoints)
+	ret.SetUsage(TemplateWrappedLogStorageUsage)
 	ret.SetCreatedAt(TemplateTime)
 	ret.SetTags(TemplateTags)
 	return ret
@@ -221,7 +223,7 @@ var TemplateLogRouting = func() v1.LogRouting {
 
 	r.SetFake()
 	r.SetPublisher(TemplatePublisher)
-	r.SetLogStorage(TemplateLogTable)
+	r.SetLogStorage(TemplateLogStorage)
 	return r
 }()
 
@@ -230,7 +232,7 @@ var TemplateWrappedLogRouting = func() v1.WrappedLogRouting {
 
 	r.SetFake()
 	r.SetPublisher(TemplatePublisher)
-	r.SetLogStorage(TemplateLogTable)
+	r.SetLogStorage(TemplateLogStorage)
 	r.SetIsOk(true)
 	return r
 }()
@@ -258,6 +260,7 @@ var TemplateNotificationTarget = func() v1.NotificationTarget {
 	var ret v1.NotificationTarget
 
 	ret.SetFake()
+	ret.SetProjectID(v1.NewNilInt64(^0))
 	return ret
 }()
 

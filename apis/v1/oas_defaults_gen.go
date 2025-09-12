@@ -19,9 +19,9 @@ func (s *DashboardProjectCreate) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *LogTableCreate) setDefaults() {
+func (s *LogStorageCreate) setDefaults() {
 	{
-		val := LogTableCreateClassification("shared")
+		val := LogStorageCreateClassification("shared")
 		s.Classification.SetTo(val)
 	}
 }

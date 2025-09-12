@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
@@ -35,9 +36,9 @@ func TestNotificationTargetService_List(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 	params := v1.AlertsProjectsNotificationTargetsListParams{
-		ProjectPk: TemplateNotificationTarget.ProjectID,
-		Count:     v1.NewOptInt(20),
-		From:      v1.NewOptInt(0),
+		ProjectResourceID: TemplateNotificationTarget.GetProjectID().Or(^0),
+		Count:             v1.NewOptInt(20),
+		From:              v1.NewOptInt(0),
 	}
 	targets, err := api.List(ctx, params)
 	require.NoError(t, err)
@@ -45,7 +46,7 @@ func TestNotificationTargetService_List(t *testing.T) {
 	require.Equal(t, 1, len(targets))
 
 	target := targets[0]
-	require.Equal(t, TemplateNotificationTarget.GetID(), target.GetID())
+	require.Equal(t, TemplateNotificationTarget.GetUID(), target.GetUID())
 	require.Equal(t, TemplateNotificationTarget.GetProjectID(), target.GetProjectID())
 	require.Equal(t, TemplateNotificationTarget.GetServiceType(), target.GetServiceType())
 	require.Equal(t, TemplateNotificationTarget.GetURL(), target.GetURL())
@@ -69,10 +70,10 @@ func TestNotificationTargetService_Read(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Read(ctx, "12345")
+	actual, err := api.Read(ctx, uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, TemplateNotificationTarget.GetID(), actual.GetID())
+	require.Equal(t, TemplateNotificationTarget.GetUID(), actual.GetUID())
 	require.Equal(t, TemplateNotificationTarget.GetProjectID(), actual.GetProjectID())
 	require.Equal(t, TemplateNotificationTarget.GetServiceType(), actual.GetServiceType())
 	require.Equal(t, TemplateNotificationTarget.GetURL(), actual.GetURL())
@@ -86,7 +87,7 @@ func TestNotificationTargetService_Read_404(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	_, err := api.Read(ctx, "12345")
+	_, err := api.Read(ctx, uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
 }
@@ -100,7 +101,7 @@ func TestNotificationTargetService_Create(t *testing.T) {
 	actual, err := api.Create(ctx, nt)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, nt.GetID(), actual.GetID())
+	require.Equal(t, nt.GetUID(), actual.GetUID())
 	require.Equal(t, nt.GetProjectID(), actual.GetProjectID())
 	require.Equal(t, nt.GetServiceType(), actual.GetServiceType())
 	require.Equal(t, nt.GetURL(), actual.GetURL())
@@ -115,10 +116,10 @@ func TestNotificationTargetService_Update(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	updated, err := api.Update(ctx, "12345", &nt)
+	updated, err := api.Update(ctx, uuid.New(), &nt)
 	require.NoError(t, err)
 	require.NotNil(t, updated)
-	require.Equal(t, nt.GetID(), updated.GetID())
+	require.Equal(t, nt.GetUID(), updated.GetUID())
 	require.Equal(t, nt.GetProjectID(), updated.GetProjectID())
 	require.Equal(t, nt.GetServiceType(), updated.GetServiceType())
 	require.Equal(t, nt.GetURL(), updated.GetURL())
@@ -133,7 +134,7 @@ func TestNotificationTargetService_Update_400(t *testing.T) {
 	ctx := context.Background()
 
 	nt := v1.NotificationTarget{}
-	updated, err := api.Update(ctx, "0", &nt)
+	updated, err := api.Update(ctx, uuid.New(), &nt)
 	require.Nil(t, updated)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
@@ -145,7 +146,7 @@ func TestNotificationTargetService_Delete(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, "12345")
+	err := api.Delete(ctx, uuid.New())
 	require.NoError(t, err)
 }
 
@@ -155,7 +156,7 @@ func TestNotificationTargetService_Delete_400(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, "0")
+	err := api.Delete(ctx, uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }

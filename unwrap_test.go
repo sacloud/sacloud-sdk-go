@@ -43,15 +43,15 @@ func TestUnwrap_WrappedLogRouting(t *testing.T) {
 	require.Equal(t, TemplateLogRouting.Publisher.Code, lr.Publisher.Code)
 }
 
-func TestUnwrap_WrappedLogTable(t *testing.T) {
-	var lt v1.LogTable
+func TestUnwrap_WrappedLogStorage(t *testing.T) {
+	var lt v1.LogStorage
 
-	_, err := Unwrap(&lt, &TemplateWrappedLogTable)
+	_, err := Unwrap(&lt, &TemplateWrappedLogStorage)
 	require.NoError(t, err)
-	require.Equal(t, TemplateLogTable.ID, lt.ID)
-	require.Equal(t, TemplateLogTable.Name, lt.Name)
-	require.Equal(t, TemplateLogTable.Description, lt.Description)
-	require.Equal(t, TemplateLogTable.Tags, lt.Tags)
+	require.Equal(t, TemplateLogStorage.ID, lt.ID)
+	require.Equal(t, TemplateLogStorage.Name, lt.Name)
+	require.Equal(t, TemplateLogStorage.Description, lt.Description)
+	require.Equal(t, TemplateLogStorage.Tags, lt.Tags)
 }
 
 func TestUnwrap_WrappedMetricsRouting(t *testing.T) {
@@ -64,13 +64,13 @@ func TestUnwrap_WrappedMetricsRouting(t *testing.T) {
 	require.Equal(t, TemplateMetricsRouting.Publisher.Code, mr.Publisher.Code)
 }
 
-func TestUnwrap_WrappedMetricsTank(t *testing.T) {
-	var mt v1.MetricsTank
+func TestUnwrap_WrappedMetricsStorage(t *testing.T) {
+	var mt v1.MetricsStorage
 
-	_, err := Unwrap(&mt, &TemplateWrappedMetricsTank)
+	_, err := Unwrap(&mt, &TemplateWrappedMetricsStorage)
 	require.NoError(t, err)
-	require.Equal(t, TemplateMetricsTank.ID, mt.ID)
-	require.Equal(t, TemplateMetricsTank.Name, mt.Name)
-	require.Equal(t, TemplateMetricsTank.Description, mt.Description)
-	require.Equal(t, TemplateMetricsTank.Tags, mt.Tags)
+	require.Equal(t, TemplateMetricsStorage.ID, mt.ID)
+	require.Equal(t, TemplateMetricsStorage.Name, mt.Name)
+	require.Equal(t, TemplateMetricsStorage.Description, mt.Description)
+	require.Equal(t, TemplateMetricsStorage.Tags, mt.Tags)
 }

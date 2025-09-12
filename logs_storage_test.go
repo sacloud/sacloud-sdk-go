@@ -25,11 +25,11 @@ import (
 )
 
 func TestLogsStorageOp_List(t *testing.T) {
-	expected := v1.PaginatedLogTableList{
+	expected := v1.PaginatedLogStorageList{
 		IsOk:    v1.NewOptBool(true),
 		Count:   1,
 		From:    0,
-		Results: []v1.LogTable{TemplateLogTable},
+		Results: []v1.LogStorage{TemplateLogStorage},
 	}
 	client := newTestClient(expected)
 	api := NewLogsStorageOp(client)
@@ -49,13 +49,13 @@ func TestLogsStorageOp_List(t *testing.T) {
 	require.Equal(t, 1, len(tables))
 
 	table := tables[0]
-	require.Equal(t, TemplateLogTable.GetName(), table.GetName())
-	require.Equal(t, TemplateLogTable.GetDescription(), table.GetDescription())
-	require.Equal(t, TemplateLogTable.GetIsSystem(), table.GetIsSystem())
-	require.Equal(t, TemplateLogTable.GetAccountID(), table.GetAccountID())
-	require.Equal(t, TemplateLogTable.GetResourceID(), table.GetResourceID())
-	require.Equal(t, TemplateLogTable.GetEndpoints(), table.GetEndpoints())
-	require.Equal(t, TemplateLogTable.GetUsage(), table.GetUsage())
+	require.Equal(t, TemplateLogStorage.GetName(), table.GetName())
+	require.Equal(t, TemplateLogStorage.GetDescription(), table.GetDescription())
+	require.Equal(t, TemplateLogStorage.GetIsSystem(), table.GetIsSystem())
+	require.Equal(t, TemplateLogStorage.GetAccountID(), table.GetAccountID())
+	require.Equal(t, TemplateLogStorage.GetResourceID(), table.GetResourceID())
+	require.Equal(t, TemplateLogStorage.GetEndpoints(), table.GetEndpoints())
+	require.Equal(t, TemplateLogStorage.GetUsage(), table.GetUsage())
 }
 
 func TestLogsStorageOp_List_403(t *testing.T) {
@@ -70,28 +70,28 @@ func TestLogsStorageOp_List_403(t *testing.T) {
 }
 
 func TestLogsStorageOp_Read(t *testing.T) {
-	client := newTestClient(TemplateWrappedLogTable)
+	client := newTestClient(TemplateWrappedLogStorage)
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
 	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, TemplateWrappedLogTable.GetName(), actual.GetName())
-	require.Equal(t, TemplateWrappedLogTable.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateWrappedLogTable.GetIsSystem(), actual.GetIsSystem())
-	require.Equal(t, TemplateWrappedLogTable.GetAccountID(), actual.GetAccountID())
-	require.Equal(t, TemplateWrappedLogTable.GetResourceID(), actual.GetResourceID())
-	require.Equal(t, TemplateLogTableEndpoints, actual.GetEndpoints())
-	require.Equal(t, TemplateLogTableUsage, actual.GetUsage())
-	for i, e := range TemplateWrappedLogTable.GetTags() {
+	require.Equal(t, TemplateWrappedLogStorage.GetName(), actual.GetName())
+	require.Equal(t, TemplateWrappedLogStorage.GetDescription(), actual.GetDescription())
+	require.Equal(t, TemplateWrappedLogStorage.GetIsSystem(), actual.GetIsSystem())
+	require.Equal(t, TemplateWrappedLogStorage.GetAccountID(), actual.GetAccountID())
+	require.Equal(t, TemplateWrappedLogStorage.GetResourceID(), actual.GetResourceID())
+	require.Equal(t, TemplateLogStorageEndpoints, actual.GetEndpoints())
+	require.Equal(t, TemplateLogStorageUsage, actual.GetUsage())
+	for i, e := range TemplateWrappedLogStorage.GetTags() {
 		a := actual.GetTags()[i]
 		require.Equal(t, e, a)
 	}
 }
 
 func TestLogsStorageOp_Read_404(t *testing.T) {
-	expected := newErrorResponse(404, "No LogTable matches the given query.")
+	expected := newErrorResponse(404, "No LogStorage matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
@@ -102,11 +102,11 @@ func TestLogsStorageOp_Read_404(t *testing.T) {
 }
 
 func TestLogsStorageOp_Create(t *testing.T) {
-	client := newTestClient(TemplateLogTable, http.StatusCreated)
+	client := newTestClient(TemplateLogStorage, http.StatusCreated)
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	createReq := v1.LogTableCreate{
+	createReq := v1.LogStorageCreate{
 		Name:        "created-table",
 		Description: "Created log table",
 		IsSystem:    false,
@@ -114,14 +114,14 @@ func TestLogsStorageOp_Create(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, TemplateLogTable.GetName(), actual.GetName())
-	require.Equal(t, TemplateLogTable.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateLogTable.GetIsSystem(), actual.GetIsSystem())
-	require.Equal(t, TemplateLogTable.GetAccountID(), actual.GetAccountID())
-	require.Equal(t, TemplateLogTable.GetResourceID(), actual.GetResourceID())
-	require.Equal(t, TemplateLogTable.GetEndpoints(), actual.GetEndpoints())
-	require.Equal(t, TemplateLogTable.GetUsage(), actual.GetUsage())
-	require.Equal(t, TemplateLogTable.GetTags(), actual.GetTags())
+	require.Equal(t, TemplateLogStorage.GetName(), actual.GetName())
+	require.Equal(t, TemplateLogStorage.GetDescription(), actual.GetDescription())
+	require.Equal(t, TemplateLogStorage.GetIsSystem(), actual.GetIsSystem())
+	require.Equal(t, TemplateLogStorage.GetAccountID(), actual.GetAccountID())
+	require.Equal(t, TemplateLogStorage.GetResourceID(), actual.GetResourceID())
+	require.Equal(t, TemplateLogStorage.GetEndpoints(), actual.GetEndpoints())
+	require.Equal(t, TemplateLogStorage.GetUsage(), actual.GetUsage())
+	require.Equal(t, TemplateLogStorage.GetTags(), actual.GetTags())
 }
 
 func TestLogsStorageOp_Create_400(t *testing.T) {
@@ -130,7 +130,7 @@ func TestLogsStorageOp_Create_400(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	createReq := v1.LogTableCreate{
+	createReq := v1.LogStorageCreate{
 		Name:        "",
 		Description: "",
 		IsSystem:    false,
@@ -142,20 +142,20 @@ func TestLogsStorageOp_Create_400(t *testing.T) {
 }
 
 func TestLogsStorageOp_Update(t *testing.T) {
-	client := newTestClient(TemplateWrappedLogTable)
+	client := newTestClient(TemplateWrappedLogStorage)
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, "54321", &TemplateLogTable)
+	actual, err := api.Update(ctx, "54321", &TemplateLogStorage)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
-	require.Equal(t, TemplateWrappedLogTable.GetName(), actual.GetName())
-	require.Equal(t, TemplateWrappedLogTable.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateWrappedLogTable.GetIsSystem(), actual.GetIsSystem())
-	require.Equal(t, TemplateWrappedLogTable.GetAccountID(), actual.GetAccountID())
-	require.Equal(t, TemplateWrappedLogTable.GetResourceID(), actual.GetResourceID())
-	require.Equal(t, TemplateLogTableEndpoints, actual.GetEndpoints())
-	require.Equal(t, TemplateLogTableUsage, actual.GetUsage())
+	require.Equal(t, TemplateWrappedLogStorage.GetName(), actual.GetName())
+	require.Equal(t, TemplateWrappedLogStorage.GetDescription(), actual.GetDescription())
+	require.Equal(t, TemplateWrappedLogStorage.GetIsSystem(), actual.GetIsSystem())
+	require.Equal(t, TemplateWrappedLogStorage.GetAccountID(), actual.GetAccountID())
+	require.Equal(t, TemplateWrappedLogStorage.GetResourceID(), actual.GetResourceID())
+	require.Equal(t, TemplateLogStorageEndpoints, actual.GetEndpoints())
+	require.Equal(t, TemplateLogStorageUsage, actual.GetUsage())
 }
 
 func TestLogsStorageOp_Update_400(t *testing.T) {
@@ -164,7 +164,7 @@ func TestLogsStorageOp_Update_400(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, "0", &TemplateLogTable)
+	actual, err := api.Update(ctx, "0", &TemplateLogStorage)
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -193,11 +193,11 @@ func TestLogsStorageOp_Delete_400(t *testing.T) {
 // --- Access Key API tests ---
 
 func TestLogsStorageOp_ListKeys(t *testing.T) {
-	expected := v1.PaginatedLogTableAccessKeyList{
+	expected := v1.PaginatedLogStorageAccessKeyList{
 		IsOk:    v1.NewOptBool(true),
 		Count:   1,
 		From:    0,
-		Results: []v1.LogTableAccessKey{TemplateLogTableAccessKey},
+		Results: []v1.LogStorageAccessKey{TemplateLogStorageAccessKey},
 	}
 	client := newTestClient(expected)
 	api := NewLogsStorageOp(client)
@@ -207,8 +207,8 @@ func TestLogsStorageOp_ListKeys(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, keys)
 	require.Equal(t, 1, len(keys))
-	require.Equal(t, TemplateLogTableAccessKey.GetID(), keys[0].GetID())
-	require.Contains(t, keys[0].GetDescription().Value, TemplateLogTableAccessKey.GetDescription().Value)
+	require.Equal(t, TemplateLogStorageAccessKey.GetID(), keys[0].GetID())
+	require.Contains(t, keys[0].GetDescription().Value, TemplateLogStorageAccessKey.GetDescription().Value)
 }
 
 func TestLogsStorageOp_ListKeys_403(t *testing.T) {
@@ -228,7 +228,7 @@ func TestLogsStorageOp_CreateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, "12345", &TemplateLogTableAccessKey)
+	key, err := api.CreateKey(ctx, "12345", &TemplateLogStorageAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -241,7 +241,7 @@ func TestLogsStorageOp_CreateKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, "12345", &TemplateLogTableAccessKey)
+	key, err := api.CreateKey(ctx, "12345", &TemplateLogStorageAccessKey)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -276,7 +276,7 @@ func TestLogsStorageOp_UpdateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateLogTableAccessKey)
+	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateLogStorageAccessKey)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -289,7 +289,7 @@ func TestLogsStorageOp_UpdateKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateLogTableAccessKey)
+	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateLogStorageAccessKey)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
