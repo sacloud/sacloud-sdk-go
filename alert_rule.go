@@ -194,7 +194,7 @@ func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId
 		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
 	}
 	query := v1.AlertsProjectsRulesHistoriesRetrieveParams{
-		ProjectResourceID: int(intProjectId),
+		ProjectResourceID: intProjectId,
 		RuleUID:           ruleId,
 		UID:               historyId,
 	}
