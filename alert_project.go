@@ -128,16 +128,13 @@ func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertPro
 	if err != nil {
 		return nil, NewAPIError("AlertProject.Update", 0, err)
 	}
-
-	p := v1.AlertsProjectsUpdateParams{ResourceID: intId}
-	body := v1.NewOptAlertProject(v1.AlertProject{
+	p := v1.AlertsProjectsPartialUpdateParams{ResourceID: intId}
+	body := v1.NewOptPatchedAlertProject(v1.PatchedAlertProject{
 		Name:        intoOpt[v1.OptString](params.Name),
 		Description: intoOpt[v1.OptString](params.Description),
-		ResourceID:  intoNil[v1.NilInt64](),
-		Icon:        intoNil[v1.NilAlertProjectIcon](),
-		Tags:        []string{},
+		// other fields are golang's zero values, meaning "not set"
 	})
-	result, err := op.client.AlertsProjectsUpdate(ctx, body, p)
+	result, err := op.client.AlertsProjectsPartialUpdate(ctx, body, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
