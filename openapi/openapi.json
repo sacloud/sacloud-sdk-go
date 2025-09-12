@@ -3026,6 +3026,7 @@
             "in": "query",
             "name": "resource_id",
             "schema": {
+              "format": "int64",
               "type": "integer"
             }
           }
