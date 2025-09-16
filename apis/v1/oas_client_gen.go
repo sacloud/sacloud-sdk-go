@@ -6436,7 +6436,7 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.ResourceID.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
