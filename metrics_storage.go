@@ -25,13 +25,13 @@ import (
 )
 
 type MetricsStorageAPI interface {
-	List(ctx context.Context, count int, from int) ([]v1.MetricsStorage, error)
+	List(ctx context.Context, count *int, from *int) ([]v1.MetricsStorage, error)
 	Create(ctx context.Context, request v1.MetricsStorageCreate) (*v1.MetricsStorage, error)
 	Read(ctx context.Context, id string) (*v1.MetricsStorage, error)
 	Update(ctx context.Context, id string, request *v1.MetricsStorage) (*v1.MetricsStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, metricsResourceId string, count int, from int) ([]v1.MetricsStorageAccessKey, error)
+	ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) ([]v1.MetricsStorageAccessKey, error)
 	CreateKey(ctx context.Context, metricsResourceId string, request *v1.MetricsStorageAccessKey) (*v1.MetricsStorageAccessKey, error)
 	ReadKey(ctx context.Context, metricsResourceId string, id string) (*v1.MetricsStorageAccessKey, error)
 	UpdateKey(ctx context.Context, metricsResourceId string, id string, request *v1.MetricsStorageAccessKey) (*v1.MetricsStorageAccessKey, error)
@@ -48,10 +48,11 @@ func NewMetricsStorageOp(client *v1.Client) MetricsStorageAPI {
 	return &metricsStorageOp{client: client}
 }
 
-func (op *metricsStorageOp) List(ctx context.Context, count int, from int) ([]v1.MetricsStorage, error) {
-	params := v1.MetricsStoragesListParams{}
-	params.Count.SetTo(count)
-	params.From.SetTo(from)
+func (op *metricsStorageOp) List(ctx context.Context, count *int, from *int) ([]v1.MetricsStorage, error) {
+	params := v1.MetricsStoragesListParams{
+		Count: intoOpt[v1.OptInt](count),
+		From:  intoOpt[v1.OptInt](from),
+	}
 	result, err := op.client.MetricsStoragesList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -156,14 +157,16 @@ func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error
 	return nil
 }
 
-func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count int, from int) ([]v1.MetricsStorageAccessKey, error) {
+func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) ([]v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.ListKeys", 0, err)
 	}
-	params := v1.MetricsStoragesKeysListParams{MetricsResourceID: rid}
-	params.Count.SetTo(count)
-	params.From.SetTo(from)
+	params := v1.MetricsStoragesKeysListParams{
+		MetricsResourceID: rid,
+		Count:             intoOpt[v1.OptInt](count),
+		From:              intoOpt[v1.OptInt](from),
+	}
 	result, err := op.client.MetricsStoragesKeysList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {

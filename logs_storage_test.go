@@ -203,7 +203,7 @@ func TestLogsStorageOp_ListKeys(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	keys, err := api.ListKeys(ctx, "12345", 1, 0)
+	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, keys)
 	require.Equal(t, 1, len(keys))
@@ -217,7 +217,7 @@ func TestLogsStorageOp_ListKeys_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	keys, err := api.ListKeys(ctx, "12345", 1, 0)
+	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.Nil(t, keys)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")

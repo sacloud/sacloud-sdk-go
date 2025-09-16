@@ -35,7 +35,7 @@ func TestAlertProjectOp_List(t *testing.T) {
 	client := newTestClient(expected)
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
-	projects, err := api.List(ctx, 32, 0)
+	projects, err := api.List(ctx, nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, projects)
 	require.Equal(t, 1, len(projects))
@@ -54,7 +54,7 @@ func TestAlertProjectOp_List_403(t *testing.T) {
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
-	_, err := api.List(ctx, 0, 0)
+	_, err := api.List(ctx, nil, nil)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permission")
 }

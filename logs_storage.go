@@ -31,7 +31,7 @@ type LogsStorageAPI interface {
 	Update(ctx context.Context, id string, request *v1.LogStorage) (*v1.LogStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, logResourceId string, count int, from int) ([]v1.LogStorageAccessKey, error)
+	ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error)
 	CreateKey(ctx context.Context, logResourceId string, request *v1.LogStorageAccessKey) (*v1.LogStorageAccessKey, error)
 	ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogStorageAccessKey, error)
 	UpdateKey(ctx context.Context, logResourceId string, id string, request *v1.LogStorageAccessKey) (*v1.LogStorageAccessKey, error)
@@ -153,14 +153,14 @@ func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count int, from int) ([]v1.LogStorageAccessKey, error) {
+func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.ListKeys", 0, err)
 	}
 	params := v1.LogsStoragesKeysListParams{
-		Count:         v1.NewOptInt(count),
-		From:          v1.NewOptInt(from),
+		Count:         intoOpt[v1.OptInt](count),
+		From:          intoOpt[v1.OptInt](from),
 		LogResourceID: rid,
 	}
 	result, err := op.client.LogsStoragesKeysList(ctx, params)

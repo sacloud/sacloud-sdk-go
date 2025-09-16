@@ -39,7 +39,7 @@ func TestDashboardOp_List(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	projects, err := api.List(ctx, 0, 0)
+	projects, err := api.List(ctx, nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, projects)
 	require.Equal(t, 1, len(projects))
