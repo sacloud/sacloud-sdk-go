@@ -16,12 +16,14 @@ package monitoringsuite_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"testing"
 
 	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
+	"github.com/sacloud/packages-go/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -227,4 +229,42 @@ func TestAlertProjectOp_ReadHistory_404(t *testing.T) {
 	_, err := api.ReadHistory(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "not found")
+}
+
+func TestAlertProjectIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+
+	api := NewAlertProjectOp(client)
+	ctx := context.Background()
+	tmp := WithAlertProject(t, client, ctx)
+	aid := fmt.Sprintf("%d", tmp.GetID())
+
+	read, err := api.Read(ctx, aid)
+	require.NoError(t, err)
+	require.NotNil(t, read)
+	require.Equal(t, tmp.GetID(), read.GetID())
+	require.Equal(t, tmp.GetName(), read.GetName())
+	require.Equal(t, tmp.GetDescription(), read.GetDescription())
+	require.Equal(t, tmp.GetIsSystem(), read.GetIsSystem())
+
+	histories, err := api.ListHistories(ctx, AlertsProjectsHistoriesListParams{ProjectID: aid})
+	require.NoError(t, err)
+	require.NotNil(t, histories)
+
+	updatedDesc := testutil.Random(256, testutil.CharSetAlphaNum)
+	updated, err := api.Update(ctx, aid, AlertProjectUpdateParams{
+		Description: &updatedDesc,
+	})
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, tmp.GetID(), updated.GetID())
+	require.Equal(t, tmp.GetName(), updated.GetName())
+	require.Equal(t, updatedDesc, updated.GetDescription().Or("failure"))
+	require.Equal(t, tmp.GetIsSystem(), updated.GetIsSystem())
+
+	projects, err := api.List(ctx, nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, projects)
+	require.GreaterOrEqual(t, len(projects), 1)
 }

@@ -118,6 +118,7 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
+              "format": "int64",
               "type": "integer"
             },
             "required": true
@@ -171,6 +172,7 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
+              "format": "int64",
               "type": "integer"
             },
             "required": true
@@ -1201,6 +1203,7 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
+              "format": "int64",
               "type": "integer"
             },
             "required": true
@@ -1263,6 +1266,7 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
+              "format": "int64",
               "type": "integer"
             },
             "required": true

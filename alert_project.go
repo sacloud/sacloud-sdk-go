@@ -184,12 +184,12 @@ type AlertsProjectsHistoriesListParams struct {
 }
 
 func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjectsHistoriesListParams) ([]v1.History, error) {
-	intProjectId, err := strconv.ParseInt(params.ProjectID, 10, 32)
+	intProjectId, err := strconv.ParseInt(params.ProjectID, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertProject.ListHistories", 0, err)
 	}
 	p := v1.AlertsProjectsHistoriesListParams{
-		ProjectResourceID: int(intProjectId),
+		ProjectResourceID: intProjectId,
 		Count:             intoOpt[v1.OptInt](params.Count),
 		From:              intoOpt[v1.OptInt](params.From),
 		Open:              intoOpt[v1.OptBool](params.Open),
@@ -214,13 +214,13 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjec
 }
 
 func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 32)
+	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertProject.ReadHistory", 0, err)
 	}
 	p := v1.AlertsProjectsHistoriesRetrieveParams{
 		UID:               historyId,
-		ProjectResourceID: int(intProjectId),
+		ProjectResourceID: intProjectId,
 	}
 	result, err := op.client.AlertsProjectsHistoriesRetrieve(ctx, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {

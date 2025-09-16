@@ -15,13 +15,20 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"testing"
 	"time"
 
+	client "github.com/sacloud/api-client-go"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
+	"github.com/sacloud/packages-go/testutil"
+	"github.com/stretchr/testify/require"
 )
 
 type ErrorResponse struct {
@@ -65,6 +72,40 @@ func newTestClient(v any, s ...int) *v1.Client {
 		panic(e)
 	}
 	return c
+}
+
+func IntegratedClient(t *testing.T, params ...client.ClientParam) (*v1.Client, error) {
+	testutil.PreCheckEnvsFunc(
+		"SAKURACLOUD_ACCESS_TOKEN",
+		"SAKURACLOUD_ACCESS_TOKEN_SECRET",
+	)(t)
+
+	apiUrl := DefaultAPIRootURL
+	if root, ok := os.LookupEnv("SAKURACLOUD_LOCAL_ENDPOINT_MONITORINGSUITE"); ok {
+		apiUrl = root
+	}
+	return NewClientWithApiUrl(apiUrl, append(params, client.WithApiKeys(
+		os.Getenv("SAKURACLOUD_ACCESS_TOKEN"),
+		os.Getenv("SAKURACLOUD_ACCESS_TOKEN_SECRET"),
+	))...)
+}
+
+func WithAlertProject(t *testing.T, cli *v1.Client, ctx context.Context) *v1.AlertProject {
+	op := NewAlertProjectOp(cli)
+
+	ret, err := op.Create(ctx, AlertProjectCreateParams{
+		Name:        testutil.RandomName("test-alert-project-", 16, testutil.CharSetAlphaNum),
+		Description: testutil.Random(128, testutil.CharSetAlphaNum),
+	})
+	require.NoError(t, err)
+	require.NotNil(t, ret)
+
+	t.Cleanup(func() {
+		if err := op.Delete(ctx, fmt.Sprintf("%d", ret.GetID())); err != nil {
+			t.Error(err)
+		}
+	})
+	return ret
 }
 
 // time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)

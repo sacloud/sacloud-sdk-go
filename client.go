@@ -41,7 +41,7 @@ var (
 
 	RequestCustomizers = []saht.RequestCustomizer{
 		func(req *http.Request) error {
-			req.Header.Set("X-Sakura-Bigint-As-Int", "0")
+			req.Header.Set("X-Sakura-Bigint-As-Int", "1")
 			return nil
 		},
 	}
@@ -56,14 +56,22 @@ func NewClientWithApiUrl(apiUrl string, params ...client.ClientParam) (*v1.Clien
 }
 
 func NewClientWithApiUrlAndClient(apiUrl string, apiClient *http.Client, params ...client.ClientParam) (*v1.Client, error) {
-	var cli client.ClientParam
+	var cli, opts client.ClientParam
 	if apiClient == nil {
 		cli = func(i *client.ClientParams) {}
 	} else {
 		cli = client.WithHTTPClient(apiClient)
 	}
 	ua := client.WithUserAgent(UserAgent)
-	opts := client.WithOptions(&client.Options{RequestCustomizers: RequestCustomizers})
+	opts = func(p *client.ClientParams) {
+		if p.Options == nil {
+			p.Options = &client.Options{}
+		}
+		if p.Options.RequestCustomizers == nil {
+			p.Options.RequestCustomizers = []saht.RequestCustomizer{}
+		}
+		p.Options.RequestCustomizers = append(p.Options.RequestCustomizers, RequestCustomizers...)
+	}
 	c, err := client.NewClient(apiUrl, append(params, ua, cli, opts)...)
 	if err != nil {
 		return nil, NewError("NewClientWithApiUrl", err)
