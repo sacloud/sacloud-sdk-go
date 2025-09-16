@@ -18,22 +18,22 @@ import (
 	"context"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/google/uuid"
 	ogen "github.com/ogen-go/ogen/validate"
-	params "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
 type AlertProjectAPI interface {
 	List(ctx context.Context, count *int, from *int) ([]v1.AlertProject, error)
-	Create(ctx context.Context, params v1.AlertProjectCreate) (*v1.AlertProject, error)
+	Create(ctx context.Context, params AlertProjectCreateParams) (*v1.AlertProject, error)
 	Read(ctx context.Context, id string) (*v1.WrappedAlertProject, error)
-	Update(ctx context.Context, id string, request *v1.AlertProject) (*v1.WrappedAlertProject, error)
+	Update(ctx context.Context, id string, request AlertProjectUpdateParams) (*v1.WrappedAlertProject, error)
 	Delete(ctx context.Context, id string) error
 
-	ListHistories(ctx context.Context, params v1.AlertsProjectsHistoriesListParams) ([]v1.History, error)
+	ListHistories(ctx context.Context, params AlertsProjectsHistoriesListParams) ([]v1.History, error)
 	ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error)
 }
 
@@ -71,7 +71,7 @@ func (op *alertProjectOp) Read(ctx context.Context, id string) (*v1.WrappedAlert
 	if err != nil {
 		return nil, NewAPIError("AlertProject.Read", 0, err)
 	}
-	p := params.AlertsProjectsRetrieveParams{ResourceID: intId}
+	p := v1.AlertsProjectsRetrieveParams{ResourceID: intId}
 	result, err := op.client.AlertsProjectsRetrieve(ctx, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -90,8 +90,18 @@ func (op *alertProjectOp) Read(ctx context.Context, id string) (*v1.WrappedAlert
 	}
 }
 
-func (op *alertProjectOp) Create(ctx context.Context, params v1.AlertProjectCreate) (*v1.AlertProject, error) {
-	result, err := op.client.AlertsProjectsCreate(ctx, &params)
+type AlertProjectCreateParams struct {
+	Name        string
+	Description string
+	IsSystem    *bool
+}
+
+func (op *alertProjectOp) Create(ctx context.Context, params AlertProjectCreateParams) (*v1.AlertProject, error) {
+	result, err := op.client.AlertsProjectsCreate(ctx, &v1.AlertProjectCreate{
+		Name:        params.Name,
+		Description: params.Description,
+		IsSystem:    intoOpt[v1.OptBool](params.IsSystem),
+	})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -108,14 +118,23 @@ func (op *alertProjectOp) Create(ctx context.Context, params v1.AlertProjectCrea
 	}
 }
 
-func (op *alertProjectOp) Update(ctx context.Context, id string, resource *v1.AlertProject) (*v1.WrappedAlertProject, error) {
+type AlertProjectUpdateParams struct {
+	Name        *string
+	Description *string
+}
+
+func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertProjectUpdateParams) (*v1.WrappedAlertProject, error) {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertProject.Update", 0, err)
 	}
-	p := params.AlertsProjectsUpdateParams{ResourceID: intId}
-	body := v1.NewOptAlertProject(*resource)
-	result, err := op.client.AlertsProjectsUpdate(ctx, body, p)
+	p := v1.AlertsProjectsPartialUpdateParams{ResourceID: intId}
+	body := v1.NewOptPatchedAlertProject(v1.PatchedAlertProject{
+		Name:        intoOpt[v1.OptString](params.Name),
+		Description: intoOpt[v1.OptString](params.Description),
+		// other fields are golang's zero values, meaning "not set"
+	})
+	result, err := op.client.AlertsProjectsPartialUpdate(ctx, body, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -138,7 +157,7 @@ func (op *alertProjectOp) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		return NewAPIError("AlertProject.Delete", 0, err)
 	}
-	p := params.AlertsProjectsDestroyParams{ResourceID: intId}
+	p := v1.AlertsProjectsDestroyParams{ResourceID: intId}
 	err = op.client.AlertsProjectsDestroy(ctx, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -155,8 +174,29 @@ func (op *alertProjectOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (op *alertProjectOp) ListHistories(ctx context.Context, params v1.AlertsProjectsHistoriesListParams) ([]v1.History, error) {
-	result, err := op.client.AlertsProjectsHistoriesList(ctx, params)
+type AlertsProjectsHistoriesListParams struct {
+	ProjectID string // mandatory
+	Count     *int
+	From      *int
+	Open      *bool
+	Severity  *v1.AlertsProjectsHistoriesListSeverity
+	StartsAt  *time.Time
+}
+
+func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjectsHistoriesListParams) ([]v1.History, error) {
+	intProjectId, err := strconv.ParseInt(params.ProjectID, 10, 32)
+	if err != nil {
+		return nil, NewAPIError("AlertProject.ListHistories", 0, err)
+	}
+	p := v1.AlertsProjectsHistoriesListParams{
+		ProjectResourceID: int(intProjectId),
+		Count:             intoOpt[v1.OptInt](params.Count),
+		From:              intoOpt[v1.OptInt](params.From),
+		Open:              intoOpt[v1.OptBool](params.Open),
+		Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
+		StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
+	}
+	result, err := op.client.AlertsProjectsHistoriesList(ctx, p)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -174,7 +214,7 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params v1.AlertsPro
 }
 
 func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+	intProjectId, err := strconv.ParseInt(projectId, 10, 32)
 	if err != nil {
 		return nil, NewAPIError("AlertProject.ReadHistory", 0, err)
 	}

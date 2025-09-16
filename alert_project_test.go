@@ -91,10 +91,10 @@ func TestAlertProjectOp_Create(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	createReq := v1.AlertProjectCreate{
+	createReq := AlertProjectCreateParams{
 		Name:        "created-alert-project",
 		Description: "Created alert project",
-		IsSystem:    v1.NewOptBool(false),
+		IsSystem:    nil,
 	}
 	actual, err := api.Create(ctx, createReq)
 	require.NoError(t, err)
@@ -113,10 +113,11 @@ func TestAlertProjectOp_Create_400(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	createReq := v1.AlertProjectCreate{
+	tt := true
+	createReq := AlertProjectCreateParams{
 		Name:        "",
 		Description: "",
-		IsSystem:    v1.NewOptBool(false),
+		IsSystem:    &tt,
 	}
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
@@ -129,7 +130,12 @@ func TestAlertProjectOp_Update(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, "54321", &TemplateAlertProject)
+	str := "Updated alert project"
+	updateReq := AlertProjectUpdateParams{
+		Name:        nil,
+		Description: &str,
+	}
+	actual, err := api.Update(ctx, "54321", updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedAlertProject.GetName(), actual.GetName())
@@ -146,7 +152,7 @@ func TestAlertProjectOp_Update_400(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, "0", &TemplateAlertProject)
+	actual, err := api.Update(ctx, "0", AlertProjectUpdateParams{nil, nil})
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -182,10 +188,7 @@ func TestAlertProjectOp_ListHistories(t *testing.T) {
 	client := newTestClient(expected)
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
-	params := v1.AlertsProjectsHistoriesListParams{
-		Count: v1.NewOptInt(32),
-		From:  v1.NewOptInt(0),
-	}
+	params := AlertsProjectsHistoriesListParams{"0", nil, nil, nil, nil, nil}
 	histories, err := api.ListHistories(ctx, params)
 	require.NoError(t, err)
 	require.NotNil(t, histories)
@@ -199,7 +202,7 @@ func TestAlertProjectOp_ListHistories_403(t *testing.T) {
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
-	params := v1.AlertsProjectsHistoriesListParams{}
+	params := AlertsProjectsHistoriesListParams{"0", nil, nil, nil, nil, nil}
 	_, err := api.ListHistories(ctx, params)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permission")
