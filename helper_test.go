@@ -127,6 +127,9 @@ func WithMetricsStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.M
 	return ret
 }
 
+// generic-ish type cast helper function
+func ref[T any](v T) *T { return &v }
+
 // time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
 var TemplateTime time.Time = time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 

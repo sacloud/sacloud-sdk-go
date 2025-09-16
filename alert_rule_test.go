@@ -16,11 +16,13 @@ package monitoringsuite_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"testing"
 
 	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
+	"github.com/sacloud/packages-go/testutil"
 
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
@@ -203,4 +205,68 @@ func TestAlertRuleOp_ReadHistory_404(t *testing.T) {
 	_, err := api.ReadHistory(ctx, "123", uuid.New(), uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
+}
+
+func TestAlertRuleIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+
+	api := NewAlertRuleOp(client)
+	ctx := context.Background()
+
+	project := WithAlertProject(t, client, ctx)
+	projectId := fmt.Sprintf("%d", project.GetID())
+
+	storage := WithMetricsStorage(t, client, ctx)
+	storageId := fmt.Sprintf("%d", storage.GetID())
+
+	// Create
+	name := testutil.RandomName("test-alert-rule-", 16, testutil.CharSetAlphaNum)
+	created, err := api.Create(ctx, projectId, AlertRuleCreateParams{
+		MetricsStorageID:         storageId,
+		Name:                     &name,
+		Query:                    "count_values",
+		EnabledWarning:           ref(true),
+		ThresholdWarning:         ref("==0"),
+		ThresholdDurationWarning: ref[int64](32768),
+	})
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	uid := created.GetUID()
+
+	// Delete
+	t.Cleanup(func() {
+		err = api.Delete(ctx, projectId, uid)
+		require.NoError(t, err)
+	})
+
+	// Read
+	read, err := api.Read(ctx, projectId, uid)
+	require.NoError(t, err)
+	require.NotNil(t, read)
+	require.Equal(t, uid, read.GetUID())
+	require.Equal(t, created.GetName(), read.GetName())
+	require.Equal(t, created.GetQuery(), read.GetQuery())
+
+	// Update
+	rename := testutil.Random(16, testutil.CharSetAlphaNum)
+	updated, err := api.Update(ctx, projectId, uid, AlertRuleUpdateParams{
+		// :TODO: this `EnabledWarning` is tentatively mandatory
+		// but subject to change in the future.
+		EnabledWarning: ref(true),
+		Name:           &rename,
+	})
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, rename, updated.GetName().Or("failure"))
+
+	// List rules
+	rules, err := api.List(ctx, projectId, nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, rules)
+
+	// List histories
+	histories, err := api.ListHistories(ctx, projectId, uid, AlertRuleListHistoriesParams{})
+	require.NoError(t, err)
+	require.NotNil(t, histories)
 }
