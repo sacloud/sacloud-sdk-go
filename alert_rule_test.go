@@ -161,12 +161,10 @@ func TestAlertRuleOp_ListHistories(t *testing.T) {
 	api := NewAlertRuleOp(client)
 	ctx := context.Background()
 	params := AlertRuleListHistoriesParams{
-		ProjectID: "12345",
-		RuleUID:   uuid.New(),
-		Count:     nil,
-		From:      nil,
+		Count: nil,
+		From:  nil,
 	}
-	histories, err := api.ListHistories(ctx, params)
+	histories, err := api.ListHistories(ctx, "12345", uuid.New(), params)
 	require.NoError(t, err)
 	require.Equal(t, 1, len(histories))
 	require.Equal(t, TemplateHistory.GetUID(), histories[0].GetUID())
@@ -179,12 +177,10 @@ func TestAlertRuleOp_ListHistories_403(t *testing.T) {
 	api := NewAlertRuleOp(client)
 	ctx := context.Background()
 	params := AlertRuleListHistoriesParams{
-		ProjectID: "12345",
-		RuleUID:   uuid.New(),
-		Count:     nil,
-		From:      nil,
+		Count: nil,
+		From:  nil,
 	}
-	_, err := api.ListHistories(ctx, params)
+	_, err := api.ListHistories(ctx, "12345", uuid.New(), params)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permission")
 }

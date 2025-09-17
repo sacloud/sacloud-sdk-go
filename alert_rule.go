@@ -33,7 +33,7 @@ type AlertRuleAPI interface {
 	Update(ctx context.Context, projectId string, ruleId uuid.UUID, params AlertRuleUpdateParams) (*v1.AlertRule, error)
 	Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error
 
-	ListHistories(ctx context.Context, params AlertRuleListHistoriesParams) ([]v1.History, error)
+	ListHistories(ctx context.Context, projectId string, ruleId uuid.UUID, params AlertRuleListHistoriesParams) ([]v1.History, error)
 	ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error)
 }
 
@@ -243,23 +243,21 @@ func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid
 }
 
 type AlertRuleListHistoriesParams struct {
-	ProjectID string    // mandatory
-	RuleUID   uuid.UUID // mandatory
-	Count     *int
-	From      *int
-	Open      *bool
-	Severity  *v1.AlertsProjectsRulesHistoriesListSeverity
-	StartsAt  *time.Time
+	Count    *int
+	From     *int
+	Open     *bool
+	Severity *v1.AlertsProjectsRulesHistoriesListSeverity
+	StartsAt *time.Time
 }
 
-func (op *alertRuleOp) ListHistories(ctx context.Context, p AlertRuleListHistoriesParams) ([]v1.History, error) {
-	intProjectId, err := strconv.ParseInt(p.ProjectID, 10, 32)
+func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleListHistoriesParams) ([]v1.History, error) {
+	intProjectId, err := strconv.ParseInt(projectId, 10, 32)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.ListHistories", 0, err)
 	}
 	params := v1.AlertsProjectsRulesHistoriesListParams{
 		ProjectResourceID: intProjectId,
-		RuleUID:           p.RuleUID,
+		RuleUID:           ruleId,
 		Count:             intoOpt[v1.OptInt](p.Count),
 		From:              intoOpt[v1.OptInt](p.From),
 		Open:              intoOpt[v1.OptBool](p.Open),
