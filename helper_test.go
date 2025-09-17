@@ -108,6 +108,25 @@ func WithAlertProject(t *testing.T, cli *v1.Client, ctx context.Context) *v1.Ale
 	return ret
 }
 
+func WithMetricsStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.MetricsStorage {
+	op := NewMetricsStorageOp(cli)
+
+	ret, err := op.Create(ctx, MetricsStorageCreateParams{
+		Name:        testutil.RandomName("test-metrics-storage-", 16, testutil.CharSetAlphaNum),
+		Description: testutil.Random(128, testutil.CharSetAlphaNum),
+		IsSystem:    false,
+	})
+	require.NoError(t, err)
+	require.NotNil(t, ret)
+
+	t.Cleanup(func() {
+		if err := op.Delete(ctx, fmt.Sprintf("%d", ret.GetID())); err != nil {
+			t.Error(err)
+		}
+	})
+	return ret
+}
+
 // time.Now() をexpectationに使うのは筋悪である(SetFakeのままだとそうなる)
 var TemplateTime time.Time = time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 

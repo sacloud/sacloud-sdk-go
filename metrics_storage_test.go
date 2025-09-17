@@ -16,11 +16,13 @@ package monitoringsuite_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"testing"
 
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
+	"github.com/sacloud/packages-go/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -311,4 +313,60 @@ func TestMetricsStorageOp_DeleteKey_403(t *testing.T) {
 	err := api.DeleteKey(ctx, "12345", "5")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
+}
+
+func TestMetricsStorageIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+	api := NewMetricsStorageOp(client)
+	ctx := context.Background()
+	tmp := WithMetricsStorage(t, client, ctx)
+	sid := fmt.Sprintf("%d", tmp.GetID())
+
+	// Read
+	read, err := api.Read(ctx, sid)
+	require.NoError(t, err)
+	require.NotNil(t, read)
+	require.Equal(t, tmp.GetID(), read.GetID())
+	require.Equal(t, tmp.GetName(), read.GetName())
+
+	// Update
+	updateReq := testutil.Random(128, testutil.CharSetAlphaNum)
+	updated, err := api.Update(ctx, sid, MetricsStorageUpdateParams{nil, &updateReq})
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, updateReq, updated.GetDescription().Or("failure"))
+
+	// Create Key
+	createdKey, err := api.CreateKey(ctx, sid, nil)
+	require.NoError(t, err)
+	require.NotNil(t, createdKey)
+	require.NotZero(t, createdKey.GetUID())
+	require.Empty(t, createdKey.GetDescription().Or("failure"))
+	require.NotEmpty(t, createdKey.GetSecret())
+	kid := fmt.Sprintf("%d", createdKey.GetID())
+
+	// Read Key
+	readKey, err := api.ReadKey(ctx, sid, kid)
+	require.NoError(t, err)
+	require.NotNil(t, readKey)
+	require.Equal(t, createdKey.GetUID(), readKey.GetUID())
+
+	// Update Key
+	updatedDesc := testutil.Random(128, testutil.CharSetAlphaNum)
+	updatedKey, err := api.UpdateKey(ctx, sid, kid, &updatedDesc)
+	require.NoError(t, err)
+	require.NotNil(t, updatedKey)
+	require.Equal(t, createdKey.GetUID(), updatedKey.GetUID())
+	require.Equal(t, updatedDesc, updatedKey.GetDescription().Or("failure"))
+
+	// Delete Key
+	err = api.DeleteKey(ctx, sid, kid)
+	require.NoError(t, err)
+
+	// List
+	tanks, err := api.List(ctx, MetricsStorageListParams{Count: nil, From: nil})
+	require.NoError(t, err)
+	require.NotNil(t, tanks)
+	require.NotEmpty(t, tanks)
 }
