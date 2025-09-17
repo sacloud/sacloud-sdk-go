@@ -57,21 +57,15 @@ type MetricsStorageListParams struct {
 }
 
 func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListParams) ([]v1.MetricsStorage, error) {
-	var ptr *int64
-	if params.ResourceID == nil {
-		ptr = nil
-	} else {
-		id, err := strconv.ParseInt(*params.ResourceID, 10, 64)
-		if err != nil {
-			return nil, NewAPIError("MetricsStorage.Read", 0, err)
-		}
-		ptr = &id
+	resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID)
+	if err != nil {
+		return nil, NewAPIError("MetricsStorage.List", 0, err)
 	}
 	result, err := op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
 		Count:      intoOpt[v1.OptInt](params.Count),
 		From:       intoOpt[v1.OptInt](params.From),
 		AccountID:  intoOpt[v1.OptString](params.AccountID),
-		ResourceID: intoOpt[v1.OptInt64](ptr),
+		ResourceID: resourceId,
 		IsSystem:   intoOpt[v1.OptBool](params.IsSystem),
 	})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {

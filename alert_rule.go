@@ -180,16 +180,12 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid
 		ProjectResourceID: intProjectId,
 		UID:               ruleId,
 	}
-	var pintStorageId *int64
-	if p.MetricsStorageID == nil {
-		pintStorageId = nil
-	} else if intStorageId, err := strconv.ParseInt(*p.MetricsStorageID, 10, 64); err != nil {
-		return nil, NewAPIError("AlertRule.Create", 0, errors.Wrap(err, "invalid MetricsStorageID"))
-	} else {
-		pintStorageId = &intStorageId
+	storageId, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
+	if err != nil {
+		return nil, NewAPIError("AlertRule.Update", 0, errors.Wrap(err, "invalid MetricsStorageID"))
 	}
 	params := v1.NewOptPatchedAlertRule(v1.PatchedAlertRule{
-		MetricsStorageID:          intoOptNil[v1.OptNilInt64](pintStorageId),
+		MetricsStorageID:          storageId,
 		Name:                      intoOpt[v1.OptString](p.Name),
 		Query:                     intoOpt[v1.OptString](p.Query),
 		Format:                    intoOpt[v1.OptString](p.Format),
