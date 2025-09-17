@@ -34,14 +34,10 @@ func TestLogsStorageOp_List(t *testing.T) {
 	client := newTestClient(expected)
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
-	params := v1.LogsStoragesListParams{
-		AccountID:            v1.NewOptString("account-id-12345"),
-		BucketClassification: v1.NewOptLogsStoragesListBucketClassification(v1.LogsStoragesListBucketClassificationSeparated),
-		Count:                v1.NewOptInt(20),
-		From:                 v1.NewOptInt(0),
-		IsSystem:             v1.NewOptBool(false),
-		ResourceID:           v1.NewOptInt(12345),
-		Status:               v1.NewOptLogsStoragesListStatus(v1.LogsStoragesListStatusAssigned),
+	params := LogsStoragesListParams{
+		IsSystem:             ref(false),
+		BucketClassification: ref(v1.LogsStoragesListBucketClassificationShared),
+		Status:               ref(v1.LogsStoragesListStatusAssigned),
 	}
 	tables, err := api.List(ctx, params)
 	require.NoError(t, err)
@@ -63,7 +59,7 @@ func TestLogsStorageOp_List_403(t *testing.T) {
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
-	params := v1.LogsStoragesListParams{}
+	params := LogsStoragesListParams{}
 	_, err := api.List(ctx, params)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permission")
@@ -106,7 +102,7 @@ func TestLogsStorageOp_Create(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	createReq := v1.LogStorageCreate{
+	createReq := LogStorageCreateParams{
 		Name:        "created-table",
 		Description: "Created log table",
 		IsSystem:    false,
@@ -130,7 +126,7 @@ func TestLogsStorageOp_Create_400(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	createReq := v1.LogStorageCreate{
+	createReq := LogStorageCreateParams{
 		Name:        "",
 		Description: "",
 		IsSystem:    false,
@@ -146,7 +142,8 @@ func TestLogsStorageOp_Update(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, "54321", &TemplateLogStorage)
+	updateReq := LogStorageUpdateParams{Name: ref("new name")}
+	actual, err := api.Update(ctx, "54321", updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedLogStorage.GetName(), actual.GetName())
@@ -164,7 +161,8 @@ func TestLogsStorageOp_Update_400(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Update(ctx, "0", &TemplateLogStorage)
+	updateReq := LogStorageUpdateParams{}
+	actual, err := api.Update(ctx, "0", updateReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
@@ -228,7 +226,7 @@ func TestLogsStorageOp_CreateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, "12345", &TemplateLogStorageAccessKey)
+	key, err := api.CreateKey(ctx, "12345", ref("new key"))
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -241,7 +239,7 @@ func TestLogsStorageOp_CreateKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.CreateKey(ctx, "12345", &TemplateLogStorageAccessKey)
+	key, err := api.CreateKey(ctx, "12345", nil)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -276,7 +274,7 @@ func TestLogsStorageOp_UpdateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateLogStorageAccessKey)
+	key, err := api.UpdateKey(ctx, "12345", "4", ref("updated key"))
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -289,7 +287,7 @@ func TestLogsStorageOp_UpdateKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", &TemplateLogStorageAccessKey)
+	key, err := api.UpdateKey(ctx, "12345", "4", nil)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
