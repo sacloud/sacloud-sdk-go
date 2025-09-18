@@ -20,6 +20,7 @@ import (
 	"strconv"
 
 	"github.com/go-faster/errors"
+	"github.com/google/uuid"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
@@ -31,11 +32,11 @@ type LogsStorageAPI interface {
 	Update(ctx context.Context, id string, params LogStorageUpdateParams) (*v1.LogStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error)
+	ListKeys(ctx context.Context, logResourceId string, count *int64, from *int64) ([]v1.LogStorageAccessKey, error)
 	CreateKey(ctx context.Context, logResourceId string, description *string) (*v1.LogStorageAccessKey, error)
-	ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogStorageAccessKey, error)
-	UpdateKey(ctx context.Context, logResourceId string, id string, description *string) (*v1.LogStorageAccessKey, error)
-	DeleteKey(ctx context.Context, logResourceId string, id string) error
+	ReadKey(ctx context.Context, logResourceId string, id uuid.UUID) (*v1.LogStorageAccessKey, error)
+	UpdateKey(ctx context.Context, logResourceId string, id uuid.UUID, description *string) (*v1.LogStorageAccessKey, error)
+	DeleteKey(ctx context.Context, logResourceId string, id uuid.UUID) error
 }
 
 var _ LogsStorageAPI = (*logsStorageOp)(nil)
@@ -51,24 +52,23 @@ func NewLogsStorageOp(client *v1.Client) LogsStorageAPI {
 type LogsStoragesListParams struct {
 	AccountID            *string
 	BucketClassification *v1.LogsStoragesListBucketClassification
-	Count                *int
-	From                 *int
+	Count                *int64
+	From                 *int64
 	IsSystem             *bool
 	ResourceID           *string
 	Status               *v1.LogsStoragesListStatus
 }
 
 func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) ([]v1.LogStorage, error) {
-	// :TODO: `params.ResourceID` being `v1.OptInt` rather than `v1.OptInt64` is subject to change.
-	id, err := fromStringPtr[v1.OptInt, int](p.ResourceID)
+	id, err := fromStringPtr[v1.OptInt64, int64](p.ResourceID)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.List", 0, err)
 	}
 	params := v1.LogsStoragesListParams{
 		AccountID:            intoOpt[v1.OptString](p.AccountID),
 		BucketClassification: intoOpt[v1.OptLogsStoragesListBucketClassification](p.BucketClassification),
-		Count:                intoOpt[v1.OptInt](p.Count),
-		From:                 intoOpt[v1.OptInt](p.From),
+		Count:                intoOpt[v1.OptInt64](p.Count),
+		From:                 intoOpt[v1.OptInt64](p.From),
 		IsSystem:             intoOpt[v1.OptBool](p.IsSystem),
 		ResourceID:           id,
 		Status:               intoOpt[v1.OptLogsStoragesListStatus](p.Status),
@@ -114,7 +114,7 @@ func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogSt
 
 type LogStorageCreateParams struct {
 	Name           string
-	Description    string
+	Description    *string
 	IsSystem       bool
 	Classification *v1.LogStorageCreateClassification
 }
@@ -124,7 +124,7 @@ func (op *logsStorageOp) Create(ctx context.Context, params LogStorageCreatePara
 		Classification: intoOpt[v1.OptLogStorageCreateClassification](params.Classification),
 		IsSystem:       params.IsSystem,
 		Name:           params.Name,
-		Description:    params.Description,
+		Description:    intoOpt[v1.OptString](params.Description),
 	}
 	result, err := op.client.LogsStoragesCreate(ctx, &req)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -201,14 +201,14 @@ func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error) {
+func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int64, from *int64) ([]v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.ListKeys", 0, err)
 	}
 	params := v1.LogsStoragesKeysListParams{
-		Count:         intoOpt[v1.OptInt](count),
-		From:          intoOpt[v1.OptInt](from),
+		Count:         intoOpt[v1.OptInt64](count),
+		From:          intoOpt[v1.OptInt64](from),
 		LogResourceID: rid,
 	}
 	result, err := op.client.LogsStoragesKeysList(ctx, params)
@@ -256,16 +256,12 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, de
 	}
 }
 
-func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id string) (*v1.LogStorageAccessKey, error) {
+func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id uuid.UUID) (*v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
 	}
-	kid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
-	}
-	params := v1.LogsStoragesKeysRetrieveParams{LogResourceID: rid, ID: kid}
+	params := v1.LogsStoragesKeysRetrieveParams{LogResourceID: rid, ID: id}
 	result, err := op.client.LogsStoragesKeysRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -284,7 +280,7 @@ func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id s
 	}
 }
 
-func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id string, description *string) (*v1.LogStorageAccessKey, error) {
+func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id uuid.UUID, description *string) (*v1.LogStorageAccessKey, error) {
 	// :FIXME: does it make sense to allow a nil description?
 	request := v1.LogStorageAccessKey{
 		Description: intoOpt[v1.OptString](description),
@@ -293,11 +289,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
 	}
-	kid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
-	}
-	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: rid, ID: kid}
+	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: rid, ID: id}
 	opt := v1.NewOptLogStorageAccessKey(request)
 	result, err := op.client.LogsStoragesKeysUpdate(ctx, opt, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -317,16 +309,12 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 	}
 }
 
-func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId string, id string) error {
+func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId string, id uuid.UUID) error {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return NewAPIError("LogsStorage.DeleteKey", 0, err)
 	}
-	kid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return NewAPIError("LogsStorage.DeleteKey", 0, err)
-	}
-	params := v1.LogsStoragesKeysDestroyParams{LogResourceID: rid, ID: kid}
+	params := v1.LogsStoragesKeysDestroyParams{LogResourceID: rid, ID: id}
 	err = op.client.LogsStoragesKeysDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {

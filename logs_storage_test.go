@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
@@ -104,7 +105,7 @@ func TestLogsStorageOp_Create(t *testing.T) {
 
 	createReq := LogStorageCreateParams{
 		Name:        "created-table",
-		Description: "Created log table",
+		Description: ref("Created log table"),
 		IsSystem:    false,
 	}
 	actual, err := api.Create(ctx, createReq)
@@ -128,7 +129,7 @@ func TestLogsStorageOp_Create_400(t *testing.T) {
 
 	createReq := LogStorageCreateParams{
 		Name:        "",
-		Description: "",
+		Description: nil,
 		IsSystem:    false,
 	}
 	actual, err := api.Create(ctx, createReq)
@@ -250,7 +251,7 @@ func TestLogsStorageOp_ReadKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.ReadKey(ctx, "12345", "3")
+	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -263,7 +264,7 @@ func TestLogsStorageOp_ReadKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.ReadKey(ctx, "12345", "3")
+	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -274,7 +275,7 @@ func TestLogsStorageOp_UpdateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", ref("updated key"))
+	key, err := api.UpdateKey(ctx, "12345", uuid.New(), ref("updated key"))
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -287,7 +288,7 @@ func TestLogsStorageOp_UpdateKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", nil)
+	key, err := api.UpdateKey(ctx, "12345", uuid.New(), nil)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -298,7 +299,7 @@ func TestLogsStorageOp_DeleteKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	err := api.DeleteKey(ctx, "12345", "5")
+	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 }
 
@@ -308,7 +309,7 @@ func TestLogsStorageOp_DeleteKey_403(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := context.Background()
 
-	err := api.DeleteKey(ctx, "12345", "5")
+	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
 }

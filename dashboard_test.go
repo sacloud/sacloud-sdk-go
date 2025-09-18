@@ -56,7 +56,6 @@ func TestDashboardOp_Read(t *testing.T) {
 	require.Equal(t, TemplateWrappedDashboardProject.GetID(), res.GetID())
 	require.Equal(t, TemplateWrappedDashboardProject.GetName(), res.GetName())
 	require.Equal(t, TemplateWrappedDashboardProject.GetDescription(), res.GetDescription())
-	require.Equal(t, TemplateWrappedDashboardProject.GetIsSystem(), res.GetIsSystem())
 	require.Equal(t, TemplateWrappedDashboardProject.GetTags(), res.GetTags())
 	require.Equal(t, TemplateWrappedDashboardProject.GetAccountID(), res.GetAccountID())
 	require.Equal(t, TemplateWrappedDashboardProject.GetResourceID(), res.GetResourceID())

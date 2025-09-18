@@ -95,7 +95,7 @@ func WithAlertProject(t *testing.T, cli *v1.Client, ctx context.Context) *v1.Ale
 
 	ret, err := op.Create(ctx, AlertProjectCreateParams{
 		Name:        testutil.RandomName("test-alert-project-", 16, testutil.CharSetAlphaNum),
-		Description: testutil.Random(128, testutil.CharSetAlphaNum),
+		Description: ref(testutil.Random(128, testutil.CharSetAlphaNum)),
 	})
 	require.NoError(t, err)
 	require.NotNil(t, ret)
@@ -113,7 +113,7 @@ func WithMetricsStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.M
 
 	ret, err := op.Create(ctx, MetricsStorageCreateParams{
 		Name:        testutil.RandomName("test-metrics-storage-", 16, testutil.CharSetAlphaNum),
-		Description: testutil.Random(128, testutil.CharSetAlphaNum),
+		Description: ref(testutil.Random(128, testutil.CharSetAlphaNum)),
 		IsSystem:    false,
 	})
 	require.NoError(t, err)

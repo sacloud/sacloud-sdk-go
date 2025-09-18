@@ -25,7 +25,7 @@ import (
 )
 
 type DashboardProjectAPI interface {
-	List(ctx context.Context, count *int, from *int) ([]v1.DashboardProject, error)
+	List(ctx context.Context, count *int64, from *int64) ([]v1.DashboardProject, error)
 	Create(ctx context.Context, request v1.DashboardProjectCreate) (*v1.DashboardProject, error)
 	Read(ctx context.Context, id string) (*v1.DashboardProject, error)
 	Update(ctx context.Context, id string, request *v1.DashboardProject) (*v1.DashboardProject, error)
@@ -42,10 +42,10 @@ func NewDashboardOp(client *v1.Client) DashboardProjectAPI {
 	return &dashboardProjectOp{client: client}
 }
 
-func (op *dashboardProjectOp) List(ctx context.Context, count *int, from *int) ([]v1.DashboardProject, error) {
+func (op *dashboardProjectOp) List(ctx context.Context, count *int64, from *int64) ([]v1.DashboardProject, error) {
 	resp, err := op.client.DashboardsProjectsList(ctx, v1.DashboardsProjectsListParams{
-		Count: intoOpt[v1.OptInt](count),
-		From:  intoOpt[v1.OptInt](from),
+		Count: intoOpt[v1.OptInt64](count),
+		From:  intoOpt[v1.OptInt64](from),
 	})
 	if err != nil {
 		return nil, NewAPIError("DashboardProject.List", 0, err)
