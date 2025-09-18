@@ -17,6 +17,7 @@ package monitoringsuite_test
 import (
 	"context"
 	"net/http"
+	"net/url"
 	"testing"
 
 	"github.com/google/uuid"
@@ -35,12 +36,11 @@ func TestNotificationTargetService_List(t *testing.T) {
 	client := newTestClient(expected)
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
-	params := v1.AlertsProjectsNotificationTargetsListParams{
-		ProjectResourceID: TemplateNotificationTarget.GetProjectID().Or(^0),
-		Count:             v1.NewOptInt64(20),
-		From:              v1.NewOptInt64(0),
+	params := NotificationTargetsListParams{
+		Count: ref[int64](20),
+		From:  ref[int64](0),
 	}
-	targets, err := api.List(ctx, params)
+	targets, err := api.List(ctx, "12345", params)
 	require.NoError(t, err)
 	require.NotNil(t, targets)
 	require.Equal(t, 1, len(targets))
@@ -59,8 +59,8 @@ func TestNotificationTargetService_List_403(t *testing.T) {
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
-	params := v1.AlertsProjectsNotificationTargetsListParams{}
-	_, err := api.List(ctx, params)
+	params := NotificationTargetsListParams{}
+	_, err := api.List(ctx, "12345", params)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permission")
 }
@@ -70,7 +70,7 @@ func TestNotificationTargetService_Read(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Read(ctx, uuid.New())
+	actual, err := api.Read(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateNotificationTarget.GetUID(), actual.GetUID())
@@ -87,7 +87,7 @@ func TestNotificationTargetService_Read_404(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	_, err := api.Read(ctx, uuid.New())
+	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Not Found")
 }
@@ -98,7 +98,12 @@ func TestNotificationTargetService_Create(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	actual, err := api.Create(ctx, nt)
+	url, _ := url.Parse("https://example.com/notify")
+	createParams := NotificationTargetCreateParams{
+		ServiceType: v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE,
+		URL:         *url,
+	}
+	actual, err := api.Create(ctx, "12345", createParams)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, nt.GetUID(), actual.GetUID())
@@ -116,7 +121,15 @@ func TestNotificationTargetService_Update(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	updated, err := api.Update(ctx, uuid.New(), &nt)
+	updateParams := NotificationTargetUpdateParams{
+		ServiceType: func() *v1.PatchedNotificationTargetServiceType {
+			v := v1.PatchedNotificationTargetServiceType(nt.GetServiceType())
+			return &v
+		}(),
+		URL:         func() *string { v := nt.GetURL(); return &v }(),
+		Description: func() *string { v := nt.GetDescription().Or(""); return &v }(),
+	}
+	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
 	require.NoError(t, err)
 	require.NotNil(t, updated)
 	require.Equal(t, nt.GetUID(), updated.GetUID())
@@ -133,8 +146,8 @@ func TestNotificationTargetService_Update_400(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	nt := v1.NotificationTarget{}
-	updated, err := api.Update(ctx, uuid.New(), &nt)
+	updateParams := NotificationTargetUpdateParams{}
+	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
 	require.Nil(t, updated)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
@@ -146,7 +159,7 @@ func TestNotificationTargetService_Delete(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, uuid.New())
+	err := api.Delete(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 }
 
@@ -156,7 +169,7 @@ func TestNotificationTargetService_Delete_400(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 
-	err := api.Delete(ctx, uuid.New())
+	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
 }
