@@ -6,7 +6,12 @@ import (
 	"net/http"
 
 	ht "github.com/ogen-go/ogen/http"
+	"github.com/ogen-go/ogen/ogenregex"
 )
+
+var regexMap = map[string]ogenregex.Regexp{
+	"^[a-z\\d_-]*$": ogenregex.MustCompile("^[a-z\\d_-]*$"),
+}
 
 type (
 	optionFunc[C any] func(*C)

@@ -19,7 +19,6 @@ type AlertProject struct {
 	AccountID               string              `json:"account_id"`
 	ResourceID              NilInt64            `json:"resource_id"`
 	CreatedAt               time.Time           `json:"created_at"`
-	IsSystem                bool                `json:"is_system"`
 	RulesURL                string              `json:"rules_url"`
 	NotificationTargetsURL  string              `json:"notification_targets_url"`
 	NotificationRoutingsURL string              `json:"notification_routings_url"`
@@ -65,11 +64,6 @@ func (s *AlertProject) GetResourceID() NilInt64 {
 // GetCreatedAt returns the value of CreatedAt.
 func (s *AlertProject) GetCreatedAt() time.Time {
 	return s.CreatedAt
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *AlertProject) GetIsSystem() bool {
-	return s.IsSystem
 }
 
 // GetRulesURL returns the value of RulesURL.
@@ -137,11 +131,6 @@ func (s *AlertProject) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
-// SetIsSystem sets the value of IsSystem.
-func (s *AlertProject) SetIsSystem(val bool) {
-	s.IsSystem = val
-}
-
 // SetRulesURL sets the value of RulesURL.
 func (s *AlertProject) SetRulesURL(val string) {
 	s.RulesURL = val
@@ -169,14 +158,8 @@ func (s *AlertProject) SetLogMeasureRulesURL(val string) {
 
 // Ref: #/components/schemas/AlertProjectCreate
 type AlertProjectCreate struct {
-	IsSystem    OptBool `json:"is_system"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *AlertProjectCreate) GetIsSystem() OptBool {
-	return s.IsSystem
+	Name        string    `json:"name"`
+	Description OptString `json:"description"`
 }
 
 // GetName returns the value of Name.
@@ -185,13 +168,8 @@ func (s *AlertProjectCreate) GetName() string {
 }
 
 // GetDescription returns the value of Description.
-func (s *AlertProjectCreate) GetDescription() string {
+func (s *AlertProjectCreate) GetDescription() OptString {
 	return s.Description
-}
-
-// SetIsSystem sets the value of IsSystem.
-func (s *AlertProjectCreate) SetIsSystem(val OptBool) {
-	s.IsSystem = val
 }
 
 // SetName sets the value of Name.
@@ -200,7 +178,7 @@ func (s *AlertProjectCreate) SetName(val string) {
 }
 
 // SetDescription sets the value of Description.
-func (s *AlertProjectCreate) SetDescription(val string) {
+func (s *AlertProjectCreate) SetDescription(val OptString) {
 	s.Description = val
 }
 
@@ -552,7 +530,6 @@ type DashboardProject struct {
 	ID          int64                   `json:"id"`
 	Name        OptString               `json:"name"`
 	Description OptString               `json:"description"`
-	IsSystem    bool                    `json:"is_system"`
 	Tags        []string                `json:"tags"`
 	Icon        NilDashboardProjectIcon `json:"icon"`
 	AccountID   string                  `json:"account_id"`
@@ -573,11 +550,6 @@ func (s *DashboardProject) GetName() OptString {
 // GetDescription returns the value of Description.
 func (s *DashboardProject) GetDescription() OptString {
 	return s.Description
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *DashboardProject) GetIsSystem() bool {
-	return s.IsSystem
 }
 
 // GetTags returns the value of Tags.
@@ -620,11 +592,6 @@ func (s *DashboardProject) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetIsSystem sets the value of IsSystem.
-func (s *DashboardProject) SetIsSystem(val bool) {
-	s.IsSystem = val
-}
-
 // SetTags sets the value of Tags.
 func (s *DashboardProject) SetTags(val []string) {
 	s.Tags = val
@@ -652,14 +619,8 @@ func (s *DashboardProject) SetCreatedAt(val time.Time) {
 
 // Ref: #/components/schemas/DashboardProjectCreate
 type DashboardProjectCreate struct {
-	IsSystem    OptBool `json:"is_system"`
-	Name        string  `json:"name"`
-	Description string  `json:"description"`
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *DashboardProjectCreate) GetIsSystem() OptBool {
-	return s.IsSystem
+	Name        string    `json:"name"`
+	Description OptString `json:"description"`
 }
 
 // GetName returns the value of Name.
@@ -668,13 +629,8 @@ func (s *DashboardProjectCreate) GetName() string {
 }
 
 // GetDescription returns the value of Description.
-func (s *DashboardProjectCreate) GetDescription() string {
+func (s *DashboardProjectCreate) GetDescription() OptString {
 	return s.Description
-}
-
-// SetIsSystem sets the value of IsSystem.
-func (s *DashboardProjectCreate) SetIsSystem(val OptBool) {
-	s.IsSystem = val
 }
 
 // SetName sets the value of Name.
@@ -683,7 +639,7 @@ func (s *DashboardProjectCreate) SetName(val string) {
 }
 
 // SetDescription sets the value of Description.
-func (s *DashboardProjectCreate) SetDescription(val string) {
+func (s *DashboardProjectCreate) SetDescription(val OptString) {
 	s.Description = val
 }
 
@@ -974,7 +930,7 @@ func (s *FieldModel) UnmarshalText(data []byte) error {
 // Ref: #/components/schemas/History
 type History struct {
 	UID       uuid.UUID      `json:"uid"`
-	ProjectID int            `json:"project_id"`
+	ProjectID int64          `json:"project_id"`
 	RuleUID   string         `json:"rule_uid"`
 	StartsAt  time.Time      `json:"startsAt"`
 	EndsAt    OptNilDateTime `json:"endsAt"`
@@ -994,7 +950,7 @@ func (s *History) GetUID() uuid.UUID {
 }
 
 // GetProjectID returns the value of ProjectID.
-func (s *History) GetProjectID() int {
+func (s *History) GetProjectID() int64 {
 	return s.ProjectID
 }
 
@@ -1049,7 +1005,7 @@ func (s *History) SetUID(val uuid.UUID) {
 }
 
 // SetProjectID sets the value of ProjectID.
-func (s *History) SetProjectID(val int) {
+func (s *History) SetProjectID(val int64) {
 	s.ProjectID = val
 }
 
@@ -1674,7 +1630,7 @@ type LogStorageCreate struct {
 	Classification OptLogStorageCreateClassification `json:"classification"`
 	IsSystem       bool                              `json:"is_system"`
 	Name           string                            `json:"name"`
-	Description    string                            `json:"description"`
+	Description    OptString                         `json:"description"`
 }
 
 // GetClassification returns the value of Classification.
@@ -1693,7 +1649,7 @@ func (s *LogStorageCreate) GetName() string {
 }
 
 // GetDescription returns the value of Description.
-func (s *LogStorageCreate) GetDescription() string {
+func (s *LogStorageCreate) GetDescription() OptString {
 	return s.Description
 }
 
@@ -1713,7 +1669,7 @@ func (s *LogStorageCreate) SetName(val string) {
 }
 
 // SetDescription sets the value of Description.
-func (s *LogStorageCreate) SetDescription(val string) {
+func (s *LogStorageCreate) SetDescription(val OptString) {
 	s.Description = val
 }
 
@@ -1814,27 +1770,27 @@ func (s *LogStorageIcon) SetID(val OptString) {
 }
 
 type LogStorageUsage struct {
-	LogRoutings     int `json:"log_routings"`
-	LogMeasureRules int `json:"log_measure_rules"`
+	LogRoutings     int64 `json:"log_routings"`
+	LogMeasureRules int64 `json:"log_measure_rules"`
 }
 
 // GetLogRoutings returns the value of LogRoutings.
-func (s *LogStorageUsage) GetLogRoutings() int {
+func (s *LogStorageUsage) GetLogRoutings() int64 {
 	return s.LogRoutings
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *LogStorageUsage) GetLogMeasureRules() int {
+func (s *LogStorageUsage) GetLogMeasureRules() int64 {
 	return s.LogMeasureRules
 }
 
 // SetLogRoutings sets the value of LogRoutings.
-func (s *LogStorageUsage) SetLogRoutings(val int) {
+func (s *LogStorageUsage) SetLogRoutings(val int64) {
 	s.LogRoutings = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *LogStorageUsage) SetLogMeasureRules(val int) {
+func (s *LogStorageUsage) SetLogMeasureRules(val int64) {
 	s.LogMeasureRules = val
 }
 
@@ -2414,9 +2370,9 @@ func (s *MetricsStorageAccessKey) SetDescription(val OptString) {
 
 // Ref: #/components/schemas/MetricsStorageCreate
 type MetricsStorageCreate struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	IsSystem    bool   `json:"is_system"`
+	Name        string    `json:"name"`
+	Description OptString `json:"description"`
+	IsSystem    bool      `json:"is_system"`
 }
 
 // GetName returns the value of Name.
@@ -2425,7 +2381,7 @@ func (s *MetricsStorageCreate) GetName() string {
 }
 
 // GetDescription returns the value of Description.
-func (s *MetricsStorageCreate) GetDescription() string {
+func (s *MetricsStorageCreate) GetDescription() OptString {
 	return s.Description
 }
 
@@ -2440,7 +2396,7 @@ func (s *MetricsStorageCreate) SetName(val string) {
 }
 
 // SetDescription sets the value of Description.
-func (s *MetricsStorageCreate) SetDescription(val string) {
+func (s *MetricsStorageCreate) SetDescription(val OptString) {
 	s.Description = val
 }
 
@@ -2478,38 +2434,38 @@ func (s *MetricsStorageIcon) SetID(val OptString) {
 }
 
 type MetricsStorageUsage struct {
-	MetricsRoutings int `json:"metrics_routings"`
-	AlertRules      int `json:"alert_rules"`
-	LogMeasureRules int `json:"log_measure_rules"`
+	MetricsRoutings int64 `json:"metrics_routings"`
+	AlertRules      int64 `json:"alert_rules"`
+	LogMeasureRules int64 `json:"log_measure_rules"`
 }
 
 // GetMetricsRoutings returns the value of MetricsRoutings.
-func (s *MetricsStorageUsage) GetMetricsRoutings() int {
+func (s *MetricsStorageUsage) GetMetricsRoutings() int64 {
 	return s.MetricsRoutings
 }
 
 // GetAlertRules returns the value of AlertRules.
-func (s *MetricsStorageUsage) GetAlertRules() int {
+func (s *MetricsStorageUsage) GetAlertRules() int64 {
 	return s.AlertRules
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *MetricsStorageUsage) GetLogMeasureRules() int {
+func (s *MetricsStorageUsage) GetLogMeasureRules() int64 {
 	return s.LogMeasureRules
 }
 
 // SetMetricsRoutings sets the value of MetricsRoutings.
-func (s *MetricsStorageUsage) SetMetricsRoutings(val int) {
+func (s *MetricsStorageUsage) SetMetricsRoutings(val int64) {
 	s.MetricsRoutings = val
 }
 
 // SetAlertRules sets the value of AlertRules.
-func (s *MetricsStorageUsage) SetAlertRules(val int) {
+func (s *MetricsStorageUsage) SetAlertRules(val int64) {
 	s.AlertRules = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *MetricsStorageUsage) SetLogMeasureRules(val int) {
+func (s *MetricsStorageUsage) SetLogMeasureRules(val int64) {
 	s.LogMeasureRules = val
 }
 
@@ -2932,7 +2888,7 @@ type NotificationRouting struct {
 	NotificationTargetUID uuid.UUID          `json:"notification_target_uid"`
 	MatchLabels           []MatchLabelsItem  `json:"match_labels"`
 	ResendIntervalMinutes OptInt             `json:"resend_interval_minutes"`
-	Order                 int                `json:"order"`
+	Order                 int64              `json:"order"`
 }
 
 // GetUID returns the value of UID.
@@ -2966,7 +2922,7 @@ func (s *NotificationRouting) GetResendIntervalMinutes() OptInt {
 }
 
 // GetOrder returns the value of Order.
-func (s *NotificationRouting) GetOrder() int {
+func (s *NotificationRouting) GetOrder() int64 {
 	return s.Order
 }
 
@@ -3001,14 +2957,14 @@ func (s *NotificationRouting) SetResendIntervalMinutes(val OptInt) {
 }
 
 // SetOrder sets the value of Order.
-func (s *NotificationRouting) SetOrder(val int) {
+func (s *NotificationRouting) SetOrder(val int64) {
 	s.Order = val
 }
 
 // Ref: #/components/schemas/NotificationRoutingOrder
 type NotificationRoutingOrder struct {
 	NotificationRoutingUID uuid.UUID `json:"notification_routing_uid"`
-	Order                  int       `json:"order"`
+	Order                  int64     `json:"order"`
 }
 
 // GetNotificationRoutingUID returns the value of NotificationRoutingUID.
@@ -3017,7 +2973,7 @@ func (s *NotificationRoutingOrder) GetNotificationRoutingUID() uuid.UUID {
 }
 
 // GetOrder returns the value of Order.
-func (s *NotificationRoutingOrder) GetOrder() int {
+func (s *NotificationRoutingOrder) GetOrder() int64 {
 	return s.Order
 }
 
@@ -3027,7 +2983,7 @@ func (s *NotificationRoutingOrder) SetNotificationRoutingUID(val uuid.UUID) {
 }
 
 // SetOrder sets the value of Order.
-func (s *NotificationRoutingOrder) SetOrder(val int) {
+func (s *NotificationRoutingOrder) SetOrder(val int64) {
 	s.Order = val
 }
 
@@ -6633,7 +6589,6 @@ type PatchedAlertProject struct {
 	AccountID               OptString                     `json:"account_id"`
 	ResourceID              OptNilInt64                   `json:"resource_id"`
 	CreatedAt               OptDateTime                   `json:"created_at"`
-	IsSystem                OptBool                       `json:"is_system"`
 	RulesURL                OptString                     `json:"rules_url"`
 	NotificationTargetsURL  OptString                     `json:"notification_targets_url"`
 	NotificationRoutingsURL OptString                     `json:"notification_routings_url"`
@@ -6679,11 +6634,6 @@ func (s *PatchedAlertProject) GetResourceID() OptNilInt64 {
 // GetCreatedAt returns the value of CreatedAt.
 func (s *PatchedAlertProject) GetCreatedAt() OptDateTime {
 	return s.CreatedAt
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *PatchedAlertProject) GetIsSystem() OptBool {
-	return s.IsSystem
 }
 
 // GetRulesURL returns the value of RulesURL.
@@ -6749,11 +6699,6 @@ func (s *PatchedAlertProject) SetResourceID(val OptNilInt64) {
 // SetCreatedAt sets the value of CreatedAt.
 func (s *PatchedAlertProject) SetCreatedAt(val OptDateTime) {
 	s.CreatedAt = val
-}
-
-// SetIsSystem sets the value of IsSystem.
-func (s *PatchedAlertProject) SetIsSystem(val OptBool) {
-	s.IsSystem = val
 }
 
 // SetRulesURL sets the value of RulesURL.
@@ -6969,7 +6914,6 @@ type PatchedDashboardProject struct {
 	ID          OptInt64                          `json:"id"`
 	Name        OptString                         `json:"name"`
 	Description OptString                         `json:"description"`
-	IsSystem    OptBool                           `json:"is_system"`
 	Tags        []string                          `json:"tags"`
 	Icon        OptNilPatchedDashboardProjectIcon `json:"icon"`
 	AccountID   OptString                         `json:"account_id"`
@@ -6990,11 +6934,6 @@ func (s *PatchedDashboardProject) GetName() OptString {
 // GetDescription returns the value of Description.
 func (s *PatchedDashboardProject) GetDescription() OptString {
 	return s.Description
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *PatchedDashboardProject) GetIsSystem() OptBool {
-	return s.IsSystem
 }
 
 // GetTags returns the value of Tags.
@@ -7035,11 +6974,6 @@ func (s *PatchedDashboardProject) SetName(val OptString) {
 // SetDescription sets the value of Description.
 func (s *PatchedDashboardProject) SetDescription(val OptString) {
 	s.Description = val
-}
-
-// SetIsSystem sets the value of IsSystem.
-func (s *PatchedDashboardProject) SetIsSystem(val OptBool) {
-	s.IsSystem = val
 }
 
 // SetTags sets the value of Tags.
@@ -7585,27 +7519,27 @@ func (s *PatchedLogStorageIcon) SetID(val OptString) {
 }
 
 type PatchedLogStorageUsage struct {
-	LogRoutings     int `json:"log_routings"`
-	LogMeasureRules int `json:"log_measure_rules"`
+	LogRoutings     int64 `json:"log_routings"`
+	LogMeasureRules int64 `json:"log_measure_rules"`
 }
 
 // GetLogRoutings returns the value of LogRoutings.
-func (s *PatchedLogStorageUsage) GetLogRoutings() int {
+func (s *PatchedLogStorageUsage) GetLogRoutings() int64 {
 	return s.LogRoutings
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *PatchedLogStorageUsage) GetLogMeasureRules() int {
+func (s *PatchedLogStorageUsage) GetLogMeasureRules() int64 {
 	return s.LogMeasureRules
 }
 
 // SetLogRoutings sets the value of LogRoutings.
-func (s *PatchedLogStorageUsage) SetLogRoutings(val int) {
+func (s *PatchedLogStorageUsage) SetLogRoutings(val int64) {
 	s.LogRoutings = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *PatchedLogStorageUsage) SetLogMeasureRules(val int) {
+func (s *PatchedLogStorageUsage) SetLogMeasureRules(val int64) {
 	s.LogMeasureRules = val
 }
 
@@ -7951,38 +7885,38 @@ func (s *PatchedMetricsStorageIcon) SetID(val OptString) {
 }
 
 type PatchedMetricsStorageUsage struct {
-	MetricsRoutings int `json:"metrics_routings"`
-	AlertRules      int `json:"alert_rules"`
-	LogMeasureRules int `json:"log_measure_rules"`
+	MetricsRoutings int64 `json:"metrics_routings"`
+	AlertRules      int64 `json:"alert_rules"`
+	LogMeasureRules int64 `json:"log_measure_rules"`
 }
 
 // GetMetricsRoutings returns the value of MetricsRoutings.
-func (s *PatchedMetricsStorageUsage) GetMetricsRoutings() int {
+func (s *PatchedMetricsStorageUsage) GetMetricsRoutings() int64 {
 	return s.MetricsRoutings
 }
 
 // GetAlertRules returns the value of AlertRules.
-func (s *PatchedMetricsStorageUsage) GetAlertRules() int {
+func (s *PatchedMetricsStorageUsage) GetAlertRules() int64 {
 	return s.AlertRules
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *PatchedMetricsStorageUsage) GetLogMeasureRules() int {
+func (s *PatchedMetricsStorageUsage) GetLogMeasureRules() int64 {
 	return s.LogMeasureRules
 }
 
 // SetMetricsRoutings sets the value of MetricsRoutings.
-func (s *PatchedMetricsStorageUsage) SetMetricsRoutings(val int) {
+func (s *PatchedMetricsStorageUsage) SetMetricsRoutings(val int64) {
 	s.MetricsRoutings = val
 }
 
 // SetAlertRules sets the value of AlertRules.
-func (s *PatchedMetricsStorageUsage) SetAlertRules(val int) {
+func (s *PatchedMetricsStorageUsage) SetAlertRules(val int64) {
 	s.AlertRules = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *PatchedMetricsStorageUsage) SetLogMeasureRules(val int) {
+func (s *PatchedMetricsStorageUsage) SetLogMeasureRules(val int64) {
 	s.LogMeasureRules = val
 }
 
@@ -7994,7 +7928,7 @@ type PatchedNotificationRouting struct {
 	NotificationTargetUID OptUUID               `json:"notification_target_uid"`
 	MatchLabels           []MatchLabelsItem     `json:"match_labels"`
 	ResendIntervalMinutes OptInt                `json:"resend_interval_minutes"`
-	Order                 OptInt                `json:"order"`
+	Order                 OptInt64              `json:"order"`
 }
 
 // GetUID returns the value of UID.
@@ -8028,7 +7962,7 @@ func (s *PatchedNotificationRouting) GetResendIntervalMinutes() OptInt {
 }
 
 // GetOrder returns the value of Order.
-func (s *PatchedNotificationRouting) GetOrder() OptInt {
+func (s *PatchedNotificationRouting) GetOrder() OptInt64 {
 	return s.Order
 }
 
@@ -8063,7 +7997,7 @@ func (s *PatchedNotificationRouting) SetResendIntervalMinutes(val OptInt) {
 }
 
 // SetOrder sets the value of Order.
-func (s *PatchedNotificationRouting) SetOrder(val OptInt) {
+func (s *PatchedNotificationRouting) SetOrder(val OptInt64) {
 	s.Order = val
 }
 
@@ -8441,16 +8375,16 @@ func (s *PublisherVariantSystem) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/ResourceItemLimits
 type ResourceItemLimits struct {
-	MaxUserCount int `json:"max_user_count"`
+	MaxUserCount int64 `json:"max_user_count"`
 }
 
 // GetMaxUserCount returns the value of MaxUserCount.
-func (s *ResourceItemLimits) GetMaxUserCount() int {
+func (s *ResourceItemLimits) GetMaxUserCount() int64 {
 	return s.MaxUserCount
 }
 
 // SetMaxUserCount sets the value of MaxUserCount.
-func (s *ResourceItemLimits) SetMaxUserCount(val int) {
+func (s *ResourceItemLimits) SetMaxUserCount(val int64) {
 	s.MaxUserCount = val
 }
 
@@ -9086,7 +9020,6 @@ type WrappedAlertProject struct {
 	AccountID               string                     `json:"account_id"`
 	ResourceID              NilInt64                   `json:"resource_id"`
 	CreatedAt               time.Time                  `json:"created_at"`
-	IsSystem                bool                       `json:"is_system"`
 	RulesURL                string                     `json:"rules_url"`
 	NotificationTargetsURL  string                     `json:"notification_targets_url"`
 	NotificationRoutingsURL string                     `json:"notification_routings_url"`
@@ -9133,11 +9066,6 @@ func (s *WrappedAlertProject) GetResourceID() NilInt64 {
 // GetCreatedAt returns the value of CreatedAt.
 func (s *WrappedAlertProject) GetCreatedAt() time.Time {
 	return s.CreatedAt
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *WrappedAlertProject) GetIsSystem() bool {
-	return s.IsSystem
 }
 
 // GetRulesURL returns the value of RulesURL.
@@ -9210,11 +9138,6 @@ func (s *WrappedAlertProject) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
-// SetIsSystem sets the value of IsSystem.
-func (s *WrappedAlertProject) SetIsSystem(val bool) {
-	s.IsSystem = val
-}
-
 // SetRulesURL sets the value of RulesURL.
 func (s *WrappedAlertProject) SetRulesURL(val string) {
 	s.RulesURL = val
@@ -9264,7 +9187,6 @@ type WrappedDashboardProject struct {
 	ID          int64                          `json:"id"`
 	Name        OptString                      `json:"name"`
 	Description OptString                      `json:"description"`
-	IsSystem    bool                           `json:"is_system"`
 	Tags        []string                       `json:"tags"`
 	Icon        NilWrappedDashboardProjectIcon `json:"icon"`
 	AccountID   string                         `json:"account_id"`
@@ -9286,11 +9208,6 @@ func (s *WrappedDashboardProject) GetName() OptString {
 // GetDescription returns the value of Description.
 func (s *WrappedDashboardProject) GetDescription() OptString {
 	return s.Description
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *WrappedDashboardProject) GetIsSystem() bool {
-	return s.IsSystem
 }
 
 // GetTags returns the value of Tags.
@@ -9336,11 +9253,6 @@ func (s *WrappedDashboardProject) SetName(val OptString) {
 // SetDescription sets the value of Description.
 func (s *WrappedDashboardProject) SetDescription(val OptString) {
 	s.Description = val
-}
-
-// SetIsSystem sets the value of IsSystem.
-func (s *WrappedDashboardProject) SetIsSystem(val bool) {
-	s.IsSystem = val
 }
 
 // SetTags sets the value of Tags.
@@ -9787,27 +9699,27 @@ func (s *WrappedLogStorageIcon) SetID(val OptString) {
 }
 
 type WrappedLogStorageUsage struct {
-	LogRoutings     int `json:"log_routings"`
-	LogMeasureRules int `json:"log_measure_rules"`
+	LogRoutings     int64 `json:"log_routings"`
+	LogMeasureRules int64 `json:"log_measure_rules"`
 }
 
 // GetLogRoutings returns the value of LogRoutings.
-func (s *WrappedLogStorageUsage) GetLogRoutings() int {
+func (s *WrappedLogStorageUsage) GetLogRoutings() int64 {
 	return s.LogRoutings
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *WrappedLogStorageUsage) GetLogMeasureRules() int {
+func (s *WrappedLogStorageUsage) GetLogMeasureRules() int64 {
 	return s.LogMeasureRules
 }
 
 // SetLogRoutings sets the value of LogRoutings.
-func (s *WrappedLogStorageUsage) SetLogRoutings(val int) {
+func (s *WrappedLogStorageUsage) SetLogRoutings(val int64) {
 	s.LogRoutings = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *WrappedLogStorageUsage) SetLogMeasureRules(val int) {
+func (s *WrappedLogStorageUsage) SetLogMeasureRules(val int64) {
 	s.LogMeasureRules = val
 }
 
@@ -10186,38 +10098,38 @@ func (s *WrappedMetricsStorageIcon) SetID(val OptString) {
 }
 
 type WrappedMetricsStorageUsage struct {
-	MetricsRoutings int `json:"metrics_routings"`
-	AlertRules      int `json:"alert_rules"`
-	LogMeasureRules int `json:"log_measure_rules"`
+	MetricsRoutings int64 `json:"metrics_routings"`
+	AlertRules      int64 `json:"alert_rules"`
+	LogMeasureRules int64 `json:"log_measure_rules"`
 }
 
 // GetMetricsRoutings returns the value of MetricsRoutings.
-func (s *WrappedMetricsStorageUsage) GetMetricsRoutings() int {
+func (s *WrappedMetricsStorageUsage) GetMetricsRoutings() int64 {
 	return s.MetricsRoutings
 }
 
 // GetAlertRules returns the value of AlertRules.
-func (s *WrappedMetricsStorageUsage) GetAlertRules() int {
+func (s *WrappedMetricsStorageUsage) GetAlertRules() int64 {
 	return s.AlertRules
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *WrappedMetricsStorageUsage) GetLogMeasureRules() int {
+func (s *WrappedMetricsStorageUsage) GetLogMeasureRules() int64 {
 	return s.LogMeasureRules
 }
 
 // SetMetricsRoutings sets the value of MetricsRoutings.
-func (s *WrappedMetricsStorageUsage) SetMetricsRoutings(val int) {
+func (s *WrappedMetricsStorageUsage) SetMetricsRoutings(val int64) {
 	s.MetricsRoutings = val
 }
 
 // SetAlertRules sets the value of AlertRules.
-func (s *WrappedMetricsStorageUsage) SetAlertRules(val int) {
+func (s *WrappedMetricsStorageUsage) SetAlertRules(val int64) {
 	s.AlertRules = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *WrappedMetricsStorageUsage) SetLogMeasureRules(val int) {
+func (s *WrappedMetricsStorageUsage) SetLogMeasureRules(val int64) {
 	s.LogMeasureRules = val
 }
 

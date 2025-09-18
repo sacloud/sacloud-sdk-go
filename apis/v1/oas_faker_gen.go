@@ -59,11 +59,6 @@ func (s *AlertProject) SetFake() {
 	}
 	{
 		{
-			s.IsSystem = true
-		}
-	}
-	{
-		{
 			s.RulesURL = "string"
 		}
 	}
@@ -93,17 +88,12 @@ func (s *AlertProject) SetFake() {
 func (s *AlertProjectCreate) SetFake() {
 	{
 		{
-			s.IsSystem.SetFake()
-		}
-	}
-	{
-		{
 			s.Name = "string"
 		}
 	}
 	{
 		{
-			s.Description = "string"
+			s.Description.SetFake()
 		}
 	}
 }
@@ -236,11 +226,6 @@ func (s *DashboardProject) SetFake() {
 	}
 	{
 		{
-			s.IsSystem = true
-		}
-	}
-	{
-		{
 			s.Tags = nil
 			for i := 0; i < 0; i++ {
 				var elem string
@@ -277,17 +262,12 @@ func (s *DashboardProject) SetFake() {
 func (s *DashboardProjectCreate) SetFake() {
 	{
 		{
-			s.IsSystem.SetFake()
-		}
-	}
-	{
-		{
 			s.Name = "string"
 		}
 	}
 	{
 		{
-			s.Description = "string"
+			s.Description.SetFake()
 		}
 	}
 }
@@ -351,7 +331,7 @@ func (s *History) SetFake() {
 	}
 	{
 		{
-			s.ProjectID = int(0)
+			s.ProjectID = int64(0)
 		}
 	}
 	{
@@ -678,7 +658,7 @@ func (s *LogStorageCreate) SetFake() {
 	}
 	{
 		{
-			s.Description = "string"
+			s.Description.SetFake()
 		}
 	}
 }
@@ -724,12 +704,12 @@ func (s *LogStorageIcon) SetFake() {
 func (s *LogStorageUsage) SetFake() {
 	{
 		{
-			s.LogRoutings = int(0)
+			s.LogRoutings = int64(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int(0)
+			s.LogMeasureRules = int64(0)
 		}
 	}
 }
@@ -959,7 +939,7 @@ func (s *MetricsStorageCreate) SetFake() {
 	}
 	{
 		{
-			s.Description = "string"
+			s.Description.SetFake()
 		}
 	}
 	{
@@ -991,17 +971,17 @@ func (s *MetricsStorageIcon) SetFake() {
 func (s *MetricsStorageUsage) SetFake() {
 	{
 		{
-			s.MetricsRoutings = int(0)
+			s.MetricsRoutings = int64(0)
 		}
 	}
 	{
 		{
-			s.AlertRules = int(0)
+			s.AlertRules = int64(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int(0)
+			s.LogMeasureRules = int64(0)
 		}
 	}
 }
@@ -1092,7 +1072,7 @@ func (s *NotificationRouting) SetFake() {
 	}
 	{
 		{
-			s.Order = int(0)
+			s.Order = int64(0)
 		}
 	}
 }
@@ -1106,7 +1086,7 @@ func (s *NotificationRoutingOrder) SetFake() {
 	}
 	{
 		{
-			s.Order = int(0)
+			s.Order = int64(0)
 		}
 	}
 }
@@ -2147,11 +2127,6 @@ func (s *PatchedAlertProject) SetFake() {
 	}
 	{
 		{
-			s.IsSystem.SetFake()
-		}
-	}
-	{
-		{
 			s.RulesURL.SetFake()
 		}
 	}
@@ -2280,11 +2255,6 @@ func (s *PatchedDashboardProject) SetFake() {
 	{
 		{
 			s.Description.SetFake()
-		}
-	}
-	{
-		{
-			s.IsSystem.SetFake()
 		}
 	}
 	{
@@ -2584,12 +2554,12 @@ func (s *PatchedLogStorageIcon) SetFake() {
 func (s *PatchedLogStorageUsage) SetFake() {
 	{
 		{
-			s.LogRoutings = int(0)
+			s.LogRoutings = int64(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int(0)
+			s.LogMeasureRules = int64(0)
 		}
 	}
 }
@@ -2770,17 +2740,17 @@ func (s *PatchedMetricsStorageIcon) SetFake() {
 func (s *PatchedMetricsStorageUsage) SetFake() {
 	{
 		{
-			s.MetricsRoutings = int(0)
+			s.MetricsRoutings = int64(0)
 		}
 	}
 	{
 		{
-			s.AlertRules = int(0)
+			s.AlertRules = int64(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int(0)
+			s.LogMeasureRules = int64(0)
 		}
 	}
 }
@@ -2985,7 +2955,7 @@ func (s *PublisherVariantSystem) SetFake() {
 func (s *ResourceItemLimits) SetFake() {
 	{
 		{
-			s.MaxUserCount = int(0)
+			s.MaxUserCount = int64(0)
 		}
 	}
 }
@@ -3151,11 +3121,6 @@ func (s *WrappedAlertProject) SetFake() {
 	}
 	{
 		{
-			s.IsSystem = true
-		}
-	}
-	{
-		{
 			s.RulesURL = "string"
 		}
 	}
@@ -3210,11 +3175,6 @@ func (s *WrappedDashboardProject) SetFake() {
 	{
 		{
 			s.Description.SetFake()
-		}
-	}
-	{
-		{
-			s.IsSystem = true
 		}
 	}
 	{
@@ -3470,12 +3430,12 @@ func (s *WrappedLogStorageIcon) SetFake() {
 func (s *WrappedLogStorageUsage) SetFake() {
 	{
 		{
-			s.LogRoutings = int(0)
+			s.LogRoutings = int64(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int(0)
+			s.LogMeasureRules = int64(0)
 		}
 	}
 }
@@ -3671,17 +3631,17 @@ func (s *WrappedMetricsStorageIcon) SetFake() {
 func (s *WrappedMetricsStorageUsage) SetFake() {
 	{
 		{
-			s.MetricsRoutings = int(0)
+			s.MetricsRoutings = int64(0)
 		}
 	}
 	{
 		{
-			s.AlertRules = int(0)
+			s.AlertRules = int64(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int(0)
+			s.LogMeasureRules = int64(0)
 		}
 	}
 }

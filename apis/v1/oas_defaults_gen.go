@@ -3,22 +3,6 @@
 package v1
 
 // setDefaults set default value of fields.
-func (s *AlertProjectCreate) setDefaults() {
-	{
-		val := bool(false)
-		s.IsSystem.SetTo(val)
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *DashboardProjectCreate) setDefaults() {
-	{
-		val := bool(false)
-		s.IsSystem.SetTo(val)
-	}
-}
-
-// setDefaults set default value of fields.
 func (s *LogStorageCreate) setDefaults() {
 	{
 		val := LogStorageCreateClassification("shared")
