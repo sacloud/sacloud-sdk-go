@@ -16,6 +16,7 @@ package monitoringsuite_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -312,4 +313,71 @@ func TestLogsStorageOp_DeleteKey_403(t *testing.T) {
 	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
+}
+
+func TestLogStorageIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+	api := NewLogsStorageOp(client)
+	ctx := context.Background()
+	tmp := WithLogStorage(t, client, ctx)
+	lid := fmt.Sprintf("%d", tmp.GetID())
+
+	// Read
+	read, err := api.Read(ctx, lid)
+	require.NoError(t, err)
+	require.NotNil(t, read)
+	require.Equal(t, tmp.GetID(), read.GetID())
+	require.Equal(t, tmp.GetName(), read.GetName())
+
+	// List
+	params := LogsStoragesListParams{
+		IsSystem:             ref(false),
+		BucketClassification: ref(v1.LogsStoragesListBucketClassificationShared),
+		Status:               ref(v1.LogsStoragesListStatusAssigned),
+	}
+	list, err := api.List(ctx, params)
+	require.NoError(t, err)
+	require.NotNil(t, list)
+	require.NotEmpty(t, list)
+
+	// Update
+	desc := "updated-integrated-test-storage"
+	req := LogStorageUpdateParams{Name: &desc}
+	updated, err := api.Update(ctx, lid, req)
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, desc, updated.GetName().Or("failure"))
+
+	// CreateKey
+	ckey, err := api.CreateKey(ctx, lid, ref("integrated-test-key"))
+	require.NoError(t, err)
+	require.NotNil(t, ckey)
+	kid := ckey.GetUID()
+
+	// DeleteKey
+	t.Cleanup(func() {
+		err = api.DeleteKey(ctx, lid, kid)
+		require.NoError(t, err)
+	})
+
+	// ListKeys
+	keys, err := api.ListKeys(ctx, lid, nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, keys)
+	require.NotEmpty(t, keys)
+
+	// ReadKey
+	rkey, err := api.ReadKey(ctx, lid, kid)
+	require.NoError(t, err)
+	require.NotNil(t, rkey)
+	require.Equal(t, ckey.GetID(), rkey.GetID())
+
+	// UpdateKey
+	desc = "updated-integrated-test-key"
+	ukey, err := api.UpdateKey(ctx, lid, kid, &desc)
+	require.NoError(t, err)
+	require.NotNil(t, ukey)
+	require.Equal(t, desc, ukey.GetDescription().Or("failure"))
+
 }
