@@ -16,6 +16,7 @@ package monitoringsuite_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"net/url"
 	"testing"
@@ -172,4 +173,56 @@ func TestNotificationTargetService_Delete_400(t *testing.T) {
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
+}
+
+// Integration test for NotificationTarget
+func TestNotificationTargetIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+	api := NewNotificationTargetOp(client)
+	ctx := context.Background()
+	project := WithAlertProject(t, client, ctx)
+	id := fmt.Sprintf("%d", project.GetID())
+
+	// Create
+	url, _ := url.Parse("https://example.com/-/c/a/n/-/y/o/u/-/h/e/a/r/-/m/e/-/?")
+	createParams := NotificationTargetCreateParams{
+		ServiceType: v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE,
+		URL:         *url,
+	}
+	created, err := api.Create(ctx, id, createParams)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	nid := created.GetUID()
+
+	// Cleanup
+	t.Cleanup(func() {
+		err := api.Delete(ctx, id, nid)
+		require.NoError(t, err)
+	})
+
+	// Read
+	read, err := api.Read(ctx, id, nid)
+	require.NoError(t, err)
+	require.NotNil(t, read)
+	require.Equal(t, created.GetUID(), read.GetUID())
+	require.Equal(t, created.GetProjectID(), read.GetProjectID())
+	require.Equal(t, created.GetServiceType(), read.GetServiceType())
+	require.Equal(t, created.GetURL(), read.GetURL())
+
+	// List
+	list, err := api.List(ctx, id, NotificationTargetsListParams{})
+	require.NoError(t, err)
+	require.NotNil(t, list)
+	require.NotEmpty(t, list)
+
+	// Update
+	desc := "updated-integrated-test-notification-target"
+	updateParams := NotificationTargetUpdateParams{
+		Description: &desc,
+	}
+	updated, err := api.Update(ctx, id, nid, updateParams)
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, desc, updated.GetDescription().Or("failure"))
 }
