@@ -1982,13 +1982,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing log.",
             "required": true
           }
         ],
@@ -2017,13 +2013,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing log.",
             "required": true
           }
         ],
@@ -2062,13 +2054,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing log.",
             "required": true
           }
         ],
@@ -2106,13 +2094,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing log.",
             "required": true
           }
         ],
@@ -2354,13 +2338,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Logs AccessKey.",
             "required": true
           },
           {
@@ -2398,13 +2378,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Logs AccessKey.",
             "required": true
           },
           {
@@ -2451,13 +2427,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Logs AccessKey.",
             "required": true
           },
           {
@@ -2504,13 +2476,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Logs AccessKey.",
             "required": true
           },
           {
@@ -2867,13 +2835,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing metric.",
             "required": true
           }
         ],
@@ -2902,13 +2866,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing metric.",
             "required": true
           }
         ],
@@ -2947,13 +2907,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing metric.",
             "required": true
           }
         ],
@@ -2991,13 +2947,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing metric.",
             "required": true
           }
         ],
@@ -3211,13 +3163,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Metrics AccessKey.",
             "required": true
           },
           {
@@ -3255,13 +3203,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Metrics AccessKey.",
             "required": true
           },
           {
@@ -3308,13 +3252,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Metrics AccessKey.",
             "required": true
           },
           {
@@ -3361,13 +3301,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Metrics AccessKey.",
             "required": true
           },
           {
