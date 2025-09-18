@@ -118,7 +118,6 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
-              "format": "int64",
               "type": "integer"
             },
             "required": true
@@ -172,7 +171,6 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
-              "format": "int64",
               "type": "integer"
             },
             "required": true
@@ -1203,7 +1201,6 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
-              "format": "int64",
               "type": "integer"
             },
             "required": true
@@ -1266,7 +1263,6 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
-              "format": "int64",
               "type": "integer"
             },
             "required": true
@@ -3026,7 +3022,6 @@
             "in": "query",
             "name": "resource_id",
             "schema": {
-              "format": "int64",
               "type": "integer"
             }
           }
@@ -3600,11 +3595,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -3644,10 +3639,6 @@
             "readOnly": true,
             "title": "Register datetime"
           },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
-          },
           "rules_url": {
             "type": "string",
             "readOnly": true
@@ -3675,7 +3666,6 @@
           "histories_url",
           "icon",
           "id",
-          "is_system",
           "log_measure_rules_url",
           "notification_routings_url",
           "notification_targets_url",
@@ -3687,19 +3677,16 @@
       "AlertProjectCreate": {
         "type": "object",
         "properties": {
-          "is_system": {
-            "type": "boolean",
-            "default": false
-          },
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           }
         },
         "required": [
-          "description",
           "name"
         ]
       },
@@ -3815,15 +3802,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -3869,7 +3852,6 @@
           "created_at",
           "icon",
           "id",
-          "is_system",
           "resource_id",
           "tags"
         ]
@@ -3877,19 +3859,16 @@
       "DashboardProjectCreate": {
         "type": "object",
         "properties": {
-          "is_system": {
-            "type": "boolean",
-            "default": false
-          },
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           }
         },
         "required": [
-          "description",
           "name"
         ]
       },
@@ -3941,19 +3920,7 @@
             "$ref": "#/components/schemas/MapKeyValueMatcher"
           }
         ],
-        "title": "FieldMatcher",
-        "discriminator": {
-          "propertyName": "type",
-          "mapping": {
-            "or": "#/components/schemas/OrMatcher",
-            "and": "#/components/schemas/AndMatcher",
-            "string": "#/components/schemas/StrMatcher",
-            "number": "#/components/schemas/NumMatcher",
-            "enum": "#/components/schemas/EnumMatcher",
-            "map-key-exists": "#/components/schemas/MapKeyExistsMatcher",
-            "map-key-value-matcher": "#/components/schemas/MapKeyValueMatcher"
-          }
-        }
+        "title": "FieldMatcher"
       },
       "FieldModel": {
         "enum": [
@@ -4054,6 +4021,7 @@
           },
           "name": {
             "type": "string",
+            "pattern": "^[a-z\\d_-]*$",
             "maxLength": 256
           },
           "description": {
@@ -4245,11 +4213,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -4405,14 +4373,15 @@
             "type": "boolean"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           }
         },
         "required": [
-          "description",
           "is_system",
           "name"
         ]
@@ -4487,45 +4456,6 @@
         "required": [
           "name",
           "value"
-        ]
-      },
-      "MetricsCluster": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "readOnly": true,
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "insert_endpoints": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "select_endpoints": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Register datetime"
-          }
-        },
-        "required": [
-          "created_at",
-          "id",
-          "insert_endpoints",
-          "select_endpoints"
         ]
       },
       "MetricsRouting": {
@@ -4617,11 +4547,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -4760,17 +4690,18 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           },
           "is_system": {
             "type": "boolean"
           }
         },
         "required": [
-          "description",
           "is_system",
           "name"
         ]
@@ -5571,11 +5502,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -5614,10 +5545,6 @@
             "format": "date-time",
             "readOnly": true,
             "title": "Register datetime"
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
           },
           "rules_url": {
             "type": "string",
@@ -5725,15 +5652,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -5801,6 +5724,7 @@
           },
           "name": {
             "type": "string",
+            "pattern": "^[a-z\\d_-]*$",
             "maxLength": 256
           },
           "description": {
@@ -5930,11 +5854,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -6134,11 +6058,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -6348,11 +6272,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -6369,6 +6293,10 @@
               }
             },
             "nullable": true,
+            "readOnly": true
+          },
+          "retention_period_days": {
+            "type": "integer",
             "readOnly": true
           },
           "created_at": {
@@ -6763,11 +6691,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -6784,6 +6712,10 @@
               }
             },
             "nullable": true,
+            "readOnly": true
+          },
+          "retention_period_days": {
+            "type": "integer",
             "readOnly": true
           },
           "created_at": {
@@ -6837,6 +6769,7 @@
           "icon",
           "id",
           "resource_id",
+          "retention_period_days",
           "tags"
         ]
       },
@@ -6882,14 +6815,15 @@
             "default": "shared"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           }
         },
         "required": [
-          "description",
           "name"
         ]
       },
@@ -6994,11 +6928,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7037,10 +6971,6 @@
             "format": "date-time",
             "readOnly": true,
             "title": "Register datetime"
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
           },
           "rules_url": {
             "type": "string",
@@ -7073,7 +7003,6 @@
           "icon",
           "id",
           "is_ok",
-          "is_system",
           "log_measure_rules_url",
           "notification_routings_url",
           "notification_targets_url",
@@ -7093,15 +7022,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7151,7 +7076,6 @@
           "icon",
           "id",
           "is_ok",
-          "is_system",
           "resource_id",
           "tags"
         ]
@@ -7249,11 +7173,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7493,11 +7417,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7679,11 +7603,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7700,6 +7624,10 @@
               }
             },
             "nullable": true,
+            "readOnly": true
+          },
+          "retention_period_days": {
+            "type": "integer",
             "readOnly": true
           },
           "created_at": {
@@ -7757,6 +7685,7 @@
           "id",
           "is_ok",
           "resource_id",
+          "retention_period_days",
           "tags"
         ]
       },
