@@ -16,11 +16,13 @@ package monitoringsuite_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"testing"
 
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
+	"github.com/sacloud/packages-go/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -143,4 +145,49 @@ func TestDashboardOp_Delete_400(t *testing.T) {
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
+}
+
+func TestDashboardIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+	api := NewDashboardOp(client)
+	ctx := context.Background()
+
+	// Create
+	created, err := api.Create(ctx, DashboardProjectCreateParams{
+		Name:        testutil.RandomName("test-dashboard-project-", 16, testutil.CharSetAlphaNum),
+		Description: ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+	})
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	did := fmt.Sprintf("%d", created.GetID())
+
+	// Delete
+	t.Cleanup(func() {
+		err := api.Delete(ctx, did)
+		require.NoError(t, err)
+	})
+
+	// Read
+	read, err := api.Read(ctx, did)
+	require.NoError(t, err)
+	require.NotNil(t, read)
+	require.Equal(t, created.GetID(), read.GetID())
+	require.Equal(t, created.GetName(), read.GetName())
+
+	// List
+	projects, err := api.List(ctx, nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, projects)
+	require.NotEmpty(t, projects)
+
+	// Update
+	newDesc := "updated integration test dashboard"
+	updateReq := DashboardProjectUpdateParams{
+		Description: ref(newDesc),
+	}
+	updated, err := api.Update(ctx, did, updateReq)
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, newDesc, updated.GetDescription().Or("failure"))
 }
