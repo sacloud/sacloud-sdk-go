@@ -17,9 +17,9 @@ package monitoringsuite
 import (
 	"context"
 	"net/http"
-	"strconv"
 
 	"github.com/go-faster/errors"
+	"github.com/google/uuid"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
@@ -27,9 +27,9 @@ import (
 type MetricsRoutingAPI interface {
 	List(ctx context.Context, params v1.MetricsRoutingsListParams) ([]v1.MetricsRouting, error)
 	Create(ctx context.Context, request v1.MetricsRouting) (*v1.MetricsRouting, error)
-	Read(ctx context.Context, id string) (*v1.MetricsRouting, error)
-	Update(ctx context.Context, id string, request *v1.MetricsRouting) (*v1.MetricsRouting, error)
-	Delete(ctx context.Context, id string) error
+	Read(ctx context.Context, id uuid.UUID) (*v1.MetricsRouting, error)
+	Update(ctx context.Context, id uuid.UUID, request *v1.MetricsRouting) (*v1.MetricsRouting, error)
+	Delete(ctx context.Context, id uuid.UUID) error
 }
 
 var _ MetricsRoutingAPI = (*metricsRoutingOp)(nil)
@@ -69,12 +69,8 @@ func (op *metricsRoutingOp) Create(ctx context.Context, request v1.MetricsRoutin
 	}
 }
 
-func (op *metricsRoutingOp) Read(ctx context.Context, id string) (*v1.MetricsRouting, error) {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("MetricsRouting.Read", 0, err)
-	}
-	resp, err := op.client.MetricsRoutingsRetrieve(ctx, v1.MetricsRoutingsRetrieveParams{ID: intId})
+func (op *metricsRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.MetricsRouting, error) {
+	resp, err := op.client.MetricsRoutingsRetrieve(ctx, v1.MetricsRoutingsRetrieveParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -92,12 +88,8 @@ func (op *metricsRoutingOp) Read(ctx context.Context, id string) (*v1.MetricsRou
 	}
 }
 
-func (op *metricsRoutingOp) Update(ctx context.Context, id string, request *v1.MetricsRouting) (*v1.MetricsRouting, error) {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("MetricsRouting.Update", 0, err)
-	}
-	resp, err := op.client.MetricsRoutingsUpdate(ctx, request, v1.MetricsRoutingsUpdateParams{ID: intId})
+func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, request *v1.MetricsRouting) (*v1.MetricsRouting, error) {
+	resp, err := op.client.MetricsRoutingsUpdate(ctx, request, v1.MetricsRoutingsUpdateParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -115,12 +107,8 @@ func (op *metricsRoutingOp) Update(ctx context.Context, id string, request *v1.M
 	}
 }
 
-func (op *metricsRoutingOp) Delete(ctx context.Context, id string) error {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return NewAPIError("MetricsRouting.Delete", 0, err)
-	}
-	err = op.client.MetricsRoutingsDestroy(ctx, v1.MetricsRoutingsDestroyParams{ID: intId})
+func (op *metricsRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
+	err := op.client.MetricsRoutingsDestroy(ctx, v1.MetricsRoutingsDestroyParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:

@@ -27,7 +27,7 @@ import (
 )
 
 type AlertProjectAPI interface {
-	List(ctx context.Context, count *int, from *int) ([]v1.AlertProject, error)
+	List(ctx context.Context, count *int64, from *int64) ([]v1.AlertProject, error)
 	Create(ctx context.Context, params AlertProjectCreateParams) (*v1.AlertProject, error)
 	Read(ctx context.Context, id string) (*v1.WrappedAlertProject, error)
 	Update(ctx context.Context, id string, request AlertProjectUpdateParams) (*v1.WrappedAlertProject, error)
@@ -47,10 +47,10 @@ func NewAlertProjectOp(client *v1.Client) AlertProjectAPI {
 	return &alertProjectOp{client: client}
 }
 
-func (op *alertProjectOp) List(ctx context.Context, count *int, from *int) ([]v1.AlertProject, error) {
+func (op *alertProjectOp) List(ctx context.Context, count *int64, from *int64) ([]v1.AlertProject, error) {
 	result, err := op.client.AlertsProjectsList(ctx, v1.AlertsProjectsListParams{
-		Count: intoOpt[v1.OptInt](count),
-		From:  intoOpt[v1.OptInt](from),
+		Count: intoOpt[v1.OptInt64](count),
+		From:  intoOpt[v1.OptInt64](from),
 	})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -92,15 +92,13 @@ func (op *alertProjectOp) Read(ctx context.Context, id string) (*v1.WrappedAlert
 
 type AlertProjectCreateParams struct {
 	Name        string
-	Description string
-	IsSystem    *bool
+	Description *string
 }
 
 func (op *alertProjectOp) Create(ctx context.Context, params AlertProjectCreateParams) (*v1.AlertProject, error) {
 	result, err := op.client.AlertsProjectsCreate(ctx, &v1.AlertProjectCreate{
 		Name:        params.Name,
-		Description: params.Description,
-		IsSystem:    intoOpt[v1.OptBool](params.IsSystem),
+		Description: intoOpt[v1.OptString](params.Description),
 	})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -176,8 +174,8 @@ func (op *alertProjectOp) Delete(ctx context.Context, id string) error {
 
 type AlertsProjectsHistoriesListParams struct {
 	ProjectID string // mandatory
-	Count     *int
-	From      *int
+	Count     *int64
+	From      *int64
 	Open      *bool
 	Severity  *v1.AlertsProjectsHistoriesListSeverity
 	StartsAt  *time.Time
@@ -190,8 +188,8 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjec
 	}
 	p := v1.AlertsProjectsHistoriesListParams{
 		ProjectResourceID: intProjectId,
-		Count:             intoOpt[v1.OptInt](params.Count),
-		From:              intoOpt[v1.OptInt](params.From),
+		Count:             intoOpt[v1.OptInt64](params.Count),
+		From:              intoOpt[v1.OptInt64](params.From),
 		Open:              intoOpt[v1.OptBool](params.Open),
 		Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
 		StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),

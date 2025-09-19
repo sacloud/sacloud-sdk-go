@@ -17,9 +17,9 @@ package monitoringsuite
 import (
 	"context"
 	"net/http"
-	"strconv"
 
 	"github.com/go-faster/errors"
+	"github.com/google/uuid"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
@@ -27,9 +27,9 @@ import (
 type LogRoutingAPI interface {
 	List(ctx context.Context, params v1.LogsRoutingsListParams) ([]v1.LogRouting, error)
 	Create(ctx context.Context, request v1.LogRouting) (*v1.LogRouting, error)
-	Read(ctx context.Context, id string) (*v1.LogRouting, error)
-	Update(ctx context.Context, id string, request *v1.LogRouting) (*v1.LogRouting, error)
-	Delete(ctx context.Context, id string) error
+	Read(ctx context.Context, id uuid.UUID) (*v1.LogRouting, error)
+	Update(ctx context.Context, id uuid.UUID, request *v1.LogRouting) (*v1.LogRouting, error)
+	Delete(ctx context.Context, id uuid.UUID) error
 }
 
 var _ LogRoutingAPI = (*logRoutingOp)(nil)
@@ -69,12 +69,8 @@ func (op *logRoutingOp) Create(ctx context.Context, request v1.LogRouting) (*v1.
 	}
 }
 
-func (op *logRoutingOp) Read(ctx context.Context, id string) (*v1.LogRouting, error) {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("LogRouting.Read", 0, err)
-	}
-	resp, err := op.client.LogsRoutingsRetrieve(ctx, v1.LogsRoutingsRetrieveParams{ID: intId})
+func (op *logRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.LogRouting, error) {
+	resp, err := op.client.LogsRoutingsRetrieve(ctx, v1.LogsRoutingsRetrieveParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -92,12 +88,8 @@ func (op *logRoutingOp) Read(ctx context.Context, id string) (*v1.LogRouting, er
 	}
 }
 
-func (op *logRoutingOp) Update(ctx context.Context, id string, request *v1.LogRouting) (*v1.LogRouting, error) {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("LogRouting.Update", 0, err)
-	}
-	resp, err := op.client.LogsRoutingsUpdate(ctx, request, v1.LogsRoutingsUpdateParams{ID: intId})
+func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, request *v1.LogRouting) (*v1.LogRouting, error) {
+	resp, err := op.client.LogsRoutingsUpdate(ctx, request, v1.LogsRoutingsUpdateParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -115,12 +107,8 @@ func (op *logRoutingOp) Update(ctx context.Context, id string, request *v1.LogRo
 	}
 }
 
-func (op *logRoutingOp) Delete(ctx context.Context, id string) error {
-	intId, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return NewAPIError("LogRouting.Delete", 0, err)
-	}
-	err = op.client.LogsRoutingsDestroy(ctx, v1.LogsRoutingsDestroyParams{ID: intId})
+func (op *logRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
+	err := op.client.LogsRoutingsDestroy(ctx, v1.LogsRoutingsDestroyParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:

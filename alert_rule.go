@@ -27,7 +27,7 @@ import (
 )
 
 type AlertRuleAPI interface {
-	List(ctx context.Context, projectId string, count *int, from *int) ([]v1.AlertRule, error)
+	List(ctx context.Context, projectId string, count *int64, from *int64) ([]v1.AlertRule, error)
 	Create(ctx context.Context, projectId string, params AlertRuleCreateParams) (*v1.AlertRule, error)
 	Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.AlertRule, error)
 	Update(ctx context.Context, projectId string, ruleId uuid.UUID, params AlertRuleUpdateParams) (*v1.AlertRule, error)
@@ -47,15 +47,15 @@ func NewAlertRuleOp(client *v1.Client) AlertRuleAPI {
 	return &alertRuleOp{client: client}
 }
 
-func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int, from *int) ([]v1.AlertRule, error) {
+func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int64, from *int64) ([]v1.AlertRule, error) {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.List", 0, err)
 	}
 	params := v1.AlertsProjectsRulesListParams{
 		ProjectResourceID: id,
-		Count:             intoOpt[v1.OptInt](count),
-		From:              intoOpt[v1.OptInt](from),
+		Count:             intoOpt[v1.OptInt64](count),
+		From:              intoOpt[v1.OptInt64](from),
 	}
 	result, err := op.client.AlertsProjectsRulesList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -243,8 +243,8 @@ func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid
 }
 
 type AlertRuleListHistoriesParams struct {
-	Count    *int
-	From     *int
+	Count    *int64
+	From     *int64
 	Open     *bool
 	Severity *v1.AlertsProjectsRulesHistoriesListSeverity
 	StartsAt *time.Time
@@ -258,8 +258,8 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, rule
 	params := v1.AlertsProjectsRulesHistoriesListParams{
 		ProjectResourceID: intProjectId,
 		RuleUID:           ruleId,
-		Count:             intoOpt[v1.OptInt](p.Count),
-		From:              intoOpt[v1.OptInt](p.From),
+		Count:             intoOpt[v1.OptInt64](p.Count),
+		From:              intoOpt[v1.OptInt64](p.From),
 		Open:              intoOpt[v1.OptBool](p.Open),
 		Severity:          intoOpt[v1.OptAlertsProjectsRulesHistoriesListSeverity](p.Severity),
 		StartsAt:          intoOpt[v1.OptDateTime](p.StartsAt),

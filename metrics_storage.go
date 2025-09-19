@@ -20,6 +20,7 @@ import (
 	"strconv"
 
 	"github.com/go-faster/errors"
+	"github.com/google/uuid"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
@@ -31,11 +32,11 @@ type MetricsStorageAPI interface {
 	Update(ctx context.Context, id string, request MetricsStorageUpdateParams) (*v1.MetricsStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) ([]v1.MetricsStorageAccessKey, error)
+	ListKeys(ctx context.Context, metricsResourceId string, count *int64, from *int64) ([]v1.MetricsStorageAccessKey, error)
 	CreateKey(ctx context.Context, metricsResourceId string, description *string) (*v1.MetricsStorageAccessKey, error)
-	ReadKey(ctx context.Context, metricsResourceId string, id string) (*v1.MetricsStorageAccessKey, error)
-	UpdateKey(ctx context.Context, metricsResourceId string, id string, description *string) (*v1.MetricsStorageAccessKey, error)
-	DeleteKey(ctx context.Context, metricsResourceId string, id string) error
+	ReadKey(ctx context.Context, metricsResourceId string, id uuid.UUID) (*v1.MetricsStorageAccessKey, error)
+	UpdateKey(ctx context.Context, metricsResourceId string, id uuid.UUID, description *string) (*v1.MetricsStorageAccessKey, error)
+	DeleteKey(ctx context.Context, metricsResourceId string, id uuid.UUID) error
 }
 
 var _ MetricsStorageAPI = (*metricsStorageOp)(nil)
@@ -49,8 +50,8 @@ func NewMetricsStorageOp(client *v1.Client) MetricsStorageAPI {
 }
 
 type MetricsStorageListParams struct {
-	Count      *int
-	From       *int
+	Count      *int64
+	From       *int64
 	AccountID  *string
 	ResourceID *string
 	IsSystem   *bool
@@ -62,8 +63,8 @@ func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListP
 		return nil, NewAPIError("MetricsStorage.List", 0, err)
 	}
 	result, err := op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
-		Count:      intoOpt[v1.OptInt](params.Count),
-		From:       intoOpt[v1.OptInt](params.From),
+		Count:      intoOpt[v1.OptInt64](params.Count),
+		From:       intoOpt[v1.OptInt64](params.From),
 		AccountID:  intoOpt[v1.OptString](params.AccountID),
 		ResourceID: resourceId,
 		IsSystem:   intoOpt[v1.OptBool](params.IsSystem),
@@ -106,9 +107,18 @@ func (op *metricsStorageOp) Read(ctx context.Context, resourceID string) (*v1.Me
 	}
 }
 
-type MetricsStorageCreateParams = v1.MetricsStorageCreate
+type MetricsStorageCreateParams struct {
+	Name        string
+	Description *string
+	IsSystem    bool
+}
 
-func (op *metricsStorageOp) Create(ctx context.Context, body MetricsStorageCreateParams) (*v1.MetricsStorage, error) {
+func (op *metricsStorageOp) Create(ctx context.Context, params MetricsStorageCreateParams) (*v1.MetricsStorage, error) {
+	body := v1.MetricsStorageCreate{
+		Name:        params.Name,
+		Description: intoOpt[v1.OptString](params.Description),
+		IsSystem:    params.IsSystem,
+	}
 	result, err := op.client.MetricsStoragesCreate(ctx, &body)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -181,15 +191,15 @@ func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error
 	return nil
 }
 
-func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) ([]v1.MetricsStorageAccessKey, error) {
+func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int64, from *int64) ([]v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.ListKeys", 0, err)
 	}
 	params := v1.MetricsStoragesKeysListParams{
 		MetricsResourceID: rid,
-		Count:             intoOpt[v1.OptInt](count),
-		From:              intoOpt[v1.OptInt](from),
+		Count:             intoOpt[v1.OptInt64](count),
+		From:              intoOpt[v1.OptInt64](from),
 	}
 	result, err := op.client.MetricsStoragesKeysList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -235,16 +245,12 @@ func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId str
 	}
 }
 
-func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId string, id string) (*v1.MetricsStorageAccessKey, error) {
+func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId string, id uuid.UUID) (*v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.ReadKey", 0, err)
 	}
-	kid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("MetricsStorage.ReadKey", 0, err)
-	}
-	params := v1.MetricsStoragesKeysRetrieveParams{MetricsResourceID: rid, ID: kid}
+	params := v1.MetricsStoragesKeysRetrieveParams{MetricsResourceID: rid, ID: id}
 	result, err := op.client.MetricsStoragesKeysRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -263,16 +269,12 @@ func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId strin
 	}
 }
 
-func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId string, id string, description *string) (*v1.MetricsStorageAccessKey, error) {
+func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId string, id uuid.UUID, description *string) (*v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.UpdateKey", 0, err)
 	}
-	kid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewAPIError("MetricsStorage.UpdateKey", 0, err)
-	}
-	params := v1.MetricsStoragesKeysUpdateParams{MetricsResourceID: rid, ID: kid}
+	params := v1.MetricsStoragesKeysUpdateParams{MetricsResourceID: rid, ID: id}
 	opt := v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
 		Description: intoOpt[v1.OptString](description),
 	})
@@ -295,16 +297,12 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 }
 
 // DeleteKey deletes an access key for a metrics storage resource.
-func (op *metricsStorageOp) DeleteKey(ctx context.Context, metricsResourceId string, id string) error {
+func (op *metricsStorageOp) DeleteKey(ctx context.Context, metricsResourceId string, id uuid.UUID) error {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return NewAPIError("MetricsStorage.DeleteKey", 0, err)
 	}
-	kid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return NewAPIError("MetricsStorage.DeleteKey", 0, err)
-	}
-	params := v1.MetricsStoragesKeysDestroyParams{MetricsResourceID: rid, ID: kid}
+	params := v1.MetricsStoragesKeysDestroyParams{MetricsResourceID: rid, ID: id}
 	err = op.client.MetricsStoragesKeysDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {

@@ -45,7 +45,6 @@ func TestAlertProjectOp_List(t *testing.T) {
 	project := projects[0]
 	require.Equal(t, TemplateAlertProject.GetName(), project.GetName())
 	require.Equal(t, TemplateAlertProject.GetDescription(), project.GetDescription())
-	require.Equal(t, TemplateAlertProject.GetIsSystem(), project.GetIsSystem())
 	require.Equal(t, TemplateAlertProject.GetAccountID(), project.GetAccountID())
 	require.Equal(t, TemplateAlertProject.GetResourceID(), project.GetResourceID())
 	require.Equal(t, TemplateAlertProject.GetTags(), project.GetTags())
@@ -71,7 +70,6 @@ func TestAlertProjectOp_Read(t *testing.T) {
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedAlertProject.GetName(), actual.GetName())
 	require.Equal(t, TemplateWrappedAlertProject.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateWrappedAlertProject.GetIsSystem(), actual.GetIsSystem())
 	require.Equal(t, TemplateWrappedAlertProject.GetAccountID(), actual.GetAccountID())
 	require.Equal(t, TemplateWrappedAlertProject.GetResourceID(), actual.GetResourceID())
 	require.Equal(t, TemplateWrappedAlertProject.GetTags(), actual.GetTags())
@@ -94,16 +92,13 @@ func TestAlertProjectOp_Create(t *testing.T) {
 	ctx := context.Background()
 
 	createReq := AlertProjectCreateParams{
-		Name:        "created-alert-project",
-		Description: "Created alert project",
-		IsSystem:    nil,
+		Name: "created-alert-project",
 	}
 	actual, err := api.Create(ctx, createReq)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateAlertProject.GetName(), actual.GetName())
 	require.Equal(t, TemplateAlertProject.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateAlertProject.GetIsSystem(), actual.GetIsSystem())
 	require.Equal(t, TemplateAlertProject.GetAccountID(), actual.GetAccountID())
 	require.Equal(t, TemplateAlertProject.GetResourceID(), actual.GetResourceID())
 	require.Equal(t, TemplateAlertProject.GetTags(), actual.GetTags())
@@ -115,11 +110,8 @@ func TestAlertProjectOp_Create_400(t *testing.T) {
 	api := NewAlertProjectOp(client)
 	ctx := context.Background()
 
-	tt := true
 	createReq := AlertProjectCreateParams{
-		Name:        "",
-		Description: "",
-		IsSystem:    &tt,
+		Name: "",
 	}
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
@@ -142,7 +134,6 @@ func TestAlertProjectOp_Update(t *testing.T) {
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedAlertProject.GetName(), actual.GetName())
 	require.Equal(t, TemplateWrappedAlertProject.GetDescription(), actual.GetDescription())
-	require.Equal(t, TemplateWrappedAlertProject.GetIsSystem(), actual.GetIsSystem())
 	require.Equal(t, TemplateWrappedAlertProject.GetAccountID(), actual.GetAccountID())
 	require.Equal(t, TemplateWrappedAlertProject.GetResourceID(), actual.GetResourceID())
 	require.Equal(t, TemplateWrappedAlertProject.GetTags(), actual.GetTags())
@@ -246,7 +237,6 @@ func TestAlertProjectIntegrated(t *testing.T) {
 	require.Equal(t, tmp.GetID(), read.GetID())
 	require.Equal(t, tmp.GetName(), read.GetName())
 	require.Equal(t, tmp.GetDescription(), read.GetDescription())
-	require.Equal(t, tmp.GetIsSystem(), read.GetIsSystem())
 
 	histories, err := api.ListHistories(ctx, AlertsProjectsHistoriesListParams{ProjectID: aid})
 	require.NoError(t, err)
@@ -261,7 +251,6 @@ func TestAlertProjectIntegrated(t *testing.T) {
 	require.Equal(t, tmp.GetID(), updated.GetID())
 	require.Equal(t, tmp.GetName(), updated.GetName())
 	require.Equal(t, updatedDesc, updated.GetDescription().Or("failure"))
-	require.Equal(t, tmp.GetIsSystem(), updated.GetIsSystem())
 
 	projects, err := api.List(ctx, nil, nil)
 	require.NoError(t, err)

@@ -567,6 +567,15 @@ func (c *Client) AlertsProjectsCreate(ctx context.Context, request *AlertProject
 }
 
 func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertProjectCreate) (res *AlertProject, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -697,7 +706,7 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -714,7 +723,7 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -895,7 +904,7 @@ func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjec
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -912,7 +921,7 @@ func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjec
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1128,7 +1137,7 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1145,7 +1154,7 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1648,7 +1657,7 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1665,7 +1674,7 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1682,7 +1691,7 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Target.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -2235,7 +2244,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -2252,7 +2261,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -2886,7 +2895,7 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -2903,7 +2912,7 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3122,7 +3131,7 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3139,7 +3148,7 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3505,6 +3514,15 @@ func (c *Client) DashboardsProjectsCreate(ctx context.Context, request *Dashboar
 }
 
 func (c *Client) sendDashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreate) (res *DashboardProject, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -3616,7 +3634,7 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3633,7 +3651,7 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4007,7 +4025,7 @@ func (c *Client) sendLogsRoutingsDestroy(ctx context.Context, params LogsRouting
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4067,7 +4085,7 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4084,7 +4102,7 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4118,7 +4136,7 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.ResourceID.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4202,7 +4220,7 @@ func (c *Client) sendLogsRoutingsPartialUpdate(ctx context.Context, request OptP
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4260,7 +4278,7 @@ func (c *Client) sendLogsRoutingsRetrieve(ctx context.Context, params LogsRoutin
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4324,7 +4342,7 @@ func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRouting
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4578,7 +4596,7 @@ func (c *Client) sendLogsStoragesKeysDestroy(ctx context.Context, params LogsSto
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4657,7 +4675,7 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4674,7 +4692,7 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4760,7 +4778,7 @@ func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request 
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4837,7 +4855,7 @@ func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsSt
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4927,7 +4945,7 @@ func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogS
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5024,7 +5042,7 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5041,7 +5059,7 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5075,7 +5093,7 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.ResourceID.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5394,7 +5412,7 @@ func (c *Client) sendMetricsRoutingsDestroy(ctx context.Context, params MetricsR
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5454,7 +5472,7 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5471,7 +5489,7 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5505,7 +5523,7 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.ResourceID.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5589,7 +5607,7 @@ func (c *Client) sendMetricsRoutingsPartialUpdate(ctx context.Context, request O
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5647,7 +5665,7 @@ func (c *Client) sendMetricsRoutingsRetrieve(ctx context.Context, params Metrics
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5711,7 +5729,7 @@ func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *Metrics
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5757,6 +5775,15 @@ func (c *Client) MetricsStoragesCreate(ctx context.Context, request *MetricsStor
 }
 
 func (c *Client) sendMetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreate) (res *MetricsStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -5956,7 +5983,7 @@ func (c *Client) sendMetricsStoragesKeysDestroy(ctx context.Context, params Metr
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6035,7 +6062,7 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6052,7 +6079,7 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6138,7 +6165,7 @@ func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, reque
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6215,7 +6242,7 @@ func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params Met
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6305,7 +6332,7 @@ func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptM
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6385,7 +6412,7 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6402,7 +6429,7 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6734,7 +6761,7 @@ func (c *Client) sendPublishersList(ctx context.Context, params PublishersListPa
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6751,7 +6778,7 @@ func (c *Client) sendPublishersList(ctx context.Context, params PublishersListPa
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
+				return e.EncodeValue(conv.Int64ToString(val))
 			}
 			return nil
 		}); err != nil {

@@ -20,6 +20,7 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/sacloud/packages-go/testutil"
@@ -103,7 +104,7 @@ func TestMetricsStorageOp_Create(t *testing.T) {
 
 	createReq := MetricsStorageCreateParams{
 		Name:        "created-tank",
-		Description: "Created metrics tank",
+		Description: ref("Created metrics tank"),
 		IsSystem:    false,
 	}
 	actual, err := api.Create(ctx, createReq)
@@ -127,9 +128,9 @@ func TestMetricsStorageOp_Create_400(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	createReq := v1.MetricsStorageCreate{
+	createReq := MetricsStorageCreateParams{
 		Name:        "",
-		Description: "",
+		Description: nil,
 		IsSystem:    false,
 	}
 	actual, err := api.Create(ctx, createReq)
@@ -252,7 +253,7 @@ func TestMetricsStorageOp_ReadKey(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.ReadKey(ctx, "12345", "3")
+	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -265,7 +266,7 @@ func TestMetricsStorageOp_ReadKey_403(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.ReadKey(ctx, "12345", "3")
+	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -276,7 +277,7 @@ func TestMetricsStorageOp_UpdateKey(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", nil)
+	key, err := api.UpdateKey(ctx, "12345", uuid.New(), nil)
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -289,7 +290,7 @@ func TestMetricsStorageOp_UpdateKey_403(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	key, err := api.UpdateKey(ctx, "12345", "4", nil)
+	key, err := api.UpdateKey(ctx, "12345", uuid.New(), nil)
 	require.Nil(t, key)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
@@ -300,7 +301,7 @@ func TestMetricsStorageOp_DeleteKey(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	err := api.DeleteKey(ctx, "12345", "5")
+	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 }
 
@@ -310,7 +311,7 @@ func TestMetricsStorageOp_DeleteKey_403(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	err := api.DeleteKey(ctx, "12345", "5")
+	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient permissions")
 }
@@ -344,7 +345,7 @@ func TestMetricsStorageIntegrated(t *testing.T) {
 	require.NotZero(t, createdKey.GetUID())
 	require.Empty(t, createdKey.GetDescription().Or("failure"))
 	require.NotEmpty(t, createdKey.GetSecret())
-	kid := fmt.Sprintf("%d", createdKey.GetID())
+	kid := createdKey.GetUID()
 
 	// Read Key
 	readKey, err := api.ReadKey(ctx, sid, kid)

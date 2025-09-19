@@ -22,7 +22,7 @@ func (s *AlertProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -48,7 +48,7 @@ func (s *AlertProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -103,6 +103,63 @@ func (s *AlertProject) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "resource_id",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *AlertProjectCreate) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:    0,
+			MinLengthSet: false,
+			MaxLength:    64,
+			MaxLengthSet: true,
+			Email:        false,
+			Hostname:     false,
+			Regex:        nil,
+		}).Validate(string(s.Name)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "name",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Description.Get(); ok {
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:    0,
+					MinLengthSet: false,
+					MaxLength:    512,
+					MaxLengthSet: true,
+					Email:        false,
+					Hostname:     false,
+					Regex:        nil,
+				}).Validate(string(value)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "description",
 			Error: err,
 		})
 	}
@@ -367,7 +424,7 @@ func (s *DashboardProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -393,7 +450,7 @@ func (s *DashboardProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -448,6 +505,63 @@ func (s *DashboardProject) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "resource_id",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *DashboardProjectCreate) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:    0,
+			MinLengthSet: false,
+			MaxLength:    64,
+			MaxLengthSet: true,
+			Email:        false,
+			Hostname:     false,
+			Regex:        nil,
+		}).Validate(string(s.Name)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "name",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Description.Get(); ok {
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:    0,
+					MinLengthSet: false,
+					MaxLength:    512,
+					MaxLengthSet: true,
+					Email:        false,
+					Hostname:     false,
+					Regex:        nil,
+				}).Validate(string(value)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "description",
 			Error: err,
 		})
 	}
@@ -729,7 +843,7 @@ func (s *LogMeasureRule) Validate() error {
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
-					Regex:        nil,
+					Regex:        regexMap["^[a-z\\d_-]*$"],
 				}).Validate(string(value)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -959,7 +1073,7 @@ func (s *LogStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -985,7 +1099,7 @@ func (s *LogStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -1128,6 +1242,51 @@ func (s *LogStorageCreate) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "classification",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:    0,
+			MinLengthSet: false,
+			MaxLength:    64,
+			MaxLengthSet: true,
+			Email:        false,
+			Hostname:     false,
+			Regex:        nil,
+		}).Validate(string(s.Name)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "name",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Description.Get(); ok {
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:    0,
+					MinLengthSet: false,
+					MaxLength:    512,
+					MaxLengthSet: true,
+					Email:        false,
+					Hostname:     false,
+					Regex:        nil,
+				}).Validate(string(value)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "description",
 			Error: err,
 		})
 	}
@@ -1369,7 +1528,7 @@ func (s *MetricsStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -1395,7 +1554,7 @@ func (s *MetricsStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -1492,6 +1651,63 @@ func (s *MetricsStorageAccessKey) Validate() error {
 					MinLength:    0,
 					MinLengthSet: false,
 					MaxLength:    256,
+					MaxLengthSet: true,
+					Email:        false,
+					Hostname:     false,
+					Regex:        nil,
+				}).Validate(string(value)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "description",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *MetricsStorageCreate) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:    0,
+			MinLengthSet: false,
+			MaxLength:    64,
+			MaxLengthSet: true,
+			Email:        false,
+			Hostname:     false,
+			Regex:        nil,
+		}).Validate(string(s.Name)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "name",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Description.Get(); ok {
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:    0,
+					MinLengthSet: false,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -2478,7 +2694,7 @@ func (s *PatchedAlertProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -2504,7 +2720,7 @@ func (s *PatchedAlertProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -2737,7 +2953,7 @@ func (s *PatchedDashboardProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -2763,7 +2979,7 @@ func (s *PatchedDashboardProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -2859,7 +3075,7 @@ func (s *PatchedLogMeasureRule) Validate() error {
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
-					Regex:        nil,
+					Regex:        regexMap["^[a-z\\d_-]*$"],
 				}).Validate(string(value)); err != nil {
 					return errors.Wrap(err, "string")
 				}
@@ -3048,7 +3264,7 @@ func (s *PatchedLogStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -3074,7 +3290,7 @@ func (s *PatchedLogStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -3279,7 +3495,7 @@ func (s *PatchedMetricsStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -3305,7 +3521,7 @@ func (s *PatchedMetricsStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -3940,7 +4156,7 @@ func (s *WrappedAlertProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -3966,7 +4182,7 @@ func (s *WrappedAlertProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -4042,7 +4258,7 @@ func (s *WrappedDashboardProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -4068,7 +4284,7 @@ func (s *WrappedDashboardProject) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -4198,7 +4414,7 @@ func (s *WrappedLogStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -4224,7 +4440,7 @@ func (s *WrappedLogStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -4412,7 +4628,7 @@ func (s *WrappedMetricsStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    64,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,
@@ -4438,7 +4654,7 @@ func (s *WrappedMetricsStorage) Validate() error {
 				if err := (validate.String{
 					MinLength:    0,
 					MinLengthSet: false,
-					MaxLength:    256,
+					MaxLength:    512,
 					MaxLengthSet: true,
 					Email:        false,
 					Hostname:     false,

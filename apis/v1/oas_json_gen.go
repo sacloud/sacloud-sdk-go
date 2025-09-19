@@ -64,10 +64,6 @@ func (s *AlertProject) encodeFields(e *jx.Encoder) {
 		json.EncodeDateTime(e, s.CreatedAt)
 	}
 	{
-		e.FieldStart("is_system")
-		e.Bool(s.IsSystem)
-	}
-	{
 		e.FieldStart("rules_url")
 		e.Str(s.RulesURL)
 	}
@@ -89,7 +85,7 @@ func (s *AlertProject) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfAlertProject = [14]string{
+var jsonFieldsNameOfAlertProject = [13]string{
 	0:  "id",
 	1:  "name",
 	2:  "description",
@@ -98,12 +94,11 @@ var jsonFieldsNameOfAlertProject = [14]string{
 	5:  "account_id",
 	6:  "resource_id",
 	7:  "created_at",
-	8:  "is_system",
-	9:  "rules_url",
-	10: "notification_targets_url",
-	11: "notification_routings_url",
-	12: "histories_url",
-	13: "log_measure_rules_url",
+	8:  "rules_url",
+	9:  "notification_targets_url",
+	10: "notification_routings_url",
+	11: "histories_url",
+	12: "log_measure_rules_url",
 }
 
 // Decode decodes AlertProject from json.
@@ -211,20 +206,8 @@ func (s *AlertProject) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"created_at\"")
 			}
-		case "is_system":
-			requiredBitSet[1] |= 1 << 0
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsSystem = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_system\"")
-			}
 		case "rules_url":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.RulesURL = string(v)
@@ -236,7 +219,7 @@ func (s *AlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"rules_url\"")
 			}
 		case "notification_targets_url":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Str()
 				s.NotificationTargetsURL = string(v)
@@ -248,7 +231,7 @@ func (s *AlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"notification_targets_url\"")
 			}
 		case "notification_routings_url":
-			requiredBitSet[1] |= 1 << 3
+			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
 				v, err := d.Str()
 				s.NotificationRoutingsURL = string(v)
@@ -260,7 +243,7 @@ func (s *AlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"notification_routings_url\"")
 			}
 		case "histories_url":
-			requiredBitSet[1] |= 1 << 4
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				v, err := d.Str()
 				s.HistoriesURL = string(v)
@@ -272,7 +255,7 @@ func (s *AlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"histories_url\"")
 			}
 		case "log_measure_rules_url":
-			requiredBitSet[1] |= 1 << 5
+			requiredBitSet[1] |= 1 << 4
 			if err := func() error {
 				v, err := d.Str()
 				s.LogMeasureRulesURL = string(v)
@@ -294,7 +277,7 @@ func (s *AlertProject) Decode(d *jx.Decoder) error {
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
 		0b11111001,
-		0b00111111,
+		0b00011111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -350,25 +333,20 @@ func (s *AlertProjectCreate) Encode(e *jx.Encoder) {
 // encodeFields encodes fields.
 func (s *AlertProjectCreate) encodeFields(e *jx.Encoder) {
 	{
-		if s.IsSystem.Set {
-			e.FieldStart("is_system")
-			s.IsSystem.Encode(e)
-		}
-	}
-	{
 		e.FieldStart("name")
 		e.Str(s.Name)
 	}
 	{
-		e.FieldStart("description")
-		e.Str(s.Description)
+		if s.Description.Set {
+			e.FieldStart("description")
+			s.Description.Encode(e)
+		}
 	}
 }
 
-var jsonFieldsNameOfAlertProjectCreate = [3]string{
-	0: "is_system",
-	1: "name",
-	2: "description",
+var jsonFieldsNameOfAlertProjectCreate = [2]string{
+	0: "name",
+	1: "description",
 }
 
 // Decode decodes AlertProjectCreate from json.
@@ -377,22 +355,11 @@ func (s *AlertProjectCreate) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode AlertProjectCreate to nil")
 	}
 	var requiredBitSet [1]uint8
-	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "is_system":
-			if err := func() error {
-				s.IsSystem.Reset()
-				if err := s.IsSystem.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_system\"")
-			}
 		case "name":
-			requiredBitSet[0] |= 1 << 1
+			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.Name = string(v)
@@ -404,11 +371,9 @@ func (s *AlertProjectCreate) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"name\"")
 			}
 		case "description":
-			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Str()
-				s.Description = string(v)
-				if err != nil {
+				s.Description.Reset()
+				if err := s.Description.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -425,7 +390,7 @@ func (s *AlertProjectCreate) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000110,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1012,10 +977,6 @@ func (s *DashboardProject) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
-		e.FieldStart("is_system")
-		e.Bool(s.IsSystem)
-	}
-	{
 		e.FieldStart("tags")
 		e.ArrStart()
 		for _, elem := range s.Tags {
@@ -1041,16 +1002,15 @@ func (s *DashboardProject) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfDashboardProject = [9]string{
+var jsonFieldsNameOfDashboardProject = [8]string{
 	0: "id",
 	1: "name",
 	2: "description",
-	3: "is_system",
-	4: "tags",
-	5: "icon",
-	6: "account_id",
-	7: "resource_id",
-	8: "created_at",
+	3: "tags",
+	4: "icon",
+	5: "account_id",
+	6: "resource_id",
+	7: "created_at",
 }
 
 // Decode decodes DashboardProject from json.
@@ -1058,7 +1018,7 @@ func (s *DashboardProject) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode DashboardProject to nil")
 	}
-	var requiredBitSet [2]uint8
+	var requiredBitSet [1]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -1094,20 +1054,8 @@ func (s *DashboardProject) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"description\"")
 			}
-		case "is_system":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsSystem = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_system\"")
-			}
 		case "tags":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				s.Tags = make([]string, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
@@ -1127,7 +1075,7 @@ func (s *DashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"tags\"")
 			}
 		case "icon":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				if err := s.Icon.Decode(d); err != nil {
 					return err
@@ -1137,7 +1085,7 @@ func (s *DashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"icon\"")
 			}
 		case "account_id":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				v, err := d.Str()
 				s.AccountID = string(v)
@@ -1149,7 +1097,7 @@ func (s *DashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"account_id\"")
 			}
 		case "resource_id":
-			requiredBitSet[0] |= 1 << 7
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				if err := s.ResourceID.Decode(d); err != nil {
 					return err
@@ -1159,7 +1107,7 @@ func (s *DashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"resource_id\"")
 			}
 		case "created_at":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.CreatedAt = v
@@ -1179,9 +1127,8 @@ func (s *DashboardProject) Decode(d *jx.Decoder) error {
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
+	for i, mask := range [1]uint8{
 		0b11111001,
-		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1237,25 +1184,20 @@ func (s *DashboardProjectCreate) Encode(e *jx.Encoder) {
 // encodeFields encodes fields.
 func (s *DashboardProjectCreate) encodeFields(e *jx.Encoder) {
 	{
-		if s.IsSystem.Set {
-			e.FieldStart("is_system")
-			s.IsSystem.Encode(e)
-		}
-	}
-	{
 		e.FieldStart("name")
 		e.Str(s.Name)
 	}
 	{
-		e.FieldStart("description")
-		e.Str(s.Description)
+		if s.Description.Set {
+			e.FieldStart("description")
+			s.Description.Encode(e)
+		}
 	}
 }
 
-var jsonFieldsNameOfDashboardProjectCreate = [3]string{
-	0: "is_system",
-	1: "name",
-	2: "description",
+var jsonFieldsNameOfDashboardProjectCreate = [2]string{
+	0: "name",
+	1: "description",
 }
 
 // Decode decodes DashboardProjectCreate from json.
@@ -1264,22 +1206,11 @@ func (s *DashboardProjectCreate) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DashboardProjectCreate to nil")
 	}
 	var requiredBitSet [1]uint8
-	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "is_system":
-			if err := func() error {
-				s.IsSystem.Reset()
-				if err := s.IsSystem.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_system\"")
-			}
 		case "name":
-			requiredBitSet[0] |= 1 << 1
+			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.Name = string(v)
@@ -1291,11 +1222,9 @@ func (s *DashboardProjectCreate) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"name\"")
 			}
 		case "description":
-			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Str()
-				s.Description = string(v)
-				if err != nil {
+				s.Description.Reset()
+				if err := s.Description.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -1312,7 +1241,7 @@ func (s *DashboardProjectCreate) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000110,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1857,7 +1786,7 @@ func (s *History) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("project_id")
-		e.Int(s.ProjectID)
+		e.Int64(s.ProjectID)
 	}
 	{
 		e.FieldStart("rule_uid")
@@ -1943,8 +1872,8 @@ func (s *History) Decode(d *jx.Decoder) error {
 		case "project_id":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.ProjectID = int(v)
+				v, err := d.Int64()
+				s.ProjectID = int64(v)
 				if err != nil {
 					return err
 				}
@@ -3392,8 +3321,10 @@ func (s *LogStorageCreate) encodeFields(e *jx.Encoder) {
 		e.Str(s.Name)
 	}
 	{
-		e.FieldStart("description")
-		e.Str(s.Description)
+		if s.Description.Set {
+			e.FieldStart("description")
+			s.Description.Encode(e)
+		}
 	}
 }
 
@@ -3449,11 +3380,9 @@ func (s *LogStorageCreate) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"name\"")
 			}
 		case "description":
-			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				v, err := d.Str()
-				s.Description = string(v)
-				if err != nil {
+				s.Description.Reset()
+				if err := s.Description.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -3470,7 +3399,7 @@ func (s *LogStorageCreate) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00001110,
+		0b00000110,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -3837,11 +3766,11 @@ func (s *LogStorageUsage) Encode(e *jx.Encoder) {
 func (s *LogStorageUsage) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("log_routings")
-		e.Int(s.LogRoutings)
+		e.Int64(s.LogRoutings)
 	}
 	{
 		e.FieldStart("log_measure_rules")
-		e.Int(s.LogMeasureRules)
+		e.Int64(s.LogMeasureRules)
 	}
 }
 
@@ -3862,8 +3791,8 @@ func (s *LogStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_routings":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Int()
-				s.LogRoutings = int(v)
+				v, err := d.Int64()
+				s.LogRoutings = int64(v)
 				if err != nil {
 					return err
 				}
@@ -3874,8 +3803,8 @@ func (s *LogStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_measure_rules":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.LogMeasureRules = int(v)
+				v, err := d.Int64()
+				s.LogMeasureRules = int64(v)
 				if err != nil {
 					return err
 				}
@@ -5071,8 +5000,10 @@ func (s *MetricsStorageCreate) encodeFields(e *jx.Encoder) {
 		e.Str(s.Name)
 	}
 	{
-		e.FieldStart("description")
-		e.Str(s.Description)
+		if s.Description.Set {
+			e.FieldStart("description")
+			s.Description.Encode(e)
+		}
 	}
 	{
 		e.FieldStart("is_system")
@@ -5108,11 +5039,9 @@ func (s *MetricsStorageCreate) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"name\"")
 			}
 		case "description":
-			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Str()
-				s.Description = string(v)
-				if err != nil {
+				s.Description.Reset()
+				if err := s.Description.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -5141,7 +5070,7 @@ func (s *MetricsStorageCreate) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000111,
+		0b00000101,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -5357,15 +5286,15 @@ func (s *MetricsStorageUsage) Encode(e *jx.Encoder) {
 func (s *MetricsStorageUsage) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("metrics_routings")
-		e.Int(s.MetricsRoutings)
+		e.Int64(s.MetricsRoutings)
 	}
 	{
 		e.FieldStart("alert_rules")
-		e.Int(s.AlertRules)
+		e.Int64(s.AlertRules)
 	}
 	{
 		e.FieldStart("log_measure_rules")
-		e.Int(s.LogMeasureRules)
+		e.Int64(s.LogMeasureRules)
 	}
 }
 
@@ -5387,8 +5316,8 @@ func (s *MetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "metrics_routings":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Int()
-				s.MetricsRoutings = int(v)
+				v, err := d.Int64()
+				s.MetricsRoutings = int64(v)
 				if err != nil {
 					return err
 				}
@@ -5399,8 +5328,8 @@ func (s *MetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "alert_rules":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.AlertRules = int(v)
+				v, err := d.Int64()
+				s.AlertRules = int64(v)
 				if err != nil {
 					return err
 				}
@@ -5411,8 +5340,8 @@ func (s *MetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_measure_rules":
 			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Int()
-				s.LogMeasureRules = int(v)
+				v, err := d.Int64()
+				s.LogMeasureRules = int64(v)
 				if err != nil {
 					return err
 				}
@@ -5915,7 +5844,7 @@ func (s *NotificationRouting) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("order")
-		e.Int(s.Order)
+		e.Int64(s.Order)
 	}
 }
 
@@ -6013,8 +5942,8 @@ func (s *NotificationRouting) Decode(d *jx.Decoder) error {
 		case "order":
 			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
-				v, err := d.Int()
-				s.Order = int(v)
+				v, err := d.Int64()
+				s.Order = int64(v)
 				if err != nil {
 					return err
 				}
@@ -6093,7 +6022,7 @@ func (s *NotificationRoutingOrder) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("order")
-		e.Int(s.Order)
+		e.Int64(s.Order)
 	}
 }
 
@@ -6126,8 +6055,8 @@ func (s *NotificationRoutingOrder) Decode(d *jx.Decoder) error {
 		case "order":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.Order = int(v)
+				v, err := d.Int64()
+				s.Order = int64(v)
 				if err != nil {
 					return err
 				}
@@ -10942,12 +10871,6 @@ func (s *PatchedAlertProject) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
-		if s.IsSystem.Set {
-			e.FieldStart("is_system")
-			s.IsSystem.Encode(e)
-		}
-	}
-	{
 		if s.RulesURL.Set {
 			e.FieldStart("rules_url")
 			s.RulesURL.Encode(e)
@@ -10979,7 +10902,7 @@ func (s *PatchedAlertProject) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPatchedAlertProject = [14]string{
+var jsonFieldsNameOfPatchedAlertProject = [13]string{
 	0:  "id",
 	1:  "name",
 	2:  "description",
@@ -10988,12 +10911,11 @@ var jsonFieldsNameOfPatchedAlertProject = [14]string{
 	5:  "account_id",
 	6:  "resource_id",
 	7:  "created_at",
-	8:  "is_system",
-	9:  "rules_url",
-	10: "notification_targets_url",
-	11: "notification_routings_url",
-	12: "histories_url",
-	13: "log_measure_rules_url",
+	8:  "rules_url",
+	9:  "notification_targets_url",
+	10: "notification_routings_url",
+	11: "histories_url",
+	12: "log_measure_rules_url",
 }
 
 // Decode decodes PatchedAlertProject from json.
@@ -11092,16 +11014,6 @@ func (s *PatchedAlertProject) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"created_at\"")
-			}
-		case "is_system":
-			if err := func() error {
-				s.IsSystem.Reset()
-				if err := s.IsSystem.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_system\"")
 			}
 		case "rules_url":
 			if err := func() error {
@@ -11569,12 +11481,6 @@ func (s *PatchedDashboardProject) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
-		if s.IsSystem.Set {
-			e.FieldStart("is_system")
-			s.IsSystem.Encode(e)
-		}
-	}
-	{
 		if s.Tags != nil {
 			e.FieldStart("tags")
 			e.ArrStart()
@@ -11610,16 +11516,15 @@ func (s *PatchedDashboardProject) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPatchedDashboardProject = [9]string{
+var jsonFieldsNameOfPatchedDashboardProject = [8]string{
 	0: "id",
 	1: "name",
 	2: "description",
-	3: "is_system",
-	4: "tags",
-	5: "icon",
-	6: "account_id",
-	7: "resource_id",
-	8: "created_at",
+	3: "tags",
+	4: "icon",
+	5: "account_id",
+	6: "resource_id",
+	7: "created_at",
 }
 
 // Decode decodes PatchedDashboardProject from json.
@@ -11659,16 +11564,6 @@ func (s *PatchedDashboardProject) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"description\"")
-			}
-		case "is_system":
-			if err := func() error {
-				s.IsSystem.Reset()
-				if err := s.IsSystem.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_system\"")
 			}
 		case "tags":
 			if err := func() error {
@@ -12957,11 +12852,11 @@ func (s *PatchedLogStorageUsage) Encode(e *jx.Encoder) {
 func (s *PatchedLogStorageUsage) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("log_routings")
-		e.Int(s.LogRoutings)
+		e.Int64(s.LogRoutings)
 	}
 	{
 		e.FieldStart("log_measure_rules")
-		e.Int(s.LogMeasureRules)
+		e.Int64(s.LogMeasureRules)
 	}
 }
 
@@ -12982,8 +12877,8 @@ func (s *PatchedLogStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_routings":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Int()
-				s.LogRoutings = int(v)
+				v, err := d.Int64()
+				s.LogRoutings = int64(v)
 				if err != nil {
 					return err
 				}
@@ -12994,8 +12889,8 @@ func (s *PatchedLogStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_measure_rules":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.LogMeasureRules = int(v)
+				v, err := d.Int64()
+				s.LogMeasureRules = int64(v)
 				if err != nil {
 					return err
 				}
@@ -13839,15 +13734,15 @@ func (s *PatchedMetricsStorageUsage) Encode(e *jx.Encoder) {
 func (s *PatchedMetricsStorageUsage) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("metrics_routings")
-		e.Int(s.MetricsRoutings)
+		e.Int64(s.MetricsRoutings)
 	}
 	{
 		e.FieldStart("alert_rules")
-		e.Int(s.AlertRules)
+		e.Int64(s.AlertRules)
 	}
 	{
 		e.FieldStart("log_measure_rules")
-		e.Int(s.LogMeasureRules)
+		e.Int64(s.LogMeasureRules)
 	}
 }
 
@@ -13869,8 +13764,8 @@ func (s *PatchedMetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "metrics_routings":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Int()
-				s.MetricsRoutings = int(v)
+				v, err := d.Int64()
+				s.MetricsRoutings = int64(v)
 				if err != nil {
 					return err
 				}
@@ -13881,8 +13776,8 @@ func (s *PatchedMetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "alert_rules":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.AlertRules = int(v)
+				v, err := d.Int64()
+				s.AlertRules = int64(v)
 				if err != nil {
 					return err
 				}
@@ -13893,8 +13788,8 @@ func (s *PatchedMetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_measure_rules":
 			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Int()
-				s.LogMeasureRules = int(v)
+				v, err := d.Int64()
+				s.LogMeasureRules = int64(v)
 				if err != nil {
 					return err
 				}
@@ -15059,7 +14954,7 @@ func (s *ResourceItemLimits) Encode(e *jx.Encoder) {
 func (s *ResourceItemLimits) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("max_user_count")
-		e.Int(s.MaxUserCount)
+		e.Int64(s.MaxUserCount)
 	}
 }
 
@@ -15079,8 +14974,8 @@ func (s *ResourceItemLimits) Decode(d *jx.Decoder) error {
 		case "max_user_count":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Int()
-				s.MaxUserCount = int(v)
+				v, err := d.Int64()
+				s.MaxUserCount = int64(v)
 				if err != nil {
 					return err
 				}
@@ -15914,10 +15809,6 @@ func (s *WrappedAlertProject) encodeFields(e *jx.Encoder) {
 		json.EncodeDateTime(e, s.CreatedAt)
 	}
 	{
-		e.FieldStart("is_system")
-		e.Bool(s.IsSystem)
-	}
-	{
 		e.FieldStart("rules_url")
 		e.Str(s.RulesURL)
 	}
@@ -15943,7 +15834,7 @@ func (s *WrappedAlertProject) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfWrappedAlertProject = [15]string{
+var jsonFieldsNameOfWrappedAlertProject = [14]string{
 	0:  "id",
 	1:  "name",
 	2:  "description",
@@ -15952,13 +15843,12 @@ var jsonFieldsNameOfWrappedAlertProject = [15]string{
 	5:  "account_id",
 	6:  "resource_id",
 	7:  "created_at",
-	8:  "is_system",
-	9:  "rules_url",
-	10: "notification_targets_url",
-	11: "notification_routings_url",
-	12: "histories_url",
-	13: "log_measure_rules_url",
-	14: "is_ok",
+	8:  "rules_url",
+	9:  "notification_targets_url",
+	10: "notification_routings_url",
+	11: "histories_url",
+	12: "log_measure_rules_url",
+	13: "is_ok",
 }
 
 // Decode decodes WrappedAlertProject from json.
@@ -16066,20 +15956,8 @@ func (s *WrappedAlertProject) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"created_at\"")
 			}
-		case "is_system":
-			requiredBitSet[1] |= 1 << 0
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsSystem = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_system\"")
-			}
 		case "rules_url":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.RulesURL = string(v)
@@ -16091,7 +15969,7 @@ func (s *WrappedAlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"rules_url\"")
 			}
 		case "notification_targets_url":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Str()
 				s.NotificationTargetsURL = string(v)
@@ -16103,7 +15981,7 @@ func (s *WrappedAlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"notification_targets_url\"")
 			}
 		case "notification_routings_url":
-			requiredBitSet[1] |= 1 << 3
+			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
 				v, err := d.Str()
 				s.NotificationRoutingsURL = string(v)
@@ -16115,7 +15993,7 @@ func (s *WrappedAlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"notification_routings_url\"")
 			}
 		case "histories_url":
-			requiredBitSet[1] |= 1 << 4
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				v, err := d.Str()
 				s.HistoriesURL = string(v)
@@ -16127,7 +16005,7 @@ func (s *WrappedAlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"histories_url\"")
 			}
 		case "log_measure_rules_url":
-			requiredBitSet[1] |= 1 << 5
+			requiredBitSet[1] |= 1 << 4
 			if err := func() error {
 				v, err := d.Str()
 				s.LogMeasureRulesURL = string(v)
@@ -16139,7 +16017,7 @@ func (s *WrappedAlertProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"log_measure_rules_url\"")
 			}
 		case "is_ok":
-			requiredBitSet[1] |= 1 << 6
+			requiredBitSet[1] |= 1 << 5
 			if err := func() error {
 				v, err := d.Bool()
 				s.IsOk = bool(v)
@@ -16161,7 +16039,7 @@ func (s *WrappedAlertProject) Decode(d *jx.Decoder) error {
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
 		0b11111001,
-		0b01111111,
+		0b00111111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -16296,10 +16174,6 @@ func (s *WrappedDashboardProject) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
-		e.FieldStart("is_system")
-		e.Bool(s.IsSystem)
-	}
-	{
 		e.FieldStart("tags")
 		e.ArrStart()
 		for _, elem := range s.Tags {
@@ -16329,17 +16203,16 @@ func (s *WrappedDashboardProject) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfWrappedDashboardProject = [10]string{
+var jsonFieldsNameOfWrappedDashboardProject = [9]string{
 	0: "id",
 	1: "name",
 	2: "description",
-	3: "is_system",
-	4: "tags",
-	5: "icon",
-	6: "account_id",
-	7: "resource_id",
-	8: "created_at",
-	9: "is_ok",
+	3: "tags",
+	4: "icon",
+	5: "account_id",
+	6: "resource_id",
+	7: "created_at",
+	8: "is_ok",
 }
 
 // Decode decodes WrappedDashboardProject from json.
@@ -16383,20 +16256,8 @@ func (s *WrappedDashboardProject) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"description\"")
 			}
-		case "is_system":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsSystem = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_system\"")
-			}
 		case "tags":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				s.Tags = make([]string, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
@@ -16416,7 +16277,7 @@ func (s *WrappedDashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"tags\"")
 			}
 		case "icon":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				if err := s.Icon.Decode(d); err != nil {
 					return err
@@ -16426,7 +16287,7 @@ func (s *WrappedDashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"icon\"")
 			}
 		case "account_id":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				v, err := d.Str()
 				s.AccountID = string(v)
@@ -16438,7 +16299,7 @@ func (s *WrappedDashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"account_id\"")
 			}
 		case "resource_id":
-			requiredBitSet[0] |= 1 << 7
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				if err := s.ResourceID.Decode(d); err != nil {
 					return err
@@ -16448,7 +16309,7 @@ func (s *WrappedDashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"resource_id\"")
 			}
 		case "created_at":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.CreatedAt = v
@@ -16460,7 +16321,7 @@ func (s *WrappedDashboardProject) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"created_at\"")
 			}
 		case "is_ok":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Bool()
 				s.IsOk = bool(v)
@@ -16482,7 +16343,7 @@ func (s *WrappedDashboardProject) Decode(d *jx.Decoder) error {
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
 		0b11111001,
-		0b00000011,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -17619,11 +17480,11 @@ func (s *WrappedLogStorageUsage) Encode(e *jx.Encoder) {
 func (s *WrappedLogStorageUsage) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("log_routings")
-		e.Int(s.LogRoutings)
+		e.Int64(s.LogRoutings)
 	}
 	{
 		e.FieldStart("log_measure_rules")
-		e.Int(s.LogMeasureRules)
+		e.Int64(s.LogMeasureRules)
 	}
 }
 
@@ -17644,8 +17505,8 @@ func (s *WrappedLogStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_routings":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Int()
-				s.LogRoutings = int(v)
+				v, err := d.Int64()
+				s.LogRoutings = int64(v)
 				if err != nil {
 					return err
 				}
@@ -17656,8 +17517,8 @@ func (s *WrappedLogStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_measure_rules":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.LogMeasureRules = int(v)
+				v, err := d.Int64()
+				s.LogMeasureRules = int64(v)
 				if err != nil {
 					return err
 				}
@@ -18638,15 +18499,15 @@ func (s *WrappedMetricsStorageUsage) Encode(e *jx.Encoder) {
 func (s *WrappedMetricsStorageUsage) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("metrics_routings")
-		e.Int(s.MetricsRoutings)
+		e.Int64(s.MetricsRoutings)
 	}
 	{
 		e.FieldStart("alert_rules")
-		e.Int(s.AlertRules)
+		e.Int64(s.AlertRules)
 	}
 	{
 		e.FieldStart("log_measure_rules")
-		e.Int(s.LogMeasureRules)
+		e.Int64(s.LogMeasureRules)
 	}
 }
 
@@ -18668,8 +18529,8 @@ func (s *WrappedMetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "metrics_routings":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Int()
-				s.MetricsRoutings = int(v)
+				v, err := d.Int64()
+				s.MetricsRoutings = int64(v)
 				if err != nil {
 					return err
 				}
@@ -18680,8 +18541,8 @@ func (s *WrappedMetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "alert_rules":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.AlertRules = int(v)
+				v, err := d.Int64()
+				s.AlertRules = int64(v)
 				if err != nil {
 					return err
 				}
@@ -18692,8 +18553,8 @@ func (s *WrappedMetricsStorageUsage) Decode(d *jx.Decoder) error {
 		case "log_measure_rules":
 			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Int()
-				s.LogMeasureRules = int(v)
+				v, err := d.Int64()
+				s.LogMeasureRules = int64(v)
 				if err != nil {
 					return err
 				}

@@ -37,8 +37,8 @@ func TestNotificationTargetService_List(t *testing.T) {
 	ctx := context.Background()
 	params := v1.AlertsProjectsNotificationTargetsListParams{
 		ProjectResourceID: TemplateNotificationTarget.GetProjectID().Or(^0),
-		Count:             v1.NewOptInt(20),
-		From:              v1.NewOptInt(0),
+		Count:             v1.NewOptInt64(20),
+		From:              v1.NewOptInt64(0),
 	}
 	targets, err := api.List(ctx, params)
 	require.NoError(t, err)

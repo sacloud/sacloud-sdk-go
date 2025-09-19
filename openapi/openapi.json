@@ -23,7 +23,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -32,7 +33,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -95,7 +97,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -104,7 +107,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -118,8 +122,8 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
-              "format": "int64",
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
@@ -172,8 +176,8 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
-              "format": "int64",
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
@@ -216,7 +220,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -225,7 +230,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -498,7 +504,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -507,7 +514,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -523,7 +531,8 @@
             "in": "query",
             "name": "target",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -810,7 +819,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -819,7 +829,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1088,7 +1099,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1097,7 +1109,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1180,7 +1193,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1189,7 +1203,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1203,8 +1218,8 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
-              "format": "int64",
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
@@ -1266,8 +1281,8 @@
             "in": "path",
             "name": "project_resource_id",
             "schema": {
-              "format": "int64",
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
@@ -1646,7 +1661,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1655,7 +1671,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -1871,7 +1888,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1880,7 +1898,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1894,7 +1913,8 @@
             "in": "query",
             "name": "resource_id",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -1962,13 +1982,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing log.",
             "required": true
           }
         ],
@@ -1997,13 +2013,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing log.",
             "required": true
           }
         ],
@@ -2042,13 +2054,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing log.",
             "required": true
           }
         ],
@@ -2086,13 +2094,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing log.",
             "required": true
           }
         ],
@@ -2138,7 +2142,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -2147,7 +2152,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -2162,7 +2168,8 @@
             "in": "query",
             "name": "resource_id",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -2240,7 +2247,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -2249,7 +2257,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -2329,13 +2338,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Logs AccessKey.",
             "required": true
           },
           {
@@ -2373,13 +2378,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Logs AccessKey.",
             "required": true
           },
           {
@@ -2426,13 +2427,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Logs AccessKey.",
             "required": true
           },
           {
@@ -2479,13 +2476,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Logs AccessKey.",
             "required": true
           },
           {
@@ -2748,7 +2741,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -2757,7 +2751,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -2771,7 +2766,8 @@
             "in": "query",
             "name": "resource_id",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -2839,13 +2835,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing metric.",
             "required": true
           }
         ],
@@ -2874,13 +2866,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing metric.",
             "required": true
           }
         ],
@@ -2919,13 +2907,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing metric.",
             "required": true
           }
         ],
@@ -2963,13 +2947,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Routing metric.",
             "required": true
           }
         ],
@@ -3002,7 +2982,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -3011,7 +2992,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -3026,8 +3008,8 @@
             "in": "query",
             "name": "resource_id",
             "schema": {
-              "format": "int64",
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -3090,7 +3072,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -3099,7 +3082,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -3179,13 +3163,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Metrics AccessKey.",
             "required": true
           },
           {
@@ -3223,13 +3203,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Metrics AccessKey.",
             "required": true
           },
           {
@@ -3276,13 +3252,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Metrics AccessKey.",
             "required": true
           },
           {
@@ -3329,13 +3301,9 @@
             "in": "path",
             "name": "id",
             "schema": {
-              "type": "integer",
-              "format": "int64",
-              "minimum": 0,
-              "maximum": 999999999999,
-              "example": 110000000000
+              "type": "string",
+              "format": "uuid"
             },
-            "description": "A unique integer value identifying this Metrics AccessKey.",
             "required": true
           },
           {
@@ -3523,7 +3491,8 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           },
           {
@@ -3532,7 +3501,8 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "format": "int64"
             }
           }
         ],
@@ -3600,11 +3570,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -3644,10 +3614,6 @@
             "readOnly": true,
             "title": "Register datetime"
           },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
-          },
           "rules_url": {
             "type": "string",
             "readOnly": true
@@ -3675,7 +3641,6 @@
           "histories_url",
           "icon",
           "id",
-          "is_system",
           "log_measure_rules_url",
           "notification_routings_url",
           "notification_targets_url",
@@ -3687,19 +3652,16 @@
       "AlertProjectCreate": {
         "type": "object",
         "properties": {
-          "is_system": {
-            "type": "boolean",
-            "default": false
-          },
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           }
         },
         "required": [
-          "description",
           "name"
         ]
       },
@@ -3815,15 +3777,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -3869,7 +3827,6 @@
           "created_at",
           "icon",
           "id",
-          "is_system",
           "resource_id",
           "tags"
         ]
@@ -3877,19 +3834,16 @@
       "DashboardProjectCreate": {
         "type": "object",
         "properties": {
-          "is_system": {
-            "type": "boolean",
-            "default": false
-          },
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           }
         },
         "required": [
-          "description",
           "name"
         ]
       },
@@ -3972,6 +3926,7 @@
           },
           "project_id": {
             "type": "integer",
+            "format": "int64",
             "readOnly": true
           },
           "rule_uid": {
@@ -4054,6 +4009,7 @@
           },
           "name": {
             "type": "string",
+            "pattern": "^[a-z\\d_-]*$",
             "maxLength": 256
           },
           "description": {
@@ -4245,11 +4201,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -4324,10 +4280,12 @@
             "type": "object",
             "properties": {
               "log_routings": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "log_measure_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               }
             },
             "required": [
@@ -4405,14 +4363,15 @@
             "type": "boolean"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           }
         },
         "required": [
-          "description",
           "is_system",
           "name"
         ]
@@ -4487,45 +4446,6 @@
         "required": [
           "name",
           "value"
-        ]
-      },
-      "MetricsCluster": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "readOnly": true,
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "insert_endpoints": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "select_endpoints": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Register datetime"
-          }
-        },
-        "required": [
-          "created_at",
-          "id",
-          "insert_endpoints",
-          "select_endpoints"
         ]
       },
       "MetricsRouting": {
@@ -4617,11 +4537,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -4687,13 +4607,16 @@
             "type": "object",
             "properties": {
               "metrics_routings": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "alert_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "log_measure_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               }
             },
             "required": [
@@ -4760,17 +4683,18 @@
         "type": "object",
         "properties": {
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           },
           "is_system": {
             "type": "boolean"
           }
         },
         "required": [
-          "description",
           "is_system",
           "name"
         ]
@@ -4816,6 +4740,7 @@
           },
           "order": {
             "type": "integer",
+            "format": "int64",
             "readOnly": true
           }
         },
@@ -4837,6 +4762,7 @@
           },
           "order": {
             "type": "integer",
+            "format": "int64",
             "minimum": 1
           }
         },
@@ -5571,11 +5497,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -5614,10 +5540,6 @@
             "format": "date-time",
             "readOnly": true,
             "title": "Register datetime"
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
           },
           "rules_url": {
             "type": "string",
@@ -5725,15 +5647,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -5801,6 +5719,7 @@
           },
           "name": {
             "type": "string",
+            "pattern": "^[a-z\\d_-]*$",
             "maxLength": 256
           },
           "description": {
@@ -5930,11 +5849,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -6009,10 +5928,12 @@
             "type": "object",
             "properties": {
               "log_routings": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "log_measure_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               }
             },
             "required": [
@@ -6134,11 +6055,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -6204,13 +6125,16 @@
             "type": "object",
             "properties": {
               "metrics_routings": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "alert_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "log_measure_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               }
             },
             "required": [
@@ -6296,6 +6220,7 @@
           },
           "order": {
             "type": "integer",
+            "format": "int64",
             "readOnly": true
           }
         }
@@ -6348,11 +6273,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -6369,6 +6294,11 @@
               }
             },
             "nullable": true,
+            "readOnly": true
+          },
+          "retention_period_days": {
+            "type": "integer",
+            "format": "int64",
             "readOnly": true
           },
           "created_at": {
@@ -6523,10 +6453,12 @@
         "properties": {
           "id": {
             "type": "integer",
+            "format": "int64",
             "readOnly": true
           },
           "publisher": {
-            "type": "integer"
+            "type": "integer",
+            "format": "int64"
           },
           "account_id": {
             "type": "string",
@@ -6601,7 +6533,8 @@
         "type": "object",
         "properties": {
           "max_user_count": {
-            "type": "integer"
+            "type": "integer",
+            "format": "int64"
           }
         },
         "required": [
@@ -6763,11 +6696,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -6784,6 +6717,11 @@
               }
             },
             "nullable": true,
+            "readOnly": true
+          },
+          "retention_period_days": {
+            "type": "integer",
+            "format": "int64",
             "readOnly": true
           },
           "created_at": {
@@ -6837,6 +6775,7 @@
           "icon",
           "id",
           "resource_id",
+          "retention_period_days",
           "tags"
         ]
       },
@@ -6882,14 +6821,15 @@
             "default": "shared"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 64
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "maxLength": 512
           }
         },
         "required": [
-          "description",
           "name"
         ]
       },
@@ -6947,6 +6887,7 @@
         "properties": {
           "id": {
             "type": "integer",
+            "format": "int64",
             "readOnly": true
           },
           "username": {
@@ -6994,11 +6935,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7037,10 +6978,6 @@
             "format": "date-time",
             "readOnly": true,
             "title": "Register datetime"
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
           },
           "rules_url": {
             "type": "string",
@@ -7073,7 +7010,6 @@
           "icon",
           "id",
           "is_ok",
-          "is_system",
           "log_measure_rules_url",
           "notification_routings_url",
           "notification_targets_url",
@@ -7093,15 +7029,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7151,7 +7083,6 @@
           "icon",
           "id",
           "is_ok",
-          "is_system",
           "resource_id",
           "tags"
         ]
@@ -7249,11 +7180,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7328,10 +7259,12 @@
             "type": "object",
             "properties": {
               "log_routings": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "log_measure_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               }
             },
             "required": [
@@ -7493,11 +7426,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7563,13 +7496,16 @@
             "type": "object",
             "properties": {
               "metrics_routings": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "alert_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               },
               "log_measure_rules": {
-                "type": "integer"
+                "type": "integer",
+                "format": "int64"
               }
             },
             "required": [
@@ -7679,11 +7615,11 @@
           },
           "name": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 64
           },
           "description": {
             "type": "string",
-            "maxLength": 256
+            "maxLength": 512
           },
           "tags": {
             "type": "array",
@@ -7700,6 +7636,11 @@
               }
             },
             "nullable": true,
+            "readOnly": true
+          },
+          "retention_period_days": {
+            "type": "integer",
+            "format": "int64",
             "readOnly": true
           },
           "created_at": {
@@ -7757,6 +7698,7 @@
           "id",
           "is_ok",
           "resource_id",
+          "retention_period_days",
           "tags"
         ]
       },
