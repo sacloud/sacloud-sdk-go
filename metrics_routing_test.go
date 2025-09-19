@@ -16,6 +16,7 @@ package monitoringsuite_test
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"testing"
 
@@ -164,4 +165,78 @@ func TestMetricsRoutingOp_Delete_400(t *testing.T) {
 	err := api.Delete(ctx, uuid.New())
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
+}
+
+func TestMetricsRoutingIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+	api := NewMetricsRoutingOp(client)
+	ctx := context.Background()
+
+	// we need to obtain a sane publisher object
+	publisherOp := NewPublisherOp(client)
+	publishers, err := publisherOp.List(ctx, nil, nil)
+	require.NoError(t, err)
+	require.NotEmpty(t, publishers)
+	var pub *v1.Publisher
+	var v *v1.PublisherVariant
+	for _, p := range publishers {
+		for _, q := range p.GetVariants() {
+			if q.GetStorage() == v1.PublisherVariantStorageMetrics {
+				pub = &p
+				v = &q
+				break
+			}
+		}
+	}
+	require.NotNil(t, pub)
+	require.NotNil(t, v)
+
+	// aaand a storage
+	storage := WithMetricsStorage(t, client, ctx)
+	require.NotNil(t, storage)
+	sid := fmt.Sprintf("%d", storage.GetID())
+
+	// Create
+	createReq := MetricsRoutingCreateParams{
+		PublisherCode:    pub.GetCode(),
+		Variant:          v.GetName(),
+		MetricsStorageID: sid,
+	}
+	created, err := api.Create(ctx, createReq)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	rid := created.GetUID()
+
+	// Delete
+	t.Cleanup(func() {
+		err := api.Delete(ctx, rid)
+		require.NoError(t, err)
+	})
+
+	// Read
+	read, err := api.Read(ctx, rid)
+	require.NoError(t, err)
+	require.NotNil(t, read)
+	require.Equal(t, created.GetID(), read.GetID())
+	require.Equal(t, created.GetPublisher(), read.GetPublisher())
+	require.Equal(t, created.GetPublisherCode(), read.GetPublisherCode())
+	require.Equal(t, created.GetMetricsStorage(), read.GetMetricsStorage())
+	require.Equal(t, created.GetMetricsStorageID(), read.GetMetricsStorageID())
+	require.Equal(t, created.GetResourceID(), read.GetResourceID())
+	require.Equal(t, created.GetVariant(), read.GetVariant())
+
+	// List
+	routings, err := api.List(ctx, MetricsRoutingsListParams{})
+	require.NoError(t, err)
+	require.NotEmpty(t, routings)
+
+	// Update
+	updateReq := MetricsRoutingUpdateParams{
+		ResourceID: ref("12345"),
+	}
+	updated, err := api.Update(ctx, rid, updateReq)
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, "12345", updated.GetResourceID().Or(^0))
 }
