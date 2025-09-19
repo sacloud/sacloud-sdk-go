@@ -251,7 +251,7 @@ type AlertRuleListHistoriesParams struct {
 }
 
 func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleListHistoriesParams) ([]v1.History, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 32)
+	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.ListHistories", 0, err)
 	}
@@ -282,7 +282,7 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, rule
 }
 
 func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 32)
+	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
 	}
