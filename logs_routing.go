@@ -17,6 +17,7 @@ package monitoringsuite
 import (
 	"context"
 	"net/http"
+	"strconv"
 
 	"github.com/go-faster/errors"
 	"github.com/google/uuid"
@@ -25,10 +26,10 @@ import (
 )
 
 type LogRoutingAPI interface {
-	List(ctx context.Context, params v1.LogsRoutingsListParams) ([]v1.LogRouting, error)
-	Create(ctx context.Context, request v1.LogRouting) (*v1.LogRouting, error)
+	List(ctx context.Context, params LogsRoutingsListParams) ([]v1.LogRouting, error)
+	Create(ctx context.Context, params LogsRoutingCreateParams) (*v1.LogRouting, error)
 	Read(ctx context.Context, id uuid.UUID) (*v1.LogRouting, error)
-	Update(ctx context.Context, id uuid.UUID, request *v1.LogRouting) (*v1.LogRouting, error)
+	Update(ctx context.Context, id uuid.UUID, params LogsRoutingUpdateParams) (*v1.LogRouting, error)
 	Delete(ctx context.Context, id uuid.UUID) error
 }
 
@@ -42,7 +43,22 @@ func NewLogRoutingOp(client *v1.Client) LogRoutingAPI {
 	return &logRoutingOp{client: client}
 }
 
-func (op *logRoutingOp) List(ctx context.Context, params v1.LogsRoutingsListParams) ([]v1.LogRouting, error) {
+type LogsRoutingsListParams struct {
+	Count         *int64
+	From          *int64
+	PublisherCode *string
+	ResourceID    *int64
+	Variant       *string
+}
+
+func (op *logRoutingOp) List(ctx context.Context, p LogsRoutingsListParams) ([]v1.LogRouting, error) {
+	params := v1.LogsRoutingsListParams{
+		Count:         intoOpt[v1.OptInt64](p.Count),
+		From:          intoOpt[v1.OptInt64](p.From),
+		PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
+		ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
+		Variant:       intoOpt[v1.OptString](p.Variant),
+	}
 	resp, err := op.client.LogsRoutingsList(ctx, params)
 	if err != nil {
 		return nil, NewAPIError("LogRouting.List", 0, err)
@@ -50,7 +66,35 @@ func (op *logRoutingOp) List(ctx context.Context, params v1.LogsRoutingsListPara
 	return resp.Results, nil
 }
 
-func (op *logRoutingOp) Create(ctx context.Context, request v1.LogRouting) (*v1.LogRouting, error) {
+type LogsRoutingCreateParams struct {
+	PublisherCode string
+	ResourceID    *string
+	Variant       string
+	LogStorageID  string
+}
+
+func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreateParams) (*v1.LogRouting, error) {
+	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid ResourceID")
+	}
+	lid, err := strconv.ParseInt(params.LogStorageID, 10, 64)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid LogStorageID")
+	}
+	request := v1.LogRouting{
+		PublisherCode: params.PublisherCode,
+		ResourceID:    rid,
+		Variant:       params.Variant,
+		LogStorageID:  intoNil[v1.NilInt64](&lid),
+	}
+
+	// prevent ogen error (encoder is not accepting empty struct)
+	request.Publisher.SetFake()
+	request.LogStorage.SetFake()
+	request.Publisher.SetVariants([]v1.PublisherVariant{})
+	request.LogStorage.SetTags([]string{})
+
 	resp, err := op.client.LogsRoutingsCreate(ctx, &request)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -88,8 +132,30 @@ func (op *logRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.LogRouting,
 	}
 }
 
-func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, request *v1.LogRouting) (*v1.LogRouting, error) {
-	resp, err := op.client.LogsRoutingsUpdate(ctx, request, v1.LogsRoutingsUpdateParams{ID: id})
+type LogsRoutingUpdateParams struct {
+	PublisherCode *string
+	ResourceID    *string
+	Variant       *string
+	LogStorageID  *string
+}
+
+func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRoutingUpdateParams) (*v1.LogRouting, error) {
+	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid ResourceID")
+	}
+	lid, err := fromStringPtr[v1.OptNilInt64, int64](params.LogStorageID)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid LogStorageID")
+	}
+	patch := v1.PatchedLogRouting{
+		PublisherCode: intoOpt[v1.OptString](params.PublisherCode),
+		ResourceID:    rid,
+		Variant:       intoOpt[v1.OptString](params.Variant),
+		LogStorageID:  lid,
+	}
+	request := v1.NewOptPatchedLogRouting(patch)
+	resp, err := op.client.LogsRoutingsPartialUpdate(ctx, request, v1.LogsRoutingsPartialUpdateParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:

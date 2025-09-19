@@ -36,7 +36,7 @@ func TestLogRoutingOp_List(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	routings, err := api.List(ctx, v1.LogsRoutingsListParams{})
+	routings, err := api.List(ctx, LogsRoutingsListParams{})
 	require.NoError(t, err)
 	require.NotNil(t, routings)
 	require.Equal(t, 1, len(routings))
@@ -76,7 +76,11 @@ func TestLogRoutingOp_Create(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	createReq := TemplateLogRouting
+	createReq := LogsRoutingCreateParams{
+		PublisherCode: "appliance",
+		Variant:       "variant",
+		LogStorageID:  "12345",
+	}
 	res, err := api.Create(ctx, createReq)
 	require.NoError(t, err)
 	require.NotNil(t, res)
@@ -95,7 +99,7 @@ func TestLogRoutingOp_Create_400(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	createReq := v1.LogRouting{}
+	createReq := LogsRoutingCreateParams{}
 	routing, err := api.Create(ctx, createReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
@@ -107,8 +111,12 @@ func TestLogRoutingOp_Update(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	updateReq := TemplateLogRouting
-	res, err := api.Update(ctx, uuid.New(), &updateReq)
+	updateReq := LogsRoutingUpdateParams{
+		PublisherCode: ref("appliance"),
+		Variant:       ref("variant"),
+		LogStorageID:  ref("12345"),
+	}
+	res, err := api.Update(ctx, uuid.New(), updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedLogRouting.GetID(), res.GetID())
@@ -126,8 +134,7 @@ func TestLogRoutingOp_Update_400(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	updateReq := v1.LogRouting{}
-	routing, err := api.Update(ctx, uuid.New(), &updateReq)
+	routing, err := api.Update(ctx, uuid.New(), LogsRoutingUpdateParams{})
 	require.Nil(t, routing)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
