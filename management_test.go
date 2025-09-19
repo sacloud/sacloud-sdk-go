@@ -79,11 +79,11 @@ func TestManagementOp_ReadProvisioning_400(t *testing.T) {
 }
 
 func TestManagementOp_CreateProvisioning(t *testing.T) {
-	var req v1.ProvisioningCreate
+	var req ProvisioningCreateParam
 	var res v1.Provisioning
 	res.SetFake()
-	req.SetLogs(v1.NewOptProvisioningExist(res.GetLogs()))
-	req.SetMetrics(v1.NewOptProvisioningExist(res.GetMetrics()))
+	req.Logs = ref(res.GetLogs())
+	req.Metrics = ref(res.GetMetrics())
 	client := newTestClient(res, http.StatusCreated)
 	api := NewManagementOp(client)
 	ctx := context.Background()
@@ -97,8 +97,7 @@ func TestManagementOp_CreateProvisioning(t *testing.T) {
 
 func TestManagementOp_CreateProvisioning_400(t *testing.T) {
 	expected := newErrorResponse(400, "insufficient privileges")
-	req := v1.ProvisioningCreate{}
-	req.SetFake()
+	req := ProvisioningCreateParam{}
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
 	ctx := context.Background()
