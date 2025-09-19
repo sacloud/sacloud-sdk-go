@@ -26,9 +26,9 @@ import (
 
 type DashboardProjectAPI interface {
 	List(ctx context.Context, count *int64, from *int64) ([]v1.DashboardProject, error)
-	Create(ctx context.Context, request v1.DashboardProjectCreate) (*v1.DashboardProject, error)
+	Create(ctx context.Context, request DashboardProjectCreateParams) (*v1.DashboardProject, error)
 	Read(ctx context.Context, id string) (*v1.DashboardProject, error)
-	Update(ctx context.Context, id string, request *v1.DashboardProject) (*v1.DashboardProject, error)
+	Update(ctx context.Context, id string, params DashboardProjectUpdateParams) (*v1.DashboardProject, error)
 	Delete(ctx context.Context, id string) error
 }
 
@@ -53,7 +53,16 @@ func (op *dashboardProjectOp) List(ctx context.Context, count *int64, from *int6
 	return resp.Results, nil
 }
 
-func (op *dashboardProjectOp) Create(ctx context.Context, request v1.DashboardProjectCreate) (*v1.DashboardProject, error) {
+type DashboardProjectCreateParams struct {
+	Name        string
+	Description *string
+}
+
+func (op *dashboardProjectOp) Create(ctx context.Context, p DashboardProjectCreateParams) (*v1.DashboardProject, error) {
+	request := v1.DashboardProjectCreate{
+		Name:        p.Name,
+		Description: intoOpt[v1.OptString](p.Description),
+	}
 	resp, err := op.client.DashboardsProjectsCreate(ctx, &request)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -93,13 +102,23 @@ func (op *dashboardProjectOp) Read(ctx context.Context, id string) (*v1.Dashboar
 		return Unwrap(ret, resp)
 	}
 }
-func (op *dashboardProjectOp) Update(ctx context.Context, id string, request *v1.DashboardProject) (*v1.DashboardProject, error) {
+
+type DashboardProjectUpdateParams struct {
+	Name        *string
+	Description *string
+}
+
+func (op *dashboardProjectOp) Update(ctx context.Context, id string, params DashboardProjectUpdateParams) (*v1.DashboardProject, error) {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("DashboardProject.Update", 0, err)
 	}
-	req := v1.NewOptDashboardProject(*request)
-	resp, err := op.client.DashboardsProjectsUpdate(ctx, req, v1.DashboardsProjectsUpdateParams{ID: intId})
+	request := v1.PatchedDashboardProject{
+		Name:        intoOpt[v1.OptString](params.Name),
+		Description: intoOpt[v1.OptString](params.Description),
+	}
+	req := v1.NewOptPatchedDashboardProject(request)
+	resp, err := op.client.DashboardsProjectsPartialUpdate(ctx, req, v1.DashboardsProjectsPartialUpdateParams{ID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
