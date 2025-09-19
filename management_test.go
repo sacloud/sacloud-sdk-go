@@ -107,3 +107,25 @@ func TestManagementOp_CreateProvisioning_400(t *testing.T) {
 	require.Error(t, err)
 	require.ErrorContains(t, err, "insufficient privileges")
 }
+
+func TestManagementIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+	api := NewManagementOp(client)
+	ctx := context.Background()
+
+	// ResourceLimits
+	limits, err := api.ResourceLimits(ctx)
+	require.NoError(t, err)
+	require.NotNil(t, limits)
+
+	// CreateProvisioning
+	created, err := api.CreateProvisioning(ctx, ProvisioningCreateParam{})
+	require.NoError(t, err)
+	require.NotNil(t, created)
+
+	// ReadProvisioning
+	prov, err := api.ReadProvisioning(ctx)
+	require.NoError(t, err)
+	require.NotNil(t, prov)
+}
