@@ -26,7 +26,7 @@ import (
 type ManagementAPI interface {
 	ResourceLimits(ctx context.Context) (*v1.ResourcesLimits, error)
 	ReadProvisioning(ctx context.Context) (*v1.Provisioning, error)
-	CreateProvisioning(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error)
+	CreateProvisioning(ctx context.Context, request ProvisioningCreateParam) (*v1.Provisioning, error)
 }
 
 var _ ManagementAPI = (*managementOp)(nil)
@@ -71,7 +71,16 @@ func (op *managementOp) ReadProvisioning(ctx context.Context) (*v1.Provisioning,
 	}
 }
 
-func (op *managementOp) CreateProvisioning(ctx context.Context, request v1.ProvisioningCreate) (*v1.Provisioning, error) {
+type ProvisioningCreateParam struct {
+	Logs    *v1.ProvisioningExist
+	Metrics *v1.ProvisioningExist
+}
+
+func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCreateParam) (*v1.Provisioning, error) {
+	request := v1.ProvisioningCreate{
+		Logs:    intoOpt[v1.OptProvisioningExist](p.Logs),
+		Metrics: intoOpt[v1.OptProvisioningExist](p.Metrics),
+	}
 	ret, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreate(request))
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
