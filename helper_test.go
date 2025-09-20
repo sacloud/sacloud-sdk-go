@@ -100,10 +100,13 @@ func WithAlertProject(t *testing.T, cli *v1.Client, ctx context.Context) *v1.Ale
 	require.NoError(t, err)
 	require.NotNil(t, ret)
 
+	id, ok := ret.GetResourceID().Get()
+	require.True(t, ok)
+
 	t.Cleanup(func() {
-		if err := op.Delete(ctx, fmt.Sprintf("%d", ret.GetID())); err != nil {
-			t.Error(err)
-		}
+		aid := fmt.Sprintf("%d", id)
+		err := op.Delete(ctx, aid)
+		require.NoError(t, err)
 	})
 	return ret
 }
@@ -119,10 +122,36 @@ func WithMetricsStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.M
 	require.NoError(t, err)
 	require.NotNil(t, ret)
 
+	id, ok := ret.GetResourceID().Get()
+	require.True(t, ok)
+
 	t.Cleanup(func() {
-		if err := op.Delete(ctx, fmt.Sprintf("%d", ret.GetID())); err != nil {
-			t.Error(err)
-		}
+		mid := fmt.Sprintf("%d", id)
+		err := op.Delete(ctx, mid)
+		require.NoError(t, err)
+	})
+	return ret
+}
+
+func WithLogStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.LogStorage {
+	op := NewLogsStorageOp(cli)
+
+	ret, err := op.Create(ctx, LogStorageCreateParams{
+		Name:           testutil.RandomName("test-log-storage-", 16, testutil.CharSetAlphaNum),
+		Description:    ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+		IsSystem:       false,
+		Classification: ref(v1.LogStorageCreateClassificationShared),
+	})
+	require.NoError(t, err)
+	require.NotNil(t, ret)
+
+	id, ok := ret.GetResourceID().Get()
+	require.True(t, ok)
+
+	t.Cleanup(func() {
+		lid := fmt.Sprintf("%d", id)
+		err := op.Delete(ctx, lid)
+		require.NoError(t, err)
 	})
 	return ret
 }
