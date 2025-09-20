@@ -78,8 +78,10 @@ func TestDashboardOp_Create(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	createReq := v1.DashboardProjectCreate{}
-	res, err := api.Create(ctx, createReq)
+	res, err := api.Create(ctx, DashboardProjectCreateParams{
+		Name:        "Test Project",
+		Description: ref("This is a test project"),
+	})
 	require.NoError(t, err)
 	require.NotNil(t, res)
 }
@@ -90,8 +92,7 @@ func TestDashboardOp_Create_400(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	createReq := v1.DashboardProjectCreate{}
-	project, err := api.Create(ctx, createReq)
+	project, err := api.Create(ctx, DashboardProjectCreateParams{})
 	require.Nil(t, project)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
@@ -102,8 +103,11 @@ func TestDashboardOp_Update(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	updateReq := TemplateDashboardProject
-	res, err := api.Update(ctx, "12345", &updateReq)
+	updateReq := DashboardProjectUpdateParams{
+		Name:        ref("Updated Project Name"),
+		Description: ref("Updated description"),
+	}
+	res, err := api.Update(ctx, "12345", updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, res)
 }
@@ -114,8 +118,8 @@ func TestDashboardOp_Update_400(t *testing.T) {
 	api := NewDashboardOp(client)
 	ctx := context.Background()
 
-	updateReq := v1.DashboardProject{}
-	project, err := api.Update(ctx, "0", &updateReq)
+	updateReq := DashboardProjectUpdateParams{}
+	project, err := api.Update(ctx, "0", updateReq)
 	require.Nil(t, project)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
