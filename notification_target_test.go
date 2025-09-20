@@ -122,12 +122,9 @@ func TestNotificationTargetService_Update(t *testing.T) {
 	ctx := context.Background()
 
 	updateParams := NotificationTargetUpdateParams{
-		ServiceType: func() *v1.PatchedNotificationTargetServiceType {
-			v := v1.PatchedNotificationTargetServiceType(nt.GetServiceType())
-			return &v
-		}(),
-		URL:         func() *string { v := nt.GetURL(); return &v }(),
-		Description: func() *string { v := nt.GetDescription().Or(""); return &v }(),
+		ServiceType: ref(v1.PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE),
+		URL:         ref("https://example.com/notify"),
+		Description: ref("description"),
 	}
 	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
 	require.NoError(t, err)
