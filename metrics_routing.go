@@ -17,6 +17,7 @@ package monitoringsuite
 import (
 	"context"
 	"net/http"
+	"strconv"
 
 	"github.com/go-faster/errors"
 	"github.com/google/uuid"
@@ -25,10 +26,10 @@ import (
 )
 
 type MetricsRoutingAPI interface {
-	List(ctx context.Context, params v1.MetricsRoutingsListParams) ([]v1.MetricsRouting, error)
-	Create(ctx context.Context, request v1.MetricsRouting) (*v1.MetricsRouting, error)
+	List(ctx context.Context, params MetricsRoutingsListParams) ([]v1.MetricsRouting, error)
+	Create(ctx context.Context, params MetricsRoutingCreateParams) (*v1.MetricsRouting, error)
 	Read(ctx context.Context, id uuid.UUID) (*v1.MetricsRouting, error)
-	Update(ctx context.Context, id uuid.UUID, request *v1.MetricsRouting) (*v1.MetricsRouting, error)
+	Update(ctx context.Context, id uuid.UUID, params MetricsRoutingUpdateParams) (*v1.MetricsRouting, error)
 	Delete(ctx context.Context, id uuid.UUID) error
 }
 
@@ -42,7 +43,22 @@ func NewMetricsRoutingOp(client *v1.Client) MetricsRoutingAPI {
 	return &metricsRoutingOp{client: client}
 }
 
-func (op *metricsRoutingOp) List(ctx context.Context, params v1.MetricsRoutingsListParams) ([]v1.MetricsRouting, error) {
+type MetricsRoutingsListParams struct {
+	Count         *int64
+	From          *int64
+	PublisherCode *string
+	ResourceID    *int64
+	Variant       *string
+}
+
+func (op *metricsRoutingOp) List(ctx context.Context, p MetricsRoutingsListParams) ([]v1.MetricsRouting, error) {
+	params := v1.MetricsRoutingsListParams{
+		Count:         intoOpt[v1.OptInt64](p.Count),
+		From:          intoOpt[v1.OptInt64](p.From),
+		PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
+		ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
+		Variant:       intoOpt[v1.OptString](p.Variant),
+	}
 	resp, err := op.client.MetricsRoutingsList(ctx, params)
 	if err != nil {
 		return nil, NewAPIError("MetricsRouting.List", 0, err)
@@ -50,8 +66,38 @@ func (op *metricsRoutingOp) List(ctx context.Context, params v1.MetricsRoutingsL
 	return resp.Results, nil
 }
 
-func (op *metricsRoutingOp) Create(ctx context.Context, request v1.MetricsRouting) (*v1.MetricsRouting, error) {
-	resp, err := op.client.MetricsRoutingsCreate(ctx, &request)
+type MetricsRoutingCreateParams struct {
+	PublisherCode    string
+	ResourceID       *string
+	Variant          string
+	MetricsStorageID string
+}
+
+func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCreateParams) (*v1.MetricsRouting, error) {
+	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid ResourceID")
+	}
+	mid, err := strconv.ParseInt(params.MetricsStorageID, 10, 64)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid MetricsStorageID")
+	}
+	req := v1.MetricsRouting{
+		PublisherCode:    params.PublisherCode,
+		ResourceID:       rid,
+		Variant:          params.Variant,
+		MetricsStorageID: intoNil[v1.NilInt64](&mid),
+		Publisher:        v1.Publisher{},
+		MetricsStorage:   v1.MetricsStorage{},
+	}
+
+	// prevent ogen error (encoder is not accepting empty struct)
+	req.Publisher.SetFake()
+	req.MetricsStorage.SetFake()
+	req.Publisher.SetVariants([]v1.PublisherVariant{})
+	req.MetricsStorage.SetTags([]string{})
+
+	resp, err := op.client.MetricsRoutingsCreate(ctx, &req)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -88,8 +134,30 @@ func (op *metricsRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.Metrics
 	}
 }
 
-func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, request *v1.MetricsRouting) (*v1.MetricsRouting, error) {
-	resp, err := op.client.MetricsRoutingsUpdate(ctx, request, v1.MetricsRoutingsUpdateParams{ID: id})
+type MetricsRoutingUpdateParams struct {
+	PublisherCode    *string
+	ResourceID       *string
+	Variant          *string
+	MetricsStorageID *string
+}
+
+func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params MetricsRoutingUpdateParams) (*v1.MetricsRouting, error) {
+	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid ResourceID")
+	}
+	mid, err := fromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID)
+	if err != nil {
+		return nil, errors.Wrap(err, "invalid MetricsStorageID")
+	}
+	patch := v1.PatchedMetricsRouting{
+		PublisherCode:    intoOpt[v1.OptString](params.PublisherCode),
+		ResourceID:       rid,
+		Variant:          intoOpt[v1.OptString](params.Variant),
+		MetricsStorageID: mid,
+	}
+	req := v1.NewOptPatchedMetricsRouting(patch)
+	resp, err := op.client.MetricsRoutingsPartialUpdate(ctx, req, v1.MetricsRoutingsPartialUpdateParams{ID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:

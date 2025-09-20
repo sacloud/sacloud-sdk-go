@@ -36,7 +36,7 @@ func TestMetricsRoutingOp_List(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	routings, err := api.List(ctx, v1.MetricsRoutingsListParams{})
+	routings, err := api.List(ctx, MetricsRoutingsListParams{})
 	require.NoError(t, err)
 	require.NotNil(t, routings)
 	require.Equal(t, 1, len(routings))
@@ -76,7 +76,11 @@ func TestMetricsRoutingOp_Create(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	createReq := TemplateMetricsRouting
+	createReq := MetricsRoutingCreateParams{
+		PublisherCode:    "appliance",
+		Variant:          "variant",
+		MetricsStorageID: "12355",
+	}
 	res, err := api.Create(ctx, createReq)
 	require.NoError(t, err)
 	require.NotNil(t, res)
@@ -100,7 +104,7 @@ func TestMetricsRoutingOp_Create_400(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	createReq := v1.MetricsRouting{}
+	createReq := MetricsRoutingCreateParams{}
 	routing, err := api.Create(ctx, createReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
@@ -112,8 +116,12 @@ func TestMetricsRoutingOp_Update(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	updateReq := TemplateMetricsRouting
-	res, err := api.Update(ctx, uuid.New(), &updateReq)
+	updateReq := MetricsRoutingUpdateParams{
+		PublisherCode:    ref("appliance"),
+		Variant:          ref("variant"),
+		MetricsStorageID: ref("12355"),
+	}
+	res, err := api.Update(ctx, uuid.New(), updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetID(), res.GetID())
@@ -131,8 +139,8 @@ func TestMetricsRoutingOp_Update_400(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	updateReq := v1.MetricsRouting{}
-	routing, err := api.Update(ctx, uuid.New(), &updateReq)
+	updateReq := MetricsRoutingUpdateParams{}
+	routing, err := api.Update(ctx, uuid.New(), updateReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid")
