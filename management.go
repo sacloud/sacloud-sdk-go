@@ -92,6 +92,18 @@ func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCr
 	} else if err != nil {
 		return nil, NewAPIError("Management.CreateProvisioning", 0, err)
 	} else {
-		return ret, nil
+		var pro v1.Provisioning
+		switch ret := ret.(type) {
+		case *v1.PostProvisioningInitializeOK:
+			pro.SetLogs(ret.Logs)
+			pro.SetMetrics(ret.Metrics)
+			return &pro, nil
+		case *v1.PostProvisioningInitializeCreated:
+			pro.SetLogs(ret.Logs)
+			pro.SetMetrics(ret.Metrics)
+			return &pro, nil
+		default:
+			return nil, NewAPIError("Management.CreateProvisioning", 0, errors.New("unknown response"))
+		}
 	}
 }

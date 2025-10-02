@@ -44,8 +44,8 @@ func NewLogRoutingOp(client *v1.Client) LogRoutingAPI {
 }
 
 type LogsRoutingsListParams struct {
-	Count         *int64
-	From          *int64
+	Count         *int
+	From          *int
 	PublisherCode *string
 	ResourceID    *int64
 	Variant       *string
@@ -53,8 +53,8 @@ type LogsRoutingsListParams struct {
 
 func (op *logRoutingOp) List(ctx context.Context, p LogsRoutingsListParams) ([]v1.LogRouting, error) {
 	params := v1.LogsRoutingsListParams{
-		Count:         intoOpt[v1.OptInt64](p.Count),
-		From:          intoOpt[v1.OptInt64](p.From),
+		Count:         intoOpt[v1.OptInt](p.Count),
+		From:          intoOpt[v1.OptInt](p.From),
 		PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
 		ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
 		Variant:       intoOpt[v1.OptString](p.Variant),
@@ -83,10 +83,10 @@ func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreatePara
 		return nil, errors.Wrap(err, "invalid LogStorageID")
 	}
 	request := v1.LogRouting{
-		PublisherCode: params.PublisherCode,
+		PublisherCode: intoOpt[v1.OptString](&params.PublisherCode),
 		ResourceID:    rid,
 		Variant:       params.Variant,
-		LogStorageID:  intoNil[v1.NilInt64](&lid),
+		LogStorageID:  intoOptNil[v1.OptNilInt64](&lid),
 	}
 
 	// prevent ogen error (encoder is not accepting empty struct)
@@ -114,7 +114,7 @@ func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreatePara
 }
 
 func (op *logRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.LogRouting, error) {
-	resp, err := op.client.LogsRoutingsRetrieve(ctx, v1.LogsRoutingsRetrieveParams{ID: id})
+	resp, err := op.client.LogsRoutingsRetrieve(ctx, v1.LogsRoutingsRetrieveParams{UID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -155,7 +155,7 @@ func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRou
 		LogStorageID:  lid,
 	}
 	request := v1.NewOptPatchedLogRouting(patch)
-	resp, err := op.client.LogsRoutingsPartialUpdate(ctx, request, v1.LogsRoutingsPartialUpdateParams{ID: id})
+	resp, err := op.client.LogsRoutingsPartialUpdate(ctx, request, v1.LogsRoutingsPartialUpdateParams{UID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -174,7 +174,7 @@ func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRou
 }
 
 func (op *logRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
-	err := op.client.LogsRoutingsDestroy(ctx, v1.LogsRoutingsDestroyParams{ID: id})
+	err := op.client.LogsRoutingsDestroy(ctx, v1.LogsRoutingsDestroyParams{UID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:

@@ -44,8 +44,8 @@ func NewMetricsRoutingOp(client *v1.Client) MetricsRoutingAPI {
 }
 
 type MetricsRoutingsListParams struct {
-	Count         *int64
-	From          *int64
+	Count         *int
+	From          *int
 	PublisherCode *string
 	ResourceID    *int64
 	Variant       *string
@@ -53,8 +53,8 @@ type MetricsRoutingsListParams struct {
 
 func (op *metricsRoutingOp) List(ctx context.Context, p MetricsRoutingsListParams) ([]v1.MetricsRouting, error) {
 	params := v1.MetricsRoutingsListParams{
-		Count:         intoOpt[v1.OptInt64](p.Count),
-		From:          intoOpt[v1.OptInt64](p.From),
+		Count:         intoOpt[v1.OptInt](p.Count),
+		From:          intoOpt[v1.OptInt](p.From),
 		PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
 		ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
 		Variant:       intoOpt[v1.OptString](p.Variant),
@@ -83,10 +83,10 @@ func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCre
 		return nil, errors.Wrap(err, "invalid MetricsStorageID")
 	}
 	req := v1.MetricsRouting{
-		PublisherCode:    params.PublisherCode,
+		PublisherCode:    intoOpt[v1.OptString](&params.PublisherCode),
 		ResourceID:       rid,
 		Variant:          params.Variant,
-		MetricsStorageID: intoNil[v1.NilInt64](&mid),
+		MetricsStorageID: intoOptNil[v1.OptNilInt64](&mid),
 		Publisher:        v1.Publisher{},
 		MetricsStorage:   v1.MetricsStorage{},
 	}
@@ -116,7 +116,7 @@ func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCre
 }
 
 func (op *metricsRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.MetricsRouting, error) {
-	resp, err := op.client.MetricsRoutingsRetrieve(ctx, v1.MetricsRoutingsRetrieveParams{ID: id})
+	resp, err := op.client.MetricsRoutingsRetrieve(ctx, v1.MetricsRoutingsRetrieveParams{UID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -157,7 +157,7 @@ func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params Met
 		MetricsStorageID: mid,
 	}
 	req := v1.NewOptPatchedMetricsRouting(patch)
-	resp, err := op.client.MetricsRoutingsPartialUpdate(ctx, req, v1.MetricsRoutingsPartialUpdateParams{ID: id})
+	resp, err := op.client.MetricsRoutingsPartialUpdate(ctx, req, v1.MetricsRoutingsPartialUpdateParams{UID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -176,7 +176,7 @@ func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params Met
 }
 
 func (op *metricsRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
-	err := op.client.MetricsRoutingsDestroy(ctx, v1.MetricsRoutingsDestroyParams{ID: id})
+	err := op.client.MetricsRoutingsDestroy(ctx, v1.MetricsRoutingsDestroyParams{UID: id})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:

@@ -25,7 +25,7 @@ import (
 )
 
 type DashboardProjectAPI interface {
-	List(ctx context.Context, count *int64, from *int64) ([]v1.DashboardProject, error)
+	List(ctx context.Context, count *int, from *int) ([]v1.DashboardProject, error)
 	Create(ctx context.Context, request DashboardProjectCreateParams) (*v1.DashboardProject, error)
 	Read(ctx context.Context, id string) (*v1.DashboardProject, error)
 	Update(ctx context.Context, id string, params DashboardProjectUpdateParams) (*v1.DashboardProject, error)
@@ -42,10 +42,10 @@ func NewDashboardOp(client *v1.Client) DashboardProjectAPI {
 	return &dashboardProjectOp{client: client}
 }
 
-func (op *dashboardProjectOp) List(ctx context.Context, count *int64, from *int64) ([]v1.DashboardProject, error) {
+func (op *dashboardProjectOp) List(ctx context.Context, count *int, from *int) ([]v1.DashboardProject, error) {
 	resp, err := op.client.DashboardsProjectsList(ctx, v1.DashboardsProjectsListParams{
-		Count: intoOpt[v1.OptInt64](count),
-		From:  intoOpt[v1.OptInt64](from),
+		Count: intoOpt[v1.OptInt](count),
+		From:  intoOpt[v1.OptInt](from),
 	})
 	if err != nil {
 		return nil, NewAPIError("DashboardProject.List", 0, err)
@@ -85,7 +85,7 @@ func (op *dashboardProjectOp) Read(ctx context.Context, id string) (*v1.Dashboar
 	if err != nil {
 		return nil, NewAPIError("DashboardProject.Read", 0, err)
 	}
-	resp, err := op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ID: intId})
+	resp, err := op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ResourceID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -118,7 +118,7 @@ func (op *dashboardProjectOp) Update(ctx context.Context, id string, params Dash
 		Description: intoOpt[v1.OptString](params.Description),
 	}
 	req := v1.NewOptPatchedDashboardProject(request)
-	resp, err := op.client.DashboardsProjectsPartialUpdate(ctx, req, v1.DashboardsProjectsPartialUpdateParams{ID: intId})
+	resp, err := op.client.DashboardsProjectsPartialUpdate(ctx, req, v1.DashboardsProjectsPartialUpdateParams{ResourceID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
@@ -141,7 +141,7 @@ func (op *dashboardProjectOp) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		return NewAPIError("DashboardProject.Delete", 0, err)
 	}
-	err = op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{ID: intId})
+	err = op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{ResourceID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:

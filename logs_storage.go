@@ -32,7 +32,7 @@ type LogsStorageAPI interface {
 	Update(ctx context.Context, id string, params LogStorageUpdateParams) (*v1.LogStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, logResourceId string, count *int64, from *int64) ([]v1.LogStorageAccessKey, error)
+	ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error)
 	CreateKey(ctx context.Context, logResourceId string, description *string) (*v1.LogStorageAccessKey, error)
 	ReadKey(ctx context.Context, logResourceId string, id uuid.UUID) (*v1.LogStorageAccessKey, error)
 	UpdateKey(ctx context.Context, logResourceId string, id uuid.UUID, description *string) (*v1.LogStorageAccessKey, error)
@@ -52,8 +52,8 @@ func NewLogsStorageOp(client *v1.Client) LogsStorageAPI {
 type LogsStoragesListParams struct {
 	AccountID            *string
 	BucketClassification *v1.LogsStoragesListBucketClassification
-	Count                *int64
-	From                 *int64
+	Count                *int
+	From                 *int
 	IsSystem             *bool
 	ResourceID           *string
 	Status               *v1.LogsStoragesListStatus
@@ -67,8 +67,8 @@ func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) ([]
 	params := v1.LogsStoragesListParams{
 		AccountID:            intoOpt[v1.OptString](p.AccountID),
 		BucketClassification: intoOpt[v1.OptLogsStoragesListBucketClassification](p.BucketClassification),
-		Count:                intoOpt[v1.OptInt64](p.Count),
-		From:                 intoOpt[v1.OptInt64](p.From),
+		Count:                intoOpt[v1.OptInt](p.Count),
+		From:                 intoOpt[v1.OptInt](p.From),
 		IsSystem:             intoOpt[v1.OptBool](p.IsSystem),
 		ResourceID:           id,
 		Status:               intoOpt[v1.OptLogsStoragesListStatus](p.Status),
@@ -201,14 +201,14 @@ func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int64, from *int64) ([]v1.LogStorageAccessKey, error) {
+func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.ListKeys", 0, err)
 	}
 	params := v1.LogsStoragesKeysListParams{
-		Count:         intoOpt[v1.OptInt64](count),
-		From:          intoOpt[v1.OptInt64](from),
+		Count:         intoOpt[v1.OptInt](count),
+		From:          intoOpt[v1.OptInt](from),
 		LogResourceID: rid,
 	}
 	result, err := op.client.LogsStoragesKeysList(ctx, params)
@@ -261,7 +261,7 @@ func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id u
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
 	}
-	params := v1.LogsStoragesKeysRetrieveParams{LogResourceID: rid, ID: id}
+	params := v1.LogsStoragesKeysRetrieveParams{LogResourceID: rid, UID: id}
 	result, err := op.client.LogsStoragesKeysRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -289,7 +289,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 	if err != nil {
 		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
 	}
-	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: rid, ID: id}
+	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: rid, UID: id}
 	opt := v1.NewOptLogStorageAccessKey(request)
 	result, err := op.client.LogsStoragesKeysUpdate(ctx, opt, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -314,7 +314,7 @@ func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId string, id
 	if err != nil {
 		return NewAPIError("LogsStorage.DeleteKey", 0, err)
 	}
-	params := v1.LogsStoragesKeysDestroyParams{LogResourceID: rid, ID: id}
+	params := v1.LogsStoragesKeysDestroyParams{LogResourceID: rid, UID: id}
 	err = op.client.LogsStoragesKeysDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
