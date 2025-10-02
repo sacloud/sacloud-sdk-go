@@ -4680,9 +4680,7 @@
           "created_at",
           "id",
           "log_storage",
-          "log_storage_id",
           "publisher",
-          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -5014,9 +5012,7 @@
           "created_at",
           "id",
           "metrics_storage",
-          "metrics_storage_id",
           "publisher",
-          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -7640,9 +7636,7 @@
           "id",
           "is_ok",
           "log_storage",
-          "log_storage_id",
           "publisher",
-          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -7884,9 +7878,7 @@
           "id",
           "is_ok",
           "metrics_storage",
-          "metrics_storage_id",
           "publisher",
-          "publisher_code",
           "uid",
           "updated_at",
           "variant"
