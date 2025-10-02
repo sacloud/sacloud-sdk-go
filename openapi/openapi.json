@@ -23,8 +23,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -33,8 +32,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           }
         ],
@@ -97,8 +95,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -107,8 +104,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -220,8 +216,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -230,8 +225,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -504,8 +498,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -514,8 +507,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -531,8 +523,7 @@
             "in": "query",
             "name": "target",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           }
         ],
@@ -819,8 +810,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -829,8 +819,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -1099,8 +1088,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -1109,8 +1097,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -1193,8 +1180,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -1203,8 +1189,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -1653,7 +1638,7 @@
     "/dashboards/projects/": {
       "get": {
         "operationId": "dashboards_projects_list",
-        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "name": "count",
@@ -1661,8 +1646,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -1671,13 +1655,12 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           }
         ],
         "tags": [
-          "可視化"
+          "ダッシュボード"
         ],
         "responses": {
           "200": {
@@ -1691,13 +1674,13 @@
             "description": ""
           }
         },
-        "summary": "可視化プロジェクト一覧取得API"
+        "summary": "ダッシュボード一覧取得API"
       },
       "post": {
         "operationId": "dashboards_projects_create",
-        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "tags": [
-          "可視化"
+          "ダッシュボード"
         ],
         "requestBody": {
           "content": {
@@ -1721,30 +1704,30 @@
             "description": ""
           }
         },
-        "summary": "可視化プロジェクト作成API"
+        "summary": "ダッシュボード作成API"
       }
     },
-    "/dashboards/projects/{id}/": {
+    "/dashboards/projects/{resource_id}/": {
       "get": {
         "operationId": "dashboards_projects_retrieve",
-        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "resource_id",
             "schema": {
               "type": "integer",
-              "format": "int64",
-              "minimum": 0,
               "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
               "example": 110000000000
             },
-            "description": "A unique integer value identifying this Dashboard Project.",
             "required": true
           }
         ],
         "tags": [
-          "可視化"
+          "ダッシュボード"
         ],
         "responses": {
           "200": {
@@ -1758,28 +1741,28 @@
             "description": ""
           }
         },
-        "summary": "可視化プロジェクト詳細取得API"
+        "summary": "ダッシュボード詳細取得API"
       },
       "put": {
         "operationId": "dashboards_projects_update",
-        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "resource_id",
             "schema": {
               "type": "integer",
-              "format": "int64",
-              "minimum": 0,
               "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
               "example": 110000000000
             },
-            "description": "A unique integer value identifying this Dashboard Project.",
             "required": true
           }
         ],
         "tags": [
-          "可視化"
+          "ダッシュボード"
         ],
         "requestBody": {
           "content": {
@@ -1802,28 +1785,28 @@
             "description": ""
           }
         },
-        "summary": "可視化プロジェクト更新API"
+        "summary": "ダッシュボード更新API"
       },
       "patch": {
         "operationId": "dashboards_projects_partial_update",
-        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "resource_id",
             "schema": {
               "type": "integer",
-              "format": "int64",
-              "minimum": 0,
               "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
               "example": 110000000000
             },
-            "description": "A unique integer value identifying this Dashboard Project.",
             "required": true
           }
         ],
         "tags": [
-          "可視化"
+          "ダッシュボード"
         ],
         "requestBody": {
           "content": {
@@ -1846,35 +1829,35 @@
             "description": ""
           }
         },
-        "summary": "可視化プロジェクト部分更新API"
+        "summary": "ダッシュボード部分更新API"
       },
       "delete": {
         "operationId": "dashboards_projects_destroy",
-        "description": "可視化プロジェクトを管理するためのAPIエンドポイントです。",
+        "description": "ダッシュボードを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "resource_id",
             "schema": {
               "type": "integer",
-              "format": "int64",
-              "minimum": 0,
               "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
               "example": 110000000000
             },
-            "description": "A unique integer value identifying this Dashboard Project.",
             "required": true
           }
         ],
         "tags": [
-          "可視化"
+          "ダッシュボード"
         ],
         "responses": {
           "204": {
             "description": "No response body"
           }
         },
-        "summary": "可視化プロジェクト削除API"
+        "summary": "ダッシュボード削除API"
       }
     },
     "/logs/routings/": {
@@ -1888,8 +1871,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -1898,8 +1880,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -1915,7 +1896,8 @@
             "schema": {
               "type": "integer",
               "format": "int64"
-            }
+            },
+            "description": "Log storage resource id"
           },
           {
             "in": "query",
@@ -1973,14 +1955,14 @@
         "summary": "ログルーティング作成API"
       }
     },
-    "/logs/routings/{id}/": {
+    "/logs/routings/{uid}/": {
       "get": {
         "operationId": "logs_routings_retrieve",
         "description": "ログルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "uid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -2011,7 +1993,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "uid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -2052,7 +2034,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "uid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -2092,7 +2074,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "uid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -2142,8 +2124,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -2152,8 +2133,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -2247,8 +2227,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -2257,8 +2236,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -2329,26 +2307,26 @@
         "summary": "ログストレージのアクセスキー作成API"
       }
     },
-    "/logs/storages/{log_resource_id}/keys/{id}/": {
+    "/logs/storages/{log_resource_id}/keys/{uid}/": {
       "get": {
         "operationId": "logs_storages_keys_retrieve",
         "description": "ログストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "log_resource_id",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "uid",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "required": true
           }
@@ -2376,19 +2354,19 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "log_resource_id",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "uid",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "required": true
           }
@@ -2425,19 +2403,19 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "log_resource_id",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "uid",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "required": true
           }
@@ -2474,19 +2452,19 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "log_resource_id",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
           {
             "in": "path",
-            "name": "log_resource_id",
+            "name": "uid",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "required": true
           }
@@ -2694,6 +2672,16 @@
           }
         },
         "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Provisioning"
+                }
+              }
+            },
+            "description": "既存のリソースが存在し、新規作成を行わなかった場合に返されます。"
+          },
           "201": {
             "content": {
               "application/json": {
@@ -2702,7 +2690,7 @@
                 }
               }
             },
-            "description": ""
+            "description": "新規リソースを作成した場合に返されます。"
           }
         },
         "summary": "プロビジョニング（初期化）API"
@@ -2741,8 +2729,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -2751,8 +2738,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -2768,7 +2754,8 @@
             "schema": {
               "type": "integer",
               "format": "int64"
-            }
+            },
+            "description": "Metrics storage resource id"
           },
           {
             "in": "query",
@@ -2826,14 +2813,14 @@
         "summary": "メトリクスルーティング作成API"
       }
     },
-    "/metrics/routings/{id}/": {
+    "/metrics/routings/{uid}/": {
       "get": {
         "operationId": "metrics_routings_retrieve",
         "description": "メトリクスルーティングを管理するためのAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "uid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -2864,7 +2851,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "uid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -2905,7 +2892,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "uid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -2945,7 +2932,7 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "uid",
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -2982,8 +2969,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -2992,8 +2978,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -3072,8 +3057,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -3082,8 +3066,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -3154,26 +3137,26 @@
         "summary": "メトリクスストレージのアクセスキー作成API"
       }
     },
-    "/metrics/storages/{metrics_resource_id}/keys/{id}/": {
+    "/metrics/storages/{metrics_resource_id}/keys/{uid}/": {
       "get": {
         "operationId": "metrics_storages_keys_retrieve",
         "description": "メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。",
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "metrics_resource_id",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "uid",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "required": true
           }
@@ -3201,19 +3184,19 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "metrics_resource_id",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "uid",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "required": true
           }
@@ -3250,19 +3233,19 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "metrics_resource_id",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "uid",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "required": true
           }
@@ -3299,19 +3282,19 @@
         "parameters": [
           {
             "in": "path",
-            "name": "id",
+            "name": "metrics_resource_id",
             "schema": {
-              "type": "string",
-              "format": "uuid"
+              "type": "integer",
+              "format": "int64"
             },
             "required": true
           },
           {
             "in": "path",
-            "name": "metrics_resource_id",
+            "name": "uid",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string",
+              "format": "uuid"
             },
             "required": true
           }
@@ -3491,8 +3474,7 @@
             "in": "query",
             "description": "Number of results to return per page.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           },
           {
@@ -3501,8 +3483,7 @@
             "in": "query",
             "description": "The initial index from which to return the results.",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "integer"
             }
           }
         ],
@@ -3554,6 +3535,523 @@
           }
         },
         "summary": "連携サービス詳細取得API"
+      }
+    },
+    "/traces/storages/": {
+      "get": {
+        "operationId": "traces_storages_list",
+        "description": "トレースストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "account_id",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "log_storage__bucket__classification",
+            "schema": {
+              "type": "string",
+              "x-spec-enum-id": "df2281a88cfd7485",
+              "enum": [
+                "separated",
+                "shared"
+              ]
+            },
+            "description": "* `shared` - 共有\n* `separated` - 分離"
+          },
+          {
+            "in": "query",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedTraceStorageList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージ一覧取得API"
+      },
+      "post": {
+        "operationId": "traces_storages_create",
+        "description": "トレースストレージを管理するためのAPIエンドポイントです。",
+        "tags": [
+          "トレースストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TraceStorageCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceStorage"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージ作成API"
+      }
+    },
+    "/traces/storages/{resource_id}/": {
+      "get": {
+        "operationId": "traces_storages_retrieve",
+        "description": "トレースストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedTraceStorage"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージ詳細取得API"
+      },
+      "put": {
+        "operationId": "traces_storages_update",
+        "description": "トレースストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TraceStorage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedTraceStorage"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージ更新API"
+      },
+      "patch": {
+        "operationId": "traces_storages_partial_update",
+        "description": "トレースストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedTraceStorage"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedTraceStorage"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージ部分更新API"
+      },
+      "delete": {
+        "operationId": "traces_storages_destroy",
+        "description": "トレースストレージを管理するためのAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "トレースストレージ削除API"
+      }
+    },
+    "/traces/storages/{trace_resource_id}/keys/": {
+      "get": {
+        "operationId": "traces_storages_keys_list",
+        "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "name": "count",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "from",
+            "required": false,
+            "in": "query",
+            "description": "The initial index from which to return the results.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "trace_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedTraceStorageAccessKeyList"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージのアクセスキー一覧取得API"
+      },
+      "post": {
+        "operationId": "traces_storages_keys_create",
+        "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "trace_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TraceStorageAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedTraceStorageAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージのアクセスキー作成API"
+      }
+    },
+    "/traces/storages/{trace_resource_id}/keys/{uid}/": {
+      "get": {
+        "operationId": "traces_storages_keys_retrieve",
+        "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "trace_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "uid",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedTraceStorageAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージのアクセスキー詳細取得API"
+      },
+      "put": {
+        "operationId": "traces_storages_keys_update",
+        "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "trace_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "uid",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TraceStorageAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedTraceStorageAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージのアクセスキー更新API"
+      },
+      "patch": {
+        "operationId": "traces_storages_keys_partial_update",
+        "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "trace_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "uid",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchedTraceStorageAccessKey"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WrappedTraceStorageAccessKey"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "トレースストレージのアクセスキー部分更新API"
+      },
+      "delete": {
+        "operationId": "traces_storages_keys_destroy",
+        "description": "トレースストレージのアクセスキーを管理するAPIエンドポイントです。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "trace_resource_id",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "required": true
+          },
+          {
+            "in": "path",
+            "name": "uid",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "responses": {
+          "204": {
+            "description": "No response body"
+          }
+        },
+        "summary": "トレースストレージのアクセスキー削除API"
       }
     }
   },
@@ -3895,19 +4393,7 @@
             "$ref": "#/components/schemas/MapKeyValueMatcher"
           }
         ],
-        "title": "FieldMatcher",
-        "discriminator": {
-          "propertyName": "type",
-          "mapping": {
-            "or": "#/components/schemas/OrMatcher",
-            "and": "#/components/schemas/AndMatcher",
-            "string": "#/components/schemas/StrMatcher",
-            "number": "#/components/schemas/NumMatcher",
-            "enum": "#/components/schemas/EnumMatcher",
-            "map-key-exists": "#/components/schemas/MapKeyExistsMatcher",
-            "map-key-value-matcher": "#/components/schemas/MapKeyValueMatcher"
-          }
-        }
+        "title": "FieldMatcher"
       },
       "FieldModel": {
         "enum": [
@@ -4280,12 +4766,10 @@
             "type": "object",
             "properties": {
               "log_routings": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "log_measure_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               }
             },
             "required": [
@@ -4607,16 +5091,13 @@
             "type": "object",
             "properties": {
               "metrics_routings": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "alert_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "log_measure_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               }
             },
             "required": [
@@ -4740,7 +5221,6 @@
           },
           "order": {
             "type": "integer",
-            "format": "int64",
             "readOnly": true
           }
         },
@@ -4762,7 +5242,6 @@
           },
           "order": {
             "type": "integer",
-            "format": "int64",
             "minimum": 1
           }
         },
@@ -5928,12 +6407,10 @@
             "type": "object",
             "properties": {
               "log_routings": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "log_measure_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               }
             },
             "required": [
@@ -6125,16 +6602,13 @@
             "type": "object",
             "properties": {
               "metrics_routings": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "alert_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "log_measure_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               }
             },
             "required": [
@@ -6220,7 +6694,6 @@
           },
           "order": {
             "type": "integer",
-            "format": "int64",
             "readOnly": true
           }
         }
@@ -6298,7 +6771,6 @@
           },
           "retention_period_days": {
             "type": "integer",
-            "format": "int64",
             "readOnly": true
           },
           "created_at": {
@@ -6453,12 +6925,10 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64",
             "readOnly": true
           },
           "publisher": {
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
           },
           "account_id": {
             "type": "string",
@@ -6533,8 +7003,7 @@
         "type": "object",
         "properties": {
           "max_user_count": {
-            "type": "integer",
-            "format": "int64"
+            "type": "integer"
           }
         },
         "required": [
@@ -6721,7 +7190,6 @@
           },
           "retention_period_days": {
             "type": "integer",
-            "format": "int64",
             "readOnly": true
           },
           "created_at": {
@@ -6887,7 +7355,6 @@
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int64",
             "readOnly": true
           },
           "username": {
@@ -7259,12 +7726,10 @@
             "type": "object",
             "properties": {
               "log_routings": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "log_measure_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               }
             },
             "required": [
@@ -7496,16 +7961,13 @@
             "type": "object",
             "properties": {
               "metrics_routings": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "alert_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               },
               "log_measure_rules": {
-                "type": "integer",
-                "format": "int64"
+                "type": "integer"
               }
             },
             "required": [
@@ -7640,7 +8102,6 @@
           },
           "retention_period_days": {
             "type": "integer",
-            "format": "int64",
             "readOnly": true
           },
           "created_at": {
