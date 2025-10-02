@@ -1318,10 +1318,10 @@ type LogRouting struct {
 	// 対象リソースのID.
 	ResourceID    OptNilInt64 `json:"resource_id"`
 	Publisher     Publisher   `json:"publisher"`
-	PublisherCode string      `json:"publisher_code"`
+	PublisherCode OptString   `json:"publisher_code"`
 	Variant       string      `json:"variant"`
 	LogStorage    LogStorage  `json:"log_storage"`
-	LogStorageID  NilInt64    `json:"log_storage_id"`
+	LogStorageID  OptNilInt64 `json:"log_storage_id"`
 	CreatedAt     time.Time   `json:"created_at"`
 	UpdatedAt     time.Time   `json:"updated_at"`
 }
@@ -1347,7 +1347,7 @@ func (s *LogRouting) GetPublisher() Publisher {
 }
 
 // GetPublisherCode returns the value of PublisherCode.
-func (s *LogRouting) GetPublisherCode() string {
+func (s *LogRouting) GetPublisherCode() OptString {
 	return s.PublisherCode
 }
 
@@ -1362,7 +1362,7 @@ func (s *LogRouting) GetLogStorage() LogStorage {
 }
 
 // GetLogStorageID returns the value of LogStorageID.
-func (s *LogRouting) GetLogStorageID() NilInt64 {
+func (s *LogRouting) GetLogStorageID() OptNilInt64 {
 	return s.LogStorageID
 }
 
@@ -1397,7 +1397,7 @@ func (s *LogRouting) SetPublisher(val Publisher) {
 }
 
 // SetPublisherCode sets the value of PublisherCode.
-func (s *LogRouting) SetPublisherCode(val string) {
+func (s *LogRouting) SetPublisherCode(val OptString) {
 	s.PublisherCode = val
 }
 
@@ -1412,7 +1412,7 @@ func (s *LogRouting) SetLogStorage(val LogStorage) {
 }
 
 // SetLogStorageID sets the value of LogStorageID.
-func (s *LogRouting) SetLogStorageID(val NilInt64) {
+func (s *LogRouting) SetLogStorageID(val OptNilInt64) {
 	s.LogStorageID = val
 }
 
@@ -1770,27 +1770,27 @@ func (s *LogStorageIcon) SetID(val OptString) {
 }
 
 type LogStorageUsage struct {
-	LogRoutings     int64 `json:"log_routings"`
-	LogMeasureRules int64 `json:"log_measure_rules"`
+	LogRoutings     int `json:"log_routings"`
+	LogMeasureRules int `json:"log_measure_rules"`
 }
 
 // GetLogRoutings returns the value of LogRoutings.
-func (s *LogStorageUsage) GetLogRoutings() int64 {
+func (s *LogStorageUsage) GetLogRoutings() int {
 	return s.LogRoutings
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *LogStorageUsage) GetLogMeasureRules() int64 {
+func (s *LogStorageUsage) GetLogMeasureRules() int {
 	return s.LogMeasureRules
 }
 
 // SetLogRoutings sets the value of LogRoutings.
-func (s *LogStorageUsage) SetLogRoutings(val int64) {
+func (s *LogStorageUsage) SetLogRoutings(val int) {
 	s.LogRoutings = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *LogStorageUsage) SetLogMeasureRules(val int64) {
+func (s *LogStorageUsage) SetLogMeasureRules(val int) {
 	s.LogMeasureRules = val
 }
 
@@ -2060,10 +2060,10 @@ type MetricsRouting struct {
 	// 対象リソースのID.
 	ResourceID       OptNilInt64    `json:"resource_id"`
 	Publisher        Publisher      `json:"publisher"`
-	PublisherCode    string         `json:"publisher_code"`
+	PublisherCode    OptString      `json:"publisher_code"`
 	Variant          string         `json:"variant"`
 	MetricsStorage   MetricsStorage `json:"metrics_storage"`
-	MetricsStorageID NilInt64       `json:"metrics_storage_id"`
+	MetricsStorageID OptNilInt64    `json:"metrics_storage_id"`
 	CreatedAt        time.Time      `json:"created_at"`
 	UpdatedAt        time.Time      `json:"updated_at"`
 }
@@ -2089,7 +2089,7 @@ func (s *MetricsRouting) GetPublisher() Publisher {
 }
 
 // GetPublisherCode returns the value of PublisherCode.
-func (s *MetricsRouting) GetPublisherCode() string {
+func (s *MetricsRouting) GetPublisherCode() OptString {
 	return s.PublisherCode
 }
 
@@ -2104,7 +2104,7 @@ func (s *MetricsRouting) GetMetricsStorage() MetricsStorage {
 }
 
 // GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *MetricsRouting) GetMetricsStorageID() NilInt64 {
+func (s *MetricsRouting) GetMetricsStorageID() OptNilInt64 {
 	return s.MetricsStorageID
 }
 
@@ -2139,7 +2139,7 @@ func (s *MetricsRouting) SetPublisher(val Publisher) {
 }
 
 // SetPublisherCode sets the value of PublisherCode.
-func (s *MetricsRouting) SetPublisherCode(val string) {
+func (s *MetricsRouting) SetPublisherCode(val OptString) {
 	s.PublisherCode = val
 }
 
@@ -2154,7 +2154,7 @@ func (s *MetricsRouting) SetMetricsStorage(val MetricsStorage) {
 }
 
 // SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *MetricsRouting) SetMetricsStorageID(val NilInt64) {
+func (s *MetricsRouting) SetMetricsStorageID(val OptNilInt64) {
 	s.MetricsStorageID = val
 }
 
@@ -2434,38 +2434,38 @@ func (s *MetricsStorageIcon) SetID(val OptString) {
 }
 
 type MetricsStorageUsage struct {
-	MetricsRoutings int64 `json:"metrics_routings"`
-	AlertRules      int64 `json:"alert_rules"`
-	LogMeasureRules int64 `json:"log_measure_rules"`
+	MetricsRoutings int `json:"metrics_routings"`
+	AlertRules      int `json:"alert_rules"`
+	LogMeasureRules int `json:"log_measure_rules"`
 }
 
 // GetMetricsRoutings returns the value of MetricsRoutings.
-func (s *MetricsStorageUsage) GetMetricsRoutings() int64 {
+func (s *MetricsStorageUsage) GetMetricsRoutings() int {
 	return s.MetricsRoutings
 }
 
 // GetAlertRules returns the value of AlertRules.
-func (s *MetricsStorageUsage) GetAlertRules() int64 {
+func (s *MetricsStorageUsage) GetAlertRules() int {
 	return s.AlertRules
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *MetricsStorageUsage) GetLogMeasureRules() int64 {
+func (s *MetricsStorageUsage) GetLogMeasureRules() int {
 	return s.LogMeasureRules
 }
 
 // SetMetricsRoutings sets the value of MetricsRoutings.
-func (s *MetricsStorageUsage) SetMetricsRoutings(val int64) {
+func (s *MetricsStorageUsage) SetMetricsRoutings(val int) {
 	s.MetricsRoutings = val
 }
 
 // SetAlertRules sets the value of AlertRules.
-func (s *MetricsStorageUsage) SetAlertRules(val int64) {
+func (s *MetricsStorageUsage) SetAlertRules(val int) {
 	s.AlertRules = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *MetricsStorageUsage) SetLogMeasureRules(val int64) {
+func (s *MetricsStorageUsage) SetLogMeasureRules(val int) {
 	s.LogMeasureRules = val
 }
 
@@ -2700,6 +2700,51 @@ func (o NilMetricsStorageIcon) Or(d MetricsStorageIcon) MetricsStorageIcon {
 	return d
 }
 
+// NewNilTraceStorageIcon returns new NilTraceStorageIcon with value set to v.
+func NewNilTraceStorageIcon(v TraceStorageIcon) NilTraceStorageIcon {
+	return NilTraceStorageIcon{
+		Value: v,
+	}
+}
+
+// NilTraceStorageIcon is nullable TraceStorageIcon.
+type NilTraceStorageIcon struct {
+	Value TraceStorageIcon
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilTraceStorageIcon) SetTo(v TraceStorageIcon) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilTraceStorageIcon) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilTraceStorageIcon) SetToNull() {
+	o.Null = true
+	var v TraceStorageIcon
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilTraceStorageIcon) Get() (v TraceStorageIcon, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilTraceStorageIcon) Or(d TraceStorageIcon) TraceStorageIcon {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilWrappedAlertProjectIcon returns new NilWrappedAlertProjectIcon with value set to v.
 func NewNilWrappedAlertProjectIcon(v WrappedAlertProjectIcon) NilWrappedAlertProjectIcon {
 	return NilWrappedAlertProjectIcon{
@@ -2880,6 +2925,51 @@ func (o NilWrappedMetricsStorageIcon) Or(d WrappedMetricsStorageIcon) WrappedMet
 	return d
 }
 
+// NewNilWrappedTraceStorageIcon returns new NilWrappedTraceStorageIcon with value set to v.
+func NewNilWrappedTraceStorageIcon(v WrappedTraceStorageIcon) NilWrappedTraceStorageIcon {
+	return NilWrappedTraceStorageIcon{
+		Value: v,
+	}
+}
+
+// NilWrappedTraceStorageIcon is nullable WrappedTraceStorageIcon.
+type NilWrappedTraceStorageIcon struct {
+	Value WrappedTraceStorageIcon
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilWrappedTraceStorageIcon) SetTo(v WrappedTraceStorageIcon) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilWrappedTraceStorageIcon) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilWrappedTraceStorageIcon) SetToNull() {
+	o.Null = true
+	var v WrappedTraceStorageIcon
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilWrappedTraceStorageIcon) Get() (v WrappedTraceStorageIcon, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilWrappedTraceStorageIcon) Or(d WrappedTraceStorageIcon) WrappedTraceStorageIcon {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // Ref: #/components/schemas/NotificationRouting
 type NotificationRouting struct {
 	UID                   uuid.UUID          `json:"uid"`
@@ -2888,7 +2978,7 @@ type NotificationRouting struct {
 	NotificationTargetUID uuid.UUID          `json:"notification_target_uid"`
 	MatchLabels           []MatchLabelsItem  `json:"match_labels"`
 	ResendIntervalMinutes OptInt             `json:"resend_interval_minutes"`
-	Order                 int64              `json:"order"`
+	Order                 int                `json:"order"`
 }
 
 // GetUID returns the value of UID.
@@ -2922,7 +3012,7 @@ func (s *NotificationRouting) GetResendIntervalMinutes() OptInt {
 }
 
 // GetOrder returns the value of Order.
-func (s *NotificationRouting) GetOrder() int64 {
+func (s *NotificationRouting) GetOrder() int {
 	return s.Order
 }
 
@@ -2957,14 +3047,14 @@ func (s *NotificationRouting) SetResendIntervalMinutes(val OptInt) {
 }
 
 // SetOrder sets the value of Order.
-func (s *NotificationRouting) SetOrder(val int64) {
+func (s *NotificationRouting) SetOrder(val int) {
 	s.Order = val
 }
 
 // Ref: #/components/schemas/NotificationRoutingOrder
 type NotificationRoutingOrder struct {
 	NotificationRoutingUID uuid.UUID `json:"notification_routing_uid"`
-	Order                  int64     `json:"order"`
+	Order                  int       `json:"order"`
 }
 
 // GetNotificationRoutingUID returns the value of NotificationRoutingUID.
@@ -2973,7 +3063,7 @@ func (s *NotificationRoutingOrder) GetNotificationRoutingUID() uuid.UUID {
 }
 
 // GetOrder returns the value of Order.
-func (s *NotificationRoutingOrder) GetOrder() int64 {
+func (s *NotificationRoutingOrder) GetOrder() int {
 	return s.Order
 }
 
@@ -2983,7 +3073,7 @@ func (s *NotificationRoutingOrder) SetNotificationRoutingUID(val uuid.UUID) {
 }
 
 // SetOrder sets the value of Order.
-func (s *NotificationRoutingOrder) SetOrder(val int64) {
+func (s *NotificationRoutingOrder) SetOrder(val int) {
 	s.Order = val
 }
 
@@ -4606,6 +4696,69 @@ func (o OptNilPatchedMetricsStorageIcon) Or(d PatchedMetricsStorageIcon) Patched
 	return d
 }
 
+// NewOptNilPatchedTraceStorageIcon returns new OptNilPatchedTraceStorageIcon with value set to v.
+func NewOptNilPatchedTraceStorageIcon(v PatchedTraceStorageIcon) OptNilPatchedTraceStorageIcon {
+	return OptNilPatchedTraceStorageIcon{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilPatchedTraceStorageIcon is optional nullable PatchedTraceStorageIcon.
+type OptNilPatchedTraceStorageIcon struct {
+	Value PatchedTraceStorageIcon
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilPatchedTraceStorageIcon was set.
+func (o OptNilPatchedTraceStorageIcon) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilPatchedTraceStorageIcon) Reset() {
+	var v PatchedTraceStorageIcon
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilPatchedTraceStorageIcon) SetTo(v PatchedTraceStorageIcon) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilPatchedTraceStorageIcon) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilPatchedTraceStorageIcon) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v PatchedTraceStorageIcon
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilPatchedTraceStorageIcon) Get() (v PatchedTraceStorageIcon, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilPatchedTraceStorageIcon) Or(d PatchedTraceStorageIcon) PatchedTraceStorageIcon {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilString returns new OptNilString with value set to v.
 func NewOptNilString(v string) OptNilString {
 	return OptNilString{
@@ -5497,6 +5650,144 @@ func (o OptPatchedNotificationTargetServiceType) Or(d PatchedNotificationTargetS
 	return d
 }
 
+// NewOptPatchedTraceStorage returns new OptPatchedTraceStorage with value set to v.
+func NewOptPatchedTraceStorage(v PatchedTraceStorage) OptPatchedTraceStorage {
+	return OptPatchedTraceStorage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPatchedTraceStorage is optional PatchedTraceStorage.
+type OptPatchedTraceStorage struct {
+	Value PatchedTraceStorage
+	Set   bool
+}
+
+// IsSet returns true if OptPatchedTraceStorage was set.
+func (o OptPatchedTraceStorage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPatchedTraceStorage) Reset() {
+	var v PatchedTraceStorage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPatchedTraceStorage) SetTo(v PatchedTraceStorage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPatchedTraceStorage) Get() (v PatchedTraceStorage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPatchedTraceStorage) Or(d PatchedTraceStorage) PatchedTraceStorage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPatchedTraceStorageAccessKey returns new OptPatchedTraceStorageAccessKey with value set to v.
+func NewOptPatchedTraceStorageAccessKey(v PatchedTraceStorageAccessKey) OptPatchedTraceStorageAccessKey {
+	return OptPatchedTraceStorageAccessKey{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPatchedTraceStorageAccessKey is optional PatchedTraceStorageAccessKey.
+type OptPatchedTraceStorageAccessKey struct {
+	Value PatchedTraceStorageAccessKey
+	Set   bool
+}
+
+// IsSet returns true if OptPatchedTraceStorageAccessKey was set.
+func (o OptPatchedTraceStorageAccessKey) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPatchedTraceStorageAccessKey) Reset() {
+	var v PatchedTraceStorageAccessKey
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPatchedTraceStorageAccessKey) SetTo(v PatchedTraceStorageAccessKey) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPatchedTraceStorageAccessKey) Get() (v PatchedTraceStorageAccessKey, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPatchedTraceStorageAccessKey) Or(d PatchedTraceStorageAccessKey) PatchedTraceStorageAccessKey {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPatchedTraceStorageEndpoints returns new OptPatchedTraceStorageEndpoints with value set to v.
+func NewOptPatchedTraceStorageEndpoints(v PatchedTraceStorageEndpoints) OptPatchedTraceStorageEndpoints {
+	return OptPatchedTraceStorageEndpoints{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPatchedTraceStorageEndpoints is optional PatchedTraceStorageEndpoints.
+type OptPatchedTraceStorageEndpoints struct {
+	Value PatchedTraceStorageEndpoints
+	Set   bool
+}
+
+// IsSet returns true if OptPatchedTraceStorageEndpoints was set.
+func (o OptPatchedTraceStorageEndpoints) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPatchedTraceStorageEndpoints) Reset() {
+	var v PatchedTraceStorageEndpoints
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPatchedTraceStorageEndpoints) SetTo(v PatchedTraceStorageEndpoints) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPatchedTraceStorageEndpoints) Get() (v PatchedTraceStorageEndpoints, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPatchedTraceStorageEndpoints) Or(d PatchedTraceStorageEndpoints) PatchedTraceStorageEndpoints {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptProvisioningCreate returns new OptProvisioningCreate with value set to v.
 func NewOptProvisioningCreate(v ProvisioningCreate) OptProvisioningCreate {
 	return OptProvisioningCreate{
@@ -5675,6 +5966,190 @@ func (o OptString) Get() (v string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTraceStorage returns new OptTraceStorage with value set to v.
+func NewOptTraceStorage(v TraceStorage) OptTraceStorage {
+	return OptTraceStorage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTraceStorage is optional TraceStorage.
+type OptTraceStorage struct {
+	Value TraceStorage
+	Set   bool
+}
+
+// IsSet returns true if OptTraceStorage was set.
+func (o OptTraceStorage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTraceStorage) Reset() {
+	var v TraceStorage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTraceStorage) SetTo(v TraceStorage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTraceStorage) Get() (v TraceStorage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTraceStorage) Or(d TraceStorage) TraceStorage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTraceStorageAccessKey returns new OptTraceStorageAccessKey with value set to v.
+func NewOptTraceStorageAccessKey(v TraceStorageAccessKey) OptTraceStorageAccessKey {
+	return OptTraceStorageAccessKey{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTraceStorageAccessKey is optional TraceStorageAccessKey.
+type OptTraceStorageAccessKey struct {
+	Value TraceStorageAccessKey
+	Set   bool
+}
+
+// IsSet returns true if OptTraceStorageAccessKey was set.
+func (o OptTraceStorageAccessKey) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTraceStorageAccessKey) Reset() {
+	var v TraceStorageAccessKey
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTraceStorageAccessKey) SetTo(v TraceStorageAccessKey) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTraceStorageAccessKey) Get() (v TraceStorageAccessKey, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTraceStorageAccessKey) Or(d TraceStorageAccessKey) TraceStorageAccessKey {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTraceStorageCreateClassification returns new OptTraceStorageCreateClassification with value set to v.
+func NewOptTraceStorageCreateClassification(v TraceStorageCreateClassification) OptTraceStorageCreateClassification {
+	return OptTraceStorageCreateClassification{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTraceStorageCreateClassification is optional TraceStorageCreateClassification.
+type OptTraceStorageCreateClassification struct {
+	Value TraceStorageCreateClassification
+	Set   bool
+}
+
+// IsSet returns true if OptTraceStorageCreateClassification was set.
+func (o OptTraceStorageCreateClassification) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTraceStorageCreateClassification) Reset() {
+	var v TraceStorageCreateClassification
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTraceStorageCreateClassification) SetTo(v TraceStorageCreateClassification) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTraceStorageCreateClassification) Get() (v TraceStorageCreateClassification, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTraceStorageCreateClassification) Or(d TraceStorageCreateClassification) TraceStorageCreateClassification {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTracesStoragesListLogStorageBucketClassification returns new OptTracesStoragesListLogStorageBucketClassification with value set to v.
+func NewOptTracesStoragesListLogStorageBucketClassification(v TracesStoragesListLogStorageBucketClassification) OptTracesStoragesListLogStorageBucketClassification {
+	return OptTracesStoragesListLogStorageBucketClassification{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTracesStoragesListLogStorageBucketClassification is optional TracesStoragesListLogStorageBucketClassification.
+type OptTracesStoragesListLogStorageBucketClassification struct {
+	Value TracesStoragesListLogStorageBucketClassification
+	Set   bool
+}
+
+// IsSet returns true if OptTracesStoragesListLogStorageBucketClassification was set.
+func (o OptTracesStoragesListLogStorageBucketClassification) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTracesStoragesListLogStorageBucketClassification) Reset() {
+	var v TracesStoragesListLogStorageBucketClassification
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTracesStoragesListLogStorageBucketClassification) SetTo(v TracesStoragesListLogStorageBucketClassification) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTracesStoragesListLogStorageBucketClassification) Get() (v TracesStoragesListLogStorageBucketClassification, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTracesStoragesListLogStorageBucketClassification) Or(d TracesStoragesListLogStorageBucketClassification) TracesStoragesListLogStorageBucketClassification {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -6576,6 +7051,124 @@ func (s *PaginatedPublisherList) SetIsOk(val OptBool) {
 
 // SetResults sets the value of Results.
 func (s *PaginatedPublisherList) SetResults(val []Publisher) {
+	s.Results = val
+}
+
+// Ref: #/components/schemas/PaginatedTraceStorageAccessKeyList
+type PaginatedTraceStorageAccessKeyList struct {
+	Count   int64                   `json:"count"`
+	From    int64                   `json:"from"`
+	Total   int64                   `json:"total"`
+	IsOk    OptBool                 `json:"is_ok"`
+	Results []TraceStorageAccessKey `json:"results"`
+}
+
+// GetCount returns the value of Count.
+func (s *PaginatedTraceStorageAccessKeyList) GetCount() int64 {
+	return s.Count
+}
+
+// GetFrom returns the value of From.
+func (s *PaginatedTraceStorageAccessKeyList) GetFrom() int64 {
+	return s.From
+}
+
+// GetTotal returns the value of Total.
+func (s *PaginatedTraceStorageAccessKeyList) GetTotal() int64 {
+	return s.Total
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedTraceStorageAccessKeyList) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// GetResults returns the value of Results.
+func (s *PaginatedTraceStorageAccessKeyList) GetResults() []TraceStorageAccessKey {
+	return s.Results
+}
+
+// SetCount sets the value of Count.
+func (s *PaginatedTraceStorageAccessKeyList) SetCount(val int64) {
+	s.Count = val
+}
+
+// SetFrom sets the value of From.
+func (s *PaginatedTraceStorageAccessKeyList) SetFrom(val int64) {
+	s.From = val
+}
+
+// SetTotal sets the value of Total.
+func (s *PaginatedTraceStorageAccessKeyList) SetTotal(val int64) {
+	s.Total = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedTraceStorageAccessKeyList) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+// SetResults sets the value of Results.
+func (s *PaginatedTraceStorageAccessKeyList) SetResults(val []TraceStorageAccessKey) {
+	s.Results = val
+}
+
+// Ref: #/components/schemas/PaginatedTraceStorageList
+type PaginatedTraceStorageList struct {
+	Count   int64          `json:"count"`
+	From    int64          `json:"from"`
+	Total   int64          `json:"total"`
+	IsOk    OptBool        `json:"is_ok"`
+	Results []TraceStorage `json:"results"`
+}
+
+// GetCount returns the value of Count.
+func (s *PaginatedTraceStorageList) GetCount() int64 {
+	return s.Count
+}
+
+// GetFrom returns the value of From.
+func (s *PaginatedTraceStorageList) GetFrom() int64 {
+	return s.From
+}
+
+// GetTotal returns the value of Total.
+func (s *PaginatedTraceStorageList) GetTotal() int64 {
+	return s.Total
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedTraceStorageList) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// GetResults returns the value of Results.
+func (s *PaginatedTraceStorageList) GetResults() []TraceStorage {
+	return s.Results
+}
+
+// SetCount sets the value of Count.
+func (s *PaginatedTraceStorageList) SetCount(val int64) {
+	s.Count = val
+}
+
+// SetFrom sets the value of From.
+func (s *PaginatedTraceStorageList) SetFrom(val int64) {
+	s.From = val
+}
+
+// SetTotal sets the value of Total.
+func (s *PaginatedTraceStorageList) SetTotal(val int64) {
+	s.Total = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedTraceStorageList) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+// SetResults sets the value of Results.
+func (s *PaginatedTraceStorageList) SetResults(val []TraceStorage) {
 	s.Results = val
 }
 
@@ -7519,27 +8112,27 @@ func (s *PatchedLogStorageIcon) SetID(val OptString) {
 }
 
 type PatchedLogStorageUsage struct {
-	LogRoutings     int64 `json:"log_routings"`
-	LogMeasureRules int64 `json:"log_measure_rules"`
+	LogRoutings     int `json:"log_routings"`
+	LogMeasureRules int `json:"log_measure_rules"`
 }
 
 // GetLogRoutings returns the value of LogRoutings.
-func (s *PatchedLogStorageUsage) GetLogRoutings() int64 {
+func (s *PatchedLogStorageUsage) GetLogRoutings() int {
 	return s.LogRoutings
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *PatchedLogStorageUsage) GetLogMeasureRules() int64 {
+func (s *PatchedLogStorageUsage) GetLogMeasureRules() int {
 	return s.LogMeasureRules
 }
 
 // SetLogRoutings sets the value of LogRoutings.
-func (s *PatchedLogStorageUsage) SetLogRoutings(val int64) {
+func (s *PatchedLogStorageUsage) SetLogRoutings(val int) {
 	s.LogRoutings = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *PatchedLogStorageUsage) SetLogMeasureRules(val int64) {
+func (s *PatchedLogStorageUsage) SetLogMeasureRules(val int) {
 	s.LogMeasureRules = val
 }
 
@@ -7885,38 +8478,38 @@ func (s *PatchedMetricsStorageIcon) SetID(val OptString) {
 }
 
 type PatchedMetricsStorageUsage struct {
-	MetricsRoutings int64 `json:"metrics_routings"`
-	AlertRules      int64 `json:"alert_rules"`
-	LogMeasureRules int64 `json:"log_measure_rules"`
+	MetricsRoutings int `json:"metrics_routings"`
+	AlertRules      int `json:"alert_rules"`
+	LogMeasureRules int `json:"log_measure_rules"`
 }
 
 // GetMetricsRoutings returns the value of MetricsRoutings.
-func (s *PatchedMetricsStorageUsage) GetMetricsRoutings() int64 {
+func (s *PatchedMetricsStorageUsage) GetMetricsRoutings() int {
 	return s.MetricsRoutings
 }
 
 // GetAlertRules returns the value of AlertRules.
-func (s *PatchedMetricsStorageUsage) GetAlertRules() int64 {
+func (s *PatchedMetricsStorageUsage) GetAlertRules() int {
 	return s.AlertRules
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *PatchedMetricsStorageUsage) GetLogMeasureRules() int64 {
+func (s *PatchedMetricsStorageUsage) GetLogMeasureRules() int {
 	return s.LogMeasureRules
 }
 
 // SetMetricsRoutings sets the value of MetricsRoutings.
-func (s *PatchedMetricsStorageUsage) SetMetricsRoutings(val int64) {
+func (s *PatchedMetricsStorageUsage) SetMetricsRoutings(val int) {
 	s.MetricsRoutings = val
 }
 
 // SetAlertRules sets the value of AlertRules.
-func (s *PatchedMetricsStorageUsage) SetAlertRules(val int64) {
+func (s *PatchedMetricsStorageUsage) SetAlertRules(val int) {
 	s.AlertRules = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *PatchedMetricsStorageUsage) SetLogMeasureRules(val int64) {
+func (s *PatchedMetricsStorageUsage) SetLogMeasureRules(val int) {
 	s.LogMeasureRules = val
 }
 
@@ -7928,7 +8521,7 @@ type PatchedNotificationRouting struct {
 	NotificationTargetUID OptUUID               `json:"notification_target_uid"`
 	MatchLabels           []MatchLabelsItem     `json:"match_labels"`
 	ResendIntervalMinutes OptInt                `json:"resend_interval_minutes"`
-	Order                 OptInt64              `json:"order"`
+	Order                 OptInt                `json:"order"`
 }
 
 // GetUID returns the value of UID.
@@ -7962,7 +8555,7 @@ func (s *PatchedNotificationRouting) GetResendIntervalMinutes() OptInt {
 }
 
 // GetOrder returns the value of Order.
-func (s *PatchedNotificationRouting) GetOrder() OptInt64 {
+func (s *PatchedNotificationRouting) GetOrder() OptInt {
 	return s.Order
 }
 
@@ -7997,7 +8590,7 @@ func (s *PatchedNotificationRouting) SetResendIntervalMinutes(val OptInt) {
 }
 
 // SetOrder sets the value of Order.
-func (s *PatchedNotificationRouting) SetOrder(val OptInt64) {
+func (s *PatchedNotificationRouting) SetOrder(val OptInt) {
 	s.Order = val
 }
 
@@ -8108,6 +8701,230 @@ func (s *PatchedNotificationTargetServiceType) UnmarshalText(data []byte) error 
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+// Ref: #/components/schemas/PatchedTraceStorage
+type PatchedTraceStorage struct {
+	ID                  OptInt64                        `json:"id"`
+	Name                OptString                       `json:"name"`
+	Description         OptString                       `json:"description"`
+	Tags                []string                        `json:"tags"`
+	Icon                OptNilPatchedTraceStorageIcon   `json:"icon"`
+	RetentionPeriodDays OptInt                          `json:"retention_period_days"`
+	CreatedAt           OptDateTime                     `json:"created_at"`
+	Endpoints           OptPatchedTraceStorageEndpoints `json:"endpoints"`
+	AccountID           OptString                       `json:"account_id"`
+	ResourceID          OptInt64                        `json:"resource_id"`
+}
+
+// GetID returns the value of ID.
+func (s *PatchedTraceStorage) GetID() OptInt64 {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *PatchedTraceStorage) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *PatchedTraceStorage) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *PatchedTraceStorage) GetTags() []string {
+	return s.Tags
+}
+
+// GetIcon returns the value of Icon.
+func (s *PatchedTraceStorage) GetIcon() OptNilPatchedTraceStorageIcon {
+	return s.Icon
+}
+
+// GetRetentionPeriodDays returns the value of RetentionPeriodDays.
+func (s *PatchedTraceStorage) GetRetentionPeriodDays() OptInt {
+	return s.RetentionPeriodDays
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *PatchedTraceStorage) GetCreatedAt() OptDateTime {
+	return s.CreatedAt
+}
+
+// GetEndpoints returns the value of Endpoints.
+func (s *PatchedTraceStorage) GetEndpoints() OptPatchedTraceStorageEndpoints {
+	return s.Endpoints
+}
+
+// GetAccountID returns the value of AccountID.
+func (s *PatchedTraceStorage) GetAccountID() OptString {
+	return s.AccountID
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *PatchedTraceStorage) GetResourceID() OptInt64 {
+	return s.ResourceID
+}
+
+// SetID sets the value of ID.
+func (s *PatchedTraceStorage) SetID(val OptInt64) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *PatchedTraceStorage) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *PatchedTraceStorage) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *PatchedTraceStorage) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetIcon sets the value of Icon.
+func (s *PatchedTraceStorage) SetIcon(val OptNilPatchedTraceStorageIcon) {
+	s.Icon = val
+}
+
+// SetRetentionPeriodDays sets the value of RetentionPeriodDays.
+func (s *PatchedTraceStorage) SetRetentionPeriodDays(val OptInt) {
+	s.RetentionPeriodDays = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *PatchedTraceStorage) SetCreatedAt(val OptDateTime) {
+	s.CreatedAt = val
+}
+
+// SetEndpoints sets the value of Endpoints.
+func (s *PatchedTraceStorage) SetEndpoints(val OptPatchedTraceStorageEndpoints) {
+	s.Endpoints = val
+}
+
+// SetAccountID sets the value of AccountID.
+func (s *PatchedTraceStorage) SetAccountID(val OptString) {
+	s.AccountID = val
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *PatchedTraceStorage) SetResourceID(val OptInt64) {
+	s.ResourceID = val
+}
+
+// Ref: #/components/schemas/PatchedTraceStorageAccessKey
+type PatchedTraceStorageAccessKey struct {
+	UID    OptUUID   `json:"uid"`
+	Secret OptString `json:"secret"`
+	// Returns a token string for the access key.
+	Token       OptString `json:"token"`
+	Description OptString `json:"description"`
+}
+
+// GetUID returns the value of UID.
+func (s *PatchedTraceStorageAccessKey) GetUID() OptUUID {
+	return s.UID
+}
+
+// GetSecret returns the value of Secret.
+func (s *PatchedTraceStorageAccessKey) GetSecret() OptString {
+	return s.Secret
+}
+
+// GetToken returns the value of Token.
+func (s *PatchedTraceStorageAccessKey) GetToken() OptString {
+	return s.Token
+}
+
+// GetDescription returns the value of Description.
+func (s *PatchedTraceStorageAccessKey) GetDescription() OptString {
+	return s.Description
+}
+
+// SetUID sets the value of UID.
+func (s *PatchedTraceStorageAccessKey) SetUID(val OptUUID) {
+	s.UID = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *PatchedTraceStorageAccessKey) SetSecret(val OptString) {
+	s.Secret = val
+}
+
+// SetToken sets the value of Token.
+func (s *PatchedTraceStorageAccessKey) SetToken(val OptString) {
+	s.Token = val
+}
+
+// SetDescription sets the value of Description.
+func (s *PatchedTraceStorageAccessKey) SetDescription(val OptString) {
+	s.Description = val
+}
+
+type PatchedTraceStorageEndpoints struct {
+	Ingester PatchedTraceStorageEndpointsIngester `json:"ingester"`
+}
+
+// GetIngester returns the value of Ingester.
+func (s *PatchedTraceStorageEndpoints) GetIngester() PatchedTraceStorageEndpointsIngester {
+	return s.Ingester
+}
+
+// SetIngester sets the value of Ingester.
+func (s *PatchedTraceStorageEndpoints) SetIngester(val PatchedTraceStorageEndpointsIngester) {
+	s.Ingester = val
+}
+
+type PatchedTraceStorageEndpointsIngester struct {
+	Address  string  `json:"address"`
+	Insecure OptBool `json:"insecure"`
+}
+
+// GetAddress returns the value of Address.
+func (s *PatchedTraceStorageEndpointsIngester) GetAddress() string {
+	return s.Address
+}
+
+// GetInsecure returns the value of Insecure.
+func (s *PatchedTraceStorageEndpointsIngester) GetInsecure() OptBool {
+	return s.Insecure
+}
+
+// SetAddress sets the value of Address.
+func (s *PatchedTraceStorageEndpointsIngester) SetAddress(val string) {
+	s.Address = val
+}
+
+// SetInsecure sets the value of Insecure.
+func (s *PatchedTraceStorageEndpointsIngester) SetInsecure(val OptBool) {
+	s.Insecure = val
+}
+
+type PatchedTraceStorageIcon struct {
+	ID OptString `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *PatchedTraceStorageIcon) GetID() OptString {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *PatchedTraceStorageIcon) SetID(val OptString) {
+	s.ID = val
+}
+
+type PostProvisioningInitializeCreated Provisioning
+
+func (*PostProvisioningInitializeCreated) postProvisioningInitializeRes() {}
+
+type PostProvisioningInitializeOK Provisioning
+
+func (*PostProvisioningInitializeOK) postProvisioningInitializeRes() {}
 
 // Ref: #/components/schemas/Provisioning
 type Provisioning struct {
@@ -8375,16 +9192,16 @@ func (s *PublisherVariantSystem) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/ResourceItemLimits
 type ResourceItemLimits struct {
-	MaxUserCount int64 `json:"max_user_count"`
+	MaxUserCount int `json:"max_user_count"`
 }
 
 // GetMaxUserCount returns the value of MaxUserCount.
-func (s *ResourceItemLimits) GetMaxUserCount() int64 {
+func (s *ResourceItemLimits) GetMaxUserCount() int {
 	return s.MaxUserCount
 }
 
 // SetMaxUserCount sets the value of MaxUserCount.
-func (s *ResourceItemLimits) SetMaxUserCount(val int64) {
+func (s *ResourceItemLimits) SetMaxUserCount(val int) {
 	s.MaxUserCount = val
 }
 
@@ -8668,6 +9485,351 @@ func (s *StringFieldName) UnmarshalText(data []byte) error {
 		return nil
 	case StringFieldNameSakuracloudAccount:
 		*s = StringFieldNameSakuracloudAccount
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/TraceStorage
+type TraceStorage struct {
+	ID                  int64                 `json:"id"`
+	Name                OptString             `json:"name"`
+	Description         OptString             `json:"description"`
+	Tags                []string              `json:"tags"`
+	Icon                NilTraceStorageIcon   `json:"icon"`
+	RetentionPeriodDays int                   `json:"retention_period_days"`
+	CreatedAt           time.Time             `json:"created_at"`
+	Endpoints           TraceStorageEndpoints `json:"endpoints"`
+	AccountID           string                `json:"account_id"`
+	ResourceID          int64                 `json:"resource_id"`
+}
+
+// GetID returns the value of ID.
+func (s *TraceStorage) GetID() int64 {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *TraceStorage) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *TraceStorage) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *TraceStorage) GetTags() []string {
+	return s.Tags
+}
+
+// GetIcon returns the value of Icon.
+func (s *TraceStorage) GetIcon() NilTraceStorageIcon {
+	return s.Icon
+}
+
+// GetRetentionPeriodDays returns the value of RetentionPeriodDays.
+func (s *TraceStorage) GetRetentionPeriodDays() int {
+	return s.RetentionPeriodDays
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *TraceStorage) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetEndpoints returns the value of Endpoints.
+func (s *TraceStorage) GetEndpoints() TraceStorageEndpoints {
+	return s.Endpoints
+}
+
+// GetAccountID returns the value of AccountID.
+func (s *TraceStorage) GetAccountID() string {
+	return s.AccountID
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *TraceStorage) GetResourceID() int64 {
+	return s.ResourceID
+}
+
+// SetID sets the value of ID.
+func (s *TraceStorage) SetID(val int64) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *TraceStorage) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *TraceStorage) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *TraceStorage) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetIcon sets the value of Icon.
+func (s *TraceStorage) SetIcon(val NilTraceStorageIcon) {
+	s.Icon = val
+}
+
+// SetRetentionPeriodDays sets the value of RetentionPeriodDays.
+func (s *TraceStorage) SetRetentionPeriodDays(val int) {
+	s.RetentionPeriodDays = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *TraceStorage) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetEndpoints sets the value of Endpoints.
+func (s *TraceStorage) SetEndpoints(val TraceStorageEndpoints) {
+	s.Endpoints = val
+}
+
+// SetAccountID sets the value of AccountID.
+func (s *TraceStorage) SetAccountID(val string) {
+	s.AccountID = val
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *TraceStorage) SetResourceID(val int64) {
+	s.ResourceID = val
+}
+
+// Ref: #/components/schemas/TraceStorageAccessKey
+type TraceStorageAccessKey struct {
+	UID    uuid.UUID `json:"uid"`
+	Secret string    `json:"secret"`
+	// Returns a token string for the access key.
+	Token       string    `json:"token"`
+	Description OptString `json:"description"`
+}
+
+// GetUID returns the value of UID.
+func (s *TraceStorageAccessKey) GetUID() uuid.UUID {
+	return s.UID
+}
+
+// GetSecret returns the value of Secret.
+func (s *TraceStorageAccessKey) GetSecret() string {
+	return s.Secret
+}
+
+// GetToken returns the value of Token.
+func (s *TraceStorageAccessKey) GetToken() string {
+	return s.Token
+}
+
+// GetDescription returns the value of Description.
+func (s *TraceStorageAccessKey) GetDescription() OptString {
+	return s.Description
+}
+
+// SetUID sets the value of UID.
+func (s *TraceStorageAccessKey) SetUID(val uuid.UUID) {
+	s.UID = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *TraceStorageAccessKey) SetSecret(val string) {
+	s.Secret = val
+}
+
+// SetToken sets the value of Token.
+func (s *TraceStorageAccessKey) SetToken(val string) {
+	s.Token = val
+}
+
+// SetDescription sets the value of Description.
+func (s *TraceStorageAccessKey) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// Ref: #/components/schemas/TraceStorageCreate
+type TraceStorageCreate struct {
+	// * `shared` - 共有
+	// * `separated` - 分離.
+	Classification OptTraceStorageCreateClassification `json:"classification"`
+	Name           string                              `json:"name"`
+	Description    OptString                           `json:"description"`
+}
+
+// GetClassification returns the value of Classification.
+func (s *TraceStorageCreate) GetClassification() OptTraceStorageCreateClassification {
+	return s.Classification
+}
+
+// GetName returns the value of Name.
+func (s *TraceStorageCreate) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *TraceStorageCreate) GetDescription() OptString {
+	return s.Description
+}
+
+// SetClassification sets the value of Classification.
+func (s *TraceStorageCreate) SetClassification(val OptTraceStorageCreateClassification) {
+	s.Classification = val
+}
+
+// SetName sets the value of Name.
+func (s *TraceStorageCreate) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *TraceStorageCreate) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// * `shared` - 共有
+// * `separated` - 分離.
+type TraceStorageCreateClassification string
+
+const (
+	TraceStorageCreateClassificationShared    TraceStorageCreateClassification = "shared"
+	TraceStorageCreateClassificationSeparated TraceStorageCreateClassification = "separated"
+)
+
+// AllValues returns all TraceStorageCreateClassification values.
+func (TraceStorageCreateClassification) AllValues() []TraceStorageCreateClassification {
+	return []TraceStorageCreateClassification{
+		TraceStorageCreateClassificationShared,
+		TraceStorageCreateClassificationSeparated,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TraceStorageCreateClassification) MarshalText() ([]byte, error) {
+	switch s {
+	case TraceStorageCreateClassificationShared:
+		return []byte(s), nil
+	case TraceStorageCreateClassificationSeparated:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TraceStorageCreateClassification) UnmarshalText(data []byte) error {
+	switch TraceStorageCreateClassification(data) {
+	case TraceStorageCreateClassificationShared:
+		*s = TraceStorageCreateClassificationShared
+		return nil
+	case TraceStorageCreateClassificationSeparated:
+		*s = TraceStorageCreateClassificationSeparated
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type TraceStorageEndpoints struct {
+	Ingester TraceStorageEndpointsIngester `json:"ingester"`
+}
+
+// GetIngester returns the value of Ingester.
+func (s *TraceStorageEndpoints) GetIngester() TraceStorageEndpointsIngester {
+	return s.Ingester
+}
+
+// SetIngester sets the value of Ingester.
+func (s *TraceStorageEndpoints) SetIngester(val TraceStorageEndpointsIngester) {
+	s.Ingester = val
+}
+
+type TraceStorageEndpointsIngester struct {
+	Address  string  `json:"address"`
+	Insecure OptBool `json:"insecure"`
+}
+
+// GetAddress returns the value of Address.
+func (s *TraceStorageEndpointsIngester) GetAddress() string {
+	return s.Address
+}
+
+// GetInsecure returns the value of Insecure.
+func (s *TraceStorageEndpointsIngester) GetInsecure() OptBool {
+	return s.Insecure
+}
+
+// SetAddress sets the value of Address.
+func (s *TraceStorageEndpointsIngester) SetAddress(val string) {
+	s.Address = val
+}
+
+// SetInsecure sets the value of Insecure.
+func (s *TraceStorageEndpointsIngester) SetInsecure(val OptBool) {
+	s.Insecure = val
+}
+
+type TraceStorageIcon struct {
+	ID OptString `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *TraceStorageIcon) GetID() OptString {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *TraceStorageIcon) SetID(val OptString) {
+	s.ID = val
+}
+
+// TracesStoragesDestroyNoContent is response for TracesStoragesDestroy operation.
+type TracesStoragesDestroyNoContent struct{}
+
+// TracesStoragesKeysDestroyNoContent is response for TracesStoragesKeysDestroy operation.
+type TracesStoragesKeysDestroyNoContent struct{}
+
+type TracesStoragesListLogStorageBucketClassification string
+
+const (
+	TracesStoragesListLogStorageBucketClassificationSeparated TracesStoragesListLogStorageBucketClassification = "separated"
+	TracesStoragesListLogStorageBucketClassificationShared    TracesStoragesListLogStorageBucketClassification = "shared"
+)
+
+// AllValues returns all TracesStoragesListLogStorageBucketClassification values.
+func (TracesStoragesListLogStorageBucketClassification) AllValues() []TracesStoragesListLogStorageBucketClassification {
+	return []TracesStoragesListLogStorageBucketClassification{
+		TracesStoragesListLogStorageBucketClassificationSeparated,
+		TracesStoragesListLogStorageBucketClassificationShared,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TracesStoragesListLogStorageBucketClassification) MarshalText() ([]byte, error) {
+	switch s {
+	case TracesStoragesListLogStorageBucketClassificationSeparated:
+		return []byte(s), nil
+	case TracesStoragesListLogStorageBucketClassificationShared:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TracesStoragesListLogStorageBucketClassification) UnmarshalText(data []byte) error {
+	switch TracesStoragesListLogStorageBucketClassification(data) {
+	case TracesStoragesListLogStorageBucketClassificationSeparated:
+		*s = TracesStoragesListLogStorageBucketClassificationSeparated
+		return nil
+	case TracesStoragesListLogStorageBucketClassificationShared:
+		*s = TracesStoragesListLogStorageBucketClassificationShared
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -9307,10 +10469,10 @@ type WrappedLogRouting struct {
 	// 対象リソースのID.
 	ResourceID    OptNilInt64 `json:"resource_id"`
 	Publisher     Publisher   `json:"publisher"`
-	PublisherCode string      `json:"publisher_code"`
+	PublisherCode OptString   `json:"publisher_code"`
 	Variant       string      `json:"variant"`
 	LogStorage    LogStorage  `json:"log_storage"`
-	LogStorageID  NilInt64    `json:"log_storage_id"`
+	LogStorageID  OptNilInt64 `json:"log_storage_id"`
 	CreatedAt     time.Time   `json:"created_at"`
 	UpdatedAt     time.Time   `json:"updated_at"`
 	IsOk          bool        `json:"is_ok"`
@@ -9337,7 +10499,7 @@ func (s *WrappedLogRouting) GetPublisher() Publisher {
 }
 
 // GetPublisherCode returns the value of PublisherCode.
-func (s *WrappedLogRouting) GetPublisherCode() string {
+func (s *WrappedLogRouting) GetPublisherCode() OptString {
 	return s.PublisherCode
 }
 
@@ -9352,7 +10514,7 @@ func (s *WrappedLogRouting) GetLogStorage() LogStorage {
 }
 
 // GetLogStorageID returns the value of LogStorageID.
-func (s *WrappedLogRouting) GetLogStorageID() NilInt64 {
+func (s *WrappedLogRouting) GetLogStorageID() OptNilInt64 {
 	return s.LogStorageID
 }
 
@@ -9392,7 +10554,7 @@ func (s *WrappedLogRouting) SetPublisher(val Publisher) {
 }
 
 // SetPublisherCode sets the value of PublisherCode.
-func (s *WrappedLogRouting) SetPublisherCode(val string) {
+func (s *WrappedLogRouting) SetPublisherCode(val OptString) {
 	s.PublisherCode = val
 }
 
@@ -9407,7 +10569,7 @@ func (s *WrappedLogRouting) SetLogStorage(val LogStorage) {
 }
 
 // SetLogStorageID sets the value of LogStorageID.
-func (s *WrappedLogRouting) SetLogStorageID(val NilInt64) {
+func (s *WrappedLogRouting) SetLogStorageID(val OptNilInt64) {
 	s.LogStorageID = val
 }
 
@@ -9699,27 +10861,27 @@ func (s *WrappedLogStorageIcon) SetID(val OptString) {
 }
 
 type WrappedLogStorageUsage struct {
-	LogRoutings     int64 `json:"log_routings"`
-	LogMeasureRules int64 `json:"log_measure_rules"`
+	LogRoutings     int `json:"log_routings"`
+	LogMeasureRules int `json:"log_measure_rules"`
 }
 
 // GetLogRoutings returns the value of LogRoutings.
-func (s *WrappedLogStorageUsage) GetLogRoutings() int64 {
+func (s *WrappedLogStorageUsage) GetLogRoutings() int {
 	return s.LogRoutings
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *WrappedLogStorageUsage) GetLogMeasureRules() int64 {
+func (s *WrappedLogStorageUsage) GetLogMeasureRules() int {
 	return s.LogMeasureRules
 }
 
 // SetLogRoutings sets the value of LogRoutings.
-func (s *WrappedLogStorageUsage) SetLogRoutings(val int64) {
+func (s *WrappedLogStorageUsage) SetLogRoutings(val int) {
 	s.LogRoutings = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *WrappedLogStorageUsage) SetLogMeasureRules(val int64) {
+func (s *WrappedLogStorageUsage) SetLogMeasureRules(val int) {
 	s.LogMeasureRules = val
 }
 
@@ -9731,10 +10893,10 @@ type WrappedMetricsRouting struct {
 	// 対象リソースのID.
 	ResourceID       OptNilInt64    `json:"resource_id"`
 	Publisher        Publisher      `json:"publisher"`
-	PublisherCode    string         `json:"publisher_code"`
+	PublisherCode    OptString      `json:"publisher_code"`
 	Variant          string         `json:"variant"`
 	MetricsStorage   MetricsStorage `json:"metrics_storage"`
-	MetricsStorageID NilInt64       `json:"metrics_storage_id"`
+	MetricsStorageID OptNilInt64    `json:"metrics_storage_id"`
 	CreatedAt        time.Time      `json:"created_at"`
 	UpdatedAt        time.Time      `json:"updated_at"`
 	IsOk             bool           `json:"is_ok"`
@@ -9761,7 +10923,7 @@ func (s *WrappedMetricsRouting) GetPublisher() Publisher {
 }
 
 // GetPublisherCode returns the value of PublisherCode.
-func (s *WrappedMetricsRouting) GetPublisherCode() string {
+func (s *WrappedMetricsRouting) GetPublisherCode() OptString {
 	return s.PublisherCode
 }
 
@@ -9776,7 +10938,7 @@ func (s *WrappedMetricsRouting) GetMetricsStorage() MetricsStorage {
 }
 
 // GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *WrappedMetricsRouting) GetMetricsStorageID() NilInt64 {
+func (s *WrappedMetricsRouting) GetMetricsStorageID() OptNilInt64 {
 	return s.MetricsStorageID
 }
 
@@ -9816,7 +10978,7 @@ func (s *WrappedMetricsRouting) SetPublisher(val Publisher) {
 }
 
 // SetPublisherCode sets the value of PublisherCode.
-func (s *WrappedMetricsRouting) SetPublisherCode(val string) {
+func (s *WrappedMetricsRouting) SetPublisherCode(val OptString) {
 	s.PublisherCode = val
 }
 
@@ -9831,7 +10993,7 @@ func (s *WrappedMetricsRouting) SetMetricsStorage(val MetricsStorage) {
 }
 
 // SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *WrappedMetricsRouting) SetMetricsStorageID(val NilInt64) {
+func (s *WrappedMetricsRouting) SetMetricsStorageID(val OptNilInt64) {
 	s.MetricsStorageID = val
 }
 
@@ -10098,38 +11260,38 @@ func (s *WrappedMetricsStorageIcon) SetID(val OptString) {
 }
 
 type WrappedMetricsStorageUsage struct {
-	MetricsRoutings int64 `json:"metrics_routings"`
-	AlertRules      int64 `json:"alert_rules"`
-	LogMeasureRules int64 `json:"log_measure_rules"`
+	MetricsRoutings int `json:"metrics_routings"`
+	AlertRules      int `json:"alert_rules"`
+	LogMeasureRules int `json:"log_measure_rules"`
 }
 
 // GetMetricsRoutings returns the value of MetricsRoutings.
-func (s *WrappedMetricsStorageUsage) GetMetricsRoutings() int64 {
+func (s *WrappedMetricsStorageUsage) GetMetricsRoutings() int {
 	return s.MetricsRoutings
 }
 
 // GetAlertRules returns the value of AlertRules.
-func (s *WrappedMetricsStorageUsage) GetAlertRules() int64 {
+func (s *WrappedMetricsStorageUsage) GetAlertRules() int {
 	return s.AlertRules
 }
 
 // GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *WrappedMetricsStorageUsage) GetLogMeasureRules() int64 {
+func (s *WrappedMetricsStorageUsage) GetLogMeasureRules() int {
 	return s.LogMeasureRules
 }
 
 // SetMetricsRoutings sets the value of MetricsRoutings.
-func (s *WrappedMetricsStorageUsage) SetMetricsRoutings(val int64) {
+func (s *WrappedMetricsStorageUsage) SetMetricsRoutings(val int) {
 	s.MetricsRoutings = val
 }
 
 // SetAlertRules sets the value of AlertRules.
-func (s *WrappedMetricsStorageUsage) SetAlertRules(val int64) {
+func (s *WrappedMetricsStorageUsage) SetAlertRules(val int) {
 	s.AlertRules = val
 }
 
 // SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *WrappedMetricsStorageUsage) SetLogMeasureRules(val int64) {
+func (s *WrappedMetricsStorageUsage) SetLogMeasureRules(val int) {
 	s.LogMeasureRules = val
 }
 
@@ -10179,4 +11341,242 @@ func (s *WrappedPublisher) SetVariants(val []PublisherVariant) {
 // SetIsOk sets the value of IsOk.
 func (s *WrappedPublisher) SetIsOk(val bool) {
 	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedTraceStorage
+type WrappedTraceStorage struct {
+	ID                  int64                        `json:"id"`
+	Name                OptString                    `json:"name"`
+	Description         OptString                    `json:"description"`
+	Tags                []string                     `json:"tags"`
+	Icon                NilWrappedTraceStorageIcon   `json:"icon"`
+	RetentionPeriodDays int                          `json:"retention_period_days"`
+	CreatedAt           time.Time                    `json:"created_at"`
+	Endpoints           WrappedTraceStorageEndpoints `json:"endpoints"`
+	AccountID           string                       `json:"account_id"`
+	ResourceID          int64                        `json:"resource_id"`
+	IsOk                bool                         `json:"is_ok"`
+}
+
+// GetID returns the value of ID.
+func (s *WrappedTraceStorage) GetID() int64 {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *WrappedTraceStorage) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *WrappedTraceStorage) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *WrappedTraceStorage) GetTags() []string {
+	return s.Tags
+}
+
+// GetIcon returns the value of Icon.
+func (s *WrappedTraceStorage) GetIcon() NilWrappedTraceStorageIcon {
+	return s.Icon
+}
+
+// GetRetentionPeriodDays returns the value of RetentionPeriodDays.
+func (s *WrappedTraceStorage) GetRetentionPeriodDays() int {
+	return s.RetentionPeriodDays
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *WrappedTraceStorage) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetEndpoints returns the value of Endpoints.
+func (s *WrappedTraceStorage) GetEndpoints() WrappedTraceStorageEndpoints {
+	return s.Endpoints
+}
+
+// GetAccountID returns the value of AccountID.
+func (s *WrappedTraceStorage) GetAccountID() string {
+	return s.AccountID
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *WrappedTraceStorage) GetResourceID() int64 {
+	return s.ResourceID
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedTraceStorage) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetID sets the value of ID.
+func (s *WrappedTraceStorage) SetID(val int64) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *WrappedTraceStorage) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *WrappedTraceStorage) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *WrappedTraceStorage) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetIcon sets the value of Icon.
+func (s *WrappedTraceStorage) SetIcon(val NilWrappedTraceStorageIcon) {
+	s.Icon = val
+}
+
+// SetRetentionPeriodDays sets the value of RetentionPeriodDays.
+func (s *WrappedTraceStorage) SetRetentionPeriodDays(val int) {
+	s.RetentionPeriodDays = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *WrappedTraceStorage) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetEndpoints sets the value of Endpoints.
+func (s *WrappedTraceStorage) SetEndpoints(val WrappedTraceStorageEndpoints) {
+	s.Endpoints = val
+}
+
+// SetAccountID sets the value of AccountID.
+func (s *WrappedTraceStorage) SetAccountID(val string) {
+	s.AccountID = val
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *WrappedTraceStorage) SetResourceID(val int64) {
+	s.ResourceID = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedTraceStorage) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedTraceStorageAccessKey
+type WrappedTraceStorageAccessKey struct {
+	UID    uuid.UUID `json:"uid"`
+	Secret string    `json:"secret"`
+	// Returns a token string for the access key.
+	Token       string    `json:"token"`
+	Description OptString `json:"description"`
+	IsOk        bool      `json:"is_ok"`
+}
+
+// GetUID returns the value of UID.
+func (s *WrappedTraceStorageAccessKey) GetUID() uuid.UUID {
+	return s.UID
+}
+
+// GetSecret returns the value of Secret.
+func (s *WrappedTraceStorageAccessKey) GetSecret() string {
+	return s.Secret
+}
+
+// GetToken returns the value of Token.
+func (s *WrappedTraceStorageAccessKey) GetToken() string {
+	return s.Token
+}
+
+// GetDescription returns the value of Description.
+func (s *WrappedTraceStorageAccessKey) GetDescription() OptString {
+	return s.Description
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedTraceStorageAccessKey) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetUID sets the value of UID.
+func (s *WrappedTraceStorageAccessKey) SetUID(val uuid.UUID) {
+	s.UID = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *WrappedTraceStorageAccessKey) SetSecret(val string) {
+	s.Secret = val
+}
+
+// SetToken sets the value of Token.
+func (s *WrappedTraceStorageAccessKey) SetToken(val string) {
+	s.Token = val
+}
+
+// SetDescription sets the value of Description.
+func (s *WrappedTraceStorageAccessKey) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedTraceStorageAccessKey) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+type WrappedTraceStorageEndpoints struct {
+	Ingester WrappedTraceStorageEndpointsIngester `json:"ingester"`
+}
+
+// GetIngester returns the value of Ingester.
+func (s *WrappedTraceStorageEndpoints) GetIngester() WrappedTraceStorageEndpointsIngester {
+	return s.Ingester
+}
+
+// SetIngester sets the value of Ingester.
+func (s *WrappedTraceStorageEndpoints) SetIngester(val WrappedTraceStorageEndpointsIngester) {
+	s.Ingester = val
+}
+
+type WrappedTraceStorageEndpointsIngester struct {
+	Address  string  `json:"address"`
+	Insecure OptBool `json:"insecure"`
+}
+
+// GetAddress returns the value of Address.
+func (s *WrappedTraceStorageEndpointsIngester) GetAddress() string {
+	return s.Address
+}
+
+// GetInsecure returns the value of Insecure.
+func (s *WrappedTraceStorageEndpointsIngester) GetInsecure() OptBool {
+	return s.Insecure
+}
+
+// SetAddress sets the value of Address.
+func (s *WrappedTraceStorageEndpointsIngester) SetAddress(val string) {
+	s.Address = val
+}
+
+// SetInsecure sets the value of Insecure.
+func (s *WrappedTraceStorageEndpointsIngester) SetInsecure(val OptBool) {
+	s.Insecure = val
+}
+
+type WrappedTraceStorageIcon struct {
+	ID OptString `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *WrappedTraceStorageIcon) GetID() OptString {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *WrappedTraceStorageIcon) SetID(val OptString) {
+	s.ID = val
 }
