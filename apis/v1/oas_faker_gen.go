@@ -1060,7 +1060,7 @@ func (s *NotificationRouting) SetFake() {
 	}
 	{
 		{
-			s.NotificationTargetUID = uuid.New()
+			s.NotificationTargetUID.SetFake()
 		}
 	}
 	{
@@ -1082,7 +1082,7 @@ func (s *NotificationRouting) SetFake() {
 	}
 	{
 		{
-			s.Order = int(0)
+			s.Order.SetFake()
 		}
 	}
 }
