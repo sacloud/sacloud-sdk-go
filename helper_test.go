@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"os"
 	"testing"
 	"time"
@@ -154,6 +155,50 @@ func WithLogStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.LogSt
 		require.NoError(t, err)
 	})
 	return ret
+}
+
+func WithTraceStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.TraceStorage {
+	op := NewTracesStorageOp(cli)
+
+	ret, err := op.Create(ctx, TracesStorageCreateParams{
+		Name:           testutil.RandomName("test-trace-storage-", 16, testutil.CharSetAlphaNum),
+		Description:    ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+		Classification: ref(v1.TraceStorageCreateClassificationShared),
+	})
+	require.NoError(t, err)
+	require.NotNil(t, ret)
+
+	id := ret.GetResourceID()
+
+	t.Cleanup(func() {
+		tid := fmt.Sprintf("%d", id)
+		err := op.Delete(ctx, tid)
+		require.NoError(t, err)
+	})
+	return ret
+}
+
+func WithNotificationTarget(t *testing.T, cli *v1.Client, ctx context.Context, pid int64) *v1.NotificationTarget {
+	op := NewNotificationTargetOp(cli)
+	id := fmt.Sprintf("%d", pid)
+
+	url, _ := url.Parse("https://example.com/-/c/a/n/-/y/o/u/-/h/e/a/r/-/m/e/-/?")
+	createParams := NotificationTargetCreateParams{
+		ServiceType: v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE,
+		URL:         *url,
+	}
+	created, err := op.Create(ctx, id, createParams)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+
+	// Cleanup
+	t.Cleanup(func() {
+		nid := created.GetUID()
+		err := op.Delete(ctx, id, nid)
+		require.NoError(t, err)
+	})
+
+	return created
 }
 
 // generic-ish type cast helper function
@@ -356,6 +401,15 @@ var TemplateNotificationTarget = func() v1.NotificationTarget {
 	return ret
 }()
 
+var TemplateNotificationRouting = func() v1.NotificationRouting {
+	var ret v1.NotificationRouting
+
+	ret.SetFake()
+	ret.SetProjectID(v1.NewNilInt64(^0))
+	ret.SetMatchLabels([]v1.MatchLabelsItem{})
+	return ret
+}()
+
 var TemplateHistory = func() v1.History {
 	var ret v1.History
 
@@ -367,5 +421,49 @@ var TemplateAlertRule = func() v1.AlertRule {
 	var ret v1.AlertRule
 
 	ret.SetFake()
+	return ret
+}()
+
+var TemplateTraceStorage = func() v1.TraceStorage {
+	var ret v1.TraceStorage
+
+	ret.SetFake()
+	ret.SetID(^0)
+	ret.SetTags(TemplateTags)
+	ret.SetCreatedAt(TemplateTime)
+	return ret
+}()
+
+var TemplateWrappedTraceStorage = func() v1.WrappedTraceStorage {
+	var ret v1.WrappedTraceStorage
+
+	ret.SetFake()
+	ret.SetID(^0)
+	ret.SetTags(TemplateTags)
+	ret.SetCreatedAt(TemplateTime)
+	return ret
+}()
+
+var TemplateTraceStorageAccessKey = func() v1.TraceStorageAccessKey {
+	var ret v1.TraceStorageAccessKey
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateWrappedTraceStorageAccessKey = func() v1.WrappedTraceStorageAccessKey {
+	var ret v1.WrappedTraceStorageAccessKey
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateLogMeasureRule = func() v1.LogMeasureRule {
+	var ret v1.LogMeasureRule
+
+	ret.SetFake()
+	ret.SetLogStorage(TemplateLogStorage)
+	ret.SetMetricsStorage(TemplateMetricsStorage)
+	ret.Rule.Query.SetMatchers([]v1.FieldMatcher{})
 	return ret
 }()

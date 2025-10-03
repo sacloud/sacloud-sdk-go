@@ -4562,9 +4562,7 @@
           "created_at",
           "id",
           "log_storage",
-          "log_storage_id",
           "metrics_storage",
-          "metrics_storage_id",
           "project_id",
           "rule",
           "uid",
@@ -5235,8 +5233,6 @@
         "required": [
           "match_labels",
           "notification_target",
-          "notification_target_uid",
-          "order",
           "project_id",
           "uid"
         ]

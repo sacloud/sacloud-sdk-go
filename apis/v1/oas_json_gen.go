@@ -2114,16 +2114,20 @@ func (s *LogMeasureRule) encodeFields(e *jx.Encoder) {
 		s.LogStorage.Encode(e)
 	}
 	{
-		e.FieldStart("log_storage_id")
-		s.LogStorageID.Encode(e)
+		if s.LogStorageID.Set {
+			e.FieldStart("log_storage_id")
+			s.LogStorageID.Encode(e)
+		}
 	}
 	{
 		e.FieldStart("metrics_storage")
 		s.MetricsStorage.Encode(e)
 	}
 	{
-		e.FieldStart("metrics_storage_id")
-		s.MetricsStorageID.Encode(e)
+		if s.MetricsStorageID.Set {
+			e.FieldStart("metrics_storage_id")
+			s.MetricsStorageID.Encode(e)
+		}
 	}
 	{
 		e.FieldStart("rule")
@@ -2228,8 +2232,8 @@ func (s *LogMeasureRule) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"log_storage\"")
 			}
 		case "log_storage_id":
-			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
+				s.LogStorageID.Reset()
 				if err := s.LogStorageID.Decode(d); err != nil {
 					return err
 				}
@@ -2248,8 +2252,8 @@ func (s *LogMeasureRule) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"metrics_storage\"")
 			}
 		case "metrics_storage_id":
-			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
+				s.MetricsStorageID.Reset()
 				if err := s.MetricsStorageID.Decode(d); err != nil {
 					return err
 				}
@@ -2301,8 +2305,8 @@ func (s *LogMeasureRule) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
-		0b11100111,
-		0b00001111,
+		0b10100111,
+		0b00001110,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -5917,8 +5921,10 @@ func (s *NotificationRouting) encodeFields(e *jx.Encoder) {
 		s.NotificationTarget.Encode(e)
 	}
 	{
-		e.FieldStart("notification_target_uid")
-		json.EncodeUUID(e, s.NotificationTargetUID)
+		if s.NotificationTargetUID.Set {
+			e.FieldStart("notification_target_uid")
+			s.NotificationTargetUID.Encode(e)
+		}
 	}
 	{
 		e.FieldStart("match_labels")
@@ -5935,8 +5941,10 @@ func (s *NotificationRouting) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
-		e.FieldStart("order")
-		e.Int(s.Order)
+		if s.Order.Set {
+			e.FieldStart("order")
+			s.Order.Encode(e)
+		}
 	}
 }
 
@@ -5992,11 +6000,9 @@ func (s *NotificationRouting) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"notification_target\"")
 			}
 		case "notification_target_uid":
-			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				v, err := json.DecodeUUID(d)
-				s.NotificationTargetUID = v
-				if err != nil {
+				s.NotificationTargetUID.Reset()
+				if err := s.NotificationTargetUID.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -6032,11 +6038,9 @@ func (s *NotificationRouting) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"resend_interval_minutes\"")
 			}
 		case "order":
-			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
-				v, err := d.Int()
-				s.Order = int(v)
-				if err != nil {
+				s.Order.Reset()
+				if err := s.Order.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -6053,7 +6057,7 @@ func (s *NotificationRouting) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b01011111,
+		0b00010111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.

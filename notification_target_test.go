@@ -179,24 +179,9 @@ func TestNotificationTargetIntegrated(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 	project := WithAlertProject(t, client, ctx)
+	created := WithNotificationTarget(t, client, ctx, project.GetID())
 	id := fmt.Sprintf("%d", project.GetID())
-
-	// Create
-	url, _ := url.Parse("https://example.com/-/c/a/n/-/y/o/u/-/h/e/a/r/-/m/e/-/?")
-	createParams := NotificationTargetCreateParams{
-		ServiceType: v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE,
-		URL:         *url,
-	}
-	created, err := api.Create(ctx, id, createParams)
-	require.NoError(t, err)
-	require.NotNil(t, created)
 	nid := created.GetUID()
-
-	// Cleanup
-	t.Cleanup(func() {
-		err := api.Delete(ctx, id, nid)
-		require.NoError(t, err)
-	})
 
 	// Read
 	read, err := api.Read(ctx, id, nid)
