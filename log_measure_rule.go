@@ -50,7 +50,7 @@ func NewLogMeasureRuleOp(client *v1.Client) LogMeasureRuleAPI {
 func (op *logMeasureRuleOp) List(ctx context.Context, projectId string, count *int, from *int) ([]v1.LogMeasureRule, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.List", 0, errors.Wrap(err, "invalid projectID"))
+		return nil, NewError("LogMeasureRule.List", err)
 	}
 	params := v1.AlertsProjectsLogMeasureRulesListParams{
 		ProjectResourceID: pid,
@@ -85,15 +85,15 @@ type LogMeasureRuleCreateParams struct {
 func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogMeasureRuleCreateParams) (*v1.LogMeasureRule, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Create", 0, errors.Wrap(err, "invalid projectID"))
+		return nil, NewError("LogMeasureRule.Create", err)
 	}
 	lid, err := strconv.ParseInt(p.LogStorageID, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Create", 0, errors.Wrap(err, "invalid LogStorageID"))
+		return nil, NewError("LogMeasureRule.Create", err)
 	}
 	mid, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Create", 0, errors.Wrap(err, "invalid MetricsStorageID"))
+		return nil, NewError("LogMeasureRule.Create", err)
 	}
 	params := &v1.LogMeasureRule{
 		LogStorageID:     v1.NewOptNilInt64(lid),
@@ -134,7 +134,7 @@ func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogM
 func (op *logMeasureRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.LogMeasureRule, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Read", 0, errors.Wrap(err, "invalid projectID"))
+		return nil, NewError("LogMeasureRule.Read", err)
 	}
 	query := v1.AlertsProjectsLogMeasureRulesRetrieveParams{
 		ProjectResourceID: pid,
@@ -167,7 +167,7 @@ type LogMeasureRuleUpdateParams struct {
 func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p LogMeasureRuleUpdateParams) (*v1.LogMeasureRule, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Update", 0, errors.Wrap(err, "invalid projectID"))
+		return nil, NewError("LogMeasureRule.Update", err)
 	}
 	query := v1.AlertsProjectsLogMeasureRulesPartialUpdateParams{
 		ProjectResourceID: pid,
@@ -175,11 +175,11 @@ func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId
 	}
 	lid, err := fromStringPtr[v1.OptNilInt64, int64](p.LogStorageID)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Update", 0, errors.Wrap(err, "invalid LogStorageID"))
+		return nil, NewError("LogMeasureRule.Update", err)
 	}
 	mid, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Update", 0, errors.Wrap(err, "invalid MetricsStorageID"))
+		return nil, NewError("LogMeasureRule.Update", err)
 	}
 	params := v1.NewOptPatchedLogMeasureRule(v1.PatchedLogMeasureRule{
 		LogStorageID:     lid,
@@ -209,7 +209,7 @@ func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId
 func (op *logMeasureRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return NewAPIError("LogMeasureRule.Delete", 0, errors.Wrap(err, "invalid projectID"))
+		return NewError("LogMeasureRule.Delete", err)
 	}
 	query := v1.AlertsProjectsLogMeasureRulesDestroyParams{
 		ProjectResourceID: pid,
@@ -245,7 +245,7 @@ type LogMeasureRuleListHistoriesParams struct {
 func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string, params LogMeasureRuleListHistoriesParams) ([]v1.History, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.ListHistories", 0, errors.Wrap(err, "invalid projectID"))
+		return nil, NewError("LogMeasureRule.ListHistories", err)
 	}
 	apiParams := v1.AlertsProjectsHistoriesListParams{
 		ProjectResourceID: pid,
@@ -275,7 +275,7 @@ func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string,
 func (op *logMeasureRuleOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogMeasureRule.ReadHistory", 0, errors.Wrap(err, "invalid projectID"))
+		return nil, NewError("LogMeasureRule.ReadHistory", err)
 	}
 	query := v1.AlertsProjectsHistoriesRetrieveParams{
 		ProjectResourceID: pid,

@@ -47,7 +47,7 @@ func NewNotificationRoutingOp(client *v1.Client) NotificationRoutingAPI {
 func (op *notificationRoutingOp) List(ctx context.Context, projectId string, count, from *int) ([]v1.NotificationRouting, error) {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationRouting.List", 0, errors.Wrap(err, "invalid projectId"))
+		return nil, NewError("NotificationRouting.List", err)
 	}
 	params := v1.AlertsProjectsNotificationRoutingsListParams{
 		ProjectResourceID: id,
@@ -79,7 +79,7 @@ type NotificationRoutingCreateParams struct {
 func (op *notificationRoutingOp) Create(ctx context.Context, projectId string, params NotificationRoutingCreateParams) (*v1.NotificationRouting, error) {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationRouting.Create", 0, errors.Wrap(err, "invalid projectId"))
+		return nil, NewError("NotificationRouting.Create", err)
 	}
 	createParams := v1.AlertsProjectsNotificationRoutingsCreateParams{ProjectResourceID: id}
 	req := v1.NotificationRouting{
@@ -119,7 +119,7 @@ type NotificationRoutingUpdateParams struct {
 func (op *notificationRoutingOp) Update(ctx context.Context, projectId string, uid uuid.UUID, params NotificationRoutingUpdateParams) (*v1.NotificationRouting, error) {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationRouting.Update", 0, errors.Wrap(err, "invalid projectId"))
+		return nil, NewError("NotificationRouting.Update", err)
 	}
 	updateParams := v1.AlertsProjectsNotificationRoutingsPartialUpdateParams{
 		ProjectResourceID: id,
@@ -151,7 +151,7 @@ func (op *notificationRoutingOp) Update(ctx context.Context, projectId string, u
 func (op *notificationRoutingOp) Read(ctx context.Context, projectId string, uid uuid.UUID) (*v1.NotificationRouting, error) {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationRouting.Read", 0, errors.Wrap(err, "invalid projectId"))
+		return nil, NewError("NotificationRouting.Read", err)
 	}
 	params := v1.AlertsProjectsNotificationRoutingsRetrieveParams{
 		ProjectResourceID: id,
@@ -178,7 +178,7 @@ func (op *notificationRoutingOp) Read(ctx context.Context, projectId string, uid
 func (op *notificationRoutingOp) Delete(ctx context.Context, projectId string, uid uuid.UUID) error {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return NewAPIError("NotificationRouting.Delete", 0, errors.Wrap(err, "invalid projectId"))
+		return NewError("NotificationRouting.Delete", err)
 	}
 	params := v1.AlertsProjectsNotificationRoutingsDestroyParams{
 		ProjectResourceID: id,
@@ -203,7 +203,7 @@ func (op *notificationRoutingOp) Delete(ctx context.Context, projectId string, u
 func (op *notificationRoutingOp) Reorder(ctx context.Context, projectId string, orders []v1.NotificationRoutingOrder) error {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return NewAPIError("NotificationRouting.Reorder", 0, errors.Wrap(err, "invalid projectId"))
+		return NewError("NotificationRouting.Reorder", err)
 	}
 	params := v1.AlertsProjectsNotificationRoutingsReorderUpdateParams{
 		ProjectResourceID: id,

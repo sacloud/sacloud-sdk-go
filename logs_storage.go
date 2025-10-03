@@ -62,7 +62,7 @@ type LogsStoragesListParams struct {
 func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) ([]v1.LogStorage, error) {
 	id, err := fromStringPtr[v1.OptInt64, int64](p.ResourceID)
 	if err != nil {
-		return nil, NewAPIError("LogsStorage.List", 0, err)
+		return nil, NewError("LogsStorage.List", err)
 	}
 	params := v1.LogsStoragesListParams{
 		AccountID:            intoOpt[v1.OptString](p.AccountID),
@@ -91,7 +91,7 @@ func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) ([]
 func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogStorage, error) {
 	id, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogsStorage.Read", 0, err)
+		return nil, NewError("LogsStorage.Read", err)
 	}
 	params := v1.LogsStoragesRetrieveParams{ResourceID: id}
 	result, err := op.client.LogsStoragesRetrieve(ctx, params)
@@ -157,7 +157,7 @@ func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpda
 	}
 	rid, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogsStorage.Update", 0, err)
+		return nil, NewError("LogsStorage.Update", err)
 	}
 	params := v1.LogsStoragesPartialUpdateParams{ResourceID: rid}
 	body := v1.NewOptPatchedLogStorage(resource)
@@ -182,7 +182,7 @@ func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpda
 func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 	rid, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return NewAPIError("LogsStorage.Delete", 0, err)
+		return NewError("LogsStorage.Delete", err)
 	}
 	params := v1.LogsStoragesDestroyParams{ResourceID: rid}
 	err = op.client.LogsStoragesDestroy(ctx, params)
@@ -204,7 +204,7 @@ func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogsStorage.ListKeys", 0, err)
+		return nil, NewError("LogsStorage.ListKeys", err)
 	}
 	params := v1.LogsStoragesKeysListParams{
 		Count:         intoOpt[v1.OptInt](count),
@@ -232,7 +232,7 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, de
 	}
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogsStorage.CreateKey", 0, err)
+		return nil, NewError("LogsStorage.CreateKey", err)
 	}
 	params := v1.LogsStoragesKeysCreateParams{LogResourceID: rid}
 	opt := v1.NewOptLogStorageAccessKey(request)
@@ -259,7 +259,7 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, de
 func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id uuid.UUID) (*v1.LogStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
+		return nil, NewError("LogsStorage.ReadKey", err)
 	}
 	params := v1.LogsStoragesKeysRetrieveParams{LogResourceID: rid, UID: id}
 	result, err := op.client.LogsStoragesKeysRetrieve(ctx, params)
@@ -287,7 +287,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 	}
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
+		return nil, NewError("LogsStorage.UpdateKey", err)
 	}
 	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: rid, UID: id}
 	opt := v1.NewOptLogStorageAccessKey(request)
@@ -312,7 +312,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId string, id uuid.UUID) error {
 	rid, err := strconv.ParseInt(logResourceId, 10, 64)
 	if err != nil {
-		return NewAPIError("LogsStorage.DeleteKey", 0, err)
+		return NewError("LogsStorage.DeleteKey", err)
 	}
 	params := v1.LogsStoragesKeysDestroyParams{LogResourceID: rid, UID: id}
 	err = op.client.LogsStoragesKeysDestroy(ctx, params)
