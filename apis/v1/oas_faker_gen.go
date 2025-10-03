@@ -509,7 +509,7 @@ func (s *LogRouting) SetFake() {
 	}
 	{
 		{
-			s.PublisherCode = "string"
+			s.PublisherCode.SetFake()
 		}
 	}
 	{
@@ -704,12 +704,12 @@ func (s *LogStorageIcon) SetFake() {
 func (s *LogStorageUsage) SetFake() {
 	{
 		{
-			s.LogRoutings = int64(0)
+			s.LogRoutings = int(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int64(0)
+			s.LogMeasureRules = int(0)
 		}
 	}
 }
@@ -800,7 +800,7 @@ func (s *MetricsRouting) SetFake() {
 	}
 	{
 		{
-			s.PublisherCode = "string"
+			s.PublisherCode.SetFake()
 		}
 	}
 	{
@@ -971,17 +971,17 @@ func (s *MetricsStorageIcon) SetFake() {
 func (s *MetricsStorageUsage) SetFake() {
 	{
 		{
-			s.MetricsRoutings = int64(0)
+			s.MetricsRoutings = int(0)
 		}
 	}
 	{
 		{
-			s.AlertRules = int64(0)
+			s.AlertRules = int(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int64(0)
+			s.LogMeasureRules = int(0)
 		}
 	}
 }
@@ -1012,6 +1012,11 @@ func (s *NilMetricsStorageIcon) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *NilTraceStorageIcon) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
 func (s *NilWrappedAlertProjectIcon) SetFake() {
 	s.Null = true
 }
@@ -1028,6 +1033,11 @@ func (s *NilWrappedLogStorageIcon) SetFake() {
 
 // SetFake set fake values.
 func (s *NilWrappedMetricsStorageIcon) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
+func (s *NilWrappedTraceStorageIcon) SetFake() {
 	s.Null = true
 }
 
@@ -1072,7 +1082,7 @@ func (s *NotificationRouting) SetFake() {
 	}
 	{
 		{
-			s.Order = int64(0)
+			s.Order = int(0)
 		}
 	}
 }
@@ -1086,7 +1096,7 @@ func (s *NotificationRoutingOrder) SetFake() {
 	}
 	{
 		{
-			s.Order = int64(0)
+			s.Order = int(0)
 		}
 	}
 }
@@ -1339,6 +1349,12 @@ func (s *OptNilPatchedMetricsStorageIcon) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptNilPatchedTraceStorageIcon) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
 func (s *OptNilString) SetFake() {
 	s.Null = true
 	s.Set = true
@@ -1507,6 +1523,33 @@ func (s *OptPatchedNotificationTargetServiceType) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptPatchedTraceStorage) SetFake() {
+	var elem PatchedTraceStorage
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptPatchedTraceStorageAccessKey) SetFake() {
+	var elem PatchedTraceStorageAccessKey
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptPatchedTraceStorageEndpoints) SetFake() {
+	var elem PatchedTraceStorageEndpoints
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
 func (s *OptProvisioningCreate) SetFake() {
 	var elem ProvisioningCreate
 	{
@@ -1538,6 +1581,33 @@ func (s *OptString) SetFake() {
 	var elem string
 	{
 		elem = "string"
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptTraceStorage) SetFake() {
+	var elem TraceStorage
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptTraceStorageAccessKey) SetFake() {
+	var elem TraceStorageAccessKey
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptTraceStorageCreateClassification) SetFake() {
+	var elem TraceStorageCreateClassification
+	{
+		elem.SetFake()
 	}
 	s.SetTo(elem)
 }
@@ -2077,6 +2147,78 @@ func (s *PaginatedPublisherList) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *PaginatedTraceStorageAccessKeyList) SetFake() {
+	{
+		{
+			s.Count = int64(0)
+		}
+	}
+	{
+		{
+			s.From = int64(0)
+		}
+	}
+	{
+		{
+			s.Total = int64(0)
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+	{
+		{
+			s.Results = nil
+			for i := 0; i < 0; i++ {
+				var elem TraceStorageAccessKey
+				{
+					elem.SetFake()
+				}
+				s.Results = append(s.Results, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *PaginatedTraceStorageList) SetFake() {
+	{
+		{
+			s.Count = int64(0)
+		}
+	}
+	{
+		{
+			s.From = int64(0)
+		}
+	}
+	{
+		{
+			s.Total = int64(0)
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+	{
+		{
+			s.Results = nil
+			for i := 0; i < 0; i++ {
+				var elem TraceStorage
+				{
+					elem.SetFake()
+				}
+				s.Results = append(s.Results, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *PatchedAlertProject) SetFake() {
 	{
 		{
@@ -2554,12 +2696,12 @@ func (s *PatchedLogStorageIcon) SetFake() {
 func (s *PatchedLogStorageUsage) SetFake() {
 	{
 		{
-			s.LogRoutings = int64(0)
+			s.LogRoutings = int(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int64(0)
+			s.LogMeasureRules = int(0)
 		}
 	}
 }
@@ -2740,17 +2882,17 @@ func (s *PatchedMetricsStorageIcon) SetFake() {
 func (s *PatchedMetricsStorageUsage) SetFake() {
 	{
 		{
-			s.MetricsRoutings = int64(0)
+			s.MetricsRoutings = int(0)
 		}
 	}
 	{
 		{
-			s.AlertRules = int64(0)
+			s.AlertRules = int(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int64(0)
+			s.LogMeasureRules = int(0)
 		}
 	}
 }
@@ -2842,6 +2984,141 @@ func (s *PatchedNotificationTargetConfig) SetFake() {
 // SetFake set fake values.
 func (s *PatchedNotificationTargetServiceType) SetFake() {
 	*s = PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE
+}
+
+// SetFake set fake values.
+func (s *PatchedTraceStorage) SetFake() {
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Tags = append(s.Tags, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Icon.SetFake()
+		}
+	}
+	{
+		{
+			s.RetentionPeriodDays.SetFake()
+		}
+	}
+	{
+		{
+			s.CreatedAt.SetFake()
+		}
+	}
+	{
+		{
+			s.Endpoints.SetFake()
+		}
+	}
+	{
+		{
+			s.AccountID.SetFake()
+		}
+	}
+	{
+		{
+			s.ResourceID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *PatchedTraceStorageAccessKey) SetFake() {
+	{
+		{
+			s.UID.SetFake()
+		}
+	}
+	{
+		{
+			s.Secret.SetFake()
+		}
+	}
+	{
+		{
+			s.Token.SetFake()
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *PatchedTraceStorageEndpoints) SetFake() {
+	{
+		{
+			s.Ingester.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *PatchedTraceStorageEndpointsIngester) SetFake() {
+	{
+		{
+			s.Address = "string"
+		}
+	}
+	{
+		{
+			s.Insecure.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *PatchedTraceStorageIcon) SetFake() {
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *PostProvisioningInitializeCreated) SetFake() {
+	var unwrapped Provisioning
+	{
+		unwrapped.SetFake()
+	}
+	*s = PostProvisioningInitializeCreated(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *PostProvisioningInitializeOK) SetFake() {
+	var unwrapped Provisioning
+	{
+		unwrapped.SetFake()
+	}
+	*s = PostProvisioningInitializeOK(unwrapped)
 }
 
 // SetFake set fake values.
@@ -2955,7 +3232,7 @@ func (s *PublisherVariantSystem) SetFake() {
 func (s *ResourceItemLimits) SetFake() {
 	{
 		{
-			s.MaxUserCount = int64(0)
+			s.MaxUserCount = int(0)
 		}
 	}
 }
@@ -3028,6 +3305,147 @@ func (s *StrMatcher) SetFake() {
 // SetFake set fake values.
 func (s *StringFieldName) SetFake() {
 	*s = StringFieldNameLogName
+}
+
+// SetFake set fake values.
+func (s *TraceStorage) SetFake() {
+	{
+		{
+			s.ID = int64(0)
+		}
+	}
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Tags = append(s.Tags, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Icon.SetFake()
+		}
+	}
+	{
+		{
+			s.RetentionPeriodDays = int(0)
+		}
+	}
+	{
+		{
+			s.CreatedAt = time.Now()
+		}
+	}
+	{
+		{
+			s.Endpoints.SetFake()
+		}
+	}
+	{
+		{
+			s.AccountID = "string"
+		}
+	}
+	{
+		{
+			s.ResourceID = int64(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *TraceStorageAccessKey) SetFake() {
+	{
+		{
+			s.UID = uuid.New()
+		}
+	}
+	{
+		{
+			s.Secret = "string"
+		}
+	}
+	{
+		{
+			s.Token = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *TraceStorageCreate) SetFake() {
+	{
+		{
+			s.Classification.SetFake()
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *TraceStorageCreateClassification) SetFake() {
+	*s = TraceStorageCreateClassificationShared
+}
+
+// SetFake set fake values.
+func (s *TraceStorageEndpoints) SetFake() {
+	{
+		{
+			s.Ingester.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *TraceStorageEndpointsIngester) SetFake() {
+	{
+		{
+			s.Address = "string"
+		}
+	}
+	{
+		{
+			s.Insecure.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *TraceStorageIcon) SetFake() {
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -3249,7 +3667,7 @@ func (s *WrappedLogRouting) SetFake() {
 	}
 	{
 		{
-			s.PublisherCode = "string"
+			s.PublisherCode.SetFake()
 		}
 	}
 	{
@@ -3430,12 +3848,12 @@ func (s *WrappedLogStorageIcon) SetFake() {
 func (s *WrappedLogStorageUsage) SetFake() {
 	{
 		{
-			s.LogRoutings = int64(0)
+			s.LogRoutings = int(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int64(0)
+			s.LogMeasureRules = int(0)
 		}
 	}
 }
@@ -3464,7 +3882,7 @@ func (s *WrappedMetricsRouting) SetFake() {
 	}
 	{
 		{
-			s.PublisherCode = "string"
+			s.PublisherCode.SetFake()
 		}
 	}
 	{
@@ -3631,17 +4049,17 @@ func (s *WrappedMetricsStorageIcon) SetFake() {
 func (s *WrappedMetricsStorageUsage) SetFake() {
 	{
 		{
-			s.MetricsRoutings = int64(0)
+			s.MetricsRoutings = int(0)
 		}
 	}
 	{
 		{
-			s.AlertRules = int64(0)
+			s.AlertRules = int(0)
 		}
 	}
 	{
 		{
-			s.LogMeasureRules = int64(0)
+			s.LogMeasureRules = int(0)
 		}
 	}
 }
@@ -3673,6 +4091,133 @@ func (s *WrappedPublisher) SetFake() {
 	{
 		{
 			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedTraceStorage) SetFake() {
+	{
+		{
+			s.ID = int64(0)
+		}
+	}
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Tags = append(s.Tags, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Icon.SetFake()
+		}
+	}
+	{
+		{
+			s.RetentionPeriodDays = int(0)
+		}
+	}
+	{
+		{
+			s.CreatedAt = time.Now()
+		}
+	}
+	{
+		{
+			s.Endpoints.SetFake()
+		}
+	}
+	{
+		{
+			s.AccountID = "string"
+		}
+	}
+	{
+		{
+			s.ResourceID = int64(0)
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedTraceStorageAccessKey) SetFake() {
+	{
+		{
+			s.UID = uuid.New()
+		}
+	}
+	{
+		{
+			s.Secret = "string"
+		}
+	}
+	{
+		{
+			s.Token = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedTraceStorageEndpoints) SetFake() {
+	{
+		{
+			s.Ingester.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedTraceStorageEndpointsIngester) SetFake() {
+	{
+		{
+			s.Address = "string"
+		}
+	}
+	{
+		{
+			s.Insecure.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedTraceStorageIcon) SetFake() {
+	{
+		{
+			s.ID.SetFake()
 		}
 	}
 }

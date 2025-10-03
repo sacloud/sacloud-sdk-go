@@ -38,8 +38,8 @@ func TestNotificationTargetService_List(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := context.Background()
 	params := NotificationTargetsListParams{
-		Count: ref[int64](20),
-		From:  ref[int64](0),
+		Count: ref(20),
+		From:  ref(0),
 	}
 	targets, err := api.List(ctx, "12345", params)
 	require.NoError(t, err)

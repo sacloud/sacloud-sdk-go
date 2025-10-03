@@ -9,3 +9,11 @@ func (s *LogStorageCreate) setDefaults() {
 		s.Classification.SetTo(val)
 	}
 }
+
+// setDefaults set default value of fields.
+func (s *TraceStorageCreate) setDefaults() {
+	{
+		val := TraceStorageCreateClassification("shared")
+		s.Classification.SetTo(val)
+	}
+}

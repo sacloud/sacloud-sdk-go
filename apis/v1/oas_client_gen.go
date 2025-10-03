@@ -235,39 +235,39 @@ type Invoker interface {
 	AlertsProjectsUpdate(ctx context.Context, request OptAlertProject, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error)
 	// DashboardsProjectsCreate invokes dashboards_projects_create operation.
 	//
-	// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
 	// POST /dashboards/projects/
 	DashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreate) (*DashboardProject, error)
 	// DashboardsProjectsDestroy invokes dashboards_projects_destroy operation.
 	//
-	// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
-	// DELETE /dashboards/projects/{id}/
+	// DELETE /dashboards/projects/{resource_id}/
 	DashboardsProjectsDestroy(ctx context.Context, params DashboardsProjectsDestroyParams) error
 	// DashboardsProjectsList invokes dashboards_projects_list operation.
 	//
-	// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
 	// GET /dashboards/projects/
 	DashboardsProjectsList(ctx context.Context, params DashboardsProjectsListParams) (*PaginatedDashboardProjectList, error)
 	// DashboardsProjectsPartialUpdate invokes dashboards_projects_partial_update operation.
 	//
-	// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
-	// PATCH /dashboards/projects/{id}/
+	// PATCH /dashboards/projects/{resource_id}/
 	DashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProject, params DashboardsProjectsPartialUpdateParams) (*WrappedDashboardProject, error)
 	// DashboardsProjectsRetrieve invokes dashboards_projects_retrieve operation.
 	//
-	// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
-	// GET /dashboards/projects/{id}/
+	// GET /dashboards/projects/{resource_id}/
 	DashboardsProjectsRetrieve(ctx context.Context, params DashboardsProjectsRetrieveParams) (*WrappedDashboardProject, error)
 	// DashboardsProjectsUpdate invokes dashboards_projects_update operation.
 	//
-	// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
-	// PUT /dashboards/projects/{id}/
+	// PUT /dashboards/projects/{resource_id}/
 	DashboardsProjectsUpdate(ctx context.Context, request OptDashboardProject, params DashboardsProjectsUpdateParams) (*WrappedDashboardProject, error)
 	// GetProvisioningState invokes get_provisioning_state operation.
 	//
@@ -291,7 +291,7 @@ type Invoker interface {
 	//
 	// ログルーティングを管理するためのAPIエンドポイントです。.
 	//
-	// DELETE /logs/routings/{id}/
+	// DELETE /logs/routings/{uid}/
 	LogsRoutingsDestroy(ctx context.Context, params LogsRoutingsDestroyParams) error
 	// LogsRoutingsList invokes logs_routings_list operation.
 	//
@@ -303,19 +303,19 @@ type Invoker interface {
 	//
 	// ログルーティングを管理するためのAPIエンドポイントです。.
 	//
-	// PATCH /logs/routings/{id}/
+	// PATCH /logs/routings/{uid}/
 	LogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRouting, params LogsRoutingsPartialUpdateParams) (*WrappedLogRouting, error)
 	// LogsRoutingsRetrieve invokes logs_routings_retrieve operation.
 	//
 	// ログルーティングを管理するためのAPIエンドポイントです。.
 	//
-	// GET /logs/routings/{id}/
+	// GET /logs/routings/{uid}/
 	LogsRoutingsRetrieve(ctx context.Context, params LogsRoutingsRetrieveParams) (*WrappedLogRouting, error)
 	// LogsRoutingsUpdate invokes logs_routings_update operation.
 	//
 	// ログルーティングを管理するためのAPIエンドポイントです。.
 	//
-	// PUT /logs/routings/{id}/
+	// PUT /logs/routings/{uid}/
 	LogsRoutingsUpdate(ctx context.Context, request *LogRouting, params LogsRoutingsUpdateParams) (*WrappedLogRouting, error)
 	// LogsStoragesCreate invokes logs_storages_create operation.
 	//
@@ -339,7 +339,7 @@ type Invoker interface {
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// DELETE /logs/storages/{log_resource_id}/keys/{id}/
+	// DELETE /logs/storages/{log_resource_id}/keys/{uid}/
 	LogsStoragesKeysDestroy(ctx context.Context, params LogsStoragesKeysDestroyParams) error
 	// LogsStoragesKeysList invokes logs_storages_keys_list operation.
 	//
@@ -351,19 +351,19 @@ type Invoker interface {
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// PATCH /logs/storages/{log_resource_id}/keys/{id}/
+	// PATCH /logs/storages/{log_resource_id}/keys/{uid}/
 	LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKey, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesKeysRetrieve invokes logs_storages_keys_retrieve operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// GET /logs/storages/{log_resource_id}/keys/{id}/
+	// GET /logs/storages/{log_resource_id}/keys/{uid}/
 	LogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesKeysUpdate invokes logs_storages_keys_update operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// PUT /logs/storages/{log_resource_id}/keys/{id}/
+	// PUT /logs/storages/{log_resource_id}/keys/{uid}/
 	LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesList invokes logs_storages_list operation.
 	//
@@ -399,7 +399,7 @@ type Invoker interface {
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 	//
-	// DELETE /metrics/routings/{id}/
+	// DELETE /metrics/routings/{uid}/
 	MetricsRoutingsDestroy(ctx context.Context, params MetricsRoutingsDestroyParams) error
 	// MetricsRoutingsList invokes metrics_routings_list operation.
 	//
@@ -411,19 +411,19 @@ type Invoker interface {
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 	//
-	// PATCH /metrics/routings/{id}/
+	// PATCH /metrics/routings/{uid}/
 	MetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRouting, params MetricsRoutingsPartialUpdateParams) (*WrappedMetricsRouting, error)
 	// MetricsRoutingsRetrieve invokes metrics_routings_retrieve operation.
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 	//
-	// GET /metrics/routings/{id}/
+	// GET /metrics/routings/{uid}/
 	MetricsRoutingsRetrieve(ctx context.Context, params MetricsRoutingsRetrieveParams) (*WrappedMetricsRouting, error)
 	// MetricsRoutingsUpdate invokes metrics_routings_update operation.
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 	//
-	// PUT /metrics/routings/{id}/
+	// PUT /metrics/routings/{uid}/
 	MetricsRoutingsUpdate(ctx context.Context, request *MetricsRouting, params MetricsRoutingsUpdateParams) (*WrappedMetricsRouting, error)
 	// MetricsStoragesCreate invokes metrics_storages_create operation.
 	//
@@ -447,7 +447,7 @@ type Invoker interface {
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// DELETE /metrics/storages/{metrics_resource_id}/keys/{id}/
+	// DELETE /metrics/storages/{metrics_resource_id}/keys/{uid}/
 	MetricsStoragesKeysDestroy(ctx context.Context, params MetricsStoragesKeysDestroyParams) error
 	// MetricsStoragesKeysList invokes metrics_storages_keys_list operation.
 	//
@@ -459,19 +459,19 @@ type Invoker interface {
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// PATCH /metrics/storages/{metrics_resource_id}/keys/{id}/
+	// PATCH /metrics/storages/{metrics_resource_id}/keys/{uid}/
 	MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKey, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesKeysRetrieve invokes metrics_storages_keys_retrieve operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// GET /metrics/storages/{metrics_resource_id}/keys/{id}/
+	// GET /metrics/storages/{metrics_resource_id}/keys/{uid}/
 	MetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesKeysUpdate invokes metrics_storages_keys_update operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
-	// PUT /metrics/storages/{metrics_resource_id}/keys/{id}/
+	// PUT /metrics/storages/{metrics_resource_id}/keys/{uid}/
 	MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesList invokes metrics_storages_list operation.
 	//
@@ -502,7 +502,7 @@ type Invoker interface {
 	// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
 	//
 	// POST /management/provisioning/initialize/
-	PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (*Provisioning, error)
+	PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (PostProvisioningInitializeRes, error)
 	// PublishersList invokes publishers_list operation.
 	//
 	// 連携サービス情報を取得するAPIエンドポイントです。.
@@ -515,6 +515,78 @@ type Invoker interface {
 	//
 	// GET /publishers/{code}/
 	PublishersRetrieve(ctx context.Context, params PublishersRetrieveParams) (*WrappedPublisher, error)
+	// TracesStoragesCreate invokes traces_storages_create operation.
+	//
+	// トレースストレージを管理するためのAPIエンドポイントです。.
+	//
+	// POST /traces/storages/
+	TracesStoragesCreate(ctx context.Context, request *TraceStorageCreate) (*TraceStorage, error)
+	// TracesStoragesDestroy invokes traces_storages_destroy operation.
+	//
+	// トレースストレージを管理するためのAPIエンドポイントです。.
+	//
+	// DELETE /traces/storages/{resource_id}/
+	TracesStoragesDestroy(ctx context.Context, params TracesStoragesDestroyParams) error
+	// TracesStoragesKeysCreate invokes traces_storages_keys_create operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// POST /traces/storages/{trace_resource_id}/keys/
+	TracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysCreateParams) (*WrappedTraceStorageAccessKey, error)
+	// TracesStoragesKeysDestroy invokes traces_storages_keys_destroy operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// DELETE /traces/storages/{trace_resource_id}/keys/{uid}/
+	TracesStoragesKeysDestroy(ctx context.Context, params TracesStoragesKeysDestroyParams) error
+	// TracesStoragesKeysList invokes traces_storages_keys_list operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// GET /traces/storages/{trace_resource_id}/keys/
+	TracesStoragesKeysList(ctx context.Context, params TracesStoragesKeysListParams) (*PaginatedTraceStorageAccessKeyList, error)
+	// TracesStoragesKeysPartialUpdate invokes traces_storages_keys_partial_update operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// PATCH /traces/storages/{trace_resource_id}/keys/{uid}/
+	TracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKey, params TracesStoragesKeysPartialUpdateParams) (*WrappedTraceStorageAccessKey, error)
+	// TracesStoragesKeysRetrieve invokes traces_storages_keys_retrieve operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// GET /traces/storages/{trace_resource_id}/keys/{uid}/
+	TracesStoragesKeysRetrieve(ctx context.Context, params TracesStoragesKeysRetrieveParams) (*WrappedTraceStorageAccessKey, error)
+	// TracesStoragesKeysUpdate invokes traces_storages_keys_update operation.
+	//
+	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+	//
+	// PUT /traces/storages/{trace_resource_id}/keys/{uid}/
+	TracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysUpdateParams) (*WrappedTraceStorageAccessKey, error)
+	// TracesStoragesList invokes traces_storages_list operation.
+	//
+	// トレースストレージを管理するためのAPIエンドポイントです。.
+	//
+	// GET /traces/storages/
+	TracesStoragesList(ctx context.Context, params TracesStoragesListParams) (*PaginatedTraceStorageList, error)
+	// TracesStoragesPartialUpdate invokes traces_storages_partial_update operation.
+	//
+	// トレースストレージを管理するためのAPIエンドポイントです。.
+	//
+	// PATCH /traces/storages/{resource_id}/
+	TracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorage, params TracesStoragesPartialUpdateParams) (*WrappedTraceStorage, error)
+	// TracesStoragesRetrieve invokes traces_storages_retrieve operation.
+	//
+	// トレースストレージを管理するためのAPIエンドポイントです。.
+	//
+	// GET /traces/storages/{resource_id}/
+	TracesStoragesRetrieve(ctx context.Context, params TracesStoragesRetrieveParams) (*WrappedTraceStorage, error)
+	// TracesStoragesUpdate invokes traces_storages_update operation.
+	//
+	// トレースストレージを管理するためのAPIエンドポイントです。.
+	//
+	// PUT /traces/storages/{resource_id}/
+	TracesStoragesUpdate(ctx context.Context, request OptTraceStorage, params TracesStoragesUpdateParams) (*WrappedTraceStorage, error)
 }
 
 // Client implements OAS client.
@@ -706,7 +778,7 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -723,7 +795,7 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -904,7 +976,7 @@ func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjec
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -921,7 +993,7 @@ func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjec
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1137,7 +1209,7 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1154,7 +1226,7 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1657,7 +1729,7 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1674,7 +1746,7 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -1691,7 +1763,7 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Target.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -2244,7 +2316,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -2261,7 +2333,7 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -2895,7 +2967,7 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -2912,7 +2984,7 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3131,7 +3203,7 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3148,7 +3220,7 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3505,7 +3577,7 @@ func (c *Client) sendAlertsProjectsUpdate(ctx context.Context, request OptAlertP
 
 // DashboardsProjectsCreate invokes dashboards_projects_create operation.
 //
-// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+// ダッシュボードを管理するためのAPIエンドポイントです。.
 //
 // POST /dashboards/projects/
 func (c *Client) DashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreate) (*DashboardProject, error) {
@@ -3553,9 +3625,9 @@ func (c *Client) sendDashboardsProjectsCreate(ctx context.Context, request *Dash
 
 // DashboardsProjectsDestroy invokes dashboards_projects_destroy operation.
 //
-// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+// ダッシュボードを管理するためのAPIエンドポイントです。.
 //
-// DELETE /dashboards/projects/{id}/
+// DELETE /dashboards/projects/{resource_id}/
 func (c *Client) DashboardsProjectsDestroy(ctx context.Context, params DashboardsProjectsDestroyParams) error {
 	_, err := c.sendDashboardsProjectsDestroy(ctx, params)
 	return err
@@ -3567,14 +3639,14 @@ func (c *Client) sendDashboardsProjectsDestroy(ctx context.Context, params Dashb
 	var pathParts [3]string
 	pathParts[0] = "/dashboards/projects/"
 	{
-		// Encode "id" parameter.
+		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3608,7 +3680,7 @@ func (c *Client) sendDashboardsProjectsDestroy(ctx context.Context, params Dashb
 
 // DashboardsProjectsList invokes dashboards_projects_list operation.
 //
-// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+// ダッシュボードを管理するためのAPIエンドポイントです。.
 //
 // GET /dashboards/projects/
 func (c *Client) DashboardsProjectsList(ctx context.Context, params DashboardsProjectsListParams) (*PaginatedDashboardProjectList, error) {
@@ -3634,7 +3706,7 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3651,7 +3723,7 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -3681,9 +3753,9 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 
 // DashboardsProjectsPartialUpdate invokes dashboards_projects_partial_update operation.
 //
-// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+// ダッシュボードを管理するためのAPIエンドポイントです。.
 //
-// PATCH /dashboards/projects/{id}/
+// PATCH /dashboards/projects/{resource_id}/
 func (c *Client) DashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProject, params DashboardsProjectsPartialUpdateParams) (*WrappedDashboardProject, error) {
 	res, err := c.sendDashboardsProjectsPartialUpdate(ctx, request, params)
 	return res, err
@@ -3711,14 +3783,14 @@ func (c *Client) sendDashboardsProjectsPartialUpdate(ctx context.Context, reques
 	var pathParts [3]string
 	pathParts[0] = "/dashboards/projects/"
 	{
-		// Encode "id" parameter.
+		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3755,9 +3827,9 @@ func (c *Client) sendDashboardsProjectsPartialUpdate(ctx context.Context, reques
 
 // DashboardsProjectsRetrieve invokes dashboards_projects_retrieve operation.
 //
-// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+// ダッシュボードを管理するためのAPIエンドポイントです。.
 //
-// GET /dashboards/projects/{id}/
+// GET /dashboards/projects/{resource_id}/
 func (c *Client) DashboardsProjectsRetrieve(ctx context.Context, params DashboardsProjectsRetrieveParams) (*WrappedDashboardProject, error) {
 	res, err := c.sendDashboardsProjectsRetrieve(ctx, params)
 	return res, err
@@ -3769,14 +3841,14 @@ func (c *Client) sendDashboardsProjectsRetrieve(ctx context.Context, params Dash
 	var pathParts [3]string
 	pathParts[0] = "/dashboards/projects/"
 	{
-		// Encode "id" parameter.
+		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3810,9 +3882,9 @@ func (c *Client) sendDashboardsProjectsRetrieve(ctx context.Context, params Dash
 
 // DashboardsProjectsUpdate invokes dashboards_projects_update operation.
 //
-// 可視化プロジェクトを管理するためのAPIエンドポイントです。.
+// ダッシュボードを管理するためのAPIエンドポイントです。.
 //
-// PUT /dashboards/projects/{id}/
+// PUT /dashboards/projects/{resource_id}/
 func (c *Client) DashboardsProjectsUpdate(ctx context.Context, request OptDashboardProject, params DashboardsProjectsUpdateParams) (*WrappedDashboardProject, error) {
 	res, err := c.sendDashboardsProjectsUpdate(ctx, request, params)
 	return res, err
@@ -3840,14 +3912,14 @@ func (c *Client) sendDashboardsProjectsUpdate(ctx context.Context, request OptDa
 	var pathParts [3]string
 	pathParts[0] = "/dashboards/projects/"
 	{
-		// Encode "id" parameter.
+		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.Int64ToString(params.ID))
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4006,7 +4078,7 @@ func (c *Client) sendLogsRoutingsCreate(ctx context.Context, request *LogRouting
 //
 // ログルーティングを管理するためのAPIエンドポイントです。.
 //
-// DELETE /logs/routings/{id}/
+// DELETE /logs/routings/{uid}/
 func (c *Client) LogsRoutingsDestroy(ctx context.Context, params LogsRoutingsDestroyParams) error {
 	_, err := c.sendLogsRoutingsDestroy(ctx, params)
 	return err
@@ -4018,14 +4090,14 @@ func (c *Client) sendLogsRoutingsDestroy(ctx context.Context, params LogsRouting
 	var pathParts [3]string
 	pathParts[0] = "/logs/routings/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4085,7 +4157,7 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4102,7 +4174,7 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4185,7 +4257,7 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 //
 // ログルーティングを管理するためのAPIエンドポイントです。.
 //
-// PATCH /logs/routings/{id}/
+// PATCH /logs/routings/{uid}/
 func (c *Client) LogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRouting, params LogsRoutingsPartialUpdateParams) (*WrappedLogRouting, error) {
 	res, err := c.sendLogsRoutingsPartialUpdate(ctx, request, params)
 	return res, err
@@ -4213,14 +4285,14 @@ func (c *Client) sendLogsRoutingsPartialUpdate(ctx context.Context, request OptP
 	var pathParts [3]string
 	pathParts[0] = "/logs/routings/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4259,7 +4331,7 @@ func (c *Client) sendLogsRoutingsPartialUpdate(ctx context.Context, request OptP
 //
 // ログルーティングを管理するためのAPIエンドポイントです。.
 //
-// GET /logs/routings/{id}/
+// GET /logs/routings/{uid}/
 func (c *Client) LogsRoutingsRetrieve(ctx context.Context, params LogsRoutingsRetrieveParams) (*WrappedLogRouting, error) {
 	res, err := c.sendLogsRoutingsRetrieve(ctx, params)
 	return res, err
@@ -4271,14 +4343,14 @@ func (c *Client) sendLogsRoutingsRetrieve(ctx context.Context, params LogsRoutin
 	var pathParts [3]string
 	pathParts[0] = "/logs/routings/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4314,7 +4386,7 @@ func (c *Client) sendLogsRoutingsRetrieve(ctx context.Context, params LogsRoutin
 //
 // ログルーティングを管理するためのAPIエンドポイントです。.
 //
-// PUT /logs/routings/{id}/
+// PUT /logs/routings/{uid}/
 func (c *Client) LogsRoutingsUpdate(ctx context.Context, request *LogRouting, params LogsRoutingsUpdateParams) (*WrappedLogRouting, error) {
 	res, err := c.sendLogsRoutingsUpdate(ctx, request, params)
 	return res, err
@@ -4335,14 +4407,14 @@ func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRouting
 	var pathParts [3]string
 	pathParts[0] = "/logs/routings/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4558,7 +4630,7 @@ func (c *Client) sendLogsStoragesKeysCreate(ctx context.Context, request OptLogS
 //
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// DELETE /logs/storages/{log_resource_id}/keys/{id}/
+// DELETE /logs/storages/{log_resource_id}/keys/{uid}/
 func (c *Client) LogsStoragesKeysDestroy(ctx context.Context, params LogsStoragesKeysDestroyParams) error {
 	_, err := c.sendLogsStoragesKeysDestroy(ctx, params)
 	return err
@@ -4589,14 +4661,14 @@ func (c *Client) sendLogsStoragesKeysDestroy(ctx context.Context, params LogsSto
 	}
 	pathParts[2] = "/keys/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4675,7 +4747,7 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4692,7 +4764,7 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -4724,7 +4796,7 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 //
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// PATCH /logs/storages/{log_resource_id}/keys/{id}/
+// PATCH /logs/storages/{log_resource_id}/keys/{uid}/
 func (c *Client) LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKey, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysPartialUpdate(ctx, request, params)
 	return res, err
@@ -4771,14 +4843,14 @@ func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request 
 	}
 	pathParts[2] = "/keys/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4817,7 +4889,7 @@ func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request 
 //
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// GET /logs/storages/{log_resource_id}/keys/{id}/
+// GET /logs/storages/{log_resource_id}/keys/{uid}/
 func (c *Client) LogsStoragesKeysRetrieve(ctx context.Context, params LogsStoragesKeysRetrieveParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysRetrieve(ctx, params)
 	return res, err
@@ -4848,14 +4920,14 @@ func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsSt
 	}
 	pathParts[2] = "/keys/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -4891,7 +4963,7 @@ func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsSt
 //
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// PUT /logs/storages/{log_resource_id}/keys/{id}/
+// PUT /logs/storages/{log_resource_id}/keys/{uid}/
 func (c *Client) LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysUpdate(ctx, request, params)
 	return res, err
@@ -4938,14 +5010,14 @@ func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogS
 	}
 	pathParts[2] = "/keys/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5042,7 +5114,7 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5059,7 +5131,7 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5393,7 +5465,7 @@ func (c *Client) sendMetricsRoutingsCreate(ctx context.Context, request *Metrics
 //
 // メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
-// DELETE /metrics/routings/{id}/
+// DELETE /metrics/routings/{uid}/
 func (c *Client) MetricsRoutingsDestroy(ctx context.Context, params MetricsRoutingsDestroyParams) error {
 	_, err := c.sendMetricsRoutingsDestroy(ctx, params)
 	return err
@@ -5405,14 +5477,14 @@ func (c *Client) sendMetricsRoutingsDestroy(ctx context.Context, params MetricsR
 	var pathParts [3]string
 	pathParts[0] = "/metrics/routings/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5472,7 +5544,7 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5489,7 +5561,7 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -5572,7 +5644,7 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 //
 // メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
-// PATCH /metrics/routings/{id}/
+// PATCH /metrics/routings/{uid}/
 func (c *Client) MetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRouting, params MetricsRoutingsPartialUpdateParams) (*WrappedMetricsRouting, error) {
 	res, err := c.sendMetricsRoutingsPartialUpdate(ctx, request, params)
 	return res, err
@@ -5600,14 +5672,14 @@ func (c *Client) sendMetricsRoutingsPartialUpdate(ctx context.Context, request O
 	var pathParts [3]string
 	pathParts[0] = "/metrics/routings/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5646,7 +5718,7 @@ func (c *Client) sendMetricsRoutingsPartialUpdate(ctx context.Context, request O
 //
 // メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
-// GET /metrics/routings/{id}/
+// GET /metrics/routings/{uid}/
 func (c *Client) MetricsRoutingsRetrieve(ctx context.Context, params MetricsRoutingsRetrieveParams) (*WrappedMetricsRouting, error) {
 	res, err := c.sendMetricsRoutingsRetrieve(ctx, params)
 	return res, err
@@ -5658,14 +5730,14 @@ func (c *Client) sendMetricsRoutingsRetrieve(ctx context.Context, params Metrics
 	var pathParts [3]string
 	pathParts[0] = "/metrics/routings/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5701,7 +5773,7 @@ func (c *Client) sendMetricsRoutingsRetrieve(ctx context.Context, params Metrics
 //
 // メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
-// PUT /metrics/routings/{id}/
+// PUT /metrics/routings/{uid}/
 func (c *Client) MetricsRoutingsUpdate(ctx context.Context, request *MetricsRouting, params MetricsRoutingsUpdateParams) (*WrappedMetricsRouting, error) {
 	res, err := c.sendMetricsRoutingsUpdate(ctx, request, params)
 	return res, err
@@ -5722,14 +5794,14 @@ func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *Metrics
 	var pathParts [3]string
 	pathParts[0] = "/metrics/routings/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5945,7 +6017,7 @@ func (c *Client) sendMetricsStoragesKeysCreate(ctx context.Context, request OptM
 //
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// DELETE /metrics/storages/{metrics_resource_id}/keys/{id}/
+// DELETE /metrics/storages/{metrics_resource_id}/keys/{uid}/
 func (c *Client) MetricsStoragesKeysDestroy(ctx context.Context, params MetricsStoragesKeysDestroyParams) error {
 	_, err := c.sendMetricsStoragesKeysDestroy(ctx, params)
 	return err
@@ -5976,14 +6048,14 @@ func (c *Client) sendMetricsStoragesKeysDestroy(ctx context.Context, params Metr
 	}
 	pathParts[2] = "/keys/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6062,7 +6134,7 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6079,7 +6151,7 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6111,7 +6183,7 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 //
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// PATCH /metrics/storages/{metrics_resource_id}/keys/{id}/
+// PATCH /metrics/storages/{metrics_resource_id}/keys/{uid}/
 func (c *Client) MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKey, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysPartialUpdate(ctx, request, params)
 	return res, err
@@ -6158,14 +6230,14 @@ func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, reque
 	}
 	pathParts[2] = "/keys/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6204,7 +6276,7 @@ func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, reque
 //
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// GET /metrics/storages/{metrics_resource_id}/keys/{id}/
+// GET /metrics/storages/{metrics_resource_id}/keys/{uid}/
 func (c *Client) MetricsStoragesKeysRetrieve(ctx context.Context, params MetricsStoragesKeysRetrieveParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysRetrieve(ctx, params)
 	return res, err
@@ -6235,14 +6307,14 @@ func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params Met
 	}
 	pathParts[2] = "/keys/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6278,7 +6350,7 @@ func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params Met
 //
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
-// PUT /metrics/storages/{metrics_resource_id}/keys/{id}/
+// PUT /metrics/storages/{metrics_resource_id}/keys/{uid}/
 func (c *Client) MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysUpdate(ctx, request, params)
 	return res, err
@@ -6325,14 +6397,14 @@ func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptM
 	}
 	pathParts[2] = "/keys/"
 	{
-		// Encode "id" parameter.
+		// Encode "uid" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
+			Param:   "uid",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
+			return e.EncodeValue(conv.UUIDToString(params.UID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -6412,7 +6484,7 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6429,7 +6501,7 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6699,12 +6771,12 @@ func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetri
 // リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
 //
 // POST /management/provisioning/initialize/
-func (c *Client) PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (*Provisioning, error) {
+func (c *Client) PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (PostProvisioningInitializeRes, error) {
 	res, err := c.sendPostProvisioningInitialize(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendPostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (res *Provisioning, err error) {
+func (c *Client) sendPostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (res PostProvisioningInitializeRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -6761,7 +6833,7 @@ func (c *Client) sendPublishersList(ctx context.Context, params PublishersListPa
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Count.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6778,7 +6850,7 @@ func (c *Client) sendPublishersList(ctx context.Context, params PublishersListPa
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.From.Get(); ok {
-				return e.EncodeValue(conv.Int64ToString(val))
+				return e.EncodeValue(conv.IntToString(val))
 			}
 			return nil
 		}); err != nil {
@@ -6854,6 +6926,936 @@ func (c *Client) sendPublishersRetrieve(ctx context.Context, params PublishersRe
 	defer resp.Body.Close()
 
 	result, err := decodePublishersRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesCreate invokes traces_storages_create operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// POST /traces/storages/
+func (c *Client) TracesStoragesCreate(ctx context.Context, request *TraceStorageCreate) (*TraceStorage, error) {
+	res, err := c.sendTracesStoragesCreate(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesCreate(ctx context.Context, request *TraceStorageCreate) (res *TraceStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/traces/storages/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeTracesStoragesCreateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesCreateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesDestroy invokes traces_storages_destroy operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// DELETE /traces/storages/{resource_id}/
+func (c *Client) TracesStoragesDestroy(ctx context.Context, params TracesStoragesDestroyParams) error {
+	_, err := c.sendTracesStoragesDestroy(ctx, params)
+	return err
+}
+
+func (c *Client) sendTracesStoragesDestroy(ctx context.Context, params TracesStoragesDestroyParams) (res *TracesStoragesDestroyNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesDestroyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesKeysCreate invokes traces_storages_keys_create operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// POST /traces/storages/{trace_resource_id}/keys/
+func (c *Client) TracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysCreateParams) (*WrappedTraceStorageAccessKey, error) {
+	res, err := c.sendTracesStoragesKeysCreate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysCreateParams) (res *WrappedTraceStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "trace_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "trace_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeTracesStoragesKeysCreateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesKeysCreateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesKeysDestroy invokes traces_storages_keys_destroy operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// DELETE /traces/storages/{trace_resource_id}/keys/{uid}/
+func (c *Client) TracesStoragesKeysDestroy(ctx context.Context, params TracesStoragesKeysDestroyParams) error {
+	_, err := c.sendTracesStoragesKeysDestroy(ctx, params)
+	return err
+}
+
+func (c *Client) sendTracesStoragesKeysDestroy(ctx context.Context, params TracesStoragesKeysDestroyParams) (res *TracesStoragesKeysDestroyNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "trace_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "trace_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesKeysDestroyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesKeysList invokes traces_storages_keys_list operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// GET /traces/storages/{trace_resource_id}/keys/
+func (c *Client) TracesStoragesKeysList(ctx context.Context, params TracesStoragesKeysListParams) (*PaginatedTraceStorageAccessKeyList, error) {
+	res, err := c.sendTracesStoragesKeysList(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesKeysList(ctx context.Context, params TracesStoragesKeysListParams) (res *PaginatedTraceStorageAccessKeyList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "trace_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "trace_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "from" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "from",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesKeysListResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesKeysPartialUpdate invokes traces_storages_keys_partial_update operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// PATCH /traces/storages/{trace_resource_id}/keys/{uid}/
+func (c *Client) TracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKey, params TracesStoragesKeysPartialUpdateParams) (*WrappedTraceStorageAccessKey, error) {
+	res, err := c.sendTracesStoragesKeysPartialUpdate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKey, params TracesStoragesKeysPartialUpdateParams) (res *WrappedTraceStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "trace_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "trace_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeTracesStoragesKeysPartialUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesKeysPartialUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesKeysRetrieve invokes traces_storages_keys_retrieve operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// GET /traces/storages/{trace_resource_id}/keys/{uid}/
+func (c *Client) TracesStoragesKeysRetrieve(ctx context.Context, params TracesStoragesKeysRetrieveParams) (*WrappedTraceStorageAccessKey, error) {
+	res, err := c.sendTracesStoragesKeysRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesKeysRetrieve(ctx context.Context, params TracesStoragesKeysRetrieveParams) (res *WrappedTraceStorageAccessKey, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "trace_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "trace_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesKeysRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesKeysUpdate invokes traces_storages_keys_update operation.
+//
+// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
+//
+// PUT /traces/storages/{trace_resource_id}/keys/{uid}/
+func (c *Client) TracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysUpdateParams) (*WrappedTraceStorageAccessKey, error) {
+	res, err := c.sendTracesStoragesKeysUpdate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysUpdateParams) (res *WrappedTraceStorageAccessKey, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "trace_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "trace_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.TraceResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "uid" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "uid",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.UID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeTracesStoragesKeysUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesKeysUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesList invokes traces_storages_list operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// GET /traces/storages/
+func (c *Client) TracesStoragesList(ctx context.Context, params TracesStoragesListParams) (*PaginatedTraceStorageList, error) {
+	res, err := c.sendTracesStoragesList(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesList(ctx context.Context, params TracesStoragesListParams) (res *PaginatedTraceStorageList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/traces/storages/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "account_id" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "account_id",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.AccountID.Get(); ok {
+				return e.EncodeValue(conv.StringToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "from" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "from",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "log_storage__bucket__classification" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "log_storage__bucket__classification",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.LogStorageBucketClassification.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "resource_id" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "resource_id",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.ResourceID.Get(); ok {
+				return e.EncodeValue(conv.Int64ToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesListResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesPartialUpdate invokes traces_storages_partial_update operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// PATCH /traces/storages/{resource_id}/
+func (c *Client) TracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorage, params TracesStoragesPartialUpdateParams) (*WrappedTraceStorage, error) {
+	res, err := c.sendTracesStoragesPartialUpdate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorage, params TracesStoragesPartialUpdateParams) (res *WrappedTraceStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeTracesStoragesPartialUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesPartialUpdateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesRetrieve invokes traces_storages_retrieve operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// GET /traces/storages/{resource_id}/
+func (c *Client) TracesStoragesRetrieve(ctx context.Context, params TracesStoragesRetrieveParams) (*WrappedTraceStorage, error) {
+	res, err := c.sendTracesStoragesRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesRetrieve(ctx context.Context, params TracesStoragesRetrieveParams) (res *WrappedTraceStorage, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesUpdate invokes traces_storages_update operation.
+//
+// トレースストレージを管理するためのAPIエンドポイントです。.
+//
+// PUT /traces/storages/{resource_id}/
+func (c *Client) TracesStoragesUpdate(ctx context.Context, request OptTraceStorage, params TracesStoragesUpdateParams) (*WrappedTraceStorage, error) {
+	res, err := c.sendTracesStoragesUpdate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceStorage, params TracesStoragesUpdateParams) (res *WrappedTraceStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeTracesStoragesUpdateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesUpdateResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

@@ -14,9 +14,9 @@ type AlertsProjectsDestroyParams struct {
 // AlertsProjectsHistoriesListParams is parameters of alerts_projects_histories_list operation.
 type AlertsProjectsHistoriesListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From              OptInt64
+	From              OptInt
 	Open              OptBool
 	ProjectResourceID int64
 	// * `warning` - Warning
@@ -34,9 +34,9 @@ type AlertsProjectsHistoriesRetrieveParams struct {
 // AlertsProjectsListParams is parameters of alerts_projects_list operation.
 type AlertsProjectsListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From OptInt64
+	From OptInt
 }
 
 // AlertsProjectsLogMeasureRulesCreateParams is parameters of alerts_projects_log_measure_rules_create operation.
@@ -53,9 +53,9 @@ type AlertsProjectsLogMeasureRulesDestroyParams struct {
 // AlertsProjectsLogMeasureRulesListParams is parameters of alerts_projects_log_measure_rules_list operation.
 type AlertsProjectsLogMeasureRulesListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From              OptInt64
+	From              OptInt
 	LogStorageID      OptInt64
 	MetricsStorageID  OptInt64
 	ProjectResourceID int64
@@ -93,11 +93,11 @@ type AlertsProjectsNotificationRoutingsDestroyParams struct {
 // AlertsProjectsNotificationRoutingsListParams is parameters of alerts_projects_notification_routings_list operation.
 type AlertsProjectsNotificationRoutingsListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From              OptInt64
+	From              OptInt
 	ProjectResourceID int64
-	Target            OptInt64
+	Target            OptInt
 }
 
 // AlertsProjectsNotificationRoutingsPartialUpdateParams is parameters of alerts_projects_notification_routings_partial_update operation.
@@ -137,9 +137,9 @@ type AlertsProjectsNotificationTargetsDestroyParams struct {
 // AlertsProjectsNotificationTargetsListParams is parameters of alerts_projects_notification_targets_list operation.
 type AlertsProjectsNotificationTargetsListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From              OptInt64
+	From              OptInt
 	ProjectResourceID int64
 	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice.
 	ServiceType OptAlertsProjectsNotificationTargetsListServiceType
@@ -187,9 +187,9 @@ type AlertsProjectsRulesDestroyParams struct {
 // AlertsProjectsRulesHistoriesListParams is parameters of alerts_projects_rules_histories_list operation.
 type AlertsProjectsRulesHistoriesListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From              OptInt64
+	From              OptInt
 	Open              OptBool
 	ProjectResourceID int64
 	RuleUID           uuid.UUID
@@ -209,9 +209,9 @@ type AlertsProjectsRulesHistoriesRetrieveParams struct {
 // AlertsProjectsRulesListParams is parameters of alerts_projects_rules_list operation.
 type AlertsProjectsRulesListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From              OptInt64
+	From              OptInt
 	ProjectResourceID int64
 }
 
@@ -240,65 +240,62 @@ type AlertsProjectsUpdateParams struct {
 
 // DashboardsProjectsDestroyParams is parameters of dashboards_projects_destroy operation.
 type DashboardsProjectsDestroyParams struct {
-	// A unique integer value identifying this Dashboard Project.
-	ID int64
+	ResourceID int64
 }
 
 // DashboardsProjectsListParams is parameters of dashboards_projects_list operation.
 type DashboardsProjectsListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From OptInt64
+	From OptInt
 }
 
 // DashboardsProjectsPartialUpdateParams is parameters of dashboards_projects_partial_update operation.
 type DashboardsProjectsPartialUpdateParams struct {
-	// A unique integer value identifying this Dashboard Project.
-	ID int64
+	ResourceID int64
 }
 
 // DashboardsProjectsRetrieveParams is parameters of dashboards_projects_retrieve operation.
 type DashboardsProjectsRetrieveParams struct {
-	// A unique integer value identifying this Dashboard Project.
-	ID int64
+	ResourceID int64
 }
 
 // DashboardsProjectsUpdateParams is parameters of dashboards_projects_update operation.
 type DashboardsProjectsUpdateParams struct {
-	// A unique integer value identifying this Dashboard Project.
-	ID int64
+	ResourceID int64
 }
 
 // LogsRoutingsDestroyParams is parameters of logs_routings_destroy operation.
 type LogsRoutingsDestroyParams struct {
-	ID uuid.UUID
+	UID uuid.UUID
 }
 
 // LogsRoutingsListParams is parameters of logs_routings_list operation.
 type LogsRoutingsListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From          OptInt64
+	From          OptInt
 	PublisherCode OptString
-	ResourceID    OptInt64
-	Variant       OptString
+	// Log storage resource id.
+	ResourceID OptInt64
+	Variant    OptString
 }
 
 // LogsRoutingsPartialUpdateParams is parameters of logs_routings_partial_update operation.
 type LogsRoutingsPartialUpdateParams struct {
-	ID uuid.UUID
+	UID uuid.UUID
 }
 
 // LogsRoutingsRetrieveParams is parameters of logs_routings_retrieve operation.
 type LogsRoutingsRetrieveParams struct {
-	ID uuid.UUID
+	UID uuid.UUID
 }
 
 // LogsRoutingsUpdateParams is parameters of logs_routings_update operation.
 type LogsRoutingsUpdateParams struct {
-	ID uuid.UUID
+	UID uuid.UUID
 }
 
 // LogsStoragesDestroyParams is parameters of logs_storages_destroy operation.
@@ -313,35 +310,35 @@ type LogsStoragesKeysCreateParams struct {
 
 // LogsStoragesKeysDestroyParams is parameters of logs_storages_keys_destroy operation.
 type LogsStoragesKeysDestroyParams struct {
-	ID            uuid.UUID
 	LogResourceID int64
+	UID           uuid.UUID
 }
 
 // LogsStoragesKeysListParams is parameters of logs_storages_keys_list operation.
 type LogsStoragesKeysListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From          OptInt64
+	From          OptInt
 	LogResourceID int64
 }
 
 // LogsStoragesKeysPartialUpdateParams is parameters of logs_storages_keys_partial_update operation.
 type LogsStoragesKeysPartialUpdateParams struct {
-	ID            uuid.UUID
 	LogResourceID int64
+	UID           uuid.UUID
 }
 
 // LogsStoragesKeysRetrieveParams is parameters of logs_storages_keys_retrieve operation.
 type LogsStoragesKeysRetrieveParams struct {
-	ID            uuid.UUID
 	LogResourceID int64
+	UID           uuid.UUID
 }
 
 // LogsStoragesKeysUpdateParams is parameters of logs_storages_keys_update operation.
 type LogsStoragesKeysUpdateParams struct {
-	ID            uuid.UUID
 	LogResourceID int64
+	UID           uuid.UUID
 }
 
 // LogsStoragesListParams is parameters of logs_storages_list operation.
@@ -351,9 +348,9 @@ type LogsStoragesListParams struct {
 	// * `separated` - 分離.
 	BucketClassification OptLogsStoragesListBucketClassification
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From OptInt64
+	From OptInt
 	// Is system.
 	IsSystem   OptBool
 	ResourceID OptInt64
@@ -381,33 +378,34 @@ type LogsStoragesUpdateParams struct {
 
 // MetricsRoutingsDestroyParams is parameters of metrics_routings_destroy operation.
 type MetricsRoutingsDestroyParams struct {
-	ID uuid.UUID
+	UID uuid.UUID
 }
 
 // MetricsRoutingsListParams is parameters of metrics_routings_list operation.
 type MetricsRoutingsListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From          OptInt64
+	From          OptInt
 	PublisherCode OptString
-	ResourceID    OptInt64
-	Variant       OptString
+	// Metrics storage resource id.
+	ResourceID OptInt64
+	Variant    OptString
 }
 
 // MetricsRoutingsPartialUpdateParams is parameters of metrics_routings_partial_update operation.
 type MetricsRoutingsPartialUpdateParams struct {
-	ID uuid.UUID
+	UID uuid.UUID
 }
 
 // MetricsRoutingsRetrieveParams is parameters of metrics_routings_retrieve operation.
 type MetricsRoutingsRetrieveParams struct {
-	ID uuid.UUID
+	UID uuid.UUID
 }
 
 // MetricsRoutingsUpdateParams is parameters of metrics_routings_update operation.
 type MetricsRoutingsUpdateParams struct {
-	ID uuid.UUID
+	UID uuid.UUID
 }
 
 // MetricsStoragesDestroyParams is parameters of metrics_storages_destroy operation.
@@ -422,44 +420,44 @@ type MetricsStoragesKeysCreateParams struct {
 
 // MetricsStoragesKeysDestroyParams is parameters of metrics_storages_keys_destroy operation.
 type MetricsStoragesKeysDestroyParams struct {
-	ID                uuid.UUID
 	MetricsResourceID int64
+	UID               uuid.UUID
 }
 
 // MetricsStoragesKeysListParams is parameters of metrics_storages_keys_list operation.
 type MetricsStoragesKeysListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From              OptInt64
+	From              OptInt
 	MetricsResourceID int64
 }
 
 // MetricsStoragesKeysPartialUpdateParams is parameters of metrics_storages_keys_partial_update operation.
 type MetricsStoragesKeysPartialUpdateParams struct {
-	ID                uuid.UUID
 	MetricsResourceID int64
+	UID               uuid.UUID
 }
 
 // MetricsStoragesKeysRetrieveParams is parameters of metrics_storages_keys_retrieve operation.
 type MetricsStoragesKeysRetrieveParams struct {
-	ID                uuid.UUID
 	MetricsResourceID int64
+	UID               uuid.UUID
 }
 
 // MetricsStoragesKeysUpdateParams is parameters of metrics_storages_keys_update operation.
 type MetricsStoragesKeysUpdateParams struct {
-	ID                uuid.UUID
 	MetricsResourceID int64
+	UID               uuid.UUID
 }
 
 // MetricsStoragesListParams is parameters of metrics_storages_list operation.
 type MetricsStoragesListParams struct {
 	AccountID OptString
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From OptInt64
+	From OptInt
 	// Is system.
 	IsSystem   OptBool
 	ResourceID OptInt64
@@ -483,12 +481,83 @@ type MetricsStoragesUpdateParams struct {
 // PublishersListParams is parameters of publishers_list operation.
 type PublishersListParams struct {
 	// Number of results to return per page.
-	Count OptInt64
+	Count OptInt
 	// The initial index from which to return the results.
-	From OptInt64
+	From OptInt
 }
 
 // PublishersRetrieveParams is parameters of publishers_retrieve operation.
 type PublishersRetrieveParams struct {
 	Code string
+}
+
+// TracesStoragesDestroyParams is parameters of traces_storages_destroy operation.
+type TracesStoragesDestroyParams struct {
+	ResourceID int64
+}
+
+// TracesStoragesKeysCreateParams is parameters of traces_storages_keys_create operation.
+type TracesStoragesKeysCreateParams struct {
+	TraceResourceID int64
+}
+
+// TracesStoragesKeysDestroyParams is parameters of traces_storages_keys_destroy operation.
+type TracesStoragesKeysDestroyParams struct {
+	TraceResourceID int64
+	UID             uuid.UUID
+}
+
+// TracesStoragesKeysListParams is parameters of traces_storages_keys_list operation.
+type TracesStoragesKeysListParams struct {
+	// Number of results to return per page.
+	Count OptInt
+	// The initial index from which to return the results.
+	From            OptInt
+	TraceResourceID int64
+}
+
+// TracesStoragesKeysPartialUpdateParams is parameters of traces_storages_keys_partial_update operation.
+type TracesStoragesKeysPartialUpdateParams struct {
+	TraceResourceID int64
+	UID             uuid.UUID
+}
+
+// TracesStoragesKeysRetrieveParams is parameters of traces_storages_keys_retrieve operation.
+type TracesStoragesKeysRetrieveParams struct {
+	TraceResourceID int64
+	UID             uuid.UUID
+}
+
+// TracesStoragesKeysUpdateParams is parameters of traces_storages_keys_update operation.
+type TracesStoragesKeysUpdateParams struct {
+	TraceResourceID int64
+	UID             uuid.UUID
+}
+
+// TracesStoragesListParams is parameters of traces_storages_list operation.
+type TracesStoragesListParams struct {
+	AccountID OptString
+	// Number of results to return per page.
+	Count OptInt
+	// The initial index from which to return the results.
+	From OptInt
+	// * `shared` - 共有
+	// * `separated` - 分離.
+	LogStorageBucketClassification OptTracesStoragesListLogStorageBucketClassification
+	ResourceID                     OptInt64
+}
+
+// TracesStoragesPartialUpdateParams is parameters of traces_storages_partial_update operation.
+type TracesStoragesPartialUpdateParams struct {
+	ResourceID int64
+}
+
+// TracesStoragesRetrieveParams is parameters of traces_storages_retrieve operation.
+type TracesStoragesRetrieveParams struct {
+	ResourceID int64
+}
+
+// TracesStoragesUpdateParams is parameters of traces_storages_update operation.
+type TracesStoragesUpdateParams struct {
+	ResourceID int64
 }

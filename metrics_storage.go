@@ -32,7 +32,7 @@ type MetricsStorageAPI interface {
 	Update(ctx context.Context, id string, request MetricsStorageUpdateParams) (*v1.MetricsStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	ListKeys(ctx context.Context, metricsResourceId string, count *int64, from *int64) ([]v1.MetricsStorageAccessKey, error)
+	ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) ([]v1.MetricsStorageAccessKey, error)
 	CreateKey(ctx context.Context, metricsResourceId string, description *string) (*v1.MetricsStorageAccessKey, error)
 	ReadKey(ctx context.Context, metricsResourceId string, id uuid.UUID) (*v1.MetricsStorageAccessKey, error)
 	UpdateKey(ctx context.Context, metricsResourceId string, id uuid.UUID, description *string) (*v1.MetricsStorageAccessKey, error)
@@ -50,8 +50,8 @@ func NewMetricsStorageOp(client *v1.Client) MetricsStorageAPI {
 }
 
 type MetricsStorageListParams struct {
-	Count      *int64
-	From       *int64
+	Count      *int
+	From       *int
 	AccountID  *string
 	ResourceID *string
 	IsSystem   *bool
@@ -63,8 +63,8 @@ func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListP
 		return nil, NewAPIError("MetricsStorage.List", 0, err)
 	}
 	result, err := op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
-		Count:      intoOpt[v1.OptInt64](params.Count),
-		From:       intoOpt[v1.OptInt64](params.From),
+		Count:      intoOpt[v1.OptInt](params.Count),
+		From:       intoOpt[v1.OptInt](params.From),
 		AccountID:  intoOpt[v1.OptString](params.AccountID),
 		ResourceID: resourceId,
 		IsSystem:   intoOpt[v1.OptBool](params.IsSystem),
@@ -191,15 +191,15 @@ func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error
 	return nil
 }
 
-func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int64, from *int64) ([]v1.MetricsStorageAccessKey, error) {
+func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) ([]v1.MetricsStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.ListKeys", 0, err)
 	}
 	params := v1.MetricsStoragesKeysListParams{
 		MetricsResourceID: rid,
-		Count:             intoOpt[v1.OptInt64](count),
-		From:              intoOpt[v1.OptInt64](from),
+		Count:             intoOpt[v1.OptInt](count),
+		From:              intoOpt[v1.OptInt](from),
 	}
 	result, err := op.client.MetricsStoragesKeysList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -250,7 +250,7 @@ func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId strin
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.ReadKey", 0, err)
 	}
-	params := v1.MetricsStoragesKeysRetrieveParams{MetricsResourceID: rid, ID: id}
+	params := v1.MetricsStoragesKeysRetrieveParams{MetricsResourceID: rid, UID: id}
 	result, err := op.client.MetricsStoragesKeysRetrieve(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
@@ -274,7 +274,7 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 	if err != nil {
 		return nil, NewAPIError("MetricsStorage.UpdateKey", 0, err)
 	}
-	params := v1.MetricsStoragesKeysUpdateParams{MetricsResourceID: rid, ID: id}
+	params := v1.MetricsStoragesKeysUpdateParams{MetricsResourceID: rid, UID: id}
 	opt := v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
 		Description: intoOpt[v1.OptString](description),
 	})
@@ -302,7 +302,7 @@ func (op *metricsStorageOp) DeleteKey(ctx context.Context, metricsResourceId str
 	if err != nil {
 		return NewAPIError("MetricsStorage.DeleteKey", 0, err)
 	}
-	params := v1.MetricsStoragesKeysDestroyParams{MetricsResourceID: rid, ID: id}
+	params := v1.MetricsStoragesKeysDestroyParams{MetricsResourceID: rid, UID: id}
 	err = op.client.MetricsStoragesKeysDestroy(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {

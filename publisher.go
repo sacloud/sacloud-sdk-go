@@ -24,7 +24,7 @@ import (
 )
 
 type PublisherAPI interface {
-	List(ctx context.Context, count *int64, from *int64) ([]v1.Publisher, error)
+	List(ctx context.Context, count *int, from *int) ([]v1.Publisher, error)
 	Read(ctx context.Context, code string) (*v1.Publisher, error)
 }
 
@@ -38,10 +38,10 @@ func NewPublisherOp(client *v1.Client) PublisherAPI {
 	return &publisherOp{client: client}
 }
 
-func (p *publisherOp) List(ctx context.Context, count *int64, from *int64) ([]v1.Publisher, error) {
+func (p *publisherOp) List(ctx context.Context, count *int, from *int) ([]v1.Publisher, error) {
 	params := v1.PublishersListParams{
-		Count: intoOpt[v1.OptInt64](count),
-		From:  intoOpt[v1.OptInt64](from),
+		Count: intoOpt[v1.OptInt](count),
+		From:  intoOpt[v1.OptInt](from),
 	}
 
 	result, err := p.client.PublishersList(ctx, params)

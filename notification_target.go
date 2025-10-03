@@ -44,8 +44,8 @@ func NewNotificationTargetOp(client *v1.Client) NotificationTargetAPI {
 }
 
 type NotificationTargetsListParams struct {
-	Count *int64
-	From  *int64
+	Count *int
+	From  *int
 }
 
 func (op *notificationTargetOp) List(ctx context.Context, projectId string, p NotificationTargetsListParams) ([]v1.NotificationTarget, error) {
@@ -55,8 +55,8 @@ func (op *notificationTargetOp) List(ctx context.Context, projectId string, p No
 	}
 	params := v1.AlertsProjectsNotificationTargetsListParams{
 		ProjectResourceID: id,
-		Count:             intoOpt[v1.OptInt64](p.Count),
-		From:              intoOpt[v1.OptInt64](p.From),
+		Count:             intoOpt[v1.OptInt](p.Count),
+		From:              intoOpt[v1.OptInt](p.From),
 	}
 	result, err := op.client.AlertsProjectsNotificationTargetsList(ctx, params)
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
