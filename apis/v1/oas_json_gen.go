@@ -2114,16 +2114,20 @@ func (s *LogMeasureRule) encodeFields(e *jx.Encoder) {
 		s.LogStorage.Encode(e)
 	}
 	{
-		e.FieldStart("log_storage_id")
-		s.LogStorageID.Encode(e)
+		if s.LogStorageID.Set {
+			e.FieldStart("log_storage_id")
+			s.LogStorageID.Encode(e)
+		}
 	}
 	{
 		e.FieldStart("metrics_storage")
 		s.MetricsStorage.Encode(e)
 	}
 	{
-		e.FieldStart("metrics_storage_id")
-		s.MetricsStorageID.Encode(e)
+		if s.MetricsStorageID.Set {
+			e.FieldStart("metrics_storage_id")
+			s.MetricsStorageID.Encode(e)
+		}
 	}
 	{
 		e.FieldStart("rule")
@@ -2228,8 +2232,8 @@ func (s *LogMeasureRule) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"log_storage\"")
 			}
 		case "log_storage_id":
-			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
+				s.LogStorageID.Reset()
 				if err := s.LogStorageID.Decode(d); err != nil {
 					return err
 				}
@@ -2248,8 +2252,8 @@ func (s *LogMeasureRule) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"metrics_storage\"")
 			}
 		case "metrics_storage_id":
-			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
+				s.MetricsStorageID.Reset()
 				if err := s.MetricsStorageID.Decode(d); err != nil {
 					return err
 				}
@@ -2301,8 +2305,8 @@ func (s *LogMeasureRule) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
-		0b11100111,
-		0b00001111,
+		0b10100111,
+		0b00001110,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
