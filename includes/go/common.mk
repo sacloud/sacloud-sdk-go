@@ -27,12 +27,12 @@ TEXTLINT_ACTION_VERSION ?= v0.1.0
 .PHONY: test
 test:
 	@echo "running 'go test'..."
-	TESTACC= $(GO) test ./... $(TESTARGS) -v -timeout=120m -parallel=8 -race;
+	TESTACC= $(GO) test ./... $(TESTARGS) -v -timeout=120m -race;
 
 .PHONY: testacc
 testacc:
 	@echo "running 'go test' with TESTACC=1..."
-	TESTACC=1 $(GO) test ./... $(TESTARGS) --tags=acctest -v -timeout=120m -parallel=8 ;
+	TESTACC=1 $(GO) test ./... $(TESTARGS) --tags=acctest -v -timeout=120m ;
 
 .PHONY: dev-tools
 dev-tools:
