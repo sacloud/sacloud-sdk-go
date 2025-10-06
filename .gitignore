@@ -2,5 +2,4 @@
 vendor/
 dist/
 work/
-go-template
 .vscode/
