@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-// Represents an error within the HTTP client.
+// Error represents an error within the HTTP client.
 type Error struct {
 	code int
 	msg  string
