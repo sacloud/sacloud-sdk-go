@@ -161,8 +161,10 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 }
 
 func (this *ProfileOp) Delete(name string) error {
-	if _, err := os.Stat(this.dir); err != nil {
+	if _, err := os.Stat(this.dir); os.IsNotExist(err) {
 		return nil // already gone, nothing to do
+	} else if err != nil {
+		return Wrapf(err, "failed to stat directory %+v", this.dir)
 	}
 
 	root, err := os.OpenRoot(this.dir)
