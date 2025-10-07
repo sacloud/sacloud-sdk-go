@@ -169,7 +169,7 @@ func (this *ProfileOp) Delete(name string) error {
 	if err != nil {
 		return Wrapf(err, "failed to open directory %+v", this.dir)
 	}
-	defer func() { err = root.Close() }()
+	defer func() { _ = root.Close() }()
 
 	return root.RemoveAll(name)
 }
@@ -223,7 +223,7 @@ func (this *ProfileOp) open(
 	if err != nil {
 		return nil, Wrapf(err, "failed to open directory %+v", this.dir)
 	}
-	defer func() { err = root.Close() }()
+	defer func() { _ = root.Close() }()
 
 	if (mode & os.O_CREATE) != 0 {
 		dirname := filepath.Dir(n)
@@ -236,7 +236,7 @@ func (this *ProfileOp) open(
 	if err != nil {
 		return nil, Wrapf(err, "failed to open %+v", n)
 	}
-	defer func() { err = file.Close() }()
+	defer func() { _ = file.Close() }()
 
 	return callback(file)
 }
