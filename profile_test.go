@@ -211,3 +211,40 @@ func (s *ProfileTestSuite) TestProfileOp_usacloud() {
 		})
 	})
 }
+
+func (s *ProfileTestSuite) TestProfileOp_XDG() {
+	s.op = NewProfileOp([]string{"XDG_CONFIG_HOME=" + s.dir + "/.config"})
+	s.NotNil(s.op)
+	op := s.op
+
+	s.Run("List", func() {
+		names, err := op.List()
+		s.NoError(err)
+		s.Equal([]string{"xdg"}, names)
+	})
+
+	s.Run("Read", func() {
+		s.Run("found sane", func() {
+			profile, err := op.Read("xdg")
+			s.NoError(err)
+			s.NotNil(profile)
+			s.Equal("xdg", profile.Name)
+			s.Equal(map[string]any{"Zone": "xdg"}, profile.Attributes)
+		})
+	})
+
+	s.Run("Create", func() {
+		s.Run("on success", func() {
+			err := op.Create(&Profile{
+				Name:       "new-profile",
+				Attributes: map[string]any{"Zone": "new-profile"},
+			})
+			s.NoError(err)
+
+			// must not exist
+			_, err = os.Stat(s.dir + "/.usacloud/new-profile/config.json")
+			var e1 *os.PathError
+			s.ErrorAs(err, &e1)
+		})
+	})
+}
