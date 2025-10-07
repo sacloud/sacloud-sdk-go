@@ -32,6 +32,7 @@ type ProfileTestSuite struct {
 
 func TestProfileTestSuite(t *testing.T) { suite.Run(t, new(ProfileTestSuite)) }
 
+//nolint:errcheck,gosec
 func (s *ProfileTestSuite) SetupSuite() {
 	// Note that `s.T().TempDir()` is removed every time after a _test_, not afrer a suite.
 	if dir, err := os.MkdirTemp(os.TempDir(), "profile_test"); err != nil {
@@ -64,7 +65,7 @@ func (s *ProfileTestSuite) TearDownSuite() {
 }
 
 func (s *ProfileTestSuite) TearDownSubTest() {
-	s.op.Create(&Profile{
+	_ = s.op.Create(&Profile{
 		Name:       "usacloud",
 		Attributes: map[string]any{"Zone": "usacloud"},
 	})
