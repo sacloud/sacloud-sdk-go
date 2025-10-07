@@ -157,6 +157,27 @@ func WithLogStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.LogSt
 	return ret
 }
 
+func WithTraceStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.TraceStorage {
+	op := NewTracesStorageOp(cli)
+
+	ret, err := op.Create(ctx, TracesStorageCreateParams{
+		Name:           testutil.RandomName("test-trace-storage-", 16, testutil.CharSetAlphaNum),
+		Description:    ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+		Classification: ref(v1.TraceStorageCreateClassificationShared),
+	})
+	require.NoError(t, err)
+	require.NotNil(t, ret)
+
+	id := ret.GetResourceID()
+
+	t.Cleanup(func() {
+		tid := fmt.Sprintf("%d", id)
+		err := op.Delete(ctx, tid)
+		require.NoError(t, err)
+	})
+	return ret
+}
+
 func WithNotificationTarget(t *testing.T, cli *v1.Client, ctx context.Context, pid int64) *v1.NotificationTarget {
 	op := NewNotificationTargetOp(cli)
 	id := fmt.Sprintf("%d", pid)
@@ -398,6 +419,40 @@ var TemplateHistory = func() v1.History {
 
 var TemplateAlertRule = func() v1.AlertRule {
 	var ret v1.AlertRule
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateTraceStorage = func() v1.TraceStorage {
+	var ret v1.TraceStorage
+
+	ret.SetFake()
+	ret.SetID(^0)
+	ret.SetTags(TemplateTags)
+	ret.SetCreatedAt(TemplateTime)
+	return ret
+}()
+
+var TemplateWrappedTraceStorage = func() v1.WrappedTraceStorage {
+	var ret v1.WrappedTraceStorage
+
+	ret.SetFake()
+	ret.SetID(^0)
+	ret.SetTags(TemplateTags)
+	ret.SetCreatedAt(TemplateTime)
+	return ret
+}()
+
+var TemplateTraceStorageAccessKey = func() v1.TraceStorageAccessKey {
+	var ret v1.TraceStorageAccessKey
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateWrappedTraceStorageAccessKey = func() v1.WrappedTraceStorageAccessKey {
+	var ret v1.WrappedTraceStorageAccessKey
 
 	ret.SetFake()
 	return ret
