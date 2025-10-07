@@ -1106,9 +1106,9 @@ type LogMeasureRule struct {
 	Name             OptString           `json:"name"`
 	Description      OptString           `json:"description"`
 	LogStorage       LogStorage          `json:"log_storage"`
-	LogStorageID     NilInt64            `json:"log_storage_id"`
+	LogStorageID     OptNilInt64         `json:"log_storage_id"`
 	MetricsStorage   MetricsStorage      `json:"metrics_storage"`
-	MetricsStorageID NilInt64            `json:"metrics_storage_id"`
+	MetricsStorageID OptNilInt64         `json:"metrics_storage_id"`
 	Rule             LogMeasureRuleModel `json:"rule"`
 	CreatedAt        time.Time           `json:"created_at"`
 	UpdatedAt        time.Time           `json:"updated_at"`
@@ -1145,7 +1145,7 @@ func (s *LogMeasureRule) GetLogStorage() LogStorage {
 }
 
 // GetLogStorageID returns the value of LogStorageID.
-func (s *LogMeasureRule) GetLogStorageID() NilInt64 {
+func (s *LogMeasureRule) GetLogStorageID() OptNilInt64 {
 	return s.LogStorageID
 }
 
@@ -1155,7 +1155,7 @@ func (s *LogMeasureRule) GetMetricsStorage() MetricsStorage {
 }
 
 // GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *LogMeasureRule) GetMetricsStorageID() NilInt64 {
+func (s *LogMeasureRule) GetMetricsStorageID() OptNilInt64 {
 	return s.MetricsStorageID
 }
 
@@ -1205,7 +1205,7 @@ func (s *LogMeasureRule) SetLogStorage(val LogStorage) {
 }
 
 // SetLogStorageID sets the value of LogStorageID.
-func (s *LogMeasureRule) SetLogStorageID(val NilInt64) {
+func (s *LogMeasureRule) SetLogStorageID(val OptNilInt64) {
 	s.LogStorageID = val
 }
 
@@ -1215,7 +1215,7 @@ func (s *LogMeasureRule) SetMetricsStorage(val MetricsStorage) {
 }
 
 // SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *LogMeasureRule) SetMetricsStorageID(val NilInt64) {
+func (s *LogMeasureRule) SetMetricsStorageID(val OptNilInt64) {
 	s.MetricsStorageID = val
 }
 

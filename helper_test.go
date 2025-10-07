@@ -424,3 +424,13 @@ var TemplateWrappedTraceStorageAccessKey = func() v1.WrappedTraceStorageAccessKe
 	ret.SetFake()
 	return ret
 }()
+
+var TemplateLogMeasureRule = func() v1.LogMeasureRule {
+	var ret v1.LogMeasureRule
+
+	ret.SetFake()
+	ret.SetLogStorage(TemplateLogStorage)
+	ret.SetMetricsStorage(TemplateMetricsStorage)
+	ret.Rule.Query.SetMatchers([]v1.FieldMatcher{})
+	return ret
+}()
