@@ -44,6 +44,18 @@ func NewError(code int, msg string, err error) error {
 	return &ret
 }
 
+func NewErrorf(format string, args ...any) error {
+	ret := compose(0, fmt.Sprintf(format, args...), nil)
+
+	return &ret
+}
+
+func Wrapf(err error, format string, args ...any) error {
+	ret := compose(0, fmt.Sprintf(format, args...), err)
+
+	return &ret
+}
+
 // Implements the error interface.
 // Returns a stringized representation of the error.
 func (e *Error) Error() string {
