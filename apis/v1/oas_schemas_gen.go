@@ -2975,10 +2975,10 @@ type NotificationRouting struct {
 	UID                   uuid.UUID          `json:"uid"`
 	ProjectID             NilInt64           `json:"project_id"`
 	NotificationTarget    NotificationTarget `json:"notification_target"`
-	NotificationTargetUID uuid.UUID          `json:"notification_target_uid"`
+	NotificationTargetUID OptUUID            `json:"notification_target_uid"`
 	MatchLabels           []MatchLabelsItem  `json:"match_labels"`
 	ResendIntervalMinutes OptInt             `json:"resend_interval_minutes"`
-	Order                 int                `json:"order"`
+	Order                 OptInt             `json:"order"`
 }
 
 // GetUID returns the value of UID.
@@ -2997,7 +2997,7 @@ func (s *NotificationRouting) GetNotificationTarget() NotificationTarget {
 }
 
 // GetNotificationTargetUID returns the value of NotificationTargetUID.
-func (s *NotificationRouting) GetNotificationTargetUID() uuid.UUID {
+func (s *NotificationRouting) GetNotificationTargetUID() OptUUID {
 	return s.NotificationTargetUID
 }
 
@@ -3012,7 +3012,7 @@ func (s *NotificationRouting) GetResendIntervalMinutes() OptInt {
 }
 
 // GetOrder returns the value of Order.
-func (s *NotificationRouting) GetOrder() int {
+func (s *NotificationRouting) GetOrder() OptInt {
 	return s.Order
 }
 
@@ -3032,7 +3032,7 @@ func (s *NotificationRouting) SetNotificationTarget(val NotificationTarget) {
 }
 
 // SetNotificationTargetUID sets the value of NotificationTargetUID.
-func (s *NotificationRouting) SetNotificationTargetUID(val uuid.UUID) {
+func (s *NotificationRouting) SetNotificationTargetUID(val OptUUID) {
 	s.NotificationTargetUID = val
 }
 
@@ -3047,7 +3047,7 @@ func (s *NotificationRouting) SetResendIntervalMinutes(val OptInt) {
 }
 
 // SetOrder sets the value of Order.
-func (s *NotificationRouting) SetOrder(val int) {
+func (s *NotificationRouting) SetOrder(val OptInt) {
 	s.Order = val
 }
 

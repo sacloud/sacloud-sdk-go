@@ -5233,8 +5233,6 @@
         "required": [
           "match_labels",
           "notification_target",
-          "notification_target_uid",
-          "order",
           "project_id",
           "uid"
         ]

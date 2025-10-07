@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"os"
 	"testing"
 	"time"
@@ -175,6 +176,29 @@ func WithTraceStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.Tra
 		require.NoError(t, err)
 	})
 	return ret
+}
+
+func WithNotificationTarget(t *testing.T, cli *v1.Client, ctx context.Context, pid int64) *v1.NotificationTarget {
+	op := NewNotificationTargetOp(cli)
+	id := fmt.Sprintf("%d", pid)
+
+	url, _ := url.Parse("https://example.com/-/c/a/n/-/y/o/u/-/h/e/a/r/-/m/e/-/?")
+	createParams := NotificationTargetCreateParams{
+		ServiceType: v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE,
+		URL:         *url,
+	}
+	created, err := op.Create(ctx, id, createParams)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+
+	// Cleanup
+	t.Cleanup(func() {
+		nid := created.GetUID()
+		err := op.Delete(ctx, id, nid)
+		require.NoError(t, err)
+	})
+
+	return created
 }
 
 // generic-ish type cast helper function
@@ -374,6 +398,15 @@ var TemplateNotificationTarget = func() v1.NotificationTarget {
 
 	ret.SetFake()
 	ret.SetProjectID(v1.NewNilInt64(^0))
+	return ret
+}()
+
+var TemplateNotificationRouting = func() v1.NotificationRouting {
+	var ret v1.NotificationRouting
+
+	ret.SetFake()
+	ret.SetProjectID(v1.NewNilInt64(^0))
+	ret.SetMatchLabels([]v1.MatchLabelsItem{})
 	return ret
 }()
 
