@@ -300,17 +300,13 @@ func lookupProfileDir(envp []string) string {
 // and returns its value and a boolean indicating if it was found.
 // The key must not be empty.
 func lookupEnv(envp []string, key string) (string, bool) {
-	n := len(key)
 	for _, env := range envp {
-		//nolint:gocritic
-		if len(env) <= n {
+		if k, v, ok := strings.Cut(env, "="); !ok {
 			continue
-		} else if env[:n] != key {
-			continue
-		} else if env[n] != '=' {
+		} else if k != key {
 			continue
 		} else {
-			return env[n+1:], true
+			return v, true
 		}
 	}
 	return "", false
