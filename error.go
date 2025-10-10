@@ -53,6 +53,7 @@ func NewErrorf(format string, args ...any) error {
 func Wrapf(err error, format string, args ...any) error {
 	if err == nil {
 		return nil
+
 	} else {
 		ret := compose(0, fmt.Sprintf(format, args...), err)
 
@@ -95,6 +96,7 @@ func (e *Error) Error() string {
 func (e *Error) Unwrap() error {
 	if e == nil {
 		return nil
+
 	} else {
 		_, _, err := e.decompose()
 
@@ -107,6 +109,7 @@ func (e *Error) Unwrap() error {
 func IsNotFoundError(err error) bool {
 	if e, ok := asType[*Error](err); ok {
 		return e.codeIs(404)
+
 	} else {
 		return false
 	}

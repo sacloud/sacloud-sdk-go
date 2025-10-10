@@ -72,6 +72,7 @@ func (p *providerModel) LookupClientConfigDefaultZone() (string, bool) {
 func (p *providerModel) LookupClientConfigZones() ([]string, bool) {
 	if p.Zones.IsNull() || p.Zones.IsUnknown() {
 		return nil, false
+
 	} else {
 		vals := p.Zones.Elements()
 		result := make([]string, 0, len(vals))

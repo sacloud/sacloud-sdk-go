@@ -122,6 +122,7 @@ type Client struct {
 func (c *Client) SetEnviron(env []string) error {
 	if c == nil {
 		return NewErrorf("nil client")
+
 	} else {
 		return c.params.setEnviron(env)
 	}
@@ -130,6 +131,7 @@ func (c *Client) SetEnviron(env []string) error {
 func (c *Client) FlagSet() *flag.FlagSet {
 	if c == nil {
 		return nil
+
 	} else {
 		return c.params.flagSet()
 	}
@@ -138,6 +140,7 @@ func (c *Client) FlagSet() *flag.FlagSet {
 func (c *Client) Populate() error {
 	if c == nil {
 		return NewErrorf("nil client")
+
 	} else {
 		return c.params.populate(&c.populated)
 	}
@@ -146,6 +149,7 @@ func (c *Client) Populate() error {
 func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) {
 	if c == nil {
 		return
+
 	} else {
 		c.params.setHCL(p)
 	}
@@ -156,6 +160,7 @@ func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) {
 func (c *Client) JSON() map[string]any {
 	if c == nil {
 		return map[string]any(nil)
+
 	} else {
 		q := c.populated
 		w := maps.All(q)
@@ -171,12 +176,16 @@ func (c *Client) Profile() (*Profile, error) {
 
 	if c == nil {
 		return p, NewErrorf("nil client")
+
 	} else if v, err := c.populated.get("Profile"); err != nil {
 		return p, err
+
 	} else if w, ok := v.Get(); !ok {
 		return p, nil
+
 	} else if p, ok := w.(*Profile); !ok {
 		return p, NewErrorf("invalid type for Profile in config: %T", v)
+
 	} else {
 		return p, nil
 	}

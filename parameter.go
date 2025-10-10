@@ -62,6 +62,7 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 	return func(k, v string) error {
 		if p == nil {
 			return NewErrorf("nil parameter")
+
 		} else {
 			switch k {
 			case "SACLOUD_PROFILE":
@@ -123,6 +124,7 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 func (p *parameter) setEnviron(env []string) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
+
 	} else {
 		p.profileOp = NewProfileOp(env)
 	}
@@ -186,8 +188,10 @@ func (p *parameter) populate(c *config) error {
 	//nolint:gocritic
 	if p == nil {
 		return NewErrorf("nil parameter")
+
 	} else if c == nil {
 		return NewErrorf("nil config")
+
 	} else if p.profileOp == nil {
 		// Operator not initialized, means there was no call to SetEnviron()
 		// This could be meddling, but we initialize it here for safety.
@@ -212,8 +216,10 @@ func (p *parameter) populate(c *config) error {
 
 	if v, err := c.get("AccessToken"); err == nil && v.isSet() {
 		// Take that,
+
 	} else if v, err := c.get("PrivateKeyPEMPath"); err == nil && v.isSet() {
 		// Take that,
+
 	} else {
 		// This is fatal.  Stop here.
 		ret = append(ret, NewErrorf("neither AccessToken nor PrivateKeyPEMPath is set"))
@@ -232,12 +238,16 @@ func (p *parameter) populateProfile(c *config) error {
 
 	if p == nil {
 		return NewErrorf("nil parameter")
+
 	} else if v, ok := p.envp.profileName.Get(); ok {
 		profileName.initialize(v)
+
 	} else if v, ok := p.argv.profileName.Get(); ok {
 		profileName.initialize(v)
+
 	} else if v, ok := p.hcl.profileName.Get(); ok {
 		profileName.initialize(v)
+
 	} else if v, err := p.profileOp.GetCurrentName(); err == nil {
 		profileName.initialize(v)
 	}
@@ -247,9 +257,11 @@ func (p *parameter) populateProfile(c *config) error {
 		// Maybe the user opted to not use profiles at all.
 		// This is not an error, continue populating with empty profile.
 		return nil
+
 	} else if profile, err := p.profileOp.Read(v); err != nil {
 		// Explicitly specified profile not found, this is surely an error.
 		return err
+
 	} else {
 		return c.set("Profile", profile)
 	}
@@ -259,18 +271,25 @@ func (p *parameter) populateProfile(c *config) error {
 func (p *parameter) populatePrivateKeyPath(c *config) error {
 	if err := p.populateString(c, "PrivateKeyPEMPath"); err != nil {
 		return err
+
 	} else if path, err := c.get("PrivateKeyPEMPath"); err != nil {
 		return err
+
 	} else if v, ok := path.Get(); !ok {
 		return nil // just not set
+
 	} else if v, ok := v.(string); !ok {
 		return NewErrorf("invalid type for PrivateKeyPEMPath in config: %T", v)
+
 	} else if s, err := os.Stat(v); err != nil {
 		return NewErrorf("private key file not found: %s", v)
+
 	} else if !s.Mode().IsRegular() {
 		return NewErrorf("private key not a file: %s", v)
+
 	} else if s.Mode().Perm()&0o077 != 0 {
 		return NewErrorf("private key file %s permission is too lax: %o", v, s.Mode().Perm())
+
 	} else {
 		return nil
 	}
@@ -299,19 +318,25 @@ func (p *parameter) populateZones(c *config) []error {
 
 	if p == nil {
 		ret = append(ret, NewErrorf("nil parameter"))
+
 	} else if c == nil {
 		ret = append(ret, NewErrorf("nil config"))
+
 	} else if v, ok := p.envp.zones.Get(); ok {
 		val.initialize(v)
 		whence = "environment variable"
+
 	} else if v, ok := p.argv.zones.Get(); ok {
 		val.initialize(v)
 		whence = "command-line argument"
+
 	} else if v, ok := p.hcl.zones.Get(); ok {
 		val.initialize(v)
 		whence = "terraform configuration"
+
 	} else if wal, whence, err := obtainFromProfile[[]any](c, "Zones", "profile"); err != nil {
 		ret = append(ret, err)
+
 	} else if v, ok := wal.Get(); !ok {
 		// just not set
 
@@ -329,8 +354,10 @@ func (p *parameter) populateZones(c *config) []error {
 
 	if v, ok := val.Get(); !ok {
 		// just not set
+
 	} else if len(v) == 0 {
 		ret = append(ret, NewErrorf("empty Zones (from %s)", whence))
+
 	} else if err := c.set("Zones", v); err != nil {
 		ret = append(ret, err)
 	}
@@ -378,10 +405,13 @@ func (this *parameter) populateTraceMode(c *config) error {
 func (p *parameter) populateString(c *config, key string) error {
 	if val, whence, err := prioritizedParameterValue[string](p, c, key); err != nil {
 		return err
+
 	} else if v, ok := val.Get(); !ok {
 		return nil // just not set; leave blank
+
 	} else if v == "" {
 		return NewErrorf("empty %s (from %s)", key, whence)
+
 	} else {
 		return c.set(key, v)
 	}
@@ -390,10 +420,13 @@ func (p *parameter) populateString(c *config, key string) error {
 func (p *parameter) populateUInt64(c *config, key string) error {
 	if val, whence, err := prioritizedParameterValue[int64](p, c, key); err != nil {
 		return err
+
 	} else if v, ok := val.Get(); !ok {
 		return nil // just not set; leave blank
+
 	} else if v < 0 {
 		return NewErrorf("negative %s (from %s): %d", key, whence, v)
+
 	} else {
 		return c.set(key, v)
 	}
@@ -415,14 +448,19 @@ func prioritizedParameterValue[
 
 	if p == nil {
 		return val, whence, NewErrorf("nil parameter")
+
 	} else if c == nil {
 		return val, whence, NewErrorf("nil config")
+
 	} else if val, whence, err := obtainFromStorage[T](&p.envp, k, "environment variable"); val.isSet() || err != nil {
 		return val, whence, err
+
 	} else if val, whence, err := obtainFromStorage[T](&p.argv, k, "command-line argument"); val.isSet() || err != nil {
 		return val, whence, err
+
 	} else if val, whence, err := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); val.isSet() || err != nil {
 		return val, whence, err
+
 	} else {
 		return obtainFromProfile[T](c, k, "profile")
 	}
@@ -444,10 +482,13 @@ func obtainFromStorage[
 
 	if s == nil {
 		return val, whence, NewErrorf("nil %s", whence)
+
 	} else if v, ok := s.get(k); !ok {
 		return val, whence, nil
+
 	} else if t, ok := v.(T); !ok {
 		return val, whence, NewErrorf("invalid type for %s in %s: %T", k, whence, v)
+
 	} else {
 		return maybeUninit[T]{t, true}, whence, nil
 	}
@@ -469,18 +510,24 @@ func obtainFromProfile[
 
 	if c == nil {
 		return val, whence, NewErrorf("nil config")
+
 	} else if v, err := c.get("Profile"); err != nil {
 		return val, whence, err
+
 	} else if w, ok := v.Get(); !ok {
 		// profile not set; ok unspecified
 		return val, whence, nil
+
 	} else if p, ok := w.(*Profile); !ok {
 		return val, whence, NewErrorf("invalid profile in config: %v", v)
+
 	} else if v, ok := p.Get(k); !ok {
 		// profile does not have this key; ok unspecified
 		return val, whence, nil
+
 	} else if w, ok := v.(T); !ok {
 		return val, whence, NewErrorf("invalid type for %s in %s: %T", k, whence, v)
+
 	} else {
 		return maybeUninit[T]{w, true}, whence, nil
 	}
@@ -506,8 +553,10 @@ func (m *maybeUninit[T]) String() string {
 	if m == nil {
 		panic("nil dereference")
 	}
+
 	if v, ok := m.Get(); ok {
 		return fmt.Sprintf("%v", v)
+
 	} else {
 		return ""
 	}
@@ -518,6 +567,7 @@ func (m *maybeUninit[T]) Get() (T, bool) {
 
 	if m == nil {
 		return zero, false
+
 	} else {
 		return m.value, m.set
 	}
@@ -533,6 +583,7 @@ func (m *maybeUninit[T]) Set(s string) error {
 	case *maybeUninit[int64]:
 		if v, err := strconv.ParseInt(s, 0, 64); err != nil {
 			return err
+
 		} else {
 			m.initialize(v)
 		}
@@ -543,6 +594,7 @@ func (m *maybeUninit[T]) Set(s string) error {
 		c := csv.NewReader(r)
 		if v, err := c.Read(); err != nil {
 			return err
+
 		} else {
 			m.initialize(v)
 		}
@@ -558,6 +610,7 @@ func (m *maybeUninit[T]) Set(s string) error {
 func (c *config) set(k string, v any) error {
 	if c == nil {
 		return NewErrorf("nil config")
+
 	} else {
 		(*c)[k] = v
 		return nil
@@ -569,8 +622,10 @@ func (c *config) get(k string) (maybeUninit[any], error) {
 
 	if c == nil {
 		return ret, NewErrorf("nil config")
+
 	} else if v, ok := (*c)[k]; !ok {
 		return ret, nil
+
 	} else {
 		ret.initialize(v)
 		return ret, nil

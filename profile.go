@@ -178,6 +178,7 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 func (this *ProfileOp) Delete(name string) error {
 	if _, err := os.Stat(this.dir); os.IsNotExist(err) {
 		return nil // already gone, nothing to do
+
 	} else if err != nil {
 		return Wrapf(err, "failed to stat directory %+v", this.dir)
 	}
@@ -185,6 +186,7 @@ func (this *ProfileOp) Delete(name string) error {
 	root, err := os.OpenRoot(this.dir)
 	if err != nil {
 		return Wrapf(err, "failed to open directory %+v", this.dir)
+
 	}
 	defer func() { _ = root.Close() }()
 
@@ -231,6 +233,7 @@ func (this *Profile) Pathname() string { return filepath.Join(this.dir, this.Nam
 func (this *Profile) Get(k string) (any, bool) {
 	if this == nil {
 		return nil, false
+
 	} else {
 		v, ok := this.Attributes[k]
 		return v, ok
@@ -240,6 +243,7 @@ func (this *Profile) Get(k string) (any, bool) {
 func (this *Profile) Set(k string, v any) {
 	if this == nil {
 		return
+
 	}
 	if this.Attributes == nil {
 		this.Attributes = map[string]any{}
@@ -251,8 +255,10 @@ func (this *Profile) Keys() iter.Seq[string] {
 	//nolint:gocritic
 	if this == nil {
 		return nonceSeq[string]()
+
 	} else if this.Attributes == nil {
 		return nonceSeq[string]()
+
 	} else {
 		return maps.Keys(this.Attributes)
 	}
