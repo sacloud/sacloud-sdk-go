@@ -82,6 +82,29 @@ func rejectSeq2[T comparable, U any](seq iter.Seq2[T, U], f func(T, U) bool) ite
 	return transformSeq4(seq, func(k T, v U) (T, U, bool) { return k, v, !f(k, v) })
 }
 
+// transforms Seq by f.
+func transformSeq[T, U any](seq iter.Seq[T], f func(T) (U, bool)) iter.Seq[U] {
+	return func(yield func(U) bool) {
+		for v := range seq {
+			if w, ok := f(v); !ok {
+				continue
+			} else if !yield(w) {
+				return
+			}
+		}
+	}
+}
+
+// (intuitive)
+func selectSeq[T any](seq iter.Seq[T], f func(T) bool) iter.Seq[T] {
+	return transformSeq(seq, func(v T) (T, bool) { return v, f(v) })
+}
+
+// (intuitive)
+func mapSeq[T, U any](seq iter.Seq[T], f func(T) U) iter.Seq[U] {
+	return transformSeq(seq, func(v T) (U, bool) { return f(v), true })
+}
+
 // `(mapcar #cdr seq)`
 func valuesOfSeq2[K comparable, V any](seq iter.Seq2[K, V]) iter.Seq[V] {
 	return func(yield func(V) bool) {

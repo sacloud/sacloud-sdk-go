@@ -74,7 +74,6 @@ var _ ProfileAPI = (*ProfileOp)(nil)
 func NewProfileOp(envp []string) *ProfileOp { return &ProfileOp{lookupProfileDir(envp)} }
 
 func (this *ProfileOp) List() ([]string, error) {
-	var ret []string
 	glob := filepath.Join(this.dir, "*", "config.json")
 
 	if stat, err := os.Stat(this.dir); err != nil {
@@ -87,21 +86,24 @@ func (this *ProfileOp) List() ([]string, error) {
 		return nil, Wrapf(err, "failed to open %+v", this.dir)
 
 	} else {
-		for _, Profile := range ent {
-			if stat, err := os.Stat(Profile); err != nil {
-				// skip
-			} else if stat.IsDir() {
-				// skip
-			} else {
-				dir := filepath.Dir(Profile)
-				name := filepath.Base(dir)
-				ret = append(ret, name)
-			}
+		exists := func(p string) bool {
+			_, err := os.Stat(p)
+			return err == nil
 		}
-	}
+		isRegular := func(p string) bool {
+			stat, _ := os.Stat(p)
+			return stat.Mode().IsRegular()
+		}
 
-	slices.Sort(ret) // stabilize return order (easy test)
-	return ret, nil
+		q := slices.Values(ent)
+		w := selectSeq(q, isRegular)
+		e := selectSeq(w, exists)
+		r := mapSeq(e, filepath.Dir)
+		t := mapSeq(r, filepath.Base)
+		y := slices.Sorted(t) // stabilize return order (easy test)
+
+		return y, nil
+	}
 }
 
 func (this *ProfileOp) Read(name string) (*Profile, error) {
