@@ -76,10 +76,13 @@ func (this *ProfileOp) List() ([]string, error) {
 
 	if stat, err := os.Stat(this.dir); err != nil {
 		return []string{}, nil // This is when e.g. the first invocation
+
 	} else if !stat.IsDir() {
 		return nil, NewErrorf("failed to open %+v", this.dir)
+
 	} else if ent, err := filepath.Glob(glob); err != nil {
 		return nil, Wrapf(err, "failed to open %+v", this.dir)
+
 	} else {
 		for _, Profile := range ent {
 			if stat, err := os.Stat(Profile); err != nil {
@@ -106,8 +109,10 @@ func (this *ProfileOp) Read(name string) (*Profile, error) {
 
 		if buf, err := io.ReadAll(fp); err != nil {
 			return nil, Wrapf(err, "failed to read %+v", fp.Name())
+
 		} else if err := json.Unmarshal(buf, &attrs); err != nil {
 			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
+
 		} else {
 			return &Profile{this.dir, name, attrs}, nil
 		}
@@ -120,8 +125,10 @@ func (this *ProfileOp) Create(p *Profile) error {
 	_, err := this.open(n, os.O_WRONLY|os.O_CREATE|os.O_TRUNC|os.O_EXCL, func(fp *os.File) (*Profile, error) {
 		if buf, err := json.MarshalIndent(p.Attributes, "", "  "); err != nil {
 			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
+
 		} else if _, err := fp.Write(buf); err != nil {
 			return nil, Wrapf(err, "failed to write %+v", p.Pathname())
+
 		} else {
 			return p, nil
 		}
@@ -140,6 +147,7 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 
 		if buf, err := io.ReadAll(fp); err != nil {
 			return nil, Wrapf(err, "failed to read %+v", fp.Name())
+
 		} else if err := json.Unmarshal(buf, &attrs); err != nil {
 			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
 		}
@@ -148,12 +156,16 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 
 		if buf, err := json.MarshalIndent(ret.Attributes, "", "  "); err != nil {
 			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
+
 		} else if _, err := fp.Seek(0, 0); err != nil {
 			return nil, Wrapf(err, "failed to seek %+v", p.Pathname())
+
 		} else if err := fp.Truncate(0); err != nil {
 			return nil, Wrapf(err, "failed to truncate %+v", p.Pathname())
+
 		} else if _, err := fp.Write(buf); err != nil {
 			return nil, Wrapf(err, "failed to write %+v", p.Pathname())
+
 		} else {
 			return ret, nil
 		}
@@ -181,6 +193,7 @@ func (this *ProfileOp) GetCurrentName() (string, error) {
 	_, err := this.open("current", os.O_RDONLY, func(fp *os.File) (*Profile, error) {
 		if buf, err := io.ReadAll(fp); err != nil {
 			return nil, Wrapf(err, "failed to read %+v", fp.Name())
+
 		} else {
 			ret = strings.TrimSpace(string(buf))
 			return nil, nil
@@ -193,6 +206,7 @@ func (this *ProfileOp) GetCurrentName() (string, error) {
 func (this *ProfileOp) SetCurrentName(name string) error {
 	if list, err := this.List(); err != nil {
 		return err
+
 	} else if !slices.Contains(list, name) {
 		return NewErrorf("invalid profile name: %+v", name)
 	}
@@ -200,6 +214,7 @@ func (this *ProfileOp) SetCurrentName(name string) error {
 	_, err := this.open("current", os.O_WRONLY|os.O_TRUNC, func(fp *os.File) (*Profile, error) {
 		if _, err := fp.WriteString(name); err != nil {
 			return nil, Wrapf(err, "failed to write %+v", fp.Name())
+
 		} else {
 			return nil, nil
 		}
@@ -251,19 +266,25 @@ func deepMerge(dst, src map[string]any) map[string]any {
 		case map[string]any:
 			if ov, ok := ret[k]; !ok {
 				ret[k] = v
+
 			} else if ov, ok := ov.(map[string]any); !ok {
 				ret[k] = v
+
 			} else {
 				ret[k] = deepMerge(ov, v)
 			}
+
 		case []any:
 			if ov, ok := ret[k]; !ok {
 				ret[k] = v
+
 			} else if ov, ok := ov.([]any); !ok {
 				ret[k] = v
+
 			} else {
 				ret[k] = append(ov, v...)
 			}
+
 		default:
 			ret[k] = v
 		}
@@ -274,8 +295,10 @@ func deepMerge(dst, src map[string]any) map[string]any {
 func lookupProfileDir(envp []string) string {
 	if v, ok := lookupEnv(envp, "SAKURACLOUD_PROFILE_DIR"); ok {
 		return filepath.Clean(v)
+
 	} else if v, ok := lookupEnv(envp, "USACLOUD_PROFILE_DIR"); ok {
 		return filepath.Clean(v) // backward compat
+
 	} else if v, ok := lookupEnv(envp, "XDG_CONFIG_HOME"); ok {
 		// if, and only if `~/.config/usacloud` exists, take it.
 		ret := filepath.Join(v, "usacloud")
@@ -287,6 +310,7 @@ func lookupProfileDir(envp []string) string {
 	// fallback to '~/.usacloud'
 	if home, err := os.UserHomeDir(); err == nil && home != "" {
 		return filepath.Join(home, ".usacloud")
+
 	} else {
 		// :ESOTERIC: $HOME not set
 		//
@@ -303,8 +327,10 @@ func lookupEnv(envp []string, key string) (string, bool) {
 	for _, env := range envp {
 		if k, v, ok := strings.Cut(env, "="); !ok {
 			continue
+
 		} else if k != key {
 			continue
+
 		} else {
 			return v, true
 		}
