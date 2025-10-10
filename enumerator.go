@@ -18,7 +18,10 @@ import "iter"
 
 // See also how xiter was rejected: https://github.com/golang/go/issues/61898#issuecomment-2877009539
 
-// mimics ruby's Enumerator#to_h
+// a Seq that yields 0 times
+func nonceSeq[T any]() iter.Seq[T] { return func(yield func(T) bool) {} }
+
+// `(mapcar f seq)`
 func intoSeq2[T comparable](seq iter.Seq[T], f func(T) (T, T, bool)) iter.Seq2[T, T] {
 	return func(yield func(T, T) bool) {
 		for v := range seq {
@@ -31,8 +34,7 @@ func intoSeq2[T comparable](seq iter.Seq[T], f func(T) (T, T, bool)) iter.Seq2[T
 	}
 }
 
-// returns first such element that satisfies f
-// returns (..., false) if nothing holds
+// `(find-if f seq)`, returns (..., false) if nothing holds
 func findFirst[T comparable, U any](seq iter.Seq2[T, U], f func(T, U) bool) (T, U, bool) {
 	var k T
 	var v U
@@ -42,4 +44,51 @@ func findFirst[T comparable, U any](seq iter.Seq2[T, U], f func(T, U) bool) (T, 
 		}
 	}
 	return k, v, false
+}
+
+// transforms Seq2 by f.
+// `4` is the number of type parameters
+func transformSeq4[
+	Q comparable,
+	W any,
+	E comparable,
+	R any,
+](
+	seq iter.Seq2[Q, W],
+	f func(Q, W) (E, R, bool),
+) iter.Seq2[E, R] {
+	return func(yield func(E, R) bool) {
+		for k, v := range seq {
+			if nk, nv, ok := f(k, v); !ok {
+				continue
+			} else if !yield(nk, nv) {
+				return
+			}
+		}
+	}
+}
+
+// a variant of transformSeq4 that keeps keys as-is.
+// `3` is the number of type parameters
+func transformSeq3[K comparable, V, W any](seq iter.Seq2[K, V], f func(K, V) W) iter.Seq2[K, W] {
+	return transformSeq4(seq, func(k K, v V) (K, W, bool) { return k, f(k, v), true })
+}
+
+// `transformSeq2` can be thinkable of course,
+// but `transformSeq3[K,V,V](seq, f)` seems just enough.
+
+// `(remove-if f seq)`
+func rejectSeq2[T comparable, U any](seq iter.Seq2[T, U], f func(T, U) bool) iter.Seq2[T, U] {
+	return transformSeq4(seq, func(k T, v U) (T, U, bool) { return k, v, !f(k, v) })
+}
+
+// `(mapcar #cdr seq)`
+func valuesOfSeq2[K comparable, V any](seq iter.Seq2[K, V]) iter.Seq[V] {
+	return func(yield func(V) bool) {
+		for _, v := range seq {
+			if !yield(v) {
+				return
+			}
+		}
+	}
 }

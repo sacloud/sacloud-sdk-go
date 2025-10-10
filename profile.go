@@ -17,6 +17,7 @@ package client
 import (
 	"encoding/json"
 	"io"
+	"iter"
 	"maps"
 	"os"
 	"path/filepath"
@@ -66,6 +67,8 @@ type ProfileOp struct {
 	// Note that this is not necessarily existing at process startup.
 	dir string
 }
+
+var _ ProfileAPI = (*ProfileOp)(nil)
 
 // Creates a profile operator
 func NewProfileOp(envp []string) *ProfileOp { return &ProfileOp{lookupProfileDir(envp)} }
@@ -224,6 +227,36 @@ func (this *ProfileOp) SetCurrentName(name string) error {
 
 // Calculated pathname of the configuration file
 func (this *Profile) Pathname() string { return filepath.Join(this.dir, this.Name, "config.json") }
+
+func (this *Profile) Get(k string) (any, bool) {
+	if this == nil {
+		return nil, false
+	} else {
+		v, ok := this.Attributes[k]
+		return v, ok
+	}
+}
+
+func (this *Profile) Set(k string, v any) {
+	if this == nil {
+		return
+	}
+	if this.Attributes == nil {
+		this.Attributes = map[string]any{}
+	}
+	this.Attributes[k] = v
+}
+
+func (this *Profile) Keys() iter.Seq[string] {
+	//nolint:gocritic
+	if this == nil {
+		return nonceSeq[string]()
+	} else if this.Attributes == nil {
+		return nonceSeq[string]()
+	} else {
+		return maps.Keys(this.Attributes)
+	}
+}
 
 func (this *ProfileOp) open(
 	n string,
