@@ -83,7 +83,7 @@ func (op *dashboardProjectOp) Create(ctx context.Context, p DashboardProjectCrea
 func (op *dashboardProjectOp) Read(ctx context.Context, id string) (*v1.DashboardProject, error) {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("DashboardProject.Read", 0, err)
+		return nil, NewError("DashboardProject.Read", err)
 	}
 	resp, err := op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ResourceID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
@@ -111,7 +111,7 @@ type DashboardProjectUpdateParams struct {
 func (op *dashboardProjectOp) Update(ctx context.Context, id string, params DashboardProjectUpdateParams) (*v1.DashboardProject, error) {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("DashboardProject.Update", 0, err)
+		return nil, NewError("DashboardProject.Update", err)
 	}
 	request := v1.PatchedDashboardProject{
 		Name:        intoOpt[v1.OptString](params.Name),
@@ -139,7 +139,7 @@ func (op *dashboardProjectOp) Update(ctx context.Context, id string, params Dash
 func (op *dashboardProjectOp) Delete(ctx context.Context, id string) error {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return NewAPIError("DashboardProject.Delete", 0, err)
+		return NewError("DashboardProject.Delete", err)
 	}
 	err = op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{ResourceID: intId})
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {

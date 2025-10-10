@@ -69,7 +69,7 @@ func (op *alertProjectOp) List(ctx context.Context, count *int, from *int) ([]v1
 func (op *alertProjectOp) Read(ctx context.Context, id string) (*v1.WrappedAlertProject, error) {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertProject.Read", 0, err)
+		return nil, NewError("AlertProject.Read", err)
 	}
 	p := v1.AlertsProjectsRetrieveParams{ResourceID: intId}
 	result, err := op.client.AlertsProjectsRetrieve(ctx, p)
@@ -124,7 +124,7 @@ type AlertProjectUpdateParams struct {
 func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertProjectUpdateParams) (*v1.WrappedAlertProject, error) {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertProject.Update", 0, err)
+		return nil, NewError("AlertProject.Update", err)
 	}
 	p := v1.AlertsProjectsPartialUpdateParams{ResourceID: intId}
 	body := v1.NewOptPatchedAlertProject(v1.PatchedAlertProject{
@@ -153,7 +153,7 @@ func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertPro
 func (op *alertProjectOp) Delete(ctx context.Context, id string) error {
 	intId, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return NewAPIError("AlertProject.Delete", 0, err)
+		return NewError("AlertProject.Delete", err)
 	}
 	p := v1.AlertsProjectsDestroyParams{ResourceID: intId}
 	err = op.client.AlertsProjectsDestroy(ctx, p)
@@ -184,7 +184,7 @@ type AlertsProjectsHistoriesListParams struct {
 func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjectsHistoriesListParams) ([]v1.History, error) {
 	intProjectId, err := strconv.ParseInt(params.ProjectID, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertProject.ListHistories", 0, err)
+		return nil, NewError("AlertProject.ListHistories", err)
 	}
 	p := v1.AlertsProjectsHistoriesListParams{
 		ProjectResourceID: intProjectId,
@@ -214,7 +214,7 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjec
 func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertProject.ReadHistory", 0, err)
+		return nil, NewError("AlertProject.ReadHistory", err)
 	}
 	p := v1.AlertsProjectsHistoriesRetrieveParams{
 		UID:               historyId,

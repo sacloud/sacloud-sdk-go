@@ -76,11 +76,11 @@ type MetricsRoutingCreateParams struct {
 func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCreateParams) (*v1.MetricsRouting, error) {
 	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid ResourceID")
+		return nil, NewError("MetricsRouting.Create", err)
 	}
 	mid, err := strconv.ParseInt(params.MetricsStorageID, 10, 64)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid MetricsStorageID")
+		return nil, NewError("MetricsRouting.Create", err)
 	}
 	req := v1.MetricsRouting{
 		PublisherCode:    intoOpt[v1.OptString](&params.PublisherCode),
@@ -144,11 +144,11 @@ type MetricsRoutingUpdateParams struct {
 func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params MetricsRoutingUpdateParams) (*v1.MetricsRouting, error) {
 	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid ResourceID")
+		return nil, NewError("MetricsRouting.Update", err)
 	}
 	mid, err := fromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid MetricsStorageID")
+		return nil, NewError("MetricsRouting.Update", err)
 	}
 	patch := v1.PatchedMetricsRouting{
 		PublisherCode:    intoOpt[v1.OptString](params.PublisherCode),

@@ -51,7 +51,7 @@ type NotificationTargetsListParams struct {
 func (op *notificationTargetOp) List(ctx context.Context, projectId string, p NotificationTargetsListParams) ([]v1.NotificationTarget, error) {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationTarget.List", 0, err)
+		return nil, NewError("NotificationTarget.List", err)
 	}
 	params := v1.AlertsProjectsNotificationTargetsListParams{
 		ProjectResourceID: id,
@@ -76,7 +76,7 @@ func (op *notificationTargetOp) List(ctx context.Context, projectId string, p No
 func (op *notificationTargetOp) Read(ctx context.Context, projectId string, uid uuid.UUID) (*v1.NotificationTarget, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationTarget.Read", 0, err)
+		return nil, NewError("NotificationTarget.Read", err)
 	}
 	params := v1.AlertsProjectsNotificationTargetsRetrieveParams{
 		ProjectResourceID: pid,
@@ -109,7 +109,7 @@ type NotificationTargetCreateParams struct {
 func (op *notificationTargetOp) Create(ctx context.Context, projectId string, params NotificationTargetCreateParams) (*v1.NotificationTarget, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationTarget.Create", 0, err)
+		return nil, NewError("NotificationTarget.Create", err)
 	}
 	createParams := v1.AlertsProjectsNotificationTargetsCreateParams{ProjectResourceID: pid}
 	req := v1.NotificationTarget{
@@ -143,7 +143,7 @@ type NotificationTargetUpdateParams struct {
 func (op *notificationTargetOp) Update(ctx context.Context, projectId string, uid uuid.UUID, params NotificationTargetUpdateParams) (*v1.NotificationTarget, error) {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("NotificationTarget.Update", 0, err)
+		return nil, NewError("NotificationTarget.Update", err)
 	}
 	req := v1.PatchedNotificationTarget{
 		ServiceType: intoOpt[v1.OptPatchedNotificationTargetServiceType](params.ServiceType),
@@ -175,7 +175,7 @@ func (op *notificationTargetOp) Update(ctx context.Context, projectId string, ui
 func (op *notificationTargetOp) Delete(ctx context.Context, projectId string, uid uuid.UUID) error {
 	pid, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return NewAPIError("NotificationTarget.Delete", 0, err)
+		return NewError("NotificationTarget.Delete", err)
 	}
 	params := v1.AlertsProjectsNotificationTargetsDestroyParams{
 		ProjectResourceID: pid,

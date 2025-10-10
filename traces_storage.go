@@ -60,7 +60,7 @@ type TracesStorageListParams struct {
 func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListParams) ([]v1.TraceStorage, error) {
 	resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID)
 	if err != nil {
-		return nil, NewAPIError("TracesStorage.List", 0, err)
+		return nil, NewError("TracesStorage.List", err)
 	}
 	result, err := op.client.TracesStoragesList(ctx, v1.TracesStoragesListParams{
 		Count:                          intoOpt[v1.OptInt](params.Count),
@@ -86,7 +86,7 @@ func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListPar
 func (op *tracesStorageOp) Read(ctx context.Context, resourceID string) (*v1.TraceStorage, error) {
 	id, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("TracesStorage.Read", 0, err)
+		return nil, NewError("TracesStorage.Read", err)
 	}
 	params := v1.TracesStoragesRetrieveParams{ResourceID: id}
 	result, err := op.client.TracesStoragesRetrieve(ctx, params)
@@ -143,7 +143,7 @@ type TracesStorageUpdateParams struct {
 func (op *tracesStorageOp) Update(ctx context.Context, id string, params TracesStorageUpdateParams) (*v1.TraceStorage, error) {
 	rid, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("TracesStorage.Update", 0, err)
+		return nil, NewError("TracesStorage.Update", err)
 	}
 	query := v1.TracesStoragesPartialUpdateParams{ResourceID: rid}
 	body := v1.NewOptPatchedTraceStorage(v1.PatchedTraceStorage{
@@ -173,7 +173,7 @@ func (op *tracesStorageOp) Update(ctx context.Context, id string, params TracesS
 func (op *tracesStorageOp) Delete(ctx context.Context, resourceID string) error {
 	rid, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
-		return NewAPIError("TracesStorage.Delete", 0, err)
+		return NewError("TracesStorage.Delete", err)
 	}
 	params := v1.TracesStoragesDestroyParams{ResourceID: rid}
 	err = op.client.TracesStoragesDestroy(ctx, params)
@@ -195,7 +195,7 @@ func (op *tracesStorageOp) Delete(ctx context.Context, resourceID string) error 
 func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string, count *int, from *int) ([]v1.TraceStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("TracesStorage.ListKeys", 0, err)
+		return nil, NewError("TracesStorage.ListKeys", err)
 	}
 	params := v1.TracesStoragesKeysListParams{
 		TraceResourceID: rid,
@@ -222,7 +222,7 @@ func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string
 func (op *tracesStorageOp) CreateKey(ctx context.Context, tracesResourceId string, description *string) (*v1.TraceStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("TracesStorage.CreateKey", 0, err)
+		return nil, NewError("TracesStorage.CreateKey", err)
 	}
 	params := v1.TracesStoragesKeysCreateParams{TraceResourceID: rid}
 	opt := v1.NewOptTraceStorageAccessKey(v1.TraceStorageAccessKey{
@@ -251,7 +251,7 @@ func (op *tracesStorageOp) CreateKey(ctx context.Context, tracesResourceId strin
 func (op *tracesStorageOp) ReadKey(ctx context.Context, tracesResourceId string, id uuid.UUID) (*v1.TraceStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("TracesStorage.ReadKey", 0, err)
+		return nil, NewError("TracesStorage.ReadKey", err)
 	}
 	params := v1.TracesStoragesKeysRetrieveParams{TraceResourceID: rid, UID: id}
 	result, err := op.client.TracesStoragesKeysRetrieve(ctx, params)
@@ -275,7 +275,7 @@ func (op *tracesStorageOp) ReadKey(ctx context.Context, tracesResourceId string,
 func (op *tracesStorageOp) UpdateKey(ctx context.Context, tracesResourceId string, id uuid.UUID, description *string) (*v1.TraceStorageAccessKey, error) {
 	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("TracesStorage.UpdateKey", 0, err)
+		return nil, NewError("TracesStorage.UpdateKey", err)
 	}
 	params := v1.TracesStoragesKeysUpdateParams{TraceResourceID: rid, UID: id}
 	opt := v1.NewOptTraceStorageAccessKey(v1.TraceStorageAccessKey{
@@ -303,7 +303,7 @@ func (op *tracesStorageOp) UpdateKey(ctx context.Context, tracesResourceId strin
 func (op *tracesStorageOp) DeleteKey(ctx context.Context, tracesResourceId string, id uuid.UUID) error {
 	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
 	if err != nil {
-		return NewAPIError("TracesStorage.DeleteKey", 0, err)
+		return NewError("TracesStorage.DeleteKey", err)
 	}
 	params := v1.TracesStoragesKeysDestroyParams{TraceResourceID: rid, UID: id}
 	err = op.client.TracesStoragesKeysDestroy(ctx, params)

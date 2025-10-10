@@ -50,7 +50,7 @@ func NewAlertRuleOp(client *v1.Client) AlertRuleAPI {
 func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int, from *int) ([]v1.AlertRule, error) {
 	id, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.List", 0, err)
+		return nil, NewError("AlertRule.List", err)
 	}
 	params := v1.AlertsProjectsRulesListParams{
 		ProjectResourceID: id,
@@ -91,11 +91,11 @@ type AlertRuleCreateParams struct {
 func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRuleCreateParams) (*v1.AlertRule, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.Create", 0, errors.Wrap(err, "invalid ProjectID"))
+		return nil, NewError("AlertRule.Create", err)
 	}
 	intStorageId, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.Create", 0, errors.Wrap(err, "invalid MetricsStorageID"))
+		return nil, NewError("AlertRule.Create", err)
 	}
 	params := &v1.AlertRule{
 		MetricsStorageID:          intoNil[v1.NilInt64](&intStorageId),
@@ -135,7 +135,7 @@ func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRule
 func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.AlertRule, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.Read", 0, err)
+		return nil, NewError("AlertRule.Read", err)
 	}
 	query := v1.AlertsProjectsRulesRetrieveParams{
 		ProjectResourceID: intProjectId,
@@ -174,7 +174,7 @@ type AlertRuleUpdateParams struct {
 func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleUpdateParams) (*v1.AlertRule, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.Update", 0, err)
+		return nil, NewError("AlertRule.Update", err)
 	}
 	query := v1.AlertsProjectsRulesPartialUpdateParams{
 		ProjectResourceID: intProjectId,
@@ -182,7 +182,7 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid
 	}
 	storageId, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.Update", 0, errors.Wrap(err, "invalid MetricsStorageID"))
+		return nil, NewError("AlertRule.Update", err)
 	}
 	params := v1.NewOptPatchedAlertRule(v1.PatchedAlertRule{
 		MetricsStorageID:          storageId,
@@ -218,7 +218,7 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid
 func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return NewAPIError("AlertRule.Delete", 0, err)
+		return NewError("AlertRule.Delete", err)
 	}
 	query := v1.AlertsProjectsRulesDestroyParams{
 		ProjectResourceID: intProjectId,
@@ -253,7 +253,7 @@ type AlertRuleListHistoriesParams struct {
 func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleListHistoriesParams) ([]v1.History, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.ListHistories", 0, err)
+		return nil, NewError("AlertRule.ListHistories", err)
 	}
 	params := v1.AlertsProjectsRulesHistoriesListParams{
 		ProjectResourceID: intProjectId,
@@ -284,7 +284,7 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, rule
 func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error) {
 	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
 	if err != nil {
-		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
+		return nil, NewError("AlertRule.ReadHistory", err)
 	}
 	query := v1.AlertsProjectsRulesHistoriesRetrieveParams{
 		ProjectResourceID: intProjectId,

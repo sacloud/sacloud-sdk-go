@@ -76,11 +76,11 @@ type LogsRoutingCreateParams struct {
 func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreateParams) (*v1.LogRouting, error) {
 	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid ResourceID")
+		return nil, NewError("LogRouting.Create", err)
 	}
 	lid, err := strconv.ParseInt(params.LogStorageID, 10, 64)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid LogStorageID")
+		return nil, NewError("LogRouting.Create", err)
 	}
 	request := v1.LogRouting{
 		PublisherCode: intoOpt[v1.OptString](&params.PublisherCode),
@@ -142,11 +142,11 @@ type LogsRoutingUpdateParams struct {
 func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRoutingUpdateParams) (*v1.LogRouting, error) {
 	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid ResourceID")
+		return nil, NewError("LogRouting.Update", err)
 	}
 	lid, err := fromStringPtr[v1.OptNilInt64, int64](params.LogStorageID)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid LogStorageID")
+		return nil, NewError("LogRouting.Update", err)
 	}
 	patch := v1.PatchedLogRouting{
 		PublisherCode: intoOpt[v1.OptString](params.PublisherCode),
