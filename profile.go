@@ -324,16 +324,8 @@ func lookupProfileDir(envp []string) string {
 // and returns its value and a boolean indicating if it was found.
 // The key must not be empty.
 func lookupEnv(envp []string, key string) (string, bool) {
-	for _, env := range envp {
-		if k, v, ok := strings.Cut(env, "="); !ok {
-			continue
-
-		} else if k != key {
-			continue
-
-		} else {
-			return v, true
-		}
-	}
-	return "", false
+	i := slices.Values(envp)
+	j := intoSeq2(i, func(e string) (string, string, bool) { return strings.Cut(e, "=") })
+	_, v, ok := findFirst(j, func(k, _ string) bool { return k == key })
+	return v, ok
 }
