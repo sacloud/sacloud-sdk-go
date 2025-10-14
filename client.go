@@ -18,6 +18,7 @@ import (
 	"flag"
 	"maps"
 	"net/http"
+	"sync"
 )
 
 // The API
@@ -116,7 +117,7 @@ type ClientAPI interface {
 
 type Client struct {
 	params    parameter
-	populated config
+	populated func() (*config, error)
 }
 
 func (c *Client) SetEnviron(env []string) error {
@@ -142,8 +143,17 @@ func (c *Client) Populate() error {
 		return NewErrorf("nil client")
 
 	} else {
-		return c.params.populate(&c.populated)
+		c.populated = sync.OnceValues(
+			func() (*config, error) {
+				var ret config
+				err := c.params.populate(&ret)
+				return &ret, err
+			},
+		)
 	}
+
+	_, err := c.populated()
+	return err
 }
 
 func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) {
@@ -162,8 +172,8 @@ func (c *Client) JSON() map[string]any {
 		return map[string]any(nil)
 
 	} else {
-		q := c.populated
-		w := maps.All(q)
+		q, _ := c.populated()
+		w := maps.All(*q)
 		e := rejectSeq2(w, func(k string, _ any) bool { return k == "Profile" })
 		r := maps.Collect(e)
 
@@ -174,10 +184,10 @@ func (c *Client) JSON() map[string]any {
 func (c *Client) Profile() (*Profile, error) {
 	var p *Profile
 
-	if c == nil {
-		return p, NewErrorf("nil client")
+	if q, err := c.populated(); err != nil {
+		return p, err
 
-	} else if v, err := c.populated.get("Profile"); err != nil {
+	} else if v, err := q.get("Profile"); err != nil {
 		return p, err
 
 	} else if w, ok := v.Get(); !ok {
