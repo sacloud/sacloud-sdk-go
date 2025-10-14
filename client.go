@@ -28,77 +28,77 @@ type ClientAPI interface {
 
 	// ```golang
 	//
-	// import (
-	//	   "os"
+	//	import (
+	//		"os"
 	//
 	//	   saht "github.com/sacloud/http-client-go"
-	// )
+	//	)
 	//
-	// var client saht.Client
+	//	var client saht.Client
 	//
-	// func main() {
-	//	   client.SetEnviron(os.Environ())
-	//	   client.Populate()
-	//	   // ...
-	// }
+	//	func main() {
+	//		client.SetEnviron(os.Environ())
+	//		client.Populate()
+	//		// ...
+	//	}
 	// ```
 	SetEnviron(env []string) error
 
 	// ```golang
 	//
-	// import (
-	//	   "context"
-	//	   "os"
+	//	import (
+	//		"context"
+	//		"os"
 	//
-	//	   "github.com/hashicorp/terraform-plugin-framework/provider"
-	//	   saht "github.com/sacloud/http-client-go"
-	// )
+	//		"github.com/hashicorp/terraform-plugin-framework/provider"
+	//		saht "github.com/sacloud/http-client-go"
+	//	)
 	//
-	// type providerModel struct {
-	//     // ...
-	// }
+	//	type providerModel struct {
+	//		// ...
+	//	}
 	//
-	// var _ saht.TerraformProviderInterface = (*providerModel)(nil)
+	//	var _ saht.TerraformProviderInterface = (*providerModel)(nil)
 	//
-	// func (p *provider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
-	//     var config providerModel
-	//	   var client saht.Client
-	//	   diags := req.Config.Get(ctx, &config)
-	//	   resp.Diagnostics.Append(diags...)
-	//	   if resp.Diagnostics.HasError() {
-	//	       return
-	//	   }
+	//	func (p *provider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
+	//		var config providerModel
+	//		var client saht.Client
+	//		diags := req.Config.Get(ctx, &config)
+	//		resp.Diagnostics.Append(diags...)
+	//		if resp.Diagnostics.HasError() {
+	//			return
+	//		}
 	//
-	//	   client.SetEnviron(os.Environ())
-	//	   client.SettingsFromTerraformProvider(&config)
-	//	   client.Populate()
-	// }
+	//		client.SetEnviron(os.Environ())
+	//		client.SettingsFromTerraformProvider(&config)
+	//		client.Populate()
+	//	}
 	// ```
 	SettingsFromTerraformProvider(config TerraformProviderInterface) error
 
 	// ```golang
 	//
-	// import (
+	//	import (
 	//	   "github.com/spf13/cobra"
 	//	   "github.com/spf13/pflag"
 	//	   saht "github.com/sacloud/http-client-go"
-	// )
+	//	)
 	//
-	// var client saht.Client
-	// var command = &cobra.Command{
-	//     RunE: func(cmd *cobra.Command, args []string) error {
-	//         if err := client.Populate(); err != nil {
-	//             return err
-	//         }
-	//         // ...
-	//         return nil
-	//     },
-	// }
+	//	var client saht.Client
+	//	var command = &cobra.Command{
+	//	    RunE: func(cmd *cobra.Command, args []string) error {
+	//	        if err := client.Populate(); err != nil {
+	//	            return err
+	//	        }
+	//	        // ...
+	//	        return nil
+	//	    },
+	//	}
 	//
-	// func init() {
+	//	func init() {
 	//	   client.SetEnviron(os.Environ())
 	//	   command.PersistentFlags().AddGoFlagSet(client.FlagSet())
-	// }
+	//	}
 	// ```
 	FlagSet() *flag.FlagSet
 
