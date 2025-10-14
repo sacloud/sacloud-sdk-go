@@ -25,6 +25,8 @@ import (
 	"slices"
 	"strconv"
 	"strings"
+
+	"github.com/hashicorp/go-retryablehttp"
 )
 
 type option[T any] struct {
@@ -58,6 +60,9 @@ type storage struct {
 	traceMode           option[string]
 	mockServer          option[*httptest.Server]
 	userAgent           option[string]
+	authPreference      option[string]
+	middlewares         option[[]middleware]
+	checkRetryFunc      option[retryablehttp.CheckRetry]
 }
 
 // :INTERNAL: it is intentional that this is not a struct
@@ -82,7 +87,7 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 			case "SACLOUD_PROFILE":
 				return p.envp.profileName.Set(v)
 
-			case "SACLOUD_PRIVATE_KEY_PATH":
+			case "SAKURACLOUD_PRIVATE_KEY_PATH":
 				return p.envp.privateKeyPath.Set(v)
 
 			case "SAKURACLOUD_ACCESS_TOKEN":
@@ -197,7 +202,7 @@ func (p *parameter) flagSet() *flag.FlagSet {
 
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 18) // <- 18 is the # of `append` calls below
+	ret := make([]error, 0, 20) // <- 20 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -229,6 +234,9 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateTraceMode(c))
 	ret = append(ret, p.populateMockServer(c))
 	ret = append(ret, p.populateUserAgent(c))
+	ret = append(ret, p.populateAuthPreference(c))
+	ret = append(ret, p.populateMiddlewares(c))
+	ret = append(ret, p.populateCheckRetryFunc(c))
 
 	if result := obtainFromConfig[string](c, "AccessToken"); result.isSome() {
 		// Take that,
@@ -426,8 +434,38 @@ func (p *parameter) populateMockServer(c *config) error {
 		return nil // avoid SEGV
 
 	} else {
-		c.set("MockServer", v)
-		return nil
+		return c.set("MockServer", v)
+	}
+}
+
+func (p *parameter) populateAuthPreference(c *config) error {
+	return p.populateString(c, "AuthPreference")
+}
+
+func (p *parameter) populateMiddlewares(c *config) error {
+	if _, result := prioritizedParameterValue[[]middleware](p, c, "Middlewares"); result.isErr() {
+		return result.error()
+
+	} else if v, ok := result.some(); !ok {
+		return nil // just not set; leave blank
+
+	} else if len(v) == 0 {
+		return nil // no use
+
+	} else {
+		return c.set("Middlewares", v)
+	}
+}
+
+func (p *parameter) populateCheckRetryFunc(c *config) error {
+	if _, result := prioritizedParameterValue[retryablehttp.CheckRetry](p, c, "CheckRetryFunc"); result.isErr() {
+		return result.error()
+
+	} else if v, ok := result.some(); !ok {
+		return nil // just not set
+
+	} else {
+		return c.set("CheckRetryFunc", v)
 	}
 }
 
@@ -589,8 +627,6 @@ func (m *option[T]) initialize(v T) {
 	})
 }
 
-func (m *option[T]) isSome() bool { return m.set }
-
 func (m *option[T]) String() string {
 	// This is used by flag package
 	if m == nil {
@@ -660,11 +696,14 @@ func (c *config) set(k string, v any) error {
 	}
 }
 
-func (r *resultOption[T]) isErr() bool     { return r.err != nil }
-func (r *resultOption[T]) error() error    { return r.err }
-func (r *resultOption[T]) ok() *option[T]  { return &r.option }
-func (r *resultOption[T]) some() (T, bool) { return r.ok().Get() }
-func (r *resultOption[T]) unwrap_or(zero T) T {
+func (r resultOption[T]) isErr() bool     { return r.err != nil }
+func (r resultOption[T]) isNone() bool    { return !r.set }
+func (r resultOption[T]) isSome() bool    { return !r.isErr() && !r.isNone() }
+func (r resultOption[T]) error() error    { return r.err }
+func (r resultOption[T]) ok() *option[T]  { return &r.option }
+func (r resultOption[T]) some() (T, bool) { return r.ok().Get() }
+func (r resultOption[T]) unwrap() T       { return r.option.some }
+func (r resultOption[T]) unwrap_or(zero T) T {
 	if ret, ok := r.some(); ok {
 		return ret
 	} else {
@@ -728,6 +767,15 @@ func (s *storage) get(k string) (any, bool) {
 	case "UserAgent":
 		return s.userAgent.Get()
 
+	case "AuthPreference":
+		return s.authPreference.Get()
+
+	case "Middlewares":
+		return s.middlewares.Get()
+
+	case "CheckRetryFunc":
+		return s.checkRetryFunc.Get()
+
 	default:
 		panic("unknown key: " + k)
 	}
@@ -746,6 +794,7 @@ var defaults = storage{
 	retryWaitMin:        option[int64]{set: true, some: 1},
 	apiRequestTimeout:   option[int64]{set: true, some: 300},
 	apiRequestRateLimit: option[int64]{set: true, some: 5},
+	checkRetryFunc:      option[retryablehttp.CheckRetry]{set: true, some: retryablehttp.DefaultRetryPolicy},
 	userAgent: option[string]{set: true, some: fmt.Sprintf(
 		// :INTENTIONAL: keeping "api-client-go" here for backward compatibility
 		"api-client-go/v%s (%s/%s; +https://github.com/sacloud/http-client-go)",
