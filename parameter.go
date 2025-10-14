@@ -155,7 +155,7 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.retryWaitMax.from(config.LookupClientConfigRetryWaitMax)
 	p.hcl.retryWaitMin.from(config.LookupClientConfigRetryWaitMin)
 	p.hcl.apiRootURL.from(config.LookupClientConfigAPIRootURL)
-	p.hcl.apiRequestTimeout.from(config.LookupClientConfigAPIRRequestTimeout)
+	p.hcl.apiRequestTimeout.from(config.LookupClientConfigAPIRequestTimeout)
 	p.hcl.apiRequestRateLimit.from(config.LookupClientConfigAPIRequestRateLimit)
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
 }

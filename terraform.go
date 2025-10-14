@@ -49,7 +49,7 @@ type TerraformProviderInterface interface {
 	LookupClientConfigAPIRootURL() (string, bool)
 
 	// Returns if the API request timeout (in seconds) is set, and its value
-	LookupClientConfigAPIRRequestTimeout() (int64, bool)
+	LookupClientConfigAPIRequestTimeout() (int64, bool)
 
 	// Returns if the API request rate limit (requests per second) is set, and its value
 	LookupClientConfigAPIRequestRateLimit() (int64, bool)

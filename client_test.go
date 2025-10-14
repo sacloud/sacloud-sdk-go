@@ -103,7 +103,7 @@ func (p *providerModel) LookupClientConfigAPIRootURL() (string, bool) {
 	return p.APIRootURL.ValueString(), !p.APIRootURL.IsNull() && !p.APIRootURL.IsUnknown()
 }
 
-func (p *providerModel) LookupClientConfigAPIRRequestTimeout() (int64, bool) {
+func (p *providerModel) LookupClientConfigAPIRequestTimeout() (int64, bool) {
 	return p.APIRequestTimeout.ValueInt64(), !p.APIRequestTimeout.IsNull() && !p.APIRequestTimeout.IsUnknown()
 }
 
@@ -225,7 +225,7 @@ func (s *ClientTestSuite) TestEnviron() {
 }
 
 func (s *ClientTestSuite) TestTerraform() {
-	s.subject.SettingsFromTerraformProvider(&providerModel{
+	_ = s.subject.SettingsFromTerraformProvider(&providerModel{
 		AccessToken:         types.StringValue("foo"),
 		AccessTokenSecret:   types.StringValue("bar"),
 		APIRequestRateLimit: types.Int64Value(20),

@@ -42,7 +42,7 @@ type ClientAPI interface {
 	//	   // ...
 	// }
 	// ```
-	SetEnviron(env []string)
+	SetEnviron(env []string) error
 
 	// ```golang
 	//
@@ -156,12 +156,13 @@ func (c *Client) Populate() error {
 	return err
 }
 
-func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) {
+func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) error {
 	if c == nil {
-		return
+		return NewErrorf("nil client")
 
 	} else {
 		c.params.setHCL(p)
+		return nil
 	}
 }
 
