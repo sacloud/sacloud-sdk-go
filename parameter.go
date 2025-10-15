@@ -500,7 +500,7 @@ func obtainFromStorage[
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 
 	} else {
-		return whence, resultOptionSome[T](t)
+		return whence, resultOptionSome(t)
 	}
 }
 
@@ -537,7 +537,7 @@ func obtainFromProfile[
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 
 	} else {
-		return whence, resultOptionSome[T](w)
+		return whence, resultOptionSome(w)
 	}
 }
 
