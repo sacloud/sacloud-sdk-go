@@ -18,6 +18,7 @@ import (
 	"flag"
 	"maps"
 	"net/http"
+	"net/http/httptest"
 	"sync"
 )
 
@@ -118,6 +119,17 @@ type ClientAPI interface {
 type Client struct {
 	params    parameter
 	populated func() (*config, error)
+}
+
+// This is not mandatory; `var c Client` is designed to suffice.
+func NewClient() *Client { return &Client{} }
+
+// For tests
+func NewTestClient(svr *httptest.Server) *Client {
+	var ret Client
+	ret.params.dynamic.mockServer.initialize(svr)
+
+	return &ret
 }
 
 func (c *Client) SetEnviron(env []string) error {

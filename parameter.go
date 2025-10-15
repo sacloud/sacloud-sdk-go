@@ -19,6 +19,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"net/http/httptest"
 	"os"
 	"slices"
 	"strconv"
@@ -54,6 +55,7 @@ type storage struct {
 	apiRequestTimeout   option[int64]
 	apiRequestRateLimit option[int64]
 	traceMode           option[string]
+	mockServer          option[*httptest.Server]
 }
 
 // :INTERNAL: it is intentional that this is not a struct
@@ -193,7 +195,7 @@ func (p *parameter) flagSet() *flag.FlagSet {
 
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 16) // <- 16 is the # of `append` calls below
+	ret := make([]error, 0, 17) // <- 17 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -223,6 +225,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateAPIRequestTimeout(c))
 	ret = append(ret, p.populateAPIRequestRateLimit(c))
 	ret = append(ret, p.populateTraceMode(c))
+	ret = append(ret, p.populateMockServer(c))
 
 	if result := obtainFromConfig[string](c, "AccessToken"); result.isSome() {
 		// Take that,
@@ -407,6 +410,22 @@ func (this *parameter) populateTraceMode(c *config) error {
 	// - "api" (???)
 	// - "http" (???)
 	return this.populateString(c, "TraceMode")
+}
+
+func (p *parameter) populateMockServer(c *config) error {
+	if _, result := prioritizedParameterValue[*httptest.Server](p, c, "MockServer"); result.isErr() {
+		return result.error()
+
+	} else if v, ok := result.some(); !ok {
+		return nil // just not set; leave blank
+
+	} else if v == nil {
+		return nil // avoid SEGV
+
+	} else {
+		c.set("MockServer", v)
+		return nil
+	}
 }
 
 func (p *parameter) populateString(c *config, key string) error {
@@ -695,6 +714,9 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "TraceMode":
 		return s.traceMode.Get()
+
+	case "MockServer":
+		return s.mockServer.Get()
 
 	default:
 		panic("unknown key: " + k)
