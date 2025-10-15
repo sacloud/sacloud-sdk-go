@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"net/http/httptest"
 	"os"
+	"runtime"
 	"slices"
 	"strconv"
 	"strings"
@@ -56,6 +57,7 @@ type storage struct {
 	apiRequestRateLimit option[int64]
 	traceMode           option[string]
 	mockServer          option[*httptest.Server]
+	userAgent           option[string]
 }
 
 // :INTERNAL: it is intentional that this is not a struct
@@ -195,7 +197,7 @@ func (p *parameter) flagSet() *flag.FlagSet {
 
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 17) // <- 17 is the # of `append` calls below
+	ret := make([]error, 0, 18) // <- 18 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -226,6 +228,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateAPIRequestRateLimit(c))
 	ret = append(ret, p.populateTraceMode(c))
 	ret = append(ret, p.populateMockServer(c))
+	ret = append(ret, p.populateUserAgent(c))
 
 	if result := obtainFromConfig[string](c, "AccessToken"); result.isSome() {
 		// Take that,
@@ -426,6 +429,10 @@ func (p *parameter) populateMockServer(c *config) error {
 		c.set("MockServer", v)
 		return nil
 	}
+}
+
+func (p *parameter) populateUserAgent(c *config) error {
+	return p.populateString(c, "UserAgent")
 }
 
 func (p *parameter) populateString(c *config, key string) error {
@@ -718,6 +725,9 @@ func (s *storage) get(k string) (any, bool) {
 	case "MockServer":
 		return s.mockServer.Get()
 
+	case "UserAgent":
+		return s.userAgent.Get()
+
 	default:
 		panic("unknown key: " + k)
 	}
@@ -736,4 +746,11 @@ var defaults = storage{
 	retryWaitMin:        option[int64]{set: true, some: 1},
 	apiRequestTimeout:   option[int64]{set: true, some: 300},
 	apiRequestRateLimit: option[int64]{set: true, some: 5},
+	userAgent: option[string]{set: true, some: fmt.Sprintf(
+		// :INTENTIONAL: keeping "api-client-go" here for backward compatibility
+		"api-client-go/v%s (%s/%s; +https://github.com/sacloud/http-client-go)",
+		Version,
+		runtime.GOOS,
+		runtime.GOARCH,
+	)},
 }

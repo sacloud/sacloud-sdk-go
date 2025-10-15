@@ -18,6 +18,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"os"
+	"runtime"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -115,6 +116,15 @@ func (p *providerModel) LookupClientConfigTraceMode() (string, bool) {
 	return p.TraceMode.ValueString(), !p.TraceMode.IsNull() && !p.TraceMode.IsUnknown()
 }
 
+// :FIXME: this does not cover any part of the implementation.
+// Because this is nothing more than a copy & paste of the tested code itself.
+var ua string = fmt.Sprintf(
+	"api-client-go/v%s (%s/%s; +https://github.com/sacloud/http-client-go)",
+	Version,
+	runtime.GOOS,
+	runtime.GOARCH,
+)
+
 type ClientTestSuite struct {
 	suite.Suite
 	XDG_CONFIG_HOME *string
@@ -184,6 +194,7 @@ func (s *ClientTestSuite) TestCLI() {
 		"RetryWaitMax":        int64(64),
 		"RetryWaitMin":        int64(1),
 		"TraceMode":           "error",
+		"UserAgent":           ua,
 		"Zone":                "usacloud",
 		"Zones": []string{
 			"foo",
@@ -221,6 +232,7 @@ func (s *ClientTestSuite) TestEnviron() {
 		"RetryWaitMax":        int64(7),
 		"RetryWaitMin":        int64(5),
 		"TraceMode":           "error",
+		"UserAgent":           ua,
 		"Zone":                "foo",
 		"Zones": []string{
 			"foo",
@@ -262,6 +274,7 @@ func (s *ClientTestSuite) TestTerraform() {
 		"RetryWaitMax":        int64(7),
 		"RetryWaitMin":        int64(5),
 		"TraceMode":           "error",
+		"UserAgent":           ua,
 		"Zone":                "foo",
 		"Zones": []string{
 			"foo",
