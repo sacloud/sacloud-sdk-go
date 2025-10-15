@@ -25,26 +25,29 @@ import (
 	"strings"
 )
 
-type maybeUninit[T any] struct {
-	value T
-	set   bool
+type option[T any] struct {
+	some T
+
+	// This is intentionally flipped from Rust's Option<T>
+	// to make the zero value mean "not set".
+	set bool
 }
 
 type storage struct {
-	profileName         maybeUninit[string]
-	privateKeyPath      maybeUninit[string]
-	accessToken         maybeUninit[string]
-	accessTokenSecret   maybeUninit[string]
-	zone                maybeUninit[string]
-	defaultZone         maybeUninit[string]
-	zones               maybeUninit[[]string]
-	retryMax            maybeUninit[int64]
-	retryWaitMax        maybeUninit[int64]
-	retryWaitMin        maybeUninit[int64]
-	apiRootURL          maybeUninit[string]
-	apiRequestTimeout   maybeUninit[int64]
-	apiRequestRateLimit maybeUninit[int64]
-	traceMode           maybeUninit[string]
+	profileName         option[string]
+	privateKeyPath      option[string]
+	accessToken         option[string]
+	accessTokenSecret   option[string]
+	zone                option[string]
+	defaultZone         option[string]
+	zones               option[[]string]
+	retryMax            option[int64]
+	retryWaitMax        option[int64]
+	retryWaitMin        option[int64]
+	apiRootURL          option[string]
+	apiRequestTimeout   option[int64]
+	apiRequestRateLimit option[int64]
+	traceMode           option[string]
 }
 
 // :INTERNAL: it is intentional that this is not a struct
@@ -214,10 +217,10 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateAPIRequestRateLimit(c))
 	ret = append(ret, p.populateTraceMode(c))
 
-	if v, err := c.get("AccessToken"); err == nil && v.isSet() {
+	if v, err := c.get("AccessToken"); err == nil && v.isSome() {
 		// Take that,
 
-	} else if v, err := c.get("PrivateKeyPEMPath"); err == nil && v.isSet() {
+	} else if v, err := c.get("PrivateKeyPEMPath"); err == nil && v.isSome() {
 		// Take that,
 
 	} else {
@@ -234,7 +237,7 @@ func (p *parameter) populateProfile(c *config) error {
 	// then the one from command-line flag,
 	// and finally the one from Terraform provider is the lowest priority.
 	// In case none of them are set, the "current" profile is used.
-	var profileName maybeUninit[string]
+	var profileName option[string]
 
 	if p == nil {
 		return NewErrorf("nil parameter")
@@ -314,7 +317,7 @@ func (p *parameter) populateDefaultZone(c *config) error {
 func (p *parameter) populateZones(c *config) []error {
 	var ret []error
 	var whence string
-	var val maybeUninit[[]string]
+	var val option[[]string]
 
 	if p == nil {
 		ret = append(ret, NewErrorf("nil parameter"))
@@ -439,11 +442,11 @@ func prioritizedParameterValue[
 	c *config,
 	k string,
 ) (
-	maybeUninit[T],
+	option[T],
 	string,
 	error,
 ) {
-	var val maybeUninit[T]
+	var val option[T]
 	var whence string
 
 	if p == nil {
@@ -452,13 +455,13 @@ func prioritizedParameterValue[
 	} else if c == nil {
 		return val, whence, NewErrorf("nil config")
 
-	} else if val, whence, err := obtainFromStorage[T](&p.envp, k, "environment variable"); val.isSet() || err != nil {
+	} else if val, whence, err := obtainFromStorage[T](&p.envp, k, "environment variable"); val.isSome() || err != nil {
 		return val, whence, err
 
-	} else if val, whence, err := obtainFromStorage[T](&p.argv, k, "command-line argument"); val.isSet() || err != nil {
+	} else if val, whence, err := obtainFromStorage[T](&p.argv, k, "command-line argument"); val.isSome() || err != nil {
 		return val, whence, err
 
-	} else if val, whence, err := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); val.isSet() || err != nil {
+	} else if val, whence, err := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); val.isSome() || err != nil {
 		return val, whence, err
 
 	} else {
@@ -473,11 +476,11 @@ func obtainFromStorage[
 	k string,
 	msg ...string,
 ) (
-	maybeUninit[T],
+	option[T],
 	string,
 	error,
 ) {
-	var val maybeUninit[T]
+	var val option[T]
 	whence := append(msg, "storage")[0]
 
 	if s == nil {
@@ -490,7 +493,7 @@ func obtainFromStorage[
 		return val, whence, NewErrorf("invalid type for %s in %s: %T", k, whence, v)
 
 	} else {
-		return maybeUninit[T]{t, true}, whence, nil
+		return option[T]{t, true}, whence, nil
 	}
 }
 
@@ -501,11 +504,11 @@ func obtainFromProfile[
 	k string,
 	msg ...string,
 ) (
-	maybeUninit[T],
+	option[T],
 	string,
 	error,
 ) {
-	var val maybeUninit[T]
+	var val option[T]
 	whence := fmt.Sprintf("%s %s", append(msg, "profile")[0], k)
 
 	if c == nil {
@@ -529,26 +532,26 @@ func obtainFromProfile[
 		return val, whence, NewErrorf("invalid type for %s in %s: %T", k, whence, v)
 
 	} else {
-		return maybeUninit[T]{w, true}, whence, nil
+		return option[T]{w, true}, whence, nil
 	}
 }
 
-func (m *maybeUninit[T]) from(src func() (T, bool)) {
+func (m *option[T]) from(src func() (T, bool)) {
 	if m != nil {
 		value, set := src()
-		*m = maybeUninit[T]{value, set}
+		*m = option[T]{value, set}
 	}
 }
 
-func (m *maybeUninit[T]) initialize(v T) {
+func (m *option[T]) initialize(v T) {
 	m.from(func() (T, bool) {
 		return v, true
 	})
 }
 
-func (m *maybeUninit[T]) isSet() bool { return m.set }
+func (m *option[T]) isSome() bool { return m.set }
 
-func (m *maybeUninit[T]) String() string {
+func (m *option[T]) String() string {
 	// This is used by flag package
 	if m == nil {
 		panic("nil dereference")
@@ -562,25 +565,25 @@ func (m *maybeUninit[T]) String() string {
 	}
 }
 
-func (m *maybeUninit[T]) Get() (T, bool) {
+func (m *option[T]) Get() (T, bool) {
 	var zero T
 
 	if m == nil {
 		return zero, false
 
 	} else {
-		return m.value, m.set
+		return m.some, m.set
 	}
 }
 
-func (m *maybeUninit[T]) Set(s string) error {
+func (m *option[T]) Set(s string) error {
 	// This is used by flag package
 
 	switch m := any(m).(type) {
-	case *maybeUninit[string]:
+	case *option[string]:
 		m.initialize(s)
 
-	case *maybeUninit[int64]:
+	case *option[int64]:
 		if v, err := strconv.ParseInt(s, 0, 64); err != nil {
 			return err
 
@@ -588,7 +591,7 @@ func (m *maybeUninit[T]) Set(s string) error {
 			m.initialize(v)
 		}
 
-	case *maybeUninit[[]string]:
+	case *option[[]string]:
 		// This behaviour mimics usacloud's --zones= option
 		r := strings.NewReader(s)
 		c := csv.NewReader(r)
@@ -617,8 +620,8 @@ func (c *config) set(k string, v any) error {
 	}
 }
 
-func (c *config) get(k string) (maybeUninit[any], error) {
-	var ret maybeUninit[any]
+func (c *config) get(k string) (option[any], error) {
+	var ret option[any]
 
 	if c == nil {
 		return ret, NewErrorf("nil config")
@@ -681,6 +684,6 @@ func (s *storage) get(k string) (any, bool) {
 	}
 }
 
-var _ flag.Value = (*maybeUninit[string])(nil)
-var _ flag.Value = (*maybeUninit[int64])(nil)
-var _ flag.Value = (*maybeUninit[[]string])(nil)
+var _ flag.Value = (*option[string])(nil)
+var _ flag.Value = (*option[int64])(nil)
+var _ flag.Value = (*option[[]string])(nil)
