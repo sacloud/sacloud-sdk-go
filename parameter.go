@@ -65,6 +65,7 @@ type parameter struct {
 	envp      storage
 	argv      storage
 	hcl       storage
+	dynamic   storage
 }
 
 func (p *parameter) setEnvironIter() func(string, string) error {
@@ -468,8 +469,14 @@ func prioritizedParameterValue[
 	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
 		return whence, result
 
+	} else if whence, result := obtainFromProfile[T](c, k, "profile"); result.isSome() {
+		return whence, result
+
+	} else if whence, result := obtainFromStorage[T](&p.dynamic, k, "on-the-fly"); result.isSome() {
+		return whence, result
+
 	} else {
-		return obtainFromProfile[T](c, k, "profile")
+		return obtainFromStorage[T](&defaults, k, "defaults")
 	}
 }
 
@@ -698,3 +705,14 @@ func (s *storage) get(k string) (any, bool) {
 var _ flag.Value = (*option[string])(nil)
 var _ flag.Value = (*option[int64])(nil)
 var _ flag.Value = (*option[[]string])(nil)
+
+// values copied from: sacloud/api-client-go/options.go:defaultOption
+var defaults = storage{
+	// absent keys are "not defaults"
+	profileName:         option[string]{set: true, some: "default"},
+	retryMax:            option[int64]{set: true, some: 10},
+	retryWaitMax:        option[int64]{set: true, some: 64},
+	retryWaitMin:        option[int64]{set: true, some: 1},
+	apiRequestTimeout:   option[int64]{set: true, some: 300},
+	apiRequestRateLimit: option[int64]{set: true, some: 5},
+}

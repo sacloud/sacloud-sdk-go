@@ -175,11 +175,16 @@ func (s *ClientTestSuite) TestCLI() {
 	e = s.subject.Populate()
 	s.NoError(e)
 	s.Equal(map[string]any{
-		"AccessToken":       "foo",
-		"AccessTokenSecret": "bar",
-		"PrivateKeyPEMPath": os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
-		"TraceMode":         "error",
-		"Zone":              "usacloud",
+		"AccessToken":         "foo",
+		"AccessTokenSecret":   "bar",
+		"APIRequestRateLimit": int64(5),
+		"APIRequestTimeout":   int64(300),
+		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+		"RetryMax":            int64(10),
+		"RetryWaitMax":        int64(64),
+		"RetryWaitMin":        int64(1),
+		"TraceMode":           "error",
+		"Zone":                "usacloud",
 		"Zones": []string{
 			"foo",
 			", bar",
