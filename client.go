@@ -188,16 +188,10 @@ func (c *Client) Profile() (*Profile, error) {
 	if q, err := c.populated(); err != nil {
 		return p, err
 
-	} else if v, err := q.get("Profile"); err != nil {
-		return p, err
-
-	} else if w, ok := v.Get(); !ok {
-		return p, nil
-
-	} else if p, ok := w.(*Profile); !ok {
-		return p, NewErrorf("invalid type for Profile in config: %T", v)
+	} else if result := obtainFromConfig[*Profile](q, "Profile"); result.isErr() {
+		return p, result.error()
 
 	} else {
-		return p, nil
+		return result.unwrap_or(nil), nil
 	}
 }

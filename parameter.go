@@ -224,10 +224,10 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateAPIRequestRateLimit(c))
 	ret = append(ret, p.populateTraceMode(c))
 
-	if v, err := c.get("AccessToken"); err == nil && v.isSome() {
+	if result := obtainFromConfig[string](c, "AccessToken"); result.isSome() {
 		// Take that,
 
-	} else if v, err := c.get("PrivateKeyPEMPath"); err == nil && v.isSome() {
+	} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isSome() {
 		// Take that,
 
 	} else {
@@ -282,14 +282,11 @@ func (p *parameter) populatePrivateKeyPath(c *config) error {
 	if err := p.populateString(c, "PrivateKeyPEMPath"); err != nil {
 		return err
 
-	} else if path, err := c.get("PrivateKeyPEMPath"); err != nil {
-		return err
+	} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isErr() {
+		return result.error()
 
-	} else if v, ok := path.Get(); !ok {
+	} else if v, ok := result.some(); !ok {
 		return nil // just not set
-
-	} else if v, ok := v.(string); !ok {
-		return NewErrorf("invalid type for PrivateKeyPEMPath in config: %T", v)
 
 	} else if s, err := os.Stat(v); err != nil {
 		return NewErrorf("private key file not found: %s", v)
@@ -519,15 +516,12 @@ func obtainFromProfile[
 	if c == nil {
 		return whence, resultOptionErr[T](NewErrorf("nil config"))
 
-	} else if v, err := c.get("Profile"); err != nil {
-		return whence, resultOptionErr[T](err)
+	} else if result := obtainFromConfig[*Profile](c, "Profile"); result.isErr() {
+		return whence, resultOptionErr[T](result.error())
 
-	} else if w, ok := v.Get(); !ok {
+	} else if p, ok := result.some(); !ok {
 		// profile not set; ok unspecified
 		return whence, resultOptionNone[T]()
-
-	} else if p, ok := w.(*Profile); !ok {
-		return whence, resultOptionErr[T](NewErrorf("invalid profile in config: %v", v))
 
 	} else if v, ok := p.Get(k); !ok {
 		// profile does not have this key; ok unspecified
@@ -538,6 +532,21 @@ func obtainFromProfile[
 
 	} else {
 		return whence, resultOptionSome(w)
+	}
+}
+
+func obtainFromConfig[T any](c *config, k string) resultOption[T] {
+	if c == nil {
+		return resultOptionErr[T](NewErrorf("nil config"))
+
+	} else if v, ok := (*c)[k]; !ok {
+		return resultOptionNone[T]()
+
+	} else if w, ok := v.(T); !ok {
+		return resultOptionErr[T](NewErrorf("invalid type for %s in config: %T", k, v))
+
+	} else {
+		return resultOptionSome(w)
 	}
 }
 
@@ -626,31 +635,21 @@ func (c *config) set(k string, v any) error {
 }
 
 func (r *resultOption[T]) isErr() bool     { return r.err != nil }
-func (r *resultOption[T]) isNone() bool    { return r.set == false }
 func (r *resultOption[T]) error() error    { return r.err }
-func (r *resultOption[T]) ok() option[T]   { return r.option }
-func (r *resultOption[T]) some() (T, bool) { return r.option.Get() }
-func (r *resultOption[T]) unwrap() T       { return r.option.some }
+func (r *resultOption[T]) ok() *option[T]  { return &r.option }
+func (r *resultOption[T]) some() (T, bool) { return r.ok().Get() }
+func (r *resultOption[T]) unwrap_or(zero T) T {
+	if ret, ok := r.some(); ok {
+		return ret
+	} else {
+		return zero
+	}
+}
 
 func resultOptionErr[T any](err error) resultOption[T] { return resultOption[T]{err: err} }
 func resultOptionNone[T any]() resultOption[T]         { return resultOption[T]{} }
 func resultOptionSome[T any](some T) resultOption[T] {
 	return resultOption[T]{option: option[T]{some: some, set: true}}
-}
-
-func (c *config) get(k string) (option[any], error) {
-	var ret option[any]
-
-	if c == nil {
-		return ret, NewErrorf("nil config")
-
-	} else if v, ok := (*c)[k]; !ok {
-		return ret, nil
-
-	} else {
-		ret.initialize(v)
-		return ret, nil
-	}
 }
 
 func (s *storage) get(k string) (any, bool) {
