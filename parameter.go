@@ -33,6 +33,12 @@ type option[T any] struct {
 	set bool
 }
 
+// This is just Result<Option<T>, E>
+type resultOption[T any] struct {
+	option[T]
+	err error
+}
+
 type storage struct {
 	profileName         option[string]
 	privateKeyPath      option[string]
@@ -337,10 +343,10 @@ func (p *parameter) populateZones(c *config) []error {
 		val.initialize(v)
 		whence = "terraform configuration"
 
-	} else if wal, whence, err := obtainFromProfile[[]any](c, "Zones", "profile"); err != nil {
-		ret = append(ret, err)
+	} else if whence, result := obtainFromProfile[[]any](c, "Zones", "profile"); result.isErr() {
+		ret = append(ret, result.error())
 
-	} else if v, ok := wal.Get(); !ok {
+	} else if v, ok := result.some(); !ok {
 		// just not set
 
 	} else {
@@ -406,10 +412,10 @@ func (this *parameter) populateTraceMode(c *config) error {
 }
 
 func (p *parameter) populateString(c *config, key string) error {
-	if val, whence, err := prioritizedParameterValue[string](p, c, key); err != nil {
-		return err
+	if whence, result := prioritizedParameterValue[string](p, c, key); result.isErr() {
+		return result.error()
 
-	} else if v, ok := val.Get(); !ok {
+	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
 
 	} else if v == "" {
@@ -421,10 +427,10 @@ func (p *parameter) populateString(c *config, key string) error {
 }
 
 func (p *parameter) populateUInt64(c *config, key string) error {
-	if val, whence, err := prioritizedParameterValue[int64](p, c, key); err != nil {
-		return err
+	if whence, result := prioritizedParameterValue[int64](p, c, key); result.isErr() {
+		return result.error()
 
-	} else if v, ok := val.Get(); !ok {
+	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
 
 	} else if v < 0 {
@@ -442,27 +448,25 @@ func prioritizedParameterValue[
 	c *config,
 	k string,
 ) (
-	option[T],
 	string,
-	error,
+	resultOption[T],
 ) {
-	var val option[T]
 	var whence string
 
 	if p == nil {
-		return val, whence, NewErrorf("nil parameter")
+		return whence, resultOptionErr[T](NewErrorf("nil parameter"))
 
 	} else if c == nil {
-		return val, whence, NewErrorf("nil config")
+		return whence, resultOptionErr[T](NewErrorf("nil config"))
 
-	} else if val, whence, err := obtainFromStorage[T](&p.envp, k, "environment variable"); val.isSome() || err != nil {
-		return val, whence, err
+	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
+		return whence, result
 
-	} else if val, whence, err := obtainFromStorage[T](&p.argv, k, "command-line argument"); val.isSome() || err != nil {
-		return val, whence, err
+	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
+		return whence, result
 
-	} else if val, whence, err := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); val.isSome() || err != nil {
-		return val, whence, err
+	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
+		return whence, result
 
 	} else {
 		return obtainFromProfile[T](c, k, "profile")
@@ -474,26 +478,22 @@ func obtainFromStorage[
 ](
 	s *storage,
 	k string,
-	msg ...string,
+	whence string,
 ) (
-	option[T],
 	string,
-	error,
+	resultOption[T],
 ) {
-	var val option[T]
-	whence := append(msg, "storage")[0]
-
 	if s == nil {
-		return val, whence, NewErrorf("nil %s", whence)
+		return whence, resultOptionErr[T](NewErrorf("nil %s", whence))
 
 	} else if v, ok := s.get(k); !ok {
-		return val, whence, nil
+		return whence, resultOptionNone[T]()
 
 	} else if t, ok := v.(T); !ok {
-		return val, whence, NewErrorf("invalid type for %s in %s: %T", k, whence, v)
+		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 
 	} else {
-		return option[T]{t, true}, whence, nil
+		return whence, resultOptionSome[T](t)
 	}
 }
 
@@ -502,37 +502,35 @@ func obtainFromProfile[
 ](
 	c *config,
 	k string,
-	msg ...string,
+	msg string,
 ) (
-	option[T],
 	string,
-	error,
+	resultOption[T],
 ) {
-	var val option[T]
-	whence := fmt.Sprintf("%s %s", append(msg, "profile")[0], k)
+	whence := fmt.Sprintf("%s %s", msg, k)
 
 	if c == nil {
-		return val, whence, NewErrorf("nil config")
+		return whence, resultOptionErr[T](NewErrorf("nil config"))
 
 	} else if v, err := c.get("Profile"); err != nil {
-		return val, whence, err
+		return whence, resultOptionErr[T](err)
 
 	} else if w, ok := v.Get(); !ok {
 		// profile not set; ok unspecified
-		return val, whence, nil
+		return whence, resultOptionNone[T]()
 
 	} else if p, ok := w.(*Profile); !ok {
-		return val, whence, NewErrorf("invalid profile in config: %v", v)
+		return whence, resultOptionErr[T](NewErrorf("invalid profile in config: %v", v))
 
 	} else if v, ok := p.Get(k); !ok {
 		// profile does not have this key; ok unspecified
-		return val, whence, nil
+		return whence, resultOptionNone[T]()
 
 	} else if w, ok := v.(T); !ok {
-		return val, whence, NewErrorf("invalid type for %s in %s: %T", k, whence, v)
+		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 
 	} else {
-		return option[T]{w, true}, whence, nil
+		return whence, resultOptionSome[T](w)
 	}
 }
 
@@ -618,6 +616,19 @@ func (c *config) set(k string, v any) error {
 		(*c)[k] = v
 		return nil
 	}
+}
+
+func (r *resultOption[T]) isErr() bool     { return r.err != nil }
+func (r *resultOption[T]) isNone() bool    { return r.set == false }
+func (r *resultOption[T]) error() error    { return r.err }
+func (r *resultOption[T]) ok() option[T]   { return r.option }
+func (r *resultOption[T]) some() (T, bool) { return r.option.Get() }
+func (r *resultOption[T]) unwrap() T       { return r.option.some }
+
+func resultOptionErr[T any](err error) resultOption[T] { return resultOption[T]{err: err} }
+func resultOptionNone[T any]() resultOption[T]         { return resultOption[T]{} }
+func resultOptionSome[T any](some T) resultOption[T] {
+	return resultOption[T]{option: option[T]{some: some, set: true}}
 }
 
 func (c *config) get(k string) (option[any], error) {
