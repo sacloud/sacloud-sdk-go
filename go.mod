@@ -3,6 +3,7 @@ module github.com/sacloud/http-client-go
 go 1.25.1
 
 require (
+	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/hashicorp/terraform-plugin-framework v1.16.1
 	github.com/sacloud/packages-go v0.0.11

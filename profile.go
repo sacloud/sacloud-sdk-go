@@ -15,6 +15,9 @@
 package client
 
 import (
+	"crypto/sha256"
+	"crypto/x509"
+	"encoding/hex"
 	"encoding/json"
 	"io"
 	"iter"
@@ -23,6 +26,8 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // Profile is a set of options, named.
@@ -263,6 +268,38 @@ func (this *Profile) Keys() iter.Seq[string] {
 
 	} else {
 		return maps.Keys(this.Attributes)
+	}
+}
+
+func (this *Profile) GetCacheFilePath(pemPath ...string) (string, error) {
+	if this == nil {
+		return "", NewErrorf("nil profile")
+	} else if str, ok := this.Get("PrivateKeyPEMPath"); !ok {
+		pemPath = append(pemPath, "")
+	} else if s, ok := str.(string); !ok {
+		return "", NewErrorf("invalid PrivateKeyPEMPath: %T", str)
+	} else {
+		pemPath = append(pemPath, s)
+	}
+
+	//nolint:gosec // This `os.ReadFile` does not reveal any secret info
+	if path := pemPath[0]; path == "" {
+		return "", NewErrorf("missing PrivateKeyPEMPath")
+
+	} else if bytes, err := os.ReadFile(path); err != nil {
+		return "", Wrapf(err, "failed to read PrivateKeyPEMPath")
+
+	} else if k, err := jwt.ParseRSAPrivateKeyFromPEM(bytes); err != nil {
+		return "", Wrapf(err, "failed to parse PEM: %+v", path)
+
+	} else if asn1, err := x509.MarshalPKIXPublicKey(&k.PublicKey); err != nil {
+		return "", Wrapf(err, "failed to marshal public key: %+v", path)
+
+	} else {
+		sum := sha256.Sum256(asn1)
+		base := hex.EncodeToString(sum[:])
+		name := base + ".json"
+		return filepath.Join(this.dir, this.Name, "cache", name), nil
 	}
 }
 
