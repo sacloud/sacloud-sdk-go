@@ -116,34 +116,30 @@ func (this *ProfileOp) Read(name string) (*Profile, error) {
 
 	return this.open(n, os.O_RDONLY, func(fp *os.File) (*Profile, error) {
 		var attrs map[string]any
+		dec := json.NewDecoder(fp)
 
-		if buf, err := io.ReadAll(fp); err != nil {
-			return nil, Wrapf(err, "failed to read %+v", fp.Name())
-
-		} else if err := json.Unmarshal(buf, &attrs); err != nil {
+		if err := dec.Decode(&attrs); err != nil {
 			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
 
 		} else {
 			return &Profile{this.dir, name, attrs}, nil
 		}
-	},
-	)
+	})
 }
 
 func (this *ProfileOp) Create(p *Profile) error {
 	n := filepath.Join(p.Name, "config.json")
 	_, err := this.open(n, os.O_WRONLY|os.O_CREATE|os.O_TRUNC|os.O_EXCL, func(fp *os.File) (*Profile, error) {
-		if buf, err := json.MarshalIndent(p.Attributes, "", "  "); err != nil {
-			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
+		enc := json.NewEncoder(fp)
+		enc.SetIndent("", "  ")
 
-		} else if _, err := fp.Write(buf); err != nil {
-			return nil, Wrapf(err, "failed to write %+v", p.Pathname())
+		if err := enc.Encode(p.Attributes); err != nil {
+			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
 
 		} else {
 			return p, nil
 		}
-	},
-	)
+	})
 	return err
 }
 
@@ -154,27 +150,24 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 		// :TODO: need flock for possible concurrent writes
 		// :TODO: better have backup mechanism
 		var attrs map[string]any
+		dec := json.NewDecoder(fp)
+		enc := json.NewEncoder(fp)
+		enc.SetIndent("", "  ")
 
-		if buf, err := io.ReadAll(fp); err != nil {
-			return nil, Wrapf(err, "failed to read %+v", fp.Name())
-
-		} else if err := json.Unmarshal(buf, &attrs); err != nil {
+		if err := dec.Decode(&attrs); err != nil {
 			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
 		}
 
 		ret := &Profile{this.dir, p.Name, deepMerge(attrs, p.Attributes)}
 
-		if buf, err := json.MarshalIndent(ret.Attributes, "", "  "); err != nil {
-			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
-
-		} else if _, err := fp.Seek(0, 0); err != nil {
+		if _, err := fp.Seek(0, 0); err != nil {
 			return nil, Wrapf(err, "failed to seek %+v", p.Pathname())
 
 		} else if err := fp.Truncate(0); err != nil {
 			return nil, Wrapf(err, "failed to truncate %+v", p.Pathname())
 
-		} else if _, err := fp.Write(buf); err != nil {
-			return nil, Wrapf(err, "failed to write %+v", p.Pathname())
+		} else if err := enc.Encode(ret.Attributes); err != nil {
+			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
 
 		} else {
 			return ret, nil
