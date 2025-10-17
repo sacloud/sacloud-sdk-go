@@ -264,25 +264,40 @@ func (this *Profile) Keys() iter.Seq[string] {
 	}
 }
 
-func (this *Profile) GetCacheFilePath(pemPath ...string) (string, error) {
+func (this *Profile) GetCacheFilePath(path *string, verbatim *string) (string, error) {
+	var err error
+
+	//nolint:gocritic
 	if this == nil {
 		return "", NewErrorf("nil profile")
-	} else if str, ok := this.Get("PrivateKeyPEMPath"); !ok {
-		pemPath = append(pemPath, "")
-	} else if s, ok := str.(string); !ok {
-		return "", NewErrorf("invalid PrivateKeyPEMPath: %T", str)
-	} else {
-		pemPath = append(pemPath, s)
+
+	} else if path != nil && verbatim != nil {
+		return "", NewErrorf("only one of path or verbatim can be set")
+
+	} else if path == nil && verbatim == nil {
+		// try obtaining from PrivateKeyPEMPath
+		if str, ok := this.Get("PrivateKeyPEMPath"); !ok {
+			return "", NewErrorf("neither path nor verbatim is given")
+
+		} else if s, ok := str.(string); !ok {
+			return "", NewErrorf("invalid PrivateKeyPEMPath: %T", str)
+
+		} else {
+			path = &s
+		}
 	}
 
+	var bytes []byte
+
 	//nolint:gosec // This `os.ReadFile` does not reveal any secret info
-	if path := pemPath[0]; path == "" {
-		return "", NewErrorf("missing PrivateKeyPEMPath")
+	if verbatim != nil {
+		bytes = []byte(*verbatim)
 
-	} else if bytes, err := os.ReadFile(path); err != nil {
+	} else if bytes, err = os.ReadFile(*path); err != nil {
 		return "", Wrapf(err, "failed to read PrivateKeyPEMPath")
+	}
 
-	} else if k, err := jwt.ParseRSAPrivateKeyFromPEM(bytes); err != nil {
+	if k, err := jwt.ParseRSAPrivateKeyFromPEM(bytes); err != nil {
 		return "", Wrapf(err, "failed to parse PEM: %+v", path)
 
 	} else if asn1, err := x509.MarshalPKIXPublicKey(&k.PublicKey); err != nil {

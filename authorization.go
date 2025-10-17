@@ -33,6 +33,8 @@ func (d *doer) middlewareAuthorization(c *config) middleware {
 			mode = "basic"
 		} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isSome() {
 			mode = "bearer"
+		} else if result := obtainFromConfig[string](c, "PrivateKey"); result.isSome() {
+			mode = "bearer"
 		} else {
 			// no auth info found ... ?
 			// let's just let it go without auth
@@ -41,6 +43,9 @@ func (d *doer) middlewareAuthorization(c *config) middleware {
 		}
 
 		switch mode {
+		default:
+			panic("unknown authPreference: " + mode)
+
 		case "basic":
 			if result := obtainFromConfig[string](c, "AccessToken"); result.isErr() {
 				return nil, result.error()
@@ -56,9 +61,33 @@ func (d *doer) middlewareAuthorization(c *config) middleware {
 
 			} else {
 				req.SetBasicAuth(user, pass)
+				return pullThenCall(pull, req)
+			}
+
+		case "bearer":
+			if result := obtainFromConfig[string](c, "TokenEndpoint"); result.isErr() {
+				return nil, result.error()
+
+			} else if !result.isSome() {
+				// UNLIKELY it has default value
+				return nil, NewErrorf("TokenEndpoint is absent")
+
+			} else if result := obtainFromConfig[string](c, "ServicePrincipalID"); result.isErr() {
+				return nil, result.error()
+
+			} else if !result.isSome() {
+				return nil, NewErrorf("ServicePrincipalID is absent")
+
+			} else if !obtainFromConfig[string](c, "PrivateKeyPEMPath").isSome() && !obtainFromConfig[string](c, "PrivateKey").isSome() {
+				return nil, NewErrorf("neither PrivateKeyPEMPath nor PrivateKey is present")
+
+			} else if token, err := d.newTokenResponse(req.Context(), c); err != nil {
+				return nil, err
+
+			} else {
+				req.Header.Set("Authorization", "Bearer "+token.AccessToken)
+				return pullThenCall(pull, req)
 			}
 		}
-
-		return pullThenCall(pull, req)
 	}
 }

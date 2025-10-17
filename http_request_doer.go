@@ -35,6 +35,7 @@ type doer struct {
 	// configurable for tests (net/http/httptest)
 	client      *http.Client
 	root        string
+	server      *httptest.Server
 	rateLimiter ratelimit.Limiter
 	middlewares []middleware
 }
@@ -56,6 +57,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	} else if svr, ok := result.some(); ok {
 		d.client = svr.Client()
 		d.root = svr.URL
+		d.server = svr
 	} else if result := obtainFromConfig[string](c, "APIRootURL"); result.isErr() {
 		return nil, result.error()
 	} else if apiRootURL, ok := result.some(); ok {

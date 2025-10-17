@@ -109,12 +109,25 @@ func (r resultOption[T]) isSome() bool    { return !r.isErr() && !r.isNone() }
 func (r resultOption[T]) error() error    { return r.err }
 func (r resultOption[T]) ok() *option[T]  { return &r.option }
 func (r resultOption[T]) some() (T, bool) { return r.ok().Get() }
-func (r resultOption[T]) unwrap() T       { return r.option.some }
-func (r resultOption[T]) unwrap_or(zero T) T {
+func (r resultOption[T]) unwrap() T {
+	if ret, ok := r.some(); ok {
+		return ret
+	} else {
+		panic("called unwrap on a None value")
+	}
+}
+func (r resultOption[T]) unwrapOr(zero T) T {
 	if ret, ok := r.some(); ok {
 		return ret
 	} else {
 		return zero
+	}
+}
+func (r resultOption[T]) asPtr() *T {
+	if r.isSome() {
+		return &r.option.some
+	} else {
+		return nil
 	}
 }
 

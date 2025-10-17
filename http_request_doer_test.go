@@ -21,6 +21,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"strings"
 	"testing"
 
 	. "github.com/sacloud/http-client-go"
@@ -73,6 +74,10 @@ func (s *HttpRequestDoerTestSuite) TestSmoke() {
 
 	subject, err := s.client.DupWith(WithTestServer(svr))
 	s.NoError(err)
+	_ = subject.SetEnviron([]string{
+		"SAKURACLOUD_ACCESS_TOKEN=foo",
+		"SAKURACLOUD_ACCESS_TOKEN_SECRET=bar",
+	})
 
 	req, _ := http.NewRequest("GET", svr.URL, bytes.NewReader(j))
 	actual, err := subject.Do(req)
@@ -82,4 +87,54 @@ func (s *HttpRequestDoerTestSuite) TestSmoke() {
 	actualBody, err := io.ReadAll(actual.Body)
 	s.NoError(err)
 	s.JSONEq(string(j), string(actualBody))
+}
+
+func (s *HttpRequestDoerTestSuite) TestBearer() {
+	var requests []*http.Request
+	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		requests = append(requests, r)
+
+		body, e := io.ReadAll(r.Body)
+		s.NoError(e)
+		w.WriteHeader(200)
+		s.NoError(e)
+		_, e = w.Write(body)
+		s.NoError(e)
+	}))
+	defer svr.Close()
+
+	subject, err := s.client.DupWith(WithTestServer(svr))
+	s.NoError(err)
+	_ = subject.SetEnviron([]string{
+		"SAKURACLOUD_SERVICE_PRINCIPAL_ID=113702516320",
+		`SAKURACLOUD_PRIVATE_KEY=
+-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQC/AfcvlUlhcPpDD/1HqWBWvGQZxdER+fy6jbm1BlhVT156hjZi
+UUwetUMrVGuy+bYE50j+qJB2VYKIhUTIUYCJg/AlruszlmydV0dOWPpSsLMXA5XU
+GhoijaZY9l8vsbGN3n0QJ313GvFQQ+GrP1PzmRbpK686weAwtCx+PXYPQwIDAQAB
+AoGAEvG69nk0AfoWmDgpwsXFzFR7CSNZjRLiQg50cMPkVvG8SSKumim+Bv2rX8zL
+scCakPnvf3JwgYwRmkC9hbCvssfQK2o0Zzc6zPa560TxXYK5rADTfMXqeLnF6nFZ
+sKLlE5vxyv2XD6zDcc1K2q25ARYMeWOGQ2WfuMYexBd36EECQQD0va3JquOaPQI7
+2yRXNumv2fRwYohnJxOymu4vKZp11R0gTGljsv7y8I+mcVDJnJy27t9a7tUSLS4F
+G1FMId0LAkEAx8t39aRzchpUoJYl9KmigFQ5AS6qAmDqdGIOBFQ5hf6HErukbRBd
+2q+tNXAKF62ecXR3dlaS54CpSXkQVxlJqQJBANJD1/hIEk0kFzQ3nSw06GaFmcWo
+UcpVv02WYAYy9xo/I0vpei4GzZUI6lG0TxU3sUhVR53HTVXVbRFEG/+NpGsCQQCi
+qPilOJn0z5MOmq+UHXd7WxZ96+vlu9mlnx8iTx/2A18c1T/su2Jt5JDz7J+K34Mb
+g2KvKZS4fXtVoga3opLhAkAtR4iVtxGi3NxOw0XrTXClzJD1e357/MrSDQ09gdRG
+sP9Knwr9WVBtRYPRFjC3YccLTwoQnjVcF1qJN6ybMvnS
+-----END RSA PRIVATE KEY-----
+		`,
+	})
+
+	req, _ := http.NewRequest("GET", svr.URL, strings.NewReader("{}"))
+	actual, err := subject.Do(req)
+	s.NoError(err)
+	s.Equal(200, actual.StatusCode)
+
+	actualBody, err := io.ReadAll(actual.Body)
+	s.NoError(err)
+	s.JSONEq("{}", string(actualBody))
+
+	s.Len(requests, 1)
+	s.Equal("Bearer ", requests[0].Header.Get("Authorization")[:7])
 }

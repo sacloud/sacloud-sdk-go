@@ -245,6 +245,9 @@ func (p *parameter) populate(c *config) error {
 	} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isSome() {
 		// Take that,
 
+	} else if result := obtainFromConfig[string](c, "PrivateKey"); result.isSome() {
+		// Take that,
+
 	} else {
 		// This is fatal.  Stop here.
 		ret = append(ret, NewErrorf("neither AccessToken nor PrivateKeyPEMPath is set"))

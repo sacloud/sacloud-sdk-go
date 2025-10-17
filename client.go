@@ -205,7 +205,7 @@ func (c *Client) Profile() (*Profile, error) {
 		return p, result.error()
 
 	} else {
-		return result.unwrap_or(nil), nil
+		return result.unwrapOr(nil), nil
 	}
 }
 
@@ -249,7 +249,7 @@ func (c *Client) __populate__() (*inner, error) {
 	return c.once.Do(func(i *inner) error {
 		i.c = make(config)
 
-		if err := c.params.populate(&i.c); err == nil {
+		if err := c.params.populate(&i.c); err != nil {
 			return err
 
 		} else if i.d, err = newHttpRequestDoer(&i.c); err != nil {
