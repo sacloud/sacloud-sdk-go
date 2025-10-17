@@ -46,6 +46,7 @@ type resultOption[T any] struct {
 type storage struct {
 	profileName         option[string]
 	privateKeyPath      option[string]
+	tokenEndpoint       option[string]
 	accessToken         option[string]
 	accessTokenSecret   option[string]
 	zone                option[string]
@@ -89,6 +90,9 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 
 			case "SAKURACLOUD_PRIVATE_KEY_PATH":
 				return p.envp.privateKeyPath.Set(v)
+
+			case "SAKURACLOUD_TOKEN_ENDPOINT":
+				return p.envp.tokenEndpoint.Set(v)
 
 			case "SAKURACLOUD_ACCESS_TOKEN":
 				return p.envp.accessToken.Set(v)
@@ -220,6 +224,7 @@ func (p *parameter) populate(c *config) error {
 	*c = make(config)
 	ret = append(ret, p.populateProfile(c))
 	ret = append(ret, p.populatePrivateKeyPath(c))
+	ret = append(ret, p.populateTokenEndpoint(c))
 	ret = append(ret, p.populateAccessToken(c))
 	ret = append(ret, p.populateAccessTokenSecret(c))
 	ret = append(ret, p.populateZone(c))
@@ -314,6 +319,10 @@ func (p *parameter) populatePrivateKeyPath(c *config) error {
 	} else {
 		return nil
 	}
+}
+
+func (p *parameter) populateTokenEndpoint(c *config) error {
+	return p.populateString(c, "TokenEndpoint")
 }
 
 func (p *parameter) populateAccessToken(c *config) error {
@@ -725,6 +734,9 @@ func (s *storage) get(k string) (any, bool) {
 	case "PrivateKeyPEMPath":
 		return s.privateKeyPath.Get()
 
+	case "TokenEndpoint":
+		return s.tokenEndpoint.Get()
+
 	case "AccessToken":
 		return s.accessToken.Get()
 
@@ -794,6 +806,7 @@ var defaults = storage{
 	retryWaitMin:        option[int64]{set: true, some: 1},
 	apiRequestTimeout:   option[int64]{set: true, some: 300},
 	apiRequestRateLimit: option[int64]{set: true, some: 5},
+	tokenEndpoint:       option[string]{set: true, some: "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token"},
 	checkRetryFunc:      option[retryablehttp.CheckRetry]{set: true, some: retryablehttp.DefaultRetryPolicy},
 	userAgent: option[string]{set: true, some: fmt.Sprintf(
 		// :INTENTIONAL: keeping "api-client-go" here for backward compatibility
