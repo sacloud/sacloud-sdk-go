@@ -301,28 +301,45 @@ func (this *ProfileOp) open(
 	mode int,
 	callback func(*os.File) (*Profile, error),
 ) (*Profile, error) {
+	return openFileAt(this.dir, n, mode, callback)
+}
+
+// wrapper of OS `openat(2)`
+func openFileAt[
+	T any,
+](
+	dir string,
+	n string,
+	mode int,
+	callback func(*os.File) (T, error),
+) (
+	ret T,
+	err error,
+) {
+	var zero T
+
 	if (mode & os.O_CREATE) != 0 {
-		if err := os.MkdirAll(this.dir, 0o700); err != nil {
-			return nil, Wrapf(err, "failed to create directory %+v", this.dir)
+		if err := os.MkdirAll(dir, 0o700); err != nil {
+			return zero, Wrapf(err, "failed to create directory %+v", dir)
 		}
 	}
 
-	root, err := os.OpenRoot(this.dir)
+	root, err := os.OpenRoot(dir)
 	if err != nil {
-		return nil, Wrapf(err, "failed to open directory %+v", this.dir)
+		return zero, Wrapf(err, "failed to open directory %+v", dir)
 	}
 	defer func() { _ = root.Close() }()
 
 	if (mode & os.O_CREATE) != 0 {
 		dirname := filepath.Dir(n)
 		if err := root.MkdirAll(dirname, 0o700); err != nil {
-			return nil, Wrapf(err, "failed to create directory %+v", dirname)
+			return zero, Wrapf(err, "failed to create directory %+v", dirname)
 		}
 	}
 
 	file, err := root.OpenFile(n, mode, 0o600)
 	if err != nil {
-		return nil, Wrapf(err, "failed to open %+v", n)
+		return zero, Wrapf(err, "failed to open %+v", n)
 	}
 	defer func() { _ = file.Close() }()
 
