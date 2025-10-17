@@ -18,6 +18,10 @@ package client
 type TerraformProviderInterface interface {
 	LookupClientConfigProfileName() (string, bool)
 
+	// Returns if a Service Principal ID is set, and its value
+	// (this ID is unformatted)
+	LookupClientConfigServicePrincipalID() (string, bool)
+
 	// Returns if a Service Principal BYOK Private Key's path is set, and its value
 	LookupClientConfigPrivateKeyPath() (string, bool)
 

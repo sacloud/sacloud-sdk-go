@@ -54,6 +54,11 @@ func (p *providerModel) LookupClientConfigPrivateKeyPath() (string, bool) {
 	return "", false
 }
 
+func (p *providerModel) LookupClientConfigServicePrincipalID() (string, bool) {
+	// Not supported in this test model
+	return "", false
+}
+
 func (p *providerModel) LookupClientConfigAccessToken() (string, bool) {
 	return p.AccessToken.ValueString(), !p.AccessToken.IsNull() && !p.AccessToken.IsUnknown()
 }

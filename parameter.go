@@ -30,6 +30,7 @@ import (
 type storage struct {
 	profileName         option[string]
 	privateKeyPath      option[string]
+	servicePrincipalID  option[string]
 	tokenEndpoint       option[string]
 	accessToken         option[string]
 	accessTokenSecret   option[string]
@@ -74,6 +75,9 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 
 			case "SAKURACLOUD_PRIVATE_KEY_PATH":
 				return p.envp.privateKeyPath.Set(v)
+
+			case "SAKURACLOUD_SERVICE_PRINCIPAL_ID":
+				return p.envp.servicePrincipalID.Set(v)
 
 			case "SAKURACLOUD_TOKEN_ENDPOINT":
 				return p.envp.tokenEndpoint.Set(v)
@@ -165,6 +169,7 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.apiRequestTimeout.from(config.LookupClientConfigAPIRequestTimeout)
 	p.hcl.apiRequestRateLimit.from(config.LookupClientConfigAPIRequestRateLimit)
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
+	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
 }
 
 func (p *parameter) flagSet() *flag.FlagSet {
@@ -176,6 +181,7 @@ func (p *parameter) flagSet() *flag.FlagSet {
 		// :NOTE: these help messages are from usacloud's old --help output
 		fs.Var(&p.argv.profileName, "profile", "the name of saved credentials")
 		fs.Var(&p.argv.privateKeyPath, "private-key-path", "path to an RSA 2048 bit private key PEM format")
+		fs.Var(&p.argv.servicePrincipalID, "service-principal-id", "the ID of the service principal")
 		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.zones, "zones", "permitted zone names")
@@ -208,6 +214,7 @@ func (p *parameter) populate(c *config) error {
 	*c = make(config)
 	ret = append(ret, p.populateProfile(c))
 	ret = append(ret, p.populatePrivateKeyPath(c))
+	ret = append(ret, p.populateServicePrincipalID(c))
 	ret = append(ret, p.populateTokenEndpoint(c))
 	ret = append(ret, p.populateAccessToken(c))
 	ret = append(ret, p.populateAccessTokenSecret(c))
@@ -303,6 +310,10 @@ func (p *parameter) populatePrivateKeyPath(c *config) error {
 	} else {
 		return nil
 	}
+}
+
+func (p *parameter) populateServicePrincipalID(c *config) error {
+	return p.populateString(c, "ServicePrincipalID")
 }
 
 func (p *parameter) populateTokenEndpoint(c *config) error {
@@ -624,6 +635,9 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "PrivateKeyPEMPath":
 		return s.privateKeyPath.Get()
+
+	case "ServicePrincipalID":
+		return s.servicePrincipalID.Get()
 
 	case "TokenEndpoint":
 		return s.tokenEndpoint.Get()
