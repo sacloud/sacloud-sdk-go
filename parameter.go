@@ -15,7 +15,6 @@
 package client
 
 import (
-	"encoding/csv"
 	"errors"
 	"flag"
 	"fmt"
@@ -23,25 +22,10 @@ import (
 	"os"
 	"runtime"
 	"slices"
-	"strconv"
 	"strings"
 
 	"github.com/hashicorp/go-retryablehttp"
 )
-
-type option[T any] struct {
-	some T
-
-	// This is intentionally flipped from Rust's Option<T>
-	// to make the zero value mean "not set".
-	set bool
-}
-
-// This is just Result<Option<T>, E>
-type resultOption[T any] struct {
-	option[T]
-	err error
-}
 
 type storage struct {
 	profileName         option[string]
@@ -623,78 +607,6 @@ func obtainFromConfig[T any](c *config, k string) resultOption[T] {
 	}
 }
 
-func (m *option[T]) from(src func() (T, bool)) {
-	if m != nil {
-		value, set := src()
-		*m = option[T]{value, set}
-	}
-}
-
-func (m *option[T]) initialize(v T) {
-	m.from(func() (T, bool) {
-		return v, true
-	})
-}
-
-func (m *option[T]) String() string {
-	// This is used by flag package
-	if m == nil {
-		panic("nil dereference")
-	}
-
-	if v, ok := m.Get(); ok {
-		return fmt.Sprintf("%v", v)
-
-	} else {
-		return ""
-	}
-}
-
-func (m *option[T]) Get() (T, bool) {
-	var zero T
-
-	if m == nil {
-		return zero, false
-
-	} else {
-		return m.some, m.set
-	}
-}
-
-func (m *option[T]) Set(s string) error {
-	// This is used by flag package
-
-	switch m := any(m).(type) {
-	case *option[string]:
-		m.initialize(s)
-
-	case *option[int64]:
-		if v, err := strconv.ParseInt(s, 0, 64); err != nil {
-			return err
-
-		} else {
-			m.initialize(v)
-		}
-
-	case *option[[]string]:
-		// This behaviour mimics usacloud's --zones= option
-		r := strings.NewReader(s)
-		c := csv.NewReader(r)
-		if v, err := c.Read(); err != nil {
-			return err
-
-		} else {
-			m.initialize(v)
-		}
-
-	default:
-		// Should be unreachable because of the constraint,
-		// but good practice to guard anyway.
-		panic("unsupported type")
-	}
-	return nil
-}
-
 func (c *config) set(k string, v any) error {
 	if c == nil {
 		return NewErrorf("nil config")
@@ -703,27 +615,6 @@ func (c *config) set(k string, v any) error {
 		(*c)[k] = v
 		return nil
 	}
-}
-
-func (r resultOption[T]) isErr() bool     { return r.err != nil }
-func (r resultOption[T]) isNone() bool    { return !r.set }
-func (r resultOption[T]) isSome() bool    { return !r.isErr() && !r.isNone() }
-func (r resultOption[T]) error() error    { return r.err }
-func (r resultOption[T]) ok() *option[T]  { return &r.option }
-func (r resultOption[T]) some() (T, bool) { return r.ok().Get() }
-func (r resultOption[T]) unwrap() T       { return r.option.some }
-func (r resultOption[T]) unwrap_or(zero T) T {
-	if ret, ok := r.some(); ok {
-		return ret
-	} else {
-		return zero
-	}
-}
-
-func resultOptionErr[T any](err error) resultOption[T] { return resultOption[T]{err: err} }
-func resultOptionNone[T any]() resultOption[T]         { return resultOption[T]{} }
-func resultOptionSome[T any](some T) resultOption[T] {
-	return resultOption[T]{option: option[T]{some: some, set: true}}
 }
 
 func (s *storage) get(k string) (any, bool) {
