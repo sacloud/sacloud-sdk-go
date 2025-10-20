@@ -116,6 +116,7 @@
   - それがなければ、設定ファイルに記載の`PrivateKeyPEMPath`で指定
   - それもなければ、コマンドラインから `--token` / `--secret` で指定
   - それもなければterraform provider block内に記載の `PrivateKeyPEMPath`
+- CI環境などローカルファイルに書き出すことが«手間、もしくはセキュリティ上の懸念»により難しい場合は環境変数`SAKURACLOUD_PRIVATE_KEY`に生のPEMを指定することも可能
 
 ## MQ のトークンの場合
 
