@@ -30,6 +30,7 @@ import (
 type storage struct {
 	profileName         option[string]
 	privateKeyPath      option[string]
+	privateKey          option[string]
 	servicePrincipalID  option[string]
 	tokenEndpoint       option[string]
 	accessToken         option[string]
@@ -75,6 +76,9 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 
 			case "SAKURACLOUD_PRIVATE_KEY_PATH":
 				return p.envp.privateKeyPath.Set(v)
+
+			case "SAKURACLOUD_PRIVATE_KEY":
+				return p.envp.privateKey.Set(v)
 
 			case "SAKURACLOUD_SERVICE_PRINCIPAL_ID":
 				return p.envp.servicePrincipalID.Set(v)
@@ -214,6 +218,7 @@ func (p *parameter) populate(c *config) error {
 	*c = make(config)
 	ret = append(ret, p.populateProfile(c))
 	ret = append(ret, p.populatePrivateKeyPath(c))
+	ret = append(ret, p.populatePrivateKey(c))
 	ret = append(ret, p.populateServicePrincipalID(c))
 	ret = append(ret, p.populateTokenEndpoint(c))
 	ret = append(ret, p.populateAccessToken(c))
@@ -310,6 +315,10 @@ func (p *parameter) populatePrivateKeyPath(c *config) error {
 	} else {
 		return nil
 	}
+}
+
+func (p *parameter) populatePrivateKey(c *config) error {
+	return p.populateString(c, "PrivateKey")
 }
 
 func (p *parameter) populateServicePrincipalID(c *config) error {
@@ -635,6 +644,9 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "PrivateKeyPEMPath":
 		return s.privateKeyPath.Get()
+
+	case "PrivateKey":
+		return s.privateKey.Get()
 
 	case "ServicePrincipalID":
 		return s.servicePrincipalID.Get()
