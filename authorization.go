@@ -78,6 +78,12 @@ func (d *doer) middlewareAuthorization(c *config) middleware {
 			} else if !result.isSome() {
 				return nil, NewErrorf("ServicePrincipalID is absent")
 
+			} else if result := obtainFromConfig[string](c, "ServicePrincipalKeyID"); result.isErr() {
+				return nil, result.error()
+
+			} else if !result.isSome() {
+				return nil, NewErrorf("ServicePrincipalKeyID is absent")
+
 			} else if !obtainFromConfig[string](c, "PrivateKeyPEMPath").isSome() && !obtainFromConfig[string](c, "PrivateKey").isSome() {
 				return nil, NewErrorf("neither PrivateKeyPEMPath nor PrivateKey is present")
 

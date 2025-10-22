@@ -63,6 +63,8 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	} else if apiRootURL, ok := result.some(); ok {
 		d.client = http.DefaultClient
 		d.root = apiRootURL
+	} else {
+		d.client = http.DefaultClient
 	}
 	// OK when root is absent
 

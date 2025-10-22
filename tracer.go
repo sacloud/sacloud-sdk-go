@@ -20,6 +20,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"strings"
 )
 
 func (d *doer) tracer(c *config) middleware {
@@ -70,7 +71,9 @@ func __traceDump(req *http.Request, res *http.Response) (*http.Response, error) 
 	} else {
 		log.Printf("[TRACE] \trequest: %s %s\n", req.Method, req.URL.String())
 		log.Printf("==============================\n")
-		log.Printf("%s\n", string(dump))
+		for line := range strings.Lines(string(dump)) {
+			log.Printf("%s", line)
+		}
 		log.Printf("==============================\n")
 	}
 
@@ -79,7 +82,9 @@ func __traceDump(req *http.Request, res *http.Response) (*http.Response, error) 
 	} else {
 		log.Printf("[TRACE] \tresponse: %s %s\n", req.Method, req.URL.String())
 		log.Printf("==============================\n")
-		log.Printf("%s\n", string(dump))
+		for line := range strings.Lines(string(dump)) {
+			log.Printf("%s", line)
+		}
 		log.Printf("==============================\n")
 	}
 
