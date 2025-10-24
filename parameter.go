@@ -1,4 +1,4 @@
-// Copyright 2025- The sacloud/http-client-go Authors
+// Copyright 2025- The sacloud/saclient-go Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -185,7 +185,7 @@ func (p *parameter) flagSet() *flag.FlagSet {
 	var fs *flag.FlagSet
 
 	if p != nil {
-		fs = flag.NewFlagSet("http-client-go", flag.PanicOnError)
+		fs = flag.NewFlagSet("saclient-go", flag.PanicOnError)
 
 		// :NOTE: these help messages are from usacloud's old --help output
 		fs.Var(&p.argv.profileName, "profile", "the name of saved credentials")
@@ -730,7 +730,7 @@ var defaults = storage{
 	checkRetryFunc:      option[retryablehttp.CheckRetry]{set: true, some: retryablehttp.DefaultRetryPolicy},
 	userAgent: option[string]{set: true, some: fmt.Sprintf(
 		// :INTENTIONAL: keeping "api-client-go" here for backward compatibility
-		"api-client-go/v%s (%s/%s; +https://github.com/sacloud/http-client-go)",
+		"api-client-go/v%s (%s/%s; +https://github.com/sacloud/saclient-go)",
 		Version,
 		runtime.GOOS,
 		runtime.GOARCH,

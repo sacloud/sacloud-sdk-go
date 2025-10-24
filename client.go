@@ -1,4 +1,4 @@
-// Copyright 2025- The sacloud/http-client-go Authors
+// Copyright 2025- The sacloud/saclient-go Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ type ClientAPI interface {
 	//	import (
 	//		"os"
 	//
-	//	   saht "github.com/sacloud/http-client-go"
+	//	   saht "github.com/sacloud/saclient-go"
 	//	)
 	//
 	//	var client saht.Client
@@ -59,7 +59,7 @@ type ClientAPI interface {
 	//		"os"
 	//
 	//		"github.com/hashicorp/terraform-plugin-framework/provider"
-	//		saht "github.com/sacloud/http-client-go"
+	//		saht "github.com/sacloud/saclient-go"
 	//	)
 	//
 	//	type providerModel struct {
@@ -89,7 +89,7 @@ type ClientAPI interface {
 	//	import (
 	//	   "github.com/spf13/cobra"
 	//	   "github.com/spf13/pflag"
-	//	   saht "github.com/sacloud/http-client-go"
+	//	   saht "github.com/sacloud/saclient-go"
 	//	)
 	//
 	//	var client saht.Client

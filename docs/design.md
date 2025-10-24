@@ -23,7 +23,7 @@
 - 基本的な流れとしては、
 
   ```golang
-  import saht "github.com/sacloud/http-client-go"
+  import saht "github.com/sacloud/saclient-go"
   var GlobalClient saht.Client
   ```
 
@@ -58,7 +58,7 @@
   - まずプロセスグローバルなテンプレートを作成
 
       ```golang
-      import saht "github.com/sacloud/http-client-go"
+      import saht "github.com/sacloud/saclient-go"
       var TemplateClient saht.Client
       ```
 

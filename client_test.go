@@ -1,4 +1,4 @@
-// Copyright 2025- The sacloud/http-client-go Authors
+// Copyright 2025- The sacloud/saclient-go Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
-	. "github.com/sacloud/http-client-go"
+	. "github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -129,7 +129,7 @@ func (p *providerModel) LookupClientConfigTraceMode() (string, bool) {
 // :FIXME: this does not cover any part of the implementation.
 // Because this is nothing more than a copy & paste of the tested code itself.
 var ua string = fmt.Sprintf(
-	"api-client-go/v%s (%s/%s; +https://github.com/sacloud/http-client-go)",
+	"api-client-go/v%s (%s/%s; +https://github.com/sacloud/saclient-go)",
 	Version,
 	runtime.GOOS,
 	runtime.GOARCH,

@@ -1,4 +1,4 @@
-// Copyright 2025- The sacloud/http-client-go Authors
+// Copyright 2025- The sacloud/saclient-go Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ import (
 	"net/http"
 	"os"
 
-	saht "github.com/sacloud/http-client-go"
+	saht "github.com/sacloud/saclient-go"
 )
 
 var theClient saht.Client
