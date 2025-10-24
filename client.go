@@ -275,3 +275,4 @@ func isJSONMarshalable(v any) bool {
 }
 
 var _ ClientAPI = (*Client)(nil)
+var _ HttpRequestDoer = (*Client)(nil)
