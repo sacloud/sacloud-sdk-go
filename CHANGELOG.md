@@ -1,0 +1,49 @@
+# Changelog
+
+## [v0.1.0](https://github.com/sacloud/monitoring-suite-api-go/commits/v0.1.0) - 2025-10-10
+- ci: bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/4
+- 基礎的な部分 by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/2
+- OpenAPI スキーマファイル by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/3
+- initial implementation of publisher.go by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/5
+- initial implementation of `metrics_storage.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/7
+- initial implementation of `metrics_routing.go ` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/8
+- initial implementation of `management.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/9
+- test code refactoring by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/10
+- initial implementation of `logs_storage.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/11
+- initial implementation of `logs_routing.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/12
+- initial implementation of `dashboard.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/13
+- unwrap `IsOK: true` from `WrappedSomething` struct by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/14
+- initial implementation of alert_project.go by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/16
+- ghcr.io/sacloud/textlint-action v0.1.0 by @yamamoto-febc in https://github.com/sacloud/monitoring-suite-api-go/pull/23
+- initial implementation of `notification_target.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/17
+- initial implementation of history-related APIs by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/18
+- change all int/in64 IDs to string by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/20
+- initial implementation of `alert_rule.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/19
+- そういえばREADME by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/22
+- update `openapi.json` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/25
+- allow `count` and `from` be optional by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/26
+- AlertProject: take `"readOnly": true` into account by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/27
+- Integration tests for alert projects by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/28
+- MetricsStorage: take `"readOnly": true` into account by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/29
+- Integration tests for MetricsStorage/MetricsStorageeKey by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/30
+- AlertRule: take `"readOnly": true` into account by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/31
+- Integration tests for AlertRule by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/32
+- LogStorage: take `"readOnly": true` into account by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/33
+- update `openapi.json` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/34
+- integration tests for LogStorage by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/35
+- NotificationTarget: take `"readOnly: true` into account by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/36
+- integration tests for NotificationTarget by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/37
+- integration tests for Publisher by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/39
+- integration tests for Management by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/41
+- DashboardProject: take `"readOnly: true` into account by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/42
+- integration tests for DashboardProject by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/43
+- MetricsRouting: take `"readOnly: true` into account by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/44
+- integration tests for MetricsRouting by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/45
+- LogRouting: take `"readOnly: true` into account by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/46
+- integration tests for LogRouting by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/47
+- update `openapi.json` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/48
+- initial implementation of `traces_storage.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/49
+- initial implementation of `log_measure_rule.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/50
+- initial implementation of `notification_routing.go` by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/51
+- Handling of non-API erros by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/52
+- fix path of version file by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/53
