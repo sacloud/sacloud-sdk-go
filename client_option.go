@@ -134,6 +134,14 @@ func WithBigInt(needed bool) clientOption {
 	})
 }
 
+func WithUserAgent(ua string) clientOption {
+	return WithMiddleware(func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+		req.Header.Set("User-Agent", ua)
+
+		return pullThenCall(pull, req)
+	})
+}
+
 func WithCheckRetryFunc(f retryablehttp.CheckRetry) clientOption {
 	return func(c *Client) error {
 		c.params.dynamic.checkRetryFunc.initialize(f)
