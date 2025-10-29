@@ -105,10 +105,10 @@ type ClientAPI interface {
 	//
 	//	func init() {
 	//	   client.SetEnviron(os.Environ())
-	//	   command.PersistentFlags().AddGoFlagSet(client.FlagSet())
+	//	   command.PersistentFlags().AddGoFlagSet(client.FlagSet(flag.PanicOnError))
 	//	}
 	// ```
-	FlagSet() *flag.FlagSet
+	FlagSet(eh flag.ErrorHandling) *flag.FlagSet
 
 	// Returns the currently selected profile, or nil if absent.
 	// Profile historically includes much more than client configuration,
@@ -159,12 +159,12 @@ func (c *Client) SetEnviron(env []string) error {
 	}
 }
 
-func (c *Client) FlagSet() *flag.FlagSet {
+func (c *Client) FlagSet(eh flag.ErrorHandling) *flag.FlagSet {
 	if c == nil {
 		return nil
 
 	} else {
-		return c.params.flagSet()
+		return c.params.flagSet(eh)
 	}
 }
 

@@ -15,6 +15,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io"
 	"net/http"
@@ -26,7 +27,7 @@ import (
 var theClient saht.Client
 
 func main() {
-	fs := theClient.FlagSet()
+	fs := theClient.FlagSet(flag.PanicOnError)
 
 	for _, arg := range os.Args {
 		switch arg {
