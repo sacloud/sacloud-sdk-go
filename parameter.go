@@ -72,7 +72,7 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 
 		} else {
 			switch k {
-			case "SACLOUD_PROFILE":
+			case "SAKURACLOUD_PROFILE":
 				return p.envp.profileName.Set(v)
 
 			case "SAKURACLOUD_PRIVATE_KEY_PATH":
