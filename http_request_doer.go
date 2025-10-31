@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"slices"
+	"time"
 
 	"go.uber.org/ratelimit"
 )
@@ -51,6 +52,10 @@ func (d *doer) Do(req *http.Request) (*http.Response, error) {
 
 func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	var d doer
+	h := http.Client{
+		Timeout:   3 * time.Second,
+		Transport: http.DefaultTransport.(*http.Transport).Clone(),
+	}
 
 	if result := obtainFromConfig[*httptest.Server](c, "MockServer"); result.isErr() {
 		return nil, result.error()
@@ -61,10 +66,10 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	} else if result := obtainFromConfig[string](c, "APIRootURL"); result.isErr() {
 		return nil, result.error()
 	} else if apiRootURL, ok := result.some(); ok {
-		d.client = http.DefaultClient
+		d.client = &h
 		d.root = apiRootURL
 	} else {
-		d.client = http.DefaultClient
+		d.client = &h
 	}
 	// OK when root is absent
 
