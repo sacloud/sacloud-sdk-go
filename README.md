@@ -25,22 +25,77 @@ go get github.com/sacloud/monitoring-suite-api-go
 ## 使い方
 
 ```go
+package main
+
 import (
     "context"
 
-    "github.com/sacloud/monitoring-suite-api-go"
+    monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
 )
 
-ctx := context.Background()
-client, err := monitoringsuite.NewClient()
-if err != nil {
-	// エラーハンドリング
+func main() {
+    ctx := context.Background()
+    client, err := monitoringsuite.NewClient()
+    if err != nil {
+        // エラーハンドリング
+    }
+
+    // 例: アラートプロジェクト一覧取得
+    projects, err := monitoringsuite.NewAlertProjectOp(client).List(ctx, nil, nil)
+    if err != nil {
+        // エラーハンドリング
+    }
 }
-// 例: アラートプロジェクト一覧取得
-projects, err := NewAlertProjectOp(client).List(ctx, 32768, 0)
 ```
 
 APIの詳細は[GoDoc](https://pkg.go.dev/github.com/sacloud/monitoring-suite-api-go)や`apis/v1/`配下の型定義を参照してください。
+
+### 認証情報
+
+APIを実行するには認証が必要です。インタラクティブな環境の場合おすすめは [`usacloud`](https://github.com/sacloud/usacloud) を使って設定ファイルを作成することです。たとえば
+
+```sh
+usacloud config create --name is1a
+```
+
+にて作成したプロファイル `is1a` があるとすると、SDKとしては、
+
+```golang
+import (
+    monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
+    client "github.com/sacloud/api-client-go"
+)
+
+func main() {
+    client, err := monitoringsuite.NewClient(client.WithProfile("is1a"))
+
+    // 以下略
+}
+```
+
+のようにして読み込むことができます。
+
+一方でCI環境のようにファイルに書き出すのが適切ではない場合、環境変数経由で
+
+```golang
+import (
+    "os"
+
+    monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
+    client "github.com/sacloud/api-client-go"
+)
+
+func main() {
+    client, err := monitoringsuite.NewClient(client.WithApiKeys(
+        os.Getenv("SAKURACLOUD_ACCESS_TOKEN"),
+        os.Getenv("SAKURACLOUD_ACCESS_TOKEN_SECRET"),
+    ))
+
+    // 以下略
+}
+```
+
+のように指定できます。
 
 ## OpenAPI仕様について
 
