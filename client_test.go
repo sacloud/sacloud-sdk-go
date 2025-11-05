@@ -137,8 +137,9 @@ var ua string = fmt.Sprintf(
 
 type ClientTestSuite struct {
 	suite.Suite
-	XDG_CONFIG_HOME *string
-	subject         *Client
+	XDG_CONFIG_HOME         *string
+	SAKURACLOUD_PROFILE_DIR *string
+	subject                 *Client
 }
 
 func TestClientTestSuite(t *testing.T) { suite.Run(t, new(ClientTestSuite)) }
@@ -149,8 +150,12 @@ func (s *ClientTestSuite) SetupSuite() {
 	if dir, ok := os.LookupEnv("XDG_CONFIG_HOME"); ok {
 		s.XDG_CONFIG_HOME = &dir
 	}
+	if dir, ok := os.LookupEnv("SAKURACLOUD_PROFILE_DIR"); ok {
+		s.SAKURACLOUD_PROFILE_DIR = &dir
+	}
 	dir, _ := os.MkdirTemp(os.TempDir(), "profile_test")
 	os.Setenv("XDG_CONFIG_HOME", dir)
+	os.Unsetenv("SAKURACLOUD_PROFILE_DIR")
 
 	// create sample profiles
 	os.MkdirAll(dir+"/usacloud/usacloud", 0o700)
@@ -177,6 +182,11 @@ func (s *ClientTestSuite) TearDownSuite() {
 		os.Setenv("XDG_CONFIG_HOME", *s.XDG_CONFIG_HOME)
 	} else {
 		os.Unsetenv("XDG_CONFIG_HOME")
+	}
+	if s.SAKURACLOUD_PROFILE_DIR != nil {
+		os.Setenv("SAKURACLOUD_PROFILE_DIR", *s.SAKURACLOUD_PROFILE_DIR)
+	} else {
+		os.Unsetenv("SAKURACLOUD_PROFILE_DIR")
 	}
 }
 
@@ -303,6 +313,9 @@ func (s *ClientTestSuite) TestNoProfile() {
 	current := os.Getenv("XDG_CONFIG_HOME")
 	_ = os.Setenv("XDG_CONFIG_HOME", s.T().TempDir())
 	defer func() { _ = os.Setenv("XDG_CONFIG_HOME", current) }()
+
+	_ = os.Setenv("SAKURACLOUD_PROFILE_DIR", s.T().TempDir())
+	defer func() { _ = os.Unsetenv("SAKURACLOUD_PROFILE_DIR") }()
 
 	e := s.subject.FlagSet().Parse([]string{
 		"--secret=bar",

@@ -25,8 +25,8 @@ import (
 	"strings"
 	"testing"
 
-	. "github.com/sacloud/saclient-go"
 	"github.com/sacloud/packages-go/testutil"
+	. "github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -107,6 +107,7 @@ func (s *HttpRequestDoerTestSuite) TestBearer() {
 	subject, err := s.client.DupWith(WithTestServer(svr))
 	s.NoError(err)
 	_ = subject.SetEnviron([]string{
+		"SAKURACLOUD_PROFILE_DIR=" + s.T().TempDir(),
 		"SAKURACLOUD_SERVICE_PRINCIPAL_ID=113702516320",
 		"SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID=" + testutil.Random(32, testutil.CharSetAlphaNum),
 
@@ -147,6 +148,7 @@ func (s *HttpRequestDoerTestSuite) TestBearerFromLocalFile() {
 	subject, err := s.client.DupWith(WithTestServer(svr))
 	s.NoError(err)
 	_ = subject.SetEnviron([]string{
+		"SAKURACLOUD_PROFILE_DIR=" + s.T().TempDir(),
 		"SAKURACLOUD_SERVICE_PRINCIPAL_ID=113702516320",
 		"SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID=" + testutil.Random(32, testutil.CharSetAlphaNum),
 		"SAKURACLOUD_PRIVATE_KEY_PATH=" + path,
