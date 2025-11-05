@@ -1,7 +1,6 @@
 # sacloud/saclient-go
 
 Golang binding of Sakura Cloud API client.
-An HTTP request doer implementation that communicates with Sakura cloud.
 
 ## Features
 
