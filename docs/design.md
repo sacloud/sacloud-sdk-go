@@ -19,15 +19,27 @@
 
 # API
 
-- コンストラクタにおいては、
+- いろいろ考えた結果この`Client`は一気呵成に生成することはできず、セットアップが必要
+- 基本的な流れとしては、
 
-    ```golang
-    func NewClient(argv, envp []string) (*Client, error)
-    ```
+  ```golang
+  import saht "github.com/sacloud/http-client-go"
+  var GlobalClient saht.Client
+  ```
 
-  のみを提供する。`argv`においては`os.Args`、envpにおいては`os.Environ()`を渡すことを期待するが、必須ではなく、加工済みのものでもよい。
+  をどこかで作っておき、
 
-  なお`argv`のうち`NewClient()`が処理しなかった要素については`(*Client).Args`として取得可能である。
+  ```golang
+  GlobalClient.SetEnviron(os.Envirion())
+  GlobalClient.FlagSet().Parse(os.Args)
+  GlobalClient.SettingsFromTerraformProvider(&model)
+  ```
+
+  のうちの任意の組み合わせで設定を読み込んでから、
+
+  ```golang
+  GlobalClient.Populate()
+  ```
 
 - このようにして生成した`Client`構造体には以下のメソッドを提供する。
 
@@ -53,4 +65,7 @@
   - 環境変数`USACLOUD_PROFILE_DIR`があればそれを採用
   - `XDG_CONFIG_HOME`配下に`usacloud`があればそれを採用
   - どれもなければ`~/.usacloud`を採用
+
+- 設定ファイルにはAPIアクセスと直接は関係しないusacloud固有の設定なども含めることが過去から可能。
+  このため設定ファイルの内容に関しては「JSONとして読み書きできる」以上のことは求めないものとする
   

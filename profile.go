@@ -17,6 +17,7 @@ package client
 import (
 	"encoding/json"
 	"io"
+	"iter"
 	"maps"
 	"os"
 	"path/filepath"
@@ -67,11 +68,12 @@ type ProfileOp struct {
 	dir string
 }
 
+var _ ProfileAPI = (*ProfileOp)(nil)
+
 // Creates a profile operator
 func NewProfileOp(envp []string) *ProfileOp { return &ProfileOp{lookupProfileDir(envp)} }
 
 func (this *ProfileOp) List() ([]string, error) {
-	var ret []string
 	glob := filepath.Join(this.dir, "*", "config.json")
 
 	if stat, err := os.Stat(this.dir); err != nil {
@@ -84,21 +86,24 @@ func (this *ProfileOp) List() ([]string, error) {
 		return nil, Wrapf(err, "failed to open %+v", this.dir)
 
 	} else {
-		for _, Profile := range ent {
-			if stat, err := os.Stat(Profile); err != nil {
-				// skip
-			} else if stat.IsDir() {
-				// skip
-			} else {
-				dir := filepath.Dir(Profile)
-				name := filepath.Base(dir)
-				ret = append(ret, name)
-			}
+		exists := func(p string) bool {
+			_, err := os.Stat(p)
+			return err == nil
 		}
-	}
+		isRegular := func(p string) bool {
+			stat, _ := os.Stat(p)
+			return stat.Mode().IsRegular()
+		}
 
-	slices.Sort(ret) // stabilize return order (easy test)
-	return ret, nil
+		q := slices.Values(ent)
+		w := selectSeq(q, isRegular)
+		e := selectSeq(w, exists)
+		r := mapSeq(e, filepath.Dir)
+		t := mapSeq(r, filepath.Base)
+		y := slices.Sorted(t) // stabilize return order (easy test)
+
+		return y, nil
+	}
 }
 
 func (this *ProfileOp) Read(name string) (*Profile, error) {
@@ -175,6 +180,7 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 func (this *ProfileOp) Delete(name string) error {
 	if _, err := os.Stat(this.dir); os.IsNotExist(err) {
 		return nil // already gone, nothing to do
+
 	} else if err != nil {
 		return Wrapf(err, "failed to stat directory %+v", this.dir)
 	}
@@ -182,6 +188,7 @@ func (this *ProfileOp) Delete(name string) error {
 	root, err := os.OpenRoot(this.dir)
 	if err != nil {
 		return Wrapf(err, "failed to open directory %+v", this.dir)
+
 	}
 	defer func() { _ = root.Close() }()
 
@@ -224,6 +231,40 @@ func (this *ProfileOp) SetCurrentName(name string) error {
 
 // Calculated pathname of the configuration file
 func (this *Profile) Pathname() string { return filepath.Join(this.dir, this.Name, "config.json") }
+
+func (this *Profile) Get(k string) (any, bool) {
+	if this == nil {
+		return nil, false
+
+	} else {
+		v, ok := this.Attributes[k]
+		return v, ok
+	}
+}
+
+func (this *Profile) Set(k string, v any) {
+	if this == nil {
+		return
+
+	}
+	if this.Attributes == nil {
+		this.Attributes = map[string]any{}
+	}
+	this.Attributes[k] = v
+}
+
+func (this *Profile) Keys() iter.Seq[string] {
+	//nolint:gocritic
+	if this == nil {
+		return nonceSeq[string]()
+
+	} else if this.Attributes == nil {
+		return nonceSeq[string]()
+
+	} else {
+		return maps.Keys(this.Attributes)
+	}
+}
 
 func (this *ProfileOp) open(
 	n string,
@@ -324,16 +365,8 @@ func lookupProfileDir(envp []string) string {
 // and returns its value and a boolean indicating if it was found.
 // The key must not be empty.
 func lookupEnv(envp []string, key string) (string, bool) {
-	for _, env := range envp {
-		if k, v, ok := strings.Cut(env, "="); !ok {
-			continue
-
-		} else if k != key {
-			continue
-
-		} else {
-			return v, true
-		}
-	}
-	return "", false
+	i := slices.Values(envp)
+	j := intoSeq2(i, func(e string) (string, string, bool) { return strings.Cut(e, "=") })
+	_, v, ok := findFirst(j, func(k, _ string) bool { return k == key })
+	return v, ok
 }

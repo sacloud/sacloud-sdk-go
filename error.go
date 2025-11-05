@@ -51,15 +51,24 @@ func NewErrorf(format string, args ...any) error {
 }
 
 func Wrapf(err error, format string, args ...any) error {
-	ret := compose(0, fmt.Sprintf(format, args...), err)
+	if err == nil {
+		return nil
 
-	return &ret
+	} else {
+		ret := compose(0, fmt.Sprintf(format, args...), err)
+
+		return &ret
+	}
 }
 
 // Implements the error interface.
 // Returns a stringized representation of the error.
 func (e *Error) Error() string {
 	// This error message format mimics the one used in sacloud/api-client-go.
+
+	if e == nil {
+		return ""
+	}
 
 	var buf strings.Builder
 	code, msg, err := e.decompose()
@@ -85,9 +94,14 @@ func (e *Error) Error() string {
 
 // Unwrap returns the underlying error.
 func (e *Error) Unwrap() error {
-	_, _, err := e.decompose()
+	if e == nil {
+		return nil
 
-	return err
+	} else {
+		_, _, err := e.decompose()
+
+		return err
+	}
 }
 
 // Returns whether the given error is an Error with a 404 status code.
@@ -95,6 +109,7 @@ func (e *Error) Unwrap() error {
 func IsNotFoundError(err error) bool {
 	if e, ok := asType[*Error](err); ok {
 		return e.codeIs(404)
+
 	} else {
 		return false
 	}
