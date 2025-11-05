@@ -195,7 +195,9 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.zones, "zones", "permitted zone names")
-		fs.Var(&p.argv.traceMode, "trace", "enable trace logs for API calling")
+		fs.BoolFunc("trace", "enable trace logs for API calling", func(str string) error {
+			return p.argv.traceMode.Set("all")
+		})
 
 		// Not sure why but not everything can be specified from command line
 		// for instance usacloud lacks --zone, in spiyte of having --zones.

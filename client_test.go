@@ -199,7 +199,7 @@ func (s *ClientTestSuite) TestCLI() {
 	e := s.subject.FlagSet(flag.PanicOnError).Parse([]string{
 		"--secret=bar",
 		"--token=foo",
-		"--trace=error",
+		"--trace",
 		"--zones=foo,\", bar\"",
 	})
 	s.NoError(e)
@@ -215,7 +215,7 @@ func (s *ClientTestSuite) TestCLI() {
 		"RetryWaitMax":        int64(64),
 		"RetryWaitMin":        int64(1),
 		"TokenEndpoint":       "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token",
-		"TraceMode":           "error",
+		"TraceMode":           "all",
 		"UserAgent":           ua,
 		"Zone":                "usacloud",
 		"Zones": []string{
