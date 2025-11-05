@@ -28,28 +28,29 @@ import (
 )
 
 type storage struct {
-	profileName         option[string]
-	privateKeyPath      option[string]
-	privateKey          option[string]
-	servicePrincipalID  option[string]
-	tokenEndpoint       option[string]
-	accessToken         option[string]
-	accessTokenSecret   option[string]
-	zone                option[string]
-	defaultZone         option[string]
-	zones               option[[]string]
-	retryMax            option[int64]
-	retryWaitMax        option[int64]
-	retryWaitMin        option[int64]
-	apiRootURL          option[string]
-	apiRequestTimeout   option[int64]
-	apiRequestRateLimit option[int64]
-	traceMode           option[string]
-	mockServer          option[*httptest.Server]
-	userAgent           option[string]
-	authPreference      option[string]
-	middlewares         option[[]middleware]
-	checkRetryFunc      option[retryablehttp.CheckRetry]
+	profileName           option[string]
+	privateKeyPath        option[string]
+	privateKey            option[string]
+	servicePrincipalKeyID option[string]
+	servicePrincipalID    option[string]
+	tokenEndpoint         option[string]
+	accessToken           option[string]
+	accessTokenSecret     option[string]
+	zone                  option[string]
+	defaultZone           option[string]
+	zones                 option[[]string]
+	retryMax              option[int64]
+	retryWaitMax          option[int64]
+	retryWaitMin          option[int64]
+	apiRootURL            option[string]
+	apiRequestTimeout     option[int64]
+	apiRequestRateLimit   option[int64]
+	traceMode             option[string]
+	mockServer            option[*httptest.Server]
+	userAgent             option[string]
+	authPreference        option[string]
+	middlewares           option[[]middleware]
+	checkRetryFunc        option[retryablehttp.CheckRetry]
 }
 
 // :INTERNAL: it is intentional that this is not a struct
@@ -82,6 +83,9 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 
 			case "SAKURACLOUD_SERVICE_PRINCIPAL_ID":
 				return p.envp.servicePrincipalID.Set(v)
+
+			case "SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID":
+				return p.envp.servicePrincipalKeyID.Set(v)
 
 			case "SAKURACLOUD_TOKEN_ENDPOINT":
 				return p.envp.tokenEndpoint.Set(v)
@@ -174,6 +178,7 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.apiRequestRateLimit.from(config.LookupClientConfigAPIRequestRateLimit)
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
 	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
+	p.hcl.servicePrincipalKeyID.from(config.LookupClientConfigServicePrincipalKeyID)
 }
 
 func (p *parameter) flagSet() *flag.FlagSet {
@@ -186,6 +191,7 @@ func (p *parameter) flagSet() *flag.FlagSet {
 		fs.Var(&p.argv.profileName, "profile", "the name of saved credentials")
 		fs.Var(&p.argv.privateKeyPath, "private-key-path", "path to an RSA 2048 bit private key PEM format")
 		fs.Var(&p.argv.servicePrincipalID, "service-principal-id", "the ID of the service principal")
+		fs.Var(&p.argv.servicePrincipalKeyID, "service-principal-key-id", "the `kid` of the service principal")
 		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.zones, "zones", "permitted zone names")
@@ -219,6 +225,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateProfile(c))
 	ret = append(ret, p.populatePrivateKeyPath(c))
 	ret = append(ret, p.populatePrivateKey(c))
+	ret = append(ret, p.populateServicePrincipalKeyID(c))
 	ret = append(ret, p.populateServicePrincipalID(c))
 	ret = append(ret, p.populateTokenEndpoint(c))
 	ret = append(ret, p.populateAccessToken(c))
@@ -312,6 +319,10 @@ func (p *parameter) populatePrivateKey(c *config) error {
 
 func (p *parameter) populateServicePrincipalID(c *config) error {
 	return p.populateString(c, "ServicePrincipalID")
+}
+
+func (p *parameter) populateServicePrincipalKeyID(c *config) error {
+	return p.populateString(c, "ServicePrincipalKeyID")
 }
 
 func (p *parameter) populateTokenEndpoint(c *config) error {
@@ -639,6 +650,9 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "ServicePrincipalID":
 		return s.servicePrincipalID.Get()
+
+	case "ServicePrincipalKeyID":
+		return s.servicePrincipalKeyID.Get()
 
 	case "TokenEndpoint":
 		return s.tokenEndpoint.Get()

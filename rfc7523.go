@@ -59,6 +59,7 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 	// these fields are checked beforehand
 	aud := obtainFromConfig[string](cfg, "TokenEndpoint").unwrap()
 	sub := obtainFromConfig[string](cfg, "ServicePrincipalID").unwrap()
+	kid := obtainFromConfig[string](cfg, "ServicePrincipalKeyID").unwrap()
 
 	if key := obtainFromConfig[string](cfg, "PrivateKey").asPtr(); key != nil {
 		buf = []byte(*key)
@@ -85,6 +86,7 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 		"exp": exp,
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
+	token.Header["kid"] = kid
 	assertion, err := token.SignedString(k)
 	if err != nil {
 		return nil, err
@@ -102,8 +104,11 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 
 	var resp *http.Response
 	if d.server == nil {
-		// real request
-		if resp, err = d.Do(req); err != nil {
+		if d.client == nil {
+			// should we error here...?
+			d.client = http.DefaultClient
+		}
+		if resp, err = d.client.Do(req); err != nil {
 			return nil, err
 		} else {
 			defer func() {

@@ -33,6 +33,7 @@ var gzipExpander middleware = func(req *http.Request, pull func() (middleware, b
 		resp.Body = body
 		resp.Header.Del("Content-Encoding")
 		resp.Header.Del("Content-Length") // unknown length
+		resp.ContentLength = -1           // ditto
 		return resp, nil
 	}
 }
