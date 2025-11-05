@@ -16,6 +16,7 @@ package client_test
 
 import (
 	"encoding/pem"
+	"flag"
 	"fmt"
 	"os"
 	"runtime"
@@ -195,7 +196,7 @@ func (s *ClientTestSuite) SetupTest() {
 }
 
 func (s *ClientTestSuite) TestCLI() {
-	e := s.subject.FlagSet().Parse([]string{
+	e := s.subject.FlagSet(flag.PanicOnError).Parse([]string{
 		"--secret=bar",
 		"--token=foo",
 		"--trace=error",
@@ -317,7 +318,7 @@ func (s *ClientTestSuite) TestNoProfile() {
 	_ = os.Setenv("SAKURACLOUD_PROFILE_DIR", s.T().TempDir())
 	defer func() { _ = os.Unsetenv("SAKURACLOUD_PROFILE_DIR") }()
 
-	e := s.subject.FlagSet().Parse([]string{
+	e := s.subject.FlagSet(flag.PanicOnError).Parse([]string{
 		"--secret=bar",
 		"--token=foo",
 	})

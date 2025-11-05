@@ -181,11 +181,11 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.servicePrincipalKeyID.from(config.LookupClientConfigServicePrincipalKeyID)
 }
 
-func (p *parameter) flagSet() *flag.FlagSet {
+func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 	var fs *flag.FlagSet
 
 	if p != nil {
-		fs = flag.NewFlagSet("saclient-go", flag.PanicOnError)
+		fs = flag.NewFlagSet("saclient-go", eh)
 
 		// :NOTE: these help messages are from usacloud's old --help output
 		fs.Var(&p.argv.profileName, "profile", "the name of saved credentials")
