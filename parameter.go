@@ -487,14 +487,20 @@ func (p *parameter) populateUserAgent(c *config) error {
 }
 
 func (p *parameter) populateString(c *config, key string) error {
-	if whence, result := prioritizedParameterValue[string](p, c, key); result.isErr() {
+	if _, result := prioritizedParameterValue[string](p, c, key); result.isErr() {
 		return result.error()
 
 	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
 
 	} else if v == "" {
-		return NewErrorf("empty %s (from %s)", key, whence)
+		// Mmm... found out that previous config from usacloud used to
+		// set empty string for some parameters. Returning error here is a no-go.
+		// Not sure what to do instead though...
+		// Do we want to propagate that emptiness?
+
+		// c.set(key, "")
+		return nil
 
 	} else {
 		return c.set(key, v)

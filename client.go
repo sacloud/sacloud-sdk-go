@@ -119,6 +119,9 @@ type ClientAPI interface {
 	// (typical situation for CI environments etc.)
 	Profile() (*Profile, error)
 
+	// CRUD-style API operator for Profile resource
+	ProfileOp() (ProfileAPI, error)
+
 	// HTTP request doer
 	Do(req *http.Request) (*http.Response, error)
 }
@@ -206,6 +209,18 @@ func (c *Client) Profile() (*Profile, error) {
 
 	} else {
 		return result.unwrapOr(nil), nil
+	}
+}
+
+func (c *Client) ProfileOp() (ProfileAPI, error) {
+	if c == nil {
+		return nil, NewErrorf("nil client")
+
+	} else if ret := c.params.profileOp; ret == nil {
+		return nil, NewErrorf("ProfileOp uninitialized")
+
+	} else {
+		return ret, nil
 	}
 }
 
