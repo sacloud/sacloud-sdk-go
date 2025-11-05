@@ -1,4 +1,4 @@
-module github.com/sacloud/http-client-go
+module github.com/sacloud/saclient-go
 
 go 1.25.1
 

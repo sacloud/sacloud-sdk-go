@@ -1,5 +1,5 @@
 #====================
-AUTHOR         ?= The sacloud/http-client-go Authors
+AUTHOR         ?= The sacloud/saclient-go Authors
 COPYRIGHT_YEAR ?= 2022-2025
 
 GO_FILES       ?= $(shell find . -name '*.go')
