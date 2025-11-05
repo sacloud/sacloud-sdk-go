@@ -15,16 +15,24 @@
 package client
 
 import (
+	"encoding/json"
 	"flag"
+	"io"
 	"maps"
 	"net/http"
-	"sync"
 )
 
 // The API
 type ClientAPI interface {
 	// Populate settings from environment variables and flags
+	//
+	// Note that once populated, the settings gets immutable.
+	// Also note that first call to [Do] implicityly implies population,
+	// means you cannot change settings afterwards.
 	Populate() error
+
+	// A copy without population.  You can modify settings and repopulate.
+	Dup() ClientAPI
 
 	// ```golang
 	//
@@ -115,14 +123,33 @@ type ClientAPI interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
+// impmlementation of ClientAPI
 type Client struct {
-	params    parameter
-	populated func() (*config, error)
+	params parameter
+	once   once[inner]
 }
 
+func (c *Client) Populate() error {
+	_, err := c.ensurePopulated()
+	return err
+}
+
+func (c *Client) Dup() ClientAPI {
+	if c == nil {
+		return (ClientAPI)(nil)
+
+	} else {
+		return &Client{params: c.params}
+	}
+}
+
+// nolint:gocritic
 func (c *Client) SetEnviron(env []string) error {
 	if c == nil {
 		return NewErrorf("nil client")
+
+	} else if c.once.Done() {
+		return NewErrorf("client already populated; cannot change settings")
 
 	} else {
 		return c.params.setEnviron(env)
@@ -138,27 +165,13 @@ func (c *Client) FlagSet() *flag.FlagSet {
 	}
 }
 
-func (c *Client) Populate() error {
-	if c == nil {
-		return NewErrorf("nil client")
-
-	} else {
-		c.populated = sync.OnceValues(
-			func() (*config, error) {
-				var ret config
-				err := c.params.populate(&ret)
-				return &ret, err
-			},
-		)
-	}
-
-	_, err := c.populated()
-	return err
-}
-
+// nolint:gocritic
 func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) error {
 	if c == nil {
 		return NewErrorf("nil client")
+
+	} else if c.once.Done() {
+		return NewErrorf("client already populated; cannot change settings")
 
 	} else {
 		c.params.setHCL(p)
@@ -173,9 +186,9 @@ func (c *Client) JSON() map[string]any {
 		return map[string]any(nil)
 
 	} else {
-		q, _ := c.populated()
+		q, _ := c.ensurePopulated()
 		w := maps.All(*q)
-		e := rejectSeq2(w, func(k string, _ any) bool { return k == "Profile" })
+		e := rejectSeq2(w, func(k string, v any) bool { return k == "Profile" || !isJSONMarshalable(v) })
 		r := maps.Collect(e)
 
 		return r
@@ -185,19 +198,80 @@ func (c *Client) JSON() map[string]any {
 func (c *Client) Profile() (*Profile, error) {
 	var p *Profile
 
-	if q, err := c.populated(); err != nil {
+	if q, err := c.ensurePopulated(); err != nil {
 		return p, err
 
-	} else if v, err := q.get("Profile"); err != nil {
-		return p, err
-
-	} else if w, ok := v.Get(); !ok {
-		return p, nil
-
-	} else if p, ok := w.(*Profile); !ok {
-		return p, NewErrorf("invalid type for Profile in config: %T", v)
+	} else if result := obtainFromConfig[*Profile](q, "Profile"); result.isErr() {
+		return p, result.error()
 
 	} else {
-		return p, nil
+		return result.unwrapOr(nil), nil
 	}
 }
+
+func (c *Client) Do(req *http.Request) (*http.Response, error) {
+	if c == nil {
+		return nil, NewErrorf("nil client")
+
+	} else if doer, err := c.ensureDoer(); err != nil {
+		return nil, err
+
+	} else {
+		return doer.Do(req)
+	}
+}
+
+func (c *Client) ensurePopulated() (*config, error) {
+	if c == nil {
+		return nil, NewErrorf("nil client")
+
+	} else if i, err := c.__populate__(); err != nil {
+		return nil, err
+
+	} else {
+		return &i.c, nil
+	}
+}
+
+func (c *Client) ensureDoer() (HttpRequestDoer, error) {
+	if c == nil {
+		return nil, NewErrorf("nil client")
+
+	} else if i, err := c.__populate__(); err != nil {
+		return nil, err
+
+	} else {
+		return i.d, nil
+	}
+}
+
+func (c *Client) __populate__() (*inner, error) {
+	return c.once.Do(func(i *inner) error {
+		i.c = make(config)
+
+		if err := c.params.populate(&i.c); err != nil {
+			return err
+
+		} else if i.d, err = newHttpRequestDoer(&i.c); err != nil {
+			return err
+
+		} else {
+			return nil
+		}
+	})
+}
+
+// :NODOC:
+type inner struct {
+	c config
+	d HttpRequestDoer
+}
+
+func isJSONMarshalable(v any) bool {
+	enc := json.NewEncoder(io.Discard)
+	err := enc.Encode(v)
+
+	return err == nil
+}
+
+var _ ClientAPI = (*Client)(nil)

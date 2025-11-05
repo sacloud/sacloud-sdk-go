@@ -49,6 +49,29 @@
 
   このメソッドにより各種SDKとの連携を可能にする。
 
+# 複数インスタンス
+
+- 基本的に環境変数などはプロセスグローバルな資源であるからクライアントもプロセスグローバルであるのが自然
+- しかしながらAPIエンドポイントごとに異なる認証方式などある現状、複数個のクライアントを別々に持てた方が便利
+- そこで以下のようにする
+
+  - まずプロセスグローバルなテンプレートを作成
+
+      ```golang
+      import saht "github.com/sacloud/http-client-go"
+      var TemplateClient saht.Client
+      ```
+
+  - 通常通り環境変数などから初期化(上記参照)
+  - これをコピーして必要な変更を加えつつ新しいクライアントを作成
+
+      ```golang
+      var basicCient saht.Client = TemplateClient.DupWith(WithFavouringRFC7523())
+      var bearerClient saht.Client = TemplateClient.DupWith(WithBearerToken(tok))
+      ```
+
+  - これらクライアントをSDKに渡す
+
 # エラー
 
 - 内部で生じたエラーは構造体`Error`にて表現
@@ -68,4 +91,34 @@
 
 - 設定ファイルにはAPIアクセスと直接は関係しないusacloud固有の設定なども含めることが過去から可能。
   このため設定ファイルの内容に関しては「JSONとして読み書きできる」以上のことは求めないものとする
-  
+
+# 認証
+
+- 以下の3種の認証をサポートする
+  - さくらのクラウド ホームから「APIキー」機能で作成したAPIキー
+  - さくらのクラウド ホームから「サービスプリンシパル」に登録した公開鍵を利用するパターン
+  - さくらのクラウド「シンプルMQ」でキューを作成すると付随してくるトークン
+
+## APIキーの場合
+
+- 以下のいずれかの方法で指定(以下の順で探す)
+  - 環境変数 `SAKURACLOUD_ACCESS_TOKEN` / `SAKURACLOUD_ACCESS_TOKEN_SECRET` で指定
+  - それがなければ、設定ファイルに記載の`AccessToken` / `AccessTokenSecret`で指定
+  - それもなければ、コマンドラインから `--token` / `--secret` で指定
+  - それもなければterraform provider block内に記載の `AccessToken` / `AccessToken`
+
+## 公開鍵の場合
+
+- 前提としてさくらのクラウドに登録した公開鍵のペアになる秘密鍵をローカルファイルに保存する
+  - 現状PEMのみのサポート、将来拡充するかも
+- その上で以下のいずれかの方法で指定(以下の順で探す)
+  - 環境変数 `SAKURACLOUD_PRIVATE_KEY_PATH` で指定
+  - それがなければ、設定ファイルに記載の`PrivateKeyPEMPath`で指定
+  - それもなければ、コマンドラインから `--token` / `--secret` で指定
+  - それもなければterraform provider block内に記載の `PrivateKeyPEMPath`
+- CI環境などローカルファイルに書き出すことが«手間、もしくはセキュリティ上の懸念»により難しい場合は環境変数`SAKURACLOUD_PRIVATE_KEY`に生のPEMを指定することも可能
+
+## MQ のトークンの場合
+
+- 設定ファイルや環境変数で指定する方法はない
+- `client = client.DupWith(WithBearerToken(key))` などとしてプログラム側から指定

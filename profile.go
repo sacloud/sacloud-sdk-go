@@ -15,6 +15,9 @@
 package client
 
 import (
+	"crypto/sha256"
+	"crypto/x509"
+	"encoding/hex"
 	"encoding/json"
 	"io"
 	"iter"
@@ -23,6 +26,8 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 // Profile is a set of options, named.
@@ -111,34 +116,30 @@ func (this *ProfileOp) Read(name string) (*Profile, error) {
 
 	return this.open(n, os.O_RDONLY, func(fp *os.File) (*Profile, error) {
 		var attrs map[string]any
+		dec := json.NewDecoder(fp)
 
-		if buf, err := io.ReadAll(fp); err != nil {
-			return nil, Wrapf(err, "failed to read %+v", fp.Name())
-
-		} else if err := json.Unmarshal(buf, &attrs); err != nil {
+		if err := dec.Decode(&attrs); err != nil {
 			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
 
 		} else {
 			return &Profile{this.dir, name, attrs}, nil
 		}
-	},
-	)
+	})
 }
 
 func (this *ProfileOp) Create(p *Profile) error {
 	n := filepath.Join(p.Name, "config.json")
 	_, err := this.open(n, os.O_WRONLY|os.O_CREATE|os.O_TRUNC|os.O_EXCL, func(fp *os.File) (*Profile, error) {
-		if buf, err := json.MarshalIndent(p.Attributes, "", "  "); err != nil {
-			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
+		enc := json.NewEncoder(fp)
+		enc.SetIndent("", "  ")
 
-		} else if _, err := fp.Write(buf); err != nil {
-			return nil, Wrapf(err, "failed to write %+v", p.Pathname())
+		if err := enc.Encode(p.Attributes); err != nil {
+			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
 
 		} else {
 			return p, nil
 		}
-	},
-	)
+	})
 	return err
 }
 
@@ -149,27 +150,24 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 		// :TODO: need flock for possible concurrent writes
 		// :TODO: better have backup mechanism
 		var attrs map[string]any
+		dec := json.NewDecoder(fp)
+		enc := json.NewEncoder(fp)
+		enc.SetIndent("", "  ")
 
-		if buf, err := io.ReadAll(fp); err != nil {
-			return nil, Wrapf(err, "failed to read %+v", fp.Name())
-
-		} else if err := json.Unmarshal(buf, &attrs); err != nil {
+		if err := dec.Decode(&attrs); err != nil {
 			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
 		}
 
 		ret := &Profile{this.dir, p.Name, deepMerge(attrs, p.Attributes)}
 
-		if buf, err := json.MarshalIndent(ret.Attributes, "", "  "); err != nil {
-			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
-
-		} else if _, err := fp.Seek(0, 0); err != nil {
+		if _, err := fp.Seek(0, 0); err != nil {
 			return nil, Wrapf(err, "failed to seek %+v", p.Pathname())
 
 		} else if err := fp.Truncate(0); err != nil {
 			return nil, Wrapf(err, "failed to truncate %+v", p.Pathname())
 
-		} else if _, err := fp.Write(buf); err != nil {
-			return nil, Wrapf(err, "failed to write %+v", p.Pathname())
+		} else if err := enc.Encode(ret.Attributes); err != nil {
+			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
 
 		} else {
 			return ret, nil
@@ -266,33 +264,97 @@ func (this *Profile) Keys() iter.Seq[string] {
 	}
 }
 
+func (this *Profile) GetCacheFilePath(path *string, verbatim *string) (string, error) {
+	var err error
+
+	//nolint:gocritic
+	if this == nil {
+		return "", NewErrorf("nil profile")
+
+	} else if path != nil && verbatim != nil {
+		return "", NewErrorf("only one of path or verbatim can be set")
+
+	} else if path == nil && verbatim == nil {
+		// try obtaining from PrivateKeyPEMPath
+		if str, ok := this.Get("PrivateKeyPEMPath"); !ok {
+			return "", NewErrorf("neither path nor verbatim is given")
+
+		} else if s, ok := str.(string); !ok {
+			return "", NewErrorf("invalid PrivateKeyPEMPath: %T", str)
+
+		} else {
+			path = &s
+		}
+	}
+
+	var bytes []byte
+
+	//nolint:gosec // This `os.ReadFile` does not reveal any secret info
+	if verbatim != nil {
+		bytes = []byte(*verbatim)
+
+	} else if bytes, err = os.ReadFile(*path); err != nil {
+		return "", Wrapf(err, "failed to read PrivateKeyPEMPath")
+	}
+
+	if k, err := jwt.ParseRSAPrivateKeyFromPEM(bytes); err != nil {
+		return "", Wrapf(err, "failed to parse PEM: %+v", path)
+
+	} else if asn1, err := x509.MarshalPKIXPublicKey(&k.PublicKey); err != nil {
+		return "", Wrapf(err, "failed to marshal public key: %+v", path)
+
+	} else {
+		sum := sha256.Sum256(asn1)
+		base := hex.EncodeToString(sum[:])
+		name := base + ".json"
+		return filepath.Join(this.dir, this.Name, "cache", name), nil
+	}
+}
+
 func (this *ProfileOp) open(
 	n string,
 	mode int,
 	callback func(*os.File) (*Profile, error),
 ) (*Profile, error) {
+	return openFileAt(this.dir, n, mode, callback)
+}
+
+// wrapper of OS `openat(2)`
+func openFileAt[
+	T any,
+](
+	dir string,
+	n string,
+	mode int,
+	callback func(*os.File) (T, error),
+) (
+	ret T,
+	err error,
+) {
+	var zero T
+
 	if (mode & os.O_CREATE) != 0 {
-		if err := os.MkdirAll(this.dir, 0o700); err != nil {
-			return nil, Wrapf(err, "failed to create directory %+v", this.dir)
+		if err := os.MkdirAll(dir, 0o700); err != nil {
+			return zero, Wrapf(err, "failed to create directory %+v", dir)
 		}
 	}
 
-	root, err := os.OpenRoot(this.dir)
+	root, err := os.OpenRoot(dir)
 	if err != nil {
-		return nil, Wrapf(err, "failed to open directory %+v", this.dir)
+		return zero, Wrapf(err, "failed to open directory %+v", dir)
 	}
 	defer func() { _ = root.Close() }()
 
 	if (mode & os.O_CREATE) != 0 {
 		dirname := filepath.Dir(n)
 		if err := root.MkdirAll(dirname, 0o700); err != nil {
-			return nil, Wrapf(err, "failed to create directory %+v", dirname)
+			return zero, Wrapf(err, "failed to create directory %+v", dirname)
 		}
 	}
 
 	file, err := root.OpenFile(n, mode, 0o600)
 	if err != nil {
-		return nil, Wrapf(err, "failed to open %+v", n)
+		return zero, Wrapf(err, "failed to open %+v", n)
 	}
 	defer func() { _ = file.Close() }()
 

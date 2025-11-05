@@ -18,6 +18,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"os"
+	"runtime"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -49,6 +50,11 @@ func (p *providerModel) LookupClientConfigProfileName() (string, bool) {
 }
 
 func (p *providerModel) LookupClientConfigPrivateKeyPath() (string, bool) {
+	// Not supported in this test model
+	return "", false
+}
+
+func (p *providerModel) LookupClientConfigServicePrincipalID() (string, bool) {
 	// Not supported in this test model
 	return "", false
 }
@@ -115,6 +121,15 @@ func (p *providerModel) LookupClientConfigTraceMode() (string, bool) {
 	return p.TraceMode.ValueString(), !p.TraceMode.IsNull() && !p.TraceMode.IsUnknown()
 }
 
+// :FIXME: this does not cover any part of the implementation.
+// Because this is nothing more than a copy & paste of the tested code itself.
+var ua string = fmt.Sprintf(
+	"api-client-go/v%s (%s/%s; +https://github.com/sacloud/http-client-go)",
+	Version,
+	runtime.GOOS,
+	runtime.GOARCH,
+)
+
 type ClientTestSuite struct {
 	suite.Suite
 	XDG_CONFIG_HOME *string
@@ -175,11 +190,18 @@ func (s *ClientTestSuite) TestCLI() {
 	e = s.subject.Populate()
 	s.NoError(e)
 	s.Equal(map[string]any{
-		"AccessToken":       "foo",
-		"AccessTokenSecret": "bar",
-		"PrivateKeyPEMPath": os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
-		"TraceMode":         "error",
-		"Zone":              "usacloud",
+		"AccessToken":         "foo",
+		"AccessTokenSecret":   "bar",
+		"APIRequestRateLimit": int64(5),
+		"APIRequestTimeout":   int64(300),
+		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+		"RetryMax":            int64(10),
+		"RetryWaitMax":        int64(64),
+		"RetryWaitMin":        int64(1),
+		"TokenEndpoint":       "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token",
+		"TraceMode":           "error",
+		"UserAgent":           ua,
+		"Zone":                "usacloud",
 		"Zones": []string{
 			"foo",
 			", bar",
@@ -194,11 +216,13 @@ func (s *ClientTestSuite) TestEnviron() {
 		"SAKURACLOUD_API_REQUEST_RATE_LIMIT=20",
 		"SAKURACLOUD_API_REQUEST_TIMEOUT=30",
 		"SAKURACLOUD_API_ROOT_URL=https://api.example.com",
+		"SAKURACLOUD_PRIVATE_KEY=dummy-private-key",
 		"SAKURACLOUD_RETRY_MAX=3",
 		"SAKURACLOUD_RETRY_WAIT_MAX=7",
 		"SAKURACLOUD_RETRY_WAIT_MIN=5",
 		"SAKURACLOUD_ZONE=foo",
 		"SAKURACLOUD_ZONES=foo,\", bar\"",
+		"SAKURACLOUD_TOKEN_ENDPOINT=https://example.com/oauth2/token",
 		"SAKURACLOUD_TRACE=error",
 		"XDG_CONFIG_HOME=" + os.Getenv("XDG_CONFIG_HOME"),
 	})
@@ -211,11 +235,14 @@ func (s *ClientTestSuite) TestEnviron() {
 		"APIRequestRateLimit": int64(20),
 		"APIRequestTimeout":   int64(30),
 		"APIRootURL":          "https://api.example.com",
+		"PrivateKey":          "dummy-private-key",
 		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
 		"RetryMax":            int64(3),
 		"RetryWaitMax":        int64(7),
 		"RetryWaitMin":        int64(5),
+		"TokenEndpoint":       "https://example.com/oauth2/token",
 		"TraceMode":           "error",
+		"UserAgent":           ua,
 		"Zone":                "foo",
 		"Zones": []string{
 			"foo",
@@ -256,7 +283,9 @@ func (s *ClientTestSuite) TestTerraform() {
 		"RetryMax":            int64(3),
 		"RetryWaitMax":        int64(7),
 		"RetryWaitMin":        int64(5),
+		"TokenEndpoint":       "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token",
 		"TraceMode":           "error",
+		"UserAgent":           ua,
 		"Zone":                "foo",
 		"Zones": []string{
 			"foo",

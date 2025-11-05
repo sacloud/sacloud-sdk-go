@@ -15,36 +15,41 @@
 package client
 
 import (
-	"encoding/csv"
 	"errors"
 	"flag"
 	"fmt"
+	"net/http/httptest"
 	"os"
+	"runtime"
 	"slices"
-	"strconv"
 	"strings"
+
+	"github.com/hashicorp/go-retryablehttp"
 )
 
-type maybeUninit[T any] struct {
-	value T
-	set   bool
-}
-
 type storage struct {
-	profileName         maybeUninit[string]
-	privateKeyPath      maybeUninit[string]
-	accessToken         maybeUninit[string]
-	accessTokenSecret   maybeUninit[string]
-	zone                maybeUninit[string]
-	defaultZone         maybeUninit[string]
-	zones               maybeUninit[[]string]
-	retryMax            maybeUninit[int64]
-	retryWaitMax        maybeUninit[int64]
-	retryWaitMin        maybeUninit[int64]
-	apiRootURL          maybeUninit[string]
-	apiRequestTimeout   maybeUninit[int64]
-	apiRequestRateLimit maybeUninit[int64]
-	traceMode           maybeUninit[string]
+	profileName         option[string]
+	privateKeyPath      option[string]
+	privateKey          option[string]
+	servicePrincipalID  option[string]
+	tokenEndpoint       option[string]
+	accessToken         option[string]
+	accessTokenSecret   option[string]
+	zone                option[string]
+	defaultZone         option[string]
+	zones               option[[]string]
+	retryMax            option[int64]
+	retryWaitMax        option[int64]
+	retryWaitMin        option[int64]
+	apiRootURL          option[string]
+	apiRequestTimeout   option[int64]
+	apiRequestRateLimit option[int64]
+	traceMode           option[string]
+	mockServer          option[*httptest.Server]
+	userAgent           option[string]
+	authPreference      option[string]
+	middlewares         option[[]middleware]
+	checkRetryFunc      option[retryablehttp.CheckRetry]
 }
 
 // :INTERNAL: it is intentional that this is not a struct
@@ -56,6 +61,7 @@ type parameter struct {
 	envp      storage
 	argv      storage
 	hcl       storage
+	dynamic   storage
 }
 
 func (p *parameter) setEnvironIter() func(string, string) error {
@@ -68,8 +74,17 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 			case "SACLOUD_PROFILE":
 				return p.envp.profileName.Set(v)
 
-			case "SACLOUD_PRIVATE_KEY_PATH":
+			case "SAKURACLOUD_PRIVATE_KEY_PATH":
 				return p.envp.privateKeyPath.Set(v)
+
+			case "SAKURACLOUD_PRIVATE_KEY":
+				return p.envp.privateKey.Set(v)
+
+			case "SAKURACLOUD_SERVICE_PRINCIPAL_ID":
+				return p.envp.servicePrincipalID.Set(v)
+
+			case "SAKURACLOUD_TOKEN_ENDPOINT":
+				return p.envp.tokenEndpoint.Set(v)
 
 			case "SAKURACLOUD_ACCESS_TOKEN":
 				return p.envp.accessToken.Set(v)
@@ -158,6 +173,7 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.apiRequestTimeout.from(config.LookupClientConfigAPIRequestTimeout)
 	p.hcl.apiRequestRateLimit.from(config.LookupClientConfigAPIRequestRateLimit)
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
+	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
 }
 
 func (p *parameter) flagSet() *flag.FlagSet {
@@ -169,6 +185,7 @@ func (p *parameter) flagSet() *flag.FlagSet {
 		// :NOTE: these help messages are from usacloud's old --help output
 		fs.Var(&p.argv.profileName, "profile", "the name of saved credentials")
 		fs.Var(&p.argv.privateKeyPath, "private-key-path", "path to an RSA 2048 bit private key PEM format")
+		fs.Var(&p.argv.servicePrincipalID, "service-principal-id", "the ID of the service principal")
 		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.zones, "zones", "permitted zone names")
@@ -183,7 +200,7 @@ func (p *parameter) flagSet() *flag.FlagSet {
 
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 16) // <- 16 is the # of `append` calls below
+	ret := make([]error, 0, 20) // <- 20 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -201,6 +218,9 @@ func (p *parameter) populate(c *config) error {
 	*c = make(config)
 	ret = append(ret, p.populateProfile(c))
 	ret = append(ret, p.populatePrivateKeyPath(c))
+	ret = append(ret, p.populatePrivateKey(c))
+	ret = append(ret, p.populateServicePrincipalID(c))
+	ret = append(ret, p.populateTokenEndpoint(c))
 	ret = append(ret, p.populateAccessToken(c))
 	ret = append(ret, p.populateAccessTokenSecret(c))
 	ret = append(ret, p.populateZone(c))
@@ -213,17 +233,11 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateAPIRequestTimeout(c))
 	ret = append(ret, p.populateAPIRequestRateLimit(c))
 	ret = append(ret, p.populateTraceMode(c))
-
-	if v, err := c.get("AccessToken"); err == nil && v.isSet() {
-		// Take that,
-
-	} else if v, err := c.get("PrivateKeyPEMPath"); err == nil && v.isSet() {
-		// Take that,
-
-	} else {
-		// This is fatal.  Stop here.
-		ret = append(ret, NewErrorf("neither AccessToken nor PrivateKeyPEMPath is set"))
-	}
+	ret = append(ret, p.populateMockServer(c))
+	ret = append(ret, p.populateUserAgent(c))
+	ret = append(ret, p.populateAuthPreference(c))
+	ret = append(ret, p.populateMiddlewares(c))
+	ret = append(ret, p.populateCheckRetryFunc(c))
 
 	return errors.Join(ret...)
 }
@@ -234,7 +248,7 @@ func (p *parameter) populateProfile(c *config) error {
 	// then the one from command-line flag,
 	// and finally the one from Terraform provider is the lowest priority.
 	// In case none of them are set, the "current" profile is used.
-	var profileName maybeUninit[string]
+	var profileName option[string]
 
 	if p == nil {
 		return NewErrorf("nil parameter")
@@ -272,14 +286,11 @@ func (p *parameter) populatePrivateKeyPath(c *config) error {
 	if err := p.populateString(c, "PrivateKeyPEMPath"); err != nil {
 		return err
 
-	} else if path, err := c.get("PrivateKeyPEMPath"); err != nil {
-		return err
+	} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isErr() {
+		return result.error()
 
-	} else if v, ok := path.Get(); !ok {
+	} else if v, ok := result.some(); !ok {
 		return nil // just not set
-
-	} else if v, ok := v.(string); !ok {
-		return NewErrorf("invalid type for PrivateKeyPEMPath in config: %T", v)
 
 	} else if s, err := os.Stat(v); err != nil {
 		return NewErrorf("private key file not found: %s", v)
@@ -293,6 +304,18 @@ func (p *parameter) populatePrivateKeyPath(c *config) error {
 	} else {
 		return nil
 	}
+}
+
+func (p *parameter) populatePrivateKey(c *config) error {
+	return p.populateString(c, "PrivateKey")
+}
+
+func (p *parameter) populateServicePrincipalID(c *config) error {
+	return p.populateString(c, "ServicePrincipalID")
+}
+
+func (p *parameter) populateTokenEndpoint(c *config) error {
+	return p.populateString(c, "TokenEndpoint")
 }
 
 func (p *parameter) populateAccessToken(c *config) error {
@@ -314,7 +337,7 @@ func (p *parameter) populateDefaultZone(c *config) error {
 func (p *parameter) populateZones(c *config) []error {
 	var ret []error
 	var whence string
-	var val maybeUninit[[]string]
+	var val option[[]string]
 
 	if p == nil {
 		ret = append(ret, NewErrorf("nil parameter"))
@@ -334,10 +357,10 @@ func (p *parameter) populateZones(c *config) []error {
 		val.initialize(v)
 		whence = "terraform configuration"
 
-	} else if wal, whence, err := obtainFromProfile[[]any](c, "Zones", "profile"); err != nil {
-		ret = append(ret, err)
+	} else if whence, result := obtainFromProfile[[]any](c, "Zones", "profile"); result.isErr() {
+		ret = append(ret, result.error())
 
-	} else if v, ok := wal.Get(); !ok {
+	} else if v, ok := result.some(); !ok {
 		// just not set
 
 	} else {
@@ -402,11 +425,61 @@ func (this *parameter) populateTraceMode(c *config) error {
 	return this.populateString(c, "TraceMode")
 }
 
-func (p *parameter) populateString(c *config, key string) error {
-	if val, whence, err := prioritizedParameterValue[string](p, c, key); err != nil {
-		return err
+func (p *parameter) populateMockServer(c *config) error {
+	if _, result := prioritizedParameterValue[*httptest.Server](p, c, "MockServer"); result.isErr() {
+		return result.error()
 
-	} else if v, ok := val.Get(); !ok {
+	} else if v, ok := result.some(); !ok {
+		return nil // just not set; leave blank
+
+	} else if v == nil {
+		return nil // avoid SEGV
+
+	} else {
+		return c.set("MockServer", v)
+	}
+}
+
+func (p *parameter) populateAuthPreference(c *config) error {
+	return p.populateString(c, "AuthPreference")
+}
+
+func (p *parameter) populateMiddlewares(c *config) error {
+	if _, result := prioritizedParameterValue[[]middleware](p, c, "Middlewares"); result.isErr() {
+		return result.error()
+
+	} else if v, ok := result.some(); !ok {
+		return nil // just not set; leave blank
+
+	} else if len(v) == 0 {
+		return nil // no use
+
+	} else {
+		return c.set("Middlewares", v)
+	}
+}
+
+func (p *parameter) populateCheckRetryFunc(c *config) error {
+	if _, result := prioritizedParameterValue[retryablehttp.CheckRetry](p, c, "CheckRetryFunc"); result.isErr() {
+		return result.error()
+
+	} else if v, ok := result.some(); !ok {
+		return nil // just not set
+
+	} else {
+		return c.set("CheckRetryFunc", v)
+	}
+}
+
+func (p *parameter) populateUserAgent(c *config) error {
+	return p.populateString(c, "UserAgent")
+}
+
+func (p *parameter) populateString(c *config, key string) error {
+	if whence, result := prioritizedParameterValue[string](p, c, key); result.isErr() {
+		return result.error()
+
+	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
 
 	} else if v == "" {
@@ -418,10 +491,10 @@ func (p *parameter) populateString(c *config, key string) error {
 }
 
 func (p *parameter) populateUInt64(c *config, key string) error {
-	if val, whence, err := prioritizedParameterValue[int64](p, c, key); err != nil {
-		return err
+	if whence, result := prioritizedParameterValue[int64](p, c, key); result.isErr() {
+		return result.error()
 
-	} else if v, ok := val.Get(); !ok {
+	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
 
 	} else if v < 0 {
@@ -439,30 +512,34 @@ func prioritizedParameterValue[
 	c *config,
 	k string,
 ) (
-	maybeUninit[T],
 	string,
-	error,
+	resultOption[T],
 ) {
-	var val maybeUninit[T]
 	var whence string
 
 	if p == nil {
-		return val, whence, NewErrorf("nil parameter")
+		return whence, resultOptionErr[T](NewErrorf("nil parameter"))
 
 	} else if c == nil {
-		return val, whence, NewErrorf("nil config")
+		return whence, resultOptionErr[T](NewErrorf("nil config"))
 
-	} else if val, whence, err := obtainFromStorage[T](&p.envp, k, "environment variable"); val.isSet() || err != nil {
-		return val, whence, err
+	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
+		return whence, result
 
-	} else if val, whence, err := obtainFromStorage[T](&p.argv, k, "command-line argument"); val.isSet() || err != nil {
-		return val, whence, err
+	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
+		return whence, result
 
-	} else if val, whence, err := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); val.isSet() || err != nil {
-		return val, whence, err
+	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
+		return whence, result
+
+	} else if whence, result := obtainFromProfile[T](c, k, "profile"); result.isSome() {
+		return whence, result
+
+	} else if whence, result := obtainFromStorage[T](&p.dynamic, k, "on-the-fly"); result.isSome() {
+		return whence, result
 
 	} else {
-		return obtainFromProfile[T](c, k, "profile")
+		return obtainFromStorage[T](&defaults, k, "defaults")
 	}
 }
 
@@ -471,26 +548,22 @@ func obtainFromStorage[
 ](
 	s *storage,
 	k string,
-	msg ...string,
+	whence string,
 ) (
-	maybeUninit[T],
 	string,
-	error,
+	resultOption[T],
 ) {
-	var val maybeUninit[T]
-	whence := append(msg, "storage")[0]
-
 	if s == nil {
-		return val, whence, NewErrorf("nil %s", whence)
+		return whence, resultOptionErr[T](NewErrorf("nil %s", whence))
 
 	} else if v, ok := s.get(k); !ok {
-		return val, whence, nil
+		return whence, resultOptionNone[T]()
 
 	} else if t, ok := v.(T); !ok {
-		return val, whence, NewErrorf("invalid type for %s in %s: %T", k, whence, v)
+		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 
 	} else {
-		return maybeUninit[T]{t, true}, whence, nil
+		return whence, resultOptionSome(t)
 	}
 }
 
@@ -499,112 +572,48 @@ func obtainFromProfile[
 ](
 	c *config,
 	k string,
-	msg ...string,
+	msg string,
 ) (
-	maybeUninit[T],
 	string,
-	error,
+	resultOption[T],
 ) {
-	var val maybeUninit[T]
-	whence := fmt.Sprintf("%s %s", append(msg, "profile")[0], k)
+	whence := fmt.Sprintf("%s %s", msg, k)
 
 	if c == nil {
-		return val, whence, NewErrorf("nil config")
+		return whence, resultOptionErr[T](NewErrorf("nil config"))
 
-	} else if v, err := c.get("Profile"); err != nil {
-		return val, whence, err
+	} else if result := obtainFromConfig[*Profile](c, "Profile"); result.isErr() {
+		return whence, resultOptionErr[T](result.error())
 
-	} else if w, ok := v.Get(); !ok {
+	} else if p, ok := result.some(); !ok {
 		// profile not set; ok unspecified
-		return val, whence, nil
-
-	} else if p, ok := w.(*Profile); !ok {
-		return val, whence, NewErrorf("invalid profile in config: %v", v)
+		return whence, resultOptionNone[T]()
 
 	} else if v, ok := p.Get(k); !ok {
 		// profile does not have this key; ok unspecified
-		return val, whence, nil
+		return whence, resultOptionNone[T]()
 
 	} else if w, ok := v.(T); !ok {
-		return val, whence, NewErrorf("invalid type for %s in %s: %T", k, whence, v)
+		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 
 	} else {
-		return maybeUninit[T]{w, true}, whence, nil
+		return whence, resultOptionSome(w)
 	}
 }
 
-func (m *maybeUninit[T]) from(src func() (T, bool)) {
-	if m != nil {
-		value, set := src()
-		*m = maybeUninit[T]{value, set}
-	}
-}
+func obtainFromConfig[T any](c *config, k string) resultOption[T] {
+	if c == nil {
+		return resultOptionErr[T](NewErrorf("nil config"))
 
-func (m *maybeUninit[T]) initialize(v T) {
-	m.from(func() (T, bool) {
-		return v, true
-	})
-}
+	} else if v, ok := (*c)[k]; !ok {
+		return resultOptionNone[T]()
 
-func (m *maybeUninit[T]) isSet() bool { return m.set }
-
-func (m *maybeUninit[T]) String() string {
-	// This is used by flag package
-	if m == nil {
-		panic("nil dereference")
-	}
-
-	if v, ok := m.Get(); ok {
-		return fmt.Sprintf("%v", v)
+	} else if w, ok := v.(T); !ok {
+		return resultOptionErr[T](NewErrorf("invalid type for %s in config: %T", k, v))
 
 	} else {
-		return ""
+		return resultOptionSome(w)
 	}
-}
-
-func (m *maybeUninit[T]) Get() (T, bool) {
-	var zero T
-
-	if m == nil {
-		return zero, false
-
-	} else {
-		return m.value, m.set
-	}
-}
-
-func (m *maybeUninit[T]) Set(s string) error {
-	// This is used by flag package
-
-	switch m := any(m).(type) {
-	case *maybeUninit[string]:
-		m.initialize(s)
-
-	case *maybeUninit[int64]:
-		if v, err := strconv.ParseInt(s, 0, 64); err != nil {
-			return err
-
-		} else {
-			m.initialize(v)
-		}
-
-	case *maybeUninit[[]string]:
-		// This behaviour mimics usacloud's --zones= option
-		r := strings.NewReader(s)
-		c := csv.NewReader(r)
-		if v, err := c.Read(); err != nil {
-			return err
-
-		} else {
-			m.initialize(v)
-		}
-
-	default:
-		// Should be unreachable because of the constraint,
-		// but good practice to guard anyway.
-		panic("unsupported type")
-	}
-	return nil
 }
 
 func (c *config) set(k string, v any) error {
@@ -617,21 +626,6 @@ func (c *config) set(k string, v any) error {
 	}
 }
 
-func (c *config) get(k string) (maybeUninit[any], error) {
-	var ret maybeUninit[any]
-
-	if c == nil {
-		return ret, NewErrorf("nil config")
-
-	} else if v, ok := (*c)[k]; !ok {
-		return ret, nil
-
-	} else {
-		ret.initialize(v)
-		return ret, nil
-	}
-}
-
 func (s *storage) get(k string) (any, bool) {
 	switch k {
 	case "profileName":
@@ -639,6 +633,15 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "PrivateKeyPEMPath":
 		return s.privateKeyPath.Get()
+
+	case "PrivateKey":
+		return s.privateKey.Get()
+
+	case "ServicePrincipalID":
+		return s.servicePrincipalID.Get()
+
+	case "TokenEndpoint":
+		return s.tokenEndpoint.Get()
 
 	case "AccessToken":
 		return s.accessToken.Get()
@@ -676,11 +679,46 @@ func (s *storage) get(k string) (any, bool) {
 	case "TraceMode":
 		return s.traceMode.Get()
 
+	case "MockServer":
+		return s.mockServer.Get()
+
+	case "UserAgent":
+		return s.userAgent.Get()
+
+	case "AuthPreference":
+		return s.authPreference.Get()
+
+	case "Middlewares":
+		return s.middlewares.Get()
+
+	case "CheckRetryFunc":
+		return s.checkRetryFunc.Get()
+
 	default:
 		panic("unknown key: " + k)
 	}
 }
 
-var _ flag.Value = (*maybeUninit[string])(nil)
-var _ flag.Value = (*maybeUninit[int64])(nil)
-var _ flag.Value = (*maybeUninit[[]string])(nil)
+var _ flag.Value = (*option[string])(nil)
+var _ flag.Value = (*option[int64])(nil)
+var _ flag.Value = (*option[[]string])(nil)
+
+// values copied from: sacloud/api-client-go/options.go:defaultOption
+var defaults = storage{
+	// absent keys are "not defaults"
+	profileName:         option[string]{set: true, some: "default"},
+	retryMax:            option[int64]{set: true, some: 10},
+	retryWaitMax:        option[int64]{set: true, some: 64},
+	retryWaitMin:        option[int64]{set: true, some: 1},
+	apiRequestTimeout:   option[int64]{set: true, some: 300},
+	apiRequestRateLimit: option[int64]{set: true, some: 5},
+	tokenEndpoint:       option[string]{set: true, some: "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token"},
+	checkRetryFunc:      option[retryablehttp.CheckRetry]{set: true, some: retryablehttp.DefaultRetryPolicy},
+	userAgent: option[string]{set: true, some: fmt.Sprintf(
+		// :INTENTIONAL: keeping "api-client-go" here for backward compatibility
+		"api-client-go/v%s (%s/%s; +https://github.com/sacloud/http-client-go)",
+		Version,
+		runtime.GOOS,
+		runtime.GOARCH,
+	)},
+}

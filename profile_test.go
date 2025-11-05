@@ -47,14 +47,37 @@ func (s *ProfileTestSuite) SetupSuite() {
 		}
 
 		// create sample profiles
+		sane := map[string]any{
+			"Zone":              "usacloud",
+			"PrivateKeyPEMPath": dir + "/usamin.pem",
+		}
+		buf, _ := json.MarshalIndent(sane, "", "  ")
 		os.MkdirAll(dir+"/.usacloud/usacloud", 0o700)
 		os.MkdirAll(dir+"/.usacloud/broken", 0o700)
 		os.MkdirAll(dir+"/.config/usacloud/xdg", 0o700)
 
-		os.WriteFile(dir+"/.usacloud/usacloud/config.json", []byte(`{"Zone":"usacloud"}`), 0o600)
+		os.WriteFile(dir+"/.usacloud/usacloud/config.json", buf, 0o600)
 		os.WriteFile(dir+"/.usacloud/broken/config.json", []byte("偶因狂疾成殊類 災患相仍不可逃"), 0o600)
 		os.WriteFile(dir+"/.usacloud/current", []byte("usacloud"), 0o600)
 		os.WriteFile(dir+"/.config/usacloud/xdg/config.json", []byte(`{"Zone":"xdg"}`), 0o600)
+
+		os.WriteFile(dir+"/usamin.pem", []byte(`
+-----BEGIN RSA PRIVATE KEY-----
+MIICXQIBAAKBgQC/AfcvlUlhcPpDD/1HqWBWvGQZxdER+fy6jbm1BlhVT156hjZi
+UUwetUMrVGuy+bYE50j+qJB2VYKIhUTIUYCJg/AlruszlmydV0dOWPpSsLMXA5XU
+GhoijaZY9l8vsbGN3n0QJ313GvFQQ+GrP1PzmRbpK686weAwtCx+PXYPQwIDAQAB
+AoGAEvG69nk0AfoWmDgpwsXFzFR7CSNZjRLiQg50cMPkVvG8SSKumim+Bv2rX8zL
+scCakPnvf3JwgYwRmkC9hbCvssfQK2o0Zzc6zPa560TxXYK5rADTfMXqeLnF6nFZ
+sKLlE5vxyv2XD6zDcc1K2q25ARYMeWOGQ2WfuMYexBd36EECQQD0va3JquOaPQI7
+2yRXNumv2fRwYohnJxOymu4vKZp11R0gTGljsv7y8I+mcVDJnJy27t9a7tUSLS4F
+G1FMId0LAkEAx8t39aRzchpUoJYl9KmigFQ5AS6qAmDqdGIOBFQ5hf6HErukbRBd
+2q+tNXAKF62ecXR3dlaS54CpSXkQVxlJqQJBANJD1/hIEk0kFzQ3nSw06GaFmcWo
+UcpVv02WYAYy9xo/I0vpei4GzZUI6lG0TxU3sUhVR53HTVXVbRFEG/+NpGsCQQCi
+qPilOJn0z5MOmq+UHXd7WxZ96+vlu9mlnx8iTx/2A18c1T/su2Jt5JDz7J+K34Mb
+g2KvKZS4fXtVoga3opLhAkAtR4iVtxGi3NxOw0XrTXClzJD1e357/MrSDQ09gdRG
+sP9Knwr9WVBtRYPRFjC3YccLTwoQnjVcF1qJN6ybMvnS
+-----END RSA PRIVATE KEY-----
+		`), 0o600)
 	}
 }
 
@@ -66,8 +89,11 @@ func (s *ProfileTestSuite) TearDownSuite() {
 
 func (s *ProfileTestSuite) TearDownSubTest() {
 	_ = s.op.Create(&Profile{
-		Name:       "usacloud",
-		Attributes: map[string]any{"Zone": "usacloud"},
+		Name: "usacloud",
+		Attributes: map[string]any{
+			"Zone":              "usacloud",
+			"PrivateKeyPEMPath": s.dir + "/usamin.pem",
+		},
 	})
 }
 
@@ -88,7 +114,10 @@ func (s *ProfileTestSuite) TestProfileOp_usacloud() {
 			s.NoError(err)
 			s.NotNil(profile)
 			s.Equal("usacloud", profile.Name)
-			s.Equal(map[string]any{"Zone": "usacloud"}, profile.Attributes)
+			s.Equal(map[string]any{
+				"Zone":              "usacloud",
+				"PrivateKeyPEMPath": s.dir + "/usamin.pem",
+			}, profile.Attributes)
 		})
 
 		s.Run("found broken", func() {
@@ -247,4 +276,18 @@ func (s *ProfileTestSuite) TestProfileOp_XDG() {
 			s.ErrorAs(err, &e1)
 		})
 	})
+}
+
+func (s *ProfileTestSuite) TestProfile_GetCacheFilePath() {
+	op := NewProfileOp(os.Environ())
+	s.NotNil(s.op)
+
+	subject, err := op.Read("usacloud")
+	s.NoError(err)
+	s.NotNil(subject)
+
+	path, err := subject.GetCacheFilePath(nil, nil)
+	s.NoError(err)
+	s.NotEmpty(path)
+	s.Equal(s.dir+"/.usacloud/usacloud/cache/5f20028ef6763408a4dd438db2b0e3a6e7455b82195335f04204b0662345a132.json", path)
 }
