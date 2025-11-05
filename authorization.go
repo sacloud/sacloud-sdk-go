@@ -24,7 +24,7 @@ func (d *doer) middlewareAuthorization(c *config) middleware {
 			// already set, skip
 			return pullThenCall(pull, req)
 
-		} else if result := obtainFromConfig[string](c, "authPreference"); result.isErr() {
+		} else if result := obtainFromConfig[string](c, "AuthPreference"); result.isErr() {
 			return nil, result.error()
 
 		} else if pref, ok := result.some(); ok {

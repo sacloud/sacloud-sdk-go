@@ -181,7 +181,7 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 		return nil, NewErrorf("neither PrivateKeyPEMPath nor PrivateKey is present")
 	}
 
-	if path, err := profile.GetCacheFilePath(key, path); err != nil {
+	if path, err := profile.GetCacheFilePath(path, key); err != nil {
 		// This is e.g. malformed PEM; worth propagating the error
 		return nil, err
 
