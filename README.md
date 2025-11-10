@@ -14,9 +14,9 @@ Golang binding of Sakura Cloud API client.
 The library provides `Client` struct as its sole public API.  All operations are against it.  You have to first allocate it:
 
 ```golang
-import saht "github.com/sacloud/saclient-go"
+import "github.com/sacloud/saclient-go"
 
-var theClient saht.Client
+var theClient saclient.Client
 ```
 
 You can pass various flags to the allocated client using environment variables, command line flags, and others.

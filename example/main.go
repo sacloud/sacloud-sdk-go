@@ -21,10 +21,10 @@ import (
 	"net/http"
 	"os"
 
-	saht "github.com/sacloud/saclient-go"
+	"github.com/sacloud/saclient-go"
 )
 
-var theClient saht.Client
+var theClient saclient.Client
 
 func main() {
 	fs := theClient.FlagSet(flag.PanicOnError)
