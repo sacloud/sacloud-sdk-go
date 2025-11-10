@@ -41,7 +41,7 @@ func main() {
 	}
 
 	// This is optional (done automatically)
-	// but it is a bit polite to do be explicit
+	// but it is a bit polite to do so explicitly
 	err = theClient.Popuate()
 	if err != nil {
 		os.Exit(1)
