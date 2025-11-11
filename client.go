@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package client
+package saclient
 
 import (
 	"encoding/json"
@@ -39,10 +39,10 @@ type ClientAPI interface {
 	//	import (
 	//		"os"
 	//
-	//	   saht "github.com/sacloud/saclient-go"
+	//	   "github.com/sacloud/saclient-go"
 	//	)
 	//
-	//	var client saht.Client
+	//	var client saclient.Client
 	//
 	//	func main() {
 	//		client.SetEnviron(os.Environ())
@@ -59,18 +59,18 @@ type ClientAPI interface {
 	//		"os"
 	//
 	//		"github.com/hashicorp/terraform-plugin-framework/provider"
-	//		saht "github.com/sacloud/saclient-go"
+	//		"github.com/sacloud/saclient-go"
 	//	)
 	//
 	//	type providerModel struct {
 	//		// ...
 	//	}
 	//
-	//	var _ saht.TerraformProviderInterface = (*providerModel)(nil)
+	//	var _ saclient.TerraformProviderInterface = (*providerModel)(nil)
 	//
 	//	func (p *provider) Configure(ctx context.Context, req provider.ConfigureRequest, resp *provider.ConfigureResponse) {
 	//		var config providerModel
-	//		var client saht.Client
+	//		var client saclient.Client
 	//		diags := req.Config.Get(ctx, &config)
 	//		resp.Diagnostics.Append(diags...)
 	//		if resp.Diagnostics.HasError() {
@@ -89,10 +89,10 @@ type ClientAPI interface {
 	//	import (
 	//	   "github.com/spf13/cobra"
 	//	   "github.com/spf13/pflag"
-	//	   saht "github.com/sacloud/saclient-go"
+	//	   "github.com/sacloud/saclient-go"
 	//	)
 	//
-	//	var client saht.Client
+	//	var client saclient.Client
 	//	var command = &cobra.Command{
 	//	    RunE: func(cmd *cobra.Command, args []string) error {
 	//	        if err := client.Populate(); err != nil {

@@ -23,8 +23,8 @@
 - 基本的な流れとしては、
 
   ```golang
-  import saht "github.com/sacloud/saclient-go"
-  var GlobalClient saht.Client
+  import "github.com/sacloud/saclient-go"
+  var GlobalClient saclient.Client
   ```
 
   をどこかで作っておき、
@@ -58,16 +58,16 @@
   - まずプロセスグローバルなテンプレートを作成
 
       ```golang
-      import saht "github.com/sacloud/saclient-go"
-      var TemplateClient saht.Client
+      import "github.com/sacloud/saclient-go"
+      var TemplateClient saclient.Client
       ```
 
   - 通常通り環境変数などから初期化(上記参照)
   - これをコピーして必要な変更を加えつつ新しいクライアントを作成
 
       ```golang
-      var basicCient saht.Client = TemplateClient.DupWith(WithFavouringRFC7523())
-      var bearerClient saht.Client = TemplateClient.DupWith(WithBearerToken(tok))
+      var basicCient saclient.Client = TemplateClient.DupWith(WithFavouringRFC7523())
+      var bearerClient saclient.Client = TemplateClient.DupWith(WithBearerToken(tok))
       ```
 
   - これらクライアントをSDKに渡す
