@@ -102,20 +102,20 @@
 ## APIキーの場合
 
 - 以下のいずれかの方法で指定(以下の順で探す)
-  - 環境変数 `SAKURACLOUD_ACCESS_TOKEN` / `SAKURACLOUD_ACCESS_TOKEN_SECRET` で指定
-  - それがなければ、設定ファイルに記載の`AccessToken` / `AccessTokenSecret`で指定
-  - それもなければ、コマンドラインから `--token` / `--secret` で指定
+  - コマンドラインから `--token` / `--secret` で指定
+  - それがなければ、環境変数 `SAKURACLOUD_ACCESS_TOKEN` / `SAKURACLOUD_ACCESS_TOKEN_SECRET` で指定
   - それもなければterraform provider block内に記載の `AccessToken` / `AccessToken`
+  - それもなければ、設定ファイルに記載の`AccessToken` / `AccessTokenSecret`で指定
 
 ## 公開鍵の場合
 
 - 前提としてさくらのクラウドに登録した公開鍵のペアになる秘密鍵をローカルファイルに保存する
   - 現状PEMのみのサポート、将来拡充するかも
 - その上で以下のいずれかの方法で指定(以下の順で探す)
-  - 環境変数 `SAKURACLOUD_PRIVATE_KEY_PATH` で指定
-  - それがなければ、設定ファイルに記載の`PrivateKeyPEMPath`で指定
-  - それもなければ、コマンドラインから `--token` / `--secret` で指定
+  - コマンドラインから `--token` / `--secret` で指定
+  - それがなければ、環境変数 `SAKURACLOUD_PRIVATE_KEY_PATH` で指定
   - それもなければterraform provider block内に記載の `PrivateKeyPEMPath`
+  - それもなければ、設定ファイルに記載の`PrivateKeyPEMPath`で指定
 - CI環境などローカルファイルに書き出すことが«手間、もしくはセキュリティ上の懸念»により難しい場合は環境変数`SAKURACLOUD_PRIVATE_KEY`に生のPEMを指定することも可能
 
 ## MQ のトークンの場合
