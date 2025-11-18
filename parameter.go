@@ -454,7 +454,56 @@ func (p *parameter) populateMockServer(c *config) error {
 }
 
 func (p *parameter) populateAuthPreference(c *config) error {
-	return p.populateString(c, "AuthPreference")
+	if _, result := prioritizedParameterValue[string](p, c, "AuthPreference"); result.isSome() {
+		// If explicitly specified, honour that at #1 priority.  This is normal with other configs.
+		return c.set("AuthPreference", result.unwrap())
+
+	} else {
+		// But if absent, things get complicated...
+		key2auth := map[string]string{
+			"AccessToken":           "basic",
+			"AccessTokenSecret":     "basic",
+			"PrivateKeyPEMPath":     "bearer",
+			"ServicePrincipalID":    "bearer",
+			"ServicePrincipalKeyID": "bearer",
+		}
+
+		// At this point if command-line arguent of any sort is given, that takes precedence.
+		for k, v := range key2auth {
+			if _, result := obtainFromStorage[string](&p.argv, k, "command-line argument"); result.isSome() {
+				return c.set("AuthPreference", v)
+			}
+		}
+
+		// Next priority is environment variables.
+		for k, v := range key2auth {
+			if _, result := obtainFromStorage[string](&p.envp, k, "environment variable"); result.isSome() {
+				return c.set("AuthPreference", v)
+			}
+		}
+		// EXTRA: there also is `SAKURACLOUD_PRIVATE_KEY`
+		if _, result := obtainFromStorage[string](&p.envp, "PrivateKey", "environment variable"); result.isSome() {
+			return c.set("AuthPreference", "bearer")
+		}
+
+		// Terraform provider block comes next.
+		for k, v := range key2auth {
+			if _, result := obtainFromStorage[string](&p.hcl, k, "terraform configuration"); result.isSome() {
+				return c.set("AuthPreference", v)
+			}
+		}
+
+		// Lastly if profile has any of the keys, that decides.
+		for k, v := range key2auth {
+			if _, result := obtainFromProfile[string](c, k, "profile"); result.isSome() {
+				return c.set("AuthPreference", v)
+			}
+		}
+
+		// Here, no auth info found at all.
+		// Leave it unset, which effectively calls server without auth; let it return 401.
+		return nil
+	}
 }
 
 func (p *parameter) populateMiddlewares(c *config) error {
@@ -542,10 +591,10 @@ func prioritizedParameterValue[
 	} else if c == nil {
 		return whence, resultOptionErr[T](NewErrorf("nil config"))
 
-	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
+	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
 		return whence, result
 
-	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
+	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
 		return whence, result
 
 	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
