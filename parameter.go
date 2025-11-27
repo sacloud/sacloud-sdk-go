@@ -252,9 +252,9 @@ func (p *parameter) populate(c *config) error {
 }
 
 func (p *parameter) populateProfile(c *config) error {
-	// We need to load profile.
-	// The one from env var has the highest priority,
-	// then the one from command-line flag,
+	// We need to load a profile.
+	// The one from command-line flag has the highest priority,
+	// then the one from environment variable,
 	// and finally the one from Terraform provider is the lowest priority.
 	// In case none of them are set, the "current" profile is used.
 	var profileName option[string]
@@ -262,10 +262,10 @@ func (p *parameter) populateProfile(c *config) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
 
-	} else if v, ok := p.envp.profileName.Get(); ok {
+	} else if v, ok := p.argv.profileName.Get(); ok {
 		profileName.initialize(v)
 
-	} else if v, ok := p.argv.profileName.Get(); ok {
+	} else if v, ok := p.envp.profileName.Get(); ok {
 		profileName.initialize(v)
 
 	} else if v, ok := p.hcl.profileName.Get(); ok {
