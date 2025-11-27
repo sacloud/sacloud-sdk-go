@@ -664,6 +664,11 @@ func obtainFromProfile[
 	} else if w, ok := v.(T); !ok {
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 
+	} else if str, ok := v.(string); ok && str == "" {
+		// AD HOC: previous config from usacloud used to set empty string
+		// when it wanted to mean "not set".
+		return whence, resultOptionNone[T]()
+
 	} else {
 		return whence, resultOptionSome(w)
 	}
