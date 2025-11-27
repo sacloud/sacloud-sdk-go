@@ -101,6 +101,8 @@ func WithFavouringRFC7523() clientOption {
 func WithFavouringBasicAuthentication() clientOption  { return WithFavouringRFC7617() } // alias
 func WithFavouringBearerAuthentication() clientOption { return WithFavouringRFC7523() } // alias
 
+type Middleware = middleware
+
 func WithMiddleware(m ...middleware) clientOption {
 	return func(c *Client) error {
 		// This option is cumulative, must merge
