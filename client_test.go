@@ -164,6 +164,7 @@ func (s *ClientTestSuite) SetupSuite() {
 	os.WriteFile(dir+"/usacloud/current", []byte("usacloud"), 0o600)
 	os.WriteFile(dir+"/usacloud/usacloud/config.json",
 		[]byte(fmt.Sprintf(`{
+			"TraceMode": "",
 			"Zone":"usacloud",
 			"PrivateKeyPEMPath":"%s/usacloud/usacloud/usamin.pem"
 		}`, dir)),
@@ -330,4 +331,14 @@ func (s *ClientTestSuite) TestNoProfile() {
 	s.NoError(e)
 	s.Nil(s.subject.Profile())
 	s.Equal("bar", s.subject.JSON()["AccessTokenSecret"])
+}
+
+func (s *ClientTestSuite) TestDynamic() {
+	api, err := s.subject.DupWith(WithTraceMode("all"))
+	s.NoError(err)
+	err = api.Populate()
+	s.NoError(err)
+	subject := api.(*Client)
+	j := subject.JSON()
+	s.Equal("all", j["TraceMode"])
 }
