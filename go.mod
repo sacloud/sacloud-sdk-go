@@ -1,6 +1,6 @@
 module github.com/sacloud/monitoring-suite-api-go
 
-go 1.25.0
+go 1.25.3
 
 tool github.com/ogen-go/ogen/cmd/ogen
 
