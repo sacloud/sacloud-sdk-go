@@ -208,7 +208,7 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 20) // <- 20 is the # of `append` calls below
+	ret := make([]error, 0, 25) // <- 25 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -224,6 +224,7 @@ func (p *parameter) populate(c *config) error {
 	}
 
 	*c = make(config)
+	ret = append(ret, p.populateProfileName(c))
 	ret = append(ret, p.populateProfile(c))
 	ret = append(ret, p.populatePrivateKeyPath(c))
 	ret = append(ret, p.populatePrivateKey(c))
@@ -251,7 +252,7 @@ func (p *parameter) populate(c *config) error {
 	return errors.Join(ret...)
 }
 
-func (p *parameter) populateProfile(c *config) error {
+func (p *parameter) populateProfileName(c *config) error {
 	// We need to load a profile.
 	// The one from command-line flag has the highest priority,
 	// then the one from environment variable,
@@ -279,6 +280,21 @@ func (p *parameter) populateProfile(c *config) error {
 		// None of above succeeded, and there is no "current" profile.
 		// Maybe the user opted to not use profiles at all.
 		// This is not an error, continue populating with empty profile.
+		return nil
+
+	} else {
+		return c.set("ProfileName", v)
+	}
+}
+
+func (p *parameter) populateProfile(c *config) error {
+	if p == nil {
+		return NewErrorf("nil parameter")
+
+	} else if result := obtainFromConfig[string](c, "ProfileName"); result.isErr() {
+		return result.error()
+
+	} else if v, ok := result.some(); !ok {
 		return nil
 
 	} else if profile, err := p.profileOp.Read(v); err != nil {
