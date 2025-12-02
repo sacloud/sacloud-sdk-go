@@ -52,6 +52,9 @@ type ProfileAPI interface {
 
 	// Set the default profile
 	SetCurrentName(name string) error
+
+	// The directory where profiles are stored
+	Dir() string
 }
 
 // A (loaded) profile
@@ -226,6 +229,8 @@ func (this *ProfileOp) SetCurrentName(name string) error {
 	})
 	return err
 }
+
+func (this *ProfileOp) Dir() string { return this.dir }
 
 // Calculated pathname of the configuration file
 func (this *Profile) Pathname() string { return filepath.Join(this.dir, this.Name, "config.json") }
