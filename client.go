@@ -119,6 +119,17 @@ type ClientAPI interface {
 	// (typical situation for CI environments etc.)
 	Profile() (*Profile, error)
 
+	// _Calculated_ name of the current profile.
+	//
+	// On normal situations this is identical to Profile().Name.  But
+	// there are cases when the specified profile does not exist, or
+	// is broken.  This method returns something, regardless of such
+	// situations.
+	//
+	// Note however that this can still return nil, in case there is
+	// no profile specified at all.
+	ProfileName() (dir, name *string)
+
 	// CRUD-style API operator for Profile resource
 	ProfileOp() (ProfileAPI, error)
 
@@ -210,6 +221,22 @@ func (c *Client) Profile() (*Profile, error) {
 	} else {
 		return result.unwrapOr(nil), nil
 	}
+}
+
+func (c *Client) ProfileName() (dir, name *string) {
+	i, _ := c.__populate__() // This __populate__ can fail, but we go ahead.
+	result := obtainFromConfig[string](&i.c, "ProfileName")
+	op, err := c.ProfileOp()
+
+	if str, ok := result.some(); ok {
+		name = &str
+	}
+
+	if err == nil {
+		dir = Ptr(op.Dir())
+	}
+
+	return
 }
 
 func (c *Client) ProfileOp() (ProfileAPI, error) {

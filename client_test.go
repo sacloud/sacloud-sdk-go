@@ -15,6 +15,7 @@
 package saclient_test
 
 import (
+	"crypto/rand"
 	"encoding/pem"
 	"flag"
 	"fmt"
@@ -170,6 +171,12 @@ func (s *ClientTestSuite) SetupSuite() {
 		}`, dir)),
 		0o600,
 	)
+
+	garbage := make([]byte, 1024)
+	rand.Read(garbage)
+	os.MkdirAll(dir+"/usacloud/broken", 0o700)
+	os.WriteFile(dir+"/usacloud/broken/config.json", garbage, 0o600)
+
 	fp, _ := os.OpenFile(dir+"/usacloud/usacloud/usamin.pem", os.O_WRONLY|os.O_CREATE, 0o600)
 	defer fp.Close()
 	pem.Encode(fp, &pem.Block{
@@ -344,4 +351,53 @@ func (s *ClientTestSuite) TestDynamic() {
 	subject := api.(*Client)
 	j := subject.JSON()
 	s.Equal("all", j["TraceMode"])
+}
+
+func (s *ClientTestSuite) TestProfileName() {
+	s.Run("Found sane", func() {
+		dir, name := s.subject.ProfileName()
+		s.NotNil(name)
+		s.NotNil(dir)
+		s.Equal(os.Getenv("XDG_CONFIG_HOME")+"/usacloud", *dir)
+		s.Equal("usacloud", *name)
+	})
+
+	s.Run("Found broken", func() {
+		subject := s.subject.Dup()
+		err := subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=broken"})
+		s.NoError(err)
+		err = subject.Populate()
+		s.ErrorContains(err, "failed to parse")
+		dir, name := subject.ProfileName()
+		s.Equal("broken", *name)
+		s.Equal(os.Getenv("XDG_CONFIG_HOME")+"/usacloud", *dir)
+	})
+
+	s.Run("Specified, but not found", func() {
+		subject := s.subject.Dup()
+		err := subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=nonexistent"})
+		s.NoError(err)
+		err = subject.Populate()
+		s.ErrorContains(err, "failed to open")
+		dir, name := subject.ProfileName()
+		s.Equal("nonexistent", *name)
+		s.Equal(os.Getenv("XDG_CONFIG_HOME")+"/usacloud", *dir)
+	})
+
+	s.Run("unspecified", func() {
+		expected := s.T().TempDir()
+		current := os.Getenv("XDG_CONFIG_HOME")
+		_ = os.Setenv("XDG_CONFIG_HOME", s.T().TempDir())
+		defer func() { _ = os.Setenv("XDG_CONFIG_HOME", current) }()
+
+		_ = os.Setenv("SAKURACLOUD_PROFILE_DIR", expected)
+		defer func() { _ = os.Unsetenv("SAKURACLOUD_PROFILE_DIR") }()
+
+		var subject Client
+		err := subject.Populate()
+		s.NoError(err)
+		dir, name := subject.ProfileName()
+		s.Equal(expected, *dir)
+		s.Nil(name)
+	})
 }
