@@ -16,8 +16,8 @@ package saclient
 
 import "net/http"
 
-func (d *doer) middlewareAuthorization(c *config) middleware {
-	return func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+func (d *doer) middlewareAuthorization(c *config) Middleware {
+	return func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		var mode string
 
 		if req.Header.Get("Authorization") != "" {

@@ -23,8 +23,8 @@ import (
 	"strings"
 )
 
-func (d *doer) tracer(c *config) middleware {
-	return func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+func (d *doer) tracer(c *config) Middleware {
+	return func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		var buf []byte
 
 		if result := obtainFromConfig[string](c, "TraceMode"); result.isErr() {

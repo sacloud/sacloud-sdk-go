@@ -49,7 +49,7 @@ type storage struct {
 	mockServer            option[*httptest.Server]
 	userAgent             option[string]
 	authPreference        option[string]
-	middlewares           option[[]middleware]
+	middlewares           option[[]Middleware]
 	checkRetryFunc        option[retryablehttp.CheckRetry]
 }
 
@@ -507,7 +507,7 @@ func (p *parameter) populateAuthPreference(c *config) error {
 }
 
 func (p *parameter) populateMiddlewares(c *config) error {
-	if _, result := prioritizedParameterValue[[]middleware](p, c, "Middlewares"); result.isErr() {
+	if _, result := prioritizedParameterValue[[]Middleware](p, c, "Middlewares"); result.isErr() {
 		return result.error()
 
 	} else if v, ok := result.some(); !ok {

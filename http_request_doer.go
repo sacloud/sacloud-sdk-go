@@ -28,9 +28,9 @@ type HttpRequestDoer interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
-// A middleware is much like http.RoundTripper, but it additionally takes a "pull" function.
+// A Middleware is much like http.RoundTripper, but it additionally takes a "pull" function.
 // You might chain middlewares by pulling the next one.
-type middleware func(*http.Request, func() (middleware, bool)) (*http.Response, error)
+type Middleware func(*http.Request, func() (Middleware, bool)) (*http.Response, error)
 
 type doer struct {
 	// configurable for tests (net/http/httptest)
@@ -38,7 +38,7 @@ type doer struct {
 	root        string
 	server      *httptest.Server
 	rateLimiter ratelimit.Limiter
-	middlewares []middleware
+	middlewares []Middleware
 }
 
 var _ HttpRequestDoer = (*doer)(nil)
@@ -83,7 +83,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 
 	// basic middlewares
 	// note that they are called in order
-	middlewares := []middleware{
+	middlewares := []Middleware{
 		// upper layer vvvvv
 		c.middlewareSetHeader(),
 		d.middlewareAuthorization(c),
@@ -94,7 +94,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		// lower layer ^^^^^
 	}
 
-	if result := obtainFromConfig[[]middleware](c, "Middlewares"); result.isErr() {
+	if result := obtainFromConfig[[]Middleware](c, "Middlewares"); result.isErr() {
 		return nil, result.error()
 	} else if m, ok := result.some(); ok {
 		// nolint:gocritic // this is intentional
@@ -106,7 +106,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	return &d, nil
 }
 
-func pullThenCall(pull func() (middleware, bool), req *http.Request) (*http.Response, error) {
+func pullThenCall(pull func() (Middleware, bool), req *http.Request) (*http.Response, error) {
 	if cont, ok := pull(); !ok {
 		return nil, NewErrorf("no next middleware to pull")
 	} else {
