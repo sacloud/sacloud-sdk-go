@@ -158,7 +158,9 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 		enc.SetIndent("", "  ")
 
 		if err := dec.Decode(&attrs); err != nil {
-			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
+			// Mmm, broken JSON...
+			// Recover by overwriting with new contents
+			attrs = make(map[string]any)
 		}
 
 		ret := &Profile{this.dir, p.Name, deepMerge(attrs, p.Attributes)}
