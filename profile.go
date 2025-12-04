@@ -52,6 +52,9 @@ type ProfileAPI interface {
 
 	// Set the default profile
 	SetCurrentName(name string) error
+
+	// The directory where profiles are stored
+	Dir() string
 }
 
 // A (loaded) profile
@@ -155,7 +158,9 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 		enc.SetIndent("", "  ")
 
 		if err := dec.Decode(&attrs); err != nil {
-			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
+			// Mmm, broken JSON...
+			// Recover by overwriting with new contents
+			attrs = make(map[string]any)
 		}
 
 		ret := &Profile{this.dir, p.Name, deepMerge(attrs, p.Attributes)}
@@ -226,6 +231,8 @@ func (this *ProfileOp) SetCurrentName(name string) error {
 	})
 	return err
 }
+
+func (this *ProfileOp) Dir() string { return this.dir }
 
 // Calculated pathname of the configuration file
 func (this *Profile) Pathname() string { return filepath.Join(this.dir, this.Name, "config.json") }

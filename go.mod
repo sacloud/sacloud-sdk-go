@@ -1,6 +1,6 @@
 module github.com/sacloud/saclient-go
 
-go 1.25.3
+go 1.25.5
 
 require (
 	github.com/gofrs/flock v0.13.0
