@@ -19,7 +19,7 @@ import (
 	"net/http"
 )
 
-var gzipExpander middleware = func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+var gzipExpander Middleware = func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 	if resp, err := pullThenCall(pull, req); err != nil {
 		return resp, err
 

@@ -101,7 +101,7 @@ func WithFavouringRFC7523() clientOption {
 func WithFavouringBasicAuthentication() clientOption  { return WithFavouringRFC7617() } // alias
 func WithFavouringBearerAuthentication() clientOption { return WithFavouringRFC7523() } // alias
 
-func WithMiddleware(m ...middleware) clientOption {
+func WithMiddleware(m ...Middleware) clientOption {
 	return func(c *Client) error {
 		// This option is cumulative, must merge
 		if cur, ok := c.params.dynamic.middlewares.Get(); ok {
@@ -113,7 +113,7 @@ func WithMiddleware(m ...middleware) clientOption {
 }
 
 func WithBearerToken(bearer string) clientOption {
-	return WithMiddleware(func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		req.Header.Set("Authorization", "Bearer "+bearer)
 
 		return pullThenCall(pull, req)
@@ -121,7 +121,7 @@ func WithBearerToken(bearer string) clientOption {
 }
 
 func WithBigInt(needed bool) clientOption {
-	return WithMiddleware(func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		var val string
 		if needed {
 			val = "1"
@@ -135,7 +135,7 @@ func WithBigInt(needed bool) clientOption {
 }
 
 func WithUserAgent(ua string) clientOption {
-	return WithMiddleware(func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		req.Header.Set("User-Agent", ua)
 
 		return pullThenCall(pull, req)

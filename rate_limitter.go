@@ -16,8 +16,8 @@ package saclient
 
 import "net/http"
 
-func (d *doer) middlewareRateLimitter() middleware {
-	return func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+func (d *doer) middlewareRateLimitter() Middleware {
+	return func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		d.rateLimiter.Take()
 
 		return pullThenCall(pull, req)

@@ -16,8 +16,8 @@ package saclient
 
 import "net/http"
 
-func (c *config) middlewareSetHeader() middleware {
-	return func(req *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+func (c *config) middlewareSetHeader() Middleware {
+	return func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		if req.Header.Get("User-Agent") == "" {
 			ua := obtainFromConfig[string](c, "UserAgent").unwrap()
 			req.Header.Set("User-Agent", ua)

@@ -21,8 +21,8 @@ import (
 	"github.com/hashicorp/go-retryablehttp"
 )
 
-func (d *doer) middlewareHandleRetries(c *config) middleware {
-	return func(r *http.Request, pull func() (middleware, bool)) (*http.Response, error) {
+func (d *doer) middlewareHandleRetries(c *config) Middleware {
+	return func(r *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		if cont, ok := pull(); ok {
 			// This _has_ to be the last middleware
 			return nil, NewErrorf("broken middleware chain: got %v", cont)
