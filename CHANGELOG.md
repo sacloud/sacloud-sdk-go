@@ -1,5 +1,15 @@
 # Changelog
 
+## [v0.2.1](https://github.com/sacloud/saclient-go/compare/v0.2.0...v0.2.1) - 2025-12-05
+- ignore CHANGELOG.md by @shyouhei in https://github.com/sacloud/saclient-go/pull/25
+- align profile priority with other parameters by @shyouhei in https://github.com/sacloud/saclient-go/pull/24
+- empty string in config means "not set" by @shyouhei in https://github.com/sacloud/saclient-go/pull/26
+- ci: bump actions/checkout from 5.0.0 to 6.0.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/29
+- ci: bump actions/setup-go from 6.0.0 to 6.1.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/30
+- `ProfileAPI.Update()` by @shyouhei in https://github.com/sacloud/saclient-go/pull/31
+- publicize Middleware by @shyouhei in https://github.com/sacloud/saclient-go/pull/27
+- go: bump github.com/sacloud/packages-go from 0.0.11 to 0.0.12 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/32
+
 ## [v0.2.0](https://github.com/sacloud/saclient-go/commits/v0.2.0) - 2025-11-18
 - ci: bump Songmu/tagpr from 1.8.4 to 1.9.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/3
 - ci: bump actions/setup-go from 5.5.0 to 6.0.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/4
