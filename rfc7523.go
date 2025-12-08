@@ -17,9 +17,9 @@ package saclient
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
-	"net/http/httptest"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -42,6 +42,8 @@ type tokenResponse struct {
 	TokenType   string `json:"token_type"`
 	ExpiresIn   int64  `json:"expires_in"`
 	Scope       string `json:"scope,omitempty"`
+
+	isFake bool `json:"-"`
 }
 
 type cachedTokenResponse struct {
@@ -118,31 +120,13 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 	} else {
 		// :BEWARE: in case of using httptest.Server, it is not a wise idea to
 		// issue actual HTTP request to the token endpoint.  Instead we create
-		// another httptest.Server here for one-shot mock and use it.
-		svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			w.WriteHeader(200)
-			w.Header().Set("Content-Type", "application/json")
-			if j, err := json.Marshal(map[string]any{
-				"access_token": testutil.Random(32, "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"),
-				"token_type":   "Bearer",
-				"expires_in":   3600,
-			}); err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-			} else if _, err = w.Write(j); err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
-			}
-		}))
-		defer svr.Close()
-
-		if req.URL, err = url.Parse(svr.URL); err != nil {
-			return nil, err
-		} else if resp, err = svr.Client().Do(req); err != nil {
-			return nil, err
-		} else {
-			defer func() {
-				_ = resp.Body.Close()
-			}()
-		}
+		// a temporary fake token response to be used later.
+		return &tokenResponse{
+			AccessToken: testutil.Random(32, testutil.CharSetAlphaNum),
+			TokenType:   "Bearer",
+			ExpiresIn:   3600,
+			isFake:      true,
+		}, nil
 	}
 
 	if resp.StatusCode != http.StatusOK {
@@ -227,6 +211,10 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 			if res, err := d.inquireAccessToken(ctx, cfg); err != nil {
 				return nil, err
 
+			} else if res.isFake {
+				// This response is not for caching.
+				return res, nil
+
 			} else if locked, err := lock.TryLockContext(ctx, retryDelay); err != nil {
 				// lock promotion failed; no write and return
 				return res, nil
@@ -251,6 +239,10 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 			}
 		})
 	}
+}
+
+func (r *tokenResponse) HTTPAuthorizationHeader() string {
+	return fmt.Sprintf("%s %s", r.TokenType, r.AccessToken)
 }
 
 func (c *cachedTokenResponse) isExpired() bool {

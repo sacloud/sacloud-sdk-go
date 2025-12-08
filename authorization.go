@@ -91,7 +91,7 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 				return nil, err
 
 			} else {
-				req.Header.Set("Authorization", "Bearer "+token.AccessToken)
+				req.Header.Set("Authorization", token.HTTPAuthorizationHeader())
 				return pullThenCall(pull, req)
 			}
 		}
