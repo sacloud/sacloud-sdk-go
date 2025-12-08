@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.1.1](https://github.com/sacloud/monitoring-suite-api-go/compare/v0.1.0...v0.1.1) - 2025-12-08
+- go: bump github.com/ogen-go/ogen from 1.14.0 to 1.16.0 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/54
+- ignore CHANGELOG.md by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/56
+- more README by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/57
+- go @ 1.25.3 by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/58
+- pinact by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/59
+- go @ 1.25.5 by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/65
+- ci: bump actions/setup-go from 5 to 6 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/21
+- go: bump github.com/go-faster/jx from 1.1.0 to 1.2.0 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/60
+- ci: bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/61
+- go: bump github.com/sacloud/packages-go from 0.0.11 to 0.0.12 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/63
+- go: bump github.com/ogen-go/ogen from 1.16.0 to 1.18.0 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/64
+
 ## [v0.1.0](https://github.com/sacloud/monitoring-suite-api-go/commits/v0.1.0) - 2025-10-10
 - ci: bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/4
 - 基礎的な部分 by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/2
