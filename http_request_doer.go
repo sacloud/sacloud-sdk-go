@@ -97,7 +97,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	if result := obtainFromConfig[[]Middleware](c, "Middlewares"); result.isErr() {
 		return nil, result.error()
 	} else if m, ok := result.some(); ok {
-		// nolint:gocritic // this is intentional
+		//nolint:gocritic // this is intentional
 		d.middlewares = append(m, middlewares...) // prepend
 	} else {
 		d.middlewares = middlewares

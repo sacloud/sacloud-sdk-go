@@ -148,10 +148,8 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 	if resp.StatusCode != http.StatusOK {
 		b, _ := io.ReadAll(resp.Body)
 		return nil, NewError(resp.StatusCode, string(b), nil)
-
 	} else if err := json.NewDecoder(resp.Body).Decode(&ret); err != nil {
 		return nil, err
-
 	} else {
 		return &ret, nil
 	}
@@ -164,12 +162,10 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 
 	if result := obtainFromConfig[*Profile](cfg, "Profile"); result.isErr() {
 		return nil, result.error()
-
 	} else if profile, exists = result.Get(); !exists {
 		// It is possible that Profile is absent.
 		// Token request is still tried then, but no way to cache its response.
 		return d.inquireAccessToken(ctx, cfg)
-
 	} else if key = obtainFromConfig[string](cfg, "PrivateKey").asPtr(); key != nil {
 		// ok
 
@@ -184,11 +180,9 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 	if path, err := profile.GetCacheFilePath(path, key); err != nil {
 		// This is e.g. malformed PEM; worth propagating the error
 		return nil, err
-
 	} else if rel, err := filepath.Rel(profile.dir, path); err != nil {
 		// (unlikely)
 		return nil, err
-
 	} else {
 		return openFileAt(profile.dir, rel, os.O_RDWR|os.O_CREATE, func(fp *os.File) (*tokenResponse, error) {
 			var lock *flock.Flock
@@ -199,14 +193,11 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 			if lock = flock.New(path + ".lock"); lock == nil {
 				// no lock; no caching
 				return d.inquireAccessToken(ctx, cfg)
-
 			} else if locked, err := lock.TryRLockContext(ctx, retryDelay); err != nil {
 				// context deadline exceeded etc.; worth propagating the error
 				return nil, err
-
 			} else if !locked {
 				return d.inquireAccessToken(ctx, cfg)
-
 			} else {
 				defer func() {
 					_ = lock.Unlock()
@@ -226,26 +217,20 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 			enc.SetIndent("", "  ")
 			if res, err := d.inquireAccessToken(ctx, cfg); err != nil {
 				return nil, err
-
 			} else if locked, err := lock.TryLockContext(ctx, retryDelay); err != nil {
 				// lock promotion failed; no write and return
 				return res, nil
-
 			} else if !locked {
 				// ditto
 				return res, nil
-
 			} else if err := fp.Truncate(0); err != nil {
 				return nil, err
-
 			} else if _, err := fp.Seek(0, 0); err != nil {
 				return nil, err
-
 			} else if err := enc.Encode(cachedTokenResponse{*res, time.Now()}); err != nil {
 				// write failed; purge garbages
 				_ = fp.Truncate(0)
 				return nil, err
-
 			} else {
 				return res, nil
 			}

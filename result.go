@@ -52,7 +52,6 @@ func (m *option[T]) String() string {
 
 	if v, ok := m.Get(); ok {
 		return fmt.Sprintf("%v", v)
-
 	} else {
 		return ""
 	}
@@ -63,7 +62,6 @@ func (m *option[T]) Get() (T, bool) {
 
 	if m == nil {
 		return zero, false
-
 	} else {
 		return m.some, m.set
 	}
@@ -79,7 +77,6 @@ func (m *option[T]) Set(s string) error {
 	case *option[int64]:
 		if v, err := strconv.ParseInt(s, 0, 64); err != nil {
 			return err
-
 		} else {
 			m.initialize(v)
 		}
@@ -90,7 +87,6 @@ func (m *option[T]) Set(s string) error {
 		c := csv.NewReader(r)
 		if v, err := c.Read(); err != nil {
 			return err
-
 		} else {
 			m.initialize(v)
 		}

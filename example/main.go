@@ -41,27 +41,21 @@ func main() {
 	if err := fs.Parse(os.Args[1:]); err != nil {
 		fmt.Fprintf(os.Stderr, "failed to parse flags: %v\n", err)
 		os.Exit(1)
-
 	} else if err := theClient.SetEnviron(os.Environ()); err != nil {
 		fmt.Fprintf(os.Stderr, "failed to set environment: %v\n", err)
 		os.Exit(1)
-
 	} else if req, err := http.NewRequest("GET", fs.Args()[0], nil); err != nil {
 		fmt.Fprintf(os.Stderr, "failed to create request: %v\n", err)
 		os.Exit(1)
-
 	} else if res, err := theClient.Do(req); err != nil {
 		fmt.Fprintf(os.Stderr, "request failed: %v\n", err)
 		os.Exit(1)
-
 	} else if _, err := io.Copy(os.Stdout, res.Body); err != nil {
 		fmt.Fprintf(os.Stderr, "failed to read response body: %v\n", err)
 		os.Exit(1)
-
 	} else if err := res.Body.Close(); err != nil {
 		fmt.Fprintf(os.Stderr, "failed to close response body: %v\n", err)
 		os.Exit(1)
-
 	} else {
 		os.Exit(0)
 	}

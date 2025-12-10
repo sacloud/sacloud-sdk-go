@@ -86,13 +86,10 @@ func (this *ProfileOp) List() ([]string, error) {
 
 	if stat, err := os.Stat(this.dir); err != nil {
 		return []string{}, nil // This is when e.g. the first invocation
-
 	} else if !stat.IsDir() {
 		return nil, NewErrorf("failed to open %+v", this.dir)
-
 	} else if ent, err := filepath.Glob(glob); err != nil {
 		return nil, Wrapf(err, "failed to open %+v", this.dir)
-
 	} else {
 		exists := func(p string) bool {
 			_, err := os.Stat(p)
@@ -123,7 +120,6 @@ func (this *ProfileOp) Read(name string) (*Profile, error) {
 
 		if err := dec.Decode(&attrs); err != nil {
 			return nil, Wrapf(err, "failed to parse %+v", fp.Name())
-
 		} else {
 			return &Profile{this.dir, name, attrs}, nil
 		}
@@ -138,7 +134,6 @@ func (this *ProfileOp) Create(p *Profile) error {
 
 		if err := enc.Encode(p.Attributes); err != nil {
 			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
-
 		} else {
 			return p, nil
 		}
@@ -167,13 +162,10 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 
 		if _, err := fp.Seek(0, 0); err != nil {
 			return nil, Wrapf(err, "failed to seek %+v", p.Pathname())
-
 		} else if err := fp.Truncate(0); err != nil {
 			return nil, Wrapf(err, "failed to truncate %+v", p.Pathname())
-
 		} else if err := enc.Encode(ret.Attributes); err != nil {
 			return nil, Wrapf(err, "failed to serialize %+v", p.Pathname())
-
 		} else {
 			return ret, nil
 		}
@@ -183,7 +175,6 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 func (this *ProfileOp) Delete(name string) error {
 	if _, err := os.Stat(this.dir); os.IsNotExist(err) {
 		return nil // already gone, nothing to do
-
 	} else if err != nil {
 		return Wrapf(err, "failed to stat directory %+v", this.dir)
 	}
@@ -191,7 +182,6 @@ func (this *ProfileOp) Delete(name string) error {
 	root, err := os.OpenRoot(this.dir)
 	if err != nil {
 		return Wrapf(err, "failed to open directory %+v", this.dir)
-
 	}
 	defer func() { _ = root.Close() }()
 
@@ -203,7 +193,6 @@ func (this *ProfileOp) GetCurrentName() (string, error) {
 	_, err := this.open("current", os.O_RDONLY, func(fp *os.File) (*Profile, error) {
 		if buf, err := io.ReadAll(fp); err != nil {
 			return nil, Wrapf(err, "failed to read %+v", fp.Name())
-
 		} else {
 			ret = strings.TrimSpace(string(buf))
 			return nil, nil
@@ -216,15 +205,13 @@ func (this *ProfileOp) GetCurrentName() (string, error) {
 func (this *ProfileOp) SetCurrentName(name string) error {
 	if list, err := this.List(); err != nil {
 		return err
-
 	} else if !slices.Contains(list, name) {
 		return NewErrorf("invalid profile name: %+v", name)
 	}
 
-	_, err := this.open("current", os.O_WRONLY|os.O_TRUNC, func(fp *os.File) (*Profile, error) {
+	_, err := this.open("current", os.O_CREATE|os.O_WRONLY|os.O_TRUNC, func(fp *os.File) (*Profile, error) {
 		if _, err := fp.WriteString(name); err != nil {
 			return nil, Wrapf(err, "failed to write %+v", fp.Name())
-
 		} else {
 			return nil, nil
 		}
@@ -240,7 +227,6 @@ func (this *Profile) Pathname() string { return filepath.Join(this.dir, this.Nam
 func (this *Profile) Get(k string) (any, bool) {
 	if this == nil {
 		return nil, false
-
 	} else {
 		v, ok := this.Attributes[k]
 		return v, ok
@@ -250,7 +236,6 @@ func (this *Profile) Get(k string) (any, bool) {
 func (this *Profile) Set(k string, v any) {
 	if this == nil {
 		return
-
 	}
 	if this.Attributes == nil {
 		this.Attributes = map[string]any{}
@@ -262,10 +247,8 @@ func (this *Profile) Keys() iter.Seq[string] {
 	//nolint:gocritic
 	if this == nil {
 		return nonceSeq[string]()
-
 	} else if this.Attributes == nil {
 		return nonceSeq[string]()
-
 	} else {
 		return maps.Keys(this.Attributes)
 	}
@@ -277,18 +260,14 @@ func (this *Profile) GetCacheFilePath(path *string, verbatim *string) (string, e
 	//nolint:gocritic
 	if this == nil {
 		return "", NewErrorf("nil profile")
-
 	} else if path != nil && verbatim != nil {
 		return "", NewErrorf("only one of path or verbatim can be set")
-
 	} else if path == nil && verbatim == nil {
 		// try obtaining from PrivateKeyPEMPath
 		if str, ok := this.Get("PrivateKeyPEMPath"); !ok {
 			return "", NewErrorf("neither path nor verbatim is given")
-
 		} else if s, ok := str.(string); !ok {
 			return "", NewErrorf("invalid PrivateKeyPEMPath: %T", str)
-
 		} else {
 			path = &s
 		}
@@ -296,20 +275,16 @@ func (this *Profile) GetCacheFilePath(path *string, verbatim *string) (string, e
 
 	var bytes []byte
 
-	//nolint:gosec // This `os.ReadFile` does not reveal any secret info
 	if verbatim != nil {
 		bytes = []byte(*verbatim)
-
 	} else if bytes, err = os.ReadFile(*path); err != nil {
 		return "", Wrapf(err, "failed to read PrivateKeyPEMPath")
 	}
 
 	if k, err := jwt.ParseRSAPrivateKeyFromPEM(bytes); err != nil {
 		return "", Wrapf(err, "failed to parse PEM: %+v", path)
-
 	} else if asn1, err := x509.MarshalPKIXPublicKey(&k.PublicKey); err != nil {
 		return "", Wrapf(err, "failed to marshal public key: %+v", path)
-
 	} else {
 		sum := sha256.Sum256(asn1)
 		base := hex.EncodeToString(sum[:])
@@ -376,10 +351,8 @@ func deepMerge(dst, src map[string]any) map[string]any {
 		case map[string]any:
 			if ov, ok := ret[k]; !ok {
 				ret[k] = v
-
 			} else if ov, ok := ov.(map[string]any); !ok {
 				ret[k] = v
-
 			} else {
 				ret[k] = deepMerge(ov, v)
 			}
@@ -387,10 +360,8 @@ func deepMerge(dst, src map[string]any) map[string]any {
 		case []any:
 			if ov, ok := ret[k]; !ok {
 				ret[k] = v
-
 			} else if ov, ok := ov.([]any); !ok {
 				ret[k] = v
-
 			} else {
 				ret[k] = append(ov, v...)
 			}
@@ -405,10 +376,8 @@ func deepMerge(dst, src map[string]any) map[string]any {
 func lookupProfileDir(envp []string) string {
 	if v, ok := lookupEnv(envp, "SAKURACLOUD_PROFILE_DIR"); ok {
 		return filepath.Clean(v)
-
 	} else if v, ok := lookupEnv(envp, "USACLOUD_PROFILE_DIR"); ok {
 		return filepath.Clean(v) // backward compat
-
 	} else if v, ok := lookupEnv(envp, "XDG_CONFIG_HOME"); ok {
 		// if, and only if `~/.config/usacloud` exists, take it.
 		ret := filepath.Join(v, "usacloud")
@@ -420,7 +389,6 @@ func lookupProfileDir(envp []string) string {
 	// fallback to '~/.usacloud'
 	if home, err := os.UserHomeDir(); err == nil && home != "" {
 		return filepath.Join(home, ".usacloud")
-
 	} else {
 		// :ESOTERIC: $HOME not set
 		//

@@ -58,7 +58,7 @@ func (s *ProfileTestSuite) SetupSuite() {
 
 		os.WriteFile(dir+"/.usacloud/usacloud/config.json", buf, 0o600)
 		os.WriteFile(dir+"/.usacloud/broken/config.json", []byte("偶因狂疾成殊類 災患相仍不可逃"), 0o600)
-		os.WriteFile(dir+"/.usacloud/current", []byte("usacloud"), 0o600)
+		// os.WriteFile(dir+"/.usacloud/current", []byte("usacloud"), 0o600) // created during tests
 		os.WriteFile(dir+"/.config/usacloud/xdg/config.json", []byte(`{"Zone":"xdg"}`), 0o600)
 
 		os.WriteFile(dir+"/usamin.pem", []byte(`
@@ -101,6 +101,27 @@ func (s *ProfileTestSuite) TestProfileOp_usacloud() {
 	s.op = NewProfileOp(os.Environ())
 	s.NotNil(s.op)
 	op := s.op
+
+	s.Run("SetCurrentName", func() {
+		s.Run("on success", func() {
+			err := op.SetCurrentName("usacloud")
+			s.NoError(err)
+		})
+
+		s.Run("not found", func() {
+			err := op.SetCurrentName("not-found")
+			s.Error(err)
+
+			var e1 *Error
+			s.ErrorAs(err, &e1)
+		})
+	})
+
+	s.Run("GetCurrentName", func() {
+		name, err := op.GetCurrentName()
+		s.NoError(err)
+		s.Equal("usacloud", name) // not set yet
+	})
 
 	s.Run("List", func() {
 		names, err := op.List()
@@ -216,27 +237,6 @@ func (s *ProfileTestSuite) TestProfileOp_usacloud() {
 		s.Run("already gone", func() {
 			err := op.Delete("not-found")
 			s.NoError(err)
-		})
-	})
-
-	s.Run("GetCurrentName", func() {
-		name, err := op.GetCurrentName()
-		s.NoError(err)
-		s.Equal("usacloud", name) // not set yet
-	})
-
-	s.Run("SetCurrentName", func() {
-		s.Run("on success", func() {
-			err := op.SetCurrentName("usacloud")
-			s.NoError(err)
-		})
-
-		s.Run("not found", func() {
-			err := op.SetCurrentName("not-found")
-			s.Error(err)
-
-			var e1 *Error
-			s.ErrorAs(err, &e1)
 		})
 	})
 }

@@ -35,14 +35,12 @@ type ClientOptionAPI interface {
 	DupWith(...clientOption) (ClientAPI, error)
 }
 
-// nolint:gocritic
+//nolint:gocritic
 func (c *Client) SetWith(opts ...clientOption) error {
 	if c == nil {
 		return NewErrorf("nil client")
-
 	} else if c.once.Done() {
 		return NewErrorf("client already populated; cannot change settings")
-
 	} else {
 		q := slices.Values(opts)
 		w := transformSeq(q, func(opt clientOption) (error, bool) { return opt(c), true })
