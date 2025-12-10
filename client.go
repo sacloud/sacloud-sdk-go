@@ -151,20 +151,17 @@ func (c *Client) Populate() error {
 func (c *Client) Dup() ClientAPI {
 	if c == nil {
 		return (ClientAPI)(nil)
-
 	} else {
 		return &Client{params: c.params}
 	}
 }
 
-// nolint:gocritic
+//nolint:gocritic
 func (c *Client) SetEnviron(env []string) error {
 	if c == nil {
 		return NewErrorf("nil client")
-
 	} else if c.once.Done() {
 		return NewErrorf("client already populated; cannot change settings")
-
 	} else {
 		return c.params.setEnviron(env)
 	}
@@ -173,20 +170,17 @@ func (c *Client) SetEnviron(env []string) error {
 func (c *Client) FlagSet(eh flag.ErrorHandling) *flag.FlagSet {
 	if c == nil {
 		return nil
-
 	} else {
 		return c.params.flagSet(eh)
 	}
 }
 
-// nolint:gocritic
+//nolint:gocritic
 func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) error {
 	if c == nil {
 		return NewErrorf("nil client")
-
 	} else if c.once.Done() {
 		return NewErrorf("client already populated; cannot change settings")
-
 	} else {
 		c.params.setHCL(p)
 		return nil
@@ -198,7 +192,6 @@ func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) err
 func (c *Client) JSON() map[string]any {
 	if c == nil {
 		return map[string]any(nil)
-
 	} else {
 		q, _ := c.ensurePopulated()
 		w := maps.All(*q)
@@ -214,10 +207,8 @@ func (c *Client) Profile() (*Profile, error) {
 
 	if q, err := c.ensurePopulated(); err != nil {
 		return p, err
-
 	} else if result := obtainFromConfig[*Profile](q, "Profile"); result.isErr() {
 		return p, result.error()
-
 	} else {
 		return result.unwrapOr(nil), nil
 	}
@@ -242,10 +233,8 @@ func (c *Client) ProfileName() (dir, name *string) {
 func (c *Client) ProfileOp() (ProfileAPI, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
-
 	} else if ret := c.params.profileOp; ret == nil {
 		return nil, NewErrorf("ProfileOp uninitialized")
-
 	} else {
 		return ret, nil
 	}
@@ -254,10 +243,8 @@ func (c *Client) ProfileOp() (ProfileAPI, error) {
 func (c *Client) Do(req *http.Request) (*http.Response, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
-
 	} else if doer, err := c.ensureDoer(); err != nil {
 		return nil, err
-
 	} else {
 		return doer.Do(req)
 	}
@@ -266,10 +253,8 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 func (c *Client) ensurePopulated() (*config, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
-
 	} else if i, err := c.__populate__(); err != nil {
 		return nil, err
-
 	} else {
 		return &i.c, nil
 	}
@@ -278,10 +263,8 @@ func (c *Client) ensurePopulated() (*config, error) {
 func (c *Client) ensureDoer() (HttpRequestDoer, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
-
 	} else if i, err := c.__populate__(); err != nil {
 		return nil, err
-
 	} else {
 		return i.d, nil
 	}
@@ -293,10 +276,8 @@ func (c *Client) __populate__() (*inner, error) {
 
 		if err := c.params.populate(&i.c); err != nil {
 			return err
-
 		} else if i.d, err = newHttpRequestDoer(&i.c); err != nil {
 			return err
-
 		} else {
 			return nil
 		}

@@ -69,7 +69,6 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 	return func(k, v string) error {
 		if p == nil {
 			return NewErrorf("nil parameter")
-
 		} else {
 			switch k {
 			case "SAKURACLOUD_PROFILE":
@@ -143,7 +142,6 @@ func (p *parameter) setEnvironIter() func(string, string) error {
 func (p *parameter) setEnviron(env []string) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
-
 	} else {
 		p.profileOp = NewProfileOp(env)
 	}
@@ -213,10 +211,8 @@ func (p *parameter) populate(c *config) error {
 	//nolint:gocritic
 	if p == nil {
 		return NewErrorf("nil parameter")
-
 	} else if c == nil {
 		return NewErrorf("nil config")
-
 	} else if p.profileOp == nil {
 		// Operator not initialized, means there was no call to SetEnviron()
 		// This could be meddling, but we initialize it here for safety.
@@ -262,16 +258,12 @@ func (p *parameter) populateProfileName(c *config) error {
 
 	if p == nil {
 		return NewErrorf("nil parameter")
-
 	} else if v, ok := p.argv.profileName.Get(); ok {
 		profileName.initialize(v)
-
 	} else if v, ok := p.envp.profileName.Get(); ok {
 		profileName.initialize(v)
-
 	} else if v, ok := p.hcl.profileName.Get(); ok {
 		profileName.initialize(v)
-
 	} else if v, err := p.profileOp.GetCurrentName(); err == nil {
 		profileName.initialize(v)
 	}
@@ -281,7 +273,6 @@ func (p *parameter) populateProfileName(c *config) error {
 		// Maybe the user opted to not use profiles at all.
 		// This is not an error, continue populating with empty profile.
 		return nil
-
 	} else {
 		return c.set("ProfileName", v)
 	}
@@ -290,17 +281,13 @@ func (p *parameter) populateProfileName(c *config) error {
 func (p *parameter) populateProfile(c *config) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
-
 	} else if result := obtainFromConfig[string](c, "ProfileName"); result.isErr() {
 		return result.error()
-
 	} else if v, ok := result.some(); !ok {
 		return nil
-
 	} else if profile, err := p.profileOp.Read(v); err != nil {
 		// Explicitly specified profile not found, this is surely an error.
 		return err
-
 	} else {
 		return c.set("Profile", profile)
 	}
@@ -310,22 +297,16 @@ func (p *parameter) populateProfile(c *config) error {
 func (p *parameter) populatePrivateKeyPath(c *config) error {
 	if err := p.populateString(c, "PrivateKeyPEMPath"); err != nil {
 		return err
-
 	} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isErr() {
 		return result.error()
-
 	} else if v, ok := result.some(); !ok {
 		return nil // just not set
-
 	} else if s, err := os.Stat(v); err != nil {
 		return NewErrorf("private key file not found: %s", v)
-
 	} else if !s.Mode().IsRegular() {
 		return NewErrorf("private key not a file: %s", v)
-
 	} else if s.Mode().Perm()&0o077 != 0 {
 		return NewErrorf("private key file %s permission is too lax: %o", v, s.Mode().Perm())
-
 	} else {
 		return nil
 	}
@@ -370,25 +351,19 @@ func (p *parameter) populateZones(c *config) []error {
 
 	if p == nil {
 		ret = append(ret, NewErrorf("nil parameter"))
-
 	} else if c == nil {
 		ret = append(ret, NewErrorf("nil config"))
-
 	} else if v, ok := p.envp.zones.Get(); ok {
 		val.initialize(v)
 		whence = "environment variable"
-
 	} else if v, ok := p.argv.zones.Get(); ok {
 		val.initialize(v)
 		whence = "command-line argument"
-
 	} else if v, ok := p.hcl.zones.Get(); ok {
 		val.initialize(v)
 		whence = "terraform configuration"
-
 	} else if whence, result := obtainFromProfile[[]any](c, "Zones", "profile"); result.isErr() {
 		ret = append(ret, result.error())
-
 	} else if v, ok := result.some(); !ok {
 		// just not set
 
@@ -409,7 +384,6 @@ func (p *parameter) populateZones(c *config) []error {
 
 	} else if len(v) == 0 {
 		ret = append(ret, NewErrorf("empty Zones (from %s)", whence))
-
 	} else if err := c.set("Zones", v); err != nil {
 		ret = append(ret, err)
 	}
@@ -457,13 +431,10 @@ func (this *parameter) populateTraceMode(c *config) error {
 func (p *parameter) populateMockServer(c *config) error {
 	if _, result := prioritizedParameterValue[*httptest.Server](p, c, "MockServer"); result.isErr() {
 		return result.error()
-
 	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
-
 	} else if v == nil {
 		return nil // avoid SEGV
-
 	} else {
 		return c.set("MockServer", v)
 	}
@@ -473,7 +444,6 @@ func (p *parameter) populateAuthPreference(c *config) error {
 	if _, result := prioritizedParameterValue[string](p, c, "AuthPreference"); result.isSome() {
 		// If explicitly specified, honour that at #1 priority.  This is normal with other configs.
 		return c.set("AuthPreference", result.unwrap())
-
 	} else {
 		// But if absent, things get complicated...
 		key2auth := map[string]string{
@@ -525,13 +495,10 @@ func (p *parameter) populateAuthPreference(c *config) error {
 func (p *parameter) populateMiddlewares(c *config) error {
 	if _, result := prioritizedParameterValue[[]Middleware](p, c, "Middlewares"); result.isErr() {
 		return result.error()
-
 	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
-
 	} else if len(v) == 0 {
 		return nil // no use
-
 	} else {
 		return c.set("Middlewares", v)
 	}
@@ -540,10 +507,8 @@ func (p *parameter) populateMiddlewares(c *config) error {
 func (p *parameter) populateCheckRetryFunc(c *config) error {
 	if _, result := prioritizedParameterValue[retryablehttp.CheckRetry](p, c, "CheckRetryFunc"); result.isErr() {
 		return result.error()
-
 	} else if v, ok := result.some(); !ok {
 		return nil // just not set
-
 	} else {
 		return c.set("CheckRetryFunc", v)
 	}
@@ -556,10 +521,8 @@ func (p *parameter) populateUserAgent(c *config) error {
 func (p *parameter) populateString(c *config, key string) error {
 	if _, result := prioritizedParameterValue[string](p, c, key); result.isErr() {
 		return result.error()
-
 	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
-
 	} else if v == "" {
 		// Mmm... found out that previous config from usacloud used to
 		// set empty string for some parameters. Returning error here is a no-go.
@@ -568,7 +531,6 @@ func (p *parameter) populateString(c *config, key string) error {
 
 		// c.set(key, "")
 		return nil
-
 	} else {
 		return c.set(key, v)
 	}
@@ -577,13 +539,10 @@ func (p *parameter) populateString(c *config, key string) error {
 func (p *parameter) populateUInt64(c *config, key string) error {
 	if whence, result := prioritizedParameterValue[int64](p, c, key); result.isErr() {
 		return result.error()
-
 	} else if v, ok := result.some(); !ok {
 		return nil // just not set; leave blank
-
 	} else if v < 0 {
 		return NewErrorf("negative %s (from %s): %d", key, whence, v)
-
 	} else {
 		return c.set(key, v)
 	}
@@ -603,25 +562,18 @@ func prioritizedParameterValue[
 
 	if p == nil {
 		return whence, resultOptionErr[T](NewErrorf("nil parameter"))
-
 	} else if c == nil {
 		return whence, resultOptionErr[T](NewErrorf("nil config"))
-
 	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
 		return whence, result
-
 	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
 		return whence, result
-
 	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
 		return whence, result
-
 	} else if whence, result := obtainFromProfile[T](c, k, "profile"); result.isSome() {
 		return whence, result
-
 	} else if whence, result := obtainFromStorage[T](&p.dynamic, k, "on-the-fly"); result.isSome() {
 		return whence, result
-
 	} else {
 		return obtainFromStorage[T](&defaults, k, "defaults")
 	}
@@ -639,13 +591,10 @@ func obtainFromStorage[
 ) {
 	if s == nil {
 		return whence, resultOptionErr[T](NewErrorf("nil %s", whence))
-
 	} else if v, ok := s.get(k); !ok {
 		return whence, resultOptionNone[T]()
-
 	} else if t, ok := v.(T); !ok {
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
-
 	} else {
 		return whence, resultOptionSome(t)
 	}
@@ -665,26 +614,20 @@ func obtainFromProfile[
 
 	if c == nil {
 		return whence, resultOptionErr[T](NewErrorf("nil config"))
-
 	} else if result := obtainFromConfig[*Profile](c, "Profile"); result.isErr() {
 		return whence, resultOptionErr[T](result.error())
-
 	} else if p, ok := result.some(); !ok {
 		// profile not set; ok unspecified
 		return whence, resultOptionNone[T]()
-
 	} else if v, ok := p.Get(k); !ok {
 		// profile does not have this key; ok unspecified
 		return whence, resultOptionNone[T]()
-
 	} else if w, ok := v.(T); !ok {
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
-
 	} else if str, ok := v.(string); ok && str == "" {
 		// AD HOC: previous config from usacloud used to set empty string
 		// when it wanted to mean "not set".
 		return whence, resultOptionNone[T]()
-
 	} else {
 		return whence, resultOptionSome(w)
 	}
@@ -693,13 +636,10 @@ func obtainFromProfile[
 func obtainFromConfig[T any](c *config, k string) resultOption[T] {
 	if c == nil {
 		return resultOptionErr[T](NewErrorf("nil config"))
-
 	} else if v, ok := (*c)[k]; !ok {
 		return resultOptionNone[T]()
-
 	} else if w, ok := v.(T); !ok {
 		return resultOptionErr[T](NewErrorf("invalid type for %s in config: %T", k, v))
-
 	} else {
 		return resultOptionSome(w)
 	}
@@ -708,7 +648,6 @@ func obtainFromConfig[T any](c *config, k string) resultOption[T] {
 func (c *config) set(k string, v any) error {
 	if c == nil {
 		return NewErrorf("nil config")
-
 	} else {
 		(*c)[k] = v
 		return nil
