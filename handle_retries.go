@@ -26,13 +26,10 @@ func (d *doer) middlewareHandleRetries(c *config) Middleware {
 		if cont, ok := pull(); ok {
 			// This _has_ to be the last middleware
 			return nil, NewErrorf("broken middleware chain: got %v", cont)
-
 		} else if client, err := d.retryableClient(c); err != nil {
 			return nil, err
-
 		} else if req, err := retryablehttp.FromRequest(r); err != nil {
 			return nil, err
-
 		} else {
 			return client.Do(req)
 		}

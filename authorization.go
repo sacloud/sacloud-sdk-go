@@ -23,10 +23,8 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 		if req.Header.Get("Authorization") != "" {
 			// already set, skip
 			return pullThenCall(pull, req)
-
 		} else if result := obtainFromConfig[string](c, "AuthPreference"); result.isErr() {
 			return nil, result.error()
-
 		} else if pref, ok := result.some(); ok {
 			mode = pref
 		} else if result := obtainFromConfig[string](c, "AccessToken"); result.isSome() {
@@ -49,16 +47,12 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 		case "basic":
 			if result := obtainFromConfig[string](c, "AccessToken"); result.isErr() {
 				return nil, result.error()
-
 			} else if user, ok := result.some(); !ok || user == "" {
 				return nil, NewErrorf("missing AccessToken")
-
 			} else if result := obtainFromConfig[string](c, "AccessTokenSecret"); result.isErr() {
 				return nil, result.error()
-
 			} else if pass, ok := result.some(); !ok || pass == "" {
 				return nil, NewErrorf("missing AccessTokenSecret")
-
 			} else {
 				req.SetBasicAuth(user, pass)
 				return pullThenCall(pull, req)
@@ -67,29 +61,21 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 		case "bearer":
 			if result := obtainFromConfig[string](c, "TokenEndpoint"); result.isErr() {
 				return nil, result.error()
-
 			} else if !result.isSome() {
 				// UNLIKELY it has default value
 				return nil, NewErrorf("TokenEndpoint is absent")
-
 			} else if result := obtainFromConfig[string](c, "ServicePrincipalID"); result.isErr() {
 				return nil, result.error()
-
 			} else if !result.isSome() {
 				return nil, NewErrorf("ServicePrincipalID is absent")
-
 			} else if result := obtainFromConfig[string](c, "ServicePrincipalKeyID"); result.isErr() {
 				return nil, result.error()
-
 			} else if !result.isSome() {
 				return nil, NewErrorf("ServicePrincipalKeyID is absent")
-
 			} else if !obtainFromConfig[string](c, "PrivateKeyPEMPath").isSome() && !obtainFromConfig[string](c, "PrivateKey").isSome() {
 				return nil, NewErrorf("neither PrivateKeyPEMPath nor PrivateKey is present")
-
 			} else if token, err := d.newTokenResponse(req.Context(), c); err != nil {
 				return nil, err
-
 			} else {
 				req.Header.Set("Authorization", token.HTTPAuthorizationHeader())
 				return pullThenCall(pull, req)

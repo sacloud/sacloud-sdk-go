@@ -29,16 +29,13 @@ func (d *doer) tracer(c *config) Middleware {
 
 		if result := obtainFromConfig[string](c, "TraceMode"); result.isErr() {
 			return nil, result.error()
-
 		} else if mode, ok := result.some(); !ok {
 			return pullThenCall(pull, req)
-
 		} else {
 			if req.Body == nil {
 				// go below
 			} else if buf, err := io.ReadAll(req.Body); err != nil {
 				return nil, err
-
 			} else {
 				copied := bytes.NewBuffer(buf)
 				req.Body = io.NopCloser(copied)
@@ -46,12 +43,10 @@ func (d *doer) tracer(c *config) Middleware {
 
 			if res, err := pullThenCall(pull, req); err != nil {
 				return res, err
-
 			} else if mode == "error" && res.StatusCode < 300 {
 				// why this is 300 rather than 400 -----> ^^^ <--- is not obvious to @shyouhei.
 				// Just mimicing sacloud/go-http.
 				return res, err
-
 			} else {
 				if req.Body != nil {
 					// write back buffer
