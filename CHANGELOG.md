@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.2](https://github.com/sacloud/saclient-go/compare/v0.2.1...v0.2.2) - 2025-12-11
+- create the current file if it does not exist when executing ProfileOp::SetCurrentName() by @yamamoto-febc in https://github.com/sacloud/saclient-go/pull/36
+- ci: bump actions/checkout from 6.0.0 to 6.0.1 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/34
+- go: bump github.com/hashicorp/terraform-plugin-framework from 1.16.1 to 1.17.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/35
+- avoid caching token response from a fake endpoint by @shyouhei in https://github.com/sacloud/saclient-go/pull/33
+
 ## [v0.2.1](https://github.com/sacloud/saclient-go/compare/v0.2.0...v0.2.1) - 2025-12-05
 - ignore CHANGELOG.md by @shyouhei in https://github.com/sacloud/saclient-go/pull/25
 - align profile priority with other parameters by @shyouhei in https://github.com/sacloud/saclient-go/pull/24
