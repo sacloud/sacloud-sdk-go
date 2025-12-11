@@ -77,7 +77,7 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 			} else if token, err := d.newTokenResponse(req.Context(), c); err != nil {
 				return nil, err
 			} else {
-				req.Header.Set("Authorization", "Bearer "+token.AccessToken)
+				req.Header.Set("Authorization", token.HTTPAuthorizationHeader())
 				return pullThenCall(pull, req)
 			}
 		}
