@@ -226,6 +226,41 @@ func (s *ProfileTestSuite) TestProfileOp_usacloud() {
 			s.ErrorAs(err, &e1)
 			s.ErrorAs(err, &e2)
 		})
+
+		s.Run("on repeated update", func() {
+			// Run #1
+			profile, err := op.Update(&Profile{
+				Name: "usacloud",
+				Attributes: map[string]any{
+					"Zone":      "updated",
+					"Arbitrary": []string{"values", "can", "be", "set", "again"},
+				},
+			})
+			s.NoError(err)
+			s.NotNil(profile)
+
+			// Run #2
+			profile, err = op.Update(&Profile{
+				Name: "usacloud",
+				Attributes: map[string]any{
+					"Zone":      "updated",
+					"Arbitrary": []string{"shortened", "values"},
+				},
+			})
+			s.NoError(err)
+			s.NotNil(profile)
+
+			// verify
+			profile, err = op.Read("usacloud")
+			s.NoError(err)
+			s.NotNil(profile)
+			s.Equal("usacloud", profile.Name)
+			attrs, ok := profile.Attributes["Arbitrary"].([]any)
+			s.True(ok)
+			s.Len(attrs, 2)
+			s.Equal("shortened", attrs[0].(string))
+			s.Equal("values", attrs[1].(string))
+		})
 	})
 
 	s.Run("Delete", func() {

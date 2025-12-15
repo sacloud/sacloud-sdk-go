@@ -158,7 +158,7 @@ func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
 			attrs = make(map[string]any)
 		}
 
-		ret := &Profile{this.dir, p.Name, deepMerge(attrs, p.Attributes)}
+		ret := &Profile{this.dir, p.Name, merge(attrs, p.Attributes)}
 
 		if _, err := fp.Seek(0, 0); err != nil {
 			return nil, Wrapf(err, "failed to seek %+v", p.Pathname())
@@ -343,33 +343,10 @@ func openFileAt[
 	return callback(file)
 }
 
-func deepMerge(dst, src map[string]any) map[string]any {
+func merge(dst, src map[string]any) map[string]any {
 	ret := make(map[string]any)
 	maps.Copy(ret, dst)
-	for k, v := range src {
-		switch v := v.(type) {
-		case map[string]any:
-			if ov, ok := ret[k]; !ok {
-				ret[k] = v
-			} else if ov, ok := ov.(map[string]any); !ok {
-				ret[k] = v
-			} else {
-				ret[k] = deepMerge(ov, v)
-			}
-
-		case []any:
-			if ov, ok := ret[k]; !ok {
-				ret[k] = v
-			} else if ov, ok := ov.([]any); !ok {
-				ret[k] = v
-			} else {
-				ret[k] = append(ov, v...)
-			}
-
-		default:
-			ret[k] = v
-		}
-	}
+	maps.Copy(ret, src)
 	return ret
 }
 
