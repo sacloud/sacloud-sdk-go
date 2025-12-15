@@ -95,7 +95,30 @@ type ClientAPI interface {
 	//		current "github.com/sacloud/saclient-go"
 	//	)
 	//
-	//	var client saclient.Client
+	//	var client current.Client
+	//
+	//	func main() {
+	//		client.CompatSettingsFromAPIClientParams(
+	//			"https://secure.sakura.ad.jp/...",
+	//			old.WithApiKeys("your-token", "your-secret"),
+	//			// ...
+	//		)
+	//		client.Populate()
+	//		// ...
+	//	}
+	// ```
+	CompatSettingsFromAPIClientParams(url string, params ...old.ClientParam) error
+
+	// Deprecated: This method does not cover all settings.
+	//
+	// ```golang
+	//
+	//	import (
+	//		old "github.com/sacloud/saclient-go"
+	//		current "github.com/sacloud/saclient-go"
+	//	)
+	//
+	//	var client current.Client
 	//
 	//	func main() {
 	//		client.CompatSettingsFromAPIClientOptions(&old.Options{
@@ -209,6 +232,17 @@ func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) err
 	} else {
 		c.params.setHCL(p)
 		return nil
+	}
+}
+
+//nolint:gocritic
+func (c *Client) CompatSettingsFromAPIClientParams(url string, params ...old.ClientParam) error {
+	if c == nil {
+		return NewErrorf("nil client")
+	} else if c.once.Done() {
+		return NewErrorf("client already populated; cannot change settings")
+	} else {
+		return c.params.setOldParams(url, params...)
 	}
 }
 

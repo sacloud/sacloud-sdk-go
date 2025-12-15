@@ -65,6 +65,12 @@ type storage struct {
 type config map[string]any
 
 type parameter struct {
+	// Deprecated: for compatibility
+	noProfile bool
+
+	// Deprecated: for compatibility
+	noEnv bool
+
 	profileOp *ProfileOp
 	envp      storage
 	argv      storage
@@ -211,6 +217,48 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 	return fs
 }
 
+func (p *parameter) setOldParams(url string, params ...old.ClientParam) error {
+	var cp old.ClientParams
+
+	if p == nil {
+		return NewErrorf("nil parameter")
+	}
+
+	if url != "" {
+		cp.APIRootURL = url
+	}
+	for _, yield := range params {
+		yield(&cp)
+	}
+	p.noProfile = cp.DisableProfile
+	p.noEnv = cp.DisableEnv
+	if cp.APIRootURL != "" {
+		p.dynamic.apiRootURL.initialize(cp.APIRootURL)
+	}
+	if cp.Token != "" {
+		p.dynamic.accessToken.initialize(cp.Token)
+	}
+	if cp.Secret != "" {
+		p.dynamic.accessTokenSecret.initialize(cp.Secret)
+	}
+	if cp.UserAgent != "" {
+		p.dynamic.userAgent.initialize(cp.UserAgent)
+	}
+	if cp.Profile != "" {
+		p.dynamic.profileName.initialize(cp.Profile)
+	}
+	if cp.HTTPClient != nil {
+		return NewErrorf("setting HTTPClient not supported")
+	}
+	if cp.Options != nil {
+		if err := p.setOldOptions(cp.Options); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
 func (p *parameter) setOldOptions(opts ...*old.Options) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
@@ -275,6 +323,7 @@ func (p *parameter) setOldOptions(opts ...*old.Options) error {
 		if len(o.CheckRetryStatusCodes) > 0 {
 			p.dynamic.checkRetryFunc.initialize(
 				func(ctx context.Context, res *http.Response, err error) (bool, error) {
+					//nolint:gocritic
 					if eerr := ctx.Err(); eerr != nil {
 						return false, eerr
 					} else if err != nil {
@@ -306,7 +355,13 @@ func (p *parameter) populate(c *config) error {
 	} else if p.profileOp == nil {
 		// Operator not initialized, means there was no call to SetEnviron()
 		// This could be meddling, but we initialize it here for safety.
-		ret = append(ret, p.setEnviron(os.Environ()))
+		var envp []string
+		if p.noEnv {
+			envp = make([]string, 0)
+		} else {
+			envp = os.Environ()
+		}
+		ret = append(ret, p.setEnviron(envp))
 	}
 
 	*c = make(config)
@@ -349,11 +404,16 @@ func (p *parameter) populateProfileName(c *config) error {
 
 	if p == nil {
 		return NewErrorf("nil parameter")
+	} else if p.noProfile {
+		// Explicitly opted out
+		return nil
 	} else if v, ok := p.argv.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, ok := p.envp.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, ok := p.hcl.profileName.Get(); ok {
+		profileName.initialize(v)
+	} else if v, ok := p.dynamic.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, err := p.profileOp.GetCurrentName(); err == nil {
 		profileName.initialize(v)
@@ -372,6 +432,9 @@ func (p *parameter) populateProfileName(c *config) error {
 func (p *parameter) populateProfile(c *config) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
+	} else if p.noProfile {
+		// Explicitly opted out
+		return nil
 	} else if result := obtainFromConfig[string](c, "ProfileName"); result.isErr() {
 		return result.error()
 	} else if v, ok := result.some(); !ok {
