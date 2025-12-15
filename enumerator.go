@@ -54,6 +54,16 @@ func findFirst[
 	return
 }
 
+// variant of `findFirst` that only cares about error
+func findFirstError[T any](seq iter.Seq[T], f func(T) error) error {
+	for v := range seq {
+		if err := f(v); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
 // transforms Seq2 by f.
 // `4` is the number of type parameters
 func transformSeq4[

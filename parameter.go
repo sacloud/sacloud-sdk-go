@@ -25,6 +25,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-retryablehttp"
+	saht "github.com/sacloud/go-http"
 )
 
 type storage struct {
@@ -51,6 +52,9 @@ type storage struct {
 	authPreference        option[string]
 	middlewares           option[[]Middleware]
 	checkRetryFunc        option[retryablehttp.CheckRetry]
+
+	// Deprecated: this is to migrate from old client.
+	requestCustomizers option[[]saht.RequestCustomizer]
 }
 
 // :INTERNAL: it is intentional that this is not a struct
@@ -206,7 +210,7 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 25) // <- 25 is the # of `append` calls below
+	ret := make([]error, 0, 26) // <- 26 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -244,6 +248,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateAuthPreference(c))
 	ret = append(ret, p.populateMiddlewares(c))
 	ret = append(ret, p.populateCheckRetryFunc(c))
+	ret = append(ret, p.populateRequestCustomizers(c))
 
 	return errors.Join(ret...)
 }
@@ -518,6 +523,17 @@ func (p *parameter) populateUserAgent(c *config) error {
 	return p.populateString(c, "UserAgent")
 }
 
+// Deprecated: only for compatibility.
+func (p *parameter) populateRequestCustomizers(c *config) error {
+	if _, result := prioritizedParameterValue[[]saht.RequestCustomizer](p, c, "RequestCustomizers"); result.isErr() {
+		return result.error()
+	} else if v, ok := result.some(); !ok {
+		return nil // just not set
+	} else {
+		return c.set("RequestCustomizers", v)
+	}
+}
+
 func (p *parameter) populateString(c *config, key string) error {
 	if _, result := prioritizedParameterValue[string](p, c, key); result.isErr() {
 		return result.error()
@@ -724,6 +740,9 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "CheckRetryFunc":
 		return s.checkRetryFunc.Get()
+
+	case "RequestCustomizers":
+		return s.requestCustomizers.Get()
 
 	default:
 		panic("unknown key: " + k)

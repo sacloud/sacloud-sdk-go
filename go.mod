@@ -7,6 +7,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/hashicorp/terraform-plugin-framework v1.17.0
+	github.com/sacloud/go-http v0.1.9
 	github.com/sacloud/packages-go v0.0.12
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/ratelimit v0.3.1
@@ -27,7 +28,6 @@ require (
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/sacloud/api-client-go v0.3.3 // indirect
-	github.com/sacloud/go-http v0.1.9 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	golang.org/x/sys v0.37.0 // indirect
