@@ -35,15 +35,23 @@ func intoSeq2[T comparable](seq iter.Seq[T], f func(T) (T, T, bool)) iter.Seq2[T
 }
 
 // `(find-if f seq)`, returns (..., false) if nothing holds
-func findFirst[T comparable, U any](seq iter.Seq2[T, U], f func(T, U) bool) (T, U, bool) {
-	var k T
-	var v U
+func findFirst[
+	T comparable,
+	U any,
+](
+	seq iter.Seq2[T, U],
+	f func(T, U) bool,
+) (
+	k T,
+	v U,
+	ok bool,
+) {
 	for k, v = range seq {
-		if f(k, v) {
-			return k, v, true
+		if ok = f(k, v); ok {
+			return
 		}
 	}
-	return k, v, false
+	return
 }
 
 // transforms Seq2 by f.
