@@ -20,6 +20,8 @@ import (
 	"io"
 	"maps"
 	"net/http"
+
+	old "github.com/sacloud/api-client-go"
 )
 
 // The API
@@ -83,6 +85,29 @@ type ClientAPI interface {
 	//	}
 	// ```
 	SettingsFromTerraformProvider(config TerraformProviderInterface) error
+
+	// Deprecated: This method does not cover all settings.
+	//
+	// ```golang
+	//
+	//	import (
+	//		old "github.com/sacloud/saclient-go"
+	//		current "github.com/sacloud/saclient-go"
+	//	)
+	//
+	//	var client saclient.Client
+	//
+	//	func main() {
+	//		client.CompatSettingsFromAPIClientOptions(&old.Options{
+	//			AccessToken: "your-token",
+	//			AccessTokenSecret: "your-secret",
+	//			// ...
+	//		})
+	//		client.Populate()
+	//		// ...
+	//	}
+	// ```
+	CompatSettingsFromAPIClientOptions(opts ...*old.Options) error
 
 	// ```golang
 	//
@@ -184,6 +209,17 @@ func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) err
 	} else {
 		c.params.setHCL(p)
 		return nil
+	}
+}
+
+//nolint:gocritic
+func (c *Client) CompatSettingsFromAPIClientOptions(opts ...*old.Options) error {
+	if c == nil {
+		return NewErrorf("nil client")
+	} else if c.once.Done() {
+		return NewErrorf("client already populated; cannot change settings")
+	} else {
+		return c.params.setOldOptions(opts...)
 	}
 }
 

@@ -15,9 +15,11 @@
 package saclient
 
 import (
+	"context"
 	"errors"
 	"flag"
 	"fmt"
+	"net/http"
 	"net/http/httptest"
 	"os"
 	"runtime"
@@ -25,6 +27,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-retryablehttp"
+	old "github.com/sacloud/api-client-go"
 	saht "github.com/sacloud/go-http"
 )
 
@@ -206,6 +209,89 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 	}
 
 	return fs
+}
+
+func (p *parameter) setOldOptions(opts ...*old.Options) error {
+	if p == nil {
+		return NewErrorf("nil parameter")
+	} else if o := old.MergeOptions(opts...); o == nil {
+		return NewErrorf("nil options")
+	} else {
+		if o.AccessToken != "" {
+			p.dynamic.accessToken.initialize(o.AccessToken)
+		}
+		if o.AccessTokenSecret != "" {
+			p.dynamic.accessTokenSecret.initialize(o.AccessTokenSecret)
+		}
+		if o.AcceptLanguage != "" {
+			// :NOTE: This can be implemented later; just low priority for now.
+			return NewErrorf("setting AcceptLanguage not supported")
+		}
+		if o.Gzip == true {
+			// This is default enabled for us.
+			// OTOH it is not clear if o.Gzip == false means the user wants to disable it,
+			// or just zero value is filled.
+		}
+		if o.HttpClient != nil {
+			// :NOTE: This is not possible for us.
+			return NewErrorf("setting HttpClient not supported")
+		}
+		if o.HttpRequestTimeout > 0 {
+			p.dynamic.apiRequestTimeout.initialize(int64(o.HttpRequestTimeout))
+		}
+		if o.HttpRequestRateLimit > 0 {
+			p.dynamic.apiRequestRateLimit.initialize(int64(o.HttpRequestRateLimit))
+		}
+		if o.RetryMax > 0 {
+			p.dynamic.retryMax.initialize(int64(o.RetryMax))
+		}
+		if o.RetryWaitMax > 0 {
+			p.dynamic.retryWaitMax.initialize(int64(o.RetryWaitMax))
+		}
+		if o.RetryWaitMin > 0 {
+			p.dynamic.retryWaitMin.initialize(int64(o.RetryWaitMin))
+		}
+		if o.UserAgent != "" {
+			p.dynamic.userAgent.initialize(o.UserAgent)
+		}
+		if o.Trace == true {
+			p.dynamic.traceMode.initialize("all")
+		}
+		if o.TraceOnlyError == true {
+			p.dynamic.traceMode.initialize("error")
+		}
+		if n := len(o.RequestCustomizers); n > 0 {
+			// this option is cumulative
+			var a []saht.RequestCustomizer = make([]saht.RequestCustomizer, n)
+			if b, ok := p.dynamic.requestCustomizers.Get(); ok {
+				a = append(a, b...)
+			}
+			a = append(a, o.RequestCustomizers...)
+			p.dynamic.requestCustomizers.initialize(a)
+		}
+		if o.CheckRetryFunc != nil {
+			p.dynamic.checkRetryFunc.initialize(o.CheckRetryFunc)
+		}
+		if len(o.CheckRetryStatusCodes) > 0 {
+			p.dynamic.checkRetryFunc.initialize(
+				func(ctx context.Context, res *http.Response, err error) (bool, error) {
+					if eerr := ctx.Err(); eerr != nil {
+						return false, eerr
+					} else if err != nil {
+						return retryablehttp.DefaultRetryPolicy(ctx, res, err)
+					} else if res.StatusCode == 0 {
+						return true, nil
+					} else if slices.Contains(o.CheckRetryStatusCodes, res.StatusCode) {
+						return true, nil
+					} else {
+						return false, nil
+					}
+				},
+			)
+		}
+
+		return nil
+	}
 }
 
 func (p *parameter) populate(c *config) error {

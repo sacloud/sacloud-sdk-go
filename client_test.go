@@ -15,16 +15,20 @@
 package saclient_test
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/pem"
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
 	"runtime"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	old "github.com/sacloud/api-client-go"
+	saht "github.com/sacloud/go-http"
 	. "github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/suite"
 )
@@ -350,6 +354,54 @@ func (s *ClientTestSuite) TestDynamic() {
 	subject := api.(*Client)
 	j := subject.JSON()
 	s.Equal("all", j["TraceMode"])
+}
+
+func (s *ClientTestSuite) TestDynamicUsinfgClientOptions() {
+	err := s.subject.CompatSettingsFromAPIClientOptions(
+		&old.Options{AccessToken: "foo"},
+		&old.Options{AccessTokenSecret: "bar"},
+		&old.Options{Gzip: true},
+		&old.Options{HttpRequestTimeout: 300},
+		&old.Options{HttpRequestRateLimit: 100},
+		&old.Options{RetryMax: 30},
+		&old.Options{RetryWaitMax: 70},
+		&old.Options{RetryWaitMin: 50},
+		&old.Options{UserAgent: ua},
+		&old.Options{Trace: true},
+		&old.Options{TraceOnlyError: true},
+		&old.Options{RequestCustomizers: []saht.RequestCustomizer{
+			func(req *http.Request) error {
+				req.Header.Set("X-Custom-Header", "custom-value")
+				return nil
+			},
+		}},
+		&old.Options{CheckRetryFunc: func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+			if resp != nil && resp.StatusCode == 502 {
+				return true, nil
+			}
+			return false, nil
+		}},
+		&old.Options{CheckRetryStatusCodes: []int{502}},
+	)
+	s.NoError(err)
+	err = s.subject.Populate()
+	s.NoError(err)
+	s.Equal(map[string]any{
+		"AccessToken":         "foo",
+		"AccessTokenSecret":   "bar",
+		"APIRequestRateLimit": int64(100),
+		"APIRequestTimeout":   int64(300),
+		"AuthPreference":      "bearer", // from profile
+		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+		"ProfileName":         "usacloud",
+		"RetryMax":            int64(30),
+		"RetryWaitMax":        int64(70),
+		"RetryWaitMin":        int64(50),
+		"TokenEndpoint":       "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token",
+		"TraceMode":           "error",
+		"UserAgent":           ua,
+		"Zone":                "usacloud", // from profile
+	}, s.subject.JSON())
 }
 
 func (s *ClientTestSuite) TestProfileName() {
