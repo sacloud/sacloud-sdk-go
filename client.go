@@ -132,6 +132,10 @@ type ClientAPI interface {
 	// ```
 	CompatSettingsFromAPIClientOptions(opts ...*old.Options) error
 
+	// Deprecated: This is a compatibility layer.  Many aspects are missing here,
+	// for instance this does not return error.
+	ServerURL() string
+
 	// ```golang
 	//
 	//	import (
@@ -254,6 +258,18 @@ func (c *Client) CompatSettingsFromAPIClientOptions(opts ...*old.Options) error 
 		return NewErrorf("client already populated; cannot change settings")
 	} else {
 		return c.params.setOldOptions(opts...)
+	}
+}
+
+//nolint:gocritic
+func (c *Client) ServerURL() (ret string) {
+	if c == nil {
+		return
+	} else if cfg, err := c.ensurePopulated(); err != nil {
+		return
+	} else {
+		ret, _ = obtainFromConfig[string](cfg, "APIRootURL").some()
+		return
 	}
 }
 
