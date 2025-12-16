@@ -209,6 +209,18 @@ func NewClient(
 	return
 }
 
+// Deprecated: Strongly discouraged to use this function.
+// It for instance has no way to return error.
+func NewFactory(opts ...*old.Options) ClientAPI {
+	var sa Client
+
+	if err := sa.CompatSettingsFromAPIClientOptions(opts...); err != nil {
+		return nil
+	} else {
+		return &sa
+	}
+}
+
 func (c *Client) Populate() error {
 	_, err := c.ensurePopulated()
 	return err
