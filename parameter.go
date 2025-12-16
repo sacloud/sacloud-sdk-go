@@ -600,23 +600,25 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		return c.set("AuthPreference", result.unwrap())
 	} else {
 		// But if absent, things get complicated...
-		key2auth := map[string]string{
-			"AccessToken":           "basic",
-			"AccessTokenSecret":     "basic",
-			"PrivateKeyPEMPath":     "bearer",
-			"ServicePrincipalID":    "bearer",
-			"ServicePrincipalKeyID": "bearer",
+		key2auth := [][2]string{
+			{"AccessToken", "basic"},
+			{"AccessTokenSecret", "basic"},
+			{"PrivateKeyPEMPath", "bearer"},
+			{"ServicePrincipalID", "bearer"},
+			{"ServicePrincipalKeyID", "bearer"},
 		}
 
 		// At this point if command-line arguent of any sort is given, that takes precedence.
-		for k, v := range key2auth {
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
 			if _, result := obtainFromStorage[string](&p.argv, k, "command-line argument"); result.isSome() {
 				return c.set("AuthPreference", v)
 			}
 		}
 
 		// Next priority is environment variables.
-		for k, v := range key2auth {
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
 			if _, result := obtainFromStorage[string](&p.envp, k, "environment variable"); result.isSome() {
 				return c.set("AuthPreference", v)
 			}
@@ -627,14 +629,16 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		}
 
 		// Terraform provider block comes next.
-		for k, v := range key2auth {
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
 			if _, result := obtainFromStorage[string](&p.hcl, k, "terraform configuration"); result.isSome() {
 				return c.set("AuthPreference", v)
 			}
 		}
 
 		// Lastly if profile has any of the keys, that decides.
-		for k, v := range key2auth {
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
 			if _, result := obtainFromProfile[string](c, k, "profile"); result.isSome() {
 				return c.set("AuthPreference", v)
 			}
