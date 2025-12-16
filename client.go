@@ -195,6 +195,20 @@ type Client struct {
 	once   once[inner]
 }
 
+// Deprecated: Strongly discouraged to use this function.
+// It lacks newer features and settings. Considered archaic.
+func NewClient(
+	apiUrl string,
+	params ...old.ClientParam,
+) (
+	sa ClientAPI,
+	err error,
+) {
+	sa = &Client{}
+	err = sa.CompatSettingsFromAPIClientParams(apiUrl, params...)
+	return
+}
+
 func (c *Client) Populate() error {
 	_, err := c.ensurePopulated()
 	return err
