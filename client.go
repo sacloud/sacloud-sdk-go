@@ -253,8 +253,9 @@ func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) err
 	}
 }
 
-//nolint:gocritic
+// Deprecated: it does not cover newer settings.
 func (c *Client) CompatSettingsFromAPIClientParams(url string, params ...old.ClientParam) error {
+	//nolint:gocritic
 	if c == nil {
 		return NewErrorf("nil client")
 	} else if c.once.Done() {
@@ -264,8 +265,9 @@ func (c *Client) CompatSettingsFromAPIClientParams(url string, params ...old.Cli
 	}
 }
 
-//nolint:gocritic
+// Deprecated: it does not cover newer settings.
 func (c *Client) CompatSettingsFromAPIClientOptions(opts ...*old.Options) error {
+	//nolint:gocritic
 	if c == nil {
 		return NewErrorf("nil client")
 	} else if c.once.Done() {
@@ -275,7 +277,7 @@ func (c *Client) CompatSettingsFromAPIClientOptions(opts ...*old.Options) error 
 	}
 }
 
-//nolint:gocritic
+// Deprecated: for backward compatibility.
 func (c *Client) ServerURL() (ret string) {
 	if c == nil {
 		return
