@@ -206,7 +206,7 @@ func (s *ClientTestSuite) SetupTest() {
 	s.subject = new(Client)
 
 	// AD HOC: easy test
-	s.subject.CompatSettingsFromAPIClientParams(
+	_ = s.subject.CompatSettingsFromAPIClientParams(
 		"",
 		old.WithDisableEnv(true),
 		old.WithDisableProfile(true),
@@ -437,7 +437,7 @@ func (s *ClientTestSuite) TestDynamicUsinfgClientOptions() {
 func (s *ClientTestSuite) TestProfileName() {
 	s.Run("Found sane", func() {
 		subject := s.subject.Dup()
-		subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
+		_ = subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
 		dir, name := subject.ProfileName()
 		s.NotNil(name)
 		s.NotNil(dir)
@@ -447,7 +447,7 @@ func (s *ClientTestSuite) TestProfileName() {
 
 	s.Run("Found broken", func() {
 		subject := s.subject.Dup()
-		subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
+		_ = subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
 		err := subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=broken"})
 		s.NoError(err)
 		err = subject.Populate()
@@ -459,7 +459,7 @@ func (s *ClientTestSuite) TestProfileName() {
 
 	s.Run("Specified, but not found", func() {
 		subject := s.subject.Dup()
-		subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
+		_ = subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
 		err := subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=nonexistent"})
 		s.NoError(err)
 		err = subject.Populate()
