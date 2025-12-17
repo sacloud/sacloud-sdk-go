@@ -168,6 +168,7 @@ func (s *ClientTestSuite) SetupSuite() {
 	os.WriteFile(dir+"/usacloud/current", []byte("usacloud"), 0o600)
 	os.WriteFile(dir+"/usacloud/usacloud/config.json",
 		[]byte(fmt.Sprintf(`{
+			"RetryMax":7,
 			"TraceMode": "",
 			"Zone":"usacloud",
 			"PrivateKeyPEMPath":"%s/usacloud/usacloud/usamin.pem"
@@ -485,4 +486,65 @@ func (s *ClientTestSuite) TestProfileName() {
 		s.Equal(expected, *dir)
 		s.Nil(name)
 	})
+}
+
+func (s *ClientTestSuite) TestPrecedence() {
+	// Setup
+	subject := s.subject.Dup().(*Client)
+
+	if e := subject.FlagSet(flag.PanicOnError).Parse([]string{
+		"--secret=argv@secret",
+	}); !s.NoError(e) {
+		return
+	}
+
+	if e := subject.SetEnviron([]string{
+		"SAKURACLOUD_ACCESS_TOKEN=envp@token",
+		"SAKURACLOUD_ACCESS_TOKEN_SECRET=envp@secret",
+		"SAKURACLOUD_ZONE=envp@zone",
+		"XDG_CONFIG_HOME=" + os.Getenv("XDG_CONFIG_HOME"), // to load profile
+	}); !s.NoError(e) {
+		return
+	}
+
+	if e := subject.SettingsFromTerraformProvider(&providerModel{
+		AccessToken:       types.StringValue("hcl@token"),
+		AccessTokenSecret: types.StringValue("hcl@secret"),
+	}); !s.NoError(e) {
+		return
+	}
+
+	if e := subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false)); !s.NoError(e) {
+		return
+	}
+
+	if e := subject.Populate(); !s.NoError(e) {
+		return
+	}
+
+	// Test
+
+	// argv:exists, envp:exists, hcl:exists, profile:missing, default:missing
+	// => argv wins
+	s.Equal("argv@secret", subject.JSON()["AccessTokenSecret"])
+
+	// argv:missing, envp:exists, hcl:exists, profile:missing, default:missing
+	// => hcl wins
+	s.Equal("hcl@token", subject.JSON()["AccessToken"])
+
+	// argv:missing, envp:exists, hcl:missing, profile:exists, default:missing
+	// => envp wins
+	s.Equal("envp@zone", subject.JSON()["Zone"])
+
+	// argv:missing, envp:missing, hcl:missing, profile:exists, default:exists
+	// => profile wins
+	s.Equal(int64(7), subject.JSON()["RetryMax"])
+
+	// argv:missing, envp:missing, hcl:missing, profile:missing, default:exists
+	// => default wins
+	s.Equal(int64(5), subject.JSON()["APIRequestRateLimit"])
+
+	// argv:missing, envp:missing, hcl:missing, profile:missing, default:missing
+	// => no key
+	s.NotContains(subject.JSON(), "SomeNonexistentKey")
 }

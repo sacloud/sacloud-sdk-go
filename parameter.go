@@ -621,6 +621,14 @@ func (p *parameter) populateAuthPreference(c *config) error {
 			}
 		}
 
+		// Terraform provider block comes next.
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
+			if _, result := obtainFromStorage[string](&p.hcl, k, "terraform configuration"); result.isSome() {
+				return c.set("AuthPreference", v)
+			}
+		}
+
 		// Next priority is environment variables.
 		for _, kv := range key2auth {
 			k, v := kv[0], kv[1]
@@ -631,14 +639,6 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		// EXTRA: there also is `SAKURACLOUD_PRIVATE_KEY`
 		if _, result := obtainFromStorage[string](&p.envp, "PrivateKey", "environment variable"); result.isSome() {
 			return c.set("AuthPreference", "bearer")
-		}
-
-		// Terraform provider block comes next.
-		for _, kv := range key2auth {
-			k, v := kv[0], kv[1]
-			if _, result := obtainFromStorage[string](&p.hcl, k, "terraform configuration"); result.isSome() {
-				return c.set("AuthPreference", v)
-			}
 		}
 
 		// Lastly if profile has any of the keys, that decides.
@@ -740,9 +740,9 @@ func prioritizedParameterValue[
 		return whence, resultOptionErr[T](NewErrorf("nil config"))
 	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
 		return whence, result
-	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
-		return whence, result
 	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
+		return whence, result
+	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
 		return whence, result
 	} else if whence, result := obtainFromProfile[T](c, k, "profile"); result.isSome() {
 		return whence, result
@@ -797,6 +797,14 @@ func obtainFromProfile[
 		// profile does not have this key; ok unspecified
 		return whence, resultOptionNone[T]()
 	} else if w, ok := v.(T); !ok {
+		// float64 -> int64 conversion special case
+		if _, isInt64 := any((*new(T))).(int64); isInt64 {
+			if w, isFloat64 := v.(float64); isFloat64 {
+				if (float64(int64(w))) == w {
+					return whence, resultOptionSome(any(int64(w)).(T))
+				}
+			}
+		}
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 	} else if str, ok := v.(string); ok && str == "" {
 		// AD HOC: previous config from usacloud used to set empty string

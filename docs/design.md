@@ -103,8 +103,8 @@
 
 - 以下のいずれかの方法で指定(以下の順で探す)
   - コマンドラインから `--token` / `--secret` で指定
-  - それがなければ、環境変数 `SAKURACLOUD_ACCESS_TOKEN` / `SAKURACLOUD_ACCESS_TOKEN_SECRET` で指定
-  - それもなければterraform provider block内に記載の `AccessToken` / `AccessToken`
+  - それがなければterraform provider block内に記載の `AccessToken` / `AccessToken`
+  - それもなければ、環境変数 `SAKURACLOUD_ACCESS_TOKEN` / `SAKURACLOUD_ACCESS_TOKEN_SECRET` で指定
   - それもなければ、設定ファイルに記載の`AccessToken` / `AccessTokenSecret`で指定
 
 ## 公開鍵の場合
@@ -113,8 +113,8 @@
   - 現状PEMのみのサポート、将来拡充するかも
 - その上で以下のいずれかの方法で指定(以下の順で探す)
   - コマンドラインから `--token` / `--secret` で指定
-  - それがなければ、環境変数 `SAKURACLOUD_PRIVATE_KEY_PATH` で指定
-  - それもなければterraform provider block内に記載の `PrivateKeyPEMPath`
+  - それがなければterraform provider block内に記載の `PrivateKeyPEMPath`
+  - それもなければ、環境変数 `SAKURACLOUD_PRIVATE_KEY_PATH` で指定
   - それもなければ、設定ファイルに記載の`PrivateKeyPEMPath`で指定
 - CI環境などローカルファイルに書き出すことが«手間、もしくはセキュリティ上の懸念»により難しい場合は環境変数`SAKURACLOUD_PRIVATE_KEY`に生のPEMを指定することも可能
 
@@ -122,3 +122,7 @@
 
 - 設定ファイルや環境変数で指定する方法はない
 - `client = client.DupWith(WithBearerToken(key))` などとしてプログラム側から指定
+
+## 複数の方法で指定された値の優先順位について
+
+https://docs.usacloud.jp/terraform/provider/ にterraform providerにおける優先順位が記載されており、これを踏襲します。
