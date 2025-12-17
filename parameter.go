@@ -15,9 +15,11 @@
 package saclient
 
 import (
+	"context"
 	"errors"
 	"flag"
 	"fmt"
+	"net/http"
 	"net/http/httptest"
 	"os"
 	"runtime"
@@ -25,6 +27,8 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-retryablehttp"
+	old "github.com/sacloud/api-client-go"
+	saht "github.com/sacloud/go-http"
 )
 
 type storage struct {
@@ -51,6 +55,9 @@ type storage struct {
 	authPreference        option[string]
 	middlewares           option[[]Middleware]
 	checkRetryFunc        option[retryablehttp.CheckRetry]
+
+	// Deprecated: this is to migrate from old client.
+	requestCustomizers option[[]saht.RequestCustomizer]
 }
 
 // :INTERNAL: it is intentional that this is not a struct
@@ -58,6 +65,12 @@ type storage struct {
 type config map[string]any
 
 type parameter struct {
+	// Deprecated: for compatibility
+	noProfile bool
+
+	// Deprecated: for compatibility
+	noEnv bool
+
 	profileOp *ProfileOp
 	envp      storage
 	argv      storage
@@ -209,9 +222,135 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 	return fs
 }
 
+func (p *parameter) setOldParams(url string, params ...old.ClientParam) error {
+	var cp old.ClientParams
+
+	if p == nil {
+		return NewErrorf("nil parameter")
+	}
+
+	if url != "" {
+		cp.APIRootURL = url
+	}
+	for _, yield := range params {
+		yield(&cp)
+	}
+	p.noProfile = cp.DisableProfile
+	p.noEnv = cp.DisableEnv
+	if cp.APIRootURL != "" {
+		p.dynamic.apiRootURL.initialize(cp.APIRootURL)
+	}
+	if cp.Token != "" {
+		p.dynamic.accessToken.initialize(cp.Token)
+	}
+	if cp.Secret != "" {
+		p.dynamic.accessTokenSecret.initialize(cp.Secret)
+	}
+	if cp.UserAgent != "" {
+		p.dynamic.userAgent.initialize(cp.UserAgent)
+	}
+	if cp.Profile != "" {
+		p.dynamic.profileName.initialize(cp.Profile)
+	}
+	if cp.HTTPClient != nil {
+		return NewErrorf("setting HTTPClient not supported")
+	}
+	if cp.Options != nil {
+		if err := p.setOldOptions(cp.Options); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (p *parameter) setOldOptions(opts ...*old.Options) error {
+	if p == nil {
+		return NewErrorf("nil parameter")
+	} else if o := old.MergeOptions(opts...); o == nil {
+		return NewErrorf("nil options")
+	} else {
+		if o.AccessToken != "" {
+			p.dynamic.accessToken.initialize(o.AccessToken)
+		}
+		if o.AccessTokenSecret != "" {
+			p.dynamic.accessTokenSecret.initialize(o.AccessTokenSecret)
+		}
+		if o.AcceptLanguage != "" {
+			// :NOTE: This can be implemented later; just low priority for now.
+			return NewErrorf("setting AcceptLanguage not supported")
+		}
+		if o.Gzip == true {
+			// This is default enabled for us.
+			// OTOH it is not clear if o.Gzip == false means the user wants to disable it,
+			// or just zero value is filled.
+		}
+		if o.HttpClient != nil {
+			// :NOTE: This is not possible for us.
+			return NewErrorf("setting HttpClient not supported")
+		}
+		if o.HttpRequestTimeout > 0 {
+			p.dynamic.apiRequestTimeout.initialize(int64(o.HttpRequestTimeout))
+		}
+		if o.HttpRequestRateLimit > 0 {
+			p.dynamic.apiRequestRateLimit.initialize(int64(o.HttpRequestRateLimit))
+		}
+		if o.RetryMax > 0 {
+			p.dynamic.retryMax.initialize(int64(o.RetryMax))
+		}
+		if o.RetryWaitMax > 0 {
+			p.dynamic.retryWaitMax.initialize(int64(o.RetryWaitMax))
+		}
+		if o.RetryWaitMin > 0 {
+			p.dynamic.retryWaitMin.initialize(int64(o.RetryWaitMin))
+		}
+		if o.UserAgent != "" {
+			p.dynamic.userAgent.initialize(o.UserAgent)
+		}
+		if o.Trace == true {
+			p.dynamic.traceMode.initialize("all")
+		}
+		if o.TraceOnlyError == true {
+			p.dynamic.traceMode.initialize("error")
+		}
+		if n := len(o.RequestCustomizers); n > 0 {
+			// this option is cumulative
+			var a []saht.RequestCustomizer = make([]saht.RequestCustomizer, n)
+			if b, ok := p.dynamic.requestCustomizers.Get(); ok {
+				a = append(a, b...)
+			}
+			a = append(a, o.RequestCustomizers...)
+			p.dynamic.requestCustomizers.initialize(a)
+		}
+		if o.CheckRetryFunc != nil {
+			p.dynamic.checkRetryFunc.initialize(o.CheckRetryFunc)
+		}
+		if len(o.CheckRetryStatusCodes) > 0 {
+			p.dynamic.checkRetryFunc.initialize(
+				func(ctx context.Context, res *http.Response, err error) (bool, error) {
+					//nolint:gocritic
+					if eerr := ctx.Err(); eerr != nil {
+						return false, eerr
+					} else if err != nil {
+						return retryablehttp.DefaultRetryPolicy(ctx, res, err)
+					} else if res.StatusCode == 0 {
+						return true, nil
+					} else if slices.Contains(o.CheckRetryStatusCodes, res.StatusCode) {
+						return true, nil
+					} else {
+						return false, nil
+					}
+				},
+			)
+		}
+
+		return nil
+	}
+}
+
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 25) // <- 25 is the # of `append` calls below
+	ret := make([]error, 0, 26) // <- 26 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -221,7 +360,13 @@ func (p *parameter) populate(c *config) error {
 	} else if p.profileOp == nil {
 		// Operator not initialized, means there was no call to SetEnviron()
 		// This could be meddling, but we initialize it here for safety.
-		ret = append(ret, p.setEnviron(os.Environ()))
+		var envp []string
+		if p.noEnv {
+			envp = make([]string, 0)
+		} else {
+			envp = os.Environ()
+		}
+		ret = append(ret, p.setEnviron(envp))
 	}
 
 	*c = make(config)
@@ -249,6 +394,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateAuthPreference(c))
 	ret = append(ret, p.populateMiddlewares(c))
 	ret = append(ret, p.populateCheckRetryFunc(c))
+	ret = append(ret, p.populateRequestCustomizers(c))
 
 	return errors.Join(ret...)
 }
@@ -263,11 +409,16 @@ func (p *parameter) populateProfileName(c *config) error {
 
 	if p == nil {
 		return NewErrorf("nil parameter")
+	} else if p.noProfile {
+		// Explicitly opted out
+		return nil
 	} else if v, ok := p.argv.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, ok := p.envp.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, ok := p.hcl.profileName.Get(); ok {
+		profileName.initialize(v)
+	} else if v, ok := p.dynamic.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, err := p.profileOp.GetCurrentName(); err == nil {
 		profileName.initialize(v)
@@ -286,6 +437,9 @@ func (p *parameter) populateProfileName(c *config) error {
 func (p *parameter) populateProfile(c *config) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
+	} else if p.noProfile {
+		// Explicitly opted out
+		return nil
 	} else if result := obtainFromConfig[string](c, "ProfileName"); result.isErr() {
 		return result.error()
 	} else if v, ok := result.some(); !ok {
@@ -451,23 +605,25 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		return c.set("AuthPreference", result.unwrap())
 	} else {
 		// But if absent, things get complicated...
-		key2auth := map[string]string{
-			"AccessToken":           "basic",
-			"AccessTokenSecret":     "basic",
-			"PrivateKeyPEMPath":     "bearer",
-			"ServicePrincipalID":    "bearer",
-			"ServicePrincipalKeyID": "bearer",
+		key2auth := [][2]string{
+			{"AccessToken", "basic"},
+			{"AccessTokenSecret", "basic"},
+			{"PrivateKeyPEMPath", "bearer"},
+			{"ServicePrincipalID", "bearer"},
+			{"ServicePrincipalKeyID", "bearer"},
 		}
 
 		// At this point if command-line arguent of any sort is given, that takes precedence.
-		for k, v := range key2auth {
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
 			if _, result := obtainFromStorage[string](&p.argv, k, "command-line argument"); result.isSome() {
 				return c.set("AuthPreference", v)
 			}
 		}
 
 		// Next priority is environment variables.
-		for k, v := range key2auth {
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
 			if _, result := obtainFromStorage[string](&p.envp, k, "environment variable"); result.isSome() {
 				return c.set("AuthPreference", v)
 			}
@@ -478,14 +634,16 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		}
 
 		// Terraform provider block comes next.
-		for k, v := range key2auth {
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
 			if _, result := obtainFromStorage[string](&p.hcl, k, "terraform configuration"); result.isSome() {
 				return c.set("AuthPreference", v)
 			}
 		}
 
 		// Lastly if profile has any of the keys, that decides.
-		for k, v := range key2auth {
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
 			if _, result := obtainFromProfile[string](c, k, "profile"); result.isSome() {
 				return c.set("AuthPreference", v)
 			}
@@ -521,6 +679,17 @@ func (p *parameter) populateCheckRetryFunc(c *config) error {
 
 func (p *parameter) populateUserAgent(c *config) error {
 	return p.populateString(c, "UserAgent")
+}
+
+// Deprecated: only for compatibility.
+func (p *parameter) populateRequestCustomizers(c *config) error {
+	if _, result := prioritizedParameterValue[[]saht.RequestCustomizer](p, c, "RequestCustomizers"); result.isErr() {
+		return result.error()
+	} else if v, ok := result.some(); !ok {
+		return nil // just not set
+	} else {
+		return c.set("RequestCustomizers", v)
+	}
 }
 
 func (p *parameter) populateString(c *config, key string) error {
@@ -729,6 +898,9 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "CheckRetryFunc":
 		return s.checkRetryFunc.Get()
+
+	case "RequestCustomizers":
+		return s.requestCustomizers.Get()
 
 	default:
 		panic("unknown key: " + k)

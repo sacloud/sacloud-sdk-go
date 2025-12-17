@@ -20,6 +20,8 @@ import (
 	"io"
 	"maps"
 	"net/http"
+
+	old "github.com/sacloud/api-client-go"
 )
 
 // The API
@@ -84,6 +86,56 @@ type ClientAPI interface {
 	// ```
 	SettingsFromTerraformProvider(config TerraformProviderInterface) error
 
+	// Deprecated: This method does not cover all settings.
+	//
+	// ```golang
+	//
+	//	import (
+	//		old "github.com/sacloud/saclient-go"
+	//		current "github.com/sacloud/saclient-go"
+	//	)
+	//
+	//	var client current.Client
+	//
+	//	func main() {
+	//		client.CompatSettingsFromAPIClientParams(
+	//			"https://secure.sakura.ad.jp/...",
+	//			old.WithApiKeys("your-token", "your-secret"),
+	//			// ...
+	//		)
+	//		client.Populate()
+	//		// ...
+	//	}
+	// ```
+	CompatSettingsFromAPIClientParams(url string, params ...old.ClientParam) error
+
+	// Deprecated: This method does not cover all settings.
+	//
+	// ```golang
+	//
+	//	import (
+	//		old "github.com/sacloud/saclient-go"
+	//		current "github.com/sacloud/saclient-go"
+	//	)
+	//
+	//	var client current.Client
+	//
+	//	func main() {
+	//		client.CompatSettingsFromAPIClientOptions(&old.Options{
+	//			AccessToken: "your-token",
+	//			AccessTokenSecret: "your-secret",
+	//			// ...
+	//		})
+	//		client.Populate()
+	//		// ...
+	//	}
+	// ```
+	CompatSettingsFromAPIClientOptions(opts ...*old.Options) error
+
+	// Deprecated: This is a compatibility layer.  Many aspects are missing here,
+	// for instance this does not return error.
+	ServerURL() string
+
 	// ```golang
 	//
 	//	import (
@@ -143,6 +195,32 @@ type Client struct {
 	once   once[inner]
 }
 
+// Deprecated: Strongly discouraged to use this function.
+// It lacks newer features and settings. Considered archaic.
+func NewClient(
+	apiUrl string,
+	params ...old.ClientParam,
+) (
+	sa ClientAPI,
+	err error,
+) {
+	sa = &Client{}
+	err = sa.CompatSettingsFromAPIClientParams(apiUrl, params...)
+	return
+}
+
+// Deprecated: Strongly discouraged to use this function.
+// It for instance has no way to return error.
+func NewFactory(opts ...*old.Options) ClientAPI {
+	var sa Client
+
+	if err := sa.CompatSettingsFromAPIClientOptions(opts...); err != nil {
+		return nil
+	} else {
+		return &sa
+	}
+}
+
 func (c *Client) Populate() error {
 	_, err := c.ensurePopulated()
 	return err
@@ -184,6 +262,42 @@ func (c *Client) SettingsFromTerraformProvider(p TerraformProviderInterface) err
 	} else {
 		c.params.setHCL(p)
 		return nil
+	}
+}
+
+// Deprecated: it does not cover newer settings.
+func (c *Client) CompatSettingsFromAPIClientParams(url string, params ...old.ClientParam) error {
+	//nolint:gocritic
+	if c == nil {
+		return NewErrorf("nil client")
+	} else if c.once.Done() {
+		return NewErrorf("client already populated; cannot change settings")
+	} else {
+		return c.params.setOldParams(url, params...)
+	}
+}
+
+// Deprecated: it does not cover newer settings.
+func (c *Client) CompatSettingsFromAPIClientOptions(opts ...*old.Options) error {
+	//nolint:gocritic
+	if c == nil {
+		return NewErrorf("nil client")
+	} else if c.once.Done() {
+		return NewErrorf("client already populated; cannot change settings")
+	} else {
+		return c.params.setOldOptions(opts...)
+	}
+}
+
+// Deprecated: for backward compatibility.
+func (c *Client) ServerURL() (ret string) {
+	if c == nil {
+		return
+	} else if cfg, err := c.ensurePopulated(); err != nil {
+		return
+	} else {
+		ret, _ = obtainFromConfig[string](cfg, "APIRootURL").some()
+		return
 	}
 }
 
