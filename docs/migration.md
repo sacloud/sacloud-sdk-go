@@ -31,7 +31,7 @@ func (c *MyClient) init() error {
     c.factory = client.NewFactory(opts...)
 }
 
-func (c *Client) Do(ctx context.Context, method, uri string, body interface{}) ([]byte, error) {
+func (c *MyClient) Do(ctx context.Context, method, uri string, body interface{}) ([]byte, error) {
     if err := c.init(); err != nil {
         return nil, err
     }
@@ -81,7 +81,7 @@ func (c *Client) Do(ctx context.Context, method, uri string, body interface{}) (
 +    c.factory = saclient.NewFactory(opts...)
  }
  
- func (c *Client) Do(ctx context.Context, method, uri string, body interface{}) ([]byte, error) {
+ func (c *MyClient) Do(ctx context.Context, method, uri string, body interface{}) ([]byte, error) {
      if err := c.init(); err != nil {
          return nil, err
      }
