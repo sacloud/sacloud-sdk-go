@@ -80,8 +80,13 @@ type parameter struct {
 
 func (p *parameter) setEnvironIter() func(string, string) error {
 	return func(k, v string) error {
+		//nolint:gocritic
 		if p == nil {
 			return NewErrorf("nil parameter")
+		} else if v == "" {
+			// There could be discussions what an environment variable of empty string means.
+			// We choose to ignore such variables here.
+			return nil
 		} else {
 			switch k {
 			case "SAKURACLOUD_PROFILE":
