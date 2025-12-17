@@ -242,7 +242,7 @@ func (s *ClientTestSuite) TestEnviron() {
 		"SAKURACLOUD_API_REQUEST_TIMEOUT=30",
 		"SAKURACLOUD_API_ROOT_URL=https://api.example.com",
 		"SAKURACLOUD_PRIVATE_KEY=dummy-private-key",
-		"SAKURACLOUD_RETRY_MAX=3",
+		"SAKURACLOUD_RETRY_MAX=", // <= empty value
 		"SAKURACLOUD_RETRY_WAIT_MAX=7",
 		"SAKURACLOUD_RETRY_WAIT_MIN=5",
 		"SAKURACLOUD_ZONE=foo",
@@ -264,7 +264,7 @@ func (s *ClientTestSuite) TestEnviron() {
 		"PrivateKey":          "dummy-private-key",
 		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
 		"ProfileName":         "usacloud",
-		"RetryMax":            int64(3),
+		"RetryMax":            int64(10), // <= default value instead of zero
 		"RetryWaitMax":        int64(7),
 		"RetryWaitMin":        int64(5),
 		"TokenEndpoint":       "https://example.com/oauth2/token",
