@@ -25,7 +25,7 @@ import (
 
 func (d *doer) tracer(c *config) Middleware {
 	return func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
-		var buf []byte
+		var savedRequestBody []byte
 
 		if result := obtainFromConfig[string](c, "TraceMode"); result.isErr() {
 			return nil, result.error()
@@ -37,6 +37,7 @@ func (d *doer) tracer(c *config) Middleware {
 			} else if buf, err := io.ReadAll(req.Body); err != nil {
 				return nil, err
 			} else {
+				savedRequestBody = bytes.Clone(buf)
 				copied := bytes.NewBuffer(buf)
 				req.Body = io.NopCloser(copied)
 			}
@@ -50,7 +51,7 @@ func (d *doer) tracer(c *config) Middleware {
 			} else {
 				if req.Body != nil {
 					// write back buffer
-					copied := bytes.NewBuffer(buf)
+					copied := bytes.NewBuffer(savedRequestBody)
 					req.Body = io.NopCloser(copied)
 				}
 
