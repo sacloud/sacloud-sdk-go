@@ -514,6 +514,10 @@ func (s *ClientTestSuite) TestPrecedence() {
 		return
 	}
 
+	if e := subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false)); !s.NoError(e) {
+		return
+	}
+
 	if e := subject.Populate(); !s.NoError(e) {
 		return
 	}
