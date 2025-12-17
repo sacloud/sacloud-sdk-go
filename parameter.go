@@ -67,6 +67,7 @@ type parameter struct {
 
 func (p *parameter) setEnvironIter() func(string, string) error {
 	return func(k, v string) error {
+		//nolint:gocritic
 		if p == nil {
 			return NewErrorf("nil parameter")
 		} else if v == "" {
