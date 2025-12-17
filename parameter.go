@@ -461,6 +461,13 @@ func (p *parameter) populateAuthPreference(c *config) error {
 			}
 		}
 
+		// Terraform provider block comes next.
+		for k, v := range key2auth {
+			if _, result := obtainFromStorage[string](&p.hcl, k, "terraform configuration"); result.isSome() {
+				return c.set("AuthPreference", v)
+			}
+		}
+
 		// Next priority is environment variables.
 		for k, v := range key2auth {
 			if _, result := obtainFromStorage[string](&p.envp, k, "environment variable"); result.isSome() {
@@ -470,13 +477,6 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		// EXTRA: there also is `SAKURACLOUD_PRIVATE_KEY`
 		if _, result := obtainFromStorage[string](&p.envp, "PrivateKey", "environment variable"); result.isSome() {
 			return c.set("AuthPreference", "bearer")
-		}
-
-		// Terraform provider block comes next.
-		for k, v := range key2auth {
-			if _, result := obtainFromStorage[string](&p.hcl, k, "terraform configuration"); result.isSome() {
-				return c.set("AuthPreference", v)
-			}
 		}
 
 		// Lastly if profile has any of the keys, that decides.
@@ -566,9 +566,9 @@ func prioritizedParameterValue[
 		return whence, resultOptionErr[T](NewErrorf("nil config"))
 	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
 		return whence, result
-	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
-		return whence, result
 	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
+		return whence, result
+	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
 		return whence, result
 	} else if whence, result := obtainFromProfile[T](c, k, "profile"); result.isSome() {
 		return whence, result
