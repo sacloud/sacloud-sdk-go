@@ -15,16 +15,20 @@
 package saclient_test
 
 import (
+	"context"
 	"crypto/rand"
 	"encoding/pem"
 	"flag"
 	"fmt"
+	"net/http"
 	"os"
 	"runtime"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	old "github.com/sacloud/api-client-go"
+	saht "github.com/sacloud/go-http"
 	. "github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/suite"
 )
@@ -201,6 +205,13 @@ func (s *ClientTestSuite) TearDownSuite() {
 
 func (s *ClientTestSuite) SetupTest() {
 	s.subject = new(Client)
+
+	// AD HOC: easy test
+	_ = s.subject.CompatSettingsFromAPIClientParams(
+		"",
+		old.WithDisableEnv(true),
+		old.WithDisableProfile(true),
+	)
 }
 
 func (s *ClientTestSuite) TestCLI() {
@@ -219,15 +230,12 @@ func (s *ClientTestSuite) TestCLI() {
 		"APIRequestRateLimit": int64(5),
 		"APIRequestTimeout":   int64(300),
 		"AuthPreference":      "basic",
-		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
-		"ProfileName":         "usacloud",
-		"RetryMax":            int64(7),
+		"RetryMax":            int64(10),
 		"RetryWaitMax":        int64(64),
 		"RetryWaitMin":        int64(1),
 		"TokenEndpoint":       "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token",
 		"TraceMode":           "all",
 		"UserAgent":           ua,
-		"Zone":                "usacloud",
 		"Zones": []string{
 			"foo",
 			", bar",
@@ -242,14 +250,15 @@ func (s *ClientTestSuite) TestEnviron() {
 		"SAKURACLOUD_API_REQUEST_RATE_LIMIT=20",
 		"SAKURACLOUD_API_REQUEST_TIMEOUT=30",
 		"SAKURACLOUD_API_ROOT_URL=https://api.example.com",
+		"SAKURACLOUD_PRIVATE_KEY_PATH=" + os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
 		"SAKURACLOUD_PRIVATE_KEY=dummy-private-key",
 		"SAKURACLOUD_RETRY_MAX=3",
 		"SAKURACLOUD_RETRY_WAIT_MAX=7",
 		"SAKURACLOUD_RETRY_WAIT_MIN=5",
-		"SAKURACLOUD_ZONE=foo",
-		"SAKURACLOUD_ZONES=foo,\", bar\"",
 		"SAKURACLOUD_TOKEN_ENDPOINT=https://example.com/oauth2/token",
 		"SAKURACLOUD_TRACE=error",
+		"SAKURACLOUD_ZONE=foo",
+		"SAKURACLOUD_ZONES=foo,\", bar\"",
 		"XDG_CONFIG_HOME=" + os.Getenv("XDG_CONFIG_HOME"),
 	})
 	s.NoError(e)
@@ -264,7 +273,6 @@ func (s *ClientTestSuite) TestEnviron() {
 		"AuthPreference":      "basic",
 		"PrivateKey":          "dummy-private-key",
 		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
-		"ProfileName":         "usacloud",
 		"RetryMax":            int64(3),
 		"RetryWaitMax":        int64(7),
 		"RetryWaitMin":        int64(5),
@@ -308,8 +316,6 @@ func (s *ClientTestSuite) TestTerraform() {
 		"APIRootURL":          "https://api.example.com",
 		"AuthPreference":      "basic",
 		"DefaultZone":         "foo",
-		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
-		"ProfileName":         "usacloud",
 		"RetryMax":            int64(3),
 		"RetryWaitMax":        int64(7),
 		"RetryWaitMin":        int64(5),
@@ -353,9 +359,87 @@ func (s *ClientTestSuite) TestDynamic() {
 	s.Equal("all", j["TraceMode"])
 }
 
+func (s *ClientTestSuite) TestDynamicUsinfgClientParams() {
+	err := s.subject.CompatSettingsFromAPIClientParams(
+		"https://api.example.com",
+		old.WithDisableEnv(true),
+		old.WithDisableProfile(true),
+		old.WithApiKeys("foo", "bar"),
+		old.WithUserAgent(ua),
+		old.WithOptions(&old.Options{
+			HttpRequestTimeout:   300,
+			HttpRequestRateLimit: 100,
+			RetryMax:             30,
+			RetryWaitMax:         70,
+			RetryWaitMin:         50,
+		}),
+	)
+	s.NoError(err)
+	err = s.subject.Populate()
+	s.NoError(err)
+	s.Equal(map[string]any{
+		"AccessToken":         "foo",
+		"AccessTokenSecret":   "bar",
+		"APIRequestRateLimit": int64(100),
+		"APIRequestTimeout":   int64(300),
+		"APIRootURL":          "https://api.example.com",
+		"RetryMax":            int64(30),
+		"RetryWaitMax":        int64(70),
+		"RetryWaitMin":        int64(50),
+		"TokenEndpoint":       "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token",
+		"UserAgent":           ua,
+	}, s.subject.JSON())
+}
+
+func (s *ClientTestSuite) TestDynamicUsinfgClientOptions() {
+	err := s.subject.CompatSettingsFromAPIClientOptions(
+		&old.Options{AccessToken: "foo"},
+		&old.Options{AccessTokenSecret: "bar"},
+		&old.Options{Gzip: true},
+		&old.Options{HttpRequestTimeout: 300},
+		&old.Options{HttpRequestRateLimit: 100},
+		&old.Options{RetryMax: 30},
+		&old.Options{RetryWaitMax: 70},
+		&old.Options{RetryWaitMin: 50},
+		&old.Options{UserAgent: ua},
+		&old.Options{Trace: true},
+		&old.Options{TraceOnlyError: true},
+		&old.Options{RequestCustomizers: []saht.RequestCustomizer{
+			func(req *http.Request) error {
+				req.Header.Set("X-Custom-Header", "custom-value")
+				return nil
+			},
+		}},
+		&old.Options{CheckRetryFunc: func(ctx context.Context, resp *http.Response, err error) (bool, error) {
+			if resp != nil && resp.StatusCode == 502 {
+				return true, nil
+			}
+			return false, nil
+		}},
+		&old.Options{CheckRetryStatusCodes: []int{502}},
+	)
+	s.NoError(err)
+	err = s.subject.Populate()
+	s.NoError(err)
+	s.Equal(map[string]any{
+		"AccessToken":         "foo",
+		"AccessTokenSecret":   "bar",
+		"APIRequestRateLimit": int64(100),
+		"APIRequestTimeout":   int64(300),
+		"RetryMax":            int64(30),
+		"RetryWaitMax":        int64(70),
+		"RetryWaitMin":        int64(50),
+		"TokenEndpoint":       "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token",
+		"TraceMode":           "error",
+		"UserAgent":           ua,
+	}, s.subject.JSON())
+}
+
 func (s *ClientTestSuite) TestProfileName() {
 	s.Run("Found sane", func() {
-		dir, name := s.subject.ProfileName()
+		subject := s.subject.Dup()
+		_ = subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
+		dir, name := subject.ProfileName()
 		s.NotNil(name)
 		s.NotNil(dir)
 		s.Equal(os.Getenv("XDG_CONFIG_HOME")+"/usacloud", *dir)
@@ -364,6 +448,7 @@ func (s *ClientTestSuite) TestProfileName() {
 
 	s.Run("Found broken", func() {
 		subject := s.subject.Dup()
+		_ = subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
 		err := subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=broken"})
 		s.NoError(err)
 		err = subject.Populate()
@@ -375,6 +460,7 @@ func (s *ClientTestSuite) TestProfileName() {
 
 	s.Run("Specified, but not found", func() {
 		subject := s.subject.Dup()
+		_ = subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
 		err := subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=nonexistent"})
 		s.NoError(err)
 		err = subject.Populate()

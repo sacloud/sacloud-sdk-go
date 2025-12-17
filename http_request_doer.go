@@ -21,6 +21,7 @@ import (
 	"slices"
 	"time"
 
+	saht "github.com/sacloud/go-http"
 	"go.uber.org/ratelimit"
 )
 
@@ -53,8 +54,16 @@ func (d *doer) Do(req *http.Request) (*http.Response, error) {
 func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	var d doer
 	h := http.Client{
-		Timeout:   3 * time.Second,
 		Transport: http.DefaultTransport.(*http.Transport).Clone(),
+	}
+
+	if result := obtainFromConfig[int64](c, "APIRequestTimeout"); result.isErr() {
+		return nil, result.error()
+	} else if v, ok := result.some(); ok {
+		h.Timeout = time.Duration(v) * time.Second
+	} else {
+		// UNLIKELY: APIRequestTimeout has default value
+		h.Timeout = 300 * time.Second
 	}
 
 	if result := obtainFromConfig[*httptest.Server](c, "MockServer"); result.isErr() {
@@ -90,6 +99,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		d.tracer(c),
 		gzipExpander,
 		d.middlewareRateLimitter(),
+		d.middlewareRequestCustomizers(c),
 		d.middlewareHandleRetries(c),
 		// lower layer ^^^^^
 	}
@@ -104,6 +114,22 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	}
 
 	return &d, nil
+}
+
+// Deprecated: only for compatibility.
+func (d *doer) middlewareRequestCustomizers(c *config) Middleware {
+	return func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
+		iter := func(yield saht.RequestCustomizer) error { return yield(req) }
+
+		if result := obtainFromConfig[[]saht.RequestCustomizer](c, "RequestCustomizer"); result.isErr() {
+			return nil, result.error()
+		} else if customizers, ok := result.some(); !ok {
+			// nothing to do here
+		} else if err := findFirstError(slices.Values(customizers), iter); err != nil {
+			return nil, err
+		}
+		return pullThenCall(pull, req)
+	}
 }
 
 func pullThenCall(pull func() (Middleware, bool), req *http.Request) (*http.Response, error) {
