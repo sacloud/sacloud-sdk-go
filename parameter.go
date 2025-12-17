@@ -623,6 +623,14 @@ func obtainFromProfile[
 		// profile does not have this key; ok unspecified
 		return whence, resultOptionNone[T]()
 	} else if w, ok := v.(T); !ok {
+		// float64 -> int64 conversion special case
+		if _, isInt64 := any((*new(T))).(int64); isInt64 {
+			if w, isFloat64 := v.(float64); isFloat64 {
+				if (float64(int64(w))) == w {
+					return whence, resultOptionSome(any(int64(w)).(T))
+				}
+			}
+		}
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 	} else if str, ok := v.(string); ok && str == "" {
 		// AD HOC: previous config from usacloud used to set empty string
