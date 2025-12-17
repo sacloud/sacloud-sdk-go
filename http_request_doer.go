@@ -53,8 +53,16 @@ func (d *doer) Do(req *http.Request) (*http.Response, error) {
 func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	var d doer
 	h := http.Client{
-		Timeout:   3 * time.Second,
 		Transport: http.DefaultTransport.(*http.Transport).Clone(),
+	}
+
+	if result := obtainFromConfig[int64](c, "APIRequestTimeout"); result.isErr() {
+		return nil, result.error()
+	} else if v, ok := result.some(); ok {
+		h.Timeout = time.Duration(v) * time.Second
+	} else {
+		// UNLIKELY: APIRequestTimeout has default value
+		h.Timeout = 300 * time.Second
 	}
 
 	if result := obtainFromConfig[*httptest.Server](c, "MockServer"); result.isErr() {
