@@ -187,6 +187,13 @@ func (s *ClientTestSuite) SetupSuite() {
 		Type:  "RSA PRIVATE KEY",
 		Bytes: []byte("dummy"),
 	})
+
+	fp, _ = os.OpenFile(dir+"/another.pem", os.O_WRONLY|os.O_CREATE, 0o600)
+	defer fp.Close()
+	pem.Encode(fp, &pem.Block{
+		Type:  "RSA PRIVATE KEY",
+		Bytes: []byte("dummy"),
+	})
 }
 
 //nolint:errcheck,gosec
@@ -244,47 +251,154 @@ func (s *ClientTestSuite) TestCLI() {
 }
 
 func (s *ClientTestSuite) TestEnviron() {
-	e := s.subject.SetEnviron([]string{
-		"SAKURACLOUD_ACCESS_TOKEN_SECRET=bar",
-		"SAKURACLOUD_ACCESS_TOKEN=foo",
-		"SAKURACLOUD_API_REQUEST_RATE_LIMIT=20",
-		"SAKURACLOUD_API_REQUEST_TIMEOUT=30",
-		"SAKURACLOUD_API_ROOT_URL=https://api.example.com",
-		"SAKURACLOUD_PRIVATE_KEY_PATH=" + os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
-		"SAKURACLOUD_PRIVATE_KEY=dummy-private-key",
-		"SAKURACLOUD_RETRY_MAX=", // <= empty value
-		"SAKURACLOUD_RETRY_WAIT_MAX=7",
-		"SAKURACLOUD_RETRY_WAIT_MIN=5",
-		"SAKURACLOUD_TOKEN_ENDPOINT=https://example.com/oauth2/token",
-		"SAKURACLOUD_TRACE=error",
-		"SAKURACLOUD_ZONE=foo",
-		"SAKURACLOUD_ZONES=foo,\", bar\"",
-		"XDG_CONFIG_HOME=" + os.Getenv("XDG_CONFIG_HOME"),
+	s.Run("SAKURACLOUD_", func() {
+		subject := s.subject.Dup().(*Client)
+		e := subject.SetEnviron([]string{
+			"SAKURACLOUD_ACCESS_TOKEN_SECRET=bar",
+			"SAKURACLOUD_ACCESS_TOKEN=foo",
+			"SAKURACLOUD_API_REQUEST_RATE_LIMIT=20",
+			"SAKURACLOUD_API_REQUEST_TIMEOUT=30",
+			"SAKURACLOUD_API_ROOT_URL=https://api.example.com",
+			"SAKURACLOUD_PRIVATE_KEY_PATH=" + os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+			"SAKURACLOUD_PRIVATE_KEY=dummy-private-key",
+			"SAKURACLOUD_RETRY_MAX=", // <= empty value
+			"SAKURACLOUD_RETRY_WAIT_MAX=7",
+			"SAKURACLOUD_RETRY_WAIT_MIN=5",
+			"SAKURACLOUD_TOKEN_ENDPOINT=https://example.com/oauth2/token",
+			"SAKURACLOUD_TRACE=error",
+			"SAKURACLOUD_ZONE=foo",
+			"SAKURACLOUD_ZONES=foo,\", bar\"",
+			"XDG_CONFIG_HOME=" + os.Getenv("XDG_CONFIG_HOME"),
+		})
+		s.NoError(e)
+		e = subject.Populate()
+		s.NoError(e)
+		s.Equal(map[string]any{
+			"AccessToken":         "foo",
+			"AccessTokenSecret":   "bar",
+			"APIRequestRateLimit": int64(20),
+			"APIRequestTimeout":   int64(30),
+			"APIRootURL":          "https://api.example.com",
+			"AuthPreference":      "basic",
+			"PrivateKey":          "dummy-private-key",
+			"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+			"RetryMax":            int64(10), // <= default value instead of zero
+			"RetryWaitMax":        int64(7),
+			"RetryWaitMin":        int64(5),
+			"TokenEndpoint":       "https://example.com/oauth2/token",
+			"TraceMode":           "error",
+			"UserAgent":           ua,
+			"Zone":                "foo",
+			"Zones": []string{
+				"foo",
+				", bar",
+			},
+		}, subject.JSON())
 	})
-	s.NoError(e)
-	e = s.subject.Populate()
-	s.NoError(e)
-	s.Equal(map[string]any{
-		"AccessToken":         "foo",
-		"AccessTokenSecret":   "bar",
-		"APIRequestRateLimit": int64(20),
-		"APIRequestTimeout":   int64(30),
-		"APIRootURL":          "https://api.example.com",
-		"AuthPreference":      "basic",
-		"PrivateKey":          "dummy-private-key",
-		"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
-		"RetryMax":            int64(10), // <= default value instead of zero
-		"RetryWaitMax":        int64(7),
-		"RetryWaitMin":        int64(5),
-		"TokenEndpoint":       "https://example.com/oauth2/token",
-		"TraceMode":           "error",
-		"UserAgent":           ua,
-		"Zone":                "foo",
-		"Zones": []string{
-			"foo",
-			", bar",
-		},
-	}, s.subject.JSON())
+
+	s.Run("SAKURA_", func() {
+		subject := s.subject.Dup().(*Client)
+		e := subject.SetEnviron([]string{
+			"SAKURA_ACCESS_TOKEN_SECRET=bar",
+			"SAKURA_ACCESS_TOKEN=foo",
+			"SAKURA_RATE_LIMIT=20",
+			"SAKURA_API_REQUEST_TIMEOUT=30",
+			"SAKURA_API_ROOT_URL=https://api.example.com",
+			"SAKURA_PRIVATE_KEY_PATH=" + os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+			"SAKURA_PRIVATE_KEY=dummy-private-key",
+			"SAKURA_RETRY_MAX=", // <= empty value
+			"SAKURA_RETRY_WAIT_MAX=7",
+			"SAKURA_RETRY_WAIT_MIN=5",
+			"SAKURA_TOKEN_ENDPOINT=https://example.com/oauth2/token",
+			"SAKURA_TRACE=error",
+			"SAKURA_ZONE=foo",
+			"SAKURA_ZONES=foo,\", bar\"",
+			"XDG_CONFIG_HOME=" + os.Getenv("XDG_CONFIG_HOME"),
+		})
+		s.NoError(e)
+		e = subject.Populate()
+		s.NoError(e)
+		s.Equal(map[string]any{
+			"AccessToken":         "foo",
+			"AccessTokenSecret":   "bar",
+			"APIRequestRateLimit": int64(20),
+			"APIRequestTimeout":   int64(30),
+			"APIRootURL":          "https://api.example.com",
+			"AuthPreference":      "basic",
+			"PrivateKey":          "dummy-private-key",
+			"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+			"RetryMax":            int64(10), // <= default value instead of zero
+			"RetryWaitMax":        int64(7),
+			"RetryWaitMin":        int64(5),
+			"TokenEndpoint":       "https://example.com/oauth2/token",
+			"TraceMode":           "error",
+			"UserAgent":           ua,
+			"Zone":                "foo",
+			"Zones": []string{
+				"foo",
+				", bar",
+			},
+		}, subject.JSON())
+	})
+
+	s.Run("both", func() {
+		subject := s.subject.Dup().(*Client)
+		e := subject.SetEnviron([]string{
+			"SAKURA_ACCESS_TOKEN_SECRET=bar",
+			"SAKURA_ACCESS_TOKEN=foo",
+			"SAKURA_RATE_LIMIT=20",
+			"SAKURA_API_REQUEST_TIMEOUT=30",
+			"SAKURA_API_ROOT_URL=https://api.example.com",
+			"SAKURA_PRIVATE_KEY_PATH=" + os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+			"SAKURA_PRIVATE_KEY=dummy-private-key",
+			"SAKURA_RETRY_MAX=", // <= empty value
+			"SAKURA_RETRY_WAIT_MAX=7",
+			"SAKURA_RETRY_WAIT_MIN=5",
+			"SAKURA_TOKEN_ENDPOINT=https://example.com/oauth2/token",
+			"SAKURA_TRACE=error",
+			"SAKURA_ZONE=foo",
+			"SAKURA_ZONES=foo,\", bar\"",
+			"SAKURACLOUD_ACCESS_TOKEN_SECRET=baz",
+			"SAKURACLOUD_ACCESS_TOKEN=quux",
+			"SAKURACLOUD_API_REQUEST_RATE_LIMIT=64",
+			"SAKURACLOUD_API_REQUEST_TIMEOUT=128",
+			"SAKURACLOUD_API_ROOT_URL=https://sample.example.com",
+			"SAKURACLOUD_PRIVATE_KEY_PATH=" + os.Getenv("XDG_CONFIG_HOME") + "/another.pem",
+			"SAKURACLOUD_PRIVATE_KEY=nonexistent-key",
+			"SAKURACLOUD_RETRY_MAX=1024",
+			"SAKURACLOUD_RETRY_WAIT_MAX=512",
+			"SAKURACLOUD_RETRY_WAIT_MIN=32",
+			"SAKURACLOUD_TOKEN_ENDPOINT=https://another.example.com/oauth2/token",
+			"SAKURACLOUD_TRACE=all",
+			"SAKURACLOUD_ZONE=baz",
+			"SAKURACLOUD_ZONES=baz,\", quux\"",
+			"XDG_CONFIG_HOME=" + os.Getenv("XDG_CONFIG_HOME"),
+		})
+		s.NoError(e)
+		e = subject.Populate()
+		s.NoError(e)
+		s.Equal(map[string]any{
+			"AccessToken":         "foo",
+			"AccessTokenSecret":   "bar",
+			"APIRequestRateLimit": int64(20),
+			"APIRequestTimeout":   int64(30),
+			"APIRootURL":          "https://api.example.com",
+			"AuthPreference":      "basic",
+			"PrivateKey":          "dummy-private-key",
+			"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+			"RetryMax":            int64(1024), // <= SAKURACLOUD_ wins here
+			"RetryWaitMax":        int64(7),
+			"RetryWaitMin":        int64(5),
+			"TokenEndpoint":       "https://example.com/oauth2/token",
+			"TraceMode":           "error",
+			"UserAgent":           ua,
+			"Zone":                "foo",
+			"Zones": []string{
+				"foo",
+				", bar",
+			},
+		}, subject.JSON())
+	})
 }
 
 func (s *ClientTestSuite) TestTerraform() {

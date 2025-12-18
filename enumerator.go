@@ -86,15 +86,6 @@ func transformSeq4[
 	}
 }
 
-// a variant of transformSeq4 that keeps keys as-is.
-// `3` is the number of type parameters
-func transformSeq3[K comparable, V, W any](seq iter.Seq2[K, V], f func(K, V) W) iter.Seq2[K, W] {
-	return transformSeq4(seq, func(k K, v V) (K, W, bool) { return k, f(k, v), true })
-}
-
-// `transformSeq2` can be thinkable of course,
-// but `transformSeq3[K,V,V](seq, f)` seems just enough.
-
 // `(remove-if f seq)`
 func rejectSeq2[T comparable, U any](seq iter.Seq2[T, U], f func(T, U) bool) iter.Seq2[T, U] {
 	return transformSeq4(seq, func(k T, v U) (T, U, bool) { return k, v, !f(k, v) })
@@ -121,15 +112,4 @@ func selectSeq[T any](seq iter.Seq[T], f func(T) bool) iter.Seq[T] {
 // (intuitive)
 func mapSeq[T, U any](seq iter.Seq[T], f func(T) U) iter.Seq[U] {
 	return transformSeq(seq, func(v T) (U, bool) { return f(v), true })
-}
-
-// `(mapcar #cdr seq)`
-func valuesOfSeq2[K comparable, V any](seq iter.Seq2[K, V]) iter.Seq[V] {
-	return func(yield func(V) bool) {
-		for _, v := range seq {
-			if !yield(v) {
-				return
-			}
-		}
-	}
 }

@@ -19,6 +19,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"maps"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -78,100 +79,67 @@ type parameter struct {
 	dynamic   storage
 }
 
-func (p *parameter) setEnvironIter() func(string, string) error {
-	return func(k, v string) error {
-		//nolint:gocritic
-		if p == nil {
-			return NewErrorf("nil parameter")
-		} else if v == "" {
-			// There could be discussions what an environment variable of empty string means.
-			// We choose to ignore such variables here.
-			return nil
-		} else {
-			switch k {
-			case "SAKURACLOUD_PROFILE":
-				return p.envp.profileName.Set(v)
-
-			case "SAKURACLOUD_PRIVATE_KEY_PATH":
-				return p.envp.privateKeyPath.Set(v)
-
-			case "SAKURACLOUD_PRIVATE_KEY":
-				return p.envp.privateKey.Set(v)
-
-			case "SAKURACLOUD_SERVICE_PRINCIPAL_ID":
-				return p.envp.servicePrincipalID.Set(v)
-
-			case "SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID":
-				return p.envp.servicePrincipalKeyID.Set(v)
-
-			case "SAKURACLOUD_TOKEN_ENDPOINT":
-				return p.envp.tokenEndpoint.Set(v)
-
-			case "SAKURACLOUD_ACCESS_TOKEN":
-				return p.envp.accessToken.Set(v)
-
-			case "SAKURACLOUD_ACCESS_TOKEN_SECRET":
-				return p.envp.accessTokenSecret.Set(v)
-
-			case "SAKURACLOUD_ZONE":
-				return p.envp.zone.Set(v)
-
-			case "SAKURACLOUD_ZONES":
-				return p.envp.zones.Set(v)
-
-			case "SAKURACLOUD_RETRY_MAX":
-				return p.envp.retryMax.Set(v)
-
-			case "SAKURACLOUD_RETRY_WAIT_MAX":
-				return p.envp.retryWaitMax.Set(v)
-
-			case "SAKURACLOUD_RETRY_WAIT_MIN":
-				return p.envp.retryWaitMin.Set(v)
-
-			case "SAKURACLOUD_API_ROOT_URL":
-				return p.envp.apiRootURL.Set(v)
-
-			case "SAKURACLOUD_API_REQUEST_TIMEOUT":
-				return p.envp.apiRequestTimeout.Set(v)
-
-			case "SAKURACLOUD_API_REQUEST_RATE_LIMIT":
-				return p.envp.apiRequestRateLimit.Set(v)
-
-			// These names are historical, cannot change at this point.
-			case "USACLOUD_PROFILE":
-				return p.envp.profileName.Set(v)
-
-			case "SAKURACLOUD_RATE_LIMIT":
-				return p.envp.apiRequestRateLimit.Set(v)
-
-			case "SAKURACLOUD_TRACE":
-				return p.envp.traceMode.Set(v)
-
-			case "USACLOUD_TRACE":
-				return p.envp.traceMode.Set(v)
-
-			default:
-				return nil
-			}
-		}
-	}
-}
-
 func (p *parameter) setEnviron(env []string) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
 	} else {
 		p.profileOp = NewProfileOp(env)
+		r := make([]error, 0, 39) // <- 39 is the # of `append` calls below
+		e := intoEnvmap(env)
+		s := &p.envp
+
+		// ORDER MATTERS do not sort
+
+		// SAKURA_ variables (current active)
+		r = append(r, e.fetchInto("SAKURA_PROFILE", s.profileName.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY", s.privateKey.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN", s.accessToken.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ZONE", s.zone.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ZONES", s.zones.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_DEFAULT_ZONE", s.defaultZone.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_RETRY_MAX", s.retryMax.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_RETRY_WAIT_MAX", s.retryWaitMax.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_RETRY_WAIT_MIN", s.retryWaitMin.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_API_ROOT_URL", s.apiRootURL.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_API_REQUEST_TIMEOUT", s.apiRequestTimeout.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_RATE_LIMIT", s.apiRequestRateLimit.fromEnv)) // <- intentional; not SAKURA_API_REQUEST_RATE_LIMIT
+		r = append(r, e.fetchInto("SAKURA_TRACE", s.traceMode.fromEnv))
+
+		// SAKURACLOUD_ variables (legacy still supported)
+		r = append(r, e.fetchInto("SAKURACLOUD_PROFILE", s.profileName.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY", s.privateKey.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ACCESS_TOKEN", s.accessToken.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ZONE", s.zone.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ZONES", s.zones.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_DEFAULT_ZONE", s.defaultZone.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_RETRY_MAX", s.retryMax.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_RETRY_WAIT_MAX", s.retryWaitMax.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_RETRY_WAIT_MIN", s.retryWaitMin.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_API_ROOT_URL", s.apiRootURL.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_API_REQUEST_TIMEOUT", s.apiRequestTimeout.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_API_REQUEST_RATE_LIMIT", s.apiRequestRateLimit.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_TRACE_MODE", s.traceMode.fromEnv))
+
+		// usacloud compatibility
+		r = append(r, e.fetchInto("USACLOUD_PROFILE", s.profileName.fromEnv))
+		r = append(r, e.fetchInto("USACLOUD_TRACE", s.traceMode.fromEnv))
+
+		// terraform compatibility
+		r = append(r, e.fetchInto("SAKURACLOUD_RATE_LIMIT", s.apiRequestRateLimit.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_TRACE", s.traceMode.fromEnv))
+
+		return errors.Join(r...)
 	}
-
-	q := slices.Values(env)
-	w := intoSeq2(q, func(i string) (string, string, bool) { return strings.Cut(i, "=") })
-	e := transformSeq3(w, p.setEnvironIter())
-	r := transformSeq3(e, func(k string, v error) error { return Wrapf(v, "in parsing %s", k) })
-	t := valuesOfSeq2(r)
-	y := slices.Collect(t)
-
-	return errors.Join(y...)
 }
 
 func (p *parameter) setHCL(config TerraformProviderInterface) {
@@ -912,6 +880,29 @@ func (s *storage) get(k string) (any, bool) {
 
 	default:
 		panic("unknown key: " + k)
+	}
+}
+
+type envmap map[string]string
+
+func intoEnvmap(envp []string) envmap {
+	f := func(i string) (string, string, bool) { return strings.Cut(i, "=") }
+	s := slices.Values(envp)
+	t := intoSeq2(s, f)
+
+	// There could be discussions what an environment variable of empty string means.
+	// We choose to ignore such variables here.
+	u := rejectSeq2(t, func(_, v string) bool { return v == "" })
+	return maps.Collect(u)
+}
+
+func (e *envmap) fetchInto(key string, yield func(string) error) error {
+	if e == nil {
+		return NewErrorf("nil envmap")
+	} else if v, ok := (*e)[key]; !ok {
+		return nil
+	} else {
+		return yield(v)
 	}
 }
 
