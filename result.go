@@ -99,6 +99,17 @@ func (m *option[T]) Set(s string) error {
 	return nil
 }
 
+func (m *option[T]) fromEnv(s string) error {
+	//nolint:gocritic
+	if m == nil {
+		return NewErrorf("nil option")
+	} else if m.set {
+		return nil
+	} else {
+		return m.Set(s)
+	}
+}
+
 func (r resultOption[T]) isErr() bool     { return r.err != nil }
 func (r resultOption[T]) isNone() bool    { return !r.set }
 func (r resultOption[T]) isSome() bool    { return !r.isErr() && !r.isNone() }

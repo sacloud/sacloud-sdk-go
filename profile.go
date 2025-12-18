@@ -351,7 +351,9 @@ func merge(dst, src map[string]any) map[string]any {
 }
 
 func lookupProfileDir(envp []string) string {
-	if v, ok := lookupEnv(envp, "SAKURACLOUD_PROFILE_DIR"); ok {
+	if v, ok := lookupEnv(envp, "SAKURA_PROFILE_DIR"); ok {
+		return filepath.Clean(v)
+	} else if v, ok := lookupEnv(envp, "SAKURACLOUD_PROFILE_DIR"); ok {
 		return filepath.Clean(v)
 	} else if v, ok := lookupEnv(envp, "USACLOUD_PROFILE_DIR"); ok {
 		return filepath.Clean(v) // backward compat
