@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.4](https://github.com/sacloud/saclient-go/compare/v0.2.3...v0.2.4) - 2025-12-17
+- migration from `api-client-go` by @shyouhei in https://github.com/sacloud/saclient-go/pull/40
+- propagate `APIRequestTimeout` from config by @shyouhei in https://github.com/sacloud/saclient-go/pull/41
+- handling of non-valued environment variables by @shyouhei in https://github.com/sacloud/saclient-go/pull/42
+- follow terraform parameter precedence by @shyouhei in https://github.com/sacloud/saclient-go/pull/43
+
 ## [v0.2.3](https://github.com/sacloud/saclient-go/compare/v0.2.2...v0.2.3) - 2025-12-15
 - ProfileAPI.Update(): avoid merging nested arrays by @shyouhei in https://github.com/sacloud/saclient-go/pull/38
 
