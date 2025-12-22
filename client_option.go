@@ -118,6 +118,30 @@ func WithBearerToken(bearer string) clientOption {
 	})
 }
 
+func WithBasicAuth(user, pass string) clientOption {
+	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
+		req.SetBasicAuth(user, pass)
+
+		return pullThenCall(pull, req)
+	})
+}
+
+func WithBasicAuth1(userinfo string) clientOption {
+	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
+		req.Header.Set("Authorization", "Basic "+userinfo)
+
+		return pullThenCall(pull, req)
+	})
+}
+
+func WithForceAutomaticAuthentication() clientOption {
+	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
+		req.Header.Del("Authorization")
+
+		return pullThenCall(pull, req)
+	})
+}
+
 func WithBigInt(needed bool) clientOption {
 	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		var val string
