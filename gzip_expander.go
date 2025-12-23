@@ -16,6 +16,8 @@ package saclient
 
 import (
 	"compress/gzip"
+	"errors"
+	"io"
 	"net/http"
 )
 
@@ -27,6 +29,9 @@ var gzipExpander Middleware = func(req *http.Request, pull func() (Middleware, b
 		return resp, nil
 
 	} else if body, err := gzip.NewReader(resp.Body); err != nil {
+		if errors.Is(err, io.EOF) {
+			return resp, nil
+		}
 		return resp, err
 
 	} else {
