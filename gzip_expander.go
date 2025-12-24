@@ -29,7 +29,7 @@ var gzipExpander Middleware = func(req *http.Request, pull func() (Middleware, b
 		return resp, nil
 
 	} else if body, err := gzip.NewReader(resp.Body); err != nil {
-		if errors.Is(err, io.EOF) {
+		if errors.Is(err, io.EOF) && resp.ContentLength == 0 {
 			return resp, nil
 		}
 		return resp, err
