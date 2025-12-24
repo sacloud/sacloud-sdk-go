@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.2.5](https://github.com/sacloud/saclient-go/compare/v0.2.4...v0.2.5) - 2025-12-24
+- explicit `bytes.Clone` to avoid ownership glitch by @shyouhei in https://github.com/sacloud/saclient-go/pull/45
+- SAKURA_ environment variables by @shyouhei in https://github.com/sacloud/saclient-go/pull/46
+- Add authorization header related runtime options by @shyouhei in https://github.com/sacloud/saclient-go/pull/49
+- go: bump github.com/sacloud/api-client-go from 0.3.3 to 0.3.4 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/50
+- ci: bump Songmu/tagpr from 1.9.0 to 1.10.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/48
+- fix: handle EOF from gzip.NewReader gracefully by @yamamoto-febc in https://github.com/sacloud/saclient-go/pull/51
+
 ## [v0.2.4](https://github.com/sacloud/saclient-go/compare/v0.2.3...v0.2.4) - 2025-12-17
 - migration from `api-client-go` by @shyouhei in https://github.com/sacloud/saclient-go/pull/40
 - propagate `APIRequestTimeout` from config by @shyouhei in https://github.com/sacloud/saclient-go/pull/41
