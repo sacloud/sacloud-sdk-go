@@ -14,4 +14,4 @@
 
 package saclient
 
-const Version = "0.2.4"
+const Version = "0.2.5"
