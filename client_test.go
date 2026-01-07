@@ -194,6 +194,15 @@ func (s *ClientTestSuite) SetupSuite() {
 		Type:  "RSA PRIVATE KEY",
 		Bytes: []byte("dummy"),
 	})
+
+	os.MkdirAll(dir+"/usacloud/withNull", 0o700)
+	os.WriteFile(dir+"/usacloud/withNull/config.json",
+		[]byte(`{
+			"Zone": null,
+			"Zones": null
+		}`),
+		0o600,
+	)
 }
 
 //nolint:errcheck,gosec
@@ -600,6 +609,22 @@ func (s *ClientTestSuite) TestProfileName() {
 		s.Equal(expected, *dir)
 		s.Nil(name)
 	})
+}
+
+func (s *ClientTestSuite) TestProfileWithNullValue() {
+	var subject *Client = s.subject.Dup().(*Client)
+	e := subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
+	s.NoError(e)
+
+	e = subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=withNull"})
+	s.NoError(e)
+
+	e = subject.Populate()
+	s.NoError(e)
+
+	actual := subject.JSON()
+	s.NotContains(actual, "Zone")
+	s.NotContains(actual, "Zones")
 }
 
 func (s *ClientTestSuite) TestPrecedence() {

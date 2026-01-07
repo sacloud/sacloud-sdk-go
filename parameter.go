@@ -764,6 +764,9 @@ func obtainFromProfile[
 	} else if v, ok := p.Get(k); !ok {
 		// profile does not have this key; ok unspecified
 		return whence, resultOptionNone[T]()
+	} else if v == nil {
+		// profile has this key but with nil value; interpret as unspecified
+		return whence, resultOptionNone[T]()
 	} else if w, ok := v.(T); !ok {
 		// float64 -> int64 conversion special case
 		if _, isInt64 := any((*new(T))).(int64); isInt64 {
