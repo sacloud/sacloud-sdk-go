@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.6](https://github.com/sacloud/saclient-go/compare/v0.2.5...v0.2.6) - 2026-01-08
+- go 1.25.0 by @shyouhei in https://github.com/sacloud/saclient-go/pull/52
+- treat null value in profile as unspecified key by @shyouhei in https://github.com/sacloud/saclient-go/pull/54
+
 ## [v0.2.5](https://github.com/sacloud/saclient-go/compare/v0.2.4...v0.2.5) - 2025-12-24
 - explicit `bytes.Clone` to avoid ownership glitch by @shyouhei in https://github.com/sacloud/saclient-go/pull/45
 - SAKURA_ environment variables by @shyouhei in https://github.com/sacloud/saclient-go/pull/46
