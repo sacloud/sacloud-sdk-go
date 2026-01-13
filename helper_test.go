@@ -127,3 +127,8 @@ var MockFrontDoorOrigin v1.FrontDoorOrigin = func() (mock v1.FrontDoorOrigin) {
 	mock.SetFake()
 	return
 }()
+
+var MockVulnerabilityResponseBody v1.VulnerabilityResponseBody = func() (mock v1.VulnerabilityResponseBody) {
+	mock.SetFake()
+	return
+}()
