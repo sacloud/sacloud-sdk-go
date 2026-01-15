@@ -633,6 +633,7 @@ func (s *ClientTestSuite) TestPrecedence() {
 
 	if e := subject.FlagSet(flag.PanicOnError).Parse([]string{
 		"--secret=argv@secret",
+		"--trace", // <= TraceMode = "all"
 	}); !s.NoError(e) {
 		return
 	}
@@ -641,6 +642,7 @@ func (s *ClientTestSuite) TestPrecedence() {
 		"SAKURACLOUD_ACCESS_TOKEN=envp@token",
 		"SAKURACLOUD_ACCESS_TOKEN_SECRET=envp@secret",
 		"SAKURACLOUD_ZONE=envp@zone",
+		"SAKURACLOUD_TRACE=envp@trace",
 		"XDG_CONFIG_HOME=" + os.Getenv("XDG_CONFIG_HOME"), // to load profile
 	}); !s.NoError(e) {
 		return
@@ -649,6 +651,13 @@ func (s *ClientTestSuite) TestPrecedence() {
 	if e := subject.SettingsFromTerraformProvider(&providerModel{
 		AccessToken:       types.StringValue("hcl@token"),
 		AccessTokenSecret: types.StringValue("hcl@secret"),
+		TraceMode:         types.StringValue("hcl@trace"),
+	}); !s.NoError(e) {
+		return
+	}
+
+	if e := subject.CompatSettingsFromAPIClientOptions(&old.Options{
+		TraceOnlyError: true, // <= TraceMode = "error"
 	}); !s.NoError(e) {
 		return
 	}
@@ -663,27 +672,31 @@ func (s *ClientTestSuite) TestPrecedence() {
 
 	// Test
 
-	// argv:exists, envp:exists, hcl:exists, profile:missing, default:missing
+	// argv:exists, envp:exists, hcl:exists, profile:missing, dynamic: exists, default:missing
+	// => dynamic wins
+	s.Equal("error", subject.JSON()["TraceMode"])
+
+	// argv:exists, envp:exists, hcl:exists, profile:missing, dynamic: missing, default:missing
 	// => argv wins
 	s.Equal("argv@secret", subject.JSON()["AccessTokenSecret"])
 
-	// argv:missing, envp:exists, hcl:exists, profile:missing, default:missing
+	// argv:missing, envp:exists, hcl:exists, profile:missing, dynamic: missing, default:missing
 	// => hcl wins
 	s.Equal("hcl@token", subject.JSON()["AccessToken"])
 
-	// argv:missing, envp:exists, hcl:missing, profile:exists, default:missing
+	// argv:missing, envp:exists, hcl:missing, profile:exists, dynamic: missing, default:missing
 	// => envp wins
 	s.Equal("envp@zone", subject.JSON()["Zone"])
 
-	// argv:missing, envp:missing, hcl:missing, profile:exists, default:exists
+	// argv:missing, envp:missing, hcl:missing, profile:exists, dynamic: missing, default:exists
 	// => profile wins
 	s.Equal(int64(7), subject.JSON()["RetryMax"])
 
-	// argv:missing, envp:missing, hcl:missing, profile:missing, default:exists
+	// argv:missing, envp:missing, hcl:missing, profile:missing, dynamic: missing, default:exists
 	// => default wins
 	s.Equal(int64(5), subject.JSON()["APIRequestRateLimit"])
 
-	// argv:missing, envp:missing, hcl:missing, profile:missing, default:missing
+	// argv:missing, envp:missing, hcl:missing, profile:missing, dynamic: missing, default:missing
 	// => no key
 	s.NotContains(subject.JSON(), "SomeNonexistentKey")
 }

@@ -380,13 +380,13 @@ func (p *parameter) populateProfileName(c *config) error {
 	} else if p.noProfile {
 		// Explicitly opted out
 		return nil
+	} else if v, ok := p.dynamic.profileName.Get(); ok {
+		profileName.initialize(v)
 	} else if v, ok := p.argv.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, ok := p.envp.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, ok := p.hcl.profileName.Get(); ok {
-		profileName.initialize(v)
-	} else if v, ok := p.dynamic.profileName.Get(); ok {
 		profileName.initialize(v)
 	} else if v, err := p.profileOp.GetCurrentName(); err == nil {
 		profileName.initialize(v)
@@ -706,6 +706,8 @@ func prioritizedParameterValue[
 		return whence, resultOptionErr[T](NewErrorf("nil parameter"))
 	} else if c == nil {
 		return whence, resultOptionErr[T](NewErrorf("nil config"))
+	} else if whence, result := obtainFromStorage[T](&p.dynamic, k, "on-the-fly"); result.isSome() {
+		return whence, result
 	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
 		return whence, result
 	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
@@ -713,8 +715,6 @@ func prioritizedParameterValue[
 	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
 		return whence, result
 	} else if whence, result := obtainFromProfile[T](c, k, "profile"); result.isSome() {
-		return whence, result
-	} else if whence, result := obtainFromStorage[T](&p.dynamic, k, "on-the-fly"); result.isSome() {
 		return whence, result
 	} else {
 		return obtainFromStorage[T](&defaults, k, "defaults")
