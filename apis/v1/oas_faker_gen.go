@@ -208,6 +208,35 @@ func (s *AndMatcher) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *BoolMatcher) SetFake() {
+	{
+		{
+			s.Type.SetFake()
+		}
+	}
+	{
+		{
+			s.Operator.SetFake()
+		}
+	}
+	{
+		{
+			s.Field.SetFake()
+		}
+	}
+	{
+		{
+			s.Value = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *BooleanFieldName) SetFake() {
+	*s = BooleanFieldNameHTTPCacheLookup
+}
+
+// SetFake set fake values.
 func (s *DashboardProject) SetFake() {
 	{
 		{
@@ -575,7 +604,7 @@ func (s *LogStorage) SetFake() {
 	}
 	{
 		{
-			s.ExpireDay.SetFake()
+			s.ExpireDay = int(0)
 		}
 	}
 	{
@@ -669,6 +698,51 @@ func (s *LogStorageCreateClassification) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *LogStorageDailyUsage) SetFake() {
+	{
+		{
+			s.Date = time.Now()
+		}
+	}
+	{
+		{
+			s.IngestedBytes = int(0)
+		}
+	}
+	{
+		{
+			s.IngestedRows = int(0)
+		}
+	}
+	{
+		{
+			s.StoredBytes.SetFake()
+		}
+	}
+	{
+		{
+			s.Timestamp = time.Now()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *LogStorageDailyUsageBody) SetFake() {
+	{
+		{
+			s.Usages = nil
+			for i := 0; i < 0; i++ {
+				var elem LogStorageDailyUsage
+				{
+					elem.SetFake()
+				}
+				s.Usages = append(s.Usages, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *LogStorageEndpoints) SetFake() {
 	{
 		{
@@ -696,6 +770,56 @@ func (s *LogStorageIcon) SetFake() {
 	{
 		{
 			s.ID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *LogStorageMonthlyUsage) SetFake() {
+	{
+		{
+			s.Year = int(0)
+		}
+	}
+	{
+		{
+			s.Month = int(0)
+		}
+	}
+	{
+		{
+			s.IngestedBytes = int(0)
+		}
+	}
+	{
+		{
+			s.IngestedRows = int(0)
+		}
+	}
+	{
+		{
+			s.MaxStoredBytes = int(0)
+		}
+	}
+	{
+		{
+			s.Timestamp = time.Now()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *LogStorageMonthlyUsageBody) SetFake() {
+	{
+		{
+			s.Usages = nil
+			for i := 0; i < 0; i++ {
+				var elem LogStorageMonthlyUsage
+				{
+					elem.SetFake()
+				}
+				s.Usages = append(s.Usages, elem)
+			}
 		}
 	}
 }
@@ -950,6 +1074,41 @@ func (s *MetricsStorageCreate) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *MetricsStorageDailyUsage) SetFake() {
+	{
+		{
+			s.Date = time.Now()
+		}
+	}
+	{
+		{
+			s.IngestedRows = int(0)
+		}
+	}
+	{
+		{
+			s.Timestamp = time.Now()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *MetricsStorageDailyUsageBody) SetFake() {
+	{
+		{
+			s.Usages = nil
+			for i := 0; i < 0; i++ {
+				var elem MetricsStorageDailyUsage
+				{
+					elem.SetFake()
+				}
+				s.Usages = append(s.Usages, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *MetricsStorageEndpoints) SetFake() {
 	{
 		{
@@ -963,6 +1122,46 @@ func (s *MetricsStorageIcon) SetFake() {
 	{
 		{
 			s.ID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *MetricsStorageMonthlyUsage) SetFake() {
+	{
+		{
+			s.Year = int(0)
+		}
+	}
+	{
+		{
+			s.Month = int(0)
+		}
+	}
+	{
+		{
+			s.IngestedRows = int(0)
+		}
+	}
+	{
+		{
+			s.Timestamp = time.Now()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *MetricsStorageMonthlyUsageBody) SetFake() {
+	{
+		{
+			s.Usages = nil
+			for i := 0; i < 0; i++ {
+				var elem MetricsStorageMonthlyUsage
+				{
+					elem.SetFake()
+				}
+				s.Usages = append(s.Usages, elem)
+			}
 		}
 	}
 }
@@ -993,6 +1192,11 @@ func (s *NilAlertProjectIcon) SetFake() {
 
 // SetFake set fake values.
 func (s *NilDashboardProjectIcon) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
+func (s *NilInt) SetFake() {
 	s.Null = true
 }
 
@@ -1120,7 +1324,7 @@ func (s *NotificationTarget) SetFake() {
 	}
 	{
 		{
-			s.URL = "string"
+			s.URL.SetFake()
 		}
 	}
 	{
@@ -1193,6 +1397,11 @@ func (s *Operator) SetFake() {
 // SetFake set fake values.
 func (s *Operator1) SetFake() {
 	*s = Operator1Eq
+}
+
+// SetFake set fake values.
+func (s *Operator2) SetFake() {
+	*s = Operator2Eq
 }
 
 // SetFake set fake values.
@@ -3267,6 +3476,24 @@ func (s *ResourcesLimits) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *SetLogStorageExpireDay) SetFake() {
+	{
+		{
+			s.Days = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *SetTraceStorageExpireDay) SetFake() {
+	{
+		{
+			s.Days = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *StrMatcher) SetFake() {
 	{
 		{
@@ -3417,6 +3644,22 @@ func (s *TraceStorageCreateClassification) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *TraceStorageDailyUsageBody) SetFake() {
+	{
+		{
+			s.Usages = nil
+			for i := 0; i < 0; i++ {
+				var elem LogStorageDailyUsage
+				{
+					elem.SetFake()
+				}
+				s.Usages = append(s.Usages, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *TraceStorageEndpoints) SetFake() {
 	{
 		{
@@ -3449,6 +3692,22 @@ func (s *TraceStorageIcon) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *TraceStorageMonthlyUsageBody) SetFake() {
+	{
+		{
+			s.Usages = nil
+			for i := 0; i < 0; i++ {
+				var elem LogStorageMonthlyUsage
+				{
+					elem.SetFake()
+				}
+				s.Usages = append(s.Usages, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *Type) SetFake() {
 	*s = TypeOr
 }
@@ -3475,12 +3734,17 @@ func (s *Type4) SetFake() {
 
 // SetFake set fake values.
 func (s *Type5) SetFake() {
-	*s = Type5MapKeyExists
+	*s = Type5Boolean
 }
 
 // SetFake set fake values.
 func (s *Type6) SetFake() {
-	*s = Type6MapKeyValueMatcher
+	*s = Type6MapKeyExists
+}
+
+// SetFake set fake values.
+func (s *Type7) SetFake() {
+	*s = Type7MapKeyValueMatcher
 }
 
 // SetFake set fake values.
@@ -3738,7 +4002,7 @@ func (s *WrappedLogStorage) SetFake() {
 	}
 	{
 		{
-			s.ExpireDay.SetFake()
+			s.ExpireDay = int(0)
 		}
 	}
 	{

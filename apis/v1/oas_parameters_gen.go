@@ -14,15 +14,15 @@ type AlertsProjectsDestroyParams struct {
 // AlertsProjectsHistoriesListParams is parameters of alerts_projects_histories_list operation.
 type AlertsProjectsHistoriesListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From              OptInt
-	Open              OptBool
+	From              OptInt  `json:",omitempty,omitzero"`
+	Open              OptBool `json:",omitempty,omitzero"`
 	ProjectResourceID int64
 	// * `warning` - Warning
 	// * `critical` - Critical.
-	Severity OptAlertsProjectsHistoriesListSeverity
-	StartsAt OptDateTime
+	Severity OptAlertsProjectsHistoriesListSeverity `json:",omitempty,omitzero"`
+	StartsAt OptDateTime                            `json:",omitempty,omitzero"`
 }
 
 // AlertsProjectsHistoriesRetrieveParams is parameters of alerts_projects_histories_retrieve operation.
@@ -34,9 +34,9 @@ type AlertsProjectsHistoriesRetrieveParams struct {
 // AlertsProjectsListParams is parameters of alerts_projects_list operation.
 type AlertsProjectsListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From OptInt
+	From OptInt `json:",omitempty,omitzero"`
 }
 
 // AlertsProjectsLogMeasureRulesCreateParams is parameters of alerts_projects_log_measure_rules_create operation.
@@ -53,11 +53,11 @@ type AlertsProjectsLogMeasureRulesDestroyParams struct {
 // AlertsProjectsLogMeasureRulesListParams is parameters of alerts_projects_log_measure_rules_list operation.
 type AlertsProjectsLogMeasureRulesListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From              OptInt
-	LogStorageID      OptInt64
-	MetricsStorageID  OptInt64
+	From              OptInt   `json:",omitempty,omitzero"`
+	LogStorageID      OptInt64 `json:",omitempty,omitzero"`
+	MetricsStorageID  OptInt64 `json:",omitempty,omitzero"`
 	ProjectResourceID int64
 }
 
@@ -93,11 +93,11 @@ type AlertsProjectsNotificationRoutingsDestroyParams struct {
 // AlertsProjectsNotificationRoutingsListParams is parameters of alerts_projects_notification_routings_list operation.
 type AlertsProjectsNotificationRoutingsListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From              OptInt
+	From              OptInt `json:",omitempty,omitzero"`
 	ProjectResourceID int64
-	Target            OptInt
+	Target            OptInt `json:",omitempty,omitzero"`
 }
 
 // AlertsProjectsNotificationRoutingsPartialUpdateParams is parameters of alerts_projects_notification_routings_partial_update operation.
@@ -137,12 +137,13 @@ type AlertsProjectsNotificationTargetsDestroyParams struct {
 // AlertsProjectsNotificationTargetsListParams is parameters of alerts_projects_notification_targets_list operation.
 type AlertsProjectsNotificationTargetsListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From              OptInt
+	From              OptInt `json:",omitempty,omitzero"`
 	ProjectResourceID int64
-	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice.
-	ServiceType OptAlertsProjectsNotificationTargetsListServiceType
+	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+	ServiceType OptAlertsProjectsNotificationTargetsListServiceType `json:",omitempty,omitzero"`
 }
 
 // AlertsProjectsNotificationTargetsPartialUpdateParams is parameters of alerts_projects_notification_targets_partial_update operation.
@@ -187,16 +188,16 @@ type AlertsProjectsRulesDestroyParams struct {
 // AlertsProjectsRulesHistoriesListParams is parameters of alerts_projects_rules_histories_list operation.
 type AlertsProjectsRulesHistoriesListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From              OptInt
-	Open              OptBool
+	From              OptInt  `json:",omitempty,omitzero"`
+	Open              OptBool `json:",omitempty,omitzero"`
 	ProjectResourceID int64
 	RuleUID           uuid.UUID
 	// * `warning` - Warning
 	// * `critical` - Critical.
-	Severity OptAlertsProjectsRulesHistoriesListSeverity
-	StartsAt OptDateTime
+	Severity OptAlertsProjectsRulesHistoriesListSeverity `json:",omitempty,omitzero"`
+	StartsAt OptDateTime                                 `json:",omitempty,omitzero"`
 }
 
 // AlertsProjectsRulesHistoriesRetrieveParams is parameters of alerts_projects_rules_histories_retrieve operation.
@@ -209,9 +210,9 @@ type AlertsProjectsRulesHistoriesRetrieveParams struct {
 // AlertsProjectsRulesListParams is parameters of alerts_projects_rules_list operation.
 type AlertsProjectsRulesListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From              OptInt
+	From              OptInt `json:",omitempty,omitzero"`
 	ProjectResourceID int64
 }
 
@@ -246,9 +247,9 @@ type DashboardsProjectsDestroyParams struct {
 // DashboardsProjectsListParams is parameters of dashboards_projects_list operation.
 type DashboardsProjectsListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From OptInt
+	From OptInt `json:",omitempty,omitzero"`
 }
 
 // DashboardsProjectsPartialUpdateParams is parameters of dashboards_projects_partial_update operation.
@@ -274,13 +275,13 @@ type LogsRoutingsDestroyParams struct {
 // LogsRoutingsListParams is parameters of logs_routings_list operation.
 type LogsRoutingsListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From          OptInt
-	PublisherCode OptString
+	From          OptInt    `json:",omitempty,omitzero"`
+	PublisherCode OptString `json:",omitempty,omitzero"`
 	// Log storage resource id.
-	ResourceID OptInt64
-	Variant    OptString
+	ResourceID OptInt64  `json:",omitempty,omitzero"`
+	Variant    OptString `json:",omitempty,omitzero"`
 }
 
 // LogsRoutingsPartialUpdateParams is parameters of logs_routings_partial_update operation.
@@ -317,9 +318,9 @@ type LogsStoragesKeysDestroyParams struct {
 // LogsStoragesKeysListParams is parameters of logs_storages_keys_list operation.
 type LogsStoragesKeysListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From          OptInt
+	From          OptInt `json:",omitempty,omitzero"`
 	LogResourceID int64
 }
 
@@ -343,22 +344,23 @@ type LogsStoragesKeysUpdateParams struct {
 
 // LogsStoragesListParams is parameters of logs_storages_list operation.
 type LogsStoragesListParams struct {
-	AccountID OptString
+	AccountID OptString `json:",omitempty,omitzero"`
 	// * `shared` - 共有
 	// * `separated` - 分離.
-	BucketClassification OptLogsStoragesListBucketClassification
+	BucketClassification OptLogsStoragesListBucketClassification `json:",omitempty,omitzero"`
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From OptInt
+	From OptInt `json:",omitempty,omitzero"`
 	// Is system.
-	IsSystem   OptBool
-	ResourceID OptInt64
+	IsSystem   OptBool  `json:",omitempty,omitzero"`
+	ResourceID OptInt64 `json:",omitempty,omitzero"`
 	// * `init` - 初期化中
 	// * `free` - 未割り当て
 	// * `assigned` - 割り当て済み
-	// * `deleted` - 削除済み.
-	Status OptLogsStoragesListStatus
+	// * `deleted` - 削除済み
+	// * `purged` - ログデータ削除済み.
+	Status OptLogsStoragesListStatus `json:",omitempty,omitzero"`
 }
 
 // LogsStoragesPartialUpdateParams is parameters of logs_storages_partial_update operation.
@@ -369,6 +371,24 @@ type LogsStoragesPartialUpdateParams struct {
 // LogsStoragesRetrieveParams is parameters of logs_storages_retrieve operation.
 type LogsStoragesRetrieveParams struct {
 	ResourceID int64
+}
+
+// LogsStoragesSetExpireCreateParams is parameters of logs_storages_set_expire_create operation.
+type LogsStoragesSetExpireCreateParams struct {
+	ResourceID int64
+}
+
+// LogsStoragesStatsDailyRetrieveParams is parameters of logs_storages_stats_daily_retrieve operation.
+type LogsStoragesStatsDailyRetrieveParams struct {
+	EndDate    OptDate `json:",omitempty,omitzero"`
+	ResourceID int64
+	StartDate  OptDate `json:",omitempty,omitzero"`
+}
+
+// LogsStoragesStatsMonthlyRetrieveParams is parameters of logs_storages_stats_monthly_retrieve operation.
+type LogsStoragesStatsMonthlyRetrieveParams struct {
+	ResourceID int64
+	Year       int
 }
 
 // LogsStoragesUpdateParams is parameters of logs_storages_update operation.
@@ -384,13 +404,13 @@ type MetricsRoutingsDestroyParams struct {
 // MetricsRoutingsListParams is parameters of metrics_routings_list operation.
 type MetricsRoutingsListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From          OptInt
-	PublisherCode OptString
+	From          OptInt    `json:",omitempty,omitzero"`
+	PublisherCode OptString `json:",omitempty,omitzero"`
 	// Metrics storage resource id.
-	ResourceID OptInt64
-	Variant    OptString
+	ResourceID OptInt64  `json:",omitempty,omitzero"`
+	Variant    OptString `json:",omitempty,omitzero"`
 }
 
 // MetricsRoutingsPartialUpdateParams is parameters of metrics_routings_partial_update operation.
@@ -427,9 +447,9 @@ type MetricsStoragesKeysDestroyParams struct {
 // MetricsStoragesKeysListParams is parameters of metrics_storages_keys_list operation.
 type MetricsStoragesKeysListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From              OptInt
+	From              OptInt `json:",omitempty,omitzero"`
 	MetricsResourceID int64
 }
 
@@ -453,14 +473,14 @@ type MetricsStoragesKeysUpdateParams struct {
 
 // MetricsStoragesListParams is parameters of metrics_storages_list operation.
 type MetricsStoragesListParams struct {
-	AccountID OptString
+	AccountID OptString `json:",omitempty,omitzero"`
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From OptInt
+	From OptInt `json:",omitempty,omitzero"`
 	// Is system.
-	IsSystem   OptBool
-	ResourceID OptInt64
+	IsSystem   OptBool  `json:",omitempty,omitzero"`
+	ResourceID OptInt64 `json:",omitempty,omitzero"`
 }
 
 // MetricsStoragesPartialUpdateParams is parameters of metrics_storages_partial_update operation.
@@ -473,6 +493,19 @@ type MetricsStoragesRetrieveParams struct {
 	ResourceID int64
 }
 
+// MetricsStoragesStatsDailyRetrieveParams is parameters of metrics_storages_stats_daily_retrieve operation.
+type MetricsStoragesStatsDailyRetrieveParams struct {
+	EndDate    OptDate `json:",omitempty,omitzero"`
+	ResourceID int64
+	StartDate  OptDate `json:",omitempty,omitzero"`
+}
+
+// MetricsStoragesStatsMonthlyRetrieveParams is parameters of metrics_storages_stats_monthly_retrieve operation.
+type MetricsStoragesStatsMonthlyRetrieveParams struct {
+	ResourceID int64
+	Year       int
+}
+
 // MetricsStoragesUpdateParams is parameters of metrics_storages_update operation.
 type MetricsStoragesUpdateParams struct {
 	ResourceID int64
@@ -481,9 +514,9 @@ type MetricsStoragesUpdateParams struct {
 // PublishersListParams is parameters of publishers_list operation.
 type PublishersListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From OptInt
+	From OptInt `json:",omitempty,omitzero"`
 }
 
 // PublishersRetrieveParams is parameters of publishers_retrieve operation.
@@ -510,9 +543,9 @@ type TracesStoragesKeysDestroyParams struct {
 // TracesStoragesKeysListParams is parameters of traces_storages_keys_list operation.
 type TracesStoragesKeysListParams struct {
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From            OptInt
+	From            OptInt `json:",omitempty,omitzero"`
 	TraceResourceID int64
 }
 
@@ -536,15 +569,15 @@ type TracesStoragesKeysUpdateParams struct {
 
 // TracesStoragesListParams is parameters of traces_storages_list operation.
 type TracesStoragesListParams struct {
-	AccountID OptString
+	AccountID OptString `json:",omitempty,omitzero"`
 	// Number of results to return per page.
-	Count OptInt
+	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
-	From OptInt
+	From OptInt `json:",omitempty,omitzero"`
 	// * `shared` - 共有
 	// * `separated` - 分離.
-	LogStorageBucketClassification OptTracesStoragesListLogStorageBucketClassification
-	ResourceID                     OptInt64
+	LogStorageBucketClassification OptTracesStoragesListLogStorageBucketClassification `json:",omitempty,omitzero"`
+	ResourceID                     OptInt64                                            `json:",omitempty,omitzero"`
 }
 
 // TracesStoragesPartialUpdateParams is parameters of traces_storages_partial_update operation.
@@ -555,6 +588,24 @@ type TracesStoragesPartialUpdateParams struct {
 // TracesStoragesRetrieveParams is parameters of traces_storages_retrieve operation.
 type TracesStoragesRetrieveParams struct {
 	ResourceID int64
+}
+
+// TracesStoragesSetExpireCreateParams is parameters of traces_storages_set_expire_create operation.
+type TracesStoragesSetExpireCreateParams struct {
+	ResourceID int64
+}
+
+// TracesStoragesStatsDailyRetrieveParams is parameters of traces_storages_stats_daily_retrieve operation.
+type TracesStoragesStatsDailyRetrieveParams struct {
+	EndDate    OptDate `json:",omitempty,omitzero"`
+	ResourceID int64
+	StartDate  OptDate `json:",omitempty,omitzero"`
+}
+
+// TracesStoragesStatsMonthlyRetrieveParams is parameters of traces_storages_stats_monthly_retrieve operation.
+type TracesStoragesStatsMonthlyRetrieveParams struct {
+	ResourceID int64
+	Year       int
 }
 
 // TracesStoragesUpdateParams is parameters of traces_storages_update operation.

@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/go-faster/jx"
-
 	ht "github.com/ogen-go/ogen/http"
 )
 
@@ -471,6 +470,20 @@ func encodeLogsStoragesPartialUpdateRequest(
 	return nil
 }
 
+func encodeLogsStoragesSetExpireCreateRequest(
+	req *SetLogStorageExpireDay,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeLogsStoragesUpdateRequest(
 	req OptLogStorage,
 	r *http.Request,
@@ -761,6 +774,20 @@ func encodeTracesStoragesPartialUpdateRequest(
 		if req.Set {
 			req.Encode(e)
 		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeTracesStoragesSetExpireCreateRequest(
+	req *SetTraceStorageExpireDay,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
 	}
 	encoded := e.Bytes()
 	ht.SetBody(r, bytes.NewReader(encoded), contentType)

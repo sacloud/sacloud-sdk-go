@@ -9,7 +9,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/validate"
 )
@@ -61,7 +60,7 @@ func decodeAlertsProjectsCreateResponse(resp *http.Response) (res *AlertProject,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsDestroyResponse(resp *http.Response) (res *AlertsProjectsDestroyNoContent, _ error) {
@@ -70,7 +69,7 @@ func decodeAlertsProjectsDestroyResponse(resp *http.Response) (res *AlertsProjec
 		// Code 204.
 		return &AlertsProjectsDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsHistoriesListResponse(resp *http.Response) (res *PaginatedHistoryList, _ error) {
@@ -120,7 +119,7 @@ func decodeAlertsProjectsHistoriesListResponse(resp *http.Response) (res *Pagina
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsHistoriesRetrieveResponse(resp *http.Response) (res *History, _ error) {
@@ -170,7 +169,7 @@ func decodeAlertsProjectsHistoriesRetrieveResponse(resp *http.Response) (res *Hi
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsListResponse(resp *http.Response) (res *PaginatedAlertProjectList, _ error) {
@@ -220,7 +219,7 @@ func decodeAlertsProjectsListResponse(resp *http.Response) (res *PaginatedAlertP
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsLogMeasureRulesCreateResponse(resp *http.Response) (res *LogMeasureRule, _ error) {
@@ -270,7 +269,7 @@ func decodeAlertsProjectsLogMeasureRulesCreateResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsLogMeasureRulesDestroyResponse(resp *http.Response) (res *AlertsProjectsLogMeasureRulesDestroyNoContent, _ error) {
@@ -279,7 +278,7 @@ func decodeAlertsProjectsLogMeasureRulesDestroyResponse(resp *http.Response) (re
 		// Code 204.
 		return &AlertsProjectsLogMeasureRulesDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsLogMeasureRulesListResponse(resp *http.Response) (res *PaginatedLogMeasureRuleList, _ error) {
@@ -329,7 +328,7 @@ func decodeAlertsProjectsLogMeasureRulesListResponse(resp *http.Response) (res *
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsLogMeasureRulesPartialUpdateResponse(resp *http.Response) (res *LogMeasureRule, _ error) {
@@ -379,7 +378,7 @@ func decodeAlertsProjectsLogMeasureRulesPartialUpdateResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsLogMeasureRulesRetrieveResponse(resp *http.Response) (res *LogMeasureRule, _ error) {
@@ -429,7 +428,7 @@ func decodeAlertsProjectsLogMeasureRulesRetrieveResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsLogMeasureRulesUpdateResponse(resp *http.Response) (res *LogMeasureRule, _ error) {
@@ -479,7 +478,7 @@ func decodeAlertsProjectsLogMeasureRulesUpdateResponse(resp *http.Response) (res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationRoutingsCreateResponse(resp *http.Response) (res *NotificationRouting, _ error) {
@@ -529,7 +528,7 @@ func decodeAlertsProjectsNotificationRoutingsCreateResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationRoutingsDestroyResponse(resp *http.Response) (res *AlertsProjectsNotificationRoutingsDestroyNoContent, _ error) {
@@ -538,7 +537,7 @@ func decodeAlertsProjectsNotificationRoutingsDestroyResponse(resp *http.Response
 		// Code 204.
 		return &AlertsProjectsNotificationRoutingsDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationRoutingsListResponse(resp *http.Response) (res *PaginatedNotificationRoutingList, _ error) {
@@ -588,7 +587,7 @@ func decodeAlertsProjectsNotificationRoutingsListResponse(resp *http.Response) (
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationRoutingsPartialUpdateResponse(resp *http.Response) (res *NotificationRouting, _ error) {
@@ -638,7 +637,7 @@ func decodeAlertsProjectsNotificationRoutingsPartialUpdateResponse(resp *http.Re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationRoutingsReorderUpdateResponse(resp *http.Response) (res *AlertsProjectsNotificationRoutingsReorderUpdateNoContent, _ error) {
@@ -647,7 +646,7 @@ func decodeAlertsProjectsNotificationRoutingsReorderUpdateResponse(resp *http.Re
 		// Code 204.
 		return &AlertsProjectsNotificationRoutingsReorderUpdateNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationRoutingsRetrieveResponse(resp *http.Response) (res *NotificationRouting, _ error) {
@@ -697,7 +696,7 @@ func decodeAlertsProjectsNotificationRoutingsRetrieveResponse(resp *http.Respons
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationRoutingsUpdateResponse(resp *http.Response) (res *NotificationRouting, _ error) {
@@ -747,7 +746,7 @@ func decodeAlertsProjectsNotificationRoutingsUpdateResponse(resp *http.Response)
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationTargetsCreateResponse(resp *http.Response) (res *NotificationTarget, _ error) {
@@ -797,7 +796,7 @@ func decodeAlertsProjectsNotificationTargetsCreateResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationTargetsDestroyResponse(resp *http.Response) (res *AlertsProjectsNotificationTargetsDestroyNoContent, _ error) {
@@ -806,7 +805,7 @@ func decodeAlertsProjectsNotificationTargetsDestroyResponse(resp *http.Response)
 		// Code 204.
 		return &AlertsProjectsNotificationTargetsDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationTargetsListResponse(resp *http.Response) (res *PaginatedNotificationTargetList, _ error) {
@@ -856,7 +855,7 @@ func decodeAlertsProjectsNotificationTargetsListResponse(resp *http.Response) (r
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationTargetsPartialUpdateResponse(resp *http.Response) (res *NotificationTarget, _ error) {
@@ -906,7 +905,7 @@ func decodeAlertsProjectsNotificationTargetsPartialUpdateResponse(resp *http.Res
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationTargetsRetrieveResponse(resp *http.Response) (res *NotificationTarget, _ error) {
@@ -956,7 +955,7 @@ func decodeAlertsProjectsNotificationTargetsRetrieveResponse(resp *http.Response
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsNotificationTargetsUpdateResponse(resp *http.Response) (res *NotificationTarget, _ error) {
@@ -1006,7 +1005,7 @@ func decodeAlertsProjectsNotificationTargetsUpdateResponse(resp *http.Response) 
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsPartialUpdateResponse(resp *http.Response) (res *WrappedAlertProject, _ error) {
@@ -1056,7 +1055,7 @@ func decodeAlertsProjectsPartialUpdateResponse(resp *http.Response) (res *Wrappe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRetrieveResponse(resp *http.Response) (res *WrappedAlertProject, _ error) {
@@ -1106,7 +1105,7 @@ func decodeAlertsProjectsRetrieveResponse(resp *http.Response) (res *WrappedAler
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRulesCreateResponse(resp *http.Response) (res *AlertRule, _ error) {
@@ -1156,7 +1155,7 @@ func decodeAlertsProjectsRulesCreateResponse(resp *http.Response) (res *AlertRul
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRulesDestroyResponse(resp *http.Response) (res *AlertsProjectsRulesDestroyNoContent, _ error) {
@@ -1165,7 +1164,7 @@ func decodeAlertsProjectsRulesDestroyResponse(resp *http.Response) (res *AlertsP
 		// Code 204.
 		return &AlertsProjectsRulesDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRulesHistoriesListResponse(resp *http.Response) (res *PaginatedHistoryList, _ error) {
@@ -1215,7 +1214,7 @@ func decodeAlertsProjectsRulesHistoriesListResponse(resp *http.Response) (res *P
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRulesHistoriesRetrieveResponse(resp *http.Response) (res *History, _ error) {
@@ -1265,7 +1264,7 @@ func decodeAlertsProjectsRulesHistoriesRetrieveResponse(resp *http.Response) (re
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRulesListResponse(resp *http.Response) (res *PaginatedAlertRuleList, _ error) {
@@ -1315,7 +1314,7 @@ func decodeAlertsProjectsRulesListResponse(resp *http.Response) (res *PaginatedA
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRulesPartialUpdateResponse(resp *http.Response) (res *AlertRule, _ error) {
@@ -1365,7 +1364,7 @@ func decodeAlertsProjectsRulesPartialUpdateResponse(resp *http.Response) (res *A
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRulesRetrieveResponse(resp *http.Response) (res *AlertRule, _ error) {
@@ -1415,7 +1414,7 @@ func decodeAlertsProjectsRulesRetrieveResponse(resp *http.Response) (res *AlertR
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsRulesUpdateResponse(resp *http.Response) (res *AlertRule, _ error) {
@@ -1465,7 +1464,7 @@ func decodeAlertsProjectsRulesUpdateResponse(resp *http.Response) (res *AlertRul
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeAlertsProjectsUpdateResponse(resp *http.Response) (res *WrappedAlertProject, _ error) {
@@ -1515,7 +1514,7 @@ func decodeAlertsProjectsUpdateResponse(resp *http.Response) (res *WrappedAlertP
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeDashboardsProjectsCreateResponse(resp *http.Response) (res *DashboardProject, _ error) {
@@ -1565,7 +1564,7 @@ func decodeDashboardsProjectsCreateResponse(resp *http.Response) (res *Dashboard
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeDashboardsProjectsDestroyResponse(resp *http.Response) (res *DashboardsProjectsDestroyNoContent, _ error) {
@@ -1574,7 +1573,7 @@ func decodeDashboardsProjectsDestroyResponse(resp *http.Response) (res *Dashboar
 		// Code 204.
 		return &DashboardsProjectsDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeDashboardsProjectsListResponse(resp *http.Response) (res *PaginatedDashboardProjectList, _ error) {
@@ -1624,7 +1623,7 @@ func decodeDashboardsProjectsListResponse(resp *http.Response) (res *PaginatedDa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeDashboardsProjectsPartialUpdateResponse(resp *http.Response) (res *WrappedDashboardProject, _ error) {
@@ -1674,7 +1673,7 @@ func decodeDashboardsProjectsPartialUpdateResponse(resp *http.Response) (res *Wr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeDashboardsProjectsRetrieveResponse(resp *http.Response) (res *WrappedDashboardProject, _ error) {
@@ -1724,7 +1723,7 @@ func decodeDashboardsProjectsRetrieveResponse(resp *http.Response) (res *Wrapped
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeDashboardsProjectsUpdateResponse(resp *http.Response) (res *WrappedDashboardProject, _ error) {
@@ -1774,7 +1773,7 @@ func decodeDashboardsProjectsUpdateResponse(resp *http.Response) (res *WrappedDa
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetProvisioningStateResponse(resp *http.Response) (res *Provisioning, _ error) {
@@ -1815,7 +1814,7 @@ func decodeGetProvisioningStateResponse(resp *http.Response) (res *Provisioning,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeGetResourcesLimitsResponse(resp *http.Response) (res *ResourcesLimits, _ error) {
@@ -1856,7 +1855,7 @@ func decodeGetResourcesLimitsResponse(resp *http.Response) (res *ResourcesLimits
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsRoutingsCreateResponse(resp *http.Response) (res *WrappedLogRouting, _ error) {
@@ -1906,7 +1905,7 @@ func decodeLogsRoutingsCreateResponse(resp *http.Response) (res *WrappedLogRouti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsRoutingsDestroyResponse(resp *http.Response) (res *LogsRoutingsDestroyNoContent, _ error) {
@@ -1915,7 +1914,7 @@ func decodeLogsRoutingsDestroyResponse(resp *http.Response) (res *LogsRoutingsDe
 		// Code 204.
 		return &LogsRoutingsDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsRoutingsListResponse(resp *http.Response) (res *PaginatedLogRoutingList, _ error) {
@@ -1965,7 +1964,7 @@ func decodeLogsRoutingsListResponse(resp *http.Response) (res *PaginatedLogRouti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsRoutingsPartialUpdateResponse(resp *http.Response) (res *WrappedLogRouting, _ error) {
@@ -2015,7 +2014,7 @@ func decodeLogsRoutingsPartialUpdateResponse(resp *http.Response) (res *WrappedL
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsRoutingsRetrieveResponse(resp *http.Response) (res *WrappedLogRouting, _ error) {
@@ -2065,7 +2064,7 @@ func decodeLogsRoutingsRetrieveResponse(resp *http.Response) (res *WrappedLogRou
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsRoutingsUpdateResponse(resp *http.Response) (res *WrappedLogRouting, _ error) {
@@ -2115,7 +2114,7 @@ func decodeLogsRoutingsUpdateResponse(resp *http.Response) (res *WrappedLogRouti
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesCreateResponse(resp *http.Response) (res *LogStorage, _ error) {
@@ -2165,7 +2164,7 @@ func decodeLogsStoragesCreateResponse(resp *http.Response) (res *LogStorage, _ e
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesDestroyResponse(resp *http.Response) (res *LogsStoragesDestroyNoContent, _ error) {
@@ -2174,7 +2173,7 @@ func decodeLogsStoragesDestroyResponse(resp *http.Response) (res *LogsStoragesDe
 		// Code 204.
 		return &LogsStoragesDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedLogStorageAccessKey, _ error) {
@@ -2224,7 +2223,7 @@ func decodeLogsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedLogS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesKeysDestroyResponse(resp *http.Response) (res *LogsStoragesKeysDestroyNoContent, _ error) {
@@ -2233,7 +2232,7 @@ func decodeLogsStoragesKeysDestroyResponse(resp *http.Response) (res *LogsStorag
 		// Code 204.
 		return &LogsStoragesKeysDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesKeysListResponse(resp *http.Response) (res *PaginatedLogStorageAccessKeyList, _ error) {
@@ -2283,7 +2282,7 @@ func decodeLogsStoragesKeysListResponse(resp *http.Response) (res *PaginatedLogS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *WrappedLogStorageAccessKey, _ error) {
@@ -2333,7 +2332,7 @@ func decodeLogsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *Wrap
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedLogStorageAccessKey, _ error) {
@@ -2383,7 +2382,7 @@ func decodeLogsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedLo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedLogStorageAccessKey, _ error) {
@@ -2433,7 +2432,7 @@ func decodeLogsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedLogS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesListResponse(resp *http.Response) (res *PaginatedLogStorageList, _ error) {
@@ -2483,7 +2482,7 @@ func decodeLogsStoragesListResponse(resp *http.Response) (res *PaginatedLogStora
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedLogStorage, _ error) {
@@ -2533,7 +2532,7 @@ func decodeLogsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedL
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesRetrieveResponse(resp *http.Response) (res *WrappedLogStorage, _ error) {
@@ -2583,7 +2582,157 @@ func decodeLogsStoragesRetrieveResponse(resp *http.Response) (res *WrappedLogSto
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeLogsStoragesSetExpireCreateResponse(resp *http.Response) (res *LogStorage, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response LogStorage
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeLogsStoragesStatsDailyRetrieveResponse(resp *http.Response) (res *LogStorageDailyUsageBody, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response LogStorageDailyUsageBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeLogsStoragesStatsMonthlyRetrieveResponse(resp *http.Response) (res *LogStorageMonthlyUsageBody, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response LogStorageMonthlyUsageBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeLogsStoragesUpdateResponse(resp *http.Response) (res *WrappedLogStorage, _ error) {
@@ -2633,7 +2782,7 @@ func decodeLogsStoragesUpdateResponse(resp *http.Response) (res *WrappedLogStora
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsRoutingsCreateResponse(resp *http.Response) (res *WrappedMetricsRouting, _ error) {
@@ -2683,7 +2832,7 @@ func decodeMetricsRoutingsCreateResponse(resp *http.Response) (res *WrappedMetri
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsRoutingsDestroyResponse(resp *http.Response) (res *MetricsRoutingsDestroyNoContent, _ error) {
@@ -2692,7 +2841,7 @@ func decodeMetricsRoutingsDestroyResponse(resp *http.Response) (res *MetricsRout
 		// Code 204.
 		return &MetricsRoutingsDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsRoutingsListResponse(resp *http.Response) (res *PaginatedMetricsRoutingList, _ error) {
@@ -2742,7 +2891,7 @@ func decodeMetricsRoutingsListResponse(resp *http.Response) (res *PaginatedMetri
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsRoutingsPartialUpdateResponse(resp *http.Response) (res *WrappedMetricsRouting, _ error) {
@@ -2792,7 +2941,7 @@ func decodeMetricsRoutingsPartialUpdateResponse(resp *http.Response) (res *Wrapp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsRoutingsRetrieveResponse(resp *http.Response) (res *WrappedMetricsRouting, _ error) {
@@ -2842,7 +2991,7 @@ func decodeMetricsRoutingsRetrieveResponse(resp *http.Response) (res *WrappedMet
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsRoutingsUpdateResponse(resp *http.Response) (res *WrappedMetricsRouting, _ error) {
@@ -2892,7 +3041,7 @@ func decodeMetricsRoutingsUpdateResponse(resp *http.Response) (res *WrappedMetri
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesCreateResponse(resp *http.Response) (res *MetricsStorage, _ error) {
@@ -2942,7 +3091,7 @@ func decodeMetricsStoragesCreateResponse(resp *http.Response) (res *MetricsStora
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesDestroyResponse(resp *http.Response) (res *MetricsStoragesDestroyNoContent, _ error) {
@@ -2951,7 +3100,7 @@ func decodeMetricsStoragesDestroyResponse(resp *http.Response) (res *MetricsStor
 		// Code 204.
 		return &MetricsStoragesDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedMetricsStorageAccessKey, _ error) {
@@ -3001,7 +3150,7 @@ func decodeMetricsStoragesKeysCreateResponse(resp *http.Response) (res *WrappedM
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesKeysDestroyResponse(resp *http.Response) (res *MetricsStoragesKeysDestroyNoContent, _ error) {
@@ -3010,7 +3159,7 @@ func decodeMetricsStoragesKeysDestroyResponse(resp *http.Response) (res *Metrics
 		// Code 204.
 		return &MetricsStoragesKeysDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesKeysListResponse(resp *http.Response) (res *PaginatedMetricsStorageAccessKeyList, _ error) {
@@ -3060,7 +3209,7 @@ func decodeMetricsStoragesKeysListResponse(resp *http.Response) (res *PaginatedM
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *WrappedMetricsStorageAccessKey, _ error) {
@@ -3110,7 +3259,7 @@ func decodeMetricsStoragesKeysPartialUpdateResponse(resp *http.Response) (res *W
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedMetricsStorageAccessKey, _ error) {
@@ -3160,7 +3309,7 @@ func decodeMetricsStoragesKeysRetrieveResponse(resp *http.Response) (res *Wrappe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedMetricsStorageAccessKey, _ error) {
@@ -3210,7 +3359,7 @@ func decodeMetricsStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedM
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesListResponse(resp *http.Response) (res *PaginatedMetricsStorageList, _ error) {
@@ -3260,7 +3409,7 @@ func decodeMetricsStoragesListResponse(resp *http.Response) (res *PaginatedMetri
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedMetricsStorage, _ error) {
@@ -3310,7 +3459,7 @@ func decodeMetricsStoragesPartialUpdateResponse(resp *http.Response) (res *Wrapp
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesRetrieveResponse(resp *http.Response) (res *WrappedMetricsStorage, _ error) {
@@ -3360,7 +3509,107 @@ func decodeMetricsStoragesRetrieveResponse(resp *http.Response) (res *WrappedMet
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeMetricsStoragesStatsDailyRetrieveResponse(resp *http.Response) (res *MetricsStorageDailyUsageBody, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response MetricsStorageDailyUsageBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeMetricsStoragesStatsMonthlyRetrieveResponse(resp *http.Response) (res *MetricsStorageMonthlyUsageBody, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response MetricsStorageMonthlyUsageBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeMetricsStoragesUpdateResponse(resp *http.Response) (res *WrappedMetricsStorage, _ error) {
@@ -3410,7 +3659,7 @@ func decodeMetricsStoragesUpdateResponse(resp *http.Response) (res *WrappedMetri
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePostProvisioningInitializeResponse(resp *http.Response) (res PostProvisioningInitializeRes, _ error) {
@@ -3486,7 +3735,7 @@ func decodePostProvisioningInitializeResponse(resp *http.Response) (res PostProv
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePublishersListResponse(resp *http.Response) (res *PaginatedPublisherList, _ error) {
@@ -3536,7 +3785,7 @@ func decodePublishersListResponse(resp *http.Response) (res *PaginatedPublisherL
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodePublishersRetrieveResponse(resp *http.Response) (res *WrappedPublisher, _ error) {
@@ -3586,7 +3835,7 @@ func decodePublishersRetrieveResponse(resp *http.Response) (res *WrappedPublishe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesCreateResponse(resp *http.Response) (res *TraceStorage, _ error) {
@@ -3636,7 +3885,7 @@ func decodeTracesStoragesCreateResponse(resp *http.Response) (res *TraceStorage,
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesDestroyResponse(resp *http.Response) (res *TracesStoragesDestroyNoContent, _ error) {
@@ -3645,7 +3894,7 @@ func decodeTracesStoragesDestroyResponse(resp *http.Response) (res *TracesStorag
 		// Code 204.
 		return &TracesStoragesDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesKeysCreateResponse(resp *http.Response) (res *WrappedTraceStorageAccessKey, _ error) {
@@ -3695,7 +3944,7 @@ func decodeTracesStoragesKeysCreateResponse(resp *http.Response) (res *WrappedTr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesKeysDestroyResponse(resp *http.Response) (res *TracesStoragesKeysDestroyNoContent, _ error) {
@@ -3704,7 +3953,7 @@ func decodeTracesStoragesKeysDestroyResponse(resp *http.Response) (res *TracesSt
 		// Code 204.
 		return &TracesStoragesKeysDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesKeysListResponse(resp *http.Response) (res *PaginatedTraceStorageAccessKeyList, _ error) {
@@ -3754,7 +4003,7 @@ func decodeTracesStoragesKeysListResponse(resp *http.Response) (res *PaginatedTr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesKeysPartialUpdateResponse(resp *http.Response) (res *WrappedTraceStorageAccessKey, _ error) {
@@ -3804,7 +4053,7 @@ func decodeTracesStoragesKeysPartialUpdateResponse(resp *http.Response) (res *Wr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesKeysRetrieveResponse(resp *http.Response) (res *WrappedTraceStorageAccessKey, _ error) {
@@ -3854,7 +4103,7 @@ func decodeTracesStoragesKeysRetrieveResponse(resp *http.Response) (res *Wrapped
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedTraceStorageAccessKey, _ error) {
@@ -3904,7 +4153,7 @@ func decodeTracesStoragesKeysUpdateResponse(resp *http.Response) (res *WrappedTr
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesListResponse(resp *http.Response) (res *PaginatedTraceStorageList, _ error) {
@@ -3954,7 +4203,7 @@ func decodeTracesStoragesListResponse(resp *http.Response) (res *PaginatedTraceS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesPartialUpdateResponse(resp *http.Response) (res *WrappedTraceStorage, _ error) {
@@ -4004,7 +4253,7 @@ func decodeTracesStoragesPartialUpdateResponse(resp *http.Response) (res *Wrappe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesRetrieveResponse(resp *http.Response) (res *WrappedTraceStorage, _ error) {
@@ -4054,7 +4303,157 @@ func decodeTracesStoragesRetrieveResponse(resp *http.Response) (res *WrappedTrac
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTracesStoragesSetExpireCreateResponse(resp *http.Response) (res *TraceStorage, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response TraceStorage
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTracesStoragesStatsDailyRetrieveResponse(resp *http.Response) (res *TraceStorageDailyUsageBody, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response TraceStorageDailyUsageBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeTracesStoragesStatsMonthlyRetrieveResponse(resp *http.Response) (res *TraceStorageMonthlyUsageBody, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response TraceStorageMonthlyUsageBody
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeTracesStoragesUpdateResponse(resp *http.Response) (res *WrappedTraceStorage, _ error) {
@@ -4104,5 +4503,5 @@ func decodeTracesStoragesUpdateResponse(resp *http.Response) (res *WrappedTraceS
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }

@@ -424,12 +424,14 @@ type AlertsProjectsNotificationTargetsDestroyNoContent struct{}
 type AlertsProjectsNotificationTargetsListServiceType string
 
 const (
+	AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS     AlertsProjectsNotificationTargetsListServiceType = "SAKURA_EVENT_BUS"
 	AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE AlertsProjectsNotificationTargetsListServiceType = "SAKURA_SIMPLE_NOTICE"
 )
 
 // AllValues returns all AlertsProjectsNotificationTargetsListServiceType values.
 func (AlertsProjectsNotificationTargetsListServiceType) AllValues() []AlertsProjectsNotificationTargetsListServiceType {
 	return []AlertsProjectsNotificationTargetsListServiceType{
+		AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS,
 		AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE,
 	}
 }
@@ -437,6 +439,8 @@ func (AlertsProjectsNotificationTargetsListServiceType) AllValues() []AlertsProj
 // MarshalText implements encoding.TextMarshaler.
 func (s AlertsProjectsNotificationTargetsListServiceType) MarshalText() ([]byte, error) {
 	switch s {
+	case AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS:
+		return []byte(s), nil
 	case AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE:
 		return []byte(s), nil
 	default:
@@ -447,6 +451,9 @@ func (s AlertsProjectsNotificationTargetsListServiceType) MarshalText() ([]byte,
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *AlertsProjectsNotificationTargetsListServiceType) UnmarshalText(data []byte) error {
 	switch AlertsProjectsNotificationTargetsListServiceType(data) {
+	case AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS:
+		*s = AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS
+		return nil
 	case AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE:
 		*s = AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE
 		return nil
@@ -523,6 +530,96 @@ func (s *AndMatcher) SetType(val Type1) {
 // SetMatchers sets the value of Matchers.
 func (s *AndMatcher) SetMatchers(val []FieldMatcher) {
 	s.Matchers = val
+}
+
+// Ref: #/components/schemas/BoolMatcher
+type BoolMatcher struct {
+	Type     Type5            `json:"type"`
+	Operator Operator2        `json:"operator"`
+	Field    BooleanFieldName `json:"field"`
+	Value    bool             `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *BoolMatcher) GetType() Type5 {
+	return s.Type
+}
+
+// GetOperator returns the value of Operator.
+func (s *BoolMatcher) GetOperator() Operator2 {
+	return s.Operator
+}
+
+// GetField returns the value of Field.
+func (s *BoolMatcher) GetField() BooleanFieldName {
+	return s.Field
+}
+
+// GetValue returns the value of Value.
+func (s *BoolMatcher) GetValue() bool {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *BoolMatcher) SetType(val Type5) {
+	s.Type = val
+}
+
+// SetOperator sets the value of Operator.
+func (s *BoolMatcher) SetOperator(val Operator2) {
+	s.Operator = val
+}
+
+// SetField sets the value of Field.
+func (s *BoolMatcher) SetField(val BooleanFieldName) {
+	s.Field = val
+}
+
+// SetValue sets the value of Value.
+func (s *BoolMatcher) SetValue(val bool) {
+	s.Value = val
+}
+
+// Ref: #/components/schemas/BooleanFieldName
+type BooleanFieldName string
+
+const (
+	BooleanFieldNameHTTPCacheLookup BooleanFieldName = "http_cache_lookup"
+	BooleanFieldNameHTTPCacheHit    BooleanFieldName = "http_cache_hit"
+)
+
+// AllValues returns all BooleanFieldName values.
+func (BooleanFieldName) AllValues() []BooleanFieldName {
+	return []BooleanFieldName{
+		BooleanFieldNameHTTPCacheLookup,
+		BooleanFieldNameHTTPCacheHit,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s BooleanFieldName) MarshalText() ([]byte, error) {
+	switch s {
+	case BooleanFieldNameHTTPCacheLookup:
+		return []byte(s), nil
+	case BooleanFieldNameHTTPCacheHit:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *BooleanFieldName) UnmarshalText(data []byte) error {
+	switch BooleanFieldName(data) {
+	case BooleanFieldNameHTTPCacheLookup:
+		*s = BooleanFieldNameHTTPCacheLookup
+		return nil
+	case BooleanFieldNameHTTPCacheHit:
+		*s = BooleanFieldNameHTTPCacheHit
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/DashboardProject
@@ -705,6 +802,7 @@ type FieldMatcher struct {
 	AndMatcher          AndMatcher
 	StrMatcher          StrMatcher
 	NumMatcher          NumMatcher
+	BoolMatcher         BoolMatcher
 	EnumMatcher         EnumMatcher
 	MapKeyExistsMatcher MapKeyExistsMatcher
 	MapKeyValueMatcher  MapKeyValueMatcher
@@ -719,6 +817,7 @@ const (
 	AndMatcherFieldMatcher          FieldMatcherType = "and"
 	StrMatcherFieldMatcher          FieldMatcherType = "string"
 	NumMatcherFieldMatcher          FieldMatcherType = "number"
+	BoolMatcherFieldMatcher         FieldMatcherType = "BoolMatcher"
 	EnumMatcherFieldMatcher         FieldMatcherType = "enum"
 	MapKeyExistsMatcherFieldMatcher FieldMatcherType = "map-key-exists"
 	MapKeyValueMatcherFieldMatcher  FieldMatcherType = "map-key-value-matcher"
@@ -735,6 +834,9 @@ func (s FieldMatcher) IsStrMatcher() bool { return s.Type == StrMatcherFieldMatc
 
 // IsNumMatcher reports whether FieldMatcher is NumMatcher.
 func (s FieldMatcher) IsNumMatcher() bool { return s.Type == NumMatcherFieldMatcher }
+
+// IsBoolMatcher reports whether FieldMatcher is BoolMatcher.
+func (s FieldMatcher) IsBoolMatcher() bool { return s.Type == BoolMatcherFieldMatcher }
 
 // IsEnumMatcher reports whether FieldMatcher is EnumMatcher.
 func (s FieldMatcher) IsEnumMatcher() bool { return s.Type == EnumMatcherFieldMatcher }
@@ -826,6 +928,27 @@ func (s FieldMatcher) GetNumMatcher() (v NumMatcher, ok bool) {
 func NewNumMatcherFieldMatcher(v NumMatcher) FieldMatcher {
 	var s FieldMatcher
 	s.SetNumMatcher(v)
+	return s
+}
+
+// SetBoolMatcher sets FieldMatcher to BoolMatcher.
+func (s *FieldMatcher) SetBoolMatcher(v BoolMatcher) {
+	s.Type = BoolMatcherFieldMatcher
+	s.BoolMatcher = v
+}
+
+// GetBoolMatcher returns BoolMatcher and true boolean if FieldMatcher is BoolMatcher.
+func (s FieldMatcher) GetBoolMatcher() (v BoolMatcher, ok bool) {
+	if !s.IsBoolMatcher() {
+		return v, false
+	}
+	return s.BoolMatcher, true
+}
+
+// NewBoolMatcherFieldMatcher returns new FieldMatcher from BoolMatcher.
+func NewBoolMatcherFieldMatcher(v BoolMatcher) FieldMatcher {
+	var s FieldMatcher
+	s.SetBoolMatcher(v)
 	return s
 }
 
@@ -1433,7 +1556,7 @@ type LogStorage struct {
 	Description OptString           `json:"description"`
 	Tags        []string            `json:"tags"`
 	Icon        NilLogStorageIcon   `json:"icon"`
-	ExpireDay   OptInt64            `json:"expire_day"`
+	ExpireDay   int                 `json:"expire_day"`
 	CreatedAt   time.Time           `json:"created_at"`
 	Endpoints   LogStorageEndpoints `json:"endpoints"`
 	AccountID   string              `json:"account_id"`
@@ -1468,7 +1591,7 @@ func (s *LogStorage) GetIcon() NilLogStorageIcon {
 }
 
 // GetExpireDay returns the value of ExpireDay.
-func (s *LogStorage) GetExpireDay() OptInt64 {
+func (s *LogStorage) GetExpireDay() int {
 	return s.ExpireDay
 }
 
@@ -1528,7 +1651,7 @@ func (s *LogStorage) SetIcon(val NilLogStorageIcon) {
 }
 
 // SetExpireDay sets the value of ExpireDay.
-func (s *LogStorage) SetExpireDay(val OptInt64) {
+func (s *LogStorage) SetExpireDay(val int) {
 	s.ExpireDay = val
 }
 
@@ -1716,6 +1839,80 @@ func (s *LogStorageCreateClassification) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/LogStorageDailyUsage
+type LogStorageDailyUsage struct {
+	Date          time.Time `json:"date"`
+	IngestedBytes int       `json:"ingested_bytes"`
+	IngestedRows  int       `json:"ingested_rows"`
+	StoredBytes   NilInt    `json:"stored_bytes"`
+	Timestamp     time.Time `json:"timestamp"`
+}
+
+// GetDate returns the value of Date.
+func (s *LogStorageDailyUsage) GetDate() time.Time {
+	return s.Date
+}
+
+// GetIngestedBytes returns the value of IngestedBytes.
+func (s *LogStorageDailyUsage) GetIngestedBytes() int {
+	return s.IngestedBytes
+}
+
+// GetIngestedRows returns the value of IngestedRows.
+func (s *LogStorageDailyUsage) GetIngestedRows() int {
+	return s.IngestedRows
+}
+
+// GetStoredBytes returns the value of StoredBytes.
+func (s *LogStorageDailyUsage) GetStoredBytes() NilInt {
+	return s.StoredBytes
+}
+
+// GetTimestamp returns the value of Timestamp.
+func (s *LogStorageDailyUsage) GetTimestamp() time.Time {
+	return s.Timestamp
+}
+
+// SetDate sets the value of Date.
+func (s *LogStorageDailyUsage) SetDate(val time.Time) {
+	s.Date = val
+}
+
+// SetIngestedBytes sets the value of IngestedBytes.
+func (s *LogStorageDailyUsage) SetIngestedBytes(val int) {
+	s.IngestedBytes = val
+}
+
+// SetIngestedRows sets the value of IngestedRows.
+func (s *LogStorageDailyUsage) SetIngestedRows(val int) {
+	s.IngestedRows = val
+}
+
+// SetStoredBytes sets the value of StoredBytes.
+func (s *LogStorageDailyUsage) SetStoredBytes(val NilInt) {
+	s.StoredBytes = val
+}
+
+// SetTimestamp sets the value of Timestamp.
+func (s *LogStorageDailyUsage) SetTimestamp(val time.Time) {
+	s.Timestamp = val
+}
+
+// Ref: #/components/schemas/LogStorageDailyUsageBody
+type LogStorageDailyUsageBody struct {
+	Usages []LogStorageDailyUsage `json:"usages"`
+}
+
+// GetUsages returns the value of Usages.
+func (s *LogStorageDailyUsageBody) GetUsages() []LogStorageDailyUsage {
+	return s.Usages
+}
+
+// SetUsages sets the value of Usages.
+func (s *LogStorageDailyUsageBody) SetUsages(val []LogStorageDailyUsage) {
+	s.Usages = val
+}
+
 type LogStorageEndpoints struct {
 	Ingester LogStorageEndpointsIngester `json:"ingester"`
 }
@@ -1767,6 +1964,91 @@ func (s *LogStorageIcon) GetID() OptString {
 // SetID sets the value of ID.
 func (s *LogStorageIcon) SetID(val OptString) {
 	s.ID = val
+}
+
+// Ref: #/components/schemas/LogStorageMonthlyUsage
+type LogStorageMonthlyUsage struct {
+	Year           int       `json:"year"`
+	Month          int       `json:"month"`
+	IngestedBytes  int       `json:"ingested_bytes"`
+	IngestedRows   int       `json:"ingested_rows"`
+	MaxStoredBytes int       `json:"max_stored_bytes"`
+	Timestamp      time.Time `json:"timestamp"`
+}
+
+// GetYear returns the value of Year.
+func (s *LogStorageMonthlyUsage) GetYear() int {
+	return s.Year
+}
+
+// GetMonth returns the value of Month.
+func (s *LogStorageMonthlyUsage) GetMonth() int {
+	return s.Month
+}
+
+// GetIngestedBytes returns the value of IngestedBytes.
+func (s *LogStorageMonthlyUsage) GetIngestedBytes() int {
+	return s.IngestedBytes
+}
+
+// GetIngestedRows returns the value of IngestedRows.
+func (s *LogStorageMonthlyUsage) GetIngestedRows() int {
+	return s.IngestedRows
+}
+
+// GetMaxStoredBytes returns the value of MaxStoredBytes.
+func (s *LogStorageMonthlyUsage) GetMaxStoredBytes() int {
+	return s.MaxStoredBytes
+}
+
+// GetTimestamp returns the value of Timestamp.
+func (s *LogStorageMonthlyUsage) GetTimestamp() time.Time {
+	return s.Timestamp
+}
+
+// SetYear sets the value of Year.
+func (s *LogStorageMonthlyUsage) SetYear(val int) {
+	s.Year = val
+}
+
+// SetMonth sets the value of Month.
+func (s *LogStorageMonthlyUsage) SetMonth(val int) {
+	s.Month = val
+}
+
+// SetIngestedBytes sets the value of IngestedBytes.
+func (s *LogStorageMonthlyUsage) SetIngestedBytes(val int) {
+	s.IngestedBytes = val
+}
+
+// SetIngestedRows sets the value of IngestedRows.
+func (s *LogStorageMonthlyUsage) SetIngestedRows(val int) {
+	s.IngestedRows = val
+}
+
+// SetMaxStoredBytes sets the value of MaxStoredBytes.
+func (s *LogStorageMonthlyUsage) SetMaxStoredBytes(val int) {
+	s.MaxStoredBytes = val
+}
+
+// SetTimestamp sets the value of Timestamp.
+func (s *LogStorageMonthlyUsage) SetTimestamp(val time.Time) {
+	s.Timestamp = val
+}
+
+// Ref: #/components/schemas/LogStorageMonthlyUsageBody
+type LogStorageMonthlyUsageBody struct {
+	Usages []LogStorageMonthlyUsage `json:"usages"`
+}
+
+// GetUsages returns the value of Usages.
+func (s *LogStorageMonthlyUsageBody) GetUsages() []LogStorageMonthlyUsage {
+	return s.Usages
+}
+
+// SetUsages sets the value of Usages.
+func (s *LogStorageMonthlyUsageBody) SetUsages(val []LogStorageMonthlyUsage) {
+	s.Usages = val
 }
 
 type LogStorageUsage struct {
@@ -1851,6 +2133,7 @@ const (
 	LogsStoragesListStatusDeleted  LogsStoragesListStatus = "deleted"
 	LogsStoragesListStatusFree     LogsStoragesListStatus = "free"
 	LogsStoragesListStatusInit     LogsStoragesListStatus = "init"
+	LogsStoragesListStatusPurged   LogsStoragesListStatus = "purged"
 )
 
 // AllValues returns all LogsStoragesListStatus values.
@@ -1860,6 +2143,7 @@ func (LogsStoragesListStatus) AllValues() []LogsStoragesListStatus {
 		LogsStoragesListStatusDeleted,
 		LogsStoragesListStatusFree,
 		LogsStoragesListStatusInit,
+		LogsStoragesListStatusPurged,
 	}
 }
 
@@ -1873,6 +2157,8 @@ func (s LogsStoragesListStatus) MarshalText() ([]byte, error) {
 	case LogsStoragesListStatusFree:
 		return []byte(s), nil
 	case LogsStoragesListStatusInit:
+		return []byte(s), nil
+	case LogsStoragesListStatusPurged:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -1893,6 +2179,9 @@ func (s *LogsStoragesListStatus) UnmarshalText(data []byte) error {
 		return nil
 	case LogsStoragesListStatusInit:
 		*s = LogsStoragesListStatusInit
+		return nil
+	case LogsStoragesListStatusPurged:
+		*s = LogsStoragesListStatusPurged
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -1943,13 +2232,13 @@ func (s *MapFieldName) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/MapKeyExistsMatcher
 type MapKeyExistsMatcher struct {
-	Type  Type5        `json:"type"`
+	Type  Type6        `json:"type"`
 	Field MapFieldName `json:"field"`
 	Key   string       `json:"key"`
 }
 
 // GetType returns the value of Type.
-func (s *MapKeyExistsMatcher) GetType() Type5 {
+func (s *MapKeyExistsMatcher) GetType() Type6 {
 	return s.Type
 }
 
@@ -1964,7 +2253,7 @@ func (s *MapKeyExistsMatcher) GetKey() string {
 }
 
 // SetType sets the value of Type.
-func (s *MapKeyExistsMatcher) SetType(val Type5) {
+func (s *MapKeyExistsMatcher) SetType(val Type6) {
 	s.Type = val
 }
 
@@ -1980,14 +2269,14 @@ func (s *MapKeyExistsMatcher) SetKey(val string) {
 
 // Ref: #/components/schemas/MapKeyValueMatcher
 type MapKeyValueMatcher struct {
-	Type  Type6        `json:"type"`
+	Type  Type7        `json:"type"`
 	Field MapFieldName `json:"field"`
 	Key   string       `json:"key"`
 	Value string       `json:"value"`
 }
 
 // GetType returns the value of Type.
-func (s *MapKeyValueMatcher) GetType() Type6 {
+func (s *MapKeyValueMatcher) GetType() Type7 {
 	return s.Type
 }
 
@@ -2007,7 +2296,7 @@ func (s *MapKeyValueMatcher) GetValue() string {
 }
 
 // SetType sets the value of Type.
-func (s *MapKeyValueMatcher) SetType(val Type6) {
+func (s *MapKeyValueMatcher) SetType(val Type7) {
 	s.Type = val
 }
 
@@ -2405,6 +2694,58 @@ func (s *MetricsStorageCreate) SetIsSystem(val bool) {
 	s.IsSystem = val
 }
 
+// Ref: #/components/schemas/MetricsStorageDailyUsage
+type MetricsStorageDailyUsage struct {
+	Date         time.Time `json:"date"`
+	IngestedRows int       `json:"ingested_rows"`
+	Timestamp    time.Time `json:"timestamp"`
+}
+
+// GetDate returns the value of Date.
+func (s *MetricsStorageDailyUsage) GetDate() time.Time {
+	return s.Date
+}
+
+// GetIngestedRows returns the value of IngestedRows.
+func (s *MetricsStorageDailyUsage) GetIngestedRows() int {
+	return s.IngestedRows
+}
+
+// GetTimestamp returns the value of Timestamp.
+func (s *MetricsStorageDailyUsage) GetTimestamp() time.Time {
+	return s.Timestamp
+}
+
+// SetDate sets the value of Date.
+func (s *MetricsStorageDailyUsage) SetDate(val time.Time) {
+	s.Date = val
+}
+
+// SetIngestedRows sets the value of IngestedRows.
+func (s *MetricsStorageDailyUsage) SetIngestedRows(val int) {
+	s.IngestedRows = val
+}
+
+// SetTimestamp sets the value of Timestamp.
+func (s *MetricsStorageDailyUsage) SetTimestamp(val time.Time) {
+	s.Timestamp = val
+}
+
+// Ref: #/components/schemas/MetricsStorageDailyUsageBody
+type MetricsStorageDailyUsageBody struct {
+	Usages []MetricsStorageDailyUsage `json:"usages"`
+}
+
+// GetUsages returns the value of Usages.
+func (s *MetricsStorageDailyUsageBody) GetUsages() []MetricsStorageDailyUsage {
+	return s.Usages
+}
+
+// SetUsages sets the value of Usages.
+func (s *MetricsStorageDailyUsageBody) SetUsages(val []MetricsStorageDailyUsage) {
+	s.Usages = val
+}
+
 type MetricsStorageEndpoints struct {
 	Address string `json:"address"`
 }
@@ -2431,6 +2772,69 @@ func (s *MetricsStorageIcon) GetID() OptString {
 // SetID sets the value of ID.
 func (s *MetricsStorageIcon) SetID(val OptString) {
 	s.ID = val
+}
+
+// Ref: #/components/schemas/MetricsStorageMonthlyUsage
+type MetricsStorageMonthlyUsage struct {
+	Year         int       `json:"year"`
+	Month        int       `json:"month"`
+	IngestedRows int       `json:"ingested_rows"`
+	Timestamp    time.Time `json:"timestamp"`
+}
+
+// GetYear returns the value of Year.
+func (s *MetricsStorageMonthlyUsage) GetYear() int {
+	return s.Year
+}
+
+// GetMonth returns the value of Month.
+func (s *MetricsStorageMonthlyUsage) GetMonth() int {
+	return s.Month
+}
+
+// GetIngestedRows returns the value of IngestedRows.
+func (s *MetricsStorageMonthlyUsage) GetIngestedRows() int {
+	return s.IngestedRows
+}
+
+// GetTimestamp returns the value of Timestamp.
+func (s *MetricsStorageMonthlyUsage) GetTimestamp() time.Time {
+	return s.Timestamp
+}
+
+// SetYear sets the value of Year.
+func (s *MetricsStorageMonthlyUsage) SetYear(val int) {
+	s.Year = val
+}
+
+// SetMonth sets the value of Month.
+func (s *MetricsStorageMonthlyUsage) SetMonth(val int) {
+	s.Month = val
+}
+
+// SetIngestedRows sets the value of IngestedRows.
+func (s *MetricsStorageMonthlyUsage) SetIngestedRows(val int) {
+	s.IngestedRows = val
+}
+
+// SetTimestamp sets the value of Timestamp.
+func (s *MetricsStorageMonthlyUsage) SetTimestamp(val time.Time) {
+	s.Timestamp = val
+}
+
+// Ref: #/components/schemas/MetricsStorageMonthlyUsageBody
+type MetricsStorageMonthlyUsageBody struct {
+	Usages []MetricsStorageMonthlyUsage `json:"usages"`
+}
+
+// GetUsages returns the value of Usages.
+func (s *MetricsStorageMonthlyUsageBody) GetUsages() []MetricsStorageMonthlyUsage {
+	return s.Usages
+}
+
+// SetUsages sets the value of Usages.
+func (s *MetricsStorageMonthlyUsageBody) SetUsages(val []MetricsStorageMonthlyUsage) {
+	s.Usages = val
 }
 
 type MetricsStorageUsage struct {
@@ -2559,6 +2963,51 @@ func (o NilDashboardProjectIcon) Get() (v DashboardProjectIcon, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilDashboardProjectIcon) Or(d DashboardProjectIcon) DashboardProjectIcon {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilInt returns new NilInt with value set to v.
+func NewNilInt(v int) NilInt {
+	return NilInt{
+		Value: v,
+	}
+}
+
+// NilInt is nullable int.
+type NilInt struct {
+	Value int
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilInt) SetTo(v int) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilInt) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilInt) SetToNull() {
+	o.Null = true
+	var v int
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilInt) Get() (v int, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilInt) Or(d int) int {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -3081,9 +3530,10 @@ func (s *NotificationRoutingOrder) SetOrder(val int) {
 type NotificationTarget struct {
 	UID       uuid.UUID `json:"uid"`
 	ProjectID NilInt64  `json:"project_id"`
-	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice.
+	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
 	ServiceType NotificationTargetServiceType `json:"service_type"`
-	URL         string                        `json:"url"`
+	URL         OptString                     `json:"url"`
 	Config      NotificationTargetConfig      `json:"config"`
 	Description OptString                     `json:"description"`
 }
@@ -3104,7 +3554,7 @@ func (s *NotificationTarget) GetServiceType() NotificationTargetServiceType {
 }
 
 // GetURL returns the value of URL.
-func (s *NotificationTarget) GetURL() string {
+func (s *NotificationTarget) GetURL() OptString {
 	return s.URL
 }
 
@@ -3134,7 +3584,7 @@ func (s *NotificationTarget) SetServiceType(val NotificationTargetServiceType) {
 }
 
 // SetURL sets the value of URL.
-func (s *NotificationTarget) SetURL(val string) {
+func (s *NotificationTarget) SetURL(val OptString) {
 	s.URL = val
 }
 
@@ -3150,17 +3600,20 @@ func (s *NotificationTarget) SetDescription(val OptString) {
 
 type NotificationTargetConfig struct{}
 
-// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice.
+// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
 type NotificationTargetServiceType string
 
 const (
 	NotificationTargetServiceTypeSAKURASIMPLENOTICE NotificationTargetServiceType = "SAKURA_SIMPLE_NOTICE"
+	NotificationTargetServiceTypeSAKURAEVENTBUS     NotificationTargetServiceType = "SAKURA_EVENT_BUS"
 )
 
 // AllValues returns all NotificationTargetServiceType values.
 func (NotificationTargetServiceType) AllValues() []NotificationTargetServiceType {
 	return []NotificationTargetServiceType{
 		NotificationTargetServiceTypeSAKURASIMPLENOTICE,
+		NotificationTargetServiceTypeSAKURAEVENTBUS,
 	}
 }
 
@@ -3168,6 +3621,8 @@ func (NotificationTargetServiceType) AllValues() []NotificationTargetServiceType
 func (s NotificationTargetServiceType) MarshalText() ([]byte, error) {
 	switch s {
 	case NotificationTargetServiceTypeSAKURASIMPLENOTICE:
+		return []byte(s), nil
+	case NotificationTargetServiceTypeSAKURAEVENTBUS:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -3179,6 +3634,9 @@ func (s *NotificationTargetServiceType) UnmarshalText(data []byte) error {
 	switch NotificationTargetServiceType(data) {
 	case NotificationTargetServiceTypeSAKURASIMPLENOTICE:
 		*s = NotificationTargetServiceTypeSAKURASIMPLENOTICE
+		return nil
+	case NotificationTargetServiceTypeSAKURAEVENTBUS:
+		*s = NotificationTargetServiceTypeSAKURAEVENTBUS
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -3249,13 +3707,16 @@ func (s *NumMatcher) SetValueList(val []float64) {
 type NumberFieldName string
 
 const (
-	NumberFieldNameHTTPRequestSize     NumberFieldName = "http_request_size"
-	NumberFieldNameHTTPStatus          NumberFieldName = "http_status"
-	NumberFieldNameHTTPResponseSize    NumberFieldName = "http_response_size"
-	NumberFieldNameHTTPRemotePort      NumberFieldName = "http_remote_port"
-	NumberFieldNameHTTPLatencyNs       NumberFieldName = "http_latency_ns"
-	NumberFieldNameHTTPCacheFillBytes  NumberFieldName = "http_cache_fill_bytes"
-	NumberFieldNameSakuracloudResource NumberFieldName = "sakuracloud_resource"
+	NumberFieldNameHTTPRequestSize                NumberFieldName = "http_request_size"
+	NumberFieldNameHTTPStatus                     NumberFieldName = "http_status"
+	NumberFieldNameHTTPResponseSize               NumberFieldName = "http_response_size"
+	NumberFieldNameHTTPRemotePort                 NumberFieldName = "http_remote_port"
+	NumberFieldNameHTTPLatencyNs                  NumberFieldName = "http_latency_ns"
+	NumberFieldNameHTTPCacheFillBytes             NumberFieldName = "http_cache_fill_bytes"
+	NumberFieldNameSakuracloudResource            NumberFieldName = "sakuracloud_resource"
+	NumberFieldNameResourceDroppedAttributesCount NumberFieldName = "resource_dropped_attributes_count"
+	NumberFieldNameDroppedAttributesCount         NumberFieldName = "dropped_attributes_count"
+	NumberFieldNameSpanDurationUnixNano           NumberFieldName = "span_duration_unix_nano"
 )
 
 // AllValues returns all NumberFieldName values.
@@ -3268,6 +3729,9 @@ func (NumberFieldName) AllValues() []NumberFieldName {
 		NumberFieldNameHTTPLatencyNs,
 		NumberFieldNameHTTPCacheFillBytes,
 		NumberFieldNameSakuracloudResource,
+		NumberFieldNameResourceDroppedAttributesCount,
+		NumberFieldNameDroppedAttributesCount,
+		NumberFieldNameSpanDurationUnixNano,
 	}
 }
 
@@ -3287,6 +3751,12 @@ func (s NumberFieldName) MarshalText() ([]byte, error) {
 	case NumberFieldNameHTTPCacheFillBytes:
 		return []byte(s), nil
 	case NumberFieldNameSakuracloudResource:
+		return []byte(s), nil
+	case NumberFieldNameResourceDroppedAttributesCount:
+		return []byte(s), nil
+	case NumberFieldNameDroppedAttributesCount:
+		return []byte(s), nil
+	case NumberFieldNameSpanDurationUnixNano:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -3316,6 +3786,15 @@ func (s *NumberFieldName) UnmarshalText(data []byte) error {
 		return nil
 	case NumberFieldNameSakuracloudResource:
 		*s = NumberFieldNameSakuracloudResource
+		return nil
+	case NumberFieldNameResourceDroppedAttributesCount:
+		*s = NumberFieldNameResourceDroppedAttributesCount
+		return nil
+	case NumberFieldNameDroppedAttributesCount:
+		*s = NumberFieldNameDroppedAttributesCount
+		return nil
+	case NumberFieldNameSpanDurationUnixNano:
+		*s = NumberFieldNameSpanDurationUnixNano
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -3484,6 +3963,48 @@ func (s *Operator1) UnmarshalText(data []byte) error {
 		return nil
 	case Operator1MultiEq:
 		*s = Operator1MultiEq
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/Operator2
+type Operator2 string
+
+const (
+	Operator2Eq Operator2 = "eq"
+	Operator2Ne Operator2 = "ne"
+)
+
+// AllValues returns all Operator2 values.
+func (Operator2) AllValues() []Operator2 {
+	return []Operator2{
+		Operator2Eq,
+		Operator2Ne,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s Operator2) MarshalText() ([]byte, error) {
+	switch s {
+	case Operator2Eq:
+		return []byte(s), nil
+	case Operator2Ne:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *Operator2) UnmarshalText(data []byte) error {
+	switch Operator2(data) {
+	case Operator2Eq:
+		*s = Operator2Eq
+		return nil
+	case Operator2Ne:
+		*s = Operator2Ne
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -3760,6 +4281,52 @@ func (o OptDashboardProject) Get() (v DashboardProject, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptDashboardProject) Or(d DashboardProject) DashboardProject {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDate returns new OptDate with value set to v.
+func NewOptDate(v time.Time) OptDate {
+	return OptDate{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDate is optional time.Time.
+type OptDate struct {
+	Value time.Time
+	Set   bool
+}
+
+// IsSet returns true if OptDate was set.
+func (o OptDate) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDate) Reset() {
+	var v time.Time
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDate) SetTo(v time.Time) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDate) Get() (v time.Time, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDate) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -7868,7 +8435,7 @@ type PatchedLogStorage struct {
 	Description OptString                     `json:"description"`
 	Tags        []string                      `json:"tags"`
 	Icon        OptNilPatchedLogStorageIcon   `json:"icon"`
-	ExpireDay   OptInt64                      `json:"expire_day"`
+	ExpireDay   OptInt                        `json:"expire_day"`
 	CreatedAt   OptDateTime                   `json:"created_at"`
 	Endpoints   OptPatchedLogStorageEndpoints `json:"endpoints"`
 	AccountID   OptString                     `json:"account_id"`
@@ -7903,7 +8470,7 @@ func (s *PatchedLogStorage) GetIcon() OptNilPatchedLogStorageIcon {
 }
 
 // GetExpireDay returns the value of ExpireDay.
-func (s *PatchedLogStorage) GetExpireDay() OptInt64 {
+func (s *PatchedLogStorage) GetExpireDay() OptInt {
 	return s.ExpireDay
 }
 
@@ -7963,7 +8530,7 @@ func (s *PatchedLogStorage) SetIcon(val OptNilPatchedLogStorageIcon) {
 }
 
 // SetExpireDay sets the value of ExpireDay.
-func (s *PatchedLogStorage) SetExpireDay(val OptInt64) {
+func (s *PatchedLogStorage) SetExpireDay(val OptInt) {
 	s.ExpireDay = val
 }
 
@@ -8598,7 +9165,8 @@ func (s *PatchedNotificationRouting) SetOrder(val OptInt) {
 type PatchedNotificationTarget struct {
 	UID       OptUUID     `json:"uid"`
 	ProjectID OptNilInt64 `json:"project_id"`
-	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice.
+	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
 	ServiceType OptPatchedNotificationTargetServiceType `json:"service_type"`
 	URL         OptString                               `json:"url"`
 	Config      *PatchedNotificationTargetConfig        `json:"config"`
@@ -8667,17 +9235,20 @@ func (s *PatchedNotificationTarget) SetDescription(val OptString) {
 
 type PatchedNotificationTargetConfig struct{}
 
-// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice.
+// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
 type PatchedNotificationTargetServiceType string
 
 const (
 	PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE PatchedNotificationTargetServiceType = "SAKURA_SIMPLE_NOTICE"
+	PatchedNotificationTargetServiceTypeSAKURAEVENTBUS     PatchedNotificationTargetServiceType = "SAKURA_EVENT_BUS"
 )
 
 // AllValues returns all PatchedNotificationTargetServiceType values.
 func (PatchedNotificationTargetServiceType) AllValues() []PatchedNotificationTargetServiceType {
 	return []PatchedNotificationTargetServiceType{
 		PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE,
+		PatchedNotificationTargetServiceTypeSAKURAEVENTBUS,
 	}
 }
 
@@ -8685,6 +9256,8 @@ func (PatchedNotificationTargetServiceType) AllValues() []PatchedNotificationTar
 func (s PatchedNotificationTargetServiceType) MarshalText() ([]byte, error) {
 	switch s {
 	case PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE:
+		return []byte(s), nil
+	case PatchedNotificationTargetServiceTypeSAKURAEVENTBUS:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -8696,6 +9269,9 @@ func (s *PatchedNotificationTargetServiceType) UnmarshalText(data []byte) error 
 	switch PatchedNotificationTargetServiceType(data) {
 	case PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE:
 		*s = PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE
+		return nil
+	case PatchedNotificationTargetServiceTypeSAKURAEVENTBUS:
+		*s = PatchedNotificationTargetServiceTypeSAKURAEVENTBUS
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -9264,6 +9840,36 @@ func (s *ResourcesLimits) SetDashboards(val ResourceItemLimits) {
 	s.Dashboards = val
 }
 
+// Ref: #/components/schemas/SetLogStorageExpireDay
+type SetLogStorageExpireDay struct {
+	Days int `json:"days"`
+}
+
+// GetDays returns the value of Days.
+func (s *SetLogStorageExpireDay) GetDays() int {
+	return s.Days
+}
+
+// SetDays sets the value of Days.
+func (s *SetLogStorageExpireDay) SetDays(val int) {
+	s.Days = val
+}
+
+// Ref: #/components/schemas/SetTraceStorageExpireDay
+type SetTraceStorageExpireDay struct {
+	Days int `json:"days"`
+}
+
+// GetDays returns the value of Days.
+func (s *SetTraceStorageExpireDay) GetDays() int {
+	return s.Days
+}
+
+// SetDays sets the value of Days.
+func (s *SetTraceStorageExpireDay) SetDays(val int) {
+	s.Days = val
+}
+
 // Ref: #/components/schemas/StrMatcher
 type StrMatcher struct {
 	Type      Type2           `json:"type"`
@@ -9327,26 +9933,38 @@ func (s *StrMatcher) SetValueList(val []string) {
 type StringFieldName string
 
 const (
-	StringFieldNameLogName              StringFieldName = "log_name"
-	StringFieldNameInsertID             StringFieldName = "insert_id"
-	StringFieldNameResourceType         StringFieldName = "resource_type"
-	StringFieldNameHTTPRequestMethod    StringFieldName = "http_request_method"
-	StringFieldNameHTTPRequestURL       StringFieldName = "http_request_url"
-	StringFieldNameHTTPUserAgent        StringFieldName = "http_user_agent"
-	StringFieldNameHTTPRemoteIP         StringFieldName = "http_remote_ip"
-	StringFieldNameHTTPServerIP         StringFieldName = "http_server_ip"
-	StringFieldNameHTTPReferer          StringFieldName = "http_referer"
-	StringFieldNameHTTPProtocol         StringFieldName = "http_protocol"
-	StringFieldNameHTTPSchema           StringFieldName = "http_schema"
-	StringFieldNameHTTPUser             StringFieldName = "http_user"
-	StringFieldNameSourceLocFile        StringFieldName = "source_loc_file"
-	StringFieldNameSourceLine           StringFieldName = "source_line"
-	StringFieldNameSourceFunction       StringFieldName = "source_function"
-	StringFieldNameTextPayload          StringFieldName = "text_payload"
-	StringFieldNameJSONPayload          StringFieldName = "json_payload"
-	StringFieldNameSakuracloudPublisher StringFieldName = "sakuracloud_publisher"
-	StringFieldNameSakuracloudVariant   StringFieldName = "sakuracloud_variant"
-	StringFieldNameSakuracloudAccount   StringFieldName = "sakuracloud_account"
+	StringFieldNameLogName                   StringFieldName = "log_name"
+	StringFieldNameInsertID                  StringFieldName = "insert_id"
+	StringFieldNameResourceType              StringFieldName = "resource_type"
+	StringFieldNameHTTPRequestMethod         StringFieldName = "http_request_method"
+	StringFieldNameHTTPRequestURL            StringFieldName = "http_request_url"
+	StringFieldNameHTTPUserAgent             StringFieldName = "http_user_agent"
+	StringFieldNameHTTPRemoteIP              StringFieldName = "http_remote_ip"
+	StringFieldNameHTTPServerIP              StringFieldName = "http_server_ip"
+	StringFieldNameHTTPReferer               StringFieldName = "http_referer"
+	StringFieldNameHTTPProtocol              StringFieldName = "http_protocol"
+	StringFieldNameHTTPSchema                StringFieldName = "http_schema"
+	StringFieldNameHTTPUser                  StringFieldName = "http_user"
+	StringFieldNameSourceLocFile             StringFieldName = "source_loc_file"
+	StringFieldNameSourceLine                StringFieldName = "source_line"
+	StringFieldNameSourceFunction            StringFieldName = "source_function"
+	StringFieldNameTextPayload               StringFieldName = "text_payload"
+	StringFieldNameJSONPayload               StringFieldName = "json_payload"
+	StringFieldNameSakuracloudPublisher      StringFieldName = "sakuracloud_publisher"
+	StringFieldNameSakuracloudVariant        StringFieldName = "sakuracloud_variant"
+	StringFieldNameSakuracloudAccount        StringFieldName = "sakuracloud_account"
+	StringFieldNameTraceID                   StringFieldName = "trace_id"
+	StringFieldNameSpanID                    StringFieldName = "span_id"
+	StringFieldNameParentSpanID              StringFieldName = "parent_span_id"
+	StringFieldNameResourceAttributes        StringFieldName = "resource_attributes"
+	StringFieldNameServiceName               StringFieldName = "service_name"
+	StringFieldNameServiceInstanceID         StringFieldName = "service_instance_id"
+	StringFieldNameServiceNamespace          StringFieldName = "service_namespace"
+	StringFieldNameServiceVersion            StringFieldName = "service_version"
+	StringFieldNameDeploymentEnvironmentName StringFieldName = "deployment_environment_name"
+	StringFieldNameAttributes                StringFieldName = "attributes"
+	StringFieldNameSpanName                  StringFieldName = "span_name"
+	StringFieldNameSpanStatusCodeText        StringFieldName = "span_status_code_text"
 )
 
 // AllValues returns all StringFieldName values.
@@ -9372,6 +9990,18 @@ func (StringFieldName) AllValues() []StringFieldName {
 		StringFieldNameSakuracloudPublisher,
 		StringFieldNameSakuracloudVariant,
 		StringFieldNameSakuracloudAccount,
+		StringFieldNameTraceID,
+		StringFieldNameSpanID,
+		StringFieldNameParentSpanID,
+		StringFieldNameResourceAttributes,
+		StringFieldNameServiceName,
+		StringFieldNameServiceInstanceID,
+		StringFieldNameServiceNamespace,
+		StringFieldNameServiceVersion,
+		StringFieldNameDeploymentEnvironmentName,
+		StringFieldNameAttributes,
+		StringFieldNameSpanName,
+		StringFieldNameSpanStatusCodeText,
 	}
 }
 
@@ -9417,6 +10047,30 @@ func (s StringFieldName) MarshalText() ([]byte, error) {
 	case StringFieldNameSakuracloudVariant:
 		return []byte(s), nil
 	case StringFieldNameSakuracloudAccount:
+		return []byte(s), nil
+	case StringFieldNameTraceID:
+		return []byte(s), nil
+	case StringFieldNameSpanID:
+		return []byte(s), nil
+	case StringFieldNameParentSpanID:
+		return []byte(s), nil
+	case StringFieldNameResourceAttributes:
+		return []byte(s), nil
+	case StringFieldNameServiceName:
+		return []byte(s), nil
+	case StringFieldNameServiceInstanceID:
+		return []byte(s), nil
+	case StringFieldNameServiceNamespace:
+		return []byte(s), nil
+	case StringFieldNameServiceVersion:
+		return []byte(s), nil
+	case StringFieldNameDeploymentEnvironmentName:
+		return []byte(s), nil
+	case StringFieldNameAttributes:
+		return []byte(s), nil
+	case StringFieldNameSpanName:
+		return []byte(s), nil
+	case StringFieldNameSpanStatusCodeText:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -9485,6 +10139,42 @@ func (s *StringFieldName) UnmarshalText(data []byte) error {
 		return nil
 	case StringFieldNameSakuracloudAccount:
 		*s = StringFieldNameSakuracloudAccount
+		return nil
+	case StringFieldNameTraceID:
+		*s = StringFieldNameTraceID
+		return nil
+	case StringFieldNameSpanID:
+		*s = StringFieldNameSpanID
+		return nil
+	case StringFieldNameParentSpanID:
+		*s = StringFieldNameParentSpanID
+		return nil
+	case StringFieldNameResourceAttributes:
+		*s = StringFieldNameResourceAttributes
+		return nil
+	case StringFieldNameServiceName:
+		*s = StringFieldNameServiceName
+		return nil
+	case StringFieldNameServiceInstanceID:
+		*s = StringFieldNameServiceInstanceID
+		return nil
+	case StringFieldNameServiceNamespace:
+		*s = StringFieldNameServiceNamespace
+		return nil
+	case StringFieldNameServiceVersion:
+		*s = StringFieldNameServiceVersion
+		return nil
+	case StringFieldNameDeploymentEnvironmentName:
+		*s = StringFieldNameDeploymentEnvironmentName
+		return nil
+	case StringFieldNameAttributes:
+		*s = StringFieldNameAttributes
+		return nil
+	case StringFieldNameSpanName:
+		*s = StringFieldNameSpanName
+		return nil
+	case StringFieldNameSpanStatusCodeText:
+		*s = StringFieldNameSpanStatusCodeText
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -9736,6 +10426,21 @@ func (s *TraceStorageCreateClassification) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/TraceStorageDailyUsageBody
+type TraceStorageDailyUsageBody struct {
+	Usages []LogStorageDailyUsage `json:"usages"`
+}
+
+// GetUsages returns the value of Usages.
+func (s *TraceStorageDailyUsageBody) GetUsages() []LogStorageDailyUsage {
+	return s.Usages
+}
+
+// SetUsages sets the value of Usages.
+func (s *TraceStorageDailyUsageBody) SetUsages(val []LogStorageDailyUsage) {
+	s.Usages = val
+}
+
 type TraceStorageEndpoints struct {
 	Ingester TraceStorageEndpointsIngester `json:"ingester"`
 }
@@ -9787,6 +10492,21 @@ func (s *TraceStorageIcon) GetID() OptString {
 // SetID sets the value of ID.
 func (s *TraceStorageIcon) SetID(val OptString) {
 	s.ID = val
+}
+
+// Ref: #/components/schemas/TraceStorageMonthlyUsageBody
+type TraceStorageMonthlyUsageBody struct {
+	Usages []LogStorageMonthlyUsage `json:"usages"`
+}
+
+// GetUsages returns the value of Usages.
+func (s *TraceStorageMonthlyUsageBody) GetUsages() []LogStorageMonthlyUsage {
+	return s.Usages
+}
+
+// SetUsages sets the value of Usages.
+func (s *TraceStorageMonthlyUsageBody) SetUsages(val []LogStorageMonthlyUsage) {
+	s.Usages = val
 }
 
 // TracesStoragesDestroyNoContent is response for TracesStoragesDestroy operation.
@@ -10015,20 +10735,20 @@ func (s *Type4) UnmarshalText(data []byte) error {
 type Type5 string
 
 const (
-	Type5MapKeyExists Type5 = "map-key-exists"
+	Type5Boolean Type5 = "boolean"
 )
 
 // AllValues returns all Type5 values.
 func (Type5) AllValues() []Type5 {
 	return []Type5{
-		Type5MapKeyExists,
+		Type5Boolean,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
 func (s Type5) MarshalText() ([]byte, error) {
 	switch s {
-	case Type5MapKeyExists:
+	case Type5Boolean:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -10038,8 +10758,8 @@ func (s Type5) MarshalText() ([]byte, error) {
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *Type5) UnmarshalText(data []byte) error {
 	switch Type5(data) {
-	case Type5MapKeyExists:
-		*s = Type5MapKeyExists
+	case Type5Boolean:
+		*s = Type5Boolean
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -10050,20 +10770,20 @@ func (s *Type5) UnmarshalText(data []byte) error {
 type Type6 string
 
 const (
-	Type6MapKeyValueMatcher Type6 = "map-key-value-matcher"
+	Type6MapKeyExists Type6 = "map-key-exists"
 )
 
 // AllValues returns all Type6 values.
 func (Type6) AllValues() []Type6 {
 	return []Type6{
-		Type6MapKeyValueMatcher,
+		Type6MapKeyExists,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
 func (s Type6) MarshalText() ([]byte, error) {
 	switch s {
-	case Type6MapKeyValueMatcher:
+	case Type6MapKeyExists:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -10073,8 +10793,43 @@ func (s Type6) MarshalText() ([]byte, error) {
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *Type6) UnmarshalText(data []byte) error {
 	switch Type6(data) {
-	case Type6MapKeyValueMatcher:
-		*s = Type6MapKeyValueMatcher
+	case Type6MapKeyExists:
+		*s = Type6MapKeyExists
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/Type7
+type Type7 string
+
+const (
+	Type7MapKeyValueMatcher Type7 = "map-key-value-matcher"
+)
+
+// AllValues returns all Type7 values.
+func (Type7) AllValues() []Type7 {
+	return []Type7{
+		Type7MapKeyValueMatcher,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s Type7) MarshalText() ([]byte, error) {
+	switch s {
+	case Type7MapKeyValueMatcher:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *Type7) UnmarshalText(data []byte) error {
+	switch Type7(data) {
+	case Type7MapKeyValueMatcher:
+		*s = Type7MapKeyValueMatcher
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -10595,7 +11350,7 @@ type WrappedLogStorage struct {
 	Description OptString                  `json:"description"`
 	Tags        []string                   `json:"tags"`
 	Icon        NilWrappedLogStorageIcon   `json:"icon"`
-	ExpireDay   OptInt64                   `json:"expire_day"`
+	ExpireDay   int                        `json:"expire_day"`
 	CreatedAt   time.Time                  `json:"created_at"`
 	Endpoints   WrappedLogStorageEndpoints `json:"endpoints"`
 	AccountID   string                     `json:"account_id"`
@@ -10631,7 +11386,7 @@ func (s *WrappedLogStorage) GetIcon() NilWrappedLogStorageIcon {
 }
 
 // GetExpireDay returns the value of ExpireDay.
-func (s *WrappedLogStorage) GetExpireDay() OptInt64 {
+func (s *WrappedLogStorage) GetExpireDay() int {
 	return s.ExpireDay
 }
 
@@ -10696,7 +11451,7 @@ func (s *WrappedLogStorage) SetIcon(val NilWrappedLogStorageIcon) {
 }
 
 // SetExpireDay sets the value of ExpireDay.
-func (s *WrappedLogStorage) SetExpireDay(val OptInt64) {
+func (s *WrappedLogStorage) SetExpireDay(val int) {
 	s.ExpireDay = val
 }
 

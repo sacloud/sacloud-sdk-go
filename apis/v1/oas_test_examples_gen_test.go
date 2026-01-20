@@ -71,6 +71,30 @@ func TestAndMatcher_EncodeDecode(t *testing.T) {
 	var typ2 AndMatcher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestBoolMatcher_EncodeDecode(t *testing.T) {
+	var typ BoolMatcher
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 BoolMatcher
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestBooleanFieldName_EncodeDecode(t *testing.T) {
+	var typ BooleanFieldName
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 BooleanFieldName
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestDashboardProject_EncodeDecode(t *testing.T) {
 	var typ DashboardProject
 	typ.SetFake()
@@ -275,6 +299,30 @@ func TestLogStorageCreateClassification_EncodeDecode(t *testing.T) {
 	var typ2 LogStorageCreateClassification
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestLogStorageDailyUsage_EncodeDecode(t *testing.T) {
+	var typ LogStorageDailyUsage
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogStorageDailyUsage
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLogStorageDailyUsageBody_EncodeDecode(t *testing.T) {
+	var typ LogStorageDailyUsageBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogStorageDailyUsageBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestLogStorageEndpoints_EncodeDecode(t *testing.T) {
 	var typ LogStorageEndpoints
 	typ.SetFake()
@@ -309,6 +357,30 @@ func TestLogStorageIcon_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 LogStorageIcon
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLogStorageMonthlyUsage_EncodeDecode(t *testing.T) {
+	var typ LogStorageMonthlyUsage
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogStorageMonthlyUsage
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLogStorageMonthlyUsageBody_EncodeDecode(t *testing.T) {
+	var typ LogStorageMonthlyUsageBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogStorageMonthlyUsageBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestLogStorageUsage_EncodeDecode(t *testing.T) {
@@ -419,6 +491,30 @@ func TestMetricsStorageCreate_EncodeDecode(t *testing.T) {
 	var typ2 MetricsStorageCreate
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestMetricsStorageDailyUsage_EncodeDecode(t *testing.T) {
+	var typ MetricsStorageDailyUsage
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MetricsStorageDailyUsage
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMetricsStorageDailyUsageBody_EncodeDecode(t *testing.T) {
+	var typ MetricsStorageDailyUsageBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MetricsStorageDailyUsageBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestMetricsStorageEndpoints_EncodeDecode(t *testing.T) {
 	var typ MetricsStorageEndpoints
 	typ.SetFake()
@@ -441,6 +537,30 @@ func TestMetricsStorageIcon_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 MetricsStorageIcon
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMetricsStorageMonthlyUsage_EncodeDecode(t *testing.T) {
+	var typ MetricsStorageMonthlyUsage
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MetricsStorageMonthlyUsage
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMetricsStorageMonthlyUsageBody_EncodeDecode(t *testing.T) {
+	var typ MetricsStorageMonthlyUsageBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MetricsStorageMonthlyUsageBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestMetricsStorageUsage_EncodeDecode(t *testing.T) {
@@ -561,6 +681,18 @@ func TestOperator1_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Operator1
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestOperator2_EncodeDecode(t *testing.T) {
+	var typ Operator2
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Operator2
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestOrMatcher_EncodeDecode(t *testing.T) {
@@ -1235,6 +1367,30 @@ func TestResourcesLimits_EncodeDecode(t *testing.T) {
 	var typ2 ResourcesLimits
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestSetLogStorageExpireDay_EncodeDecode(t *testing.T) {
+	var typ SetLogStorageExpireDay
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 SetLogStorageExpireDay
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestSetTraceStorageExpireDay_EncodeDecode(t *testing.T) {
+	var typ SetTraceStorageExpireDay
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 SetTraceStorageExpireDay
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestStrMatcher_EncodeDecode(t *testing.T) {
 	var typ StrMatcher
 	typ.SetFake()
@@ -1307,6 +1463,18 @@ func TestTraceStorageCreateClassification_EncodeDecode(t *testing.T) {
 	var typ2 TraceStorageCreateClassification
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestTraceStorageDailyUsageBody_EncodeDecode(t *testing.T) {
+	var typ TraceStorageDailyUsageBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 TraceStorageDailyUsageBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestTraceStorageEndpoints_EncodeDecode(t *testing.T) {
 	var typ TraceStorageEndpoints
 	typ.SetFake()
@@ -1341,6 +1509,18 @@ func TestTraceStorageIcon_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 TraceStorageIcon
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestTraceStorageMonthlyUsageBody_EncodeDecode(t *testing.T) {
+	var typ TraceStorageMonthlyUsageBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 TraceStorageMonthlyUsageBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestType_EncodeDecode(t *testing.T) {
@@ -1425,6 +1605,18 @@ func TestType6_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Type6
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestType7_EncodeDecode(t *testing.T) {
+	var typ Type7
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Type7
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestValueEnum_EncodeDecode(t *testing.T) {
