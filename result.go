@@ -16,6 +16,7 @@ package saclient
 
 import (
 	"encoding/csv"
+	"encoding/json"
 	"fmt"
 	"strconv"
 	"strings"
@@ -89,6 +90,14 @@ func (m *option[T]) Set(s string) error {
 			return err
 		} else {
 			m.initialize(v)
+		}
+
+	case *option[map[string]string]:
+		var v map[string]string
+		if err := json.Unmarshal([]byte(s), &v); err != nil {
+			return fmt.Errorf("invalid JSON for endpoints: %w", err)
+		} else {
+			m.initialize(normalizeEndpoints(v))
 		}
 
 	default:

@@ -56,6 +56,7 @@ type storage struct {
 	authPreference        option[string]
 	middlewares           option[[]Middleware]
 	checkRetryFunc        option[retryablehttp.CheckRetry]
+	endpoints             option[map[string]string]
 
 	// Deprecated: this is to migrate from old client.
 	requestCustomizers option[[]saht.RequestCustomizer]
@@ -110,6 +111,18 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURA_RATE_LIMIT", s.apiRequestRateLimit.fromEnv)) // <- intentional; not SAKURA_API_REQUEST_RATE_LIMIT
 		r = append(r, e.fetchInto("SAKURA_TRACE", s.traceMode.fromEnv))
 
+		// SAKURA_ENDPOINTS_* variables
+		endpoints := make(map[string]string)
+		for k, v := range e {
+			if strings.HasPrefix(k, "SAKURA_ENDPOINTS_") {
+				serviceKey := strings.TrimPrefix(k, "SAKURA_ENDPOINTS_")
+				endpoints[serviceKey] = v
+			}
+		}
+		if len(endpoints) > 0 {
+			s.endpoints.initialize(normalizeEndpoints(endpoints))
+		}
+
 		// SAKURACLOUD_ variables (legacy still supported)
 		r = append(r, e.fetchInto("SAKURACLOUD_PROFILE", s.profileName.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
@@ -163,6 +176,9 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
 	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
 	p.hcl.servicePrincipalKeyID.from(config.LookupClientConfigServicePrincipalKeyID)
+	if m, ok := config.LookupClientConfigEndpoints(); ok {
+		p.hcl.endpoints.initialize(normalizeEndpoints(m))
+	}
 }
 
 func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
@@ -179,6 +195,7 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.zones, "zones", "permitted zone names")
+		fs.Var(&p.argv.endpoints, "endpoints", "service endpoints in JSON format (e.g., '{\"iaas\":\"https://...\",\"iam\":\"https://...\"}')")
 		fs.BoolFunc("trace", "enable trace logs for API calling", func(str string) error {
 			return p.argv.traceMode.Set("all")
 		})
@@ -363,6 +380,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateMiddlewares(c))
 	ret = append(ret, p.populateCheckRetryFunc(c))
 	ret = append(ret, p.populateRequestCustomizers(c))
+	ret = append(ret, p.populateEndpoints(c))
 
 	return errors.Join(ret...)
 }
@@ -660,6 +678,56 @@ func (p *parameter) populateRequestCustomizers(c *config) error {
 	}
 }
 
+func (p *parameter) populateEndpoints(c *config) error {
+	if p == nil {
+		return NewErrorf("nil parameter")
+	}
+	if c == nil {
+		return NewErrorf("nil config")
+	}
+
+	// merged holds the effective endpoints (first-wins per key)
+	merged := make(map[string]string)
+
+	// list sources in priority order: highest first
+	sources := []option[map[string]string]{
+		p.dynamic.endpoints,
+		p.argv.endpoints,
+		p.hcl.endpoints,
+		p.envp.endpoints,
+	}
+
+	for _, src := range sources {
+		if m, ok := src.Get(); ok && m != nil {
+			for k, v := range m {
+				nk := normalizeServiceKey(k)
+				if nk == "" {
+					continue
+				}
+				if _, exists := merged[nk]; !exists {
+					merged[nk] = strings.TrimSpace(v)
+				}
+			}
+		}
+	}
+
+	if _, res := obtainFromProfile[map[string]string](c, "Endpoints", "profile"); res.isErr() {
+		return res.error()
+	} else if m, ok := res.some(); ok && m != nil {
+		norm := normalizeEndpoints(m)
+		for k, v := range norm {
+			if _, exists := merged[k]; !exists {
+				merged[k] = strings.TrimSpace(v)
+			}
+		}
+	}
+
+	if len(merged) == 0 {
+		return nil
+	}
+	return c.set("Endpoints", normalizeEndpoints(merged))
+}
+
 func (p *parameter) populateString(c *config, key string) error {
 	if _, result := prioritizedParameterValue[string](p, c, key); result.isErr() {
 		return result.error()
@@ -776,6 +844,19 @@ func obtainFromProfile[
 				}
 			}
 		}
+		// map[string]string conversion special case for Endpoints
+		if _, isMapStringString := any((*new(T))).(map[string]string); isMapStringString {
+			if m, isMapStringAny := v.(map[string]any); isMapStringAny {
+				// Convert map[string]any to map[string]string
+				normalized := make(map[string]string, len(m))
+				for k, v := range m {
+					if s, ok := v.(string); ok {
+						normalized[k] = s
+					}
+				}
+				return whence, resultOptionSome(any(normalized).(T))
+			}
+		}
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
 	} else if str, ok := v.(string); ok && str == "" {
 		// AD HOC: previous config from usacloud used to set empty string
@@ -881,6 +962,9 @@ func (s *storage) get(k string) (any, bool) {
 	case "RequestCustomizers":
 		return s.requestCustomizers.Get()
 
+	case "Endpoints":
+		return s.endpoints.Get()
+
 	default:
 		panic("unknown key: " + k)
 	}
@@ -912,6 +996,7 @@ func (e *envmap) fetchInto(key string, yield func(string) error) error {
 var _ flag.Value = (*option[string])(nil)
 var _ flag.Value = (*option[int64])(nil)
 var _ flag.Value = (*option[[]string])(nil)
+var _ flag.Value = (*option[map[string]string])(nil)
 
 // values copied from: sacloud/api-client-go/options.go:defaultOption
 var defaults = storage{
@@ -931,4 +1016,35 @@ var defaults = storage{
 		runtime.GOOS,
 		runtime.GOARCH,
 	)},
+}
+
+func normalizeServiceKey(key string) string {
+	return strings.TrimSpace(strings.ToLower(key))
+}
+
+// normalizeEndpoints returns a new map with all keys normalized to lowercase
+func normalizeEndpoints(endpoints map[string]string) map[string]string {
+	if endpoints == nil {
+		return nil
+	}
+	normalized := make(map[string]string, len(endpoints))
+	for k, v := range endpoints {
+		normalized[normalizeServiceKey(k)] = v
+	}
+	return normalized
+}
+
+// normalizeEndpointsFromAny normalizes endpoint keys from map[string]any to lowercase.
+// Only includes keys whose values are strings.
+func normalizeEndpointsFromAny(endpoints map[string]any) map[string]string {
+	if endpoints == nil {
+		return nil
+	}
+	normalized := make(map[string]string, len(endpoints))
+	for k, v := range endpoints {
+		if s, ok := v.(string); ok {
+			normalized[normalizeServiceKey(k)] = s
+		}
+	}
+	return normalized
 }

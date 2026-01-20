@@ -64,4 +64,7 @@ type TerraformProviderInterface interface {
 
 	// Returns the mysterious "trace" mode value, if set
 	LookupClientConfigTraceMode() (string, bool)
+
+	// Returns if service endpoints are configured, and their values
+	LookupClientConfigEndpoints() (map[string]string, bool)
 }
