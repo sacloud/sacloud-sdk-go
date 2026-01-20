@@ -128,7 +128,7 @@
             "name": "severity",
             "schema": {
               "type": "string",
-              "x-spec-enum-id": "5eaa11275f222ea2",
+              "x-spec-enum-id": "eb2a007069bad0df",
               "enum": [
                 "critical",
                 "warning"
@@ -836,12 +836,13 @@
             "name": "service_type",
             "schema": {
               "type": "string",
-              "x-spec-enum-id": "fc90dab081bffe89",
+              "x-spec-enum-id": "3b143ded19bdc92e",
               "enum": [
+                "SAKURA_EVENT_BUS",
                 "SAKURA_SIMPLE_NOTICE"
               ]
             },
-            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice"
+            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification\n* `SAKURA_EVENT_BUS` - Sakura cloud event bus"
           }
         ],
         "tags": [
@@ -1222,7 +1223,7 @@
             "name": "severity",
             "schema": {
               "type": "string",
-              "x-spec-enum-id": "5eaa11275f222ea2",
+              "x-spec-enum-id": "eb2a007069bad0df",
               "enum": [
                 "critical",
                 "warning"
@@ -2110,7 +2111,7 @@
             "name": "bucket__classification",
             "schema": {
               "type": "string",
-              "x-spec-enum-id": "df2281a88cfd7485",
+              "x-spec-enum-id": "3886b5402e3c4079",
               "enum": [
                 "separated",
                 "shared"
@@ -2157,15 +2158,16 @@
             "name": "status",
             "schema": {
               "type": "string",
-              "x-spec-enum-id": "92dc54c3d141ecb6",
+              "x-spec-enum-id": "6499fdb0e233089a",
               "enum": [
                 "assigned",
                 "deleted",
                 "free",
-                "init"
+                "init",
+                "purged"
               ]
             },
-            "description": "* `init` - 初期化中\n* `free` - 未割り当て\n* `assigned` - 割り当て済み\n* `deleted` - 削除済み"
+            "description": "* `init` - 初期化中\n* `free` - 未割り当て\n* `assigned` - 割り当て済み\n* `deleted` - 削除済み\n* `purged` - ログデータ削除済み"
           }
         ],
         "tags": [
@@ -2631,6 +2633,153 @@
           }
         },
         "summary": "ログストレージ削除API"
+      }
+    },
+    "/logs/storages/{resource_id}/set-expire/": {
+      "post": {
+        "operationId": "logs_storages_set_expire_create",
+        "description": "ログストレージの保存期間を設定します。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetLogStorageExpireDay"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogStorage"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "logs_storages_set_expire作成API"
+      }
+    },
+    "/logs/storages/{resource_id}/stats/daily/": {
+      "get": {
+        "operationId": "logs_storages_stats_daily_retrieve",
+        "description": "ログストレージの日次利用状況を取得します。",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "end_date",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "start_date",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogStorageDailyUsageBody"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "logs_storages_stats_daily詳細取得API"
+      }
+    },
+    "/logs/storages/{resource_id}/stats/monthly/": {
+      "get": {
+        "operationId": "logs_storages_stats_monthly_retrieve",
+        "description": "ログストレージの月次利用状況を取得します。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "year",
+            "schema": {
+              "type": "integer",
+              "maximum": 2100,
+              "minimum": 1970
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "ログストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogStorageMonthlyUsageBody"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "logs_storages_stats_monthly詳細取得API"
       }
     },
     "/management/limits/": {
@@ -3463,6 +3612,106 @@
         "summary": "メトリクスストレージ削除API"
       }
     },
+    "/metrics/storages/{resource_id}/stats/daily/": {
+      "get": {
+        "operationId": "metrics_storages_stats_daily_retrieve",
+        "description": "メトリクスストレージの日次利用状況を取得します。",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "end_date",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "start_date",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricsStorageDailyUsageBody"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "metrics_storages_stats_daily詳細取得API"
+      }
+    },
+    "/metrics/storages/{resource_id}/stats/monthly/": {
+      "get": {
+        "operationId": "metrics_storages_stats_monthly_retrieve",
+        "description": "メトリクスストレージの月次利用状況を取得します。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "year",
+            "schema": {
+              "type": "integer",
+              "maximum": 2100,
+              "minimum": 1970
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "メトリクスストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MetricsStorageMonthlyUsageBody"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "metrics_storages_stats_monthly詳細取得API"
+      }
+    },
     "/publishers/": {
       "get": {
         "operationId": "publishers_list",
@@ -3572,7 +3821,7 @@
             "name": "log_storage__bucket__classification",
             "schema": {
               "type": "string",
-              "x-spec-enum-id": "df2281a88cfd7485",
+              "x-spec-enum-id": "3886b5402e3c4079",
               "enum": [
                 "separated",
                 "shared"
@@ -3788,6 +4037,153 @@
           }
         },
         "summary": "トレースストレージ削除API"
+      }
+    },
+    "/traces/storages/{resource_id}/set-expire/": {
+      "post": {
+        "operationId": "traces_storages_set_expire_create",
+        "description": "トレースストレージの保存期間を設定します。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SetTraceStorageExpireDay"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceStorage"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "traces_storages_set_expire作成API"
+      }
+    },
+    "/traces/storages/{resource_id}/stats/daily/": {
+      "get": {
+        "operationId": "traces_storages_stats_daily_retrieve",
+        "description": "トレースストレージの日次利用状況を取得します。",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "end_date",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "start_date",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceStorageDailyUsageBody"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "traces_storages_stats_daily詳細取得API"
+      }
+    },
+    "/traces/storages/{resource_id}/stats/monthly/": {
+      "get": {
+        "operationId": "traces_storages_stats_monthly_retrieve",
+        "description": "トレースストレージの月次利用状況を取得します。",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "resource_id",
+            "schema": {
+              "type": "integer",
+              "maximum": 999999999999,
+              "minimum": 0,
+              "format": "int64",
+              "title": "Cloud resource id",
+              "example": 110000000000
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "year",
+            "schema": {
+              "type": "integer",
+              "maximum": 2100,
+              "minimum": 1970
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "トレースストレージ"
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TraceStorageMonthlyUsageBody"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "traces_storages_stats_monthly詳細取得API"
       }
     },
     "/traces/storages/{trace_resource_id}/keys/": {
@@ -4205,8 +4601,7 @@
             "readOnly": true
           },
           "enabled_warning": {
-            "type": "boolean",
-            "title": "Enabled"
+            "type": "boolean"
           },
           "enabled_critical": {
             "type": "boolean"
@@ -4263,6 +4658,39 @@
         ],
         "title": "AndMatcher",
         "type": "object"
+      },
+      "BoolMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type5"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/Operator2"
+          },
+          "field": {
+            "$ref": "#/components/schemas/BooleanFieldName"
+          },
+          "value": {
+            "title": "Value",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "type",
+          "operator",
+          "field",
+          "value"
+        ],
+        "title": "BoolMatcher",
+        "type": "object"
+      },
+      "BooleanFieldName": {
+        "enum": [
+          "http_cache_lookup",
+          "http_cache_hit"
+        ],
+        "title": "BooleanFieldName",
+        "type": "string"
       },
       "DashboardProject": {
         "type": "object",
@@ -4384,6 +4812,9 @@
             "$ref": "#/components/schemas/NumMatcher"
           },
           {
+            "$ref": "#/components/schemas/BoolMatcher"
+          },
+          {
             "$ref": "#/components/schemas/EnumMatcher"
           },
           {
@@ -4393,19 +4824,7 @@
             "$ref": "#/components/schemas/MapKeyValueMatcher"
           }
         ],
-        "title": "FieldMatcher",
-        "discriminator": {
-          "propertyName": "type",
-          "mapping": {
-            "or": "#/components/schemas/OrMatcher",
-            "and": "#/components/schemas/AndMatcher",
-            "string": "#/components/schemas/StrMatcher",
-            "number": "#/components/schemas/NumMatcher",
-            "enum": "#/components/schemas/EnumMatcher",
-            "map-key-exists": "#/components/schemas/MapKeyExistsMatcher",
-            "map-key-value-matcher": "#/components/schemas/MapKeyValueMatcher"
-          }
-        }
+        "title": "FieldMatcher"
       },
       "FieldModel": {
         "enum": [
@@ -4456,7 +4875,7 @@
             ],
             "type": "string",
             "description": "* `warning` - Warning\n* `critical` - Critical",
-            "x-spec-enum-id": "5eaa11275f222ea2"
+            "x-spec-enum-id": "eb2a007069bad0df"
           },
           "query": {
             "type": "string",
@@ -4562,7 +4981,9 @@
           "created_at",
           "id",
           "log_storage",
+          "log_storage_id",
           "metrics_storage",
+          "metrics_storage_id",
           "project_id",
           "rule",
           "uid",
@@ -4678,7 +5099,9 @@
           "created_at",
           "id",
           "log_storage",
+          "log_storage_id",
           "publisher",
+          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -4720,7 +5143,7 @@
           },
           "expire_day": {
             "type": "integer",
-            "format": "int64"
+            "readOnly": true
           },
           "created_at": {
             "type": "string",
@@ -4791,6 +5214,7 @@
           "account_id",
           "created_at",
           "endpoints",
+          "expire_day",
           "icon",
           "id",
           "is_system",
@@ -4848,7 +5272,7 @@
             ],
             "type": "string",
             "description": "* `shared` - 共有\n* `separated` - 分離",
-            "x-spec-enum-id": "df2281a88cfd7485",
+            "x-spec-enum-id": "3886b5402e3c4079",
             "default": "shared"
           },
           "is_system": {
@@ -4868,6 +5292,107 @@
           "name"
         ]
       },
+      "LogStorageDailyUsage": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "readOnly": true
+          },
+          "ingested_bytes": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "ingested_rows": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "stored_bytes": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "date",
+          "ingested_bytes",
+          "ingested_rows",
+          "stored_bytes",
+          "timestamp"
+        ]
+      },
+      "LogStorageDailyUsageBody": {
+        "type": "object",
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogStorageDailyUsage"
+            }
+          }
+        },
+        "required": [
+          "usages"
+        ]
+      },
+      "LogStorageMonthlyUsage": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "month": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "ingested_bytes": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "ingested_rows": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "max_stored_bytes": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "ingested_bytes",
+          "ingested_rows",
+          "max_stored_bytes",
+          "month",
+          "timestamp",
+          "year"
+        ]
+      },
+      "LogStorageMonthlyUsageBody": {
+        "type": "object",
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogStorageMonthlyUsage"
+            }
+          }
+        },
+        "required": [
+          "usages"
+        ]
+      },
       "MapFieldName": {
         "enum": [
           "resource_labels",
@@ -4879,7 +5404,7 @@
       "MapKeyExistsMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type5"
+            "$ref": "#/components/schemas/Type6"
           },
           "field": {
             "$ref": "#/components/schemas/MapFieldName"
@@ -4900,7 +5425,7 @@
       "MapKeyValueMatcher": {
         "properties": {
           "type": {
-            "$ref": "#/components/schemas/Type6"
+            "$ref": "#/components/schemas/Type7"
           },
           "field": {
             "$ref": "#/components/schemas/MapFieldName"
@@ -5010,7 +5535,9 @@
           "created_at",
           "id",
           "metrics_storage",
+          "metrics_storage_id",
           "publisher",
+          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -5186,6 +5713,88 @@
           "name"
         ]
       },
+      "MetricsStorageDailyUsage": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date",
+            "readOnly": true
+          },
+          "ingested_rows": {
+            "type": "integer",
+            "readOnly": true,
+            "title": "Ingested samples"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "date",
+          "ingested_rows",
+          "timestamp"
+        ]
+      },
+      "MetricsStorageDailyUsageBody": {
+        "type": "object",
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetricsStorageDailyUsage"
+            }
+          }
+        },
+        "required": [
+          "usages"
+        ]
+      },
+      "MetricsStorageMonthlyUsage": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "month": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "ingested_rows": {
+            "type": "integer",
+            "readOnly": true,
+            "title": "Ingested samples"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          }
+        },
+        "required": [
+          "ingested_rows",
+          "month",
+          "timestamp",
+          "year"
+        ]
+      },
+      "MetricsStorageMonthlyUsageBody": {
+        "type": "object",
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MetricsStorageMonthlyUsage"
+            }
+          }
+        },
+        "required": [
+          "usages"
+        ]
+      },
       "NotificationRouting": {
         "type": "object",
         "properties": {
@@ -5233,6 +5842,8 @@
         "required": [
           "match_labels",
           "notification_target",
+          "notification_target_uid",
+          "order",
           "project_id",
           "uid"
         ]
@@ -5271,11 +5882,12 @@
           },
           "service_type": {
             "enum": [
-              "SAKURA_SIMPLE_NOTICE"
+              "SAKURA_SIMPLE_NOTICE",
+              "SAKURA_EVENT_BUS"
             ],
             "type": "string",
-            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice",
-            "x-spec-enum-id": "fc90dab081bffe89"
+            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification\n* `SAKURA_EVENT_BUS` - Sakura cloud event bus",
+            "x-spec-enum-id": "3b143ded19bdc92e"
           },
           "url": {
             "type": "string",
@@ -5294,8 +5906,7 @@
           "config",
           "project_id",
           "service_type",
-          "uid",
-          "url"
+          "uid"
         ]
       },
       "NumMatcher": {
@@ -5311,12 +5922,14 @@
           },
           "value": {
             "title": "Value",
-            "type": "number"
+            "type": "number",
+            "format": "double"
           },
           "value_list": {
             "description": "use only multi-eq",
             "items": {
-              "type": "number"
+              "type": "number",
+              "format": "double"
             },
             "title": "Value List",
             "type": "array"
@@ -5340,7 +5953,10 @@
           "http_remote_port",
           "http_latency_ns",
           "http_cache_fill_bytes",
-          "sakuracloud_resource"
+          "sakuracloud_resource",
+          "resource_dropped_attributes_count",
+          "dropped_attributes_count",
+          "span_duration_unix_nano"
         ],
         "title": "NumberFieldName",
         "type": "string"
@@ -5371,6 +5987,14 @@
           "multi-eq"
         ],
         "title": "Operator1",
+        "type": "string"
+      },
+      "Operator2": {
+        "enum": [
+          "eq",
+          "ne"
+        ],
+        "title": "Operator2",
         "type": "string"
       },
       "OrMatcher": {
@@ -6088,8 +6712,7 @@
             "readOnly": true
           },
           "enabled_warning": {
-            "type": "boolean",
-            "title": "Enabled"
+            "type": "boolean"
           },
           "enabled_critical": {
             "type": "boolean"
@@ -6357,7 +6980,7 @@
           },
           "expire_day": {
             "type": "integer",
-            "format": "int64"
+            "readOnly": true
           },
           "created_at": {
             "type": "string",
@@ -6719,11 +7342,12 @@
           },
           "service_type": {
             "enum": [
-              "SAKURA_SIMPLE_NOTICE"
+              "SAKURA_SIMPLE_NOTICE",
+              "SAKURA_EVENT_BUS"
             ],
             "type": "string",
-            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notice",
-            "x-spec-enum-id": "fc90dab081bffe89"
+            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification\n* `SAKURA_EVENT_BUS` - Sakura cloud event bus",
+            "x-spec-enum-id": "3b143ded19bdc92e"
           },
           "url": {
             "type": "string",
@@ -6980,7 +7604,7 @@
             ],
             "type": "string",
             "description": "* `metrics` - metrics\n* `logs` - logs",
-            "x-spec-enum-id": "24daeefb04f172ac"
+            "x-spec-enum-id": "629e061395ff654f"
           },
           "system": {
             "enum": [
@@ -7039,6 +7663,32 @@
           "logs",
           "metrics",
           "traces"
+        ]
+      },
+      "SetLogStorageExpireDay": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "integer",
+            "maximum": 730,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "days"
+        ]
+      },
+      "SetTraceStorageExpireDay": {
+        "type": "object",
+        "properties": {
+          "days": {
+            "type": "integer",
+            "maximum": 730,
+            "minimum": 1
+          }
+        },
+        "required": [
+          "days"
         ]
       },
       "StorageBucket": {
@@ -7153,7 +7803,19 @@
           "json_payload",
           "sakuracloud_publisher",
           "sakuracloud_variant",
-          "sakuracloud_account"
+          "sakuracloud_account",
+          "trace_id",
+          "span_id",
+          "parent_span_id",
+          "resource_attributes",
+          "service_name",
+          "service_instance_id",
+          "service_namespace",
+          "service_version",
+          "deployment_environment_name",
+          "attributes",
+          "span_name",
+          "span_status_code_text"
         ],
         "title": "StringFieldName",
         "type": "string"
@@ -7289,7 +7951,7 @@
             ],
             "type": "string",
             "description": "* `shared` - 共有\n* `separated` - 分離",
-            "x-spec-enum-id": "df2281a88cfd7485",
+            "x-spec-enum-id": "3886b5402e3c4079",
             "default": "shared"
           },
           "name": {
@@ -7303,6 +7965,34 @@
         },
         "required": [
           "name"
+        ]
+      },
+      "TraceStorageDailyUsageBody": {
+        "type": "object",
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogStorageDailyUsage"
+            }
+          }
+        },
+        "required": [
+          "usages"
+        ]
+      },
+      "TraceStorageMonthlyUsageBody": {
+        "type": "object",
+        "properties": {
+          "usages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogStorageMonthlyUsage"
+            }
+          }
+        },
+        "required": [
+          "usages"
         ]
       },
       "Type": {
@@ -7342,16 +8032,23 @@
       },
       "Type5": {
         "enum": [
-          "map-key-exists"
+          "boolean"
         ],
         "title": "Type5",
         "type": "string"
       },
       "Type6": {
         "enum": [
-          "map-key-value-matcher"
+          "map-key-exists"
         ],
         "title": "Type6",
+        "type": "string"
+      },
+      "Type7": {
+        "enum": [
+          "map-key-value-matcher"
+        ],
+        "title": "Type7",
         "type": "string"
       },
       "User": {
@@ -7632,7 +8329,9 @@
           "id",
           "is_ok",
           "log_storage",
+          "log_storage_id",
           "publisher",
+          "publisher_code",
           "uid",
           "updated_at",
           "variant"
@@ -7674,7 +8373,7 @@
           },
           "expire_day": {
             "type": "integer",
-            "format": "int64"
+            "readOnly": true
           },
           "created_at": {
             "type": "string",
@@ -7748,6 +8447,7 @@
           "account_id",
           "created_at",
           "endpoints",
+          "expire_day",
           "icon",
           "id",
           "is_ok",
@@ -7874,7 +8574,9 @@
           "id",
           "is_ok",
           "metrics_storage",
+          "metrics_storage_id",
           "publisher",
+          "publisher_code",
           "uid",
           "updated_at",
           "variant"
