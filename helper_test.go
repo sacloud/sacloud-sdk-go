@@ -185,7 +185,7 @@ func WithNotificationTarget(t *testing.T, cli *v1.Client, ctx context.Context, p
 	url, _ := url.Parse("https://example.com/-/c/a/n/-/y/o/u/-/h/e/a/r/-/m/e/-/?")
 	createParams := NotificationTargetCreateParams{
 		ServiceType: v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE,
-		URL:         *url,
+		URL:         url,
 	}
 	created, err := op.Create(ctx, id, createParams)
 	require.NoError(t, err)

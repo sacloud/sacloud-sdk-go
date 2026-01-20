@@ -102,7 +102,7 @@ func (op *notificationTargetOp) Read(ctx context.Context, projectId string, uid 
 
 type NotificationTargetCreateParams struct {
 	ServiceType v1.NotificationTargetServiceType
-	URL         url.URL
+	URL         *url.URL
 	Description *string
 }
 
@@ -111,10 +111,15 @@ func (op *notificationTargetOp) Create(ctx context.Context, projectId string, pa
 	if err != nil {
 		return nil, NewError("NotificationTarget.Create", err)
 	}
+	var url *string = nil
+	if params.URL != nil {
+		u := params.URL.String()
+		url = &u
+	}
 	createParams := v1.AlertsProjectsNotificationTargetsCreateParams{ProjectResourceID: pid}
 	req := v1.NotificationTarget{
 		ServiceType: params.ServiceType,
-		URL:         params.URL.String(),
+		URL:         intoOpt[v1.OptString](url),
 		Description: intoOpt[v1.OptString](params.Description),
 	}
 	result, err := op.client.AlertsProjectsNotificationTargetsCreate(ctx, &req, createParams)
