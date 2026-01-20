@@ -146,14 +146,12 @@ func (op *logsStorageOp) Create(ctx context.Context, params LogStorageCreatePara
 type LogStorageUpdateParams struct {
 	Name        *string
 	Description *string
-	ExpireDay   *int64
 }
 
 func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpdateParams) (*v1.LogStorage, error) {
 	resource := v1.PatchedLogStorage{
 		Name:        intoOpt[v1.OptString](p.Name),
 		Description: intoOpt[v1.OptString](p.Description),
-		ExpireDay:   intoOpt[v1.OptInt64](p.ExpireDay),
 	}
 	rid, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
