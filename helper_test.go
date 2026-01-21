@@ -467,3 +467,31 @@ var TemplateLogMeasureRule = func() v1.LogMeasureRule {
 	ret.Rule.Query.SetMatchers([]v1.FieldMatcher{})
 	return ret
 }()
+
+var TemplateLogStorageDailyUsage = func() v1.LogStorageDailyUsage {
+	var ret v1.LogStorageDailyUsage
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateLogStorageMonthlyUsage = func() v1.LogStorageMonthlyUsage {
+	var ret v1.LogStorageMonthlyUsage
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateMetricsStorageDailyUsage = func() v1.MetricsStorageDailyUsage {
+	var ret v1.MetricsStorageDailyUsage
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateMetricsStorageMonthlyUsage = func() v1.MetricsStorageMonthlyUsage {
+	var ret v1.MetricsStorageMonthlyUsage
+
+	ret.SetFake()
+	return ret
+}()
