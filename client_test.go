@@ -23,7 +23,6 @@ import (
 	"net/http"
 	"os"
 	"runtime"
-	"strings"
 	"testing"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
@@ -131,28 +130,6 @@ func (p *providerModel) LookupClientConfigAPIRequestRateLimit() (int64, bool) {
 
 func (p *providerModel) LookupClientConfigTraceMode() (string, bool) {
 	return p.TraceMode.ValueString(), !p.TraceMode.IsNull() && !p.TraceMode.IsUnknown()
-}
-
-func (p *providerModel) LookupClientConfigEndpoints() (map[string]string, bool) {
-	if p.Endpoints.IsNull() || p.Endpoints.IsUnknown() {
-		return nil, false
-	}
-	result := make(map[string]string, len(p.Endpoints.Elements()))
-	for k, v := range p.Endpoints.Elements() {
-		key := strings.ToLower(k)
-
-		// v is attr.Value; attempt to convert to types.String safely
-		if strVal, ok := v.(types.String); ok && !strVal.IsNull() && !strVal.IsUnknown() {
-			result[key] = strVal.ValueString()
-		} else {
-			// skip non-string or unknown/null entries
-			continue
-		}
-	}
-	if len(result) == 0 {
-		return nil, false
-	}
-	return result, true
 }
 
 // :FIXME: this does not cover any part of the implementation.

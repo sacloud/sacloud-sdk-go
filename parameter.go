@@ -176,9 +176,6 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
 	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
 	p.hcl.servicePrincipalKeyID.from(config.LookupClientConfigServicePrincipalKeyID)
-	if m, ok := config.LookupClientConfigEndpoints(); ok {
-		p.hcl.endpoints.initialize(normalizeEndpoints(m))
-	}
 }
 
 func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
@@ -195,7 +192,6 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.zones, "zones", "permitted zone names")
-		fs.Var(&p.argv.endpoints, "endpoints", "service endpoints in JSON format (e.g., '{\"iaas\":\"https://...\",\"iam\":\"https://...\"}')")
 		fs.BoolFunc("trace", "enable trace logs for API calling", func(str string) error {
 			return p.argv.traceMode.Set("all")
 		})
@@ -692,8 +688,6 @@ func (p *parameter) populateEndpoints(c *config) error {
 	// list sources in priority order: highest first
 	sources := []option[map[string]string]{
 		p.dynamic.endpoints,
-		p.argv.endpoints,
-		p.hcl.endpoints,
 		p.envp.endpoints,
 	}
 
@@ -996,7 +990,6 @@ func (e *envmap) fetchInto(key string, yield func(string) error) error {
 var _ flag.Value = (*option[string])(nil)
 var _ flag.Value = (*option[int64])(nil)
 var _ flag.Value = (*option[[]string])(nil)
-var _ flag.Value = (*option[map[string]string])(nil)
 
 // values copied from: sacloud/api-client-go/options.go:defaultOption
 var defaults = storage{
