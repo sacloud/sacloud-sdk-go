@@ -47,7 +47,6 @@ type providerModel struct {
 	APIRequestTimeout   types.Int64  `tfsdk:"api_request_timeout"`
 	APIRequestRateLimit types.Int64  `tfsdk:"api_request_rate_limit"`
 	TraceMode           types.String `tfsdk:"trace"`
-	Endpoints           types.Map    `tfsdk:"endpoints"`
 }
 
 var _ TerraformProviderInterface = (*providerModel)(nil)
