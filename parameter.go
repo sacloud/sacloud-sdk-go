@@ -687,7 +687,6 @@ func (p *parameter) populateEndpoints(c *config) error {
 
 	// list sources in priority order: highest first
 	sources := []option[map[string]string]{
-		p.dynamic.endpoints,
 		p.envp.endpoints,
 	}
 
