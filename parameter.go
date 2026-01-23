@@ -1026,18 +1026,3 @@ func normalizeEndpoints(endpoints map[string]string) map[string]string {
 	}
 	return normalized
 }
-
-// normalizeEndpointsFromAny normalizes endpoint keys from map[string]any to lowercase.
-// Only includes keys whose values are strings.
-func normalizeEndpointsFromAny(endpoints map[string]any) map[string]string {
-	if endpoints == nil {
-		return nil
-	}
-	normalized := make(map[string]string, len(endpoints))
-	for k, v := range endpoints {
-		if s, ok := v.(string); ok {
-			normalized[normalizeServiceKey(k)] = s
-		}
-	}
-	return normalized
-}
