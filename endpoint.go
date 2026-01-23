@@ -19,20 +19,20 @@ type EndpointConfig struct {
 	// Endpoints is the primary information for API routing.
 	// The map key identifies a service (e.g. "iaas", "iam") and the value is its base endpoint.
 	//
-	// saclient-go treats service keys as opaque identifiers:
-	// keys are normalized to lowercase and are not interpreted or validated here.
+	// saclient-go treats service keys as opaque identifiers.
+	// Keys are not interpreted or validated by this package.
 	// Their meaning is defined by each SDK.
 	Endpoints map[string]string
 
-	// Zone is the currently selected zone (for compatibility only).
-	// Interpretation is SDK-specific.
+	// Zone is the currently selected zone.
+	// Deprecated: Do not use. Kept only for compatibility.
 	Zone string
 
-	// Zones lists all permitted zones (for compatibility only).
-	// Interpretation is SDK-specific.
+	// Zones lists all permitted zones.
+	// Deprecated: Do not use. Kept only for compatibility.
 	Zones []string
 
-	// APIRootURL is deprecated and should not be used in new code.
-	// It is kept for backward compatibility with IaaS consumers.
+	// APIRootURL is the base URL used by iaas-api-go.
+	// Deprecated: Do not use. Kept only for compatibility.
 	APIRootURL string
 }
