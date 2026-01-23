@@ -96,14 +96,14 @@ func (this *endpointTest) TestEndpointConfig_FromEnvVariables() {
 	this.Equal("https://secure.sakura.ad.jp/cloud/api/iam/1.0", cfg.Endpoints["iam"])
 }
 
-func (this *endpointTest) TestEndpointConfig_EnvOverridesProfile() {
+func (this *endpointTest) TestEndpointConfig_FromProfile() {
 	defer func() {
 		_ = os.RemoveAll(os.TempDir() + "/test-profiles-override")
 		_ = os.Unsetenv("XDG_CONFIG_HOME")
 	}()
 
 	profileDir := os.TempDir() + "/test-profiles-override"
-	_ = os.MkdirAll(profileDir+"/default", 0700)
+	_ = os.MkdirAll(profileDir+"/usacloud/default", 0700)
 
 	profileContent := `{
   "AccessToken": "test-token",
@@ -113,8 +113,49 @@ func (this *endpointTest) TestEndpointConfig_EnvOverridesProfile() {
   }
 }`
 
+	this.setEnv("SAKURA_PROFILE", "default")
 	this.setEnv("XDG_CONFIG_HOME", profileDir)
-	_ = os.WriteFile(profileDir+"/default/config.json", []byte(profileContent), 0600)
+	_ = os.WriteFile(profileDir+"/usacloud/default/config.json", []byte(profileContent), 0600)
+
+	_ = os.Unsetenv("SAKURA_ENDPOINTS_IAAS")
+
+	var client Client
+	err := client.SetEnviron(os.Environ())
+	this.NoError(err)
+
+	api, err := client.DupWith(WithTestServer(this.testServer))
+	this.NoError(err)
+
+	err = api.Populate()
+	this.NoError(err)
+
+	cfg, err := api.EndpointConfig()
+	this.NoError(err)
+	this.NotNil(cfg)
+	this.NotNil(cfg.Endpoints)
+	this.Equal("https://profile.example.com/cloud/zone", cfg.Endpoints["iaas"])
+}
+
+func (this *endpointTest) TestEndpointConfig_EnvOverridesProfile() {
+	defer func() {
+		_ = os.RemoveAll(os.TempDir() + "/test-profiles-override")
+		_ = os.Unsetenv("XDG_CONFIG_HOME")
+	}()
+
+	profileDir := os.TempDir() + "/test-profiles-override"
+	_ = os.MkdirAll(profileDir+"/usacloud/default", 0700)
+
+	profileContent := `{
+  "AccessToken": "test-token",
+  "AccessTokenSecret": "test-secret",
+  "Endpoints": {
+    "iaas": "https://profile.example.com/cloud/zone"
+  }
+}`
+
+	this.setEnv("SAKURA_PROFILE", "default")
+	this.setEnv("XDG_CONFIG_HOME", profileDir)
+	_ = os.WriteFile(profileDir+"/usacloud/default/config.json", []byte(profileContent), 0600)
 
 	this.setEnv("SAKURA_ENDPOINTS_IAAS", "https://env.example.com/cloud/zone")
 	this.setEnv("SAKURA_ACCESS_TOKEN", "test-token")
