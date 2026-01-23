@@ -704,10 +704,19 @@ func (p *parameter) populateEndpoints(c *config) error {
 		}
 	}
 
-	if _, res := obtainFromProfile[map[string]string](c, "Endpoints", "profile"); res.isErr() {
+	if _, res := obtainFromProfile[map[string]any](c, "Endpoints", "profile"); res.isErr() {
 		return res.error()
 	} else if m, ok := res.some(); ok && m != nil {
-		norm := normalizeEndpoints(m)
+		eps := make(map[string]string, len(m))
+		for k, v := range m {
+			if s, ok := v.(string); ok {
+				eps[k] = s
+			} else {
+				return NewErrorf("invalid endpoint value for %s in profile Endpoints: %T", k, v)
+			}
+		}
+
+		norm := normalizeEndpoints(eps)
 		for k, v := range norm {
 			if _, exists := merged[k]; !exists {
 				merged[k] = strings.TrimSpace(v)
@@ -835,19 +844,6 @@ func obtainFromProfile[
 				if (float64(int64(w))) == w {
 					return whence, resultOptionSome(any(int64(w)).(T))
 				}
-			}
-		}
-		// map[string]string conversion special case for Endpoints
-		if _, isMapStringString := any((*new(T))).(map[string]string); isMapStringString {
-			if m, isMapStringAny := v.(map[string]any); isMapStringAny {
-				// Convert map[string]any to map[string]string
-				normalized := make(map[string]string, len(m))
-				for k, v := range m {
-					if s, ok := v.(string); ok {
-						normalized[k] = s
-					}
-				}
-				return whence, resultOptionSome(any(normalized).(T))
 			}
 		}
 		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
