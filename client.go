@@ -384,9 +384,7 @@ func (c *Client) EndpointConfig() (*EndpointConfig, error) {
 		if endpoints, ok := result.some(); ok && endpoints != nil {
 			// Copy to avoid external mutation
 			ret.Endpoints = make(map[string]string, len(endpoints))
-			for k, v := range endpoints {
-				ret.Endpoints[k] = v
-			}
+			maps.Copy(ret.Endpoints, endpoints)
 		}
 	} else if result.isErr() {
 		return nil, result.error()
