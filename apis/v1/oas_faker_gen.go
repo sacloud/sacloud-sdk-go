@@ -4,6 +4,7 @@ package v1
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 )
 
@@ -393,6 +394,15 @@ func (s *OptSystemData) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptURI) SetFake() {
+	var elem url.URL
+	{
+		elem = url.URL{Scheme: "https", Host: "github.com", Path: "/ogen-go/ogen"}
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
 func (s *PostDeploymentResponse) SetFake() {
 	{
 		{
@@ -490,6 +500,11 @@ func (s *ResourceGroupResource) SetFake() {
 	{
 		{
 			s.Data.SetFake()
+		}
+	}
+	{
+		{
+			s.URL.SetFake()
 		}
 	}
 }

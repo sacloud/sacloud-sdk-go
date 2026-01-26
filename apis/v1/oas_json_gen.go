@@ -2535,6 +2535,41 @@ func (s *OptSystemData) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes url.URL as json.
+func (o OptURI) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	json.EncodeURI(e, o.Value)
+}
+
+// Decode decodes url.URL from json.
+func (o *OptURI) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptURI to nil")
+	}
+	o.Set = true
+	v, err := json.DecodeURI(d)
+	if err != nil {
+		return err
+	}
+	o.Value = v
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptURI) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptURI) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
 func (s *PostDeploymentResponse) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -3008,12 +3043,19 @@ func (s *ResourceGroupResource) encodeFields(e *jx.Encoder) {
 			s.Data.Encode(e)
 		}
 	}
+	{
+		if s.URL.Set {
+			e.FieldStart("url")
+			s.URL.Encode(e)
+		}
+	}
 }
 
-var jsonFieldsNameOfResourceGroupResource = [3]string{
+var jsonFieldsNameOfResourceGroupResource = [4]string{
 	0: "id",
 	1: "hasData",
 	2: "data",
+	3: "url",
 }
 
 // Decode decodes ResourceGroupResource from json.
@@ -3055,6 +3097,16 @@ func (s *ResourceGroupResource) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"data\"")
+			}
+		case "url":
+			if err := func() error {
+				s.URL.Reset()
+				if err := s.URL.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"url\"")
 			}
 		default:
 			return errors.Errorf("unexpected field %q", k)

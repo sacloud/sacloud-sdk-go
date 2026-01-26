@@ -3,6 +3,7 @@
 package v1
 
 import (
+	"net/url"
 	"time"
 
 	"github.com/go-faster/jx"
@@ -1567,6 +1568,52 @@ func (o OptSystemData) Or(d SystemData) SystemData {
 	return d
 }
 
+// NewOptURI returns new OptURI with value set to v.
+func NewOptURI(v url.URL) OptURI {
+	return OptURI{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptURI is optional url.URL.
+type OptURI struct {
+	Value url.URL
+	Set   bool
+}
+
+// IsSet returns true if OptURI was set.
+func (o OptURI) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptURI) Reset() {
+	var v url.URL
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptURI) SetTo(v url.URL) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptURI) Get() (v url.URL, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptURI) Or(d url.URL) url.URL {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // Ref: #/components/schemas/PostDeploymentResponse
 type PostDeploymentResponse struct {
 	ResourceGroupName OptNilString `json:"resourceGroupName"`
@@ -1743,6 +1790,7 @@ type ResourceGroupResource struct {
 	ID      *ResourceIdentifier  `json:"id"`
 	HasData OptBool              `json:"hasData"`
 	Data    OptResourceGroupData `json:"data"`
+	URL     OptURI               `json:"url"`
 }
 
 // GetID returns the value of ID.
@@ -1760,6 +1808,11 @@ func (s *ResourceGroupResource) GetData() OptResourceGroupData {
 	return s.Data
 }
 
+// GetURL returns the value of URL.
+func (s *ResourceGroupResource) GetURL() OptURI {
+	return s.URL
+}
+
 // SetID sets the value of ID.
 func (s *ResourceGroupResource) SetID(val *ResourceIdentifier) {
 	s.ID = val
@@ -1773,6 +1826,11 @@ func (s *ResourceGroupResource) SetHasData(val OptBool) {
 // SetData sets the value of Data.
 func (s *ResourceGroupResource) SetData(val OptResourceGroupData) {
 	s.Data = val
+}
+
+// SetURL sets the value of URL.
+func (s *ResourceGroupResource) SetURL(val OptURI) {
+	s.URL = val
 }
 
 // Ref: #/components/schemas/ResourceIdentifier

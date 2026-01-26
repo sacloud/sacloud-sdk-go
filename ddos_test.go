@@ -167,3 +167,56 @@ func TestDDoSOp_Status_404(t *testing.T) {
 	assert.Nil(result)
 	assert.True(saclient.IsNotFoundError(err))
 }
+
+func TestDDoSOp_Integrated(t *testing.T) {
+	assert, client := IntegraetdClient(t)
+	api := NewDDoSOp(client)
+
+	// Create
+	result, err := api.Create(t.Context(), DDoSCreateParams{
+		Location:     "japaneast",
+		PricingLevel: v1.PricingLevel1,
+		Patterns:     []string{"/*"},
+		Origin: v1.FrontDoorOrigin{
+			HostName:   "azure.com",
+			HostHeader: "azure.microsoft.com",
+		},
+	})
+	assert.NoError(err)
+	assert.NotNil(result)
+
+	rg, ok := result.ResourceGroupName.Get()
+	assert.True(ok)
+	assert.NotEmpty(rg)
+
+	dn, ok := result.DeploymentName.Get()
+	assert.True(ok)
+	assert.NotEmpty(dn)
+
+	defer func() {
+		// Delete
+		err := api.Delete(t.Context(), rg)
+		assert.NoError(err)
+	}()
+
+	// List
+	list, err := api.List(t.Context())
+	assert.NoError(err)
+	assert.NotEmpty(list)
+
+	// Status
+	status, err := api.Status(t.Context(), rg, dn)
+	assert.NoError(err)
+	assert.NotNil(status)
+
+	// Read
+	// このレスポンスはタイミング依存
+	// プロビジョニングが完了していたりしていなかったりする
+	read, err := api.Read(t.Context(), rg)
+	if saclient.IsNotFoundError(err) {
+		assert.Nil(read)
+	} else {
+		assert.NoError(err)
+		assert.NotNil(read)
+	}
+}

@@ -17,6 +17,7 @@ package addon_test
 import (
 	"net/http"
 	"net/http/httptest"
+	"testing"
 	"time"
 
 	"github.com/go-faster/jx"
@@ -24,6 +25,7 @@ import (
 	v1 "github.com/sacloud/addon-api-go/apis/v1"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
+	"github.com/stretchr/testify/require"
 )
 
 var theClient saclient.Client
@@ -66,6 +68,18 @@ func newTestClient(v encodable, s ...int) *v1.Client {
 	}
 
 	return c
+}
+
+func IntegraetdClient(t *testing.T) (assert *require.Assertions, client *v1.Client) {
+	var err error
+	testutil.PreCheckEnvsFunc("TESTACC")(t)
+
+	assert = require.New(t)
+	client, err = addon.NewClient(&theClient)
+
+	assert.NoError(err)
+
+	return
 }
 
 var MockResourceGroupResource v1.ResourceGroupResource = func() (mock v1.ResourceGroupResource) {
