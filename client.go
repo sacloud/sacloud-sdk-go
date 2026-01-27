@@ -187,6 +187,11 @@ type ClientAPI interface {
 
 	// HTTP request doer
 	Do(req *http.Request) (*http.Response, error)
+
+	// EndpointConfig returns the resolved endpoint configuration.
+	// This contains service-specific base endpoints, zone information,
+	// and other configuration needed for SDKs to assemble final API URLs.
+	EndpointConfig() (*EndpointConfig, error)
 }
 
 // impmlementation of ClientAPI
@@ -364,6 +369,48 @@ func (c *Client) Do(req *http.Request) (*http.Response, error) {
 	}
 }
 
+func (c *Client) EndpointConfig() (*EndpointConfig, error) {
+	if c == nil {
+		return nil, NewErrorf("nil client")
+	}
+
+	cfg, err := c.ensurePopulated()
+	if err != nil {
+		return nil, err
+	}
+
+	ret := &EndpointConfig{}
+	if result := obtainFromConfig[map[string]string](cfg, "Endpoints"); result.isSome() {
+		if endpoints, ok := result.some(); ok && endpoints != nil {
+			// Copy to avoid external mutation
+			ret.Endpoints = make(map[string]string, len(endpoints))
+			maps.Copy(ret.Endpoints, endpoints)
+		}
+	} else if result.isErr() {
+		return nil, result.error()
+	}
+
+	if result := obtainFromConfig[string](cfg, "Zone"); result.isSome() {
+		ret.Zone, _ = result.some()
+	} else if result.isErr() {
+		return nil, result.error()
+	}
+
+	if result := obtainFromConfig[[]string](cfg, "Zones"); result.isSome() {
+		ret.Zones, _ = result.some()
+	} else if result.isErr() {
+		return nil, result.error()
+	}
+
+	// APIRootURL (deprecated) for compatibility
+	if result := obtainFromConfig[string](cfg, "APIRootURL"); result.isSome() {
+		ret.APIRootURL, _ = result.some()
+	} else if result.isErr() {
+		return nil, result.error()
+	}
+
+	return ret, nil
+}
 func (c *Client) ensurePopulated() (*config, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
