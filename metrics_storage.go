@@ -33,8 +33,8 @@ type MetricsStorageAPI interface {
 	Update(ctx context.Context, id string, request MetricsStorageUpdateParams) (*v1.MetricsStorage, error)
 	Delete(ctx context.Context, id string) error
 
-	StatsDaily(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.MetricsStorageDailyUsage, error)
-	StatsMonthly(ctx context.Context, resourceID string, year int) ([]v1.MetricsStorageMonthlyUsage, error)
+	ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.MetricsStorageDailyUsage, error)
+	ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.MetricsStorageMonthlyUsage, error)
 
 	ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) ([]v1.MetricsStorageAccessKey, error)
 	CreateKey(ctx context.Context, metricsResourceId string, description *string) (*v1.MetricsStorageAccessKey, error)
@@ -195,10 +195,10 @@ func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error
 	return nil
 }
 
-func (op *metricsStorageOp) StatsDaily(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.MetricsStorageDailyUsage, error) {
+func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.MetricsStorageDailyUsage, error) {
 	rid, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
-		return nil, NewError("MetricsStorage.StatsDaily", err)
+		return nil, NewError("MetricsStorage.ReadDailyStats", err)
 	}
 	query := v1.MetricsStoragesStatsDailyRetrieveParams{
 		ResourceID: rid,
@@ -209,25 +209,25 @@ func (op *metricsStorageOp) StatsDaily(ctx context.Context, resourceID string, s
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.StatsDaily", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+			return nil, NewAPIError("MetricsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
 		case http.StatusNotFound:
-			return nil, NewAPIError("MetricsStorage.StatsDaily", e.StatusCode, errors.Wrap(err, "metrics storage not found"))
+			return nil, NewAPIError("MetricsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "metrics storage not found"))
 		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsStorage.StatsDaily", e.StatusCode, errors.Wrap(err, "invalid parameter"))
+			return nil, NewAPIError("MetricsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "invalid parameter"))
 		default:
-			return nil, NewAPIError("MetricsStorage.StatsDaily", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return nil, NewAPIError("MetricsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.StatsDaily", 0, err)
+		return nil, NewAPIError("MetricsStorage.ReadDailyStats", 0, err)
 	} else {
 		return result.GetUsages(), nil
 	}
 }
 
-func (op *metricsStorageOp) StatsMonthly(ctx context.Context, resourceID string, year int) ([]v1.MetricsStorageMonthlyUsage, error) {
+func (op *metricsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.MetricsStorageMonthlyUsage, error) {
 	rid, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
-		return nil, NewError("MetricsStorage.StatsMonthly", err)
+		return nil, NewError("MetricsStorage.ReadMonthlyStats", err)
 	}
 	query := v1.MetricsStoragesStatsMonthlyRetrieveParams{
 		ResourceID: rid,
@@ -237,16 +237,16 @@ func (op *metricsStorageOp) StatsMonthly(ctx context.Context, resourceID string,
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.StatsMonthly", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+			return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
 		case http.StatusNotFound:
-			return nil, NewAPIError("MetricsStorage.StatsMonthly", e.StatusCode, errors.Wrap(err, "metrics storage not found"))
+			return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "metrics storage not found"))
 		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsStorage.StatsMonthly", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
+			return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
 		default:
-			return nil, NewAPIError("MetricsStorage.StatsMonthly", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.StatsMonthly", 0, err)
+		return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", 0, err)
 	} else {
 		return result.GetUsages(), nil
 	}

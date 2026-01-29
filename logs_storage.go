@@ -34,8 +34,8 @@ type LogsStorageAPI interface {
 	Delete(ctx context.Context, id string) error
 
 	SetExpire(ctx context.Context, resourceID string, days int) (*v1.LogStorage, error)
-	StatsDaily(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error)
-	StatsMonthly(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error)
+	ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error)
+	ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error)
 
 	ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error)
 	CreateKey(ctx context.Context, logResourceId string, description *string) (*v1.LogStorageAccessKey, error)
@@ -230,10 +230,10 @@ func (op *logsStorageOp) SetExpire(ctx context.Context, resourceID string, days 
 	}
 }
 
-func (op *logsStorageOp) StatsDaily(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error) {
+func (op *logsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error) {
 	rid, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
-		return nil, NewError("LogsStorage.StatsDaily", err)
+		return nil, NewError("LogsStorage.ReadDailyStats", err)
 	}
 	query := v1.LogsStoragesStatsDailyRetrieveParams{
 		ResourceID: rid,
@@ -244,25 +244,25 @@ func (op *logsStorageOp) StatsDaily(ctx context.Context, resourceID string, star
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.StatsDaily", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
 		case http.StatusNotFound:
-			return nil, NewAPIError("LogsStorage.StatsDaily", e.StatusCode, errors.Wrap(err, "log storage not found"))
+			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "log storage not found"))
 		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.StatsDaily", e.StatusCode, errors.Wrap(err, "invalid parameter"))
+			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "invalid parameter"))
 		default:
-			return nil, NewAPIError("LogsStorage.StatsDaily", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.StatsDaily", 0, err)
+		return nil, NewAPIError("LogsStorage.ReadDailyStats", 0, err)
 	} else {
 		return result.GetUsages(), nil
 	}
 }
 
-func (op *logsStorageOp) StatsMonthly(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error) {
+func (op *logsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error) {
 	rid, err := strconv.ParseInt(resourceID, 10, 64)
 	if err != nil {
-		return nil, NewError("LogsStorage.StatsMonthly", err)
+		return nil, NewError("LogsStorage.ReadMonthlyStats", err)
 	}
 	query := v1.LogsStoragesStatsMonthlyRetrieveParams{
 		ResourceID: rid,
@@ -272,16 +272,16 @@ func (op *logsStorageOp) StatsMonthly(ctx context.Context, resourceID string, ye
 	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
 		switch e.StatusCode {
 		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.StatsMonthly", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
 		case http.StatusNotFound:
-			return nil, NewAPIError("LogsStorage.StatsMonthly", e.StatusCode, errors.Wrap(err, "log storage not found"))
+			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "log storage not found"))
 		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.StatsMonthly", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
+			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
 		default:
-			return nil, NewAPIError("LogsStorage.StatsMonthly", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
 		}
 	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.StatsMonthly", 0, err)
+		return nil, NewAPIError("LogsStorage.ReadMonthlyStats", 0, err)
 	} else {
 		return result.GetUsages(), nil
 	}

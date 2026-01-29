@@ -206,7 +206,7 @@ func TestTracesStorageOp_StatsDaily(t *testing.T) {
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
 
-	result, err := api.StatsDaily(ctx, "12345", &startDate, &endDate)
+	result, err := api.ReadDailyStats(ctx, "12345", &startDate, &endDate)
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	require.Equal(t, 1, len(result))
@@ -221,7 +221,7 @@ func TestTracesStorageOp_StatsDaily_400(t *testing.T) {
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
 
-	result, err := api.StatsDaily(ctx, "invalid", &startDate, &endDate)
+	result, err := api.ReadDailyStats(ctx, "invalid", &startDate, &endDate)
 	require.Nil(t, result)
 	require.Error(t, err)
 }
@@ -234,7 +234,7 @@ func TestTracesStorageOp_StatsMonthly(t *testing.T) {
 	api := NewTracesStorageOp(client)
 	ctx := context.Background()
 
-	result, err := api.StatsMonthly(ctx, "12345", 2025)
+	result, err := api.ReadMonthlyStats(ctx, "12345", 2025)
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	require.Equal(t, 1, len(result))
@@ -246,7 +246,7 @@ func TestTracesStorageOp_StatsMonthly_400(t *testing.T) {
 	api := NewTracesStorageOp(client)
 	ctx := context.Background()
 
-	result, err := api.StatsMonthly(ctx, "99999", 2200)
+	result, err := api.ReadMonthlyStats(ctx, "99999", 2200)
 	require.Nil(t, result)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid parameter")
@@ -445,18 +445,18 @@ func TestTracesStorageIntegrated(t *testing.T) {
 	require.Equal(t, created.GetID(), expired.GetID())
 	require.Equal(t, expireDays, expired.GetRetentionPeriodDays())
 
-	// StatsDaily
+	// ReadDailyStats
 	now := time.Now()
 	startDate := now.AddDate(0, 0, -30)
 	endDate := now
-	dailyStats, err := api.StatsDaily(ctx, tid, &startDate, &endDate)
+	dailyStats, err := api.ReadDailyStats(ctx, tid, &startDate, &endDate)
 	require.NoError(t, err)
 	require.NotNil(t, dailyStats)
 	// Note: May be empty for newly created resources, which is acceptable
 
-	// StatsMonthly
+	// ReadMonthlyStats
 	currentYear := now.Year()
-	monthlyStats, err := api.StatsMonthly(ctx, tid, currentYear)
+	monthlyStats, err := api.ReadMonthlyStats(ctx, tid, currentYear)
 	require.NoError(t, err)
 	require.NotNil(t, monthlyStats)
 	// Note: May be empty for newly created resources, which is acceptable

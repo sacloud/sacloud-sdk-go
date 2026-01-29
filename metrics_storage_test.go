@@ -203,7 +203,7 @@ func TestMetricsStorageOp_StatsDaily(t *testing.T) {
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
 
-	result, err := api.StatsDaily(ctx, "12345", &startDate, &endDate)
+	result, err := api.ReadDailyStats(ctx, "12345", &startDate, &endDate)
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	require.Equal(t, 1, len(result))
@@ -218,7 +218,7 @@ func TestMetricsStorageOp_StatsDaily_400(t *testing.T) {
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
 
-	result, err := api.StatsDaily(ctx, "invalid", &startDate, &endDate)
+	result, err := api.ReadDailyStats(ctx, "invalid", &startDate, &endDate)
 	require.Nil(t, result)
 	require.Error(t, err)
 }
@@ -231,7 +231,7 @@ func TestMetricsStorageOp_StatsMonthly(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	result, err := api.StatsMonthly(ctx, "12345", 2025)
+	result, err := api.ReadMonthlyStats(ctx, "12345", 2025)
 	require.NoError(t, err)
 	require.NotNil(t, result)
 	require.Equal(t, 1, len(result))
@@ -243,7 +243,7 @@ func TestMetricsStorageOp_StatsMonthly_400(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	result, err := api.StatsMonthly(ctx, "99999", 2200)
+	result, err := api.ReadMonthlyStats(ctx, "99999", 2200)
 	require.Nil(t, result)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid parameter")
@@ -429,18 +429,18 @@ func TestMetricsStorageIntegrated(t *testing.T) {
 	require.NotNil(t, tanks)
 	require.NotEmpty(t, tanks)
 
-	// StatsDaily
+	// ReadDailyStats
 	now := time.Now()
 	startDate := now.AddDate(0, 0, -30)
 	endDate := now
-	dailyStats, err := api.StatsDaily(ctx, sid, &startDate, &endDate)
+	dailyStats, err := api.ReadDailyStats(ctx, sid, &startDate, &endDate)
 	require.NoError(t, err)
 	require.NotNil(t, dailyStats)
 	// Note: May be empty for newly created resources, which is acceptable
 
-	// StatsMonthly
+	// ReadMonthlyStats
 	currentYear := now.Year()
-	monthlyStats, err := api.StatsMonthly(ctx, sid, currentYear)
+	monthlyStats, err := api.ReadMonthlyStats(ctx, sid, currentYear)
 	require.NoError(t, err)
 	require.NotNil(t, monthlyStats)
 	// Note: May be empty for newly created resources, which is acceptable
