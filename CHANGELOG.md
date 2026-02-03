@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.3.1](https://github.com/sacloud/saclient-go/compare/v0.3.0...v0.3.1) - 2026-02-03
+- Prefer bearer authentication by @shyouhei in https://github.com/sacloud/saclient-go/pull/64
+- ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/58
+- go: bump github.com/sacloud/api-client-go from 0.3.4 to 0.3.5 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/63
+
 ## [v0.3.0](https://github.com/sacloud/saclient-go/compare/v0.2.7...v0.3.0) - 2026-01-28
 - feat: add configurable service endpoints support by @yamamoto-febc in https://github.com/sacloud/saclient-go/pull/57
 - ci: bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/60
