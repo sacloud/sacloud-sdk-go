@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+//go:debug rsa1024min=0
 package saclient_test
 
 import (
@@ -20,7 +21,10 @@ import (
 	"encoding/pem"
 	"flag"
 	"fmt"
+	"io"
+	"maps"
 	"net/http"
+	"net/http/httptest"
 	"os"
 	"runtime"
 	"testing"
@@ -183,10 +187,18 @@ func (s *ClientTestSuite) SetupSuite() {
 
 	fp, _ := os.OpenFile(dir+"/usacloud/usacloud/usamin.pem", os.O_WRONLY|os.O_CREATE, 0o600)
 	defer fp.Close()
-	pem.Encode(fp, &pem.Block{
-		Type:  "RSA PRIVATE KEY",
-		Bytes: []byte("dummy"),
-	})
+	io.WriteString(fp, `
+-----BEGIN PRIVATE KEY-----
+MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAuvRcHR1FLlbL0hV/
+oMcgGwCP4NS6HayccLsSXrBmXnVvG0YSntAUz9p+lMcOLm5/Ao+M7nJdWntHxgn4
+REkS1wIDAQABAkAESOFrkWYqf7bAI9n+91FXDRY/EuEJGRGky8TKAsT12TUN7v/F
+0G96JeBUUsH7ZHKMqyOui9SGypnR+6baR5kRAiEA94jnP7ZhRS0p8r0ScmjNs4Fl
+qrcqI3CWC9LiIzVC3T0CIQDBWRf4m1vXt5fr77j85Zj28mNutiwXYQLJUKV5X7xZ
+owIgCDcL7apg2gngrYSm2xMtWHq/5AWGKXzwDd5m0OJQoMUCIQCdbqERIddHr8s5
+JonXClBiC32hIR6HrsspBsymJqjjxwIhAIyHd91UNdLPGxidqNp7c65sh1/BimtT
+euIJBGkmzNop
+-----END PRIVATE KEY-----
+`)
 
 	fp, _ = os.OpenFile(dir+"/another.pem", os.O_WRONLY|os.O_CREATE, 0o600)
 	defer fp.Close()
@@ -288,7 +300,7 @@ func (s *ClientTestSuite) TestEnviron() {
 			"APIRequestRateLimit": int64(20),
 			"APIRequestTimeout":   int64(30),
 			"APIRootURL":          "https://api.example.com",
-			"AuthPreference":      "basic",
+			"AuthPreference":      "bearer",
 			"PrivateKey":          "dummy-private-key",
 			"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
 			"RetryMax":            int64(10), // <= default value instead of zero
@@ -333,7 +345,7 @@ func (s *ClientTestSuite) TestEnviron() {
 			"APIRequestRateLimit": int64(20),
 			"APIRequestTimeout":   int64(30),
 			"APIRootURL":          "https://api.example.com",
-			"AuthPreference":      "basic",
+			"AuthPreference":      "bearer",
 			"PrivateKey":          "dummy-private-key",
 			"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
 			"RetryMax":            int64(10), // <= default value instead of zero
@@ -392,7 +404,7 @@ func (s *ClientTestSuite) TestEnviron() {
 			"APIRequestRateLimit": int64(20),
 			"APIRequestTimeout":   int64(30),
 			"APIRootURL":          "https://api.example.com",
-			"AuthPreference":      "basic",
+			"AuthPreference":      "bearer",
 			"PrivateKey":          "dummy-private-key",
 			"PrivateKeyPEMPath":   os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
 			"RetryMax":            int64(1024), // <= SAKURACLOUD_ wins here
@@ -699,4 +711,61 @@ func (s *ClientTestSuite) TestPrecedence() {
 	// argv:missing, envp:missing, hcl:missing, profile:missing, dynamic: missing, default:missing
 	// => no key
 	s.NotContains(subject.JSON(), "SomeNonexistentKey")
+}
+
+func (s *ClientTestSuite) authPreferenceMockServer() (
+	hdr http.Header,
+	req *http.Request,
+	svr *httptest.Server,
+) {
+	var err error
+	hdr = make(http.Header)
+	svr = httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		maps.Copy(hdr, r.Header)
+		w.WriteHeader(http.StatusAccepted)
+	}))
+	req, err = http.NewRequestWithContext(s.T().Context(), "GET", svr.URL, nil)
+	s.NoError(err)
+	return
+}
+
+func (s *ClientTestSuite) TestAuthPreference() {
+	// Setup
+	e := s.subject.FlagSet(flag.PanicOnError).Parse([]string{
+		"--secret=bar",
+		"--token=foo",
+		"--private-key-path=" + os.Getenv("XDG_CONFIG_HOME") + "/usacloud/usacloud/usamin.pem",
+		"--service-principal-id=9995069170671",                 // (nonexistent)
+		"--service-principal-key-id=EoSzAQwRly2XTKib5EfCSj7jl", // (nonexistent)
+	})
+	s.NoError(e)
+	e = s.subject.Populate()
+	s.NoError(e)
+
+	s.Run("explicit AuthPreference=basic", func() {
+		hdr, req, svr := s.authPreferenceMockServer()
+		subject, e := s.subject.DupWith(WithTestServer(svr), WithFavouringBasicAuthentication())
+		s.NoError(e)
+		_, e = subject.Do(req)
+		s.NoError(e)
+		s.Regexp("^Basic ", hdr.Get("Authorization"))
+	})
+
+	s.Run("explicit AuthPreference=bearer", func() {
+		hdr, req, svr := s.authPreferenceMockServer()
+		subject, e := s.subject.DupWith(WithTestServer(svr), WithFavouringBearerAuthentication())
+		s.NoError(e)
+		_, e = subject.Do(req)
+		s.NoError(e)
+		s.Regexp("^Bearer ", hdr.Get("Authorization"))
+	})
+
+	s.Run("implicit", func() {
+		hdr, req, svr := s.authPreferenceMockServer()
+		subject, e := s.subject.DupWith(WithTestServer(svr))
+		s.NoError(e)
+		_, e = subject.Do(req)
+		s.NoError(e)
+		s.Regexp("^Bearer ", hdr.Get("Authorization"))
+	})
 }
