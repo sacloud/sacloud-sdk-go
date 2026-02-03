@@ -588,11 +588,11 @@ func (p *parameter) populateAuthPreference(c *config) error {
 	} else {
 		// But if absent, things get complicated...
 		key2auth := [][2]string{
-			{"AccessToken", "basic"},
-			{"AccessTokenSecret", "basic"},
 			{"PrivateKeyPEMPath", "bearer"},
 			{"ServicePrincipalID", "bearer"},
 			{"ServicePrincipalKeyID", "bearer"},
+			{"AccessToken", "basic"},
+			{"AccessTokenSecret", "basic"},
 		}
 
 		// At this point if command-line arguent of any sort is given, that takes precedence.
