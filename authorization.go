@@ -27,12 +27,12 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 			return nil, result.error()
 		} else if pref, ok := result.some(); ok {
 			mode = pref
-		} else if result := obtainFromConfig[string](c, "AccessToken"); result.isSome() {
-			mode = "basic"
 		} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isSome() {
 			mode = "bearer"
 		} else if result := obtainFromConfig[string](c, "PrivateKey"); result.isSome() {
 			mode = "bearer"
+		} else if result := obtainFromConfig[string](c, "AccessToken"); result.isSome() {
+			mode = "basic"
 		} else {
 			// no auth info found ... ?
 			// let's just let it go without auth
