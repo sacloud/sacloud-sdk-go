@@ -55,13 +55,13 @@ func (d *doer) tracer(c *config) Middleware {
 					req.Body = io.NopCloser(copied)
 				}
 
-				return __traceDump(req, res)
+				return dumpTracePair(req, res)
 			}
 		}
 	}
 }
 
-func __traceDump(req *http.Request, res *http.Response) (*http.Response, error) {
+func dumpTracePair(req *http.Request, res *http.Response) (*http.Response, error) {
 	if dump, err := httputil.DumpRequest(req, true); err != nil {
 		return nil, err
 	} else {

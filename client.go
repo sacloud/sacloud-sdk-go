@@ -334,7 +334,7 @@ func (c *Client) Profile() (*Profile, error) {
 }
 
 func (c *Client) ProfileName() (dir, name *string) {
-	i, _ := c.__populate__() // This __populate__ can fail, but we go ahead.
+	i, _ := c.doPopulate() // This doPopulate can fail, but we go ahead.
 	result := obtainFromConfig[string](&i.c, "ProfileName")
 	op, err := c.ProfileOp()
 
@@ -414,7 +414,7 @@ func (c *Client) EndpointConfig() (*EndpointConfig, error) {
 func (c *Client) ensurePopulated() (*config, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
-	} else if i, err := c.__populate__(); err != nil {
+	} else if i, err := c.doPopulate(); err != nil {
 		return nil, err
 	} else {
 		return &i.c, nil
@@ -424,14 +424,14 @@ func (c *Client) ensurePopulated() (*config, error) {
 func (c *Client) ensureDoer() (HttpRequestDoer, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
-	} else if i, err := c.__populate__(); err != nil {
+	} else if i, err := c.doPopulate(); err != nil {
 		return nil, err
 	} else {
 		return i.d, nil
 	}
 }
 
-func (c *Client) __populate__() (*inner, error) {
+func (c *Client) doPopulate() (*inner, error) {
 	return c.once.Do(func(i *inner) error {
 		i.c = make(config)
 
