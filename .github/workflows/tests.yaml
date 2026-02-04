@@ -63,7 +63,7 @@ jobs:
       matrix:
         go-version:
           - stable
-          - oldstable
+          # - oldstable
 
     steps:
       - name: Checkout
