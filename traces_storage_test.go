@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
@@ -169,6 +170,86 @@ func TestTracesStorageOp_Delete_400(t *testing.T) {
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
+}
+
+func TestTracesStorageOp_SetExpire(t *testing.T) {
+	client := newTestClient(TemplateWrappedTraceStorage)
+	api := NewTracesStorageOp(client)
+	ctx := context.Background()
+
+	result, err := api.SetExpire(ctx, "12345", 365)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, TemplateWrappedTraceStorage.GetName(), result.GetName())
+}
+
+func TestTracesStorageOp_SetExpire_400(t *testing.T) {
+	expected := newErrorResponse(400, "invalid parameter, days must be between 1 and 730")
+	client := newTestClient(expected, http.StatusBadRequest)
+	api := NewTracesStorageOp(client)
+	ctx := context.Background()
+
+	result, err := api.SetExpire(ctx, "12345", 999)
+	require.Nil(t, result)
+	require.Error(t, err)
+	require.ErrorContains(t, err, "invalid")
+}
+
+func TestTracesStorageOp_StatsDaily(t *testing.T) {
+	expected := v1.LogStorageDailyUsageBody{
+		Usages: []v1.LogStorageDailyUsage{TemplateLogStorageDailyUsage},
+	}
+	client := newTestClient(expected)
+	api := NewTracesStorageOp(client)
+	ctx := context.Background()
+
+	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
+	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
+
+	result, err := api.ReadDailyStats(ctx, "12345", &startDate, &endDate)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, 1, len(result))
+}
+
+func TestTracesStorageOp_StatsDaily_400(t *testing.T) {
+	expected := newErrorResponse(400, "invalid parameter")
+	client := newTestClient(expected, http.StatusBadRequest)
+	api := NewTracesStorageOp(client)
+	ctx := context.Background()
+
+	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
+	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
+
+	result, err := api.ReadDailyStats(ctx, "invalid", &startDate, &endDate)
+	require.Nil(t, result)
+	require.Error(t, err)
+}
+
+func TestTracesStorageOp_StatsMonthly(t *testing.T) {
+	expected := v1.LogStorageMonthlyUsageBody{
+		Usages: []v1.LogStorageMonthlyUsage{TemplateLogStorageMonthlyUsage},
+	}
+	client := newTestClient(expected)
+	api := NewTracesStorageOp(client)
+	ctx := context.Background()
+
+	result, err := api.ReadMonthlyStats(ctx, "12345", 2025)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, 1, len(result))
+}
+
+func TestTracesStorageOp_StatsMonthly_400(t *testing.T) {
+	expected := newErrorResponse(400, "invalid parameter, year must be between 1970 and 2100")
+	client := newTestClient(expected, http.StatusBadRequest)
+	api := NewTracesStorageOp(client)
+	ctx := context.Background()
+
+	result, err := api.ReadMonthlyStats(ctx, "99999", 2200)
+	require.Nil(t, result)
+	require.Error(t, err)
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 // --- Access Key API tests ---
@@ -355,4 +436,28 @@ func TestTracesStorageIntegrated(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, keyUpdated)
 	require.Equal(t, updatedKeyDesc, keyUpdated.GetDescription().Value)
+
+	// SetExpire
+	expireDays := 365
+	expired, err := api.SetExpire(ctx, tid, expireDays)
+	require.NoError(t, err)
+	require.NotNil(t, expired)
+	require.Equal(t, created.GetID(), expired.GetID())
+	require.Equal(t, expireDays, expired.GetRetentionPeriodDays())
+
+	// ReadDailyStats
+	now := time.Now()
+	startDate := now.AddDate(0, 0, -30)
+	endDate := now
+	dailyStats, err := api.ReadDailyStats(ctx, tid, &startDate, &endDate)
+	require.NoError(t, err)
+	require.NotNil(t, dailyStats)
+	// Note: May be empty for newly created resources, which is acceptable
+
+	// ReadMonthlyStats
+	currentYear := now.Year()
+	monthlyStats, err := api.ReadMonthlyStats(ctx, tid, currentYear)
+	require.NoError(t, err)
+	require.NotNil(t, monthlyStats)
+	// Note: May be empty for newly created resources, which is acceptable
 }

@@ -18,6 +18,7 @@ import (
 	"context"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/google/uuid"
@@ -31,6 +32,10 @@ type LogsStorageAPI interface {
 	Read(ctx context.Context, id string) (*v1.LogStorage, error)
 	Update(ctx context.Context, id string, params LogStorageUpdateParams) (*v1.LogStorage, error)
 	Delete(ctx context.Context, id string) error
+
+	SetExpire(ctx context.Context, resourceID string, days int) (*v1.LogStorage, error)
+	ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error)
+	ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error)
 
 	ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error)
 	CreateKey(ctx context.Context, logResourceId string, description *string) (*v1.LogStorageAccessKey, error)
@@ -146,14 +151,12 @@ func (op *logsStorageOp) Create(ctx context.Context, params LogStorageCreatePara
 type LogStorageUpdateParams struct {
 	Name        *string
 	Description *string
-	ExpireDay   *int64
 }
 
 func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpdateParams) (*v1.LogStorage, error) {
 	resource := v1.PatchedLogStorage{
 		Name:        intoOpt[v1.OptString](p.Name),
 		Description: intoOpt[v1.OptString](p.Description),
-		ExpireDay:   intoOpt[v1.OptInt64](p.ExpireDay),
 	}
 	rid, err := strconv.ParseInt(id, 10, 64)
 	if err != nil {
@@ -199,6 +202,89 @@ func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 		return NewAPIError("LogsStorage.Delete", 0, err)
 	}
 	return nil
+}
+
+func (op *logsStorageOp) SetExpire(ctx context.Context, resourceID string, days int) (*v1.LogStorage, error) {
+	rid, err := strconv.ParseInt(resourceID, 10, 64)
+	if err != nil {
+		return nil, NewError("LogsStorage.SetExpire", err)
+	}
+	params := v1.LogsStoragesSetExpireCreateParams{ResourceID: rid}
+	body := v1.SetLogStorageExpireDay{Days: days}
+	result, err := op.client.LogsStoragesSetExpireCreate(ctx, &body, params)
+	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
+		switch e.StatusCode {
+		case http.StatusForbidden:
+			return nil, NewAPIError("LogsStorage.SetExpire", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+		case http.StatusNotFound:
+			return nil, NewAPIError("LogsStorage.SetExpire", e.StatusCode, errors.Wrap(err, "log storage not found"))
+		case http.StatusBadRequest:
+			return nil, NewAPIError("LogsStorage.SetExpire", e.StatusCode, errors.Wrap(err, "invalid parameter, days must be between 1 and 730"))
+		default:
+			return nil, NewAPIError("LogsStorage.SetExpire", e.StatusCode, errors.Wrap(err, "internal server error"))
+		}
+	} else if err != nil {
+		return nil, NewAPIError("LogsStorage.SetExpire", 0, err)
+	} else {
+		return result, nil
+	}
+}
+
+func (op *logsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error) {
+	rid, err := strconv.ParseInt(resourceID, 10, 64)
+	if err != nil {
+		return nil, NewError("LogsStorage.ReadDailyStats", err)
+	}
+	query := v1.LogsStoragesStatsDailyRetrieveParams{
+		ResourceID: rid,
+		StartDate:  intoOpt[v1.OptDate](startDate),
+		EndDate:    intoOpt[v1.OptDate](endDate),
+	}
+	result, err := op.client.LogsStoragesStatsDailyRetrieve(ctx, query)
+	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
+		switch e.StatusCode {
+		case http.StatusForbidden:
+			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+		case http.StatusNotFound:
+			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "log storage not found"))
+		case http.StatusBadRequest:
+			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "invalid parameter"))
+		default:
+			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+		}
+	} else if err != nil {
+		return nil, NewAPIError("LogsStorage.ReadDailyStats", 0, err)
+	} else {
+		return result.GetUsages(), nil
+	}
+}
+
+func (op *logsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error) {
+	rid, err := strconv.ParseInt(resourceID, 10, 64)
+	if err != nil {
+		return nil, NewError("LogsStorage.ReadMonthlyStats", err)
+	}
+	query := v1.LogsStoragesStatsMonthlyRetrieveParams{
+		ResourceID: rid,
+		Year:       year,
+	}
+	result, err := op.client.LogsStoragesStatsMonthlyRetrieve(ctx, query)
+	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
+		switch e.StatusCode {
+		case http.StatusForbidden:
+			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+		case http.StatusNotFound:
+			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "log storage not found"))
+		case http.StatusBadRequest:
+			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
+		default:
+			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+		}
+	} else if err != nil {
+		return nil, NewAPIError("LogsStorage.ReadMonthlyStats", 0, err)
+	} else {
+		return result.GetUsages(), nil
+	}
 }
 
 func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error) {

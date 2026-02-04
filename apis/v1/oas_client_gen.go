@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/uri"
@@ -383,6 +382,24 @@ type Invoker interface {
 	//
 	// GET /logs/storages/{resource_id}/
 	LogsStoragesRetrieve(ctx context.Context, params LogsStoragesRetrieveParams) (*WrappedLogStorage, error)
+	// LogsStoragesSetExpireCreate invokes logs_storages_set_expire_create operation.
+	//
+	// ログストレージの保存期間を設定します。.
+	//
+	// POST /logs/storages/{resource_id}/set-expire/
+	LogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDay, params LogsStoragesSetExpireCreateParams) (*LogStorage, error)
+	// LogsStoragesStatsDailyRetrieve invokes logs_storages_stats_daily_retrieve operation.
+	//
+	// ログストレージの日次利用状況を取得します。.
+	//
+	// GET /logs/storages/{resource_id}/stats/daily/
+	LogsStoragesStatsDailyRetrieve(ctx context.Context, params LogsStoragesStatsDailyRetrieveParams) (*LogStorageDailyUsageBody, error)
+	// LogsStoragesStatsMonthlyRetrieve invokes logs_storages_stats_monthly_retrieve operation.
+	//
+	// ログストレージの月次利用状況を取得します。.
+	//
+	// GET /logs/storages/{resource_id}/stats/monthly/
+	LogsStoragesStatsMonthlyRetrieve(ctx context.Context, params LogsStoragesStatsMonthlyRetrieveParams) (*LogStorageMonthlyUsageBody, error)
 	// LogsStoragesUpdate invokes logs_storages_update operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
@@ -491,6 +508,18 @@ type Invoker interface {
 	//
 	// GET /metrics/storages/{resource_id}/
 	MetricsStoragesRetrieve(ctx context.Context, params MetricsStoragesRetrieveParams) (*WrappedMetricsStorage, error)
+	// MetricsStoragesStatsDailyRetrieve invokes metrics_storages_stats_daily_retrieve operation.
+	//
+	// メトリクスストレージの日次利用状況を取得します。.
+	//
+	// GET /metrics/storages/{resource_id}/stats/daily/
+	MetricsStoragesStatsDailyRetrieve(ctx context.Context, params MetricsStoragesStatsDailyRetrieveParams) (*MetricsStorageDailyUsageBody, error)
+	// MetricsStoragesStatsMonthlyRetrieve invokes metrics_storages_stats_monthly_retrieve operation.
+	//
+	// メトリクスストレージの月次利用状況を取得します。.
+	//
+	// GET /metrics/storages/{resource_id}/stats/monthly/
+	MetricsStoragesStatsMonthlyRetrieve(ctx context.Context, params MetricsStoragesStatsMonthlyRetrieveParams) (*MetricsStorageMonthlyUsageBody, error)
 	// MetricsStoragesUpdate invokes metrics_storages_update operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
@@ -581,6 +610,24 @@ type Invoker interface {
 	//
 	// GET /traces/storages/{resource_id}/
 	TracesStoragesRetrieve(ctx context.Context, params TracesStoragesRetrieveParams) (*WrappedTraceStorage, error)
+	// TracesStoragesSetExpireCreate invokes traces_storages_set_expire_create operation.
+	//
+	// トレースストレージの保存期間を設定します。.
+	//
+	// POST /traces/storages/{resource_id}/set-expire/
+	TracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDay, params TracesStoragesSetExpireCreateParams) (*TraceStorage, error)
+	// TracesStoragesStatsDailyRetrieve invokes traces_storages_stats_daily_retrieve operation.
+	//
+	// トレースストレージの日次利用状況を取得します。.
+	//
+	// GET /traces/storages/{resource_id}/stats/daily/
+	TracesStoragesStatsDailyRetrieve(ctx context.Context, params TracesStoragesStatsDailyRetrieveParams) (*TraceStorageDailyUsageBody, error)
+	// TracesStoragesStatsMonthlyRetrieve invokes traces_storages_stats_monthly_retrieve operation.
+	//
+	// トレースストレージの月次利用状況を取得します。.
+	//
+	// GET /traces/storages/{resource_id}/stats/monthly/
+	TracesStoragesStatsMonthlyRetrieve(ctx context.Context, params TracesStoragesStatsMonthlyRetrieveParams) (*TraceStorageMonthlyUsageBody, error)
 	// TracesStoragesUpdate invokes traces_storages_update operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
@@ -5339,6 +5386,237 @@ func (c *Client) sendLogsStoragesRetrieve(ctx context.Context, params LogsStorag
 	return result, nil
 }
 
+// LogsStoragesSetExpireCreate invokes logs_storages_set_expire_create operation.
+//
+// ログストレージの保存期間を設定します。.
+//
+// POST /logs/storages/{resource_id}/set-expire/
+func (c *Client) LogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDay, params LogsStoragesSetExpireCreateParams) (*LogStorage, error) {
+	res, err := c.sendLogsStoragesSetExpireCreate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendLogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDay, params LogsStoragesSetExpireCreateParams) (res *LogStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/set-expire/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeLogsStoragesSetExpireCreateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeLogsStoragesSetExpireCreateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// LogsStoragesStatsDailyRetrieve invokes logs_storages_stats_daily_retrieve operation.
+//
+// ログストレージの日次利用状況を取得します。.
+//
+// GET /logs/storages/{resource_id}/stats/daily/
+func (c *Client) LogsStoragesStatsDailyRetrieve(ctx context.Context, params LogsStoragesStatsDailyRetrieveParams) (*LogStorageDailyUsageBody, error) {
+	res, err := c.sendLogsStoragesStatsDailyRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendLogsStoragesStatsDailyRetrieve(ctx context.Context, params LogsStoragesStatsDailyRetrieveParams) (res *LogStorageDailyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/daily/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "end_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "end_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.EndDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "start_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "start_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.StartDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeLogsStoragesStatsDailyRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// LogsStoragesStatsMonthlyRetrieve invokes logs_storages_stats_monthly_retrieve operation.
+//
+// ログストレージの月次利用状況を取得します。.
+//
+// GET /logs/storages/{resource_id}/stats/monthly/
+func (c *Client) LogsStoragesStatsMonthlyRetrieve(ctx context.Context, params LogsStoragesStatsMonthlyRetrieveParams) (*LogStorageMonthlyUsageBody, error) {
+	res, err := c.sendLogsStoragesStatsMonthlyRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendLogsStoragesStatsMonthlyRetrieve(ctx context.Context, params LogsStoragesStatsMonthlyRetrieveParams) (res *LogStorageMonthlyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/logs/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/monthly/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "year" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "year",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.IntToString(params.Year))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeLogsStoragesStatsMonthlyRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // LogsStoragesUpdate invokes logs_storages_update operation.
 //
 // ログストレージを管理するためのAPIエンドポイントです。.
@@ -6692,6 +6970,170 @@ func (c *Client) sendMetricsStoragesRetrieve(ctx context.Context, params Metrics
 	return result, nil
 }
 
+// MetricsStoragesStatsDailyRetrieve invokes metrics_storages_stats_daily_retrieve operation.
+//
+// メトリクスストレージの日次利用状況を取得します。.
+//
+// GET /metrics/storages/{resource_id}/stats/daily/
+func (c *Client) MetricsStoragesStatsDailyRetrieve(ctx context.Context, params MetricsStoragesStatsDailyRetrieveParams) (*MetricsStorageDailyUsageBody, error) {
+	res, err := c.sendMetricsStoragesStatsDailyRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendMetricsStoragesStatsDailyRetrieve(ctx context.Context, params MetricsStoragesStatsDailyRetrieveParams) (res *MetricsStorageDailyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/daily/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "end_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "end_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.EndDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "start_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "start_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.StartDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeMetricsStoragesStatsDailyRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// MetricsStoragesStatsMonthlyRetrieve invokes metrics_storages_stats_monthly_retrieve operation.
+//
+// メトリクスストレージの月次利用状況を取得します。.
+//
+// GET /metrics/storages/{resource_id}/stats/monthly/
+func (c *Client) MetricsStoragesStatsMonthlyRetrieve(ctx context.Context, params MetricsStoragesStatsMonthlyRetrieveParams) (*MetricsStorageMonthlyUsageBody, error) {
+	res, err := c.sendMetricsStoragesStatsMonthlyRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendMetricsStoragesStatsMonthlyRetrieve(ctx context.Context, params MetricsStoragesStatsMonthlyRetrieveParams) (res *MetricsStorageMonthlyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/metrics/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/monthly/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "year" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "year",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.IntToString(params.Year))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeMetricsStoragesStatsMonthlyRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // MetricsStoragesUpdate invokes metrics_storages_update operation.
 //
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
@@ -7782,6 +8224,237 @@ func (c *Client) sendTracesStoragesRetrieve(ctx context.Context, params TracesSt
 	defer resp.Body.Close()
 
 	result, err := decodeTracesStoragesRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesSetExpireCreate invokes traces_storages_set_expire_create operation.
+//
+// トレースストレージの保存期間を設定します。.
+//
+// POST /traces/storages/{resource_id}/set-expire/
+func (c *Client) TracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDay, params TracesStoragesSetExpireCreateParams) (*TraceStorage, error) {
+	res, err := c.sendTracesStoragesSetExpireCreate(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDay, params TracesStoragesSetExpireCreateParams) (res *TraceStorage, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/set-expire/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeTracesStoragesSetExpireCreateRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesSetExpireCreateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesStatsDailyRetrieve invokes traces_storages_stats_daily_retrieve operation.
+//
+// トレースストレージの日次利用状況を取得します。.
+//
+// GET /traces/storages/{resource_id}/stats/daily/
+func (c *Client) TracesStoragesStatsDailyRetrieve(ctx context.Context, params TracesStoragesStatsDailyRetrieveParams) (*TraceStorageDailyUsageBody, error) {
+	res, err := c.sendTracesStoragesStatsDailyRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesStatsDailyRetrieve(ctx context.Context, params TracesStoragesStatsDailyRetrieveParams) (res *TraceStorageDailyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/daily/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "end_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "end_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.EndDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "start_date" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "start_date",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.StartDate.Get(); ok {
+				return e.EncodeValue(conv.DateToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesStatsDailyRetrieveResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// TracesStoragesStatsMonthlyRetrieve invokes traces_storages_stats_monthly_retrieve operation.
+//
+// トレースストレージの月次利用状況を取得します。.
+//
+// GET /traces/storages/{resource_id}/stats/monthly/
+func (c *Client) TracesStoragesStatsMonthlyRetrieve(ctx context.Context, params TracesStoragesStatsMonthlyRetrieveParams) (*TraceStorageMonthlyUsageBody, error) {
+	res, err := c.sendTracesStoragesStatsMonthlyRetrieve(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendTracesStoragesStatsMonthlyRetrieve(ctx context.Context, params TracesStoragesStatsMonthlyRetrieveParams) (res *TraceStorageMonthlyUsageBody, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/traces/storages/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.Int64ToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/stats/monthly/"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "year" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "year",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.IntToString(params.Year))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeTracesStoragesStatsMonthlyRetrieveResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

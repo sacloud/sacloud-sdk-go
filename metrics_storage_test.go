@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
@@ -189,6 +190,63 @@ func TestMetricsStorageOp_Delete_400(t *testing.T) {
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
 	require.ErrorContains(t, err, "Bad Request")
+}
+
+func TestMetricsStorageOp_StatsDaily(t *testing.T) {
+	expected := v1.MetricsStorageDailyUsageBody{
+		Usages: []v1.MetricsStorageDailyUsage{TemplateMetricsStorageDailyUsage},
+	}
+	client := newTestClient(expected)
+	api := NewMetricsStorageOp(client)
+	ctx := context.Background()
+
+	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
+	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
+
+	result, err := api.ReadDailyStats(ctx, "12345", &startDate, &endDate)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, 1, len(result))
+}
+
+func TestMetricsStorageOp_StatsDaily_400(t *testing.T) {
+	expected := newErrorResponse(400, "invalid parameter")
+	client := newTestClient(expected, http.StatusBadRequest)
+	api := NewMetricsStorageOp(client)
+	ctx := context.Background()
+
+	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
+	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
+
+	result, err := api.ReadDailyStats(ctx, "invalid", &startDate, &endDate)
+	require.Nil(t, result)
+	require.Error(t, err)
+}
+
+func TestMetricsStorageOp_StatsMonthly(t *testing.T) {
+	expected := v1.MetricsStorageMonthlyUsageBody{
+		Usages: []v1.MetricsStorageMonthlyUsage{TemplateMetricsStorageMonthlyUsage},
+	}
+	client := newTestClient(expected)
+	api := NewMetricsStorageOp(client)
+	ctx := context.Background()
+
+	result, err := api.ReadMonthlyStats(ctx, "12345", 2025)
+	require.NoError(t, err)
+	require.NotNil(t, result)
+	require.Equal(t, 1, len(result))
+}
+
+func TestMetricsStorageOp_StatsMonthly_400(t *testing.T) {
+	expected := newErrorResponse(400, "invalid parameter, year must be between 1970 and 2100")
+	client := newTestClient(expected, http.StatusBadRequest)
+	api := NewMetricsStorageOp(client)
+	ctx := context.Background()
+
+	result, err := api.ReadMonthlyStats(ctx, "99999", 2200)
+	require.Nil(t, result)
+	require.Error(t, err)
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 // --- Access Key API tests ---
@@ -370,4 +428,20 @@ func TestMetricsStorageIntegrated(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, tanks)
 	require.NotEmpty(t, tanks)
+
+	// ReadDailyStats
+	now := time.Now()
+	startDate := now.AddDate(0, 0, -30)
+	endDate := now
+	dailyStats, err := api.ReadDailyStats(ctx, sid, &startDate, &endDate)
+	require.NoError(t, err)
+	require.NotNil(t, dailyStats)
+	// Note: May be empty for newly created resources, which is acceptable
+
+	// ReadMonthlyStats
+	currentYear := now.Year()
+	monthlyStats, err := api.ReadMonthlyStats(ctx, sid, currentYear)
+	require.NoError(t, err)
+	require.NotNil(t, monthlyStats)
+	// Note: May be empty for newly created resources, which is acceptable
 }

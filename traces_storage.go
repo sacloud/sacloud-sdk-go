@@ -18,6 +18,7 @@ import (
 	"context"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/go-faster/errors"
 	"github.com/google/uuid"
@@ -31,6 +32,10 @@ type TracesStorageAPI interface {
 	Read(ctx context.Context, id string) (*v1.TraceStorage, error)
 	Update(ctx context.Context, id string, request TracesStorageUpdateParams) (*v1.TraceStorage, error)
 	Delete(ctx context.Context, id string) error
+
+	SetExpire(ctx context.Context, resourceID string, days int) (*v1.TraceStorage, error)
+	ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error)
+	ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error)
 
 	ListKeys(ctx context.Context, tracesResourceId string, count *int, from *int) ([]v1.TraceStorageAccessKey, error)
 	CreateKey(ctx context.Context, tracesResourceId string, description *string) (*v1.TraceStorageAccessKey, error)
@@ -190,6 +195,89 @@ func (op *tracesStorageOp) Delete(ctx context.Context, resourceID string) error 
 		return NewAPIError("TracesStorage.Delete", 0, err)
 	}
 	return nil
+}
+
+func (op *tracesStorageOp) SetExpire(ctx context.Context, resourceID string, days int) (*v1.TraceStorage, error) {
+	rid, err := strconv.ParseInt(resourceID, 10, 64)
+	if err != nil {
+		return nil, NewError("TracesStorage.SetExpire", err)
+	}
+	params := v1.TracesStoragesSetExpireCreateParams{ResourceID: rid}
+	body := v1.SetTraceStorageExpireDay{Days: days}
+	result, err := op.client.TracesStoragesSetExpireCreate(ctx, &body, params)
+	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
+		switch e.StatusCode {
+		case http.StatusForbidden:
+			return nil, NewAPIError("TracesStorage.SetExpire", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+		case http.StatusNotFound:
+			return nil, NewAPIError("TracesStorage.SetExpire", e.StatusCode, errors.Wrap(err, "trace storage not found"))
+		case http.StatusBadRequest:
+			return nil, NewAPIError("TracesStorage.SetExpire", e.StatusCode, errors.Wrap(err, "invalid parameter, days must be between 1 and 730"))
+		default:
+			return nil, NewAPIError("TracesStorage.SetExpire", e.StatusCode, errors.Wrap(err, "internal server error"))
+		}
+	} else if err != nil {
+		return nil, NewAPIError("TracesStorage.SetExpire", 0, err)
+	} else {
+		return result, nil
+	}
+}
+
+func (op *tracesStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error) {
+	rid, err := strconv.ParseInt(resourceID, 10, 64)
+	if err != nil {
+		return nil, NewError("TracesStorage.ReadDailyStats", err)
+	}
+	query := v1.TracesStoragesStatsDailyRetrieveParams{
+		ResourceID: rid,
+		StartDate:  intoOpt[v1.OptDate](startDate),
+		EndDate:    intoOpt[v1.OptDate](endDate),
+	}
+	result, err := op.client.TracesStoragesStatsDailyRetrieve(ctx, query)
+	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
+		switch e.StatusCode {
+		case http.StatusForbidden:
+			return nil, NewAPIError("TracesStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+		case http.StatusNotFound:
+			return nil, NewAPIError("TracesStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "trace storage not found"))
+		case http.StatusBadRequest:
+			return nil, NewAPIError("TracesStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "invalid parameter"))
+		default:
+			return nil, NewAPIError("TracesStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+		}
+	} else if err != nil {
+		return nil, NewAPIError("TracesStorage.ReadDailyStats", 0, err)
+	} else {
+		return result.GetUsages(), nil
+	}
+}
+
+func (op *tracesStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error) {
+	rid, err := strconv.ParseInt(resourceID, 10, 64)
+	if err != nil {
+		return nil, NewError("TracesStorage.ReadMonthlyStats", err)
+	}
+	query := v1.TracesStoragesStatsMonthlyRetrieveParams{
+		ResourceID: rid,
+		Year:       year,
+	}
+	result, err := op.client.TracesStoragesStatsMonthlyRetrieve(ctx, query)
+	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
+		switch e.StatusCode {
+		case http.StatusForbidden:
+			return nil, NewAPIError("TracesStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
+		case http.StatusNotFound:
+			return nil, NewAPIError("TracesStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "trace storage not found"))
+		case http.StatusBadRequest:
+			return nil, NewAPIError("TracesStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
+		default:
+			return nil, NewAPIError("TracesStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+		}
+	} else if err != nil {
+		return nil, NewAPIError("TracesStorage.ReadMonthlyStats", 0, err)
+	} else {
+		return result.GetUsages(), nil
+	}
 }
 
 func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string, count *int, from *int) ([]v1.TraceStorageAccessKey, error) {

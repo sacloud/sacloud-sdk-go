@@ -185,7 +185,7 @@ func WithNotificationTarget(t *testing.T, cli *v1.Client, ctx context.Context, p
 	url, _ := url.Parse("https://example.com/-/c/a/n/-/y/o/u/-/h/e/a/r/-/m/e/-/?")
 	createParams := NotificationTargetCreateParams{
 		ServiceType: v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE,
-		URL:         *url,
+		URL:         url,
 	}
 	created, err := op.Create(ctx, id, createParams)
 	require.NoError(t, err)
@@ -465,5 +465,33 @@ var TemplateLogMeasureRule = func() v1.LogMeasureRule {
 	ret.SetLogStorage(TemplateLogStorage)
 	ret.SetMetricsStorage(TemplateMetricsStorage)
 	ret.Rule.Query.SetMatchers([]v1.FieldMatcher{})
+	return ret
+}()
+
+var TemplateLogStorageDailyUsage = func() v1.LogStorageDailyUsage {
+	var ret v1.LogStorageDailyUsage
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateLogStorageMonthlyUsage = func() v1.LogStorageMonthlyUsage {
+	var ret v1.LogStorageMonthlyUsage
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateMetricsStorageDailyUsage = func() v1.MetricsStorageDailyUsage {
+	var ret v1.MetricsStorageDailyUsage
+
+	ret.SetFake()
+	return ret
+}()
+
+var TemplateMetricsStorageMonthlyUsage = func() v1.MetricsStorageMonthlyUsage {
+	var ret v1.MetricsStorageMonthlyUsage
+
+	ret.SetFake()
 	return ret
 }()

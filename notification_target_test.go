@@ -102,7 +102,7 @@ func TestNotificationTargetService_Create(t *testing.T) {
 	url, _ := url.Parse("https://example.com/notify")
 	createParams := NotificationTargetCreateParams{
 		ServiceType: v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE,
-		URL:         *url,
+		URL:         url,
 	}
 	actual, err := api.Create(ctx, "12345", createParams)
 	require.NoError(t, err)
