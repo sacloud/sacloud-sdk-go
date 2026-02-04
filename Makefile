@@ -1,6 +1,6 @@
 #====================
 AUTHOR         ?= The sacloud/apprun-dedicated-api-go Authors
-COPYRIGHT_YEAR ?= 2022-2026
+COPYRIGHT_YEAR ?= 2026-
 
 BIN            ?= apprun-dedicated-api-go
 GO_FILES       ?= $(shell find . -name '*.go')
