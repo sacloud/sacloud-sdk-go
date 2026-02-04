@@ -77,17 +77,17 @@ func newTestClient(v any, s ...int) *v1.Client {
 
 func IntegratedClient(t *testing.T, params ...client.ClientParam) (*v1.Client, error) {
 	testutil.PreCheckEnvsFunc(
-		"SAKURACLOUD_ACCESS_TOKEN",
-		"SAKURACLOUD_ACCESS_TOKEN_SECRET",
+		"SAKURA_ACCESS_TOKEN",
+		"SAKURA_ACCESS_TOKEN_SECRET",
 	)(t)
 
 	apiUrl := DefaultAPIRootURL
-	if root, ok := os.LookupEnv("SAKURACLOUD_LOCAL_ENDPOINT_MONITORINGSUITE"); ok {
+	if root, ok := os.LookupEnv("SAKURA_LOCAL_ENDPOINT_MONITORINGSUITE"); ok {
 		apiUrl = root
 	}
 	return NewClientWithApiUrl(apiUrl, append(params, client.WithApiKeys(
-		os.Getenv("SAKURACLOUD_ACCESS_TOKEN"),
-		os.Getenv("SAKURACLOUD_ACCESS_TOKEN_SECRET"),
+		os.Getenv("SAKURA_ACCESS_TOKEN"),
+		os.Getenv("SAKURA_ACCESS_TOKEN_SECRET"),
 	))...)
 }
 

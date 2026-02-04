@@ -87,8 +87,8 @@ import (
 
 func main() {
     client, err := monitoringsuite.NewClient(client.WithApiKeys(
-        os.Getenv("SAKURACLOUD_ACCESS_TOKEN"),
-        os.Getenv("SAKURACLOUD_ACCESS_TOKEN_SECRET"),
+        os.Getenv("SAKURA_ACCESS_TOKEN"),
+        os.Getenv("SAKURA_ACCESS_TOKEN_SECRET"),
     ))
 
     // 以下略
