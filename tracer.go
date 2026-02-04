@@ -26,38 +26,45 @@ import (
 func (d *doer) tracer(c *config) Middleware {
 	return func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		var savedRequestBody []byte
+		mode, ok, err := obtainFromConfig[string](c, "TraceMode").decompose()
 
-		if result := obtainFromConfig[string](c, "TraceMode"); result.isErr() {
-			return nil, result.error()
-		} else if mode, ok := result.some(); !ok {
-			return pullThenCall(pull, req)
-		} else {
-			if req.Body == nil {
-				// go below
-			} else if buf, err := io.ReadAll(req.Body); err != nil {
-				return nil, err
-			} else {
-				savedRequestBody = bytes.Clone(buf)
-				copied := bytes.NewBuffer(buf)
-				req.Body = io.NopCloser(copied)
-			}
-
-			if res, err := pullThenCall(pull, req); err != nil {
-				return res, err
-			} else if mode == "error" && res.StatusCode < 300 {
-				// why this is 300 rather than 400 -----> ^^^ <--- is not obvious to @shyouhei.
-				// Just mimicing sacloud/go-http.
-				return res, err
-			} else {
-				if req.Body != nil {
-					// write back buffer
-					copied := bytes.NewBuffer(savedRequestBody)
-					req.Body = io.NopCloser(copied)
-				}
-
-				return __traceDump(req, res)
-			}
+		if err != nil {
+			return nil, err
 		}
+
+		if !ok {
+			return pullThenCall(pull, req)
+		}
+
+		if req.Body == nil {
+			// go below
+		} else if buf, err := io.ReadAll(req.Body); err != nil {
+			return nil, err
+		} else {
+			savedRequestBody = bytes.Clone(buf)
+			copied := bytes.NewBuffer(buf)
+			req.Body = io.NopCloser(copied)
+		}
+
+		res, err := pullThenCall(pull, req)
+
+		if err != nil {
+			return res, err
+		}
+
+		if mode == "error" && res.StatusCode < 300 {
+			// why this is 300 rather than 400 ^^^ <--- is not obvious to @shyouhei.
+			// Just mimicing sacloud/go-http.
+			return res, err
+		}
+
+		if req.Body != nil {
+			// write back buffer
+			copied := bytes.NewBuffer(savedRequestBody)
+			req.Body = io.NopCloser(copied)
+		}
+
+		return __traceDump(req, res)
 	}
 }
 

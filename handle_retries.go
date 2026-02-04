@@ -41,28 +41,44 @@ func (d *doer) retryableClient(c *config) (*retryablehttp.Client, error) {
 
 	ret.HTTPClient = d.client
 
-	if result := obtainFromConfig[int64](c, "RetryWaitMin"); result.isErr() {
-		return nil, result.error()
-	} else if v, ok := result.some(); ok {
+	v, ok, err := obtainFromConfig[int64](c, "RetryWaitMin").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
 		ret.RetryWaitMin = time.Duration(v) * time.Second
 	}
 
-	if result := obtainFromConfig[int64](c, "RetryWaitMax"); result.isErr() {
-		return nil, result.error()
-	} else if v, ok := result.some(); ok {
+	v, ok, err = obtainFromConfig[int64](c, "RetryWaitMax").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
 		ret.RetryWaitMax = time.Duration(v) * time.Second
 	}
 
-	if result := obtainFromConfig[int64](c, "RetryMax"); result.isErr() {
-		return nil, result.error()
-	} else if v, ok := result.some(); ok {
+	v, ok, err = obtainFromConfig[int64](c, "RetryMax").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
 		ret.RetryMax = int(v)
 	}
 
-	if result := obtainFromConfig[retryablehttp.CheckRetry](c, "CheckRetryFunc"); result.isErr() {
-		return nil, result.error()
-	} else if v, ok := result.some(); ok {
-		ret.CheckRetry = v
+	f, ok, err := obtainFromConfig[retryablehttp.CheckRetry](c, "CheckRetryFunc").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
+		ret.CheckRetry = f
 	}
 
 	ret.Backoff = retryablehttp.DefaultBackoff

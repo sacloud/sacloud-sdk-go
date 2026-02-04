@@ -380,33 +380,48 @@ func (c *Client) EndpointConfig() (*EndpointConfig, error) {
 	}
 
 	ret := &EndpointConfig{}
-	if result := obtainFromConfig[map[string]string](cfg, "Endpoints"); result.isSome() {
-		if endpoints, ok := result.some(); ok && endpoints != nil {
-			// Copy to avoid external mutation
-			ret.Endpoints = make(map[string]string, len(endpoints))
-			maps.Copy(ret.Endpoints, endpoints)
-		}
-	} else if result.isErr() {
-		return nil, result.error()
+
+	endpoints, ok, err := obtainFromConfig[map[string]string](cfg, "Endpoints").decompose()
+
+	if err != nil {
+		return nil, err
 	}
 
-	if result := obtainFromConfig[string](cfg, "Zone"); result.isSome() {
-		ret.Zone, _ = result.some()
-	} else if result.isErr() {
-		return nil, result.error()
+	if ok && endpoints != nil {
+		// Copy to avoid external mutation
+		ret.Endpoints = make(map[string]string, len(endpoints))
+		maps.Copy(ret.Endpoints, endpoints)
 	}
 
-	if result := obtainFromConfig[[]string](cfg, "Zones"); result.isSome() {
-		ret.Zones, _ = result.some()
-	} else if result.isErr() {
-		return nil, result.error()
+	zone, ok, err := obtainFromConfig[string](cfg, "Zone").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
+		ret.Zone = zone
+	}
+
+	zones, ok, err := obtainFromConfig[[]string](cfg, "Zones").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
+		ret.Zones = zones
 	}
 
 	// APIRootURL (deprecated) for compatibility
-	if result := obtainFromConfig[string](cfg, "APIRootURL"); result.isSome() {
-		ret.APIRootURL, _ = result.some()
-	} else if result.isErr() {
-		return nil, result.error()
+	url, ok, err := obtainFromConfig[string](cfg, "APIRootURL").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
+		ret.APIRootURL = url
 	}
 
 	return ret, nil

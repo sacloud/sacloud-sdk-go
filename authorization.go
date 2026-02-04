@@ -23,9 +23,15 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 		if req.Header.Get("Authorization") != "" {
 			// already set, skip
 			return pullThenCall(pull, req)
-		} else if result := obtainFromConfig[string](c, "AuthPreference"); result.isErr() {
-			return nil, result.error()
-		} else if pref, ok := result.some(); ok {
+		}
+
+		pref, ok, err := obtainFromConfig[string](c, "AuthPreference").decompose()
+
+		if err != nil {
+			return nil, err
+		}
+
+		if ok {
 			mode = pref
 		} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isSome() {
 			mode = "bearer"
@@ -45,41 +51,85 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 			panic("unknown authPreference: " + mode)
 
 		case "basic":
-			if result := obtainFromConfig[string](c, "AccessToken"); result.isErr() {
-				return nil, result.error()
-			} else if user, ok := result.some(); !ok || user == "" {
-				return nil, NewErrorf("missing AccessToken")
-			} else if result := obtainFromConfig[string](c, "AccessTokenSecret"); result.isErr() {
-				return nil, result.error()
-			} else if pass, ok := result.some(); !ok || pass == "" {
-				return nil, NewErrorf("missing AccessTokenSecret")
-			} else {
-				req.SetBasicAuth(user, pass)
-				return pullThenCall(pull, req)
+			user, ok, err := obtainFromConfig[string](c, "AccessToken").decompose()
+
+			if err != nil {
+				return nil, err
 			}
 
+			if !ok || user == "" {
+				return nil, NewErrorf("missing AccessToken")
+			}
+
+			pass, ok, err := obtainFromConfig[string](c, "AccessTokenSecret").decompose()
+
+			if err != nil {
+				return nil, err
+			}
+
+			if !ok || pass == "" {
+				return nil, NewErrorf("missing AccessTokenSecret")
+			}
+
+			req.SetBasicAuth(user, pass)
+			return pullThenCall(pull, req)
+
 		case "bearer":
-			if result := obtainFromConfig[string](c, "TokenEndpoint"); result.isErr() {
-				return nil, result.error()
-			} else if !result.isSome() {
+			_, ok, err := obtainFromConfig[string](c, "TokenEndpoint").decompose()
+
+			if err != nil {
+				return nil, err
+			}
+
+			if !ok {
 				// UNLIKELY it has default value
 				return nil, NewErrorf("TokenEndpoint is absent")
-			} else if result := obtainFromConfig[string](c, "ServicePrincipalID"); result.isErr() {
-				return nil, result.error()
-			} else if !result.isSome() {
-				return nil, NewErrorf("ServicePrincipalID is absent")
-			} else if result := obtainFromConfig[string](c, "ServicePrincipalKeyID"); result.isErr() {
-				return nil, result.error()
-			} else if !result.isSome() {
-				return nil, NewErrorf("ServicePrincipalKeyID is absent")
-			} else if !obtainFromConfig[string](c, "PrivateKeyPEMPath").isSome() && !obtainFromConfig[string](c, "PrivateKey").isSome() {
-				return nil, NewErrorf("neither PrivateKeyPEMPath nor PrivateKey is present")
-			} else if token, err := d.newTokenResponse(req.Context(), c); err != nil {
-				return nil, err
-			} else {
-				req.Header.Set("Authorization", token.HTTPAuthorizationHeader())
-				return pullThenCall(pull, req)
 			}
+
+			_, ok, err = obtainFromConfig[string](c, "ServicePrincipalID").decompose()
+
+			if err != nil {
+				return nil, err
+			}
+
+			if !ok {
+				return nil, NewErrorf("ServicePrincipalID is absent")
+			}
+
+			_, ok, err = obtainFromConfig[string](c, "ServicePrincipalKeyID").decompose()
+
+			if err != nil {
+				return nil, err
+			}
+
+			if !ok {
+				return nil, NewErrorf("ServicePrincipalKeyID is absent")
+			}
+
+			_, path, err := obtainFromConfig[string](c, "PrivateKeyPEMPath").decompose()
+
+			if err != nil {
+				return nil, err
+			}
+
+			_, key, err := obtainFromConfig[string](c, "PrivateKey").decompose()
+
+			if err != nil {
+				return nil, err
+			}
+
+			if !key && !path {
+				return nil, NewErrorf("neither PrivateKeyPEMPath nor PrivateKey is present")
+			}
+
+			token, err := d.newTokenResponse(req.Context(), c)
+
+			if err != nil {
+				return nil, err
+			}
+
+			req.Header.Set("Authorization", token.HTTPAuthorizationHeader())
+			return pullThenCall(pull, req)
 		}
 	}
 }
