@@ -28,6 +28,7 @@ import (
 	"os"
 	"runtime"
 	"testing"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
@@ -256,7 +257,7 @@ func (s *ClientTestSuite) TestCLI() {
 		"AccessToken":         "foo",
 		"AccessTokenSecret":   "bar",
 		"APIRequestRateLimit": int64(5),
-		"APIRequestTimeout":   int64(300),
+		"APIRequestTimeout":   time.Duration(300) * time.Second,
 		"AuthPreference":      "basic",
 		"RetryMax":            int64(10),
 		"RetryWaitMax":        int64(64),
@@ -298,7 +299,7 @@ func (s *ClientTestSuite) TestEnviron() {
 			"AccessToken":         "foo",
 			"AccessTokenSecret":   "bar",
 			"APIRequestRateLimit": int64(20),
-			"APIRequestTimeout":   int64(30),
+			"APIRequestTimeout":   time.Duration(30) * time.Second,
 			"APIRootURL":          "https://api.example.com",
 			"AuthPreference":      "bearer",
 			"PrivateKey":          "dummy-private-key",
@@ -343,7 +344,7 @@ func (s *ClientTestSuite) TestEnviron() {
 			"AccessToken":         "foo",
 			"AccessTokenSecret":   "bar",
 			"APIRequestRateLimit": int64(20),
-			"APIRequestTimeout":   int64(30),
+			"APIRequestTimeout":   time.Duration(30) * time.Second,
 			"APIRootURL":          "https://api.example.com",
 			"AuthPreference":      "bearer",
 			"PrivateKey":          "dummy-private-key",
@@ -402,7 +403,7 @@ func (s *ClientTestSuite) TestEnviron() {
 			"AccessToken":         "foo",
 			"AccessTokenSecret":   "bar",
 			"APIRequestRateLimit": int64(20),
-			"APIRequestTimeout":   int64(30),
+			"APIRequestTimeout":   time.Duration(30) * time.Second,
 			"APIRootURL":          "https://api.example.com",
 			"AuthPreference":      "bearer",
 			"PrivateKey":          "dummy-private-key",
@@ -447,7 +448,7 @@ func (s *ClientTestSuite) TestTerraform() {
 		"AccessToken":         "foo",
 		"AccessTokenSecret":   "bar",
 		"APIRequestRateLimit": int64(20),
-		"APIRequestTimeout":   int64(30),
+		"APIRequestTimeout":   time.Duration(30) * time.Second,
 		"APIRootURL":          "https://api.example.com",
 		"AuthPreference":      "basic",
 		"DefaultZone":         "foo",
@@ -516,7 +517,7 @@ func (s *ClientTestSuite) TestDynamicUsinfgClientParams() {
 		"AccessToken":         "foo",
 		"AccessTokenSecret":   "bar",
 		"APIRequestRateLimit": int64(100),
-		"APIRequestTimeout":   int64(300),
+		"APIRequestTimeout":   time.Duration(300) * time.Second,
 		"APIRootURL":          "https://api.example.com",
 		"RetryMax":            int64(30),
 		"RetryWaitMax":        int64(70),
@@ -560,7 +561,7 @@ func (s *ClientTestSuite) TestDynamicUsinfgClientOptions() {
 		"AccessToken":         "foo",
 		"AccessTokenSecret":   "bar",
 		"APIRequestRateLimit": int64(100),
-		"APIRequestTimeout":   int64(300),
+		"APIRequestTimeout":   time.Duration(300) * time.Second,
 		"RetryMax":            int64(30),
 		"RetryWaitMax":        int64(70),
 		"RetryWaitMin":        int64(50),

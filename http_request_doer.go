@@ -57,10 +57,10 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		Transport: http.DefaultTransport.(*http.Transport).Clone(),
 	}
 
-	if result := obtainFromConfig[int64](c, "APIRequestTimeout"); result.isErr() {
+	if result := obtainFromConfig[time.Duration](c, "APIRequestTimeout"); result.isErr() {
 		return nil, result.error()
 	} else if v, ok := result.some(); ok {
-		h.Timeout = time.Duration(v) * time.Second
+		h.Timeout = v
 	} else {
 		// UNLIKELY: APIRequestTimeout has default value
 		h.Timeout = 300 * time.Second

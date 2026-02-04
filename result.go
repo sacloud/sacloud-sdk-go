@@ -19,6 +19,7 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type option[T any] struct {
@@ -79,6 +80,15 @@ func (m *option[T]) Set(s string) error {
 			return err
 		} else {
 			m.initialize(v)
+		}
+
+	case *option[time.Duration]:
+		// :TODO: we could use time.ParseDuration()
+		// but is it really useful to specify duration like "24h", as timeout?
+		if v, err := strconv.ParseInt(s, 0, 64); err != nil {
+			return err
+		} else {
+			m.initialize(time.Duration(v) * time.Second)
 		}
 
 	case *option[[]string]:
