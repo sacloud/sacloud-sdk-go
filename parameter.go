@@ -585,13 +585,18 @@ func (this *parameter) populateAPIRootURL(c *config) error {
 }
 
 func (this *parameter) populateAPIRequestTimeout(c *config) error {
-	if _, result := prioritizedParameterValue[time.Duration](this, c, "APIRequestTimeout"); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
-		return nil // just not set; leave blank
-	} else {
-		return c.set("APIRequestTimeout", v)
+	_, result := prioritizedParameterValue[time.Duration](this, c, "APIRequestTimeout")
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
 	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	return c.set("APIRequestTimeout", v)
 }
 
 func (this *parameter) populateAPIRequestRateLimit(c *config) error {
