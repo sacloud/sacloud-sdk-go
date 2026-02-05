@@ -1,8 +1,8 @@
 #====================
-AUTHOR         ?= The sacloud/go-template Authors
-COPYRIGHT_YEAR ?= 2022-2026
+AUTHOR         ?= The sacloud/apprun-dedicated-api-go Authors
+COPYRIGHT_YEAR ?= 2026-
 
-BIN            ?= go-template
+BIN            ?= apprun-dedicated-api-go
 GO_FILES       ?= $(shell find . -name '*.go')
 
 include includes/go/common.mk

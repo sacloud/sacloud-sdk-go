@@ -38,7 +38,7 @@ testacc:
 dev-tools:
 	$(GO) install github.com/rinchsan/gosimports/cmd/gosimports@latest
 	$(GO) install golang.org/x/tools/cmd/stringer@latest
-	$(GO) install github.com/sacloud/addlicense@latest
+	$(GO) install github.com/google/addlicense@latest
 	$(GO) install github.com/client9/misspell/cmd/misspell@latest
 	$(GO) install github.com/google/go-licenses@v1.0.0
 	$(GO) install github.com/rhysd/actionlint/cmd/actionlint@latest
@@ -80,7 +80,7 @@ lint-action:
 
 .PHONY: set-license
 set-license:
-	@addlicense -c "$(AUTHOR)" -y "$(COPYRIGHT_YEAR)" $(COPYRIGHT_FILES)
+	@addlicense -v -s=only -c "$(AUTHOR)" -y "$(COPYRIGHT_YEAR)" $(COPYRIGHT_FILES)
 
 .PHONY: go-licenses-check
 go-licenses-check:
