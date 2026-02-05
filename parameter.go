@@ -585,8 +585,7 @@ func (this *parameter) populateAPIRootURL(c *config) error {
 }
 
 func (this *parameter) populateAPIRequestTimeout(c *config) error {
-	_, result := prioritizedParameterValue[time.Duration](this, c, "APIRequestTimeout")
-	v, ok, err := result.decompose()
+	v, ok, err := prioritizedParameterValue[time.Duration](this, c, "APIRequestTimeout").decompose()
 
 	if err != nil {
 		return err
@@ -616,8 +615,7 @@ func (this *parameter) populateTraceMode(c *config) error {
 }
 
 func (p *parameter) populateMockServer(c *config) error {
-	_, result := prioritizedParameterValue[*httptest.Server](p, c, "MockServer")
-	v, ok, err := result.decompose()
+	v, ok, err := prioritizedParameterValue[*httptest.Server](p, c, "MockServer").decompose()
 
 	if err != nil {
 		return err
@@ -635,7 +633,7 @@ func (p *parameter) populateMockServer(c *config) error {
 }
 
 func (p *parameter) populateAuthPreference(c *config) error {
-	if _, result := prioritizedParameterValue[string](p, c, "AuthPreference"); result.isSome() {
+	if result := prioritizedParameterValue[string](p, c, "AuthPreference"); result.isSome() {
 		// If explicitly specified, honour that at #1 priority.  This is normal with other configs.
 		return c.set("AuthPreference", result.unwrap())
 	} else {
@@ -691,8 +689,7 @@ func (p *parameter) populateAuthPreference(c *config) error {
 }
 
 func (p *parameter) populateMiddlewares(c *config) error {
-	_, result := prioritizedParameterValue[[]Middleware](p, c, "Middlewares")
-	v, ok, err := result.decompose()
+	v, ok, err := prioritizedParameterValue[[]Middleware](p, c, "Middlewares").decompose()
 
 	if err != nil {
 		return err
@@ -710,8 +707,7 @@ func (p *parameter) populateMiddlewares(c *config) error {
 }
 
 func (p *parameter) populateCheckRetryFunc(c *config) error {
-	_, result := prioritizedParameterValue[retryablehttp.CheckRetry](p, c, "CheckRetryFunc")
-	v, ok, err := result.decompose()
+	v, ok, err := prioritizedParameterValue[retryablehttp.CheckRetry](p, c, "CheckRetryFunc").decompose()
 
 	if err != nil {
 		return err
@@ -730,8 +726,7 @@ func (p *parameter) populateUserAgent(c *config) error {
 
 // Deprecated: only for compatibility.
 func (p *parameter) populateRequestCustomizers(c *config) error {
-	_, result := prioritizedParameterValue[[]saht.RequestCustomizer](p, c, "RequestCustomizers")
-	v, ok, err := result.decompose()
+	v, ok, err := prioritizedParameterValue[[]saht.RequestCustomizer](p, c, "RequestCustomizers").decompose()
 
 	if err != nil {
 		return err
@@ -806,8 +801,7 @@ func (p *parameter) populateEndpoints(c *config) error {
 }
 
 func (p *parameter) populateString(c *config, key string) error {
-	_, result := prioritizedParameterValue[string](p, c, key)
-	v, ok, err := result.decompose()
+	v, ok, err := prioritizedParameterValue[string](p, c, key).decompose()
 
 	if err != nil {
 		return err
@@ -831,7 +825,7 @@ func (p *parameter) populateString(c *config, key string) error {
 }
 
 func (p *parameter) populateUInt64(c *config, key string) error {
-	whence, result := prioritizedParameterValue[int64](p, c, key)
+	whence, result := prioritizedParameterValue2[int64](p, c, key)
 	v, ok, err := result.decompose()
 
 	if err != nil {
@@ -849,8 +843,13 @@ func (p *parameter) populateUInt64(c *config, key string) error {
 	return c.set(key, v)
 }
 
+func prioritizedParameterValue[T any](p *parameter, c *config, k string) (r resultOption[T]) {
+	_, r = prioritizedParameterValue2[T](p, c, k)
+	return
+}
+
 //nolint:nakedret
-func prioritizedParameterValue[
+func prioritizedParameterValue2[
 	T any,
 ](
 	p *parameter,
