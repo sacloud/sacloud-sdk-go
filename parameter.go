@@ -651,7 +651,7 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		// At this point if command-line arguent of any sort is given, that takes precedence.
 		for _, kv := range key2auth {
 			k, v := kv[0], kv[1]
-			if _, result := obtainFromStorage[string](&p.argv, k, "command-line argument"); result.isSome() {
+			if p.argv.hasSome(k) {
 				return c.set("AuthPreference", v)
 			}
 		}
@@ -659,7 +659,7 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		// Terraform provider block comes next.
 		for _, kv := range key2auth {
 			k, v := kv[0], kv[1]
-			if _, result := obtainFromStorage[string](&p.hcl, k, "terraform configuration"); result.isSome() {
+			if p.hcl.hasSome(k) {
 				return c.set("AuthPreference", v)
 			}
 		}
@@ -667,12 +667,12 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		// Next priority is environment variables.
 		for _, kv := range key2auth {
 			k, v := kv[0], kv[1]
-			if _, result := obtainFromStorage[string](&p.envp, k, "environment variable"); result.isSome() {
+			if p.envp.hasSome(k) {
 				return c.set("AuthPreference", v)
 			}
 		}
 		// EXTRA: there also is `SAKURACLOUD_PRIVATE_KEY`
-		if _, result := obtainFromStorage[string](&p.envp, "PrivateKey", "environment variable"); result.isSome() {
+		if p.envp.hasSome("PrivateKey") {
 			return c.set("AuthPreference", "bearer")
 		}
 
@@ -1096,6 +1096,18 @@ func (s *storage) get(k string) (any, bool) {
 	default:
 		panic("unknown key: " + k)
 	}
+}
+
+func (s *storage) hasSome(k string) (ok bool) {
+	_, ok = s.get(k)
+	return
+}
+
+func (c *config) hasSome(k string) (ok bool) {
+	if c != nil {
+		_, ok = (*c)[k]
+	}
+	return
 }
 
 type envmap map[string]string
