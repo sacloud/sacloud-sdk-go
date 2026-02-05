@@ -26,6 +26,7 @@ import (
 	"runtime"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
 	old "github.com/sacloud/api-client-go"
@@ -48,7 +49,7 @@ type storage struct {
 	retryWaitMax          option[int64]
 	retryWaitMin          option[int64]
 	apiRootURL            option[string]
-	apiRequestTimeout     option[int64]
+	apiRequestTimeout     option[time.Duration]
 	apiRequestRateLimit   option[int64]
 	traceMode             option[string]
 	mockServer            option[*httptest.Server]
@@ -171,7 +172,14 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.retryWaitMax.from(config.LookupClientConfigRetryWaitMax)
 	p.hcl.retryWaitMin.from(config.LookupClientConfigRetryWaitMin)
 	p.hcl.apiRootURL.from(config.LookupClientConfigAPIRootURL)
-	p.hcl.apiRequestTimeout.from(config.LookupClientConfigAPIRequestTimeout)
+	p.hcl.apiRequestTimeout.from(func() (ret time.Duration, ok bool) {
+		var t int64
+		t, ok = config.LookupClientConfigAPIRequestTimeout()
+		if ok {
+			ret = time.Duration(t) * time.Second
+		}
+		return
+	})
 	p.hcl.apiRequestRateLimit.from(config.LookupClientConfigAPIRequestRateLimit)
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
 	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
@@ -271,7 +279,7 @@ func (p *parameter) setOldOptions(opts ...*old.Options) error {
 			return NewErrorf("setting HttpClient not supported")
 		}
 		if o.HttpRequestTimeout > 0 {
-			p.dynamic.apiRequestTimeout.initialize(int64(o.HttpRequestTimeout))
+			p.dynamic.apiRequestTimeout.initialize(time.Duration(o.HttpRequestTimeout) * time.Second)
 		}
 		if o.HttpRequestRateLimit > 0 {
 			p.dynamic.apiRequestRateLimit.initialize(int64(o.HttpRequestRateLimit))
@@ -577,7 +585,18 @@ func (this *parameter) populateAPIRootURL(c *config) error {
 }
 
 func (this *parameter) populateAPIRequestTimeout(c *config) error {
-	return this.populateUInt64(c, "APIRequestTimeout")
+	_, result := prioritizedParameterValue[time.Duration](this, c, "APIRequestTimeout")
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	return c.set("APIRequestTimeout", v)
 }
 
 func (this *parameter) populateAPIRequestRateLimit(c *config) error {
@@ -1113,7 +1132,7 @@ var defaults = storage{
 	retryMax:            option[int64]{set: true, some: 10},
 	retryWaitMax:        option[int64]{set: true, some: 64},
 	retryWaitMin:        option[int64]{set: true, some: 1},
-	apiRequestTimeout:   option[int64]{set: true, some: 300},
+	apiRequestTimeout:   option[time.Duration]{set: true, some: 300 * time.Second},
 	apiRequestRateLimit: option[int64]{set: true, some: 5},
 	tokenEndpoint:       option[string]{set: true, some: "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token"},
 	checkRetryFunc:      option[retryablehttp.CheckRetry]{set: true, some: retryablehttp.DefaultRetryPolicy},

@@ -20,6 +20,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"slices"
+	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
 )
@@ -156,6 +157,33 @@ func WithCheckRetryFunc(f retryablehttp.CheckRetry) clientOption {
 // disables retries at all
 func WithoutRetry() clientOption {
 	return WithCheckRetryFunc(disableRetry)
+}
+
+// WithDefaultTimeout sets default timeout for requests.
+// For each individual request, timeout can also be set using context.
+//
+// ```golang
+//
+//	var client saclient.Client
+//
+//	// This is setting default
+//	client.SetEnviron([]string{"SAKURA_API_REQUEST_TIMEOUT=30"})
+//
+//	// Alternatively, set it via option
+//	client.SetWith(WithDefaultTimeout(30 * time.Second))
+//
+//	// Below sets timeout only for this request
+//	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+//	defer cancel()
+//	req, _ := http.NewRequestWithContext(ctx, "GET", "https://example.com", nil)
+//	resp, err := client.Do(req)
+//
+// ```
+func WithDefaultTimeout(t time.Duration) clientOption {
+	return func(c *Client) error {
+		c.params.dynamic.apiRequestTimeout.initialize(t)
+		return nil
+	}
 }
 
 func withSettingHeader(key, value string) clientOption {

@@ -57,14 +57,14 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		Transport: http.DefaultTransport.(*http.Transport).Clone(),
 	}
 
-	v, ok, err := obtainFromConfig[int64](c, "APIRequestTimeout").decompose()
+	t, ok, err := obtainFromConfig[time.Duration](c, "APIRequestTimeout").decompose()
 
 	if err != nil {
 		return nil, err
 	}
 
 	if ok {
-		h.Timeout = time.Duration(v) * time.Second
+		h.Timeout = t
 	} else {
 		// UNLIKELY: APIRequestTimeout has default value
 		h.Timeout = 300 * time.Second
@@ -96,7 +96,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	}
 	// OK when root is absent
 
-	v, ok, err = obtainFromConfig[int64](c, "APIRequestRateLimit").decompose()
+	v, ok, err := obtainFromConfig[int64](c, "APIRequestRateLimit").decompose()
 
 	if err != nil {
 		return nil, err
