@@ -31,15 +31,16 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 			return nil, err
 		}
 
-		if ok {
+		switch {
+		case ok:
 			mode = pref
-		} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isSome() {
+		case c.hasSome("PrivateKeyPEMPath"):
 			mode = "bearer"
-		} else if result := obtainFromConfig[string](c, "PrivateKey"); result.isSome() {
+		case c.hasSome("PrivateKey"):
 			mode = "bearer"
-		} else if result := obtainFromConfig[string](c, "AccessToken"); result.isSome() {
+		case c.hasSome("AccessToken"):
 			mode = "basic"
-		} else {
+		default:
 			// no auth info found ... ?
 			// let's just let it go without auth
 			// and let server return 401.
