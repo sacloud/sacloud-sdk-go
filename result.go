@@ -147,6 +147,7 @@ func (r resultOption[T]) asPtr() *T {
 		return nil
 	}
 }
+func (r resultOption[T]) decompose() (v T, ok bool, err error) { return r.option.some, r.set, r.err }
 
 func resultOptionErr[T any](err error) resultOption[T] { return resultOption[T]{err: err} }
 func resultOptionNone[T any]() resultOption[T]         { return resultOption[T]{} }

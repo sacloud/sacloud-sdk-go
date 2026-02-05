@@ -427,38 +427,65 @@ func (p *parameter) populateProfileName(c *config) error {
 func (p *parameter) populateProfile(c *config) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
-	} else if p.noProfile {
+	}
+
+	if p.noProfile {
 		// Explicitly opted out
 		return nil
-	} else if result := obtainFromConfig[string](c, "ProfileName"); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
+	}
+
+	v, ok, err := obtainFromConfig[string](c, "ProfileName").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
 		return nil
-	} else if profile, err := p.profileOp.Read(v); err != nil {
+	}
+
+	profile, err := p.profileOp.Read(v)
+
+	if err != nil {
 		// Explicitly specified profile not found, this is surely an error.
 		return err
-	} else {
-		return c.set("Profile", profile)
 	}
+
+	return c.set("Profile", profile)
 }
 
-//nolint:gocritic
 func (p *parameter) populatePrivateKeyPath(c *config) error {
-	if err := p.populateString(c, "PrivateKeyPEMPath"); err != nil {
+	err := p.populateString(c, "PrivateKeyPEMPath")
+
+	if err != nil {
 		return err
-	} else if result := obtainFromConfig[string](c, "PrivateKeyPEMPath"); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
-		return nil // just not set
-	} else if s, err := os.Stat(v); err != nil {
-		return NewErrorf("private key file not found: %s", v)
-	} else if !s.Mode().IsRegular() {
-		return NewErrorf("private key not a file: %s", v)
-	} else if s.Mode().Perm()&0o077 != 0 {
-		return NewErrorf("private key file %s permission is too lax: %o", v, s.Mode().Perm())
-	} else {
-		return nil
 	}
+
+	v, ok, err := obtainFromConfig[string](c, "PrivateKeyPEMPath").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set
+	}
+
+	s, err := os.Stat(v)
+
+	if err != nil {
+		return NewErrorf("private key file not found: %s", v)
+	}
+
+	if !s.Mode().IsRegular() {
+		return NewErrorf("private key not a file: %s", v)
+	}
+
+	if s.Mode().Perm()&0o077 != 0 {
+		return NewErrorf("private key file %s permission is too lax: %o", v, s.Mode().Perm())
+	}
+
+	return nil
 }
 
 func (p *parameter) populatePrivateKey(c *config) error {
@@ -584,15 +611,22 @@ func (this *parameter) populateTraceMode(c *config) error {
 }
 
 func (p *parameter) populateMockServer(c *config) error {
-	if _, result := prioritizedParameterValue[*httptest.Server](p, c, "MockServer"); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
-		return nil // just not set; leave blank
-	} else if v == nil {
-		return nil // avoid SEGV
-	} else {
-		return c.set("MockServer", v)
+	_, result := prioritizedParameterValue[*httptest.Server](p, c, "MockServer")
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
 	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	if v == nil {
+		return nil // avoid SEGV
+	}
+
+	return c.set("MockServer", v)
 }
 
 func (p *parameter) populateAuthPreference(c *config) error {
@@ -652,25 +686,37 @@ func (p *parameter) populateAuthPreference(c *config) error {
 }
 
 func (p *parameter) populateMiddlewares(c *config) error {
-	if _, result := prioritizedParameterValue[[]Middleware](p, c, "Middlewares"); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
-		return nil // just not set; leave blank
-	} else if len(v) == 0 {
-		return nil // no use
-	} else {
-		return c.set("Middlewares", v)
+	_, result := prioritizedParameterValue[[]Middleware](p, c, "Middlewares")
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
 	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	if len(v) == 0 {
+		return nil // no use
+	}
+
+	return c.set("Middlewares", v)
 }
 
 func (p *parameter) populateCheckRetryFunc(c *config) error {
-	if _, result := prioritizedParameterValue[retryablehttp.CheckRetry](p, c, "CheckRetryFunc"); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
-		return nil // just not set
-	} else {
-		return c.set("CheckRetryFunc", v)
+	_, result := prioritizedParameterValue[retryablehttp.CheckRetry](p, c, "CheckRetryFunc")
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
 	}
+
+	if !ok {
+		return nil // just not set
+	}
+
+	return c.set("CheckRetryFunc", v)
 }
 
 func (p *parameter) populateUserAgent(c *config) error {
@@ -679,13 +725,18 @@ func (p *parameter) populateUserAgent(c *config) error {
 
 // Deprecated: only for compatibility.
 func (p *parameter) populateRequestCustomizers(c *config) error {
-	if _, result := prioritizedParameterValue[[]saht.RequestCustomizer](p, c, "RequestCustomizers"); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
-		return nil // just not set
-	} else {
-		return c.set("RequestCustomizers", v)
+	_, result := prioritizedParameterValue[[]saht.RequestCustomizer](p, c, "RequestCustomizers")
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
 	}
+
+	if !ok {
+		return nil // just not set
+	}
+
+	return c.set("RequestCustomizers", v)
 }
 
 func (p *parameter) populateEndpoints(c *config) error {
@@ -718,9 +769,14 @@ func (p *parameter) populateEndpoints(c *config) error {
 		}
 	}
 
-	if _, res := obtainFromProfile[map[string]any](c, "Endpoints", "profile"); res.isErr() {
-		return res.error()
-	} else if m, ok := res.some(); ok && m != nil {
+	_, res := obtainFromProfile[map[string]any](c, "Endpoints", "profile")
+	m, ok, err := res.decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if ok && m != nil {
 		eps := make(map[string]string, len(m))
 		for k, v := range m {
 			if s, ok := v.(string); ok {
@@ -745,11 +801,18 @@ func (p *parameter) populateEndpoints(c *config) error {
 }
 
 func (p *parameter) populateString(c *config, key string) error {
-	if _, result := prioritizedParameterValue[string](p, c, key); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
+	_, result := prioritizedParameterValue[string](p, c, key)
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
 		return nil // just not set; leave blank
-	} else if v == "" {
+	}
+
+	if v == "" {
 		// Mmm... found out that previous config from usacloud used to
 		// set empty string for some parameters. Returning error here is a no-go.
 		// Not sure what to do instead though...
@@ -757,23 +820,31 @@ func (p *parameter) populateString(c *config, key string) error {
 
 		// c.set(key, "")
 		return nil
-	} else {
-		return c.set(key, v)
 	}
+
+	return c.set(key, v)
 }
 
 func (p *parameter) populateUInt64(c *config, key string) error {
-	if whence, result := prioritizedParameterValue[int64](p, c, key); result.isErr() {
-		return result.error()
-	} else if v, ok := result.some(); !ok {
-		return nil // just not set; leave blank
-	} else if v < 0 {
-		return NewErrorf("negative %s (from %s): %d", key, whence, v)
-	} else {
-		return c.set(key, v)
+	whence, result := prioritizedParameterValue[int64](p, c, key)
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
 	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	if v < 0 {
+		return NewErrorf("negative %s (from %s): %d", key, whence, v)
+	}
+
+	return c.set(key, v)
 }
 
+//nolint:nakedret
 func prioritizedParameterValue[
 	T any,
 ](
@@ -781,28 +852,50 @@ func prioritizedParameterValue[
 	c *config,
 	k string,
 ) (
-	string,
-	resultOption[T],
+	whence string,
+	result resultOption[T],
 ) {
-	var whence string
-
 	if p == nil {
-		return whence, resultOptionErr[T](NewErrorf("nil parameter"))
-	} else if c == nil {
-		return whence, resultOptionErr[T](NewErrorf("nil config"))
-	} else if whence, result := obtainFromStorage[T](&p.dynamic, k, "on-the-fly"); result.isSome() {
-		return whence, result
-	} else if whence, result := obtainFromStorage[T](&p.argv, k, "command-line argument"); result.isSome() {
-		return whence, result
-	} else if whence, result := obtainFromStorage[T](&p.hcl, k, "terraform configuration"); result.isSome() {
-		return whence, result
-	} else if whence, result := obtainFromStorage[T](&p.envp, k, "environment variable"); result.isSome() {
-		return whence, result
-	} else if whence, result := obtainFromProfile[T](c, k, "profile"); result.isSome() {
-		return whence, result
-	} else {
-		return obtainFromStorage[T](&defaults, k, "defaults")
+		result = resultOptionErr[T](NewErrorf("nil parameter"))
+		return
 	}
+
+	if c == nil {
+		result = resultOptionErr[T](NewErrorf("nil config"))
+		return
+	}
+
+	whence, result = obtainFromStorage[T](&p.dynamic, k, "on-the-fly")
+
+	if result.isSome() {
+		return
+	}
+
+	whence, result = obtainFromStorage[T](&p.argv, k, "command-line argument")
+
+	if result.isSome() {
+		return
+	}
+
+	whence, result = obtainFromStorage[T](&p.hcl, k, "terraform configuration")
+
+	if result.isSome() {
+		return
+	}
+
+	whence, result = obtainFromStorage[T](&p.envp, k, "environment variable")
+
+	if result.isSome() {
+		return
+	}
+
+	whence, result = obtainFromProfile[T](c, k, "profile")
+
+	if result.isSome() {
+		return
+	}
+
+	return obtainFromStorage[T](&defaults, k, "defaults")
 }
 
 func obtainFromStorage[
@@ -826,6 +919,7 @@ func obtainFromStorage[
 	}
 }
 
+//nolint:nakedret
 func obtainFromProfile[
 	T any,
 ](
@@ -833,41 +927,67 @@ func obtainFromProfile[
 	k string,
 	msg string,
 ) (
-	string,
-	resultOption[T],
+	whence string,
+	result resultOption[T],
 ) {
-	whence := fmt.Sprintf("%s %s", msg, k)
+	whence = fmt.Sprintf("%s %s", msg, k)
+	result = resultOptionNone[T]()
 
 	if c == nil {
-		return whence, resultOptionErr[T](NewErrorf("nil config"))
-	} else if result := obtainFromConfig[*Profile](c, "Profile"); result.isErr() {
-		return whence, resultOptionErr[T](result.error())
-	} else if p, ok := result.some(); !ok {
+		result = resultOptionErr[T](NewErrorf("nil config"))
+		return
+	}
+
+	p, ok, err := obtainFromConfig[*Profile](c, "Profile").decompose()
+
+	if err != nil {
+		result = resultOptionErr[T](result.error())
+		return
+	}
+
+	if !ok {
 		// profile not set; ok unspecified
-		return whence, resultOptionNone[T]()
-	} else if v, ok := p.Get(k); !ok {
+		return
+	}
+
+	v, ok := p.Get(k)
+
+	if !ok {
 		// profile does not have this key; ok unspecified
-		return whence, resultOptionNone[T]()
-	} else if v == nil {
+		return
+	}
+
+	if v == nil {
 		// profile has this key but with nil value; interpret as unspecified
-		return whence, resultOptionNone[T]()
-	} else if w, ok := v.(T); !ok {
+		return
+	}
+
+	w, ok := v.(T)
+
+	if !ok {
 		// float64 -> int64 conversion special case
 		if _, isInt64 := any((*new(T))).(int64); isInt64 {
 			if w, isFloat64 := v.(float64); isFloat64 {
 				if (float64(int64(w))) == w {
-					return whence, resultOptionSome(any(int64(w)).(T))
+					result = resultOptionSome(any(int64(w)).(T))
+					return
 				}
 			}
 		}
-		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
-	} else if str, ok := v.(string); ok && str == "" {
+		result = resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
+		return
+	}
+
+	str, ok := v.(string)
+
+	if ok && str == "" {
 		// AD HOC: previous config from usacloud used to set empty string
 		// when it wanted to mean "not set".
-		return whence, resultOptionNone[T]()
-	} else {
-		return whence, resultOptionSome(w)
+		return
 	}
+
+	result = resultOptionSome(w)
+	return
 }
 
 func obtainFromConfig[T any](c *config, k string) resultOption[T] {

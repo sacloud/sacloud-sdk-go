@@ -112,11 +112,7 @@ func WithMiddleware(m ...Middleware) clientOption {
 }
 
 func WithBearerToken(bearer string) clientOption {
-	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
-		req.Header.Set("Authorization", "Bearer "+bearer)
-
-		return pullThenCall(pull, req)
-	})
+	return withSettingHeader("Authorization", "Bearer "+bearer)
 }
 
 func WithBasicAuth(user, pass string) clientOption {
@@ -128,11 +124,7 @@ func WithBasicAuth(user, pass string) clientOption {
 }
 
 func WithBasicAuth1(userinfo string) clientOption {
-	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
-		req.Header.Set("Authorization", "Basic "+userinfo)
-
-		return pullThenCall(pull, req)
-	})
+	return withSettingHeader("Authorization", "Basic "+userinfo)
 }
 
 func WithForceAutomaticAuthentication() clientOption {
@@ -144,26 +136,16 @@ func WithForceAutomaticAuthentication() clientOption {
 }
 
 func WithBigInt(needed bool) clientOption {
-	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
-		var val string
-		if needed {
-			val = "1"
-		} else {
-			val = "0"
-		}
-		req.Header.Set("X-Sakura-Bigint-As-Int", val)
-
-		return pullThenCall(pull, req)
-	})
+	var val string
+	if needed {
+		val = "1"
+	} else {
+		val = "0"
+	}
+	return withSettingHeader("X-Sakura-Bigint-As-Int", val)
 }
 
-func WithUserAgent(ua string) clientOption {
-	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
-		req.Header.Set("User-Agent", ua)
-
-		return pullThenCall(pull, req)
-	})
-}
+func WithUserAgent(ua string) clientOption { return withSettingHeader("User-Agent", ua) }
 
 func WithCheckRetryFunc(f retryablehttp.CheckRetry) clientOption {
 	return func(c *Client) error {
@@ -202,6 +184,14 @@ func WithDefaultTimeout(t time.Duration) clientOption {
 		c.params.dynamic.apiRequestTimeout.initialize(t)
 		return nil
 	}
+}
+
+func withSettingHeader(key, value string) clientOption {
+	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
+		req.Header.Set(key, value)
+
+		return pullThenCall(pull, req)
+	})
 }
 
 var disableRetry = func(context.Context, *http.Response, error) (bool, error) { return false, nil }

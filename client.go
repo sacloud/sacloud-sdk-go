@@ -334,7 +334,7 @@ func (c *Client) Profile() (*Profile, error) {
 }
 
 func (c *Client) ProfileName() (dir, name *string) {
-	i, _ := c.__populate__() // This __populate__ can fail, but we go ahead.
+	i, _ := c.doPopulate() // This doPopulate can fail, but we go ahead.
 	result := obtainFromConfig[string](&i.c, "ProfileName")
 	op, err := c.ProfileOp()
 
@@ -380,33 +380,48 @@ func (c *Client) EndpointConfig() (*EndpointConfig, error) {
 	}
 
 	ret := &EndpointConfig{}
-	if result := obtainFromConfig[map[string]string](cfg, "Endpoints"); result.isSome() {
-		if endpoints, ok := result.some(); ok && endpoints != nil {
-			// Copy to avoid external mutation
-			ret.Endpoints = make(map[string]string, len(endpoints))
-			maps.Copy(ret.Endpoints, endpoints)
-		}
-	} else if result.isErr() {
-		return nil, result.error()
+
+	endpoints, ok, err := obtainFromConfig[map[string]string](cfg, "Endpoints").decompose()
+
+	if err != nil {
+		return nil, err
 	}
 
-	if result := obtainFromConfig[string](cfg, "Zone"); result.isSome() {
-		ret.Zone, _ = result.some()
-	} else if result.isErr() {
-		return nil, result.error()
+	if ok && endpoints != nil {
+		// Copy to avoid external mutation
+		ret.Endpoints = make(map[string]string, len(endpoints))
+		maps.Copy(ret.Endpoints, endpoints)
 	}
 
-	if result := obtainFromConfig[[]string](cfg, "Zones"); result.isSome() {
-		ret.Zones, _ = result.some()
-	} else if result.isErr() {
-		return nil, result.error()
+	zone, ok, err := obtainFromConfig[string](cfg, "Zone").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
+		ret.Zone = zone
+	}
+
+	zones, ok, err := obtainFromConfig[[]string](cfg, "Zones").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
+		ret.Zones = zones
 	}
 
 	// APIRootURL (deprecated) for compatibility
-	if result := obtainFromConfig[string](cfg, "APIRootURL"); result.isSome() {
-		ret.APIRootURL, _ = result.some()
-	} else if result.isErr() {
-		return nil, result.error()
+	url, ok, err := obtainFromConfig[string](cfg, "APIRootURL").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
+		ret.APIRootURL = url
 	}
 
 	return ret, nil
@@ -414,7 +429,7 @@ func (c *Client) EndpointConfig() (*EndpointConfig, error) {
 func (c *Client) ensurePopulated() (*config, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
-	} else if i, err := c.__populate__(); err != nil {
+	} else if i, err := c.doPopulate(); err != nil {
 		return nil, err
 	} else {
 		return &i.c, nil
@@ -424,14 +439,14 @@ func (c *Client) ensurePopulated() (*config, error) {
 func (c *Client) ensureDoer() (HttpRequestDoer, error) {
 	if c == nil {
 		return nil, NewErrorf("nil client")
-	} else if i, err := c.__populate__(); err != nil {
+	} else if i, err := c.doPopulate(); err != nil {
 		return nil, err
 	} else {
 		return i.d, nil
 	}
 }
 
-func (c *Client) __populate__() (*inner, error) {
+func (c *Client) doPopulate() (*inner, error) {
 	return c.once.Do(func(i *inner) error {
 		i.c = make(config)
 

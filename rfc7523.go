@@ -66,7 +66,6 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 	if key := obtainFromConfig[string](cfg, "PrivateKey").asPtr(); key != nil {
 		buf = []byte(*key)
 	} else if path := obtainFromConfig[string](cfg, "PrivateKeyPEMPath").asPtr(); path != nil {
-		//nolint:gosec // This `os.ReadFile` does not reveal any secret info
 		if buf, err = os.ReadFile(*path); err != nil {
 			return nil, err
 		}
@@ -143,14 +142,21 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 	var profile *Profile
 	var key, path *string
 	var exists bool
+	var err error
 
-	if result := obtainFromConfig[*Profile](cfg, "Profile"); result.isErr() {
-		return nil, result.error()
-	} else if profile, exists = result.Get(); !exists {
+	profile, exists, err = obtainFromConfig[*Profile](cfg, "Profile").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if !exists {
 		// It is possible that Profile is absent.
 		// Token request is still tried then, but no way to cache its response.
 		return d.inquireAccessToken(ctx, cfg)
-	} else if key = obtainFromConfig[string](cfg, "PrivateKey").asPtr(); key != nil {
+	}
+
+	if key = obtainFromConfig[string](cfg, "PrivateKey").asPtr(); key != nil {
 		// ok
 
 	} else if path = obtainFromConfig[string](cfg, "PrivateKeyPEMPath").asPtr(); path != nil {

@@ -57,34 +57,52 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		Transport: http.DefaultTransport.(*http.Transport).Clone(),
 	}
 
-	if result := obtainFromConfig[time.Duration](c, "APIRequestTimeout"); result.isErr() {
-		return nil, result.error()
-	} else if v, ok := result.some(); ok {
+	v, ok, err := obtainFromConfig[time.Duration](c, "APIRequestTimeout").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
 		h.Timeout = v
 	} else {
 		// UNLIKELY: APIRequestTimeout has default value
 		h.Timeout = 300 * time.Second
 	}
 
-	if result := obtainFromConfig[*httptest.Server](c, "MockServer"); result.isErr() {
-		return nil, result.error()
-	} else if svr, ok := result.some(); ok {
+	svr, ok, err := obtainFromConfig[*httptest.Server](c, "MockServer").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
 		d.client = svr.Client()
 		d.root = svr.URL
 		d.server = svr
-	} else if result := obtainFromConfig[string](c, "APIRootURL"); result.isErr() {
-		return nil, result.error()
-	} else if apiRootURL, ok := result.some(); ok {
-		d.client = &h
-		d.root = apiRootURL
 	} else {
-		d.client = &h
+		url, ok, err := obtainFromConfig[string](c, "APIRootURL").decompose()
+
+		if err != nil {
+			return nil, err
+		}
+
+		if ok {
+			d.client = &h
+			d.root = url
+		} else {
+			d.client = &h
+		}
 	}
 	// OK when root is absent
 
-	if result := obtainFromConfig[int64](c, "APIRequestRateLimit"); result.isErr() {
-		return nil, result.error()
-	} else if v, ok := result.some(); ok {
+	v, ok, err = obtainFromConfig[int64](c, "APIRequestRateLimit").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
 		d.rateLimiter = ratelimit.New(int(v))
 	} else {
 		d.rateLimiter = ratelimit.NewUnlimited()
@@ -104,9 +122,13 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		// lower layer ^^^^^
 	}
 
-	if result := obtainFromConfig[[]Middleware](c, "Middlewares"); result.isErr() {
-		return nil, result.error()
-	} else if m, ok := result.some(); ok {
+	m, ok, err := obtainFromConfig[[]Middleware](c, "Middlewares").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
 		//nolint:gocritic // this is intentional
 		d.middlewares = append(m, middlewares...) // prepend
 	} else {
@@ -121,13 +143,23 @@ func (d *doer) middlewareRequestCustomizers(c *config) Middleware {
 	return func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		iter := func(yield saht.RequestCustomizer) error { return yield(req) }
 
-		if result := obtainFromConfig[[]saht.RequestCustomizer](c, "RequestCustomizer"); result.isErr() {
-			return nil, result.error()
-		} else if customizers, ok := result.some(); !ok {
-			// nothing to do here
-		} else if err := findFirstError(slices.Values(customizers), iter); err != nil {
+		customizers, ok, err := obtainFromConfig[[]saht.RequestCustomizer](c, "RequestCustomizer").decompose()
+
+		if err != nil {
 			return nil, err
 		}
+
+		if !ok {
+			// nothing to do here
+			return pullThenCall(pull, req)
+		}
+
+		err = findFirstError(slices.Values(customizers), iter)
+
+		if err != nil {
+			return nil, err
+		}
+
 		return pullThenCall(pull, req)
 	}
 }
