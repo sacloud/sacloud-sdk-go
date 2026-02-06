@@ -17,6 +17,7 @@ import (
 	"time"
 
 	"github.com/go-faster/jx"
+	"github.com/google/uuid"
 	apprun_dedicated "github.com/sacloud/apprun-dedicated-api-go"
 	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
 	super "github.com/sacloud/packages-go/testutil"
@@ -160,5 +161,30 @@ func FakeApplicationVersion() (ret v1.ReadApplicationVersionDetail) {
 	ret.MaxScale.Reset()
 	ret.ScaleInThreshold.Reset()
 	ret.ScaleOutThreshold.Reset()
+	return
+}
+
+func FakeAutoScalingGroupNodeInterface() (ret v1.AutoScalingGroupNodeInterface) {
+	ret.SetInterfaceIndex(0)
+	ret.SetUpstream("shared")
+	ret.SetIpPool(make([]v1.IpRange, 0))
+	ret.NetmaskLen.SetTo(24)
+	ret.DefaultGateway.SetTo("192.168.1.1")
+	ret.PacketFilterID.SetTo("filter-id")
+	ret.SetConnectsToLB(true)
+	return
+}
+
+func FakeAutoScalingGroup() (ret v1.ReadAutoScalingGroupDetail) {
+	ret.SetAutoScalingGroupID(v1.AutoScalingGroupID(uuid.New()))
+	ret.SetName("test-asg")
+	ret.SetZone("is1a")
+	ret.SetNameServers([]v1.IPv4{"133.242.0.3"})
+	ret.SetWorkerServiceClassPath("/is1a/server/1/core-2-2")
+	ret.SetMinNodes(1)
+	ret.SetMaxNodes(3)
+	ret.SetWorkerNodeCount(2)
+	ret.SetDeleting(false)
+	ret.SetInterfaces([]v1.AutoScalingGroupNodeInterface{FakeAutoScalingGroupNodeInterface()})
 	return
 }
