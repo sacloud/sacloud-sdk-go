@@ -2,7 +2,7 @@ module github.com/sacloud/apprun-dedicated-api-go
 
 go 1.25.0
 
-toolchain go1.25.6
+toolchain go1.25.7
 
 tool github.com/ogen-go/ogen/cmd/ogen
 
