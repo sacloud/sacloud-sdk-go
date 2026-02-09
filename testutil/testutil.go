@@ -199,3 +199,74 @@ func FakeApplication() (ret v1.ReadApplicationDetail) {
 	ret.SetScalingCooldownSeconds(300)
 	return
 }
+
+func FakeLoadBalancerInterface() (ret v1.LoadBalancerInterface) {
+	ret.SetInterfaceIndex(0)
+	ret.SetUpstream("shared")
+	ret.SetIpPool(make([]v1.IpRange, 0))
+	ret.NetmaskLen.SetTo(24)
+	ret.DefaultGateway.SetTo("192.168.1.1")
+	ret.Vip.SetTo("203.0.113.1")
+	ret.VirtualRouterID.SetTo(1)
+	ret.PacketFilterID.SetTo("filter-id")
+	return
+}
+
+func FakeLoadBalancer() (ret v1.ReadLoadBalancerSummary) {
+	ret.SetLoadBalancerID(v1.LoadBalancerID(uuid.New()))
+	ret.SetName("test-lb")
+	ret.SetServiceClassPath("/is1a/load-balancer/1/core-2-2")
+	ret.SetNameServers([]v1.IPv4{"133.242.0.3"})
+	ret.SetCreated(1234567890)
+	ret.SetDeleting(false)
+	return
+}
+
+func FakeLoadBalancerDetail() (ret v1.ReadLoadBalancerDetail) {
+	ret.SetLoadBalancerID(v1.LoadBalancerID(uuid.New()))
+	ret.SetName("test-lb")
+	ret.SetServiceClassPath("/is1a/load-balancer/1/core-2-2")
+	ret.SetNameServers([]v1.IPv4{"133.242.0.3"})
+	ret.SetInterfaces([]v1.LoadBalancerInterface{FakeLoadBalancerInterface()})
+	ret.SetCreated(1234567890)
+	ret.SetDeleting(false)
+	return
+}
+
+func FakeLoadBalancerNodeInterfaceAddress() (ret v1.ReadLoadBalancerNodeInterfaceAddress) {
+	ret.SetAddress("192.168.1.100")
+	ret.SetVip(true)
+	return
+}
+
+func FakeLoadBalancerNodeInterface() (ret v1.ReadLoadBalancerNodeInterface) {
+	ret.SetInterfaceIndex(0)
+	ret.SetAddresses([]v1.ReadLoadBalancerNodeInterfaceAddress{FakeLoadBalancerNodeInterfaceAddress()})
+	return
+}
+
+func FakeLoadBalancerNode() (ret v1.ReadLoadBalancerNode) {
+	ret.SetLoadBalancerNodeID(v1.LoadBalancerNodeID(uuid.New()))
+	var nilString v1.NilString
+	nilString.SetToNull()
+	ret.SetResourceID(nilString)
+	ret.SetInterfaces([]v1.ReadLoadBalancerNodeInterface{FakeLoadBalancerNodeInterface()})
+	ret.SetStatus(v1.LoadBalancerNodeStatusHealthy)
+	ret.ArchiveVersion.SetTo("1.0.0")
+	ret.CreateErrorMessage.Reset()
+	ret.SetCreated(1234567890)
+	return
+}
+
+func FakeLoadBalancerNodeSummary() (ret v1.ReadLoadBalancerNodeSummary) {
+	ret.SetLoadBalancerNodeID(v1.LoadBalancerNodeID(uuid.New()))
+	var nilString v1.NilString
+	nilString.SetToNull()
+	ret.SetResourceID(nilString)
+	ret.SetInterfaces([]v1.ReadLoadBalancerNodeInterface{FakeLoadBalancerNodeInterface()})
+	ret.SetStatus(v1.LoadBalancerNodeStatusHealthy)
+	ret.ArchiveVersion.SetTo("1.0.0")
+	ret.CreateErrorMessage.Reset()
+	ret.SetCreated(1234567890)
+	return
+}
