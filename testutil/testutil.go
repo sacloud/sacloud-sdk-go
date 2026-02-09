@@ -188,3 +188,14 @@ func FakeAutoScalingGroup() (ret v1.ReadAutoScalingGroupDetail) {
 	ret.SetInterfaces([]v1.AutoScalingGroupNodeInterface{FakeAutoScalingGroupNodeInterface()})
 	return
 }
+
+func FakeApplication() (ret v1.ReadApplicationDetail) {
+	ret.SetApplicationID(v1.ApplicationID(uuid.New()))
+	ret.SetName("test-app")
+	ret.SetClusterID(v1.ClusterID(uuid.New()))
+	ret.SetClusterName("test-cluster")
+	ret.ActiveVersion.SetToNull()
+	ret.DesiredCount.SetToNull()
+	ret.SetScalingCooldownSeconds(300)
+	return
+}
