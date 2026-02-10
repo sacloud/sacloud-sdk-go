@@ -194,7 +194,7 @@ type LoadBalancerInterface struct {
 	PacketFilterID  *string
 }
 
-func (l *LoadBalancerInterface) into() (ret v1.LoadBalancerInterface) {
+func (l LoadBalancerInterface) into() (ret v1.LoadBalancerInterface) {
 	ret.SetInterfaceIndex(l.InterfaceIndex)
 	ret.SetUpstream(l.Upstream)
 	ret.SetIpPool(l.IpPool)
@@ -207,7 +207,7 @@ func (l *LoadBalancerInterface) into() (ret v1.LoadBalancerInterface) {
 	return
 }
 
-func (l *LoadBalancerInterface) from(res *v1.LoadBalancerInterface) {
+func (l *LoadBalancerInterface) From(res *v1.LoadBalancerInterface) {
 	l.InterfaceIndex = res.GetInterfaceIndex()
 	l.Upstream = res.GetUpstream()
 	l.IpPool = res.GetIpPool()
@@ -223,13 +223,9 @@ type NodeInterface struct {
 	Addresses      []NodeInterfaceAddress
 }
 
-func (n *NodeInterface) from(res *v1.ReadLoadBalancerNodeInterface) {
+func (n *NodeInterface) From(res *v1.ReadLoadBalancerNodeInterface) {
 	n.InterfaceIndex = res.GetInterfaceIndex()
-	n.Addresses = common.MapSlice(res.GetAddresses(), func(a v1.ReadLoadBalancerNodeInterfaceAddress) NodeInterfaceAddress {
-		var addr NodeInterfaceAddress
-		addr.from(&a)
-		return addr
-	})
+	n.Addresses = common.MapSlice(res.GetAddresses(), common.ConvertFrom[v1.ReadLoadBalancerNodeInterfaceAddress, NodeInterfaceAddress]())
 }
 
 type NodeInterfaceAddress struct {
@@ -237,7 +233,7 @@ type NodeInterfaceAddress struct {
 	Vip     bool
 }
 
-func (n *NodeInterfaceAddress) from(res *v1.ReadLoadBalancerNodeInterfaceAddress) {
+func (n *NodeInterfaceAddress) From(res *v1.ReadLoadBalancerNodeInterfaceAddress) {
 	n.Address = res.GetAddress()
 	n.Vip = res.GetVip()
 }
@@ -249,13 +245,11 @@ type CreateParams struct {
 	Interfaces       []LoadBalancerInterface
 }
 
-func (c *CreateParams) into() (ret v1.CreateLoadBalancer) {
+func (c CreateParams) into() (ret v1.CreateLoadBalancer) {
 	ret.SetName(c.Name)
 	ret.SetServiceClassPath(c.ServiceClassPath)
 	ret.SetNameServers(c.NameServers)
-	ret.SetInterfaces(common.MapSlice(c.Interfaces, func(l LoadBalancerInterface) v1.LoadBalancerInterface {
-		return l.into()
-	}))
+	ret.SetInterfaces(common.MapSlice(c.Interfaces, LoadBalancerInterface.into))
 
 	return
 }
@@ -275,11 +269,7 @@ func (l *LoadBalancerDetail) from(res *v1.ReadLoadBalancerDetail) {
 	l.Name = res.GetName()
 	l.ServiceClassPath = res.GetServiceClassPath()
 	l.NameServers = res.GetNameServers()
-	l.Interfaces = common.MapSlice(res.GetInterfaces(), func(i v1.LoadBalancerInterface) LoadBalancerInterface {
-		var iface LoadBalancerInterface
-		iface.from(&i)
-		return iface
-	})
+	l.Interfaces = common.MapSlice(res.GetInterfaces(), common.ConvertFrom[v1.LoadBalancerInterface, LoadBalancerInterface]())
 	l.Created = res.GetCreated()
 	l.Deleting = res.GetDeleting()
 }
@@ -297,11 +287,7 @@ type LoadBalancerNodeDetail struct {
 func (l *LoadBalancerNodeDetail) from(res *v1.ReadLoadBalancerNode) {
 	l.LoadBalancerNodeID = res.GetLoadBalancerNodeID()
 	l.ResourceID = common.FromOpt(res.GetResourceID())
-	l.Interfaces = common.MapSlice(res.GetInterfaces(), func(i v1.ReadLoadBalancerNodeInterface) NodeInterface {
-		var iface NodeInterface
-		iface.from(&i)
-		return iface
-	})
+	l.Interfaces = common.MapSlice(res.GetInterfaces(), common.ConvertFrom[v1.ReadLoadBalancerNodeInterface, NodeInterface]())
 	l.Status = res.GetStatus()
 	l.ArchiveVersion = common.FromOpt(res.GetArchiveVersion())
 	l.CreateErrorMessage = common.FromOpt(res.GetCreateErrorMessage())
