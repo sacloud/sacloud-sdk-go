@@ -70,3 +70,16 @@ func MapSlice[T, U any](src []T, f func(T) U) (ret []U) {
 	}
 	return
 }
+
+func ConvertFrom[
+	T, U any,
+	P interface {
+		*U
+		From(*T)
+	},
+]() func(T) U {
+	return func(t T) (u U) {
+		P(&u).From(&t)
+		return
+	}
+}

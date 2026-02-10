@@ -126,7 +126,7 @@ type ExposedPort struct {
 	HealthCheck      *v1.HealthCheck
 }
 
-func (p *ExposedPort) into() (ret v1.ExposedPort) {
+func (p ExposedPort) into() (ret v1.ExposedPort) {
 	ret.SetTargetPort(p.TargetPort)
 	ret.SetLoadBalancerPort(common.IntoNullable[v1.NilPort](p.LoadBalancerPort))
 	ret.SetUseLetsEncrypt(p.UseLetsEncrypt)
@@ -136,7 +136,7 @@ func (p *ExposedPort) into() (ret v1.ExposedPort) {
 	return
 }
 
-func (p *ExposedPort) from(res *v1.ExposedPort) {
+func (p *ExposedPort) From(res *v1.ExposedPort) {
 	p.TargetPort = res.GetTargetPort()
 	p.LoadBalancerPort = common.FromOpt(res.GetLoadBalancerPort())
 	p.UseLetsEncrypt = res.GetUseLetsEncrypt()
@@ -150,7 +150,7 @@ type EnvironmentVariable struct {
 	Secret bool
 }
 
-func (e *EnvironmentVariable) into() (ret v1.CreateEnvironmentVariable) {
+func (e EnvironmentVariable) into() (ret v1.CreateEnvironmentVariable) {
 	ret.SetKey(e.Key)
 	ret.SetValue(common.IntoOpt[v1.OptString](e.Value))
 	ret.SetSecret(e.Secret)
@@ -158,7 +158,7 @@ func (e *EnvironmentVariable) into() (ret v1.CreateEnvironmentVariable) {
 	return
 }
 
-func (e *EnvironmentVariable) from(res *v1.ReadEnvironmentVariable) {
+func (e *EnvironmentVariable) From(res *v1.ReadEnvironmentVariable) {
 	e.Key = res.GetKey()
 	e.Value = common.FromOpt(res.GetValue())
 	e.Secret = res.GetSecret()
@@ -196,8 +196,8 @@ func (c *CreateParams) into() (ret v1.CreateApplicationVersion) {
 	ret.SetRegistryUsername(common.IntoNullable[v1.NilString](c.RegistryUsername))
 	ret.SetRegistryPassword(common.IntoNullable[v1.NilString](c.RegistryPassword))
 	ret.SetRegistryPasswordAction(c.RegistryPasswordAction)
-	ret.SetExposedPorts(common.MapSlice(c.ExposedPorts, func(p ExposedPort) v1.ExposedPort { return p.into() }))
-	ret.SetEnv(common.MapSlice(c.Env, func(e EnvironmentVariable) v1.CreateEnvironmentVariable { return e.into() }))
+	ret.SetExposedPorts(common.MapSlice(c.ExposedPorts, ExposedPort.into))
+	ret.SetEnv(common.MapSlice(c.Env, EnvironmentVariable.into))
 
 	return
 }
@@ -238,12 +238,6 @@ func (v *VersionDetail) from(res *v1.ReadApplicationVersionDetail) {
 	v.RegistryPassword = common.FromOpt(res.GetRegistryPassword())
 	v.ActiveNodeCount = res.GetActiveNodeCount()
 	v.Created = res.GetCreated()
-	v.ExposedPorts = common.MapSlice(res.GetExposedPorts(), func(p v1.ExposedPort) (q ExposedPort) {
-		q.from(&p)
-		return
-	})
-	v.Env = common.MapSlice(res.GetEnv(), func(p v1.ReadEnvironmentVariable) (q EnvironmentVariable) {
-		q.from(&p)
-		return
-	})
+	v.ExposedPorts = common.MapSlice(res.GetExposedPorts(), common.ConvertFrom[v1.ExposedPort, ExposedPort]())
+	v.Env = common.MapSlice(res.GetEnv(), common.ConvertFrom[v1.ReadEnvironmentVariable, EnvironmentVariable]())
 }
