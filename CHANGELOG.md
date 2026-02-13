@@ -1,5 +1,12 @@
 # Changelog
 
+## [v0.0.4](https://github.com/sacloud/dedicated-storage-api-go/compare/v0.0.3...v0.0.4) - 2026-02-13
+- ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/dedicated-storage-api-go/pull/21
+- ci: bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/dedicated-storage-api-go/pull/23
+- Use Go 1.25.0 and test with stable and oldstable  by @yamamoto-febc in https://github.com/sacloud/dedicated-storage-api-go/pull/30
+- ci: bump Songmu/tagpr from 1.10.0 to 1.15.0 by @dependabot[bot] in https://github.com/sacloud/dedicated-storage-api-go/pull/27
+- tagpr: use custom major/minorLabels by @yamamoto-febc in https://github.com/sacloud/dedicated-storage-api-go/pull/31
+
 ## [v0.0.3](https://github.com/sacloud/dedicated-storage-api-go/compare/v0.0.2...v0.0.3) - 2026-01-06
 - Fix missing parameter definitions in ContractAPI.Update by @yamamoto-febc in https://github.com/sacloud/dedicated-storage-api-go/pull/18
 - go: bump github.com/sacloud/saclient-go from 0.2.5-0.20251224021203-f6c92b75e9ab to 0.2.5 by @dependabot[bot] in https://github.com/sacloud/dedicated-storage-api-go/pull/17
