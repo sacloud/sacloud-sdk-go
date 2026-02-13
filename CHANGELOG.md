@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.0](https://github.com/sacloud/dedicated-storage-api-go/compare/v0.0.4...v0.1.0) - 2026-02-13
+- remove unsed field: ReinstallCount by @yamamoto-febc in https://github.com/sacloud/dedicated-storage-api-go/pull/32
+
 ## [v0.0.4](https://github.com/sacloud/dedicated-storage-api-go/compare/v0.0.3...v0.0.4) - 2026-02-13
 - ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/dedicated-storage-api-go/pull/21
 - ci: bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/dedicated-storage-api-go/pull/23
