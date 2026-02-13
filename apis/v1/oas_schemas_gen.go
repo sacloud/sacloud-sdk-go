@@ -498,7 +498,6 @@ type Disk struct {
 	EncryptionKey       NilDiskEncryptionKey `json:"EncryptionKey"`
 	Connection          string               `json:"Connection"`
 	ConnectionOrder     NilInt64             `json:"ConnectionOrder"`
-	ReinstallCount      int64                `json:"ReinstallCount"`
 	ToBeInitialized     OptBool              `json:"ToBeInitialized"`
 	Availability        string               `json:"Availability"`
 	SizeMB              int64                `json:"SizeMB"`
@@ -535,11 +534,6 @@ func (s *Disk) GetConnection() string {
 // GetConnectionOrder returns the value of ConnectionOrder.
 func (s *Disk) GetConnectionOrder() NilInt64 {
 	return s.ConnectionOrder
-}
-
-// GetReinstallCount returns the value of ReinstallCount.
-func (s *Disk) GetReinstallCount() int64 {
-	return s.ReinstallCount
 }
 
 // GetToBeInitialized returns the value of ToBeInitialized.
@@ -600,11 +594,6 @@ func (s *Disk) SetConnection(val string) {
 // SetConnectionOrder sets the value of ConnectionOrder.
 func (s *Disk) SetConnectionOrder(val NilInt64) {
 	s.ConnectionOrder = val
-}
-
-// SetReinstallCount sets the value of ReinstallCount.
-func (s *Disk) SetReinstallCount(val int64) {
-	s.ReinstallCount = val
 }
 
 // SetToBeInitialized sets the value of ToBeInitialized.

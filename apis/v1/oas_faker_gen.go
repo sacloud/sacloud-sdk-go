@@ -320,11 +320,6 @@ func (s *Disk) SetFake() {
 	}
 	{
 		{
-			s.ReinstallCount = int64(0)
-		}
-	}
-	{
-		{
 			s.ToBeInitialized.SetFake()
 		}
 	}
