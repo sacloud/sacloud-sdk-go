@@ -1,6 +1,6 @@
 module github.com/sacloud/dedicated-storage-api-go
 
-go 1.25.5
+go 1.25.0
 
 toolchain go1.25.7
 
@@ -11,7 +11,7 @@ require (
 	github.com/go-faster/jx v1.2.0
 	github.com/ogen-go/ogen v1.18.0
 	github.com/sacloud/packages-go v0.0.12
-	github.com/sacloud/saclient-go v0.2.5
+	github.com/sacloud/saclient-go v0.3.1
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -30,7 +30,7 @@ require (
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
-	github.com/sacloud/api-client-go v0.3.4 // indirect
+	github.com/sacloud/api-client-go v0.3.5 // indirect
 	github.com/sacloud/go-http v0.1.9 // indirect
 	github.com/segmentio/asm v1.2.1 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
