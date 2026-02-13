@@ -1684,10 +1684,6 @@ func (s *Disk) encodeFields(e *jx.Encoder) {
 		s.ConnectionOrder.Encode(e)
 	}
 	{
-		e.FieldStart("ReinstallCount")
-		e.Int64(s.ReinstallCount)
-	}
-	{
 		if s.ToBeInitialized.Set {
 			e.FieldStart("ToBeInitialized")
 			s.ToBeInitialized.Encode(e)
@@ -1715,20 +1711,19 @@ func (s *Disk) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfDisk = [13]string{
+var jsonFieldsNameOfDisk = [12]string{
 	0:  "ID",
 	1:  "Name",
 	2:  "EncryptionAlgorithm",
 	3:  "EncryptionKey",
 	4:  "Connection",
 	5:  "ConnectionOrder",
-	6:  "ReinstallCount",
-	7:  "ToBeInitialized",
-	8:  "Availability",
-	9:  "SizeMB",
-	10: "Plan",
-	11: "Storage",
-	12: "BundleInfo",
+	6:  "ToBeInitialized",
+	7:  "Availability",
+	8:  "SizeMB",
+	9:  "Plan",
+	10: "Storage",
+	11: "BundleInfo",
 }
 
 // Decode decodes Disk from json.
@@ -1808,18 +1803,6 @@ func (s *Disk) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"ConnectionOrder\"")
 			}
-		case "ReinstallCount":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				v, err := d.Int64()
-				s.ReinstallCount = int64(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"ReinstallCount\"")
-			}
 		case "ToBeInitialized":
 			if err := func() error {
 				s.ToBeInitialized.Reset()
@@ -1831,7 +1814,7 @@ func (s *Disk) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"ToBeInitialized\"")
 			}
 		case "Availability":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				v, err := d.Str()
 				s.Availability = string(v)
@@ -1843,7 +1826,7 @@ func (s *Disk) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Availability\"")
 			}
 		case "SizeMB":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Int64()
 				s.SizeMB = int64(v)
@@ -1855,7 +1838,7 @@ func (s *Disk) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"SizeMB\"")
 			}
 		case "Plan":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				if err := s.Plan.Decode(d); err != nil {
 					return err
@@ -1865,7 +1848,7 @@ func (s *Disk) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Plan\"")
 			}
 		case "Storage":
-			requiredBitSet[1] |= 1 << 3
+			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
 				if err := s.Storage.Decode(d); err != nil {
 					return err
@@ -1875,7 +1858,7 @@ func (s *Disk) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Storage\"")
 			}
 		case "BundleInfo":
-			requiredBitSet[1] |= 1 << 4
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				if err := s.BundleInfo.Decode(d); err != nil {
 					return err
@@ -1894,8 +1877,8 @@ func (s *Disk) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
-		0b01111111,
-		0b00011111,
+		0b10111111,
+		0b00001111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
