@@ -26,14 +26,7 @@ import (
 
 var theClient saclient.Client
 
-//nolint:nakedret
-func NewTestClient(
-	v interface{ Encode(*jx.Encoder) },
-	s ...int,
-) (
-	c *v1.Client,
-	e error,
-) {
+func NewTestClient(v interface{ Encode(*jx.Encoder) }, s ...int) (c *v1.Client, e error) {
 	s = append(s, http.StatusOK)
 	f := func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")

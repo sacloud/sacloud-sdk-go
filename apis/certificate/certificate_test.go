@@ -17,14 +17,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func setup(
-	t *testing.T,
-	v interface{ Encode(*jx.Encoder) },
-	s ...int,
-) (
-	assert *require.Assertions,
-	api CertificateAPI,
-) {
+func setup(t *testing.T, v interface{ Encode(*jx.Encoder) }, s ...int) (assert *require.Assertions, api CertificateAPI) {
 	clid := v1.ClusterID(uuid.New())
 	assert = require.New(t)
 	client, err := apprun_test.NewTestClient(v, s...)

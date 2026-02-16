@@ -11,11 +11,7 @@ func IntoOpt[
 		Reset()
 		SetTo(u U)
 	},
-](
-	v *U,
-) (
-	ret T,
-) {
+](v *U) (ret T) {
 	if v == nil {
 		P(&ret).Reset()
 	} else {
@@ -26,14 +22,7 @@ func IntoOpt[
 }
 
 // generic-ish type cast helper function
-func FromOpt[
-	T any,
-	P interface{ Get() (T, bool) },
-](
-	v P,
-) (
-	ret *T,
-) {
+func FromOpt[T any, P interface{ Get() (T, bool) }](v P) (ret *T) {
 	val, ok := v.Get()
 	if ok {
 		ret = &val
