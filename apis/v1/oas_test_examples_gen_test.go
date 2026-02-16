@@ -63,6 +63,18 @@ func TestCommonServiceItemGroupSettings_EncodeDecode(t *testing.T) {
 	var typ2 CommonServiceItemGroupSettings
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestCommonServiceItemIcon_EncodeDecode(t *testing.T) {
+	var typ CommonServiceItemIcon
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CommonServiceItemIcon
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestCommonServiceItemProvider_EncodeDecode(t *testing.T) {
 	var typ CommonServiceItemProvider
 	typ.SetFake()
@@ -177,9 +189,9 @@ func TestGetCommonServiceItemOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"メール通知先の説明\",\"ID\":\"123700010001\",\"Icon\":{},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"mail destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]}}"},
-		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知ルーティングの説明\",\"ID\":\"123700030001\",\"Icon\":{},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test routing\",\"Provider\":{\"Class\":\"saknoticerouting\"},\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"PriorityRank\":1,\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}}"},
-		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知先グループの説明\",\"ID\":\"123700020001\",\"Icon\":{},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test group\",\"Provider\":{\"Class\":\"saknoticegroup\"},\"Settings\":{\"Destinations\":[\"123700010001\",\"123700010002\"]},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"メール通知先の説明\",\"ID\":\"123700010001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"mail destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知ルーティングの説明\",\"ID\":\"123700030001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test routing\",\"Provider\":{\"Class\":\"saknoticerouting\"},\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"PriorityRank\":1,\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知先グループの説明\",\"ID\":\"123700020001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test group\",\"Provider\":{\"Class\":\"saknoticegroup\"},\"Settings\":{\"Destinations\":[\"123700010001\",\"123700010002\"]},\"Tags\":[]}}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -267,18 +279,6 @@ func TestGetSimpleNotificationHistoryResponse_Examples(t *testing.T) {
 		})
 	}
 }
-func TestIcon_EncodeDecode(t *testing.T) {
-	var typ Icon
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Icon
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestListCommonServiceItemsResponse_EncodeDecode(t *testing.T) {
 	var typ ListCommonServiceItemsResponse
 	typ.SetFake()
@@ -297,9 +297,9 @@ func TestListCommonServiceItemsResponse_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"CommonServiceItems\":[{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"メール通知先の説明\",\"ID\":\"123700010001\",\"Icon\":{},\"Index\":0,\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"mail destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]},{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"Webhook通知先の説明\",\"ID\":\"123700010002\",\"Icon\":{},\"Index\":1,\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"webhook destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"webhook\",\"Value\":\"https://example.com/notify\"},\"Tags\":[]}],\"Count\":2,\"From\":0,\"Total\":2}"},
-		{Input: "{\"CommonServiceItems\":[{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知ルーティングの説明\",\"ID\":\"123700030001\",\"Icon\":{},\"Index\":0,\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test routing\",\"Provider\":{\"Class\":\"saknoticerouting\"},\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"PriorityRank\":1,\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}],\"Count\":1,\"From\":0,\"Total\":1}"},
-		{Input: "{\"CommonServiceItems\":[{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知先グループの説明\",\"ID\":\"123700020001\",\"Icon\":{},\"Index\":0,\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test group\",\"Provider\":{\"Class\":\"saknoticegroup\"},\"Settings\":{\"Destinations\":[\"123700010001\",\"123700010002\"]},\"Tags\":[]}],\"Count\":1,\"From\":0,\"Total\":1}"},
+		{Input: "{\"CommonServiceItems\":[{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"メール通知先の説明\",\"ID\":\"123700010001\",\"Icon\":{\"ID\":\"123700100001\"},\"Index\":0,\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"mail destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]},{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"Webhook通知先の説明\",\"ID\":\"123700010002\",\"Icon\":{\"ID\":\"123700100001\"},\"Index\":1,\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"webhook destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"webhook\",\"Value\":\"https://example.com/notify\"},\"Tags\":[]}],\"Count\":2,\"From\":0,\"Total\":2}"},
+		{Input: "{\"CommonServiceItems\":[{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知ルーティングの説明\",\"ID\":\"123700030001\",\"Icon\":{\"ID\":\"123700100001\"},\"Index\":0,\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test routing\",\"Provider\":{\"Class\":\"saknoticerouting\"},\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"PriorityRank\":1,\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}],\"Count\":1,\"From\":0,\"Total\":1}"},
+		{Input: "{\"CommonServiceItems\":[{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知先グループの説明\",\"ID\":\"123700020001\",\"Icon\":{\"ID\":\"123700100001\"},\"Index\":0,\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test group\",\"Provider\":{\"Class\":\"saknoticegroup\"},\"Settings\":{\"Destinations\":[\"123700010001\",\"123700010002\"]},\"Tags\":[]}],\"Count\":1,\"From\":0,\"Total\":1}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -453,9 +453,9 @@ func TestPostCommonServiceItemRequest_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"CommonServiceItem\":{\"Description\":\"メール通知先の説明\",\"Icon\":{},\"Name\":\"mail destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]}}"},
-		{Input: "{\"CommonServiceItem\":{\"Description\":\"通知ルーティングの説明\",\"Icon\":{},\"Name\":\"test routing\",\"Provider\":{\"Class\":\"saknoticerouting\"},\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}}"},
-		{Input: "{\"CommonServiceItem\":{\"Description\":\"通知先グループの説明\",\"Icon\":{},\"Name\":\"test group\",\"Provider\":{\"Class\":\"saknoticegroup\"},\"Settings\":{\"Destinations\":[\"123700010001\"]},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"Description\":\"メール通知先の説明\",\"Icon\":{\"ID\":\"123700100001\"},\"Name\":\"mail destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"ServiceClass\":\"cloud/saknoticedestination/2\",\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"Description\":\"通知ルーティングの説明\",\"Icon\":{\"ID\":\"123700100001\"},\"Name\":\"test routing\",\"Provider\":{\"Class\":\"saknoticerouting\"},\"ServiceClass\":\"cloud/saknoticerouting/2\",\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"Description\":\"通知先グループの説明\",\"Icon\":{\"ID\":\"123700100001\"},\"Name\":\"test group\",\"Provider\":{\"Class\":\"saknoticegroup\"},\"ServiceClass\":\"cloud/saknoticegroup/2\",\"Settings\":{\"Destinations\":[\"123700010001\"]},\"Tags\":[]}}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -514,6 +514,18 @@ func TestPostCommonServiceItemRequestCommonServiceItemProviderClass_EncodeDecode
 	var typ2 PostCommonServiceItemRequestCommonServiceItemProviderClass
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestPostCommonServiceItemRequestCommonServiceItemServiceClass_EncodeDecode(t *testing.T) {
+	var typ PostCommonServiceItemRequestCommonServiceItemServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PostCommonServiceItemRequestCommonServiceItemServiceClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestPostCommonServiceItemRequestCommonServiceItemSettings_EncodeDecode(t *testing.T) {
 	var typ PostCommonServiceItemRequestCommonServiceItemSettings
 	typ.SetFake()
@@ -544,9 +556,9 @@ func TestPutCommonServiceItemRequest_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"CommonServiceItem\":{\"Description\":\"メール通知先の説明\",\"Icon\":{},\"Name\":\"mail destination\",\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]}}"},
-		{Input: "{\"CommonServiceItem\":{\"Description\":\"通知ルーティングの説明\",\"Icon\":{},\"Name\":\"test routing\",\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}}"},
-		{Input: "{\"CommonServiceItem\":{\"Description\":\"通知先グループの説明\",\"Icon\":{},\"Name\":\"test group\",\"Settings\":{\"Destinations\":[\"123700010001\"]},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"Description\":\"メール通知先の説明\",\"Icon\":{\"ID\":\"123700100001\"},\"Name\":\"mail destination\",\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"Description\":\"通知ルーティングの説明\",\"Icon\":{\"ID\":\"123700100001\"},\"Name\":\"test routing\",\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"Description\":\"通知先グループの説明\",\"Icon\":{\"ID\":\"123700100001\"},\"Name\":\"test group\",\"Settings\":{\"Destinations\":[\"123700010001\"]},\"Tags\":[]}}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {

@@ -675,6 +675,8 @@ func (s NotificationStatusStatus) Validate() error {
 		return nil
 	case 2:
 		return nil
+	case 3:
+		return nil
 	case 9:
 		return nil
 	default:
@@ -744,6 +746,17 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if err := s.ServiceClass.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ServiceClass",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -780,6 +793,19 @@ func (s PostCommonServiceItemRequestCommonServiceItemProviderClass) Validate() e
 	case "saknoticegroup":
 		return nil
 	case "saknoticerouting":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s PostCommonServiceItemRequestCommonServiceItemServiceClass) Validate() error {
+	switch s {
+	case "cloud/saknoticedestination/2":
+		return nil
+	case "cloud/saknoticegroup/2":
+		return nil
+	case "cloud/saknoticerouting/2":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)

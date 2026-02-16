@@ -113,6 +113,30 @@ func (s *CommonServiceItemGroupSettings) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *CommonServiceItemIcon) SetFake() {
+	{
+		{
+			s.ID = "string"
+		}
+	}
+	{
+		{
+			s.URL.SetFake()
+		}
+	}
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Scope.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *CommonServiceItemProvider) SetFake() {
 	{
 		{
@@ -270,42 +294,6 @@ func (s *GetSimpleNotificationHistoryResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *Icon) SetFake() {
-	{
-		{
-			s.ID.SetFake()
-		}
-	}
-	{
-		{
-			s.URL.SetFake()
-		}
-	}
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-	{
-		{
-			s.Scope.SetFake()
-		}
-	}
-	{
-		{
-			s.Tags = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.Tags = append(s.Tags, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *ListCommonServiceItemsResponse) SetFake() {
 	{
 		{
@@ -383,7 +371,7 @@ func (s *ListSourcesResponseSourcesItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NilIcon) SetFake() {
+func (s *NilCommonServiceItemIcon) SetFake() {
 	s.Null = true
 }
 
@@ -618,17 +606,17 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) SetFake() {
 	}
 	{
 		{
-			s.ServiceClass.SetFake()
-		}
-	}
-	{
-		{
 			s.Provider.SetFake()
 		}
 	}
 	{
 		{
 			s.Settings.SetFake()
+		}
+	}
+	{
+		{
+			s.ServiceClass.SetFake()
 		}
 	}
 }
@@ -655,6 +643,11 @@ func (s *PostCommonServiceItemRequestCommonServiceItemProvider) SetFake() {
 // SetFake set fake values.
 func (s *PostCommonServiceItemRequestCommonServiceItemProviderClass) SetFake() {
 	*s = PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination
+}
+
+// SetFake set fake values.
+func (s *PostCommonServiceItemRequestCommonServiceItemServiceClass) SetFake() {
+	*s = PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2
 }
 
 // SetFake set fake values.
