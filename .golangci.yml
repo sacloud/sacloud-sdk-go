@@ -16,7 +16,6 @@ linters:
     - govet
     - ineffassign
     - misspell
-    - nakedret
     - nolintlint
     - unconvert
     - unused

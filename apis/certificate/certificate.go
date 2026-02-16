@@ -15,17 +15,9 @@ type CertificateAPI interface {
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
 	List(ctx context.Context, elems int64, cursor *v1.CertificateID) (list []v1.ReadCertificate, nextCursor *v1.CertificateID, err error)
-
-	// Create creates a new Certificate.
 	Create(ctx context.Context, params CreateParams) (cert *v1.CreatedCertificate, err error)
-
-	// Read retrieves a Certificate by its ID.
 	Read(ctx context.Context, id v1.CertificateID) (cert *v1.ReadCertificate, err error)
-
-	// Update updates an existing Certificate.
 	Update(ctx context.Context, id v1.CertificateID, params UpdateParams) error
-
-	// Delete deletes a Certificate by its ID.
 	Delete(ctx context.Context, id v1.CertificateID) error
 }
 
@@ -41,15 +33,7 @@ func NewCertificateOp(client *v1.Client, clusterID v1.ClusterID) *CertificateOp 
 	}
 }
 
-func (op *CertificateOp) List(
-	ctx context.Context,
-	maxItems int64,
-	cursor *v1.CertificateID,
-) (
-	certificates []v1.ReadCertificate,
-	nextCursor *v1.CertificateID,
-	err error,
-) {
+func (op *CertificateOp) List(ctx context.Context, maxItems int64, cursor *v1.CertificateID) (certificates []v1.ReadCertificate, nextCursor *v1.CertificateID, err error) {
 	res, err := common.ErrorFromDecodedResponse("Certificate.List", func() (*v1.ListCertificateResponse, error) {
 		return op.client.ListCertificate(ctx, v1.ListCertificateParams{
 			ClusterID: op.clusterID,
@@ -73,13 +57,7 @@ type CreateParams struct {
 	IntermediateCertificatePEM *string
 }
 
-func (op *CertificateOp) Create(
-	ctx context.Context,
-	req CreateParams,
-) (
-	ret *v1.CreatedCertificate,
-	err error,
-) {
+func (op *CertificateOp) Create(ctx context.Context, req CreateParams) (ret *v1.CreatedCertificate, err error) {
 	res, err := common.ErrorFromDecodedResponse("Certificate.Create", func() (*v1.CreateCertificateResponse, error) {
 		request := v1.CreateCertificate{
 			Name:                       req.Name,
@@ -98,13 +76,7 @@ func (op *CertificateOp) Create(
 	return
 }
 
-func (op *CertificateOp) Read(
-	ctx context.Context,
-	id v1.CertificateID,
-) (
-	ret *v1.ReadCertificate,
-	err error,
-) {
+func (op *CertificateOp) Read(ctx context.Context, id v1.CertificateID) (ret *v1.ReadCertificate, err error) {
 	res, err := common.ErrorFromDecodedResponse("Certificate.Read", func() (*v1.GetCertificateResponse, error) {
 		return op.client.GetCertificate(ctx, v1.GetCertificateParams{
 			ClusterID:     op.clusterID,

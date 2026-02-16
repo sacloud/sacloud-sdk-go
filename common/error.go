@@ -49,15 +49,7 @@ func ErrorFromDecodedResponseE(m string, y func() error) (e error) {
 }
 
 // saclient.IsNotFoundError() に対応させる
-func ErrorFromDecodedResponse[
-	T any,
-](
-	method string,
-	yield func() (T, error),
-) (
-	resp T,
-	err error,
-) {
+func ErrorFromDecodedResponse[T any](method string, yield func() (T, error)) (resp T, err error) {
 	resp, err = yield()
 
 	if e, ok := errors.Into[*v1.ErrorStatusCode](err); ok {
