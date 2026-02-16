@@ -154,7 +154,7 @@ type AutoScalingGroupDetail struct {
 	WorkerServiceClassPath string
 	MinNodes               int32
 	MaxNodes               int32
-	WorkerNodeCount        int32
+	CurrentNodes           int32
 	Deleting               bool
 	Interfaces             []NodeInterface
 }
@@ -167,7 +167,7 @@ func (a *AutoScalingGroupDetail) from(res *v1.ReadAutoScalingGroupDetail) {
 	a.WorkerServiceClassPath = res.GetWorkerServiceClassPath()
 	a.MinNodes = res.GetMinNodes()
 	a.MaxNodes = res.GetMaxNodes()
-	a.WorkerNodeCount = res.GetWorkerNodeCount()
+	a.CurrentNodes = res.GetWorkerNodeCount()
 	a.Deleting = res.GetDeleting()
 	a.Interfaces = common.MapSlice(res.GetInterfaces(), common.ConvertFrom[v1.AutoScalingGroupNodeInterface, NodeInterface]())
 }
