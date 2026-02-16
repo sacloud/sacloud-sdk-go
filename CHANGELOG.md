@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.4.0](https://github.com/sacloud/kms-api-go/compare/v0.3.1...v0.4.0) - 2026-02-16
+- ci: bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/kms-api-go/pull/37
+- ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/kms-api-go/pull/36
+- Use saclient-go to support new client features by @repeatedly in https://github.com/sacloud/kms-api-go/pull/42
+
 ## [v0.3.1](https://github.com/sacloud/kms-api-go/compare/v0.3.0...v0.3.1) - 2025-12-25
 - update modules and repo settings by @repeatedly in https://github.com/sacloud/kms-api-go/pull/33
 - ci: bump actions/setup-go from 5.5.0 to 6.1.0 by @dependabot[bot] in https://github.com/sacloud/kms-api-go/pull/26
