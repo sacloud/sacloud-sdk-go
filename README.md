@@ -136,9 +136,6 @@ func main() {
 ```
 ⚠️ v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
-## 関連プロジェクト
-- [sacloud/saclient-go](https://github.com/sacloud/saclient-go) 
-さくらのクラウド用のHTTPクライアント
 
 ## License
 
