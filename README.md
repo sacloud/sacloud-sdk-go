@@ -99,27 +99,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
-	//使用する送信先のグループ名は環境変数から取得
-	groupName := os.Getenv("SAKURA_SIMPLE_NOTIFICATION_GROUPNAME")
-
-	//通知グループ名を取得し、グループIDを特定
 	groupAPI := simplenotification.NewGroupOp(simplenotificationClient)
-	groupListResp, err := groupAPI.List(ctx)
-	if err != nil {
-		panic(err)
-	}
-	groupID := ""
-	for _, item := range groupListResp.CommonServiceItems {
-		if item.Name == groupName {
-			groupID = item.ID
-			break
-		}
-	}
 
-	if groupID == "" {
-		panic("Group not found")
-	}
+	//使用する送信先のグループIDは環境変数から取得
+	groupID := os.Getenv("SAKURA_SIMPLE_NOTIFICATION_GROUPID")
 
 	// 通知メッセージを送信
 	// なお、通知先がメールの場合は、事前にメールされる本登録手続きが必要
