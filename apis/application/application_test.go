@@ -16,14 +16,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func setup(
-	t *testing.T,
-	v interface{ Encode(*jx.Encoder) },
-	s ...int,
-) (
-	assert *require.Assertions,
-	api ApplicationAPI,
-) {
+func setup(t *testing.T, v interface{ Encode(*jx.Encoder) }, s ...int) (assert *require.Assertions, api ApplicationAPI) {
 	assert = require.New(t)
 	c, e := apprun_test.NewTestClient(v, s...)
 	assert.NoError(e)

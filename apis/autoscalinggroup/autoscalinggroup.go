@@ -16,14 +16,8 @@ type AutoScalingGroupAPI interface {
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
 	List(ctx context.Context, elems int64, cursor *v1.AutoScalingGroupID) (list []v1.ReadAutoScalingGroupDetail, nextCursor *v1.AutoScalingGroupID, err error)
-
-	// Create creates a new AutoScalingGroup.
 	Create(ctx context.Context, params CreateParams) (group *v1.CreatedAutoScalingGroup, err error)
-
-	// Read retrieves an AutoScalingGroup by its ID.
 	Read(ctx context.Context, id v1.AutoScalingGroupID) (group *AutoScalingGroupDetail, err error)
-
-	// Delete deletes an AutoScalingGroup by its ID.
 	Delete(ctx context.Context, id v1.AutoScalingGroupID) error
 }
 
@@ -39,15 +33,7 @@ func NewAutoScalingGroupOp(client *v1.Client, clusterID v1.ClusterID) *AutoScali
 	}
 }
 
-func (op *AutoScalingGroupOp) List(
-	ctx context.Context,
-	maxItems int64,
-	cursor *v1.AutoScalingGroupID,
-) (
-	groups []v1.ReadAutoScalingGroupDetail,
-	nextCursor *v1.AutoScalingGroupID,
-	err error,
-) {
+func (op *AutoScalingGroupOp) List(ctx context.Context, maxItems int64, cursor *v1.AutoScalingGroupID) (groups []v1.ReadAutoScalingGroupDetail, nextCursor *v1.AutoScalingGroupID, err error) {
 	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.List", func() (*v1.ListAutoScalingGroupResponse, error) {
 		return op.client.ListAutoScalingGroups(ctx, v1.ListAutoScalingGroupsParams{
 			ClusterID: op.clusterID,
@@ -64,13 +50,7 @@ func (op *AutoScalingGroupOp) List(
 	return
 }
 
-func (op *AutoScalingGroupOp) Create(
-	ctx context.Context,
-	params CreateParams,
-) (
-	group *v1.CreatedAutoScalingGroup,
-	err error,
-) {
+func (op *AutoScalingGroupOp) Create(ctx context.Context, params CreateParams) (group *v1.CreatedAutoScalingGroup, err error) {
 	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.Create", func() (*v1.CreateAutoScalingGroupResponse, error) {
 		return op.client.CreateAutoScalingGroup(ctx, saclient.Ptr(params.into()), v1.CreateAutoScalingGroupParams{
 			ClusterID: op.clusterID,
@@ -84,13 +64,7 @@ func (op *AutoScalingGroupOp) Create(
 	return
 }
 
-func (op *AutoScalingGroupOp) Read(
-	ctx context.Context,
-	id v1.AutoScalingGroupID,
-) (
-	group *AutoScalingGroupDetail,
-	err error,
-) {
+func (op *AutoScalingGroupOp) Read(ctx context.Context, id v1.AutoScalingGroupID) (group *AutoScalingGroupDetail, err error) {
 	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.Read", func() (*v1.GetAutoScalingGroupResponse, error) {
 		return op.client.GetAutoScalingGroup(ctx, v1.GetAutoScalingGroupParams{
 			ClusterID:          op.clusterID,
@@ -128,7 +102,7 @@ type NodeInterface struct {
 	ConnectsToLB   bool
 }
 
-func (n *NodeInterface) into() (ret v1.AutoScalingGroupNodeInterface) {
+func (n NodeInterface) into() (ret v1.AutoScalingGroupNodeInterface) {
 	ret.SetInterfaceIndex(n.InterfaceIndex)
 	ret.SetUpstream(n.Upstream)
 	ret.SetIpPool(n.IpPool)
@@ -140,7 +114,7 @@ func (n *NodeInterface) into() (ret v1.AutoScalingGroupNodeInterface) {
 	return
 }
 
-func (n *NodeInterface) from(res *v1.AutoScalingGroupNodeInterface) {
+func (n *NodeInterface) From(res *v1.AutoScalingGroupNodeInterface) {
 	n.InterfaceIndex = res.GetInterfaceIndex()
 	n.Upstream = res.GetUpstream()
 	n.IpPool = res.GetIpPool()
@@ -160,14 +134,14 @@ type CreateParams struct {
 	Interfaces             []NodeInterface
 }
 
-func (c *CreateParams) into() (ret v1.CreateAutoScalingGroup) {
+func (c CreateParams) into() (ret v1.CreateAutoScalingGroup) {
 	ret.SetName(c.Name)
 	ret.SetZone(c.Zone)
 	ret.SetNameServers(c.NameServers)
 	ret.SetWorkerServiceClassPath(c.WorkerServiceClassPath)
 	ret.SetMinNodes(c.MinNodes)
 	ret.SetMaxNodes(c.MaxNodes)
-	ret.SetInterfaces(common.MapSlice(c.Interfaces, func(n NodeInterface) v1.AutoScalingGroupNodeInterface { return n.into() }))
+	ret.SetInterfaces(common.MapSlice(c.Interfaces, NodeInterface.into))
 
 	return
 }
@@ -180,7 +154,7 @@ type AutoScalingGroupDetail struct {
 	WorkerServiceClassPath string
 	MinNodes               int32
 	MaxNodes               int32
-	WorkerNodeCount        int32
+	CurrentNodes           int32
 	Deleting               bool
 	Interfaces             []NodeInterface
 }
@@ -193,10 +167,7 @@ func (a *AutoScalingGroupDetail) from(res *v1.ReadAutoScalingGroupDetail) {
 	a.WorkerServiceClassPath = res.GetWorkerServiceClassPath()
 	a.MinNodes = res.GetMinNodes()
 	a.MaxNodes = res.GetMaxNodes()
-	a.WorkerNodeCount = res.GetWorkerNodeCount()
+	a.CurrentNodes = res.GetWorkerNodeCount()
 	a.Deleting = res.GetDeleting()
-	a.Interfaces = common.MapSlice(res.GetInterfaces(), func(n v1.AutoScalingGroupNodeInterface) (m NodeInterface) {
-		m.from(&n)
-		return
-	})
+	a.Interfaces = common.MapSlice(res.GetInterfaces(), common.ConvertFrom[v1.AutoScalingGroupNodeInterface, NodeInterface]())
 }

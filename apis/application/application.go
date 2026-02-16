@@ -15,17 +15,9 @@ type ApplicationAPI interface {
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
 	List(ctx context.Context, maxItems int64, cursor *string) (list []v1.ReadApplicationDetail, nextCursor *string, err error)
-
-	// Create creates a new Application.
 	Create(ctx context.Context, name string, clusterID v1.ClusterID) (app *v1.CreatedApplication, err error)
-
-	// Read retrieves an Application by its ID.
 	Read(ctx context.Context, id v1.ApplicationID) (app *ApplicationDetail, err error)
-
-	// Delete deletes an Application by its ID.
 	Delete(ctx context.Context, id v1.ApplicationID) error
-
-	// Containers returns the list of containers for an Application.
 	Containers(ctx context.Context, id v1.ApplicationID) (nodes []Placement, err error)
 }
 
@@ -33,15 +25,7 @@ type ApplicationOp struct{ *v1.Client }
 
 func NewApplicationOp(client *v1.Client) *ApplicationOp { return &ApplicationOp{Client: client} }
 
-func (op *ApplicationOp) List(
-	ctx context.Context,
-	maxItems int64,
-	cursor *string,
-) (
-	apps []v1.ReadApplicationDetail,
-	nextCursor *string,
-	err error,
-) {
+func (op *ApplicationOp) List(ctx context.Context, maxItems int64, cursor *string) (apps []v1.ReadApplicationDetail, nextCursor *string, err error) {
 	res, err := common.ErrorFromDecodedResponse("Application.List", func() (*v1.ListApplicationResponse, error) {
 		return op.Client.ListApplications(ctx, v1.ListApplicationsParams{
 			Cursor:   common.IntoOpt[v1.OptString](cursor),
@@ -57,14 +41,7 @@ func (op *ApplicationOp) List(
 	return
 }
 
-func (op *ApplicationOp) Create(
-	ctx context.Context,
-	name string,
-	clusterID v1.ClusterID,
-) (
-	app *v1.CreatedApplication,
-	err error,
-) {
+func (op *ApplicationOp) Create(ctx context.Context, name string, clusterID v1.ClusterID) (app *v1.CreatedApplication, err error) {
 	res, err := common.ErrorFromDecodedResponse("Application.Create", func() (*v1.CreateApplicationResponse, error) {
 		return op.Client.CreateApplication(ctx, &v1.CreateApplication{
 			Name:      name,
@@ -89,13 +66,7 @@ type ApplicationDetail struct {
 	ScalingCooldownSeconds int32
 }
 
-func (op *ApplicationOp) Read(
-	ctx context.Context,
-	id v1.ApplicationID,
-) (
-	app *ApplicationDetail,
-	err error,
-) {
+func (op *ApplicationOp) Read(ctx context.Context, id v1.ApplicationID) (app *ApplicationDetail, err error) {
 	res, err := common.ErrorFromDecodedResponse("Application.Read", func() (*v1.GetApplicationResponse, error) {
 		return op.Client.GetApplication(ctx, v1.GetApplicationParams{
 			ApplicationID: id,
@@ -132,13 +103,7 @@ type Placement struct {
 	Desired         v1.ApplicationPeekDesiredContainersResponse
 }
 
-func (op *ApplicationOp) Containers(
-	ctx context.Context,
-	id v1.ApplicationID,
-) (
-	nodes []Placement,
-	err error,
-) {
+func (op *ApplicationOp) Containers(ctx context.Context, id v1.ApplicationID) (nodes []Placement, err error) {
 	res, err := common.ErrorFromDecodedResponse("Application.Containers", func() (*v1.GetApplicationContainersResponse, error) {
 		return op.Client.GetApplicationContainers(ctx, v1.GetApplicationContainersParams{
 			ApplicationID: id,
