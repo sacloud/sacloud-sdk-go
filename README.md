@@ -1,4 +1,8 @@
 # sacloud/simple-notification-api-go
+[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/simple-notification-api-go.svg)](https://pkg.go.dev/github.com/sacloud/simple-notification-api-go)
+[![Tests](https://github.com/sacloud/simple-notification-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/simple-notification-api-go/actions/workflows/tests.yaml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/simple-notification-api-go)](https://goreportcard.com/report/github.com/sacloud/simple-notification-api-go)
+
 さくらのクラウド シンプル通知 Go言語向け APIライブラリ
 
 マニュアル: https://manual.sakura.ad.jp/cloud/appliance/simplenotification/
