@@ -16,21 +16,13 @@ type LoadBalancerAPI interface {
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
 	List(ctx context.Context, elems int64, cursor *v1.LoadBalancerID) (list []v1.ReadLoadBalancerSummary, nextCursor *v1.LoadBalancerID, err error)
-
-	// Create creates a new LoadBalancer.
 	Create(ctx context.Context, params CreateParams) (lb *v1.CreatedLoadBalancer, err error)
-
-	// Read retrieves a LoadBalancer by its ID.
 	Read(ctx context.Context, id v1.LoadBalancerID) (lb *LoadBalancerDetail, err error)
-
-	// Delete deletes a LoadBalancer by its ID.
 	Delete(ctx context.Context, id v1.LoadBalancerID) error
 
 	// ListNode returns the list of LoadBalancerNodes, paginated.
 	// Pass nil to `cursor` to get the first page.
 	ListNode(ctx context.Context, lbID v1.LoadBalancerID, elems int64, cursor *v1.LoadBalancerID) (list []v1.ReadLoadBalancerNodeSummary, err error)
-
-	// ReadNode retrieves a LoadBalancerNode by its ID.
 	ReadNode(ctx context.Context, lbID v1.LoadBalancerID, nodeID v1.LoadBalancerNodeID) (node *LoadBalancerNodeDetail, err error)
 }
 
