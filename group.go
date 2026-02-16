@@ -63,7 +63,7 @@ func (o *GroupOp) Create(ctx context.Context, request v1.PostCommonServiceItemRe
 	request.CommonServiceItem.Provider.ServiceClass = v1.OptString{Value: "cloud/saknotice", Set: true}
 	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings
 
-	res, err := o.client.CreateCommonServiceItem(ctx, v1.OptPostCommonServiceItemRequest{Value: request, Set: true})
+	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
 		var e *v1.ErrorStatusCode
 		if errors.As(err, &e) {
@@ -90,7 +90,7 @@ func (o *GroupOp) Read(ctx context.Context, id string) (*v1.GetCommonServiceItem
 func (o *GroupOp) Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error) {
 	const methodName = "Group.Update"
 	request.CommonServiceItem.Settings.Value.Type = v1.CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings
-	res, err := o.client.UpdateCommonServiceItem(ctx, v1.OptPutCommonServiceItemRequest{Value: request, Set: true}, v1.UpdateCommonServiceItemParams{ID: id})
+	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
 		var e *v1.ErrorStatusCode
 		if errors.As(err, &e) {
@@ -116,7 +116,7 @@ func (o *GroupOp) Delete(ctx context.Context, id string) error {
 
 func (o *GroupOp) SendMessage(ctx context.Context, id string, request v1.SendNotificationMessageRequest) (*v1.SendNotificationMessageResponse, error) {
 	const methodName = "Group.SendMessage"
-	res, err := o.client.SendNotificationMessage(ctx, v1.OptSendNotificationMessageRequest{Value: request, Set: true}, v1.SendNotificationMessageParams{ID: id})
+	res, err := o.client.SendNotificationMessage(ctx, v1.NewOptSendNotificationMessageRequest(request), v1.SendNotificationMessageParams{ID: id})
 	if err != nil {
 		var e *v1.ErrorStatusCode
 		if errors.As(err, &e) {

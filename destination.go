@@ -27,7 +27,7 @@ type DestinationAPI interface {
 	Read(ctx context.Context, id string) (*v1.GetCommonServiceItemOK, error)
 	Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error)
 	Delete(ctx context.Context, id string) error
-	GetStatus(ctx context.Context, id string) (*v1.GetCommonServiceItemStatusResponse, error)
+	ReadStatus(ctx context.Context, id string) (*v1.GetCommonServiceItemStatusResponse, error)
 }
 
 var _ DestinationAPI = (*DestinationOp)(nil)
@@ -59,7 +59,7 @@ func (o *DestinationOp) Create(ctx context.Context, request v1.PostCommonService
 	request.CommonServiceItem.ServiceClass = v1.PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2
 	request.CommonServiceItem.Provider.Class = v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination
 	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings
-	res, err := o.client.CreateCommonServiceItem(ctx, v1.OptPostCommonServiceItemRequest{Value: request, Set: true})
+	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
 		var e *v1.ErrorStatusCode
 		if errors.As(err, &e) {
@@ -110,8 +110,8 @@ func (o *DestinationOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (o *DestinationOp) GetStatus(ctx context.Context, id string) (*v1.GetCommonServiceItemStatusResponse, error) {
-	const methodName = "Destination.GetStatus"
+func (o *DestinationOp) ReadStatus(ctx context.Context, id string) (*v1.GetCommonServiceItemStatusResponse, error) {
+	const methodName = "Destination.ReadStatus"
 	res, err := o.client.GetCommonServiceItemStatus(ctx, v1.GetCommonServiceItemStatusParams{ID: id})
 	if err != nil {
 		var e *v1.ErrorStatusCode
