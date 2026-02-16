@@ -35,7 +35,7 @@ func main() {
 	}
 
 	//使用する通知先のメールアドレスは環境変数から取得
-	mailAddress := os.Getenv("SAKURA_DESTINATION_EMAIL_ADDRESS")
+	mailAddress := os.Getenv("SAKURA_SIMPLE_NOTIFICATION_MAILADDRESS")
 
 	//　通知先を作成
 	destAPI := simplenotification.NewDestinationOp(simplenotificationClient)
@@ -47,8 +47,14 @@ func main() {
 			Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
 				Type: v1.CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
 				CommonServiceItemDestinationSettings: v1.CommonServiceItemDestinationSettings{
-					Type:  v1.CommonServiceItemDestinationSettingsTypeWebhook,
+					Type:  v1.CommonServiceItemDestinationSettingsTypeEmail,
 					Value: mailAddress,
+				},
+			},
+			Icon: v1.NilCommonServiceItemIcon{
+				Null: false,
+				Value: v1.CommonServiceItemIcon{
+					ID: "112901627732", //Debian icon ID
 				},
 			},
 		},

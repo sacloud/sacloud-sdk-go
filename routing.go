@@ -58,6 +58,7 @@ func (o *RoutingOp) List(ctx context.Context) (*v1.ListCommonServiceItemsRespons
 
 func (o *RoutingOp) Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error) {
 	const methodName = "Routing.Create"
+	request.CommonServiceItem.ServiceClass = v1.PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticerouting2
 	request.CommonServiceItem.Provider.Class = v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting
 	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings
 

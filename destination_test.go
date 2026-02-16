@@ -59,13 +59,10 @@ func TestDestinationOp(t *testing.T) {
 				Name:        destName,
 				Description: description,
 				Tags:        tags,
-				Icon: v1.NilIcon{
+				Icon: v1.NilCommonServiceItemIcon{
 					Null: false,
-					Value: v1.Icon{
-						ID: v1.OptString{
-							Set:   true,
-							Value: "112901627732", //Debian icon ID
-						},
+					Value: v1.CommonServiceItemIcon{
+						ID: "112901627732", //Debian icon ID
 					},
 				},
 				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
