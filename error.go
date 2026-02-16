@@ -18,7 +18,7 @@ import (
 	"errors"
 
 	ogen "github.com/ogen-go/ogen/validate"
-	client "github.com/sacloud/api-client-go"
+	"github.com/sacloud/saclient-go"
 )
 
 type Error struct {
@@ -47,7 +47,7 @@ func NewError(msg string, err error) *Error {
 }
 
 func NewAPIError(method string, code int, err error) *Error {
-	return &Error{msg: method, err: client.NewAPIError(code, "", err)}
+	return &Error{msg: method, err: saclient.NewError(code, "", err)}
 }
 
 // kmsのOpenAPI定義でエラーケースが定義されていないので、現状はogenのエラーから状態を取り出す
