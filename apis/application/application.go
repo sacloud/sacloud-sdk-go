@@ -15,17 +15,9 @@ type ApplicationAPI interface {
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
 	List(ctx context.Context, maxItems int64, cursor *string) (list []v1.ReadApplicationDetail, nextCursor *string, err error)
-
-	// Create creates a new Application.
 	Create(ctx context.Context, name string, clusterID v1.ClusterID) (app *v1.CreatedApplication, err error)
-
-	// Read retrieves an Application by its ID.
 	Read(ctx context.Context, id v1.ApplicationID) (app *ApplicationDetail, err error)
-
-	// Delete deletes an Application by its ID.
 	Delete(ctx context.Context, id v1.ApplicationID) error
-
-	// Containers returns the list of containers for an Application.
 	Containers(ctx context.Context, id v1.ApplicationID) (nodes []Placement, err error)
 }
 
