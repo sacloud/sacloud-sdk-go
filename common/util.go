@@ -38,11 +38,7 @@ func IntoNullable[
 		SetToNull()
 		SetTo(u U)
 	},
-](
-	v *U,
-) (
-	ret T,
-) {
+](v *U) (ret T) {
 	if v == nil {
 		P(&ret).SetToNull()
 	} else {

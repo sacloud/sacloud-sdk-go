@@ -39,15 +39,7 @@ func NewVersionOp(client *v1.Client, applicationID v1.ApplicationID) *VersionOp 
 	}
 }
 
-func (op *VersionOp) List(
-	ctx context.Context,
-	maxItems int64,
-	cursor *v1.ApplicationVersionNumber,
-) (
-	versions []v1.ApplicationVersionDeploymentStatus,
-	nextCursor *v1.ApplicationVersionNumber,
-	err error,
-) {
+func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.ApplicationVersionNumber) (versions []v1.ApplicationVersionDeploymentStatus, nextCursor *v1.ApplicationVersionNumber, err error) {
 	res, err := common.ErrorFromDecodedResponse("Version.List", func() (*v1.ListApplicationVersionResponse, error) {
 		return op.client.ListApplicationVersions(ctx, v1.ListApplicationVersionsParams{
 			ApplicationID: op.applicationID,
@@ -64,13 +56,7 @@ func (op *VersionOp) List(
 	return
 }
 
-func (op *VersionOp) Create(
-	ctx context.Context,
-	params CreateParams,
-) (
-	ver *v1.ReadApplicationVersionSummary,
-	err error,
-) {
+func (op *VersionOp) Create(ctx context.Context, params CreateParams) (ver *v1.ReadApplicationVersionSummary, err error) {
 	res, err := common.ErrorFromDecodedResponse("Version.Create", func() (*v1.CreateApplicationVersionResponse, error) {
 		return op.client.CreateApplicationVersion(ctx, saclient.Ptr(params.into()), v1.CreateApplicationVersionParams{
 			ApplicationID: op.applicationID,
@@ -84,13 +70,7 @@ func (op *VersionOp) Create(
 	return
 }
 
-func (op *VersionOp) Read(
-	ctx context.Context,
-	id v1.ApplicationVersionNumber,
-) (
-	ver *VersionDetail,
-	err error,
-) {
+func (op *VersionOp) Read(ctx context.Context, id v1.ApplicationVersionNumber) (ver *VersionDetail, err error) {
 	res, err := common.ErrorFromDecodedResponse("Version.Read", func() (*v1.GetApplicationVersionResponse, error) {
 		return op.client.GetApplicationVersion(ctx, v1.GetApplicationVersionParams{
 			ApplicationID: op.applicationID,
