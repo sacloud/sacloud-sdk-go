@@ -19,47 +19,63 @@ import (
 	"fmt"
 	"runtime"
 
-	client "github.com/sacloud/api-client-go"
 	v1 "github.com/sacloud/kms-api-go/apis/v1"
+	"github.com/sacloud/saclient-go"
 )
 
 // DefaultAPIRootURL デフォルトのAPIルートURL
-const DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1a/api/cloud/1.1"
+const (
+	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1a/api/cloud/1.1"
+	ServiceKey        = "kms"
+)
 
 // UserAgent APIリクエスト時のユーザーエージェント
 var UserAgent = fmt.Sprintf(
-	"kms-api-go/%s (%s/%s; +https://github.com/sacloud/kms-api-go) %s",
+	"kms-api-go/%s (%s/%s; +https://github.com/sacloud/kms-api-go)",
 	Version,
 	runtime.GOOS,
 	runtime.GOARCH,
-	client.DefaultUserAgent,
 )
 
-// SecuritySourceはOpenAPI定義で使用されている認証のための仕組み。api-client-goが処理するので、ogen用はダミーで誤魔化す
-type DummySecuritySource struct {
+// SecuritySourceはOpenAPI定義で使用されている認証のための仕組み。ogen用はダミーで誤魔化す
+type dummySecuritySource struct {
 	Username string
 	Password string
 }
 
-func (ss DummySecuritySource) BasicAuth(ctx context.Context, operationName v1.OperationName) (v1.BasicAuth, error) {
+func (ss dummySecuritySource) BasicAuth(ctx context.Context, operationName v1.OperationName) (v1.BasicAuth, error) {
 	return v1.BasicAuth{Username: ss.Username, Password: ss.Password, Roles: nil}, nil
 }
 
-func NewClient(params ...client.ClientParam) (*v1.Client, error) {
-	return NewClientWithApiUrl(DefaultAPIRootURL, params...)
+func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
+		return nil, NewError("unable to load endpoint configuration", err)
+	}
+	endpoint := DefaultAPIRootURL
+	if ep, ok := endpointConfig.Endpoints[ServiceKey]; ok && ep != "" {
+		endpoint = ep
+	}
+
+	return NewClientWithAPIRootURL(client, endpoint)
 }
 
-func NewClientWithApiUrl(apiUrl string, params ...client.ClientParam) (*v1.Client, error) {
-	params = append(params, client.WithUserAgent(UserAgent))
-	c, err := client.NewClient(apiUrl, params...)
-	if err != nil {
-		return nil, NewError("NewClientWithApiUrl", err)
+func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
+	dupable, ok := client.(saclient.ClientOptionAPI)
+	if !ok {
+		return nil, NewError("client does not implement saclient.ClientOptionAPI", nil)
 	}
+	argumented, err := dupable.DupWith(
+		saclient.WithUserAgent(UserAgent),
 
-	v1Client, err := v1.NewClient(c.ServerURL(), DummySecuritySource{Username: "", Password: ""}, v1.WithClient(c.NewHttpRequestDoer()))
+		saclient.WithForceAutomaticAuthentication(),
+	)
 	if err != nil {
-		return nil, NewError("NewClientWithApiUrl", err)
+		return nil, err
 	}
-
-	return v1Client, nil
+	c, err := v1.NewClient(apiRootURL, dummySecuritySource{}, v1.WithClient(argumented))
+	if err != nil {
+		return nil, err
+	}
+	return c, nil
 }

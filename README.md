@@ -15,12 +15,14 @@ import (
     "context"
     "fmt"
 
+    "github.com/sacloud/saclient-go"
     kms "github.com/sacloud/kms-api-go"
     v1 "github.com/sacloud/kms-api-go/apis/v1"
 )
 
 func main() {
-	client, err := kms.NewClient()
+	var theClient saclient.Client
+	client, err := kms.NewClient(&theClient)
 	if err != nil {
 		panic(err)
 	}
