@@ -86,7 +86,7 @@ func TestCreate(t *testing.T) {
 				TimeoutSeconds:  10,
 			},
 		}},
-		Env: []EnvironmentVariable{
+		EnvVar: []EnvironmentVariable{
 			{
 				Key:    "SAKURA_ACCESS_TOKEN",
 				Value:  saclient.Ptr("token"),

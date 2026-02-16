@@ -153,7 +153,7 @@ type CreateParams struct {
 	RegistryPassword       *string
 	RegistryPasswordAction v1.RegistryPasswordAction
 	ExposedPorts           []ExposedPort
-	Env                    []EnvironmentVariable
+	EnvVar                 []EnvironmentVariable
 }
 
 func (c *CreateParams) into() (ret v1.CreateApplicationVersion) {
@@ -171,7 +171,7 @@ func (c *CreateParams) into() (ret v1.CreateApplicationVersion) {
 	ret.SetRegistryPassword(common.IntoNullable[v1.NilString](c.RegistryPassword))
 	ret.SetRegistryPasswordAction(c.RegistryPasswordAction)
 	ret.SetExposedPorts(common.MapSlice(c.ExposedPorts, ExposedPort.into))
-	ret.SetEnv(common.MapSlice(c.Env, EnvironmentVariable.into))
+	ret.SetEnv(common.MapSlice(c.EnvVar, EnvironmentVariable.into))
 
 	return
 }
@@ -193,7 +193,7 @@ type VersionDetail struct {
 	ActiveNodeCount   int64
 	Created           int
 	ExposedPorts      []ExposedPort
-	Env               []EnvironmentVariable
+	EnvVar            []EnvironmentVariable
 }
 
 func (v *VersionDetail) from(res *v1.ReadApplicationVersionDetail) {
@@ -213,5 +213,5 @@ func (v *VersionDetail) from(res *v1.ReadApplicationVersionDetail) {
 	v.ActiveNodeCount = res.GetActiveNodeCount()
 	v.Created = res.GetCreated()
 	v.ExposedPorts = common.MapSlice(res.GetExposedPorts(), common.ConvertFrom[v1.ExposedPort, ExposedPort]())
-	v.Env = common.MapSlice(res.GetEnv(), common.ConvertFrom[v1.ReadEnvironmentVariable, EnvironmentVariable]())
+	v.EnvVar = common.MapSlice(res.GetEnv(), common.ConvertFrom[v1.ReadEnvironmentVariable, EnvironmentVariable]())
 }
