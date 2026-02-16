@@ -29,10 +29,11 @@ import (
 )
 
 const (
-	commonServiceItemPath    = "commonserviceitem"
-	commonServiceItemKey     = "CommonServiceItem"
-	commonServiceItemListKey = "CommonServiceItems"
-	commonServiceItemIconKey = "Icon"
+	commonServiceItemPath      = "commonserviceitem"
+	commonServiceItemKey       = "CommonServiceItem"
+	commonServiceItemListKey   = "CommonServiceItems"
+	commonServiceItemIconKey   = "Icon"
+	commonServiceItemIconIDKey = "ID"
 )
 
 func modifiyMiddleware() saclient.Middleware {
@@ -128,6 +129,7 @@ func replaceIconNullWithCommonServiceItem(items map[string]interface{}) map[stri
 	replaceIcon := func(data map[string]interface{}) {
 		if v, ok := data[commonServiceItemIconKey]; ok && v == nil {
 			data[commonServiceItemIconKey] = map[string]interface{}{}
+			data[commonServiceItemIconKey].(map[string]interface{})[commonServiceItemIconIDKey] = ""
 		}
 	}
 

@@ -71,13 +71,10 @@ func TestRoutingOp(t *testing.T) {
 				Name:        routingName,
 				Description: description,
 				Tags:        tags,
-				Icon: v1.NilIcon{
+				Icon: v1.NilCommonServiceItemIcon{
 					Null: false,
-					Value: v1.Icon{
-						ID: v1.OptString{
-							Set:   true,
-							Value: "112901627732", //debian icon ID
-						},
+					Value: v1.CommonServiceItemIcon{
+						ID: "112901627732", //debian icon ID
 					},
 				},
 				Provider: v1.PostCommonServiceItemRequestCommonServiceItemProvider{
@@ -152,7 +149,7 @@ func TestRoutingOp(t *testing.T) {
 				Name:        routingNameUpdate,
 				Description: descriptionUpdate,
 				Tags:        tagsUpdate,
-				Icon: v1.NilIcon{
+				Icon: v1.NilCommonServiceItemIcon{
 					Null: true,
 				},
 				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
@@ -185,13 +182,10 @@ func TestRoutingOp(t *testing.T) {
 				Name:        routingNameUpdateWithoutSetting,
 				Description: descriptionUpdateWithoutSetting,
 				Tags:        tagsUpdateWithoutSetting,
-				Icon: v1.NilIcon{
+				Icon: v1.NilCommonServiceItemIcon{
 					Null: false,
-					Value: v1.Icon{
-						ID: v1.OptString{
-							Set:   true,
-							Value: "0", // erase icon
-						},
+					Value: v1.CommonServiceItemIcon{
+						ID: "0", // erase icon
 					},
 				},
 				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
