@@ -175,8 +175,8 @@ func TestDestinationOp(t *testing.T) {
 		require.Equal(t, tagsUpdateWithoutSetting, resp.CommonServiceItem.Tags, "tags should be updated")
 		t.Logf("DestinationOp.UpdatewithoutSetting response: %+v", resp)
 	})
-	t.Run("GetStatus", func(t *testing.T) {
-		resp, err := destinationAPI.GetStatus(ctx, id)
+	t.Run("ReadStatus", func(t *testing.T) {
+		resp, err := destinationAPI.ReadStatus(ctx, id)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}

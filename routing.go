@@ -62,7 +62,7 @@ func (o *RoutingOp) Create(ctx context.Context, request v1.PostCommonServiceItem
 	request.CommonServiceItem.Provider.Class = v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting
 	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings
 
-	res, err := o.client.CreateCommonServiceItem(ctx, v1.OptPostCommonServiceItemRequest{Value: request, Set: true})
+	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
 		var e *v1.ErrorStatusCode
 		if errors.As(err, &e) {
@@ -91,7 +91,7 @@ func (o *RoutingOp) Update(ctx context.Context, id string, request v1.PutCommonS
 	const methodName = "Routing.Update"
 	request.CommonServiceItem.Settings.Value.Type = v1.CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings
 
-	res, err := o.client.UpdateCommonServiceItem(ctx, v1.OptPutCommonServiceItemRequest{Value: request, Set: true}, v1.UpdateCommonServiceItemParams{ID: id})
+	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
 		var e *v1.ErrorStatusCode
 		if errors.As(err, &e) {
@@ -118,7 +118,7 @@ func (o *RoutingOp) Delete(ctx context.Context, id string) error {
 func (o *RoutingOp) Reorder(ctx context.Context, request v1.PutCommonServiceItemRoutingReorderRequest) (*v1.ReorderRoutingAccepted, error) {
 	const methodName = "Routing.Reorder"
 
-	resp, err := o.client.ReorderRouting(ctx, v1.OptPutCommonServiceItemRoutingReorderRequest{Value: request, Set: true})
+	resp, err := o.client.ReorderRouting(ctx, v1.NewOptPutCommonServiceItemRoutingReorderRequest(request))
 	if err != nil {
 		var e *v1.ErrorStatusCode
 		if errors.As(err, &e) {
