@@ -14,7 +14,7 @@ sacloud/simple-notification-api-goはさくらのクラウド シンプル通知
 ## 利用イメージ
 
 ### 通知先＆通知グループ登録
-```
+```go
 import (
 	"context"
 	"os"
@@ -89,7 +89,7 @@ func main() {
 ```
 
 ### 通知メッセージの送信(通知先がメールの場合は事前に本登録手続きが必要)
-```
+```go
 import (
 	"context"
 	"fmt"
@@ -124,7 +124,6 @@ func main() {
 		panic(err)
 	}
 	fmt.Println("Message sent successfully", resp)
-
 }
 ```
 ⚠️ v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
