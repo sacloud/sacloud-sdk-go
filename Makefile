@@ -11,3 +11,5 @@ include includes/go/single.mk
 
 default: $(DEFAULT_GOALS)
 tools: dev-tools
+ogen:
+	ogen -package v1 -target apis/v1 -clean -config ogen-config.yaml ./openapi/openapi.yaml
