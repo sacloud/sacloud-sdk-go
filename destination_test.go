@@ -22,13 +22,11 @@ import (
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	simplenotification "github.com/sacloud/simple-notification-api-go"
-	"github.com/stretchr/testify/require"
-
 	v1 "github.com/sacloud/simple-notification-api-go/apis/v1"
+	"github.com/stretchr/testify/require"
 )
 
 func destinationAPISetup(t *testing.T) (ctx context.Context, api simplenotification.DestinationAPI) {
-
 	ctx = t.Context()
 	var saClient saclient.Client
 
@@ -49,8 +47,8 @@ func TestDestinationOp(t *testing.T) {
 	description := "test-destination-description"
 	tags := []string{"test"}
 	mailAddress := os.Getenv("SAKURA_DESTINATION_TEST_MAILADDRESS")
-	setting := v1.CommonServiceItemDestinationSettings{
-		Type:  v1.CommonServiceItemDestinationSettingsTypeEmail,
+	setting := v1.DestinationSettings{
+		Type:  v1.DestinationSettingsTypeEmail,
 		Value: mailAddress,
 	}
 	result := t.Run("Create", func(t *testing.T) {
@@ -62,11 +60,11 @@ func TestDestinationOp(t *testing.T) {
 				Icon: v1.NilCommonServiceItemIcon{
 					Null: false,
 					Value: v1.CommonServiceItemIcon{
-						ID: "112901627732", //Debian icon ID
+						ID: "112901627732", // Debian icon ID
 					},
 				},
-				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
-					CommonServiceItemDestinationSettings: setting,
+				Settings: v1.CommonServiceItemSettings{
+					DestinationSettings: setting,
 				},
 			},
 		}
@@ -124,12 +122,12 @@ func TestDestinationOp(t *testing.T) {
 				Name:        destNameUpdate,
 				Description: descriptionUpdate,
 				Tags:        tagsUpdate,
-				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
+				Settings: v1.OptCommonServiceItemSettings{
 					Set: true,
-					Value: v1.PutCommonServiceItemRequestCommonServiceItemSettings{
-						Type: v1.CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
-						CommonServiceItemDestinationSettings: v1.CommonServiceItemDestinationSettings{
-							Type:  v1.CommonServiceItemDestinationSettingsTypeEmail,
+					Value: v1.CommonServiceItemSettings{
+						Type: v1.DestinationSettingsCommonServiceItemSettings,
+						DestinationSettings: v1.DestinationSettings{
+							Type:  v1.DestinationSettingsTypeEmail,
 							Value: mailAddress,
 						},
 					},
@@ -158,7 +156,7 @@ func TestDestinationOp(t *testing.T) {
 				Name:        destNameUpdateWithoutSetting,
 				Description: descriptionUpdateWithoutSetting,
 				Tags:        tagsUpdateWithoutSetting,
-				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
+				Settings: v1.OptCommonServiceItemSettings{
 					Set: false,
 				},
 			},

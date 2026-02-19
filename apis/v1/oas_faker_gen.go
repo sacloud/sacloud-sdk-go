@@ -35,16 +35,6 @@ func (s *CommonServiceItem) SetFake() {
 	}
 	{
 		{
-			s.CreatedAt = time.Now()
-		}
-	}
-	{
-		{
-			s.ModifiedAt = time.Now()
-		}
-	}
-	{
-		{
 			s.Provider.SetFake()
 		}
 	}
@@ -65,49 +55,14 @@ func (s *CommonServiceItem) SetFake() {
 			}
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *CommonServiceItemDestinationSettings) SetFake() {
 	{
 		{
-			s.Type.SetFake()
+			s.CreatedAt = time.Now()
 		}
 	}
 	{
 		{
-			s.Value = "string"
-		}
-	}
-	{
-		{
-			s.Disabled.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CommonServiceItemDestinationSettingsType) SetFake() {
-	*s = CommonServiceItemDestinationSettingsTypeEmail
-}
-
-// SetFake set fake values.
-func (s *CommonServiceItemGroupSettings) SetFake() {
-	{
-		{
-			s.Destinations = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.Destinations = append(s.Destinations, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Disabled.SetFake()
+			s.ModifiedAt = time.Now()
 		}
 	}
 }
@@ -143,6 +98,16 @@ func (s *CommonServiceItemProvider) SetFake() {
 			s.Class.SetFake()
 		}
 	}
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.ServiceClass.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -151,58 +116,18 @@ func (s *CommonServiceItemProviderClass) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CommonServiceItemRoutingSettings) SetFake() {
-	{
-		{
-			s.MatchLabels = nil
-			for i := 0; i < 0; i++ {
-				var elem CommonServiceItemRoutingSettingsMatchLabelsItem
-				{
-					elem.SetFake()
-				}
-				s.MatchLabels = append(s.MatchLabels, elem)
-			}
-		}
-	}
-	{
-		{
-			s.SourceID = "string"
-		}
-	}
-	{
-		{
-			s.TargetGroupID = "string"
-		}
-	}
-	{
-		{
-			s.PriorityRank = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CommonServiceItemRoutingSettingsMatchLabelsItem) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Value = "string"
-		}
-	}
+func (s *CommonServiceItemServiceClass) SetFake() {
+	*s = CommonServiceItemServiceClassCloudSaknoticedestination2
 }
 
 // SetFake set fake values.
 func (s *CommonServiceItemSettings) SetFake() {
-	var variant CommonServiceItemDestinationSettings
+	var variant DestinationSettings
 
 	{
 		variant.SetFake()
 	}
-	s.SetCommonServiceItemDestinationSettings(variant)
+	s.SetDestinationSettings(variant)
 }
 
 // SetFake set fake values.
@@ -221,6 +146,30 @@ func (s *DeleteCommonServiceItemOK) SetFake() {
 			s.CommonServiceItem.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *DestinationSettings) SetFake() {
+	{
+		{
+			s.Type.SetFake()
+		}
+	}
+	{
+		{
+			s.Value = "string"
+		}
+	}
+	{
+		{
+			s.Disabled.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *DestinationSettingsType) SetFake() {
+	*s = DestinationSettingsTypeEmail
 }
 
 // SetFake set fake values.
@@ -289,6 +238,27 @@ func (s *GetSimpleNotificationHistoryResponse) SetFake() {
 	{
 		{
 			s.NotificationHistory.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *GroupSettings) SetFake() {
+	{
+		{
+			s.Destinations = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.Destinations = append(s.Destinations, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Disabled.SetFake()
 		}
 	}
 }
@@ -504,6 +474,15 @@ func (s *OptBool) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptCommonServiceItemSettings) SetFake() {
+	var elem CommonServiceItemSettings
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
 func (s *OptInt) SetFake() {
 	var elem int
 	{
@@ -524,15 +503,6 @@ func (s *OptPostCommonServiceItemRequest) SetFake() {
 // SetFake set fake values.
 func (s *OptPutCommonServiceItemRequest) SetFake() {
 	var elem PutCommonServiceItemRequest
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptPutCommonServiceItemRequestCommonServiceItemSettings) SetFake() {
-	var elem PutCommonServiceItemRequestCommonServiceItemSettings
 	{
 		elem.SetFake()
 	}
@@ -589,6 +559,26 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) SetFake() {
 	}
 	{
 		{
+			s.Settings.SetFake()
+		}
+	}
+	{
+		{
+			s.Provider.SetFake()
+		}
+	}
+	{
+		{
+			s.ServiceClass.SetFake()
+		}
+	}
+	{
+		{
+			s.Icon.SetFake()
+		}
+	}
+	{
+		{
 			s.Tags = nil
 			for i := 0; i < 0; i++ {
 				var elem string
@@ -599,65 +589,6 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) SetFake() {
 			}
 		}
 	}
-	{
-		{
-			s.Icon.SetFake()
-		}
-	}
-	{
-		{
-			s.Provider.SetFake()
-		}
-	}
-	{
-		{
-			s.Settings.SetFake()
-		}
-	}
-	{
-		{
-			s.ServiceClass.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostCommonServiceItemRequestCommonServiceItemProvider) SetFake() {
-	{
-		{
-			s.Class.SetFake()
-		}
-	}
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-	{
-		{
-			s.ServiceClass.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostCommonServiceItemRequestCommonServiceItemProviderClass) SetFake() {
-	*s = PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination
-}
-
-// SetFake set fake values.
-func (s *PostCommonServiceItemRequestCommonServiceItemServiceClass) SetFake() {
-	*s = PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2
-}
-
-// SetFake set fake values.
-func (s *PostCommonServiceItemRequestCommonServiceItemSettings) SetFake() {
-	var variant CommonServiceItemDestinationSettings
-
-	{
-		variant.SetFake()
-	}
-	s.SetCommonServiceItemDestinationSettings(variant)
 }
 
 // SetFake set fake values.
@@ -706,16 +637,6 @@ func (s *PutCommonServiceItemRequestCommonServiceItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutCommonServiceItemRequestCommonServiceItemSettings) SetFake() {
-	var variant CommonServiceItemDestinationSettings
-
-	{
-		variant.SetFake()
-	}
-	s.SetCommonServiceItemDestinationSettings(variant)
-}
-
-// SetFake set fake values.
 func (s *PutCommonServiceItemRoutingReorderRequest) SetFake() {
 	{
 		{
@@ -750,6 +671,51 @@ func (s *ReorderRoutingAccepted) SetFake() {
 	{
 		{
 			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *RoutingSettings) SetFake() {
+	{
+		{
+			s.MatchLabels = nil
+			for i := 0; i < 0; i++ {
+				var elem RoutingSettingsMatchLabelsItem
+				{
+					elem.SetFake()
+				}
+				s.MatchLabels = append(s.MatchLabels, elem)
+			}
+		}
+	}
+	{
+		{
+			s.SourceID = "string"
+		}
+	}
+	{
+		{
+			s.TargetGroupID = "string"
+		}
+	}
+	{
+		{
+			s.PriorityRank = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *RoutingSettingsMatchLabelsItem) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Value = "string"
 		}
 	}
 }

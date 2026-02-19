@@ -414,33 +414,21 @@ components:
         Description:
           type: string
         Settings:
-          oneOf:
-            - $ref: "#/components/schemas/CommonServiceItemDestinationSettings"
-            - $ref: "#/components/schemas/CommonServiceItemGroupSettings"
-            - $ref: "#/components/schemas/CommonServiceItemRoutingSettings"
-        CreatedAt:
-          type: string
-          format: date-time
-        ModifiedAt:
-          type: string
-          format: date-time
+          $ref: "#/components/schemas/CommonServiceItemSettings"
         Provider:
-          type: object
-          properties:
-            Class:
-              type: string
-              enum:
-                - saknoticedestination
-                - saknoticegroup
-                - saknoticerouting
-          required:
-            - Class
+          $ref: "#/components/schemas/CommonServiceItemProvider"
         Icon:
           $ref: "#/components/schemas/CommonServiceItemIcon"
         Tags:
           type: array
           items:
             type: string
+        CreatedAt:
+          type: string
+          format: date-time
+        ModifiedAt:
+          type: string
+          format: date-time
       required:
         - ID
         - Name
@@ -451,6 +439,26 @@ components:
         - Provider
         - Icon
         - Tags
+    CommonServiceItemSettings:
+      oneOf:
+        - $ref: "#/components/schemas/DestinationSettings"
+        - $ref: "#/components/schemas/GroupSettings"
+        - $ref: "#/components/schemas/RoutingSettings"
+    CommonServiceItemProvider:
+      properties:
+        Class:
+          type: string
+          enum:
+            - saknoticedestination
+            - saknoticegroup
+            - saknoticerouting
+        Name:
+          type: string
+        ServiceClass:
+          type: string
+      required:
+        - Class
+      type: object
     CommonServiceItemIcon:
       type: object
       nullable: true
@@ -465,6 +473,12 @@ components:
           type: string
       required:
         - ID
+    CommonServiceItemServiceClass:
+      type: string
+      enum:
+        - cloud/saknoticedestination/2
+        - cloud/saknoticegroup/2
+        - cloud/saknoticerouting/2
     ListCommonServiceItemsResponse:
       type: object
       properties:
@@ -490,38 +504,19 @@ components:
               type: string
             Description:
               type: string
+            Settings:
+              $ref: "#/components/schemas/CommonServiceItemSettings"
+            Provider:
+              $ref: "#/components/schemas/CommonServiceItemProvider"
+            ServiceClass:
+              $ref: "#/components/schemas/CommonServiceItemServiceClass"
+            Icon:
+              $ref: "#/components/schemas/CommonServiceItemIcon"
             Tags:
               type: array
               items:
                 type: string
-            Icon:
-              $ref: "#/components/schemas/CommonServiceItemIcon"
-            Provider:
-              properties:
-                Class:
-                  type: string
-                  enum:
-                    - saknoticedestination
-                    - saknoticegroup
-                    - saknoticerouting
-                Name:
-                  type: string
-                ServiceClass:
-                  type: string
-              required:
-                - Class
-              type: object
-            Settings:
-              oneOf:
-                - $ref: "#/components/schemas/CommonServiceItemDestinationSettings"
-                - $ref: "#/components/schemas/CommonServiceItemGroupSettings"
-                - $ref: "#/components/schemas/CommonServiceItemRoutingSettings"
-            ServiceClass:
-              type: string
-              enum:
-                - cloud/saknoticedestination/2
-                - cloud/saknoticegroup/2
-                - cloud/saknoticerouting/2
+              nullable: true
           required:
             - Name
             - Description
@@ -546,13 +541,11 @@ components:
               type: array
               items:
                 type: string
+              nullable: true
             Icon:
               $ref: "#/components/schemas/CommonServiceItemIcon"
             Settings:
-              oneOf:
-                - $ref: "#/components/schemas/CommonServiceItemDestinationSettings"
-                - $ref: "#/components/schemas/CommonServiceItemGroupSettings"
-                - $ref: "#/components/schemas/CommonServiceItemRoutingSettings"
+              $ref: "#/components/schemas/CommonServiceItemSettings"
           required:
             - Name
             - Description
@@ -560,7 +553,7 @@ components:
             - Icon
       required:
         - CommonServiceItem
-    CommonServiceItemDestinationSettings:
+    DestinationSettings:
       type: object
       properties:
         Type:
@@ -575,7 +568,7 @@ components:
       required:
         - Type
         - Value
-    CommonServiceItemGroupSettings:
+    GroupSettings:
       type: object
       properties:
         Destinations:
@@ -587,7 +580,7 @@ components:
           type: boolean
       required:
         - Destinations
-    CommonServiceItemRoutingSettings:
+    RoutingSettings:
       type: object
       properties:
         MatchLabels:

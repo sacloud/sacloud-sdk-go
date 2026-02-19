@@ -56,9 +56,9 @@ func (o *DestinationOp) List(ctx context.Context) (*v1.ListCommonServiceItemsRes
 
 func (o *DestinationOp) Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error) {
 	const methodName = "Destination.Create"
-	request.CommonServiceItem.ServiceClass = v1.PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2
-	request.CommonServiceItem.Provider.Class = v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination
-	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings
+	request.CommonServiceItem.ServiceClass = v1.CommonServiceItemServiceClassCloudSaknoticedestination2
+	request.CommonServiceItem.Provider.Class = v1.CommonServiceItemProviderClassSaknoticedestination
+	request.CommonServiceItem.Settings.Type = v1.DestinationSettingsCommonServiceItemSettings
 	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
 		var e *v1.ErrorStatusCode
@@ -85,7 +85,7 @@ func (o *DestinationOp) Read(ctx context.Context, id string) (*v1.GetCommonServi
 
 func (o *DestinationOp) Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error) {
 	const methodName = "Destination.Update"
-	request.CommonServiceItem.Settings.Value.Type = v1.CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings
+	request.CommonServiceItem.Settings.Value.Type = v1.DestinationSettingsCommonServiceItemSettings
 	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
 		var e *v1.ErrorStatusCode
