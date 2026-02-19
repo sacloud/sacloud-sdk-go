@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.0](https://github.com/sacloud/simple-notification-api-go/compare/v0.1.0...v0.2.0) - 2026-02-19
+- Add syntax highlight to README by @sugyan in https://github.com/sacloud/simple-notification-api-go/pull/30
+- profile、環境変数によるEndpointの切り替え by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/31
+- Makefileへのogen追加 by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/34
+
 ## [v0.1.0](https://github.com/sacloud/simple-notification-api-go/commits/v0.1.0) - 2026-02-17
 - SDK開発用にリポジトリを初期化 by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/8
 - ogenで生成したコードの登録 by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/10
