@@ -21,7 +21,7 @@ import (
 
 const (
 	defaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/is1a/api/cloud/1.1/"
-	serviceKey        = "simplenotification"
+	serviceKey        = "simple_notification"
 )
 
 // NewClient creates a new simple-notification API client with default settings
