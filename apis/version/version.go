@@ -15,7 +15,7 @@ type VersionAPI interface {
 	// List returns the list of ApplicationVersions, paginated.
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
-	List(ctx context.Context, elems int64, cursor *v1.ApplicationVersionNumber) (list []v1.ApplicationVersionDeploymentStatus, nextCursor *v1.ApplicationVersionNumber, err error)
+	List(ctx context.Context, maxItems int64, cursor *v1.ApplicationVersionNumber) (list []v1.ApplicationVersionDeploymentStatus, nextCursor *v1.ApplicationVersionNumber, err error)
 	Create(ctx context.Context, params CreateParams) (version *v1.ReadApplicationVersionSummary, err error)
 	Read(ctx context.Context, id v1.ApplicationVersionNumber) (version *VersionDetail, err error)
 	Delete(ctx context.Context, id v1.ApplicationVersionNumber) error
@@ -33,7 +33,7 @@ func NewVersionOp(client *v1.Client, applicationID v1.ApplicationID) *VersionOp 
 	}
 }
 
-func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.ApplicationVersionNumber) (versions []v1.ApplicationVersionDeploymentStatus, nextCursor *v1.ApplicationVersionNumber, err error) {
+func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.ApplicationVersionNumber) (list []v1.ApplicationVersionDeploymentStatus, nextCursor *v1.ApplicationVersionNumber, err error) {
 	res, err := common.ErrorFromDecodedResponse("Version.List", func() (*v1.ListApplicationVersionResponse, error) {
 		return op.client.ListApplicationVersions(ctx, v1.ListApplicationVersionsParams{
 			ApplicationID: op.applicationID,
@@ -43,7 +43,7 @@ func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.Applic
 	})
 
 	if res != nil {
-		versions = res.Versions
+		list = res.Versions
 		nextCursor = common.FromOpt(res.NextCursor)
 	}
 
