@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.2.1](https://github.com/sacloud/simple-notification-api-go/compare/v0.2.0...v0.2.1) - 2026-02-20
+- fix: client setting error on APIRootURL by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/36
+- ci: bump actions/checkout from 5.0.0 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/simple-notification-api-go/pull/14
+- ci: bump actions/setup-go from 5.5.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/simple-notification-api-go/pull/13
+
 ## [v0.2.0](https://github.com/sacloud/simple-notification-api-go/compare/v0.1.0...v0.2.0) - 2026-02-19
 - Add syntax highlight to README by @sugyan in https://github.com/sacloud/simple-notification-api-go/pull/30
 - profile、環境変数によるEndpointの切り替え by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/31
