@@ -26,6 +26,7 @@ const (
 
 // NewClient creates a new simple-notification API client with default settings
 func NewClient(client *saclient.Client) (*v1.Client, error) {
+	//Setwith must be called before EndpointConfig
 	err := client.SetWith(saclient.WithBigInt(false), saclient.WithMiddleware(modifiyMiddleware()))
 	if err != nil {
 		return nil, err
