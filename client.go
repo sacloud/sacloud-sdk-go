@@ -39,11 +39,14 @@ func NewClient(client *saclient.Client) (*v1.Client, error) {
 	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
 		endpoint = ep
 	}
-
-	return NewClientWithAPIRootURL(client, endpoint)
+	return v1.NewClient(endpoint, v1.WithClient(client))
 }
 
 // NewClientWithAPIRootURL creates a new simple-notification API client with a custom API root URL
 func NewClientWithAPIRootURL(client *saclient.Client, apiRootURL string) (*v1.Client, error) {
+	err := client.SetWith(saclient.WithBigInt(false), saclient.WithMiddleware(modifiyMiddleware()))
+	if err != nil {
+		return nil, err
+	}
 	return v1.NewClient(apiRootURL, v1.WithClient(client))
 }
