@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.3.0](https://github.com/sacloud/simple-notification-api-go/compare/v0.2.1...v0.3.0) - 2026-02-24
+- openapi.yaml更新 by @sugyan in https://github.com/sacloud/simple-notification-api-go/pull/35
+
 ## [v0.2.1](https://github.com/sacloud/simple-notification-api-go/compare/v0.2.0...v0.2.1) - 2026-02-20
 - fix: client setting error on APIRootURL by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/36
 - ci: bump actions/checkout from 5.0.0 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/simple-notification-api-go/pull/14
