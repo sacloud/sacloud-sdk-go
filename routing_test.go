@@ -22,9 +22,8 @@ import (
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	simplenotification "github.com/sacloud/simple-notification-api-go"
-	"github.com/stretchr/testify/require"
-
 	v1 "github.com/sacloud/simple-notification-api-go/apis/v1"
+	"github.com/stretchr/testify/require"
 )
 
 func routingAPISetup(t *testing.T) (ctx context.Context, api simplenotification.RoutingAPI) {
@@ -54,8 +53,8 @@ func TestRoutingOp(t *testing.T) {
 	testLabelValue := os.Getenv("SAKURA_ROUTING_TEST_LABELVAL")
 	testSourceID := os.Getenv("SAKURA_ROUTING_TEST_SOURCEID")
 	testTargetGroupID := os.Getenv("SAKURA_ROUTING_TEST_TARGETGROUPID")
-	setting := v1.CommonServiceItemRoutingSettings{
-		MatchLabels: []v1.CommonServiceItemRoutingSettingsMatchLabelsItem{
+	setting := v1.RoutingSettings{
+		MatchLabels: []v1.RoutingSettingsMatchLabelsItem{
 			{Name: testLabel, Value: testLabelValue},
 		},
 		SourceID:      testSourceID,
@@ -74,15 +73,15 @@ func TestRoutingOp(t *testing.T) {
 				Icon: v1.NilCommonServiceItemIcon{
 					Null: false,
 					Value: v1.CommonServiceItemIcon{
-						ID: "112901627732", //debian icon ID
+						ID: "112901627732", // debian icon ID
 					},
 				},
-				Provider: v1.PostCommonServiceItemRequestCommonServiceItemProvider{
-					Class: v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting,
+				Provider: v1.CommonServiceItemProvider{
+					Class: v1.CommonServiceItemProviderClassSaknoticerouting,
 				},
-				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
-					Type:                             v1.CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
-					CommonServiceItemRoutingSettings: setting,
+				Settings: v1.CommonServiceItemSettings{
+					Type:            v1.RoutingSettingsCommonServiceItemSettings,
+					RoutingSettings: setting,
 				},
 			},
 		}
@@ -134,8 +133,8 @@ func TestRoutingOp(t *testing.T) {
 		routingNameUpdate := "updated-routing"
 		descriptionUpdate := "updated-description"
 		tagsUpdate := []string{"updated"}
-		updateSetting := v1.CommonServiceItemRoutingSettings{
-			MatchLabels: []v1.CommonServiceItemRoutingSettingsMatchLabelsItem{
+		updateSetting := v1.RoutingSettings{
+			MatchLabels: []v1.RoutingSettingsMatchLabelsItem{
 				{Name: testLabel, Value: testLabelValue},
 			},
 			SourceID:      testSourceID,
@@ -152,11 +151,11 @@ func TestRoutingOp(t *testing.T) {
 				Icon: v1.NilCommonServiceItemIcon{
 					Null: true,
 				},
-				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
+				Settings: v1.OptCommonServiceItemSettings{
 					Set: true,
-					Value: v1.PutCommonServiceItemRequestCommonServiceItemSettings{
-						Type:                             v1.CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
-						CommonServiceItemRoutingSettings: updateSetting,
+					Value: v1.CommonServiceItemSettings{
+						Type:            v1.RoutingSettingsCommonServiceItemSettings,
+						RoutingSettings: updateSetting,
 					},
 				},
 			},
@@ -188,7 +187,7 @@ func TestRoutingOp(t *testing.T) {
 						ID: "0", // erase icon
 					},
 				},
-				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
+				Settings: v1.OptCommonServiceItemSettings{
 					Set: false,
 				},
 			},
@@ -211,12 +210,12 @@ func TestRoutingOp(t *testing.T) {
 				Name:        "test-routing-2",
 				Description: "test-routing-description-2",
 				Tags:        tags,
-				Provider: v1.PostCommonServiceItemRequestCommonServiceItemProvider{
-					Class: v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting,
+				Provider: v1.CommonServiceItemProvider{
+					Class: v1.CommonServiceItemProviderClassSaknoticerouting,
 				},
-				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
-					Type:                             v1.CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
-					CommonServiceItemRoutingSettings: setting,
+				Settings: v1.CommonServiceItemSettings{
+					Type:            v1.RoutingSettingsCommonServiceItemSettings,
+					RoutingSettings: setting,
 				},
 			},
 		}
@@ -277,8 +276,8 @@ func TestRoutingOp(t *testing.T) {
 		if firstRouting == nil || secondRouting == nil {
 			t.Fatal("could not find created routings in list response")
 		}
-		require.Equal(t, firstPriorityRank, firstRouting.Settings.CommonServiceItemRoutingSettings.PriorityRank, "first routing's priority rank should be updated")
-		require.Equal(t, secondPriorityRank, secondRouting.Settings.CommonServiceItemRoutingSettings.PriorityRank, "second routing's priority rank should be updated")
+		require.Equal(t, firstPriorityRank, firstRouting.Settings.RoutingSettings.PriorityRank, "first routing's priority rank should be updated")
+		require.Equal(t, secondPriorityRank, secondRouting.Settings.RoutingSettings.PriorityRank, "second routing's priority rank should be updated")
 	})
 	t.Run("ListSource", func(t *testing.T) {
 		resp, err := routingAPI.ListSource(ctx)

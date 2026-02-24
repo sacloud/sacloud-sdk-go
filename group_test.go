@@ -22,9 +22,8 @@ import (
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	simplenotification "github.com/sacloud/simple-notification-api-go"
-	"github.com/stretchr/testify/require"
-
 	v1 "github.com/sacloud/simple-notification-api-go/apis/v1"
+	"github.com/stretchr/testify/require"
 )
 
 func groupAPISetup(t *testing.T) (ctx context.Context, api simplenotification.GroupAPI) {
@@ -58,9 +57,9 @@ func TestGroupOp(t *testing.T) {
 				Name:        groupname,
 				Description: description,
 				Tags:        tags,
-				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
-					Type: v1.CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
-					CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
+				Settings: v1.CommonServiceItemSettings{
+					Type: v1.GroupSettingsCommonServiceItemSettings,
+					GroupSettings: v1.GroupSettings{
 						Destinations: []string{destinationID},
 					},
 				},
@@ -119,11 +118,11 @@ func TestGroupOp(t *testing.T) {
 				Name:        groupnameUpdate,
 				Description: descriptionUpdate,
 				Tags:        tagsUpdate,
-				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
+				Settings: v1.OptCommonServiceItemSettings{
 					Set: true,
-					Value: v1.PutCommonServiceItemRequestCommonServiceItemSettings{
-						Type: v1.CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
-						CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
+					Value: v1.CommonServiceItemSettings{
+						Type: v1.GroupSettingsCommonServiceItemSettings,
+						GroupSettings: v1.GroupSettings{
 							Destinations: []string{destinationID},
 						},
 					},
@@ -152,7 +151,7 @@ func TestGroupOp(t *testing.T) {
 				Name:        groupnameUpdatewithoutSetting,
 				Description: descriptionUpdatewithoutSetting,
 				Tags:        tagsUpdatewithoutSetting,
-				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
+				Settings: v1.OptCommonServiceItemSettings{
 					Set: false,
 				},
 			},

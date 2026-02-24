@@ -44,10 +44,10 @@ func main() {
 			Name:        "my-destination",
 			Description: "my destination description",
 			Tags:        []string{"tag1", "tag2"},
-			Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
-				Type: v1.CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
-				CommonServiceItemDestinationSettings: v1.CommonServiceItemDestinationSettings{
-					Type:  v1.CommonServiceItemDestinationSettingsTypeEmail,
+			Settings: v1.CommonServiceItemSettings{
+				Type: v1.DestinationSettingsCommonServiceItemSettings,
+				DestinationSettings: v1.DestinationSettings{
+					Type:  v1.DestinationSettingsTypeEmail,
 					Value: mailAddress,
 				},
 			},
@@ -72,9 +72,9 @@ func main() {
 			Name:        "my-group",
 			Description: "my group description",
 			Tags:        []string{"tag1", "tag2"},
-			Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
-				Type: v1.CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
-				CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
+			Settings: v1.CommonServiceItemSettings{
+				Type: v1.GroupSettingsCommonServiceItemSettings,
+				GroupSettings: v1.GroupSettings{
 					Destinations: []string{destResp.CommonServiceItem.ID}, //先ほど作成した通知先をグループに追加
 				},
 			},

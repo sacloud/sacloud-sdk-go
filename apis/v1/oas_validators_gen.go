@@ -54,92 +54,6 @@ func (s *CommonServiceItem) Validate() error {
 	return nil
 }
 
-func (s *CommonServiceItemDestinationSettings) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Type.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Type",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s CommonServiceItemDestinationSettingsType) Validate() error {
-	switch s {
-	case "email":
-		return nil
-	case "webhook":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *CommonServiceItemGroupSettings) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Destinations == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.Destinations {
-			if err := func() error {
-				if err := (validate.String{
-					MinLength:     0,
-					MinLengthSet:  false,
-					MaxLength:     0,
-					MaxLengthSet:  false,
-					Email:         false,
-					Hostname:      false,
-					Regex:         regexMap["^[0-9]{12}$"],
-					MinNumeric:    0,
-					MinNumericSet: false,
-					MaxNumeric:    0,
-					MaxNumericSet: false,
-				}).Validate(string(elem)); err != nil {
-					return errors.Wrap(err, "string")
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Destinations",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
 func (s *CommonServiceItemProvider) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -176,185 +90,33 @@ func (s CommonServiceItemProviderClass) Validate() error {
 	}
 }
 
-func (s *CommonServiceItemRoutingSettings) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.MatchLabels == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.MatchLabels {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
+func (s CommonServiceItemServiceClass) Validate() error {
+	switch s {
+	case "cloud/saknoticedestination/2":
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "MatchLabels",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := (validate.String{
-			MinLength:     0,
-			MinLengthSet:  false,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         regexMap["^[0-9]{1,12}$"],
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.SourceID)); err != nil {
-			return errors.Wrap(err, "string")
-		}
+	case "cloud/saknoticegroup/2":
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "SourceID",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := (validate.String{
-			MinLength:     0,
-			MinLengthSet:  false,
-			MaxLength:     0,
-			MaxLengthSet:  false,
-			Email:         false,
-			Hostname:      false,
-			Regex:         regexMap["^[0-9]{1,12}$"],
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.TargetGroupID)); err != nil {
-			return errors.Wrap(err, "string")
-		}
+	case "cloud/saknoticerouting/2":
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "TargetGroupID",
-			Error: err,
-		})
+	default:
+		return errors.Errorf("invalid value: %v", s)
 	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           100,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.PriorityRank)); err != nil {
-			return errors.Wrap(err, "int")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "PriorityRank",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *CommonServiceItemRoutingSettingsMatchLabelsItem) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := (validate.String{
-			MinLength:     0,
-			MinLengthSet:  false,
-			MaxLength:     64,
-			MaxLengthSet:  true,
-			Email:         false,
-			Hostname:      false,
-			Regex:         regexMap["^[a-zA-Z0-9_-]*$"],
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Name)); err != nil {
-			return errors.Wrap(err, "string")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Name",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := (validate.String{
-			MinLength:     0,
-			MinLengthSet:  false,
-			MaxLength:     64,
-			MaxLengthSet:  true,
-			Email:         false,
-			Hostname:      false,
-			Regex:         regexMap["^[\\x20-\\x7E]*$"],
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Value)); err != nil {
-			return errors.Wrap(err, "string")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Value",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
 }
 
 func (s CommonServiceItemSettings) Validate() error {
 	switch s.Type {
-	case CommonServiceItemDestinationSettingsCommonServiceItemSettings:
-		if err := s.CommonServiceItemDestinationSettings.Validate(); err != nil {
+	case DestinationSettingsCommonServiceItemSettings:
+		if err := s.DestinationSettings.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case CommonServiceItemGroupSettingsCommonServiceItemSettings:
-		if err := s.CommonServiceItemGroupSettings.Validate(); err != nil {
+	case GroupSettingsCommonServiceItemSettings:
+		if err := s.GroupSettings.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case CommonServiceItemRoutingSettingsCommonServiceItemSettings:
-		if err := s.CommonServiceItemRoutingSettings.Validate(); err != nil {
+	case RoutingSettingsCommonServiceItemSettings:
+		if err := s.RoutingSettings.Validate(); err != nil {
 			return err
 		}
 		return nil
@@ -409,6 +171,40 @@ func (s *DeleteCommonServiceItemOK) Validate() error {
 	return nil
 }
 
+func (s *DestinationSettings) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "Type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s DestinationSettingsType) Validate() error {
+	switch s {
+	case "email":
+		return nil
+	case "webhook":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *GetCommonServiceItemOK) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -446,6 +242,58 @@ func (s *GetSimpleNotificationHistoryResponse) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "NotificationHistory",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *GroupSettings) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Destinations == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Destinations {
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:     0,
+					MinLengthSet:  false,
+					MaxLength:     0,
+					MaxLengthSet:  false,
+					Email:         false,
+					Hostname:      false,
+					Regex:         regexMap["^[0-9]{12}$"],
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
+				}).Validate(string(elem)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "Destinations",
 			Error: err,
 		})
 	}
@@ -714,13 +562,13 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if s.Tags == nil {
-			return errors.New("nil is invalid value")
+		if err := s.Settings.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "Tags",
+			Name:  "Settings",
 			Error: err,
 		})
 	}
@@ -732,17 +580,6 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "Provider",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := s.Settings.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Settings",
 			Error: err,
 		})
 	}
@@ -761,77 +598,6 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s *PostCommonServiceItemRequestCommonServiceItemProvider) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Class.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Class",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s PostCommonServiceItemRequestCommonServiceItemProviderClass) Validate() error {
-	switch s {
-	case "saknoticedestination":
-		return nil
-	case "saknoticegroup":
-		return nil
-	case "saknoticerouting":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s PostCommonServiceItemRequestCommonServiceItemServiceClass) Validate() error {
-	switch s {
-	case "cloud/saknoticedestination/2":
-		return nil
-	case "cloud/saknoticegroup/2":
-		return nil
-	case "cloud/saknoticerouting/2":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s PostCommonServiceItemRequestCommonServiceItemSettings) Validate() error {
-	switch s.Type {
-	case CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings:
-		if err := s.CommonServiceItemDestinationSettings.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings:
-		if err := s.CommonServiceItemGroupSettings.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings:
-		if err := s.CommonServiceItemRoutingSettings.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s *PutCommonServiceItemRequest) Validate() error {
@@ -864,17 +630,6 @@ func (s *PutCommonServiceItemRequestCommonServiceItem) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if s.Tags == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "Tags",
-			Error: err,
-		})
-	}
-	if err := func() error {
 		if value, ok := s.Settings.Get(); ok {
 			if err := func() error {
 				if err := value.Validate(); err != nil {
@@ -896,28 +651,6 @@ func (s *PutCommonServiceItemRequestCommonServiceItem) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s PutCommonServiceItemRequestCommonServiceItemSettings) Validate() error {
-	switch s.Type {
-	case CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings:
-		if err := s.CommonServiceItemDestinationSettings.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings:
-		if err := s.CommonServiceItemGroupSettings.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings:
-		if err := s.CommonServiceItemRoutingSettings.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s *PutCommonServiceItemRoutingReorderRequest) Validate() error {
@@ -1007,6 +740,171 @@ func (s *PutCommonServiceItemRoutingReorderRequestOrdersItem) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "RoutingID",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *RoutingSettings) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.MatchLabels == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.MatchLabels {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "MatchLabels",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     0,
+			MaxLengthSet:  false,
+			Email:         false,
+			Hostname:      false,
+			Regex:         regexMap["^[0-9]{1,12}$"],
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
+		}).Validate(string(s.SourceID)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "SourceID",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     0,
+			MaxLengthSet:  false,
+			Email:         false,
+			Hostname:      false,
+			Regex:         regexMap["^[0-9]{1,12}$"],
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
+		}).Validate(string(s.TargetGroupID)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "TargetGroupID",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           100,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.PriorityRank)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "PriorityRank",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *RoutingSettingsMatchLabelsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     64,
+			MaxLengthSet:  true,
+			Email:         false,
+			Hostname:      false,
+			Regex:         regexMap["^[a-zA-Z0-9_-]*$"],
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
+		}).Validate(string(s.Name)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "Name",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     64,
+			MaxLengthSet:  true,
+			Email:         false,
+			Hostname:      false,
+			Regex:         regexMap["^[\\x20-\\x7E]*$"],
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
+		}).Validate(string(s.Value)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "Value",
 			Error: err,
 		})
 	}
