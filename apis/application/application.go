@@ -17,6 +17,7 @@ type ApplicationAPI interface {
 	List(ctx context.Context, maxItems int64, cursor *string) (list []v1.ReadApplicationDetail, nextCursor *string, err error)
 	Create(ctx context.Context, name string, clusterID v1.ClusterID) (app *v1.CreatedApplication, err error)
 	Read(ctx context.Context, id v1.ApplicationID) (app *ApplicationDetail, err error)
+	Update(ctx context.Context, id v1.ApplicationID, toVersion *int32) error
 	Delete(ctx context.Context, id v1.ApplicationID) error
 	Containers(ctx context.Context, id v1.ApplicationID) (nodes []Placement, err error)
 }
@@ -94,6 +95,15 @@ func (op *ApplicationOp) Delete(ctx context.Context, id v1.ApplicationID) error 
 		return op.Client.DeleteApplication(ctx, v1.DeleteApplicationParams{
 			ApplicationID: id,
 		})
+	})
+}
+
+func (op *ApplicationOp) Update(ctx context.Context, id v1.ApplicationID, toVersion *int32) error {
+	return common.ErrorFromDecodedResponseE("Application.Update", func() error {
+		req := v1.UpdateApplication{ActiveVersion: common.IntoNullable[v1.NilInt32](toVersion)}
+		params := v1.UpdateApplicationParams{ApplicationID: id}
+
+		return op.Client.UpdateApplication(ctx, &req, params)
 	})
 }
 

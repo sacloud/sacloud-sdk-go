@@ -154,3 +154,26 @@ func TestContainers_failed(t *testing.T) {
 	assert.Nil(actual)
 	assert.False(saclient.IsNotFoundError(err))
 }
+
+func TestUpdate(t *testing.T) {
+	assert, api := setup(t, nil, http.StatusNoContent)
+
+	id := v1.ApplicationID(uuid.New())
+	version := int32(3)
+	err := api.Update(t.Context(), id, &version)
+
+	assert.NoError(err)
+}
+
+func TestUpdate_failed(t *testing.T) {
+	var expected v1.Error
+	expected.SetFake()
+	expected.SetStatus(http.StatusNotFound)
+	assert, api := setup(t, &expected, int(expected.GetStatus()))
+
+	id := v1.ApplicationID(uuid.New())
+	err := api.Update(t.Context(), id, nil)
+
+	assert.Error(err)
+	assert.True(saclient.IsNotFoundError(err))
+}
