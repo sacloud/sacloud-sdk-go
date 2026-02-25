@@ -14,6 +14,8 @@ import (
 	"math/big"
 	"net/http"
 	"net/http/httptest"
+	"os"
+	"testing"
 	"time"
 
 	"github.com/go-faster/jx"
@@ -22,6 +24,7 @@ import (
 	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
 	super "github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
+	"github.com/stretchr/testify/require"
 )
 
 var theClient saclient.Client
@@ -64,6 +67,40 @@ func NewTestClient(v interface{ Encode(*jx.Encoder) }, s ...int) (c *v1.Client, 
 	if e != nil {
 		c = nil
 	}
+
+	return
+}
+
+func IntegratedClient(
+	t *testing.T,
+) (
+	assert *require.Assertions,
+	client *v1.Client,
+) {
+	super.PreCheckEnvsFunc("TESTACC", "SAKURA_APPRUN_DEDICATED_SERVICE_PRINCIPAL_ID")(t)
+
+	switch os.Getenv("TESTACC") {
+	case "1", "true", "TRUE", "True":
+		// pass
+	default:
+		t.Skip("environment variable TESTACC is not set. skip")
+	}
+
+	assert = require.New(t)
+	err := theClient.SetEnviron(os.Environ())
+	assert.NoError(err)
+
+	err = theClient.Populate()
+	assert.NoError(err)
+
+	authen, err := theClient.DupWith(saclient.WithTraceMode("error"))
+	assert.NoError(err)
+
+	err = authen.Populate()
+	assert.NoError(err)
+
+	client, err = apprun_dedicated.NewClient(authen)
+	assert.NoError(err)
 
 	return
 }
@@ -261,5 +298,18 @@ func FakeLoadBalancerNodeSummary() (ret v1.ReadLoadBalancerNodeSummary) {
 	ret.ArchiveVersion.SetTo("1.0.0")
 	ret.CreateErrorMessage.Reset()
 	ret.SetCreated(1234567890)
+	return
+}
+
+func RepeatedList[T, U any](yield func(*U) ([]T, *U)) (ret []T) {
+	var cursor *U
+	for {
+		var items []T
+		items, cursor = yield(cursor)
+		ret = append(ret, items...)
+		if cursor == nil {
+			break
+		}
+	}
 	return
 }
