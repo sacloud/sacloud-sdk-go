@@ -15,6 +15,9 @@
 package saclient
 
 import (
+	"context"
+	"errors"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -79,6 +82,41 @@ func (d *doer) retryableClient(c *config) (*retryablehttp.Client, error) {
 
 	if ok {
 		ret.CheckRetry = f
+	}
+
+	if c.hasSome("TraceMode") {
+		superCheckRetry := ret.CheckRetry
+
+		ret.CheckRetry = func(ctx context.Context, res *http.Response, e error) (ret bool, err error) {
+			ret, err = superCheckRetry(ctx, res, e)
+
+			if ret == true {
+				// superCheckRetry thinks it's worth retrying.
+				// Dump the previous attempt at this point,
+				// since it would be lost after retrying.
+				// (Request payload had already been lost here
+				// which we cannot do anything about)
+				_, err2 := dumpTracePair(res.Request, res)
+				err = errors.Join(err, err2)
+			}
+
+			return
+		}
+	}
+
+	// This is callled right before the retryablehttp client gives up.
+	// without it the `res` would be lost
+	ret.ErrorHandler = func(res *http.Response, err error, n int) (*http.Response, error) {
+		req := res.Request
+		msg := fmt.Sprintf("%s %s giving up after %d attempt(s)", req.Method, req.URL, n)
+
+		if err != nil {
+			err = fmt.Errorf("%s: %w", msg, err)
+		} else {
+			err = fmt.Errorf("%s", msg)
+		}
+
+		return res, err
 	}
 
 	ret.Backoff = retryablehttp.DefaultBackoff
