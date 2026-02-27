@@ -15,10 +15,13 @@
 package saclient
 
 import (
+	"compress/gzip"
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
@@ -90,12 +93,24 @@ func (d *doer) retryableClient(c *config) (*retryablehttp.Client, error) {
 		ret.CheckRetry = func(ctx context.Context, res *http.Response, e error) (ret bool, err error) {
 			ret, err = superCheckRetry(ctx, res, e)
 
+			// superCheckRetry thinks it's worth retrying.
+			// Dump the previous attempt at this point,
+			// since it would be lost after retrying.
+			// (Request payload had already been lost here
+			// which we cannot do anything about)
 			if ret == true {
-				// superCheckRetry thinks it's worth retrying.
-				// Dump the previous attempt at this point,
-				// since it would be lost after retrying.
-				// (Request payload had already been lost here
-				// which we cannot do anything about)
+				if res.Header.Get("Content-Encoding") == "gzip" {
+					// make it readable
+					res.Header.Del("Content-Encoding")
+					res.Header.Del("Content-Length") // unknown length
+					res.ContentLength = -1           // ditto
+					if body, err := gzip.NewReader(res.Body); err == nil {
+						res.Body = body
+					} else {
+						// :UNLIKELY: this is e.g. empty error message
+						res.Body = io.NopCloser(strings.NewReader("(redacted)"))
+					}
+				}
 				_, err2 := dumpTracePair(res.Request, res)
 				err = errors.Join(err, err2)
 			}
