@@ -13,6 +13,7 @@ import (
 	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
 	apprun_test "github.com/sacloud/apprun-dedicated-api-go/testutil"
 	"github.com/sacloud/packages-go/testutil"
+	super "github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )
@@ -174,4 +175,64 @@ func TestDelete_failed(t *testing.T) {
 
 	assert.Error(err)
 	assert.True(saclient.IsNotFoundError(err))
+}
+
+func TestIntegrated(t *testing.T) {
+	assert, client := apprun_test.IntegratedClient(t)
+	assert.NotNil(client)
+
+	cid, deleter := apprun_test.IntegratedCluster(t.Context(), assert, client)
+	defer deleter()
+
+	api := NewCertificateOp(client, cid)
+	assert.NotNil(api)
+
+	t.Run("Create", func(t *testing.T) {
+		certName := super.RandomName("test-", 15, super.CharSetAlphaNum)
+		c, p, err := apprun_test.OreSign()
+		assert.NoError(err)
+
+		cert, err := api.Create(t.Context(), CreateParams{
+			Name:           certName,
+			CertificatePEM: string(c),
+			PrivateKeyPEM:  string(p),
+		})
+		assert.NoError(err)
+		assert.NotNil(cert)
+
+		certID := cert.CertificateID
+
+		defer t.Run("Delete", func(t *testing.T) {
+			err := api.Delete(t.Context(), certID)
+			assert.NoError(err)
+		})
+
+		t.Run("List", func(t *testing.T) {
+			list := apprun_test.RepeatedList(func(cursor *v1.CertificateID) (res []v1.ReadCertificate, next *v1.CertificateID) {
+				res, next, err := api.List(t.Context(), 10, cursor)
+				assert.NoError(err)
+				return
+			})
+			assert.NotEmpty(list)
+		})
+
+		t.Run("Read", func(t *testing.T) {
+			actual, err := api.Read(t.Context(), certID)
+			assert.NoError(err)
+			assert.NotNil(actual)
+			assert.Equal(certID, actual.GetCertificateID())
+			assert.Equal(certName, actual.GetName())
+		})
+
+		t.Run("Update", func(t *testing.T) {
+			c2, p2, err := apprun_test.OreSign()
+			assert.NoError(err)
+			err = api.Update(t.Context(), certID, UpdateParams{
+				Name:           super.RandomName("test-", 15, super.CharSetAlphaNum),
+				CertificatePEM: string(c2),
+				PrivateKeyPEM:  string(p2),
+			})
+			assert.NoError(err)
+		})
+	})
 }
