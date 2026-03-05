@@ -84,7 +84,7 @@ func TestNotificationRoutingService_Read_404(t *testing.T) {
 
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Not Found")
+	require.ErrorContains(t, err, "not found")
 }
 
 func TestNotificationRoutingService_Create(t *testing.T) {
@@ -171,7 +171,7 @@ func TestNotificationRoutingService_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "not eligible for deletio")
 }
 
 func TestNotificationRoutingService_Reorder(t *testing.T) {

@@ -137,7 +137,7 @@ func TestMetricsStorageOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestMetricsStorageOp_Update(t *testing.T) {
@@ -169,7 +169,7 @@ func TestMetricsStorageOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "54321", MetricsStorageUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestMetricsStorageOp_Delete(t *testing.T) {
@@ -189,7 +189,7 @@ func TestMetricsStorageOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "not eligible for deletion")
 }
 
 func TestMetricsStorageOp_StatsDaily(t *testing.T) {

@@ -122,7 +122,7 @@ func TestTracesStorageOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid request")
 }
 
 func TestTracesStorageOp_Update(t *testing.T) {
@@ -149,7 +149,7 @@ func TestTracesStorageOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "54321", TracesStorageUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestTracesStorageOp_Delete(t *testing.T) {
@@ -169,7 +169,7 @@ func TestTracesStorageOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "not eligible for deletion")
 }
 
 func TestTracesStorageOp_SetExpire(t *testing.T) {
