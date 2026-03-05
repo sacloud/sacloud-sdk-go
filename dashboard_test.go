@@ -26,8 +26,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func newTestDashboardClient(resp interface{}, status ...int) *v1.Client {
-	return newTestClient(resp, status...)
+func newTestDashboardClient(res interface{}, status ...int) *v1.Client {
+	return newTestClient(res, status...)
 }
 
 func TestDashboardOp_List(t *testing.T) {
@@ -72,7 +72,7 @@ func TestDashboardOp_Read_404(t *testing.T) {
 	project, err := api.Read(ctx, "99999")
 	require.Nil(t, project)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "internal server error")
+	require.ErrorContains(t, err, "No DashboardProject matches the given query.")
 }
 
 func TestDashboardOp_Create(t *testing.T) {
@@ -97,7 +97,7 @@ func TestDashboardOp_Create_400(t *testing.T) {
 	project, err := api.Create(ctx, DashboardProjectCreateParams{})
 	require.Nil(t, project)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestDashboardOp_Update(t *testing.T) {
@@ -124,7 +124,7 @@ func TestDashboardOp_Update_400(t *testing.T) {
 	project, err := api.Update(ctx, "0", updateReq)
 	require.Nil(t, project)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestDashboardOp_Delete(t *testing.T) {
@@ -144,7 +144,7 @@ func TestDashboardOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestDashboardIntegrated(t *testing.T) {
