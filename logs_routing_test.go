@@ -69,7 +69,7 @@ func TestLogRoutingOp_Read_404(t *testing.T) {
 	routing, err := api.Read(ctx, uuid.New())
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "internal server error")
+	require.ErrorContains(t, err, "No LogRouting matches the given query.")
 }
 
 func TestLogRoutingOp_Create(t *testing.T) {
@@ -100,11 +100,13 @@ func TestLogRoutingOp_Create_400(t *testing.T) {
 	api := NewLogRoutingOp(client)
 	ctx := context.Background()
 
-	createReq := LogsRoutingCreateParams{}
+	createReq := LogsRoutingCreateParams{
+		LogStorageID: "0",
+	}
 	routing, err := api.Create(ctx, createReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestLogRoutingOp_Update(t *testing.T) {
@@ -138,7 +140,7 @@ func TestLogRoutingOp_Update_400(t *testing.T) {
 	routing, err := api.Update(ctx, uuid.New(), LogsRoutingUpdateParams{})
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestLogRoutingOp_Delete(t *testing.T) {
@@ -158,7 +160,7 @@ func TestLogRoutingOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestLogRoutingIntegrated(t *testing.T) {

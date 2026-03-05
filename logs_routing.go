@@ -16,12 +16,10 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 	"strconv"
 
-	"github.com/go-faster/errors"
 	"github.com/google/uuid"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -51,19 +49,20 @@ type LogsRoutingsListParams struct {
 	Variant       *string
 }
 
-func (op *logRoutingOp) List(ctx context.Context, p LogsRoutingsListParams) ([]v1.LogRouting, error) {
-	params := v1.LogsRoutingsListParams{
-		Count:         intoOpt[v1.OptInt](p.Count),
-		From:          intoOpt[v1.OptInt](p.From),
-		PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
-		ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
-		Variant:       intoOpt[v1.OptString](p.Variant),
+func (op *logRoutingOp) List(ctx context.Context, p LogsRoutingsListParams) (ret []v1.LogRouting, err error) {
+	res, err := ErrorFromDecodedResponse("LogRouting.List", func() (*v1.PaginatedLogRoutingList, error) {
+		return op.client.LogsRoutingsList(ctx, v1.LogsRoutingsListParams{
+			Count:         intoOpt[v1.OptInt](p.Count),
+			From:          intoOpt[v1.OptInt](p.From),
+			PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
+			ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
+			Variant:       intoOpt[v1.OptString](p.Variant),
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
-	resp, err := op.client.LogsRoutingsList(ctx, params)
-	if err != nil {
-		return nil, NewAPIError("LogRouting.List", 0, err)
-	}
-	return resp.Results, nil
+	return
 }
 
 type LogsRoutingCreateParams struct {
@@ -74,62 +73,36 @@ type LogsRoutingCreateParams struct {
 }
 
 func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreateParams) (*v1.LogRouting, error) {
-	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
-	if err != nil {
-		return nil, NewError("LogRouting.Create", err)
-	}
-	lid, err := strconv.ParseInt(params.LogStorageID, 10, 64)
-	if err != nil {
-		return nil, NewError("LogRouting.Create", err)
-	}
-	request := v1.LogRouting{
-		PublisherCode: intoOpt[v1.OptString](&params.PublisherCode),
-		ResourceID:    rid,
-		Variant:       params.Variant,
-		LogStorageID:  intoOptNil[v1.OptNilInt64](&lid),
-	}
+	res, err := ErrorFromDecodedResponse("LogRouting.Create", func() (*v1.WrappedLogRouting, error) {
+		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
+			return nil, fmt.Errorf("LogsRoutingCreateParams.ResourceID: %w", err)
+		} else if lid, err := strconv.ParseInt(params.LogStorageID, 10, 64); err != nil {
+			return nil, fmt.Errorf("LogsRoutingCreateParams.LogStorageID: %w", err)
+		} else {
+			request := v1.LogRouting{
+				PublisherCode: intoOpt[v1.OptString](&params.PublisherCode),
+				ResourceID:    rid,
+				Variant:       params.Variant,
+				LogStorageID:  intoOptNil[v1.OptNilInt64](&lid),
+			}
 
-	// prevent ogen error (encoder is not accepting empty struct)
-	request.Publisher.SetFake()
-	request.LogStorage.SetFake()
-	request.Publisher.SetVariants([]v1.PublisherVariant{})
-	request.LogStorage.SetTags([]string{})
+			// prevent ogen error (encoder is not accepting empty struct)
+			request.Publisher.SetFake()
+			request.LogStorage.SetFake()
+			request.Publisher.SetVariants(make([]v1.PublisherVariant, 0))
+			request.LogStorage.SetTags(make([]string, 0))
 
-	resp, err := op.client.LogsRoutingsCreate(ctx, &request)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogRouting.Create", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogRouting.Create", e.StatusCode, errors.Wrap(err, "invalid parameter, or the log storage cannot be routed"))
-		default:
-			return nil, NewAPIError("LogRouting.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
+			return op.client.LogsRoutingsCreate(ctx, &request)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogRouting.Create", 0, err)
-	} else {
-		ret := new(v1.LogRouting)
-		return Unwrap(ret, resp)
-	}
+	})
+	return unwrapE[*v1.LogRouting](res, err)
 }
 
 func (op *logRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.LogRouting, error) {
-	resp, err := op.client.LogsRoutingsRetrieve(ctx, v1.LogsRoutingsRetrieveParams{UID: id})
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogRouting.Read", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogRouting.Read", e.StatusCode, errors.Wrap(err, "invalid parameter, or invalid log storage"))
-		default:
-			return nil, NewAPIError("LogRouting.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return nil, NewAPIError("LogRouting.Read", 0, err)
-	} else {
-		ret := new(v1.LogRouting)
-		return Unwrap(ret, resp)
-	}
+	res, err := ErrorFromDecodedResponse("LogRouting.Read", func() (*v1.WrappedLogRouting, error) {
+		return op.client.LogsRoutingsRetrieve(ctx, v1.LogsRoutingsRetrieveParams{UID: id})
+	})
+	return unwrapE[*v1.LogRouting](res, err)
 }
 
 type LogsRoutingUpdateParams struct {
@@ -140,52 +113,25 @@ type LogsRoutingUpdateParams struct {
 }
 
 func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRoutingUpdateParams) (*v1.LogRouting, error) {
-	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
-	if err != nil {
-		return nil, NewError("LogRouting.Update", err)
-	}
-	lid, err := fromStringPtr[v1.OptNilInt64, int64](params.LogStorageID)
-	if err != nil {
-		return nil, NewError("LogRouting.Update", err)
-	}
-	patch := v1.PatchedLogRouting{
-		PublisherCode: intoOpt[v1.OptString](params.PublisherCode),
-		ResourceID:    rid,
-		Variant:       intoOpt[v1.OptString](params.Variant),
-		LogStorageID:  lid,
-	}
-	request := v1.NewOptPatchedLogRouting(patch)
-	resp, err := op.client.LogsRoutingsPartialUpdate(ctx, request, v1.LogsRoutingsPartialUpdateParams{UID: id})
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogRouting.Update", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogRouting.Update", e.StatusCode, errors.Wrap(err, "invalid parameter, or invalid log storage"))
-		default:
-			return nil, NewAPIError("LogRouting.Update", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("LogRouting.Update", func() (*v1.WrappedLogRouting, error) {
+		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
+			return nil, fmt.Errorf("LogsRoutingUpdateParams.ResourceID: %w", err)
+		} else if lid, err := fromStringPtr[v1.OptNilInt64, int64](params.LogStorageID); err != nil {
+			return nil, fmt.Errorf("LogsRoutingUpdateParams.LogStorageID: %w", err)
+		} else {
+			return op.client.LogsRoutingsPartialUpdate(ctx, v1.NewOptPatchedLogRouting(v1.PatchedLogRouting{
+				PublisherCode: intoOpt[v1.OptString](params.PublisherCode),
+				ResourceID:    rid,
+				Variant:       intoOpt[v1.OptString](params.Variant),
+				LogStorageID:  lid,
+			}), v1.LogsRoutingsPartialUpdateParams{UID: id})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogRouting.Update", 0, err)
-	} else {
-		ret := new(v1.LogRouting)
-		return Unwrap(ret, resp)
-	}
+	})
+	return unwrapE[*v1.LogRouting](res, err)
 }
 
 func (op *logRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
-	err := op.client.LogsRoutingsDestroy(ctx, v1.LogsRoutingsDestroyParams{UID: id})
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("LogRouting.Delete", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return NewAPIError("LogRouting.Delete", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("LogRouting.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return NewAPIError("LogRouting.Delete", 0, err)
-	}
-	return nil
+	return ErrorFromDecodedResponse1("LogRouting.Delete", func() error {
+		return op.client.LogsRoutingsDestroy(ctx, v1.LogsRoutingsDestroyParams{UID: id})
+	})
 }
