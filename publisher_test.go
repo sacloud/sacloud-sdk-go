@@ -86,7 +86,7 @@ func TestPublisherOp_Read_404(t *testing.T) {
 
 	actual, err := api.Read(ctx, "nonexistent")
 	require.Nil(t, actual)
-	require.ErrorContains(t, err, "publisher not found")
+	require.ErrorContains(t, err, "No Publisher matches the given query.")
 }
 
 func TestPublisherIntegrated(t *testing.T) {
