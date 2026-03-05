@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -39,7 +38,7 @@ func TestDashboardOp_List(t *testing.T) {
 	}
 	client := newTestDashboardClient(expected)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	projects, err := api.List(ctx, nil, nil)
 	require.NoError(t, err)
@@ -50,7 +49,7 @@ func TestDashboardOp_List(t *testing.T) {
 func TestDashboardOp_Read(t *testing.T) {
 	client := newTestDashboardClient(TemplateWrappedDashboardProject)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	res, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
@@ -67,7 +66,7 @@ func TestDashboardOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No DashboardProject matches the given query.")
 	client := newTestDashboardClient(expected, http.StatusNotFound)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	project, err := api.Read(ctx, "99999")
 	require.Nil(t, project)
@@ -78,7 +77,7 @@ func TestDashboardOp_Read_404(t *testing.T) {
 func TestDashboardOp_Create(t *testing.T) {
 	client := newTestDashboardClient(TemplateDashboardProject, http.StatusCreated)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	res, err := api.Create(ctx, DashboardProjectCreateParams{
 		Name:        "Test Project",
@@ -92,7 +91,7 @@ func TestDashboardOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestDashboardClient(expected, http.StatusBadRequest)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	project, err := api.Create(ctx, DashboardProjectCreateParams{})
 	require.Nil(t, project)
@@ -103,7 +102,7 @@ func TestDashboardOp_Create_400(t *testing.T) {
 func TestDashboardOp_Update(t *testing.T) {
 	client := newTestDashboardClient(TemplateWrappedDashboardProject)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateReq := DashboardProjectUpdateParams{
 		Name:        ref("Updated Project Name"),
@@ -118,7 +117,7 @@ func TestDashboardOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestDashboardClient(expected, http.StatusBadRequest)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateReq := DashboardProjectUpdateParams{}
 	project, err := api.Update(ctx, "0", updateReq)
@@ -130,7 +129,7 @@ func TestDashboardOp_Update_400(t *testing.T) {
 func TestDashboardOp_Delete(t *testing.T) {
 	client := newTestDashboardClient(nil, http.StatusNoContent)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "12345")
 	require.NoError(t, err)
@@ -140,7 +139,7 @@ func TestDashboardOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestDashboardClient(expected, http.StatusBadRequest)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
@@ -151,7 +150,7 @@ func TestDashboardIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewDashboardOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// Create
 	created, err := api.Create(ctx, DashboardProjectCreateParams{

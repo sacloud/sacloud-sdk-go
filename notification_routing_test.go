@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -35,7 +34,7 @@ func TestNotificationRoutingService_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	routings, err := api.List(ctx, "12345", ref(20), ref(0))
 	require.NoError(t, err)
@@ -54,7 +53,7 @@ func TestNotificationRoutingService_List_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	_, err := api.List(ctx, "12345", ref(20), ref(0))
 	require.Error(t, err)
@@ -64,7 +63,7 @@ func TestNotificationRoutingService_List_403(t *testing.T) {
 func TestNotificationRoutingService_Read(t *testing.T) {
 	client := newTestClient(TemplateNotificationRouting)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -80,7 +79,7 @@ func TestNotificationRoutingService_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No NotificationRouting matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
@@ -91,7 +90,7 @@ func TestNotificationRoutingService_Create(t *testing.T) {
 	nr := TemplateNotificationRouting
 	client := newTestClient(nr, http.StatusCreated)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createParams := NotificationRoutingCreateParams{
 		NotificationTargetUID: uuid.New(),
@@ -112,7 +111,7 @@ func TestNotificationRoutingService_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid create parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createParams := NotificationRoutingCreateParams{}
 	_, err := api.Create(ctx, "12345", createParams)
@@ -124,7 +123,7 @@ func TestNotificationRoutingService_Update(t *testing.T) {
 	nr := TemplateNotificationRouting
 	client := newTestClient(nr)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateParams := NotificationRoutingUpdateParams{
 		NotificationTargetUID: ref(uuid.New()),
@@ -145,7 +144,7 @@ func TestNotificationRoutingService_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateParams := NotificationRoutingUpdateParams{}
 	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
@@ -157,7 +156,7 @@ func TestNotificationRoutingService_Update_400(t *testing.T) {
 func TestNotificationRoutingService_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -167,7 +166,7 @@ func TestNotificationRoutingService_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
@@ -177,7 +176,7 @@ func TestNotificationRoutingService_Delete_400(t *testing.T) {
 func TestNotificationRoutingService_Reorder(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	orders := []v1.NotificationRoutingOrder{
 		{NotificationRoutingUID: uuid.New(), Order: 1},
@@ -191,7 +190,7 @@ func TestNotificationRoutingService_Reorder_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid reorder parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	orders := []v1.NotificationRoutingOrder{
 		{NotificationRoutingUID: uuid.New(), Order: 1},
@@ -206,7 +205,7 @@ func TestNotificationRoutingIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewNotificationRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	project := WithAlertProject(t, client, ctx)
 	createdTarget := WithNotificationTarget(t, client, ctx, project.GetID())
 	targetID := createdTarget.GetUID()

@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -36,7 +35,7 @@ func TestTracesStorageOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	tanks, err := api.List(ctx, TracesStorageListParams{Count: nil, From: nil})
 	require.NoError(t, err)
@@ -55,7 +54,7 @@ func TestTracesStorageOp_List_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	tanks, err := api.List(ctx, TracesStorageListParams{})
 	require.Nil(t, tanks)
@@ -66,7 +65,7 @@ func TestTracesStorageOp_List_403(t *testing.T) {
 func TestTracesStorageOp_Read(t *testing.T) {
 	client := newTestClient(TemplateWrappedTraceStorage)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
@@ -82,7 +81,7 @@ func TestTracesStorageOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No TraceStorage matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "99999")
 	require.Nil(t, actual)
@@ -93,7 +92,7 @@ func TestTracesStorageOp_Read_404(t *testing.T) {
 func TestTracesStorageOp_Create(t *testing.T) {
 	client := newTestClient(TemplateTraceStorage, http.StatusCreated)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := TracesStorageCreateParams{
 		Name:        "created-tank",
@@ -113,7 +112,7 @@ func TestTracesStorageOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := TracesStorageCreateParams{
 		Name:        "",
@@ -128,7 +127,7 @@ func TestTracesStorageOp_Create_400(t *testing.T) {
 func TestTracesStorageOp_Update(t *testing.T) {
 	client := newTestClient(TemplateWrappedTraceStorage)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updatedName := "updated-tank"
 	actual, err := api.Update(ctx, "54321", TracesStorageUpdateParams{&updatedName, nil})
@@ -144,7 +143,7 @@ func TestTracesStorageOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Update(ctx, "54321", TracesStorageUpdateParams{})
 	require.Nil(t, actual)
@@ -155,7 +154,7 @@ func TestTracesStorageOp_Update_400(t *testing.T) {
 func TestTracesStorageOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "54321")
 	require.NoError(t, err)
@@ -165,7 +164,7 @@ func TestTracesStorageOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
@@ -175,7 +174,7 @@ func TestTracesStorageOp_Delete_400(t *testing.T) {
 func TestTracesStorageOp_SetExpire(t *testing.T) {
 	client := newTestClient(TemplateWrappedTraceStorage)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	result, err := api.SetExpire(ctx, "12345", 365)
 	require.NoError(t, err)
@@ -187,7 +186,7 @@ func TestTracesStorageOp_SetExpire_400(t *testing.T) {
 	expected := newErrorResponse(400, "invalid parameter, days must be between 1 and 730")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	result, err := api.SetExpire(ctx, "12345", 1)
 	require.Nil(t, result)
@@ -201,7 +200,7 @@ func TestTracesStorageOp_StatsDaily(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
@@ -216,7 +215,7 @@ func TestTracesStorageOp_StatsDaily_400(t *testing.T) {
 	expected := newErrorResponse(400, "invalid parameter")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
@@ -233,7 +232,7 @@ func TestTracesStorageOp_StatsMonthly(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	result, err := api.ReadMonthlyStats(ctx, "12345", 2025)
 	require.NoError(t, err)
@@ -245,7 +244,7 @@ func TestTracesStorageOp_StatsMonthly_400(t *testing.T) {
 	expected := newErrorResponse(400, "invalid parameter, year must be between 1970 and 2100")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	result, err := api.ReadMonthlyStats(ctx, "99999", 1999)
 	require.Nil(t, result)
@@ -264,7 +263,7 @@ func TestTracesStorageOp_ListKeys(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.NoError(t, err)
@@ -278,7 +277,7 @@ func TestTracesStorageOp_ListKeys_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.Nil(t, keys)
@@ -289,7 +288,7 @@ func TestTracesStorageOp_ListKeys_403(t *testing.T) {
 func TestTracesStorageOp_CreateKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedTraceStorageAccessKey, http.StatusCreated)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.CreateKey(ctx, "12345", ref("new key"))
 	require.NoError(t, err)
@@ -302,7 +301,7 @@ func TestTracesStorageOp_CreateKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.CreateKey(ctx, "12345", nil)
 	require.Nil(t, key)
@@ -313,7 +312,7 @@ func TestTracesStorageOp_CreateKey_403(t *testing.T) {
 func TestTracesStorageOp_ReadKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedTraceStorageAccessKey)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -326,7 +325,7 @@ func TestTracesStorageOp_ReadKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.Nil(t, key)
@@ -337,7 +336,7 @@ func TestTracesStorageOp_ReadKey_403(t *testing.T) {
 func TestTracesStorageOp_UpdateKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedTraceStorageAccessKey)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.UpdateKey(ctx, "12345", uuid.New(), ref("updated key"))
 	require.NoError(t, err)
@@ -350,7 +349,7 @@ func TestTracesStorageOp_UpdateKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.UpdateKey(ctx, "12345", uuid.New(), nil)
 	require.Nil(t, key)
@@ -361,7 +360,7 @@ func TestTracesStorageOp_UpdateKey_403(t *testing.T) {
 func TestTracesStorageOp_DeleteKey(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -371,7 +370,7 @@ func TestTracesStorageOp_DeleteKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewTracesStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.Error(t, err)
@@ -381,7 +380,7 @@ func TestTracesStorageOp_DeleteKey_403(t *testing.T) {
 func TestTracesStorageIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
-	ctx := context.Background()
+	ctx := t.Context()
 	api := NewTracesStorageOp(client)
 	created := WithTraceStorage(t, client, ctx)
 	tid := fmt.Sprintf("%d", created.GetID())

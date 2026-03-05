@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -35,7 +34,7 @@ func TestMetricsRoutingOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	routings, err := api.List(ctx, MetricsRoutingsListParams{})
 	require.NoError(t, err)
@@ -46,7 +45,7 @@ func TestMetricsRoutingOp_List(t *testing.T) {
 func TestMetricsRoutingOp_Read(t *testing.T) {
 	client := newTestClient(TemplateWrappedMetricsRouting)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	res, err := api.Read(ctx, uuid.New())
 	require.NoError(t, err)
@@ -64,7 +63,7 @@ func TestMetricsRoutingOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No MetricsRouting matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	routing, err := api.Read(ctx, uuid.New())
 	require.Nil(t, routing)
@@ -75,7 +74,7 @@ func TestMetricsRoutingOp_Read_404(t *testing.T) {
 func TestMetricsRoutingOp_Create(t *testing.T) {
 	client := newTestClient(TemplateWrappedMetricsRouting, http.StatusCreated)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := MetricsRoutingCreateParams{
 		PublisherCode:    "appliance",
@@ -103,7 +102,7 @@ func TestMetricsRoutingOp_Create_400(t *testing.T) {
 	}
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := MetricsRoutingCreateParams{
 		MetricsStorageID: "0",
@@ -117,7 +116,7 @@ func TestMetricsRoutingOp_Create_400(t *testing.T) {
 func TestMetricsRoutingOp_Update(t *testing.T) {
 	client := newTestClient(TemplateWrappedMetricsRouting)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateReq := MetricsRoutingUpdateParams{
 		PublisherCode:    ref("appliance"),
@@ -140,7 +139,7 @@ func TestMetricsRoutingOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateReq := MetricsRoutingUpdateParams{}
 	routing, err := api.Update(ctx, uuid.New(), updateReq)
@@ -152,7 +151,7 @@ func TestMetricsRoutingOp_Update_400(t *testing.T) {
 func TestMetricsRoutingOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, uuid.New())
 	require.NoError(t, err)
@@ -162,7 +161,7 @@ func TestMetricsRoutingOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, uuid.New())
 	require.Error(t, err)
@@ -173,7 +172,7 @@ func TestMetricsRoutingIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewMetricsRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// we need to obtain a sane publisher object
 	publisherOp := NewPublisherOp(client)
