@@ -58,7 +58,7 @@ func TestNotificationRoutingService_List_403(t *testing.T) {
 
 	_, err := api.List(ctx, "12345", ref(20), ref(0))
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestNotificationRoutingService_Read(t *testing.T) {
@@ -84,7 +84,7 @@ func TestNotificationRoutingService_Read_404(t *testing.T) {
 
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No NotificationRouting matches the given query.")
 }
 
 func TestNotificationRoutingService_Create(t *testing.T) {
@@ -151,7 +151,7 @@ func TestNotificationRoutingService_Update_400(t *testing.T) {
 	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
 	require.Nil(t, updated)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestNotificationRoutingService_Delete(t *testing.T) {
@@ -171,7 +171,7 @@ func TestNotificationRoutingService_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletio")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestNotificationRoutingService_Reorder(t *testing.T) {
@@ -198,7 +198,7 @@ func TestNotificationRoutingService_Reorder_400(t *testing.T) {
 	}
 	err := api.Reorder(ctx, "12345", orders)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid reorder parameters.")
 }
 
 // Integration test for NotificationRouting
