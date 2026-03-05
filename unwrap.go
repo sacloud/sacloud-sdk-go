@@ -32,3 +32,18 @@ func Unwrap[T json.Unmarshaler, U json.Marshaler](dst T, src U) (T, error) {
 		return dst, nil
 	}
 }
+
+func unwrapE[
+	T interface {
+		*V
+		json.Unmarshaler
+	},
+	U json.Marshaler,
+	V any,
+](src U, e error) (dst T, err error) {
+	if e != nil {
+		return dst, e
+	}
+	dst = new(V)
+	return Unwrap(dst, src)
+}

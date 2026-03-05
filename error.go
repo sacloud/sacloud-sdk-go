@@ -14,7 +14,14 @@
 
 package monitoringsuite
 
-import "github.com/sacloud/saclient-go"
+import (
+	"fmt"
+	"io"
+
+	"github.com/go-faster/errors"
+	ogen "github.com/ogen-go/ogen/validate"
+	"github.com/sacloud/saclient-go"
+)
 
 type Error struct {
 	msg string
@@ -43,4 +50,29 @@ func NewError(msg string, err error) *Error {
 
 func NewAPIError(method string, code int, err error) *Error {
 	return &Error{msg: method, err: saclient.NewError(code, "", err)}
+}
+
+// convert UnexpectedStatusCodeError -> IsNotFoundError
+func ErrorFromDecodedResponse[T any](method string, yield func() (T, error)) (res T, err error) {
+	if res, err = yield(); err == nil {
+		// no error
+	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
+		// expected error
+		err = NewAPIError(method, 0, err)
+	} else if msg, ee := io.ReadAll(e.Payload.Body); ee != nil {
+		// payload read error, maybe empty
+		err = errors.Join(e, ee)
+	} else {
+		// expect error payload to be at least human readable
+		err = NewAPIError(method, e.StatusCode, fmt.Errorf("%s", string(msg)))
+	}
+
+	return
+}
+
+func ErrorFromDecodedResponse1(method string, yield func() error) (err error) {
+	_, err = ErrorFromDecodedResponse(method, func() ([]any, error) {
+		return nil, yield()
+	})
+	return
 }

@@ -57,7 +57,7 @@ func TestAlertProjectOp_List_403(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.List(ctx, nil, nil)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestAlertProjectOp_Read(t *testing.T) {
@@ -83,7 +83,7 @@ func TestAlertProjectOp_Read_404(t *testing.T) {
 
 	_, err := api.Read(ctx, "12345")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No AlertProject matches the given query.")
 }
 
 func TestAlertProjectOp_Create(t *testing.T) {
@@ -116,7 +116,7 @@ func TestAlertProjectOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestAlertProjectOp_Update(t *testing.T) {
@@ -148,7 +148,7 @@ func TestAlertProjectOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "0", AlertProjectUpdateParams{nil, nil})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestAlertProjectOp_Delete(t *testing.T) {
@@ -168,7 +168,7 @@ func TestAlertProjectOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestAlertProjectOp_ListHistories(t *testing.T) {
@@ -198,7 +198,7 @@ func TestAlertProjectOp_ListHistories_403(t *testing.T) {
 	params := AlertsProjectsHistoriesListParams{"0", nil, nil, nil, nil, nil}
 	_, err := api.ListHistories(ctx, params)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestAlertProjectOp_ReadHistory(t *testing.T) {
@@ -219,7 +219,7 @@ func TestAlertProjectOp_ReadHistory_404(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.ReadHistory(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No History matches the given query.")
 }
 
 func TestAlertProjectIntegrated(t *testing.T) {
