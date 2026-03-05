@@ -25,6 +25,9 @@ import (
 const (
 	// DefaultAPIRootURL デフォルトのAPIルートURL
 	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/is1a/api/monitoring/1.0/"
+
+	// エンドポイントサービスキー
+	ServiceKey = "monitoring_suite"
 )
 
 var (
@@ -38,7 +41,15 @@ var (
 )
 
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
-	return NewClientWithApiUrl(DefaultAPIRootURL, client)
+	endpoint := DefaultAPIRootURL
+
+	if endpointConfig, err := client.EndpointConfig(); err != nil {
+		return nil, NewError("unable to load endpoint configuration", err)
+	} else if ep, ok := endpointConfig.Endpoints[ServiceKey]; ok && ep != "" {
+		endpoint = ep
+	}
+
+	return NewClientWithApiUrl(endpoint, client)
 }
 
 func NewClientWithApiUrl(apiUrl string, client saclient.ClientAPI) (*v1.Client, error) {
