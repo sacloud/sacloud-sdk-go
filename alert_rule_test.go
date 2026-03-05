@@ -56,7 +56,7 @@ func TestAlertRuleOp_List_403(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.List(ctx, "12345", nil, nil)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestAlertRuleOp_Read(t *testing.T) {
@@ -79,7 +79,7 @@ func TestAlertRuleOp_Read_404(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No AlertRule matches the given query.")
 }
 
 func TestAlertRuleOp_Create(t *testing.T) {
@@ -104,7 +104,7 @@ func TestAlertRuleOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, "12345", AlertRuleCreateParams{MetricsStorageID: "56789"})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestAlertRuleOp_Update(t *testing.T) {
@@ -129,10 +129,9 @@ func TestAlertRuleOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "12345", uuid.New(), AlertRuleUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
-// ...existing code...
 func TestAlertRuleOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewAlertRuleOp(client)
@@ -148,7 +147,7 @@ func TestAlertRuleOp_Delete_400(t *testing.T) {
 	ctx := context.Background()
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestAlertRuleOp_ListHistories(t *testing.T) {
@@ -184,7 +183,7 @@ func TestAlertRuleOp_ListHistories_403(t *testing.T) {
 	}
 	_, err := api.ListHistories(ctx, "12345", uuid.New(), params)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestAlertRuleOp_ReadHistory(t *testing.T) {
@@ -204,7 +203,7 @@ func TestAlertRuleOp_ReadHistory_404(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.ReadHistory(ctx, "123", uuid.New(), uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No History matches the given query.")
 }
 
 func TestAlertRuleIntegrated(t *testing.T) {
