@@ -16,13 +16,10 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
 	"strconv"
 	"time"
 
-	"github.com/go-faster/errors"
 	"github.com/google/uuid"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -62,54 +59,35 @@ type TracesStorageListParams struct {
 	BucketClassification *v1.TracesStoragesListLogStorageBucketClassification
 }
 
-func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListParams) ([]v1.TraceStorage, error) {
-	resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID)
-	if err != nil {
-		return nil, NewError("TracesStorage.List", err)
-	}
-	result, err := op.client.TracesStoragesList(ctx, v1.TracesStoragesListParams{
-		Count:                          intoOpt[v1.OptInt](params.Count),
-		From:                           intoOpt[v1.OptInt](params.From),
-		AccountID:                      intoOpt[v1.OptString](params.AccountID),
-		ResourceID:                     resourceId,
-		LogStorageBucketClassification: intoOpt[v1.OptTracesStoragesListLogStorageBucketClassification](params.BucketClassification),
-	})
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.List", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		default:
-			return nil, NewAPIError("TracesStorage.List", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListParams) (ret []v1.TraceStorage, err error) {
+	res, err := ErrorFromDecodedResponse("TracesStorage.List", func() (*v1.PaginatedTraceStorageList, error) {
+		if resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesList(ctx, v1.TracesStoragesListParams{
+				Count:                          intoOpt[v1.OptInt](params.Count),
+				From:                           intoOpt[v1.OptInt](params.From),
+				AccountID:                      intoOpt[v1.OptString](params.AccountID),
+				ResourceID:                     resourceId,
+				LogStorageBucketClassification: intoOpt[v1.OptTracesStoragesListLogStorageBucketClassification](params.BucketClassification),
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.List", 0, err)
-	} else {
-		return result.Results, nil
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 func (op *tracesStorageOp) Read(ctx context.Context, resourceID string) (*v1.TraceStorage, error) {
-	id, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.Read", err)
-	}
-	params := v1.TracesStoragesRetrieveParams{ResourceID: id}
-	result, err := op.client.TracesStoragesRetrieve(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.Read", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("TracesStorage.Read", e.StatusCode, errors.Wrap(err, "resource not found"))
-		default:
-			return nil, NewAPIError("TracesStorage.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("TracesStorage.Read", func() (*v1.WrappedTraceStorage, error) {
+		if id, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesRetrieve(ctx, v1.TracesStoragesRetrieveParams{ResourceID: id})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.Read", 0, err)
-	} else {
-		ret := new(v1.TraceStorage)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.TraceStorage](res, err)
 }
 
 type TracesStorageCreateParams struct {
@@ -119,25 +97,15 @@ type TracesStorageCreateParams struct {
 }
 
 func (op *tracesStorageOp) Create(ctx context.Context, params TracesStorageCreateParams) (*v1.TraceStorage, error) {
-	body := v1.TraceStorageCreate{
-		Name:           params.Name,
-		Description:    intoOpt[v1.OptString](params.Description),
-		Classification: intoOpt[v1.OptTraceStorageCreateClassification](params.Classification),
-	}
-	result, err := op.client.TracesStoragesCreate(ctx, &body)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.Create", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("TracesStorage.Create", e.StatusCode, errors.Wrap(err, "invalid request"))
-		default:
-			return nil, NewAPIError("TracesStorage.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("TracesStorage.Create", func() (*v1.TraceStorage, error) {
+		req := v1.TraceStorageCreate{
+			Name:           params.Name,
+			Description:    intoOpt[v1.OptString](params.Description),
+			Classification: intoOpt[v1.OptTraceStorageCreateClassification](params.Classification),
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.Create", 0, err)
-	}
-	return result, nil
+		return op.client.TracesStoragesCreate(ctx, &req)
+	})
+	return unwrapE[*v1.TraceStorage](res, err)
 }
 
 type TracesStorageUpdateParams struct {
@@ -145,267 +113,151 @@ type TracesStorageUpdateParams struct {
 	Description *string
 }
 
-func (op *tracesStorageOp) Update(ctx context.Context, id string, params TracesStorageUpdateParams) (*v1.TraceStorage, error) {
-	rid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.Update", err)
-	}
-	query := v1.TracesStoragesPartialUpdateParams{ResourceID: rid}
-	body := v1.NewOptPatchedTraceStorage(v1.PatchedTraceStorage{
-		Name:        intoOpt[v1.OptString](params.Name),
-		Description: intoOpt[v1.OptString](params.Description),
-	})
-	result, err := op.client.TracesStoragesPartialUpdate(ctx, body, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.Update", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("TracesStorage.Update", e.StatusCode, errors.Wrap(err, "resource not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("TracesStorage.Update", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("TracesStorage.Update", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *tracesStorageOp) Update(ctx context.Context, id string, p TracesStorageUpdateParams) (*v1.TraceStorage, error) {
+	res, err := ErrorFromDecodedResponse("TracesStorage.Update", func() (*v1.WrappedTraceStorage, error) {
+		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesPartialUpdate(ctx, v1.NewOptPatchedTraceStorage(v1.PatchedTraceStorage{
+				Name:        intoOpt[v1.OptString](p.Name),
+				Description: intoOpt[v1.OptString](p.Description),
+			}), v1.TracesStoragesPartialUpdateParams{ResourceID: rid})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.Update", 0, err)
-	} else {
-		ret := new(v1.TraceStorage)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.TraceStorage](res, err)
 }
 
-func (op *tracesStorageOp) Delete(ctx context.Context, resourceID string) error {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return NewError("TracesStorage.Delete", err)
-	}
-	params := v1.TracesStoragesDestroyParams{ResourceID: rid}
-	err = op.client.TracesStoragesDestroy(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("TracesStorage.Delete", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return NewAPIError("TracesStorage.Delete", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("TracesStorage.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *tracesStorageOp) Delete(ctx context.Context, id string) error {
+	return ErrorFromDecodedResponse1("TracesStorage.Delete", func() error {
+		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
+			return err
+		} else {
+			return op.client.TracesStoragesDestroy(ctx, v1.TracesStoragesDestroyParams{ResourceID: rid})
 		}
-	} else if err != nil {
-		return NewAPIError("TracesStorage.Delete", 0, err)
-	}
-	return nil
+	})
 }
 
 func (op *tracesStorageOp) SetExpire(ctx context.Context, resourceID string, days int) (*v1.TraceStorage, error) {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.SetExpire", err)
-	}
-	params := v1.TracesStoragesSetExpireCreateParams{ResourceID: rid}
-	body := v1.SetTraceStorageExpireDay{Days: days}
-	result, err := op.client.TracesStoragesSetExpireCreate(ctx, &body, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.SetExpire", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("TracesStorage.SetExpire", e.StatusCode, errors.Wrap(err, "trace storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("TracesStorage.SetExpire", e.StatusCode, errors.Wrap(err, "invalid parameter, days must be between 1 and 730"))
-		default:
-			return nil, NewAPIError("TracesStorage.SetExpire", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("TracesStorage.SetExpire", func() (*v1.TraceStorage, error) {
+		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesSetExpireCreate(
+				ctx,
+				&v1.SetTraceStorageExpireDay{Days: days},
+				v1.TracesStoragesSetExpireCreateParams{ResourceID: rid},
+			)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.SetExpire", 0, err)
-	} else {
-		return result, nil
-	}
+	})
+	return unwrapE[*v1.TraceStorage](res, err)
 }
 
-func (op *tracesStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error) {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.ReadDailyStats", err)
-	}
-	query := v1.TracesStoragesStatsDailyRetrieveParams{
-		ResourceID: rid,
-		StartDate:  intoOpt[v1.OptDate](startDate),
-		EndDate:    intoOpt[v1.OptDate](endDate),
-	}
-	result, err := op.client.TracesStoragesStatsDailyRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("TracesStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "trace storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("TracesStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("TracesStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *tracesStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) (ret []v1.LogStorageDailyUsage, err error) {
+	res, err := ErrorFromDecodedResponse("TracesStorage.ReadDailyStats", func() (*v1.TraceStorageDailyUsageBody, error) {
+		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesStatsDailyRetrieve(ctx, v1.TracesStoragesStatsDailyRetrieveParams{
+				ResourceID: rid,
+				StartDate:  intoOpt[v1.OptDate](startDate),
+				EndDate:    intoOpt[v1.OptDate](endDate),
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.ReadDailyStats", 0, err)
-	} else {
-		return result.GetUsages(), nil
+	})
+	if err == nil {
+		ret = res.GetUsages()
 	}
+	return
 }
 
-func (op *tracesStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error) {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.ReadMonthlyStats", err)
-	}
-	query := v1.TracesStoragesStatsMonthlyRetrieveParams{
-		ResourceID: rid,
-		Year:       year,
-	}
-	result, err := op.client.TracesStoragesStatsMonthlyRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("TracesStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "trace storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("TracesStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
-		default:
-			return nil, NewAPIError("TracesStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *tracesStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) (ret []v1.LogStorageMonthlyUsage, err error) {
+	res, err := ErrorFromDecodedResponse("TracesStorage.ReadMonthlyStats", func() (*v1.TraceStorageMonthlyUsageBody, error) {
+		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesStatsMonthlyRetrieve(ctx, v1.TracesStoragesStatsMonthlyRetrieveParams{
+				ResourceID: rid,
+				Year:       year,
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.ReadMonthlyStats", 0, err)
-	} else {
-		return result.GetUsages(), nil
+	})
+	if err == nil {
+		ret = res.GetUsages()
 	}
+	return
 }
 
-func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string, count *int, from *int) ([]v1.TraceStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.ListKeys", err)
-	}
-	params := v1.TracesStoragesKeysListParams{
-		TraceResourceID: rid,
-		Count:           intoOpt[v1.OptInt](count),
-		From:            intoOpt[v1.OptInt](from),
-	}
-	result, err := op.client.TracesStoragesKeysList(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.ListKeys", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("TracesStorage.ListKeys", e.StatusCode, errors.Wrap(err, "resource not found"))
-		default:
-			return nil, NewAPIError("TracesStorage.ListKeys", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string, count *int, from *int) (ret []v1.TraceStorageAccessKey, err error) {
+	res, err := ErrorFromDecodedResponse("TracesStorage.ListKeys", func() (*v1.PaginatedTraceStorageAccessKeyList, error) {
+		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesKeysList(ctx, v1.TracesStoragesKeysListParams{
+				TraceResourceID: rid,
+				Count:           intoOpt[v1.OptInt](count),
+				From:            intoOpt[v1.OptInt](from),
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.ListKeys", 0, err)
-	} else {
-		return result.Results, nil
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 func (op *tracesStorageOp) CreateKey(ctx context.Context, tracesResourceId string, description *string) (*v1.TraceStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.CreateKey", err)
-	}
-	params := v1.TracesStoragesKeysCreateParams{TraceResourceID: rid}
-	opt := v1.NewOptTraceStorageAccessKey(v1.TraceStorageAccessKey{
-		Description: intoOpt[v1.OptString](description),
-	})
-	result, err := op.client.TracesStoragesKeysCreate(ctx, opt, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.CreateKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("TracesStorage.CreateKey", e.StatusCode, errors.Wrap(err, "requested traces storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("TracesStorage.CreateKey", e.StatusCode, errors.Wrap(err, "this traces storage cannot have a key"))
-		default:
-			return nil, NewAPIError("TracesStorage.CreateKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("TracesStorage.CreateKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
+		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesKeysCreate(ctx, v1.NewOptTraceStorageAccessKey(v1.TraceStorageAccessKey{
+				Description: intoOpt[v1.OptString](description),
+			}), v1.TracesStoragesKeysCreateParams{TraceResourceID: rid})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.CreateKey", 0, err)
-	} else {
-		ret := new(v1.TraceStorageAccessKey)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.TraceStorageAccessKey](res, err)
 }
 
 func (op *tracesStorageOp) ReadKey(ctx context.Context, tracesResourceId string, id uuid.UUID) (*v1.TraceStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.ReadKey", err)
-	}
-	params := v1.TracesStoragesKeysRetrieveParams{TraceResourceID: rid, UID: id}
-	result, err := op.client.TracesStoragesKeysRetrieve(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.ReadKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("TracesStorage.ReadKey", e.StatusCode, errors.Wrap(err, "access key not found"))
-		default:
-			return nil, NewAPIError("TracesStorage.ReadKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("TracesStorage.ReadKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
+		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesKeysRetrieve(ctx, v1.TracesStoragesKeysRetrieveParams{
+				TraceResourceID: rid,
+				UID:             id,
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.ReadKey", 0, err)
-	} else {
-		ret := new(v1.TraceStorageAccessKey)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.TraceStorageAccessKey](res, err)
 }
 
 func (op *tracesStorageOp) UpdateKey(ctx context.Context, tracesResourceId string, id uuid.UUID, description *string) (*v1.TraceStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("TracesStorage.UpdateKey", err)
-	}
-	params := v1.TracesStoragesKeysUpdateParams{TraceResourceID: rid, UID: id}
-	opt := v1.NewOptTraceStorageAccessKey(v1.TraceStorageAccessKey{
-		Description: intoOpt[v1.OptString](description),
-	})
-	result, err := op.client.TracesStoragesKeysUpdate(ctx, opt, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("TracesStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("TracesStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("TracesStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("TracesStorage.UpdateKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
+		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.TracesStoragesKeysUpdate(ctx, v1.NewOptTraceStorageAccessKey(v1.TraceStorageAccessKey{
+				Description: intoOpt[v1.OptString](description),
+			}), v1.TracesStoragesKeysUpdateParams{
+				TraceResourceID: rid,
+				UID:             id,
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("TracesStorage.UpdateKey", 0, err)
-	} else {
-		ret := new(v1.TraceStorageAccessKey)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.TraceStorageAccessKey](res, err)
 }
 
 // DeleteKey deletes an access key for a traces storage resource.
 func (op *tracesStorageOp) DeleteKey(ctx context.Context, tracesResourceId string, id uuid.UUID) error {
-	rid, err := strconv.ParseInt(tracesResourceId, 10, 64)
-	if err != nil {
-		return NewError("TracesStorage.DeleteKey", err)
-	}
-	params := v1.TracesStoragesKeysDestroyParams{TraceResourceID: rid, UID: id}
-	err = op.client.TracesStoragesKeysDestroy(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("TracesStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return NewAPIError("TracesStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("TracesStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return ErrorFromDecodedResponse1("TracesStorage.DeleteKey", func() error {
+		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
+			return err
+		} else {
+			return op.client.TracesStoragesKeysDestroy(ctx, v1.TracesStoragesKeysDestroyParams{
+				TraceResourceID: rid,
+				UID:             id,
+			})
 		}
-	} else if err != nil {
-		return NewAPIError("TracesStorage.DeleteKey", 0, err)
-	}
-	return nil
+	})
 }
