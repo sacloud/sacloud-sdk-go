@@ -16,13 +16,10 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
 	"strconv"
 	"time"
 
-	"github.com/go-faster/errors"
 	"github.com/google/uuid"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -61,54 +58,35 @@ type MetricsStorageListParams struct {
 	IsSystem   *bool
 }
 
-func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListParams) ([]v1.MetricsStorage, error) {
-	resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID)
-	if err != nil {
-		return nil, NewError("MetricsStorage.List", err)
-	}
-	result, err := op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
-		Count:      intoOpt[v1.OptInt](params.Count),
-		From:       intoOpt[v1.OptInt](params.From),
-		AccountID:  intoOpt[v1.OptString](params.AccountID),
-		ResourceID: resourceId,
-		IsSystem:   intoOpt[v1.OptBool](params.IsSystem),
-	})
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.List", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		default:
-			return nil, NewAPIError("MetricsStorage.List", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListParams) (ret []v1.MetricsStorage, err error) {
+	res, err := ErrorFromDecodedResponse("MetricsStorage.List", func() (*v1.PaginatedMetricsStorageList, error) {
+		if resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
+				Count:      intoOpt[v1.OptInt](params.Count),
+				From:       intoOpt[v1.OptInt](params.From),
+				AccountID:  intoOpt[v1.OptString](params.AccountID),
+				ResourceID: resourceId,
+				IsSystem:   intoOpt[v1.OptBool](params.IsSystem),
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.List", 0, err)
-	} else {
-		return result.GetResults(), nil
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 func (op *metricsStorageOp) Read(ctx context.Context, resourceID string) (*v1.MetricsStorage, error) {
-	id, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsStorage.Read", err)
-	}
-	params := v1.MetricsStoragesRetrieveParams{ResourceID: id}
-	result, err := op.client.MetricsStoragesRetrieve(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.Read", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("MetricsStorage.Read", e.StatusCode, errors.Wrap(err, "metrics tank not found"))
-		default:
-			return nil, NewAPIError("MetricsStorage.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("MetricsStorage.Read", func() (*v1.WrappedMetricsStorage, error) {
+		if id, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesRetrieve(ctx, v1.MetricsStoragesRetrieveParams{ResourceID: id})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.Read", 0, err)
-	} else {
-		ret := new(v1.MetricsStorage)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.MetricsStorage](res, err)
 }
 
 type MetricsStorageCreateParams struct {
@@ -118,26 +96,14 @@ type MetricsStorageCreateParams struct {
 }
 
 func (op *metricsStorageOp) Create(ctx context.Context, params MetricsStorageCreateParams) (*v1.MetricsStorage, error) {
-	body := v1.MetricsStorageCreate{
-		Name:        params.Name,
-		Description: intoOpt[v1.OptString](params.Description),
-		IsSystem:    params.IsSystem,
-	}
-	result, err := op.client.MetricsStoragesCreate(ctx, &body)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.Create", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsStorage.Create", e.StatusCode, errors.Wrap(err, "invalid parameter, or no space left for a new storage"))
-		default:
-			return nil, NewAPIError("MetricsStorage.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.Create", 0, err)
-	} else {
-		return result, nil
-	}
+	res, err := ErrorFromDecodedResponse("MetricsStorage.Create", func() (*v1.MetricsStorage, error) {
+		return op.client.MetricsStoragesCreate(ctx, &v1.MetricsStorageCreate{
+			Name:        params.Name,
+			Description: intoOpt[v1.OptString](params.Description),
+			IsSystem:    params.IsSystem,
+		})
+	})
+	return unwrapE[*v1.MetricsStorage](res, err)
 }
 
 type MetricsStorageUpdateParams struct {
@@ -146,236 +112,135 @@ type MetricsStorageUpdateParams struct {
 }
 
 func (op *metricsStorageOp) Update(ctx context.Context, id string, params MetricsStorageUpdateParams) (*v1.MetricsStorage, error) {
-	rid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsStorage.Update", err)
-	}
-	query := v1.MetricsStoragesPartialUpdateParams{ResourceID: rid}
-	body := v1.NewOptPatchedMetricsStorage(v1.PatchedMetricsStorage{
-		Name:        intoOpt[v1.OptString](params.Name),
-		Description: intoOpt[v1.OptString](params.Description),
-	})
-	result, err := op.client.MetricsStoragesPartialUpdate(ctx, body, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.Update", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsStorage.Update", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("MetricsStorage.Update", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("MetricsStorage.Update", func() (*v1.WrappedMetricsStorage, error) {
+		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesPartialUpdate(ctx, v1.NewOptPatchedMetricsStorage(v1.PatchedMetricsStorage{
+				Name:        intoOpt[v1.OptString](params.Name),
+				Description: intoOpt[v1.OptString](params.Description),
+			}), v1.MetricsStoragesPartialUpdateParams{ResourceID: rid})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.Update", 0, err)
-	} else {
-		ret := new(v1.MetricsStorage)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.MetricsStorage](res, err)
 }
 
 func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return NewError("MetricsStorage.Delete", err)
-	}
-	params := v1.MetricsStoragesDestroyParams{ResourceID: rid}
-	err = op.client.MetricsStoragesDestroy(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("MetricsStorage.Delete", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return NewAPIError("MetricsStorage.Delete", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("MetricsStorage.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return ErrorFromDecodedResponse1("MetricsStorage.Delete", func() error {
+		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+			return err
+		} else {
+			return op.client.MetricsStoragesDestroy(ctx, v1.MetricsStoragesDestroyParams{ResourceID: rid})
 		}
-	} else if err != nil {
-		return NewAPIError("MetricsStorage.Delete", 0, err)
-	}
-	return nil
+	})
 }
 
-func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.MetricsStorageDailyUsage, error) {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsStorage.ReadDailyStats", err)
-	}
-	query := v1.MetricsStoragesStatsDailyRetrieveParams{
-		ResourceID: rid,
-		StartDate:  intoOpt[v1.OptDate](startDate),
-		EndDate:    intoOpt[v1.OptDate](endDate),
-	}
-	result, err := op.client.MetricsStoragesStatsDailyRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("MetricsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "metrics storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("MetricsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) (ret []v1.MetricsStorageDailyUsage, err error) {
+	res, err := ErrorFromDecodedResponse("MetricsStorage.ReadDailyStats", func() (*v1.MetricsStorageDailyUsageBody, error) {
+		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesStatsDailyRetrieve(ctx, v1.MetricsStoragesStatsDailyRetrieveParams{
+				ResourceID: rid,
+				StartDate:  intoOpt[v1.OptDate](startDate),
+				EndDate:    intoOpt[v1.OptDate](endDate),
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.ReadDailyStats", 0, err)
-	} else {
-		return result.GetUsages(), nil
+	})
+	if err == nil {
+		ret = res.GetUsages()
 	}
+	return
 }
 
-func (op *metricsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.MetricsStorageMonthlyUsage, error) {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsStorage.ReadMonthlyStats", err)
-	}
-	query := v1.MetricsStoragesStatsMonthlyRetrieveParams{
-		ResourceID: rid,
-		Year:       year,
-	}
-	result, err := op.client.MetricsStoragesStatsMonthlyRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "metrics storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
-		default:
-			return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *metricsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) (ret []v1.MetricsStorageMonthlyUsage, err error) {
+	res, err := ErrorFromDecodedResponse("MetricsStorage.ReadMonthlyStats", func() (*v1.MetricsStorageMonthlyUsageBody, error) {
+		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesStatsMonthlyRetrieve(ctx, v1.MetricsStoragesStatsMonthlyRetrieveParams{
+				ResourceID: rid,
+				Year:       year,
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.ReadMonthlyStats", 0, err)
-	} else {
-		return result.GetUsages(), nil
+	})
+	if err == nil {
+		ret = res.GetUsages()
 	}
+	return
 }
 
-func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) ([]v1.MetricsStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsStorage.ListKeys", err)
-	}
-	params := v1.MetricsStoragesKeysListParams{
-		MetricsResourceID: rid,
-		Count:             intoOpt[v1.OptInt](count),
-		From:              intoOpt[v1.OptInt](from),
-	}
-	result, err := op.client.MetricsStoragesKeysList(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.ListKeys", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		default:
-			return nil, NewAPIError("MetricsStorage.ListKeys", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) (ret []v1.MetricsStorageAccessKey, err error) {
+	res, err := ErrorFromDecodedResponse("MetricsStorage.ListKeys", func() (*v1.PaginatedMetricsStorageAccessKeyList, error) {
+		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesKeysList(ctx, v1.MetricsStoragesKeysListParams{
+				MetricsResourceID: rid,
+				Count:             intoOpt[v1.OptInt](count),
+				From:              intoOpt[v1.OptInt](from),
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.ListKeys", 0, err)
-	} else {
-		return result.GetResults(), nil
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId string, description *string) (*v1.MetricsStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsStorage.CreateKey", err)
-	}
-	params := v1.MetricsStoragesKeysCreateParams{MetricsResourceID: rid}
-	opt := v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
-		Description: intoOpt[v1.OptString](description),
-	})
-	result, err := op.client.MetricsStoragesKeysCreate(ctx, opt, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.CreateKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("MetricsStorage.CreateKey", e.StatusCode, errors.Wrap(err, "requested metrics storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsStorage.CreateKey", e.StatusCode, errors.Wrap(err, "this metrics storage cannot have a key"))
-		default:
-			return nil, NewAPIError("MetricsStorage.CreateKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("MetricsStorage.CreateKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
+		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesKeysCreate(ctx, v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
+				Description: intoOpt[v1.OptString](description),
+			}), v1.MetricsStoragesKeysCreateParams{MetricsResourceID: rid})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.CreateKey", 0, err)
-	} else {
-		ret := new(v1.MetricsStorageAccessKey)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.MetricsStorageAccessKey](res, err)
 }
 
 func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId string, id uuid.UUID) (*v1.MetricsStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsStorage.ReadKey", err)
-	}
-	params := v1.MetricsStoragesKeysRetrieveParams{MetricsResourceID: rid, UID: id}
-	result, err := op.client.MetricsStoragesKeysRetrieve(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.ReadKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("MetricsStorage.ReadKey", e.StatusCode, errors.Wrap(err, "access key not found"))
-		default:
-			return nil, NewAPIError("MetricsStorage.ReadKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("MetricsStorage.ReadKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
+		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesKeysRetrieve(ctx, v1.MetricsStoragesKeysRetrieveParams{
+				MetricsResourceID: rid,
+				UID:               id,
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.ReadKey", 0, err)
-	} else {
-		ret := new(v1.MetricsStorageAccessKey)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.MetricsStorageAccessKey](res, err)
 }
 
 func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId string, id uuid.UUID, description *string) (*v1.MetricsStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsStorage.UpdateKey", err)
-	}
-	params := v1.MetricsStoragesKeysUpdateParams{MetricsResourceID: rid, UID: id}
-	opt := v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
-		Description: intoOpt[v1.OptString](description),
-	})
-	result, err := op.client.MetricsStoragesKeysUpdate(ctx, opt, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("MetricsStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := ErrorFromDecodedResponse("MetricsStorage.UpdateKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
+		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+			return nil, err
+		} else {
+			return op.client.MetricsStoragesKeysUpdate(ctx, v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
+				Description: intoOpt[v1.OptString](description),
+			}), v1.MetricsStoragesKeysUpdateParams{
+				MetricsResourceID: rid,
+				UID:               id,
+			})
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsStorage.UpdateKey", 0, err)
-	} else {
-		ret := new(v1.MetricsStorageAccessKey)
-		return Unwrap(ret, result)
-	}
+	})
+	return unwrapE[*v1.MetricsStorageAccessKey](res, err)
 }
 
 // DeleteKey deletes an access key for a metrics storage resource.
 func (op *metricsStorageOp) DeleteKey(ctx context.Context, metricsResourceId string, id uuid.UUID) error {
-	rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
-	if err != nil {
-		return NewError("MetricsStorage.DeleteKey", err)
-	}
-	params := v1.MetricsStoragesKeysDestroyParams{MetricsResourceID: rid, UID: id}
-	err = op.client.MetricsStoragesKeysDestroy(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("MetricsStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return NewAPIError("MetricsStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("MetricsStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return ErrorFromDecodedResponse1("MetricsStorage.DeleteKey", func() error {
+		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+			return err
+		} else {
+			return op.client.MetricsStoragesKeysDestroy(ctx, v1.MetricsStoragesKeysDestroyParams{
+				MetricsResourceID: rid,
+				UID:               id,
+			})
 		}
-	} else if err != nil {
-		return NewAPIError("MetricsStorage.DeleteKey", 0, err)
-	}
-	return nil
+	})
 }

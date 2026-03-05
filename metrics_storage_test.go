@@ -63,7 +63,7 @@ func TestMetricsStorageOp_List_403(t *testing.T) {
 	tanks, err := api.List(ctx, MetricsStorageListParams{})
 	require.Nil(t, tanks)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_Read(t *testing.T) {
@@ -95,7 +95,7 @@ func TestMetricsStorageOp_Read_404(t *testing.T) {
 	actual, err := api.Read(ctx, "99999")
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No MetricsStorage matches the given query.")
 }
 
 func TestMetricsStorageOp_Create(t *testing.T) {
@@ -137,7 +137,7 @@ func TestMetricsStorageOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestMetricsStorageOp_Update(t *testing.T) {
@@ -169,7 +169,7 @@ func TestMetricsStorageOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "54321", MetricsStorageUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestMetricsStorageOp_Delete(t *testing.T) {
@@ -189,7 +189,7 @@ func TestMetricsStorageOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestMetricsStorageOp_StatsDaily(t *testing.T) {
@@ -218,9 +218,10 @@ func TestMetricsStorageOp_StatsDaily_400(t *testing.T) {
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
 
-	result, err := api.ReadDailyStats(ctx, "invalid", &startDate, &endDate)
+	result, err := api.ReadDailyStats(ctx, "0", &startDate, &endDate)
 	require.Nil(t, result)
 	require.Error(t, err)
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestMetricsStorageOp_StatsMonthly(t *testing.T) {
@@ -243,7 +244,7 @@ func TestMetricsStorageOp_StatsMonthly_400(t *testing.T) {
 	api := NewMetricsStorageOp(client)
 	ctx := context.Background()
 
-	result, err := api.ReadMonthlyStats(ctx, "99999", 2200)
+	result, err := api.ReadMonthlyStats(ctx, "99999", 1999)
 	require.Nil(t, result)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid parameter")
@@ -279,7 +280,7 @@ func TestMetricsStorageOp_ListKeys_403(t *testing.T) {
 	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.Nil(t, keys)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_CreateKey(t *testing.T) {
@@ -303,7 +304,7 @@ func TestMetricsStorageOp_CreateKey_403(t *testing.T) {
 	key, err := api.CreateKey(ctx, "12345", nil)
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_ReadKey(t *testing.T) {
@@ -327,7 +328,7 @@ func TestMetricsStorageOp_ReadKey_403(t *testing.T) {
 	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_UpdateKey(t *testing.T) {
@@ -351,7 +352,7 @@ func TestMetricsStorageOp_UpdateKey_403(t *testing.T) {
 	key, err := api.UpdateKey(ctx, "12345", uuid.New(), nil)
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_DeleteKey(t *testing.T) {
@@ -371,7 +372,7 @@ func TestMetricsStorageOp_DeleteKey_403(t *testing.T) {
 
 	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageIntegrated(t *testing.T) {
