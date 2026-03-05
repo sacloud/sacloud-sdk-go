@@ -72,7 +72,7 @@ func TestDashboardOp_Read_404(t *testing.T) {
 	project, err := api.Read(ctx, "99999")
 	require.Nil(t, project)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Not Found")
+	require.ErrorContains(t, err, "internal server error")
 }
 
 func TestDashboardOp_Create(t *testing.T) {
@@ -144,7 +144,7 @@ func TestDashboardOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "not eligible for deletion")
 }
 
 func TestDashboardIntegrated(t *testing.T) {

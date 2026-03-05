@@ -29,13 +29,27 @@ package main
 
 import (
     "context"
+    "os"
 
     monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
+    "github.com/sacloud/saclient-go"
 )
+
+var theClient saclient.Client
 
 func main() {
     ctx := context.Background()
-    client, err := monitoringsuite.NewClient()
+    err := theClient.FlagSet(flag.PanicOnError).Parse(os.Args[1:])
+    if err != nil {
+        // エラーハンドリング
+    }
+
+    err = theClient.SetEnviron(os.Environ())
+    if err != nil {
+        // エラーハンドリング
+    }
+
+    client, err := monitoringsuite.NewClient(&theClient)
     if err != nil {
         // エラーハンドリング
     }
@@ -55,44 +69,24 @@ APIの詳細は[GoDoc](https://pkg.go.dev/github.com/sacloud/monitoring-suite-ap
 APIを実行するには認証が必要です。インタラクティブな環境の場合おすすめは [`usacloud`](https://github.com/sacloud/usacloud) を使って設定ファイルを作成することです。たとえば
 
 ```sh
-usacloud config create --name is1a
+usacloud config create --name production
 ```
 
-にて作成したプロファイル `is1a` があるとすると、SDKとしては、
+にて作成したプロファイル `production` があるとすると、上記の`main`関数をもつバイナリは
 
-```golang
-import (
-    monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
-    client "github.com/sacloud/api-client-go"
-)
-
-func main() {
-    client, err := monitoringsuite.NewClient(client.WithProfile("is1a"))
-
-    // 以下略
-}
+```sh
+./a.out --profile=production
 ```
 
-のようにして読み込むことができます。
+のようにして設定を読み込むことができます。
 
 一方でCI環境のようにファイルに書き出すのが適切ではない場合、環境変数経由で
 
-```golang
-import (
-    "os"
+```sh
+export SAKURA_ACCESS_TOKEN=TOKEN
+export SAKURA_ACCESS_TOKEN_SECRET=SECRET
 
-    monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
-    client "github.com/sacloud/api-client-go"
-)
-
-func main() {
-    client, err := monitoringsuite.NewClient(client.WithApiKeys(
-        os.Getenv("SAKURA_ACCESS_TOKEN"),
-        os.Getenv("SAKURA_ACCESS_TOKEN_SECRET"),
-    ))
-
-    // 以下略
-}
+./a.out
 ```
 
 のように指定できます。

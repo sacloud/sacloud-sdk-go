@@ -21,7 +21,6 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	client "github.com/sacloud/api-client-go"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
@@ -85,7 +84,7 @@ func TestNotificationRoutingService_Read_404(t *testing.T) {
 
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Not Found")
+	require.ErrorContains(t, err, "not found")
 }
 
 func TestNotificationRoutingService_Create(t *testing.T) {
@@ -172,7 +171,7 @@ func TestNotificationRoutingService_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "not eligible for deletio")
 }
 
 func TestNotificationRoutingService_Reorder(t *testing.T) {
@@ -204,7 +203,7 @@ func TestNotificationRoutingService_Reorder_400(t *testing.T) {
 
 // Integration test for NotificationRouting
 func TestNotificationRoutingIntegrated(t *testing.T) {
-	client, err := IntegratedClient(t, client.WithOptions(&client.Options{Trace: true}))
+	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewNotificationRoutingOp(client)
 	ctx := context.Background()

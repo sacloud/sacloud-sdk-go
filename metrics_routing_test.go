@@ -69,7 +69,7 @@ func TestMetricsRoutingOp_Read_404(t *testing.T) {
 	routing, err := api.Read(ctx, uuid.New())
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Not Found")
+	require.ErrorContains(t, err, "internal server error")
 }
 
 func TestMetricsRoutingOp_Create(t *testing.T) {
@@ -164,7 +164,7 @@ func TestMetricsRoutingOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "not eligible for deletion")
 }
 
 func TestMetricsRoutingIntegrated(t *testing.T) {

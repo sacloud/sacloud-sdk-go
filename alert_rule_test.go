@@ -79,7 +79,7 @@ func TestAlertRuleOp_Read_404(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Not Found")
+	require.ErrorContains(t, err, "not found")
 }
 
 func TestAlertRuleOp_Create(t *testing.T) {
@@ -104,7 +104,7 @@ func TestAlertRuleOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, "12345", AlertRuleCreateParams{MetricsStorageID: "56789"})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestAlertRuleOp_Update(t *testing.T) {
@@ -129,7 +129,7 @@ func TestAlertRuleOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "12345", uuid.New(), AlertRuleUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 // ...existing code...
@@ -148,7 +148,7 @@ func TestAlertRuleOp_Delete_400(t *testing.T) {
 	ctx := context.Background()
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "not eligible for deletion")
 }
 
 func TestAlertRuleOp_ListHistories(t *testing.T) {
@@ -204,7 +204,7 @@ func TestAlertRuleOp_ReadHistory_404(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.ReadHistory(ctx, "123", uuid.New(), uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Not Found")
+	require.ErrorContains(t, err, "not found")
 }
 
 func TestAlertRuleIntegrated(t *testing.T) {

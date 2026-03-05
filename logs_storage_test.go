@@ -97,7 +97,7 @@ func TestLogsStorageOp_Read_404(t *testing.T) {
 
 	_, err := api.Read(ctx, "12345")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Not Found")
+	require.ErrorContains(t, err, "not found")
 }
 
 func TestLogsStorageOp_Create(t *testing.T) {
@@ -137,7 +137,7 @@ func TestLogsStorageOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestLogsStorageOp_Update(t *testing.T) {
@@ -168,7 +168,7 @@ func TestLogsStorageOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "0", updateReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestLogsStorageOp_Delete(t *testing.T) {
@@ -188,7 +188,7 @@ func TestLogsStorageOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, " not eligible for deletion")
 }
 
 func TestLogsStorageOp_SetExpire(t *testing.T) {

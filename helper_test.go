@@ -25,12 +25,14 @@ import (
 	"testing"
 	"time"
 
-	client "github.com/sacloud/api-client-go"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/sacloud/packages-go/testutil"
+	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )
+
+var theClient saclient.Client
 
 type ErrorResponse struct {
 	Code    string `json:"error_code"`
@@ -68,14 +70,18 @@ func newTestClient(v any, s ...int) *v1.Client {
 		}
 	})
 	sv := httptest.NewServer(h)
-	c, e := NewClientWithApiUrlAndClient(sv.URL, sv.Client())
+	api, e := theClient.DupWith(saclient.WithTestServer(sv))
+	if e != nil {
+		panic(e)
+	}
+	c, e := NewClientWithApiUrl(sv.URL, api)
 	if e != nil {
 		panic(e)
 	}
 	return c
 }
 
-func IntegratedClient(t *testing.T, params ...client.ClientParam) (*v1.Client, error) {
+func IntegratedClient(t *testing.T) (*v1.Client, error) {
 	testutil.PreCheckEnvsFunc(
 		"SAKURA_ACCESS_TOKEN",
 		"SAKURA_ACCESS_TOKEN_SECRET",
@@ -85,10 +91,11 @@ func IntegratedClient(t *testing.T, params ...client.ClientParam) (*v1.Client, e
 	if root, ok := os.LookupEnv("SAKURA_LOCAL_ENDPOINT_MONITORINGSUITE"); ok {
 		apiUrl = root
 	}
-	return NewClientWithApiUrl(apiUrl, append(params, client.WithApiKeys(
-		os.Getenv("SAKURA_ACCESS_TOKEN"),
-		os.Getenv("SAKURA_ACCESS_TOKEN_SECRET"),
-	))...)
+	if api, err := theClient.DupWith(saclient.WithTraceMode("error")); err != nil {
+		return nil, err
+	} else {
+		return NewClientWithApiUrl(apiUrl, api)
+	}
 }
 
 func WithAlertProject(t *testing.T, cli *v1.Client, ctx context.Context) *v1.AlertProject {

@@ -83,7 +83,7 @@ func TestAlertProjectOp_Read_404(t *testing.T) {
 
 	_, err := api.Read(ctx, "12345")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Not Found")
+	require.ErrorContains(t, err, "not found")
 }
 
 func TestAlertProjectOp_Create(t *testing.T) {
@@ -116,7 +116,7 @@ func TestAlertProjectOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestAlertProjectOp_Update(t *testing.T) {
@@ -148,7 +148,7 @@ func TestAlertProjectOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "0", AlertProjectUpdateParams{nil, nil})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestAlertProjectOp_Delete(t *testing.T) {
@@ -168,7 +168,7 @@ func TestAlertProjectOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Bad Request")
+	require.ErrorContains(t, err, "not eligible for deletion")
 }
 
 func TestAlertProjectOp_ListHistories(t *testing.T) {
