@@ -69,7 +69,7 @@ func TestMetricsRoutingOp_Read_404(t *testing.T) {
 	routing, err := api.Read(ctx, uuid.New())
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "internal server error")
+	require.ErrorContains(t, err, "No MetricsRouting matches the given query.")
 }
 
 func TestMetricsRoutingOp_Create(t *testing.T) {
@@ -105,11 +105,13 @@ func TestMetricsRoutingOp_Create_400(t *testing.T) {
 	api := NewMetricsRoutingOp(client)
 	ctx := context.Background()
 
-	createReq := MetricsRoutingCreateParams{}
+	createReq := MetricsRoutingCreateParams{
+		MetricsStorageID: "0",
+	}
 	routing, err := api.Create(ctx, createReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestMetricsRoutingOp_Update(t *testing.T) {
@@ -144,7 +146,7 @@ func TestMetricsRoutingOp_Update_400(t *testing.T) {
 	routing, err := api.Update(ctx, uuid.New(), updateReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestMetricsRoutingOp_Delete(t *testing.T) {
@@ -164,7 +166,7 @@ func TestMetricsRoutingOp_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestMetricsRoutingIntegrated(t *testing.T) {
