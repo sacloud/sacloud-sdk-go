@@ -18,7 +18,7 @@ import (
 	"errors"
 	"testing"
 
-	client "github.com/sacloud/api-client-go"
+	"github.com/sacloud/saclient-go"
 )
 
 func TestError_Error(t *testing.T) {
@@ -74,12 +74,12 @@ func TestNewAPIError(t *testing.T) {
 	baseErr := errors.New("base error")
 
 	err := NewAPIError("msg", 404, baseErr)
-	if !client.IsNotFoundError(err) {
+	if !saclient.IsNotFoundError(err) {
 		t.Errorf("IsNotFoundError is true for NewAPIError with 404")
 	}
 
 	err2 := NewAPIError("msg", 503, nil)
-	if client.IsNotFoundError(err2) {
+	if saclient.IsNotFoundError(err2) {
 		t.Errorf("IsNotFoundError is false for NewAPIError with 503")
 	}
 }

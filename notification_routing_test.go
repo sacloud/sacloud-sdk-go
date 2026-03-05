@@ -21,7 +21,6 @@ import (
 	"testing"
 
 	"github.com/google/uuid"
-	client "github.com/sacloud/api-client-go"
 	. "github.com/sacloud/monitoring-suite-api-go"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 	"github.com/stretchr/testify/require"
@@ -204,7 +203,7 @@ func TestNotificationRoutingService_Reorder_400(t *testing.T) {
 
 // Integration test for NotificationRouting
 func TestNotificationRoutingIntegrated(t *testing.T) {
-	client, err := IntegratedClient(t, client.WithOptions(&client.Options{Trace: true}))
+	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewNotificationRoutingOp(client)
 	ctx := context.Background()

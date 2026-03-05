@@ -16,12 +16,10 @@ package monitoringsuite
 
 import (
 	"fmt"
-	"net/http"
 	"runtime"
 
-	client "github.com/sacloud/api-client-go"
-	saht "github.com/sacloud/go-http"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
+	"github.com/sacloud/saclient-go"
 )
 
 const (
@@ -32,52 +30,34 @@ const (
 var (
 	// UserAgent APIリクエスト時のユーザーエージェント
 	UserAgent = fmt.Sprintf(
-		"monitoring-suite-api-go/%s (%s/%s; +https://github.com/sacloud/monitoring-suite-api-go) %s",
+		"monitoring-suite-api-go/%s (%s/%s; +https://github.com/sacloud/monitoring-suite-api-go)",
 		Version,
 		runtime.GOOS,
 		runtime.GOARCH,
-		client.DefaultUserAgent,
 	)
-
-	RequestCustomizers = []saht.RequestCustomizer{
-		func(req *http.Request) error {
-			req.Header.Set("X-Sakura-Bigint-As-Int", "1")
-			return nil
-		},
-	}
 )
 
-func NewClient(params ...client.ClientParam) (*v1.Client, error) {
-	return NewClientWithApiUrl(DefaultAPIRootURL, params...)
+func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
+	return NewClientWithApiUrl(DefaultAPIRootURL, client)
 }
 
-func NewClientWithApiUrl(apiUrl string, params ...client.ClientParam) (*v1.Client, error) {
-	return NewClientWithApiUrlAndClient(apiUrl, nil, params...)
-}
+func NewClientWithApiUrl(apiUrl string, client saclient.ClientAPI) (*v1.Client, error) {
+	dupable, ok := client.(*saclient.Client)
+	if !ok {
+		return nil, NewError("NewClientWithApiUrl", fmt.Errorf("client must be *saclient.Client"))
+	}
 
-func NewClientWithApiUrlAndClient(apiUrl string, apiClient *http.Client, params ...client.ClientParam) (*v1.Client, error) {
-	var cli, opts client.ClientParam
-	if apiClient == nil {
-		cli = func(i *client.ClientParams) {}
-	} else {
-		cli = client.WithHTTPClient(apiClient)
-	}
-	ua := client.WithUserAgent(UserAgent)
-	opts = func(p *client.ClientParams) {
-		if p.Options == nil {
-			p.Options = &client.Options{}
-		}
-		if p.Options.RequestCustomizers == nil {
-			p.Options.RequestCustomizers = []saht.RequestCustomizer{}
-		}
-		p.Options.RequestCustomizers = append(p.Options.RequestCustomizers, RequestCustomizers...)
-	}
-	c, err := client.NewClient(apiUrl, append(params, ua, cli, opts)...)
+	augmented, err := dupable.DupWith(
+		saclient.WithUserAgent(UserAgent),
+		saclient.WithRootURL(apiUrl),
+		saclient.WithBigInt(true),
+	)
+
 	if err != nil {
 		return nil, NewError("NewClientWithApiUrl", err)
 	}
 
-	d, err := v1.NewClient(c.ServerURL(), v1.WithClient(c.NewHttpRequestDoer()))
+	d, err := v1.NewClient(apiUrl, v1.WithClient(augmented))
 	if err != nil {
 		return nil, NewError("NewClientWithApiUrl", err)
 	}
