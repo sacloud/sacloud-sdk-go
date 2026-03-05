@@ -63,7 +63,7 @@ func TestNotificationTargetService_List_403(t *testing.T) {
 	params := NotificationTargetsListParams{}
 	_, err := api.List(ctx, "12345", params)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestNotificationTargetService_Read(t *testing.T) {
@@ -90,7 +90,7 @@ func TestNotificationTargetService_Read_404(t *testing.T) {
 
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No NotificationTarget matches the given query.")
 }
 
 func TestNotificationTargetService_Create(t *testing.T) {
@@ -148,7 +148,7 @@ func TestNotificationTargetService_Update_400(t *testing.T) {
 	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
 	require.Nil(t, updated)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 // Delete
@@ -169,7 +169,7 @@ func TestNotificationTargetService_Delete_400(t *testing.T) {
 
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 // Integration test for NotificationTarget
