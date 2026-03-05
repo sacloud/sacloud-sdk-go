@@ -56,7 +56,7 @@ func TestLogMeasureRuleOp_List_403(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.List(ctx, "12345", nil, nil)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogMeasureRuleOp_Read(t *testing.T) {
@@ -79,7 +79,7 @@ func TestLogMeasureRuleOp_Read_404(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No LogMeasureRule matches the given query.")
 }
 
 func TestLogMeasureRuleOp_Create(t *testing.T) {
@@ -130,7 +130,7 @@ func TestLogMeasureRuleOp_Create_400(t *testing.T) {
 	})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestLogMeasureRuleOp_Update(t *testing.T) {
@@ -155,7 +155,7 @@ func TestLogMeasureRuleOp_Update_400(t *testing.T) {
 	actual, err := api.Update(ctx, "12345", uuid.New(), LogMeasureRuleUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestLogMeasureRuleOp_Delete(t *testing.T) {
@@ -173,7 +173,7 @@ func TestLogMeasureRuleOp_Delete_400(t *testing.T) {
 	ctx := context.Background()
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestLogMeasureRuleOp_ListHistories(t *testing.T) {
@@ -208,7 +208,7 @@ func TestLogMeasureRuleOp_ListHistories_403(t *testing.T) {
 	}
 	_, err := api.ListHistories(ctx, "12345", params)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogMeasureRuleOp_ReadHistory(t *testing.T) {
@@ -227,7 +227,7 @@ func TestLogMeasureRuleOp_ReadHistory_404(t *testing.T) {
 	ctx := context.Background()
 	_, err := api.ReadHistory(ctx, "123", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No History matches the given query.")
 }
 
 func TestLogMeasureRuleIntegrated(t *testing.T) {
