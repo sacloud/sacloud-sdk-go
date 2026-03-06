@@ -16,6 +16,7 @@ package saclient
 
 import (
 	"bytes"
+	"errors"
 	"io"
 	"log"
 	"net/http"
@@ -48,10 +49,6 @@ func (d *doer) tracer(c *config) Middleware {
 
 		res, err := pullThenCall(pull, req)
 
-		if err != nil {
-			return res, err
-		}
-
 		if mode == "error" && res.StatusCode < 300 {
 			// why this is 300 rather than 400 ^^^ <--- is not obvious to @shyouhei.
 			// Just mimicing sacloud/go-http.
@@ -64,7 +61,9 @@ func (d *doer) tracer(c *config) Middleware {
 			req.Body = io.NopCloser(copied)
 		}
 
-		return dumpTracePair(req, res)
+		_, err2 := dumpTracePair(req, res)
+
+		return res, errors.Join(err, err2)
 	}
 }
 
@@ -80,7 +79,10 @@ func dumpTracePair(req *http.Request, res *http.Response) (*http.Response, error
 		log.Printf("==============================\n")
 	}
 
-	if dump, err := httputil.DumpResponse(res, true); err != nil {
+	if res == nil {
+		log.Printf("[TRACE] \tresponse: <nil>\n")
+		return nil, nil
+	} else if dump, err := httputil.DumpResponse(res, true); err != nil {
 		return nil, err
 	} else {
 		log.Printf("[TRACE] \tresponse: %s %s\n", req.Method, req.URL.String())
