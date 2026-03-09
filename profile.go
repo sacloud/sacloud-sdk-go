@@ -316,6 +316,17 @@ func openFileAt[
 	var zero T
 
 	if (mode & os.O_CREATE) != 0 {
+		// This call to MkdirAll leads to `G703` path traversal problem,
+		// which is in fact true.   This is the only place in this entire
+		// library where caution is needed.  `G703` is not a false positive,
+		// but it's not a problem either.
+		//
+		// The intention of this function is exactly to create files (given
+		// the `O_CREATE` flag) under this exact directory.  This is where
+		// base directory is set and all following operations are forced to
+		// be under this directory, via os.OpenRoot.
+		//
+		// #nosec G703 -- This is intentional
 		if err := os.MkdirAll(dir, 0o700); err != nil {
 			return zero, Wrapf(err, "failed to create directory %+v", dir)
 		}

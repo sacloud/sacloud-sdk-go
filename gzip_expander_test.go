@@ -29,6 +29,7 @@ var testHttpClient = http.Client{
 	},
 }
 
+// #nosec G704 -- This is only a test
 func terminalMiddleware() Middleware {
 	return func(req *http.Request, _ func() (Middleware, bool)) (*http.Response, error) {
 		return testHttpClient.Do(req)
