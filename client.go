@@ -19,7 +19,6 @@ import (
 	"fmt"
 	"runtime"
 
-	client "github.com/sacloud/api-client-go"
 	v1 "github.com/sacloud/eventbus-api-go/apis/v1"
 	"github.com/sacloud/saclient-go"
 )
@@ -34,11 +33,10 @@ const (
 
 // UserAgent APIリクエスト時のユーザーエージェント
 var UserAgent = fmt.Sprintf(
-	"eventbus-api-go/%s (%s/%s; +https://github.com/sacloud/eventbus-api-go) %s",
+	"eventbus-api-go/%s (%s/%s; +https://github.com/sacloud/eventbus-api-go)",
 	Version,
 	runtime.GOOS,
 	runtime.GOARCH,
-	client.DefaultUserAgent,
 )
 
 // DummySecuritySource SecuritySourceはOpenAPI定義で使用されている認証のための仕組み。saclient-goが処理するので、ogen用はダミーで誤魔化す
