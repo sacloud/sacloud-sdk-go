@@ -1,5 +1,20 @@
 # Changelog
 
+## [v0.4.0](https://github.com/sacloud/saclient-go/compare/v0.3.1...v0.4.0) - 2026-03-10
+- [chore] rename functions by @shyouhei in https://github.com/sacloud/saclient-go/pull/66
+- refactor hoist out withSettingHeader by @shyouhei in https://github.com/sacloud/saclient-go/pull/67
+- Refactor introduce resultOption[T].decompose() by @shyouhei in https://github.com/sacloud/saclient-go/pull/68
+- new `WithDefaultTimeout()` option by @shyouhei in https://github.com/sacloud/saclient-go/pull/69
+- Refactor hoist out `config.hasSome()` by @shyouhei in https://github.com/sacloud/saclient-go/pull/72
+- Refactor split `prioritizedParameterValue2()` by @shyouhei in https://github.com/sacloud/saclient-go/pull/73
+- [feat] trace retries by @shyouhei in https://github.com/sacloud/saclient-go/pull/77
+- [Feat] `WithZone()` by @shyouhei in https://github.com/sacloud/saclient-go/pull/81
+- update golang @1.26.1 by @shyouhei in https://github.com/sacloud/saclient-go/pull/82
+- go: bump github.com/golang-jwt/jwt/v5 from 5.3.0 to 5.3.1 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/71
+- go: bump github.com/hashicorp/terraform-plugin-framework from 1.17.0 to 1.18.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/80
+- ci: bump actions/setup-go from 6.2.0 to 6.3.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/78
+- ci: bump Songmu/tagpr from 1.10.0 to 1.17.1 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/79
+
 ## [v0.3.1](https://github.com/sacloud/saclient-go/compare/v0.3.0...v0.3.1) - 2026-02-03
 - Prefer bearer authentication by @shyouhei in https://github.com/sacloud/saclient-go/pull/64
 - ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/58
