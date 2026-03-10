@@ -243,6 +243,7 @@ func (s *ClientTestSuite) SetupTest() {
 	)
 }
 
+// #nosec G101 -- This is only a test
 func (s *ClientTestSuite) TestCLI() {
 	e := s.subject.FlagSet(flag.PanicOnError).Parse([]string{
 		"--secret=bar",
@@ -272,6 +273,7 @@ func (s *ClientTestSuite) TestCLI() {
 	}, s.subject.JSON())
 }
 
+// #nosec G101 -- This is only a test
 func (s *ClientTestSuite) TestEnviron() {
 	s.Run("SAKURACLOUD_", func() {
 		subject := s.subject.Dup().(*Client)
@@ -423,6 +425,7 @@ func (s *ClientTestSuite) TestEnviron() {
 	})
 }
 
+// #nosec G101 -- This is only a test
 func (s *ClientTestSuite) TestTerraform() {
 	_ = s.subject.SettingsFromTerraformProvider(&providerModel{
 		AccessToken:         types.StringValue("foo"),
@@ -503,6 +506,7 @@ func (s *ClientTestSuite) TestDynamic() {
 	s.Equal("is1c", cfg.Zone)
 }
 
+// #nosec G101 -- This is only a test
 func (s *ClientTestSuite) TestDynamicUsinfgClientParams() {
 	err := s.subject.CompatSettingsFromAPIClientParams(
 		"https://api.example.com",
@@ -535,6 +539,7 @@ func (s *ClientTestSuite) TestDynamicUsinfgClientParams() {
 	}, s.subject.JSON())
 }
 
+// #nosec G101 -- This is only a test
 func (s *ClientTestSuite) TestDynamicUsinfgClientOptions() {
 	err := s.subject.CompatSettingsFromAPIClientOptions(
 		&old.Options{AccessToken: "foo"},

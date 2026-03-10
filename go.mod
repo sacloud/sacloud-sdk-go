@@ -2,7 +2,7 @@ module github.com/sacloud/saclient-go
 
 go 1.25.0
 
-toolchain go1.25.8
+toolchain go1.26.1
 
 require (
 	github.com/gofrs/flock v0.13.0

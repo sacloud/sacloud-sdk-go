@@ -21,6 +21,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"strconv"
 	"strings"
 )
 
@@ -71,7 +72,7 @@ func dumpTracePair(req *http.Request, res *http.Response) (*http.Response, error
 	if dump, err := httputil.DumpRequest(req, true); err != nil {
 		return nil, err
 	} else {
-		log.Printf("[TRACE] \trequest: %s %s\n", req.Method, req.URL.String())
+		log.Println(traceLineFor(req, "request:"))
 		log.Printf("==============================\n")
 		for line := range strings.Lines(string(dump)) {
 			log.Printf("%s", line)
@@ -85,7 +86,7 @@ func dumpTracePair(req *http.Request, res *http.Response) (*http.Response, error
 	} else if dump, err := httputil.DumpResponse(res, true); err != nil {
 		return nil, err
 	} else {
-		log.Printf("[TRACE] \tresponse: %s %s\n", req.Method, req.URL.String())
+		log.Println(traceLineFor(req, "response:"))
 		log.Printf("==============================\n")
 		for line := range strings.Lines(string(dump)) {
 			log.Printf("%s", line)
@@ -94,4 +95,24 @@ func dumpTracePair(req *http.Request, res *http.Response) (*http.Response, error
 	}
 
 	return res, nil
+}
+
+// mitigate log injection attacks
+func traceLineFor(req *http.Request, preamble string) string {
+	var sb strings.Builder
+	sb.WriteString("[TRACE]\t")
+	sb.WriteString(preamble)
+	sb.WriteString(" ")
+	sb.WriteString(stringQuoteWhenNeeded(req.Method))
+	sb.WriteString(" ")
+	sb.WriteString(stringQuoteWhenNeeded(req.URL.String()))
+	return sb.String()
+}
+
+func stringQuoteWhenNeeded(s string) (ret string) {
+	ret = strconv.QuoteToASCII(s)
+	if len(ret) == len(s)+2 {
+		ret = s
+	}
+	return
 }
