@@ -17,35 +17,35 @@ package cloudhsm
 import (
 	"context"
 	"fmt"
-	"net/http"
 	"runtime"
+	"strings"
 
-	client "github.com/sacloud/api-client-go"
 	v1 "github.com/sacloud/cloudhsm-api-go/apis/v1"
-	saht "github.com/sacloud/go-http"
+	"github.com/sacloud/saclient-go"
 )
 
 const (
 	// DefaultAPIRootURL デフォルトのAPIルートURL
 	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/is1b/api/cloud/1.1/"
+
+	// DefaultEndpoint デフォルトのエンドポイントURL
+	DefaultEndpoint = "https://secure.sakura.ad.jp/cloud/zone/"
+
+	// DefaultZone クラウドHSM設置ゾーンのデフォルト
+	DefaultZone = "is1b"
 )
 
 var (
 	// UserAgent APIリクエスト時のユーザーエージェント
 	UserAgent = fmt.Sprintf(
-		"cloudhsm-api-go/%s (%s/%s; +https://github.com/sacloud/cloudhsm-api-go) %s",
+		"cloudhsm-api-go/%s (%s/%s; +https://github.com/sacloud/cloudhsm-api-go)",
 		Version,
 		runtime.GOOS,
 		runtime.GOARCH,
-		client.DefaultUserAgent,
 	)
 
-	RequestCustomizers = []saht.RequestCustomizer{
-		func(req *http.Request) error {
-			req.Header.Set("X-Sakura-Bigint-As-Int", "1")
-			return nil
-		},
-	}
+	// エンドポイントサービスキー
+	ServiceKey = "cloudhsm"
 )
 
 type EmptySecuritySource struct{}
@@ -54,59 +54,60 @@ func (this EmptySecuritySource) BasicAuth(ctx context.Context, operationName v1.
 	return v1.BasicAuth{}, nil
 }
 
-func NewClient(params ...client.ClientParam) (*v1.Client, error) {
-	return NewClientWithApiUrl(DefaultAPIRootURL, params...)
+func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
+	const path = "api/cloud/1.1/"
+	zone := DefaultZone
+	endpoint := DefaultEndpoint
+
+	cfg, err := client.EndpointConfig()
+
+	if err != nil {
+		return nil, NewError("NewClient", err)
+	}
+
+	if ep, ok := cfg.Endpoints[ServiceKey]; ok && ep != "" {
+		endpoint = ep
+	}
+
+	if cfg.Zone != "" {
+		zone = cfg.Zone
+	}
+
+	apiUrl := fmt.Sprintf(
+		"%s/%s/%s",
+		strings.TrimSuffix(endpoint, "/"),
+		strings.TrimPrefix(strings.TrimSuffix(zone, "/"), "/"),
+		path,
+	)
+
+	return NewClientWithApiUrl(apiUrl, client)
 }
 
-func NewClientWithApiUrl(apiUrl string, params ...client.ClientParam) (*v1.Client, error) {
-	return NewClientWithApiUrlAndClient(apiUrl, nil, params...)
-}
+func NewClientWithApiUrl(apiUrl string, client saclient.ClientAPI) (*v1.Client, error) {
+	dupable, ok := client.(*saclient.Client)
+	if !ok {
+		return nil, NewError("NewClientWithApiUrl", fmt.Errorf("client must be *saclient.Client"))
+	}
 
-func NewClientWithApiUrlAndClient(apiUrl string, apiClient *http.Client, params ...client.ClientParam) (*v1.Client, error) {
-	var cli, opts client.ClientParam
-	if apiClient == nil {
-		cli = func(i *client.ClientParams) {}
-	} else {
-		cli = client.WithHTTPClient(apiClient)
-	}
-	ua := client.WithUserAgent(UserAgent)
-	opts = func(p *client.ClientParams) {
-		if p.Options == nil {
-			p.Options = &client.Options{}
-		}
-		if p.Options.RequestCustomizers == nil {
-			p.Options.RequestCustomizers = []saht.RequestCustomizer{}
-		}
-		p.Options.RequestCustomizers = append(p.Options.RequestCustomizers, RequestCustomizers...)
-	}
-	c, err := client.NewClient(apiUrl, append(params, ua, cli, opts)...)
+	augmented, err := dupable.DupWith(
+		saclient.WithUserAgent(UserAgent),
+		saclient.WithRootURL(apiUrl),
+		saclient.WithBigInt(true),
+		// これはなにか:
+		// EmptySecuritySource.BasicAuth()がBasic認証を生成
+		// しかし実際の通信で必ずしもBasic認証が使われると限らない
+		//　そのあたりをsaclient-go側で吸収させる設定が下記↓
+		saclient.WithForceAutomaticAuthentication(),
+	)
+
 	if err != nil {
 		return nil, NewError("NewClientWithApiUrl", err)
 	}
 
-	d, err := v1.NewClient(c.ServerURL(), EmptySecuritySource{}, v1.WithClient(c.NewHttpRequestDoer()))
+	d, err := v1.NewClient(apiUrl, EmptySecuritySource{}, v1.WithClient(augmented))
 	if err != nil {
 		return nil, NewError("NewClientWithApiUrl", err)
 	}
 
 	return d, nil
-}
-
-func WithZone(z string) client.ClientParam {
-	// 現在対応している既知のゾーン
-	switch z {
-	case "is1b":
-		return func(p *client.ClientParams) {
-			p.APIRootURL = "https://secure.sakura.ad.jp/cloud/zone/is1b/api/cloud/1.1/"
-		}
-	case "tk1a":
-		return func(p *client.ClientParams) {
-			p.APIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1a/api/cloud/1.1/"
-		}
-	default:
-		// 未知(あるいは未サポート)のゾーン
-		// エラーを返す方法がないのでpanic
-		// funcの中でpanicすることもできるが、エラー検知は早い方がいいだろう
-		panic("unsupported zone: " + z)
-	}
 }

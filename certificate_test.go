@@ -165,7 +165,7 @@ func TestCloudHSMClientOp_Delete_400(t *testing.T) {
 
 	err = api.Delete(ctx, "0")
 	assert.Error(err)
-	assert.ErrorContains(err, "Not Found")
+	assert.ErrorContains(err, "not found")
 }
 
 func TestCloudHSMClientIntegrated(t *testing.T) {

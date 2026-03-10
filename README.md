@@ -39,12 +39,15 @@ usacloud config create --name is1a
 
 ```golang
 import (
-    cloudhsm "github.com/sacloud/cloudhsm-api-go"
-    client "github.com/sacloud/api-client-go"
+    "github.com/sacloud/cloudhsm-api-go"
+    "github.com/sacloud/saclient-go"
 )
 
+var theClient saclient.Client
+
 func main() {
-    client, err := cloudhsm.NewClient(client.WithProfile("is1a"))
+    _ = theClient.SetEnviron([]string{"SAKURA_PROFILE=is1a"})
+    client, err := cloudhsm.NewClient(&theClient)
 
     // 以下略
 }
@@ -58,15 +61,19 @@ func main() {
 import (
     "os"
 
-    cloudhsm "github.com/sacloud/cloudhsm-api-go"
-    client "github.com/sacloud/api-client-go"
+    "github.com/sacloud/cloudhsm-api-go"
+    "github.com/sacloud/saclient-go"
 )
 
+var theClient saclient.Client
+
 func main() {
-    client, err := cloudhsm.NewClient(client.WithApiKeys(
-        os.Getenv("SAKURA_ACCESS_TOKEN"),
-        os.Getenv("SAKURA_ACCESS_TOKEN_SECRET"),
-    ))
+    _ = theClient.SetEnviron([]string{
+        "SAKURA_ZONE=is1a",
+        "SAKURA_SERVICE_PRINCIPAL_ID=something",
+        // 他、　os.Environ()から必要な環境変数を追加
+    })
+    client, err := cloudhsm.NewClient(&theClient)
 
     // 以下略
 }
@@ -82,16 +89,11 @@ package main
 import (
     "context"
 
-    cloudhsm "github.com/sacloud/cloudhsm-api-go"
+    "github.com/sacloud/cloudhsm-api-go"
+    v1 "github.com/sacloud/cloudhsm-api-go/apis/v1"
 )
 
-func main() {
-    ctx := context.Background()
-    client, err := cloudhsm.NewClient()
-    if err != nil {
-        // エラーハンドリング
-    }
-
+func Logic(ctx context.Context, client *v1.Client) {
     // 例: ライセンス一覧取得
     licenses, err := cloudhsm.NewLicenseOp(client).List(ctx)
     if err != nil {
