@@ -6,7 +6,7 @@ toolchain go1.26.1
 
 require (
 	github.com/gofrs/flock v0.13.0
-	github.com/golang-jwt/jwt/v5 v5.3.0
+	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/hashicorp/terraform-plugin-framework v1.17.0
 	github.com/sacloud/api-client-go v0.3.5
