@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.4.0](https://github.com/sacloud/cloudhsm-api-go/compare/v0.3.0...v0.4.0) - 2026-03-10
+- Use SAKURA_* env instead of SAKURACLOUD_*  by @yamamoto-febc in https://github.com/sacloud/cloudhsm-api-go/pull/28
+- [feat] use saclient-go by @shyouhei in https://github.com/sacloud/cloudhsm-api-go/pull/34
+- ci: bump actions/setup-go from 6.2.0 to 6.3.0 by @dependabot[bot] in https://github.com/sacloud/cloudhsm-api-go/pull/32
+- ci: bump Songmu/tagpr from 1.9.0 to 1.17.1 by @dependabot[bot] in https://github.com/sacloud/cloudhsm-api-go/pull/33
+
 ## [v0.3.0](https://github.com/sacloud/cloudhsm-api-go/compare/v0.2.0...v0.3.0) - 2026-01-29
 - toolchain update to Go 1.25.6 by @shyouhei in https://github.com/sacloud/cloudhsm-api-go/pull/26
 - ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/cloudhsm-api-go/pull/23
