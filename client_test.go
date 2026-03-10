@@ -496,6 +496,14 @@ func (s *ClientTestSuite) TestDynamic() {
 	subject := api.(*Client)
 	j := subject.JSON()
 	s.Equal("all", j["TraceMode"])
+
+	api, err = s.subject.DupWith(WithZone("is1c"))
+	s.NoError(err)
+	err = api.Populate()
+	s.NoError(err)
+	cfg, err := api.EndpointConfig()
+	s.NoError(err)
+	s.Equal("is1c", cfg.Zone)
 }
 
 // #nosec G101 -- This is only a test

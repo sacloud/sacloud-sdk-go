@@ -79,6 +79,13 @@ func WithTraceMode(mode string) clientOption {
 	}
 }
 
+func WithZone(zone string) clientOption {
+	return func(c *Client) error {
+		c.params.dynamic.zone.initialize(zone)
+		return nil
+	}
+}
+
 func WithFavouringRFC7617() clientOption {
 	return func(c *Client) error {
 		c.params.dynamic.authPreference.initialize("basic")
