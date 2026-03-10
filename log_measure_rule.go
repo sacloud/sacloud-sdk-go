@@ -46,7 +46,7 @@ func NewLogMeasureRuleOp(client *v1.Client) LogMeasureRuleAPI {
 }
 
 func (op *logMeasureRuleOp) List(ctx context.Context, projectId string, count *int, from *int) (ret []v1.LogMeasureRule, err error) {
-	res, err := ErrorFromDecodedResponse("LogMeasureRule.List", func() (*v1.PaginatedLogMeasureRuleList, error) {
+	res, err := errorFromDecodedResponse("LogMeasureRule.List", func() (*v1.PaginatedLogMeasureRuleList, error) {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -72,7 +72,7 @@ type LogMeasureRuleCreateParams struct {
 }
 
 func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogMeasureRuleCreateParams) (*v1.LogMeasureRule, error) {
-	return ErrorFromDecodedResponse("LogMeasureRule.Create", func() (*v1.LogMeasureRule, error) {
+	return errorFromDecodedResponse("LogMeasureRule.Create", func() (*v1.LogMeasureRule, error) {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
 		} else if lid, err := strconv.ParseInt(p.LogStorageID, 10, 64); err != nil {
@@ -100,7 +100,7 @@ func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogM
 }
 
 func (op *logMeasureRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.LogMeasureRule, error) {
-	return ErrorFromDecodedResponse("LogMeasureRule.Read", func() (*v1.LogMeasureRule, error) {
+	return errorFromDecodedResponse("LogMeasureRule.Read", func() (*v1.LogMeasureRule, error) {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -121,7 +121,7 @@ type LogMeasureRuleUpdateParams struct {
 }
 
 func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p LogMeasureRuleUpdateParams) (*v1.LogMeasureRule, error) {
-	return ErrorFromDecodedResponse("LogMeasureRule.Update", func() (*v1.LogMeasureRule, error) {
+	return errorFromDecodedResponse("LogMeasureRule.Update", func() (*v1.LogMeasureRule, error) {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
 		} else if lid, err := fromStringPtr[v1.OptNilInt64, int64](p.LogStorageID); err != nil {
@@ -144,7 +144,7 @@ func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId
 }
 
 func (op *logMeasureRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
-	return ErrorFromDecodedResponse1("LogMeasureRule.Delete", func() error {
+	return errorFromDecodedResponse1("LogMeasureRule.Delete", func() error {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return err
 		} else {
@@ -165,7 +165,7 @@ type LogMeasureRuleListHistoriesParams struct {
 }
 
 func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string, params LogMeasureRuleListHistoriesParams) (ret []v1.History, err error) {
-	res, err := ErrorFromDecodedResponse("LogMeasureRule.ListHistories", func() (*v1.PaginatedHistoryList, error) {
+	res, err := errorFromDecodedResponse("LogMeasureRule.ListHistories", func() (*v1.PaginatedHistoryList, error) {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -186,7 +186,7 @@ func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string,
 }
 
 func (op *logMeasureRuleOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
-	return ErrorFromDecodedResponse("LogMeasureRule.ReadHistory", func() (*v1.History, error) {
+	return errorFromDecodedResponse("LogMeasureRule.ReadHistory", func() (*v1.History, error) {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {

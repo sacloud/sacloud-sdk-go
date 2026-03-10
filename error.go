@@ -53,7 +53,7 @@ func NewAPIError(method string, code int, err error) *Error {
 }
 
 // convert UnexpectedStatusCodeError -> IsNotFoundError
-func ErrorFromDecodedResponse[T any](method string, yield func() (T, error)) (res T, err error) {
+func errorFromDecodedResponse[T any](method string, yield func() (T, error)) (res T, err error) {
 	if res, err = yield(); err == nil {
 		// no error
 	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
@@ -70,8 +70,8 @@ func ErrorFromDecodedResponse[T any](method string, yield func() (T, error)) (re
 	return
 }
 
-func ErrorFromDecodedResponse1(method string, yield func() error) (err error) {
-	_, err = ErrorFromDecodedResponse(method, func() ([]any, error) {
+func errorFromDecodedResponse1(method string, yield func() error) (err error) {
+	_, err = errorFromDecodedResponse(method, func() ([]any, error) {
 		return nil, yield()
 	})
 	return

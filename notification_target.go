@@ -47,7 +47,7 @@ type NotificationTargetsListParams struct {
 }
 
 func (op *notificationTargetOp) List(ctx context.Context, projectId string, p NotificationTargetsListParams) (ret []v1.NotificationTarget, err error) {
-	res, err := ErrorFromDecodedResponse("NotificationTarget.List", func() (*v1.PaginatedNotificationTargetList, error) {
+	res, err := errorFromDecodedResponse("NotificationTarget.List", func() (*v1.PaginatedNotificationTargetList, error) {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -65,7 +65,7 @@ func (op *notificationTargetOp) List(ctx context.Context, projectId string, p No
 }
 
 func (op *notificationTargetOp) Read(ctx context.Context, projectId string, uid uuid.UUID) (*v1.NotificationTarget, error) {
-	return ErrorFromDecodedResponse("NotificationTarget.Read", func() (*v1.NotificationTarget, error) {
+	return errorFromDecodedResponse("NotificationTarget.Read", func() (*v1.NotificationTarget, error) {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -91,7 +91,7 @@ func (cp *NotificationTargetCreateParams) urlstr() (ret *string) {
 }
 
 func (op *notificationTargetOp) Create(ctx context.Context, projectId string, params NotificationTargetCreateParams) (*v1.NotificationTarget, error) {
-	return ErrorFromDecodedResponse("NotificationTarget.Create", func() (*v1.NotificationTarget, error) {
+	return errorFromDecodedResponse("NotificationTarget.Create", func() (*v1.NotificationTarget, error) {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -111,7 +111,7 @@ type NotificationTargetUpdateParams struct {
 }
 
 func (op *notificationTargetOp) Update(ctx context.Context, projectId string, uid uuid.UUID, params NotificationTargetUpdateParams) (*v1.NotificationTarget, error) {
-	return ErrorFromDecodedResponse("NotificationTarget.Update", func() (*v1.NotificationTarget, error) {
+	return errorFromDecodedResponse("NotificationTarget.Update", func() (*v1.NotificationTarget, error) {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -128,7 +128,7 @@ func (op *notificationTargetOp) Update(ctx context.Context, projectId string, ui
 }
 
 func (op *notificationTargetOp) Delete(ctx context.Context, projectId string, uid uuid.UUID) error {
-	return ErrorFromDecodedResponse1("NotificationTarget.Delete", func() error {
+	return errorFromDecodedResponse1("NotificationTarget.Delete", func() error {
 		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return err
 		} else {

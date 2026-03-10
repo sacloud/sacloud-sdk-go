@@ -42,7 +42,7 @@ func NewNotificationRoutingOp(client *v1.Client) NotificationRoutingAPI {
 }
 
 func (op *notificationRoutingOp) List(ctx context.Context, projectId string, count, from *int) (ret []v1.NotificationRouting, err error) {
-	res, err := ErrorFromDecodedResponse("NotificationRouting.List", func() (*v1.PaginatedNotificationRoutingList, error) {
+	res, err := errorFromDecodedResponse("NotificationRouting.List", func() (*v1.PaginatedNotificationRoutingList, error) {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -67,7 +67,7 @@ type NotificationRoutingCreateParams struct {
 }
 
 func (op *notificationRoutingOp) Create(ctx context.Context, projectId string, params NotificationRoutingCreateParams) (*v1.NotificationRouting, error) {
-	res, err := ErrorFromDecodedResponse("NotificationRouting.Create", func() (*v1.NotificationRouting, error) {
+	res, err := errorFromDecodedResponse("NotificationRouting.Create", func() (*v1.NotificationRouting, error) {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -93,7 +93,7 @@ type NotificationRoutingUpdateParams struct {
 }
 
 func (op *notificationRoutingOp) Update(ctx context.Context, projectId string, uid uuid.UUID, params NotificationRoutingUpdateParams) (*v1.NotificationRouting, error) {
-	return ErrorFromDecodedResponse("NotificationRouting.Update", func() (*v1.NotificationRouting, error) {
+	return errorFromDecodedResponse("NotificationRouting.Update", func() (*v1.NotificationRouting, error) {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -110,7 +110,7 @@ func (op *notificationRoutingOp) Update(ctx context.Context, projectId string, u
 }
 
 func (op *notificationRoutingOp) Read(ctx context.Context, projectId string, uid uuid.UUID) (*v1.NotificationRouting, error) {
-	return ErrorFromDecodedResponse("NotificationRouting.Read", func() (*v1.NotificationRouting, error) {
+	return errorFromDecodedResponse("NotificationRouting.Read", func() (*v1.NotificationRouting, error) {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -123,7 +123,7 @@ func (op *notificationRoutingOp) Read(ctx context.Context, projectId string, uid
 }
 
 func (op *notificationRoutingOp) Delete(ctx context.Context, projectId string, uid uuid.UUID) error {
-	return ErrorFromDecodedResponse1("NotificationRouting.Delete", func() error {
+	return errorFromDecodedResponse1("NotificationRouting.Delete", func() error {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return err
 		} else {
@@ -136,7 +136,7 @@ func (op *notificationRoutingOp) Delete(ctx context.Context, projectId string, u
 }
 
 func (op *notificationRoutingOp) Reorder(ctx context.Context, projectId string, orders []v1.NotificationRoutingOrder) error {
-	return ErrorFromDecodedResponse1("NotificationRouting.Reorder", func() error {
+	return errorFromDecodedResponse1("NotificationRouting.Reorder", func() error {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return err
 		} else {

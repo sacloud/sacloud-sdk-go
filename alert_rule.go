@@ -46,7 +46,7 @@ func NewAlertRuleOp(client *v1.Client) AlertRuleAPI {
 }
 
 func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int, from *int) (ret []v1.AlertRule, err error) {
-	res, err := ErrorFromDecodedResponse("AlertRule.List", func() (*v1.PaginatedAlertRuleList, error) {
+	res, err := errorFromDecodedResponse("AlertRule.List", func() (*v1.PaginatedAlertRuleList, error) {
 		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -78,7 +78,7 @@ type AlertRuleCreateParams struct {
 }
 
 func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRuleCreateParams) (*v1.AlertRule, error) {
-	return ErrorFromDecodedResponse("AlertRule.Create", func() (*v1.AlertRule, error) {
+	return errorFromDecodedResponse("AlertRule.Create", func() (*v1.AlertRule, error) {
 		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
 		} else if intStorageId, err := strconv.ParseInt(p.MetricsStorageID, 10, 64); err != nil {
@@ -104,7 +104,7 @@ func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRule
 }
 
 func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.AlertRule, error) {
-	return ErrorFromDecodedResponse("AlertRule.Read", func() (*v1.AlertRule, error) {
+	return errorFromDecodedResponse("AlertRule.Read", func() (*v1.AlertRule, error) {
 		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -131,7 +131,7 @@ type AlertRuleUpdateParams struct {
 }
 
 func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleUpdateParams) (*v1.AlertRule, error) {
-	return ErrorFromDecodedResponse("AlertRule.Update", func() (*v1.AlertRule, error) {
+	return errorFromDecodedResponse("AlertRule.Update", func() (*v1.AlertRule, error) {
 		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
 		} else if storageId, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID); err != nil {
@@ -158,7 +158,7 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid
 }
 
 func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
-	return ErrorFromDecodedResponse1("AlertRule.Delete", func() error {
+	return errorFromDecodedResponse1("AlertRule.Delete", func() error {
 		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return err
 		} else {
@@ -179,7 +179,7 @@ type AlertRuleListHistoriesParams struct {
 }
 
 func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleListHistoriesParams) (ret []v1.History, err error) {
-	res, err := ErrorFromDecodedResponse("AlertRule.ListHistories", func() (*v1.PaginatedHistoryList, error) {
+	res, err := errorFromDecodedResponse("AlertRule.ListHistories", func() (*v1.PaginatedHistoryList, error) {
 		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -201,7 +201,7 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, rule
 }
 
 func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error) {
-	return ErrorFromDecodedResponse("AlertRule.ReadHistory", func() (*v1.History, error) {
+	return errorFromDecodedResponse("AlertRule.ReadHistory", func() (*v1.History, error) {
 		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {

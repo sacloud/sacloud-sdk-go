@@ -37,13 +37,13 @@ func NewManagementOp(client *v1.Client) ManagementAPI {
 }
 
 func (op *managementOp) ResourceLimits(ctx context.Context) (*v1.ResourcesLimits, error) {
-	return ErrorFromDecodedResponse("Management.ResourceLimits", func() (*v1.ResourcesLimits, error) {
+	return errorFromDecodedResponse("Management.ResourceLimits", func() (*v1.ResourcesLimits, error) {
 		return op.client.GetResourcesLimits(ctx)
 	})
 }
 
 func (op *managementOp) ReadProvisioning(ctx context.Context) (*v1.Provisioning, error) {
-	return ErrorFromDecodedResponse("Management.ReadProvisioning", func() (*v1.Provisioning, error) {
+	return errorFromDecodedResponse("Management.ReadProvisioning", func() (*v1.Provisioning, error) {
 		return op.client.GetProvisioningState(ctx)
 	})
 }
@@ -54,7 +54,7 @@ type ProvisioningCreateParam struct {
 }
 
 func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCreateParam) (*v1.Provisioning, error) {
-	return ErrorFromDecodedResponse("Management.CreateProvisioning", func() (ret *v1.Provisioning, err error) {
+	return errorFromDecodedResponse("Management.CreateProvisioning", func() (ret *v1.Provisioning, err error) {
 		ret = new(v1.Provisioning)
 
 		res, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreate(v1.ProvisioningCreate{

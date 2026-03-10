@@ -40,7 +40,7 @@ func NewDashboardOp(client *v1.Client) DashboardProjectAPI {
 }
 
 func (op *dashboardProjectOp) List(ctx context.Context, count *int, from *int) (ret []v1.DashboardProject, err error) {
-	res, err := ErrorFromDecodedResponse("DashboardProject.List", func() (*v1.PaginatedDashboardProjectList, error) {
+	res, err := errorFromDecodedResponse("DashboardProject.List", func() (*v1.PaginatedDashboardProjectList, error) {
 		return op.client.DashboardsProjectsList(ctx, v1.DashboardsProjectsListParams{
 			Count: intoOpt[v1.OptInt](count),
 			From:  intoOpt[v1.OptInt](from),
@@ -58,7 +58,7 @@ type DashboardProjectCreateParams struct {
 }
 
 func (op *dashboardProjectOp) Create(ctx context.Context, p DashboardProjectCreateParams) (*v1.DashboardProject, error) {
-	return ErrorFromDecodedResponse("DashboardProject.Create", func() (*v1.DashboardProject, error) {
+	return errorFromDecodedResponse("DashboardProject.Create", func() (*v1.DashboardProject, error) {
 		return op.client.DashboardsProjectsCreate(ctx, &v1.DashboardProjectCreate{
 			Name:        p.Name,
 			Description: intoOpt[v1.OptString](p.Description),
@@ -67,7 +67,7 @@ func (op *dashboardProjectOp) Create(ctx context.Context, p DashboardProjectCrea
 }
 
 func (op *dashboardProjectOp) Read(ctx context.Context, id string) (*v1.DashboardProject, error) {
-	res, err := ErrorFromDecodedResponse("DashboardProject.Read", func() (*v1.WrappedDashboardProject, error) {
+	res, err := errorFromDecodedResponse("DashboardProject.Read", func() (*v1.WrappedDashboardProject, error) {
 		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -83,7 +83,7 @@ type DashboardProjectUpdateParams struct {
 }
 
 func (op *dashboardProjectOp) Update(ctx context.Context, id string, params DashboardProjectUpdateParams) (*v1.DashboardProject, error) {
-	res, err := ErrorFromDecodedResponse("DashboardProject.Update", func() (*v1.WrappedDashboardProject, error) {
+	res, err := errorFromDecodedResponse("DashboardProject.Update", func() (*v1.WrappedDashboardProject, error) {
 		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -97,7 +97,7 @@ func (op *dashboardProjectOp) Update(ctx context.Context, id string, params Dash
 }
 
 func (op *dashboardProjectOp) Delete(ctx context.Context, id string) error {
-	return ErrorFromDecodedResponse1("DashboardProject.Delete", func() error {
+	return errorFromDecodedResponse1("DashboardProject.Delete", func() error {
 		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return err
 		} else {

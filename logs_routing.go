@@ -50,7 +50,7 @@ type LogsRoutingsListParams struct {
 }
 
 func (op *logRoutingOp) List(ctx context.Context, p LogsRoutingsListParams) (ret []v1.LogRouting, err error) {
-	res, err := ErrorFromDecodedResponse("LogRouting.List", func() (*v1.PaginatedLogRoutingList, error) {
+	res, err := errorFromDecodedResponse("LogRouting.List", func() (*v1.PaginatedLogRoutingList, error) {
 		return op.client.LogsRoutingsList(ctx, v1.LogsRoutingsListParams{
 			Count:         intoOpt[v1.OptInt](p.Count),
 			From:          intoOpt[v1.OptInt](p.From),
@@ -73,7 +73,7 @@ type LogsRoutingCreateParams struct {
 }
 
 func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreateParams) (*v1.LogRouting, error) {
-	res, err := ErrorFromDecodedResponse("LogRouting.Create", func() (*v1.WrappedLogRouting, error) {
+	res, err := errorFromDecodedResponse("LogRouting.Create", func() (*v1.WrappedLogRouting, error) {
 		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
 			return nil, fmt.Errorf("LogsRoutingCreateParams.ResourceID: %w", err)
 		} else if lid, err := strconv.ParseInt(params.LogStorageID, 10, 64); err != nil {
@@ -99,7 +99,7 @@ func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreatePara
 }
 
 func (op *logRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.LogRouting, error) {
-	res, err := ErrorFromDecodedResponse("LogRouting.Read", func() (*v1.WrappedLogRouting, error) {
+	res, err := errorFromDecodedResponse("LogRouting.Read", func() (*v1.WrappedLogRouting, error) {
 		return op.client.LogsRoutingsRetrieve(ctx, v1.LogsRoutingsRetrieveParams{UID: id})
 	})
 	return unwrapE[*v1.LogRouting](res, err)
@@ -113,7 +113,7 @@ type LogsRoutingUpdateParams struct {
 }
 
 func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRoutingUpdateParams) (*v1.LogRouting, error) {
-	res, err := ErrorFromDecodedResponse("LogRouting.Update", func() (*v1.WrappedLogRouting, error) {
+	res, err := errorFromDecodedResponse("LogRouting.Update", func() (*v1.WrappedLogRouting, error) {
 		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
 			return nil, fmt.Errorf("LogsRoutingUpdateParams.ResourceID: %w", err)
 		} else if lid, err := fromStringPtr[v1.OptNilInt64, int64](params.LogStorageID); err != nil {
@@ -131,7 +131,7 @@ func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRou
 }
 
 func (op *logRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
-	return ErrorFromDecodedResponse1("LogRouting.Delete", func() error {
+	return errorFromDecodedResponse1("LogRouting.Delete", func() error {
 		return op.client.LogsRoutingsDestroy(ctx, v1.LogsRoutingsDestroyParams{UID: id})
 	})
 }

@@ -50,7 +50,7 @@ type MetricsRoutingsListParams struct {
 }
 
 func (op *metricsRoutingOp) List(ctx context.Context, p MetricsRoutingsListParams) (ret []v1.MetricsRouting, err error) {
-	res, err := ErrorFromDecodedResponse("MetricsRouting.List", func() (*v1.PaginatedMetricsRoutingList, error) {
+	res, err := errorFromDecodedResponse("MetricsRouting.List", func() (*v1.PaginatedMetricsRoutingList, error) {
 		return op.client.MetricsRoutingsList(ctx, v1.MetricsRoutingsListParams{
 			Count:         intoOpt[v1.OptInt](p.Count),
 			From:          intoOpt[v1.OptInt](p.From),
@@ -73,7 +73,7 @@ type MetricsRoutingCreateParams struct {
 }
 
 func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCreateParams) (*v1.MetricsRouting, error) {
-	res, err := ErrorFromDecodedResponse("MetricsRouting.Create", func() (*v1.WrappedMetricsRouting, error) {
+	res, err := errorFromDecodedResponse("MetricsRouting.Create", func() (*v1.WrappedMetricsRouting, error) {
 		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
 			return nil, fmt.Errorf("MetricsRoutingCreateParams.ResourceID: %w", err)
 		} else if mid, err := strconv.ParseInt(params.MetricsStorageID, 10, 64); err != nil {
@@ -99,7 +99,7 @@ func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCre
 }
 
 func (op *metricsRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.MetricsRouting, error) {
-	res, err := ErrorFromDecodedResponse("MetricsRouting.Read", func() (*v1.WrappedMetricsRouting, error) {
+	res, err := errorFromDecodedResponse("MetricsRouting.Read", func() (*v1.WrappedMetricsRouting, error) {
 		return op.client.MetricsRoutingsRetrieve(ctx, v1.MetricsRoutingsRetrieveParams{UID: id})
 	})
 	return unwrapE[*v1.MetricsRouting](res, err)
@@ -113,7 +113,7 @@ type MetricsRoutingUpdateParams struct {
 }
 
 func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params MetricsRoutingUpdateParams) (*v1.MetricsRouting, error) {
-	res, err := ErrorFromDecodedResponse("MetricsRouting.Update", func() (*v1.WrappedMetricsRouting, error) {
+	res, err := errorFromDecodedResponse("MetricsRouting.Update", func() (*v1.WrappedMetricsRouting, error) {
 		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
 			return nil, fmt.Errorf("MetricsRoutingUpdateParams.ResourceID: %w", err)
 		} else if mid, err := fromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID); err != nil {
@@ -131,7 +131,7 @@ func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params Met
 }
 
 func (op *metricsRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
-	return ErrorFromDecodedResponse1("MetricsRouting.Delete", func() error {
+	return errorFromDecodedResponse1("MetricsRouting.Delete", func() error {
 		return op.client.MetricsRoutingsDestroy(ctx, v1.MetricsRoutingsDestroyParams{UID: id})
 	})
 }

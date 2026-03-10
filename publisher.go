@@ -36,7 +36,7 @@ func NewPublisherOp(client *v1.Client) PublisherAPI {
 }
 
 func (p *publisherOp) List(ctx context.Context, count *int, from *int) (ret []v1.Publisher, err error) {
-	res, err := ErrorFromDecodedResponse("Publisher.List", func() (*v1.PaginatedPublisherList, error) {
+	res, err := errorFromDecodedResponse("Publisher.List", func() (*v1.PaginatedPublisherList, error) {
 		return p.client.PublishersList(ctx, v1.PublishersListParams{
 			Count: intoOpt[v1.OptInt](count),
 			From:  intoOpt[v1.OptInt](from),
@@ -49,7 +49,7 @@ func (p *publisherOp) List(ctx context.Context, count *int, from *int) (ret []v1
 }
 
 func (p *publisherOp) Read(ctx context.Context, code string) (*v1.Publisher, error) {
-	res, err := ErrorFromDecodedResponse("Publisher.Read", func() (*v1.WrappedPublisher, error) {
+	res, err := errorFromDecodedResponse("Publisher.Read", func() (*v1.WrappedPublisher, error) {
 		return p.client.PublishersRetrieve(ctx, v1.PublishersRetrieveParams{Code: code})
 	})
 	return unwrapE[*v1.Publisher](res, err)

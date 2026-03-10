@@ -60,7 +60,7 @@ type TracesStorageListParams struct {
 }
 
 func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListParams) (ret []v1.TraceStorage, err error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.List", func() (*v1.PaginatedTraceStorageList, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.List", func() (*v1.PaginatedTraceStorageList, error) {
 		if resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID); err != nil {
 			return nil, err
 		} else {
@@ -80,7 +80,7 @@ func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListPar
 }
 
 func (op *tracesStorageOp) Read(ctx context.Context, resourceID string) (*v1.TraceStorage, error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.Read", func() (*v1.WrappedTraceStorage, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.Read", func() (*v1.WrappedTraceStorage, error) {
 		if id, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -97,7 +97,7 @@ type TracesStorageCreateParams struct {
 }
 
 func (op *tracesStorageOp) Create(ctx context.Context, params TracesStorageCreateParams) (*v1.TraceStorage, error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.Create", func() (*v1.TraceStorage, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.Create", func() (*v1.TraceStorage, error) {
 		req := v1.TraceStorageCreate{
 			Name:           params.Name,
 			Description:    intoOpt[v1.OptString](params.Description),
@@ -114,7 +114,7 @@ type TracesStorageUpdateParams struct {
 }
 
 func (op *tracesStorageOp) Update(ctx context.Context, id string, p TracesStorageUpdateParams) (*v1.TraceStorage, error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.Update", func() (*v1.WrappedTraceStorage, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.Update", func() (*v1.WrappedTraceStorage, error) {
 		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -128,7 +128,7 @@ func (op *tracesStorageOp) Update(ctx context.Context, id string, p TracesStorag
 }
 
 func (op *tracesStorageOp) Delete(ctx context.Context, id string) error {
-	return ErrorFromDecodedResponse1("TracesStorage.Delete", func() error {
+	return errorFromDecodedResponse1("TracesStorage.Delete", func() error {
 		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return err
 		} else {
@@ -138,7 +138,7 @@ func (op *tracesStorageOp) Delete(ctx context.Context, id string) error {
 }
 
 func (op *tracesStorageOp) SetExpire(ctx context.Context, resourceID string, days int) (*v1.TraceStorage, error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.SetExpire", func() (*v1.TraceStorage, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.SetExpire", func() (*v1.TraceStorage, error) {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -153,7 +153,7 @@ func (op *tracesStorageOp) SetExpire(ctx context.Context, resourceID string, day
 }
 
 func (op *tracesStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) (ret []v1.LogStorageDailyUsage, err error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.ReadDailyStats", func() (*v1.TraceStorageDailyUsageBody, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.ReadDailyStats", func() (*v1.TraceStorageDailyUsageBody, error) {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -171,7 +171,7 @@ func (op *tracesStorageOp) ReadDailyStats(ctx context.Context, resourceID string
 }
 
 func (op *tracesStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) (ret []v1.LogStorageMonthlyUsage, err error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.ReadMonthlyStats", func() (*v1.TraceStorageMonthlyUsageBody, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.ReadMonthlyStats", func() (*v1.TraceStorageMonthlyUsageBody, error) {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -188,7 +188,7 @@ func (op *tracesStorageOp) ReadMonthlyStats(ctx context.Context, resourceID stri
 }
 
 func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string, count *int, from *int) (ret []v1.TraceStorageAccessKey, err error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.ListKeys", func() (*v1.PaginatedTraceStorageAccessKeyList, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.ListKeys", func() (*v1.PaginatedTraceStorageAccessKeyList, error) {
 		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -206,7 +206,7 @@ func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string
 }
 
 func (op *tracesStorageOp) CreateKey(ctx context.Context, tracesResourceId string, description *string) (*v1.TraceStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.CreateKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.CreateKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -219,7 +219,7 @@ func (op *tracesStorageOp) CreateKey(ctx context.Context, tracesResourceId strin
 }
 
 func (op *tracesStorageOp) ReadKey(ctx context.Context, tracesResourceId string, id uuid.UUID) (*v1.TraceStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.ReadKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.ReadKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -233,7 +233,7 @@ func (op *tracesStorageOp) ReadKey(ctx context.Context, tracesResourceId string,
 }
 
 func (op *tracesStorageOp) UpdateKey(ctx context.Context, tracesResourceId string, id uuid.UUID, description *string) (*v1.TraceStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("TracesStorage.UpdateKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("TracesStorage.UpdateKey", func() (*v1.WrappedTraceStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -250,7 +250,7 @@ func (op *tracesStorageOp) UpdateKey(ctx context.Context, tracesResourceId strin
 
 // DeleteKey deletes an access key for a traces storage resource.
 func (op *tracesStorageOp) DeleteKey(ctx context.Context, tracesResourceId string, id uuid.UUID) error {
-	return ErrorFromDecodedResponse1("TracesStorage.DeleteKey", func() error {
+	return errorFromDecodedResponse1("TracesStorage.DeleteKey", func() error {
 		if rid, err := strconv.ParseInt(tracesResourceId, 10, 64); err != nil {
 			return err
 		} else {

@@ -45,7 +45,7 @@ func NewAlertProjectOp(client *v1.Client) AlertProjectAPI {
 }
 
 func (op *alertProjectOp) List(ctx context.Context, count *int, from *int) (ret []v1.AlertProject, err error) {
-	res, err := ErrorFromDecodedResponse("AlertProject.List", func() (*v1.PaginatedAlertProjectList, error) {
+	res, err := errorFromDecodedResponse("AlertProject.List", func() (*v1.PaginatedAlertProjectList, error) {
 		return op.client.AlertsProjectsList(ctx, v1.AlertsProjectsListParams{
 			Count: intoOpt[v1.OptInt](count),
 			From:  intoOpt[v1.OptInt](from),
@@ -58,7 +58,7 @@ func (op *alertProjectOp) List(ctx context.Context, count *int, from *int) (ret 
 }
 
 func (op *alertProjectOp) Read(ctx context.Context, id string) (*v1.AlertProject, error) {
-	res, err := ErrorFromDecodedResponse("AlertProject.Read", func() (*v1.WrappedAlertProject, error) {
+	res, err := errorFromDecodedResponse("AlertProject.Read", func() (*v1.WrappedAlertProject, error) {
 		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -75,7 +75,7 @@ type AlertProjectCreateParams struct {
 }
 
 func (op *alertProjectOp) Create(ctx context.Context, params AlertProjectCreateParams) (*v1.AlertProject, error) {
-	return ErrorFromDecodedResponse("AlertProject.Create", func() (*v1.AlertProject, error) {
+	return errorFromDecodedResponse("AlertProject.Create", func() (*v1.AlertProject, error) {
 		return op.client.AlertsProjectsCreate(ctx, &v1.AlertProjectCreate{
 			Name:        params.Name,
 			Description: intoOpt[v1.OptString](params.Description),
@@ -89,7 +89,7 @@ type AlertProjectUpdateParams struct {
 }
 
 func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertProjectUpdateParams) (*v1.AlertProject, error) {
-	res, err := ErrorFromDecodedResponse("AlertProject.Update", func() (*v1.WrappedAlertProject, error) {
+	res, err := errorFromDecodedResponse("AlertProject.Update", func() (*v1.WrappedAlertProject, error) {
 		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -108,7 +108,7 @@ func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertPro
 }
 
 func (op *alertProjectOp) Delete(ctx context.Context, id string) error {
-	return ErrorFromDecodedResponse1("AlertProject.Delete", func() error {
+	return errorFromDecodedResponse1("AlertProject.Delete", func() error {
 		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return err
 		} else {
@@ -127,7 +127,7 @@ type AlertsProjectsHistoriesListParams struct {
 }
 
 func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjectsHistoriesListParams) (ret []v1.History, err error) {
-	res, err := ErrorFromDecodedResponse("AlertProject.ListHistories", func() (*v1.PaginatedHistoryList, error) {
+	res, err := errorFromDecodedResponse("AlertProject.ListHistories", func() (*v1.PaginatedHistoryList, error) {
 		if intProjectId, err := strconv.ParseInt(params.ProjectID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -148,7 +148,7 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjec
 }
 
 func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
-	return ErrorFromDecodedResponse("AlertProject.ReadHistory", func() (*v1.History, error) {
+	return errorFromDecodedResponse("AlertProject.ReadHistory", func() (*v1.History, error) {
 		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
 			return nil, err
 		} else {

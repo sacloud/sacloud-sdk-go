@@ -63,7 +63,7 @@ type LogsStoragesListParams struct {
 }
 
 func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) (ret []v1.LogStorage, err error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.List", func() (*v1.PaginatedLogStorageList, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.List", func() (*v1.PaginatedLogStorageList, error) {
 		if id, err := fromStringPtr[v1.OptInt64, int64](p.ResourceID); err != nil {
 			return nil, fmt.Errorf("LogsStoragesListParams.ResourceID: %w", err)
 		} else {
@@ -85,7 +85,7 @@ func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) (re
 }
 
 func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogStorage, error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.Read", func() (*v1.WrappedLogStorage, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.Read", func() (*v1.WrappedLogStorage, error) {
 		if id, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -103,7 +103,7 @@ type LogStorageCreateParams struct {
 }
 
 func (op *logsStorageOp) Create(ctx context.Context, params LogStorageCreateParams) (*v1.LogStorage, error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.Create", func() (*v1.LogStorage, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.Create", func() (*v1.LogStorage, error) {
 		req := v1.LogStorageCreate{
 			Classification: intoOpt[v1.OptLogStorageCreateClassification](params.Classification),
 			IsSystem:       params.IsSystem,
@@ -121,7 +121,7 @@ type LogStorageUpdateParams struct {
 }
 
 func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpdateParams) (*v1.LogStorage, error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.Update", func() (*v1.WrappedLogStorage, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.Update", func() (*v1.WrappedLogStorage, error) {
 		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -135,7 +135,7 @@ func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpda
 }
 
 func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
-	return ErrorFromDecodedResponse1("LogsStorage.Delete", func() error {
+	return errorFromDecodedResponse1("LogsStorage.Delete", func() error {
 		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return err
 		} else {
@@ -145,7 +145,7 @@ func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 }
 
 func (op *logsStorageOp) SetExpire(ctx context.Context, resourceID string, days int) (*v1.LogStorage, error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.SetExpire", func() (*v1.LogStorage, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.SetExpire", func() (*v1.LogStorage, error) {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -160,7 +160,7 @@ func (op *logsStorageOp) SetExpire(ctx context.Context, resourceID string, days 
 }
 
 func (op *logsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) (ret []v1.LogStorageDailyUsage, err error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.ReadDailyStats", func() (*v1.LogStorageDailyUsageBody, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.ReadDailyStats", func() (*v1.LogStorageDailyUsageBody, error) {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -178,7 +178,7 @@ func (op *logsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, 
 }
 
 func (op *logsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) (ret []v1.LogStorageMonthlyUsage, err error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.ReadMonthlyStats", func() (*v1.LogStorageMonthlyUsageBody, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.ReadMonthlyStats", func() (*v1.LogStorageMonthlyUsageBody, error) {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -195,7 +195,7 @@ func (op *logsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string
 }
 
 func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int, from *int) (ret []v1.LogStorageAccessKey, err error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.ListKeys", func() (*v1.PaginatedLogStorageAccessKeyList, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.ListKeys", func() (*v1.PaginatedLogStorageAccessKeyList, error) {
 		if rid, err := strconv.ParseInt(logResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -213,7 +213,7 @@ func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, cou
 }
 
 func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, description *string) (*v1.LogStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.CreateKey", func() (*v1.WrappedLogStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.CreateKey", func() (*v1.WrappedLogStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(logResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -226,7 +226,7 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, de
 }
 
 func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id uuid.UUID) (*v1.LogStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.ReadKey", func() (*v1.WrappedLogStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.ReadKey", func() (*v1.WrappedLogStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(logResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -240,7 +240,7 @@ func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id u
 }
 
 func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id uuid.UUID, description *string) (*v1.LogStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("LogsStorage.UpdateKey", func() (*v1.WrappedLogStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("LogsStorage.UpdateKey", func() (*v1.WrappedLogStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(logResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -256,7 +256,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 }
 
 func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId string, id uuid.UUID) error {
-	return ErrorFromDecodedResponse1("LogsStorage.DeleteKey", func() error {
+	return errorFromDecodedResponse1("LogsStorage.DeleteKey", func() error {
 		if rid, err := strconv.ParseInt(logResourceId, 10, 64); err != nil {
 			return err
 		} else {

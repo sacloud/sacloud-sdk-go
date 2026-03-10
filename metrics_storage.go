@@ -59,7 +59,7 @@ type MetricsStorageListParams struct {
 }
 
 func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListParams) (ret []v1.MetricsStorage, err error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.List", func() (*v1.PaginatedMetricsStorageList, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.List", func() (*v1.PaginatedMetricsStorageList, error) {
 		if resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID); err != nil {
 			return nil, err
 		} else {
@@ -79,7 +79,7 @@ func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListP
 }
 
 func (op *metricsStorageOp) Read(ctx context.Context, resourceID string) (*v1.MetricsStorage, error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.Read", func() (*v1.WrappedMetricsStorage, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.Read", func() (*v1.WrappedMetricsStorage, error) {
 		if id, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -96,7 +96,7 @@ type MetricsStorageCreateParams struct {
 }
 
 func (op *metricsStorageOp) Create(ctx context.Context, params MetricsStorageCreateParams) (*v1.MetricsStorage, error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.Create", func() (*v1.MetricsStorage, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.Create", func() (*v1.MetricsStorage, error) {
 		return op.client.MetricsStoragesCreate(ctx, &v1.MetricsStorageCreate{
 			Name:        params.Name,
 			Description: intoOpt[v1.OptString](params.Description),
@@ -112,7 +112,7 @@ type MetricsStorageUpdateParams struct {
 }
 
 func (op *metricsStorageOp) Update(ctx context.Context, id string, params MetricsStorageUpdateParams) (*v1.MetricsStorage, error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.Update", func() (*v1.WrappedMetricsStorage, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.Update", func() (*v1.WrappedMetricsStorage, error) {
 		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -126,7 +126,7 @@ func (op *metricsStorageOp) Update(ctx context.Context, id string, params Metric
 }
 
 func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error {
-	return ErrorFromDecodedResponse1("MetricsStorage.Delete", func() error {
+	return errorFromDecodedResponse1("MetricsStorage.Delete", func() error {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return err
 		} else {
@@ -136,7 +136,7 @@ func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error
 }
 
 func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) (ret []v1.MetricsStorageDailyUsage, err error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.ReadDailyStats", func() (*v1.MetricsStorageDailyUsageBody, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.ReadDailyStats", func() (*v1.MetricsStorageDailyUsageBody, error) {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -154,7 +154,7 @@ func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID strin
 }
 
 func (op *metricsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) (ret []v1.MetricsStorageMonthlyUsage, err error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.ReadMonthlyStats", func() (*v1.MetricsStorageMonthlyUsageBody, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.ReadMonthlyStats", func() (*v1.MetricsStorageMonthlyUsageBody, error) {
 		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -171,7 +171,7 @@ func (op *metricsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID str
 }
 
 func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) (ret []v1.MetricsStorageAccessKey, err error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.ListKeys", func() (*v1.PaginatedMetricsStorageAccessKeyList, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.ListKeys", func() (*v1.PaginatedMetricsStorageAccessKeyList, error) {
 		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -189,7 +189,7 @@ func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId stri
 }
 
 func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId string, description *string) (*v1.MetricsStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.CreateKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.CreateKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -202,7 +202,7 @@ func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId str
 }
 
 func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId string, id uuid.UUID) (*v1.MetricsStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.ReadKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.ReadKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -216,7 +216,7 @@ func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId strin
 }
 
 func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId string, id uuid.UUID, description *string) (*v1.MetricsStorageAccessKey, error) {
-	res, err := ErrorFromDecodedResponse("MetricsStorage.UpdateKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
+	res, err := errorFromDecodedResponse("MetricsStorage.UpdateKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
 		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
 			return nil, err
 		} else {
@@ -233,7 +233,7 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 
 // DeleteKey deletes an access key for a metrics storage resource.
 func (op *metricsStorageOp) DeleteKey(ctx context.Context, metricsResourceId string, id uuid.UUID) error {
-	return ErrorFromDecodedResponse1("MetricsStorage.DeleteKey", func() error {
+	return errorFromDecodedResponse1("MetricsStorage.DeleteKey", func() error {
 		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
 			return err
 		} else {
