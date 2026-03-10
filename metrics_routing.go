@@ -74,26 +74,28 @@ type MetricsRoutingCreateParams struct {
 
 func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCreateParams) (*v1.MetricsRouting, error) {
 	res, err := errorFromDecodedResponse("MetricsRouting.Create", func() (*v1.WrappedMetricsRouting, error) {
-		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
+		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		if err != nil {
 			return nil, fmt.Errorf("MetricsRoutingCreateParams.ResourceID: %w", err)
-		} else if mid, err := strconv.ParseInt(params.MetricsStorageID, 10, 64); err != nil {
-			return nil, fmt.Errorf("MetricsRoutingCreateParams.MetricsStorageID: %w", err)
-		} else {
-			req := v1.MetricsRouting{
-				PublisherCode:    intoOpt[v1.OptString](&params.PublisherCode),
-				ResourceID:       rid,
-				Variant:          params.Variant,
-				MetricsStorageID: intoOptNil[v1.OptNilInt64](&mid),
-			}
-
-			// prevent ogen error (encoder is not accepting empty struct)
-			req.Publisher.SetFake()
-			req.MetricsStorage.SetFake()
-			req.Publisher.SetVariants(make([]v1.PublisherVariant, 0))
-			req.MetricsStorage.SetTags(make([]string, 0))
-
-			return op.client.MetricsRoutingsCreate(ctx, &req)
 		}
+		mid, err := strconv.ParseInt(params.MetricsStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("MetricsRoutingCreateParams.MetricsStorageID: %w", err)
+		}
+		req := v1.MetricsRouting{
+			PublisherCode:    intoOpt[v1.OptString](&params.PublisherCode),
+			ResourceID:       rid,
+			Variant:          params.Variant,
+			MetricsStorageID: intoOptNil[v1.OptNilInt64](&mid),
+		}
+
+		// prevent ogen error (encoder is not accepting empty struct)
+		req.Publisher.SetFake()
+		req.MetricsStorage.SetFake()
+		req.Publisher.SetVariants(make([]v1.PublisherVariant, 0))
+		req.MetricsStorage.SetTags(make([]string, 0))
+
+		return op.client.MetricsRoutingsCreate(ctx, &req)
 	})
 	return unwrapE[*v1.MetricsRouting](res, err)
 }
@@ -114,18 +116,20 @@ type MetricsRoutingUpdateParams struct {
 
 func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params MetricsRoutingUpdateParams) (*v1.MetricsRouting, error) {
 	res, err := errorFromDecodedResponse("MetricsRouting.Update", func() (*v1.WrappedMetricsRouting, error) {
-		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
+		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		if err != nil {
 			return nil, fmt.Errorf("MetricsRoutingUpdateParams.ResourceID: %w", err)
-		} else if mid, err := fromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID); err != nil {
-			return nil, fmt.Errorf("MetricsRoutingUpdateParams.MetricsStorageID: %w", err)
-		} else {
-			return op.client.MetricsRoutingsPartialUpdate(ctx, v1.NewOptPatchedMetricsRouting(v1.PatchedMetricsRouting{
-				PublisherCode:    intoOpt[v1.OptString](params.PublisherCode),
-				ResourceID:       rid,
-				Variant:          intoOpt[v1.OptString](params.Variant),
-				MetricsStorageID: mid,
-			}), v1.MetricsRoutingsPartialUpdateParams{UID: id})
 		}
+		mid, err := fromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("MetricsRoutingUpdateParams.MetricsStorageID: %w", err)
+		}
+		return op.client.MetricsRoutingsPartialUpdate(ctx, v1.NewOptPatchedMetricsRouting(v1.PatchedMetricsRouting{
+			PublisherCode:    intoOpt[v1.OptString](params.PublisherCode),
+			ResourceID:       rid,
+			Variant:          intoOpt[v1.OptString](params.Variant),
+			MetricsStorageID: mid,
+		}), v1.MetricsRoutingsPartialUpdateParams{UID: id})
 	})
 	return unwrapE[*v1.MetricsRouting](res, err)
 }

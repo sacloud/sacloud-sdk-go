@@ -29,15 +29,13 @@ type Error struct {
 }
 
 func (e *Error) Error() string {
-	if e.msg != "" {
-		if e.err != nil {
-			return "monitoringsuite: " + e.msg + ": " + e.err.Error()
-		} else {
-			return "monitoringsuite: " + e.msg
-		}
-	} else {
+	if e.msg == "" {
 		return "monitoringsuite: " + e.err.Error()
 	}
+	if e.err != nil {
+		return "monitoringsuite: " + e.msg + ": " + e.err.Error()
+	}
+	return "monitoringsuite: " + e.msg
 }
 
 func (e *Error) Unwrap() error {
@@ -54,18 +52,24 @@ func NewAPIError(method string, code int, err error) *Error {
 
 // convert UnexpectedStatusCodeError -> IsNotFoundError
 func errorFromDecodedResponse[T any](method string, yield func() (T, error)) (res T, err error) {
-	if res, err = yield(); err == nil {
-		// no error
-	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
+	res, err = yield()
+	if err == nil {
+		return // no error
+	}
+	e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err)
+	if !ok {
 		// expected error
 		err = NewAPIError(method, 0, err)
-	} else if msg, ee := io.ReadAll(e.Payload.Body); ee != nil {
+		return
+	}
+	msg, ee := io.ReadAll(e.Payload.Body)
+	if ee != nil {
 		// payload read error, maybe empty
 		err = errors.Join(e, ee)
-	} else {
-		// expect error payload to be at least human readable
-		err = NewAPIError(method, e.StatusCode, fmt.Errorf("%s", string(msg)))
+		return
 	}
+	// expect error payload to be at least human readable
+	err = NewAPIError(method, e.StatusCode, fmt.Errorf("%s", string(msg)))
 
 	return
 }

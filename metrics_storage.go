@@ -60,17 +60,17 @@ type MetricsStorageListParams struct {
 
 func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListParams) (ret []v1.MetricsStorage, err error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.List", func() (*v1.PaginatedMetricsStorageList, error) {
-		if resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID); err != nil {
+		resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
-				Count:      intoOpt[v1.OptInt](params.Count),
-				From:       intoOpt[v1.OptInt](params.From),
-				AccountID:  intoOpt[v1.OptString](params.AccountID),
-				ResourceID: resourceId,
-				IsSystem:   intoOpt[v1.OptBool](params.IsSystem),
-			})
 		}
+		return op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
+			Count:      intoOpt[v1.OptInt](params.Count),
+			From:       intoOpt[v1.OptInt](params.From),
+			AccountID:  intoOpt[v1.OptString](params.AccountID),
+			ResourceID: resourceId,
+			IsSystem:   intoOpt[v1.OptBool](params.IsSystem),
+		})
 	})
 	if err == nil {
 		ret = res.GetResults()
@@ -80,11 +80,11 @@ func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListP
 
 func (op *metricsStorageOp) Read(ctx context.Context, resourceID string) (*v1.MetricsStorage, error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.Read", func() (*v1.WrappedMetricsStorage, error) {
-		if id, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+		id, err := strconv.ParseInt(resourceID, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesRetrieve(ctx, v1.MetricsStoragesRetrieveParams{ResourceID: id})
 		}
+		return op.client.MetricsStoragesRetrieve(ctx, v1.MetricsStoragesRetrieveParams{ResourceID: id})
 	})
 	return unwrapE[*v1.MetricsStorage](res, err)
 }
@@ -113,39 +113,39 @@ type MetricsStorageUpdateParams struct {
 
 func (op *metricsStorageOp) Update(ctx context.Context, id string, params MetricsStorageUpdateParams) (*v1.MetricsStorage, error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.Update", func() (*v1.WrappedMetricsStorage, error) {
-		if rid, err := strconv.ParseInt(id, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesPartialUpdate(ctx, v1.NewOptPatchedMetricsStorage(v1.PatchedMetricsStorage{
-				Name:        intoOpt[v1.OptString](params.Name),
-				Description: intoOpt[v1.OptString](params.Description),
-			}), v1.MetricsStoragesPartialUpdateParams{ResourceID: rid})
 		}
+		return op.client.MetricsStoragesPartialUpdate(ctx, v1.NewOptPatchedMetricsStorage(v1.PatchedMetricsStorage{
+			Name:        intoOpt[v1.OptString](params.Name),
+			Description: intoOpt[v1.OptString](params.Description),
+		}), v1.MetricsStoragesPartialUpdateParams{ResourceID: rid})
 	})
 	return unwrapE[*v1.MetricsStorage](res, err)
 }
 
 func (op *metricsStorageOp) Delete(ctx context.Context, resourceID string) error {
 	return errorFromDecodedResponse1("MetricsStorage.Delete", func() error {
-		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(resourceID, 10, 64)
+		if err != nil {
 			return err
-		} else {
-			return op.client.MetricsStoragesDestroy(ctx, v1.MetricsStoragesDestroyParams{ResourceID: rid})
 		}
+		return op.client.MetricsStoragesDestroy(ctx, v1.MetricsStoragesDestroyParams{ResourceID: rid})
 	})
 }
 
 func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) (ret []v1.MetricsStorageDailyUsage, err error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.ReadDailyStats", func() (*v1.MetricsStorageDailyUsageBody, error) {
-		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(resourceID, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesStatsDailyRetrieve(ctx, v1.MetricsStoragesStatsDailyRetrieveParams{
-				ResourceID: rid,
-				StartDate:  intoOpt[v1.OptDate](startDate),
-				EndDate:    intoOpt[v1.OptDate](endDate),
-			})
 		}
+		return op.client.MetricsStoragesStatsDailyRetrieve(ctx, v1.MetricsStoragesStatsDailyRetrieveParams{
+			ResourceID: rid,
+			StartDate:  intoOpt[v1.OptDate](startDate),
+			EndDate:    intoOpt[v1.OptDate](endDate),
+		})
 	})
 	if err == nil {
 		ret = res.GetUsages()
@@ -155,14 +155,14 @@ func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID strin
 
 func (op *metricsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) (ret []v1.MetricsStorageMonthlyUsage, err error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.ReadMonthlyStats", func() (*v1.MetricsStorageMonthlyUsageBody, error) {
-		if rid, err := strconv.ParseInt(resourceID, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(resourceID, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesStatsMonthlyRetrieve(ctx, v1.MetricsStoragesStatsMonthlyRetrieveParams{
-				ResourceID: rid,
-				Year:       year,
-			})
 		}
+		return op.client.MetricsStoragesStatsMonthlyRetrieve(ctx, v1.MetricsStoragesStatsMonthlyRetrieveParams{
+			ResourceID: rid,
+			Year:       year,
+		})
 	})
 	if err == nil {
 		ret = res.GetUsages()
@@ -172,15 +172,15 @@ func (op *metricsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID str
 
 func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId string, count *int, from *int) (ret []v1.MetricsStorageAccessKey, err error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.ListKeys", func() (*v1.PaginatedMetricsStorageAccessKeyList, error) {
-		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesKeysList(ctx, v1.MetricsStoragesKeysListParams{
-				MetricsResourceID: rid,
-				Count:             intoOpt[v1.OptInt](count),
-				From:              intoOpt[v1.OptInt](from),
-			})
 		}
+		return op.client.MetricsStoragesKeysList(ctx, v1.MetricsStoragesKeysListParams{
+			MetricsResourceID: rid,
+			Count:             intoOpt[v1.OptInt](count),
+			From:              intoOpt[v1.OptInt](from),
+		})
 	})
 	if err == nil {
 		ret = res.GetResults()
@@ -190,43 +190,43 @@ func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId stri
 
 func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId string, description *string) (*v1.MetricsStorageAccessKey, error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.CreateKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
-		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesKeysCreate(ctx, v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
-				Description: intoOpt[v1.OptString](description),
-			}), v1.MetricsStoragesKeysCreateParams{MetricsResourceID: rid})
 		}
+		return op.client.MetricsStoragesKeysCreate(ctx, v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
+			Description: intoOpt[v1.OptString](description),
+		}), v1.MetricsStoragesKeysCreateParams{MetricsResourceID: rid})
 	})
 	return unwrapE[*v1.MetricsStorageAccessKey](res, err)
 }
 
 func (op *metricsStorageOp) ReadKey(ctx context.Context, metricsResourceId string, id uuid.UUID) (*v1.MetricsStorageAccessKey, error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.ReadKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
-		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesKeysRetrieve(ctx, v1.MetricsStoragesKeysRetrieveParams{
-				MetricsResourceID: rid,
-				UID:               id,
-			})
 		}
+		return op.client.MetricsStoragesKeysRetrieve(ctx, v1.MetricsStoragesKeysRetrieveParams{
+			MetricsResourceID: rid,
+			UID:               id,
+		})
 	})
 	return unwrapE[*v1.MetricsStorageAccessKey](res, err)
 }
 
 func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId string, id uuid.UUID, description *string) (*v1.MetricsStorageAccessKey, error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.UpdateKey", func() (*v1.WrappedMetricsStorageAccessKey, error) {
-		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.MetricsStoragesKeysUpdate(ctx, v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
-				Description: intoOpt[v1.OptString](description),
-			}), v1.MetricsStoragesKeysUpdateParams{
-				MetricsResourceID: rid,
-				UID:               id,
-			})
 		}
+		return op.client.MetricsStoragesKeysUpdate(ctx, v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
+			Description: intoOpt[v1.OptString](description),
+		}), v1.MetricsStoragesKeysUpdateParams{
+			MetricsResourceID: rid,
+			UID:               id,
+		})
 	})
 	return unwrapE[*v1.MetricsStorageAccessKey](res, err)
 }
@@ -234,13 +234,13 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 // DeleteKey deletes an access key for a metrics storage resource.
 func (op *metricsStorageOp) DeleteKey(ctx context.Context, metricsResourceId string, id uuid.UUID) error {
 	return errorFromDecodedResponse1("MetricsStorage.DeleteKey", func() error {
-		if rid, err := strconv.ParseInt(metricsResourceId, 10, 64); err != nil {
+		rid, err := strconv.ParseInt(metricsResourceId, 10, 64)
+		if err != nil {
 			return err
-		} else {
-			return op.client.MetricsStoragesKeysDestroy(ctx, v1.MetricsStoragesKeysDestroyParams{
-				MetricsResourceID: rid,
-				UID:               id,
-			})
 		}
+		return op.client.MetricsStoragesKeysDestroy(ctx, v1.MetricsStoragesKeysDestroyParams{
+			MetricsResourceID: rid,
+			UID:               id,
+		})
 	})
 }

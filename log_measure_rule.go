@@ -47,15 +47,15 @@ func NewLogMeasureRuleOp(client *v1.Client) LogMeasureRuleAPI {
 
 func (op *logMeasureRuleOp) List(ctx context.Context, projectId string, count *int, from *int) (ret []v1.LogMeasureRule, err error) {
 	res, err := errorFromDecodedResponse("LogMeasureRule.List", func() (*v1.PaginatedLogMeasureRuleList, error) {
-		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		id, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsLogMeasureRulesList(ctx, v1.AlertsProjectsLogMeasureRulesListParams{
-				ProjectResourceID: id,
-				Count:             intoOpt[v1.OptInt](count),
-				From:              intoOpt[v1.OptInt](from),
-			})
 		}
+		return op.client.AlertsProjectsLogMeasureRulesList(ctx, v1.AlertsProjectsLogMeasureRulesListParams{
+			ProjectResourceID: id,
+			Count:             intoOpt[v1.OptInt](count),
+			From:              intoOpt[v1.OptInt](from),
+		})
 	})
 	if err == nil {
 		ret = res.GetResults()
@@ -73,42 +73,46 @@ type LogMeasureRuleCreateParams struct {
 
 func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogMeasureRuleCreateParams) (*v1.LogMeasureRule, error) {
 	return errorFromDecodedResponse("LogMeasureRule.Create", func() (*v1.LogMeasureRule, error) {
-		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
-		} else if lid, err := strconv.ParseInt(p.LogStorageID, 10, 64); err != nil {
-			return nil, fmt.Errorf("LogMeasureRuleCreateParams.LogStorageID: %w", err)
-		} else if mid, err := strconv.ParseInt(p.MetricsStorageID, 10, 64); err != nil {
-			return nil, fmt.Errorf("LogMeasureRuleCreateParams.MetricsStorageID: %w", err)
-		} else {
-			params := &v1.LogMeasureRule{
-				LogStorageID:     v1.NewOptNilInt64(lid),
-				MetricsStorageID: v1.NewOptNilInt64(mid),
-				Name:             intoOpt[v1.OptString](p.Name),
-				Description:      intoOpt[v1.OptString](p.Description),
-				Rule:             p.Rule,
-			}
-			// prevent ogen error (encoder is not accepting empty struct)
-			params.LogStorage.SetFake()
-			params.MetricsStorage.SetFake()
-			params.LogStorage.SetTags(make([]string, 0))
-			params.MetricsStorage.SetTags(make([]string, 0))
-			return op.client.AlertsProjectsLogMeasureRulesCreate(ctx, params, v1.AlertsProjectsLogMeasureRulesCreateParams{
-				ProjectResourceID: pid,
-			})
 		}
+		lid, err := strconv.ParseInt(p.LogStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRuleCreateParams.LogStorageID: %w", err)
+		}
+		mid, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRuleCreateParams.MetricsStorageID: %w", err)
+		}
+		params := &v1.LogMeasureRule{
+			LogStorageID:     v1.NewOptNilInt64(lid),
+			MetricsStorageID: v1.NewOptNilInt64(mid),
+			Name:             intoOpt[v1.OptString](p.Name),
+			Description:      intoOpt[v1.OptString](p.Description),
+			Rule:             p.Rule,
+		}
+		// prevent ogen error (encoder is not accepting empty struct)
+		params.LogStorage.SetFake()
+		params.MetricsStorage.SetFake()
+		params.LogStorage.SetTags(make([]string, 0))
+		params.MetricsStorage.SetTags(make([]string, 0))
+		return op.client.AlertsProjectsLogMeasureRulesCreate(ctx, params, v1.AlertsProjectsLogMeasureRulesCreateParams{
+			ProjectResourceID: pid,
+		})
 	})
 }
 
 func (op *logMeasureRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.LogMeasureRule, error) {
 	return errorFromDecodedResponse("LogMeasureRule.Read", func() (*v1.LogMeasureRule, error) {
-		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsLogMeasureRulesRetrieve(ctx, v1.AlertsProjectsLogMeasureRulesRetrieveParams{
-				ProjectResourceID: pid,
-				UID:               ruleId,
-			})
 		}
+		return op.client.AlertsProjectsLogMeasureRulesRetrieve(ctx, v1.AlertsProjectsLogMeasureRulesRetrieveParams{
+			ProjectResourceID: pid,
+			UID:               ruleId,
+		})
 	})
 }
 
@@ -122,37 +126,41 @@ type LogMeasureRuleUpdateParams struct {
 
 func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p LogMeasureRuleUpdateParams) (*v1.LogMeasureRule, error) {
 	return errorFromDecodedResponse("LogMeasureRule.Update", func() (*v1.LogMeasureRule, error) {
-		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
-		} else if lid, err := fromStringPtr[v1.OptNilInt64, int64](p.LogStorageID); err != nil {
-			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.LogStorageID: %w", err)
-		} else if mid, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID); err != nil {
-			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.MetricsStorageID: %w", err)
-		} else {
-			return op.client.AlertsProjectsLogMeasureRulesPartialUpdate(ctx, v1.NewOptPatchedLogMeasureRule(v1.PatchedLogMeasureRule{
-				LogStorageID:     lid,
-				MetricsStorageID: mid,
-				Name:             intoOpt[v1.OptString](p.Name),
-				Description:      intoOpt[v1.OptString](p.Description),
-				Rule:             intoOpt[v1.OptLogMeasureRuleModel](p.Rule),
-			}), v1.AlertsProjectsLogMeasureRulesPartialUpdateParams{
-				ProjectResourceID: pid,
-				UID:               ruleId,
-			})
 		}
+		lid, err := fromStringPtr[v1.OptNilInt64, int64](p.LogStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.LogStorageID: %w", err)
+		}
+		mid, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.MetricsStorageID: %w", err)
+		}
+		return op.client.AlertsProjectsLogMeasureRulesPartialUpdate(ctx, v1.NewOptPatchedLogMeasureRule(v1.PatchedLogMeasureRule{
+			LogStorageID:     lid,
+			MetricsStorageID: mid,
+			Name:             intoOpt[v1.OptString](p.Name),
+			Description:      intoOpt[v1.OptString](p.Description),
+			Rule:             intoOpt[v1.OptLogMeasureRuleModel](p.Rule),
+		}), v1.AlertsProjectsLogMeasureRulesPartialUpdateParams{
+			ProjectResourceID: pid,
+			UID:               ruleId,
+		})
 	})
 }
 
 func (op *logMeasureRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
 	return errorFromDecodedResponse1("LogMeasureRule.Delete", func() error {
-		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return err
-		} else {
-			return op.client.AlertsProjectsLogMeasureRulesDestroy(ctx, v1.AlertsProjectsLogMeasureRulesDestroyParams{
-				ProjectResourceID: pid,
-				UID:               ruleId,
-			})
 		}
+		return op.client.AlertsProjectsLogMeasureRulesDestroy(ctx, v1.AlertsProjectsLogMeasureRulesDestroyParams{
+			ProjectResourceID: pid,
+			UID:               ruleId,
+		})
 	})
 }
 
@@ -166,18 +174,18 @@ type LogMeasureRuleListHistoriesParams struct {
 
 func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string, params LogMeasureRuleListHistoriesParams) (ret []v1.History, err error) {
 	res, err := errorFromDecodedResponse("LogMeasureRule.ListHistories", func() (*v1.PaginatedHistoryList, error) {
-		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
-				ProjectResourceID: pid,
-				Count:             intoOpt[v1.OptInt](params.Count),
-				From:              intoOpt[v1.OptInt](params.From),
-				Open:              intoOpt[v1.OptBool](params.Open),
-				Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
-				StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
-			})
 		}
+		return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
+			ProjectResourceID: pid,
+			Count:             intoOpt[v1.OptInt](params.Count),
+			From:              intoOpt[v1.OptInt](params.From),
+			Open:              intoOpt[v1.OptBool](params.Open),
+			Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
+			StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
+		})
 	})
 	if err == nil {
 		ret = res.GetResults()
@@ -187,13 +195,13 @@ func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string,
 
 func (op *logMeasureRuleOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
 	return errorFromDecodedResponse("LogMeasureRule.ReadHistory", func() (*v1.History, error) {
-		if pid, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsHistoriesRetrieve(ctx, v1.AlertsProjectsHistoriesRetrieveParams{
-				ProjectResourceID: pid,
-				UID:               historyId,
-			})
 		}
+		return op.client.AlertsProjectsHistoriesRetrieve(ctx, v1.AlertsProjectsHistoriesRetrieveParams{
+			ProjectResourceID: pid,
+			UID:               historyId,
+		})
 	})
 }

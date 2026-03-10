@@ -74,26 +74,28 @@ type LogsRoutingCreateParams struct {
 
 func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreateParams) (*v1.LogRouting, error) {
 	res, err := errorFromDecodedResponse("LogRouting.Create", func() (*v1.WrappedLogRouting, error) {
-		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
+		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		if err != nil {
 			return nil, fmt.Errorf("LogsRoutingCreateParams.ResourceID: %w", err)
-		} else if lid, err := strconv.ParseInt(params.LogStorageID, 10, 64); err != nil {
-			return nil, fmt.Errorf("LogsRoutingCreateParams.LogStorageID: %w", err)
-		} else {
-			request := v1.LogRouting{
-				PublisherCode: intoOpt[v1.OptString](&params.PublisherCode),
-				ResourceID:    rid,
-				Variant:       params.Variant,
-				LogStorageID:  intoOptNil[v1.OptNilInt64](&lid),
-			}
-
-			// prevent ogen error (encoder is not accepting empty struct)
-			request.Publisher.SetFake()
-			request.LogStorage.SetFake()
-			request.Publisher.SetVariants(make([]v1.PublisherVariant, 0))
-			request.LogStorage.SetTags(make([]string, 0))
-
-			return op.client.LogsRoutingsCreate(ctx, &request)
 		}
+		lid, err := strconv.ParseInt(params.LogStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("LogsRoutingCreateParams.LogStorageID: %w", err)
+		}
+		request := v1.LogRouting{
+			PublisherCode: intoOpt[v1.OptString](&params.PublisherCode),
+			ResourceID:    rid,
+			Variant:       params.Variant,
+			LogStorageID:  intoOptNil[v1.OptNilInt64](&lid),
+		}
+
+		// prevent ogen error (encoder is not accepting empty struct)
+		request.Publisher.SetFake()
+		request.LogStorage.SetFake()
+		request.Publisher.SetVariants(make([]v1.PublisherVariant, 0))
+		request.LogStorage.SetTags(make([]string, 0))
+
+		return op.client.LogsRoutingsCreate(ctx, &request)
 	})
 	return unwrapE[*v1.LogRouting](res, err)
 }
@@ -114,18 +116,20 @@ type LogsRoutingUpdateParams struct {
 
 func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRoutingUpdateParams) (*v1.LogRouting, error) {
 	res, err := errorFromDecodedResponse("LogRouting.Update", func() (*v1.WrappedLogRouting, error) {
-		if rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID); err != nil {
+		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		if err != nil {
 			return nil, fmt.Errorf("LogsRoutingUpdateParams.ResourceID: %w", err)
-		} else if lid, err := fromStringPtr[v1.OptNilInt64, int64](params.LogStorageID); err != nil {
-			return nil, fmt.Errorf("LogsRoutingUpdateParams.LogStorageID: %w", err)
-		} else {
-			return op.client.LogsRoutingsPartialUpdate(ctx, v1.NewOptPatchedLogRouting(v1.PatchedLogRouting{
-				PublisherCode: intoOpt[v1.OptString](params.PublisherCode),
-				ResourceID:    rid,
-				Variant:       intoOpt[v1.OptString](params.Variant),
-				LogStorageID:  lid,
-			}), v1.LogsRoutingsPartialUpdateParams{UID: id})
 		}
+		lid, err := fromStringPtr[v1.OptNilInt64, int64](params.LogStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("LogsRoutingUpdateParams.LogStorageID: %w", err)
+		}
+		return op.client.LogsRoutingsPartialUpdate(ctx, v1.NewOptPatchedLogRouting(v1.PatchedLogRouting{
+			PublisherCode: intoOpt[v1.OptString](params.PublisherCode),
+			ResourceID:    rid,
+			Variant:       intoOpt[v1.OptString](params.Variant),
+			LogStorageID:  lid,
+		}), v1.LogsRoutingsPartialUpdateParams{UID: id})
 	})
 	return unwrapE[*v1.LogRouting](res, err)
 }

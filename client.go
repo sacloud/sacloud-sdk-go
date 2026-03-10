@@ -43,9 +43,12 @@ var (
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
 	endpoint := DefaultAPIRootURL
 
-	if endpointConfig, err := client.EndpointConfig(); err != nil {
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
 		return nil, NewError("unable to load endpoint configuration", err)
-	} else if ep, ok := endpointConfig.Endpoints[ServiceKey]; ok && ep != "" {
+	}
+	ep, ok := endpointConfig.Endpoints[ServiceKey]
+	if ok && ep != "" {
 		endpoint = ep
 	}
 

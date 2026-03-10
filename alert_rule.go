@@ -47,15 +47,15 @@ func NewAlertRuleOp(client *v1.Client) AlertRuleAPI {
 
 func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int, from *int) (ret []v1.AlertRule, err error) {
 	res, err := errorFromDecodedResponse("AlertRule.List", func() (*v1.PaginatedAlertRuleList, error) {
-		if id, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		id, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsRulesList(ctx, v1.AlertsProjectsRulesListParams{
-				ProjectResourceID: id,
-				Count:             intoOpt[v1.OptInt](count),
-				From:              intoOpt[v1.OptInt](from),
-			})
 		}
+		return op.client.AlertsProjectsRulesList(ctx, v1.AlertsProjectsRulesListParams{
+			ProjectResourceID: id,
+			Count:             intoOpt[v1.OptInt](count),
+			From:              intoOpt[v1.OptInt](from),
+		})
 	})
 	if err == nil {
 		ret = res.GetResults()
@@ -79,40 +79,42 @@ type AlertRuleCreateParams struct {
 
 func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRuleCreateParams) (*v1.AlertRule, error) {
 	return errorFromDecodedResponse("AlertRule.Create", func() (*v1.AlertRule, error) {
-		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
-		} else if intStorageId, err := strconv.ParseInt(p.MetricsStorageID, 10, 64); err != nil {
-			return nil, fmt.Errorf("AlertRuleCreateParams.MetricsStorageID: %w", err)
-		} else {
-			return op.client.AlertsProjectsRulesCreate(ctx, &v1.AlertRule{
-				MetricsStorageID:          intoNil[v1.NilInt64](&intStorageId),
-				Name:                      intoOpt[v1.OptString](p.Name),
-				Query:                     p.Query,
-				Format:                    intoOpt[v1.OptString](p.Format),
-				Template:                  intoOpt[v1.OptString](p.Template),
-				EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
-				EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
-				ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
-				ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
-				ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
-				ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
-			}, v1.AlertsProjectsRulesCreateParams{
-				ProjectResourceID: intProjectId,
-			})
 		}
+		intStorageId, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("AlertRuleCreateParams.MetricsStorageID: %w", err)
+		}
+		return op.client.AlertsProjectsRulesCreate(ctx, &v1.AlertRule{
+			MetricsStorageID:          intoNil[v1.NilInt64](&intStorageId),
+			Name:                      intoOpt[v1.OptString](p.Name),
+			Query:                     p.Query,
+			Format:                    intoOpt[v1.OptString](p.Format),
+			Template:                  intoOpt[v1.OptString](p.Template),
+			EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
+			EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
+			ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
+			ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
+			ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
+			ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
+		}, v1.AlertsProjectsRulesCreateParams{
+			ProjectResourceID: intProjectId,
+		})
 	})
 }
 
 func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.AlertRule, error) {
 	return errorFromDecodedResponse("AlertRule.Read", func() (*v1.AlertRule, error) {
-		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsRulesRetrieve(ctx, v1.AlertsProjectsRulesRetrieveParams{
-				ProjectResourceID: intProjectId,
-				UID:               ruleId,
-			})
 		}
+		return op.client.AlertsProjectsRulesRetrieve(ctx, v1.AlertsProjectsRulesRetrieveParams{
+			ProjectResourceID: intProjectId,
+			UID:               ruleId,
+		})
 	})
 }
 
@@ -132,41 +134,43 @@ type AlertRuleUpdateParams struct {
 
 func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleUpdateParams) (*v1.AlertRule, error) {
 	return errorFromDecodedResponse("AlertRule.Update", func() (*v1.AlertRule, error) {
-		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
-		} else if storageId, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID); err != nil {
-			return nil, fmt.Errorf("AlertRuleUpdateParams.MetricsStorageID: %w", err)
-		} else {
-			return op.client.AlertsProjectsRulesPartialUpdate(ctx, v1.NewOptPatchedAlertRule(v1.PatchedAlertRule{
-				MetricsStorageID:          storageId,
-				Name:                      intoOpt[v1.OptString](p.Name),
-				Query:                     intoOpt[v1.OptString](p.Query),
-				Format:                    intoOpt[v1.OptString](p.Format),
-				Template:                  intoOpt[v1.OptString](p.Template),
-				EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
-				EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
-				ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
-				ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
-				ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
-				ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
-			}), v1.AlertsProjectsRulesPartialUpdateParams{
-				ProjectResourceID: intProjectId,
-				UID:               ruleId,
-			})
 		}
+		storageId, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("AlertRuleUpdateParams.MetricsStorageID: %w", err)
+		}
+		return op.client.AlertsProjectsRulesPartialUpdate(ctx, v1.NewOptPatchedAlertRule(v1.PatchedAlertRule{
+			MetricsStorageID:          storageId,
+			Name:                      intoOpt[v1.OptString](p.Name),
+			Query:                     intoOpt[v1.OptString](p.Query),
+			Format:                    intoOpt[v1.OptString](p.Format),
+			Template:                  intoOpt[v1.OptString](p.Template),
+			EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
+			EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
+			ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
+			ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
+			ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
+			ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
+		}), v1.AlertsProjectsRulesPartialUpdateParams{
+			ProjectResourceID: intProjectId,
+			UID:               ruleId,
+		})
 	})
 }
 
 func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
 	return errorFromDecodedResponse1("AlertRule.Delete", func() error {
-		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return err
-		} else {
-			return op.client.AlertsProjectsRulesDestroy(ctx, v1.AlertsProjectsRulesDestroyParams{
-				ProjectResourceID: intProjectId,
-				UID:               ruleId,
-			})
 		}
+		return op.client.AlertsProjectsRulesDestroy(ctx, v1.AlertsProjectsRulesDestroyParams{
+			ProjectResourceID: intProjectId,
+			UID:               ruleId,
+		})
 	})
 }
 
@@ -180,19 +184,19 @@ type AlertRuleListHistoriesParams struct {
 
 func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleListHistoriesParams) (ret []v1.History, err error) {
 	res, err := errorFromDecodedResponse("AlertRule.ListHistories", func() (*v1.PaginatedHistoryList, error) {
-		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsRulesHistoriesList(ctx, v1.AlertsProjectsRulesHistoriesListParams{
-				ProjectResourceID: intProjectId,
-				RuleUID:           ruleId,
-				Count:             intoOpt[v1.OptInt](p.Count),
-				From:              intoOpt[v1.OptInt](p.From),
-				Open:              intoOpt[v1.OptBool](p.Open),
-				Severity:          intoOpt[v1.OptAlertsProjectsRulesHistoriesListSeverity](p.Severity),
-				StartsAt:          intoOpt[v1.OptDateTime](p.StartsAt),
-			})
 		}
+		return op.client.AlertsProjectsRulesHistoriesList(ctx, v1.AlertsProjectsRulesHistoriesListParams{
+			ProjectResourceID: intProjectId,
+			RuleUID:           ruleId,
+			Count:             intoOpt[v1.OptInt](p.Count),
+			From:              intoOpt[v1.OptInt](p.From),
+			Open:              intoOpt[v1.OptBool](p.Open),
+			Severity:          intoOpt[v1.OptAlertsProjectsRulesHistoriesListSeverity](p.Severity),
+			StartsAt:          intoOpt[v1.OptDateTime](p.StartsAt),
+		})
 	})
 	if err == nil {
 		ret = res.GetResults()
@@ -202,14 +206,14 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, rule
 
 func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error) {
 	return errorFromDecodedResponse("AlertRule.ReadHistory", func() (*v1.History, error) {
-		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsRulesHistoriesRetrieve(ctx, v1.AlertsProjectsRulesHistoriesRetrieveParams{
-				ProjectResourceID: intProjectId,
-				RuleUID:           ruleId,
-				UID:               historyId,
-			})
 		}
+		return op.client.AlertsProjectsRulesHistoriesRetrieve(ctx, v1.AlertsProjectsRulesHistoriesRetrieveParams{
+			ProjectResourceID: intProjectId,
+			RuleUID:           ruleId,
+			UID:               historyId,
+		})
 	})
 }

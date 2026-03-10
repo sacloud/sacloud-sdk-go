@@ -68,11 +68,11 @@ func (op *dashboardProjectOp) Create(ctx context.Context, p DashboardProjectCrea
 
 func (op *dashboardProjectOp) Read(ctx context.Context, id string) (*v1.DashboardProject, error) {
 	res, err := errorFromDecodedResponse("DashboardProject.Read", func() (*v1.WrappedDashboardProject, error) {
-		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
+		intId, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ResourceID: intId})
 		}
+		return op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ResourceID: intId})
 	})
 	return unwrapE[*v1.DashboardProject](res, err)
 }
@@ -84,26 +84,26 @@ type DashboardProjectUpdateParams struct {
 
 func (op *dashboardProjectOp) Update(ctx context.Context, id string, params DashboardProjectUpdateParams) (*v1.DashboardProject, error) {
 	res, err := errorFromDecodedResponse("DashboardProject.Update", func() (*v1.WrappedDashboardProject, error) {
-		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
+		intId, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.DashboardsProjectsPartialUpdate(ctx, v1.NewOptPatchedDashboardProject(v1.PatchedDashboardProject{
-				Name:        intoOpt[v1.OptString](params.Name),
-				Description: intoOpt[v1.OptString](params.Description),
-			}), v1.DashboardsProjectsPartialUpdateParams{ResourceID: intId})
 		}
+		return op.client.DashboardsProjectsPartialUpdate(ctx, v1.NewOptPatchedDashboardProject(v1.PatchedDashboardProject{
+			Name:        intoOpt[v1.OptString](params.Name),
+			Description: intoOpt[v1.OptString](params.Description),
+		}), v1.DashboardsProjectsPartialUpdateParams{ResourceID: intId})
 	})
 	return unwrapE[*v1.DashboardProject](res, err)
 }
 
 func (op *dashboardProjectOp) Delete(ctx context.Context, id string) error {
 	return errorFromDecodedResponse1("DashboardProject.Delete", func() error {
-		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
+		intId, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
 			return err
-		} else {
-			return op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{
-				ResourceID: intId,
-			})
 		}
+		return op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{
+			ResourceID: intId,
+		})
 	})
 }

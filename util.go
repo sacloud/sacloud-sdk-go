@@ -23,13 +23,12 @@ func intoOpt[T, U any, P interface {
 	*T
 	Reset()
 	SetTo(u U)
-}](v *U) T {
-	var opt T
+}](v *U) (opt T) {
 	if v == nil {
 		P(&opt).Reset()
-	} else {
-		P(&opt).SetTo(*v)
+		return
 	}
+	P(&opt).SetTo(*v)
 	return opt
 }
 
@@ -38,14 +37,13 @@ func intoNil[T, U any, P interface {
 	*T
 	SetTo(u U)
 	SetToNull()
-}](v *U) T {
-	var opt T
+}](v *U) (opt T) {
 	if v == nil {
 		P(&opt).SetToNull()
-	} else {
-		P(&opt).SetTo(*v)
+		return
 	}
-	return opt
+	P(&opt).SetTo(*v)
+	return
 }
 
 // generic-ish type cast helper function
@@ -67,7 +65,7 @@ func fromStringPtr[
 		Reset()
 		SetTo(u U)
 	},
-](v *string) (T, error) {
+](v *string) (opt T, err error) {
 	var zero U
 	var n int
 	switch any(&zero).(type) {
@@ -85,15 +83,15 @@ func fromStringPtr[
 		panic("unreachable")
 	}
 
-	var opt T
 	if v == nil {
 		P(&opt).Reset()
-		return opt, nil
-	} else if val, err := strconv.ParseInt(*v, 10, n); err != nil {
-		P(&opt).Reset()
-		return opt, err
-	} else {
-		P(&opt).SetTo(U(val))
-		return opt, nil
+		return
 	}
+	val, err := strconv.ParseInt(*v, 10, n)
+	if err != nil {
+		P(&opt).Reset()
+		return
+	}
+	P(&opt).SetTo(U(val))
+	return
 }

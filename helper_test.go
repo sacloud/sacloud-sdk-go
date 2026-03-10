@@ -91,11 +91,11 @@ func IntegratedClient(t *testing.T) (*v1.Client, error) {
 	if root, ok := os.LookupEnv("SAKURA_LOCAL_ENDPOINT_MONITORINGSUITE"); ok {
 		apiUrl = root
 	}
-	if api, err := theClient.DupWith(saclient.WithTraceMode("error")); err != nil {
+	api, err := theClient.DupWith(saclient.WithTraceMode("error"))
+	if err != nil {
 		return nil, err
-	} else {
-		return NewClientWithApiUrl(apiUrl, api)
 	}
+	return NewClientWithApiUrl(apiUrl, api)
 }
 
 func WithAlertProject(t *testing.T, cli *v1.Client, ctx context.Context) *v1.AlertProject {

@@ -59,11 +59,11 @@ func (op *alertProjectOp) List(ctx context.Context, count *int, from *int) (ret 
 
 func (op *alertProjectOp) Read(ctx context.Context, id string) (*v1.AlertProject, error) {
 	res, err := errorFromDecodedResponse("AlertProject.Read", func() (*v1.WrappedAlertProject, error) {
-		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
+		intId, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsRetrieve(ctx, v1.AlertsProjectsRetrieveParams{ResourceID: intId})
 		}
+		return op.client.AlertsProjectsRetrieve(ctx, v1.AlertsProjectsRetrieveParams{ResourceID: intId})
 	})
 
 	return unwrapE[*v1.AlertProject](res, err)
@@ -90,18 +90,18 @@ type AlertProjectUpdateParams struct {
 
 func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertProjectUpdateParams) (*v1.AlertProject, error) {
 	res, err := errorFromDecodedResponse("AlertProject.Update", func() (*v1.WrappedAlertProject, error) {
-		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
+		intId, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsPartialUpdate(
-				ctx,
-				v1.NewOptPatchedAlertProject(v1.PatchedAlertProject{
-					Name:        intoOpt[v1.OptString](params.Name),
-					Description: intoOpt[v1.OptString](params.Description),
-				}),
-				v1.AlertsProjectsPartialUpdateParams{ResourceID: intId},
-			)
 		}
+		return op.client.AlertsProjectsPartialUpdate(
+			ctx,
+			v1.NewOptPatchedAlertProject(v1.PatchedAlertProject{
+				Name:        intoOpt[v1.OptString](params.Name),
+				Description: intoOpt[v1.OptString](params.Description),
+			}),
+			v1.AlertsProjectsPartialUpdateParams{ResourceID: intId},
+		)
 	})
 
 	return unwrapE[*v1.AlertProject](res, err)
@@ -109,11 +109,11 @@ func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertPro
 
 func (op *alertProjectOp) Delete(ctx context.Context, id string) error {
 	return errorFromDecodedResponse1("AlertProject.Delete", func() error {
-		if intId, err := strconv.ParseInt(id, 10, 64); err != nil {
+		intId, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
 			return err
-		} else {
-			return op.client.AlertsProjectsDestroy(ctx, v1.AlertsProjectsDestroyParams{ResourceID: intId})
 		}
+		return op.client.AlertsProjectsDestroy(ctx, v1.AlertsProjectsDestroyParams{ResourceID: intId})
 	})
 }
 
@@ -128,18 +128,18 @@ type AlertsProjectsHistoriesListParams struct {
 
 func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjectsHistoriesListParams) (ret []v1.History, err error) {
 	res, err := errorFromDecodedResponse("AlertProject.ListHistories", func() (*v1.PaginatedHistoryList, error) {
-		if intProjectId, err := strconv.ParseInt(params.ProjectID, 10, 64); err != nil {
+		intProjectId, err := strconv.ParseInt(params.ProjectID, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
-				ProjectResourceID: intProjectId,
-				Count:             intoOpt[v1.OptInt](params.Count),
-				From:              intoOpt[v1.OptInt](params.From),
-				Open:              intoOpt[v1.OptBool](params.Open),
-				Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
-				StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
-			})
 		}
+		return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
+			ProjectResourceID: intProjectId,
+			Count:             intoOpt[v1.OptInt](params.Count),
+			From:              intoOpt[v1.OptInt](params.From),
+			Open:              intoOpt[v1.OptBool](params.Open),
+			Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
+			StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
+		})
 	})
 	if err == nil {
 		ret = res.GetResults()
@@ -149,13 +149,13 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjec
 
 func (op *alertProjectOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
 	return errorFromDecodedResponse("AlertProject.ReadHistory", func() (*v1.History, error) {
-		if intProjectId, err := strconv.ParseInt(projectId, 10, 64); err != nil {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
 			return nil, err
-		} else {
-			return op.client.AlertsProjectsHistoriesRetrieve(ctx, v1.AlertsProjectsHistoriesRetrieveParams{
-				UID:               historyId,
-				ProjectResourceID: intProjectId,
-			})
 		}
+		return op.client.AlertsProjectsHistoriesRetrieve(ctx, v1.AlertsProjectsHistoriesRetrieveParams{
+			UID:               historyId,
+			ProjectResourceID: intProjectId,
+		})
 	})
 }
