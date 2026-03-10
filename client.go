@@ -31,8 +31,8 @@ const (
 	// DefaultEndpoint デフォルトのエンドポイントURL
 	DefaultEndpoint = "https://secure.sakura.ad.jp/cloud/zone/"
 
-	// DefaultPath デフォルトのAPIパス
-	DefaultPath = "/is1b/api/cloud/1.1/"
+	// DefaultZone クラウドHSM設置ゾーンのデフォルト
+	DefaultZone = "is1b"
 )
 
 var (
@@ -55,7 +55,8 @@ func (this EmptySecuritySource) BasicAuth(ctx context.Context, operationName v1.
 }
 
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
-	path := DefaultPath
+	const path = "api/cloud/1.1/"
+	zone := DefaultZone
 	endpoint := DefaultEndpoint
 
 	cfg, err := client.EndpointConfig()
@@ -68,17 +69,18 @@ func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
 		endpoint = ep
 	}
 
-	switch cfg.Zone {
-	case "is1b", "":
-		// as-is
-	case "tk1a":
-		path = "/tk1a/api/cloud/1.1/"
-	default:
-		// 未知(あるいは未サポート)のゾーン
-		return nil, NewError("NewClient", fmt.Errorf("unsupported zone: %s", cfg.Zone))
+	if cfg.Zone != "" {
+		zone = cfg.Zone
 	}
 
-	return NewClientWithApiUrl(strings.TrimSuffix(endpoint, "/")+path, client)
+	apiUrl := fmt.Sprintf(
+		"%s/%s/%s",
+		strings.TrimSuffix(endpoint, "/"),
+		strings.TrimPrefix(strings.TrimSuffix(zone, "/"), "/"),
+		path,
+	)
+
+	return NewClientWithApiUrl(apiUrl, client)
 }
 
 func NewClientWithApiUrl(apiUrl string, client saclient.ClientAPI) (*v1.Client, error) {
