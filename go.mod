@@ -2,7 +2,7 @@ module github.com/sacloud/monitoring-suite-api-go
 
 go 1.25.0
 
-toolchain go1.25.7
+toolchain go1.25.8
 
 tool github.com/ogen-go/ogen/cmd/ogen
 
