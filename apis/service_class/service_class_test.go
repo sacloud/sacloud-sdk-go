@@ -79,3 +79,22 @@ func TestListWorker_failed(t *testing.T) {
 	assert.Nil(actual)
 	assert.True(saclient.IsNotFoundError(err))
 }
+
+func TestIntegrated(t *testing.T) {
+	assert, client := apprun_test.IntegratedClient(t)
+
+	api := NewServiceClassOp(client)
+	assert.NotNil(api)
+
+	t.Run("ListLB", func(t *testing.T) {
+		actual, err := api.ListLB(t.Context())
+		assert.NoError(err)
+		assert.NotNil(actual)
+	})
+
+	t.Run("ListWorker", func(t *testing.T) {
+		actual, err := api.ListWorker(t.Context())
+		assert.NoError(err)
+		assert.NotNil(actual)
+	})
+}

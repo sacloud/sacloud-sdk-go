@@ -10,6 +10,7 @@ import (
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
 	. "github.com/sacloud/apprun-dedicated-api-go/apis/autoscalinggroup"
+	"github.com/sacloud/apprun-dedicated-api-go/apis/service_class"
 	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
 	apprun_test "github.com/sacloud/apprun-dedicated-api-go/testutil"
 	"github.com/sacloud/saclient-go"
@@ -145,4 +146,37 @@ func TestDelete_failed(t *testing.T) {
 
 	assert.Error(err)
 	assert.True(saclient.IsNotFoundError(err))
+}
+
+func TestIntegrated(t *testing.T) {
+	assert, client := apprun_test.IntegratedClient(t)
+	cid, deleter := apprun_test.IntegratedCluster(t.Context(), assert, client)
+	defer deleter()
+
+	api := NewAutoScalingGroupOp(client, cid)
+	assert.NotNil(api)
+
+	svc := service_class.NewServiceClassOp(client)
+	assert.NotNil(svc)
+
+	t.Run("Create", func(t *testing.T) {
+		asgID, deleter := apprun_test.IntegratedAsg(t.Context(), assert, client, cid)
+		defer deleter()
+
+		t.Run("List", func(t *testing.T) {
+			list := apprun_test.RepeatedList(func(cursor *v1.AutoScalingGroupID) (res []v1.ReadAutoScalingGroupDetail, next *v1.AutoScalingGroupID) {
+				res, next, err := api.List(t.Context(), 10, cursor)
+				assert.NoError(err)
+				return
+			})
+			assert.NotEmpty(list)
+		})
+
+		t.Run("Read", func(t *testing.T) {
+			actual, err := api.Read(t.Context(), asgID)
+			assert.NoError(err)
+			assert.NotNil(actual)
+			assert.Equal(asgID, actual.AutoScalingGroupID)
+		})
+	})
 }

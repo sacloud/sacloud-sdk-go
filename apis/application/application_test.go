@@ -12,6 +12,7 @@ import (
 	. "github.com/sacloud/apprun-dedicated-api-go/apis/application"
 	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
 	apprun_test "github.com/sacloud/apprun-dedicated-api-go/testutil"
+	super "github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )
@@ -176,4 +177,58 @@ func TestUpdate_failed(t *testing.T) {
 
 	assert.Error(err)
 	assert.True(saclient.IsNotFoundError(err))
+}
+
+func TestIntegrated(t *testing.T) {
+	assert, client := apprun_test.IntegratedClient(t)
+	api := NewApplicationOp(client)
+
+	assert.NotNil(api)
+
+	cid, deleter := apprun_test.IntegratedCluster(t.Context(), assert, client)
+	defer deleter()
+
+	t.Run("Create", func(t *testing.T) {
+		appName := super.RandomName("test-", 15, super.CharSetAlphaNum)
+		app, err := api.Create(t.Context(), appName, cid)
+		assert.NoError(err)
+		assert.NotNil(app)
+
+		aid := app.ApplicationID
+
+		defer t.Run("Delete", func(t *testing.T) {
+			err := api.Delete(t.Context(), aid)
+			assert.NoError(err)
+		})
+
+		t.Run("List", func(t *testing.T) {
+			list := apprun_test.RepeatedList(func(cursor *string) (res []v1.ReadApplicationDetail, next *string) {
+				res, next, err := api.List(t.Context(), 10, cursor)
+				assert.NoError(err)
+				return
+			})
+			assert.NotEmpty(list)
+		})
+
+		t.Run("Read", func(t *testing.T) {
+			actual, err := api.Read(t.Context(), aid)
+			assert.NoError(err)
+			assert.NotNil(actual)
+			assert.Equal(aid, actual.ApplicationID)
+			assert.Equal(appName, actual.Name)
+			assert.Equal(cid, actual.ClusterID)
+		})
+
+		t.Run("Update", func(t *testing.T) {
+			err := api.Update(t.Context(), aid, nil)
+			assert.NoError(err)
+		})
+
+		t.Run("Containers", func(t *testing.T) {
+			containers, err := api.Containers(t.Context(), aid)
+			assert.NoError(err)
+			assert.NotNil(containers)
+			// TODO: need to create containers and check the result
+		})
+	})
 }

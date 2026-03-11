@@ -5,6 +5,7 @@ package cluster_test
 
 import (
 	"net/http"
+	"os"
 	"testing"
 
 	"github.com/go-faster/jx"
@@ -12,6 +13,7 @@ import (
 	. "github.com/sacloud/apprun-dedicated-api-go/apis/cluster"
 	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
 	apprun_test "github.com/sacloud/apprun-dedicated-api-go/testutil"
+	super "github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )
@@ -175,4 +177,64 @@ func TestDelete_failed(t *testing.T) {
 
 	assert.Error(err)
 	assert.True(saclient.IsNotFoundError(err))
+}
+
+func TestIntegrated(t *testing.T) {
+	assert, client := apprun_test.IntegratedClient(t)
+	api := NewClusterOp(client)
+
+	assert.NotNil(api)
+
+	t.Run("Create", func(t *testing.T) {
+		spid := os.Getenv("SAKURA_APPRUN_DEDICATED_SERVICE_PRINCIPAL_ID")
+		name := super.RandomName("test-", 15, super.CharSetAlphaNum)
+		params := CreateParams{
+			Name:               name,
+			ServicePrincipalID: spid,
+			LetsEncryptEmail:   nil, // :TODO: to be tested
+			Ports: []v1.CreateLoadBalancerPort{
+				{
+					Port:     443,
+					Protocol: v1.CreateLoadBalancerPortProtocolHTTPS,
+				},
+			},
+		}
+		cluster, err := api.Create(t.Context(), params)
+		assert.NoError(err)
+		assert.NotNil(cluster)
+
+		cid := cluster.ClusterID
+
+		defer t.Run("Delete", func(t *testing.T) {
+			err := api.Delete(t.Context(), cid)
+			assert.NoError(err)
+		})
+
+		t.Run("List", func(t *testing.T) {
+			listed := apprun_test.RepeatedList(func(cursor *v1.ClusterID) (clusters []ClusterDetail, next *v1.ClusterID) {
+				clusters, next, err := api.List(t.Context(), 10, cursor)
+				assert.NoError(err)
+				return
+			})
+
+			assert.NotEmpty(listed)
+		})
+
+		t.Run("Read", func(t *testing.T) {
+			actual, err := api.Read(t.Context(), cid)
+			assert.NoError(err)
+			assert.NotNil(actual)
+			assert.Equal(cid, actual.ClusterID)
+			assert.Equal(name, actual.Name)
+			assert.Equal(spid, actual.ServicePrincipalID)
+		})
+
+		t.Run("Update", func(t *testing.T) {
+			// :TODO: to be tested with different SPID
+			err := api.Update(t.Context(), cid, UpdateParams{
+				ServicePrincipalID: spid,
+			})
+			assert.NoError(err)
+		})
+	})
 }

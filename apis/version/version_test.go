@@ -166,3 +166,59 @@ func TestDelete_failed(t *testing.T) {
 	assert.Error(err)
 	assert.True(saclient.IsNotFoundError(err))
 }
+
+func TestIntegrated(t *testing.T) {
+	assert, client := apprun_test.IntegratedClient(t)
+
+	assert.NotNil(client)
+
+	cid, clusterDeleter := apprun_test.IntegratedCluster(t.Context(), assert, client)
+	defer clusterDeleter()
+
+	aid, appDeleter := apprun_test.IntegratedApplication(t.Context(), assert, client, cid)
+	defer appDeleter()
+
+	t.Run("Create", func(t *testing.T) {
+		api := NewVersionOp(client, aid)
+		assert.NotNil(api)
+
+		version, err := api.Create(t.Context(), CreateParams{
+			Image:                  "nginx:latest",
+			CPU:                    1000,
+			Memory:                 512,
+			ScalingMode:            v1.ScalingModeManual,
+			FixedScale:             saclient.Ptr(int32(1)),
+			Cmd:                    []string{"/bin/sh"},
+			RegistryUsername:       nil,
+			RegistryPassword:       nil,
+			RegistryPasswordAction: v1.RegistryPasswordActionRemove,
+			ExposedPorts:           nil,
+			EnvVars:                nil,
+		})
+		assert.NoError(err)
+		assert.NotNil(version)
+
+		vid := version.Version
+
+		defer t.Run("Delete", func(t *testing.T) {
+			err := api.Delete(t.Context(), vid)
+			assert.NoError(err)
+		})
+
+		t.Run("List", func(t *testing.T) {
+			list := apprun_test.RepeatedList(func(cursor *v1.ApplicationVersionNumber) (res []v1.ApplicationVersionDeploymentStatus, next *v1.ApplicationVersionNumber) {
+				res, next, err := api.List(t.Context(), 10, cursor)
+				assert.NoError(err)
+				return
+			})
+			assert.NotEmpty(list)
+		})
+
+		t.Run("Read", func(t *testing.T) {
+			actual, err := api.Read(t.Context(), vid)
+			assert.NoError(err)
+			assert.NotNil(actual)
+			assert.Equal(vid, actual.Version)
+		})
+	})
+}

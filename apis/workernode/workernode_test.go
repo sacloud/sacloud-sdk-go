@@ -110,3 +110,6 @@ func TestUpdate_failed(t *testing.T) {
 	assert.Error(err)
 	assert.True(saclient.IsNotFoundError(err))
 }
+
+// There is no TestIntegrated()
+// Worker Node Integration tests are included in AutoScalingGroupOp's TestIntegrated()
