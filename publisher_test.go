@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"net/http"
 	"testing"
 
@@ -33,7 +32,7 @@ func TestPublisherOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewPublisherOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	publishers, err := api.List(ctx, nil, nil)
 	require.NoError(t, err)
@@ -61,7 +60,7 @@ func TestPublisherOp_Read_200(t *testing.T) {
 	expected.SetVariants([]v1.PublisherVariant{variant})
 	client := newTestClient(expected)
 	api := NewPublisherOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, expected.GetCode())
 	require.NoError(t, err)
@@ -82,11 +81,11 @@ func TestPublisherOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No Publisher matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewPublisherOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "nonexistent")
 	require.Nil(t, actual)
-	require.ErrorContains(t, err, "publisher not found")
+	require.ErrorContains(t, err, "No Publisher matches the given query.")
 }
 
 func TestPublisherIntegrated(t *testing.T) {
@@ -94,7 +93,7 @@ func TestPublisherIntegrated(t *testing.T) {
 	require.NoError(t, err)
 
 	api := NewPublisherOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// List all publishers
 	publishers, err := api.List(ctx, nil, nil)

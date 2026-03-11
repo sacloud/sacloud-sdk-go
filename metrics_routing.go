@@ -16,12 +16,10 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 	"strconv"
 
-	"github.com/go-faster/errors"
 	"github.com/google/uuid"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -51,19 +49,20 @@ type MetricsRoutingsListParams struct {
 	Variant       *string
 }
 
-func (op *metricsRoutingOp) List(ctx context.Context, p MetricsRoutingsListParams) ([]v1.MetricsRouting, error) {
-	params := v1.MetricsRoutingsListParams{
-		Count:         intoOpt[v1.OptInt](p.Count),
-		From:          intoOpt[v1.OptInt](p.From),
-		PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
-		ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
-		Variant:       intoOpt[v1.OptString](p.Variant),
+func (op *metricsRoutingOp) List(ctx context.Context, p MetricsRoutingsListParams) (ret []v1.MetricsRouting, err error) {
+	res, err := errorFromDecodedResponse("MetricsRouting.List", func() (*v1.PaginatedMetricsRoutingList, error) {
+		return op.client.MetricsRoutingsList(ctx, v1.MetricsRoutingsListParams{
+			Count:         intoOpt[v1.OptInt](p.Count),
+			From:          intoOpt[v1.OptInt](p.From),
+			PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
+			ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
+			Variant:       intoOpt[v1.OptString](p.Variant),
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
-	resp, err := op.client.MetricsRoutingsList(ctx, params)
-	if err != nil {
-		return nil, NewAPIError("MetricsRouting.List", 0, err)
-	}
-	return resp.Results, nil
+	return
 }
 
 type MetricsRoutingCreateParams struct {
@@ -74,64 +73,38 @@ type MetricsRoutingCreateParams struct {
 }
 
 func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCreateParams) (*v1.MetricsRouting, error) {
-	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
-	if err != nil {
-		return nil, NewError("MetricsRouting.Create", err)
-	}
-	mid, err := strconv.ParseInt(params.MetricsStorageID, 10, 64)
-	if err != nil {
-		return nil, NewError("MetricsRouting.Create", err)
-	}
-	req := v1.MetricsRouting{
-		PublisherCode:    intoOpt[v1.OptString](&params.PublisherCode),
-		ResourceID:       rid,
-		Variant:          params.Variant,
-		MetricsStorageID: intoOptNil[v1.OptNilInt64](&mid),
-		Publisher:        v1.Publisher{},
-		MetricsStorage:   v1.MetricsStorage{},
-	}
-
-	// prevent ogen error (encoder is not accepting empty struct)
-	req.Publisher.SetFake()
-	req.MetricsStorage.SetFake()
-	req.Publisher.SetVariants([]v1.PublisherVariant{})
-	req.MetricsStorage.SetTags([]string{})
-
-	resp, err := op.client.MetricsRoutingsCreate(ctx, &req)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsRouting.Create", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsRouting.Create", e.StatusCode, errors.Wrap(err, "invalid parameter, or the metrics storage cannot be routed"))
-		default:
-			return nil, NewAPIError("MetricsRouting.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("MetricsRouting.Create", func() (*v1.WrappedMetricsRouting, error) {
+		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		if err != nil {
+			return nil, fmt.Errorf("MetricsRoutingCreateParams.ResourceID: %w", err)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsRouting.Create", 0, err)
-	} else {
-		ret := new(v1.MetricsRouting)
-		return Unwrap(ret, resp)
-	}
+		mid, err := strconv.ParseInt(params.MetricsStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("MetricsRoutingCreateParams.MetricsStorageID: %w", err)
+		}
+		req := v1.MetricsRouting{
+			PublisherCode:    intoOpt[v1.OptString](&params.PublisherCode),
+			ResourceID:       rid,
+			Variant:          params.Variant,
+			MetricsStorageID: intoOptNil[v1.OptNilInt64](&mid),
+		}
+
+		// prevent ogen error (encoder is not accepting empty struct)
+		req.Publisher.SetFake()
+		req.MetricsStorage.SetFake()
+		req.Publisher.SetVariants(make([]v1.PublisherVariant, 0))
+		req.MetricsStorage.SetTags(make([]string, 0))
+
+		return op.client.MetricsRoutingsCreate(ctx, &req)
+	})
+	return unwrapE[*v1.MetricsRouting](res, err)
 }
 
 func (op *metricsRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.MetricsRouting, error) {
-	resp, err := op.client.MetricsRoutingsRetrieve(ctx, v1.MetricsRoutingsRetrieveParams{UID: id})
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsRouting.Read", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsRouting.Read", e.StatusCode, errors.Wrap(err, "invalid parameter, or invalid metrics storage"))
-		default:
-			return nil, NewAPIError("MetricsRouting.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsRouting.Read", 0, err)
-	} else {
-		ret := new(v1.MetricsRouting)
-		return Unwrap(ret, resp)
-	}
+	res, err := errorFromDecodedResponse("MetricsRouting.Read", func() (*v1.WrappedMetricsRouting, error) {
+		return op.client.MetricsRoutingsRetrieve(ctx, v1.MetricsRoutingsRetrieveParams{UID: id})
+	})
+	return unwrapE[*v1.MetricsRouting](res, err)
 }
 
 type MetricsRoutingUpdateParams struct {
@@ -142,52 +115,27 @@ type MetricsRoutingUpdateParams struct {
 }
 
 func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params MetricsRoutingUpdateParams) (*v1.MetricsRouting, error) {
-	rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
-	if err != nil {
-		return nil, NewError("MetricsRouting.Update", err)
-	}
-	mid, err := fromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID)
-	if err != nil {
-		return nil, NewError("MetricsRouting.Update", err)
-	}
-	patch := v1.PatchedMetricsRouting{
-		PublisherCode:    intoOpt[v1.OptString](params.PublisherCode),
-		ResourceID:       rid,
-		Variant:          intoOpt[v1.OptString](params.Variant),
-		MetricsStorageID: mid,
-	}
-	req := v1.NewOptPatchedMetricsRouting(patch)
-	resp, err := op.client.MetricsRoutingsPartialUpdate(ctx, req, v1.MetricsRoutingsPartialUpdateParams{UID: id})
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("MetricsRouting.Update", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("MetricsRouting.Update", e.StatusCode, errors.Wrap(err, "invalid parameter, or invalid metrics storage"))
-		default:
-			return nil, NewAPIError("MetricsRouting.Update", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("MetricsRouting.Update", func() (*v1.WrappedMetricsRouting, error) {
+		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		if err != nil {
+			return nil, fmt.Errorf("MetricsRoutingUpdateParams.ResourceID: %w", err)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("MetricsRouting.Update", 0, err)
-	} else {
-		ret := new(v1.MetricsRouting)
-		return Unwrap(ret, resp)
-	}
+		mid, err := fromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("MetricsRoutingUpdateParams.MetricsStorageID: %w", err)
+		}
+		return op.client.MetricsRoutingsPartialUpdate(ctx, v1.NewOptPatchedMetricsRouting(v1.PatchedMetricsRouting{
+			PublisherCode:    intoOpt[v1.OptString](params.PublisherCode),
+			ResourceID:       rid,
+			Variant:          intoOpt[v1.OptString](params.Variant),
+			MetricsStorageID: mid,
+		}), v1.MetricsRoutingsPartialUpdateParams{UID: id})
+	})
+	return unwrapE[*v1.MetricsRouting](res, err)
 }
 
 func (op *metricsRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
-	err := op.client.MetricsRoutingsDestroy(ctx, v1.MetricsRoutingsDestroyParams{UID: id})
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("MetricsRouting.Delete", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return NewAPIError("MetricsRouting.Delete", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("MetricsRouting.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return NewAPIError("MetricsRouting.Delete", 0, err)
-	}
-	return nil
+	return errorFromDecodedResponse1("MetricsRouting.Delete", func() error {
+		return op.client.MetricsRoutingsDestroy(ctx, v1.MetricsRoutingsDestroyParams{UID: id})
+	})
 }

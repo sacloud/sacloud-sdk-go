@@ -16,10 +16,7 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
 
-	"github.com/go-faster/errors"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -38,39 +35,22 @@ func NewPublisherOp(client *v1.Client) PublisherAPI {
 	return &publisherOp{client: client}
 }
 
-func (p *publisherOp) List(ctx context.Context, count *int, from *int) ([]v1.Publisher, error) {
-	params := v1.PublishersListParams{
-		Count: intoOpt[v1.OptInt](count),
-		From:  intoOpt[v1.OptInt](from),
+func (p *publisherOp) List(ctx context.Context, count *int, from *int) (ret []v1.Publisher, err error) {
+	res, err := errorFromDecodedResponse("Publisher.List", func() (*v1.PaginatedPublisherList, error) {
+		return p.client.PublishersList(ctx, v1.PublishersListParams{
+			Count: intoOpt[v1.OptInt](count),
+			From:  intoOpt[v1.OptInt](from),
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
-
-	result, err := p.client.PublishersList(ctx, params)
-	if err != nil {
-		return nil, NewAPIError("Publisher.List", http.StatusInternalServerError, errors.Wrap(err, "internal server error"))
-	} else {
-		return result.Results, err
-	}
+	return
 }
 
 func (p *publisherOp) Read(ctx context.Context, code string) (*v1.Publisher, error) {
-	params := v1.PublishersRetrieveParams{Code: code}
-
-	result, err := p.client.PublishersRetrieve(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusNotFound:
-			return nil, NewAPIError("Publisher.Read", e.StatusCode, errors.Wrap(err, "publisher not found"))
-		default:
-			return nil, NewAPIError("Publisher.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return nil, NewAPIError("Publisher.Read", 0, err)
-	} else {
-		pub := &v1.Publisher{
-			Code:        result.GetCode(),
-			Description: result.GetDescription(),
-			Variants:    result.GetVariants(),
-		}
-		return pub, nil
-	}
+	res, err := errorFromDecodedResponse("Publisher.Read", func() (*v1.WrappedPublisher, error) {
+		return p.client.PublishersRetrieve(ctx, v1.PublishersRetrieveParams{Code: code})
+	})
+	return unwrapE[*v1.Publisher](res, err)
 }

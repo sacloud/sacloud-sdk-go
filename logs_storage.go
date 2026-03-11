@@ -16,13 +16,11 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 	"strconv"
 	"time"
 
-	"github.com/go-faster/errors"
 	"github.com/google/uuid"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -64,57 +62,37 @@ type LogsStoragesListParams struct {
 	Status               *v1.LogsStoragesListStatus
 }
 
-func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) ([]v1.LogStorage, error) {
-	id, err := fromStringPtr[v1.OptInt64, int64](p.ResourceID)
-	if err != nil {
-		return nil, NewError("LogsStorage.List", err)
-	}
-	params := v1.LogsStoragesListParams{
-		AccountID:            intoOpt[v1.OptString](p.AccountID),
-		BucketClassification: intoOpt[v1.OptLogsStoragesListBucketClassification](p.BucketClassification),
-		Count:                intoOpt[v1.OptInt](p.Count),
-		From:                 intoOpt[v1.OptInt](p.From),
-		IsSystem:             intoOpt[v1.OptBool](p.IsSystem),
-		ResourceID:           id,
-		Status:               intoOpt[v1.OptLogsStoragesListStatus](p.Status),
-	}
-	result, err := op.client.LogsStoragesList(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.List", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		default:
-			return nil, NewAPIError("LogsStorage.List", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) (ret []v1.LogStorage, err error) {
+	res, err := errorFromDecodedResponse("LogsStorage.List", func() (*v1.PaginatedLogStorageList, error) {
+		id, err := fromStringPtr[v1.OptInt64, int64](p.ResourceID)
+		if err != nil {
+			return nil, fmt.Errorf("LogsStoragesListParams.ResourceID: %w", err)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.List", 0, err)
-	} else {
-		return result.GetResults(), nil
+		return op.client.LogsStoragesList(ctx, v1.LogsStoragesListParams{
+			AccountID:            intoOpt[v1.OptString](p.AccountID),
+			BucketClassification: intoOpt[v1.OptLogsStoragesListBucketClassification](p.BucketClassification),
+			Count:                intoOpt[v1.OptInt](p.Count),
+			From:                 intoOpt[v1.OptInt](p.From),
+			IsSystem:             intoOpt[v1.OptBool](p.IsSystem),
+			ResourceID:           id,
+			Status:               intoOpt[v1.OptLogsStoragesListStatus](p.Status),
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogStorage, error) {
-	id, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.Read", err)
-	}
-	params := v1.LogsStoragesRetrieveParams{ResourceID: id}
-	result, err := op.client.LogsStoragesRetrieve(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.Read", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogsStorage.Read", e.StatusCode, errors.Wrap(err, "log table not found"))
-		default:
-			return nil, NewAPIError("LogsStorage.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("LogsStorage.Read", func() (*v1.WrappedLogStorage, error) {
+		id, err := strconv.ParseInt(resourceID, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.Read", 0, err)
-	} else {
-		ret := new(v1.LogStorage)
-		return Unwrap(ret, result)
-	}
+		return op.client.LogsStoragesRetrieve(ctx, v1.LogsStoragesRetrieveParams{ResourceID: id})
+	})
+	return unwrapE[*v1.LogStorage](res, err)
 }
 
 type LogStorageCreateParams struct {
@@ -125,27 +103,16 @@ type LogStorageCreateParams struct {
 }
 
 func (op *logsStorageOp) Create(ctx context.Context, params LogStorageCreateParams) (*v1.LogStorage, error) {
-	req := v1.LogStorageCreate{
-		Classification: intoOpt[v1.OptLogStorageCreateClassification](params.Classification),
-		IsSystem:       params.IsSystem,
-		Name:           params.Name,
-		Description:    intoOpt[v1.OptString](params.Description),
-	}
-	result, err := op.client.LogsStoragesCreate(ctx, &req)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.Create", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.Create", e.StatusCode, errors.Wrap(err, "invalid parameter, or no space left for a new storage"))
-		default:
-			return nil, NewAPIError("LogsStorage.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("LogsStorage.Create", func() (*v1.LogStorage, error) {
+		req := v1.LogStorageCreate{
+			Classification: intoOpt[v1.OptLogStorageCreateClassification](params.Classification),
+			IsSystem:       params.IsSystem,
+			Name:           params.Name,
+			Description:    intoOpt[v1.OptString](params.Description),
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.Create", 0, err)
-	} else {
-		return result, nil
-	}
+		return op.client.LogsStoragesCreate(ctx, &req)
+	})
+	return unwrapE[*v1.LogStorage](res, err)
 }
 
 type LogStorageUpdateParams struct {
@@ -154,265 +121,149 @@ type LogStorageUpdateParams struct {
 }
 
 func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpdateParams) (*v1.LogStorage, error) {
-	resource := v1.PatchedLogStorage{
-		Name:        intoOpt[v1.OptString](p.Name),
-		Description: intoOpt[v1.OptString](p.Description),
-	}
-	rid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.Update", err)
-	}
-	params := v1.LogsStoragesPartialUpdateParams{ResourceID: rid}
-	body := v1.NewOptPatchedLogStorage(resource)
-	result, err := op.client.LogsStoragesPartialUpdate(ctx, body, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.Update", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.Update", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("LogsStorage.Update", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("LogsStorage.Update", func() (*v1.WrappedLogStorage, error) {
+		rid, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.Update", 0, err)
-	} else {
-		ret := new(v1.LogStorage)
-		return Unwrap(ret, result)
-	}
+		return op.client.LogsStoragesPartialUpdate(ctx, v1.NewOptPatchedLogStorage(v1.PatchedLogStorage{
+			Name:        intoOpt[v1.OptString](p.Name),
+			Description: intoOpt[v1.OptString](p.Description),
+		}), v1.LogsStoragesPartialUpdateParams{ResourceID: rid})
+	})
+	return unwrapE[*v1.LogStorage](res, err)
 }
 
 func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
-	rid, err := strconv.ParseInt(id, 10, 64)
-	if err != nil {
-		return NewError("LogsStorage.Delete", err)
-	}
-	params := v1.LogsStoragesDestroyParams{ResourceID: rid}
-	err = op.client.LogsStoragesDestroy(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("LogsStorage.Delete", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return NewAPIError("LogsStorage.Delete", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("LogsStorage.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse1("LogsStorage.Delete", func() error {
+		rid, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
+			return err
 		}
-	} else if err != nil {
-		return NewAPIError("LogsStorage.Delete", 0, err)
-	}
-	return nil
+		return op.client.LogsStoragesDestroy(ctx, v1.LogsStoragesDestroyParams{ResourceID: rid})
+	})
 }
 
 func (op *logsStorageOp) SetExpire(ctx context.Context, resourceID string, days int) (*v1.LogStorage, error) {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.SetExpire", err)
-	}
-	params := v1.LogsStoragesSetExpireCreateParams{ResourceID: rid}
-	body := v1.SetLogStorageExpireDay{Days: days}
-	result, err := op.client.LogsStoragesSetExpireCreate(ctx, &body, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.SetExpire", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogsStorage.SetExpire", e.StatusCode, errors.Wrap(err, "log storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.SetExpire", e.StatusCode, errors.Wrap(err, "invalid parameter, days must be between 1 and 730"))
-		default:
-			return nil, NewAPIError("LogsStorage.SetExpire", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("LogsStorage.SetExpire", func() (*v1.LogStorage, error) {
+		rid, err := strconv.ParseInt(resourceID, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.SetExpire", 0, err)
-	} else {
-		return result, nil
-	}
+		return op.client.LogsStoragesSetExpireCreate(
+			ctx,
+			&v1.SetLogStorageExpireDay{Days: days},
+			v1.LogsStoragesSetExpireCreateParams{ResourceID: rid},
+		)
+	})
+	return unwrapE[*v1.LogStorage](res, err)
 }
 
-func (op *logsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) ([]v1.LogStorageDailyUsage, error) {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.ReadDailyStats", err)
-	}
-	query := v1.LogsStoragesStatsDailyRetrieveParams{
-		ResourceID: rid,
-		StartDate:  intoOpt[v1.OptDate](startDate),
-		EndDate:    intoOpt[v1.OptDate](endDate),
-	}
-	result, err := op.client.LogsStoragesStatsDailyRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "log storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("LogsStorage.ReadDailyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *logsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, startDate, endDate *time.Time) (ret []v1.LogStorageDailyUsage, err error) {
+	res, err := errorFromDecodedResponse("LogsStorage.ReadDailyStats", func() (*v1.LogStorageDailyUsageBody, error) {
+		rid, err := strconv.ParseInt(resourceID, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.ReadDailyStats", 0, err)
-	} else {
-		return result.GetUsages(), nil
+		return op.client.LogsStoragesStatsDailyRetrieve(ctx, v1.LogsStoragesStatsDailyRetrieveParams{
+			ResourceID: rid,
+			StartDate:  intoOpt[v1.OptDate](startDate),
+			EndDate:    intoOpt[v1.OptDate](endDate),
+		})
+	})
+	if err == nil {
+		ret = res.GetUsages()
 	}
+	return
 }
 
-func (op *logsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) ([]v1.LogStorageMonthlyUsage, error) {
-	rid, err := strconv.ParseInt(resourceID, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.ReadMonthlyStats", err)
-	}
-	query := v1.LogsStoragesStatsMonthlyRetrieveParams{
-		ResourceID: rid,
-		Year:       year,
-	}
-	result, err := op.client.LogsStoragesStatsMonthlyRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "log storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "invalid parameter, year must be between 1970 and 2100"))
-		default:
-			return nil, NewAPIError("LogsStorage.ReadMonthlyStats", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *logsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string, year int) (ret []v1.LogStorageMonthlyUsage, err error) {
+	res, err := errorFromDecodedResponse("LogsStorage.ReadMonthlyStats", func() (*v1.LogStorageMonthlyUsageBody, error) {
+		rid, err := strconv.ParseInt(resourceID, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.ReadMonthlyStats", 0, err)
-	} else {
-		return result.GetUsages(), nil
+		return op.client.LogsStoragesStatsMonthlyRetrieve(ctx, v1.LogsStoragesStatsMonthlyRetrieveParams{
+			ResourceID: rid,
+			Year:       year,
+		})
+	})
+	if err == nil {
+		ret = res.GetUsages()
 	}
+	return
 }
 
-func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int, from *int) ([]v1.LogStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(logResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.ListKeys", err)
-	}
-	params := v1.LogsStoragesKeysListParams{
-		Count:         intoOpt[v1.OptInt](count),
-		From:          intoOpt[v1.OptInt](from),
-		LogResourceID: rid,
-	}
-	result, err := op.client.LogsStoragesKeysList(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.ListKeys", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		default:
-			return nil, NewAPIError("LogsStorage.ListKeys", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, count *int, from *int) (ret []v1.LogStorageAccessKey, err error) {
+	res, err := errorFromDecodedResponse("LogsStorage.ListKeys", func() (*v1.PaginatedLogStorageAccessKeyList, error) {
+		rid, err := strconv.ParseInt(logResourceId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.ListKeys", 0, err)
-	} else {
-		return result.GetResults(), nil
+		return op.client.LogsStoragesKeysList(ctx, v1.LogsStoragesKeysListParams{
+			Count:         intoOpt[v1.OptInt](count),
+			From:          intoOpt[v1.OptInt](from),
+			LogResourceID: rid,
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, description *string) (*v1.LogStorageAccessKey, error) {
-	request := v1.LogStorageAccessKey{
-		Description: intoOpt[v1.OptString](description),
-	}
-	rid, err := strconv.ParseInt(logResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.CreateKey", err)
-	}
-	params := v1.LogsStoragesKeysCreateParams{LogResourceID: rid}
-	opt := v1.NewOptLogStorageAccessKey(request)
-	result, err := op.client.LogsStoragesKeysCreate(ctx, opt, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.CreateKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogsStorage.CreateKey", e.StatusCode, errors.Wrap(err, "requested log storage not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.CreateKey", e.StatusCode, errors.Wrap(err, "this log storage cannot have a key"))
-		default:
-			return nil, NewAPIError("LogsStorage.CreateKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("LogsStorage.CreateKey", func() (*v1.WrappedLogStorageAccessKey, error) {
+		rid, err := strconv.ParseInt(logResourceId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.CreateKey", 0, err)
-	} else {
-		ret := new(v1.LogStorageAccessKey)
-		return Unwrap(ret, result)
-	}
+		return op.client.LogsStoragesKeysCreate(ctx, v1.NewOptLogStorageAccessKey(v1.LogStorageAccessKey{
+			Description: intoOpt[v1.OptString](description),
+		}), v1.LogsStoragesKeysCreateParams{LogResourceID: rid})
+	})
+	return unwrapE[*v1.LogStorageAccessKey](res, err)
 }
 
 func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id uuid.UUID) (*v1.LogStorageAccessKey, error) {
-	rid, err := strconv.ParseInt(logResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.ReadKey", err)
-	}
-	params := v1.LogsStoragesKeysRetrieveParams{LogResourceID: rid, UID: id}
-	result, err := op.client.LogsStoragesKeysRetrieve(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.ReadKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogsStorage.ReadKey", e.StatusCode, errors.Wrap(err, "access key not found"))
-		default:
-			return nil, NewAPIError("LogsStorage.ReadKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("LogsStorage.ReadKey", func() (*v1.WrappedLogStorageAccessKey, error) {
+		rid, err := strconv.ParseInt(logResourceId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.ReadKey", 0, err)
-	} else {
-		ret := new(v1.LogStorageAccessKey)
-		return Unwrap(ret, result)
-	}
+		return op.client.LogsStoragesKeysRetrieve(ctx, v1.LogsStoragesKeysRetrieveParams{
+			LogResourceID: rid,
+			UID:           id,
+		})
+	})
+	return unwrapE[*v1.LogStorageAccessKey](res, err)
 }
 
 func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id uuid.UUID, description *string) (*v1.LogStorageAccessKey, error) {
-	// :FIXME: does it make sense to allow a nil description?
-	request := v1.LogStorageAccessKey{
-		Description: intoOpt[v1.OptString](description),
-	}
-	rid, err := strconv.ParseInt(logResourceId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogsStorage.UpdateKey", err)
-	}
-	params := v1.LogsStoragesKeysUpdateParams{LogResourceID: rid, UID: id}
-	opt := v1.NewOptLogStorageAccessKey(request)
-	result, err := op.client.LogsStoragesKeysUpdate(ctx, opt, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogsStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogsStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("LogsStorage.UpdateKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	res, err := errorFromDecodedResponse("LogsStorage.UpdateKey", func() (*v1.WrappedLogStorageAccessKey, error) {
+		rid, err := strconv.ParseInt(logResourceId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogsStorage.UpdateKey", 0, err)
-	} else {
-		key := new(v1.LogStorageAccessKey)
-		return Unwrap(key, result)
-	}
+		return op.client.LogsStoragesKeysUpdate(ctx, v1.NewOptLogStorageAccessKey(v1.LogStorageAccessKey{
+			Description: intoOpt[v1.OptString](description),
+		}), v1.LogsStoragesKeysUpdateParams{
+			LogResourceID: rid,
+			UID:           id,
+		})
+	})
+	return unwrapE[*v1.LogStorageAccessKey](res, err)
 }
 
 func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId string, id uuid.UUID) error {
-	rid, err := strconv.ParseInt(logResourceId, 10, 64)
-	if err != nil {
-		return NewError("LogsStorage.DeleteKey", err)
-	}
-	params := v1.LogsStoragesKeysDestroyParams{LogResourceID: rid, UID: id}
-	err = op.client.LogsStoragesKeysDestroy(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("LogsStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusBadRequest:
-			return NewAPIError("LogsStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("LogsStorage.DeleteKey", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse1("LogsStorage.DeleteKey", func() error {
+		rid, err := strconv.ParseInt(logResourceId, 10, 64)
+		if err != nil {
+			return err
 		}
-	} else if err != nil {
-		return NewAPIError("LogsStorage.DeleteKey", 0, err)
-	}
-	return nil
+		return op.client.LogsStoragesKeysDestroy(ctx, v1.LogsStoragesKeysDestroyParams{
+			LogResourceID: rid,
+			UID:           id,
+		})
+	})
 }

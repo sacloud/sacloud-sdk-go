@@ -24,11 +24,28 @@ import (
 func Unwrap[T json.Unmarshaler, U json.Marshaler](dst T, src U) (T, error) {
 	// :FIXME: I know it's super inefficient, but works anyways...
 	// Contributions welcomed.
-	if bytes, err := src.MarshalJSON(); err != nil {
+	bytes, err := src.MarshalJSON()
+	if err != nil {
 		return dst, errors.Wrapf(err, "failed to marshal source")
-	} else if err := dst.UnmarshalJSON(bytes); err != nil {
-		return dst, errors.Wrapf(err, "failed to unmarshal to destination: %s", reflect.TypeOf(dst).String())
-	} else {
-		return dst, nil
 	}
+	err = dst.UnmarshalJSON(bytes)
+	if err != nil {
+		return dst, errors.Wrapf(err, "failed to unmarshal to destination: %s", reflect.TypeOf(dst).String())
+	}
+	return dst, nil
+}
+
+func unwrapE[
+	T interface {
+		*V
+		json.Unmarshaler
+	},
+	U json.Marshaler,
+	V any,
+](src U, e error) (dst T, err error) {
+	if e != nil {
+		return dst, e
+	}
+	dst = new(V)
+	return Unwrap(dst, src)
 }

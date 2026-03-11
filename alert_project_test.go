@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -36,7 +35,7 @@ func TestAlertProjectOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	projects, err := api.List(ctx, nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, projects)
@@ -54,16 +53,16 @@ func TestAlertProjectOp_List_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	_, err := api.List(ctx, nil, nil)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestAlertProjectOp_Read(t *testing.T) {
 	client := newTestClient(TemplateWrappedAlertProject)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
@@ -79,17 +78,17 @@ func TestAlertProjectOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No AlertProject matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	_, err := api.Read(ctx, "12345")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No AlertProject matches the given query.")
 }
 
 func TestAlertProjectOp_Create(t *testing.T) {
 	client := newTestClient(TemplateAlertProject, http.StatusCreated)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := AlertProjectCreateParams{
 		Name: "created-alert-project",
@@ -108,7 +107,7 @@ func TestAlertProjectOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := AlertProjectCreateParams{
 		Name: "",
@@ -116,13 +115,13 @@ func TestAlertProjectOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestAlertProjectOp_Update(t *testing.T) {
 	client := newTestClient(TemplateWrappedAlertProject)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	str := "Updated alert project"
 	updateReq := AlertProjectUpdateParams{
@@ -143,18 +142,18 @@ func TestAlertProjectOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Update(ctx, "0", AlertProjectUpdateParams{nil, nil})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestAlertProjectOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "54321")
 	require.NoError(t, err)
@@ -164,11 +163,11 @@ func TestAlertProjectOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestAlertProjectOp_ListHistories(t *testing.T) {
@@ -180,7 +179,7 @@ func TestAlertProjectOp_ListHistories(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	params := AlertsProjectsHistoriesListParams{"0", nil, nil, nil, nil, nil}
 	histories, err := api.ListHistories(ctx, params)
 	require.NoError(t, err)
@@ -194,17 +193,17 @@ func TestAlertProjectOp_ListHistories_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	params := AlertsProjectsHistoriesListParams{"0", nil, nil, nil, nil, nil}
 	_, err := api.ListHistories(ctx, params)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestAlertProjectOp_ReadHistory(t *testing.T) {
 	client := newTestClient(TemplateHistory)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	history, err := api.ReadHistory(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, history)
@@ -216,10 +215,10 @@ func TestAlertProjectOp_ReadHistory_404(t *testing.T) {
 	expected := newErrorResponse(404, "No History matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	_, err := api.ReadHistory(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No History matches the given query.")
 }
 
 func TestAlertProjectIntegrated(t *testing.T) {
@@ -227,7 +226,7 @@ func TestAlertProjectIntegrated(t *testing.T) {
 	require.NoError(t, err)
 
 	api := NewAlertProjectOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	tmp := WithAlertProject(t, client, ctx)
 	aid := fmt.Sprintf("%d", tmp.GetID())
 

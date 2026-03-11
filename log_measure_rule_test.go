@@ -15,16 +15,14 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
 
 	"github.com/google/uuid"
 	. "github.com/sacloud/monitoring-suite-api-go"
-	"github.com/sacloud/packages-go/testutil"
-
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
+	"github.com/sacloud/packages-go/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -37,7 +35,7 @@ func TestLogMeasureRuleOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	rules, err := api.List(ctx, "12345", nil, nil)
 	require.NoError(t, err)
 	require.NotNil(t, rules)
@@ -53,16 +51,16 @@ func TestLogMeasureRuleOp_List_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	_, err := api.List(ctx, "12345", nil, nil)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogMeasureRuleOp_Read(t *testing.T) {
 	client := newTestClient(TemplateLogMeasureRule)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	actual, err := api.Read(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, actual)
@@ -76,16 +74,16 @@ func TestLogMeasureRuleOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No LogMeasureRule matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No LogMeasureRule matches the given query.")
 }
 
 func TestLogMeasureRuleOp_Create(t *testing.T) {
 	client := newTestClient(TemplateLogMeasureRule, http.StatusCreated)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	actual, err := api.Create(ctx, "12345", LogMeasureRuleCreateParams{
 		LogStorageID:     "56789",
 		MetricsStorageID: "98765",
@@ -117,7 +115,7 @@ func TestLogMeasureRuleOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	actual, err := api.Create(ctx, "12345", LogMeasureRuleCreateParams{
 		LogStorageID:     "56789",
 		MetricsStorageID: "98765",
@@ -130,13 +128,13 @@ func TestLogMeasureRuleOp_Create_400(t *testing.T) {
 	})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestLogMeasureRuleOp_Update(t *testing.T) {
 	client := newTestClient(TemplateLogMeasureRule)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	name := "rule"
 	actual, err := api.Update(ctx, "12345", uuid.New(), LogMeasureRuleUpdateParams{
 		Name: &name,
@@ -151,17 +149,17 @@ func TestLogMeasureRuleOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	actual, err := api.Update(ctx, "12345", uuid.New(), LogMeasureRuleUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestLogMeasureRuleOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.NoError(t, err)
 }
@@ -170,10 +168,10 @@ func TestLogMeasureRuleOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestLogMeasureRuleOp_ListHistories(t *testing.T) {
@@ -186,7 +184,7 @@ func TestLogMeasureRuleOp_ListHistories(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	params := LogMeasureRuleListHistoriesParams{
 		Count: nil,
 		From:  nil,
@@ -201,20 +199,20 @@ func TestLogMeasureRuleOp_ListHistories_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	params := LogMeasureRuleListHistoriesParams{
 		Count: nil,
 		From:  nil,
 	}
 	_, err := api.ListHistories(ctx, "12345", params)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogMeasureRuleOp_ReadHistory(t *testing.T) {
 	client := newTestClient(TemplateHistory)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	actual, err := api.ReadHistory(ctx, "123", uuid.New())
 	require.NoError(t, err)
 	require.Equal(t, TemplateHistory.GetUID(), actual.GetUID())
@@ -224,10 +222,10 @@ func TestLogMeasureRuleOp_ReadHistory_404(t *testing.T) {
 	expected := newErrorResponse(404, "No History matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	_, err := api.ReadHistory(ctx, "123", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No History matches the given query.")
 }
 
 func TestLogMeasureRuleIntegrated(t *testing.T) {
@@ -235,7 +233,7 @@ func TestLogMeasureRuleIntegrated(t *testing.T) {
 	require.NoError(t, err)
 
 	api := NewLogMeasureRuleOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	project := WithAlertProject(t, client, ctx)
 	projectId := fmt.Sprintf("%d", project.GetID())

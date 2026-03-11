@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -36,7 +35,7 @@ func TestLogsStorageOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	params := LogsStoragesListParams{
 		IsSystem:             ref(false),
 		BucketClassification: ref(v1.LogsStoragesListBucketClassificationShared),
@@ -61,17 +60,17 @@ func TestLogsStorageOp_List_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	params := LogsStoragesListParams{}
 	_, err := api.List(ctx, params)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogsStorageOp_Read(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogStorage)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
@@ -93,17 +92,17 @@ func TestLogsStorageOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No LogStorage matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	_, err := api.Read(ctx, "12345")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No LogStorage matches the given query.")
 }
 
 func TestLogsStorageOp_Create(t *testing.T) {
 	client := newTestClient(TemplateLogStorage, http.StatusCreated)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := LogStorageCreateParams{
 		Name:        "created-table",
@@ -127,7 +126,7 @@ func TestLogsStorageOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := LogStorageCreateParams{
 		Name:        "",
@@ -137,13 +136,13 @@ func TestLogsStorageOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestLogsStorageOp_Update(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogStorage)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateReq := LogStorageUpdateParams{Name: ref("new name")}
 	actual, err := api.Update(ctx, "54321", updateReq)
@@ -162,19 +161,19 @@ func TestLogsStorageOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateReq := LogStorageUpdateParams{}
 	actual, err := api.Update(ctx, "0", updateReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestLogsStorageOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "54321")
 	require.NoError(t, err)
@@ -184,17 +183,17 @@ func TestLogsStorageOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, " not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestLogsStorageOp_SetExpire(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogStorage)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	result, err := api.SetExpire(ctx, "12345", 365)
 	require.NoError(t, err)
@@ -203,15 +202,15 @@ func TestLogsStorageOp_SetExpire(t *testing.T) {
 }
 
 func TestLogsStorageOp_SetExpire_400(t *testing.T) {
-	expected := newErrorResponse(400, "invalid parameter, days must be between 1 and 730")
+	expected := newErrorResponse(400, "invalid parameter")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
-	result, err := api.SetExpire(ctx, "12345", 999)
+	result, err := api.SetExpire(ctx, "12345", 32)
 	require.Nil(t, result)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "invalid parameter")
 }
 func TestLogsStorageOp_StatsDaily(t *testing.T) {
 	expected := v1.LogStorageDailyUsageBody{
@@ -219,7 +218,7 @@ func TestLogsStorageOp_StatsDaily(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
@@ -234,14 +233,15 @@ func TestLogsStorageOp_StatsDaily_400(t *testing.T) {
 	expected := newErrorResponse(400, "invalid parameter")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
 
-	result, err := api.ReadDailyStats(ctx, "invalid", &startDate, &endDate)
+	result, err := api.ReadDailyStats(ctx, "32768", &startDate, &endDate)
 	require.Nil(t, result)
 	require.Error(t, err)
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestLogsStorageOp_StatsMonthly(t *testing.T) {
@@ -250,7 +250,7 @@ func TestLogsStorageOp_StatsMonthly(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	result, err := api.ReadMonthlyStats(ctx, "12345", 2025)
 	require.NoError(t, err)
@@ -259,12 +259,12 @@ func TestLogsStorageOp_StatsMonthly(t *testing.T) {
 }
 
 func TestLogsStorageOp_StatsMonthly_400(t *testing.T) {
-	expected := newErrorResponse(400, "invalid parameter, year must be between 1970 and 2100")
+	expected := newErrorResponse(400, "invalid parameter")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
-	result, err := api.ReadMonthlyStats(ctx, "99999", 2200)
+	result, err := api.ReadMonthlyStats(ctx, "99999", 1999)
 	require.Nil(t, result)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid parameter")
@@ -281,7 +281,7 @@ func TestLogsStorageOp_ListKeys(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.NoError(t, err)
@@ -295,18 +295,18 @@ func TestLogsStorageOp_ListKeys_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.Nil(t, keys)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogsStorageOp_CreateKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedAccessKey, http.StatusCreated)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.CreateKey(ctx, "12345", ref("new key"))
 	require.NoError(t, err)
@@ -319,18 +319,18 @@ func TestLogsStorageOp_CreateKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.CreateKey(ctx, "12345", nil)
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogsStorageOp_ReadKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedAccessKey)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -343,18 +343,18 @@ func TestLogsStorageOp_ReadKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogsStorageOp_UpdateKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedAccessKey)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.UpdateKey(ctx, "12345", uuid.New(), ref("updated key"))
 	require.NoError(t, err)
@@ -367,18 +367,18 @@ func TestLogsStorageOp_UpdateKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.UpdateKey(ctx, "12345", uuid.New(), nil)
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogsStorageOp_DeleteKey(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -388,18 +388,18 @@ func TestLogsStorageOp_DeleteKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestLogStorageIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewLogsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	tmp := WithLogStorage(t, client, ctx)
 	lid := fmt.Sprintf("%d", tmp.GetID())
 

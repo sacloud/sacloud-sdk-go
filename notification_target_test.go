@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -36,7 +35,7 @@ func TestNotificationTargetService_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	params := NotificationTargetsListParams{
 		Count: ref(20),
 		From:  ref(0),
@@ -59,17 +58,17 @@ func TestNotificationTargetService_List_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	params := NotificationTargetsListParams{}
 	_, err := api.List(ctx, "12345", params)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permission")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestNotificationTargetService_Read(t *testing.T) {
 	client := newTestClient(TemplateNotificationTarget)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -86,18 +85,18 @@ func TestNotificationTargetService_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No NotificationTarget matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	_, err := api.Read(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No NotificationTarget matches the given query.")
 }
 
 func TestNotificationTargetService_Create(t *testing.T) {
 	nt := TemplateNotificationTarget
 	client := newTestClient(nt, http.StatusCreated)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	url, _ := url.Parse("https://example.com/notify")
 	createParams := NotificationTargetCreateParams{
@@ -120,7 +119,7 @@ func TestNotificationTargetService_Update(t *testing.T) {
 	nt := TemplateNotificationTarget
 	client := newTestClient(nt)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateParams := NotificationTargetUpdateParams{
 		ServiceType: ref(v1.PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE),
@@ -142,20 +141,20 @@ func TestNotificationTargetService_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateParams := NotificationTargetUpdateParams{}
 	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
 	require.Nil(t, updated)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 // Delete
 func TestNotificationTargetService_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -165,11 +164,11 @@ func TestNotificationTargetService_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 // Integration test for NotificationTarget
@@ -177,7 +176,7 @@ func TestNotificationTargetIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewNotificationTargetOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	project := WithAlertProject(t, client, ctx)
 	created := WithNotificationTarget(t, client, ctx, project.GetID())
 	id := fmt.Sprintf("%d", project.GetID())

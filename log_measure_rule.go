@@ -16,13 +16,11 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 	"strconv"
 	"time"
 
-	"github.com/go-faster/errors"
 	"github.com/google/uuid"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -47,31 +45,22 @@ func NewLogMeasureRuleOp(client *v1.Client) LogMeasureRuleAPI {
 	return &logMeasureRuleOp{client: client}
 }
 
-func (op *logMeasureRuleOp) List(ctx context.Context, projectId string, count *int, from *int) ([]v1.LogMeasureRule, error) {
-	pid, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.List", err)
-	}
-	params := v1.AlertsProjectsLogMeasureRulesListParams{
-		ProjectResourceID: pid,
-		Count:             intoOpt[v1.OptInt](count),
-		From:              intoOpt[v1.OptInt](from),
-	}
-	result, err := op.client.AlertsProjectsLogMeasureRulesList(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogMeasureRule.List", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogMeasureRule.List", e.StatusCode, errors.Wrap(err, "project not found"))
-		default:
-			return nil, NewAPIError("LogMeasureRule.List", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *logMeasureRuleOp) List(ctx context.Context, projectId string, count *int, from *int) (ret []v1.LogMeasureRule, err error) {
+	res, err := errorFromDecodedResponse("LogMeasureRule.List", func() (*v1.PaginatedLogMeasureRuleList, error) {
+		id, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogMeasureRule.List", 0, err)
-	} else {
-		return result.GetResults(), nil
+		return op.client.AlertsProjectsLogMeasureRulesList(ctx, v1.AlertsProjectsLogMeasureRulesListParams{
+			ProjectResourceID: id,
+			Count:             intoOpt[v1.OptInt](count),
+			From:              intoOpt[v1.OptInt](from),
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 type LogMeasureRuleCreateParams struct {
@@ -83,77 +72,48 @@ type LogMeasureRuleCreateParams struct {
 }
 
 func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogMeasureRuleCreateParams) (*v1.LogMeasureRule, error) {
-	pid, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.Create", err)
-	}
-	lid, err := strconv.ParseInt(p.LogStorageID, 10, 64)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.Create", err)
-	}
-	mid, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.Create", err)
-	}
-	params := &v1.LogMeasureRule{
-		LogStorageID:     v1.NewOptNilInt64(lid),
-		MetricsStorageID: v1.NewOptNilInt64(mid),
-		Name:             intoOpt[v1.OptString](p.Name),
-		Description:      intoOpt[v1.OptString](p.Description),
-		Rule:             p.Rule,
-	}
-
-	// prevent ogen error (encoder is not accepting empty struct)
-	params.LogStorage.SetFake()
-	params.MetricsStorage.SetFake()
-	params.LogStorage.SetTags([]string{})
-	params.MetricsStorage.SetTags([]string{})
-
-	query := v1.AlertsProjectsLogMeasureRulesCreateParams{
-		ProjectResourceID: pid,
-	}
-	result, err := op.client.AlertsProjectsLogMeasureRulesCreate(ctx, params, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogMeasureRule.Create", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogMeasureRule.Create", e.StatusCode, errors.Wrap(err, "project not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogMeasureRule.Create", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("LogMeasureRule.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse("LogMeasureRule.Create", func() (*v1.LogMeasureRule, error) {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("projectId: %w", err)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Create", 0, err)
-	} else {
-		return result, nil
-	}
+		lid, err := strconv.ParseInt(p.LogStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRuleCreateParams.LogStorageID: %w", err)
+		}
+		mid, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRuleCreateParams.MetricsStorageID: %w", err)
+		}
+		params := &v1.LogMeasureRule{
+			LogStorageID:     v1.NewOptNilInt64(lid),
+			MetricsStorageID: v1.NewOptNilInt64(mid),
+			Name:             intoOpt[v1.OptString](p.Name),
+			Description:      intoOpt[v1.OptString](p.Description),
+			Rule:             p.Rule,
+		}
+		// prevent ogen error (encoder is not accepting empty struct)
+		params.LogStorage.SetFake()
+		params.MetricsStorage.SetFake()
+		params.LogStorage.SetTags(make([]string, 0))
+		params.MetricsStorage.SetTags(make([]string, 0))
+		return op.client.AlertsProjectsLogMeasureRulesCreate(ctx, params, v1.AlertsProjectsLogMeasureRulesCreateParams{
+			ProjectResourceID: pid,
+		})
+	})
 }
 
 func (op *logMeasureRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.LogMeasureRule, error) {
-	pid, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.Read", err)
-	}
-	query := v1.AlertsProjectsLogMeasureRulesRetrieveParams{
-		ProjectResourceID: pid,
-		UID:               ruleId,
-	}
-	result, err := op.client.AlertsProjectsLogMeasureRulesRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogMeasureRule.Read", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogMeasureRule.Read", e.StatusCode, errors.Wrap(err, "log measure rule not found"))
-		default:
-			return nil, NewAPIError("LogMeasureRule.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse("LogMeasureRule.Read", func() (*v1.LogMeasureRule, error) {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Read", 0, err)
-	}
-	return result, nil
+		return op.client.AlertsProjectsLogMeasureRulesRetrieve(ctx, v1.AlertsProjectsLogMeasureRulesRetrieveParams{
+			ProjectResourceID: pid,
+			UID:               ruleId,
+		})
+	})
 }
 
 type LogMeasureRuleUpdateParams struct {
@@ -165,73 +125,43 @@ type LogMeasureRuleUpdateParams struct {
 }
 
 func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p LogMeasureRuleUpdateParams) (*v1.LogMeasureRule, error) {
-	pid, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.Update", err)
-	}
-	query := v1.AlertsProjectsLogMeasureRulesPartialUpdateParams{
-		ProjectResourceID: pid,
-		UID:               ruleId,
-	}
-	lid, err := fromStringPtr[v1.OptNilInt64, int64](p.LogStorageID)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.Update", err)
-	}
-	mid, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.Update", err)
-	}
-	params := v1.NewOptPatchedLogMeasureRule(v1.PatchedLogMeasureRule{
-		LogStorageID:     lid,
-		MetricsStorageID: mid,
-		Name:             intoOpt[v1.OptString](p.Name),
-		Description:      intoOpt[v1.OptString](p.Description),
-		Rule:             intoOpt[v1.OptLogMeasureRuleModel](p.Rule),
-	})
-	result, err := op.client.AlertsProjectsLogMeasureRulesPartialUpdate(ctx, params, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogMeasureRule.Update", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogMeasureRule.Update", e.StatusCode, errors.Wrap(err, "log measure rule not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("LogMeasureRule.Update", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("LogMeasureRule.Update", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse("LogMeasureRule.Update", func() (*v1.LogMeasureRule, error) {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("projectId: %w", err)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogMeasureRule.Update", 0, err)
-	}
-	return result, nil
+		lid, err := fromStringPtr[v1.OptNilInt64, int64](p.LogStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.LogStorageID: %w", err)
+		}
+		mid, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.MetricsStorageID: %w", err)
+		}
+		return op.client.AlertsProjectsLogMeasureRulesPartialUpdate(ctx, v1.NewOptPatchedLogMeasureRule(v1.PatchedLogMeasureRule{
+			LogStorageID:     lid,
+			MetricsStorageID: mid,
+			Name:             intoOpt[v1.OptString](p.Name),
+			Description:      intoOpt[v1.OptString](p.Description),
+			Rule:             intoOpt[v1.OptLogMeasureRuleModel](p.Rule),
+		}), v1.AlertsProjectsLogMeasureRulesPartialUpdateParams{
+			ProjectResourceID: pid,
+			UID:               ruleId,
+		})
+	})
 }
 
 func (op *logMeasureRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
-	pid, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return NewError("LogMeasureRule.Delete", err)
-	}
-	query := v1.AlertsProjectsLogMeasureRulesDestroyParams{
-		ProjectResourceID: pid,
-		UID:               ruleId,
-	}
-	err = op.client.AlertsProjectsLogMeasureRulesDestroy(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("LogMeasureRule.Delete", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return NewAPIError("LogMeasureRule.Delete", e.StatusCode, errors.Wrap(err, "log measure rule not found"))
-		case http.StatusBadRequest:
-			return NewAPIError("LogMeasureRule.Delete", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("LogMeasureRule.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse1("LogMeasureRule.Delete", func() error {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return err
 		}
-	} else if err != nil {
-		return NewAPIError("LogMeasureRule.Delete", 0, err)
-	} else {
-		return nil
-	}
+		return op.client.AlertsProjectsLogMeasureRulesDestroy(ctx, v1.AlertsProjectsLogMeasureRulesDestroyParams{
+			ProjectResourceID: pid,
+			UID:               ruleId,
+		})
+	})
 }
 
 type LogMeasureRuleListHistoriesParams struct {
@@ -242,58 +172,36 @@ type LogMeasureRuleListHistoriesParams struct {
 	StartsAt *time.Time
 }
 
-func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string, params LogMeasureRuleListHistoriesParams) ([]v1.History, error) {
-	pid, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.ListHistories", err)
-	}
-	apiParams := v1.AlertsProjectsHistoriesListParams{
-		ProjectResourceID: pid,
-		Count:             intoOpt[v1.OptInt](params.Count),
-		From:              intoOpt[v1.OptInt](params.From),
-		Open:              intoOpt[v1.OptBool](params.Open),
-		Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
-		StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
-	}
-	result, err := op.client.AlertsProjectsHistoriesList(ctx, apiParams)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogMeasureRule.ListHistories", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogMeasureRule.ListHistories", e.StatusCode, errors.Wrap(err, "project not found"))
-		default:
-			return nil, NewAPIError("LogMeasureRule.ListHistories", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string, params LogMeasureRuleListHistoriesParams) (ret []v1.History, err error) {
+	res, err := errorFromDecodedResponse("LogMeasureRule.ListHistories", func() (*v1.PaginatedHistoryList, error) {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogMeasureRule.ListHistories", 0, err)
-	} else {
-		return result.GetResults(), nil
+		return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
+			ProjectResourceID: pid,
+			Count:             intoOpt[v1.OptInt](params.Count),
+			From:              intoOpt[v1.OptInt](params.From),
+			Open:              intoOpt[v1.OptBool](params.Open),
+			Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
+			StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 func (op *logMeasureRuleOp) ReadHistory(ctx context.Context, projectId string, historyId uuid.UUID) (*v1.History, error) {
-	pid, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("LogMeasureRule.ReadHistory", err)
-	}
-	query := v1.AlertsProjectsHistoriesRetrieveParams{
-		ProjectResourceID: pid,
-		UID:               historyId,
-	}
-	result, err := op.client.AlertsProjectsHistoriesRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("LogMeasureRule.ReadHistory", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("LogMeasureRule.ReadHistory", e.StatusCode, errors.Wrap(err, "history not found"))
-		default:
-			return nil, NewAPIError("LogMeasureRule.ReadHistory", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse("LogMeasureRule.ReadHistory", func() (*v1.History, error) {
+		pid, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("LogMeasureRule.ReadHistory", 0, err)
-	} else {
-		return result, nil
-	}
+		return op.client.AlertsProjectsHistoriesRetrieve(ctx, v1.AlertsProjectsHistoriesRetrieveParams{
+			ProjectResourceID: pid,
+			UID:               historyId,
+		})
+	})
 }

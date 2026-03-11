@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"net/http"
 	"testing"
 
@@ -29,7 +28,7 @@ func TestManagementOp_ResourceLimits(t *testing.T) {
 	res.SetFake()
 	client := newTestClient(res)
 	api := NewManagementOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	limits, err := api.ResourceLimits(ctx)
 	require.NoError(t, err)
@@ -44,7 +43,7 @@ func TestManagementOp_ResourceLimits_400(t *testing.T) {
 	expected := newErrorResponse(400, "insufficient privileges")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	limits, err := api.ResourceLimits(ctx)
 	require.Nil(t, limits)
@@ -57,7 +56,7 @@ func TestManagementOp_ReadProvisioning(t *testing.T) {
 	res.SetFake()
 	client := newTestClient(res)
 	api := NewManagementOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	prov, err := api.ReadProvisioning(ctx)
 	require.NoError(t, err)
@@ -70,7 +69,7 @@ func TestManagementOp_ReadProvisioning_400(t *testing.T) {
 	expected := newErrorResponse(400, "insufficient privileges")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	prov, err := api.ReadProvisioning(ctx)
 	require.Nil(t, prov)
@@ -86,7 +85,7 @@ func TestManagementOp_CreateProvisioning(t *testing.T) {
 	req.Metrics = ref(res.GetMetrics())
 	client := newTestClient(res, http.StatusCreated)
 	api := NewManagementOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	prov, err := api.CreateProvisioning(ctx, req)
 	require.NoError(t, err)
@@ -100,7 +99,7 @@ func TestManagementOp_CreateProvisioning_400(t *testing.T) {
 	req := ProvisioningCreateParam{}
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewManagementOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	prov, err := api.CreateProvisioning(ctx, req)
 	require.Nil(t, prov)
@@ -112,7 +111,7 @@ func TestManagementIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewManagementOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// ResourceLimits
 	limits, err := api.ResourceLimits(ctx)

@@ -16,13 +16,11 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 	"strconv"
 	"time"
 
-	"github.com/go-faster/errors"
 	"github.com/google/uuid"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -47,31 +45,22 @@ func NewAlertRuleOp(client *v1.Client) AlertRuleAPI {
 	return &alertRuleOp{client: client}
 }
 
-func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int, from *int) ([]v1.AlertRule, error) {
-	id, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("AlertRule.List", err)
-	}
-	params := v1.AlertsProjectsRulesListParams{
-		ProjectResourceID: id,
-		Count:             intoOpt[v1.OptInt](count),
-		From:              intoOpt[v1.OptInt](from),
-	}
-	result, err := op.client.AlertsProjectsRulesList(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("AlertRule.List", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("AlertRule.List", e.StatusCode, errors.Wrap(err, "project not found"))
-		default:
-			return nil, NewAPIError("AlertRule.List", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int, from *int) (ret []v1.AlertRule, err error) {
+	res, err := errorFromDecodedResponse("AlertRule.List", func() (*v1.PaginatedAlertRuleList, error) {
+		id, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("AlertRule.List", 0, err)
-	} else {
-		return result.GetResults(), nil
+		return op.client.AlertsProjectsRulesList(ctx, v1.AlertsProjectsRulesListParams{
+			ProjectResourceID: id,
+			Count:             intoOpt[v1.OptInt](count),
+			From:              intoOpt[v1.OptInt](from),
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 type AlertRuleCreateParams struct {
@@ -89,72 +78,44 @@ type AlertRuleCreateParams struct {
 }
 
 func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRuleCreateParams) (*v1.AlertRule, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("AlertRule.Create", err)
-	}
-	intStorageId, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
-	if err != nil {
-		return nil, NewError("AlertRule.Create", err)
-	}
-	params := &v1.AlertRule{
-		MetricsStorageID:          intoNil[v1.NilInt64](&intStorageId),
-		Name:                      intoOpt[v1.OptString](p.Name),
-		Query:                     p.Query,
-		Format:                    intoOpt[v1.OptString](p.Format),
-		Template:                  intoOpt[v1.OptString](p.Template),
-		EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
-		EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
-		ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
-		ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
-		ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
-		ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
-	}
-	query := v1.AlertsProjectsRulesCreateParams{
-		ProjectResourceID: intProjectId,
-	}
-	result, err := op.client.AlertsProjectsRulesCreate(ctx, params, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("AlertRule.Create", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("AlertRule.Create", e.StatusCode, errors.Wrap(err, "project not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("AlertRule.Create", e.StatusCode, errors.Wrap(err, "invalid parameter, or no space left for a new alert rule"))
-		default:
-			return nil, NewAPIError("AlertRule.Create", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse("AlertRule.Create", func() (*v1.AlertRule, error) {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("projectId: %w", err)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("AlertRule.Create", 0, err)
-	} else {
-		return result, nil
-	}
+		intStorageId, err := strconv.ParseInt(p.MetricsStorageID, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("AlertRuleCreateParams.MetricsStorageID: %w", err)
+		}
+		return op.client.AlertsProjectsRulesCreate(ctx, &v1.AlertRule{
+			MetricsStorageID:          intoNil[v1.NilInt64](&intStorageId),
+			Name:                      intoOpt[v1.OptString](p.Name),
+			Query:                     p.Query,
+			Format:                    intoOpt[v1.OptString](p.Format),
+			Template:                  intoOpt[v1.OptString](p.Template),
+			EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
+			EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
+			ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
+			ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
+			ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
+			ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
+		}, v1.AlertsProjectsRulesCreateParams{
+			ProjectResourceID: intProjectId,
+		})
+	})
 }
 
 func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.UUID) (*v1.AlertRule, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("AlertRule.Read", err)
-	}
-	query := v1.AlertsProjectsRulesRetrieveParams{
-		ProjectResourceID: intProjectId,
-		UID:               ruleId,
-	}
-	result, err := op.client.AlertsProjectsRulesRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("AlertRule.Read", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("AlertRule.Read", e.StatusCode, errors.Wrap(err, "alert rule not found"))
-		default:
-			return nil, NewAPIError("AlertRule.Read", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse("AlertRule.Read", func() (*v1.AlertRule, error) {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("AlertRule.Read", 0, err)
-	}
-	return result, nil
+		return op.client.AlertsProjectsRulesRetrieve(ctx, v1.AlertsProjectsRulesRetrieveParams{
+			ProjectResourceID: intProjectId,
+			UID:               ruleId,
+		})
+	})
 }
 
 type AlertRuleUpdateParams struct {
@@ -172,74 +133,45 @@ type AlertRuleUpdateParams struct {
 }
 
 func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleUpdateParams) (*v1.AlertRule, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("AlertRule.Update", err)
-	}
-	query := v1.AlertsProjectsRulesPartialUpdateParams{
-		ProjectResourceID: intProjectId,
-		UID:               ruleId,
-	}
-	storageId, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
-	if err != nil {
-		return nil, NewError("AlertRule.Update", err)
-	}
-	params := v1.NewOptPatchedAlertRule(v1.PatchedAlertRule{
-		MetricsStorageID:          storageId,
-		Name:                      intoOpt[v1.OptString](p.Name),
-		Query:                     intoOpt[v1.OptString](p.Query),
-		Format:                    intoOpt[v1.OptString](p.Format),
-		Template:                  intoOpt[v1.OptString](p.Template),
-		EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
-		EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
-		ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
-		ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
-		ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
-		ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
-	})
-	result, err := op.client.AlertsProjectsRulesPartialUpdate(ctx, params, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("AlertRule.Update", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("AlertRule.Update", e.StatusCode, errors.Wrap(err, "alert rule not found"))
-		case http.StatusBadRequest:
-			return nil, NewAPIError("AlertRule.Update", e.StatusCode, errors.Wrap(err, "invalid parameter"))
-		default:
-			return nil, NewAPIError("AlertRule.Update", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse("AlertRule.Update", func() (*v1.AlertRule, error) {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, fmt.Errorf("projectId: %w", err)
 		}
-	} else if err != nil {
-		return nil, NewAPIError("AlertRule.Update", 0, err)
-	}
-	return result, nil
+		storageId, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
+		if err != nil {
+			return nil, fmt.Errorf("AlertRuleUpdateParams.MetricsStorageID: %w", err)
+		}
+		return op.client.AlertsProjectsRulesPartialUpdate(ctx, v1.NewOptPatchedAlertRule(v1.PatchedAlertRule{
+			MetricsStorageID:          storageId,
+			Name:                      intoOpt[v1.OptString](p.Name),
+			Query:                     intoOpt[v1.OptString](p.Query),
+			Format:                    intoOpt[v1.OptString](p.Format),
+			Template:                  intoOpt[v1.OptString](p.Template),
+			EnabledWarning:            intoOpt[v1.OptBool](p.EnabledWarning),
+			EnabledCritical:           intoOpt[v1.OptBool](p.EnabledCritical),
+			ThresholdWarning:          intoOptNil[v1.OptNilString](p.ThresholdWarning),
+			ThresholdCritical:         intoOptNil[v1.OptNilString](p.ThresholdCritical),
+			ThresholdDurationWarning:  intoOpt[v1.OptInt64](p.ThresholdDurationWarning),
+			ThresholdDurationCritical: intoOpt[v1.OptInt64](p.ThresholdDurationCritical),
+		}), v1.AlertsProjectsRulesPartialUpdateParams{
+			ProjectResourceID: intProjectId,
+			UID:               ruleId,
+		})
+	})
 }
 
 func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid.UUID) error {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return NewError("AlertRule.Delete", err)
-	}
-	query := v1.AlertsProjectsRulesDestroyParams{
-		ProjectResourceID: intProjectId,
-		UID:               ruleId,
-	}
-	err = op.client.AlertsProjectsRulesDestroy(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return NewAPIError("AlertRule.Delete", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return NewAPIError("AlertRule.Delete", e.StatusCode, errors.Wrap(err, "alert rule not found"))
-		case http.StatusBadRequest:
-			return NewAPIError("AlertRule.Delete", e.StatusCode, errors.Wrap(err, "the request resource is not eligible for deletion"))
-		default:
-			return NewAPIError("AlertRule.Delete", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse1("AlertRule.Delete", func() error {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return err
 		}
-	} else if err != nil {
-		return NewAPIError("AlertRule.Delete", 0, err)
-	}
-	return nil
+		return op.client.AlertsProjectsRulesDestroy(ctx, v1.AlertsProjectsRulesDestroyParams{
+			ProjectResourceID: intProjectId,
+			UID:               ruleId,
+		})
+	})
 }
 
 type AlertRuleListHistoriesParams struct {
@@ -250,59 +182,38 @@ type AlertRuleListHistoriesParams struct {
 	StartsAt *time.Time
 }
 
-func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleListHistoriesParams) ([]v1.History, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("AlertRule.ListHistories", err)
-	}
-	params := v1.AlertsProjectsRulesHistoriesListParams{
-		ProjectResourceID: intProjectId,
-		RuleUID:           ruleId,
-		Count:             intoOpt[v1.OptInt](p.Count),
-		From:              intoOpt[v1.OptInt](p.From),
-		Open:              intoOpt[v1.OptBool](p.Open),
-		Severity:          intoOpt[v1.OptAlertsProjectsRulesHistoriesListSeverity](p.Severity),
-		StartsAt:          intoOpt[v1.OptDateTime](p.StartsAt),
-	}
-	result, err := op.client.AlertsProjectsRulesHistoriesList(ctx, params)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("AlertRule.ListHistories", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("AlertRule.ListHistories", e.StatusCode, errors.Wrap(err, "project or rule not found"))
-		default:
-			return nil, NewAPIError("AlertRule.ListHistories", e.StatusCode, errors.Wrap(err, "internal server error"))
+func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, ruleId uuid.UUID, p AlertRuleListHistoriesParams) (ret []v1.History, err error) {
+	res, err := errorFromDecodedResponse("AlertRule.ListHistories", func() (*v1.PaginatedHistoryList, error) {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("AlertRule.ListHistories", 0, err)
-	} else {
-		return result.GetResults(), nil
+		return op.client.AlertsProjectsRulesHistoriesList(ctx, v1.AlertsProjectsRulesHistoriesListParams{
+			ProjectResourceID: intProjectId,
+			RuleUID:           ruleId,
+			Count:             intoOpt[v1.OptInt](p.Count),
+			From:              intoOpt[v1.OptInt](p.From),
+			Open:              intoOpt[v1.OptBool](p.Open),
+			Severity:          intoOpt[v1.OptAlertsProjectsRulesHistoriesListSeverity](p.Severity),
+			StartsAt:          intoOpt[v1.OptDateTime](p.StartsAt),
+		})
+	})
+	if err == nil {
+		ret = res.GetResults()
 	}
+	return
 }
 
 func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId uuid.UUID, historyId uuid.UUID) (*v1.History, error) {
-	intProjectId, err := strconv.ParseInt(projectId, 10, 64)
-	if err != nil {
-		return nil, NewError("AlertRule.ReadHistory", err)
-	}
-	query := v1.AlertsProjectsRulesHistoriesRetrieveParams{
-		ProjectResourceID: intProjectId,
-		RuleUID:           ruleId,
-		UID:               historyId,
-	}
-	result, err := op.client.AlertsProjectsRulesHistoriesRetrieve(ctx, query)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusForbidden:
-			return nil, NewAPIError("AlertRule.ReadHistory", e.StatusCode, errors.Wrap(err, "insufficient permissions"))
-		case http.StatusNotFound:
-			return nil, NewAPIError("AlertRule.ReadHistory", e.StatusCode, errors.Wrap(err, "history not found"))
-		default:
-			return nil, NewAPIError("AlertRule.ReadHistory", e.StatusCode, errors.Wrap(err, "internal server error"))
+	return errorFromDecodedResponse("AlertRule.ReadHistory", func() (*v1.History, error) {
+		intProjectId, err := strconv.ParseInt(projectId, 10, 64)
+		if err != nil {
+			return nil, err
 		}
-	} else if err != nil {
-		return nil, NewAPIError("AlertRule.ReadHistory", 0, err)
-	}
-	return result, nil
+		return op.client.AlertsProjectsRulesHistoriesRetrieve(ctx, v1.AlertsProjectsRulesHistoriesRetrieveParams{
+			ProjectResourceID: intProjectId,
+			RuleUID:           ruleId,
+			UID:               historyId,
+		})
+	})
 }

@@ -16,10 +16,7 @@ package monitoringsuite
 
 import (
 	"context"
-	"net/http"
 
-	"github.com/go-faster/errors"
-	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
 )
 
@@ -40,35 +37,15 @@ func NewManagementOp(client *v1.Client) ManagementAPI {
 }
 
 func (op *managementOp) ResourceLimits(ctx context.Context) (*v1.ResourcesLimits, error) {
-	ret, err := op.client.GetResourcesLimits(ctx)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusBadRequest:
-			return nil, NewAPIError("Management.ResourceLimits", e.StatusCode, errors.Wrap(err, "insufficient privileges to issue this API"))
-		default:
-			return nil, NewAPIError("Management.ResourceLimits", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return nil, NewAPIError("Management.ResourceLimits", 0, err)
-	} else {
-		return ret, nil
-	}
+	return errorFromDecodedResponse("Management.ResourceLimits", func() (*v1.ResourcesLimits, error) {
+		return op.client.GetResourcesLimits(ctx)
+	})
 }
 
 func (op *managementOp) ReadProvisioning(ctx context.Context) (*v1.Provisioning, error) {
-	ret, err := op.client.GetProvisioningState(ctx)
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusBadRequest:
-			return nil, NewAPIError("Management.ReadProvisioning", e.StatusCode, errors.Wrap(err, "insufficient privileges to issue this API"))
-		default:
-			return nil, NewAPIError("Management.ReadProvisioning", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return nil, NewAPIError("Management.ReadProvisioning", 0, err)
-	} else {
-		return ret, nil
-	}
+	return errorFromDecodedResponse("Management.ReadProvisioning", func() (*v1.Provisioning, error) {
+		return op.client.GetProvisioningState(ctx)
+	})
 }
 
 type ProvisioningCreateParam struct {
@@ -77,33 +54,23 @@ type ProvisioningCreateParam struct {
 }
 
 func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCreateParam) (*v1.Provisioning, error) {
-	request := v1.ProvisioningCreate{
-		Logs:    intoOpt[v1.OptProvisioningExist](p.Logs),
-		Metrics: intoOpt[v1.OptProvisioningExist](p.Metrics),
-	}
-	ret, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreate(request))
-	if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); ok {
-		switch e.StatusCode {
-		case http.StatusBadRequest:
-			return nil, NewAPIError("Management.CreateProvisioning", e.StatusCode, errors.Wrap(err, "insufficient privileges to issue this API"))
-		default:
-			return nil, NewAPIError("Management.CreateProvisioning", e.StatusCode, errors.Wrap(err, "internal server error"))
-		}
-	} else if err != nil {
-		return nil, NewAPIError("Management.CreateProvisioning", 0, err)
-	} else {
-		var pro v1.Provisioning
-		switch ret := ret.(type) {
+	return errorFromDecodedResponse("Management.CreateProvisioning", func() (ret *v1.Provisioning, err error) {
+		ret = new(v1.Provisioning)
+
+		res, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreate(v1.ProvisioningCreate{
+			Logs:    intoOpt[v1.OptProvisioningExist](p.Logs),
+			Metrics: intoOpt[v1.OptProvisioningExist](p.Metrics),
+		}))
+		switch rem := res.(type) {
 		case *v1.PostProvisioningInitializeOK:
-			pro.SetLogs(ret.Logs)
-			pro.SetMetrics(ret.Metrics)
-			return &pro, nil
+			ret.SetLogs(rem.Logs)
+			ret.SetMetrics(rem.Metrics)
 		case *v1.PostProvisioningInitializeCreated:
-			pro.SetLogs(ret.Logs)
-			pro.SetMetrics(ret.Metrics)
-			return &pro, nil
+			ret.SetLogs(rem.Logs)
+			ret.SetMetrics(rem.Metrics)
 		default:
-			return nil, NewAPIError("Management.CreateProvisioning", 0, errors.New("unknown response"))
+			ret = nil
 		}
-	}
+		return
+	})
 }

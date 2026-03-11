@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -37,7 +36,7 @@ func TestMetricsStorageOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	tanks, err := api.List(ctx, MetricsStorageListParams{Count: nil, From: nil})
 	require.NoError(t, err)
@@ -58,18 +57,18 @@ func TestMetricsStorageOp_List_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	tanks, err := api.List(ctx, MetricsStorageListParams{})
 	require.Nil(t, tanks)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_Read(t *testing.T) {
 	client := newTestClient(TemplateWrappedMetricsStorage)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "12345")
 	require.NoError(t, err)
@@ -90,18 +89,18 @@ func TestMetricsStorageOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No MetricsStorage matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Read(ctx, "99999")
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not found")
+	require.ErrorContains(t, err, "No MetricsStorage matches the given query.")
 }
 
 func TestMetricsStorageOp_Create(t *testing.T) {
 	client := newTestClient(TemplateMetricsStorage, http.StatusCreated)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := MetricsStorageCreateParams{
 		Name:        "created-tank",
@@ -127,7 +126,7 @@ func TestMetricsStorageOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := MetricsStorageCreateParams{
 		Name:        "",
@@ -137,13 +136,13 @@ func TestMetricsStorageOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, createReq)
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestMetricsStorageOp_Update(t *testing.T) {
 	client := newTestClient(TemplateWrappedMetricsStorage)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updatedName := "updated-tank"
 	actual, err := api.Update(ctx, "54321", MetricsStorageUpdateParams{&updatedName, nil})
@@ -164,18 +163,18 @@ func TestMetricsStorageOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	actual, err := api.Update(ctx, "54321", MetricsStorageUpdateParams{})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid parameter")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestMetricsStorageOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "54321")
 	require.NoError(t, err)
@@ -185,11 +184,11 @@ func TestMetricsStorageOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, "0")
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestMetricsStorageOp_StatsDaily(t *testing.T) {
@@ -198,7 +197,7 @@ func TestMetricsStorageOp_StatsDaily(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
@@ -213,14 +212,15 @@ func TestMetricsStorageOp_StatsDaily_400(t *testing.T) {
 	expected := newErrorResponse(400, "invalid parameter")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	startDate := time.Date(2025, 1, 1, 0, 0, 0, 0, time.UTC)
 	endDate := time.Date(2025, 1, 31, 0, 0, 0, 0, time.UTC)
 
-	result, err := api.ReadDailyStats(ctx, "invalid", &startDate, &endDate)
+	result, err := api.ReadDailyStats(ctx, "0", &startDate, &endDate)
 	require.Nil(t, result)
 	require.Error(t, err)
+	require.ErrorContains(t, err, "invalid parameter")
 }
 
 func TestMetricsStorageOp_StatsMonthly(t *testing.T) {
@@ -229,7 +229,7 @@ func TestMetricsStorageOp_StatsMonthly(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	result, err := api.ReadMonthlyStats(ctx, "12345", 2025)
 	require.NoError(t, err)
@@ -241,9 +241,9 @@ func TestMetricsStorageOp_StatsMonthly_400(t *testing.T) {
 	expected := newErrorResponse(400, "invalid parameter, year must be between 1970 and 2100")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
-	result, err := api.ReadMonthlyStats(ctx, "99999", 2200)
+	result, err := api.ReadMonthlyStats(ctx, "99999", 1999)
 	require.Nil(t, result)
 	require.Error(t, err)
 	require.ErrorContains(t, err, "invalid parameter")
@@ -260,7 +260,7 @@ func TestMetricsStorageOp_ListKeys(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.NoError(t, err)
@@ -274,18 +274,18 @@ func TestMetricsStorageOp_ListKeys_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	keys, err := api.ListKeys(ctx, "12345", nil, nil)
 	require.Nil(t, keys)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_CreateKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedAccessKey, http.StatusCreated)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.CreateKey(ctx, "12345", nil)
 	require.NoError(t, err)
@@ -298,18 +298,18 @@ func TestMetricsStorageOp_CreateKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.CreateKey(ctx, "12345", nil)
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_ReadKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedAccessKey)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -322,18 +322,18 @@ func TestMetricsStorageOp_ReadKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.ReadKey(ctx, "12345", uuid.New())
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_UpdateKey(t *testing.T) {
 	client := newTestClient(TemplateWrappedAccessKey)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.UpdateKey(ctx, "12345", uuid.New(), nil)
 	require.NoError(t, err)
@@ -346,18 +346,18 @@ func TestMetricsStorageOp_UpdateKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	key, err := api.UpdateKey(ctx, "12345", uuid.New(), nil)
 	require.Nil(t, key)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageOp_DeleteKey(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.NoError(t, err)
@@ -367,18 +367,18 @@ func TestMetricsStorageOp_DeleteKey_403(t *testing.T) {
 	expected := newErrorResponse(403, "request not authorized")
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.DeleteKey(ctx, "12345", uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "insufficient permissions")
+	require.ErrorContains(t, err, "request not authorized")
 }
 
 func TestMetricsStorageIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewMetricsStorageOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 	tmp := WithMetricsStorage(t, client, ctx)
 	sid := fmt.Sprintf("%d", tmp.GetID())
 

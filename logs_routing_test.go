@@ -15,7 +15,6 @@
 package monitoringsuite_test
 
 import (
-	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -35,7 +34,7 @@ func TestLogRoutingOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	routings, err := api.List(ctx, LogsRoutingsListParams{})
 	require.NoError(t, err)
@@ -46,7 +45,7 @@ func TestLogRoutingOp_List(t *testing.T) {
 func TestLogRoutingOp_Read(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogRouting)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	res, err := api.Read(ctx, uuid.New())
 	require.NoError(t, err)
@@ -64,18 +63,18 @@ func TestLogRoutingOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No LogRouting matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	routing, err := api.Read(ctx, uuid.New())
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "internal server error")
+	require.ErrorContains(t, err, "No LogRouting matches the given query.")
 }
 
 func TestLogRoutingOp_Create(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogRouting, http.StatusCreated)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	createReq := LogsRoutingCreateParams{
 		PublisherCode: "appliance",
@@ -98,19 +97,21 @@ func TestLogRoutingOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
-	createReq := LogsRoutingCreateParams{}
+	createReq := LogsRoutingCreateParams{
+		LogStorageID: "0",
+	}
 	routing, err := api.Create(ctx, createReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid request body.")
 }
 
 func TestLogRoutingOp_Update(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogRouting)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	updateReq := LogsRoutingUpdateParams{
 		PublisherCode: ref("appliance"),
@@ -133,18 +134,18 @@ func TestLogRoutingOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	routing, err := api.Update(ctx, uuid.New(), LogsRoutingUpdateParams{})
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid update parameters.")
 }
 
 func TestLogRoutingOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, uuid.New())
 	require.NoError(t, err)
@@ -154,18 +155,18 @@ func TestLogRoutingOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	err := api.Delete(ctx, uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "not eligible for deletion")
+	require.ErrorContains(t, err, "Invalid delete request.")
 }
 
 func TestLogRoutingIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewLogRoutingOp(client)
-	ctx := context.Background()
+	ctx := t.Context()
 
 	// obtain a sane publisher object
 	publisherOp := NewPublisherOp(client)
