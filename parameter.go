@@ -19,6 +19,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"log"
 	"maps"
 	"net/http"
 	"net/http/httptest"
@@ -86,11 +87,13 @@ func (p *parameter) setEnviron(env []string) error {
 		return NewErrorf("nil parameter")
 	} else {
 		p.profileOp = NewProfileOp(env)
-		r := make([]error, 0, 39) // <- 39 is the # of `append` calls below
+		r := make([]error, 0, 41) // <- 41 is the # of `append` calls below
 		e := intoEnvmap(env)
 		s := &p.envp
 
 		// ORDER MATTERS do not sort
+
+		deprecateKIDenv(&e)
 
 		// SAKURA_ variables (current active)
 		r = append(r, e.fetchInto("SAKURA_PROFILE", s.profileName.fromEnv))
@@ -98,6 +101,7 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY", s.privateKey.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_KID", s.servicePrincipalKeyID.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN", s.accessToken.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
@@ -1171,3 +1175,43 @@ func normalizeEndpoints(endpoints map[string]string) map[string]string {
 	}
 	return normalized
 }
+
+// It would be annoying to see this warning every time
+// So we limit it to only once per a process
+func deprecateKIDenv(e *envmap) {
+	if e == nil {
+		return
+	}
+
+	if kIDenvAlreadyWarned {
+		return
+	}
+
+	if _, withK := (*e)["SAKURA_SERVICE_PRINCIPAL_KEY_KID"]; withK {
+		return
+	}
+
+	var key string
+	_, cloud := (*e)["SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID"]
+	_, nocloud := (*e)["SAKURA_SERVICE_PRINCIPAL_KEY_ID"]
+
+	if !cloud && !nocloud {
+		return
+	}
+
+	if cloud {
+		key = "SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID"
+	}
+
+	if nocloud {
+		key = "SAKURA_SERVICE_PRINCIPAL_KEY_ID"
+	}
+
+	fmt := `%s environment variable is deprecated.
+Will be removed in future release.
+Use SAKURA_SERVICE_PRINCIPAL_KEY_KID instead.`
+	log.Printf(fmt, key)
+	kIDenvAlreadyWarned = true
+}
+
+var kIDenvAlreadyWarned bool

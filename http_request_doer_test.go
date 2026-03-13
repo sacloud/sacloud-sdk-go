@@ -109,7 +109,7 @@ func (s *HttpRequestDoerTestSuite) TestBearer() {
 	_ = subject.SetEnviron([]string{
 		"SAKURACLOUD_PROFILE_DIR=" + s.T().TempDir(),
 		"SAKURACLOUD_SERVICE_PRINCIPAL_ID=113702516320",
-		"SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID=" + testutil.Random(32, testutil.CharSetAlphaNum),
+		"SAKURA_SERVICE_PRINCIPAL_KEY_KID=" + testutil.Random(32, testutil.CharSetAlphaNum),
 
 		"SAKURACLOUD_PRIVATE_KEY=" + pemcontent,
 	})
@@ -150,7 +150,7 @@ func (s *HttpRequestDoerTestSuite) TestBearerFromLocalFile() {
 	_ = subject.SetEnviron([]string{
 		"SAKURACLOUD_PROFILE_DIR=" + s.T().TempDir(),
 		"SAKURACLOUD_SERVICE_PRINCIPAL_ID=113702516320",
-		"SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID=" + testutil.Random(32, testutil.CharSetAlphaNum),
+		"SAKURA_SERVICE_PRINCIPAL_KEY_KID=" + testutil.Random(32, testutil.CharSetAlphaNum),
 		"SAKURACLOUD_PRIVATE_KEY_PATH=" + path,
 	})
 
