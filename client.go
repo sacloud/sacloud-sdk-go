@@ -23,8 +23,12 @@ import (
 	v1 "github.com/sacloud/workflows-api-go/apis/v1"
 )
 
-// DefaultAPIRootURL デフォルトのAPIルートURL
-const DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1b/api/workflow/1.0/"
+const (
+	// DefaultAPIRootURL デフォルトのAPIルートURL
+	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1b/api/workflow/1.0/"
+	// serviceKey APIエンドポイントのキー
+	serviceKey = "workflows"
+)
 
 // UserAgent APIリクエスト時のユーザーエージェント
 var UserAgent = fmt.Sprintf(
@@ -44,7 +48,16 @@ func (voidSecuritySource) ApiKeyAuth(context.Context, v1.OperationName) (v1.ApiK
 
 // NewClient creates a new workflows API client with default settings
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
-	return NewClientWithAPIRootURL(client, DefaultAPIRootURL)
+
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
+		return nil, NewError("unable to load endpoint configuration", err)
+	}
+	apiURL := DefaultAPIRootURL
+	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
+		apiURL = ep
+	}
+	return NewClientWithAPIRootURL(client, apiURL)
 }
 
 // NewClientWithAPIRootURL creates a new workflows API client with a custom API root URL
