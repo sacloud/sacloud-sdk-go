@@ -48,7 +48,6 @@ func (voidSecuritySource) ApiKeyAuth(context.Context, v1.OperationName) (v1.ApiK
 
 // NewClient creates a new workflows API client with default settings
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
-
 	endpointConfig, err := client.EndpointConfig()
 	if err != nil {
 		return nil, NewError("unable to load endpoint configuration", err)
