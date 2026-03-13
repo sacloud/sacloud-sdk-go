@@ -100,6 +100,9 @@ func TestExecutionAPI(t *testing.T) {
 	require.NotNil(t, respListHistory)
 
 	// Delete
-	err = executionAPI.Delete(ctx, workflow.ID, respCreate.ExecutionId)
-	require.NoError(t, err)
+	// NOTE: Cancelが完了するまで409で失敗するので、完了するまでリトライする。
+	require.EventuallyWithT(t, func(c *assert.CollectT) {
+		err = executionAPI.Delete(ctx, workflow.ID, respCreate.ExecutionId)
+		require.NoError(c, err)
+	}, 30*time.Second, 5*time.Second, "Delete execution failed")
 }
