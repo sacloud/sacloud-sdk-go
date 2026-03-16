@@ -22,7 +22,10 @@ import (
 	"github.com/sacloud/saclient-go"
 )
 
-const DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1b/api/cloud/1.0/"
+const (
+	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1b/api/cloud/1.0/"
+	serviceKey        = "dedicated_storage"
+)
 
 var UserAgent = fmt.Sprintf(
 	"dedicated-storage-api-go/%s (%s/%s; +https://github.com/sacloud/dedicated-storage-api-go)",
@@ -32,7 +35,16 @@ var UserAgent = fmt.Sprintf(
 )
 
 func NewClient(client *saclient.Client) (*v1.Client, error) {
-	return NewClientWithAPIRootURL(client, DefaultAPIRootURL)
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
+		return nil, NewError("unable to load endpoint configuration", err)
+	}
+
+	apiURL := DefaultAPIRootURL
+	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
+		apiURL = ep
+	}
+	return NewClientWithAPIRootURL(client, apiURL)
 }
 
 func NewClientWithAPIRootURL(client *saclient.Client, apiRootURL string) (*v1.Client, error) {
