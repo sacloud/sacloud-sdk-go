@@ -485,6 +485,12 @@ func (p *parameter) populatePrivateKeyPath(c *config) error {
 		return NewErrorf("private key not a file: %s", v)
 	}
 
+	if runtime.GOOS == "windows" {
+		// There is no concept like world writable directory on Windows.
+		// The &0o077 check below makes no sense here.
+		return nil
+	}
+
 	if s.Mode().Perm()&0o077 != 0 {
 		return NewErrorf("private key file %s permission is too lax: %o", v, s.Mode().Perm())
 	}
