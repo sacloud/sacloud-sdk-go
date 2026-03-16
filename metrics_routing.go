@@ -82,18 +82,12 @@ func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCre
 		if err != nil {
 			return nil, fmt.Errorf("MetricsRoutingCreateParams.MetricsStorageID: %w", err)
 		}
-		req := v1.MetricsRouting{
-			PublisherCode:    intoOpt[v1.OptString](&params.PublisherCode),
+		req := v1.MetricsRoutingRequest{
+			PublisherCode:    params.PublisherCode,
 			ResourceID:       rid,
 			Variant:          params.Variant,
-			MetricsStorageID: intoOptNil[v1.OptNilInt64](&mid),
+			MetricsStorageID: v1.NilInt64{Value: mid},
 		}
-
-		// prevent ogen error (encoder is not accepting empty struct)
-		req.Publisher.SetFake()
-		req.MetricsStorage.SetFake()
-		req.Publisher.SetVariants(make([]v1.PublisherVariant, 0))
-		req.MetricsStorage.SetTags(make([]string, 0))
 
 		return op.client.MetricsRoutingsCreate(ctx, &req)
 	})
@@ -124,7 +118,7 @@ func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params Met
 		if err != nil {
 			return nil, fmt.Errorf("MetricsRoutingUpdateParams.MetricsStorageID: %w", err)
 		}
-		return op.client.MetricsRoutingsPartialUpdate(ctx, v1.NewOptPatchedMetricsRouting(v1.PatchedMetricsRouting{
+		return op.client.MetricsRoutingsPartialUpdate(ctx, v1.NewOptPatchedMetricsRoutingRequest(v1.PatchedMetricsRoutingRequest{
 			PublisherCode:    intoOpt[v1.OptString](params.PublisherCode),
 			ResourceID:       rid,
 			Variant:          intoOpt[v1.OptString](params.Variant),

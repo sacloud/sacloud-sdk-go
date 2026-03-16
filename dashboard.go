@@ -59,7 +59,7 @@ type DashboardProjectCreateParams struct {
 
 func (op *dashboardProjectOp) Create(ctx context.Context, p DashboardProjectCreateParams) (*v1.DashboardProject, error) {
 	return errorFromDecodedResponse("DashboardProject.Create", func() (*v1.DashboardProject, error) {
-		return op.client.DashboardsProjectsCreate(ctx, &v1.DashboardProjectCreate{
+		return op.client.DashboardsProjectsCreate(ctx, &v1.DashboardProjectCreateRequest{
 			Name:        p.Name,
 			Description: intoOpt[v1.OptString](p.Description),
 		})
@@ -88,7 +88,7 @@ func (op *dashboardProjectOp) Update(ctx context.Context, id string, params Dash
 		if err != nil {
 			return nil, err
 		}
-		return op.client.DashboardsProjectsPartialUpdate(ctx, v1.NewOptPatchedDashboardProject(v1.PatchedDashboardProject{
+		return op.client.DashboardsProjectsPartialUpdate(ctx, v1.NewOptPatchedDashboardProjectRequest(v1.PatchedDashboardProjectRequest{
 			Name:        intoOpt[v1.OptString](params.Name),
 			Description: intoOpt[v1.OptString](params.Description),
 		}), v1.DashboardsProjectsPartialUpdateParams{ResourceID: intId})

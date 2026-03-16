@@ -57,9 +57,27 @@ func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCr
 	return errorFromDecodedResponse("Management.CreateProvisioning", func() (ret *v1.Provisioning, err error) {
 		ret = new(v1.Provisioning)
 
-		res, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreate(v1.ProvisioningCreate{
-			Logs:    intoOpt[v1.OptProvisioningExist](p.Logs),
-			Metrics: intoOpt[v1.OptProvisioningExist](p.Metrics),
+		res, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreateRequest(v1.ProvisioningCreateRequest{
+			Logs: intoOpt[v1.OptProvisioningExistRequest](func() *v1.ProvisioningExistRequest {
+				if p.Logs == nil {
+					return nil
+				}
+				r := v1.ProvisioningExistRequest{
+					SystemExist: p.Logs.SystemExist,
+					UserExist:   p.Logs.UserExist,
+				}
+				return &r
+			}()),
+			Metrics: intoOpt[v1.OptProvisioningExistRequest](func() *v1.ProvisioningExistRequest {
+				if p.Metrics == nil {
+					return nil
+				}
+				r := v1.ProvisioningExistRequest{
+					SystemExist: p.Metrics.SystemExist,
+					UserExist:   p.Metrics.UserExist,
+				}
+				return &r
+			}()),
 		}))
 		switch rem := res.(type) {
 		case *v1.PostProvisioningInitializeOK:

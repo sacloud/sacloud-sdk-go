@@ -97,7 +97,7 @@ type MetricsStorageCreateParams struct {
 
 func (op *metricsStorageOp) Create(ctx context.Context, params MetricsStorageCreateParams) (*v1.MetricsStorage, error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.Create", func() (*v1.MetricsStorage, error) {
-		return op.client.MetricsStoragesCreate(ctx, &v1.MetricsStorageCreate{
+		return op.client.MetricsStoragesCreate(ctx, &v1.MetricsStorageCreateRequest{
 			Name:        params.Name,
 			Description: intoOpt[v1.OptString](params.Description),
 			IsSystem:    params.IsSystem,
@@ -117,7 +117,7 @@ func (op *metricsStorageOp) Update(ctx context.Context, id string, params Metric
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesPartialUpdate(ctx, v1.NewOptPatchedMetricsStorage(v1.PatchedMetricsStorage{
+		return op.client.MetricsStoragesPartialUpdate(ctx, v1.NewOptPatchedMetricsStorageRequest(v1.PatchedMetricsStorageRequest{
 			Name:        intoOpt[v1.OptString](params.Name),
 			Description: intoOpt[v1.OptString](params.Description),
 		}), v1.MetricsStoragesPartialUpdateParams{ResourceID: rid})
@@ -194,7 +194,7 @@ func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId str
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesKeysCreate(ctx, v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
+		return op.client.MetricsStoragesKeysCreate(ctx, v1.NewOptMetricsStorageAccessKeyRequest(v1.MetricsStorageAccessKeyRequest{
 			Description: intoOpt[v1.OptString](description),
 		}), v1.MetricsStoragesKeysCreateParams{MetricsResourceID: rid})
 	})
@@ -221,7 +221,7 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 		if err != nil {
 			return nil, err
 		}
-		return op.client.MetricsStoragesKeysUpdate(ctx, v1.NewOptMetricsStorageAccessKey(v1.MetricsStorageAccessKey{
+		return op.client.MetricsStoragesKeysUpdate(ctx, v1.NewOptMetricsStorageAccessKeyRequest(v1.MetricsStorageAccessKeyRequest{
 			Description: intoOpt[v1.OptString](description),
 		}), v1.MetricsStoragesKeysUpdateParams{
 			MetricsResourceID: rid,

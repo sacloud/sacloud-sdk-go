@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -399,7 +400,7 @@ func TestLogStorageIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewLogsStorageOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 	tmp := WithLogStorage(t, client, ctx)
 	lid := fmt.Sprintf("%d", tmp.GetID())
 

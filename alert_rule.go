@@ -87,7 +87,7 @@ func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRule
 		if err != nil {
 			return nil, fmt.Errorf("AlertRuleCreateParams.MetricsStorageID: %w", err)
 		}
-		return op.client.AlertsProjectsRulesCreate(ctx, &v1.AlertRule{
+		return op.client.AlertsProjectsRulesCreate(ctx, &v1.AlertRuleRequest{
 			MetricsStorageID:          intoNil[v1.NilInt64](&intStorageId),
 			Name:                      intoOpt[v1.OptString](p.Name),
 			Query:                     p.Query,
@@ -142,7 +142,7 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid
 		if err != nil {
 			return nil, fmt.Errorf("AlertRuleUpdateParams.MetricsStorageID: %w", err)
 		}
-		return op.client.AlertsProjectsRulesPartialUpdate(ctx, v1.NewOptPatchedAlertRule(v1.PatchedAlertRule{
+		return op.client.AlertsProjectsRulesPartialUpdate(ctx, v1.NewOptPatchedAlertRuleRequest(v1.PatchedAlertRuleRequest{
 			MetricsStorageID:          storageId,
 			Name:                      intoOpt[v1.OptString](p.Name),
 			Query:                     intoOpt[v1.OptString](p.Query),

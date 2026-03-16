@@ -28,7 +28,7 @@ type NotificationRoutingAPI interface {
 	Update(ctx context.Context, projectId string, id uuid.UUID, params NotificationRoutingUpdateParams) (*v1.NotificationRouting, error)
 	Delete(ctx context.Context, projectId string, id uuid.UUID) error
 
-	Reorder(ctx context.Context, projectId string, orders []v1.NotificationRoutingOrder) error
+	Reorder(ctx context.Context, projectId string, orders []v1.NotificationRoutingOrderRequest) error
 }
 
 var _ NotificationRoutingAPI = (*notificationRoutingOp)(nil)
@@ -72,14 +72,23 @@ func (op *notificationRoutingOp) Create(ctx context.Context, projectId string, p
 		if err != nil {
 			return nil, err
 		}
-		req := v1.NotificationRouting{
-			NotificationTargetUID: v1.NewOptUUID(params.NotificationTargetUID),
-			MatchLabels:           params.MatchLabels,
+		req := v1.NotificationRoutingRequest{
+			NotificationTargetUID: params.NotificationTargetUID,
+			MatchLabels: func() []v1.MatchLabelsItemRequest {
+				if len(params.MatchLabels) == 0 {
+					return nil
+				}
+				ret := make([]v1.MatchLabelsItemRequest, len(params.MatchLabels))
+				for i, item := range params.MatchLabels {
+					ret[i] = v1.MatchLabelsItemRequest{
+						Name:  item.Name,
+						Value: item.Value,
+					}
+				}
+				return ret
+			}(),
 			ResendIntervalMinutes: intoOpt[v1.OptInt](params.ResendIntervalMinutes),
 		}
-		// prevent ogen error (encoder is not accepting empty struct)
-		req.NotificationTarget.SetFake()
-		req.NotificationTarget.SetServiceType(v1.NotificationTargetServiceTypeSAKURASIMPLENOTICE)
 		return op.client.AlertsProjectsNotificationRoutingsCreate(ctx, &req, v1.AlertsProjectsNotificationRoutingsCreateParams{ProjectResourceID: id})
 	})
 	return unwrapE[*v1.NotificationRouting](res, err)
@@ -98,9 +107,21 @@ func (op *notificationRoutingOp) Update(ctx context.Context, projectId string, u
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsNotificationRoutingsPartialUpdate(ctx, v1.NewOptPatchedNotificationRouting(v1.PatchedNotificationRouting{
+		return op.client.AlertsProjectsNotificationRoutingsPartialUpdate(ctx, v1.NewOptPatchedNotificationRoutingRequest(v1.PatchedNotificationRoutingRequest{
 			NotificationTargetUID: intoOpt[v1.OptUUID](params.NotificationTargetUID),
-			MatchLabels:           params.MatchLabels,
+			MatchLabels: func() []v1.MatchLabelsItemRequest {
+				if len(params.MatchLabels) == 0 {
+					return nil
+				}
+				ret := make([]v1.MatchLabelsItemRequest, len(params.MatchLabels))
+				for i, item := range params.MatchLabels {
+					ret[i] = v1.MatchLabelsItemRequest{
+						Name:  item.Name,
+						Value: item.Value,
+					}
+				}
+				return ret
+			}(),
 			ResendIntervalMinutes: intoOpt[v1.OptInt](params.ResendIntervalMinutes),
 		}), v1.AlertsProjectsNotificationRoutingsPartialUpdateParams{
 			ProjectResourceID: id,
@@ -135,7 +156,7 @@ func (op *notificationRoutingOp) Delete(ctx context.Context, projectId string, u
 	})
 }
 
-func (op *notificationRoutingOp) Reorder(ctx context.Context, projectId string, orders []v1.NotificationRoutingOrder) error {
+func (op *notificationRoutingOp) Reorder(ctx context.Context, projectId string, orders []v1.NotificationRoutingOrderRequest) error {
 	return errorFromDecodedResponse1("NotificationRouting.Reorder", func() error {
 		id, err := strconv.ParseInt(projectId, 10, 64)
 		if err != nil {

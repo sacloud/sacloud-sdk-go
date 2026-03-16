@@ -82,18 +82,12 @@ func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreatePara
 		if err != nil {
 			return nil, fmt.Errorf("LogsRoutingCreateParams.LogStorageID: %w", err)
 		}
-		request := v1.LogRouting{
-			PublisherCode: intoOpt[v1.OptString](&params.PublisherCode),
+		request := v1.LogRoutingRequest{
+			PublisherCode: params.PublisherCode,
 			ResourceID:    rid,
 			Variant:       params.Variant,
-			LogStorageID:  intoOptNil[v1.OptNilInt64](&lid),
+			LogStorageID:  v1.NilInt64{Value: lid},
 		}
-
-		// prevent ogen error (encoder is not accepting empty struct)
-		request.Publisher.SetFake()
-		request.LogStorage.SetFake()
-		request.Publisher.SetVariants(make([]v1.PublisherVariant, 0))
-		request.LogStorage.SetTags(make([]string, 0))
 
 		return op.client.LogsRoutingsCreate(ctx, &request)
 	})
@@ -124,7 +118,7 @@ func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRou
 		if err != nil {
 			return nil, fmt.Errorf("LogsRoutingUpdateParams.LogStorageID: %w", err)
 		}
-		return op.client.LogsRoutingsPartialUpdate(ctx, v1.NewOptPatchedLogRouting(v1.PatchedLogRouting{
+		return op.client.LogsRoutingsPartialUpdate(ctx, v1.NewOptPatchedLogRoutingRequest(v1.PatchedLogRoutingRequest{
 			PublisherCode: intoOpt[v1.OptString](params.PublisherCode),
 			ResourceID:    rid,
 			Variant:       intoOpt[v1.OptString](params.Variant),

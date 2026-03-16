@@ -76,7 +76,7 @@ type AlertProjectCreateParams struct {
 
 func (op *alertProjectOp) Create(ctx context.Context, params AlertProjectCreateParams) (*v1.AlertProject, error) {
 	return errorFromDecodedResponse("AlertProject.Create", func() (*v1.AlertProject, error) {
-		return op.client.AlertsProjectsCreate(ctx, &v1.AlertProjectCreate{
+		return op.client.AlertsProjectsCreate(ctx, &v1.AlertProjectCreateRequest{
 			Name:        params.Name,
 			Description: intoOpt[v1.OptString](params.Description),
 		})
@@ -96,7 +96,7 @@ func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertPro
 		}
 		return op.client.AlertsProjectsPartialUpdate(
 			ctx,
-			v1.NewOptPatchedAlertProject(v1.PatchedAlertProject{
+			v1.NewOptPatchedAlertProjectRequest(v1.PatchedAlertProjectRequest{
 				Name:        intoOpt[v1.OptString](params.Name),
 				Description: intoOpt[v1.OptString](params.Description),
 			}),

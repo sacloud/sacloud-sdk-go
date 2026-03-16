@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -226,7 +227,7 @@ func TestAlertProjectIntegrated(t *testing.T) {
 	require.NoError(t, err)
 
 	api := NewAlertProjectOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 	tmp := WithAlertProject(t, client, ctx)
 	aid := fmt.Sprintf("%d", tmp.GetID())
 

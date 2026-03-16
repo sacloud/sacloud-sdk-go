@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -233,7 +234,7 @@ func TestLogMeasureRuleIntegrated(t *testing.T) {
 	require.NoError(t, err)
 
 	api := NewLogMeasureRuleOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	project := WithAlertProject(t, client, ctx)
 	projectId := fmt.Sprintf("%d", project.GetID())

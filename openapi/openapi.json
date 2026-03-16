@@ -2,8 +2,8 @@
   "openapi": "3.0.3",
   "info": {
     "title": "モニタリングスイート API ドキュメント",
-    "version": "1.0.0",
-    "description": "\n---\n「モニタリングスイート」が提供するAPIの利用方法とサンプルを公開しております。\n# 基本的な使い方\n## APIキーの発行\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## 入力パラメータ\n\nAPIの入力には送信先URLに対して、いくつかのヘッダーとAPIキーを送信します。\n\n* 認証方式はHTTP Basic認証です。APIキーのアクセストークンをユーザーID、アクセストークンシークレットをパスワードとして指定します。\n\n```\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n     -X GET \\\n     'https://secure.sakura.ad.jp/cloud/zone/is1a/api/monitoring/1.0/logs/storages/'\n```\n\n## 出力結果と応答コード（HTTPステータスコード）\n\nAPIからの結果は、「応答コード（HTTPステータスコード）」と、「JSON形式(UTF-8)の結果」として出力されます。\n\n応答コードは、リクエストが成功したのか、失敗したのか大まかな情報を判断することができるもので、例えば失敗したときには、なぜこのような結果になったのかなど、具体的な情報は応答コードと主に返された本文を見ることで把握することができます。\n\n| 結果                                | 応答コード/status   |\n|-------------------------------------|---------------------|\n| 成功（要求を受け付けた）             | 2xx                 |\n| 失敗（要求が受け付けられなかった）  | 4xx, 5xx            |\n",
+    "version": "1.1.0",
+    "description": "\n---\n「モニタリングスイート」が提供するAPIの利用方法とサンプルを公開しております。\n# 基本的な使い方\n## APIキーの発行\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## 入力パラメータ\n\nAPIの入力には送信先URLに対して、いくつかのヘッダーとAPIキーを送信します。\n\n* 認証方式はHTTP Basic認証です。APIキーのアクセストークンをユーザーID、アクセストークンシークレットをパスワードとして指定します。\n* 常にリクエストのHTTPヘッダに `X-Sakura-Bigint-As-Int: 1` を付与してください。ヘッダが未指定の場合、一部のフィールドがこのドキュメントと異なる型でレスポンスされる場合があります。\n\n```\n# 入力サンプル\ncurl \\\n  -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \\\n  -H 'X-Sakura-Bigint-As-Int: 1' \\\n  -X GET \\\n  'https://secure.sakura.ad.jp/cloud/zone/is1a/api/monitoring/1.0/logs/storages/'\n```\n\n## 出力結果と応答コード（HTTPステータスコード）\n\nAPIからの結果は、「応答コード（HTTPステータスコード）」と、「JSON形式(UTF-8)の結果」として出力されます。\n\n応答コードは、リクエストが成功したのか、失敗したのか大まかな情報を判断することができるもので、例えば失敗したときには、なぜこのような結果になったのかなど、具体的な情報は応答コードと主に返された本文を見ることで把握することができます。\n\n| 結果                                | 応答コード/status   |\n|-------------------------------------|---------------------|\n| 成功（要求を受け付けた）             | 2xx                 |\n| 失敗（要求が受け付けられなかった）  | 4xx, 5xx            |\n",
     "contact": {
       "name": "SAKURA internet Inc."
     },
@@ -63,7 +63,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AlertProjectCreate"
+                "$ref": "#/components/schemas/AlertProjectCreateRequest"
               }
             }
           },
@@ -292,7 +292,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LogMeasureRule"
+                "$ref": "#/components/schemas/LogMeasureRuleRequest"
               }
             }
           },
@@ -384,7 +384,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LogMeasureRule"
+                "$ref": "#/components/schemas/LogMeasureRuleRequest"
               }
             }
           },
@@ -434,7 +434,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedLogMeasureRule"
+                "$ref": "#/components/schemas/PatchedLogMeasureRuleRequest"
               }
             }
           }
@@ -565,7 +565,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NotificationRouting"
+                "$ref": "#/components/schemas/NotificationRoutingRequest"
               }
             }
           },
@@ -657,7 +657,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NotificationRouting"
+                "$ref": "#/components/schemas/NotificationRoutingRequest"
               }
             }
           },
@@ -707,7 +707,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedNotificationRouting"
+                "$ref": "#/components/schemas/PatchedNotificationRoutingRequest"
               }
             }
           }
@@ -785,7 +785,7 @@
               "schema": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/NotificationRoutingOrder"
+                  "$ref": "#/components/schemas/NotificationRoutingOrderRequest"
                 }
               }
             }
@@ -883,7 +883,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NotificationTarget"
+                "$ref": "#/components/schemas/NotificationTargetRequest"
               }
             }
           },
@@ -975,7 +975,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NotificationTarget"
+                "$ref": "#/components/schemas/NotificationTargetRequest"
               }
             }
           },
@@ -1025,7 +1025,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedNotificationTarget"
+                "$ref": "#/components/schemas/PatchedNotificationTargetRequest"
               }
             }
           }
@@ -1149,7 +1149,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AlertRule"
+                "$ref": "#/components/schemas/AlertRuleRequest"
               }
             }
           },
@@ -1380,7 +1380,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AlertRule"
+                "$ref": "#/components/schemas/AlertRuleRequest"
               }
             }
           },
@@ -1430,7 +1430,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedAlertRule"
+                "$ref": "#/components/schemas/PatchedAlertRuleRequest"
               }
             }
           }
@@ -1544,7 +1544,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AlertProject"
+                "$ref": "#/components/schemas/AlertProjectRequest"
               }
             }
           }
@@ -1588,7 +1588,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedAlertProject"
+                "$ref": "#/components/schemas/PatchedAlertProjectRequest"
               }
             }
           }
@@ -1687,7 +1687,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DashboardProjectCreate"
+                "$ref": "#/components/schemas/DashboardProjectCreateRequest"
               }
             }
           },
@@ -1769,7 +1769,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/DashboardProject"
+                "$ref": "#/components/schemas/DashboardProjectRequest"
               }
             }
           }
@@ -1813,7 +1813,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedDashboardProject"
+                "$ref": "#/components/schemas/PatchedDashboardProjectRequest"
               }
             }
           }
@@ -1935,7 +1935,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LogRouting"
+                "$ref": "#/components/schemas/LogRoutingRequest"
               }
             }
           },
@@ -2009,7 +2009,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LogRouting"
+                "$ref": "#/components/schemas/LogRoutingRequest"
               }
             }
           },
@@ -2050,7 +2050,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedLogRouting"
+                "$ref": "#/components/schemas/PatchedLogRoutingRequest"
               }
             }
           }
@@ -2111,13 +2111,13 @@
             "name": "bucket__classification",
             "schema": {
               "type": "string",
-              "x-spec-enum-id": "3886b5402e3c4079",
+              "x-spec-enum-id": "3896f704b7462b41",
               "enum": [
-                "separated",
+                "dedicated",
                 "shared"
               ]
             },
-            "description": "* `shared` - 共有\n* `separated` - 分離"
+            "description": "* `shared` - 共用\n* `dedicated` - 専有"
           },
           {
             "name": "count",
@@ -2197,7 +2197,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LogStorageCreate"
+                "$ref": "#/components/schemas/LogStorageCreateRequest"
               }
             }
           },
@@ -2289,7 +2289,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LogStorageAccessKey"
+                "$ref": "#/components/schemas/LogStorageAccessKeyRequest"
               }
             }
           }
@@ -2380,7 +2380,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LogStorageAccessKey"
+                "$ref": "#/components/schemas/LogStorageAccessKeyRequest"
               }
             }
           }
@@ -2429,7 +2429,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedLogStorageAccessKey"
+                "$ref": "#/components/schemas/PatchedLogStorageAccessKeyRequest"
               }
             }
           }
@@ -2543,7 +2543,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LogStorage"
+                "$ref": "#/components/schemas/LogStorageRequest"
               }
             }
           }
@@ -2587,7 +2587,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedLogStorage"
+                "$ref": "#/components/schemas/PatchedLogStorageRequest"
               }
             }
           }
@@ -2661,7 +2661,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SetLogStorageExpireDay"
+                "$ref": "#/components/schemas/SetLogStorageExpireDayRequest"
               }
             }
           },
@@ -2815,22 +2815,12 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ProvisioningCreate"
+                "$ref": "#/components/schemas/ProvisioningCreateRequest"
               }
             }
           }
         },
         "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Provisioning"
-                }
-              }
-            },
-            "description": "既存のリソースが存在し、新規作成を行わなかった場合に返されます。"
-          },
           "201": {
             "content": {
               "application/json": {
@@ -2840,6 +2830,16 @@
               }
             },
             "description": "新規リソースを作成した場合に返されます。"
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Provisioning"
+                }
+              }
+            },
+            "description": "既存のリソースが存在し、新規作成を行わなかった場合に返されます。"
           }
         },
         "summary": "プロビジョニング（初期化）API"
@@ -2941,7 +2941,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MetricsRouting"
+                "$ref": "#/components/schemas/MetricsRoutingRequest"
               }
             }
           },
@@ -3015,7 +3015,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MetricsRouting"
+                "$ref": "#/components/schemas/MetricsRoutingRequest"
               }
             }
           },
@@ -3056,7 +3056,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsRouting"
+                "$ref": "#/components/schemas/PatchedMetricsRoutingRequest"
               }
             }
           }
@@ -3174,7 +3174,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MetricsStorageCreate"
+                "$ref": "#/components/schemas/MetricsStorageCreateRequest"
               }
             }
           },
@@ -3266,7 +3266,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MetricsStorageAccessKey"
+                "$ref": "#/components/schemas/MetricsStorageAccessKeyRequest"
               }
             }
           }
@@ -3357,7 +3357,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MetricsStorageAccessKey"
+                "$ref": "#/components/schemas/MetricsStorageAccessKeyRequest"
               }
             }
           }
@@ -3406,7 +3406,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsStorageAccessKey"
+                "$ref": "#/components/schemas/PatchedMetricsStorageAccessKeyRequest"
               }
             }
           }
@@ -3520,7 +3520,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MetricsStorage"
+                "$ref": "#/components/schemas/MetricsStorageRequest"
               }
             }
           }
@@ -3564,7 +3564,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedMetricsStorage"
+                "$ref": "#/components/schemas/PatchedMetricsStorageRequest"
               }
             }
           }
@@ -3821,13 +3821,13 @@
             "name": "log_storage__bucket__classification",
             "schema": {
               "type": "string",
-              "x-spec-enum-id": "3886b5402e3c4079",
+              "x-spec-enum-id": "3896f704b7462b41",
               "enum": [
-                "separated",
+                "dedicated",
                 "shared"
               ]
             },
-            "description": "* `shared` - 共有\n* `separated` - 分離"
+            "description": "* `shared` - 共用\n* `dedicated` - 専有"
           },
           {
             "in": "query",
@@ -3865,7 +3865,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TraceStorageCreate"
+                "$ref": "#/components/schemas/TraceStorageCreateRequest"
               }
             }
           },
@@ -3947,7 +3947,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TraceStorage"
+                "$ref": "#/components/schemas/TraceStorageRequest"
               }
             }
           }
@@ -3991,7 +3991,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedTraceStorage"
+                "$ref": "#/components/schemas/PatchedTraceStorageRequest"
               }
             }
           }
@@ -4065,7 +4065,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SetTraceStorageExpireDay"
+                "$ref": "#/components/schemas/SetTraceStorageExpireDayRequest"
               }
             }
           },
@@ -4257,7 +4257,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TraceStorageAccessKey"
+                "$ref": "#/components/schemas/TraceStorageAccessKeyRequest"
               }
             }
           }
@@ -4348,7 +4348,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TraceStorageAccessKey"
+                "$ref": "#/components/schemas/TraceStorageAccessKeyRequest"
               }
             }
           }
@@ -4397,7 +4397,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PatchedTraceStorageAccessKey"
+                "$ref": "#/components/schemas/PatchedTraceStorageAccessKeyRequest"
               }
             }
           }
@@ -4507,43 +4507,18 @@
             "format": "date-time",
             "readOnly": true,
             "title": "Register datetime"
-          },
-          "rules_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "notification_targets_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "notification_routings_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "histories_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "log_measure_rules_url": {
-            "type": "string",
-            "readOnly": true
           }
         },
         "required": [
           "account_id",
           "created_at",
-          "histories_url",
           "icon",
           "id",
-          "log_measure_rules_url",
-          "notification_routings_url",
-          "notification_targets_url",
           "resource_id",
-          "rules_url",
           "tags"
         ]
       },
-      "AlertProjectCreate": {
+      "AlertProjectCreateRequest": {
         "type": "object",
         "properties": {
           "name": {
@@ -4558,6 +4533,19 @@
         "required": [
           "name"
         ]
+      },
+      "AlertProjectRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512
+          }
+        }
       },
       "AlertRule": {
         "type": "object",
@@ -4624,19 +4612,73 @@
           "threshold_duration_critical": {
             "type": "integer",
             "format": "int64"
-          },
-          "history_url": {
-            "type": "string",
-            "readOnly": true
           }
         },
         "required": [
-          "history_url",
           "metrics_storage_id",
           "open",
           "project_id",
           "query",
           "uid"
+        ]
+      },
+      "AlertRuleRequest": {
+        "type": "object",
+        "properties": {
+          "metrics_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "query": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4096
+          },
+          "format": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "template": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "enabled_warning": {
+            "type": "boolean"
+          },
+          "enabled_critical": {
+            "type": "boolean"
+          },
+          "threshold_warning": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "threshold_critical": {
+            "type": "string",
+            "nullable": true,
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "threshold_duration_warning": {
+            "type": "integer",
+            "format": "int64",
+            "title": "Threshold duration"
+          },
+          "threshold_duration_critical": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": [
+          "metrics_storage_id",
+          "query"
         ]
       },
       "AndMatcher": {
@@ -4757,7 +4799,7 @@
           "tags"
         ]
       },
-      "DashboardProjectCreate": {
+      "DashboardProjectCreateRequest": {
         "type": "object",
         "properties": {
           "name": {
@@ -4772,6 +4814,19 @@
         "required": [
           "name"
         ]
+      },
+      "DashboardProjectRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512
+          }
+        }
       },
       "EnumMatcher": {
         "properties": {
@@ -4822,6 +4877,12 @@
           },
           {
             "$ref": "#/components/schemas/MapKeyValueMatcher"
+          },
+          {
+            "$ref": "#/components/schemas/MapValueStrMatcher"
+          },
+          {
+            "$ref": "#/components/schemas/MapValueNumMatcher"
           }
         ],
         "title": "FieldMatcher",
@@ -4953,13 +5014,6 @@
             ],
             "readOnly": true
           },
-          "log_storage_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "writeOnly": true
-          },
           "metrics_storage": {
             "allOf": [
               {
@@ -4967,13 +5021,6 @@
               }
             ],
             "readOnly": true
-          },
-          "metrics_storage_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "writeOnly": true
           },
           "rule": {
             "$ref": "#/components/schemas/LogMeasureRuleModel"
@@ -5015,6 +5062,58 @@
         ],
         "title": "LogMeasureRuleModel",
         "type": "object"
+      },
+      "LogMeasureRuleModelRequest": {
+        "properties": {
+          "version": {
+            "$ref": "#/components/schemas/LogMeasureRuleVersionEnum"
+          },
+          "query": {
+            "$ref": "#/components/schemas/LogMeasureRuleV1"
+          }
+        },
+        "required": [
+          "version",
+          "query"
+        ],
+        "title": "LogMeasureRuleModel",
+        "type": "object"
+      },
+      "LogMeasureRuleRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[a-z\\d_-]*$",
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          },
+          "log_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "metrics_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          },
+          "rule": {
+            "$ref": "#/components/schemas/LogMeasureRuleModelRequest"
+          }
+        },
+        "required": [
+          "log_storage_id",
+          "metrics_storage_id",
+          "rule"
+        ]
       },
       "LogMeasureRuleV1": {
         "properties": {
@@ -5070,10 +5169,6 @@
             ],
             "readOnly": true
           },
-          "publisher_code": {
-            "type": "string",
-            "writeOnly": true
-          },
           "variant": {
             "type": "string"
           },
@@ -5084,13 +5179,6 @@
               }
             ],
             "readOnly": true
-          },
-          "log_storage_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "writeOnly": true
           },
           "created_at": {
             "type": "string",
@@ -5112,6 +5200,38 @@
           "publisher",
           "uid",
           "updated_at",
+          "variant"
+        ]
+      },
+      "LogRoutingRequest": {
+        "type": "object",
+        "properties": {
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "対象リソースのID"
+          },
+          "publisher_code": {
+            "type": "string",
+            "minLength": 1,
+            "writeOnly": true
+          },
+          "variant": {
+            "type": "string",
+            "minLength": 1
+          },
+          "log_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "log_storage_id",
+          "publisher_code",
           "variant"
         ]
       },
@@ -5201,6 +5321,28 @@
             "type": "boolean",
             "readOnly": true
           },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "shared",
+              "dedicated"
+            ],
+            "readOnly": true
+          },
+          "kms_key_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "service_principal_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
           "usage": {
             "type": "object",
             "properties": {
@@ -5220,12 +5362,14 @@
         },
         "required": [
           "account_id",
+          "classification",
           "created_at",
           "endpoints",
           "expire_day",
           "icon",
           "id",
           "is_system",
+          "kms_key_id",
           "resource_id",
           "tags",
           "usage"
@@ -5270,17 +5414,26 @@
           "uid"
         ]
       },
-      "LogStorageCreate": {
+      "LogStorageAccessKeyRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "LogStorageCreateRequest": {
         "type": "object",
         "properties": {
           "classification": {
             "enum": [
               "shared",
-              "separated"
+              "dedicated"
             ],
             "type": "string",
-            "description": "* `shared` - 共有\n* `separated` - 分離",
-            "x-spec-enum-id": "3886b5402e3c4079",
+            "description": "* `shared` - 共用\n* `dedicated` - 専有",
+            "x-spec-enum-id": "3896f704b7462b41",
             "default": "shared"
           },
           "is_system": {
@@ -5293,6 +5446,22 @@
           "description": {
             "type": "string",
             "maxLength": 512
+          },
+          "kms_key_id": {
+            "type": "integer",
+            "nullable": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "service_principal_id": {
+            "type": "integer",
+            "nullable": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
           }
         },
         "required": [
@@ -5401,10 +5570,31 @@
           "usages"
         ]
       },
+      "LogStorageRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "service_principal_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        }
+      },
       "MapFieldName": {
         "enum": [
           "resource_labels",
-          "labels"
+          "labels",
+          "resource_attributes",
+          "attributes",
+          "json_payload"
         ],
         "title": "MapFieldName",
         "type": "string"
@@ -5456,6 +5646,85 @@
         "title": "MapKeyValueMatcher",
         "type": "object"
       },
+      "MapValueNumMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type9"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/Operator4"
+          },
+          "field": {
+            "$ref": "#/components/schemas/MapFieldName"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "number",
+            "format": "double"
+          },
+          "value_list": {
+            "description": "use only multi-eq",
+            "items": {
+              "type": "number",
+              "format": "double"
+            },
+            "title": "Value List",
+            "type": "array"
+          }
+        },
+        "required": [
+          "type",
+          "operator",
+          "field",
+          "key",
+          "value",
+          "value_list"
+        ],
+        "title": "MapValueNumMatcher",
+        "type": "object"
+      },
+      "MapValueStrMatcher": {
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type8"
+          },
+          "operator": {
+            "$ref": "#/components/schemas/Operator3"
+          },
+          "field": {
+            "$ref": "#/components/schemas/MapFieldName"
+          },
+          "key": {
+            "title": "Key",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          },
+          "value_list": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Value List",
+            "type": "array"
+          }
+        },
+        "required": [
+          "type",
+          "operator",
+          "field",
+          "key",
+          "value",
+          "value_list"
+        ],
+        "title": "MapValueStrMatcher",
+        "type": "object"
+      },
       "MatchLabelsItem": {
         "type": "object",
         "properties": {
@@ -5465,6 +5734,25 @@
           },
           "value": {
             "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "name",
+          "value"
+        ]
+      },
+      "MatchLabelsItemRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "value": {
+            "type": "string",
+            "minLength": 1,
             "maxLength": 256
           }
         },
@@ -5504,10 +5792,6 @@
             ],
             "readOnly": true
           },
-          "publisher_code": {
-            "type": "string",
-            "writeOnly": true
-          },
           "variant": {
             "type": "string"
           },
@@ -5518,13 +5802,6 @@
               }
             ],
             "readOnly": true
-          },
-          "metrics_storage_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "writeOnly": true
           },
           "created_at": {
             "type": "string",
@@ -5546,6 +5823,38 @@
           "publisher",
           "uid",
           "updated_at",
+          "variant"
+        ]
+      },
+      "MetricsRoutingRequest": {
+        "type": "object",
+        "properties": {
+          "resource_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "description": "対象リソースのID"
+          },
+          "publisher_code": {
+            "type": "string",
+            "minLength": 1,
+            "writeOnly": true
+          },
+          "variant": {
+            "type": "string",
+            "minLength": 1
+          },
+          "metrics_storage_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "title": "Cloud resource id",
+            "writeOnly": true
+          }
+        },
+        "required": [
+          "metrics_storage_id",
+          "publisher_code",
           "variant"
         ]
       },
@@ -5699,7 +6008,16 @@
           "uid"
         ]
       },
-      "MetricsStorageCreate": {
+      "MetricsStorageAccessKeyRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "MetricsStorageCreateRequest": {
         "type": "object",
         "properties": {
           "name": {
@@ -5801,6 +6119,19 @@
           "usages"
         ]
       },
+      "MetricsStorageRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512
+          }
+        }
+      },
       "NotificationRouting": {
         "type": "object",
         "properties": {
@@ -5824,11 +6155,6 @@
             ],
             "readOnly": true
           },
-          "notification_target_uid": {
-            "type": "string",
-            "format": "uuid",
-            "writeOnly": true
-          },
           "match_labels": {
             "type": "array",
             "items": {
@@ -5848,11 +6174,12 @@
         "required": [
           "match_labels",
           "notification_target",
+          "order",
           "project_id",
           "uid"
         ]
       },
-      "NotificationRoutingOrder": {
+      "NotificationRoutingOrderRequest": {
         "type": "object",
         "properties": {
           "notification_routing_uid": {
@@ -5867,6 +6194,31 @@
         "required": [
           "notification_routing_uid",
           "order"
+        ]
+      },
+      "NotificationRoutingRequest": {
+        "type": "object",
+        "properties": {
+          "notification_target_uid": {
+            "type": "string",
+            "format": "uuid",
+            "writeOnly": true
+          },
+          "match_labels": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MatchLabelsItemRequest"
+            }
+          },
+          "resend_interval_minutes": {
+            "type": "integer",
+            "maximum": 720,
+            "minimum": 0
+          }
+        },
+        "required": [
+          "match_labels",
+          "notification_target_uid"
         ]
       },
       "NotificationTarget": {
@@ -5911,6 +6263,31 @@
           "project_id",
           "service_type",
           "uid"
+        ]
+      },
+      "NotificationTargetRequest": {
+        "type": "object",
+        "properties": {
+          "service_type": {
+            "enum": [
+              "SAKURA_SIMPLE_NOTICE",
+              "SAKURA_EVENT_BUS"
+            ],
+            "type": "string",
+            "description": "* `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification\n* `SAKURA_EVENT_BUS` - Sakura cloud event bus",
+            "x-spec-enum-id": "3b143ded19bdc92e"
+          },
+          "url": {
+            "type": "string",
+            "maxLength": 1024
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 100
+          }
+        },
+        "required": [
+          "service_type"
         ]
       },
       "NumMatcher": {
@@ -5999,6 +6376,34 @@
           "ne"
         ],
         "title": "Operator2",
+        "type": "string"
+      },
+      "Operator3": {
+        "enum": [
+          "eq",
+          "ne",
+          "gt",
+          "lt",
+          "gte",
+          "lte",
+          "multi-eq",
+          "like",
+          "ilike"
+        ],
+        "title": "Operator3",
+        "type": "string"
+      },
+      "Operator4": {
+        "enum": [
+          "eq",
+          "ne",
+          "gt",
+          "lt",
+          "gte",
+          "lte",
+          "multi-eq"
+        ],
+        "title": "Operator4",
         "type": "string"
       },
       "OrMatcher": {
@@ -6597,15 +7002,9 @@
           }
         }
       },
-      "PatchedAlertProject": {
+      "PatchedAlertProjectRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
           "name": {
             "type": "string",
             "maxLength": 64
@@ -6613,82 +7012,12 @@
           "description": {
             "type": "string",
             "maxLength": 512
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "icon": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "account_id": {
-            "type": "string",
-            "readOnly": true,
-            "title": "Cloud account id"
-          },
-          "resource_id": {
-            "type": "integer",
-            "readOnly": true,
-            "nullable": true,
-            "title": "Cloud resource id",
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Register datetime"
-          },
-          "rules_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "notification_targets_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "notification_routings_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "histories_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "log_measure_rules_url": {
-            "type": "string",
-            "readOnly": true
           }
         }
       },
-      "PatchedAlertRule": {
+      "PatchedAlertRuleRequest": {
         "type": "object",
         "properties": {
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "project_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
           "metrics_storage_id": {
             "type": "integer",
             "format": "int64",
@@ -6701,6 +7030,7 @@
           },
           "query": {
             "type": "string",
+            "minLength": 1,
             "maxLength": 4096
           },
           "format": {
@@ -6711,10 +7041,6 @@
             "type": "string",
             "maxLength": 256
           },
-          "open": {
-            "type": "boolean",
-            "readOnly": true
-          },
           "enabled_warning": {
             "type": "boolean"
           },
@@ -6724,11 +7050,13 @@
           "threshold_warning": {
             "type": "string",
             "nullable": true,
+            "minLength": 1,
             "maxLength": 256
           },
           "threshold_critical": {
             "type": "string",
             "nullable": true,
+            "minLength": 1,
             "maxLength": 256
           },
           "threshold_duration_warning": {
@@ -6739,22 +7067,12 @@
           "threshold_duration_critical": {
             "type": "integer",
             "format": "int64"
-          },
-          "history_url": {
-            "type": "string",
-            "readOnly": true
           }
         }
       },
-      "PatchedDashboardProject": {
+      "PatchedDashboardProjectRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
           "name": {
             "type": "string",
             "maxLength": 64
@@ -6762,71 +7080,12 @@
           "description": {
             "type": "string",
             "maxLength": 512
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "icon": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "account_id": {
-            "type": "string",
-            "readOnly": true,
-            "title": "Cloud account id"
-          },
-          "resource_id": {
-            "type": "integer",
-            "readOnly": true,
-            "nullable": true,
-            "title": "Cloud resource id",
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Register datetime"
           }
         }
       },
-      "PatchedLogMeasureRule": {
+      "PatchedLogMeasureRuleRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "readOnly": true,
-            "deprecated": true,
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "project_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
           "name": {
             "type": "string",
             "pattern": "^[a-z\\d_-]*$",
@@ -6836,28 +7095,12 @@
             "type": "string",
             "maxLength": 256
           },
-          "log_storage": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/LogStorage"
-              }
-            ],
-            "readOnly": true
-          },
           "log_storage_id": {
             "type": "integer",
             "format": "int64",
             "nullable": true,
             "title": "Cloud resource id",
             "writeOnly": true
-          },
-          "metrics_storage": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MetricsStorage"
-              }
-            ],
-            "readOnly": true
           },
           "metrics_storage_id": {
             "type": "integer",
@@ -6867,65 +7110,27 @@
             "writeOnly": true
           },
           "rule": {
-            "$ref": "#/components/schemas/LogMeasureRuleModel"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true
+            "$ref": "#/components/schemas/LogMeasureRuleModelRequest"
           }
         }
       },
-      "PatchedLogRouting": {
+      "PatchedLogRoutingRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "readOnly": true,
-            "deprecated": true,
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
           "resource_id": {
             "type": "integer",
             "format": "int64",
             "nullable": true,
             "description": "対象リソースのID"
           },
-          "publisher": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Publisher"
-              }
-            ],
-            "readOnly": true
-          },
           "publisher_code": {
             "type": "string",
+            "minLength": 1,
             "writeOnly": true
           },
           "variant": {
-            "type": "string"
-          },
-          "log_storage": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/LogStorage"
-              }
-            ],
-            "readOnly": true
+            "type": "string",
+            "minLength": 1
           },
           "log_storage_id": {
             "type": "integer",
@@ -6933,30 +7138,21 @@
             "nullable": true,
             "title": "Cloud resource id",
             "writeOnly": true
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Create datetime"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Update datetime"
           }
         }
       },
-      "PatchedLogStorage": {
+      "PatchedLogStorageAccessKeyRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "PatchedLogStorageRequest": {
+        "type": "object",
+        "properties": {
           "name": {
             "type": "string",
             "maxLength": 64
@@ -6965,171 +7161,30 @@
             "type": "string",
             "maxLength": 512
           },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "icon": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "expire_day": {
+          "service_principal_id": {
             "type": "integer",
-            "readOnly": true
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Register datetime"
-          },
-          "endpoints": {
-            "type": "object",
-            "properties": {
-              "ingester": {
-                "type": "object",
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  },
-                  "insecure": {
-                    "type": "boolean"
-                  }
-                },
-                "required": [
-                  "address"
-                ]
-              }
-            },
-            "required": [
-              "ingester"
-            ],
-            "readOnly": true
-          },
-          "account_id": {
-            "type": "string",
-            "readOnly": true,
-            "title": "Cloud account id"
-          },
-          "resource_id": {
-            "type": "integer",
-            "readOnly": true,
-            "nullable": true,
-            "title": "Cloud resource id",
             "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "usage": {
-            "type": "object",
-            "properties": {
-              "log_routings": {
-                "type": "integer"
-              },
-              "log_measure_rules": {
-                "type": "integer"
-              }
-            },
-            "required": [
-              "log_routings",
-              "log_measure_rules"
-            ],
-            "readOnly": true
+            "nullable": true
           }
         }
       },
-      "PatchedLogStorageAccessKey": {
+      "PatchedMetricsRoutingRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "readOnly": true,
-            "deprecated": true,
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "secret": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "token": {
-            "type": "string",
-            "description": "Returns a token string for the access key.",
-            "readOnly": true
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 256
-          }
-        }
-      },
-      "PatchedMetricsRouting": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "readOnly": true,
-            "deprecated": true,
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
           "resource_id": {
             "type": "integer",
             "format": "int64",
             "nullable": true,
             "description": "対象リソースのID"
           },
-          "publisher": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/Publisher"
-              }
-            ],
-            "readOnly": true
-          },
           "publisher_code": {
             "type": "string",
+            "minLength": 1,
             "writeOnly": true
           },
           "variant": {
-            "type": "string"
-          },
-          "metrics_storage": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/MetricsStorage"
-              }
-            ],
-            "readOnly": true
+            "type": "string",
+            "minLength": 1
           },
           "metrics_storage_id": {
             "type": "integer",
@@ -7137,30 +7192,21 @@
             "nullable": true,
             "title": "Cloud resource id",
             "writeOnly": true
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Create datetime"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Update datetime"
           }
         }
       },
-      "PatchedMetricsStorage": {
+      "PatchedMetricsStorageAccessKeyRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "PatchedMetricsStorageRequest": {
+        "type": "object",
+        "properties": {
           "name": {
             "type": "string",
             "maxLength": 64
@@ -7168,145 +7214,12 @@
           "description": {
             "type": "string",
             "maxLength": 512
-          },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "icon": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "is_system": {
-            "type": "boolean",
-            "readOnly": true
-          },
-          "account_id": {
-            "type": "string",
-            "readOnly": true,
-            "title": "Cloud account id"
-          },
-          "resource_id": {
-            "type": "integer",
-            "readOnly": true,
-            "nullable": true,
-            "title": "Cloud resource id",
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "endpoints": {
-            "type": "object",
-            "properties": {
-              "address": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "address"
-            ],
-            "readOnly": true
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Register datetime"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Update datetime"
-          },
-          "usage": {
-            "type": "object",
-            "properties": {
-              "metrics_routings": {
-                "type": "integer"
-              },
-              "alert_rules": {
-                "type": "integer"
-              },
-              "log_measure_rules": {
-                "type": "integer"
-              }
-            },
-            "required": [
-              "metrics_routings",
-              "alert_rules",
-              "log_measure_rules"
-            ],
-            "readOnly": true
           }
         }
       },
-      "PatchedMetricsStorageAccessKey": {
+      "PatchedNotificationRoutingRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "readOnly": true,
-            "deprecated": true,
-            "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          },
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "secret": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "token": {
-            "type": "string",
-            "description": "Returns a token string for the access key.",
-            "readOnly": true
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 256
-          }
-        }
-      },
-      "PatchedNotificationRouting": {
-        "type": "object",
-        "properties": {
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "project_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
-          "notification_target": {
-            "allOf": [
-              {
-                "$ref": "#/components/schemas/NotificationTarget"
-              }
-            ],
-            "readOnly": true
-          },
           "notification_target_uid": {
             "type": "string",
             "format": "uuid",
@@ -7315,35 +7228,19 @@
           "match_labels": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/MatchLabelsItem"
+              "$ref": "#/components/schemas/MatchLabelsItemRequest"
             }
           },
           "resend_interval_minutes": {
             "type": "integer",
             "maximum": 720,
             "minimum": 0
-          },
-          "order": {
-            "type": "integer",
-            "readOnly": true
           }
         }
       },
-      "PatchedNotificationTarget": {
+      "PatchedNotificationTargetRequest": {
         "type": "object",
         "properties": {
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "project_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
           "service_type": {
             "enum": [
               "SAKURA_SIMPLE_NOTICE",
@@ -7357,25 +7254,24 @@
             "type": "string",
             "maxLength": 1024
           },
-          "config": {
-            "type": "object",
-            "readOnly": true
-          },
           "description": {
             "type": "string",
             "maxLength": 100
           }
         }
       },
-      "PatchedTraceStorage": {
+      "PatchedTraceStorageAccessKeyRequest": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "title": "Cloud resource id",
-            "readOnly": true
-          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "PatchedTraceStorageRequest": {
+        "type": "object",
+        "properties": {
           "name": {
             "type": "string",
             "maxLength": 64
@@ -7384,92 +7280,10 @@
             "type": "string",
             "maxLength": 512
           },
-          "tags": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "readOnly": true
-          },
-          "icon": {
-            "type": "object",
-            "properties": {
-              "id": {
-                "type": "string"
-              }
-            },
-            "nullable": true,
-            "readOnly": true
-          },
-          "retention_period_days": {
+          "service_principal_id": {
             "type": "integer",
-            "readOnly": true
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "readOnly": true,
-            "title": "Register datetime"
-          },
-          "endpoints": {
-            "type": "object",
-            "properties": {
-              "ingester": {
-                "type": "object",
-                "properties": {
-                  "address": {
-                    "type": "string"
-                  },
-                  "insecure": {
-                    "type": "boolean"
-                  }
-                },
-                "required": [
-                  "address"
-                ]
-              }
-            },
-            "required": [
-              "ingester"
-            ],
-            "readOnly": true
-          },
-          "account_id": {
-            "type": "string",
-            "readOnly": true,
-            "title": "Cloud account id"
-          },
-          "resource_id": {
-            "type": "integer",
-            "readOnly": true,
-            "title": "Cloud resource id",
             "format": "int64",
-            "minimum": 0,
-            "maximum": 999999999999,
-            "example": 110000000000
-          }
-        }
-      },
-      "PatchedTraceStorageAccessKey": {
-        "type": "object",
-        "properties": {
-          "uid": {
-            "type": "string",
-            "format": "uuid",
-            "readOnly": true
-          },
-          "secret": {
-            "type": "string",
-            "readOnly": true
-          },
-          "token": {
-            "type": "string",
-            "description": "Returns a token string for the access key.",
-            "readOnly": true
-          },
-          "description": {
-            "type": "string",
-            "maxLength": 256
+            "nullable": true
           }
         }
       },
@@ -7488,18 +7302,33 @@
           "metrics"
         ]
       },
-      "ProvisioningCreate": {
+      "ProvisioningCreateRequest": {
         "type": "object",
         "properties": {
           "logs": {
-            "$ref": "#/components/schemas/ProvisioningExist"
+            "$ref": "#/components/schemas/ProvisioningExistRequest"
           },
           "metrics": {
-            "$ref": "#/components/schemas/ProvisioningExist"
+            "$ref": "#/components/schemas/ProvisioningExistRequest"
           }
         }
       },
       "ProvisioningExist": {
+        "type": "object",
+        "properties": {
+          "system_exist": {
+            "type": "boolean"
+          },
+          "user_exist": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "system_exist",
+          "user_exist"
+        ]
+      },
+      "ProvisioningExistRequest": {
         "type": "object",
         "properties": {
           "system_exist": {
@@ -7538,11 +7367,12 @@
           "variants"
         ]
       },
-      "PublisherAccessKeyIssue": {
+      "PublisherAccessKeyIssueRequest": {
         "type": "object",
         "properties": {
           "account_id": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
           "description": {
             "type": "string"
@@ -7592,6 +7422,23 @@
           "publisher"
         ]
       },
+      "PublisherRequest": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        },
+        "required": [
+          "code"
+        ]
+      },
       "PublisherVariant": {
         "type": "object",
         "properties": {
@@ -7635,7 +7482,12 @@
         "type": "object",
         "properties": {
           "max_user_count": {
-            "type": "integer"
+            "type": "integer",
+            "description": "Max number of user shared resources."
+          },
+          "max_user_dedicated_count": {
+            "type": "integer",
+            "description": "Max number of user dedicated resources (if supported)."
           }
         },
         "required": [
@@ -7669,7 +7521,7 @@
           "traces"
         ]
       },
-      "SetLogStorageExpireDay": {
+      "SetLogStorageExpireDayRequest": {
         "type": "object",
         "properties": {
           "days": {
@@ -7682,7 +7534,7 @@
           "days"
         ]
       },
-      "SetTraceStorageExpireDay": {
+      "SetTraceStorageExpireDayRequest": {
         "type": "object",
         "properties": {
           "days": {
@@ -7729,6 +7581,15 @@
           },
           "use_tls": {
             "type": "boolean"
+          },
+          "classification": {
+            "enum": [
+              "shared",
+              "dedicated"
+            ],
+            "type": "string",
+            "description": "* `shared` - 共用\n* `dedicated` - 専有",
+            "x-spec-enum-id": "3896f704b7462b41"
           },
           "created_at": {
             "type": "string",
@@ -7811,13 +7672,11 @@
           "trace_id",
           "span_id",
           "parent_span_id",
-          "resource_attributes",
           "service_name",
           "service_instance_id",
           "service_namespace",
           "service_version",
           "deployment_environment_name",
-          "attributes",
           "span_name",
           "span_status_code_text"
         ],
@@ -7904,14 +7763,35 @@
             "minimum": 0,
             "maximum": 999999999999,
             "example": 110000000000
+          },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "shared",
+              "dedicated"
+            ],
+            "readOnly": true
+          },
+          "kms_key_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "readOnly": true
+          },
+          "service_principal_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           }
         },
         "required": [
           "account_id",
+          "classification",
           "created_at",
           "endpoints",
           "icon",
           "id",
+          "kms_key_id",
           "resource_id",
           "retention_period_days",
           "tags"
@@ -7945,17 +7825,26 @@
           "uid"
         ]
       },
-      "TraceStorageCreate": {
+      "TraceStorageAccessKeyRequest": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string",
+            "maxLength": 256
+          }
+        }
+      },
+      "TraceStorageCreateRequest": {
         "type": "object",
         "properties": {
           "classification": {
             "enum": [
               "shared",
-              "separated"
+              "dedicated"
             ],
             "type": "string",
-            "description": "* `shared` - 共有\n* `separated` - 分離",
-            "x-spec-enum-id": "3886b5402e3c4079",
+            "description": "* `shared` - 共用\n* `dedicated` - 専有",
+            "x-spec-enum-id": "3896f704b7462b41",
             "default": "shared"
           },
           "name": {
@@ -7965,6 +7854,22 @@
           "description": {
             "type": "string",
             "maxLength": 512
+          },
+          "kms_key_id": {
+            "type": "integer",
+            "nullable": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "service_principal_id": {
+            "type": "integer",
+            "nullable": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
           }
         },
         "required": [
@@ -7998,6 +7903,24 @@
         "required": [
           "usages"
         ]
+      },
+      "TraceStorageRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 512
+          },
+          "service_principal_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          }
+        }
       },
       "Type": {
         "enum": [
@@ -8053,6 +7976,20 @@
           "map-key-value-matcher"
         ],
         "title": "Type7",
+        "type": "string"
+      },
+      "Type8": {
+        "enum": [
+          "map-value-string"
+        ],
+        "title": "Type8",
+        "type": "string"
+      },
+      "Type9": {
+        "enum": [
+          "map-value-number"
+        ],
+        "title": "Type9",
         "type": "string"
       },
       "User": {
@@ -8151,26 +8088,6 @@
             "readOnly": true,
             "title": "Register datetime"
           },
-          "rules_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "notification_targets_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "notification_routings_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "histories_url": {
-            "type": "string",
-            "readOnly": true
-          },
-          "log_measure_rules_url": {
-            "type": "string",
-            "readOnly": true
-          },
           "is_ok": {
             "type": "boolean"
           }
@@ -8178,15 +8095,10 @@
         "required": [
           "account_id",
           "created_at",
-          "histories_url",
           "icon",
           "id",
           "is_ok",
-          "log_measure_rules_url",
-          "notification_routings_url",
-          "notification_targets_url",
           "resource_id",
-          "rules_url",
           "tags"
         ]
       },
@@ -8290,10 +8202,6 @@
             ],
             "readOnly": true
           },
-          "publisher_code": {
-            "type": "string",
-            "writeOnly": true
-          },
           "variant": {
             "type": "string"
           },
@@ -8304,13 +8212,6 @@
               }
             ],
             "readOnly": true
-          },
-          "log_storage_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "writeOnly": true
           },
           "created_at": {
             "type": "string",
@@ -8425,6 +8326,28 @@
             "type": "boolean",
             "readOnly": true
           },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "shared",
+              "dedicated"
+            ],
+            "readOnly": true
+          },
+          "kms_key_id": {
+            "type": "integer",
+            "readOnly": true,
+            "nullable": true,
+            "format": "int64",
+            "minimum": 0,
+            "maximum": 999999999999,
+            "example": 110000000000
+          },
+          "service_principal_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
           "usage": {
             "type": "object",
             "properties": {
@@ -8447,6 +8370,7 @@
         },
         "required": [
           "account_id",
+          "classification",
           "created_at",
           "endpoints",
           "expire_day",
@@ -8454,6 +8378,7 @@
           "id",
           "is_ok",
           "is_system",
+          "kms_key_id",
           "resource_id",
           "tags",
           "usage"
@@ -8533,10 +8458,6 @@
             ],
             "readOnly": true
           },
-          "publisher_code": {
-            "type": "string",
-            "writeOnly": true
-          },
           "variant": {
             "type": "string"
           },
@@ -8547,13 +8468,6 @@
               }
             ],
             "readOnly": true
-          },
-          "metrics_storage_id": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true,
-            "title": "Cloud resource id",
-            "writeOnly": true
           },
           "created_at": {
             "type": "string",
@@ -8849,17 +8763,38 @@
             "maximum": 999999999999,
             "example": 110000000000
           },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "shared",
+              "dedicated"
+            ],
+            "readOnly": true
+          },
+          "kms_key_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true,
+            "readOnly": true
+          },
+          "service_principal_id": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
           "is_ok": {
             "type": "boolean"
           }
         },
         "required": [
           "account_id",
+          "classification",
           "created_at",
           "endpoints",
           "icon",
           "id",
           "is_ok",
+          "kms_key_id",
           "resource_id",
           "retention_period_days",
           "tags"

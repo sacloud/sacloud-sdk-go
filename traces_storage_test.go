@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -380,7 +381,7 @@ func TestTracesStorageOp_DeleteKey_403(t *testing.T) {
 func TestTracesStorageIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
-	ctx := t.Context()
+	ctx := context.Background()
 	api := NewTracesStorageOp(client)
 	created := WithTraceStorage(t, client, ctx)
 	tid := fmt.Sprintf("%d", created.GetID())

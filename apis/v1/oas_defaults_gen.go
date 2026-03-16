@@ -3,17 +3,17 @@
 package v1
 
 // setDefaults set default value of fields.
-func (s *LogStorageCreate) setDefaults() {
+func (s *LogStorageCreateRequest) setDefaults() {
 	{
-		val := LogStorageCreateClassification("shared")
+		val := LogStorageCreateRequestClassification("shared")
 		s.Classification.SetTo(val)
 	}
 }
 
 // setDefaults set default value of fields.
-func (s *TraceStorageCreate) setDefaults() {
+func (s *TraceStorageCreateRequest) setDefaults() {
 	{
-		val := TraceStorageCreateClassification("shared")
+		val := TraceStorageCreateRequestClassification("shared")
 		s.Classification.SetTo(val)
 	}
 }

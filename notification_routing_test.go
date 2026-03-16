@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -44,7 +45,7 @@ func TestNotificationRoutingService_List(t *testing.T) {
 	routing := routings[0]
 	require.Equal(t, TemplateNotificationRouting.GetUID(), routing.GetUID())
 	require.Equal(t, TemplateNotificationRouting.GetProjectID(), routing.GetProjectID())
-	require.Equal(t, TemplateNotificationRouting.GetNotificationTargetUID(), routing.GetNotificationTargetUID())
+	require.Equal(t, TemplateNotificationRouting.GetNotificationTarget().UID, routing.GetNotificationTarget().UID)
 	require.Equal(t, TemplateNotificationRouting.GetMatchLabels(), routing.GetMatchLabels())
 	require.Equal(t, TemplateNotificationRouting.GetResendIntervalMinutes(), routing.GetResendIntervalMinutes())
 }
@@ -70,7 +71,7 @@ func TestNotificationRoutingService_Read(t *testing.T) {
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateNotificationRouting.GetUID(), actual.GetUID())
 	require.Equal(t, TemplateNotificationRouting.GetProjectID(), actual.GetProjectID())
-	require.Equal(t, TemplateNotificationRouting.GetNotificationTargetUID(), actual.GetNotificationTargetUID())
+	require.Equal(t, TemplateNotificationRouting.GetNotificationTarget().UID, actual.GetNotificationTarget().UID)
 	require.Equal(t, TemplateNotificationRouting.GetMatchLabels(), actual.GetMatchLabels())
 	require.Equal(t, TemplateNotificationRouting.GetResendIntervalMinutes(), actual.GetResendIntervalMinutes())
 }
@@ -94,7 +95,9 @@ func TestNotificationRoutingService_Create(t *testing.T) {
 
 	createParams := NotificationRoutingCreateParams{
 		NotificationTargetUID: uuid.New(),
-		MatchLabels:           []v1.MatchLabelsItem{},
+		MatchLabels: []v1.MatchLabelsItem{
+			{Name: "severity", Value: "critical"},
+		},
 		ResendIntervalMinutes: ref(60),
 	}
 	actual, err := api.Create(ctx, "12345", createParams)
@@ -102,7 +105,7 @@ func TestNotificationRoutingService_Create(t *testing.T) {
 	require.NotNil(t, actual)
 	require.Equal(t, nr.GetUID(), actual.GetUID())
 	require.Equal(t, nr.GetProjectID(), actual.GetProjectID())
-	require.Equal(t, nr.GetNotificationTargetUID(), actual.GetNotificationTargetUID())
+	require.Equal(t, nr.GetNotificationTarget().UID, actual.GetNotificationTarget().UID)
 	require.Equal(t, nr.GetMatchLabels(), actual.GetMatchLabels())
 	require.Equal(t, nr.GetResendIntervalMinutes(), actual.GetResendIntervalMinutes())
 }
@@ -135,7 +138,7 @@ func TestNotificationRoutingService_Update(t *testing.T) {
 	require.NotNil(t, updated)
 	require.Equal(t, nr.GetUID(), updated.GetUID())
 	require.Equal(t, nr.GetProjectID(), updated.GetProjectID())
-	require.Equal(t, nr.GetNotificationTargetUID(), updated.GetNotificationTargetUID())
+	require.Equal(t, nr.GetNotificationTarget().UID, updated.GetNotificationTarget().UID)
 	require.Equal(t, nr.GetMatchLabels(), updated.GetMatchLabels())
 	require.Equal(t, nr.GetResendIntervalMinutes(), updated.GetResendIntervalMinutes())
 }
@@ -178,7 +181,7 @@ func TestNotificationRoutingService_Reorder(t *testing.T) {
 	api := NewNotificationRoutingOp(client)
 	ctx := t.Context()
 
-	orders := []v1.NotificationRoutingOrder{
+	orders := []v1.NotificationRoutingOrderRequest{
 		{NotificationRoutingUID: uuid.New(), Order: 1},
 		{NotificationRoutingUID: uuid.New(), Order: 2},
 	}
@@ -192,7 +195,7 @@ func TestNotificationRoutingService_Reorder_400(t *testing.T) {
 	api := NewNotificationRoutingOp(client)
 	ctx := t.Context()
 
-	orders := []v1.NotificationRoutingOrder{
+	orders := []v1.NotificationRoutingOrderRequest{
 		{NotificationRoutingUID: uuid.New(), Order: 1},
 	}
 	err := api.Reorder(ctx, "12345", orders)
@@ -205,7 +208,7 @@ func TestNotificationRoutingIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewNotificationRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 	project := WithAlertProject(t, client, ctx)
 	createdTarget := WithNotificationTarget(t, client, ctx, project.GetID())
 	targetID := createdTarget.GetUID()
@@ -236,7 +239,7 @@ func TestNotificationRoutingIntegrated(t *testing.T) {
 	require.NotNil(t, read)
 	require.Equal(t, created.GetUID(), read.GetUID())
 	require.Equal(t, created.GetProjectID(), read.GetProjectID())
-	require.Equal(t, created.GetNotificationTargetUID(), read.GetNotificationTargetUID())
+	require.Equal(t, created.GetNotificationTarget().UID, read.GetNotificationTarget().UID)
 	require.Equal(t, created.GetMatchLabels(), read.GetMatchLabels())
 	require.Equal(t, created.GetResendIntervalMinutes(), read.GetResendIntervalMinutes())
 
@@ -257,7 +260,7 @@ func TestNotificationRoutingIntegrated(t *testing.T) {
 	require.Equal(t, newInterval, updated.GetResendIntervalMinutes().Or(0))
 
 	// Reorder
-	orders := []v1.NotificationRoutingOrder{
+	orders := []v1.NotificationRoutingOrderRequest{
 		{NotificationRoutingUID: rid, Order: 1},
 	}
 	err = api.Reorder(ctx, id, orders)

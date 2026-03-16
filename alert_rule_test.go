@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -102,7 +103,7 @@ func TestAlertRuleOp_Create_400(t *testing.T) {
 	actual, err := api.Create(ctx, "12345", AlertRuleCreateParams{MetricsStorageID: "56789"})
 	require.Nil(t, actual)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Invalid request body.")
+	require.ErrorContains(t, err, "invalid")
 }
 
 func TestAlertRuleOp_Update(t *testing.T) {
@@ -209,7 +210,7 @@ func TestAlertRuleIntegrated(t *testing.T) {
 	require.NoError(t, err)
 
 	api := NewAlertRuleOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	project := WithAlertProject(t, client, ctx)
 	projectId := fmt.Sprintf("%d", project.GetID())

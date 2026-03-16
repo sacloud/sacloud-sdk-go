@@ -11,19 +11,14 @@ import (
 
 // Ref: #/components/schemas/AlertProject
 type AlertProject struct {
-	ID                      int64               `json:"id"`
-	Name                    OptString           `json:"name"`
-	Description             OptString           `json:"description"`
-	Tags                    []string            `json:"tags"`
-	Icon                    NilAlertProjectIcon `json:"icon"`
-	AccountID               string              `json:"account_id"`
-	ResourceID              NilInt64            `json:"resource_id"`
-	CreatedAt               time.Time           `json:"created_at"`
-	RulesURL                string              `json:"rules_url"`
-	NotificationTargetsURL  string              `json:"notification_targets_url"`
-	NotificationRoutingsURL string              `json:"notification_routings_url"`
-	HistoriesURL            string              `json:"histories_url"`
-	LogMeasureRulesURL      string              `json:"log_measure_rules_url"`
+	ID          int64               `json:"id"`
+	Name        OptString           `json:"name"`
+	Description OptString           `json:"description"`
+	Tags        []string            `json:"tags"`
+	Icon        NilAlertProjectIcon `json:"icon"`
+	AccountID   string              `json:"account_id"`
+	ResourceID  NilInt64            `json:"resource_id"`
+	CreatedAt   time.Time           `json:"created_at"`
 }
 
 // GetID returns the value of ID.
@@ -66,31 +61,6 @@ func (s *AlertProject) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
-// GetRulesURL returns the value of RulesURL.
-func (s *AlertProject) GetRulesURL() string {
-	return s.RulesURL
-}
-
-// GetNotificationTargetsURL returns the value of NotificationTargetsURL.
-func (s *AlertProject) GetNotificationTargetsURL() string {
-	return s.NotificationTargetsURL
-}
-
-// GetNotificationRoutingsURL returns the value of NotificationRoutingsURL.
-func (s *AlertProject) GetNotificationRoutingsURL() string {
-	return s.NotificationRoutingsURL
-}
-
-// GetHistoriesURL returns the value of HistoriesURL.
-func (s *AlertProject) GetHistoriesURL() string {
-	return s.HistoriesURL
-}
-
-// GetLogMeasureRulesURL returns the value of LogMeasureRulesURL.
-func (s *AlertProject) GetLogMeasureRulesURL() string {
-	return s.LogMeasureRulesURL
-}
-
 // SetID sets the value of ID.
 func (s *AlertProject) SetID(val int64) {
 	s.ID = val
@@ -131,54 +101,29 @@ func (s *AlertProject) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
-// SetRulesURL sets the value of RulesURL.
-func (s *AlertProject) SetRulesURL(val string) {
-	s.RulesURL = val
-}
-
-// SetNotificationTargetsURL sets the value of NotificationTargetsURL.
-func (s *AlertProject) SetNotificationTargetsURL(val string) {
-	s.NotificationTargetsURL = val
-}
-
-// SetNotificationRoutingsURL sets the value of NotificationRoutingsURL.
-func (s *AlertProject) SetNotificationRoutingsURL(val string) {
-	s.NotificationRoutingsURL = val
-}
-
-// SetHistoriesURL sets the value of HistoriesURL.
-func (s *AlertProject) SetHistoriesURL(val string) {
-	s.HistoriesURL = val
-}
-
-// SetLogMeasureRulesURL sets the value of LogMeasureRulesURL.
-func (s *AlertProject) SetLogMeasureRulesURL(val string) {
-	s.LogMeasureRulesURL = val
-}
-
-// Ref: #/components/schemas/AlertProjectCreate
-type AlertProjectCreate struct {
+// Ref: #/components/schemas/AlertProjectCreateRequest
+type AlertProjectCreateRequest struct {
 	Name        string    `json:"name"`
 	Description OptString `json:"description"`
 }
 
 // GetName returns the value of Name.
-func (s *AlertProjectCreate) GetName() string {
+func (s *AlertProjectCreateRequest) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *AlertProjectCreate) GetDescription() OptString {
+func (s *AlertProjectCreateRequest) GetDescription() OptString {
 	return s.Description
 }
 
 // SetName sets the value of Name.
-func (s *AlertProjectCreate) SetName(val string) {
+func (s *AlertProjectCreateRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *AlertProjectCreate) SetDescription(val OptString) {
+func (s *AlertProjectCreateRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
@@ -194,6 +139,32 @@ func (s *AlertProjectIcon) GetID() OptString {
 // SetID sets the value of ID.
 func (s *AlertProjectIcon) SetID(val OptString) {
 	s.ID = val
+}
+
+// Ref: #/components/schemas/AlertProjectRequest
+type AlertProjectRequest struct {
+	Name        OptString `json:"name"`
+	Description OptString `json:"description"`
+}
+
+// GetName returns the value of Name.
+func (s *AlertProjectRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *AlertProjectRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// SetName sets the value of Name.
+func (s *AlertProjectRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *AlertProjectRequest) SetDescription(val OptString) {
+	s.Description = val
 }
 
 // Ref: #/components/schemas/AlertRule
@@ -212,7 +183,6 @@ type AlertRule struct {
 	ThresholdCritical         OptNilString `json:"threshold_critical"`
 	ThresholdDurationWarning  OptInt64     `json:"threshold_duration_warning"`
 	ThresholdDurationCritical OptInt64     `json:"threshold_duration_critical"`
-	HistoryURL                string       `json:"history_url"`
 }
 
 // GetUID returns the value of UID.
@@ -285,11 +255,6 @@ func (s *AlertRule) GetThresholdDurationCritical() OptInt64 {
 	return s.ThresholdDurationCritical
 }
 
-// GetHistoryURL returns the value of HistoryURL.
-func (s *AlertRule) GetHistoryURL() string {
-	return s.HistoryURL
-}
-
 // SetUID sets the value of UID.
 func (s *AlertRule) SetUID(val uuid.UUID) {
 	s.UID = val
@@ -360,9 +325,129 @@ func (s *AlertRule) SetThresholdDurationCritical(val OptInt64) {
 	s.ThresholdDurationCritical = val
 }
 
-// SetHistoryURL sets the value of HistoryURL.
-func (s *AlertRule) SetHistoryURL(val string) {
-	s.HistoryURL = val
+// Ref: #/components/schemas/AlertRuleRequest
+type AlertRuleRequest struct {
+	MetricsStorageID          NilInt64     `json:"metrics_storage_id"`
+	Name                      OptString    `json:"name"`
+	Query                     string       `json:"query"`
+	Format                    OptString    `json:"format"`
+	Template                  OptString    `json:"template"`
+	EnabledWarning            OptBool      `json:"enabled_warning"`
+	EnabledCritical           OptBool      `json:"enabled_critical"`
+	ThresholdWarning          OptNilString `json:"threshold_warning"`
+	ThresholdCritical         OptNilString `json:"threshold_critical"`
+	ThresholdDurationWarning  OptInt64     `json:"threshold_duration_warning"`
+	ThresholdDurationCritical OptInt64     `json:"threshold_duration_critical"`
+}
+
+// GetMetricsStorageID returns the value of MetricsStorageID.
+func (s *AlertRuleRequest) GetMetricsStorageID() NilInt64 {
+	return s.MetricsStorageID
+}
+
+// GetName returns the value of Name.
+func (s *AlertRuleRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetQuery returns the value of Query.
+func (s *AlertRuleRequest) GetQuery() string {
+	return s.Query
+}
+
+// GetFormat returns the value of Format.
+func (s *AlertRuleRequest) GetFormat() OptString {
+	return s.Format
+}
+
+// GetTemplate returns the value of Template.
+func (s *AlertRuleRequest) GetTemplate() OptString {
+	return s.Template
+}
+
+// GetEnabledWarning returns the value of EnabledWarning.
+func (s *AlertRuleRequest) GetEnabledWarning() OptBool {
+	return s.EnabledWarning
+}
+
+// GetEnabledCritical returns the value of EnabledCritical.
+func (s *AlertRuleRequest) GetEnabledCritical() OptBool {
+	return s.EnabledCritical
+}
+
+// GetThresholdWarning returns the value of ThresholdWarning.
+func (s *AlertRuleRequest) GetThresholdWarning() OptNilString {
+	return s.ThresholdWarning
+}
+
+// GetThresholdCritical returns the value of ThresholdCritical.
+func (s *AlertRuleRequest) GetThresholdCritical() OptNilString {
+	return s.ThresholdCritical
+}
+
+// GetThresholdDurationWarning returns the value of ThresholdDurationWarning.
+func (s *AlertRuleRequest) GetThresholdDurationWarning() OptInt64 {
+	return s.ThresholdDurationWarning
+}
+
+// GetThresholdDurationCritical returns the value of ThresholdDurationCritical.
+func (s *AlertRuleRequest) GetThresholdDurationCritical() OptInt64 {
+	return s.ThresholdDurationCritical
+}
+
+// SetMetricsStorageID sets the value of MetricsStorageID.
+func (s *AlertRuleRequest) SetMetricsStorageID(val NilInt64) {
+	s.MetricsStorageID = val
+}
+
+// SetName sets the value of Name.
+func (s *AlertRuleRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetQuery sets the value of Query.
+func (s *AlertRuleRequest) SetQuery(val string) {
+	s.Query = val
+}
+
+// SetFormat sets the value of Format.
+func (s *AlertRuleRequest) SetFormat(val OptString) {
+	s.Format = val
+}
+
+// SetTemplate sets the value of Template.
+func (s *AlertRuleRequest) SetTemplate(val OptString) {
+	s.Template = val
+}
+
+// SetEnabledWarning sets the value of EnabledWarning.
+func (s *AlertRuleRequest) SetEnabledWarning(val OptBool) {
+	s.EnabledWarning = val
+}
+
+// SetEnabledCritical sets the value of EnabledCritical.
+func (s *AlertRuleRequest) SetEnabledCritical(val OptBool) {
+	s.EnabledCritical = val
+}
+
+// SetThresholdWarning sets the value of ThresholdWarning.
+func (s *AlertRuleRequest) SetThresholdWarning(val OptNilString) {
+	s.ThresholdWarning = val
+}
+
+// SetThresholdCritical sets the value of ThresholdCritical.
+func (s *AlertRuleRequest) SetThresholdCritical(val OptNilString) {
+	s.ThresholdCritical = val
+}
+
+// SetThresholdDurationWarning sets the value of ThresholdDurationWarning.
+func (s *AlertRuleRequest) SetThresholdDurationWarning(val OptInt64) {
+	s.ThresholdDurationWarning = val
+}
+
+// SetThresholdDurationCritical sets the value of ThresholdDurationCritical.
+func (s *AlertRuleRequest) SetThresholdDurationCritical(val OptInt64) {
+	s.ThresholdDurationCritical = val
 }
 
 // AlertsProjectsDestroyNoContent is response for AlertsProjectsDestroy operation.
@@ -714,29 +799,29 @@ func (s *DashboardProject) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
-// Ref: #/components/schemas/DashboardProjectCreate
-type DashboardProjectCreate struct {
+// Ref: #/components/schemas/DashboardProjectCreateRequest
+type DashboardProjectCreateRequest struct {
 	Name        string    `json:"name"`
 	Description OptString `json:"description"`
 }
 
 // GetName returns the value of Name.
-func (s *DashboardProjectCreate) GetName() string {
+func (s *DashboardProjectCreateRequest) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *DashboardProjectCreate) GetDescription() OptString {
+func (s *DashboardProjectCreateRequest) GetDescription() OptString {
 	return s.Description
 }
 
 // SetName sets the value of Name.
-func (s *DashboardProjectCreate) SetName(val string) {
+func (s *DashboardProjectCreateRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *DashboardProjectCreate) SetDescription(val OptString) {
+func (s *DashboardProjectCreateRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
@@ -752,6 +837,32 @@ func (s *DashboardProjectIcon) GetID() OptString {
 // SetID sets the value of ID.
 func (s *DashboardProjectIcon) SetID(val OptString) {
 	s.ID = val
+}
+
+// Ref: #/components/schemas/DashboardProjectRequest
+type DashboardProjectRequest struct {
+	Name        OptString `json:"name"`
+	Description OptString `json:"description"`
+}
+
+// GetName returns the value of Name.
+func (s *DashboardProjectRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *DashboardProjectRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// SetName sets the value of Name.
+func (s *DashboardProjectRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *DashboardProjectRequest) SetDescription(val OptString) {
+	s.Description = val
 }
 
 // DashboardsProjectsDestroyNoContent is response for DashboardsProjectsDestroy operation.
@@ -806,6 +917,8 @@ type FieldMatcher struct {
 	EnumMatcher         EnumMatcher
 	MapKeyExistsMatcher MapKeyExistsMatcher
 	MapKeyValueMatcher  MapKeyValueMatcher
+	MapValueStrMatcher  MapValueStrMatcher
+	MapValueNumMatcher  MapValueNumMatcher
 }
 
 // FieldMatcherType is oneOf type of FieldMatcher.
@@ -821,6 +934,8 @@ const (
 	EnumMatcherFieldMatcher         FieldMatcherType = "enum"
 	MapKeyExistsMatcherFieldMatcher FieldMatcherType = "map-key-exists"
 	MapKeyValueMatcherFieldMatcher  FieldMatcherType = "map-key-value-matcher"
+	MapValueStrMatcherFieldMatcher  FieldMatcherType = "MapValueStrMatcher"
+	MapValueNumMatcherFieldMatcher  FieldMatcherType = "MapValueNumMatcher"
 )
 
 // IsOrMatcher reports whether FieldMatcher is OrMatcher.
@@ -846,6 +961,12 @@ func (s FieldMatcher) IsMapKeyExistsMatcher() bool { return s.Type == MapKeyExis
 
 // IsMapKeyValueMatcher reports whether FieldMatcher is MapKeyValueMatcher.
 func (s FieldMatcher) IsMapKeyValueMatcher() bool { return s.Type == MapKeyValueMatcherFieldMatcher }
+
+// IsMapValueStrMatcher reports whether FieldMatcher is MapValueStrMatcher.
+func (s FieldMatcher) IsMapValueStrMatcher() bool { return s.Type == MapValueStrMatcherFieldMatcher }
+
+// IsMapValueNumMatcher reports whether FieldMatcher is MapValueNumMatcher.
+func (s FieldMatcher) IsMapValueNumMatcher() bool { return s.Type == MapValueNumMatcherFieldMatcher }
 
 // SetOrMatcher sets FieldMatcher to OrMatcher.
 func (s *FieldMatcher) SetOrMatcher(v OrMatcher) {
@@ -1012,6 +1133,48 @@ func (s FieldMatcher) GetMapKeyValueMatcher() (v MapKeyValueMatcher, ok bool) {
 func NewMapKeyValueMatcherFieldMatcher(v MapKeyValueMatcher) FieldMatcher {
 	var s FieldMatcher
 	s.SetMapKeyValueMatcher(v)
+	return s
+}
+
+// SetMapValueStrMatcher sets FieldMatcher to MapValueStrMatcher.
+func (s *FieldMatcher) SetMapValueStrMatcher(v MapValueStrMatcher) {
+	s.Type = MapValueStrMatcherFieldMatcher
+	s.MapValueStrMatcher = v
+}
+
+// GetMapValueStrMatcher returns MapValueStrMatcher and true boolean if FieldMatcher is MapValueStrMatcher.
+func (s FieldMatcher) GetMapValueStrMatcher() (v MapValueStrMatcher, ok bool) {
+	if !s.IsMapValueStrMatcher() {
+		return v, false
+	}
+	return s.MapValueStrMatcher, true
+}
+
+// NewMapValueStrMatcherFieldMatcher returns new FieldMatcher from MapValueStrMatcher.
+func NewMapValueStrMatcherFieldMatcher(v MapValueStrMatcher) FieldMatcher {
+	var s FieldMatcher
+	s.SetMapValueStrMatcher(v)
+	return s
+}
+
+// SetMapValueNumMatcher sets FieldMatcher to MapValueNumMatcher.
+func (s *FieldMatcher) SetMapValueNumMatcher(v MapValueNumMatcher) {
+	s.Type = MapValueNumMatcherFieldMatcher
+	s.MapValueNumMatcher = v
+}
+
+// GetMapValueNumMatcher returns MapValueNumMatcher and true boolean if FieldMatcher is MapValueNumMatcher.
+func (s FieldMatcher) GetMapValueNumMatcher() (v MapValueNumMatcher, ok bool) {
+	if !s.IsMapValueNumMatcher() {
+		return v, false
+	}
+	return s.MapValueNumMatcher, true
+}
+
+// NewMapValueNumMatcherFieldMatcher returns new FieldMatcher from MapValueNumMatcher.
+func NewMapValueNumMatcherFieldMatcher(v MapValueNumMatcher) FieldMatcher {
+	var s FieldMatcher
+	s.SetMapValueNumMatcher(v)
 	return s
 }
 
@@ -1223,18 +1386,16 @@ func (s *HistorySeverity) UnmarshalText(data []byte) error {
 // Ref: #/components/schemas/LogMeasureRule
 type LogMeasureRule struct {
 	// Deprecated: schema marks this property as deprecated.
-	ID               int64               `json:"id"`
-	UID              uuid.UUID           `json:"uid"`
-	ProjectID        NilInt64            `json:"project_id"`
-	Name             OptString           `json:"name"`
-	Description      OptString           `json:"description"`
-	LogStorage       LogStorage          `json:"log_storage"`
-	LogStorageID     OptNilInt64         `json:"log_storage_id"`
-	MetricsStorage   MetricsStorage      `json:"metrics_storage"`
-	MetricsStorageID OptNilInt64         `json:"metrics_storage_id"`
-	Rule             LogMeasureRuleModel `json:"rule"`
-	CreatedAt        time.Time           `json:"created_at"`
-	UpdatedAt        time.Time           `json:"updated_at"`
+	ID             int64               `json:"id"`
+	UID            uuid.UUID           `json:"uid"`
+	ProjectID      NilInt64            `json:"project_id"`
+	Name           OptString           `json:"name"`
+	Description    OptString           `json:"description"`
+	LogStorage     LogStorage          `json:"log_storage"`
+	MetricsStorage MetricsStorage      `json:"metrics_storage"`
+	Rule           LogMeasureRuleModel `json:"rule"`
+	CreatedAt      time.Time           `json:"created_at"`
+	UpdatedAt      time.Time           `json:"updated_at"`
 }
 
 // GetID returns the value of ID.
@@ -1267,19 +1428,9 @@ func (s *LogMeasureRule) GetLogStorage() LogStorage {
 	return s.LogStorage
 }
 
-// GetLogStorageID returns the value of LogStorageID.
-func (s *LogMeasureRule) GetLogStorageID() OptNilInt64 {
-	return s.LogStorageID
-}
-
 // GetMetricsStorage returns the value of MetricsStorage.
 func (s *LogMeasureRule) GetMetricsStorage() MetricsStorage {
 	return s.MetricsStorage
-}
-
-// GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *LogMeasureRule) GetMetricsStorageID() OptNilInt64 {
-	return s.MetricsStorageID
 }
 
 // GetRule returns the value of Rule.
@@ -1327,19 +1478,9 @@ func (s *LogMeasureRule) SetLogStorage(val LogStorage) {
 	s.LogStorage = val
 }
 
-// SetLogStorageID sets the value of LogStorageID.
-func (s *LogMeasureRule) SetLogStorageID(val OptNilInt64) {
-	s.LogStorageID = val
-}
-
 // SetMetricsStorage sets the value of MetricsStorage.
 func (s *LogMeasureRule) SetMetricsStorage(val MetricsStorage) {
 	s.MetricsStorage = val
-}
-
-// SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *LogMeasureRule) SetMetricsStorageID(val OptNilInt64) {
-	s.MetricsStorageID = val
 }
 
 // SetRule sets the value of Rule.
@@ -1381,6 +1522,91 @@ func (s *LogMeasureRuleModel) SetVersion(val LogMeasureRuleVersionEnum) {
 // SetQuery sets the value of Query.
 func (s *LogMeasureRuleModel) SetQuery(val LogMeasureRuleV1) {
 	s.Query = val
+}
+
+// Ref: #/components/schemas/LogMeasureRuleModelRequest
+type LogMeasureRuleModelRequest struct {
+	Version LogMeasureRuleVersionEnum `json:"version"`
+	Query   LogMeasureRuleV1          `json:"query"`
+}
+
+// GetVersion returns the value of Version.
+func (s *LogMeasureRuleModelRequest) GetVersion() LogMeasureRuleVersionEnum {
+	return s.Version
+}
+
+// GetQuery returns the value of Query.
+func (s *LogMeasureRuleModelRequest) GetQuery() LogMeasureRuleV1 {
+	return s.Query
+}
+
+// SetVersion sets the value of Version.
+func (s *LogMeasureRuleModelRequest) SetVersion(val LogMeasureRuleVersionEnum) {
+	s.Version = val
+}
+
+// SetQuery sets the value of Query.
+func (s *LogMeasureRuleModelRequest) SetQuery(val LogMeasureRuleV1) {
+	s.Query = val
+}
+
+// Ref: #/components/schemas/LogMeasureRuleRequest
+type LogMeasureRuleRequest struct {
+	Name             OptString                  `json:"name"`
+	Description      OptString                  `json:"description"`
+	LogStorageID     NilInt64                   `json:"log_storage_id"`
+	MetricsStorageID NilInt64                   `json:"metrics_storage_id"`
+	Rule             LogMeasureRuleModelRequest `json:"rule"`
+}
+
+// GetName returns the value of Name.
+func (s *LogMeasureRuleRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *LogMeasureRuleRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetLogStorageID returns the value of LogStorageID.
+func (s *LogMeasureRuleRequest) GetLogStorageID() NilInt64 {
+	return s.LogStorageID
+}
+
+// GetMetricsStorageID returns the value of MetricsStorageID.
+func (s *LogMeasureRuleRequest) GetMetricsStorageID() NilInt64 {
+	return s.MetricsStorageID
+}
+
+// GetRule returns the value of Rule.
+func (s *LogMeasureRuleRequest) GetRule() LogMeasureRuleModelRequest {
+	return s.Rule
+}
+
+// SetName sets the value of Name.
+func (s *LogMeasureRuleRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *LogMeasureRuleRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetLogStorageID sets the value of LogStorageID.
+func (s *LogMeasureRuleRequest) SetLogStorageID(val NilInt64) {
+	s.LogStorageID = val
+}
+
+// SetMetricsStorageID sets the value of MetricsStorageID.
+func (s *LogMeasureRuleRequest) SetMetricsStorageID(val NilInt64) {
+	s.MetricsStorageID = val
+}
+
+// SetRule sets the value of Rule.
+func (s *LogMeasureRuleRequest) SetRule(val LogMeasureRuleModelRequest) {
+	s.Rule = val
 }
 
 // Ref: #/components/schemas/LogMeasureRuleV1
@@ -1439,14 +1665,12 @@ type LogRouting struct {
 	ID  int64     `json:"id"`
 	UID uuid.UUID `json:"uid"`
 	// 対象リソースのID.
-	ResourceID    OptNilInt64 `json:"resource_id"`
-	Publisher     Publisher   `json:"publisher"`
-	PublisherCode OptString   `json:"publisher_code"`
-	Variant       string      `json:"variant"`
-	LogStorage    LogStorage  `json:"log_storage"`
-	LogStorageID  OptNilInt64 `json:"log_storage_id"`
-	CreatedAt     time.Time   `json:"created_at"`
-	UpdatedAt     time.Time   `json:"updated_at"`
+	ResourceID OptNilInt64 `json:"resource_id"`
+	Publisher  Publisher   `json:"publisher"`
+	Variant    string      `json:"variant"`
+	LogStorage LogStorage  `json:"log_storage"`
+	CreatedAt  time.Time   `json:"created_at"`
+	UpdatedAt  time.Time   `json:"updated_at"`
 }
 
 // GetID returns the value of ID.
@@ -1469,11 +1693,6 @@ func (s *LogRouting) GetPublisher() Publisher {
 	return s.Publisher
 }
 
-// GetPublisherCode returns the value of PublisherCode.
-func (s *LogRouting) GetPublisherCode() OptString {
-	return s.PublisherCode
-}
-
 // GetVariant returns the value of Variant.
 func (s *LogRouting) GetVariant() string {
 	return s.Variant
@@ -1482,11 +1701,6 @@ func (s *LogRouting) GetVariant() string {
 // GetLogStorage returns the value of LogStorage.
 func (s *LogRouting) GetLogStorage() LogStorage {
 	return s.LogStorage
-}
-
-// GetLogStorageID returns the value of LogStorageID.
-func (s *LogRouting) GetLogStorageID() OptNilInt64 {
-	return s.LogStorageID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
@@ -1519,11 +1733,6 @@ func (s *LogRouting) SetPublisher(val Publisher) {
 	s.Publisher = val
 }
 
-// SetPublisherCode sets the value of PublisherCode.
-func (s *LogRouting) SetPublisherCode(val OptString) {
-	s.PublisherCode = val
-}
-
 // SetVariant sets the value of Variant.
 func (s *LogRouting) SetVariant(val string) {
 	s.Variant = val
@@ -1532,11 +1741,6 @@ func (s *LogRouting) SetVariant(val string) {
 // SetLogStorage sets the value of LogStorage.
 func (s *LogRouting) SetLogStorage(val LogStorage) {
 	s.LogStorage = val
-}
-
-// SetLogStorageID sets the value of LogStorageID.
-func (s *LogRouting) SetLogStorageID(val OptNilInt64) {
-	s.LogStorageID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
@@ -1549,20 +1753,72 @@ func (s *LogRouting) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
 
+// Ref: #/components/schemas/LogRoutingRequest
+type LogRoutingRequest struct {
+	// 対象リソースのID.
+	ResourceID    OptNilInt64 `json:"resource_id"`
+	PublisherCode string      `json:"publisher_code"`
+	Variant       string      `json:"variant"`
+	LogStorageID  NilInt64    `json:"log_storage_id"`
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *LogRoutingRequest) GetResourceID() OptNilInt64 {
+	return s.ResourceID
+}
+
+// GetPublisherCode returns the value of PublisherCode.
+func (s *LogRoutingRequest) GetPublisherCode() string {
+	return s.PublisherCode
+}
+
+// GetVariant returns the value of Variant.
+func (s *LogRoutingRequest) GetVariant() string {
+	return s.Variant
+}
+
+// GetLogStorageID returns the value of LogStorageID.
+func (s *LogRoutingRequest) GetLogStorageID() NilInt64 {
+	return s.LogStorageID
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *LogRoutingRequest) SetResourceID(val OptNilInt64) {
+	s.ResourceID = val
+}
+
+// SetPublisherCode sets the value of PublisherCode.
+func (s *LogRoutingRequest) SetPublisherCode(val string) {
+	s.PublisherCode = val
+}
+
+// SetVariant sets the value of Variant.
+func (s *LogRoutingRequest) SetVariant(val string) {
+	s.Variant = val
+}
+
+// SetLogStorageID sets the value of LogStorageID.
+func (s *LogRoutingRequest) SetLogStorageID(val NilInt64) {
+	s.LogStorageID = val
+}
+
 // Ref: #/components/schemas/LogStorage
 type LogStorage struct {
-	ID          int64               `json:"id"`
-	Name        OptString           `json:"name"`
-	Description OptString           `json:"description"`
-	Tags        []string            `json:"tags"`
-	Icon        NilLogStorageIcon   `json:"icon"`
-	ExpireDay   int                 `json:"expire_day"`
-	CreatedAt   time.Time           `json:"created_at"`
-	Endpoints   LogStorageEndpoints `json:"endpoints"`
-	AccountID   string              `json:"account_id"`
-	ResourceID  NilInt64            `json:"resource_id"`
-	IsSystem    bool                `json:"is_system"`
-	Usage       LogStorageUsage     `json:"usage"`
+	ID                 int64                    `json:"id"`
+	Name               OptString                `json:"name"`
+	Description        OptString                `json:"description"`
+	Tags               []string                 `json:"tags"`
+	Icon               NilLogStorageIcon        `json:"icon"`
+	ExpireDay          int                      `json:"expire_day"`
+	CreatedAt          time.Time                `json:"created_at"`
+	Endpoints          LogStorageEndpoints      `json:"endpoints"`
+	AccountID          string                   `json:"account_id"`
+	ResourceID         NilInt64                 `json:"resource_id"`
+	IsSystem           bool                     `json:"is_system"`
+	Classification     LogStorageClassification `json:"classification"`
+	KmsKeyID           NilInt64                 `json:"kms_key_id"`
+	ServicePrincipalID OptNilInt64              `json:"service_principal_id"`
+	Usage              LogStorageUsage          `json:"usage"`
 }
 
 // GetID returns the value of ID.
@@ -1618,6 +1874,21 @@ func (s *LogStorage) GetResourceID() NilInt64 {
 // GetIsSystem returns the value of IsSystem.
 func (s *LogStorage) GetIsSystem() bool {
 	return s.IsSystem
+}
+
+// GetClassification returns the value of Classification.
+func (s *LogStorage) GetClassification() LogStorageClassification {
+	return s.Classification
+}
+
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *LogStorage) GetKmsKeyID() NilInt64 {
+	return s.KmsKeyID
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *LogStorage) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
 }
 
 // GetUsage returns the value of Usage.
@@ -1678,6 +1949,21 @@ func (s *LogStorage) SetResourceID(val NilInt64) {
 // SetIsSystem sets the value of IsSystem.
 func (s *LogStorage) SetIsSystem(val bool) {
 	s.IsSystem = val
+}
+
+// SetClassification sets the value of Classification.
+func (s *LogStorage) SetClassification(val LogStorageClassification) {
+	s.Classification = val
+}
+
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *LogStorage) SetKmsKeyID(val NilInt64) {
+	s.KmsKeyID = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *LogStorage) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
 }
 
 // SetUsage sets the value of Usage.
@@ -1746,79 +2032,42 @@ func (s *LogStorageAccessKey) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// Ref: #/components/schemas/LogStorageCreate
-type LogStorageCreate struct {
-	// * `shared` - 共有
-	// * `separated` - 分離.
-	Classification OptLogStorageCreateClassification `json:"classification"`
-	IsSystem       bool                              `json:"is_system"`
-	Name           string                            `json:"name"`
-	Description    OptString                         `json:"description"`
-}
-
-// GetClassification returns the value of Classification.
-func (s *LogStorageCreate) GetClassification() OptLogStorageCreateClassification {
-	return s.Classification
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *LogStorageCreate) GetIsSystem() bool {
-	return s.IsSystem
-}
-
-// GetName returns the value of Name.
-func (s *LogStorageCreate) GetName() string {
-	return s.Name
+// Ref: #/components/schemas/LogStorageAccessKeyRequest
+type LogStorageAccessKeyRequest struct {
+	Description OptString `json:"description"`
 }
 
 // GetDescription returns the value of Description.
-func (s *LogStorageCreate) GetDescription() OptString {
+func (s *LogStorageAccessKeyRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// SetClassification sets the value of Classification.
-func (s *LogStorageCreate) SetClassification(val OptLogStorageCreateClassification) {
-	s.Classification = val
-}
-
-// SetIsSystem sets the value of IsSystem.
-func (s *LogStorageCreate) SetIsSystem(val bool) {
-	s.IsSystem = val
-}
-
-// SetName sets the value of Name.
-func (s *LogStorageCreate) SetName(val string) {
-	s.Name = val
-}
-
 // SetDescription sets the value of Description.
-func (s *LogStorageCreate) SetDescription(val OptString) {
+func (s *LogStorageAccessKeyRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// * `shared` - 共有
-// * `separated` - 分離.
-type LogStorageCreateClassification string
+type LogStorageClassification string
 
 const (
-	LogStorageCreateClassificationShared    LogStorageCreateClassification = "shared"
-	LogStorageCreateClassificationSeparated LogStorageCreateClassification = "separated"
+	LogStorageClassificationShared    LogStorageClassification = "shared"
+	LogStorageClassificationDedicated LogStorageClassification = "dedicated"
 )
 
-// AllValues returns all LogStorageCreateClassification values.
-func (LogStorageCreateClassification) AllValues() []LogStorageCreateClassification {
-	return []LogStorageCreateClassification{
-		LogStorageCreateClassificationShared,
-		LogStorageCreateClassificationSeparated,
+// AllValues returns all LogStorageClassification values.
+func (LogStorageClassification) AllValues() []LogStorageClassification {
+	return []LogStorageClassification{
+		LogStorageClassificationShared,
+		LogStorageClassificationDedicated,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s LogStorageCreateClassification) MarshalText() ([]byte, error) {
+func (s LogStorageClassification) MarshalText() ([]byte, error) {
 	switch s {
-	case LogStorageCreateClassificationShared:
+	case LogStorageClassificationShared:
 		return []byte(s), nil
-	case LogStorageCreateClassificationSeparated:
+	case LogStorageClassificationDedicated:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -1826,13 +2075,128 @@ func (s LogStorageCreateClassification) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *LogStorageCreateClassification) UnmarshalText(data []byte) error {
-	switch LogStorageCreateClassification(data) {
-	case LogStorageCreateClassificationShared:
-		*s = LogStorageCreateClassificationShared
+func (s *LogStorageClassification) UnmarshalText(data []byte) error {
+	switch LogStorageClassification(data) {
+	case LogStorageClassificationShared:
+		*s = LogStorageClassificationShared
 		return nil
-	case LogStorageCreateClassificationSeparated:
-		*s = LogStorageCreateClassificationSeparated
+	case LogStorageClassificationDedicated:
+		*s = LogStorageClassificationDedicated
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/LogStorageCreateRequest
+type LogStorageCreateRequest struct {
+	// * `shared` - 共用
+	// * `dedicated` - 専有.
+	Classification     OptLogStorageCreateRequestClassification `json:"classification"`
+	IsSystem           bool                                     `json:"is_system"`
+	Name               string                                   `json:"name"`
+	Description        OptString                                `json:"description"`
+	KmsKeyID           OptNilInt64                              `json:"kms_key_id"`
+	ServicePrincipalID OptNilInt64                              `json:"service_principal_id"`
+}
+
+// GetClassification returns the value of Classification.
+func (s *LogStorageCreateRequest) GetClassification() OptLogStorageCreateRequestClassification {
+	return s.Classification
+}
+
+// GetIsSystem returns the value of IsSystem.
+func (s *LogStorageCreateRequest) GetIsSystem() bool {
+	return s.IsSystem
+}
+
+// GetName returns the value of Name.
+func (s *LogStorageCreateRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *LogStorageCreateRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *LogStorageCreateRequest) GetKmsKeyID() OptNilInt64 {
+	return s.KmsKeyID
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *LogStorageCreateRequest) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
+}
+
+// SetClassification sets the value of Classification.
+func (s *LogStorageCreateRequest) SetClassification(val OptLogStorageCreateRequestClassification) {
+	s.Classification = val
+}
+
+// SetIsSystem sets the value of IsSystem.
+func (s *LogStorageCreateRequest) SetIsSystem(val bool) {
+	s.IsSystem = val
+}
+
+// SetName sets the value of Name.
+func (s *LogStorageCreateRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *LogStorageCreateRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *LogStorageCreateRequest) SetKmsKeyID(val OptNilInt64) {
+	s.KmsKeyID = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *LogStorageCreateRequest) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
+}
+
+// * `shared` - 共用
+// * `dedicated` - 専有.
+type LogStorageCreateRequestClassification string
+
+const (
+	LogStorageCreateRequestClassificationShared    LogStorageCreateRequestClassification = "shared"
+	LogStorageCreateRequestClassificationDedicated LogStorageCreateRequestClassification = "dedicated"
+)
+
+// AllValues returns all LogStorageCreateRequestClassification values.
+func (LogStorageCreateRequestClassification) AllValues() []LogStorageCreateRequestClassification {
+	return []LogStorageCreateRequestClassification{
+		LogStorageCreateRequestClassificationShared,
+		LogStorageCreateRequestClassificationDedicated,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s LogStorageCreateRequestClassification) MarshalText() ([]byte, error) {
+	switch s {
+	case LogStorageCreateRequestClassificationShared:
+		return []byte(s), nil
+	case LogStorageCreateRequestClassificationDedicated:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *LogStorageCreateRequestClassification) UnmarshalText(data []byte) error {
+	switch LogStorageCreateRequestClassification(data) {
+	case LogStorageCreateRequestClassificationShared:
+		*s = LogStorageCreateRequestClassificationShared
+		return nil
+	case LogStorageCreateRequestClassificationDedicated:
+		*s = LogStorageCreateRequestClassificationDedicated
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -2051,6 +2415,43 @@ func (s *LogStorageMonthlyUsageBody) SetUsages(val []LogStorageMonthlyUsage) {
 	s.Usages = val
 }
 
+// Ref: #/components/schemas/LogStorageRequest
+type LogStorageRequest struct {
+	Name               OptString   `json:"name"`
+	Description        OptString   `json:"description"`
+	ServicePrincipalID OptNilInt64 `json:"service_principal_id"`
+}
+
+// GetName returns the value of Name.
+func (s *LogStorageRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *LogStorageRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *LogStorageRequest) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
+}
+
+// SetName sets the value of Name.
+func (s *LogStorageRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *LogStorageRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *LogStorageRequest) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
+}
+
 type LogStorageUsage struct {
 	LogRoutings     int `json:"log_routings"`
 	LogMeasureRules int `json:"log_measure_rules"`
@@ -2088,14 +2489,14 @@ type LogsStoragesKeysDestroyNoContent struct{}
 type LogsStoragesListBucketClassification string
 
 const (
-	LogsStoragesListBucketClassificationSeparated LogsStoragesListBucketClassification = "separated"
+	LogsStoragesListBucketClassificationDedicated LogsStoragesListBucketClassification = "dedicated"
 	LogsStoragesListBucketClassificationShared    LogsStoragesListBucketClassification = "shared"
 )
 
 // AllValues returns all LogsStoragesListBucketClassification values.
 func (LogsStoragesListBucketClassification) AllValues() []LogsStoragesListBucketClassification {
 	return []LogsStoragesListBucketClassification{
-		LogsStoragesListBucketClassificationSeparated,
+		LogsStoragesListBucketClassificationDedicated,
 		LogsStoragesListBucketClassificationShared,
 	}
 }
@@ -2103,7 +2504,7 @@ func (LogsStoragesListBucketClassification) AllValues() []LogsStoragesListBucket
 // MarshalText implements encoding.TextMarshaler.
 func (s LogsStoragesListBucketClassification) MarshalText() ([]byte, error) {
 	switch s {
-	case LogsStoragesListBucketClassificationSeparated:
+	case LogsStoragesListBucketClassificationDedicated:
 		return []byte(s), nil
 	case LogsStoragesListBucketClassificationShared:
 		return []byte(s), nil
@@ -2115,8 +2516,8 @@ func (s LogsStoragesListBucketClassification) MarshalText() ([]byte, error) {
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *LogsStoragesListBucketClassification) UnmarshalText(data []byte) error {
 	switch LogsStoragesListBucketClassification(data) {
-	case LogsStoragesListBucketClassificationSeparated:
-		*s = LogsStoragesListBucketClassificationSeparated
+	case LogsStoragesListBucketClassificationDedicated:
+		*s = LogsStoragesListBucketClassificationDedicated
 		return nil
 	case LogsStoragesListBucketClassificationShared:
 		*s = LogsStoragesListBucketClassificationShared
@@ -2192,8 +2593,11 @@ func (s *LogsStoragesListStatus) UnmarshalText(data []byte) error {
 type MapFieldName string
 
 const (
-	MapFieldNameResourceLabels MapFieldName = "resource_labels"
-	MapFieldNameLabels         MapFieldName = "labels"
+	MapFieldNameResourceLabels     MapFieldName = "resource_labels"
+	MapFieldNameLabels             MapFieldName = "labels"
+	MapFieldNameResourceAttributes MapFieldName = "resource_attributes"
+	MapFieldNameAttributes         MapFieldName = "attributes"
+	MapFieldNameJSONPayload        MapFieldName = "json_payload"
 )
 
 // AllValues returns all MapFieldName values.
@@ -2201,6 +2605,9 @@ func (MapFieldName) AllValues() []MapFieldName {
 	return []MapFieldName{
 		MapFieldNameResourceLabels,
 		MapFieldNameLabels,
+		MapFieldNameResourceAttributes,
+		MapFieldNameAttributes,
+		MapFieldNameJSONPayload,
 	}
 }
 
@@ -2210,6 +2617,12 @@ func (s MapFieldName) MarshalText() ([]byte, error) {
 	case MapFieldNameResourceLabels:
 		return []byte(s), nil
 	case MapFieldNameLabels:
+		return []byte(s), nil
+	case MapFieldNameResourceAttributes:
+		return []byte(s), nil
+	case MapFieldNameAttributes:
+		return []byte(s), nil
+	case MapFieldNameJSONPayload:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -2224,6 +2637,15 @@ func (s *MapFieldName) UnmarshalText(data []byte) error {
 		return nil
 	case MapFieldNameLabels:
 		*s = MapFieldNameLabels
+		return nil
+	case MapFieldNameResourceAttributes:
+		*s = MapFieldNameResourceAttributes
+		return nil
+	case MapFieldNameAttributes:
+		*s = MapFieldNameAttributes
+		return nil
+	case MapFieldNameJSONPayload:
+		*s = MapFieldNameJSONPayload
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -2315,6 +2737,147 @@ func (s *MapKeyValueMatcher) SetValue(val string) {
 	s.Value = val
 }
 
+// Ref: #/components/schemas/MapValueNumMatcher
+type MapValueNumMatcher struct {
+	Type     Type9        `json:"type"`
+	Operator Operator4    `json:"operator"`
+	Field    MapFieldName `json:"field"`
+	Key      string       `json:"key"`
+	Value    float64      `json:"value"`
+	// Use only multi-eq.
+	ValueList []float64 `json:"value_list"`
+}
+
+// GetType returns the value of Type.
+func (s *MapValueNumMatcher) GetType() Type9 {
+	return s.Type
+}
+
+// GetOperator returns the value of Operator.
+func (s *MapValueNumMatcher) GetOperator() Operator4 {
+	return s.Operator
+}
+
+// GetField returns the value of Field.
+func (s *MapValueNumMatcher) GetField() MapFieldName {
+	return s.Field
+}
+
+// GetKey returns the value of Key.
+func (s *MapValueNumMatcher) GetKey() string {
+	return s.Key
+}
+
+// GetValue returns the value of Value.
+func (s *MapValueNumMatcher) GetValue() float64 {
+	return s.Value
+}
+
+// GetValueList returns the value of ValueList.
+func (s *MapValueNumMatcher) GetValueList() []float64 {
+	return s.ValueList
+}
+
+// SetType sets the value of Type.
+func (s *MapValueNumMatcher) SetType(val Type9) {
+	s.Type = val
+}
+
+// SetOperator sets the value of Operator.
+func (s *MapValueNumMatcher) SetOperator(val Operator4) {
+	s.Operator = val
+}
+
+// SetField sets the value of Field.
+func (s *MapValueNumMatcher) SetField(val MapFieldName) {
+	s.Field = val
+}
+
+// SetKey sets the value of Key.
+func (s *MapValueNumMatcher) SetKey(val string) {
+	s.Key = val
+}
+
+// SetValue sets the value of Value.
+func (s *MapValueNumMatcher) SetValue(val float64) {
+	s.Value = val
+}
+
+// SetValueList sets the value of ValueList.
+func (s *MapValueNumMatcher) SetValueList(val []float64) {
+	s.ValueList = val
+}
+
+// Ref: #/components/schemas/MapValueStrMatcher
+type MapValueStrMatcher struct {
+	Type      Type8        `json:"type"`
+	Operator  Operator3    `json:"operator"`
+	Field     MapFieldName `json:"field"`
+	Key       string       `json:"key"`
+	Value     string       `json:"value"`
+	ValueList []string     `json:"value_list"`
+}
+
+// GetType returns the value of Type.
+func (s *MapValueStrMatcher) GetType() Type8 {
+	return s.Type
+}
+
+// GetOperator returns the value of Operator.
+func (s *MapValueStrMatcher) GetOperator() Operator3 {
+	return s.Operator
+}
+
+// GetField returns the value of Field.
+func (s *MapValueStrMatcher) GetField() MapFieldName {
+	return s.Field
+}
+
+// GetKey returns the value of Key.
+func (s *MapValueStrMatcher) GetKey() string {
+	return s.Key
+}
+
+// GetValue returns the value of Value.
+func (s *MapValueStrMatcher) GetValue() string {
+	return s.Value
+}
+
+// GetValueList returns the value of ValueList.
+func (s *MapValueStrMatcher) GetValueList() []string {
+	return s.ValueList
+}
+
+// SetType sets the value of Type.
+func (s *MapValueStrMatcher) SetType(val Type8) {
+	s.Type = val
+}
+
+// SetOperator sets the value of Operator.
+func (s *MapValueStrMatcher) SetOperator(val Operator3) {
+	s.Operator = val
+}
+
+// SetField sets the value of Field.
+func (s *MapValueStrMatcher) SetField(val MapFieldName) {
+	s.Field = val
+}
+
+// SetKey sets the value of Key.
+func (s *MapValueStrMatcher) SetKey(val string) {
+	s.Key = val
+}
+
+// SetValue sets the value of Value.
+func (s *MapValueStrMatcher) SetValue(val string) {
+	s.Value = val
+}
+
+// SetValueList sets the value of ValueList.
+func (s *MapValueStrMatcher) SetValueList(val []string) {
+	s.ValueList = val
+}
+
 // Ref: #/components/schemas/MatchLabelsItem
 type MatchLabelsItem struct {
 	Name  string `json:"name"`
@@ -2341,20 +2904,44 @@ func (s *MatchLabelsItem) SetValue(val string) {
 	s.Value = val
 }
 
+// Ref: #/components/schemas/MatchLabelsItemRequest
+type MatchLabelsItemRequest struct {
+	Name  string `json:"name"`
+	Value string `json:"value"`
+}
+
+// GetName returns the value of Name.
+func (s *MatchLabelsItemRequest) GetName() string {
+	return s.Name
+}
+
+// GetValue returns the value of Value.
+func (s *MatchLabelsItemRequest) GetValue() string {
+	return s.Value
+}
+
+// SetName sets the value of Name.
+func (s *MatchLabelsItemRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetValue sets the value of Value.
+func (s *MatchLabelsItemRequest) SetValue(val string) {
+	s.Value = val
+}
+
 // Ref: #/components/schemas/MetricsRouting
 type MetricsRouting struct {
 	// Deprecated: schema marks this property as deprecated.
 	ID  int64     `json:"id"`
 	UID uuid.UUID `json:"uid"`
 	// 対象リソースのID.
-	ResourceID       OptNilInt64    `json:"resource_id"`
-	Publisher        Publisher      `json:"publisher"`
-	PublisherCode    OptString      `json:"publisher_code"`
-	Variant          string         `json:"variant"`
-	MetricsStorage   MetricsStorage `json:"metrics_storage"`
-	MetricsStorageID OptNilInt64    `json:"metrics_storage_id"`
-	CreatedAt        time.Time      `json:"created_at"`
-	UpdatedAt        time.Time      `json:"updated_at"`
+	ResourceID     OptNilInt64    `json:"resource_id"`
+	Publisher      Publisher      `json:"publisher"`
+	Variant        string         `json:"variant"`
+	MetricsStorage MetricsStorage `json:"metrics_storage"`
+	CreatedAt      time.Time      `json:"created_at"`
+	UpdatedAt      time.Time      `json:"updated_at"`
 }
 
 // GetID returns the value of ID.
@@ -2377,11 +2964,6 @@ func (s *MetricsRouting) GetPublisher() Publisher {
 	return s.Publisher
 }
 
-// GetPublisherCode returns the value of PublisherCode.
-func (s *MetricsRouting) GetPublisherCode() OptString {
-	return s.PublisherCode
-}
-
 // GetVariant returns the value of Variant.
 func (s *MetricsRouting) GetVariant() string {
 	return s.Variant
@@ -2390,11 +2972,6 @@ func (s *MetricsRouting) GetVariant() string {
 // GetMetricsStorage returns the value of MetricsStorage.
 func (s *MetricsRouting) GetMetricsStorage() MetricsStorage {
 	return s.MetricsStorage
-}
-
-// GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *MetricsRouting) GetMetricsStorageID() OptNilInt64 {
-	return s.MetricsStorageID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
@@ -2427,11 +3004,6 @@ func (s *MetricsRouting) SetPublisher(val Publisher) {
 	s.Publisher = val
 }
 
-// SetPublisherCode sets the value of PublisherCode.
-func (s *MetricsRouting) SetPublisherCode(val OptString) {
-	s.PublisherCode = val
-}
-
 // SetVariant sets the value of Variant.
 func (s *MetricsRouting) SetVariant(val string) {
 	s.Variant = val
@@ -2442,11 +3014,6 @@ func (s *MetricsRouting) SetMetricsStorage(val MetricsStorage) {
 	s.MetricsStorage = val
 }
 
-// SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *MetricsRouting) SetMetricsStorageID(val OptNilInt64) {
-	s.MetricsStorageID = val
-}
-
 // SetCreatedAt sets the value of CreatedAt.
 func (s *MetricsRouting) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
@@ -2455,6 +3022,55 @@ func (s *MetricsRouting) SetCreatedAt(val time.Time) {
 // SetUpdatedAt sets the value of UpdatedAt.
 func (s *MetricsRouting) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
+}
+
+// Ref: #/components/schemas/MetricsRoutingRequest
+type MetricsRoutingRequest struct {
+	// 対象リソースのID.
+	ResourceID       OptNilInt64 `json:"resource_id"`
+	PublisherCode    string      `json:"publisher_code"`
+	Variant          string      `json:"variant"`
+	MetricsStorageID NilInt64    `json:"metrics_storage_id"`
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *MetricsRoutingRequest) GetResourceID() OptNilInt64 {
+	return s.ResourceID
+}
+
+// GetPublisherCode returns the value of PublisherCode.
+func (s *MetricsRoutingRequest) GetPublisherCode() string {
+	return s.PublisherCode
+}
+
+// GetVariant returns the value of Variant.
+func (s *MetricsRoutingRequest) GetVariant() string {
+	return s.Variant
+}
+
+// GetMetricsStorageID returns the value of MetricsStorageID.
+func (s *MetricsRoutingRequest) GetMetricsStorageID() NilInt64 {
+	return s.MetricsStorageID
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *MetricsRoutingRequest) SetResourceID(val OptNilInt64) {
+	s.ResourceID = val
+}
+
+// SetPublisherCode sets the value of PublisherCode.
+func (s *MetricsRoutingRequest) SetPublisherCode(val string) {
+	s.PublisherCode = val
+}
+
+// SetVariant sets the value of Variant.
+func (s *MetricsRoutingRequest) SetVariant(val string) {
+	s.Variant = val
+}
+
+// SetMetricsStorageID sets the value of MetricsStorageID.
+func (s *MetricsRoutingRequest) SetMetricsStorageID(val NilInt64) {
+	s.MetricsStorageID = val
 }
 
 // MetricsRoutingsDestroyNoContent is response for MetricsRoutingsDestroy operation.
@@ -2657,40 +3273,55 @@ func (s *MetricsStorageAccessKey) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// Ref: #/components/schemas/MetricsStorageCreate
-type MetricsStorageCreate struct {
+// Ref: #/components/schemas/MetricsStorageAccessKeyRequest
+type MetricsStorageAccessKeyRequest struct {
+	Description OptString `json:"description"`
+}
+
+// GetDescription returns the value of Description.
+func (s *MetricsStorageAccessKeyRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// SetDescription sets the value of Description.
+func (s *MetricsStorageAccessKeyRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// Ref: #/components/schemas/MetricsStorageCreateRequest
+type MetricsStorageCreateRequest struct {
 	Name        string    `json:"name"`
 	Description OptString `json:"description"`
 	IsSystem    bool      `json:"is_system"`
 }
 
 // GetName returns the value of Name.
-func (s *MetricsStorageCreate) GetName() string {
+func (s *MetricsStorageCreateRequest) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *MetricsStorageCreate) GetDescription() OptString {
+func (s *MetricsStorageCreateRequest) GetDescription() OptString {
 	return s.Description
 }
 
 // GetIsSystem returns the value of IsSystem.
-func (s *MetricsStorageCreate) GetIsSystem() bool {
+func (s *MetricsStorageCreateRequest) GetIsSystem() bool {
 	return s.IsSystem
 }
 
 // SetName sets the value of Name.
-func (s *MetricsStorageCreate) SetName(val string) {
+func (s *MetricsStorageCreateRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *MetricsStorageCreate) SetDescription(val OptString) {
+func (s *MetricsStorageCreateRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
 // SetIsSystem sets the value of IsSystem.
-func (s *MetricsStorageCreate) SetIsSystem(val bool) {
+func (s *MetricsStorageCreateRequest) SetIsSystem(val bool) {
 	s.IsSystem = val
 }
 
@@ -2835,6 +3466,32 @@ func (s *MetricsStorageMonthlyUsageBody) GetUsages() []MetricsStorageMonthlyUsag
 // SetUsages sets the value of Usages.
 func (s *MetricsStorageMonthlyUsageBody) SetUsages(val []MetricsStorageMonthlyUsage) {
 	s.Usages = val
+}
+
+// Ref: #/components/schemas/MetricsStorageRequest
+type MetricsStorageRequest struct {
+	Name        OptString `json:"name"`
+	Description OptString `json:"description"`
+}
+
+// GetName returns the value of Name.
+func (s *MetricsStorageRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *MetricsStorageRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// SetName sets the value of Name.
+func (s *MetricsStorageRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *MetricsStorageRequest) SetDescription(val OptString) {
+	s.Description = val
 }
 
 type MetricsStorageUsage struct {
@@ -3424,10 +4081,9 @@ type NotificationRouting struct {
 	UID                   uuid.UUID          `json:"uid"`
 	ProjectID             NilInt64           `json:"project_id"`
 	NotificationTarget    NotificationTarget `json:"notification_target"`
-	NotificationTargetUID OptUUID            `json:"notification_target_uid"`
 	MatchLabels           []MatchLabelsItem  `json:"match_labels"`
 	ResendIntervalMinutes OptInt             `json:"resend_interval_minutes"`
-	Order                 OptInt             `json:"order"`
+	Order                 int                `json:"order"`
 }
 
 // GetUID returns the value of UID.
@@ -3445,11 +4101,6 @@ func (s *NotificationRouting) GetNotificationTarget() NotificationTarget {
 	return s.NotificationTarget
 }
 
-// GetNotificationTargetUID returns the value of NotificationTargetUID.
-func (s *NotificationRouting) GetNotificationTargetUID() OptUUID {
-	return s.NotificationTargetUID
-}
-
 // GetMatchLabels returns the value of MatchLabels.
 func (s *NotificationRouting) GetMatchLabels() []MatchLabelsItem {
 	return s.MatchLabels
@@ -3461,7 +4112,7 @@ func (s *NotificationRouting) GetResendIntervalMinutes() OptInt {
 }
 
 // GetOrder returns the value of Order.
-func (s *NotificationRouting) GetOrder() OptInt {
+func (s *NotificationRouting) GetOrder() int {
 	return s.Order
 }
 
@@ -3480,11 +4131,6 @@ func (s *NotificationRouting) SetNotificationTarget(val NotificationTarget) {
 	s.NotificationTarget = val
 }
 
-// SetNotificationTargetUID sets the value of NotificationTargetUID.
-func (s *NotificationRouting) SetNotificationTargetUID(val OptUUID) {
-	s.NotificationTargetUID = val
-}
-
 // SetMatchLabels sets the value of MatchLabels.
 func (s *NotificationRouting) SetMatchLabels(val []MatchLabelsItem) {
 	s.MatchLabels = val
@@ -3496,34 +4142,71 @@ func (s *NotificationRouting) SetResendIntervalMinutes(val OptInt) {
 }
 
 // SetOrder sets the value of Order.
-func (s *NotificationRouting) SetOrder(val OptInt) {
+func (s *NotificationRouting) SetOrder(val int) {
 	s.Order = val
 }
 
-// Ref: #/components/schemas/NotificationRoutingOrder
-type NotificationRoutingOrder struct {
+// Ref: #/components/schemas/NotificationRoutingOrderRequest
+type NotificationRoutingOrderRequest struct {
 	NotificationRoutingUID uuid.UUID `json:"notification_routing_uid"`
 	Order                  int       `json:"order"`
 }
 
 // GetNotificationRoutingUID returns the value of NotificationRoutingUID.
-func (s *NotificationRoutingOrder) GetNotificationRoutingUID() uuid.UUID {
+func (s *NotificationRoutingOrderRequest) GetNotificationRoutingUID() uuid.UUID {
 	return s.NotificationRoutingUID
 }
 
 // GetOrder returns the value of Order.
-func (s *NotificationRoutingOrder) GetOrder() int {
+func (s *NotificationRoutingOrderRequest) GetOrder() int {
 	return s.Order
 }
 
 // SetNotificationRoutingUID sets the value of NotificationRoutingUID.
-func (s *NotificationRoutingOrder) SetNotificationRoutingUID(val uuid.UUID) {
+func (s *NotificationRoutingOrderRequest) SetNotificationRoutingUID(val uuid.UUID) {
 	s.NotificationRoutingUID = val
 }
 
 // SetOrder sets the value of Order.
-func (s *NotificationRoutingOrder) SetOrder(val int) {
+func (s *NotificationRoutingOrderRequest) SetOrder(val int) {
 	s.Order = val
+}
+
+// Ref: #/components/schemas/NotificationRoutingRequest
+type NotificationRoutingRequest struct {
+	NotificationTargetUID uuid.UUID                `json:"notification_target_uid"`
+	MatchLabels           []MatchLabelsItemRequest `json:"match_labels"`
+	ResendIntervalMinutes OptInt                   `json:"resend_interval_minutes"`
+}
+
+// GetNotificationTargetUID returns the value of NotificationTargetUID.
+func (s *NotificationRoutingRequest) GetNotificationTargetUID() uuid.UUID {
+	return s.NotificationTargetUID
+}
+
+// GetMatchLabels returns the value of MatchLabels.
+func (s *NotificationRoutingRequest) GetMatchLabels() []MatchLabelsItemRequest {
+	return s.MatchLabels
+}
+
+// GetResendIntervalMinutes returns the value of ResendIntervalMinutes.
+func (s *NotificationRoutingRequest) GetResendIntervalMinutes() OptInt {
+	return s.ResendIntervalMinutes
+}
+
+// SetNotificationTargetUID sets the value of NotificationTargetUID.
+func (s *NotificationRoutingRequest) SetNotificationTargetUID(val uuid.UUID) {
+	s.NotificationTargetUID = val
+}
+
+// SetMatchLabels sets the value of MatchLabels.
+func (s *NotificationRoutingRequest) SetMatchLabels(val []MatchLabelsItemRequest) {
+	s.MatchLabels = val
+}
+
+// SetResendIntervalMinutes sets the value of ResendIntervalMinutes.
+func (s *NotificationRoutingRequest) SetResendIntervalMinutes(val OptInt) {
+	s.ResendIntervalMinutes = val
 }
 
 // Ref: #/components/schemas/NotificationTarget
@@ -3599,6 +4282,88 @@ func (s *NotificationTarget) SetDescription(val OptString) {
 }
 
 type NotificationTargetConfig struct{}
+
+// Ref: #/components/schemas/NotificationTargetRequest
+type NotificationTargetRequest struct {
+	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+	ServiceType NotificationTargetRequestServiceType `json:"service_type"`
+	URL         OptString                            `json:"url"`
+	Description OptString                            `json:"description"`
+}
+
+// GetServiceType returns the value of ServiceType.
+func (s *NotificationTargetRequest) GetServiceType() NotificationTargetRequestServiceType {
+	return s.ServiceType
+}
+
+// GetURL returns the value of URL.
+func (s *NotificationTargetRequest) GetURL() OptString {
+	return s.URL
+}
+
+// GetDescription returns the value of Description.
+func (s *NotificationTargetRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// SetServiceType sets the value of ServiceType.
+func (s *NotificationTargetRequest) SetServiceType(val NotificationTargetRequestServiceType) {
+	s.ServiceType = val
+}
+
+// SetURL sets the value of URL.
+func (s *NotificationTargetRequest) SetURL(val OptString) {
+	s.URL = val
+}
+
+// SetDescription sets the value of Description.
+func (s *NotificationTargetRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+type NotificationTargetRequestServiceType string
+
+const (
+	NotificationTargetRequestServiceTypeSAKURASIMPLENOTICE NotificationTargetRequestServiceType = "SAKURA_SIMPLE_NOTICE"
+	NotificationTargetRequestServiceTypeSAKURAEVENTBUS     NotificationTargetRequestServiceType = "SAKURA_EVENT_BUS"
+)
+
+// AllValues returns all NotificationTargetRequestServiceType values.
+func (NotificationTargetRequestServiceType) AllValues() []NotificationTargetRequestServiceType {
+	return []NotificationTargetRequestServiceType{
+		NotificationTargetRequestServiceTypeSAKURASIMPLENOTICE,
+		NotificationTargetRequestServiceTypeSAKURAEVENTBUS,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NotificationTargetRequestServiceType) MarshalText() ([]byte, error) {
+	switch s {
+	case NotificationTargetRequestServiceTypeSAKURASIMPLENOTICE:
+		return []byte(s), nil
+	case NotificationTargetRequestServiceTypeSAKURAEVENTBUS:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NotificationTargetRequestServiceType) UnmarshalText(data []byte) error {
+	switch NotificationTargetRequestServiceType(data) {
+	case NotificationTargetRequestServiceTypeSAKURASIMPLENOTICE:
+		*s = NotificationTargetRequestServiceTypeSAKURASIMPLENOTICE
+		return nil
+	case NotificationTargetRequestServiceTypeSAKURAEVENTBUS:
+		*s = NotificationTargetRequestServiceTypeSAKURAEVENTBUS
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
 // * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
@@ -4011,38 +4776,206 @@ func (s *Operator2) UnmarshalText(data []byte) error {
 	}
 }
 
-// NewOptAlertProject returns new OptAlertProject with value set to v.
-func NewOptAlertProject(v AlertProject) OptAlertProject {
-	return OptAlertProject{
+// Ref: #/components/schemas/Operator3
+type Operator3 string
+
+const (
+	Operator3Eq      Operator3 = "eq"
+	Operator3Ne      Operator3 = "ne"
+	Operator3Gt      Operator3 = "gt"
+	Operator3Lt      Operator3 = "lt"
+	Operator3Gte     Operator3 = "gte"
+	Operator3Lte     Operator3 = "lte"
+	Operator3MultiEq Operator3 = "multi-eq"
+	Operator3Like    Operator3 = "like"
+	Operator3Ilike   Operator3 = "ilike"
+)
+
+// AllValues returns all Operator3 values.
+func (Operator3) AllValues() []Operator3 {
+	return []Operator3{
+		Operator3Eq,
+		Operator3Ne,
+		Operator3Gt,
+		Operator3Lt,
+		Operator3Gte,
+		Operator3Lte,
+		Operator3MultiEq,
+		Operator3Like,
+		Operator3Ilike,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s Operator3) MarshalText() ([]byte, error) {
+	switch s {
+	case Operator3Eq:
+		return []byte(s), nil
+	case Operator3Ne:
+		return []byte(s), nil
+	case Operator3Gt:
+		return []byte(s), nil
+	case Operator3Lt:
+		return []byte(s), nil
+	case Operator3Gte:
+		return []byte(s), nil
+	case Operator3Lte:
+		return []byte(s), nil
+	case Operator3MultiEq:
+		return []byte(s), nil
+	case Operator3Like:
+		return []byte(s), nil
+	case Operator3Ilike:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *Operator3) UnmarshalText(data []byte) error {
+	switch Operator3(data) {
+	case Operator3Eq:
+		*s = Operator3Eq
+		return nil
+	case Operator3Ne:
+		*s = Operator3Ne
+		return nil
+	case Operator3Gt:
+		*s = Operator3Gt
+		return nil
+	case Operator3Lt:
+		*s = Operator3Lt
+		return nil
+	case Operator3Gte:
+		*s = Operator3Gte
+		return nil
+	case Operator3Lte:
+		*s = Operator3Lte
+		return nil
+	case Operator3MultiEq:
+		*s = Operator3MultiEq
+		return nil
+	case Operator3Like:
+		*s = Operator3Like
+		return nil
+	case Operator3Ilike:
+		*s = Operator3Ilike
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/Operator4
+type Operator4 string
+
+const (
+	Operator4Eq      Operator4 = "eq"
+	Operator4Ne      Operator4 = "ne"
+	Operator4Gt      Operator4 = "gt"
+	Operator4Lt      Operator4 = "lt"
+	Operator4Gte     Operator4 = "gte"
+	Operator4Lte     Operator4 = "lte"
+	Operator4MultiEq Operator4 = "multi-eq"
+)
+
+// AllValues returns all Operator4 values.
+func (Operator4) AllValues() []Operator4 {
+	return []Operator4{
+		Operator4Eq,
+		Operator4Ne,
+		Operator4Gt,
+		Operator4Lt,
+		Operator4Gte,
+		Operator4Lte,
+		Operator4MultiEq,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s Operator4) MarshalText() ([]byte, error) {
+	switch s {
+	case Operator4Eq:
+		return []byte(s), nil
+	case Operator4Ne:
+		return []byte(s), nil
+	case Operator4Gt:
+		return []byte(s), nil
+	case Operator4Lt:
+		return []byte(s), nil
+	case Operator4Gte:
+		return []byte(s), nil
+	case Operator4Lte:
+		return []byte(s), nil
+	case Operator4MultiEq:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *Operator4) UnmarshalText(data []byte) error {
+	switch Operator4(data) {
+	case Operator4Eq:
+		*s = Operator4Eq
+		return nil
+	case Operator4Ne:
+		*s = Operator4Ne
+		return nil
+	case Operator4Gt:
+		*s = Operator4Gt
+		return nil
+	case Operator4Lt:
+		*s = Operator4Lt
+		return nil
+	case Operator4Gte:
+		*s = Operator4Gte
+		return nil
+	case Operator4Lte:
+		*s = Operator4Lte
+		return nil
+	case Operator4MultiEq:
+		*s = Operator4MultiEq
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// NewOptAlertProjectRequest returns new OptAlertProjectRequest with value set to v.
+func NewOptAlertProjectRequest(v AlertProjectRequest) OptAlertProjectRequest {
+	return OptAlertProjectRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptAlertProject is optional AlertProject.
-type OptAlertProject struct {
-	Value AlertProject
+// OptAlertProjectRequest is optional AlertProjectRequest.
+type OptAlertProjectRequest struct {
+	Value AlertProjectRequest
 	Set   bool
 }
 
-// IsSet returns true if OptAlertProject was set.
-func (o OptAlertProject) IsSet() bool { return o.Set }
+// IsSet returns true if OptAlertProjectRequest was set.
+func (o OptAlertProjectRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptAlertProject) Reset() {
-	var v AlertProject
+func (o *OptAlertProjectRequest) Reset() {
+	var v AlertProjectRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptAlertProject) SetTo(v AlertProject) {
+func (o *OptAlertProjectRequest) SetTo(v AlertProjectRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptAlertProject) Get() (v AlertProject, ok bool) {
+func (o OptAlertProjectRequest) Get() (v AlertProjectRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4050,7 +4983,7 @@ func (o OptAlertProject) Get() (v AlertProject, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptAlertProject) Or(d AlertProject) AlertProject {
+func (o OptAlertProjectRequest) Or(d AlertProjectRequest) AlertProjectRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -4241,38 +5174,38 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
-// NewOptDashboardProject returns new OptDashboardProject with value set to v.
-func NewOptDashboardProject(v DashboardProject) OptDashboardProject {
-	return OptDashboardProject{
+// NewOptDashboardProjectRequest returns new OptDashboardProjectRequest with value set to v.
+func NewOptDashboardProjectRequest(v DashboardProjectRequest) OptDashboardProjectRequest {
+	return OptDashboardProjectRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDashboardProject is optional DashboardProject.
-type OptDashboardProject struct {
-	Value DashboardProject
+// OptDashboardProjectRequest is optional DashboardProjectRequest.
+type OptDashboardProjectRequest struct {
+	Value DashboardProjectRequest
 	Set   bool
 }
 
-// IsSet returns true if OptDashboardProject was set.
-func (o OptDashboardProject) IsSet() bool { return o.Set }
+// IsSet returns true if OptDashboardProjectRequest was set.
+func (o OptDashboardProjectRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDashboardProject) Reset() {
-	var v DashboardProject
+func (o *OptDashboardProjectRequest) Reset() {
+	var v DashboardProjectRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDashboardProject) SetTo(v DashboardProject) {
+func (o *OptDashboardProjectRequest) SetTo(v DashboardProjectRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDashboardProject) Get() (v DashboardProject, ok bool) {
+func (o OptDashboardProjectRequest) Get() (v DashboardProjectRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4280,7 +5213,7 @@ func (o OptDashboardProject) Get() (v DashboardProject, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDashboardProject) Or(d DashboardProject) DashboardProject {
+func (o OptDashboardProjectRequest) Or(d DashboardProjectRequest) DashboardProjectRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -4517,38 +5450,38 @@ func (o OptInt64) Or(d int64) int64 {
 	return d
 }
 
-// NewOptLogMeasureRuleModel returns new OptLogMeasureRuleModel with value set to v.
-func NewOptLogMeasureRuleModel(v LogMeasureRuleModel) OptLogMeasureRuleModel {
-	return OptLogMeasureRuleModel{
+// NewOptLogMeasureRuleModelRequest returns new OptLogMeasureRuleModelRequest with value set to v.
+func NewOptLogMeasureRuleModelRequest(v LogMeasureRuleModelRequest) OptLogMeasureRuleModelRequest {
+	return OptLogMeasureRuleModelRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptLogMeasureRuleModel is optional LogMeasureRuleModel.
-type OptLogMeasureRuleModel struct {
-	Value LogMeasureRuleModel
+// OptLogMeasureRuleModelRequest is optional LogMeasureRuleModelRequest.
+type OptLogMeasureRuleModelRequest struct {
+	Value LogMeasureRuleModelRequest
 	Set   bool
 }
 
-// IsSet returns true if OptLogMeasureRuleModel was set.
-func (o OptLogMeasureRuleModel) IsSet() bool { return o.Set }
+// IsSet returns true if OptLogMeasureRuleModelRequest was set.
+func (o OptLogMeasureRuleModelRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptLogMeasureRuleModel) Reset() {
-	var v LogMeasureRuleModel
+func (o *OptLogMeasureRuleModelRequest) Reset() {
+	var v LogMeasureRuleModelRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptLogMeasureRuleModel) SetTo(v LogMeasureRuleModel) {
+func (o *OptLogMeasureRuleModelRequest) SetTo(v LogMeasureRuleModelRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptLogMeasureRuleModel) Get() (v LogMeasureRuleModel, ok bool) {
+func (o OptLogMeasureRuleModelRequest) Get() (v LogMeasureRuleModelRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4556,45 +5489,45 @@ func (o OptLogMeasureRuleModel) Get() (v LogMeasureRuleModel, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptLogMeasureRuleModel) Or(d LogMeasureRuleModel) LogMeasureRuleModel {
+func (o OptLogMeasureRuleModelRequest) Or(d LogMeasureRuleModelRequest) LogMeasureRuleModelRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptLogStorage returns new OptLogStorage with value set to v.
-func NewOptLogStorage(v LogStorage) OptLogStorage {
-	return OptLogStorage{
+// NewOptLogStorageAccessKeyRequest returns new OptLogStorageAccessKeyRequest with value set to v.
+func NewOptLogStorageAccessKeyRequest(v LogStorageAccessKeyRequest) OptLogStorageAccessKeyRequest {
+	return OptLogStorageAccessKeyRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptLogStorage is optional LogStorage.
-type OptLogStorage struct {
-	Value LogStorage
+// OptLogStorageAccessKeyRequest is optional LogStorageAccessKeyRequest.
+type OptLogStorageAccessKeyRequest struct {
+	Value LogStorageAccessKeyRequest
 	Set   bool
 }
 
-// IsSet returns true if OptLogStorage was set.
-func (o OptLogStorage) IsSet() bool { return o.Set }
+// IsSet returns true if OptLogStorageAccessKeyRequest was set.
+func (o OptLogStorageAccessKeyRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptLogStorage) Reset() {
-	var v LogStorage
+func (o *OptLogStorageAccessKeyRequest) Reset() {
+	var v LogStorageAccessKeyRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptLogStorage) SetTo(v LogStorage) {
+func (o *OptLogStorageAccessKeyRequest) SetTo(v LogStorageAccessKeyRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptLogStorage) Get() (v LogStorage, ok bool) {
+func (o OptLogStorageAccessKeyRequest) Get() (v LogStorageAccessKeyRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4602,45 +5535,45 @@ func (o OptLogStorage) Get() (v LogStorage, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptLogStorage) Or(d LogStorage) LogStorage {
+func (o OptLogStorageAccessKeyRequest) Or(d LogStorageAccessKeyRequest) LogStorageAccessKeyRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptLogStorageAccessKey returns new OptLogStorageAccessKey with value set to v.
-func NewOptLogStorageAccessKey(v LogStorageAccessKey) OptLogStorageAccessKey {
-	return OptLogStorageAccessKey{
+// NewOptLogStorageCreateRequestClassification returns new OptLogStorageCreateRequestClassification with value set to v.
+func NewOptLogStorageCreateRequestClassification(v LogStorageCreateRequestClassification) OptLogStorageCreateRequestClassification {
+	return OptLogStorageCreateRequestClassification{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptLogStorageAccessKey is optional LogStorageAccessKey.
-type OptLogStorageAccessKey struct {
-	Value LogStorageAccessKey
+// OptLogStorageCreateRequestClassification is optional LogStorageCreateRequestClassification.
+type OptLogStorageCreateRequestClassification struct {
+	Value LogStorageCreateRequestClassification
 	Set   bool
 }
 
-// IsSet returns true if OptLogStorageAccessKey was set.
-func (o OptLogStorageAccessKey) IsSet() bool { return o.Set }
+// IsSet returns true if OptLogStorageCreateRequestClassification was set.
+func (o OptLogStorageCreateRequestClassification) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptLogStorageAccessKey) Reset() {
-	var v LogStorageAccessKey
+func (o *OptLogStorageCreateRequestClassification) Reset() {
+	var v LogStorageCreateRequestClassification
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptLogStorageAccessKey) SetTo(v LogStorageAccessKey) {
+func (o *OptLogStorageCreateRequestClassification) SetTo(v LogStorageCreateRequestClassification) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptLogStorageAccessKey) Get() (v LogStorageAccessKey, ok bool) {
+func (o OptLogStorageCreateRequestClassification) Get() (v LogStorageCreateRequestClassification, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4648,45 +5581,45 @@ func (o OptLogStorageAccessKey) Get() (v LogStorageAccessKey, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptLogStorageAccessKey) Or(d LogStorageAccessKey) LogStorageAccessKey {
+func (o OptLogStorageCreateRequestClassification) Or(d LogStorageCreateRequestClassification) LogStorageCreateRequestClassification {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptLogStorageCreateClassification returns new OptLogStorageCreateClassification with value set to v.
-func NewOptLogStorageCreateClassification(v LogStorageCreateClassification) OptLogStorageCreateClassification {
-	return OptLogStorageCreateClassification{
+// NewOptLogStorageRequest returns new OptLogStorageRequest with value set to v.
+func NewOptLogStorageRequest(v LogStorageRequest) OptLogStorageRequest {
+	return OptLogStorageRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptLogStorageCreateClassification is optional LogStorageCreateClassification.
-type OptLogStorageCreateClassification struct {
-	Value LogStorageCreateClassification
+// OptLogStorageRequest is optional LogStorageRequest.
+type OptLogStorageRequest struct {
+	Value LogStorageRequest
 	Set   bool
 }
 
-// IsSet returns true if OptLogStorageCreateClassification was set.
-func (o OptLogStorageCreateClassification) IsSet() bool { return o.Set }
+// IsSet returns true if OptLogStorageRequest was set.
+func (o OptLogStorageRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptLogStorageCreateClassification) Reset() {
-	var v LogStorageCreateClassification
+func (o *OptLogStorageRequest) Reset() {
+	var v LogStorageRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptLogStorageCreateClassification) SetTo(v LogStorageCreateClassification) {
+func (o *OptLogStorageRequest) SetTo(v LogStorageRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptLogStorageCreateClassification) Get() (v LogStorageCreateClassification, ok bool) {
+func (o OptLogStorageRequest) Get() (v LogStorageRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4694,7 +5627,7 @@ func (o OptLogStorageCreateClassification) Get() (v LogStorageCreateClassificati
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptLogStorageCreateClassification) Or(d LogStorageCreateClassification) LogStorageCreateClassification {
+func (o OptLogStorageRequest) Or(d LogStorageRequest) LogStorageRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -4793,38 +5726,38 @@ func (o OptLogsStoragesListStatus) Or(d LogsStoragesListStatus) LogsStoragesList
 	return d
 }
 
-// NewOptMetricsStorage returns new OptMetricsStorage with value set to v.
-func NewOptMetricsStorage(v MetricsStorage) OptMetricsStorage {
-	return OptMetricsStorage{
+// NewOptMetricsStorageAccessKeyRequest returns new OptMetricsStorageAccessKeyRequest with value set to v.
+func NewOptMetricsStorageAccessKeyRequest(v MetricsStorageAccessKeyRequest) OptMetricsStorageAccessKeyRequest {
+	return OptMetricsStorageAccessKeyRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptMetricsStorage is optional MetricsStorage.
-type OptMetricsStorage struct {
-	Value MetricsStorage
+// OptMetricsStorageAccessKeyRequest is optional MetricsStorageAccessKeyRequest.
+type OptMetricsStorageAccessKeyRequest struct {
+	Value MetricsStorageAccessKeyRequest
 	Set   bool
 }
 
-// IsSet returns true if OptMetricsStorage was set.
-func (o OptMetricsStorage) IsSet() bool { return o.Set }
+// IsSet returns true if OptMetricsStorageAccessKeyRequest was set.
+func (o OptMetricsStorageAccessKeyRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptMetricsStorage) Reset() {
-	var v MetricsStorage
+func (o *OptMetricsStorageAccessKeyRequest) Reset() {
+	var v MetricsStorageAccessKeyRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptMetricsStorage) SetTo(v MetricsStorage) {
+func (o *OptMetricsStorageAccessKeyRequest) SetTo(v MetricsStorageAccessKeyRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptMetricsStorage) Get() (v MetricsStorage, ok bool) {
+func (o OptMetricsStorageAccessKeyRequest) Get() (v MetricsStorageAccessKeyRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4832,45 +5765,45 @@ func (o OptMetricsStorage) Get() (v MetricsStorage, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptMetricsStorage) Or(d MetricsStorage) MetricsStorage {
+func (o OptMetricsStorageAccessKeyRequest) Or(d MetricsStorageAccessKeyRequest) MetricsStorageAccessKeyRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptMetricsStorageAccessKey returns new OptMetricsStorageAccessKey with value set to v.
-func NewOptMetricsStorageAccessKey(v MetricsStorageAccessKey) OptMetricsStorageAccessKey {
-	return OptMetricsStorageAccessKey{
+// NewOptMetricsStorageRequest returns new OptMetricsStorageRequest with value set to v.
+func NewOptMetricsStorageRequest(v MetricsStorageRequest) OptMetricsStorageRequest {
+	return OptMetricsStorageRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptMetricsStorageAccessKey is optional MetricsStorageAccessKey.
-type OptMetricsStorageAccessKey struct {
-	Value MetricsStorageAccessKey
+// OptMetricsStorageRequest is optional MetricsStorageRequest.
+type OptMetricsStorageRequest struct {
+	Value MetricsStorageRequest
 	Set   bool
 }
 
-// IsSet returns true if OptMetricsStorageAccessKey was set.
-func (o OptMetricsStorageAccessKey) IsSet() bool { return o.Set }
+// IsSet returns true if OptMetricsStorageRequest was set.
+func (o OptMetricsStorageRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptMetricsStorageAccessKey) Reset() {
-	var v MetricsStorageAccessKey
+func (o *OptMetricsStorageRequest) Reset() {
+	var v MetricsStorageRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptMetricsStorageAccessKey) SetTo(v MetricsStorageAccessKey) {
+func (o *OptMetricsStorageRequest) SetTo(v MetricsStorageRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptMetricsStorageAccessKey) Get() (v MetricsStorageAccessKey, ok bool) {
+func (o OptMetricsStorageRequest) Get() (v MetricsStorageRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -4878,7 +5811,7 @@ func (o OptMetricsStorageAccessKey) Get() (v MetricsStorageAccessKey, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptMetricsStorageAccessKey) Or(d MetricsStorageAccessKey) MetricsStorageAccessKey {
+func (o OptMetricsStorageRequest) Or(d MetricsStorageRequest) MetricsStorageRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -5011,321 +5944,6 @@ func (o OptNilInt64) Or(d int64) int64 {
 	return d
 }
 
-// NewOptNilPatchedAlertProjectIcon returns new OptNilPatchedAlertProjectIcon with value set to v.
-func NewOptNilPatchedAlertProjectIcon(v PatchedAlertProjectIcon) OptNilPatchedAlertProjectIcon {
-	return OptNilPatchedAlertProjectIcon{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilPatchedAlertProjectIcon is optional nullable PatchedAlertProjectIcon.
-type OptNilPatchedAlertProjectIcon struct {
-	Value PatchedAlertProjectIcon
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilPatchedAlertProjectIcon was set.
-func (o OptNilPatchedAlertProjectIcon) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilPatchedAlertProjectIcon) Reset() {
-	var v PatchedAlertProjectIcon
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilPatchedAlertProjectIcon) SetTo(v PatchedAlertProjectIcon) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilPatchedAlertProjectIcon) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilPatchedAlertProjectIcon) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v PatchedAlertProjectIcon
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilPatchedAlertProjectIcon) Get() (v PatchedAlertProjectIcon, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilPatchedAlertProjectIcon) Or(d PatchedAlertProjectIcon) PatchedAlertProjectIcon {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilPatchedDashboardProjectIcon returns new OptNilPatchedDashboardProjectIcon with value set to v.
-func NewOptNilPatchedDashboardProjectIcon(v PatchedDashboardProjectIcon) OptNilPatchedDashboardProjectIcon {
-	return OptNilPatchedDashboardProjectIcon{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilPatchedDashboardProjectIcon is optional nullable PatchedDashboardProjectIcon.
-type OptNilPatchedDashboardProjectIcon struct {
-	Value PatchedDashboardProjectIcon
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilPatchedDashboardProjectIcon was set.
-func (o OptNilPatchedDashboardProjectIcon) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilPatchedDashboardProjectIcon) Reset() {
-	var v PatchedDashboardProjectIcon
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilPatchedDashboardProjectIcon) SetTo(v PatchedDashboardProjectIcon) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilPatchedDashboardProjectIcon) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilPatchedDashboardProjectIcon) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v PatchedDashboardProjectIcon
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilPatchedDashboardProjectIcon) Get() (v PatchedDashboardProjectIcon, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilPatchedDashboardProjectIcon) Or(d PatchedDashboardProjectIcon) PatchedDashboardProjectIcon {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilPatchedLogStorageIcon returns new OptNilPatchedLogStorageIcon with value set to v.
-func NewOptNilPatchedLogStorageIcon(v PatchedLogStorageIcon) OptNilPatchedLogStorageIcon {
-	return OptNilPatchedLogStorageIcon{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilPatchedLogStorageIcon is optional nullable PatchedLogStorageIcon.
-type OptNilPatchedLogStorageIcon struct {
-	Value PatchedLogStorageIcon
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilPatchedLogStorageIcon was set.
-func (o OptNilPatchedLogStorageIcon) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilPatchedLogStorageIcon) Reset() {
-	var v PatchedLogStorageIcon
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilPatchedLogStorageIcon) SetTo(v PatchedLogStorageIcon) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilPatchedLogStorageIcon) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilPatchedLogStorageIcon) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v PatchedLogStorageIcon
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilPatchedLogStorageIcon) Get() (v PatchedLogStorageIcon, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilPatchedLogStorageIcon) Or(d PatchedLogStorageIcon) PatchedLogStorageIcon {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilPatchedMetricsStorageIcon returns new OptNilPatchedMetricsStorageIcon with value set to v.
-func NewOptNilPatchedMetricsStorageIcon(v PatchedMetricsStorageIcon) OptNilPatchedMetricsStorageIcon {
-	return OptNilPatchedMetricsStorageIcon{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilPatchedMetricsStorageIcon is optional nullable PatchedMetricsStorageIcon.
-type OptNilPatchedMetricsStorageIcon struct {
-	Value PatchedMetricsStorageIcon
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilPatchedMetricsStorageIcon was set.
-func (o OptNilPatchedMetricsStorageIcon) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilPatchedMetricsStorageIcon) Reset() {
-	var v PatchedMetricsStorageIcon
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilPatchedMetricsStorageIcon) SetTo(v PatchedMetricsStorageIcon) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilPatchedMetricsStorageIcon) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilPatchedMetricsStorageIcon) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v PatchedMetricsStorageIcon
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilPatchedMetricsStorageIcon) Get() (v PatchedMetricsStorageIcon, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilPatchedMetricsStorageIcon) Or(d PatchedMetricsStorageIcon) PatchedMetricsStorageIcon {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilPatchedTraceStorageIcon returns new OptNilPatchedTraceStorageIcon with value set to v.
-func NewOptNilPatchedTraceStorageIcon(v PatchedTraceStorageIcon) OptNilPatchedTraceStorageIcon {
-	return OptNilPatchedTraceStorageIcon{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilPatchedTraceStorageIcon is optional nullable PatchedTraceStorageIcon.
-type OptNilPatchedTraceStorageIcon struct {
-	Value PatchedTraceStorageIcon
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilPatchedTraceStorageIcon was set.
-func (o OptNilPatchedTraceStorageIcon) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilPatchedTraceStorageIcon) Reset() {
-	var v PatchedTraceStorageIcon
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilPatchedTraceStorageIcon) SetTo(v PatchedTraceStorageIcon) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilPatchedTraceStorageIcon) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilPatchedTraceStorageIcon) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v PatchedTraceStorageIcon
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilPatchedTraceStorageIcon) Get() (v PatchedTraceStorageIcon, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilPatchedTraceStorageIcon) Or(d PatchedTraceStorageIcon) PatchedTraceStorageIcon {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptNilString returns new OptNilString with value set to v.
 func NewOptNilString(v string) OptNilString {
 	return OptNilString{
@@ -5389,38 +6007,38 @@ func (o OptNilString) Or(d string) string {
 	return d
 }
 
-// NewOptNotificationTarget returns new OptNotificationTarget with value set to v.
-func NewOptNotificationTarget(v NotificationTarget) OptNotificationTarget {
-	return OptNotificationTarget{
+// NewOptPatchedAlertProjectRequest returns new OptPatchedAlertProjectRequest with value set to v.
+func NewOptPatchedAlertProjectRequest(v PatchedAlertProjectRequest) OptPatchedAlertProjectRequest {
+	return OptPatchedAlertProjectRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNotificationTarget is optional NotificationTarget.
-type OptNotificationTarget struct {
-	Value NotificationTarget
+// OptPatchedAlertProjectRequest is optional PatchedAlertProjectRequest.
+type OptPatchedAlertProjectRequest struct {
+	Value PatchedAlertProjectRequest
 	Set   bool
 }
 
-// IsSet returns true if OptNotificationTarget was set.
-func (o OptNotificationTarget) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedAlertProjectRequest was set.
+func (o OptPatchedAlertProjectRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNotificationTarget) Reset() {
-	var v NotificationTarget
+func (o *OptPatchedAlertProjectRequest) Reset() {
+	var v PatchedAlertProjectRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptNotificationTarget) SetTo(v NotificationTarget) {
+func (o *OptPatchedAlertProjectRequest) SetTo(v PatchedAlertProjectRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNotificationTarget) Get() (v NotificationTarget, ok bool) {
+func (o OptPatchedAlertProjectRequest) Get() (v PatchedAlertProjectRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5428,45 +6046,45 @@ func (o OptNotificationTarget) Get() (v NotificationTarget, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNotificationTarget) Or(d NotificationTarget) NotificationTarget {
+func (o OptPatchedAlertProjectRequest) Or(d PatchedAlertProjectRequest) PatchedAlertProjectRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedAlertProject returns new OptPatchedAlertProject with value set to v.
-func NewOptPatchedAlertProject(v PatchedAlertProject) OptPatchedAlertProject {
-	return OptPatchedAlertProject{
+// NewOptPatchedAlertRuleRequest returns new OptPatchedAlertRuleRequest with value set to v.
+func NewOptPatchedAlertRuleRequest(v PatchedAlertRuleRequest) OptPatchedAlertRuleRequest {
+	return OptPatchedAlertRuleRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedAlertProject is optional PatchedAlertProject.
-type OptPatchedAlertProject struct {
-	Value PatchedAlertProject
+// OptPatchedAlertRuleRequest is optional PatchedAlertRuleRequest.
+type OptPatchedAlertRuleRequest struct {
+	Value PatchedAlertRuleRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedAlertProject was set.
-func (o OptPatchedAlertProject) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedAlertRuleRequest was set.
+func (o OptPatchedAlertRuleRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedAlertProject) Reset() {
-	var v PatchedAlertProject
+func (o *OptPatchedAlertRuleRequest) Reset() {
+	var v PatchedAlertRuleRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedAlertProject) SetTo(v PatchedAlertProject) {
+func (o *OptPatchedAlertRuleRequest) SetTo(v PatchedAlertRuleRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedAlertProject) Get() (v PatchedAlertProject, ok bool) {
+func (o OptPatchedAlertRuleRequest) Get() (v PatchedAlertRuleRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5474,45 +6092,45 @@ func (o OptPatchedAlertProject) Get() (v PatchedAlertProject, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedAlertProject) Or(d PatchedAlertProject) PatchedAlertProject {
+func (o OptPatchedAlertRuleRequest) Or(d PatchedAlertRuleRequest) PatchedAlertRuleRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedAlertRule returns new OptPatchedAlertRule with value set to v.
-func NewOptPatchedAlertRule(v PatchedAlertRule) OptPatchedAlertRule {
-	return OptPatchedAlertRule{
+// NewOptPatchedDashboardProjectRequest returns new OptPatchedDashboardProjectRequest with value set to v.
+func NewOptPatchedDashboardProjectRequest(v PatchedDashboardProjectRequest) OptPatchedDashboardProjectRequest {
+	return OptPatchedDashboardProjectRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedAlertRule is optional PatchedAlertRule.
-type OptPatchedAlertRule struct {
-	Value PatchedAlertRule
+// OptPatchedDashboardProjectRequest is optional PatchedDashboardProjectRequest.
+type OptPatchedDashboardProjectRequest struct {
+	Value PatchedDashboardProjectRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedAlertRule was set.
-func (o OptPatchedAlertRule) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedDashboardProjectRequest was set.
+func (o OptPatchedDashboardProjectRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedAlertRule) Reset() {
-	var v PatchedAlertRule
+func (o *OptPatchedDashboardProjectRequest) Reset() {
+	var v PatchedDashboardProjectRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedAlertRule) SetTo(v PatchedAlertRule) {
+func (o *OptPatchedDashboardProjectRequest) SetTo(v PatchedDashboardProjectRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedAlertRule) Get() (v PatchedAlertRule, ok bool) {
+func (o OptPatchedDashboardProjectRequest) Get() (v PatchedDashboardProjectRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5520,45 +6138,45 @@ func (o OptPatchedAlertRule) Get() (v PatchedAlertRule, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedAlertRule) Or(d PatchedAlertRule) PatchedAlertRule {
+func (o OptPatchedDashboardProjectRequest) Or(d PatchedDashboardProjectRequest) PatchedDashboardProjectRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedDashboardProject returns new OptPatchedDashboardProject with value set to v.
-func NewOptPatchedDashboardProject(v PatchedDashboardProject) OptPatchedDashboardProject {
-	return OptPatchedDashboardProject{
+// NewOptPatchedLogMeasureRuleRequest returns new OptPatchedLogMeasureRuleRequest with value set to v.
+func NewOptPatchedLogMeasureRuleRequest(v PatchedLogMeasureRuleRequest) OptPatchedLogMeasureRuleRequest {
+	return OptPatchedLogMeasureRuleRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedDashboardProject is optional PatchedDashboardProject.
-type OptPatchedDashboardProject struct {
-	Value PatchedDashboardProject
+// OptPatchedLogMeasureRuleRequest is optional PatchedLogMeasureRuleRequest.
+type OptPatchedLogMeasureRuleRequest struct {
+	Value PatchedLogMeasureRuleRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedDashboardProject was set.
-func (o OptPatchedDashboardProject) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedLogMeasureRuleRequest was set.
+func (o OptPatchedLogMeasureRuleRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedDashboardProject) Reset() {
-	var v PatchedDashboardProject
+func (o *OptPatchedLogMeasureRuleRequest) Reset() {
+	var v PatchedLogMeasureRuleRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedDashboardProject) SetTo(v PatchedDashboardProject) {
+func (o *OptPatchedLogMeasureRuleRequest) SetTo(v PatchedLogMeasureRuleRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedDashboardProject) Get() (v PatchedDashboardProject, ok bool) {
+func (o OptPatchedLogMeasureRuleRequest) Get() (v PatchedLogMeasureRuleRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5566,45 +6184,45 @@ func (o OptPatchedDashboardProject) Get() (v PatchedDashboardProject, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedDashboardProject) Or(d PatchedDashboardProject) PatchedDashboardProject {
+func (o OptPatchedLogMeasureRuleRequest) Or(d PatchedLogMeasureRuleRequest) PatchedLogMeasureRuleRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedLogMeasureRule returns new OptPatchedLogMeasureRule with value set to v.
-func NewOptPatchedLogMeasureRule(v PatchedLogMeasureRule) OptPatchedLogMeasureRule {
-	return OptPatchedLogMeasureRule{
+// NewOptPatchedLogRoutingRequest returns new OptPatchedLogRoutingRequest with value set to v.
+func NewOptPatchedLogRoutingRequest(v PatchedLogRoutingRequest) OptPatchedLogRoutingRequest {
+	return OptPatchedLogRoutingRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedLogMeasureRule is optional PatchedLogMeasureRule.
-type OptPatchedLogMeasureRule struct {
-	Value PatchedLogMeasureRule
+// OptPatchedLogRoutingRequest is optional PatchedLogRoutingRequest.
+type OptPatchedLogRoutingRequest struct {
+	Value PatchedLogRoutingRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedLogMeasureRule was set.
-func (o OptPatchedLogMeasureRule) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedLogRoutingRequest was set.
+func (o OptPatchedLogRoutingRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedLogMeasureRule) Reset() {
-	var v PatchedLogMeasureRule
+func (o *OptPatchedLogRoutingRequest) Reset() {
+	var v PatchedLogRoutingRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedLogMeasureRule) SetTo(v PatchedLogMeasureRule) {
+func (o *OptPatchedLogRoutingRequest) SetTo(v PatchedLogRoutingRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedLogMeasureRule) Get() (v PatchedLogMeasureRule, ok bool) {
+func (o OptPatchedLogRoutingRequest) Get() (v PatchedLogRoutingRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5612,45 +6230,45 @@ func (o OptPatchedLogMeasureRule) Get() (v PatchedLogMeasureRule, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedLogMeasureRule) Or(d PatchedLogMeasureRule) PatchedLogMeasureRule {
+func (o OptPatchedLogRoutingRequest) Or(d PatchedLogRoutingRequest) PatchedLogRoutingRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedLogRouting returns new OptPatchedLogRouting with value set to v.
-func NewOptPatchedLogRouting(v PatchedLogRouting) OptPatchedLogRouting {
-	return OptPatchedLogRouting{
+// NewOptPatchedLogStorageAccessKeyRequest returns new OptPatchedLogStorageAccessKeyRequest with value set to v.
+func NewOptPatchedLogStorageAccessKeyRequest(v PatchedLogStorageAccessKeyRequest) OptPatchedLogStorageAccessKeyRequest {
+	return OptPatchedLogStorageAccessKeyRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedLogRouting is optional PatchedLogRouting.
-type OptPatchedLogRouting struct {
-	Value PatchedLogRouting
+// OptPatchedLogStorageAccessKeyRequest is optional PatchedLogStorageAccessKeyRequest.
+type OptPatchedLogStorageAccessKeyRequest struct {
+	Value PatchedLogStorageAccessKeyRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedLogRouting was set.
-func (o OptPatchedLogRouting) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedLogStorageAccessKeyRequest was set.
+func (o OptPatchedLogStorageAccessKeyRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedLogRouting) Reset() {
-	var v PatchedLogRouting
+func (o *OptPatchedLogStorageAccessKeyRequest) Reset() {
+	var v PatchedLogStorageAccessKeyRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedLogRouting) SetTo(v PatchedLogRouting) {
+func (o *OptPatchedLogStorageAccessKeyRequest) SetTo(v PatchedLogStorageAccessKeyRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedLogRouting) Get() (v PatchedLogRouting, ok bool) {
+func (o OptPatchedLogStorageAccessKeyRequest) Get() (v PatchedLogStorageAccessKeyRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5658,45 +6276,45 @@ func (o OptPatchedLogRouting) Get() (v PatchedLogRouting, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedLogRouting) Or(d PatchedLogRouting) PatchedLogRouting {
+func (o OptPatchedLogStorageAccessKeyRequest) Or(d PatchedLogStorageAccessKeyRequest) PatchedLogStorageAccessKeyRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedLogStorage returns new OptPatchedLogStorage with value set to v.
-func NewOptPatchedLogStorage(v PatchedLogStorage) OptPatchedLogStorage {
-	return OptPatchedLogStorage{
+// NewOptPatchedLogStorageRequest returns new OptPatchedLogStorageRequest with value set to v.
+func NewOptPatchedLogStorageRequest(v PatchedLogStorageRequest) OptPatchedLogStorageRequest {
+	return OptPatchedLogStorageRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedLogStorage is optional PatchedLogStorage.
-type OptPatchedLogStorage struct {
-	Value PatchedLogStorage
+// OptPatchedLogStorageRequest is optional PatchedLogStorageRequest.
+type OptPatchedLogStorageRequest struct {
+	Value PatchedLogStorageRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedLogStorage was set.
-func (o OptPatchedLogStorage) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedLogStorageRequest was set.
+func (o OptPatchedLogStorageRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedLogStorage) Reset() {
-	var v PatchedLogStorage
+func (o *OptPatchedLogStorageRequest) Reset() {
+	var v PatchedLogStorageRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedLogStorage) SetTo(v PatchedLogStorage) {
+func (o *OptPatchedLogStorageRequest) SetTo(v PatchedLogStorageRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedLogStorage) Get() (v PatchedLogStorage, ok bool) {
+func (o OptPatchedLogStorageRequest) Get() (v PatchedLogStorageRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5704,45 +6322,45 @@ func (o OptPatchedLogStorage) Get() (v PatchedLogStorage, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedLogStorage) Or(d PatchedLogStorage) PatchedLogStorage {
+func (o OptPatchedLogStorageRequest) Or(d PatchedLogStorageRequest) PatchedLogStorageRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedLogStorageAccessKey returns new OptPatchedLogStorageAccessKey with value set to v.
-func NewOptPatchedLogStorageAccessKey(v PatchedLogStorageAccessKey) OptPatchedLogStorageAccessKey {
-	return OptPatchedLogStorageAccessKey{
+// NewOptPatchedMetricsRoutingRequest returns new OptPatchedMetricsRoutingRequest with value set to v.
+func NewOptPatchedMetricsRoutingRequest(v PatchedMetricsRoutingRequest) OptPatchedMetricsRoutingRequest {
+	return OptPatchedMetricsRoutingRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedLogStorageAccessKey is optional PatchedLogStorageAccessKey.
-type OptPatchedLogStorageAccessKey struct {
-	Value PatchedLogStorageAccessKey
+// OptPatchedMetricsRoutingRequest is optional PatchedMetricsRoutingRequest.
+type OptPatchedMetricsRoutingRequest struct {
+	Value PatchedMetricsRoutingRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedLogStorageAccessKey was set.
-func (o OptPatchedLogStorageAccessKey) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedMetricsRoutingRequest was set.
+func (o OptPatchedMetricsRoutingRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedLogStorageAccessKey) Reset() {
-	var v PatchedLogStorageAccessKey
+func (o *OptPatchedMetricsRoutingRequest) Reset() {
+	var v PatchedMetricsRoutingRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedLogStorageAccessKey) SetTo(v PatchedLogStorageAccessKey) {
+func (o *OptPatchedMetricsRoutingRequest) SetTo(v PatchedMetricsRoutingRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedLogStorageAccessKey) Get() (v PatchedLogStorageAccessKey, ok bool) {
+func (o OptPatchedMetricsRoutingRequest) Get() (v PatchedMetricsRoutingRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5750,45 +6368,45 @@ func (o OptPatchedLogStorageAccessKey) Get() (v PatchedLogStorageAccessKey, ok b
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedLogStorageAccessKey) Or(d PatchedLogStorageAccessKey) PatchedLogStorageAccessKey {
+func (o OptPatchedMetricsRoutingRequest) Or(d PatchedMetricsRoutingRequest) PatchedMetricsRoutingRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedLogStorageEndpoints returns new OptPatchedLogStorageEndpoints with value set to v.
-func NewOptPatchedLogStorageEndpoints(v PatchedLogStorageEndpoints) OptPatchedLogStorageEndpoints {
-	return OptPatchedLogStorageEndpoints{
+// NewOptPatchedMetricsStorageAccessKeyRequest returns new OptPatchedMetricsStorageAccessKeyRequest with value set to v.
+func NewOptPatchedMetricsStorageAccessKeyRequest(v PatchedMetricsStorageAccessKeyRequest) OptPatchedMetricsStorageAccessKeyRequest {
+	return OptPatchedMetricsStorageAccessKeyRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedLogStorageEndpoints is optional PatchedLogStorageEndpoints.
-type OptPatchedLogStorageEndpoints struct {
-	Value PatchedLogStorageEndpoints
+// OptPatchedMetricsStorageAccessKeyRequest is optional PatchedMetricsStorageAccessKeyRequest.
+type OptPatchedMetricsStorageAccessKeyRequest struct {
+	Value PatchedMetricsStorageAccessKeyRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedLogStorageEndpoints was set.
-func (o OptPatchedLogStorageEndpoints) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedMetricsStorageAccessKeyRequest was set.
+func (o OptPatchedMetricsStorageAccessKeyRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedLogStorageEndpoints) Reset() {
-	var v PatchedLogStorageEndpoints
+func (o *OptPatchedMetricsStorageAccessKeyRequest) Reset() {
+	var v PatchedMetricsStorageAccessKeyRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedLogStorageEndpoints) SetTo(v PatchedLogStorageEndpoints) {
+func (o *OptPatchedMetricsStorageAccessKeyRequest) SetTo(v PatchedMetricsStorageAccessKeyRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedLogStorageEndpoints) Get() (v PatchedLogStorageEndpoints, ok bool) {
+func (o OptPatchedMetricsStorageAccessKeyRequest) Get() (v PatchedMetricsStorageAccessKeyRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5796,45 +6414,45 @@ func (o OptPatchedLogStorageEndpoints) Get() (v PatchedLogStorageEndpoints, ok b
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedLogStorageEndpoints) Or(d PatchedLogStorageEndpoints) PatchedLogStorageEndpoints {
+func (o OptPatchedMetricsStorageAccessKeyRequest) Or(d PatchedMetricsStorageAccessKeyRequest) PatchedMetricsStorageAccessKeyRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedLogStorageUsage returns new OptPatchedLogStorageUsage with value set to v.
-func NewOptPatchedLogStorageUsage(v PatchedLogStorageUsage) OptPatchedLogStorageUsage {
-	return OptPatchedLogStorageUsage{
+// NewOptPatchedMetricsStorageRequest returns new OptPatchedMetricsStorageRequest with value set to v.
+func NewOptPatchedMetricsStorageRequest(v PatchedMetricsStorageRequest) OptPatchedMetricsStorageRequest {
+	return OptPatchedMetricsStorageRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedLogStorageUsage is optional PatchedLogStorageUsage.
-type OptPatchedLogStorageUsage struct {
-	Value PatchedLogStorageUsage
+// OptPatchedMetricsStorageRequest is optional PatchedMetricsStorageRequest.
+type OptPatchedMetricsStorageRequest struct {
+	Value PatchedMetricsStorageRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedLogStorageUsage was set.
-func (o OptPatchedLogStorageUsage) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedMetricsStorageRequest was set.
+func (o OptPatchedMetricsStorageRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedLogStorageUsage) Reset() {
-	var v PatchedLogStorageUsage
+func (o *OptPatchedMetricsStorageRequest) Reset() {
+	var v PatchedMetricsStorageRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedLogStorageUsage) SetTo(v PatchedLogStorageUsage) {
+func (o *OptPatchedMetricsStorageRequest) SetTo(v PatchedMetricsStorageRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedLogStorageUsage) Get() (v PatchedLogStorageUsage, ok bool) {
+func (o OptPatchedMetricsStorageRequest) Get() (v PatchedMetricsStorageRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5842,45 +6460,45 @@ func (o OptPatchedLogStorageUsage) Get() (v PatchedLogStorageUsage, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedLogStorageUsage) Or(d PatchedLogStorageUsage) PatchedLogStorageUsage {
+func (o OptPatchedMetricsStorageRequest) Or(d PatchedMetricsStorageRequest) PatchedMetricsStorageRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedMetricsRouting returns new OptPatchedMetricsRouting with value set to v.
-func NewOptPatchedMetricsRouting(v PatchedMetricsRouting) OptPatchedMetricsRouting {
-	return OptPatchedMetricsRouting{
+// NewOptPatchedNotificationRoutingRequest returns new OptPatchedNotificationRoutingRequest with value set to v.
+func NewOptPatchedNotificationRoutingRequest(v PatchedNotificationRoutingRequest) OptPatchedNotificationRoutingRequest {
+	return OptPatchedNotificationRoutingRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedMetricsRouting is optional PatchedMetricsRouting.
-type OptPatchedMetricsRouting struct {
-	Value PatchedMetricsRouting
+// OptPatchedNotificationRoutingRequest is optional PatchedNotificationRoutingRequest.
+type OptPatchedNotificationRoutingRequest struct {
+	Value PatchedNotificationRoutingRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedMetricsRouting was set.
-func (o OptPatchedMetricsRouting) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedNotificationRoutingRequest was set.
+func (o OptPatchedNotificationRoutingRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedMetricsRouting) Reset() {
-	var v PatchedMetricsRouting
+func (o *OptPatchedNotificationRoutingRequest) Reset() {
+	var v PatchedNotificationRoutingRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedMetricsRouting) SetTo(v PatchedMetricsRouting) {
+func (o *OptPatchedNotificationRoutingRequest) SetTo(v PatchedNotificationRoutingRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedMetricsRouting) Get() (v PatchedMetricsRouting, ok bool) {
+func (o OptPatchedNotificationRoutingRequest) Get() (v PatchedNotificationRoutingRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5888,45 +6506,45 @@ func (o OptPatchedMetricsRouting) Get() (v PatchedMetricsRouting, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedMetricsRouting) Or(d PatchedMetricsRouting) PatchedMetricsRouting {
+func (o OptPatchedNotificationRoutingRequest) Or(d PatchedNotificationRoutingRequest) PatchedNotificationRoutingRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedMetricsStorage returns new OptPatchedMetricsStorage with value set to v.
-func NewOptPatchedMetricsStorage(v PatchedMetricsStorage) OptPatchedMetricsStorage {
-	return OptPatchedMetricsStorage{
+// NewOptPatchedNotificationTargetRequest returns new OptPatchedNotificationTargetRequest with value set to v.
+func NewOptPatchedNotificationTargetRequest(v PatchedNotificationTargetRequest) OptPatchedNotificationTargetRequest {
+	return OptPatchedNotificationTargetRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedMetricsStorage is optional PatchedMetricsStorage.
-type OptPatchedMetricsStorage struct {
-	Value PatchedMetricsStorage
+// OptPatchedNotificationTargetRequest is optional PatchedNotificationTargetRequest.
+type OptPatchedNotificationTargetRequest struct {
+	Value PatchedNotificationTargetRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedMetricsStorage was set.
-func (o OptPatchedMetricsStorage) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedNotificationTargetRequest was set.
+func (o OptPatchedNotificationTargetRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedMetricsStorage) Reset() {
-	var v PatchedMetricsStorage
+func (o *OptPatchedNotificationTargetRequest) Reset() {
+	var v PatchedNotificationTargetRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedMetricsStorage) SetTo(v PatchedMetricsStorage) {
+func (o *OptPatchedNotificationTargetRequest) SetTo(v PatchedNotificationTargetRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedMetricsStorage) Get() (v PatchedMetricsStorage, ok bool) {
+func (o OptPatchedNotificationTargetRequest) Get() (v PatchedNotificationTargetRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5934,45 +6552,45 @@ func (o OptPatchedMetricsStorage) Get() (v PatchedMetricsStorage, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedMetricsStorage) Or(d PatchedMetricsStorage) PatchedMetricsStorage {
+func (o OptPatchedNotificationTargetRequest) Or(d PatchedNotificationTargetRequest) PatchedNotificationTargetRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedMetricsStorageAccessKey returns new OptPatchedMetricsStorageAccessKey with value set to v.
-func NewOptPatchedMetricsStorageAccessKey(v PatchedMetricsStorageAccessKey) OptPatchedMetricsStorageAccessKey {
-	return OptPatchedMetricsStorageAccessKey{
+// NewOptPatchedNotificationTargetRequestServiceType returns new OptPatchedNotificationTargetRequestServiceType with value set to v.
+func NewOptPatchedNotificationTargetRequestServiceType(v PatchedNotificationTargetRequestServiceType) OptPatchedNotificationTargetRequestServiceType {
+	return OptPatchedNotificationTargetRequestServiceType{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedMetricsStorageAccessKey is optional PatchedMetricsStorageAccessKey.
-type OptPatchedMetricsStorageAccessKey struct {
-	Value PatchedMetricsStorageAccessKey
+// OptPatchedNotificationTargetRequestServiceType is optional PatchedNotificationTargetRequestServiceType.
+type OptPatchedNotificationTargetRequestServiceType struct {
+	Value PatchedNotificationTargetRequestServiceType
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedMetricsStorageAccessKey was set.
-func (o OptPatchedMetricsStorageAccessKey) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedNotificationTargetRequestServiceType was set.
+func (o OptPatchedNotificationTargetRequestServiceType) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedMetricsStorageAccessKey) Reset() {
-	var v PatchedMetricsStorageAccessKey
+func (o *OptPatchedNotificationTargetRequestServiceType) Reset() {
+	var v PatchedNotificationTargetRequestServiceType
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedMetricsStorageAccessKey) SetTo(v PatchedMetricsStorageAccessKey) {
+func (o *OptPatchedNotificationTargetRequestServiceType) SetTo(v PatchedNotificationTargetRequestServiceType) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedMetricsStorageAccessKey) Get() (v PatchedMetricsStorageAccessKey, ok bool) {
+func (o OptPatchedNotificationTargetRequestServiceType) Get() (v PatchedNotificationTargetRequestServiceType, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -5980,45 +6598,45 @@ func (o OptPatchedMetricsStorageAccessKey) Get() (v PatchedMetricsStorageAccessK
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedMetricsStorageAccessKey) Or(d PatchedMetricsStorageAccessKey) PatchedMetricsStorageAccessKey {
+func (o OptPatchedNotificationTargetRequestServiceType) Or(d PatchedNotificationTargetRequestServiceType) PatchedNotificationTargetRequestServiceType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedMetricsStorageEndpoints returns new OptPatchedMetricsStorageEndpoints with value set to v.
-func NewOptPatchedMetricsStorageEndpoints(v PatchedMetricsStorageEndpoints) OptPatchedMetricsStorageEndpoints {
-	return OptPatchedMetricsStorageEndpoints{
+// NewOptPatchedTraceStorageAccessKeyRequest returns new OptPatchedTraceStorageAccessKeyRequest with value set to v.
+func NewOptPatchedTraceStorageAccessKeyRequest(v PatchedTraceStorageAccessKeyRequest) OptPatchedTraceStorageAccessKeyRequest {
+	return OptPatchedTraceStorageAccessKeyRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedMetricsStorageEndpoints is optional PatchedMetricsStorageEndpoints.
-type OptPatchedMetricsStorageEndpoints struct {
-	Value PatchedMetricsStorageEndpoints
+// OptPatchedTraceStorageAccessKeyRequest is optional PatchedTraceStorageAccessKeyRequest.
+type OptPatchedTraceStorageAccessKeyRequest struct {
+	Value PatchedTraceStorageAccessKeyRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedMetricsStorageEndpoints was set.
-func (o OptPatchedMetricsStorageEndpoints) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedTraceStorageAccessKeyRequest was set.
+func (o OptPatchedTraceStorageAccessKeyRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedMetricsStorageEndpoints) Reset() {
-	var v PatchedMetricsStorageEndpoints
+func (o *OptPatchedTraceStorageAccessKeyRequest) Reset() {
+	var v PatchedTraceStorageAccessKeyRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedMetricsStorageEndpoints) SetTo(v PatchedMetricsStorageEndpoints) {
+func (o *OptPatchedTraceStorageAccessKeyRequest) SetTo(v PatchedTraceStorageAccessKeyRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedMetricsStorageEndpoints) Get() (v PatchedMetricsStorageEndpoints, ok bool) {
+func (o OptPatchedTraceStorageAccessKeyRequest) Get() (v PatchedTraceStorageAccessKeyRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6026,45 +6644,45 @@ func (o OptPatchedMetricsStorageEndpoints) Get() (v PatchedMetricsStorageEndpoin
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedMetricsStorageEndpoints) Or(d PatchedMetricsStorageEndpoints) PatchedMetricsStorageEndpoints {
+func (o OptPatchedTraceStorageAccessKeyRequest) Or(d PatchedTraceStorageAccessKeyRequest) PatchedTraceStorageAccessKeyRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedMetricsStorageUsage returns new OptPatchedMetricsStorageUsage with value set to v.
-func NewOptPatchedMetricsStorageUsage(v PatchedMetricsStorageUsage) OptPatchedMetricsStorageUsage {
-	return OptPatchedMetricsStorageUsage{
+// NewOptPatchedTraceStorageRequest returns new OptPatchedTraceStorageRequest with value set to v.
+func NewOptPatchedTraceStorageRequest(v PatchedTraceStorageRequest) OptPatchedTraceStorageRequest {
+	return OptPatchedTraceStorageRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedMetricsStorageUsage is optional PatchedMetricsStorageUsage.
-type OptPatchedMetricsStorageUsage struct {
-	Value PatchedMetricsStorageUsage
+// OptPatchedTraceStorageRequest is optional PatchedTraceStorageRequest.
+type OptPatchedTraceStorageRequest struct {
+	Value PatchedTraceStorageRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedMetricsStorageUsage was set.
-func (o OptPatchedMetricsStorageUsage) IsSet() bool { return o.Set }
+// IsSet returns true if OptPatchedTraceStorageRequest was set.
+func (o OptPatchedTraceStorageRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedMetricsStorageUsage) Reset() {
-	var v PatchedMetricsStorageUsage
+func (o *OptPatchedTraceStorageRequest) Reset() {
+	var v PatchedTraceStorageRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedMetricsStorageUsage) SetTo(v PatchedMetricsStorageUsage) {
+func (o *OptPatchedTraceStorageRequest) SetTo(v PatchedTraceStorageRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedMetricsStorageUsage) Get() (v PatchedMetricsStorageUsage, ok bool) {
+func (o OptPatchedTraceStorageRequest) Get() (v PatchedTraceStorageRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6072,45 +6690,45 @@ func (o OptPatchedMetricsStorageUsage) Get() (v PatchedMetricsStorageUsage, ok b
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedMetricsStorageUsage) Or(d PatchedMetricsStorageUsage) PatchedMetricsStorageUsage {
+func (o OptPatchedTraceStorageRequest) Or(d PatchedTraceStorageRequest) PatchedTraceStorageRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedNotificationRouting returns new OptPatchedNotificationRouting with value set to v.
-func NewOptPatchedNotificationRouting(v PatchedNotificationRouting) OptPatchedNotificationRouting {
-	return OptPatchedNotificationRouting{
+// NewOptProvisioningCreateRequest returns new OptProvisioningCreateRequest with value set to v.
+func NewOptProvisioningCreateRequest(v ProvisioningCreateRequest) OptProvisioningCreateRequest {
+	return OptProvisioningCreateRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedNotificationRouting is optional PatchedNotificationRouting.
-type OptPatchedNotificationRouting struct {
-	Value PatchedNotificationRouting
+// OptProvisioningCreateRequest is optional ProvisioningCreateRequest.
+type OptProvisioningCreateRequest struct {
+	Value ProvisioningCreateRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedNotificationRouting was set.
-func (o OptPatchedNotificationRouting) IsSet() bool { return o.Set }
+// IsSet returns true if OptProvisioningCreateRequest was set.
+func (o OptProvisioningCreateRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedNotificationRouting) Reset() {
-	var v PatchedNotificationRouting
+func (o *OptProvisioningCreateRequest) Reset() {
+	var v ProvisioningCreateRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedNotificationRouting) SetTo(v PatchedNotificationRouting) {
+func (o *OptProvisioningCreateRequest) SetTo(v ProvisioningCreateRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedNotificationRouting) Get() (v PatchedNotificationRouting, ok bool) {
+func (o OptProvisioningCreateRequest) Get() (v ProvisioningCreateRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6118,45 +6736,45 @@ func (o OptPatchedNotificationRouting) Get() (v PatchedNotificationRouting, ok b
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedNotificationRouting) Or(d PatchedNotificationRouting) PatchedNotificationRouting {
+func (o OptProvisioningCreateRequest) Or(d ProvisioningCreateRequest) ProvisioningCreateRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptPatchedNotificationTarget returns new OptPatchedNotificationTarget with value set to v.
-func NewOptPatchedNotificationTarget(v PatchedNotificationTarget) OptPatchedNotificationTarget {
-	return OptPatchedNotificationTarget{
+// NewOptProvisioningExistRequest returns new OptProvisioningExistRequest with value set to v.
+func NewOptProvisioningExistRequest(v ProvisioningExistRequest) OptProvisioningExistRequest {
+	return OptProvisioningExistRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPatchedNotificationTarget is optional PatchedNotificationTarget.
-type OptPatchedNotificationTarget struct {
-	Value PatchedNotificationTarget
+// OptProvisioningExistRequest is optional ProvisioningExistRequest.
+type OptProvisioningExistRequest struct {
+	Value ProvisioningExistRequest
 	Set   bool
 }
 
-// IsSet returns true if OptPatchedNotificationTarget was set.
-func (o OptPatchedNotificationTarget) IsSet() bool { return o.Set }
+// IsSet returns true if OptProvisioningExistRequest was set.
+func (o OptProvisioningExistRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPatchedNotificationTarget) Reset() {
-	var v PatchedNotificationTarget
+func (o *OptProvisioningExistRequest) Reset() {
+	var v ProvisioningExistRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPatchedNotificationTarget) SetTo(v PatchedNotificationTarget) {
+func (o *OptProvisioningExistRequest) SetTo(v ProvisioningExistRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedNotificationTarget) Get() (v PatchedNotificationTarget, ok bool) {
+func (o OptProvisioningExistRequest) Get() (v ProvisioningExistRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6164,329 +6782,7 @@ func (o OptPatchedNotificationTarget) Get() (v PatchedNotificationTarget, ok boo
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPatchedNotificationTarget) Or(d PatchedNotificationTarget) PatchedNotificationTarget {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPatchedNotificationTargetServiceType returns new OptPatchedNotificationTargetServiceType with value set to v.
-func NewOptPatchedNotificationTargetServiceType(v PatchedNotificationTargetServiceType) OptPatchedNotificationTargetServiceType {
-	return OptPatchedNotificationTargetServiceType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPatchedNotificationTargetServiceType is optional PatchedNotificationTargetServiceType.
-type OptPatchedNotificationTargetServiceType struct {
-	Value PatchedNotificationTargetServiceType
-	Set   bool
-}
-
-// IsSet returns true if OptPatchedNotificationTargetServiceType was set.
-func (o OptPatchedNotificationTargetServiceType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPatchedNotificationTargetServiceType) Reset() {
-	var v PatchedNotificationTargetServiceType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPatchedNotificationTargetServiceType) SetTo(v PatchedNotificationTargetServiceType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedNotificationTargetServiceType) Get() (v PatchedNotificationTargetServiceType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPatchedNotificationTargetServiceType) Or(d PatchedNotificationTargetServiceType) PatchedNotificationTargetServiceType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPatchedTraceStorage returns new OptPatchedTraceStorage with value set to v.
-func NewOptPatchedTraceStorage(v PatchedTraceStorage) OptPatchedTraceStorage {
-	return OptPatchedTraceStorage{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPatchedTraceStorage is optional PatchedTraceStorage.
-type OptPatchedTraceStorage struct {
-	Value PatchedTraceStorage
-	Set   bool
-}
-
-// IsSet returns true if OptPatchedTraceStorage was set.
-func (o OptPatchedTraceStorage) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPatchedTraceStorage) Reset() {
-	var v PatchedTraceStorage
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPatchedTraceStorage) SetTo(v PatchedTraceStorage) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedTraceStorage) Get() (v PatchedTraceStorage, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPatchedTraceStorage) Or(d PatchedTraceStorage) PatchedTraceStorage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPatchedTraceStorageAccessKey returns new OptPatchedTraceStorageAccessKey with value set to v.
-func NewOptPatchedTraceStorageAccessKey(v PatchedTraceStorageAccessKey) OptPatchedTraceStorageAccessKey {
-	return OptPatchedTraceStorageAccessKey{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPatchedTraceStorageAccessKey is optional PatchedTraceStorageAccessKey.
-type OptPatchedTraceStorageAccessKey struct {
-	Value PatchedTraceStorageAccessKey
-	Set   bool
-}
-
-// IsSet returns true if OptPatchedTraceStorageAccessKey was set.
-func (o OptPatchedTraceStorageAccessKey) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPatchedTraceStorageAccessKey) Reset() {
-	var v PatchedTraceStorageAccessKey
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPatchedTraceStorageAccessKey) SetTo(v PatchedTraceStorageAccessKey) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedTraceStorageAccessKey) Get() (v PatchedTraceStorageAccessKey, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPatchedTraceStorageAccessKey) Or(d PatchedTraceStorageAccessKey) PatchedTraceStorageAccessKey {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPatchedTraceStorageEndpoints returns new OptPatchedTraceStorageEndpoints with value set to v.
-func NewOptPatchedTraceStorageEndpoints(v PatchedTraceStorageEndpoints) OptPatchedTraceStorageEndpoints {
-	return OptPatchedTraceStorageEndpoints{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPatchedTraceStorageEndpoints is optional PatchedTraceStorageEndpoints.
-type OptPatchedTraceStorageEndpoints struct {
-	Value PatchedTraceStorageEndpoints
-	Set   bool
-}
-
-// IsSet returns true if OptPatchedTraceStorageEndpoints was set.
-func (o OptPatchedTraceStorageEndpoints) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPatchedTraceStorageEndpoints) Reset() {
-	var v PatchedTraceStorageEndpoints
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPatchedTraceStorageEndpoints) SetTo(v PatchedTraceStorageEndpoints) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPatchedTraceStorageEndpoints) Get() (v PatchedTraceStorageEndpoints, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPatchedTraceStorageEndpoints) Or(d PatchedTraceStorageEndpoints) PatchedTraceStorageEndpoints {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptProvisioningCreate returns new OptProvisioningCreate with value set to v.
-func NewOptProvisioningCreate(v ProvisioningCreate) OptProvisioningCreate {
-	return OptProvisioningCreate{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptProvisioningCreate is optional ProvisioningCreate.
-type OptProvisioningCreate struct {
-	Value ProvisioningCreate
-	Set   bool
-}
-
-// IsSet returns true if OptProvisioningCreate was set.
-func (o OptProvisioningCreate) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptProvisioningCreate) Reset() {
-	var v ProvisioningCreate
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptProvisioningCreate) SetTo(v ProvisioningCreate) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptProvisioningCreate) Get() (v ProvisioningCreate, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptProvisioningCreate) Or(d ProvisioningCreate) ProvisioningCreate {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptProvisioningExist returns new OptProvisioningExist with value set to v.
-func NewOptProvisioningExist(v ProvisioningExist) OptProvisioningExist {
-	return OptProvisioningExist{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptProvisioningExist is optional ProvisioningExist.
-type OptProvisioningExist struct {
-	Value ProvisioningExist
-	Set   bool
-}
-
-// IsSet returns true if OptProvisioningExist was set.
-func (o OptProvisioningExist) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptProvisioningExist) Reset() {
-	var v ProvisioningExist
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptProvisioningExist) SetTo(v ProvisioningExist) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptProvisioningExist) Get() (v ProvisioningExist, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptProvisioningExist) Or(d ProvisioningExist) ProvisioningExist {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPublisher returns new OptPublisher with value set to v.
-func NewOptPublisher(v Publisher) OptPublisher {
-	return OptPublisher{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPublisher is optional Publisher.
-type OptPublisher struct {
-	Value Publisher
-	Set   bool
-}
-
-// IsSet returns true if OptPublisher was set.
-func (o OptPublisher) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPublisher) Reset() {
-	var v Publisher
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPublisher) SetTo(v Publisher) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPublisher) Get() (v Publisher, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPublisher) Or(d Publisher) Publisher {
+func (o OptProvisioningExistRequest) Or(d ProvisioningExistRequest) ProvisioningExistRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -6539,38 +6835,38 @@ func (o OptString) Or(d string) string {
 	return d
 }
 
-// NewOptTraceStorage returns new OptTraceStorage with value set to v.
-func NewOptTraceStorage(v TraceStorage) OptTraceStorage {
-	return OptTraceStorage{
+// NewOptTraceStorageAccessKeyRequest returns new OptTraceStorageAccessKeyRequest with value set to v.
+func NewOptTraceStorageAccessKeyRequest(v TraceStorageAccessKeyRequest) OptTraceStorageAccessKeyRequest {
+	return OptTraceStorageAccessKeyRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptTraceStorage is optional TraceStorage.
-type OptTraceStorage struct {
-	Value TraceStorage
+// OptTraceStorageAccessKeyRequest is optional TraceStorageAccessKeyRequest.
+type OptTraceStorageAccessKeyRequest struct {
+	Value TraceStorageAccessKeyRequest
 	Set   bool
 }
 
-// IsSet returns true if OptTraceStorage was set.
-func (o OptTraceStorage) IsSet() bool { return o.Set }
+// IsSet returns true if OptTraceStorageAccessKeyRequest was set.
+func (o OptTraceStorageAccessKeyRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptTraceStorage) Reset() {
-	var v TraceStorage
+func (o *OptTraceStorageAccessKeyRequest) Reset() {
+	var v TraceStorageAccessKeyRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptTraceStorage) SetTo(v TraceStorage) {
+func (o *OptTraceStorageAccessKeyRequest) SetTo(v TraceStorageAccessKeyRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptTraceStorage) Get() (v TraceStorage, ok bool) {
+func (o OptTraceStorageAccessKeyRequest) Get() (v TraceStorageAccessKeyRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6578,45 +6874,45 @@ func (o OptTraceStorage) Get() (v TraceStorage, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptTraceStorage) Or(d TraceStorage) TraceStorage {
+func (o OptTraceStorageAccessKeyRequest) Or(d TraceStorageAccessKeyRequest) TraceStorageAccessKeyRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptTraceStorageAccessKey returns new OptTraceStorageAccessKey with value set to v.
-func NewOptTraceStorageAccessKey(v TraceStorageAccessKey) OptTraceStorageAccessKey {
-	return OptTraceStorageAccessKey{
+// NewOptTraceStorageCreateRequestClassification returns new OptTraceStorageCreateRequestClassification with value set to v.
+func NewOptTraceStorageCreateRequestClassification(v TraceStorageCreateRequestClassification) OptTraceStorageCreateRequestClassification {
+	return OptTraceStorageCreateRequestClassification{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptTraceStorageAccessKey is optional TraceStorageAccessKey.
-type OptTraceStorageAccessKey struct {
-	Value TraceStorageAccessKey
+// OptTraceStorageCreateRequestClassification is optional TraceStorageCreateRequestClassification.
+type OptTraceStorageCreateRequestClassification struct {
+	Value TraceStorageCreateRequestClassification
 	Set   bool
 }
 
-// IsSet returns true if OptTraceStorageAccessKey was set.
-func (o OptTraceStorageAccessKey) IsSet() bool { return o.Set }
+// IsSet returns true if OptTraceStorageCreateRequestClassification was set.
+func (o OptTraceStorageCreateRequestClassification) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptTraceStorageAccessKey) Reset() {
-	var v TraceStorageAccessKey
+func (o *OptTraceStorageCreateRequestClassification) Reset() {
+	var v TraceStorageCreateRequestClassification
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptTraceStorageAccessKey) SetTo(v TraceStorageAccessKey) {
+func (o *OptTraceStorageCreateRequestClassification) SetTo(v TraceStorageCreateRequestClassification) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptTraceStorageAccessKey) Get() (v TraceStorageAccessKey, ok bool) {
+func (o OptTraceStorageCreateRequestClassification) Get() (v TraceStorageCreateRequestClassification, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6624,45 +6920,45 @@ func (o OptTraceStorageAccessKey) Get() (v TraceStorageAccessKey, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptTraceStorageAccessKey) Or(d TraceStorageAccessKey) TraceStorageAccessKey {
+func (o OptTraceStorageCreateRequestClassification) Or(d TraceStorageCreateRequestClassification) TraceStorageCreateRequestClassification {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptTraceStorageCreateClassification returns new OptTraceStorageCreateClassification with value set to v.
-func NewOptTraceStorageCreateClassification(v TraceStorageCreateClassification) OptTraceStorageCreateClassification {
-	return OptTraceStorageCreateClassification{
+// NewOptTraceStorageRequest returns new OptTraceStorageRequest with value set to v.
+func NewOptTraceStorageRequest(v TraceStorageRequest) OptTraceStorageRequest {
+	return OptTraceStorageRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptTraceStorageCreateClassification is optional TraceStorageCreateClassification.
-type OptTraceStorageCreateClassification struct {
-	Value TraceStorageCreateClassification
+// OptTraceStorageRequest is optional TraceStorageRequest.
+type OptTraceStorageRequest struct {
+	Value TraceStorageRequest
 	Set   bool
 }
 
-// IsSet returns true if OptTraceStorageCreateClassification was set.
-func (o OptTraceStorageCreateClassification) IsSet() bool { return o.Set }
+// IsSet returns true if OptTraceStorageRequest was set.
+func (o OptTraceStorageRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptTraceStorageCreateClassification) Reset() {
-	var v TraceStorageCreateClassification
+func (o *OptTraceStorageRequest) Reset() {
+	var v TraceStorageRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptTraceStorageCreateClassification) SetTo(v TraceStorageCreateClassification) {
+func (o *OptTraceStorageRequest) SetTo(v TraceStorageRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptTraceStorageCreateClassification) Get() (v TraceStorageCreateClassification, ok bool) {
+func (o OptTraceStorageRequest) Get() (v TraceStorageRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6670,7 +6966,7 @@ func (o OptTraceStorageCreateClassification) Get() (v TraceStorageCreateClassifi
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptTraceStorageCreateClassification) Or(d TraceStorageCreateClassification) TraceStorageCreateClassification {
+func (o OptTraceStorageRequest) Or(d TraceStorageRequest) TraceStorageRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -7739,1525 +8035,532 @@ func (s *PaginatedTraceStorageList) SetResults(val []TraceStorage) {
 	s.Results = val
 }
 
-// Ref: #/components/schemas/PatchedAlertProject
-type PatchedAlertProject struct {
-	ID                      OptInt64                      `json:"id"`
-	Name                    OptString                     `json:"name"`
-	Description             OptString                     `json:"description"`
-	Tags                    []string                      `json:"tags"`
-	Icon                    OptNilPatchedAlertProjectIcon `json:"icon"`
-	AccountID               OptString                     `json:"account_id"`
-	ResourceID              OptNilInt64                   `json:"resource_id"`
-	CreatedAt               OptDateTime                   `json:"created_at"`
-	RulesURL                OptString                     `json:"rules_url"`
-	NotificationTargetsURL  OptString                     `json:"notification_targets_url"`
-	NotificationRoutingsURL OptString                     `json:"notification_routings_url"`
-	HistoriesURL            OptString                     `json:"histories_url"`
-	LogMeasureRulesURL      OptString                     `json:"log_measure_rules_url"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedAlertProject) GetID() OptInt64 {
-	return s.ID
+// Ref: #/components/schemas/PatchedAlertProjectRequest
+type PatchedAlertProjectRequest struct {
+	Name        OptString `json:"name"`
+	Description OptString `json:"description"`
 }
 
 // GetName returns the value of Name.
-func (s *PatchedAlertProject) GetName() OptString {
+func (s *PatchedAlertProjectRequest) GetName() OptString {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *PatchedAlertProject) GetDescription() OptString {
+func (s *PatchedAlertProjectRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// GetTags returns the value of Tags.
-func (s *PatchedAlertProject) GetTags() []string {
-	return s.Tags
-}
-
-// GetIcon returns the value of Icon.
-func (s *PatchedAlertProject) GetIcon() OptNilPatchedAlertProjectIcon {
-	return s.Icon
-}
-
-// GetAccountID returns the value of AccountID.
-func (s *PatchedAlertProject) GetAccountID() OptString {
-	return s.AccountID
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *PatchedAlertProject) GetResourceID() OptNilInt64 {
-	return s.ResourceID
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *PatchedAlertProject) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetRulesURL returns the value of RulesURL.
-func (s *PatchedAlertProject) GetRulesURL() OptString {
-	return s.RulesURL
-}
-
-// GetNotificationTargetsURL returns the value of NotificationTargetsURL.
-func (s *PatchedAlertProject) GetNotificationTargetsURL() OptString {
-	return s.NotificationTargetsURL
-}
-
-// GetNotificationRoutingsURL returns the value of NotificationRoutingsURL.
-func (s *PatchedAlertProject) GetNotificationRoutingsURL() OptString {
-	return s.NotificationRoutingsURL
-}
-
-// GetHistoriesURL returns the value of HistoriesURL.
-func (s *PatchedAlertProject) GetHistoriesURL() OptString {
-	return s.HistoriesURL
-}
-
-// GetLogMeasureRulesURL returns the value of LogMeasureRulesURL.
-func (s *PatchedAlertProject) GetLogMeasureRulesURL() OptString {
-	return s.LogMeasureRulesURL
-}
-
-// SetID sets the value of ID.
-func (s *PatchedAlertProject) SetID(val OptInt64) {
-	s.ID = val
-}
-
 // SetName sets the value of Name.
-func (s *PatchedAlertProject) SetName(val OptString) {
+func (s *PatchedAlertProjectRequest) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *PatchedAlertProject) SetDescription(val OptString) {
+func (s *PatchedAlertProjectRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetTags sets the value of Tags.
-func (s *PatchedAlertProject) SetTags(val []string) {
-	s.Tags = val
-}
-
-// SetIcon sets the value of Icon.
-func (s *PatchedAlertProject) SetIcon(val OptNilPatchedAlertProjectIcon) {
-	s.Icon = val
-}
-
-// SetAccountID sets the value of AccountID.
-func (s *PatchedAlertProject) SetAccountID(val OptString) {
-	s.AccountID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *PatchedAlertProject) SetResourceID(val OptNilInt64) {
-	s.ResourceID = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *PatchedAlertProject) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
-}
-
-// SetRulesURL sets the value of RulesURL.
-func (s *PatchedAlertProject) SetRulesURL(val OptString) {
-	s.RulesURL = val
-}
-
-// SetNotificationTargetsURL sets the value of NotificationTargetsURL.
-func (s *PatchedAlertProject) SetNotificationTargetsURL(val OptString) {
-	s.NotificationTargetsURL = val
-}
-
-// SetNotificationRoutingsURL sets the value of NotificationRoutingsURL.
-func (s *PatchedAlertProject) SetNotificationRoutingsURL(val OptString) {
-	s.NotificationRoutingsURL = val
-}
-
-// SetHistoriesURL sets the value of HistoriesURL.
-func (s *PatchedAlertProject) SetHistoriesURL(val OptString) {
-	s.HistoriesURL = val
-}
-
-// SetLogMeasureRulesURL sets the value of LogMeasureRulesURL.
-func (s *PatchedAlertProject) SetLogMeasureRulesURL(val OptString) {
-	s.LogMeasureRulesURL = val
-}
-
-type PatchedAlertProjectIcon struct {
-	ID OptString `json:"id"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedAlertProjectIcon) GetID() OptString {
-	return s.ID
-}
-
-// SetID sets the value of ID.
-func (s *PatchedAlertProjectIcon) SetID(val OptString) {
-	s.ID = val
-}
-
-// Ref: #/components/schemas/PatchedAlertRule
-type PatchedAlertRule struct {
-	UID                       OptUUID      `json:"uid"`
-	ProjectID                 OptNilInt64  `json:"project_id"`
+// Ref: #/components/schemas/PatchedAlertRuleRequest
+type PatchedAlertRuleRequest struct {
 	MetricsStorageID          OptNilInt64  `json:"metrics_storage_id"`
 	Name                      OptString    `json:"name"`
 	Query                     OptString    `json:"query"`
 	Format                    OptString    `json:"format"`
 	Template                  OptString    `json:"template"`
-	Open                      OptBool      `json:"open"`
 	EnabledWarning            OptBool      `json:"enabled_warning"`
 	EnabledCritical           OptBool      `json:"enabled_critical"`
 	ThresholdWarning          OptNilString `json:"threshold_warning"`
 	ThresholdCritical         OptNilString `json:"threshold_critical"`
 	ThresholdDurationWarning  OptInt64     `json:"threshold_duration_warning"`
 	ThresholdDurationCritical OptInt64     `json:"threshold_duration_critical"`
-	HistoryURL                OptString    `json:"history_url"`
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedAlertRule) GetUID() OptUUID {
-	return s.UID
-}
-
-// GetProjectID returns the value of ProjectID.
-func (s *PatchedAlertRule) GetProjectID() OptNilInt64 {
-	return s.ProjectID
 }
 
 // GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *PatchedAlertRule) GetMetricsStorageID() OptNilInt64 {
+func (s *PatchedAlertRuleRequest) GetMetricsStorageID() OptNilInt64 {
 	return s.MetricsStorageID
 }
 
 // GetName returns the value of Name.
-func (s *PatchedAlertRule) GetName() OptString {
+func (s *PatchedAlertRuleRequest) GetName() OptString {
 	return s.Name
 }
 
 // GetQuery returns the value of Query.
-func (s *PatchedAlertRule) GetQuery() OptString {
+func (s *PatchedAlertRuleRequest) GetQuery() OptString {
 	return s.Query
 }
 
 // GetFormat returns the value of Format.
-func (s *PatchedAlertRule) GetFormat() OptString {
+func (s *PatchedAlertRuleRequest) GetFormat() OptString {
 	return s.Format
 }
 
 // GetTemplate returns the value of Template.
-func (s *PatchedAlertRule) GetTemplate() OptString {
+func (s *PatchedAlertRuleRequest) GetTemplate() OptString {
 	return s.Template
 }
 
-// GetOpen returns the value of Open.
-func (s *PatchedAlertRule) GetOpen() OptBool {
-	return s.Open
-}
-
 // GetEnabledWarning returns the value of EnabledWarning.
-func (s *PatchedAlertRule) GetEnabledWarning() OptBool {
+func (s *PatchedAlertRuleRequest) GetEnabledWarning() OptBool {
 	return s.EnabledWarning
 }
 
 // GetEnabledCritical returns the value of EnabledCritical.
-func (s *PatchedAlertRule) GetEnabledCritical() OptBool {
+func (s *PatchedAlertRuleRequest) GetEnabledCritical() OptBool {
 	return s.EnabledCritical
 }
 
 // GetThresholdWarning returns the value of ThresholdWarning.
-func (s *PatchedAlertRule) GetThresholdWarning() OptNilString {
+func (s *PatchedAlertRuleRequest) GetThresholdWarning() OptNilString {
 	return s.ThresholdWarning
 }
 
 // GetThresholdCritical returns the value of ThresholdCritical.
-func (s *PatchedAlertRule) GetThresholdCritical() OptNilString {
+func (s *PatchedAlertRuleRequest) GetThresholdCritical() OptNilString {
 	return s.ThresholdCritical
 }
 
 // GetThresholdDurationWarning returns the value of ThresholdDurationWarning.
-func (s *PatchedAlertRule) GetThresholdDurationWarning() OptInt64 {
+func (s *PatchedAlertRuleRequest) GetThresholdDurationWarning() OptInt64 {
 	return s.ThresholdDurationWarning
 }
 
 // GetThresholdDurationCritical returns the value of ThresholdDurationCritical.
-func (s *PatchedAlertRule) GetThresholdDurationCritical() OptInt64 {
+func (s *PatchedAlertRuleRequest) GetThresholdDurationCritical() OptInt64 {
 	return s.ThresholdDurationCritical
 }
 
-// GetHistoryURL returns the value of HistoryURL.
-func (s *PatchedAlertRule) GetHistoryURL() OptString {
-	return s.HistoryURL
-}
-
-// SetUID sets the value of UID.
-func (s *PatchedAlertRule) SetUID(val OptUUID) {
-	s.UID = val
-}
-
-// SetProjectID sets the value of ProjectID.
-func (s *PatchedAlertRule) SetProjectID(val OptNilInt64) {
-	s.ProjectID = val
-}
-
 // SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *PatchedAlertRule) SetMetricsStorageID(val OptNilInt64) {
+func (s *PatchedAlertRuleRequest) SetMetricsStorageID(val OptNilInt64) {
 	s.MetricsStorageID = val
 }
 
 // SetName sets the value of Name.
-func (s *PatchedAlertRule) SetName(val OptString) {
+func (s *PatchedAlertRuleRequest) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetQuery sets the value of Query.
-func (s *PatchedAlertRule) SetQuery(val OptString) {
+func (s *PatchedAlertRuleRequest) SetQuery(val OptString) {
 	s.Query = val
 }
 
 // SetFormat sets the value of Format.
-func (s *PatchedAlertRule) SetFormat(val OptString) {
+func (s *PatchedAlertRuleRequest) SetFormat(val OptString) {
 	s.Format = val
 }
 
 // SetTemplate sets the value of Template.
-func (s *PatchedAlertRule) SetTemplate(val OptString) {
+func (s *PatchedAlertRuleRequest) SetTemplate(val OptString) {
 	s.Template = val
 }
 
-// SetOpen sets the value of Open.
-func (s *PatchedAlertRule) SetOpen(val OptBool) {
-	s.Open = val
-}
-
 // SetEnabledWarning sets the value of EnabledWarning.
-func (s *PatchedAlertRule) SetEnabledWarning(val OptBool) {
+func (s *PatchedAlertRuleRequest) SetEnabledWarning(val OptBool) {
 	s.EnabledWarning = val
 }
 
 // SetEnabledCritical sets the value of EnabledCritical.
-func (s *PatchedAlertRule) SetEnabledCritical(val OptBool) {
+func (s *PatchedAlertRuleRequest) SetEnabledCritical(val OptBool) {
 	s.EnabledCritical = val
 }
 
 // SetThresholdWarning sets the value of ThresholdWarning.
-func (s *PatchedAlertRule) SetThresholdWarning(val OptNilString) {
+func (s *PatchedAlertRuleRequest) SetThresholdWarning(val OptNilString) {
 	s.ThresholdWarning = val
 }
 
 // SetThresholdCritical sets the value of ThresholdCritical.
-func (s *PatchedAlertRule) SetThresholdCritical(val OptNilString) {
+func (s *PatchedAlertRuleRequest) SetThresholdCritical(val OptNilString) {
 	s.ThresholdCritical = val
 }
 
 // SetThresholdDurationWarning sets the value of ThresholdDurationWarning.
-func (s *PatchedAlertRule) SetThresholdDurationWarning(val OptInt64) {
+func (s *PatchedAlertRuleRequest) SetThresholdDurationWarning(val OptInt64) {
 	s.ThresholdDurationWarning = val
 }
 
 // SetThresholdDurationCritical sets the value of ThresholdDurationCritical.
-func (s *PatchedAlertRule) SetThresholdDurationCritical(val OptInt64) {
+func (s *PatchedAlertRuleRequest) SetThresholdDurationCritical(val OptInt64) {
 	s.ThresholdDurationCritical = val
 }
 
-// SetHistoryURL sets the value of HistoryURL.
-func (s *PatchedAlertRule) SetHistoryURL(val OptString) {
-	s.HistoryURL = val
-}
-
-// Ref: #/components/schemas/PatchedDashboardProject
-type PatchedDashboardProject struct {
-	ID          OptInt64                          `json:"id"`
-	Name        OptString                         `json:"name"`
-	Description OptString                         `json:"description"`
-	Tags        []string                          `json:"tags"`
-	Icon        OptNilPatchedDashboardProjectIcon `json:"icon"`
-	AccountID   OptString                         `json:"account_id"`
-	ResourceID  OptNilInt64                       `json:"resource_id"`
-	CreatedAt   OptDateTime                       `json:"created_at"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedDashboardProject) GetID() OptInt64 {
-	return s.ID
+// Ref: #/components/schemas/PatchedDashboardProjectRequest
+type PatchedDashboardProjectRequest struct {
+	Name        OptString `json:"name"`
+	Description OptString `json:"description"`
 }
 
 // GetName returns the value of Name.
-func (s *PatchedDashboardProject) GetName() OptString {
+func (s *PatchedDashboardProjectRequest) GetName() OptString {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *PatchedDashboardProject) GetDescription() OptString {
+func (s *PatchedDashboardProjectRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// GetTags returns the value of Tags.
-func (s *PatchedDashboardProject) GetTags() []string {
-	return s.Tags
-}
-
-// GetIcon returns the value of Icon.
-func (s *PatchedDashboardProject) GetIcon() OptNilPatchedDashboardProjectIcon {
-	return s.Icon
-}
-
-// GetAccountID returns the value of AccountID.
-func (s *PatchedDashboardProject) GetAccountID() OptString {
-	return s.AccountID
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *PatchedDashboardProject) GetResourceID() OptNilInt64 {
-	return s.ResourceID
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *PatchedDashboardProject) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// SetID sets the value of ID.
-func (s *PatchedDashboardProject) SetID(val OptInt64) {
-	s.ID = val
-}
-
 // SetName sets the value of Name.
-func (s *PatchedDashboardProject) SetName(val OptString) {
+func (s *PatchedDashboardProjectRequest) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *PatchedDashboardProject) SetDescription(val OptString) {
+func (s *PatchedDashboardProjectRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetTags sets the value of Tags.
-func (s *PatchedDashboardProject) SetTags(val []string) {
-	s.Tags = val
-}
-
-// SetIcon sets the value of Icon.
-func (s *PatchedDashboardProject) SetIcon(val OptNilPatchedDashboardProjectIcon) {
-	s.Icon = val
-}
-
-// SetAccountID sets the value of AccountID.
-func (s *PatchedDashboardProject) SetAccountID(val OptString) {
-	s.AccountID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *PatchedDashboardProject) SetResourceID(val OptNilInt64) {
-	s.ResourceID = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *PatchedDashboardProject) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
-}
-
-type PatchedDashboardProjectIcon struct {
-	ID OptString `json:"id"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedDashboardProjectIcon) GetID() OptString {
-	return s.ID
-}
-
-// SetID sets the value of ID.
-func (s *PatchedDashboardProjectIcon) SetID(val OptString) {
-	s.ID = val
-}
-
-// Ref: #/components/schemas/PatchedLogMeasureRule
-type PatchedLogMeasureRule struct {
-	// Deprecated: schema marks this property as deprecated.
-	ID               OptInt64               `json:"id"`
-	UID              OptUUID                `json:"uid"`
-	ProjectID        OptNilInt64            `json:"project_id"`
-	Name             OptString              `json:"name"`
-	Description      OptString              `json:"description"`
-	LogStorage       OptLogStorage          `json:"log_storage"`
-	LogStorageID     OptNilInt64            `json:"log_storage_id"`
-	MetricsStorage   OptMetricsStorage      `json:"metrics_storage"`
-	MetricsStorageID OptNilInt64            `json:"metrics_storage_id"`
-	Rule             OptLogMeasureRuleModel `json:"rule"`
-	CreatedAt        OptDateTime            `json:"created_at"`
-	UpdatedAt        OptDateTime            `json:"updated_at"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedLogMeasureRule) GetID() OptInt64 {
-	return s.ID
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedLogMeasureRule) GetUID() OptUUID {
-	return s.UID
-}
-
-// GetProjectID returns the value of ProjectID.
-func (s *PatchedLogMeasureRule) GetProjectID() OptNilInt64 {
-	return s.ProjectID
+// Ref: #/components/schemas/PatchedLogMeasureRuleRequest
+type PatchedLogMeasureRuleRequest struct {
+	Name             OptString                     `json:"name"`
+	Description      OptString                     `json:"description"`
+	LogStorageID     OptNilInt64                   `json:"log_storage_id"`
+	MetricsStorageID OptNilInt64                   `json:"metrics_storage_id"`
+	Rule             OptLogMeasureRuleModelRequest `json:"rule"`
 }
 
 // GetName returns the value of Name.
-func (s *PatchedLogMeasureRule) GetName() OptString {
+func (s *PatchedLogMeasureRuleRequest) GetName() OptString {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *PatchedLogMeasureRule) GetDescription() OptString {
+func (s *PatchedLogMeasureRuleRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// GetLogStorage returns the value of LogStorage.
-func (s *PatchedLogMeasureRule) GetLogStorage() OptLogStorage {
-	return s.LogStorage
-}
-
 // GetLogStorageID returns the value of LogStorageID.
-func (s *PatchedLogMeasureRule) GetLogStorageID() OptNilInt64 {
+func (s *PatchedLogMeasureRuleRequest) GetLogStorageID() OptNilInt64 {
 	return s.LogStorageID
 }
 
-// GetMetricsStorage returns the value of MetricsStorage.
-func (s *PatchedLogMeasureRule) GetMetricsStorage() OptMetricsStorage {
-	return s.MetricsStorage
-}
-
 // GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *PatchedLogMeasureRule) GetMetricsStorageID() OptNilInt64 {
+func (s *PatchedLogMeasureRuleRequest) GetMetricsStorageID() OptNilInt64 {
 	return s.MetricsStorageID
 }
 
 // GetRule returns the value of Rule.
-func (s *PatchedLogMeasureRule) GetRule() OptLogMeasureRuleModel {
+func (s *PatchedLogMeasureRuleRequest) GetRule() OptLogMeasureRuleModelRequest {
 	return s.Rule
 }
 
-// GetCreatedAt returns the value of CreatedAt.
-func (s *PatchedLogMeasureRule) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *PatchedLogMeasureRule) GetUpdatedAt() OptDateTime {
-	return s.UpdatedAt
-}
-
-// SetID sets the value of ID.
-func (s *PatchedLogMeasureRule) SetID(val OptInt64) {
-	s.ID = val
-}
-
-// SetUID sets the value of UID.
-func (s *PatchedLogMeasureRule) SetUID(val OptUUID) {
-	s.UID = val
-}
-
-// SetProjectID sets the value of ProjectID.
-func (s *PatchedLogMeasureRule) SetProjectID(val OptNilInt64) {
-	s.ProjectID = val
-}
-
 // SetName sets the value of Name.
-func (s *PatchedLogMeasureRule) SetName(val OptString) {
+func (s *PatchedLogMeasureRuleRequest) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *PatchedLogMeasureRule) SetDescription(val OptString) {
+func (s *PatchedLogMeasureRuleRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetLogStorage sets the value of LogStorage.
-func (s *PatchedLogMeasureRule) SetLogStorage(val OptLogStorage) {
-	s.LogStorage = val
-}
-
 // SetLogStorageID sets the value of LogStorageID.
-func (s *PatchedLogMeasureRule) SetLogStorageID(val OptNilInt64) {
+func (s *PatchedLogMeasureRuleRequest) SetLogStorageID(val OptNilInt64) {
 	s.LogStorageID = val
 }
 
-// SetMetricsStorage sets the value of MetricsStorage.
-func (s *PatchedLogMeasureRule) SetMetricsStorage(val OptMetricsStorage) {
-	s.MetricsStorage = val
-}
-
 // SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *PatchedLogMeasureRule) SetMetricsStorageID(val OptNilInt64) {
+func (s *PatchedLogMeasureRuleRequest) SetMetricsStorageID(val OptNilInt64) {
 	s.MetricsStorageID = val
 }
 
 // SetRule sets the value of Rule.
-func (s *PatchedLogMeasureRule) SetRule(val OptLogMeasureRuleModel) {
+func (s *PatchedLogMeasureRuleRequest) SetRule(val OptLogMeasureRuleModelRequest) {
 	s.Rule = val
 }
 
-// SetCreatedAt sets the value of CreatedAt.
-func (s *PatchedLogMeasureRule) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *PatchedLogMeasureRule) SetUpdatedAt(val OptDateTime) {
-	s.UpdatedAt = val
-}
-
-// Ref: #/components/schemas/PatchedLogRouting
-type PatchedLogRouting struct {
-	// Deprecated: schema marks this property as deprecated.
-	ID  OptInt64 `json:"id"`
-	UID OptUUID  `json:"uid"`
+// Ref: #/components/schemas/PatchedLogRoutingRequest
+type PatchedLogRoutingRequest struct {
 	// 対象リソースのID.
-	ResourceID    OptNilInt64   `json:"resource_id"`
-	Publisher     OptPublisher  `json:"publisher"`
-	PublisherCode OptString     `json:"publisher_code"`
-	Variant       OptString     `json:"variant"`
-	LogStorage    OptLogStorage `json:"log_storage"`
-	LogStorageID  OptNilInt64   `json:"log_storage_id"`
-	CreatedAt     OptDateTime   `json:"created_at"`
-	UpdatedAt     OptDateTime   `json:"updated_at"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedLogRouting) GetID() OptInt64 {
-	return s.ID
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedLogRouting) GetUID() OptUUID {
-	return s.UID
+	ResourceID    OptNilInt64 `json:"resource_id"`
+	PublisherCode OptString   `json:"publisher_code"`
+	Variant       OptString   `json:"variant"`
+	LogStorageID  OptNilInt64 `json:"log_storage_id"`
 }
 
 // GetResourceID returns the value of ResourceID.
-func (s *PatchedLogRouting) GetResourceID() OptNilInt64 {
+func (s *PatchedLogRoutingRequest) GetResourceID() OptNilInt64 {
 	return s.ResourceID
 }
 
-// GetPublisher returns the value of Publisher.
-func (s *PatchedLogRouting) GetPublisher() OptPublisher {
-	return s.Publisher
-}
-
 // GetPublisherCode returns the value of PublisherCode.
-func (s *PatchedLogRouting) GetPublisherCode() OptString {
+func (s *PatchedLogRoutingRequest) GetPublisherCode() OptString {
 	return s.PublisherCode
 }
 
 // GetVariant returns the value of Variant.
-func (s *PatchedLogRouting) GetVariant() OptString {
+func (s *PatchedLogRoutingRequest) GetVariant() OptString {
 	return s.Variant
-}
-
-// GetLogStorage returns the value of LogStorage.
-func (s *PatchedLogRouting) GetLogStorage() OptLogStorage {
-	return s.LogStorage
 }
 
 // GetLogStorageID returns the value of LogStorageID.
-func (s *PatchedLogRouting) GetLogStorageID() OptNilInt64 {
+func (s *PatchedLogRoutingRequest) GetLogStorageID() OptNilInt64 {
 	return s.LogStorageID
 }
 
-// GetCreatedAt returns the value of CreatedAt.
-func (s *PatchedLogRouting) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *PatchedLogRouting) GetUpdatedAt() OptDateTime {
-	return s.UpdatedAt
-}
-
-// SetID sets the value of ID.
-func (s *PatchedLogRouting) SetID(val OptInt64) {
-	s.ID = val
-}
-
-// SetUID sets the value of UID.
-func (s *PatchedLogRouting) SetUID(val OptUUID) {
-	s.UID = val
-}
-
 // SetResourceID sets the value of ResourceID.
-func (s *PatchedLogRouting) SetResourceID(val OptNilInt64) {
+func (s *PatchedLogRoutingRequest) SetResourceID(val OptNilInt64) {
 	s.ResourceID = val
 }
 
-// SetPublisher sets the value of Publisher.
-func (s *PatchedLogRouting) SetPublisher(val OptPublisher) {
-	s.Publisher = val
-}
-
 // SetPublisherCode sets the value of PublisherCode.
-func (s *PatchedLogRouting) SetPublisherCode(val OptString) {
+func (s *PatchedLogRoutingRequest) SetPublisherCode(val OptString) {
 	s.PublisherCode = val
 }
 
 // SetVariant sets the value of Variant.
-func (s *PatchedLogRouting) SetVariant(val OptString) {
+func (s *PatchedLogRoutingRequest) SetVariant(val OptString) {
 	s.Variant = val
 }
 
-// SetLogStorage sets the value of LogStorage.
-func (s *PatchedLogRouting) SetLogStorage(val OptLogStorage) {
-	s.LogStorage = val
-}
-
 // SetLogStorageID sets the value of LogStorageID.
-func (s *PatchedLogRouting) SetLogStorageID(val OptNilInt64) {
+func (s *PatchedLogRoutingRequest) SetLogStorageID(val OptNilInt64) {
 	s.LogStorageID = val
 }
 
-// SetCreatedAt sets the value of CreatedAt.
-func (s *PatchedLogRouting) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
+// Ref: #/components/schemas/PatchedLogStorageAccessKeyRequest
+type PatchedLogStorageAccessKeyRequest struct {
+	Description OptString `json:"description"`
 }
 
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *PatchedLogRouting) SetUpdatedAt(val OptDateTime) {
-	s.UpdatedAt = val
+// GetDescription returns the value of Description.
+func (s *PatchedLogStorageAccessKeyRequest) GetDescription() OptString {
+	return s.Description
 }
 
-// Ref: #/components/schemas/PatchedLogStorage
-type PatchedLogStorage struct {
-	ID          OptInt64                      `json:"id"`
-	Name        OptString                     `json:"name"`
-	Description OptString                     `json:"description"`
-	Tags        []string                      `json:"tags"`
-	Icon        OptNilPatchedLogStorageIcon   `json:"icon"`
-	ExpireDay   OptInt                        `json:"expire_day"`
-	CreatedAt   OptDateTime                   `json:"created_at"`
-	Endpoints   OptPatchedLogStorageEndpoints `json:"endpoints"`
-	AccountID   OptString                     `json:"account_id"`
-	ResourceID  OptNilInt64                   `json:"resource_id"`
-	IsSystem    OptBool                       `json:"is_system"`
-	Usage       OptPatchedLogStorageUsage     `json:"usage"`
+// SetDescription sets the value of Description.
+func (s *PatchedLogStorageAccessKeyRequest) SetDescription(val OptString) {
+	s.Description = val
 }
 
-// GetID returns the value of ID.
-func (s *PatchedLogStorage) GetID() OptInt64 {
-	return s.ID
+// Ref: #/components/schemas/PatchedLogStorageRequest
+type PatchedLogStorageRequest struct {
+	Name               OptString   `json:"name"`
+	Description        OptString   `json:"description"`
+	ServicePrincipalID OptNilInt64 `json:"service_principal_id"`
 }
 
 // GetName returns the value of Name.
-func (s *PatchedLogStorage) GetName() OptString {
+func (s *PatchedLogStorageRequest) GetName() OptString {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *PatchedLogStorage) GetDescription() OptString {
+func (s *PatchedLogStorageRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// GetTags returns the value of Tags.
-func (s *PatchedLogStorage) GetTags() []string {
-	return s.Tags
-}
-
-// GetIcon returns the value of Icon.
-func (s *PatchedLogStorage) GetIcon() OptNilPatchedLogStorageIcon {
-	return s.Icon
-}
-
-// GetExpireDay returns the value of ExpireDay.
-func (s *PatchedLogStorage) GetExpireDay() OptInt {
-	return s.ExpireDay
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *PatchedLogStorage) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetEndpoints returns the value of Endpoints.
-func (s *PatchedLogStorage) GetEndpoints() OptPatchedLogStorageEndpoints {
-	return s.Endpoints
-}
-
-// GetAccountID returns the value of AccountID.
-func (s *PatchedLogStorage) GetAccountID() OptString {
-	return s.AccountID
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *PatchedLogStorage) GetResourceID() OptNilInt64 {
-	return s.ResourceID
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *PatchedLogStorage) GetIsSystem() OptBool {
-	return s.IsSystem
-}
-
-// GetUsage returns the value of Usage.
-func (s *PatchedLogStorage) GetUsage() OptPatchedLogStorageUsage {
-	return s.Usage
-}
-
-// SetID sets the value of ID.
-func (s *PatchedLogStorage) SetID(val OptInt64) {
-	s.ID = val
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *PatchedLogStorageRequest) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
 }
 
 // SetName sets the value of Name.
-func (s *PatchedLogStorage) SetName(val OptString) {
+func (s *PatchedLogStorageRequest) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *PatchedLogStorage) SetDescription(val OptString) {
+func (s *PatchedLogStorageRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetTags sets the value of Tags.
-func (s *PatchedLogStorage) SetTags(val []string) {
-	s.Tags = val
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *PatchedLogStorageRequest) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
 }
 
-// SetIcon sets the value of Icon.
-func (s *PatchedLogStorage) SetIcon(val OptNilPatchedLogStorageIcon) {
-	s.Icon = val
-}
-
-// SetExpireDay sets the value of ExpireDay.
-func (s *PatchedLogStorage) SetExpireDay(val OptInt) {
-	s.ExpireDay = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *PatchedLogStorage) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
-}
-
-// SetEndpoints sets the value of Endpoints.
-func (s *PatchedLogStorage) SetEndpoints(val OptPatchedLogStorageEndpoints) {
-	s.Endpoints = val
-}
-
-// SetAccountID sets the value of AccountID.
-func (s *PatchedLogStorage) SetAccountID(val OptString) {
-	s.AccountID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *PatchedLogStorage) SetResourceID(val OptNilInt64) {
-	s.ResourceID = val
-}
-
-// SetIsSystem sets the value of IsSystem.
-func (s *PatchedLogStorage) SetIsSystem(val OptBool) {
-	s.IsSystem = val
-}
-
-// SetUsage sets the value of Usage.
-func (s *PatchedLogStorage) SetUsage(val OptPatchedLogStorageUsage) {
-	s.Usage = val
-}
-
-// Ref: #/components/schemas/PatchedLogStorageAccessKey
-type PatchedLogStorageAccessKey struct {
-	// Deprecated: schema marks this property as deprecated.
-	ID     OptInt64 `json:"id"`
-	UID    OptUUID  `json:"uid"`
-	Secret OptUUID  `json:"secret"`
-	// Returns a token string for the access key.
-	Token       OptString `json:"token"`
-	Description OptString `json:"description"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedLogStorageAccessKey) GetID() OptInt64 {
-	return s.ID
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedLogStorageAccessKey) GetUID() OptUUID {
-	return s.UID
-}
-
-// GetSecret returns the value of Secret.
-func (s *PatchedLogStorageAccessKey) GetSecret() OptUUID {
-	return s.Secret
-}
-
-// GetToken returns the value of Token.
-func (s *PatchedLogStorageAccessKey) GetToken() OptString {
-	return s.Token
-}
-
-// GetDescription returns the value of Description.
-func (s *PatchedLogStorageAccessKey) GetDescription() OptString {
-	return s.Description
-}
-
-// SetID sets the value of ID.
-func (s *PatchedLogStorageAccessKey) SetID(val OptInt64) {
-	s.ID = val
-}
-
-// SetUID sets the value of UID.
-func (s *PatchedLogStorageAccessKey) SetUID(val OptUUID) {
-	s.UID = val
-}
-
-// SetSecret sets the value of Secret.
-func (s *PatchedLogStorageAccessKey) SetSecret(val OptUUID) {
-	s.Secret = val
-}
-
-// SetToken sets the value of Token.
-func (s *PatchedLogStorageAccessKey) SetToken(val OptString) {
-	s.Token = val
-}
-
-// SetDescription sets the value of Description.
-func (s *PatchedLogStorageAccessKey) SetDescription(val OptString) {
-	s.Description = val
-}
-
-type PatchedLogStorageEndpoints struct {
-	Ingester PatchedLogStorageEndpointsIngester `json:"ingester"`
-}
-
-// GetIngester returns the value of Ingester.
-func (s *PatchedLogStorageEndpoints) GetIngester() PatchedLogStorageEndpointsIngester {
-	return s.Ingester
-}
-
-// SetIngester sets the value of Ingester.
-func (s *PatchedLogStorageEndpoints) SetIngester(val PatchedLogStorageEndpointsIngester) {
-	s.Ingester = val
-}
-
-type PatchedLogStorageEndpointsIngester struct {
-	Address  string  `json:"address"`
-	Insecure OptBool `json:"insecure"`
-}
-
-// GetAddress returns the value of Address.
-func (s *PatchedLogStorageEndpointsIngester) GetAddress() string {
-	return s.Address
-}
-
-// GetInsecure returns the value of Insecure.
-func (s *PatchedLogStorageEndpointsIngester) GetInsecure() OptBool {
-	return s.Insecure
-}
-
-// SetAddress sets the value of Address.
-func (s *PatchedLogStorageEndpointsIngester) SetAddress(val string) {
-	s.Address = val
-}
-
-// SetInsecure sets the value of Insecure.
-func (s *PatchedLogStorageEndpointsIngester) SetInsecure(val OptBool) {
-	s.Insecure = val
-}
-
-type PatchedLogStorageIcon struct {
-	ID OptString `json:"id"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedLogStorageIcon) GetID() OptString {
-	return s.ID
-}
-
-// SetID sets the value of ID.
-func (s *PatchedLogStorageIcon) SetID(val OptString) {
-	s.ID = val
-}
-
-type PatchedLogStorageUsage struct {
-	LogRoutings     int `json:"log_routings"`
-	LogMeasureRules int `json:"log_measure_rules"`
-}
-
-// GetLogRoutings returns the value of LogRoutings.
-func (s *PatchedLogStorageUsage) GetLogRoutings() int {
-	return s.LogRoutings
-}
-
-// GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *PatchedLogStorageUsage) GetLogMeasureRules() int {
-	return s.LogMeasureRules
-}
-
-// SetLogRoutings sets the value of LogRoutings.
-func (s *PatchedLogStorageUsage) SetLogRoutings(val int) {
-	s.LogRoutings = val
-}
-
-// SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *PatchedLogStorageUsage) SetLogMeasureRules(val int) {
-	s.LogMeasureRules = val
-}
-
-// Ref: #/components/schemas/PatchedMetricsRouting
-type PatchedMetricsRouting struct {
-	// Deprecated: schema marks this property as deprecated.
-	ID  OptInt64 `json:"id"`
-	UID OptUUID  `json:"uid"`
+// Ref: #/components/schemas/PatchedMetricsRoutingRequest
+type PatchedMetricsRoutingRequest struct {
 	// 対象リソースのID.
-	ResourceID       OptNilInt64       `json:"resource_id"`
-	Publisher        OptPublisher      `json:"publisher"`
-	PublisherCode    OptString         `json:"publisher_code"`
-	Variant          OptString         `json:"variant"`
-	MetricsStorage   OptMetricsStorage `json:"metrics_storage"`
-	MetricsStorageID OptNilInt64       `json:"metrics_storage_id"`
-	CreatedAt        OptDateTime       `json:"created_at"`
-	UpdatedAt        OptDateTime       `json:"updated_at"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedMetricsRouting) GetID() OptInt64 {
-	return s.ID
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedMetricsRouting) GetUID() OptUUID {
-	return s.UID
+	ResourceID       OptNilInt64 `json:"resource_id"`
+	PublisherCode    OptString   `json:"publisher_code"`
+	Variant          OptString   `json:"variant"`
+	MetricsStorageID OptNilInt64 `json:"metrics_storage_id"`
 }
 
 // GetResourceID returns the value of ResourceID.
-func (s *PatchedMetricsRouting) GetResourceID() OptNilInt64 {
+func (s *PatchedMetricsRoutingRequest) GetResourceID() OptNilInt64 {
 	return s.ResourceID
 }
 
-// GetPublisher returns the value of Publisher.
-func (s *PatchedMetricsRouting) GetPublisher() OptPublisher {
-	return s.Publisher
-}
-
 // GetPublisherCode returns the value of PublisherCode.
-func (s *PatchedMetricsRouting) GetPublisherCode() OptString {
+func (s *PatchedMetricsRoutingRequest) GetPublisherCode() OptString {
 	return s.PublisherCode
 }
 
 // GetVariant returns the value of Variant.
-func (s *PatchedMetricsRouting) GetVariant() OptString {
+func (s *PatchedMetricsRoutingRequest) GetVariant() OptString {
 	return s.Variant
 }
 
-// GetMetricsStorage returns the value of MetricsStorage.
-func (s *PatchedMetricsRouting) GetMetricsStorage() OptMetricsStorage {
-	return s.MetricsStorage
-}
-
 // GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *PatchedMetricsRouting) GetMetricsStorageID() OptNilInt64 {
+func (s *PatchedMetricsRoutingRequest) GetMetricsStorageID() OptNilInt64 {
 	return s.MetricsStorageID
 }
 
-// GetCreatedAt returns the value of CreatedAt.
-func (s *PatchedMetricsRouting) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *PatchedMetricsRouting) GetUpdatedAt() OptDateTime {
-	return s.UpdatedAt
-}
-
-// SetID sets the value of ID.
-func (s *PatchedMetricsRouting) SetID(val OptInt64) {
-	s.ID = val
-}
-
-// SetUID sets the value of UID.
-func (s *PatchedMetricsRouting) SetUID(val OptUUID) {
-	s.UID = val
-}
-
 // SetResourceID sets the value of ResourceID.
-func (s *PatchedMetricsRouting) SetResourceID(val OptNilInt64) {
+func (s *PatchedMetricsRoutingRequest) SetResourceID(val OptNilInt64) {
 	s.ResourceID = val
 }
 
-// SetPublisher sets the value of Publisher.
-func (s *PatchedMetricsRouting) SetPublisher(val OptPublisher) {
-	s.Publisher = val
-}
-
 // SetPublisherCode sets the value of PublisherCode.
-func (s *PatchedMetricsRouting) SetPublisherCode(val OptString) {
+func (s *PatchedMetricsRoutingRequest) SetPublisherCode(val OptString) {
 	s.PublisherCode = val
 }
 
 // SetVariant sets the value of Variant.
-func (s *PatchedMetricsRouting) SetVariant(val OptString) {
+func (s *PatchedMetricsRoutingRequest) SetVariant(val OptString) {
 	s.Variant = val
 }
 
-// SetMetricsStorage sets the value of MetricsStorage.
-func (s *PatchedMetricsRouting) SetMetricsStorage(val OptMetricsStorage) {
-	s.MetricsStorage = val
-}
-
 // SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *PatchedMetricsRouting) SetMetricsStorageID(val OptNilInt64) {
+func (s *PatchedMetricsRoutingRequest) SetMetricsStorageID(val OptNilInt64) {
 	s.MetricsStorageID = val
 }
 
-// SetCreatedAt sets the value of CreatedAt.
-func (s *PatchedMetricsRouting) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
+// Ref: #/components/schemas/PatchedMetricsStorageAccessKeyRequest
+type PatchedMetricsStorageAccessKeyRequest struct {
+	Description OptString `json:"description"`
 }
 
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *PatchedMetricsRouting) SetUpdatedAt(val OptDateTime) {
-	s.UpdatedAt = val
+// GetDescription returns the value of Description.
+func (s *PatchedMetricsStorageAccessKeyRequest) GetDescription() OptString {
+	return s.Description
 }
 
-// Ref: #/components/schemas/PatchedMetricsStorage
-type PatchedMetricsStorage struct {
-	ID          OptInt64                          `json:"id"`
-	Name        OptString                         `json:"name"`
-	Description OptString                         `json:"description"`
-	Tags        []string                          `json:"tags"`
-	Icon        OptNilPatchedMetricsStorageIcon   `json:"icon"`
-	IsSystem    OptBool                           `json:"is_system"`
-	AccountID   OptString                         `json:"account_id"`
-	ResourceID  OptNilInt64                       `json:"resource_id"`
-	Endpoints   OptPatchedMetricsStorageEndpoints `json:"endpoints"`
-	CreatedAt   OptDateTime                       `json:"created_at"`
-	UpdatedAt   OptDateTime                       `json:"updated_at"`
-	Usage       OptPatchedMetricsStorageUsage     `json:"usage"`
+// SetDescription sets the value of Description.
+func (s *PatchedMetricsStorageAccessKeyRequest) SetDescription(val OptString) {
+	s.Description = val
 }
 
-// GetID returns the value of ID.
-func (s *PatchedMetricsStorage) GetID() OptInt64 {
-	return s.ID
+// Ref: #/components/schemas/PatchedMetricsStorageRequest
+type PatchedMetricsStorageRequest struct {
+	Name        OptString `json:"name"`
+	Description OptString `json:"description"`
 }
 
 // GetName returns the value of Name.
-func (s *PatchedMetricsStorage) GetName() OptString {
+func (s *PatchedMetricsStorageRequest) GetName() OptString {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *PatchedMetricsStorage) GetDescription() OptString {
+func (s *PatchedMetricsStorageRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// GetTags returns the value of Tags.
-func (s *PatchedMetricsStorage) GetTags() []string {
-	return s.Tags
-}
-
-// GetIcon returns the value of Icon.
-func (s *PatchedMetricsStorage) GetIcon() OptNilPatchedMetricsStorageIcon {
-	return s.Icon
-}
-
-// GetIsSystem returns the value of IsSystem.
-func (s *PatchedMetricsStorage) GetIsSystem() OptBool {
-	return s.IsSystem
-}
-
-// GetAccountID returns the value of AccountID.
-func (s *PatchedMetricsStorage) GetAccountID() OptString {
-	return s.AccountID
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *PatchedMetricsStorage) GetResourceID() OptNilInt64 {
-	return s.ResourceID
-}
-
-// GetEndpoints returns the value of Endpoints.
-func (s *PatchedMetricsStorage) GetEndpoints() OptPatchedMetricsStorageEndpoints {
-	return s.Endpoints
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *PatchedMetricsStorage) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *PatchedMetricsStorage) GetUpdatedAt() OptDateTime {
-	return s.UpdatedAt
-}
-
-// GetUsage returns the value of Usage.
-func (s *PatchedMetricsStorage) GetUsage() OptPatchedMetricsStorageUsage {
-	return s.Usage
-}
-
-// SetID sets the value of ID.
-func (s *PatchedMetricsStorage) SetID(val OptInt64) {
-	s.ID = val
-}
-
 // SetName sets the value of Name.
-func (s *PatchedMetricsStorage) SetName(val OptString) {
+func (s *PatchedMetricsStorageRequest) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *PatchedMetricsStorage) SetDescription(val OptString) {
+func (s *PatchedMetricsStorageRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetTags sets the value of Tags.
-func (s *PatchedMetricsStorage) SetTags(val []string) {
-	s.Tags = val
-}
-
-// SetIcon sets the value of Icon.
-func (s *PatchedMetricsStorage) SetIcon(val OptNilPatchedMetricsStorageIcon) {
-	s.Icon = val
-}
-
-// SetIsSystem sets the value of IsSystem.
-func (s *PatchedMetricsStorage) SetIsSystem(val OptBool) {
-	s.IsSystem = val
-}
-
-// SetAccountID sets the value of AccountID.
-func (s *PatchedMetricsStorage) SetAccountID(val OptString) {
-	s.AccountID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *PatchedMetricsStorage) SetResourceID(val OptNilInt64) {
-	s.ResourceID = val
-}
-
-// SetEndpoints sets the value of Endpoints.
-func (s *PatchedMetricsStorage) SetEndpoints(val OptPatchedMetricsStorageEndpoints) {
-	s.Endpoints = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *PatchedMetricsStorage) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *PatchedMetricsStorage) SetUpdatedAt(val OptDateTime) {
-	s.UpdatedAt = val
-}
-
-// SetUsage sets the value of Usage.
-func (s *PatchedMetricsStorage) SetUsage(val OptPatchedMetricsStorageUsage) {
-	s.Usage = val
-}
-
-// Ref: #/components/schemas/PatchedMetricsStorageAccessKey
-type PatchedMetricsStorageAccessKey struct {
-	// Deprecated: schema marks this property as deprecated.
-	ID     OptInt64 `json:"id"`
-	UID    OptUUID  `json:"uid"`
-	Secret OptUUID  `json:"secret"`
-	// Returns a token string for the access key.
-	Token       OptString `json:"token"`
-	Description OptString `json:"description"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedMetricsStorageAccessKey) GetID() OptInt64 {
-	return s.ID
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedMetricsStorageAccessKey) GetUID() OptUUID {
-	return s.UID
-}
-
-// GetSecret returns the value of Secret.
-func (s *PatchedMetricsStorageAccessKey) GetSecret() OptUUID {
-	return s.Secret
-}
-
-// GetToken returns the value of Token.
-func (s *PatchedMetricsStorageAccessKey) GetToken() OptString {
-	return s.Token
-}
-
-// GetDescription returns the value of Description.
-func (s *PatchedMetricsStorageAccessKey) GetDescription() OptString {
-	return s.Description
-}
-
-// SetID sets the value of ID.
-func (s *PatchedMetricsStorageAccessKey) SetID(val OptInt64) {
-	s.ID = val
-}
-
-// SetUID sets the value of UID.
-func (s *PatchedMetricsStorageAccessKey) SetUID(val OptUUID) {
-	s.UID = val
-}
-
-// SetSecret sets the value of Secret.
-func (s *PatchedMetricsStorageAccessKey) SetSecret(val OptUUID) {
-	s.Secret = val
-}
-
-// SetToken sets the value of Token.
-func (s *PatchedMetricsStorageAccessKey) SetToken(val OptString) {
-	s.Token = val
-}
-
-// SetDescription sets the value of Description.
-func (s *PatchedMetricsStorageAccessKey) SetDescription(val OptString) {
-	s.Description = val
-}
-
-type PatchedMetricsStorageEndpoints struct {
-	Address string `json:"address"`
-}
-
-// GetAddress returns the value of Address.
-func (s *PatchedMetricsStorageEndpoints) GetAddress() string {
-	return s.Address
-}
-
-// SetAddress sets the value of Address.
-func (s *PatchedMetricsStorageEndpoints) SetAddress(val string) {
-	s.Address = val
-}
-
-type PatchedMetricsStorageIcon struct {
-	ID OptString `json:"id"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedMetricsStorageIcon) GetID() OptString {
-	return s.ID
-}
-
-// SetID sets the value of ID.
-func (s *PatchedMetricsStorageIcon) SetID(val OptString) {
-	s.ID = val
-}
-
-type PatchedMetricsStorageUsage struct {
-	MetricsRoutings int `json:"metrics_routings"`
-	AlertRules      int `json:"alert_rules"`
-	LogMeasureRules int `json:"log_measure_rules"`
-}
-
-// GetMetricsRoutings returns the value of MetricsRoutings.
-func (s *PatchedMetricsStorageUsage) GetMetricsRoutings() int {
-	return s.MetricsRoutings
-}
-
-// GetAlertRules returns the value of AlertRules.
-func (s *PatchedMetricsStorageUsage) GetAlertRules() int {
-	return s.AlertRules
-}
-
-// GetLogMeasureRules returns the value of LogMeasureRules.
-func (s *PatchedMetricsStorageUsage) GetLogMeasureRules() int {
-	return s.LogMeasureRules
-}
-
-// SetMetricsRoutings sets the value of MetricsRoutings.
-func (s *PatchedMetricsStorageUsage) SetMetricsRoutings(val int) {
-	s.MetricsRoutings = val
-}
-
-// SetAlertRules sets the value of AlertRules.
-func (s *PatchedMetricsStorageUsage) SetAlertRules(val int) {
-	s.AlertRules = val
-}
-
-// SetLogMeasureRules sets the value of LogMeasureRules.
-func (s *PatchedMetricsStorageUsage) SetLogMeasureRules(val int) {
-	s.LogMeasureRules = val
-}
-
-// Ref: #/components/schemas/PatchedNotificationRouting
-type PatchedNotificationRouting struct {
-	UID                   OptUUID               `json:"uid"`
-	ProjectID             OptNilInt64           `json:"project_id"`
-	NotificationTarget    OptNotificationTarget `json:"notification_target"`
-	NotificationTargetUID OptUUID               `json:"notification_target_uid"`
-	MatchLabels           []MatchLabelsItem     `json:"match_labels"`
-	ResendIntervalMinutes OptInt                `json:"resend_interval_minutes"`
-	Order                 OptInt                `json:"order"`
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedNotificationRouting) GetUID() OptUUID {
-	return s.UID
-}
-
-// GetProjectID returns the value of ProjectID.
-func (s *PatchedNotificationRouting) GetProjectID() OptNilInt64 {
-	return s.ProjectID
-}
-
-// GetNotificationTarget returns the value of NotificationTarget.
-func (s *PatchedNotificationRouting) GetNotificationTarget() OptNotificationTarget {
-	return s.NotificationTarget
+// Ref: #/components/schemas/PatchedNotificationRoutingRequest
+type PatchedNotificationRoutingRequest struct {
+	NotificationTargetUID OptUUID                  `json:"notification_target_uid"`
+	MatchLabels           []MatchLabelsItemRequest `json:"match_labels"`
+	ResendIntervalMinutes OptInt                   `json:"resend_interval_minutes"`
 }
 
 // GetNotificationTargetUID returns the value of NotificationTargetUID.
-func (s *PatchedNotificationRouting) GetNotificationTargetUID() OptUUID {
+func (s *PatchedNotificationRoutingRequest) GetNotificationTargetUID() OptUUID {
 	return s.NotificationTargetUID
 }
 
 // GetMatchLabels returns the value of MatchLabels.
-func (s *PatchedNotificationRouting) GetMatchLabels() []MatchLabelsItem {
+func (s *PatchedNotificationRoutingRequest) GetMatchLabels() []MatchLabelsItemRequest {
 	return s.MatchLabels
 }
 
 // GetResendIntervalMinutes returns the value of ResendIntervalMinutes.
-func (s *PatchedNotificationRouting) GetResendIntervalMinutes() OptInt {
+func (s *PatchedNotificationRoutingRequest) GetResendIntervalMinutes() OptInt {
 	return s.ResendIntervalMinutes
 }
 
-// GetOrder returns the value of Order.
-func (s *PatchedNotificationRouting) GetOrder() OptInt {
-	return s.Order
-}
-
-// SetUID sets the value of UID.
-func (s *PatchedNotificationRouting) SetUID(val OptUUID) {
-	s.UID = val
-}
-
-// SetProjectID sets the value of ProjectID.
-func (s *PatchedNotificationRouting) SetProjectID(val OptNilInt64) {
-	s.ProjectID = val
-}
-
-// SetNotificationTarget sets the value of NotificationTarget.
-func (s *PatchedNotificationRouting) SetNotificationTarget(val OptNotificationTarget) {
-	s.NotificationTarget = val
-}
-
 // SetNotificationTargetUID sets the value of NotificationTargetUID.
-func (s *PatchedNotificationRouting) SetNotificationTargetUID(val OptUUID) {
+func (s *PatchedNotificationRoutingRequest) SetNotificationTargetUID(val OptUUID) {
 	s.NotificationTargetUID = val
 }
 
 // SetMatchLabels sets the value of MatchLabels.
-func (s *PatchedNotificationRouting) SetMatchLabels(val []MatchLabelsItem) {
+func (s *PatchedNotificationRoutingRequest) SetMatchLabels(val []MatchLabelsItemRequest) {
 	s.MatchLabels = val
 }
 
 // SetResendIntervalMinutes sets the value of ResendIntervalMinutes.
-func (s *PatchedNotificationRouting) SetResendIntervalMinutes(val OptInt) {
+func (s *PatchedNotificationRoutingRequest) SetResendIntervalMinutes(val OptInt) {
 	s.ResendIntervalMinutes = val
 }
 
-// SetOrder sets the value of Order.
-func (s *PatchedNotificationRouting) SetOrder(val OptInt) {
-	s.Order = val
-}
-
-// Ref: #/components/schemas/PatchedNotificationTarget
-type PatchedNotificationTarget struct {
-	UID       OptUUID     `json:"uid"`
-	ProjectID OptNilInt64 `json:"project_id"`
+// Ref: #/components/schemas/PatchedNotificationTargetRequest
+type PatchedNotificationTargetRequest struct {
 	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
 	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
-	ServiceType OptPatchedNotificationTargetServiceType `json:"service_type"`
-	URL         OptString                               `json:"url"`
-	Config      *PatchedNotificationTargetConfig        `json:"config"`
-	Description OptString                               `json:"description"`
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedNotificationTarget) GetUID() OptUUID {
-	return s.UID
-}
-
-// GetProjectID returns the value of ProjectID.
-func (s *PatchedNotificationTarget) GetProjectID() OptNilInt64 {
-	return s.ProjectID
+	ServiceType OptPatchedNotificationTargetRequestServiceType `json:"service_type"`
+	URL         OptString                                      `json:"url"`
+	Description OptString                                      `json:"description"`
 }
 
 // GetServiceType returns the value of ServiceType.
-func (s *PatchedNotificationTarget) GetServiceType() OptPatchedNotificationTargetServiceType {
+func (s *PatchedNotificationTargetRequest) GetServiceType() OptPatchedNotificationTargetRequestServiceType {
 	return s.ServiceType
 }
 
 // GetURL returns the value of URL.
-func (s *PatchedNotificationTarget) GetURL() OptString {
+func (s *PatchedNotificationTargetRequest) GetURL() OptString {
 	return s.URL
 }
 
-// GetConfig returns the value of Config.
-func (s *PatchedNotificationTarget) GetConfig() *PatchedNotificationTargetConfig {
-	return s.Config
-}
-
 // GetDescription returns the value of Description.
-func (s *PatchedNotificationTarget) GetDescription() OptString {
+func (s *PatchedNotificationTargetRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// SetUID sets the value of UID.
-func (s *PatchedNotificationTarget) SetUID(val OptUUID) {
-	s.UID = val
-}
-
-// SetProjectID sets the value of ProjectID.
-func (s *PatchedNotificationTarget) SetProjectID(val OptNilInt64) {
-	s.ProjectID = val
-}
-
 // SetServiceType sets the value of ServiceType.
-func (s *PatchedNotificationTarget) SetServiceType(val OptPatchedNotificationTargetServiceType) {
+func (s *PatchedNotificationTargetRequest) SetServiceType(val OptPatchedNotificationTargetRequestServiceType) {
 	s.ServiceType = val
 }
 
 // SetURL sets the value of URL.
-func (s *PatchedNotificationTarget) SetURL(val OptString) {
+func (s *PatchedNotificationTargetRequest) SetURL(val OptString) {
 	s.URL = val
 }
 
-// SetConfig sets the value of Config.
-func (s *PatchedNotificationTarget) SetConfig(val *PatchedNotificationTargetConfig) {
-	s.Config = val
-}
-
 // SetDescription sets the value of Description.
-func (s *PatchedNotificationTarget) SetDescription(val OptString) {
+func (s *PatchedNotificationTargetRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-type PatchedNotificationTargetConfig struct{}
-
 // * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
 // * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
-type PatchedNotificationTargetServiceType string
+type PatchedNotificationTargetRequestServiceType string
 
 const (
-	PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE PatchedNotificationTargetServiceType = "SAKURA_SIMPLE_NOTICE"
-	PatchedNotificationTargetServiceTypeSAKURAEVENTBUS     PatchedNotificationTargetServiceType = "SAKURA_EVENT_BUS"
+	PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE PatchedNotificationTargetRequestServiceType = "SAKURA_SIMPLE_NOTICE"
+	PatchedNotificationTargetRequestServiceTypeSAKURAEVENTBUS     PatchedNotificationTargetRequestServiceType = "SAKURA_EVENT_BUS"
 )
 
-// AllValues returns all PatchedNotificationTargetServiceType values.
-func (PatchedNotificationTargetServiceType) AllValues() []PatchedNotificationTargetServiceType {
-	return []PatchedNotificationTargetServiceType{
-		PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE,
-		PatchedNotificationTargetServiceTypeSAKURAEVENTBUS,
+// AllValues returns all PatchedNotificationTargetRequestServiceType values.
+func (PatchedNotificationTargetRequestServiceType) AllValues() []PatchedNotificationTargetRequestServiceType {
+	return []PatchedNotificationTargetRequestServiceType{
+		PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE,
+		PatchedNotificationTargetRequestServiceTypeSAKURAEVENTBUS,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s PatchedNotificationTargetServiceType) MarshalText() ([]byte, error) {
+func (s PatchedNotificationTargetRequestServiceType) MarshalText() ([]byte, error) {
 	switch s {
-	case PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE:
+	case PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE:
 		return []byte(s), nil
-	case PatchedNotificationTargetServiceTypeSAKURAEVENTBUS:
+	case PatchedNotificationTargetRequestServiceTypeSAKURAEVENTBUS:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -9265,233 +8568,69 @@ func (s PatchedNotificationTargetServiceType) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *PatchedNotificationTargetServiceType) UnmarshalText(data []byte) error {
-	switch PatchedNotificationTargetServiceType(data) {
-	case PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE:
-		*s = PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE
+func (s *PatchedNotificationTargetRequestServiceType) UnmarshalText(data []byte) error {
+	switch PatchedNotificationTargetRequestServiceType(data) {
+	case PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE:
+		*s = PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE
 		return nil
-	case PatchedNotificationTargetServiceTypeSAKURAEVENTBUS:
-		*s = PatchedNotificationTargetServiceTypeSAKURAEVENTBUS
+	case PatchedNotificationTargetRequestServiceTypeSAKURAEVENTBUS:
+		*s = PatchedNotificationTargetRequestServiceTypeSAKURAEVENTBUS
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// Ref: #/components/schemas/PatchedTraceStorage
-type PatchedTraceStorage struct {
-	ID                  OptInt64                        `json:"id"`
-	Name                OptString                       `json:"name"`
-	Description         OptString                       `json:"description"`
-	Tags                []string                        `json:"tags"`
-	Icon                OptNilPatchedTraceStorageIcon   `json:"icon"`
-	RetentionPeriodDays OptInt                          `json:"retention_period_days"`
-	CreatedAt           OptDateTime                     `json:"created_at"`
-	Endpoints           OptPatchedTraceStorageEndpoints `json:"endpoints"`
-	AccountID           OptString                       `json:"account_id"`
-	ResourceID          OptInt64                        `json:"resource_id"`
+// Ref: #/components/schemas/PatchedTraceStorageAccessKeyRequest
+type PatchedTraceStorageAccessKeyRequest struct {
+	Description OptString `json:"description"`
 }
 
-// GetID returns the value of ID.
-func (s *PatchedTraceStorage) GetID() OptInt64 {
-	return s.ID
+// GetDescription returns the value of Description.
+func (s *PatchedTraceStorageAccessKeyRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// SetDescription sets the value of Description.
+func (s *PatchedTraceStorageAccessKeyRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// Ref: #/components/schemas/PatchedTraceStorageRequest
+type PatchedTraceStorageRequest struct {
+	Name               OptString   `json:"name"`
+	Description        OptString   `json:"description"`
+	ServicePrincipalID OptNilInt64 `json:"service_principal_id"`
 }
 
 // GetName returns the value of Name.
-func (s *PatchedTraceStorage) GetName() OptString {
+func (s *PatchedTraceStorageRequest) GetName() OptString {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *PatchedTraceStorage) GetDescription() OptString {
+func (s *PatchedTraceStorageRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// GetTags returns the value of Tags.
-func (s *PatchedTraceStorage) GetTags() []string {
-	return s.Tags
-}
-
-// GetIcon returns the value of Icon.
-func (s *PatchedTraceStorage) GetIcon() OptNilPatchedTraceStorageIcon {
-	return s.Icon
-}
-
-// GetRetentionPeriodDays returns the value of RetentionPeriodDays.
-func (s *PatchedTraceStorage) GetRetentionPeriodDays() OptInt {
-	return s.RetentionPeriodDays
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *PatchedTraceStorage) GetCreatedAt() OptDateTime {
-	return s.CreatedAt
-}
-
-// GetEndpoints returns the value of Endpoints.
-func (s *PatchedTraceStorage) GetEndpoints() OptPatchedTraceStorageEndpoints {
-	return s.Endpoints
-}
-
-// GetAccountID returns the value of AccountID.
-func (s *PatchedTraceStorage) GetAccountID() OptString {
-	return s.AccountID
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *PatchedTraceStorage) GetResourceID() OptInt64 {
-	return s.ResourceID
-}
-
-// SetID sets the value of ID.
-func (s *PatchedTraceStorage) SetID(val OptInt64) {
-	s.ID = val
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *PatchedTraceStorageRequest) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
 }
 
 // SetName sets the value of Name.
-func (s *PatchedTraceStorage) SetName(val OptString) {
+func (s *PatchedTraceStorageRequest) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *PatchedTraceStorage) SetDescription(val OptString) {
+func (s *PatchedTraceStorageRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetTags sets the value of Tags.
-func (s *PatchedTraceStorage) SetTags(val []string) {
-	s.Tags = val
-}
-
-// SetIcon sets the value of Icon.
-func (s *PatchedTraceStorage) SetIcon(val OptNilPatchedTraceStorageIcon) {
-	s.Icon = val
-}
-
-// SetRetentionPeriodDays sets the value of RetentionPeriodDays.
-func (s *PatchedTraceStorage) SetRetentionPeriodDays(val OptInt) {
-	s.RetentionPeriodDays = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *PatchedTraceStorage) SetCreatedAt(val OptDateTime) {
-	s.CreatedAt = val
-}
-
-// SetEndpoints sets the value of Endpoints.
-func (s *PatchedTraceStorage) SetEndpoints(val OptPatchedTraceStorageEndpoints) {
-	s.Endpoints = val
-}
-
-// SetAccountID sets the value of AccountID.
-func (s *PatchedTraceStorage) SetAccountID(val OptString) {
-	s.AccountID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *PatchedTraceStorage) SetResourceID(val OptInt64) {
-	s.ResourceID = val
-}
-
-// Ref: #/components/schemas/PatchedTraceStorageAccessKey
-type PatchedTraceStorageAccessKey struct {
-	UID    OptUUID   `json:"uid"`
-	Secret OptString `json:"secret"`
-	// Returns a token string for the access key.
-	Token       OptString `json:"token"`
-	Description OptString `json:"description"`
-}
-
-// GetUID returns the value of UID.
-func (s *PatchedTraceStorageAccessKey) GetUID() OptUUID {
-	return s.UID
-}
-
-// GetSecret returns the value of Secret.
-func (s *PatchedTraceStorageAccessKey) GetSecret() OptString {
-	return s.Secret
-}
-
-// GetToken returns the value of Token.
-func (s *PatchedTraceStorageAccessKey) GetToken() OptString {
-	return s.Token
-}
-
-// GetDescription returns the value of Description.
-func (s *PatchedTraceStorageAccessKey) GetDescription() OptString {
-	return s.Description
-}
-
-// SetUID sets the value of UID.
-func (s *PatchedTraceStorageAccessKey) SetUID(val OptUUID) {
-	s.UID = val
-}
-
-// SetSecret sets the value of Secret.
-func (s *PatchedTraceStorageAccessKey) SetSecret(val OptString) {
-	s.Secret = val
-}
-
-// SetToken sets the value of Token.
-func (s *PatchedTraceStorageAccessKey) SetToken(val OptString) {
-	s.Token = val
-}
-
-// SetDescription sets the value of Description.
-func (s *PatchedTraceStorageAccessKey) SetDescription(val OptString) {
-	s.Description = val
-}
-
-type PatchedTraceStorageEndpoints struct {
-	Ingester PatchedTraceStorageEndpointsIngester `json:"ingester"`
-}
-
-// GetIngester returns the value of Ingester.
-func (s *PatchedTraceStorageEndpoints) GetIngester() PatchedTraceStorageEndpointsIngester {
-	return s.Ingester
-}
-
-// SetIngester sets the value of Ingester.
-func (s *PatchedTraceStorageEndpoints) SetIngester(val PatchedTraceStorageEndpointsIngester) {
-	s.Ingester = val
-}
-
-type PatchedTraceStorageEndpointsIngester struct {
-	Address  string  `json:"address"`
-	Insecure OptBool `json:"insecure"`
-}
-
-// GetAddress returns the value of Address.
-func (s *PatchedTraceStorageEndpointsIngester) GetAddress() string {
-	return s.Address
-}
-
-// GetInsecure returns the value of Insecure.
-func (s *PatchedTraceStorageEndpointsIngester) GetInsecure() OptBool {
-	return s.Insecure
-}
-
-// SetAddress sets the value of Address.
-func (s *PatchedTraceStorageEndpointsIngester) SetAddress(val string) {
-	s.Address = val
-}
-
-// SetInsecure sets the value of Insecure.
-func (s *PatchedTraceStorageEndpointsIngester) SetInsecure(val OptBool) {
-	s.Insecure = val
-}
-
-type PatchedTraceStorageIcon struct {
-	ID OptString `json:"id"`
-}
-
-// GetID returns the value of ID.
-func (s *PatchedTraceStorageIcon) GetID() OptString {
-	return s.ID
-}
-
-// SetID sets the value of ID.
-func (s *PatchedTraceStorageIcon) SetID(val OptString) {
-	s.ID = val
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *PatchedTraceStorageRequest) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
 }
 
 type PostProvisioningInitializeCreated Provisioning
@@ -9528,29 +8667,29 @@ func (s *Provisioning) SetMetrics(val ProvisioningExist) {
 	s.Metrics = val
 }
 
-// Ref: #/components/schemas/ProvisioningCreate
-type ProvisioningCreate struct {
-	Logs    OptProvisioningExist `json:"logs"`
-	Metrics OptProvisioningExist `json:"metrics"`
+// Ref: #/components/schemas/ProvisioningCreateRequest
+type ProvisioningCreateRequest struct {
+	Logs    OptProvisioningExistRequest `json:"logs"`
+	Metrics OptProvisioningExistRequest `json:"metrics"`
 }
 
 // GetLogs returns the value of Logs.
-func (s *ProvisioningCreate) GetLogs() OptProvisioningExist {
+func (s *ProvisioningCreateRequest) GetLogs() OptProvisioningExistRequest {
 	return s.Logs
 }
 
 // GetMetrics returns the value of Metrics.
-func (s *ProvisioningCreate) GetMetrics() OptProvisioningExist {
+func (s *ProvisioningCreateRequest) GetMetrics() OptProvisioningExistRequest {
 	return s.Metrics
 }
 
 // SetLogs sets the value of Logs.
-func (s *ProvisioningCreate) SetLogs(val OptProvisioningExist) {
+func (s *ProvisioningCreateRequest) SetLogs(val OptProvisioningExistRequest) {
 	s.Logs = val
 }
 
 // SetMetrics sets the value of Metrics.
-func (s *ProvisioningCreate) SetMetrics(val OptProvisioningExist) {
+func (s *ProvisioningCreateRequest) SetMetrics(val OptProvisioningExistRequest) {
 	s.Metrics = val
 }
 
@@ -9577,6 +8716,32 @@ func (s *ProvisioningExist) SetSystemExist(val bool) {
 
 // SetUserExist sets the value of UserExist.
 func (s *ProvisioningExist) SetUserExist(val bool) {
+	s.UserExist = val
+}
+
+// Ref: #/components/schemas/ProvisioningExistRequest
+type ProvisioningExistRequest struct {
+	SystemExist bool `json:"system_exist"`
+	UserExist   bool `json:"user_exist"`
+}
+
+// GetSystemExist returns the value of SystemExist.
+func (s *ProvisioningExistRequest) GetSystemExist() bool {
+	return s.SystemExist
+}
+
+// GetUserExist returns the value of UserExist.
+func (s *ProvisioningExistRequest) GetUserExist() bool {
+	return s.UserExist
+}
+
+// SetSystemExist sets the value of SystemExist.
+func (s *ProvisioningExistRequest) SetSystemExist(val bool) {
+	s.SystemExist = val
+}
+
+// SetUserExist sets the value of UserExist.
+func (s *ProvisioningExistRequest) SetUserExist(val bool) {
 	s.UserExist = val
 }
 
@@ -9768,7 +8933,10 @@ func (s *PublisherVariantSystem) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/ResourceItemLimits
 type ResourceItemLimits struct {
+	// Max number of user shared resources.
 	MaxUserCount int `json:"max_user_count"`
+	// Max number of user dedicated resources (if supported).
+	MaxUserDedicatedCount OptInt `json:"max_user_dedicated_count"`
 }
 
 // GetMaxUserCount returns the value of MaxUserCount.
@@ -9776,9 +8944,19 @@ func (s *ResourceItemLimits) GetMaxUserCount() int {
 	return s.MaxUserCount
 }
 
+// GetMaxUserDedicatedCount returns the value of MaxUserDedicatedCount.
+func (s *ResourceItemLimits) GetMaxUserDedicatedCount() OptInt {
+	return s.MaxUserDedicatedCount
+}
+
 // SetMaxUserCount sets the value of MaxUserCount.
 func (s *ResourceItemLimits) SetMaxUserCount(val int) {
 	s.MaxUserCount = val
+}
+
+// SetMaxUserDedicatedCount sets the value of MaxUserDedicatedCount.
+func (s *ResourceItemLimits) SetMaxUserDedicatedCount(val OptInt) {
+	s.MaxUserDedicatedCount = val
 }
 
 // Ref: #/components/schemas/ResourcesLimits
@@ -9840,33 +9018,33 @@ func (s *ResourcesLimits) SetDashboards(val ResourceItemLimits) {
 	s.Dashboards = val
 }
 
-// Ref: #/components/schemas/SetLogStorageExpireDay
-type SetLogStorageExpireDay struct {
+// Ref: #/components/schemas/SetLogStorageExpireDayRequest
+type SetLogStorageExpireDayRequest struct {
 	Days int `json:"days"`
 }
 
 // GetDays returns the value of Days.
-func (s *SetLogStorageExpireDay) GetDays() int {
+func (s *SetLogStorageExpireDayRequest) GetDays() int {
 	return s.Days
 }
 
 // SetDays sets the value of Days.
-func (s *SetLogStorageExpireDay) SetDays(val int) {
+func (s *SetLogStorageExpireDayRequest) SetDays(val int) {
 	s.Days = val
 }
 
-// Ref: #/components/schemas/SetTraceStorageExpireDay
-type SetTraceStorageExpireDay struct {
+// Ref: #/components/schemas/SetTraceStorageExpireDayRequest
+type SetTraceStorageExpireDayRequest struct {
 	Days int `json:"days"`
 }
 
 // GetDays returns the value of Days.
-func (s *SetTraceStorageExpireDay) GetDays() int {
+func (s *SetTraceStorageExpireDayRequest) GetDays() int {
 	return s.Days
 }
 
 // SetDays sets the value of Days.
-func (s *SetTraceStorageExpireDay) SetDays(val int) {
+func (s *SetTraceStorageExpireDayRequest) SetDays(val int) {
 	s.Days = val
 }
 
@@ -9956,13 +9134,11 @@ const (
 	StringFieldNameTraceID                   StringFieldName = "trace_id"
 	StringFieldNameSpanID                    StringFieldName = "span_id"
 	StringFieldNameParentSpanID              StringFieldName = "parent_span_id"
-	StringFieldNameResourceAttributes        StringFieldName = "resource_attributes"
 	StringFieldNameServiceName               StringFieldName = "service_name"
 	StringFieldNameServiceInstanceID         StringFieldName = "service_instance_id"
 	StringFieldNameServiceNamespace          StringFieldName = "service_namespace"
 	StringFieldNameServiceVersion            StringFieldName = "service_version"
 	StringFieldNameDeploymentEnvironmentName StringFieldName = "deployment_environment_name"
-	StringFieldNameAttributes                StringFieldName = "attributes"
 	StringFieldNameSpanName                  StringFieldName = "span_name"
 	StringFieldNameSpanStatusCodeText        StringFieldName = "span_status_code_text"
 )
@@ -9993,13 +9169,11 @@ func (StringFieldName) AllValues() []StringFieldName {
 		StringFieldNameTraceID,
 		StringFieldNameSpanID,
 		StringFieldNameParentSpanID,
-		StringFieldNameResourceAttributes,
 		StringFieldNameServiceName,
 		StringFieldNameServiceInstanceID,
 		StringFieldNameServiceNamespace,
 		StringFieldNameServiceVersion,
 		StringFieldNameDeploymentEnvironmentName,
-		StringFieldNameAttributes,
 		StringFieldNameSpanName,
 		StringFieldNameSpanStatusCodeText,
 	}
@@ -10054,8 +9228,6 @@ func (s StringFieldName) MarshalText() ([]byte, error) {
 		return []byte(s), nil
 	case StringFieldNameParentSpanID:
 		return []byte(s), nil
-	case StringFieldNameResourceAttributes:
-		return []byte(s), nil
 	case StringFieldNameServiceName:
 		return []byte(s), nil
 	case StringFieldNameServiceInstanceID:
@@ -10065,8 +9237,6 @@ func (s StringFieldName) MarshalText() ([]byte, error) {
 	case StringFieldNameServiceVersion:
 		return []byte(s), nil
 	case StringFieldNameDeploymentEnvironmentName:
-		return []byte(s), nil
-	case StringFieldNameAttributes:
 		return []byte(s), nil
 	case StringFieldNameSpanName:
 		return []byte(s), nil
@@ -10149,9 +9319,6 @@ func (s *StringFieldName) UnmarshalText(data []byte) error {
 	case StringFieldNameParentSpanID:
 		*s = StringFieldNameParentSpanID
 		return nil
-	case StringFieldNameResourceAttributes:
-		*s = StringFieldNameResourceAttributes
-		return nil
 	case StringFieldNameServiceName:
 		*s = StringFieldNameServiceName
 		return nil
@@ -10167,9 +9334,6 @@ func (s *StringFieldName) UnmarshalText(data []byte) error {
 	case StringFieldNameDeploymentEnvironmentName:
 		*s = StringFieldNameDeploymentEnvironmentName
 		return nil
-	case StringFieldNameAttributes:
-		*s = StringFieldNameAttributes
-		return nil
 	case StringFieldNameSpanName:
 		*s = StringFieldNameSpanName
 		return nil
@@ -10183,16 +9347,19 @@ func (s *StringFieldName) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/TraceStorage
 type TraceStorage struct {
-	ID                  int64                 `json:"id"`
-	Name                OptString             `json:"name"`
-	Description         OptString             `json:"description"`
-	Tags                []string              `json:"tags"`
-	Icon                NilTraceStorageIcon   `json:"icon"`
-	RetentionPeriodDays int                   `json:"retention_period_days"`
-	CreatedAt           time.Time             `json:"created_at"`
-	Endpoints           TraceStorageEndpoints `json:"endpoints"`
-	AccountID           string                `json:"account_id"`
-	ResourceID          int64                 `json:"resource_id"`
+	ID                  int64                      `json:"id"`
+	Name                OptString                  `json:"name"`
+	Description         OptString                  `json:"description"`
+	Tags                []string                   `json:"tags"`
+	Icon                NilTraceStorageIcon        `json:"icon"`
+	RetentionPeriodDays int                        `json:"retention_period_days"`
+	CreatedAt           time.Time                  `json:"created_at"`
+	Endpoints           TraceStorageEndpoints      `json:"endpoints"`
+	AccountID           string                     `json:"account_id"`
+	ResourceID          int64                      `json:"resource_id"`
+	Classification      TraceStorageClassification `json:"classification"`
+	KmsKeyID            NilInt64                   `json:"kms_key_id"`
+	ServicePrincipalID  OptNilInt64                `json:"service_principal_id"`
 }
 
 // GetID returns the value of ID.
@@ -10245,6 +9412,21 @@ func (s *TraceStorage) GetResourceID() int64 {
 	return s.ResourceID
 }
 
+// GetClassification returns the value of Classification.
+func (s *TraceStorage) GetClassification() TraceStorageClassification {
+	return s.Classification
+}
+
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *TraceStorage) GetKmsKeyID() NilInt64 {
+	return s.KmsKeyID
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *TraceStorage) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
+}
+
 // SetID sets the value of ID.
 func (s *TraceStorage) SetID(val int64) {
 	s.ID = val
@@ -10293,6 +9475,21 @@ func (s *TraceStorage) SetAccountID(val string) {
 // SetResourceID sets the value of ResourceID.
 func (s *TraceStorage) SetResourceID(val int64) {
 	s.ResourceID = val
+}
+
+// SetClassification sets the value of Classification.
+func (s *TraceStorage) SetClassification(val TraceStorageClassification) {
+	s.Classification = val
+}
+
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *TraceStorage) SetKmsKeyID(val NilInt64) {
+	s.KmsKeyID = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *TraceStorage) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
 }
 
 // Ref: #/components/schemas/TraceStorageAccessKey
@@ -10344,68 +9541,42 @@ func (s *TraceStorageAccessKey) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// Ref: #/components/schemas/TraceStorageCreate
-type TraceStorageCreate struct {
-	// * `shared` - 共有
-	// * `separated` - 分離.
-	Classification OptTraceStorageCreateClassification `json:"classification"`
-	Name           string                              `json:"name"`
-	Description    OptString                           `json:"description"`
-}
-
-// GetClassification returns the value of Classification.
-func (s *TraceStorageCreate) GetClassification() OptTraceStorageCreateClassification {
-	return s.Classification
-}
-
-// GetName returns the value of Name.
-func (s *TraceStorageCreate) GetName() string {
-	return s.Name
+// Ref: #/components/schemas/TraceStorageAccessKeyRequest
+type TraceStorageAccessKeyRequest struct {
+	Description OptString `json:"description"`
 }
 
 // GetDescription returns the value of Description.
-func (s *TraceStorageCreate) GetDescription() OptString {
+func (s *TraceStorageAccessKeyRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// SetClassification sets the value of Classification.
-func (s *TraceStorageCreate) SetClassification(val OptTraceStorageCreateClassification) {
-	s.Classification = val
-}
-
-// SetName sets the value of Name.
-func (s *TraceStorageCreate) SetName(val string) {
-	s.Name = val
-}
-
 // SetDescription sets the value of Description.
-func (s *TraceStorageCreate) SetDescription(val OptString) {
+func (s *TraceStorageAccessKeyRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// * `shared` - 共有
-// * `separated` - 分離.
-type TraceStorageCreateClassification string
+type TraceStorageClassification string
 
 const (
-	TraceStorageCreateClassificationShared    TraceStorageCreateClassification = "shared"
-	TraceStorageCreateClassificationSeparated TraceStorageCreateClassification = "separated"
+	TraceStorageClassificationShared    TraceStorageClassification = "shared"
+	TraceStorageClassificationDedicated TraceStorageClassification = "dedicated"
 )
 
-// AllValues returns all TraceStorageCreateClassification values.
-func (TraceStorageCreateClassification) AllValues() []TraceStorageCreateClassification {
-	return []TraceStorageCreateClassification{
-		TraceStorageCreateClassificationShared,
-		TraceStorageCreateClassificationSeparated,
+// AllValues returns all TraceStorageClassification values.
+func (TraceStorageClassification) AllValues() []TraceStorageClassification {
+	return []TraceStorageClassification{
+		TraceStorageClassificationShared,
+		TraceStorageClassificationDedicated,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s TraceStorageCreateClassification) MarshalText() ([]byte, error) {
+func (s TraceStorageClassification) MarshalText() ([]byte, error) {
 	switch s {
-	case TraceStorageCreateClassificationShared:
+	case TraceStorageClassificationShared:
 		return []byte(s), nil
-	case TraceStorageCreateClassificationSeparated:
+	case TraceStorageClassificationDedicated:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -10413,13 +9584,117 @@ func (s TraceStorageCreateClassification) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *TraceStorageCreateClassification) UnmarshalText(data []byte) error {
-	switch TraceStorageCreateClassification(data) {
-	case TraceStorageCreateClassificationShared:
-		*s = TraceStorageCreateClassificationShared
+func (s *TraceStorageClassification) UnmarshalText(data []byte) error {
+	switch TraceStorageClassification(data) {
+	case TraceStorageClassificationShared:
+		*s = TraceStorageClassificationShared
 		return nil
-	case TraceStorageCreateClassificationSeparated:
-		*s = TraceStorageCreateClassificationSeparated
+	case TraceStorageClassificationDedicated:
+		*s = TraceStorageClassificationDedicated
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/TraceStorageCreateRequest
+type TraceStorageCreateRequest struct {
+	// * `shared` - 共用
+	// * `dedicated` - 専有.
+	Classification     OptTraceStorageCreateRequestClassification `json:"classification"`
+	Name               string                                     `json:"name"`
+	Description        OptString                                  `json:"description"`
+	KmsKeyID           OptNilInt64                                `json:"kms_key_id"`
+	ServicePrincipalID OptNilInt64                                `json:"service_principal_id"`
+}
+
+// GetClassification returns the value of Classification.
+func (s *TraceStorageCreateRequest) GetClassification() OptTraceStorageCreateRequestClassification {
+	return s.Classification
+}
+
+// GetName returns the value of Name.
+func (s *TraceStorageCreateRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *TraceStorageCreateRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *TraceStorageCreateRequest) GetKmsKeyID() OptNilInt64 {
+	return s.KmsKeyID
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *TraceStorageCreateRequest) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
+}
+
+// SetClassification sets the value of Classification.
+func (s *TraceStorageCreateRequest) SetClassification(val OptTraceStorageCreateRequestClassification) {
+	s.Classification = val
+}
+
+// SetName sets the value of Name.
+func (s *TraceStorageCreateRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *TraceStorageCreateRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *TraceStorageCreateRequest) SetKmsKeyID(val OptNilInt64) {
+	s.KmsKeyID = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *TraceStorageCreateRequest) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
+}
+
+// * `shared` - 共用
+// * `dedicated` - 専有.
+type TraceStorageCreateRequestClassification string
+
+const (
+	TraceStorageCreateRequestClassificationShared    TraceStorageCreateRequestClassification = "shared"
+	TraceStorageCreateRequestClassificationDedicated TraceStorageCreateRequestClassification = "dedicated"
+)
+
+// AllValues returns all TraceStorageCreateRequestClassification values.
+func (TraceStorageCreateRequestClassification) AllValues() []TraceStorageCreateRequestClassification {
+	return []TraceStorageCreateRequestClassification{
+		TraceStorageCreateRequestClassificationShared,
+		TraceStorageCreateRequestClassificationDedicated,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TraceStorageCreateRequestClassification) MarshalText() ([]byte, error) {
+	switch s {
+	case TraceStorageCreateRequestClassificationShared:
+		return []byte(s), nil
+	case TraceStorageCreateRequestClassificationDedicated:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TraceStorageCreateRequestClassification) UnmarshalText(data []byte) error {
+	switch TraceStorageCreateRequestClassification(data) {
+	case TraceStorageCreateRequestClassificationShared:
+		*s = TraceStorageCreateRequestClassificationShared
+		return nil
+	case TraceStorageCreateRequestClassificationDedicated:
+		*s = TraceStorageCreateRequestClassificationDedicated
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -10509,6 +9784,43 @@ func (s *TraceStorageMonthlyUsageBody) SetUsages(val []LogStorageMonthlyUsage) {
 	s.Usages = val
 }
 
+// Ref: #/components/schemas/TraceStorageRequest
+type TraceStorageRequest struct {
+	Name               OptString   `json:"name"`
+	Description        OptString   `json:"description"`
+	ServicePrincipalID OptNilInt64 `json:"service_principal_id"`
+}
+
+// GetName returns the value of Name.
+func (s *TraceStorageRequest) GetName() OptString {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *TraceStorageRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *TraceStorageRequest) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
+}
+
+// SetName sets the value of Name.
+func (s *TraceStorageRequest) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *TraceStorageRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *TraceStorageRequest) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
+}
+
 // TracesStoragesDestroyNoContent is response for TracesStoragesDestroy operation.
 type TracesStoragesDestroyNoContent struct{}
 
@@ -10518,14 +9830,14 @@ type TracesStoragesKeysDestroyNoContent struct{}
 type TracesStoragesListLogStorageBucketClassification string
 
 const (
-	TracesStoragesListLogStorageBucketClassificationSeparated TracesStoragesListLogStorageBucketClassification = "separated"
+	TracesStoragesListLogStorageBucketClassificationDedicated TracesStoragesListLogStorageBucketClassification = "dedicated"
 	TracesStoragesListLogStorageBucketClassificationShared    TracesStoragesListLogStorageBucketClassification = "shared"
 )
 
 // AllValues returns all TracesStoragesListLogStorageBucketClassification values.
 func (TracesStoragesListLogStorageBucketClassification) AllValues() []TracesStoragesListLogStorageBucketClassification {
 	return []TracesStoragesListLogStorageBucketClassification{
-		TracesStoragesListLogStorageBucketClassificationSeparated,
+		TracesStoragesListLogStorageBucketClassificationDedicated,
 		TracesStoragesListLogStorageBucketClassificationShared,
 	}
 }
@@ -10533,7 +9845,7 @@ func (TracesStoragesListLogStorageBucketClassification) AllValues() []TracesStor
 // MarshalText implements encoding.TextMarshaler.
 func (s TracesStoragesListLogStorageBucketClassification) MarshalText() ([]byte, error) {
 	switch s {
-	case TracesStoragesListLogStorageBucketClassificationSeparated:
+	case TracesStoragesListLogStorageBucketClassificationDedicated:
 		return []byte(s), nil
 	case TracesStoragesListLogStorageBucketClassificationShared:
 		return []byte(s), nil
@@ -10545,8 +9857,8 @@ func (s TracesStoragesListLogStorageBucketClassification) MarshalText() ([]byte,
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *TracesStoragesListLogStorageBucketClassification) UnmarshalText(data []byte) error {
 	switch TracesStoragesListLogStorageBucketClassification(data) {
-	case TracesStoragesListLogStorageBucketClassificationSeparated:
-		*s = TracesStoragesListLogStorageBucketClassificationSeparated
+	case TracesStoragesListLogStorageBucketClassificationDedicated:
+		*s = TracesStoragesListLogStorageBucketClassificationDedicated
 		return nil
 	case TracesStoragesListLogStorageBucketClassificationShared:
 		*s = TracesStoragesListLogStorageBucketClassificationShared
@@ -10836,6 +10148,76 @@ func (s *Type7) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/Type8
+type Type8 string
+
+const (
+	Type8MapValueString Type8 = "map-value-string"
+)
+
+// AllValues returns all Type8 values.
+func (Type8) AllValues() []Type8 {
+	return []Type8{
+		Type8MapValueString,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s Type8) MarshalText() ([]byte, error) {
+	switch s {
+	case Type8MapValueString:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *Type8) UnmarshalText(data []byte) error {
+	switch Type8(data) {
+	case Type8MapValueString:
+		*s = Type8MapValueString
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/Type9
+type Type9 string
+
+const (
+	Type9MapValueNumber Type9 = "map-value-number"
+)
+
+// AllValues returns all Type9 values.
+func (Type9) AllValues() []Type9 {
+	return []Type9{
+		Type9MapValueNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s Type9) MarshalText() ([]byte, error) {
+	switch s {
+	case Type9MapValueNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *Type9) UnmarshalText(data []byte) error {
+	switch Type9(data) {
+	case Type9MapValueNumber:
+		*s = Type9MapValueNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/ValueEnum
 type ValueEnum string
 
@@ -10929,20 +10311,15 @@ func (s *ValueEnum) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/WrappedAlertProject
 type WrappedAlertProject struct {
-	ID                      int64                      `json:"id"`
-	Name                    OptString                  `json:"name"`
-	Description             OptString                  `json:"description"`
-	Tags                    []string                   `json:"tags"`
-	Icon                    NilWrappedAlertProjectIcon `json:"icon"`
-	AccountID               string                     `json:"account_id"`
-	ResourceID              NilInt64                   `json:"resource_id"`
-	CreatedAt               time.Time                  `json:"created_at"`
-	RulesURL                string                     `json:"rules_url"`
-	NotificationTargetsURL  string                     `json:"notification_targets_url"`
-	NotificationRoutingsURL string                     `json:"notification_routings_url"`
-	HistoriesURL            string                     `json:"histories_url"`
-	LogMeasureRulesURL      string                     `json:"log_measure_rules_url"`
-	IsOk                    bool                       `json:"is_ok"`
+	ID          int64                      `json:"id"`
+	Name        OptString                  `json:"name"`
+	Description OptString                  `json:"description"`
+	Tags        []string                   `json:"tags"`
+	Icon        NilWrappedAlertProjectIcon `json:"icon"`
+	AccountID   string                     `json:"account_id"`
+	ResourceID  NilInt64                   `json:"resource_id"`
+	CreatedAt   time.Time                  `json:"created_at"`
+	IsOk        bool                       `json:"is_ok"`
 }
 
 // GetID returns the value of ID.
@@ -10983,31 +10360,6 @@ func (s *WrappedAlertProject) GetResourceID() NilInt64 {
 // GetCreatedAt returns the value of CreatedAt.
 func (s *WrappedAlertProject) GetCreatedAt() time.Time {
 	return s.CreatedAt
-}
-
-// GetRulesURL returns the value of RulesURL.
-func (s *WrappedAlertProject) GetRulesURL() string {
-	return s.RulesURL
-}
-
-// GetNotificationTargetsURL returns the value of NotificationTargetsURL.
-func (s *WrappedAlertProject) GetNotificationTargetsURL() string {
-	return s.NotificationTargetsURL
-}
-
-// GetNotificationRoutingsURL returns the value of NotificationRoutingsURL.
-func (s *WrappedAlertProject) GetNotificationRoutingsURL() string {
-	return s.NotificationRoutingsURL
-}
-
-// GetHistoriesURL returns the value of HistoriesURL.
-func (s *WrappedAlertProject) GetHistoriesURL() string {
-	return s.HistoriesURL
-}
-
-// GetLogMeasureRulesURL returns the value of LogMeasureRulesURL.
-func (s *WrappedAlertProject) GetLogMeasureRulesURL() string {
-	return s.LogMeasureRulesURL
 }
 
 // GetIsOk returns the value of IsOk.
@@ -11053,31 +10405,6 @@ func (s *WrappedAlertProject) SetResourceID(val NilInt64) {
 // SetCreatedAt sets the value of CreatedAt.
 func (s *WrappedAlertProject) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
-}
-
-// SetRulesURL sets the value of RulesURL.
-func (s *WrappedAlertProject) SetRulesURL(val string) {
-	s.RulesURL = val
-}
-
-// SetNotificationTargetsURL sets the value of NotificationTargetsURL.
-func (s *WrappedAlertProject) SetNotificationTargetsURL(val string) {
-	s.NotificationTargetsURL = val
-}
-
-// SetNotificationRoutingsURL sets the value of NotificationRoutingsURL.
-func (s *WrappedAlertProject) SetNotificationRoutingsURL(val string) {
-	s.NotificationRoutingsURL = val
-}
-
-// SetHistoriesURL sets the value of HistoriesURL.
-func (s *WrappedAlertProject) SetHistoriesURL(val string) {
-	s.HistoriesURL = val
-}
-
-// SetLogMeasureRulesURL sets the value of LogMeasureRulesURL.
-func (s *WrappedAlertProject) SetLogMeasureRulesURL(val string) {
-	s.LogMeasureRulesURL = val
 }
 
 // SetIsOk sets the value of IsOk.
@@ -11222,15 +10549,13 @@ type WrappedLogRouting struct {
 	ID  int64     `json:"id"`
 	UID uuid.UUID `json:"uid"`
 	// 対象リソースのID.
-	ResourceID    OptNilInt64 `json:"resource_id"`
-	Publisher     Publisher   `json:"publisher"`
-	PublisherCode OptString   `json:"publisher_code"`
-	Variant       string      `json:"variant"`
-	LogStorage    LogStorage  `json:"log_storage"`
-	LogStorageID  OptNilInt64 `json:"log_storage_id"`
-	CreatedAt     time.Time   `json:"created_at"`
-	UpdatedAt     time.Time   `json:"updated_at"`
-	IsOk          bool        `json:"is_ok"`
+	ResourceID OptNilInt64 `json:"resource_id"`
+	Publisher  Publisher   `json:"publisher"`
+	Variant    string      `json:"variant"`
+	LogStorage LogStorage  `json:"log_storage"`
+	CreatedAt  time.Time   `json:"created_at"`
+	UpdatedAt  time.Time   `json:"updated_at"`
+	IsOk       bool        `json:"is_ok"`
 }
 
 // GetID returns the value of ID.
@@ -11253,11 +10578,6 @@ func (s *WrappedLogRouting) GetPublisher() Publisher {
 	return s.Publisher
 }
 
-// GetPublisherCode returns the value of PublisherCode.
-func (s *WrappedLogRouting) GetPublisherCode() OptString {
-	return s.PublisherCode
-}
-
 // GetVariant returns the value of Variant.
 func (s *WrappedLogRouting) GetVariant() string {
 	return s.Variant
@@ -11266,11 +10586,6 @@ func (s *WrappedLogRouting) GetVariant() string {
 // GetLogStorage returns the value of LogStorage.
 func (s *WrappedLogRouting) GetLogStorage() LogStorage {
 	return s.LogStorage
-}
-
-// GetLogStorageID returns the value of LogStorageID.
-func (s *WrappedLogRouting) GetLogStorageID() OptNilInt64 {
-	return s.LogStorageID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
@@ -11308,11 +10623,6 @@ func (s *WrappedLogRouting) SetPublisher(val Publisher) {
 	s.Publisher = val
 }
 
-// SetPublisherCode sets the value of PublisherCode.
-func (s *WrappedLogRouting) SetPublisherCode(val OptString) {
-	s.PublisherCode = val
-}
-
 // SetVariant sets the value of Variant.
 func (s *WrappedLogRouting) SetVariant(val string) {
 	s.Variant = val
@@ -11321,11 +10631,6 @@ func (s *WrappedLogRouting) SetVariant(val string) {
 // SetLogStorage sets the value of LogStorage.
 func (s *WrappedLogRouting) SetLogStorage(val LogStorage) {
 	s.LogStorage = val
-}
-
-// SetLogStorageID sets the value of LogStorageID.
-func (s *WrappedLogRouting) SetLogStorageID(val OptNilInt64) {
-	s.LogStorageID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
@@ -11345,19 +10650,22 @@ func (s *WrappedLogRouting) SetIsOk(val bool) {
 
 // Ref: #/components/schemas/WrappedLogStorage
 type WrappedLogStorage struct {
-	ID          int64                      `json:"id"`
-	Name        OptString                  `json:"name"`
-	Description OptString                  `json:"description"`
-	Tags        []string                   `json:"tags"`
-	Icon        NilWrappedLogStorageIcon   `json:"icon"`
-	ExpireDay   int                        `json:"expire_day"`
-	CreatedAt   time.Time                  `json:"created_at"`
-	Endpoints   WrappedLogStorageEndpoints `json:"endpoints"`
-	AccountID   string                     `json:"account_id"`
-	ResourceID  NilInt64                   `json:"resource_id"`
-	IsSystem    bool                       `json:"is_system"`
-	Usage       WrappedLogStorageUsage     `json:"usage"`
-	IsOk        bool                       `json:"is_ok"`
+	ID                 int64                           `json:"id"`
+	Name               OptString                       `json:"name"`
+	Description        OptString                       `json:"description"`
+	Tags               []string                        `json:"tags"`
+	Icon               NilWrappedLogStorageIcon        `json:"icon"`
+	ExpireDay          int                             `json:"expire_day"`
+	CreatedAt          time.Time                       `json:"created_at"`
+	Endpoints          WrappedLogStorageEndpoints      `json:"endpoints"`
+	AccountID          string                          `json:"account_id"`
+	ResourceID         NilInt64                        `json:"resource_id"`
+	IsSystem           bool                            `json:"is_system"`
+	Classification     WrappedLogStorageClassification `json:"classification"`
+	KmsKeyID           NilInt64                        `json:"kms_key_id"`
+	ServicePrincipalID OptNilInt64                     `json:"service_principal_id"`
+	Usage              WrappedLogStorageUsage          `json:"usage"`
+	IsOk               bool                            `json:"is_ok"`
 }
 
 // GetID returns the value of ID.
@@ -11413,6 +10721,21 @@ func (s *WrappedLogStorage) GetResourceID() NilInt64 {
 // GetIsSystem returns the value of IsSystem.
 func (s *WrappedLogStorage) GetIsSystem() bool {
 	return s.IsSystem
+}
+
+// GetClassification returns the value of Classification.
+func (s *WrappedLogStorage) GetClassification() WrappedLogStorageClassification {
+	return s.Classification
+}
+
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *WrappedLogStorage) GetKmsKeyID() NilInt64 {
+	return s.KmsKeyID
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *WrappedLogStorage) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
 }
 
 // GetUsage returns the value of Usage.
@@ -11478,6 +10801,21 @@ func (s *WrappedLogStorage) SetResourceID(val NilInt64) {
 // SetIsSystem sets the value of IsSystem.
 func (s *WrappedLogStorage) SetIsSystem(val bool) {
 	s.IsSystem = val
+}
+
+// SetClassification sets the value of Classification.
+func (s *WrappedLogStorage) SetClassification(val WrappedLogStorageClassification) {
+	s.Classification = val
+}
+
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *WrappedLogStorage) SetKmsKeyID(val NilInt64) {
+	s.KmsKeyID = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *WrappedLogStorage) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
 }
 
 // SetUsage sets the value of Usage.
@@ -11560,6 +10898,47 @@ func (s *WrappedLogStorageAccessKey) SetDescription(val OptString) {
 // SetIsOk sets the value of IsOk.
 func (s *WrappedLogStorageAccessKey) SetIsOk(val bool) {
 	s.IsOk = val
+}
+
+type WrappedLogStorageClassification string
+
+const (
+	WrappedLogStorageClassificationShared    WrappedLogStorageClassification = "shared"
+	WrappedLogStorageClassificationDedicated WrappedLogStorageClassification = "dedicated"
+)
+
+// AllValues returns all WrappedLogStorageClassification values.
+func (WrappedLogStorageClassification) AllValues() []WrappedLogStorageClassification {
+	return []WrappedLogStorageClassification{
+		WrappedLogStorageClassificationShared,
+		WrappedLogStorageClassificationDedicated,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s WrappedLogStorageClassification) MarshalText() ([]byte, error) {
+	switch s {
+	case WrappedLogStorageClassificationShared:
+		return []byte(s), nil
+	case WrappedLogStorageClassificationDedicated:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *WrappedLogStorageClassification) UnmarshalText(data []byte) error {
+	switch WrappedLogStorageClassification(data) {
+	case WrappedLogStorageClassificationShared:
+		*s = WrappedLogStorageClassificationShared
+		return nil
+	case WrappedLogStorageClassificationDedicated:
+		*s = WrappedLogStorageClassificationDedicated
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type WrappedLogStorageEndpoints struct {
@@ -11646,15 +11025,13 @@ type WrappedMetricsRouting struct {
 	ID  int64     `json:"id"`
 	UID uuid.UUID `json:"uid"`
 	// 対象リソースのID.
-	ResourceID       OptNilInt64    `json:"resource_id"`
-	Publisher        Publisher      `json:"publisher"`
-	PublisherCode    OptString      `json:"publisher_code"`
-	Variant          string         `json:"variant"`
-	MetricsStorage   MetricsStorage `json:"metrics_storage"`
-	MetricsStorageID OptNilInt64    `json:"metrics_storage_id"`
-	CreatedAt        time.Time      `json:"created_at"`
-	UpdatedAt        time.Time      `json:"updated_at"`
-	IsOk             bool           `json:"is_ok"`
+	ResourceID     OptNilInt64    `json:"resource_id"`
+	Publisher      Publisher      `json:"publisher"`
+	Variant        string         `json:"variant"`
+	MetricsStorage MetricsStorage `json:"metrics_storage"`
+	CreatedAt      time.Time      `json:"created_at"`
+	UpdatedAt      time.Time      `json:"updated_at"`
+	IsOk           bool           `json:"is_ok"`
 }
 
 // GetID returns the value of ID.
@@ -11677,11 +11054,6 @@ func (s *WrappedMetricsRouting) GetPublisher() Publisher {
 	return s.Publisher
 }
 
-// GetPublisherCode returns the value of PublisherCode.
-func (s *WrappedMetricsRouting) GetPublisherCode() OptString {
-	return s.PublisherCode
-}
-
 // GetVariant returns the value of Variant.
 func (s *WrappedMetricsRouting) GetVariant() string {
 	return s.Variant
@@ -11690,11 +11062,6 @@ func (s *WrappedMetricsRouting) GetVariant() string {
 // GetMetricsStorage returns the value of MetricsStorage.
 func (s *WrappedMetricsRouting) GetMetricsStorage() MetricsStorage {
 	return s.MetricsStorage
-}
-
-// GetMetricsStorageID returns the value of MetricsStorageID.
-func (s *WrappedMetricsRouting) GetMetricsStorageID() OptNilInt64 {
-	return s.MetricsStorageID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
@@ -11732,11 +11099,6 @@ func (s *WrappedMetricsRouting) SetPublisher(val Publisher) {
 	s.Publisher = val
 }
 
-// SetPublisherCode sets the value of PublisherCode.
-func (s *WrappedMetricsRouting) SetPublisherCode(val OptString) {
-	s.PublisherCode = val
-}
-
 // SetVariant sets the value of Variant.
 func (s *WrappedMetricsRouting) SetVariant(val string) {
 	s.Variant = val
@@ -11745,11 +11107,6 @@ func (s *WrappedMetricsRouting) SetVariant(val string) {
 // SetMetricsStorage sets the value of MetricsStorage.
 func (s *WrappedMetricsRouting) SetMetricsStorage(val MetricsStorage) {
 	s.MetricsStorage = val
-}
-
-// SetMetricsStorageID sets the value of MetricsStorageID.
-func (s *WrappedMetricsRouting) SetMetricsStorageID(val OptNilInt64) {
-	s.MetricsStorageID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
@@ -12100,17 +11457,20 @@ func (s *WrappedPublisher) SetIsOk(val bool) {
 
 // Ref: #/components/schemas/WrappedTraceStorage
 type WrappedTraceStorage struct {
-	ID                  int64                        `json:"id"`
-	Name                OptString                    `json:"name"`
-	Description         OptString                    `json:"description"`
-	Tags                []string                     `json:"tags"`
-	Icon                NilWrappedTraceStorageIcon   `json:"icon"`
-	RetentionPeriodDays int                          `json:"retention_period_days"`
-	CreatedAt           time.Time                    `json:"created_at"`
-	Endpoints           WrappedTraceStorageEndpoints `json:"endpoints"`
-	AccountID           string                       `json:"account_id"`
-	ResourceID          int64                        `json:"resource_id"`
-	IsOk                bool                         `json:"is_ok"`
+	ID                  int64                             `json:"id"`
+	Name                OptString                         `json:"name"`
+	Description         OptString                         `json:"description"`
+	Tags                []string                          `json:"tags"`
+	Icon                NilWrappedTraceStorageIcon        `json:"icon"`
+	RetentionPeriodDays int                               `json:"retention_period_days"`
+	CreatedAt           time.Time                         `json:"created_at"`
+	Endpoints           WrappedTraceStorageEndpoints      `json:"endpoints"`
+	AccountID           string                            `json:"account_id"`
+	ResourceID          int64                             `json:"resource_id"`
+	Classification      WrappedTraceStorageClassification `json:"classification"`
+	KmsKeyID            NilInt64                          `json:"kms_key_id"`
+	ServicePrincipalID  OptNilInt64                       `json:"service_principal_id"`
+	IsOk                bool                              `json:"is_ok"`
 }
 
 // GetID returns the value of ID.
@@ -12161,6 +11521,21 @@ func (s *WrappedTraceStorage) GetAccountID() string {
 // GetResourceID returns the value of ResourceID.
 func (s *WrappedTraceStorage) GetResourceID() int64 {
 	return s.ResourceID
+}
+
+// GetClassification returns the value of Classification.
+func (s *WrappedTraceStorage) GetClassification() WrappedTraceStorageClassification {
+	return s.Classification
+}
+
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *WrappedTraceStorage) GetKmsKeyID() NilInt64 {
+	return s.KmsKeyID
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *WrappedTraceStorage) GetServicePrincipalID() OptNilInt64 {
+	return s.ServicePrincipalID
 }
 
 // GetIsOk returns the value of IsOk.
@@ -12216,6 +11591,21 @@ func (s *WrappedTraceStorage) SetAccountID(val string) {
 // SetResourceID sets the value of ResourceID.
 func (s *WrappedTraceStorage) SetResourceID(val int64) {
 	s.ResourceID = val
+}
+
+// SetClassification sets the value of Classification.
+func (s *WrappedTraceStorage) SetClassification(val WrappedTraceStorageClassification) {
+	s.Classification = val
+}
+
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *WrappedTraceStorage) SetKmsKeyID(val NilInt64) {
+	s.KmsKeyID = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *WrappedTraceStorage) SetServicePrincipalID(val OptNilInt64) {
+	s.ServicePrincipalID = val
 }
 
 // SetIsOk sets the value of IsOk.
@@ -12281,6 +11671,47 @@ func (s *WrappedTraceStorageAccessKey) SetDescription(val OptString) {
 // SetIsOk sets the value of IsOk.
 func (s *WrappedTraceStorageAccessKey) SetIsOk(val bool) {
 	s.IsOk = val
+}
+
+type WrappedTraceStorageClassification string
+
+const (
+	WrappedTraceStorageClassificationShared    WrappedTraceStorageClassification = "shared"
+	WrappedTraceStorageClassificationDedicated WrappedTraceStorageClassification = "dedicated"
+)
+
+// AllValues returns all WrappedTraceStorageClassification values.
+func (WrappedTraceStorageClassification) AllValues() []WrappedTraceStorageClassification {
+	return []WrappedTraceStorageClassification{
+		WrappedTraceStorageClassificationShared,
+		WrappedTraceStorageClassificationDedicated,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s WrappedTraceStorageClassification) MarshalText() ([]byte, error) {
+	switch s {
+	case WrappedTraceStorageClassificationShared:
+		return []byte(s), nil
+	case WrappedTraceStorageClassificationDedicated:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *WrappedTraceStorageClassification) UnmarshalText(data []byte) error {
+	switch WrappedTraceStorageClassification(data) {
+	case WrappedTraceStorageClassificationShared:
+		*s = WrappedTraceStorageClassificationShared
+		return nil
+	case WrappedTraceStorageClassificationDedicated:
+		*s = WrappedTraceStorageClassificationDedicated
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type WrappedTraceStorageEndpoints struct {

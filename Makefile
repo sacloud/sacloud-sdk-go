@@ -10,3 +10,6 @@ include includes/go/common.mk
 
 default: $(DEFAULT_GOALS)
 tools: dev-tools
+
+gen:
+	go tool ogen -package v1 -target apis/v1 -clean -config ogen-config.yml ./openapi/openapi.json
