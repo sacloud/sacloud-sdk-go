@@ -33,7 +33,7 @@ func TestCancelExecutionAccepted_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
+		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"StepCount\":0,\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -351,7 +351,7 @@ func TestCancelExecutionOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
+		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"StepCount\":0,\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -445,6 +445,47 @@ func TestCancelExecutionOKExecutionWorkflowTagsItem_EncodeDecode(t *testing.T) {
 
 	var typ2 CancelExecutionOKExecutionWorkflowTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCancelExecutionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ CancelExecutionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CancelExecutionPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCancelExecutionPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CancelExecutionPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CancelExecutionPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestCancelExecutionUnauthorized_EncodeDecode(t *testing.T) {
 	var typ CancelExecutionUnauthorized
@@ -587,7 +628,7 @@ func TestCreateExecutionCreated_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
+		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"StepCount\":0,\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -801,6 +842,47 @@ func TestCreateExecutionNotFound_Examples(t *testing.T) {
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
 			var typ2 CreateExecutionNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateExecutionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ CreateExecutionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateExecutionPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateExecutionPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateExecutionPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateExecutionPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -1192,7 +1274,7 @@ func TestCreateWorkflowCreated_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
+		{Input: "{\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -1386,6 +1468,47 @@ func TestCreateWorkflowNotFound_Examples(t *testing.T) {
 		})
 	}
 }
+func TestCreateWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ CreateWorkflowPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateWorkflowPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateWorkflowPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateWorkflowPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateWorkflowPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestCreateWorkflowReq_EncodeDecode(t *testing.T) {
 	var typ CreateWorkflowReq
 	typ.SetFake()
@@ -1404,7 +1527,7 @@ func TestCreateWorkflowReq_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"ConcurrencyMode\":\"parallel\",\"Description\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"RevisionAlias\":\"sampleString\",\"Runbook\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}]}"},
+		{Input: "{\"ConcurrencyMode\":\"parallel\",\"Description\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"RevisionAlias\":\"sampleString\",\"Runbook\":\"sampleString\",\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}]}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -1717,6 +1840,47 @@ func TestCreateWorkflowRevisionNotFound_Examples(t *testing.T) {
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
 			var typ2 CreateWorkflowRevisionNotFound
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateWorkflowRevisionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ CreateWorkflowRevisionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateWorkflowRevisionPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateWorkflowRevisionPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateWorkflowRevisionPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateWorkflowRevisionPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -2086,6 +2250,47 @@ func TestDeleteExecutionOK_Examples(t *testing.T) {
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
 			var typ2 DeleteExecutionOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestDeleteExecutionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ DeleteExecutionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteExecutionPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteExecutionPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteExecutionPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteExecutionPaymentRequired
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -2582,6 +2787,47 @@ func TestDeleteWorkflowOK_Examples(t *testing.T) {
 		})
 	}
 }
+func TestDeleteWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ DeleteWorkflowPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteWorkflowPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteWorkflowPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteWorkflowPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteWorkflowPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestDeleteWorkflowRevisionAliasBadRequest_EncodeDecode(t *testing.T) {
 	var typ DeleteWorkflowRevisionAliasBadRequest
 	typ.SetFake()
@@ -2798,6 +3044,47 @@ func TestDeleteWorkflowRevisionAliasOKRevision_EncodeDecode(t *testing.T) {
 
 	var typ2 DeleteWorkflowRevisionAliasOKRevision
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDeleteWorkflowRevisionAliasPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ DeleteWorkflowRevisionAliasPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DeleteWorkflowRevisionAliasPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestDeleteWorkflowRevisionAliasPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ DeleteWorkflowRevisionAliasPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 DeleteWorkflowRevisionAliasPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestDeleteWorkflowRevisionAliasUnauthorized_EncodeDecode(t *testing.T) {
 	var typ DeleteWorkflowRevisionAliasUnauthorized
@@ -3063,7 +3350,7 @@ func TestGetExecutionOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
+		{Input: "{\"Execution\":{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"StepCount\":0,\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -3157,6 +3444,47 @@ func TestGetExecutionOKExecutionWorkflowTagsItem_EncodeDecode(t *testing.T) {
 
 	var typ2 GetExecutionOKExecutionWorkflowTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestGetExecutionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ GetExecutionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 GetExecutionPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestGetExecutionPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ GetExecutionPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 GetExecutionPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestGetExecutionUnauthorized_EncodeDecode(t *testing.T) {
 	var typ GetExecutionUnauthorized
@@ -3381,7 +3709,7 @@ func TestGetSubscriptionOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"CurrentPlan\":{\"accountId\":\"sampleString\",\"activateFrom\":\"2020-01-01T00:00:00Z\",\"contractId\":\"sampleString\",\"createdAt\":\"2020-01-01T00:00:00Z\",\"id\":\"sampleString\",\"planId\":123,\"planName\":\"sampleString\",\"updatedAt\":\"2020-01-01T00:00:00Z\"},\"MonthAppliedPlan\":{\"accountId\":\"sampleString\",\"activateFrom\":\"2020-01-01T00:00:00Z\",\"basePrice\":123,\"contractId\":\"sampleString\",\"createdAt\":\"2020-01-01T00:00:00Z\",\"id\":\"sampleString\",\"includedSteps\":123,\"overagePricePerUnit\":123,\"overageStepUnit\":123,\"planGrade\":123,\"planId\":123,\"planName\":\"sampleString\",\"updatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
+		{Input: "{\"CurrentPlan\":{\"accountId\":\"sampleString\",\"activateFrom\":\"2020-01-01T00:00:00Z\",\"activateUntil\":\"2020-01-01T00:00:00Z\",\"contractId\":\"sampleString\",\"createdAt\":\"2020-01-01T00:00:00Z\",\"id\":\"sampleString\",\"planId\":123,\"planName\":\"sampleString\",\"updatedAt\":\"2020-01-01T00:00:00Z\"},\"MonthAppliedPlan\":{\"accountId\":\"sampleString\",\"activateFrom\":\"2020-01-01T00:00:00Z\",\"activateUntil\":\"2020-01-01T00:00:00Z\",\"basePrice\":123,\"contractId\":\"sampleString\",\"createdAt\":\"2020-01-01T00:00:00Z\",\"id\":\"sampleString\",\"includedSteps\":123,\"overagePricePerUnit\":123,\"overageStepUnit\":123,\"planGrade\":123,\"planId\":123,\"planName\":\"sampleString\",\"updatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -3651,7 +3979,7 @@ func TestGetWorkflowOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
+		{Input: "{\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -3721,6 +4049,47 @@ func TestGetWorkflowOKWorkflowTagsItem_EncodeDecode(t *testing.T) {
 
 	var typ2 GetWorkflowOKWorkflowTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestGetWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ GetWorkflowPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 GetWorkflowPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestGetWorkflowPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ GetWorkflowPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 GetWorkflowPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestGetWorkflowRevisionsBadRequest_EncodeDecode(t *testing.T) {
 	var typ GetWorkflowRevisionsBadRequest
@@ -3938,6 +4307,47 @@ func TestGetWorkflowRevisionsOKRevision_EncodeDecode(t *testing.T) {
 
 	var typ2 GetWorkflowRevisionsOKRevision
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestGetWorkflowRevisionsPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ GetWorkflowRevisionsPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 GetWorkflowRevisionsPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestGetWorkflowRevisionsPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ GetWorkflowRevisionsPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 GetWorkflowRevisionsPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestGetWorkflowRevisionsUnauthorized_EncodeDecode(t *testing.T) {
 	var typ GetWorkflowRevisionsUnauthorized
@@ -4285,7 +4695,7 @@ func TestListExecutionHistoryOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Count\":123,\"From\":123,\"Histories\":[{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"JobId\":\"sampleString\",\"Meta\":\"sampleString\",\"StackTrace\":\"sampleString\",\"ThreadId\":\"sampleString\",\"Type\":\"workflowWillStart\",\"Variables\":\"sampleString\",\"WorkflowExecutionId\":\"sampleString\"}],\"Total\":123,\"is_ok\":true}"},
+		{Input: "{\"Count\":0,\"From\":0,\"Histories\":[{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"JobId\":\"sampleString\",\"Meta\":\"sampleString\",\"StackTrace\":\"sampleString\",\"ThreadId\":\"sampleString\",\"Type\":\"workflowWillStart\",\"Variables\":\"sampleString\",\"WorkflowExecutionId\":\"sampleString\"}],\"Total\":0,\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -4331,6 +4741,47 @@ func TestListExecutionHistoryOKHistoriesItemType_EncodeDecode(t *testing.T) {
 
 	var typ2 ListExecutionHistoryOKHistoriesItemType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListExecutionHistoryPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListExecutionHistoryPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListExecutionHistoryPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListExecutionHistoryPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListExecutionHistoryPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListExecutionHistoryPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestListExecutionHistoryUnauthorized_EncodeDecode(t *testing.T) {
 	var typ ListExecutionHistoryUnauthorized
@@ -4473,7 +4924,7 @@ func TestListExecutionOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Count\":123,\"Executions\":[{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}}],\"From\":123,\"Total\":123,\"is_ok\":true}"},
+		{Input: "{\"Count\":0,\"Executions\":[{\"Args\":\"sampleString\",\"CancelRequestedAt\":\"2020-01-01T00:00:00Z\",\"CanceledAt\":\"2020-01-01T00:00:00Z\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Error\":\"sampleString\",\"ExecutionId\":\"sampleString\",\"FailedAt\":\"2020-01-01T00:00:00Z\",\"Name\":\"sampleString\",\"Result\":\"sampleString\",\"Revision\":123,\"RevisionAlias\":\"sampleString\",\"RunAt\":\"2020-01-01T00:00:00Z\",\"Status\":\"Queued\",\"StepCount\":0,\"SucceededAt\":\"2020-01-01T00:00:00Z\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}}],\"From\":0,\"Total\":0,\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -4567,6 +5018,47 @@ func TestListExecutionOKExecutionsItemWorkflowTagsItem_EncodeDecode(t *testing.T
 
 	var typ2 ListExecutionOKExecutionsItemWorkflowTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListExecutionPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListExecutionPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListExecutionPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListExecutionPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListExecutionPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListExecutionPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestListExecutionUnauthorized_EncodeDecode(t *testing.T) {
 	var typ ListExecutionUnauthorized
@@ -5049,7 +5541,7 @@ func TestListWorkflowOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Count\":123,\"From\":123,\"Total\":123,\"Workflows\":[{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}],\"is_ok\":true}"},
+		{Input: "{\"Count\":0,\"From\":0,\"Total\":0,\"Workflows\":[{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"}],\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -5119,6 +5611,47 @@ func TestListWorkflowOKWorkflowsItemTagsItem_EncodeDecode(t *testing.T) {
 
 	var typ2 ListWorkflowOKWorkflowsItemTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListWorkflowPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListWorkflowPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListWorkflowPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestListWorkflowRevisionsBadRequest_EncodeDecode(t *testing.T) {
 	var typ ListWorkflowRevisionsBadRequest
@@ -5302,7 +5835,7 @@ func TestListWorkflowRevisionsOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Count\":123,\"From\":123,\"Revisions\":[{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"}],\"Total\":123,\"is_ok\":true}"},
+		{Input: "{\"Count\":0,\"From\":0,\"Revisions\":[{\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"RevisionAlias\":\"sampleString\",\"RevisionId\":123,\"Runbook\":\"sampleString\",\"UpdatedAt\":\"2020-01-01T00:00:00Z\",\"WorkflowId\":\"sampleString\"}],\"Total\":0,\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -5336,6 +5869,47 @@ func TestListWorkflowRevisionsOKRevisionsItem_EncodeDecode(t *testing.T) {
 
 	var typ2 ListWorkflowRevisionsOKRevisionsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListWorkflowRevisionsPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowRevisionsPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowRevisionsPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListWorkflowRevisionsPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListWorkflowRevisionsPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListWorkflowRevisionsPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestListWorkflowRevisionsUnauthorized_EncodeDecode(t *testing.T) {
 	var typ ListWorkflowRevisionsUnauthorized
@@ -5560,7 +6134,7 @@ func TestListWorkflowSuggestOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Count\":123,\"From\":123,\"Suggests\":[{\"Count\":123,\"Name\":\"sampleString\"}],\"Total\":123,\"is_ok\":true}"},
+		{Input: "{\"Count\":0,\"From\":0,\"Suggests\":[{\"Count\":123,\"Name\":\"sampleString\"}],\"Total\":0,\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -5594,6 +6168,47 @@ func TestListWorkflowSuggestOKSuggestsItem_EncodeDecode(t *testing.T) {
 
 	var typ2 ListWorkflowSuggestOKSuggestsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListWorkflowSuggestPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ ListWorkflowSuggestPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListWorkflowSuggestPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListWorkflowSuggestPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListWorkflowSuggestPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListWorkflowSuggestPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestListWorkflowSuggestUnauthorized_EncodeDecode(t *testing.T) {
 	var typ ListWorkflowSuggestUnauthorized
@@ -5859,7 +6474,7 @@ func TestUpdateWorkflowOK_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
+		{Input: "{\"Workflow\":{\"ConcurrencyMode\":\"parallel\",\"CreatedAt\":\"2020-01-01T00:00:00Z\",\"Description\":\"sampleString\",\"Id\":\"sampleString\",\"Logging\":true,\"Name\":\"sampleString\",\"Publish\":true,\"ServicePrincipalId\":\"sampleString\",\"Tags\":[{\"Name\":\"sampleString\"}],\"UpdatedAt\":\"2020-01-01T00:00:00Z\"},\"is_ok\":true}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
@@ -5929,6 +6544,47 @@ func TestUpdateWorkflowOKWorkflowTagsItem_EncodeDecode(t *testing.T) {
 
 	var typ2 UpdateWorkflowOKWorkflowTagsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateWorkflowPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ UpdateWorkflowPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateWorkflowPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateWorkflowPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateWorkflowPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateWorkflowPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestUpdateWorkflowReq_EncodeDecode(t *testing.T) {
 	var typ UpdateWorkflowReq
@@ -6252,6 +6908,47 @@ func TestUpdateWorkflowRevisionAliasOKRevision_EncodeDecode(t *testing.T) {
 
 	var typ2 UpdateWorkflowRevisionAliasOKRevision
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateWorkflowRevisionAliasPaymentRequired_EncodeDecode(t *testing.T) {
+	var typ UpdateWorkflowRevisionAliasPaymentRequired
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateWorkflowRevisionAliasPaymentRequired
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateWorkflowRevisionAliasPaymentRequired_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"Message\":\"Payment Required\",\"is_ok\":false}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateWorkflowRevisionAliasPaymentRequired
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateWorkflowRevisionAliasPaymentRequired
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestUpdateWorkflowRevisionAliasReq_EncodeDecode(t *testing.T) {
 	var typ UpdateWorkflowRevisionAliasReq

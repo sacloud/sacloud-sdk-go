@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "version": "1.0.0",
+    "version": "1.0.1",
     "title": "Workflows APIドキュメント",
     "description": "***\n\n「Workflows」が提供するAPIの利用方法とサンプルを公開しております。\n\n# 基本的な使い方\n\n## APIキーの利用\n\n認証には「APIキー」が利用できます。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n\n| 項目名    | APIキー発行時の項目名   | このドキュメント内での例                         |\n| ------ | -------------- | ------------------------------------ |\n| ユーザーID | アクセストークン(UUID) | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード  | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n\n  <div class=\"warning\">\n    操作マニュアル<br />\n    <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n  </div>\n\n## 出力結果と応答コード（HTTPステータスコード）\n\nAPIからの結果は、「応答コード（HTTPステータスコード）」と、「JSON形式(UTF-8)の結果」として出力されます。\n\n応答コードは、リクエストが成功したのか、失敗したのか大まかな情報を判断することができるもので、例えば失敗したときには、なぜこのような結果になったのかなど、具体的な情報は応答コードと主に返された本文を見ることで把握することができます。\n\n| 結果                | 応答コード/status | レスポンス             |\n| ----------------- | ------------ | ----------------- |\n| 成功（要求を受け付けた）      | 2xx          | \"is\\_ok\": true    |\n| 失敗（要求が受け付けられなかった） | 4xx, 5xx     | \"is\\_fatal\": true, \"is\\_ok\": false |\n\n```json\n# 出力結果サンプル(成功時)\n{\n  \"is_ok\": true,\n  \"Total\": 0,\n  \"From\": 0,\n  \"Count\": 0,\n  \"Log\": []\n}\n```\n\n```json\n# 出力結果サンプル（認証経路で失敗時）\n{\n  \"is_fatal\": true,\n  \"serial\": \"e0f36f2b4e056e2aefc3bc1242b36f1e\",\n  \"status\": \"500 Internal Server Error\",\n  \"error_code\": \"internal_server_error\",\n  \"error_msg\": \"サーバ内部エラーが発生しました。このエラーが繰り返し発生する場合は、メンテナンス情報、サポートサイトをご確認ください。\"\n}\n# 出力結果サンプル（ワークフロー内で失敗時）\n{\n  \"is_ok\": false,\n  \"Code\": \"H-0000\",\n  \"Message\": \"Malformed JSON in request body\",\n  \"Cause\": []\n}\n```\n\n## Runbookのコードサンプル\n\n### エラトステネスの篩\n\n```yaml\nmeta:\n  description: エラトステネスの篩\nargs:\n  maxNumber:\n    type: number\n    description: 素数を求める最大の数\nsteps:\n  setup:\n    assign:\n      sieve: ${array.fill(array.range(args.maxNumber), true)}\n      primes: []\n  initial:\n    assign:\n      _a: ${array.set(sieve, 0, false)}\n      _b: ${array.set(sieve, 1, false)}\n  loop:\n    for:\n      in: ${array.range(2, math.ceil(math.sqrt(args.maxNumber)))}\n      as: index\n      steps:\n        if:\n          switch:\n            # falseだったら飛ばす\n            - condition: ${sieve[index] == false}\n              next: continue\n            # trueだったら素数\n            - condition: ${sieve[index] != false}\n              steps:\n                # 素数の倍数を篩にかける\n                updateSieve:\n                  for:\n                    in: ${array.range(index * 2, args.maxNumber, index)}\n                    as: n\n                    steps:\n                      set:\n                        assign:\n                          _a: ${array.set(sieve, n, false)}\n        continue:\n  printPrimes:\n    for:\n      in: ${array.range(2, args.maxNumber)}\n      as: index\n      steps:\n        if:\n          switch:\n            - condition: ${sieve[index] == true}\n              steps:\n                push:\n                  assign:\n                    _a: ${array.push(primes, index)}\n                log:\n                  assign:\n                    log: '${\"素数: \" + index}'\n  done:\n    return: ${primes}\n```\n\n### 住所検索\n\n```yaml\nmeta:\n  description: 住所検索\nargs:\n  address:\n    type: string\n    description: \"住所を取得するための郵便番号\"\nsteps:\n  set:\n    switch:\n      - condition: ${args.address}\n        steps:\n          x:\n            assign:\n              address: ${args.address}\n      - condition: ${!args.address}\n        steps:\n          x:\n            assign:\n              address: \"1000001\"\n  get:\n    call: http.get\n    args:\n      url: ${\"https://zipcloud.ibsnet.co.jp/api/search\"}\n      headers:\n        Accept: application/json\n      query:\n        zipcode: ${address}\n    result: atomBody\n  parse:\n    assign:\n      jsonData: ${json.decode(atomBody.body)}\n  done:\n    return: ${jsonData.results[0].address1 + jsonData.results[0].address2 + jsonData.results[0].address3}\n```\n\n# 利用例\n\n上記で取得した`ユーザーID`、`トークン`を利用してAPIの利用が可能になります。\n\n## プランの設定\n\nプランを設定しワークフローを利用するには、以下のような入力を行います。\n\n### プラン一覧の確認\n\n```sh\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:sampletokensampletokensampletoke' \\\n     -X GET \\\n     -H 'Content-Type: application/json' \\\n     -H 'X-Requested-With: XMLHttpRequest' \\\n     https://secure.sakura.ad.jp/cloud/zone/tk1b/api/workflow/1.0/plans | jq .\n```\n\n```json\n{\n  \"is_ok\": true,\n  \"Plans\": [\n    {\n      \"id\": 1,\n      \"name\": \"200Kプラン\",\n      \"grade\": 200,\n      \"basePrice\": 4000,\n      \"includedSteps\": 200000,\n      \"overageStepUnit\": 1000,\n      \"overagePricePerUnit\": 80,\n      ...\n    },\n    {\n      \"id\": 2,\n      \"name\": \"600Kプラン\",\n      \"grade\": 300,\n      \"basePrice\": 10000,\n      \"includedSteps\": 600000,\n      \"overageStepUnit\": 1000,\n      \"overagePricePerUnit\": 80,\n      ...\n    }\n  ],\n  \"TaxRate\": 10\n}\n```\n\n### プランの設定\n上記で取得した任意の`プランID(Plans[].id)`を利用して、プランを設定します。\n\n```sh\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:sampletokensampletokensampletoke' \\\n     -X POST \\\n     -H 'Content-Type: application/json' \\\n     -H 'X-Requested-With: XMLHttpRequest' \\\n     -d '{\"PlanId\": 1}' \\\n     https://secure.sakura.ad.jp/cloud/zone/tk1b/api/workflow/1.0/subscription | jq .\n```\n\n上記プラン設定完了後、ワークフローが利用可能になります。\n\n## ワークフローの作成\n\nワークフローを作成するには、以下のような入力を行います。\n\n> ワークフロー作成前にRunbookの作成が必要になります。\n> 詳しくは[構文リファレンス](https://manual.sakura.ad.jp/cloud/appliance/workflows/reference-syntax.html)を参照してください。\n\n### Runbookをパラメータに設定する\n\nJSON内にYAMLを格納するために必要なこと\n\n- Runbookの改行を `\\n` に変換する。\n- YAML内にあるダブルクォーテーションをエスケープする。\n  convertYaml.sh\n\n```bash\n#!/bin/bash\n\n# Runbookファイルを読み込み、文字列に変換\n# 改行は\\nに変換し、ダブルクォーテーションはエスケープする\n# gsedはMacのsedで改行を含む文字列を扱うために使用\n# Mac環境でのみ動作確認済み\n\n# runbook_to_string 関数を定義\nfunction runbook_to_string() {\n    local file_path=\"$1\"\n    local runbook\n\n    if [ ! -f \"$file_path\" ]; then\n        echo \"Error: File not found.\" >&2\n        return 1\n    fi\n\n    runbook=$(gsed ':a;N;$!ba;s/\\n/\\\\n/g' \"$file_path\" | gsed 's/\"/\\\\\"/g')\n    echo \"$runbook\"\n}\n\n# コマンドラインからの引数をチェック\nif [ $# -eq 0 ]; then\n    echo \"Usage: $0 <file_path>\"\n    exit 1\nfi\n\n# 引数からファイルパスを取得\nfile_path=\"$1\"\n\n# runbook_to_string 関数を呼び出し、結果を表示\nrunbook_to_string \"$file_path\"\n```\n\n上記で作成したbashに実行権限を付け、yamlをリクエストパラメータで使えるよう文字列に変換します。\n\n```sh\nchmod +x convertYaml.sh\n./convertYaml.sh sample.yaml\n```\n\n### ワークフローの作成\n\n```sh\n# 入力サンプル\nvi request_body.json\n\ncat request_body.json\n{\n    \"Runbook\": \"[上記bashで出力した文字列]\",\n    \"Name\": \"Workflowの名前\",\n    \"Description\": \"ワークフローの説明\",\n    \"Publish\": true,\n    \"Logging\": true,\n}\n\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:sampletokensampletokensampletoke' \\\n     -X POST \\\n     -H 'Content-Type: application/json' \\\n     -H 'X-Requested-With: XMLHttpRequest' \\\n     -d '@request_body.json' \\\n     https://secure.sakura.ad.jp/cloud/zone/tk1b/api/workflow/1.0/workflows/ | jq .\n```\n\n```json\n{\n  \"is_ok\": true,\n  \"Workflow\": {\n    \"Id\": \"uhqybrbehx8lnpo9x8hd8ikt\",　<- workflowID\n    \"Name\": \"Workflowの名前\",\n    \"Description\": \"ワークフローの説明\",\n    \"Publish\": true,\n    \"Logging\": true,\n    \"Tags\": [\n      {\n        \"Name\": null\n      }\n    ],\n    \"CreatedAt\": \"2025-01-30T17:54:28.710Z\",\n    \"UpdatedAt\": \"2025-01-30T17:54:28.710Z\"\n  }\n}\n```\n\n## ワークフローの実行\n\nワークフローを実行するには、以下のような入力を行います。\n\nurlには上記で取得した`workflowID`を使います。\n\n```sh\n# 入力サンプル\nvi request_body.json\n\ncat request_body.json\n{}\n\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:sampletokensampletokensampletoke' \\\n     -X POST \\\n     -H 'Content-Type: application/json' \\\n     -H 'X-Requested-With: XMLHttpRequest' \\\n     -d '@request_body.json' \\\n     https://secure.sakura.ad.jp/cloud/zone/tk1b/api/workflow/1.0/workflows/[workflowId]/executions | jq .\n```\n\n```json\n{\n  \"is_ok\": true,\n  \"Execution\": {\n    \"ExecutionId\": \"bcohwmnwlhpkhowhn80k3ird\", <- executionId\n    \"Name\": \"Workflowの名前\",\n    \"Workflow\": {\n      \"Id\": \"uhqybrbehx8lnpo9x8hd8ikt\",　<- workflowID\n      \"Name\": \"Workflowの名前\",\n      \"Description\": \"Workflowの説明\",\n      \"Publish\": true,\n      \"Logging\": true,\n      \"Tags\": [\n        {\n          \"Name\": null\n        }\n      ],\n      \"CreatedAt\": \"2025-01-30T17:54:28.710Z\",\n      \"UpdatedAt\": \"2025-01-30T17:54:28.710Z\"\n    },\n    \"Status\": \"Queued\",\n    \"Revision\": 1,\n    \"RevisionAlias\": \"string\",\n    \"Args\": \"null\",\n    \"Result\": \"null\",\n    \"Error\": \"null\",\n    \"CreatedAt\": \"2025-01-30T18:09:34.810Z\",\n    \"UpdatedAt\": \"2025-01-30T18:09:34.810Z\"\n  }\n}\n```\n\n## ワークフローの実行の履歴を取得\n\nワークフローの実行の履歴を取得するには、以下のような入力を行います。\n\nurlには上記で取得した`workflowID`と`executionId`を使います。\n\n```sh\n# 入力サンプル\ncurl -u '01234567-89ab-cdef-0123-456789abcdef:sampletokensampletokensampletoke' \\\n     -X GET \\\n     -H 'Content-Type: application/json' \\\n     -H 'X-Requested-With: XMLHttpRequest' \\\n     https://secure.sakura.ad.jp/cloud/zone/tk1b/api/workflow/1.0/workflows/[workflowId]/executions/[executionId]/exec_history | jq .\n```\n",
     "contact": {
@@ -47,15 +47,15 @@
                 "type": "object",
                 "properties": {
                   "Name": {
+                    "type": "string",
                     "minLength": 1,
                     "maxLength": 64,
-                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                   },
                   "Description": {
+                    "type": "string",
                     "minLength": 0,
-                    "maxLength": 1024,
-                    "type": "string"
+                    "maxLength": 1024
                   },
                   "Runbook": {
                     "type": "string"
@@ -72,9 +72,9 @@
                       "type": "object",
                       "properties": {
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 64,
-                          "type": "string"
+                          "maxLength": 64
                         }
                       },
                       "required": [
@@ -83,16 +83,16 @@
                     }
                   },
                   "RevisionAlias": {
+                    "type": "string",
                     "minLength": 0,
                     "maxLength": 64,
-                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                   },
                   "ServicePrincipalId": {
                     "oneOf": [
                       {
-                        "pattern": "^[0-9]{12}$",
-                        "type": "string"
+                        "type": "string",
+                        "pattern": "^[0-9]{12}$"
                       },
                       {
                         "type": "number"
@@ -100,12 +100,12 @@
                     ]
                   },
                   "ConcurrencyMode": {
+                    "type": "string",
                     "enum": [
                       "parallel",
                       "lock",
                       "queue"
-                    ],
-                    "type": "string"
+                    ]
                   }
                 },
                 "required": [
@@ -127,6 +127,7 @@
                   }
                 ],
                 "RevisionAlias": "sampleString",
+                "ServicePrincipalId": "sampleString",
                 "ConcurrencyMode": "parallel"
               }
             }
@@ -147,20 +148,20 @@
                       "type": "object",
                       "properties": {
                         "Id": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                         },
                         "Description": {
+                          "type": "string",
                           "minLength": 0,
-                          "maxLength": 1024,
-                          "type": "string"
+                          "maxLength": 1024
                         },
                         "Publish": {
                           "type": "boolean"
@@ -174,9 +175,9 @@
                             "type": "object",
                             "properties": {
                               "Name": {
+                                "type": "string",
                                 "minLength": 1,
-                                "maxLength": 64,
-                                "type": "string"
+                                "maxLength": 64
                               }
                             },
                             "required": [
@@ -187,8 +188,8 @@
                         "ServicePrincipalId": {
                           "oneOf": [
                             {
-                              "pattern": "^[0-9]{12}$",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^[0-9]{12}$"
                             },
                             {
                               "type": "number"
@@ -196,20 +197,20 @@
                           ]
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "ConcurrencyMode": {
+                          "type": "string",
                           "enum": [
                             "parallel",
                             "lock",
                             "queue"
-                          ],
-                          "type": "string"
+                          ]
                         }
                       },
                       "required": [
@@ -241,6 +242,7 @@
                         "Name": "sampleString"
                       }
                     ],
+                    "ServicePrincipalId": "sampleString",
                     "CreatedAt": "2020-01-01T00:00:00Z",
                     "UpdatedAt": "2020-01-01T00:00:00Z",
                     "ConcurrencyMode": "parallel"
@@ -257,6 +259,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -283,6 +286,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -301,6 +305,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -309,6 +340,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -335,6 +367,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -361,6 +394,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -395,9 +429,9 @@
             "description": "ページ番号",
             "required": false,
             "schema": {
-              "minimum": 1,
               "default": 1,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
             },
             "example": 1
           },
@@ -407,10 +441,10 @@
             "description": "1ページあたりのリソースの取得数",
             "required": false,
             "schema": {
-              "minimum": 5,
-              "maximum": 500,
               "default": 20,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 500
             },
             "example": 20
           },
@@ -420,12 +454,12 @@
             "description": "Workflowのソートに利用するプロパティ",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "createdAt",
                 "updatedAt",
                 "id"
-              ],
-              "type": "string"
+              ]
             },
             "example": "createdAt"
           },
@@ -435,11 +469,11 @@
             "description": "ソートの順序",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "asc",
                 "desc"
-              ],
-              "type": "string"
+              ]
             },
             "example": "asc"
           },
@@ -459,10 +493,10 @@
             "description": "ワークフロー名の絞り込み",
             "required": false,
             "schema": {
+              "type": "string",
               "minLength": 1,
               "maxLength": 64,
-              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-              "type": "string"
+              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
             },
             "example": "sampleString"
           },
@@ -472,11 +506,11 @@
             "description": "ワークフロー名の絞り込み方法",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "partial",
                 "prefix"
-              ],
-              "type": "string"
+              ]
             },
             "example": "partial"
           }
@@ -493,19 +527,19 @@
                       "type": "boolean"
                     },
                     "Total": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "From": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Count": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Workflows": {
                       "type": "array",
@@ -513,20 +547,20 @@
                         "type": "object",
                         "properties": {
                           "Id": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 36,
-                            "type": "string"
+                            "maxLength": 36
                           },
                           "Name": {
+                            "type": "string",
                             "minLength": 1,
                             "maxLength": 64,
-                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                            "type": "string"
+                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                           },
                           "Description": {
+                            "type": "string",
                             "minLength": 0,
-                            "maxLength": 1024,
-                            "type": "string"
+                            "maxLength": 1024
                           },
                           "Publish": {
                             "type": "boolean"
@@ -540,9 +574,9 @@
                               "type": "object",
                               "properties": {
                                 "Name": {
+                                  "type": "string",
                                   "minLength": 1,
-                                  "maxLength": 64,
-                                  "type": "string"
+                                  "maxLength": 64
                                 }
                               },
                               "required": [
@@ -553,8 +587,8 @@
                           "ServicePrincipalId": {
                             "oneOf": [
                               {
-                                "pattern": "^[0-9]{12}$",
-                                "type": "string"
+                                "type": "string",
+                                "pattern": "^[0-9]{12}$"
                               },
                               {
                                 "type": "number"
@@ -562,20 +596,20 @@
                             ]
                           },
                           "CreatedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "UpdatedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "ConcurrencyMode": {
+                            "type": "string",
                             "enum": [
                               "parallel",
                               "lock",
                               "queue"
-                            ],
-                            "type": "string"
+                            ]
                           }
                         },
                         "required": [
@@ -600,9 +634,9 @@
                 },
                 "example": {
                   "is_ok": true,
-                  "Total": 123,
-                  "From": 123,
-                  "Count": 123,
+                  "Total": 0,
+                  "From": 0,
+                  "Count": 0,
                   "Workflows": [
                     {
                       "Id": "sampleString",
@@ -615,6 +649,7 @@
                           "Name": "sampleString"
                         }
                       ],
+                      "ServicePrincipalId": "sampleString",
                       "CreatedAt": "2020-01-01T00:00:00Z",
                       "UpdatedAt": "2020-01-01T00:00:00Z",
                       "ConcurrencyMode": "parallel"
@@ -632,6 +667,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -658,6 +694,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -676,6 +713,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -684,6 +748,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -710,6 +775,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -736,6 +802,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -772,10 +839,10 @@
             "description": "ワークフロー名の絞り込み",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
               "maxLength": 64,
-              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-              "type": "string"
+              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
             },
             "example": "sampleString"
           },
@@ -785,9 +852,9 @@
             "description": "ページ番号",
             "required": false,
             "schema": {
-              "minimum": 1,
               "default": 1,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
             },
             "example": 1
           },
@@ -797,10 +864,10 @@
             "description": "1ページあたりのリソースの取得数",
             "required": false,
             "schema": {
-              "minimum": 5,
-              "maximum": 500,
               "default": 20,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 500
             },
             "example": 20
           },
@@ -810,11 +877,11 @@
             "description": "サジェストのソートに利用するプロパティ",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "name",
                 "count"
-              ],
-              "type": "string"
+              ]
             },
             "example": "name"
           },
@@ -824,11 +891,11 @@
             "description": "ソートの順序",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "asc",
                 "desc"
-              ],
-              "type": "string"
+              ]
             },
             "example": "asc"
           }
@@ -845,19 +912,19 @@
                       "type": "boolean"
                     },
                     "Total": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "From": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Count": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Suggests": {
                       "type": "array",
@@ -865,14 +932,14 @@
                         "type": "object",
                         "properties": {
                           "Name": {
+                            "type": "string",
                             "minLength": 1,
                             "maxLength": 64,
-                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                            "type": "string"
+                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                           },
                           "Count": {
-                            "minimum": 1,
-                            "type": "number"
+                            "type": "integer",
+                            "minimum": 1
                           }
                         },
                         "required": [
@@ -892,9 +959,9 @@
                 },
                 "example": {
                   "is_ok": true,
-                  "Total": 123,
-                  "From": 123,
-                  "Count": 123,
+                  "Total": 0,
+                  "From": 0,
+                  "Count": 0,
                   "Suggests": [
                     {
                       "Name": "sampleString",
@@ -913,6 +980,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -939,6 +1007,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -957,6 +1026,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -965,6 +1061,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -991,6 +1088,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1017,6 +1115,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1053,9 +1152,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -1075,20 +1174,20 @@
                       "type": "object",
                       "properties": {
                         "Id": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                         },
                         "Description": {
+                          "type": "string",
                           "minLength": 0,
-                          "maxLength": 1024,
-                          "type": "string"
+                          "maxLength": 1024
                         },
                         "Publish": {
                           "type": "boolean"
@@ -1102,9 +1201,9 @@
                             "type": "object",
                             "properties": {
                               "Name": {
+                                "type": "string",
                                 "minLength": 1,
-                                "maxLength": 64,
-                                "type": "string"
+                                "maxLength": 64
                               }
                             },
                             "required": [
@@ -1115,8 +1214,8 @@
                         "ServicePrincipalId": {
                           "oneOf": [
                             {
-                              "pattern": "^[0-9]{12}$",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^[0-9]{12}$"
                             },
                             {
                               "type": "number"
@@ -1124,20 +1223,20 @@
                           ]
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "ConcurrencyMode": {
+                          "type": "string",
                           "enum": [
                             "parallel",
                             "lock",
                             "queue"
-                          ],
-                          "type": "string"
+                          ]
                         }
                       },
                       "required": [
@@ -1169,6 +1268,7 @@
                         "Name": "sampleString"
                       }
                     ],
+                    "ServicePrincipalId": "sampleString",
                     "CreatedAt": "2020-01-01T00:00:00Z",
                     "UpdatedAt": "2020-01-01T00:00:00Z",
                     "ConcurrencyMode": "parallel"
@@ -1185,6 +1285,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1211,6 +1312,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1229,6 +1331,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -1237,6 +1366,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1263,6 +1393,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1289,6 +1420,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1323,9 +1455,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -1338,15 +1470,15 @@
                 "type": "object",
                 "properties": {
                   "Name": {
+                    "type": "string",
                     "minLength": 1,
                     "maxLength": 64,
-                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                   },
                   "Description": {
+                    "type": "string",
                     "minLength": 0,
-                    "maxLength": 1024,
-                    "type": "string"
+                    "maxLength": 1024
                   },
                   "Publish": {
                     "type": "boolean"
@@ -1360,9 +1492,9 @@
                       "type": "object",
                       "properties": {
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 64,
-                          "type": "string"
+                          "maxLength": 64
                         }
                       },
                       "required": [
@@ -1371,12 +1503,12 @@
                     }
                   },
                   "ConcurrencyMode": {
+                    "type": "string",
                     "enum": [
                       "parallel",
                       "lock",
                       "queue"
-                    ],
-                    "type": "string"
+                    ]
                   }
                 }
               },
@@ -1410,20 +1542,20 @@
                       "type": "object",
                       "properties": {
                         "Id": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                         },
                         "Description": {
+                          "type": "string",
                           "minLength": 0,
-                          "maxLength": 1024,
-                          "type": "string"
+                          "maxLength": 1024
                         },
                         "Publish": {
                           "type": "boolean"
@@ -1437,9 +1569,9 @@
                             "type": "object",
                             "properties": {
                               "Name": {
+                                "type": "string",
                                 "minLength": 1,
-                                "maxLength": 64,
-                                "type": "string"
+                                "maxLength": 64
                               }
                             },
                             "required": [
@@ -1450,8 +1582,8 @@
                         "ServicePrincipalId": {
                           "oneOf": [
                             {
-                              "pattern": "^[0-9]{12}$",
-                              "type": "string"
+                              "type": "string",
+                              "pattern": "^[0-9]{12}$"
                             },
                             {
                               "type": "number"
@@ -1459,20 +1591,20 @@
                           ]
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "ConcurrencyMode": {
+                          "type": "string",
                           "enum": [
                             "parallel",
                             "lock",
                             "queue"
-                          ],
-                          "type": "string"
+                          ]
                         }
                       },
                       "required": [
@@ -1504,6 +1636,7 @@
                         "Name": "sampleString"
                       }
                     ],
+                    "ServicePrincipalId": "sampleString",
                     "CreatedAt": "2020-01-01T00:00:00Z",
                     "UpdatedAt": "2020-01-01T00:00:00Z",
                     "ConcurrencyMode": "parallel"
@@ -1520,6 +1653,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1546,6 +1680,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1564,6 +1699,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -1572,6 +1734,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1598,6 +1761,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1624,6 +1788,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1658,9 +1823,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -1695,6 +1860,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1721,6 +1887,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1739,6 +1906,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -1747,6 +1941,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1773,6 +1968,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1799,6 +1995,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1825,6 +2022,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1861,9 +2059,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -1879,10 +2077,10 @@
                     "type": "string"
                   },
                   "RevisionAlias": {
+                    "type": "string",
                     "minLength": 0,
                     "maxLength": 64,
-                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                   }
                 },
                 "required": [
@@ -1914,26 +2112,26 @@
                           "type": "integer"
                         },
                         "WorkflowId": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "RevisionAlias": {
+                          "type": "string",
                           "minLength": 0,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                         },
                         "Runbook": {
                           "type": "string"
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -1972,6 +2170,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -1998,6 +2197,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2016,6 +2216,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -2024,6 +2251,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2050,6 +2278,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2076,6 +2305,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2102,6 +2332,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2136,9 +2367,9 @@
             "description": "ページ番号",
             "required": false,
             "schema": {
-              "minimum": 1,
               "default": 1,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
             },
             "example": 1
           },
@@ -2148,10 +2379,10 @@
             "description": "1ページあたりのリソースの取得数",
             "required": false,
             "schema": {
-              "minimum": 5,
-              "maximum": 500,
               "default": 20,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 500
             },
             "example": 20
           },
@@ -2161,12 +2392,12 @@
             "description": "Workflowのソートに利用するプロパティ",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "createdAt",
                 "updatedAt",
                 "id"
-              ],
-              "type": "string"
+              ]
             },
             "example": "createdAt"
           },
@@ -2176,11 +2407,11 @@
             "description": "ソートの順序",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "asc",
                 "desc"
-              ],
-              "type": "string"
+              ]
             },
             "example": "asc"
           },
@@ -2200,9 +2431,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -2219,19 +2450,19 @@
                       "type": "boolean"
                     },
                     "Total": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "From": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Count": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Revisions": {
                       "type": "array",
@@ -2242,26 +2473,26 @@
                             "type": "integer"
                           },
                           "WorkflowId": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 36,
-                            "type": "string"
+                            "maxLength": 36
                           },
                           "RevisionAlias": {
+                            "type": "string",
                             "minLength": 0,
                             "maxLength": 64,
-                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                            "type": "string"
+                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                           },
                           "Runbook": {
                             "type": "string"
                           },
                           "CreatedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "UpdatedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -2284,9 +2515,9 @@
                 },
                 "example": {
                   "is_ok": true,
-                  "Total": 123,
-                  "From": 123,
-                  "Count": 123,
+                  "Total": 0,
+                  "From": 0,
+                  "Count": 0,
                   "Revisions": [
                     {
                       "RevisionId": 123,
@@ -2309,6 +2540,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2335,6 +2567,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2353,6 +2586,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -2361,6 +2621,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2387,6 +2648,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2413,6 +2675,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2449,9 +2712,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           },
@@ -2484,26 +2747,26 @@
                           "type": "integer"
                         },
                         "WorkflowId": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "RevisionAlias": {
+                          "type": "string",
                           "minLength": 0,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                         },
                         "Runbook": {
                           "type": "string"
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -2542,6 +2805,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2568,6 +2832,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2586,6 +2851,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -2594,6 +2886,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2620,6 +2913,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2646,6 +2940,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2682,9 +2977,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           },
@@ -2707,10 +3002,10 @@
                 "type": "object",
                 "properties": {
                   "RevisionAlias": {
+                    "type": "string",
                     "minLength": 0,
                     "maxLength": 64,
-                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                   }
                 },
                 "required": [
@@ -2741,26 +3036,26 @@
                           "type": "integer"
                         },
                         "WorkflowId": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "RevisionAlias": {
+                          "type": "string",
                           "minLength": 0,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                         },
                         "Runbook": {
                           "type": "string"
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -2799,6 +3094,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2825,6 +3121,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2843,6 +3140,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -2851,6 +3175,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2877,6 +3202,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2903,6 +3229,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2929,6 +3256,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -2963,9 +3291,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           },
@@ -2998,26 +3326,26 @@
                           "type": "integer"
                         },
                         "WorkflowId": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "RevisionAlias": {
+                          "type": "string",
                           "minLength": 0,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                         },
                         "Runbook": {
                           "type": "string"
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -3056,6 +3384,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3082,6 +3411,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3100,6 +3430,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -3108,6 +3465,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3134,6 +3492,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3160,6 +3519,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3196,9 +3556,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -3213,21 +3573,21 @@
                     "type": "integer"
                   },
                   "RevisionAlias": {
+                    "type": "string",
                     "minLength": 0,
                     "maxLength": 64,
-                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                   },
                   "Args": {
+                    "type": "string",
                     "minLength": 1,
-                    "maxLength": 65536,
-                    "type": "string"
+                    "maxLength": 65536
                   },
                   "Name": {
+                    "type": "string",
                     "minLength": 1,
                     "maxLength": 64,
-                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                    "type": "string"
+                    "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                   }
                 }
               },
@@ -3255,34 +3615,34 @@
                       "type": "object",
                       "properties": {
                         "ExecutionId": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                         },
                         "Workflow": {
                           "type": "object",
                           "properties": {
                             "Id": {
+                              "type": "string",
                               "minLength": 1,
-                              "maxLength": 36,
-                              "type": "string"
+                              "maxLength": 36
                             },
                             "Name": {
+                              "type": "string",
                               "minLength": 1,
                               "maxLength": 64,
-                              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                              "type": "string"
+                              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                             },
                             "Description": {
+                              "type": "string",
                               "minLength": 0,
-                              "maxLength": 1024,
-                              "type": "string"
+                              "maxLength": 1024
                             },
                             "Publish": {
                               "type": "boolean"
@@ -3296,9 +3656,9 @@
                                 "type": "object",
                                 "properties": {
                                   "Name": {
+                                    "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 64,
-                                    "type": "string"
+                                    "maxLength": 64
                                   }
                                 },
                                 "required": [
@@ -3309,8 +3669,8 @@
                             "ServicePrincipalId": {
                               "oneOf": [
                                 {
-                                  "pattern": "^[0-9]{12}$",
-                                  "type": "string"
+                                  "type": "string",
+                                  "pattern": "^[0-9]{12}$"
                                 },
                                 {
                                   "type": "number"
@@ -3318,20 +3678,20 @@
                               ]
                             },
                             "CreatedAt": {
-                              "format": "date-time",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "UpdatedAt": {
-                              "format": "date-time",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "ConcurrencyMode": {
+                              "type": "string",
                               "enum": [
                                 "parallel",
                                 "lock",
                                 "queue"
-                              ],
-                              "type": "string"
+                              ]
                             }
                           },
                           "required": [
@@ -3345,6 +3705,7 @@
                           ]
                         },
                         "Status": {
+                          "type": "string",
                           "enum": [
                             "Queued",
                             "Running",
@@ -3352,60 +3713,64 @@
                             "Failed",
                             "Canceling",
                             "Canceled"
-                          ],
-                          "type": "string"
+                          ]
                         },
                         "Revision": {
                           "type": "integer"
                         },
                         "RevisionAlias": {
+                          "type": "string",
                           "minLength": 0,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                         },
                         "Args": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
+                        },
+                        "StepCount": {
+                          "default": 0,
+                          "type": "integer",
+                          "minimum": 0
                         },
                         "Result": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
                         },
                         "Error": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "RunAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "FailedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "SucceededAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "CancelRequestedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "CanceledAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -3416,6 +3781,7 @@
                         "Revision",
                         "RevisionAlias",
                         "Args",
+                        "StepCount",
                         "Result",
                         "Error",
                         "CreatedAt",
@@ -3444,6 +3810,7 @@
                           "Name": "sampleString"
                         }
                       ],
+                      "ServicePrincipalId": "sampleString",
                       "CreatedAt": "2020-01-01T00:00:00Z",
                       "UpdatedAt": "2020-01-01T00:00:00Z",
                       "ConcurrencyMode": "parallel"
@@ -3452,6 +3819,7 @@
                     "Revision": 123,
                     "RevisionAlias": "sampleString",
                     "Args": "sampleString",
+                    "StepCount": 0,
                     "Result": "sampleString",
                     "Error": "sampleString",
                     "CreatedAt": "2020-01-01T00:00:00Z",
@@ -3474,6 +3842,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3500,6 +3869,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3518,6 +3888,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -3526,6 +3923,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3552,6 +3950,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3578,6 +3977,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3604,6 +4004,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3638,9 +4039,9 @@
             "description": "ページ番号",
             "required": false,
             "schema": {
-              "minimum": 1,
               "default": 1,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
             },
             "example": 1
           },
@@ -3650,10 +4051,10 @@
             "description": "1ページあたりのリソースの取得数",
             "required": false,
             "schema": {
-              "minimum": 5,
-              "maximum": 500,
               "default": 20,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 500
             },
             "example": 20
           },
@@ -3663,11 +4064,11 @@
             "description": "ソートの順序",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "asc",
                 "desc"
-              ],
-              "type": "string"
+              ]
             },
             "example": "asc"
           },
@@ -3677,9 +4078,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -3696,19 +4097,19 @@
                       "type": "boolean"
                     },
                     "Total": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "From": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Count": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Executions": {
                       "type": "array",
@@ -3716,34 +4117,34 @@
                         "type": "object",
                         "properties": {
                           "ExecutionId": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 36,
-                            "type": "string"
+                            "maxLength": 36
                           },
                           "Name": {
+                            "type": "string",
                             "minLength": 1,
                             "maxLength": 64,
-                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                            "type": "string"
+                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                           },
                           "Workflow": {
                             "type": "object",
                             "properties": {
                               "Id": {
+                                "type": "string",
                                 "minLength": 1,
-                                "maxLength": 36,
-                                "type": "string"
+                                "maxLength": 36
                               },
                               "Name": {
+                                "type": "string",
                                 "minLength": 1,
                                 "maxLength": 64,
-                                "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                                "type": "string"
+                                "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                               },
                               "Description": {
+                                "type": "string",
                                 "minLength": 0,
-                                "maxLength": 1024,
-                                "type": "string"
+                                "maxLength": 1024
                               },
                               "Publish": {
                                 "type": "boolean"
@@ -3757,9 +4158,9 @@
                                   "type": "object",
                                   "properties": {
                                     "Name": {
+                                      "type": "string",
                                       "minLength": 1,
-                                      "maxLength": 64,
-                                      "type": "string"
+                                      "maxLength": 64
                                     }
                                   },
                                   "required": [
@@ -3770,8 +4171,8 @@
                               "ServicePrincipalId": {
                                 "oneOf": [
                                   {
-                                    "pattern": "^[0-9]{12}$",
-                                    "type": "string"
+                                    "type": "string",
+                                    "pattern": "^[0-9]{12}$"
                                   },
                                   {
                                     "type": "number"
@@ -3779,20 +4180,20 @@
                                 ]
                               },
                               "CreatedAt": {
-                                "format": "date-time",
-                                "type": "string"
+                                "type": "string",
+                                "format": "date-time"
                               },
                               "UpdatedAt": {
-                                "format": "date-time",
-                                "type": "string"
+                                "type": "string",
+                                "format": "date-time"
                               },
                               "ConcurrencyMode": {
+                                "type": "string",
                                 "enum": [
                                   "parallel",
                                   "lock",
                                   "queue"
-                                ],
-                                "type": "string"
+                                ]
                               }
                             },
                             "required": [
@@ -3806,6 +4207,7 @@
                             ]
                           },
                           "Status": {
+                            "type": "string",
                             "enum": [
                               "Queued",
                               "Running",
@@ -3813,60 +4215,64 @@
                               "Failed",
                               "Canceling",
                               "Canceled"
-                            ],
-                            "type": "string"
+                            ]
                           },
                           "Revision": {
                             "type": "integer"
                           },
                           "RevisionAlias": {
+                            "type": "string",
                             "minLength": 0,
                             "maxLength": 64,
-                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                            "type": "string"
+                            "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                           },
                           "Args": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 65536,
-                            "type": "string"
+                            "maxLength": 65536
+                          },
+                          "StepCount": {
+                            "default": 0,
+                            "type": "integer",
+                            "minimum": 0
                           },
                           "Result": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 65536,
-                            "type": "string"
+                            "maxLength": 65536
                           },
                           "Error": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 65536,
-                            "type": "string"
+                            "maxLength": 65536
                           },
                           "CreatedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "UpdatedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "RunAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "FailedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "SucceededAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "CancelRequestedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "CanceledAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           }
                         },
                         "required": [
@@ -3877,6 +4283,7 @@
                           "Revision",
                           "RevisionAlias",
                           "Args",
+                          "StepCount",
                           "Result",
                           "Error",
                           "CreatedAt",
@@ -3895,9 +4302,9 @@
                 },
                 "example": {
                   "is_ok": true,
-                  "Total": 123,
-                  "From": 123,
-                  "Count": 123,
+                  "Total": 0,
+                  "From": 0,
+                  "Count": 0,
                   "Executions": [
                     {
                       "ExecutionId": "sampleString",
@@ -3913,6 +4320,7 @@
                             "Name": "sampleString"
                           }
                         ],
+                        "ServicePrincipalId": "sampleString",
                         "CreatedAt": "2020-01-01T00:00:00Z",
                         "UpdatedAt": "2020-01-01T00:00:00Z",
                         "ConcurrencyMode": "parallel"
@@ -3921,6 +4329,7 @@
                       "Revision": 123,
                       "RevisionAlias": "sampleString",
                       "Args": "sampleString",
+                      "StepCount": 0,
                       "Result": "sampleString",
                       "Error": "sampleString",
                       "CreatedAt": "2020-01-01T00:00:00Z",
@@ -3944,6 +4353,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3970,6 +4380,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -3988,6 +4399,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -3996,6 +4434,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4022,6 +4461,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4048,6 +4488,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4084,9 +4525,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           },
@@ -4096,9 +4537,9 @@
             "description": "Execution ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -4118,34 +4559,34 @@
                       "type": "object",
                       "properties": {
                         "ExecutionId": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                         },
                         "Workflow": {
                           "type": "object",
                           "properties": {
                             "Id": {
+                              "type": "string",
                               "minLength": 1,
-                              "maxLength": 36,
-                              "type": "string"
+                              "maxLength": 36
                             },
                             "Name": {
+                              "type": "string",
                               "minLength": 1,
                               "maxLength": 64,
-                              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                              "type": "string"
+                              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                             },
                             "Description": {
+                              "type": "string",
                               "minLength": 0,
-                              "maxLength": 1024,
-                              "type": "string"
+                              "maxLength": 1024
                             },
                             "Publish": {
                               "type": "boolean"
@@ -4159,9 +4600,9 @@
                                 "type": "object",
                                 "properties": {
                                   "Name": {
+                                    "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 64,
-                                    "type": "string"
+                                    "maxLength": 64
                                   }
                                 },
                                 "required": [
@@ -4172,8 +4613,8 @@
                             "ServicePrincipalId": {
                               "oneOf": [
                                 {
-                                  "pattern": "^[0-9]{12}$",
-                                  "type": "string"
+                                  "type": "string",
+                                  "pattern": "^[0-9]{12}$"
                                 },
                                 {
                                   "type": "number"
@@ -4181,20 +4622,20 @@
                               ]
                             },
                             "CreatedAt": {
-                              "format": "date-time",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "UpdatedAt": {
-                              "format": "date-time",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "ConcurrencyMode": {
+                              "type": "string",
                               "enum": [
                                 "parallel",
                                 "lock",
                                 "queue"
-                              ],
-                              "type": "string"
+                              ]
                             }
                           },
                           "required": [
@@ -4208,6 +4649,7 @@
                           ]
                         },
                         "Status": {
+                          "type": "string",
                           "enum": [
                             "Queued",
                             "Running",
@@ -4215,60 +4657,64 @@
                             "Failed",
                             "Canceling",
                             "Canceled"
-                          ],
-                          "type": "string"
+                          ]
                         },
                         "Revision": {
                           "type": "integer"
                         },
                         "RevisionAlias": {
+                          "type": "string",
                           "minLength": 0,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                         },
                         "Args": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
+                        },
+                        "StepCount": {
+                          "default": 0,
+                          "type": "integer",
+                          "minimum": 0
                         },
                         "Result": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
                         },
                         "Error": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "RunAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "FailedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "SucceededAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "CancelRequestedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "CanceledAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -4279,6 +4725,7 @@
                         "Revision",
                         "RevisionAlias",
                         "Args",
+                        "StepCount",
                         "Result",
                         "Error",
                         "CreatedAt",
@@ -4307,6 +4754,7 @@
                           "Name": "sampleString"
                         }
                       ],
+                      "ServicePrincipalId": "sampleString",
                       "CreatedAt": "2020-01-01T00:00:00Z",
                       "UpdatedAt": "2020-01-01T00:00:00Z",
                       "ConcurrencyMode": "parallel"
@@ -4315,6 +4763,7 @@
                     "Revision": 123,
                     "RevisionAlias": "sampleString",
                     "Args": "sampleString",
+                    "StepCount": 0,
                     "Result": "sampleString",
                     "Error": "sampleString",
                     "CreatedAt": "2020-01-01T00:00:00Z",
@@ -4343,34 +4792,34 @@
                       "type": "object",
                       "properties": {
                         "ExecutionId": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                         },
                         "Workflow": {
                           "type": "object",
                           "properties": {
                             "Id": {
+                              "type": "string",
                               "minLength": 1,
-                              "maxLength": 36,
-                              "type": "string"
+                              "maxLength": 36
                             },
                             "Name": {
+                              "type": "string",
                               "minLength": 1,
                               "maxLength": 64,
-                              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                              "type": "string"
+                              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                             },
                             "Description": {
+                              "type": "string",
                               "minLength": 0,
-                              "maxLength": 1024,
-                              "type": "string"
+                              "maxLength": 1024
                             },
                             "Publish": {
                               "type": "boolean"
@@ -4384,9 +4833,9 @@
                                 "type": "object",
                                 "properties": {
                                   "Name": {
+                                    "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 64,
-                                    "type": "string"
+                                    "maxLength": 64
                                   }
                                 },
                                 "required": [
@@ -4397,8 +4846,8 @@
                             "ServicePrincipalId": {
                               "oneOf": [
                                 {
-                                  "pattern": "^[0-9]{12}$",
-                                  "type": "string"
+                                  "type": "string",
+                                  "pattern": "^[0-9]{12}$"
                                 },
                                 {
                                   "type": "number"
@@ -4406,20 +4855,20 @@
                               ]
                             },
                             "CreatedAt": {
-                              "format": "date-time",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "UpdatedAt": {
-                              "format": "date-time",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "ConcurrencyMode": {
+                              "type": "string",
                               "enum": [
                                 "parallel",
                                 "lock",
                                 "queue"
-                              ],
-                              "type": "string"
+                              ]
                             }
                           },
                           "required": [
@@ -4433,6 +4882,7 @@
                           ]
                         },
                         "Status": {
+                          "type": "string",
                           "enum": [
                             "Queued",
                             "Running",
@@ -4440,60 +4890,64 @@
                             "Failed",
                             "Canceling",
                             "Canceled"
-                          ],
-                          "type": "string"
+                          ]
                         },
                         "Revision": {
                           "type": "integer"
                         },
                         "RevisionAlias": {
+                          "type": "string",
                           "minLength": 0,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                         },
                         "Args": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
+                        },
+                        "StepCount": {
+                          "default": 0,
+                          "type": "integer",
+                          "minimum": 0
                         },
                         "Result": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
                         },
                         "Error": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "RunAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "FailedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "SucceededAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "CancelRequestedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "CanceledAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -4504,6 +4958,7 @@
                         "Revision",
                         "RevisionAlias",
                         "Args",
+                        "StepCount",
                         "Result",
                         "Error",
                         "CreatedAt",
@@ -4532,6 +4987,7 @@
                           "Name": "sampleString"
                         }
                       ],
+                      "ServicePrincipalId": "sampleString",
                       "CreatedAt": "2020-01-01T00:00:00Z",
                       "UpdatedAt": "2020-01-01T00:00:00Z",
                       "ConcurrencyMode": "parallel"
@@ -4540,6 +4996,7 @@
                     "Revision": 123,
                     "RevisionAlias": "sampleString",
                     "Args": "sampleString",
+                    "StepCount": 0,
                     "Result": "sampleString",
                     "Error": "sampleString",
                     "CreatedAt": "2020-01-01T00:00:00Z",
@@ -4562,6 +5019,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4588,6 +5046,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4606,6 +5065,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -4614,6 +5100,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4640,6 +5127,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4666,6 +5154,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4692,6 +5181,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -4728,9 +5218,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           },
@@ -4740,9 +5230,9 @@
             "description": "Execution ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -4762,34 +5252,34 @@
                       "type": "object",
                       "properties": {
                         "ExecutionId": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 36,
-                          "type": "string"
+                          "maxLength": 36
                         },
                         "Name": {
+                          "type": "string",
                           "minLength": 1,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                         },
                         "Workflow": {
                           "type": "object",
                           "properties": {
                             "Id": {
+                              "type": "string",
                               "minLength": 1,
-                              "maxLength": 36,
-                              "type": "string"
+                              "maxLength": 36
                             },
                             "Name": {
+                              "type": "string",
                               "minLength": 1,
                               "maxLength": 64,
-                              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$",
-                              "type": "string"
+                              "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]+$"
                             },
                             "Description": {
+                              "type": "string",
                               "minLength": 0,
-                              "maxLength": 1024,
-                              "type": "string"
+                              "maxLength": 1024
                             },
                             "Publish": {
                               "type": "boolean"
@@ -4803,9 +5293,9 @@
                                 "type": "object",
                                 "properties": {
                                   "Name": {
+                                    "type": "string",
                                     "minLength": 1,
-                                    "maxLength": 64,
-                                    "type": "string"
+                                    "maxLength": 64
                                   }
                                 },
                                 "required": [
@@ -4816,8 +5306,8 @@
                             "ServicePrincipalId": {
                               "oneOf": [
                                 {
-                                  "pattern": "^[0-9]{12}$",
-                                  "type": "string"
+                                  "type": "string",
+                                  "pattern": "^[0-9]{12}$"
                                 },
                                 {
                                   "type": "number"
@@ -4825,20 +5315,20 @@
                               ]
                             },
                             "CreatedAt": {
-                              "format": "date-time",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "UpdatedAt": {
-                              "format": "date-time",
-                              "type": "string"
+                              "type": "string",
+                              "format": "date-time"
                             },
                             "ConcurrencyMode": {
+                              "type": "string",
                               "enum": [
                                 "parallel",
                                 "lock",
                                 "queue"
-                              ],
-                              "type": "string"
+                              ]
                             }
                           },
                           "required": [
@@ -4852,6 +5342,7 @@
                           ]
                         },
                         "Status": {
+                          "type": "string",
                           "enum": [
                             "Queued",
                             "Running",
@@ -4859,60 +5350,64 @@
                             "Failed",
                             "Canceling",
                             "Canceled"
-                          ],
-                          "type": "string"
+                          ]
                         },
                         "Revision": {
                           "type": "integer"
                         },
                         "RevisionAlias": {
+                          "type": "string",
                           "minLength": 0,
                           "maxLength": 64,
-                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$",
-                          "type": "string"
+                          "pattern": "^[a-zA-Z0-9_\\-ーぁ-んァ-ヶ一-龠]*$"
                         },
                         "Args": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
+                        },
+                        "StepCount": {
+                          "default": 0,
+                          "type": "integer",
+                          "minimum": 0
                         },
                         "Result": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
                         },
                         "Error": {
+                          "type": "string",
                           "minLength": 1,
-                          "maxLength": 65536,
-                          "type": "string"
+                          "maxLength": 65536
                         },
                         "CreatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "UpdatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "RunAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "FailedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "SucceededAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "CancelRequestedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "CanceledAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         }
                       },
                       "required": [
@@ -4923,6 +5418,7 @@
                         "Revision",
                         "RevisionAlias",
                         "Args",
+                        "StepCount",
                         "Result",
                         "Error",
                         "CreatedAt",
@@ -4951,6 +5447,7 @@
                           "Name": "sampleString"
                         }
                       ],
+                      "ServicePrincipalId": "sampleString",
                       "CreatedAt": "2020-01-01T00:00:00Z",
                       "UpdatedAt": "2020-01-01T00:00:00Z",
                       "ConcurrencyMode": "parallel"
@@ -4959,6 +5456,7 @@
                     "Revision": 123,
                     "RevisionAlias": "sampleString",
                     "Args": "sampleString",
+                    "StepCount": 0,
                     "Result": "sampleString",
                     "Error": "sampleString",
                     "CreatedAt": "2020-01-01T00:00:00Z",
@@ -4981,6 +5479,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5007,6 +5506,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5025,6 +5525,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -5033,6 +5560,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5059,6 +5587,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5085,6 +5614,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5119,9 +5649,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           },
@@ -5131,9 +5661,9 @@
             "description": "Execution ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -5168,6 +5698,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5194,6 +5725,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5212,6 +5744,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -5220,6 +5779,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5246,6 +5806,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5272,6 +5833,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5298,6 +5860,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5334,9 +5897,9 @@
             "description": "ページ番号",
             "required": false,
             "schema": {
-              "minimum": 1,
               "default": 1,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 1
             },
             "example": 1
           },
@@ -5346,10 +5909,10 @@
             "description": "1ページあたりのリソースの取得数",
             "required": false,
             "schema": {
-              "minimum": 5,
-              "maximum": 500,
               "default": 20,
-              "type": "integer"
+              "type": "integer",
+              "minimum": 5,
+              "maximum": 500
             },
             "example": 20
           },
@@ -5359,11 +5922,11 @@
             "description": "ソートの順序",
             "required": false,
             "schema": {
+              "type": "string",
               "enum": [
                 "asc",
                 "desc"
-              ],
-              "type": "string"
+              ]
             },
             "example": "asc"
           },
@@ -5373,9 +5936,9 @@
             "description": "Workflow ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           },
@@ -5385,9 +5948,9 @@
             "description": "Execution ID",
             "required": true,
             "schema": {
+              "type": "string",
               "minLength": 1,
-              "maxLength": 36,
-              "type": "string"
+              "maxLength": 36
             },
             "example": "sampleString"
           }
@@ -5404,19 +5967,19 @@
                       "type": "boolean"
                     },
                     "Total": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "From": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Count": {
-                      "minimum": 0,
                       "default": 0,
-                      "type": "integer"
+                      "type": "integer",
+                      "minimum": 0
                     },
                     "Histories": {
                       "type": "array",
@@ -5424,51 +5987,52 @@
                         "type": "object",
                         "properties": {
                           "WorkflowExecutionId": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 36,
-                            "type": "string"
+                            "maxLength": 36
                           },
                           "JobId": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 64,
-                            "type": "string"
+                            "maxLength": 64
                           },
                           "ThreadId": {
+                            "type": "string",
                             "minLength": 1,
-                            "maxLength": 64,
-                            "type": "string"
+                            "maxLength": 64
                           },
                           "Type": {
+                            "type": "string",
                             "enum": [
                               "workflowWillStart",
                               "workflowDidSuspended",
                               "workflowWillResume",
                               "workflowDidCompleted",
                               "workflowDidFailed",
+                              "workflowDidCanceled",
                               "stepWillExecute",
                               "stepDidExecuted",
                               "functionWillCall",
                               "functionWillRun",
                               "functionDidRun",
                               "functionDidFailed"
-                            ],
-                            "type": "string"
+                            ]
                           },
                           "CreatedAt": {
-                            "format": "date-time",
-                            "type": "string"
+                            "type": "string",
+                            "format": "date-time"
                           },
                           "Meta": {
-                            "minLength": 1,
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                           },
                           "StackTrace": {
-                            "minLength": 1,
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                           },
                           "Variables": {
-                            "minLength": 1,
-                            "type": "string"
+                            "type": "string",
+                            "minLength": 1
                           }
                         },
                         "required": [
@@ -5494,9 +6058,9 @@
                 },
                 "example": {
                   "is_ok": true,
-                  "Total": 123,
-                  "From": 123,
-                  "Count": 123,
+                  "Total": 0,
+                  "From": 0,
+                  "Count": 0,
                   "Histories": [
                     {
                       "WorkflowExecutionId": "sampleString",
@@ -5521,6 +6085,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5547,6 +6112,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5565,6 +6131,33 @@
               }
             }
           },
+          "402": {
+            "description": "Payment Required",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "is_ok": {
+                      "default": false,
+                      "type": "boolean"
+                    },
+                    "Message": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "is_ok",
+                    "Message"
+                  ]
+                },
+                "example": {
+                  "is_ok": false,
+                  "Message": "Payment Required"
+                }
+              }
+            }
+          },
           "403": {
             "description": "Forbidden",
             "content": {
@@ -5573,6 +6166,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5599,6 +6193,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5625,6 +6220,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5672,28 +6268,28 @@
                         "type": "object",
                         "properties": {
                           "id": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "name": {
                             "type": "string"
                           },
                           "grade": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "serviceClassPath": {
                             "type": "string"
                           },
                           "basePrice": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "includedSteps": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "overageStepUnit": {
-                            "type": "number"
+                            "type": "integer"
                           },
                           "overagePricePerUnit": {
-                            "type": "number"
+                            "type": "integer"
                           }
                         },
                         "required": [
@@ -5710,7 +6306,7 @@
                     },
                     "TaxRate": {
                       "default": 10,
-                      "type": "number"
+                      "type": "integer"
                     }
                   },
                   "required": [
@@ -5746,6 +6342,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5772,6 +6369,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5798,6 +6396,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5824,6 +6423,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5850,6 +6450,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -5892,6 +6493,7 @@
                       "type": "boolean"
                     },
                     "CurrentPlan": {
+                      "nullable": true,
                       "type": "object",
                       "properties": {
                         "id": {
@@ -5904,30 +6506,24 @@
                           "type": "string"
                         },
                         "planId": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "activateFrom": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "activateUntil": {
-                          "enum": [
-                            {
-                              "format": "date-time",
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
+                          "nullable": true,
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "createdAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "planName": {
                           "type": "string"
@@ -5958,48 +6554,42 @@
                           "type": "string"
                         },
                         "planId": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "activateFrom": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "activateUntil": {
-                          "enum": [
-                            {
-                              "format": "date-time",
-                              "type": "string"
-                            },
-                            {
-                              "type": "null"
-                            }
-                          ]
+                          "nullable": true,
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "createdAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "updatedAt": {
-                          "format": "date-time",
-                          "type": "string"
+                          "type": "string",
+                          "format": "date-time"
                         },
                         "planName": {
                           "type": "string"
                         },
                         "planGrade": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "basePrice": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "includedSteps": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "overageStepUnit": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "overagePricePerUnit": {
-                          "type": "number"
+                          "type": "integer"
                         }
                       },
                       "required": [
@@ -6032,6 +6622,7 @@
                     "contractId": "sampleString",
                     "planId": 123,
                     "activateFrom": "2020-01-01T00:00:00Z",
+                    "activateUntil": "2020-01-01T00:00:00Z",
                     "createdAt": "2020-01-01T00:00:00Z",
                     "updatedAt": "2020-01-01T00:00:00Z",
                     "planName": "sampleString"
@@ -6042,6 +6633,7 @@
                     "contractId": "sampleString",
                     "planId": 123,
                     "activateFrom": "2020-01-01T00:00:00Z",
+                    "activateUntil": "2020-01-01T00:00:00Z",
                     "createdAt": "2020-01-01T00:00:00Z",
                     "updatedAt": "2020-01-01T00:00:00Z",
                     "planName": "sampleString",
@@ -6063,6 +6655,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6089,6 +6682,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6115,6 +6709,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6141,6 +6736,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6167,6 +6763,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6196,14 +6793,15 @@
         ],
         "parameters": [],
         "requestBody": {
+          "required": true,
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "properties": {
                   "PlanId": {
-                    "minimum": 1,
-                    "type": "number"
+                    "type": "integer",
+                    "minimum": 1
                   }
                 },
                 "required": [
@@ -6228,6 +6826,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6254,6 +6853,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6280,6 +6880,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6306,6 +6907,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6332,6 +6934,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6372,6 +6975,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6398,6 +7002,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6424,6 +7029,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6450,6 +7056,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {
@@ -6476,6 +7083,7 @@
                   "type": "object",
                   "properties": {
                     "is_ok": {
+                      "default": false,
                       "type": "boolean"
                     },
                     "Message": {

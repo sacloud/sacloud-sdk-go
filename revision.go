@@ -55,10 +55,14 @@ func (op *revisionOp) Create(ctx context.Context, workflowID string, req v1.Crea
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.CreateWorkflowRevisionUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.CreateWorkflowRevisionPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.CreateWorkflowRevisionForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.CreateWorkflowRevisionNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
+	case *v1.CreateWorkflowRevisionConflict:
+		return nil, NewAPIError(methodName, http.StatusConflict, errors.New(r.Message))
 	case *v1.CreateWorkflowRevisionInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
@@ -81,6 +85,8 @@ func (op *revisionOp) List(ctx context.Context, params v1.ListWorkflowRevisionsP
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.ListWorkflowRevisionsUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.ListWorkflowRevisionsPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.ListWorkflowRevisionsForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.ListWorkflowRevisionsNotFound:
@@ -110,6 +116,8 @@ func (op *revisionOp) Read(ctx context.Context, workflowID string, revisionNumbe
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.GetWorkflowRevisionsUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.GetWorkflowRevisionsPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.GetWorkflowRevisionsForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.GetWorkflowRevisionsNotFound:
@@ -139,10 +147,14 @@ func (op *revisionOp) UpdateAlias(ctx context.Context, workflowID string, revisi
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.UpdateWorkflowRevisionAliasUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.UpdateWorkflowRevisionAliasPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.UpdateWorkflowRevisionAliasForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.UpdateWorkflowRevisionAliasNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
+	case *v1.UpdateWorkflowRevisionAliasConflict:
+		return nil, NewAPIError(methodName, http.StatusConflict, errors.New(r.Message))
 	case *v1.UpdateWorkflowRevisionAliasInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
@@ -168,6 +180,8 @@ func (op *revisionOp) DeleteAlias(ctx context.Context, workflowID string, revisi
 		return NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.DeleteWorkflowRevisionAliasUnauthorized:
 		return NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.DeleteWorkflowRevisionAliasPaymentRequired:
+		return NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.DeleteWorkflowRevisionAliasForbidden:
 		return NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.DeleteWorkflowRevisionAliasNotFound:

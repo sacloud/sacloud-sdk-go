@@ -162,6 +162,10 @@ func (s *CancelExecutionAcceptedExecution) encodeFields(e *jx.Encoder) {
 		e.Str(s.Args)
 	}
 	{
+		e.FieldStart("StepCount")
+		e.Int(s.StepCount)
+	}
+	{
 		e.FieldStart("Result")
 		e.Str(s.Result)
 	}
@@ -209,7 +213,7 @@ func (s *CancelExecutionAcceptedExecution) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfCancelExecutionAcceptedExecution = [16]string{
+var jsonFieldsNameOfCancelExecutionAcceptedExecution = [17]string{
 	0:  "ExecutionId",
 	1:  "Name",
 	2:  "Workflow",
@@ -217,15 +221,16 @@ var jsonFieldsNameOfCancelExecutionAcceptedExecution = [16]string{
 	4:  "Revision",
 	5:  "RevisionAlias",
 	6:  "Args",
-	7:  "Result",
-	8:  "Error",
-	9:  "CreatedAt",
-	10: "UpdatedAt",
-	11: "RunAt",
-	12: "FailedAt",
-	13: "SucceededAt",
-	14: "CancelRequestedAt",
-	15: "CanceledAt",
+	7:  "StepCount",
+	8:  "Result",
+	9:  "Error",
+	10: "CreatedAt",
+	11: "UpdatedAt",
+	12: "RunAt",
+	13: "FailedAt",
+	14: "SucceededAt",
+	15: "CancelRequestedAt",
+	16: "CanceledAt",
 }
 
 // Decode decodes CancelExecutionAcceptedExecution from json.
@@ -233,7 +238,8 @@ func (s *CancelExecutionAcceptedExecution) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode CancelExecutionAcceptedExecution to nil")
 	}
-	var requiredBitSet [2]uint8
+	var requiredBitSet [3]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -317,8 +323,20 @@ func (s *CancelExecutionAcceptedExecution) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Args\"")
 			}
-		case "Result":
+		case "StepCount":
 			requiredBitSet[0] |= 1 << 7
+			if err := func() error {
+				v, err := d.Int()
+				s.StepCount = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"StepCount\"")
+			}
+		case "Result":
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.Result = string(v)
@@ -330,7 +348,7 @@ func (s *CancelExecutionAcceptedExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Result\"")
 			}
 		case "Error":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Str()
 				s.Error = string(v)
@@ -342,7 +360,7 @@ func (s *CancelExecutionAcceptedExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Error\"")
 			}
 		case "CreatedAt":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.CreatedAt = v
@@ -354,7 +372,7 @@ func (s *CancelExecutionAcceptedExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"CreatedAt\"")
 			}
 		case "UpdatedAt":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.UpdatedAt = v
@@ -424,9 +442,10 @@ func (s *CancelExecutionAcceptedExecution) Decode(d *jx.Decoder) error {
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
+	for i, mask := range [3]uint8{
 		0b11111111,
-		0b00000111,
+		0b00001111,
+		0b00000000,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -998,6 +1017,7 @@ func (s *CancelExecutionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CancelExecutionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -1111,6 +1131,7 @@ func (s *CancelExecutionConflict) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CancelExecutionConflict to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -1224,6 +1245,7 @@ func (s *CancelExecutionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CancelExecutionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -1337,6 +1359,7 @@ func (s *CancelExecutionInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CancelExecutionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -1450,6 +1473,7 @@ func (s *CancelExecutionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CancelExecutionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -1682,6 +1706,10 @@ func (s *CancelExecutionOKExecution) encodeFields(e *jx.Encoder) {
 		e.Str(s.Args)
 	}
 	{
+		e.FieldStart("StepCount")
+		e.Int(s.StepCount)
+	}
+	{
 		e.FieldStart("Result")
 		e.Str(s.Result)
 	}
@@ -1729,7 +1757,7 @@ func (s *CancelExecutionOKExecution) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfCancelExecutionOKExecution = [16]string{
+var jsonFieldsNameOfCancelExecutionOKExecution = [17]string{
 	0:  "ExecutionId",
 	1:  "Name",
 	2:  "Workflow",
@@ -1737,15 +1765,16 @@ var jsonFieldsNameOfCancelExecutionOKExecution = [16]string{
 	4:  "Revision",
 	5:  "RevisionAlias",
 	6:  "Args",
-	7:  "Result",
-	8:  "Error",
-	9:  "CreatedAt",
-	10: "UpdatedAt",
-	11: "RunAt",
-	12: "FailedAt",
-	13: "SucceededAt",
-	14: "CancelRequestedAt",
-	15: "CanceledAt",
+	7:  "StepCount",
+	8:  "Result",
+	9:  "Error",
+	10: "CreatedAt",
+	11: "UpdatedAt",
+	12: "RunAt",
+	13: "FailedAt",
+	14: "SucceededAt",
+	15: "CancelRequestedAt",
+	16: "CanceledAt",
 }
 
 // Decode decodes CancelExecutionOKExecution from json.
@@ -1753,7 +1782,8 @@ func (s *CancelExecutionOKExecution) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode CancelExecutionOKExecution to nil")
 	}
-	var requiredBitSet [2]uint8
+	var requiredBitSet [3]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -1837,8 +1867,20 @@ func (s *CancelExecutionOKExecution) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Args\"")
 			}
-		case "Result":
+		case "StepCount":
 			requiredBitSet[0] |= 1 << 7
+			if err := func() error {
+				v, err := d.Int()
+				s.StepCount = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"StepCount\"")
+			}
+		case "Result":
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.Result = string(v)
@@ -1850,7 +1892,7 @@ func (s *CancelExecutionOKExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Result\"")
 			}
 		case "Error":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Str()
 				s.Error = string(v)
@@ -1862,7 +1904,7 @@ func (s *CancelExecutionOKExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Error\"")
 			}
 		case "CreatedAt":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.CreatedAt = v
@@ -1874,7 +1916,7 @@ func (s *CancelExecutionOKExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"CreatedAt\"")
 			}
 		case "UpdatedAt":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.UpdatedAt = v
@@ -1944,9 +1986,10 @@ func (s *CancelExecutionOKExecution) Decode(d *jx.Decoder) error {
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
+	for i, mask := range [3]uint8{
 		0b11111111,
-		0b00000111,
+		0b00001111,
+		0b00000000,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -2489,6 +2532,120 @@ func (s *CancelExecutionOKExecutionWorkflowTagsItem) UnmarshalJSON(data []byte) 
 }
 
 // Encode implements json.Marshaler.
+func (s *CancelExecutionPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CancelExecutionPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfCancelExecutionPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes CancelExecutionPaymentRequired from json.
+func (s *CancelExecutionPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CancelExecutionPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CancelExecutionPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCancelExecutionPaymentRequired) {
+					name = jsonFieldsNameOfCancelExecutionPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CancelExecutionPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CancelExecutionPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *CancelExecutionUnauthorized) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -2518,6 +2675,7 @@ func (s *CancelExecutionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CancelExecutionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -2631,6 +2789,7 @@ func (s *CreateExecutionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateExecutionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -2744,6 +2903,7 @@ func (s *CreateExecutionConflict) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateExecutionConflict to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -2976,6 +3136,10 @@ func (s *CreateExecutionCreatedExecution) encodeFields(e *jx.Encoder) {
 		e.Str(s.Args)
 	}
 	{
+		e.FieldStart("StepCount")
+		e.Int(s.StepCount)
+	}
+	{
 		e.FieldStart("Result")
 		e.Str(s.Result)
 	}
@@ -3023,7 +3187,7 @@ func (s *CreateExecutionCreatedExecution) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfCreateExecutionCreatedExecution = [16]string{
+var jsonFieldsNameOfCreateExecutionCreatedExecution = [17]string{
 	0:  "ExecutionId",
 	1:  "Name",
 	2:  "Workflow",
@@ -3031,15 +3195,16 @@ var jsonFieldsNameOfCreateExecutionCreatedExecution = [16]string{
 	4:  "Revision",
 	5:  "RevisionAlias",
 	6:  "Args",
-	7:  "Result",
-	8:  "Error",
-	9:  "CreatedAt",
-	10: "UpdatedAt",
-	11: "RunAt",
-	12: "FailedAt",
-	13: "SucceededAt",
-	14: "CancelRequestedAt",
-	15: "CanceledAt",
+	7:  "StepCount",
+	8:  "Result",
+	9:  "Error",
+	10: "CreatedAt",
+	11: "UpdatedAt",
+	12: "RunAt",
+	13: "FailedAt",
+	14: "SucceededAt",
+	15: "CancelRequestedAt",
+	16: "CanceledAt",
 }
 
 // Decode decodes CreateExecutionCreatedExecution from json.
@@ -3047,7 +3212,8 @@ func (s *CreateExecutionCreatedExecution) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode CreateExecutionCreatedExecution to nil")
 	}
-	var requiredBitSet [2]uint8
+	var requiredBitSet [3]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -3131,8 +3297,20 @@ func (s *CreateExecutionCreatedExecution) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Args\"")
 			}
-		case "Result":
+		case "StepCount":
 			requiredBitSet[0] |= 1 << 7
+			if err := func() error {
+				v, err := d.Int()
+				s.StepCount = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"StepCount\"")
+			}
+		case "Result":
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.Result = string(v)
@@ -3144,7 +3322,7 @@ func (s *CreateExecutionCreatedExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Result\"")
 			}
 		case "Error":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Str()
 				s.Error = string(v)
@@ -3156,7 +3334,7 @@ func (s *CreateExecutionCreatedExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Error\"")
 			}
 		case "CreatedAt":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.CreatedAt = v
@@ -3168,7 +3346,7 @@ func (s *CreateExecutionCreatedExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"CreatedAt\"")
 			}
 		case "UpdatedAt":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.UpdatedAt = v
@@ -3238,9 +3416,10 @@ func (s *CreateExecutionCreatedExecution) Decode(d *jx.Decoder) error {
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
+	for i, mask := range [3]uint8{
 		0b11111111,
-		0b00000111,
+		0b00001111,
+		0b00000000,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -3812,6 +3991,7 @@ func (s *CreateExecutionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateExecutionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -3925,6 +4105,7 @@ func (s *CreateExecutionInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateExecutionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -4038,6 +4219,7 @@ func (s *CreateExecutionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateExecutionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -4117,6 +4299,120 @@ func (s *CreateExecutionNotFound) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *CreateExecutionNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateExecutionPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateExecutionPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfCreateExecutionPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes CreateExecutionPaymentRequired from json.
+func (s *CreateExecutionPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateExecutionPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateExecutionPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateExecutionPaymentRequired) {
+					name = jsonFieldsNameOfCreateExecutionPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateExecutionPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateExecutionPaymentRequired) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -4265,6 +4561,7 @@ func (s *CreateExecutionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateExecutionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -4378,6 +4675,7 @@ func (s *CreateSubscriptionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateSubscriptionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -4491,6 +4789,7 @@ func (s *CreateSubscriptionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateSubscriptionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -4604,6 +4903,7 @@ func (s *CreateSubscriptionInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateSubscriptionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -4717,6 +5017,7 @@ func (s *CreateSubscriptionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateSubscriptionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -4811,7 +5112,7 @@ func (s *CreateSubscriptionReq) Encode(e *jx.Encoder) {
 func (s *CreateSubscriptionReq) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("PlanId")
-		e.Float64(s.PlanId)
+		e.Int(s.PlanId)
 	}
 }
 
@@ -4831,8 +5132,8 @@ func (s *CreateSubscriptionReq) Decode(d *jx.Decoder) error {
 		case "PlanId":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Float64()
-				s.PlanId = float64(v)
+				v, err := d.Int()
+				s.PlanId = int(v)
 				if err != nil {
 					return err
 				}
@@ -4926,6 +5227,7 @@ func (s *CreateSubscriptionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateSubscriptionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -5039,6 +5341,7 @@ func (s *CreateWorkflowBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -5711,6 +6014,7 @@ func (s *CreateWorkflowForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -5824,6 +6128,7 @@ func (s *CreateWorkflowInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -5937,6 +6242,7 @@ func (s *CreateWorkflowNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -6016,6 +6322,120 @@ func (s *CreateWorkflowNotFound) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *CreateWorkflowNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateWorkflowPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateWorkflowPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfCreateWorkflowPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes CreateWorkflowPaymentRequired from json.
+func (s *CreateWorkflowPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateWorkflowPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateWorkflowPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateWorkflowPaymentRequired) {
+					name = jsonFieldsNameOfCreateWorkflowPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateWorkflowPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateWorkflowPaymentRequired) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -6482,6 +6902,7 @@ func (s *CreateWorkflowRevisionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowRevisionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -6595,6 +7016,7 @@ func (s *CreateWorkflowRevisionConflict) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowRevisionConflict to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -7000,6 +7422,7 @@ func (s *CreateWorkflowRevisionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowRevisionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -7113,6 +7536,7 @@ func (s *CreateWorkflowRevisionInternalServerError) Decode(d *jx.Decoder) error 
 		return errors.New("invalid: unable to decode CreateWorkflowRevisionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -7226,6 +7650,7 @@ func (s *CreateWorkflowRevisionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowRevisionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -7305,6 +7730,120 @@ func (s *CreateWorkflowRevisionNotFound) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *CreateWorkflowRevisionNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateWorkflowRevisionPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateWorkflowRevisionPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfCreateWorkflowRevisionPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes CreateWorkflowRevisionPaymentRequired from json.
+func (s *CreateWorkflowRevisionPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateWorkflowRevisionPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateWorkflowRevisionPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateWorkflowRevisionPaymentRequired) {
+					name = jsonFieldsNameOfCreateWorkflowRevisionPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateWorkflowRevisionPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateWorkflowRevisionPaymentRequired) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -7452,6 +7991,7 @@ func (s *CreateWorkflowRevisionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowRevisionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -7565,6 +8105,7 @@ func (s *CreateWorkflowUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode CreateWorkflowUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -7678,6 +8219,7 @@ func (s *DeleteExecutionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteExecutionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -7791,6 +8333,7 @@ func (s *DeleteExecutionConflict) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteExecutionConflict to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -7904,6 +8447,7 @@ func (s *DeleteExecutionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteExecutionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -8017,6 +8561,7 @@ func (s *DeleteExecutionInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteExecutionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -8130,6 +8675,7 @@ func (s *DeleteExecutionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteExecutionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -8310,6 +8856,120 @@ func (s *DeleteExecutionOK) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *DeleteExecutionPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *DeleteExecutionPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfDeleteExecutionPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes DeleteExecutionPaymentRequired from json.
+func (s *DeleteExecutionPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DeleteExecutionPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode DeleteExecutionPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfDeleteExecutionPaymentRequired) {
+					name = jsonFieldsNameOfDeleteExecutionPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *DeleteExecutionPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *DeleteExecutionPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *DeleteExecutionUnauthorized) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -8339,6 +8999,7 @@ func (s *DeleteExecutionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteExecutionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -8452,6 +9113,7 @@ func (s *DeleteSubscriptionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteSubscriptionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -8565,6 +9227,7 @@ func (s *DeleteSubscriptionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteSubscriptionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -8678,6 +9341,7 @@ func (s *DeleteSubscriptionInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteSubscriptionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -8791,6 +9455,7 @@ func (s *DeleteSubscriptionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteSubscriptionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -8904,6 +9569,7 @@ func (s *DeleteSubscriptionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteSubscriptionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -9017,6 +9683,7 @@ func (s *DeleteWorkflowBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -9130,6 +9797,7 @@ func (s *DeleteWorkflowConflict) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowConflict to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -9243,6 +9911,7 @@ func (s *DeleteWorkflowForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -9356,6 +10025,7 @@ func (s *DeleteWorkflowInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -9469,6 +10139,7 @@ func (s *DeleteWorkflowNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -9649,6 +10320,120 @@ func (s *DeleteWorkflowOK) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *DeleteWorkflowPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *DeleteWorkflowPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfDeleteWorkflowPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes DeleteWorkflowPaymentRequired from json.
+func (s *DeleteWorkflowPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DeleteWorkflowPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode DeleteWorkflowPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfDeleteWorkflowPaymentRequired) {
+					name = jsonFieldsNameOfDeleteWorkflowPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *DeleteWorkflowPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *DeleteWorkflowPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *DeleteWorkflowRevisionAliasBadRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -9678,6 +10463,7 @@ func (s *DeleteWorkflowRevisionAliasBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowRevisionAliasBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -9791,6 +10577,7 @@ func (s *DeleteWorkflowRevisionAliasForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowRevisionAliasForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -9904,6 +10691,7 @@ func (s *DeleteWorkflowRevisionAliasInternalServerError) Decode(d *jx.Decoder) e
 		return errors.New("invalid: unable to decode DeleteWorkflowRevisionAliasInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -10017,6 +10805,7 @@ func (s *DeleteWorkflowRevisionAliasNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowRevisionAliasNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -10393,6 +11182,120 @@ func (s *DeleteWorkflowRevisionAliasOKRevision) UnmarshalJSON(data []byte) error
 }
 
 // Encode implements json.Marshaler.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfDeleteWorkflowRevisionAliasPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes DeleteWorkflowRevisionAliasPaymentRequired from json.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DeleteWorkflowRevisionAliasPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode DeleteWorkflowRevisionAliasPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfDeleteWorkflowRevisionAliasPaymentRequired) {
+					name = jsonFieldsNameOfDeleteWorkflowRevisionAliasPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *DeleteWorkflowRevisionAliasUnauthorized) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -10422,6 +11325,7 @@ func (s *DeleteWorkflowRevisionAliasUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowRevisionAliasUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -10535,6 +11439,7 @@ func (s *DeleteWorkflowUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode DeleteWorkflowUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -10648,6 +11553,7 @@ func (s *GetExecutionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetExecutionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -10761,6 +11667,7 @@ func (s *GetExecutionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetExecutionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -10874,6 +11781,7 @@ func (s *GetExecutionInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetExecutionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -10987,6 +11895,7 @@ func (s *GetExecutionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetExecutionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -11219,6 +12128,10 @@ func (s *GetExecutionOKExecution) encodeFields(e *jx.Encoder) {
 		e.Str(s.Args)
 	}
 	{
+		e.FieldStart("StepCount")
+		e.Int(s.StepCount)
+	}
+	{
 		e.FieldStart("Result")
 		e.Str(s.Result)
 	}
@@ -11266,7 +12179,7 @@ func (s *GetExecutionOKExecution) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfGetExecutionOKExecution = [16]string{
+var jsonFieldsNameOfGetExecutionOKExecution = [17]string{
 	0:  "ExecutionId",
 	1:  "Name",
 	2:  "Workflow",
@@ -11274,15 +12187,16 @@ var jsonFieldsNameOfGetExecutionOKExecution = [16]string{
 	4:  "Revision",
 	5:  "RevisionAlias",
 	6:  "Args",
-	7:  "Result",
-	8:  "Error",
-	9:  "CreatedAt",
-	10: "UpdatedAt",
-	11: "RunAt",
-	12: "FailedAt",
-	13: "SucceededAt",
-	14: "CancelRequestedAt",
-	15: "CanceledAt",
+	7:  "StepCount",
+	8:  "Result",
+	9:  "Error",
+	10: "CreatedAt",
+	11: "UpdatedAt",
+	12: "RunAt",
+	13: "FailedAt",
+	14: "SucceededAt",
+	15: "CancelRequestedAt",
+	16: "CanceledAt",
 }
 
 // Decode decodes GetExecutionOKExecution from json.
@@ -11290,7 +12204,8 @@ func (s *GetExecutionOKExecution) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode GetExecutionOKExecution to nil")
 	}
-	var requiredBitSet [2]uint8
+	var requiredBitSet [3]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -11374,8 +12289,20 @@ func (s *GetExecutionOKExecution) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Args\"")
 			}
-		case "Result":
+		case "StepCount":
 			requiredBitSet[0] |= 1 << 7
+			if err := func() error {
+				v, err := d.Int()
+				s.StepCount = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"StepCount\"")
+			}
+		case "Result":
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.Result = string(v)
@@ -11387,7 +12314,7 @@ func (s *GetExecutionOKExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Result\"")
 			}
 		case "Error":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Str()
 				s.Error = string(v)
@@ -11399,7 +12326,7 @@ func (s *GetExecutionOKExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Error\"")
 			}
 		case "CreatedAt":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.CreatedAt = v
@@ -11411,7 +12338,7 @@ func (s *GetExecutionOKExecution) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"CreatedAt\"")
 			}
 		case "UpdatedAt":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.UpdatedAt = v
@@ -11481,9 +12408,10 @@ func (s *GetExecutionOKExecution) Decode(d *jx.Decoder) error {
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
+	for i, mask := range [3]uint8{
 		0b11111111,
-		0b00000111,
+		0b00001111,
+		0b00000000,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -12026,6 +12954,120 @@ func (s *GetExecutionOKExecutionWorkflowTagsItem) UnmarshalJSON(data []byte) err
 }
 
 // Encode implements json.Marshaler.
+func (s *GetExecutionPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *GetExecutionPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfGetExecutionPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes GetExecutionPaymentRequired from json.
+func (s *GetExecutionPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetExecutionPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetExecutionPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfGetExecutionPaymentRequired) {
+					name = jsonFieldsNameOfGetExecutionPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *GetExecutionPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *GetExecutionPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *GetExecutionUnauthorized) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -12055,6 +13097,7 @@ func (s *GetExecutionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetExecutionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -12168,6 +13211,7 @@ func (s *GetSubscriptionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetSubscriptionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -12281,6 +13325,7 @@ func (s *GetSubscriptionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetSubscriptionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -12394,6 +13439,7 @@ func (s *GetSubscriptionInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetSubscriptionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -12507,6 +13553,7 @@ func (s *GetSubscriptionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetSubscriptionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -12743,17 +13790,15 @@ func (s *GetSubscriptionOKCurrentPlan) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("planId")
-		e.Float64(s.PlanId)
+		e.Int(s.PlanId)
 	}
 	{
 		e.FieldStart("activateFrom")
 		json.EncodeDateTime(e, s.ActivateFrom)
 	}
 	{
-		if len(s.ActivateUntil) != 0 {
-			e.FieldStart("activateUntil")
-			e.Raw(s.ActivateUntil)
-		}
+		e.FieldStart("activateUntil")
+		s.ActivateUntil.Encode(e, json.EncodeDateTime)
 	}
 	{
 		e.FieldStart("createdAt")
@@ -12829,8 +13874,8 @@ func (s *GetSubscriptionOKCurrentPlan) Decode(d *jx.Decoder) error {
 		case "planId":
 			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				v, err := d.Float64()
-				s.PlanId = float64(v)
+				v, err := d.Int()
+				s.PlanId = int(v)
 				if err != nil {
 					return err
 				}
@@ -12853,9 +13898,7 @@ func (s *GetSubscriptionOKCurrentPlan) Decode(d *jx.Decoder) error {
 		case "activateUntil":
 			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
-				v, err := d.RawAppend(nil)
-				s.ActivateUntil = jx.Raw(v)
-				if err != nil {
+				if err := s.ActivateUntil.Decode(d, json.DecodeDateTime); err != nil {
 					return err
 				}
 				return nil
@@ -12978,17 +14021,15 @@ func (s *GetSubscriptionOKMonthAppliedPlan) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("planId")
-		e.Float64(s.PlanId)
+		e.Int(s.PlanId)
 	}
 	{
 		e.FieldStart("activateFrom")
 		json.EncodeDateTime(e, s.ActivateFrom)
 	}
 	{
-		if len(s.ActivateUntil) != 0 {
-			e.FieldStart("activateUntil")
-			e.Raw(s.ActivateUntil)
-		}
+		e.FieldStart("activateUntil")
+		s.ActivateUntil.Encode(e, json.EncodeDateTime)
 	}
 	{
 		e.FieldStart("createdAt")
@@ -13004,23 +14045,23 @@ func (s *GetSubscriptionOKMonthAppliedPlan) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("planGrade")
-		e.Float64(s.PlanGrade)
+		e.Int(s.PlanGrade)
 	}
 	{
 		e.FieldStart("basePrice")
-		e.Float64(s.BasePrice)
+		e.Int(s.BasePrice)
 	}
 	{
 		e.FieldStart("includedSteps")
-		e.Float64(s.IncludedSteps)
+		e.Int(s.IncludedSteps)
 	}
 	{
 		e.FieldStart("overageStepUnit")
-		e.Float64(s.OverageStepUnit)
+		e.Int(s.OverageStepUnit)
 	}
 	{
 		e.FieldStart("overagePricePerUnit")
-		e.Float64(s.OveragePricePerUnit)
+		e.Int(s.OveragePricePerUnit)
 	}
 }
 
@@ -13089,8 +14130,8 @@ func (s *GetSubscriptionOKMonthAppliedPlan) Decode(d *jx.Decoder) error {
 		case "planId":
 			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				v, err := d.Float64()
-				s.PlanId = float64(v)
+				v, err := d.Int()
+				s.PlanId = int(v)
 				if err != nil {
 					return err
 				}
@@ -13113,9 +14154,7 @@ func (s *GetSubscriptionOKMonthAppliedPlan) Decode(d *jx.Decoder) error {
 		case "activateUntil":
 			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
-				v, err := d.RawAppend(nil)
-				s.ActivateUntil = jx.Raw(v)
-				if err != nil {
+				if err := s.ActivateUntil.Decode(d, json.DecodeDateTime); err != nil {
 					return err
 				}
 				return nil
@@ -13161,8 +14200,8 @@ func (s *GetSubscriptionOKMonthAppliedPlan) Decode(d *jx.Decoder) error {
 		case "planGrade":
 			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
-				v, err := d.Float64()
-				s.PlanGrade = float64(v)
+				v, err := d.Int()
+				s.PlanGrade = int(v)
 				if err != nil {
 					return err
 				}
@@ -13173,8 +14212,8 @@ func (s *GetSubscriptionOKMonthAppliedPlan) Decode(d *jx.Decoder) error {
 		case "basePrice":
 			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
-				v, err := d.Float64()
-				s.BasePrice = float64(v)
+				v, err := d.Int()
+				s.BasePrice = int(v)
 				if err != nil {
 					return err
 				}
@@ -13185,8 +14224,8 @@ func (s *GetSubscriptionOKMonthAppliedPlan) Decode(d *jx.Decoder) error {
 		case "includedSteps":
 			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
-				v, err := d.Float64()
-				s.IncludedSteps = float64(v)
+				v, err := d.Int()
+				s.IncludedSteps = int(v)
 				if err != nil {
 					return err
 				}
@@ -13197,8 +14236,8 @@ func (s *GetSubscriptionOKMonthAppliedPlan) Decode(d *jx.Decoder) error {
 		case "overageStepUnit":
 			requiredBitSet[1] |= 1 << 4
 			if err := func() error {
-				v, err := d.Float64()
-				s.OverageStepUnit = float64(v)
+				v, err := d.Int()
+				s.OverageStepUnit = int(v)
 				if err != nil {
 					return err
 				}
@@ -13209,8 +14248,8 @@ func (s *GetSubscriptionOKMonthAppliedPlan) Decode(d *jx.Decoder) error {
 		case "overagePricePerUnit":
 			requiredBitSet[1] |= 1 << 5
 			if err := func() error {
-				v, err := d.Float64()
-				s.OveragePricePerUnit = float64(v)
+				v, err := d.Int()
+				s.OveragePricePerUnit = int(v)
 				if err != nil {
 					return err
 				}
@@ -13305,6 +14344,7 @@ func (s *GetSubscriptionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetSubscriptionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -13418,6 +14458,7 @@ func (s *GetWorkflowBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -13531,6 +14572,7 @@ func (s *GetWorkflowForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -13644,6 +14686,7 @@ func (s *GetWorkflowInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -13757,6 +14800,7 @@ func (s *GetWorkflowNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -14400,6 +15444,120 @@ func (s *GetWorkflowOKWorkflowTagsItem) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *GetWorkflowPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *GetWorkflowPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfGetWorkflowPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes GetWorkflowPaymentRequired from json.
+func (s *GetWorkflowPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetWorkflowPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetWorkflowPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfGetWorkflowPaymentRequired) {
+					name = jsonFieldsNameOfGetWorkflowPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *GetWorkflowPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *GetWorkflowPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *GetWorkflowRevisionsBadRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -14429,6 +15587,7 @@ func (s *GetWorkflowRevisionsBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowRevisionsBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -14542,6 +15701,7 @@ func (s *GetWorkflowRevisionsForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowRevisionsForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -14655,6 +15815,7 @@ func (s *GetWorkflowRevisionsInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowRevisionsInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -14768,6 +15929,7 @@ func (s *GetWorkflowRevisionsNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowRevisionsNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -15144,6 +16306,120 @@ func (s *GetWorkflowRevisionsOKRevision) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *GetWorkflowRevisionsPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *GetWorkflowRevisionsPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfGetWorkflowRevisionsPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes GetWorkflowRevisionsPaymentRequired from json.
+func (s *GetWorkflowRevisionsPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetWorkflowRevisionsPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetWorkflowRevisionsPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfGetWorkflowRevisionsPaymentRequired) {
+					name = jsonFieldsNameOfGetWorkflowRevisionsPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *GetWorkflowRevisionsPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *GetWorkflowRevisionsPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *GetWorkflowRevisionsUnauthorized) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -15173,6 +16449,7 @@ func (s *GetWorkflowRevisionsUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowRevisionsUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -15286,6 +16563,7 @@ func (s *GetWorkflowUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode GetWorkflowUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -15399,6 +16677,7 @@ func (s *ListExecutionBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -15512,6 +16791,7 @@ func (s *ListExecutionForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -15625,6 +16905,7 @@ func (s *ListExecutionHistoryBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionHistoryBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -15738,6 +17019,7 @@ func (s *ListExecutionHistoryForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionHistoryForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -15851,6 +17133,7 @@ func (s *ListExecutionHistoryInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionHistoryInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -15964,6 +17247,7 @@ func (s *ListExecutionHistoryNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionHistoryNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -16461,6 +17745,8 @@ func (s *ListExecutionHistoryOKHistoriesItemType) Decode(d *jx.Decoder) error {
 		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted
 	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed:
 		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed
+	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled:
+		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled
 	case ListExecutionHistoryOKHistoriesItemTypeStepWillExecute:
 		*s = ListExecutionHistoryOKHistoriesItemTypeStepWillExecute
 	case ListExecutionHistoryOKHistoriesItemTypeStepDidExecuted:
@@ -16489,6 +17775,120 @@ func (s ListExecutionHistoryOKHistoriesItemType) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *ListExecutionHistoryOKHistoriesItemType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ListExecutionHistoryPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListExecutionHistoryPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfListExecutionHistoryPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes ListExecutionHistoryPaymentRequired from json.
+func (s *ListExecutionHistoryPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListExecutionHistoryPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListExecutionHistoryPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfListExecutionHistoryPaymentRequired) {
+					name = jsonFieldsNameOfListExecutionHistoryPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListExecutionHistoryPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListExecutionHistoryPaymentRequired) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -16523,6 +17923,7 @@ func (s *ListExecutionHistoryUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionHistoryUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -16636,6 +18037,7 @@ func (s *ListExecutionInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -16749,6 +18151,7 @@ func (s *ListExecutionNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -17045,6 +18448,10 @@ func (s *ListExecutionOKExecutionsItem) encodeFields(e *jx.Encoder) {
 		e.Str(s.Args)
 	}
 	{
+		e.FieldStart("StepCount")
+		e.Int(s.StepCount)
+	}
+	{
 		e.FieldStart("Result")
 		e.Str(s.Result)
 	}
@@ -17092,7 +18499,7 @@ func (s *ListExecutionOKExecutionsItem) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfListExecutionOKExecutionsItem = [16]string{
+var jsonFieldsNameOfListExecutionOKExecutionsItem = [17]string{
 	0:  "ExecutionId",
 	1:  "Name",
 	2:  "Workflow",
@@ -17100,15 +18507,16 @@ var jsonFieldsNameOfListExecutionOKExecutionsItem = [16]string{
 	4:  "Revision",
 	5:  "RevisionAlias",
 	6:  "Args",
-	7:  "Result",
-	8:  "Error",
-	9:  "CreatedAt",
-	10: "UpdatedAt",
-	11: "RunAt",
-	12: "FailedAt",
-	13: "SucceededAt",
-	14: "CancelRequestedAt",
-	15: "CanceledAt",
+	7:  "StepCount",
+	8:  "Result",
+	9:  "Error",
+	10: "CreatedAt",
+	11: "UpdatedAt",
+	12: "RunAt",
+	13: "FailedAt",
+	14: "SucceededAt",
+	15: "CancelRequestedAt",
+	16: "CanceledAt",
 }
 
 // Decode decodes ListExecutionOKExecutionsItem from json.
@@ -17116,7 +18524,8 @@ func (s *ListExecutionOKExecutionsItem) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode ListExecutionOKExecutionsItem to nil")
 	}
-	var requiredBitSet [2]uint8
+	var requiredBitSet [3]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -17200,8 +18609,20 @@ func (s *ListExecutionOKExecutionsItem) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Args\"")
 			}
-		case "Result":
+		case "StepCount":
 			requiredBitSet[0] |= 1 << 7
+			if err := func() error {
+				v, err := d.Int()
+				s.StepCount = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"StepCount\"")
+			}
+		case "Result":
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.Result = string(v)
@@ -17213,7 +18634,7 @@ func (s *ListExecutionOKExecutionsItem) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Result\"")
 			}
 		case "Error":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				v, err := d.Str()
 				s.Error = string(v)
@@ -17225,7 +18646,7 @@ func (s *ListExecutionOKExecutionsItem) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Error\"")
 			}
 		case "CreatedAt":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 2
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.CreatedAt = v
@@ -17237,7 +18658,7 @@ func (s *ListExecutionOKExecutionsItem) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"CreatedAt\"")
 			}
 		case "UpdatedAt":
-			requiredBitSet[1] |= 1 << 2
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
 				v, err := json.DecodeDateTime(d)
 				s.UpdatedAt = v
@@ -17307,9 +18728,10 @@ func (s *ListExecutionOKExecutionsItem) Decode(d *jx.Decoder) error {
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
+	for i, mask := range [3]uint8{
 		0b11111111,
-		0b00000111,
+		0b00001111,
+		0b00000000,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -17852,6 +19274,120 @@ func (s *ListExecutionOKExecutionsItemWorkflowTagsItem) UnmarshalJSON(data []byt
 }
 
 // Encode implements json.Marshaler.
+func (s *ListExecutionPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListExecutionPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfListExecutionPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes ListExecutionPaymentRequired from json.
+func (s *ListExecutionPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListExecutionPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListExecutionPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfListExecutionPaymentRequired) {
+					name = jsonFieldsNameOfListExecutionPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListExecutionPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListExecutionPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ListExecutionUnauthorized) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -17881,6 +19417,7 @@ func (s *ListExecutionUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListExecutionUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -17994,6 +19531,7 @@ func (s *ListPlansBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListPlansBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -18107,6 +19645,7 @@ func (s *ListPlansForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListPlansForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -18220,6 +19759,7 @@ func (s *ListPlansInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListPlansInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -18333,6 +19873,7 @@ func (s *ListPlansNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListPlansNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -18439,7 +19980,7 @@ func (s *ListPlansOK) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("TaxRate")
-		e.Float64(s.TaxRate)
+		e.Int(s.TaxRate)
 	}
 }
 
@@ -18492,8 +20033,8 @@ func (s *ListPlansOK) Decode(d *jx.Decoder) error {
 		case "TaxRate":
 			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Float64()
-				s.TaxRate = float64(v)
+				v, err := d.Int()
+				s.TaxRate = int(v)
 				if err != nil {
 					return err
 				}
@@ -18568,7 +20109,7 @@ func (s *ListPlansOKPlansItem) Encode(e *jx.Encoder) {
 func (s *ListPlansOKPlansItem) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("id")
-		e.Float64(s.ID)
+		e.Int(s.ID)
 	}
 	{
 		e.FieldStart("name")
@@ -18576,7 +20117,7 @@ func (s *ListPlansOKPlansItem) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("grade")
-		e.Float64(s.Grade)
+		e.Int(s.Grade)
 	}
 	{
 		e.FieldStart("serviceClassPath")
@@ -18584,19 +20125,19 @@ func (s *ListPlansOKPlansItem) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("basePrice")
-		e.Float64(s.BasePrice)
+		e.Int(s.BasePrice)
 	}
 	{
 		e.FieldStart("includedSteps")
-		e.Float64(s.IncludedSteps)
+		e.Int(s.IncludedSteps)
 	}
 	{
 		e.FieldStart("overageStepUnit")
-		e.Float64(s.OverageStepUnit)
+		e.Int(s.OverageStepUnit)
 	}
 	{
 		e.FieldStart("overagePricePerUnit")
-		e.Float64(s.OveragePricePerUnit)
+		e.Int(s.OveragePricePerUnit)
 	}
 }
 
@@ -18623,8 +20164,8 @@ func (s *ListPlansOKPlansItem) Decode(d *jx.Decoder) error {
 		case "id":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Float64()
-				s.ID = float64(v)
+				v, err := d.Int()
+				s.ID = int(v)
 				if err != nil {
 					return err
 				}
@@ -18647,8 +20188,8 @@ func (s *ListPlansOKPlansItem) Decode(d *jx.Decoder) error {
 		case "grade":
 			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Float64()
-				s.Grade = float64(v)
+				v, err := d.Int()
+				s.Grade = int(v)
 				if err != nil {
 					return err
 				}
@@ -18671,8 +20212,8 @@ func (s *ListPlansOKPlansItem) Decode(d *jx.Decoder) error {
 		case "basePrice":
 			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
-				v, err := d.Float64()
-				s.BasePrice = float64(v)
+				v, err := d.Int()
+				s.BasePrice = int(v)
 				if err != nil {
 					return err
 				}
@@ -18683,8 +20224,8 @@ func (s *ListPlansOKPlansItem) Decode(d *jx.Decoder) error {
 		case "includedSteps":
 			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
-				v, err := d.Float64()
-				s.IncludedSteps = float64(v)
+				v, err := d.Int()
+				s.IncludedSteps = int(v)
 				if err != nil {
 					return err
 				}
@@ -18695,8 +20236,8 @@ func (s *ListPlansOKPlansItem) Decode(d *jx.Decoder) error {
 		case "overageStepUnit":
 			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
-				v, err := d.Float64()
-				s.OverageStepUnit = float64(v)
+				v, err := d.Int()
+				s.OverageStepUnit = int(v)
 				if err != nil {
 					return err
 				}
@@ -18707,8 +20248,8 @@ func (s *ListPlansOKPlansItem) Decode(d *jx.Decoder) error {
 		case "overagePricePerUnit":
 			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
-				v, err := d.Float64()
-				s.OveragePricePerUnit = float64(v)
+				v, err := d.Int()
+				s.OveragePricePerUnit = int(v)
 				if err != nil {
 					return err
 				}
@@ -18802,6 +20343,7 @@ func (s *ListPlansUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListPlansUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -18915,6 +20457,7 @@ func (s *ListWorkflowBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -19028,6 +20571,7 @@ func (s *ListWorkflowForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -19141,6 +20685,7 @@ func (s *ListWorkflowInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -19254,6 +20799,7 @@ func (s *ListWorkflowNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -19961,6 +21507,120 @@ func (s *ListWorkflowOKWorkflowsItemTagsItem) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *ListWorkflowPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListWorkflowPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfListWorkflowPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes ListWorkflowPaymentRequired from json.
+func (s *ListWorkflowPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListWorkflowPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListWorkflowPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfListWorkflowPaymentRequired) {
+					name = jsonFieldsNameOfListWorkflowPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListWorkflowPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListWorkflowPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ListWorkflowRevisionsBadRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -19990,6 +21650,7 @@ func (s *ListWorkflowRevisionsBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowRevisionsBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -20103,6 +21764,7 @@ func (s *ListWorkflowRevisionsForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowRevisionsForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -20216,6 +21878,7 @@ func (s *ListWorkflowRevisionsInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowRevisionsInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -20329,6 +21992,7 @@ func (s *ListWorkflowRevisionsNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowRevisionsNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -20769,6 +22433,120 @@ func (s *ListWorkflowRevisionsOKRevisionsItem) UnmarshalJSON(data []byte) error 
 }
 
 // Encode implements json.Marshaler.
+func (s *ListWorkflowRevisionsPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListWorkflowRevisionsPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfListWorkflowRevisionsPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes ListWorkflowRevisionsPaymentRequired from json.
+func (s *ListWorkflowRevisionsPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListWorkflowRevisionsPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListWorkflowRevisionsPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfListWorkflowRevisionsPaymentRequired) {
+					name = jsonFieldsNameOfListWorkflowRevisionsPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListWorkflowRevisionsPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListWorkflowRevisionsPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ListWorkflowRevisionsUnauthorized) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -20798,6 +22576,7 @@ func (s *ListWorkflowRevisionsUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowRevisionsUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -20911,6 +22690,7 @@ func (s *ListWorkflowSuggestBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowSuggestBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -21024,6 +22804,7 @@ func (s *ListWorkflowSuggestForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowSuggestForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -21137,6 +22918,7 @@ func (s *ListWorkflowSuggestInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowSuggestInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -21250,6 +23032,7 @@ func (s *ListWorkflowSuggestNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowSuggestNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -21523,7 +23306,7 @@ func (s *ListWorkflowSuggestOKSuggestsItem) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("Count")
-		e.Float64(s.Count)
+		e.Int(s.Count)
 	}
 }
 
@@ -21556,8 +23339,8 @@ func (s *ListWorkflowSuggestOKSuggestsItem) Decode(d *jx.Decoder) error {
 		case "Count":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Float64()
-				s.Count = float64(v)
+				v, err := d.Int()
+				s.Count = int(v)
 				if err != nil {
 					return err
 				}
@@ -21622,6 +23405,120 @@ func (s *ListWorkflowSuggestOKSuggestsItem) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *ListWorkflowSuggestPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ListWorkflowSuggestPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfListWorkflowSuggestPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes ListWorkflowSuggestPaymentRequired from json.
+func (s *ListWorkflowSuggestPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListWorkflowSuggestPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListWorkflowSuggestPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfListWorkflowSuggestPaymentRequired) {
+					name = jsonFieldsNameOfListWorkflowSuggestPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ListWorkflowSuggestPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ListWorkflowSuggestPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ListWorkflowSuggestUnauthorized) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -21651,6 +23548,7 @@ func (s *ListWorkflowSuggestUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowSuggestUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -21764,6 +23662,7 @@ func (s *ListWorkflowUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode ListWorkflowUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -21845,6 +23744,52 @@ func (s *ListWorkflowUnauthorized) MarshalJSON() ([]byte, error) {
 func (s *ListWorkflowUnauthorized) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
+}
+
+// Encode encodes time.Time as json.
+func (o NilDateTime) Encode(e *jx.Encoder, format func(*jx.Encoder, time.Time)) {
+	if o.Null {
+		e.Null()
+		return
+	}
+	format(e, o.Value)
+}
+
+// Decode decodes time.Time from json.
+func (o *NilDateTime) Decode(d *jx.Decoder, format func(*jx.Decoder) (time.Time, error)) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode NilDateTime to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v time.Time
+		o.Value = v
+		o.Null = true
+		return nil
+	}
+	o.Null = false
+	v, err := format(d)
+	if err != nil {
+		return err
+	}
+	o.Value = v
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s NilDateTime) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e, json.EncodeDateTime)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *NilDateTime) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d, json.DecodeDateTime)
 }
 
 // Encode encodes bool as json.
@@ -22113,39 +24058,6 @@ func (s *OptCreateExecutionReq) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes CreateSubscriptionReq as json.
-func (o OptCreateSubscriptionReq) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes CreateSubscriptionReq from json.
-func (o *OptCreateSubscriptionReq) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptCreateSubscriptionReq to nil")
-	}
-	o.Set = true
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptCreateSubscriptionReq) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptCreateSubscriptionReq) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode encodes CreateWorkflowCreatedWorkflowConcurrencyMode as json.
 func (o OptCreateWorkflowCreatedWorkflowConcurrencyMode) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -22375,39 +24287,6 @@ func (s OptGetExecutionOKExecutionWorkflowServicePrincipalId) MarshalJSON() ([]b
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptGetExecutionOKExecutionWorkflowServicePrincipalId) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetSubscriptionOKCurrentPlan as json.
-func (o OptGetSubscriptionOKCurrentPlan) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes GetSubscriptionOKCurrentPlan from json.
-func (o *OptGetSubscriptionOKCurrentPlan) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptGetSubscriptionOKCurrentPlan to nil")
-	}
-	o.Set = true
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptGetSubscriptionOKCurrentPlan) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptGetSubscriptionOKCurrentPlan) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -22678,6 +24557,55 @@ func (s *OptListWorkflowOKWorkflowsItemServicePrincipalId) UnmarshalJSON(data []
 	return s.Decode(d)
 }
 
+// Encode encodes GetSubscriptionOKCurrentPlan as json.
+func (o OptNilGetSubscriptionOKCurrentPlan) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	if o.Null {
+		e.Null()
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes GetSubscriptionOKCurrentPlan from json.
+func (o *OptNilGetSubscriptionOKCurrentPlan) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptNilGetSubscriptionOKCurrentPlan to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v GetSubscriptionOKCurrentPlan
+		o.Value = v
+		o.Set = true
+		o.Null = true
+		return nil
+	}
+	o.Set = true
+	o.Null = false
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptNilGetSubscriptionOKCurrentPlan) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptNilGetSubscriptionOKCurrentPlan) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes string as json.
 func (o OptString) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -22842,6 +24770,7 @@ func (s *UpdateWorkflowBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -22955,6 +24884,7 @@ func (s *UpdateWorkflowForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -23068,6 +24998,7 @@ func (s *UpdateWorkflowInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -23181,6 +25112,7 @@ func (s *UpdateWorkflowNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -23824,6 +25756,120 @@ func (s *UpdateWorkflowOKWorkflowTagsItem) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *UpdateWorkflowPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *UpdateWorkflowPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfUpdateWorkflowPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes UpdateWorkflowPaymentRequired from json.
+func (s *UpdateWorkflowPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode UpdateWorkflowPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode UpdateWorkflowPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfUpdateWorkflowPaymentRequired) {
+					name = jsonFieldsNameOfUpdateWorkflowPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *UpdateWorkflowPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *UpdateWorkflowPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *UpdateWorkflowReq) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -24150,6 +26196,7 @@ func (s *UpdateWorkflowRevisionAliasBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowRevisionAliasBadRequest to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -24263,6 +26310,7 @@ func (s *UpdateWorkflowRevisionAliasConflict) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowRevisionAliasConflict to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -24376,6 +26424,7 @@ func (s *UpdateWorkflowRevisionAliasForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowRevisionAliasForbidden to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -24489,6 +26538,7 @@ func (s *UpdateWorkflowRevisionAliasInternalServerError) Decode(d *jx.Decoder) e
 		return errors.New("invalid: unable to decode UpdateWorkflowRevisionAliasInternalServerError to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -24602,6 +26652,7 @@ func (s *UpdateWorkflowRevisionAliasNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowRevisionAliasNotFound to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -24978,6 +27029,120 @@ func (s *UpdateWorkflowRevisionAliasOKRevision) UnmarshalJSON(data []byte) error
 }
 
 // Encode implements json.Marshaler.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+	{
+		e.FieldStart("Message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfUpdateWorkflowRevisionAliasPaymentRequired = [2]string{
+	0: "is_ok",
+	1: "Message",
+}
+
+// Decode decodes UpdateWorkflowRevisionAliasPaymentRequired from json.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode UpdateWorkflowRevisionAliasPaymentRequired to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		case "Message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode UpdateWorkflowRevisionAliasPaymentRequired")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfUpdateWorkflowRevisionAliasPaymentRequired) {
+					name = jsonFieldsNameOfUpdateWorkflowRevisionAliasPaymentRequired[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *UpdateWorkflowRevisionAliasReq) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -25103,6 +27268,7 @@ func (s *UpdateWorkflowRevisionAliasUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowRevisionAliasUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
@@ -25216,6 +27382,7 @@ func (s *UpdateWorkflowUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode UpdateWorkflowUnauthorized to nil")
 	}
 	var requiredBitSet [1]uint8
+	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {

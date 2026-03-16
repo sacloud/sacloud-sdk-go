@@ -38,7 +38,7 @@ type Invoker interface {
 	// ワークフローの課金プランの設定をする.
 	//
 	// POST /subscriptions
-	CreateSubscription(ctx context.Context, request OptCreateSubscriptionReq) (CreateSubscriptionRes, error)
+	CreateSubscription(ctx context.Context, request *CreateSubscriptionReq) (CreateSubscriptionRes, error)
 	// CreateWorkflow invokes createWorkflow operation.
 	//
 	// ワークフローを作成する.
@@ -409,23 +409,16 @@ func (c *Client) sendCreateExecution(ctx context.Context, request OptCreateExecu
 // ワークフローの課金プランの設定をする.
 //
 // POST /subscriptions
-func (c *Client) CreateSubscription(ctx context.Context, request OptCreateSubscriptionReq) (CreateSubscriptionRes, error) {
+func (c *Client) CreateSubscription(ctx context.Context, request *CreateSubscriptionReq) (CreateSubscriptionRes, error) {
 	res, err := c.sendCreateSubscription(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendCreateSubscription(ctx context.Context, request OptCreateSubscriptionReq) (res CreateSubscriptionRes, err error) {
+func (c *Client) sendCreateSubscription(ctx context.Context, request *CreateSubscriptionReq) (res CreateSubscriptionRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
-		if value, ok := request.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if err := request.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {

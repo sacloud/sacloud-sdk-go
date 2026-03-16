@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/go-faster/errors"
-	"github.com/go-faster/jx"
 )
 
 type ApiKeyAuth struct {
@@ -80,6 +79,7 @@ type CancelExecutionAcceptedExecution struct {
 	Revision          int                                      `json:"Revision"`
 	RevisionAlias     string                                   `json:"RevisionAlias"`
 	Args              string                                   `json:"Args"`
+	StepCount         int                                      `json:"StepCount"`
 	Result            string                                   `json:"Result"`
 	Error             string                                   `json:"Error"`
 	CreatedAt         time.Time                                `json:"CreatedAt"`
@@ -124,6 +124,11 @@ func (s *CancelExecutionAcceptedExecution) GetRevisionAlias() string {
 // GetArgs returns the value of Args.
 func (s *CancelExecutionAcceptedExecution) GetArgs() string {
 	return s.Args
+}
+
+// GetStepCount returns the value of StepCount.
+func (s *CancelExecutionAcceptedExecution) GetStepCount() int {
+	return s.StepCount
 }
 
 // GetResult returns the value of Result.
@@ -204,6 +209,11 @@ func (s *CancelExecutionAcceptedExecution) SetRevisionAlias(val string) {
 // SetArgs sets the value of Args.
 func (s *CancelExecutionAcceptedExecution) SetArgs(val string) {
 	s.Args = val
+}
+
+// SetStepCount sets the value of StepCount.
+func (s *CancelExecutionAcceptedExecution) SetStepCount(val int) {
+	s.StepCount = val
 }
 
 // SetResult sets the value of Result.
@@ -733,6 +743,7 @@ type CancelExecutionOKExecution struct {
 	Revision          int                                `json:"Revision"`
 	RevisionAlias     string                             `json:"RevisionAlias"`
 	Args              string                             `json:"Args"`
+	StepCount         int                                `json:"StepCount"`
 	Result            string                             `json:"Result"`
 	Error             string                             `json:"Error"`
 	CreatedAt         time.Time                          `json:"CreatedAt"`
@@ -777,6 +788,11 @@ func (s *CancelExecutionOKExecution) GetRevisionAlias() string {
 // GetArgs returns the value of Args.
 func (s *CancelExecutionOKExecution) GetArgs() string {
 	return s.Args
+}
+
+// GetStepCount returns the value of StepCount.
+func (s *CancelExecutionOKExecution) GetStepCount() int {
+	return s.StepCount
 }
 
 // GetResult returns the value of Result.
@@ -857,6 +873,11 @@ func (s *CancelExecutionOKExecution) SetRevisionAlias(val string) {
 // SetArgs sets the value of Args.
 func (s *CancelExecutionOKExecution) SetArgs(val string) {
 	s.Args = val
+}
+
+// SetStepCount sets the value of StepCount.
+func (s *CancelExecutionOKExecution) SetStepCount(val int) {
+	s.StepCount = val
 }
 
 // SetResult sets the value of Result.
@@ -1216,6 +1237,33 @@ func (s *CancelExecutionOKExecutionWorkflowTagsItem) SetName(val string) {
 	s.Name = val
 }
 
+type CancelExecutionPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CancelExecutionPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CancelExecutionPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CancelExecutionPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CancelExecutionPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CancelExecutionPaymentRequired) cancelExecutionRes() {}
+
 type CancelExecutionUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -1332,6 +1380,7 @@ type CreateExecutionCreatedExecution struct {
 	Revision          int                                     `json:"Revision"`
 	RevisionAlias     string                                  `json:"RevisionAlias"`
 	Args              string                                  `json:"Args"`
+	StepCount         int                                     `json:"StepCount"`
 	Result            string                                  `json:"Result"`
 	Error             string                                  `json:"Error"`
 	CreatedAt         time.Time                               `json:"CreatedAt"`
@@ -1376,6 +1425,11 @@ func (s *CreateExecutionCreatedExecution) GetRevisionAlias() string {
 // GetArgs returns the value of Args.
 func (s *CreateExecutionCreatedExecution) GetArgs() string {
 	return s.Args
+}
+
+// GetStepCount returns the value of StepCount.
+func (s *CreateExecutionCreatedExecution) GetStepCount() int {
+	return s.StepCount
 }
 
 // GetResult returns the value of Result.
@@ -1456,6 +1510,11 @@ func (s *CreateExecutionCreatedExecution) SetRevisionAlias(val string) {
 // SetArgs sets the value of Args.
 func (s *CreateExecutionCreatedExecution) SetArgs(val string) {
 	s.Args = val
+}
+
+// SetStepCount sets the value of StepCount.
+func (s *CreateExecutionCreatedExecution) SetStepCount(val int) {
+	s.StepCount = val
 }
 
 // SetResult sets the value of Result.
@@ -1896,6 +1955,33 @@ func (s *CreateExecutionNotFound) SetMessage(val string) {
 
 func (*CreateExecutionNotFound) createExecutionRes() {}
 
+type CreateExecutionPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateExecutionPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateExecutionPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateExecutionPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateExecutionPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateExecutionPaymentRequired) createExecutionRes() {}
+
 type CreateExecutionReq struct {
 	RevisionId    OptInt    `json:"RevisionId"`
 	RevisionAlias OptString `json:"RevisionAlias"`
@@ -2084,16 +2170,16 @@ func (s *CreateSubscriptionNotFound) SetMessage(val string) {
 func (*CreateSubscriptionNotFound) createSubscriptionRes() {}
 
 type CreateSubscriptionReq struct {
-	PlanId float64 `json:"PlanId"`
+	PlanId int `json:"PlanId"`
 }
 
 // GetPlanId returns the value of PlanId.
-func (s *CreateSubscriptionReq) GetPlanId() float64 {
+func (s *CreateSubscriptionReq) GetPlanId() int {
 	return s.PlanId
 }
 
 // SetPlanId sets the value of PlanId.
-func (s *CreateSubscriptionReq) SetPlanId(val float64) {
+func (s *CreateSubscriptionReq) SetPlanId(val int) {
 	s.PlanId = val
 }
 
@@ -2501,6 +2587,33 @@ func (s *CreateWorkflowNotFound) SetMessage(val string) {
 }
 
 func (*CreateWorkflowNotFound) createWorkflowRes() {}
+
+type CreateWorkflowPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateWorkflowPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateWorkflowPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateWorkflowPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateWorkflowPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateWorkflowPaymentRequired) createWorkflowRes() {}
 
 type CreateWorkflowReq struct {
 	Name               string                                 `json:"Name"`
@@ -2965,6 +3078,33 @@ func (s *CreateWorkflowRevisionNotFound) SetMessage(val string) {
 
 func (*CreateWorkflowRevisionNotFound) createWorkflowRevisionRes() {}
 
+type CreateWorkflowRevisionPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateWorkflowRevisionPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateWorkflowRevisionPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateWorkflowRevisionPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateWorkflowRevisionPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateWorkflowRevisionPaymentRequired) createWorkflowRevisionRes() {}
+
 type CreateWorkflowRevisionReq struct {
 	Runbook       string    `json:"Runbook"`
 	RevisionAlias OptString `json:"RevisionAlias"`
@@ -3194,6 +3334,33 @@ func (s *DeleteExecutionOK) SetIsOk(val bool) {
 }
 
 func (*DeleteExecutionOK) deleteExecutionRes() {}
+
+type DeleteExecutionPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteExecutionPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteExecutionPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteExecutionPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteExecutionPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteExecutionPaymentRequired) deleteExecutionRes() {}
 
 type DeleteExecutionUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
@@ -3513,6 +3680,33 @@ func (s *DeleteWorkflowOK) SetIsOk(val bool) {
 
 func (*DeleteWorkflowOK) deleteWorkflowRes() {}
 
+type DeleteWorkflowPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteWorkflowPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteWorkflowPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteWorkflowPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteWorkflowPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteWorkflowPaymentRequired) deleteWorkflowRes() {}
+
 type DeleteWorkflowRevisionAliasBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -3717,6 +3911,33 @@ func (s *DeleteWorkflowRevisionAliasOKRevision) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
 
+type DeleteWorkflowRevisionAliasPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteWorkflowRevisionAliasPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteWorkflowRevisionAliasPaymentRequired) deleteWorkflowRevisionAliasRes() {}
+
 type DeleteWorkflowRevisionAliasUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -3914,6 +4135,7 @@ type GetExecutionOKExecution struct {
 	Revision          int                             `json:"Revision"`
 	RevisionAlias     string                          `json:"RevisionAlias"`
 	Args              string                          `json:"Args"`
+	StepCount         int                             `json:"StepCount"`
 	Result            string                          `json:"Result"`
 	Error             string                          `json:"Error"`
 	CreatedAt         time.Time                       `json:"CreatedAt"`
@@ -3958,6 +4180,11 @@ func (s *GetExecutionOKExecution) GetRevisionAlias() string {
 // GetArgs returns the value of Args.
 func (s *GetExecutionOKExecution) GetArgs() string {
 	return s.Args
+}
+
+// GetStepCount returns the value of StepCount.
+func (s *GetExecutionOKExecution) GetStepCount() int {
+	return s.StepCount
 }
 
 // GetResult returns the value of Result.
@@ -4038,6 +4265,11 @@ func (s *GetExecutionOKExecution) SetRevisionAlias(val string) {
 // SetArgs sets the value of Args.
 func (s *GetExecutionOKExecution) SetArgs(val string) {
 	s.Args = val
+}
+
+// SetStepCount sets the value of StepCount.
+func (s *GetExecutionOKExecution) SetStepCount(val int) {
+	s.StepCount = val
 }
 
 // SetResult sets the value of Result.
@@ -4397,6 +4629,33 @@ func (s *GetExecutionOKExecutionWorkflowTagsItem) SetName(val string) {
 	s.Name = val
 }
 
+type GetExecutionPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *GetExecutionPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *GetExecutionPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *GetExecutionPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *GetExecutionPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*GetExecutionPaymentRequired) getExecutionRes() {}
+
 type GetExecutionUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -4534,7 +4793,7 @@ func (*GetSubscriptionNotFound) getSubscriptionRes() {}
 
 type GetSubscriptionOK struct {
 	IsOk             bool                                 `json:"is_ok"`
-	CurrentPlan      OptGetSubscriptionOKCurrentPlan      `json:"CurrentPlan"`
+	CurrentPlan      OptNilGetSubscriptionOKCurrentPlan   `json:"CurrentPlan"`
 	MonthAppliedPlan OptGetSubscriptionOKMonthAppliedPlan `json:"MonthAppliedPlan"`
 }
 
@@ -4544,7 +4803,7 @@ func (s *GetSubscriptionOK) GetIsOk() bool {
 }
 
 // GetCurrentPlan returns the value of CurrentPlan.
-func (s *GetSubscriptionOK) GetCurrentPlan() OptGetSubscriptionOKCurrentPlan {
+func (s *GetSubscriptionOK) GetCurrentPlan() OptNilGetSubscriptionOKCurrentPlan {
 	return s.CurrentPlan
 }
 
@@ -4559,7 +4818,7 @@ func (s *GetSubscriptionOK) SetIsOk(val bool) {
 }
 
 // SetCurrentPlan sets the value of CurrentPlan.
-func (s *GetSubscriptionOK) SetCurrentPlan(val OptGetSubscriptionOKCurrentPlan) {
+func (s *GetSubscriptionOK) SetCurrentPlan(val OptNilGetSubscriptionOKCurrentPlan) {
 	s.CurrentPlan = val
 }
 
@@ -4571,15 +4830,15 @@ func (s *GetSubscriptionOK) SetMonthAppliedPlan(val OptGetSubscriptionOKMonthApp
 func (*GetSubscriptionOK) getSubscriptionRes() {}
 
 type GetSubscriptionOKCurrentPlan struct {
-	ID            string    `json:"id"`
-	AccountId     string    `json:"accountId"`
-	ContractId    string    `json:"contractId"`
-	PlanId        float64   `json:"planId"`
-	ActivateFrom  time.Time `json:"activateFrom"`
-	ActivateUntil jx.Raw    `json:"activateUntil"`
-	CreatedAt     time.Time `json:"createdAt"`
-	UpdatedAt     time.Time `json:"updatedAt"`
-	PlanName      string    `json:"planName"`
+	ID            string      `json:"id"`
+	AccountId     string      `json:"accountId"`
+	ContractId    string      `json:"contractId"`
+	PlanId        int         `json:"planId"`
+	ActivateFrom  time.Time   `json:"activateFrom"`
+	ActivateUntil NilDateTime `json:"activateUntil"`
+	CreatedAt     time.Time   `json:"createdAt"`
+	UpdatedAt     time.Time   `json:"updatedAt"`
+	PlanName      string      `json:"planName"`
 }
 
 // GetID returns the value of ID.
@@ -4598,7 +4857,7 @@ func (s *GetSubscriptionOKCurrentPlan) GetContractId() string {
 }
 
 // GetPlanId returns the value of PlanId.
-func (s *GetSubscriptionOKCurrentPlan) GetPlanId() float64 {
+func (s *GetSubscriptionOKCurrentPlan) GetPlanId() int {
 	return s.PlanId
 }
 
@@ -4608,7 +4867,7 @@ func (s *GetSubscriptionOKCurrentPlan) GetActivateFrom() time.Time {
 }
 
 // GetActivateUntil returns the value of ActivateUntil.
-func (s *GetSubscriptionOKCurrentPlan) GetActivateUntil() jx.Raw {
+func (s *GetSubscriptionOKCurrentPlan) GetActivateUntil() NilDateTime {
 	return s.ActivateUntil
 }
 
@@ -4643,7 +4902,7 @@ func (s *GetSubscriptionOKCurrentPlan) SetContractId(val string) {
 }
 
 // SetPlanId sets the value of PlanId.
-func (s *GetSubscriptionOKCurrentPlan) SetPlanId(val float64) {
+func (s *GetSubscriptionOKCurrentPlan) SetPlanId(val int) {
 	s.PlanId = val
 }
 
@@ -4653,7 +4912,7 @@ func (s *GetSubscriptionOKCurrentPlan) SetActivateFrom(val time.Time) {
 }
 
 // SetActivateUntil sets the value of ActivateUntil.
-func (s *GetSubscriptionOKCurrentPlan) SetActivateUntil(val jx.Raw) {
+func (s *GetSubscriptionOKCurrentPlan) SetActivateUntil(val NilDateTime) {
 	s.ActivateUntil = val
 }
 
@@ -4673,20 +4932,20 @@ func (s *GetSubscriptionOKCurrentPlan) SetPlanName(val string) {
 }
 
 type GetSubscriptionOKMonthAppliedPlan struct {
-	ID                  string    `json:"id"`
-	AccountId           string    `json:"accountId"`
-	ContractId          string    `json:"contractId"`
-	PlanId              float64   `json:"planId"`
-	ActivateFrom        time.Time `json:"activateFrom"`
-	ActivateUntil       jx.Raw    `json:"activateUntil"`
-	CreatedAt           time.Time `json:"createdAt"`
-	UpdatedAt           time.Time `json:"updatedAt"`
-	PlanName            string    `json:"planName"`
-	PlanGrade           float64   `json:"planGrade"`
-	BasePrice           float64   `json:"basePrice"`
-	IncludedSteps       float64   `json:"includedSteps"`
-	OverageStepUnit     float64   `json:"overageStepUnit"`
-	OveragePricePerUnit float64   `json:"overagePricePerUnit"`
+	ID                  string      `json:"id"`
+	AccountId           string      `json:"accountId"`
+	ContractId          string      `json:"contractId"`
+	PlanId              int         `json:"planId"`
+	ActivateFrom        time.Time   `json:"activateFrom"`
+	ActivateUntil       NilDateTime `json:"activateUntil"`
+	CreatedAt           time.Time   `json:"createdAt"`
+	UpdatedAt           time.Time   `json:"updatedAt"`
+	PlanName            string      `json:"planName"`
+	PlanGrade           int         `json:"planGrade"`
+	BasePrice           int         `json:"basePrice"`
+	IncludedSteps       int         `json:"includedSteps"`
+	OverageStepUnit     int         `json:"overageStepUnit"`
+	OveragePricePerUnit int         `json:"overagePricePerUnit"`
 }
 
 // GetID returns the value of ID.
@@ -4705,7 +4964,7 @@ func (s *GetSubscriptionOKMonthAppliedPlan) GetContractId() string {
 }
 
 // GetPlanId returns the value of PlanId.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetPlanId() float64 {
+func (s *GetSubscriptionOKMonthAppliedPlan) GetPlanId() int {
 	return s.PlanId
 }
 
@@ -4715,7 +4974,7 @@ func (s *GetSubscriptionOKMonthAppliedPlan) GetActivateFrom() time.Time {
 }
 
 // GetActivateUntil returns the value of ActivateUntil.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetActivateUntil() jx.Raw {
+func (s *GetSubscriptionOKMonthAppliedPlan) GetActivateUntil() NilDateTime {
 	return s.ActivateUntil
 }
 
@@ -4735,27 +4994,27 @@ func (s *GetSubscriptionOKMonthAppliedPlan) GetPlanName() string {
 }
 
 // GetPlanGrade returns the value of PlanGrade.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetPlanGrade() float64 {
+func (s *GetSubscriptionOKMonthAppliedPlan) GetPlanGrade() int {
 	return s.PlanGrade
 }
 
 // GetBasePrice returns the value of BasePrice.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetBasePrice() float64 {
+func (s *GetSubscriptionOKMonthAppliedPlan) GetBasePrice() int {
 	return s.BasePrice
 }
 
 // GetIncludedSteps returns the value of IncludedSteps.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetIncludedSteps() float64 {
+func (s *GetSubscriptionOKMonthAppliedPlan) GetIncludedSteps() int {
 	return s.IncludedSteps
 }
 
 // GetOverageStepUnit returns the value of OverageStepUnit.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetOverageStepUnit() float64 {
+func (s *GetSubscriptionOKMonthAppliedPlan) GetOverageStepUnit() int {
 	return s.OverageStepUnit
 }
 
 // GetOveragePricePerUnit returns the value of OveragePricePerUnit.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetOveragePricePerUnit() float64 {
+func (s *GetSubscriptionOKMonthAppliedPlan) GetOveragePricePerUnit() int {
 	return s.OveragePricePerUnit
 }
 
@@ -4775,7 +5034,7 @@ func (s *GetSubscriptionOKMonthAppliedPlan) SetContractId(val string) {
 }
 
 // SetPlanId sets the value of PlanId.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetPlanId(val float64) {
+func (s *GetSubscriptionOKMonthAppliedPlan) SetPlanId(val int) {
 	s.PlanId = val
 }
 
@@ -4785,7 +5044,7 @@ func (s *GetSubscriptionOKMonthAppliedPlan) SetActivateFrom(val time.Time) {
 }
 
 // SetActivateUntil sets the value of ActivateUntil.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetActivateUntil(val jx.Raw) {
+func (s *GetSubscriptionOKMonthAppliedPlan) SetActivateUntil(val NilDateTime) {
 	s.ActivateUntil = val
 }
 
@@ -4805,27 +5064,27 @@ func (s *GetSubscriptionOKMonthAppliedPlan) SetPlanName(val string) {
 }
 
 // SetPlanGrade sets the value of PlanGrade.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetPlanGrade(val float64) {
+func (s *GetSubscriptionOKMonthAppliedPlan) SetPlanGrade(val int) {
 	s.PlanGrade = val
 }
 
 // SetBasePrice sets the value of BasePrice.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetBasePrice(val float64) {
+func (s *GetSubscriptionOKMonthAppliedPlan) SetBasePrice(val int) {
 	s.BasePrice = val
 }
 
 // SetIncludedSteps sets the value of IncludedSteps.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetIncludedSteps(val float64) {
+func (s *GetSubscriptionOKMonthAppliedPlan) SetIncludedSteps(val int) {
 	s.IncludedSteps = val
 }
 
 // SetOverageStepUnit sets the value of OverageStepUnit.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetOverageStepUnit(val float64) {
+func (s *GetSubscriptionOKMonthAppliedPlan) SetOverageStepUnit(val int) {
 	s.OverageStepUnit = val
 }
 
 // SetOveragePricePerUnit sets the value of OveragePricePerUnit.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetOveragePricePerUnit(val float64) {
+func (s *GetSubscriptionOKMonthAppliedPlan) SetOveragePricePerUnit(val int) {
 	s.OveragePricePerUnit = val
 }
 
@@ -5234,6 +5493,33 @@ func (s *GetWorkflowOKWorkflowTagsItem) SetName(val string) {
 	s.Name = val
 }
 
+type GetWorkflowPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *GetWorkflowPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *GetWorkflowPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *GetWorkflowPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *GetWorkflowPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*GetWorkflowPaymentRequired) getWorkflowRes() {}
+
 type GetWorkflowRevisionsBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -5437,6 +5723,33 @@ func (s *GetWorkflowRevisionsOKRevision) SetCreatedAt(val time.Time) {
 func (s *GetWorkflowRevisionsOKRevision) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
+
+type GetWorkflowRevisionsPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *GetWorkflowRevisionsPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *GetWorkflowRevisionsPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *GetWorkflowRevisionsPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *GetWorkflowRevisionsPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*GetWorkflowRevisionsPaymentRequired) getWorkflowRevisionsRes() {}
 
 type GetWorkflowRevisionsUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
@@ -5813,6 +6126,7 @@ const (
 	ListExecutionHistoryOKHistoriesItemTypeWorkflowWillResume   ListExecutionHistoryOKHistoriesItemType = "workflowWillResume"
 	ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted ListExecutionHistoryOKHistoriesItemType = "workflowDidCompleted"
 	ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed    ListExecutionHistoryOKHistoriesItemType = "workflowDidFailed"
+	ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled  ListExecutionHistoryOKHistoriesItemType = "workflowDidCanceled"
 	ListExecutionHistoryOKHistoriesItemTypeStepWillExecute      ListExecutionHistoryOKHistoriesItemType = "stepWillExecute"
 	ListExecutionHistoryOKHistoriesItemTypeStepDidExecuted      ListExecutionHistoryOKHistoriesItemType = "stepDidExecuted"
 	ListExecutionHistoryOKHistoriesItemTypeFunctionWillCall     ListExecutionHistoryOKHistoriesItemType = "functionWillCall"
@@ -5829,6 +6143,7 @@ func (ListExecutionHistoryOKHistoriesItemType) AllValues() []ListExecutionHistor
 		ListExecutionHistoryOKHistoriesItemTypeWorkflowWillResume,
 		ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted,
 		ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed,
+		ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled,
 		ListExecutionHistoryOKHistoriesItemTypeStepWillExecute,
 		ListExecutionHistoryOKHistoriesItemTypeStepDidExecuted,
 		ListExecutionHistoryOKHistoriesItemTypeFunctionWillCall,
@@ -5850,6 +6165,8 @@ func (s ListExecutionHistoryOKHistoriesItemType) MarshalText() ([]byte, error) {
 	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted:
 		return []byte(s), nil
 	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed:
+		return []byte(s), nil
+	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled:
 		return []byte(s), nil
 	case ListExecutionHistoryOKHistoriesItemTypeStepWillExecute:
 		return []byte(s), nil
@@ -5886,6 +6203,9 @@ func (s *ListExecutionHistoryOKHistoriesItemType) UnmarshalText(data []byte) err
 	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed:
 		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed
 		return nil
+	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled:
+		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled
+		return nil
 	case ListExecutionHistoryOKHistoriesItemTypeStepWillExecute:
 		*s = ListExecutionHistoryOKHistoriesItemTypeStepWillExecute
 		return nil
@@ -5908,6 +6228,33 @@ func (s *ListExecutionHistoryOKHistoriesItemType) UnmarshalText(data []byte) err
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ListExecutionHistoryPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListExecutionHistoryPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListExecutionHistoryPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListExecutionHistoryPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListExecutionHistoryPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListExecutionHistoryPaymentRequired) listExecutionHistoryRes() {}
 
 type ListExecutionHistorySortOrder string
 
@@ -6099,6 +6446,7 @@ type ListExecutionOKExecutionsItem struct {
 	Revision          int                                   `json:"Revision"`
 	RevisionAlias     string                                `json:"RevisionAlias"`
 	Args              string                                `json:"Args"`
+	StepCount         int                                   `json:"StepCount"`
 	Result            string                                `json:"Result"`
 	Error             string                                `json:"Error"`
 	CreatedAt         time.Time                             `json:"CreatedAt"`
@@ -6143,6 +6491,11 @@ func (s *ListExecutionOKExecutionsItem) GetRevisionAlias() string {
 // GetArgs returns the value of Args.
 func (s *ListExecutionOKExecutionsItem) GetArgs() string {
 	return s.Args
+}
+
+// GetStepCount returns the value of StepCount.
+func (s *ListExecutionOKExecutionsItem) GetStepCount() int {
+	return s.StepCount
 }
 
 // GetResult returns the value of Result.
@@ -6223,6 +6576,11 @@ func (s *ListExecutionOKExecutionsItem) SetRevisionAlias(val string) {
 // SetArgs sets the value of Args.
 func (s *ListExecutionOKExecutionsItem) SetArgs(val string) {
 	s.Args = val
+}
+
+// SetStepCount sets the value of StepCount.
+func (s *ListExecutionOKExecutionsItem) SetStepCount(val int) {
+	s.StepCount = val
 }
 
 // SetResult sets the value of Result.
@@ -6623,6 +6981,33 @@ func (s *ListExecutionOrder) UnmarshalText(data []byte) error {
 	}
 }
 
+type ListExecutionPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListExecutionPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListExecutionPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListExecutionPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListExecutionPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListExecutionPaymentRequired) listExecutionRes() {}
+
 type ListExecutionUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -6761,7 +7146,7 @@ func (*ListPlansNotFound) listPlansRes() {}
 type ListPlansOK struct {
 	IsOk    bool                   `json:"is_ok"`
 	Plans   []ListPlansOKPlansItem `json:"Plans"`
-	TaxRate float64                `json:"TaxRate"`
+	TaxRate int                    `json:"TaxRate"`
 }
 
 // GetIsOk returns the value of IsOk.
@@ -6775,7 +7160,7 @@ func (s *ListPlansOK) GetPlans() []ListPlansOKPlansItem {
 }
 
 // GetTaxRate returns the value of TaxRate.
-func (s *ListPlansOK) GetTaxRate() float64 {
+func (s *ListPlansOK) GetTaxRate() int {
 	return s.TaxRate
 }
 
@@ -6790,25 +7175,25 @@ func (s *ListPlansOK) SetPlans(val []ListPlansOKPlansItem) {
 }
 
 // SetTaxRate sets the value of TaxRate.
-func (s *ListPlansOK) SetTaxRate(val float64) {
+func (s *ListPlansOK) SetTaxRate(val int) {
 	s.TaxRate = val
 }
 
 func (*ListPlansOK) listPlansRes() {}
 
 type ListPlansOKPlansItem struct {
-	ID                  float64 `json:"id"`
-	Name                string  `json:"name"`
-	Grade               float64 `json:"grade"`
-	ServiceClassPath    string  `json:"serviceClassPath"`
-	BasePrice           float64 `json:"basePrice"`
-	IncludedSteps       float64 `json:"includedSteps"`
-	OverageStepUnit     float64 `json:"overageStepUnit"`
-	OveragePricePerUnit float64 `json:"overagePricePerUnit"`
+	ID                  int    `json:"id"`
+	Name                string `json:"name"`
+	Grade               int    `json:"grade"`
+	ServiceClassPath    string `json:"serviceClassPath"`
+	BasePrice           int    `json:"basePrice"`
+	IncludedSteps       int    `json:"includedSteps"`
+	OverageStepUnit     int    `json:"overageStepUnit"`
+	OveragePricePerUnit int    `json:"overagePricePerUnit"`
 }
 
 // GetID returns the value of ID.
-func (s *ListPlansOKPlansItem) GetID() float64 {
+func (s *ListPlansOKPlansItem) GetID() int {
 	return s.ID
 }
 
@@ -6818,7 +7203,7 @@ func (s *ListPlansOKPlansItem) GetName() string {
 }
 
 // GetGrade returns the value of Grade.
-func (s *ListPlansOKPlansItem) GetGrade() float64 {
+func (s *ListPlansOKPlansItem) GetGrade() int {
 	return s.Grade
 }
 
@@ -6828,27 +7213,27 @@ func (s *ListPlansOKPlansItem) GetServiceClassPath() string {
 }
 
 // GetBasePrice returns the value of BasePrice.
-func (s *ListPlansOKPlansItem) GetBasePrice() float64 {
+func (s *ListPlansOKPlansItem) GetBasePrice() int {
 	return s.BasePrice
 }
 
 // GetIncludedSteps returns the value of IncludedSteps.
-func (s *ListPlansOKPlansItem) GetIncludedSteps() float64 {
+func (s *ListPlansOKPlansItem) GetIncludedSteps() int {
 	return s.IncludedSteps
 }
 
 // GetOverageStepUnit returns the value of OverageStepUnit.
-func (s *ListPlansOKPlansItem) GetOverageStepUnit() float64 {
+func (s *ListPlansOKPlansItem) GetOverageStepUnit() int {
 	return s.OverageStepUnit
 }
 
 // GetOveragePricePerUnit returns the value of OveragePricePerUnit.
-func (s *ListPlansOKPlansItem) GetOveragePricePerUnit() float64 {
+func (s *ListPlansOKPlansItem) GetOveragePricePerUnit() int {
 	return s.OveragePricePerUnit
 }
 
 // SetID sets the value of ID.
-func (s *ListPlansOKPlansItem) SetID(val float64) {
+func (s *ListPlansOKPlansItem) SetID(val int) {
 	s.ID = val
 }
 
@@ -6858,7 +7243,7 @@ func (s *ListPlansOKPlansItem) SetName(val string) {
 }
 
 // SetGrade sets the value of Grade.
-func (s *ListPlansOKPlansItem) SetGrade(val float64) {
+func (s *ListPlansOKPlansItem) SetGrade(val int) {
 	s.Grade = val
 }
 
@@ -6868,22 +7253,22 @@ func (s *ListPlansOKPlansItem) SetServiceClassPath(val string) {
 }
 
 // SetBasePrice sets the value of BasePrice.
-func (s *ListPlansOKPlansItem) SetBasePrice(val float64) {
+func (s *ListPlansOKPlansItem) SetBasePrice(val int) {
 	s.BasePrice = val
 }
 
 // SetIncludedSteps sets the value of IncludedSteps.
-func (s *ListPlansOKPlansItem) SetIncludedSteps(val float64) {
+func (s *ListPlansOKPlansItem) SetIncludedSteps(val int) {
 	s.IncludedSteps = val
 }
 
 // SetOverageStepUnit sets the value of OverageStepUnit.
-func (s *ListPlansOKPlansItem) SetOverageStepUnit(val float64) {
+func (s *ListPlansOKPlansItem) SetOverageStepUnit(val int) {
 	s.OverageStepUnit = val
 }
 
 // SetOveragePricePerUnit sets the value of OveragePricePerUnit.
-func (s *ListPlansOKPlansItem) SetOveragePricePerUnit(val float64) {
+func (s *ListPlansOKPlansItem) SetOveragePricePerUnit(val int) {
 	s.OveragePricePerUnit = val
 }
 
@@ -7407,6 +7792,33 @@ func (s *ListWorkflowOrder) UnmarshalText(data []byte) error {
 	}
 }
 
+type ListWorkflowPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListWorkflowPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListWorkflowPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListWorkflowPaymentRequired) listWorkflowRes() {}
+
 type ListWorkflowRevisionsBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -7684,6 +8096,33 @@ func (s *ListWorkflowRevisionsOrder) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ListWorkflowRevisionsPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowRevisionsPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListWorkflowRevisionsPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowRevisionsPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListWorkflowRevisionsPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListWorkflowRevisionsPaymentRequired) listWorkflowRevisionsRes() {}
 
 type ListWorkflowRevisionsSortBy string
 
@@ -7977,8 +8416,8 @@ func (s *ListWorkflowSuggestOK) SetSuggests(val []ListWorkflowSuggestOKSuggestsI
 func (*ListWorkflowSuggestOK) listWorkflowSuggestRes() {}
 
 type ListWorkflowSuggestOKSuggestsItem struct {
-	Name  string  `json:"Name"`
-	Count float64 `json:"Count"`
+	Name  string `json:"Name"`
+	Count int    `json:"Count"`
 }
 
 // GetName returns the value of Name.
@@ -7987,7 +8426,7 @@ func (s *ListWorkflowSuggestOKSuggestsItem) GetName() string {
 }
 
 // GetCount returns the value of Count.
-func (s *ListWorkflowSuggestOKSuggestsItem) GetCount() float64 {
+func (s *ListWorkflowSuggestOKSuggestsItem) GetCount() int {
 	return s.Count
 }
 
@@ -7997,7 +8436,7 @@ func (s *ListWorkflowSuggestOKSuggestsItem) SetName(val string) {
 }
 
 // SetCount sets the value of Count.
-func (s *ListWorkflowSuggestOKSuggestsItem) SetCount(val float64) {
+func (s *ListWorkflowSuggestOKSuggestsItem) SetCount(val int) {
 	s.Count = val
 }
 
@@ -8041,6 +8480,33 @@ func (s *ListWorkflowSuggestOrder) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ListWorkflowSuggestPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowSuggestPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListWorkflowSuggestPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowSuggestPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListWorkflowSuggestPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListWorkflowSuggestPaymentRequired) listWorkflowSuggestRes() {}
 
 type ListWorkflowSuggestSortBy string
 
@@ -8136,6 +8602,51 @@ func (s *ListWorkflowUnauthorized) SetMessage(val string) {
 }
 
 func (*ListWorkflowUnauthorized) listWorkflowRes() {}
+
+// NewNilDateTime returns new NilDateTime with value set to v.
+func NewNilDateTime(v time.Time) NilDateTime {
+	return NilDateTime{
+		Value: v,
+	}
+}
+
+// NilDateTime is nullable time.Time.
+type NilDateTime struct {
+	Value time.Time
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilDateTime) SetTo(v time.Time) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilDateTime) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilDateTime) SetToNull() {
+	o.Null = true
+	var v time.Time
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilDateTime) Get() (v time.Time, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilDateTime) Or(d time.Time) time.Time {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
 
 // NewOptBool returns new OptBool with value set to v.
 func NewOptBool(v bool) OptBool {
@@ -8505,52 +9016,6 @@ func (o OptCreateExecutionReq) Or(d CreateExecutionReq) CreateExecutionReq {
 	return d
 }
 
-// NewOptCreateSubscriptionReq returns new OptCreateSubscriptionReq with value set to v.
-func NewOptCreateSubscriptionReq(v CreateSubscriptionReq) OptCreateSubscriptionReq {
-	return OptCreateSubscriptionReq{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreateSubscriptionReq is optional CreateSubscriptionReq.
-type OptCreateSubscriptionReq struct {
-	Value CreateSubscriptionReq
-	Set   bool
-}
-
-// IsSet returns true if OptCreateSubscriptionReq was set.
-func (o OptCreateSubscriptionReq) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreateSubscriptionReq) Reset() {
-	var v CreateSubscriptionReq
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreateSubscriptionReq) SetTo(v CreateSubscriptionReq) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreateSubscriptionReq) Get() (v CreateSubscriptionReq, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreateSubscriptionReq) Or(d CreateSubscriptionReq) CreateSubscriptionReq {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptCreateWorkflowCreatedWorkflowConcurrencyMode returns new OptCreateWorkflowCreatedWorkflowConcurrencyMode with value set to v.
 func NewOptCreateWorkflowCreatedWorkflowConcurrencyMode(v CreateWorkflowCreatedWorkflowConcurrencyMode) OptCreateWorkflowCreatedWorkflowConcurrencyMode {
 	return OptCreateWorkflowCreatedWorkflowConcurrencyMode{
@@ -8867,52 +9332,6 @@ func (o OptGetExecutionOKExecutionWorkflowServicePrincipalId) Get() (v GetExecut
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetExecutionOKExecutionWorkflowServicePrincipalId) Or(d GetExecutionOKExecutionWorkflowServicePrincipalId) GetExecutionOKExecutionWorkflowServicePrincipalId {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetSubscriptionOKCurrentPlan returns new OptGetSubscriptionOKCurrentPlan with value set to v.
-func NewOptGetSubscriptionOKCurrentPlan(v GetSubscriptionOKCurrentPlan) OptGetSubscriptionOKCurrentPlan {
-	return OptGetSubscriptionOKCurrentPlan{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetSubscriptionOKCurrentPlan is optional GetSubscriptionOKCurrentPlan.
-type OptGetSubscriptionOKCurrentPlan struct {
-	Value GetSubscriptionOKCurrentPlan
-	Set   bool
-}
-
-// IsSet returns true if OptGetSubscriptionOKCurrentPlan was set.
-func (o OptGetSubscriptionOKCurrentPlan) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetSubscriptionOKCurrentPlan) Reset() {
-	var v GetSubscriptionOKCurrentPlan
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetSubscriptionOKCurrentPlan) SetTo(v GetSubscriptionOKCurrentPlan) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetSubscriptionOKCurrentPlan) Get() (v GetSubscriptionOKCurrentPlan, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetSubscriptionOKCurrentPlan) Or(d GetSubscriptionOKCurrentPlan) GetSubscriptionOKCurrentPlan {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -9701,6 +10120,69 @@ func (o OptListWorkflowSuggestSortBy) Or(d ListWorkflowSuggestSortBy) ListWorkfl
 	return d
 }
 
+// NewOptNilGetSubscriptionOKCurrentPlan returns new OptNilGetSubscriptionOKCurrentPlan with value set to v.
+func NewOptNilGetSubscriptionOKCurrentPlan(v GetSubscriptionOKCurrentPlan) OptNilGetSubscriptionOKCurrentPlan {
+	return OptNilGetSubscriptionOKCurrentPlan{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilGetSubscriptionOKCurrentPlan is optional nullable GetSubscriptionOKCurrentPlan.
+type OptNilGetSubscriptionOKCurrentPlan struct {
+	Value GetSubscriptionOKCurrentPlan
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilGetSubscriptionOKCurrentPlan was set.
+func (o OptNilGetSubscriptionOKCurrentPlan) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilGetSubscriptionOKCurrentPlan) Reset() {
+	var v GetSubscriptionOKCurrentPlan
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilGetSubscriptionOKCurrentPlan) SetTo(v GetSubscriptionOKCurrentPlan) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilGetSubscriptionOKCurrentPlan) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilGetSubscriptionOKCurrentPlan) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v GetSubscriptionOKCurrentPlan
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilGetSubscriptionOKCurrentPlan) Get() (v GetSubscriptionOKCurrentPlan, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilGetSubscriptionOKCurrentPlan) Or(d GetSubscriptionOKCurrentPlan) GetSubscriptionOKCurrentPlan {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptString returns new OptString with value set to v.
 func NewOptString(v string) OptString {
 	return OptString{
@@ -10263,6 +10745,33 @@ func (s *UpdateWorkflowOKWorkflowTagsItem) SetName(val string) {
 	s.Name = val
 }
 
+type UpdateWorkflowPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateWorkflowPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *UpdateWorkflowPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateWorkflowPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *UpdateWorkflowPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*UpdateWorkflowPaymentRequired) updateWorkflowRes() {}
+
 type UpdateWorkflowReq struct {
 	Name            OptString                           `json:"Name"`
 	Description     OptString                           `json:"Description"`
@@ -10624,6 +11133,33 @@ func (s *UpdateWorkflowRevisionAliasOKRevision) SetCreatedAt(val time.Time) {
 func (s *UpdateWorkflowRevisionAliasOKRevision) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
+
+type UpdateWorkflowRevisionAliasPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *UpdateWorkflowRevisionAliasPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*UpdateWorkflowRevisionAliasPaymentRequired) updateWorkflowRevisionAliasRes() {}
 
 type UpdateWorkflowRevisionAliasReq struct {
 	RevisionAlias string `json:"RevisionAlias"`

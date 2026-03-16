@@ -56,6 +56,8 @@ func (op *workflowOp) Create(ctx context.Context, req v1.CreateWorkflowReq) (*v1
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.CreateWorkflowUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.CreateWorkflowPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.CreateWorkflowForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.CreateWorkflowNotFound:
@@ -82,6 +84,8 @@ func (op *workflowOp) List(ctx context.Context, params v1.ListWorkflowParams) (*
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.ListWorkflowUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.ListWorkflowPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.ListWorkflowForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.ListWorkflowNotFound:
@@ -108,6 +112,8 @@ func (op *workflowOp) ListSuggest(ctx context.Context, params v1.ListWorkflowSug
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.ListWorkflowSuggestUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.ListWorkflowSuggestPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.ListWorkflowSuggestForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.ListWorkflowSuggestNotFound:
@@ -134,6 +140,8 @@ func (op *workflowOp) Read(ctx context.Context, id string) (*v1.GetWorkflowOKWor
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.GetWorkflowUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.GetWorkflowPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.GetWorkflowForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.GetWorkflowNotFound:
@@ -160,6 +168,8 @@ func (op *workflowOp) Update(ctx context.Context, id string, req v1.UpdateWorkfl
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.UpdateWorkflowUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.UpdateWorkflowPaymentRequired:
+		return nil, NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.UpdateWorkflowForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.UpdateWorkflowNotFound:
@@ -186,10 +196,14 @@ func (op *workflowOp) Delete(ctx context.Context, id string) error {
 		return NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
 	case *v1.DeleteWorkflowUnauthorized:
 		return NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
+	case *v1.DeleteWorkflowPaymentRequired:
+		return NewAPIError(methodName, http.StatusPaymentRequired, errors.New(r.Message))
 	case *v1.DeleteWorkflowForbidden:
 		return NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
 	case *v1.DeleteWorkflowNotFound:
 		return NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
+	case *v1.DeleteWorkflowConflict:
+		return NewAPIError(methodName, http.StatusConflict, errors.New(r.Message))
 	case *v1.DeleteWorkflowInternalServerError:
 		return NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:

@@ -94,7 +94,7 @@ func (op *subscriptionOp) Read(ctx context.Context) (*v1.GetSubscriptionOK, erro
 func (op *subscriptionOp) Create(ctx context.Context, req v1.CreateSubscriptionReq) error {
 	const methodName = "Subscription.Create"
 
-	res, err := op.client.CreateSubscription(ctx, v1.NewOptCreateSubscriptionReq(req))
+	res, err := op.client.CreateSubscription(ctx, &req)
 	if err != nil {
 		return NewAPIError(methodName, 0, err)
 	}
