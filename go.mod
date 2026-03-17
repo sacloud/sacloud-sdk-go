@@ -2,7 +2,7 @@ module github.com/sacloud/object-storage-api-go
 
 go 1.25.0
 
-toolchain go1.25.7
+toolchain go1.25.8
 
 require (
 	github.com/go-faster/errors v0.7.1
@@ -10,7 +10,7 @@ require (
 	github.com/minio/minio-go/v7 v7.0.98
 	github.com/ogen-go/ogen v1.18.0
 	github.com/sacloud/packages-go v0.0.12
-	github.com/sacloud/saclient-go v0.3.1
+	github.com/sacloud/saclient-go v0.3.2
 	github.com/stretchr/testify v1.11.1
 )
 
@@ -24,7 +24,7 @@ require (
 	github.com/go-faster/yaml v0.4.6 // indirect
 	github.com/go-ini/ini v1.67.0 // indirect
 	github.com/gofrs/flock v0.13.0 // indirect
-	github.com/golang-jwt/jwt/v5 v5.3.0 // indirect
+	github.com/golang-jwt/jwt/v5 v5.3.1 // indirect
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
@@ -32,7 +32,7 @@ require (
 	github.com/klauspost/compress v1.18.2 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.11 // indirect
 	github.com/klauspost/crc32 v1.3.0 // indirect
-	github.com/mattn/go-colorable v0.1.13 // indirect
+	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/minio/crc64nvme v1.1.1 // indirect
 	github.com/minio/md5-simd v1.1.2 // indirect
