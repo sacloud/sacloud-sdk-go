@@ -12,7 +12,10 @@ import (
 	v1 "github.com/sacloud/security-control-api-go/apis/v1"
 )
 
-const DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1b/api/securitycontrol/1.0/"
+const (
+	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/tk1b/api/securitycontrol/1.0/"
+	serviceKey        = "security_control"
+)
 
 var UserAgent = fmt.Sprintf(
 	"security-control-api-go/%s (%s/%s; +https://github.com/sacloud/security-control-api-go)",
@@ -27,7 +30,17 @@ func (ss dummySecuritySource) BasicAuth(ctx context.Context, operationName v1.Op
 	return v1.BasicAuth{Username: "", Password: "", Roles: nil}, nil
 }
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
-	return NewClientWithAPIRootURL(client, DefaultAPIRootURL)
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
+		return nil, NewError("unable to load message endpoint configuration", err)
+	}
+
+	endpoint := DefaultAPIRootURL
+	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
+		endpoint = ep
+	}
+
+	return NewClientWithAPIRootURL(client, endpoint)
 }
 
 func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
