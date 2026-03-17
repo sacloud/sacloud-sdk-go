@@ -2,7 +2,7 @@ module github.com/sacloud/security-control-api-go
 
 go 1.25.0
 
-toolchain go1.25.5
+toolchain go1.25.8
 
 tool github.com/ogen-go/ogen/cmd/ogen
 
