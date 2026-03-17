@@ -13,7 +13,10 @@ import (
 	"github.com/sacloud/saclient-go"
 )
 
-const DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/"
+const (
+	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/is1a/api/objectstorage/1.0/"
+	serviceKey        = "object_storage"
+)
 
 var NewUserAgent = fmt.Sprintf(
 	"object-storage-api-go/%s (%s/%s; +https://github.com/sacloud/object-storage-api-go)",
@@ -33,7 +36,17 @@ type FedClient struct {
 }
 
 func NewFedClient(client saclient.ClientAPI) (*FedClient, error) {
-	return NewFedClientWithAPIRootURL(client, DefaultAPIRootURL)
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
+		return nil, NewError("unable to load message endpoint configuration", err)
+	}
+
+	endpoint := DefaultAPIRootURL
+	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
+		endpoint = ep
+	}
+
+	return NewFedClientWithAPIRootURL(client, endpoint)
 }
 
 func NewFedClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*FedClient, error) {
@@ -65,7 +78,17 @@ type SiteClient struct {
 }
 
 func NewSiteClient(client saclient.ClientAPI, siteId string) (*SiteClient, error) {
-	return NewSiteClientWithAPIRootURL(client, DefaultAPIRootURL, siteId)
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
+		return nil, NewError("unable to load message endpoint configuration", err)
+	}
+
+	endpoint := DefaultAPIRootURL
+	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
+		endpoint = ep
+	}
+
+	return NewSiteClientWithAPIRootURL(client, endpoint, siteId)
 }
 
 func NewSiteClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string, siteId string) (*SiteClient, error) {
