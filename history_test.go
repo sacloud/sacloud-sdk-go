@@ -58,6 +58,9 @@ func TestHistoryOp(t *testing.T) {
 		}
 	})
 	t.Run("Read", func(t *testing.T) {
+		if id == "" {
+			t.Skip("no history found. skipping")
+		}
 		resp, err := historyAPI.Read(ctx, id)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
