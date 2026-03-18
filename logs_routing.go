@@ -86,7 +86,7 @@ func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreatePara
 			PublisherCode: params.PublisherCode,
 			ResourceID:    rid,
 			Variant:       params.Variant,
-			LogStorageID:  v1.NilInt64{Value: lid},
+			LogStorageID:  v1.NewNilInt64(lid),
 		}
 
 		return op.client.LogsRoutingsCreate(ctx, &request)
