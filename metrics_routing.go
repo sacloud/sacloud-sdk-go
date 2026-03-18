@@ -86,7 +86,7 @@ func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCre
 			PublisherCode:    params.PublisherCode,
 			ResourceID:       rid,
 			Variant:          params.Variant,
-			MetricsStorageID: v1.NilInt64{Value: mid},
+			MetricsStorageID: v1.NewNilInt64(mid),
 		}
 
 		return op.client.MetricsRoutingsCreate(ctx, &req)
