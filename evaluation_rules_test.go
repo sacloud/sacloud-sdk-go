@@ -16,7 +16,7 @@ import (
 )
 
 func TestEvaluationRulesAPI(t *testing.T) {
-	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_SERVICE_PRINCIPAL_ID", "SAKURA_SERVICE_PRINCIPAL_KEY_ID")(t)
+	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_SERVICE_PRINCIPAL_ID", "SAKURA_SERVICE_PRINCIPAL_KEY_KID")(t)
 
 	ctx := t.Context()
 	var theClient saclient.Client
