@@ -13,8 +13,11 @@ import (
 	"github.com/sacloud/saclient-go"
 )
 
-// DefaultAPIRootURL デフォルトのAPIルートURL
-const DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/api/apprun-dedicated/1.0/"
+const (
+	// DefaultAPIRootURL デフォルトのAPIルートURL
+	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/api/apprun-dedicated/1.0/"
+	serviceKey        = "apprun-dedicated"
+)
 
 // UserAgent APIリクエスト時のユーザーエージェント
 var UserAgent = fmt.Sprintf(
@@ -33,7 +36,17 @@ func (voidSecuritySource) BasicAuth(context.Context, v1.OperationName) (v1.Basic
 }
 
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
-	return NewClientWithAPIRootURL(client, DefaultAPIRootURL)
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
+		return nil, common.NewError("unable to load message endpoint configuration", err)
+	}
+
+	endpoint := DefaultAPIRootURL
+	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
+		endpoint = ep
+	}
+
+	return NewClientWithAPIRootURL(client, endpoint)
 }
 
 func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
