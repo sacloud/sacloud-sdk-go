@@ -16,7 +16,7 @@ import (
 const (
 	// DefaultAPIRootURL デフォルトのAPIルートURL
 	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/api/apprun-dedicated/1.0/"
-	serviceKey        = "apprun-dedicated"
+	serviceKey        = "apprun_dedicated"
 )
 
 // UserAgent APIリクエスト時のユーザーエージェント
