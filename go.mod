@@ -2,7 +2,7 @@ module github.com/sacloud/simple-notification-api-go
 
 go 1.25.0
 
-toolchain go1.25.7
+toolchain go1.25.8
 
 tool github.com/ogen-go/ogen/cmd/ogen
 
@@ -11,7 +11,7 @@ require (
 	github.com/go-faster/jx v1.2.0
 	github.com/ogen-go/ogen v1.18.0
 	github.com/sacloud/packages-go v0.0.12
-	github.com/sacloud/saclient-go v0.3.1
+	github.com/sacloud/saclient-go v0.3.2
 	github.com/stretchr/testify v1.11.1
 )
 
