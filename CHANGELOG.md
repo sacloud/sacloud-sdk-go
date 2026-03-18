@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.3.3](https://github.com/sacloud/saclient-go/compare/v0.3.2...v0.3.3) - 2026-03-18
+- [chore] tagpr label settings by @shyouhei in https://github.com/sacloud/saclient-go/pull/83
+- `SAKURA_SERVICE_PRINCIPAL_KEY_KID` environment variable by @shyouhei in https://github.com/sacloud/saclient-go/pull/85
+- Permission check on Windows by @shyouhei in https://github.com/sacloud/saclient-go/pull/86
+- go: bump github.com/hashicorp/terraform-plugin-framework from 1.18.0 to 1.19.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/87
+
 ## [v0.4.0](https://github.com/sacloud/saclient-go/compare/v0.3.1...v0.4.0) - 2026-03-10
 - [chore] rename functions by @shyouhei in https://github.com/sacloud/saclient-go/pull/66
 - refactor hoist out withSettingHeader by @shyouhei in https://github.com/sacloud/saclient-go/pull/67
