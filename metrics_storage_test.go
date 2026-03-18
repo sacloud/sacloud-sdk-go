@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -378,7 +379,7 @@ func TestMetricsStorageIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewMetricsStorageOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 	tmp := WithMetricsStorage(t, client, ctx)
 	sid := fmt.Sprintf("%d", tmp.GetID())
 

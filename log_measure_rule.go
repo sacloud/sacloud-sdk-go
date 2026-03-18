@@ -85,18 +85,13 @@ func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogM
 		if err != nil {
 			return nil, fmt.Errorf("LogMeasureRuleCreateParams.MetricsStorageID: %w", err)
 		}
-		params := &v1.LogMeasureRule{
-			LogStorageID:     v1.NewOptNilInt64(lid),
-			MetricsStorageID: v1.NewOptNilInt64(mid),
+		params := &v1.LogMeasureRuleRequest{
+			LogStorageID:     v1.NewNilInt64(lid),
+			MetricsStorageID: v1.NewNilInt64(mid),
 			Name:             intoOpt[v1.OptString](p.Name),
 			Description:      intoOpt[v1.OptString](p.Description),
-			Rule:             p.Rule,
+			Rule:             v1.LogMeasureRuleModelRequest(p.Rule),
 		}
-		// prevent ogen error (encoder is not accepting empty struct)
-		params.LogStorage.SetFake()
-		params.MetricsStorage.SetFake()
-		params.LogStorage.SetTags(make([]string, 0))
-		params.MetricsStorage.SetTags(make([]string, 0))
 		return op.client.AlertsProjectsLogMeasureRulesCreate(ctx, params, v1.AlertsProjectsLogMeasureRulesCreateParams{
 			ProjectResourceID: pid,
 		})
@@ -138,12 +133,18 @@ func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId
 		if err != nil {
 			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.MetricsStorageID: %w", err)
 		}
-		return op.client.AlertsProjectsLogMeasureRulesPartialUpdate(ctx, v1.NewOptPatchedLogMeasureRule(v1.PatchedLogMeasureRule{
+		return op.client.AlertsProjectsLogMeasureRulesPartialUpdate(ctx, v1.NewOptPatchedLogMeasureRuleRequest(v1.PatchedLogMeasureRuleRequest{
 			LogStorageID:     lid,
 			MetricsStorageID: mid,
 			Name:             intoOpt[v1.OptString](p.Name),
 			Description:      intoOpt[v1.OptString](p.Description),
-			Rule:             intoOpt[v1.OptLogMeasureRuleModel](p.Rule),
+			Rule: intoOpt[v1.OptLogMeasureRuleModelRequest](func() *v1.LogMeasureRuleModelRequest {
+				if p.Rule == nil {
+					return nil
+				}
+				r := v1.LogMeasureRuleModelRequest(*p.Rule)
+				return &r
+			}()),
 		}), v1.AlertsProjectsLogMeasureRulesPartialUpdateParams{
 			ProjectResourceID: pid,
 			UID:               ruleId,

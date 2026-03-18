@@ -148,7 +148,7 @@ func WithLogStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.LogSt
 		Name:           testutil.RandomName("test-log-storage-", 16, testutil.CharSetAlphaNum),
 		Description:    ref(testutil.Random(128, testutil.CharSetAlphaNum)),
 		IsSystem:       false,
-		Classification: ref(v1.LogStorageCreateClassificationShared),
+		Classification: ref(v1.LogStorageCreateRequestClassificationShared),
 	})
 	require.NoError(t, err)
 	require.NotNil(t, ret)
@@ -170,7 +170,7 @@ func WithTraceStorage(t *testing.T, cli *v1.Client, ctx context.Context) *v1.Tra
 	ret, err := op.Create(ctx, TracesStorageCreateParams{
 		Name:           testutil.RandomName("test-trace-storage-", 16, testutil.CharSetAlphaNum),
 		Description:    ref(testutil.Random(128, testutil.CharSetAlphaNum)),
-		Classification: ref(v1.TraceStorageCreateClassificationShared),
+		Classification: ref(v1.TraceStorageCreateRequestClassificationShared),
 	})
 	require.NoError(t, err)
 	require.NotNil(t, ret)

@@ -99,13 +99,13 @@ type LogStorageCreateParams struct {
 	Name           string
 	Description    *string
 	IsSystem       bool
-	Classification *v1.LogStorageCreateClassification
+	Classification *v1.LogStorageCreateRequestClassification
 }
 
 func (op *logsStorageOp) Create(ctx context.Context, params LogStorageCreateParams) (*v1.LogStorage, error) {
 	res, err := errorFromDecodedResponse("LogsStorage.Create", func() (*v1.LogStorage, error) {
-		req := v1.LogStorageCreate{
-			Classification: intoOpt[v1.OptLogStorageCreateClassification](params.Classification),
+		req := v1.LogStorageCreateRequest{
+			Classification: intoOpt[v1.OptLogStorageCreateRequestClassification](params.Classification),
 			IsSystem:       params.IsSystem,
 			Name:           params.Name,
 			Description:    intoOpt[v1.OptString](params.Description),
@@ -126,7 +126,7 @@ func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpda
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesPartialUpdate(ctx, v1.NewOptPatchedLogStorage(v1.PatchedLogStorage{
+		return op.client.LogsStoragesPartialUpdate(ctx, v1.NewOptPatchedLogStorageRequest(v1.PatchedLogStorageRequest{
 			Name:        intoOpt[v1.OptString](p.Name),
 			Description: intoOpt[v1.OptString](p.Description),
 		}), v1.LogsStoragesPartialUpdateParams{ResourceID: rid})
@@ -152,7 +152,7 @@ func (op *logsStorageOp) SetExpire(ctx context.Context, resourceID string, days 
 		}
 		return op.client.LogsStoragesSetExpireCreate(
 			ctx,
-			&v1.SetLogStorageExpireDay{Days: days},
+			&v1.SetLogStorageExpireDayRequest{Days: days},
 			v1.LogsStoragesSetExpireCreateParams{ResourceID: rid},
 		)
 	})
@@ -218,7 +218,7 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, de
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesKeysCreate(ctx, v1.NewOptLogStorageAccessKey(v1.LogStorageAccessKey{
+		return op.client.LogsStoragesKeysCreate(ctx, v1.NewOptLogStorageAccessKeyRequest(v1.LogStorageAccessKeyRequest{
 			Description: intoOpt[v1.OptString](description),
 		}), v1.LogsStoragesKeysCreateParams{LogResourceID: rid})
 	})
@@ -245,7 +245,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesKeysUpdate(ctx, v1.NewOptLogStorageAccessKey(v1.LogStorageAccessKey{
+		return op.client.LogsStoragesKeysUpdate(ctx, v1.NewOptLogStorageAccessKeyRequest(v1.LogStorageAccessKeyRequest{
 			Description: intoOpt[v1.OptString](description),
 		}), v1.LogsStoragesKeysUpdateParams{
 			LogResourceID: rid,

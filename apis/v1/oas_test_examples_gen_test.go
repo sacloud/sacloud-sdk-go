@@ -23,8 +23,8 @@ func TestAlertProject_EncodeDecode(t *testing.T) {
 	var typ2 AlertProject
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestAlertProjectCreate_EncodeDecode(t *testing.T) {
-	var typ AlertProjectCreate
+func TestAlertProjectCreateRequest_EncodeDecode(t *testing.T) {
+	var typ AlertProjectCreateRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -32,7 +32,7 @@ func TestAlertProjectCreate_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 AlertProjectCreate
+	var typ2 AlertProjectCreateRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestAlertProjectIcon_EncodeDecode(t *testing.T) {
@@ -47,6 +47,18 @@ func TestAlertProjectIcon_EncodeDecode(t *testing.T) {
 	var typ2 AlertProjectIcon
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestAlertProjectRequest_EncodeDecode(t *testing.T) {
+	var typ AlertProjectRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 AlertProjectRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestAlertRule_EncodeDecode(t *testing.T) {
 	var typ AlertRule
 	typ.SetFake()
@@ -57,6 +69,18 @@ func TestAlertRule_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 AlertRule
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestAlertRuleRequest_EncodeDecode(t *testing.T) {
+	var typ AlertRuleRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 AlertRuleRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestAndMatcher_EncodeDecode(t *testing.T) {
@@ -107,8 +131,8 @@ func TestDashboardProject_EncodeDecode(t *testing.T) {
 	var typ2 DashboardProject
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestDashboardProjectCreate_EncodeDecode(t *testing.T) {
-	var typ DashboardProjectCreate
+func TestDashboardProjectCreateRequest_EncodeDecode(t *testing.T) {
+	var typ DashboardProjectCreateRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -116,7 +140,7 @@ func TestDashboardProjectCreate_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 DashboardProjectCreate
+	var typ2 DashboardProjectCreateRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestDashboardProjectIcon_EncodeDecode(t *testing.T) {
@@ -129,6 +153,18 @@ func TestDashboardProjectIcon_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 DashboardProjectIcon
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDashboardProjectRequest_EncodeDecode(t *testing.T) {
+	var typ DashboardProjectRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DashboardProjectRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestEnumMatcher_EncodeDecode(t *testing.T) {
@@ -215,6 +251,30 @@ func TestLogMeasureRuleModel_EncodeDecode(t *testing.T) {
 	var typ2 LogMeasureRuleModel
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestLogMeasureRuleModelRequest_EncodeDecode(t *testing.T) {
+	var typ LogMeasureRuleModelRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogMeasureRuleModelRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLogMeasureRuleRequest_EncodeDecode(t *testing.T) {
+	var typ LogMeasureRuleRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogMeasureRuleRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestLogMeasureRuleV1_EncodeDecode(t *testing.T) {
 	var typ LogMeasureRuleV1
 	typ.SetFake()
@@ -251,6 +311,18 @@ func TestLogRouting_EncodeDecode(t *testing.T) {
 	var typ2 LogRouting
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestLogRoutingRequest_EncodeDecode(t *testing.T) {
+	var typ LogRoutingRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogRoutingRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestLogStorage_EncodeDecode(t *testing.T) {
 	var typ LogStorage
 	typ.SetFake()
@@ -275,8 +347,8 @@ func TestLogStorageAccessKey_EncodeDecode(t *testing.T) {
 	var typ2 LogStorageAccessKey
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestLogStorageCreate_EncodeDecode(t *testing.T) {
-	var typ LogStorageCreate
+func TestLogStorageAccessKeyRequest_EncodeDecode(t *testing.T) {
+	var typ LogStorageAccessKeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -284,11 +356,11 @@ func TestLogStorageCreate_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 LogStorageCreate
+	var typ2 LogStorageAccessKeyRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestLogStorageCreateClassification_EncodeDecode(t *testing.T) {
-	var typ LogStorageCreateClassification
+func TestLogStorageClassification_EncodeDecode(t *testing.T) {
+	var typ LogStorageClassification
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -296,7 +368,31 @@ func TestLogStorageCreateClassification_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 LogStorageCreateClassification
+	var typ2 LogStorageClassification
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLogStorageCreateRequest_EncodeDecode(t *testing.T) {
+	var typ LogStorageCreateRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogStorageCreateRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLogStorageCreateRequestClassification_EncodeDecode(t *testing.T) {
+	var typ LogStorageCreateRequestClassification
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogStorageCreateRequestClassification
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestLogStorageDailyUsage_EncodeDecode(t *testing.T) {
@@ -383,6 +479,18 @@ func TestLogStorageMonthlyUsageBody_EncodeDecode(t *testing.T) {
 	var typ2 LogStorageMonthlyUsageBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestLogStorageRequest_EncodeDecode(t *testing.T) {
+	var typ LogStorageRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LogStorageRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestLogStorageUsage_EncodeDecode(t *testing.T) {
 	var typ LogStorageUsage
 	typ.SetFake()
@@ -431,6 +539,30 @@ func TestMapKeyValueMatcher_EncodeDecode(t *testing.T) {
 	var typ2 MapKeyValueMatcher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestMapValueNumMatcher_EncodeDecode(t *testing.T) {
+	var typ MapValueNumMatcher
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MapValueNumMatcher
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMapValueStrMatcher_EncodeDecode(t *testing.T) {
+	var typ MapValueStrMatcher
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MapValueStrMatcher
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestMatchLabelsItem_EncodeDecode(t *testing.T) {
 	var typ MatchLabelsItem
 	typ.SetFake()
@@ -443,6 +575,18 @@ func TestMatchLabelsItem_EncodeDecode(t *testing.T) {
 	var typ2 MatchLabelsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestMatchLabelsItemRequest_EncodeDecode(t *testing.T) {
+	var typ MatchLabelsItemRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MatchLabelsItemRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestMetricsRouting_EncodeDecode(t *testing.T) {
 	var typ MetricsRouting
 	typ.SetFake()
@@ -453,6 +597,18 @@ func TestMetricsRouting_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 MetricsRouting
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMetricsRoutingRequest_EncodeDecode(t *testing.T) {
+	var typ MetricsRoutingRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MetricsRoutingRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestMetricsStorage_EncodeDecode(t *testing.T) {
@@ -479,8 +635,8 @@ func TestMetricsStorageAccessKey_EncodeDecode(t *testing.T) {
 	var typ2 MetricsStorageAccessKey
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestMetricsStorageCreate_EncodeDecode(t *testing.T) {
-	var typ MetricsStorageCreate
+func TestMetricsStorageAccessKeyRequest_EncodeDecode(t *testing.T) {
+	var typ MetricsStorageAccessKeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -488,7 +644,19 @@ func TestMetricsStorageCreate_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 MetricsStorageCreate
+	var typ2 MetricsStorageAccessKeyRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMetricsStorageCreateRequest_EncodeDecode(t *testing.T) {
+	var typ MetricsStorageCreateRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MetricsStorageCreateRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestMetricsStorageDailyUsage_EncodeDecode(t *testing.T) {
@@ -563,6 +731,18 @@ func TestMetricsStorageMonthlyUsageBody_EncodeDecode(t *testing.T) {
 	var typ2 MetricsStorageMonthlyUsageBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestMetricsStorageRequest_EncodeDecode(t *testing.T) {
+	var typ MetricsStorageRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MetricsStorageRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestMetricsStorageUsage_EncodeDecode(t *testing.T) {
 	var typ MetricsStorageUsage
 	typ.SetFake()
@@ -587,8 +767,8 @@ func TestNotificationRouting_EncodeDecode(t *testing.T) {
 	var typ2 NotificationRouting
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestNotificationRoutingOrder_EncodeDecode(t *testing.T) {
-	var typ NotificationRoutingOrder
+func TestNotificationRoutingOrderRequest_EncodeDecode(t *testing.T) {
+	var typ NotificationRoutingOrderRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -596,7 +776,19 @@ func TestNotificationRoutingOrder_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 NotificationRoutingOrder
+	var typ2 NotificationRoutingOrderRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestNotificationRoutingRequest_EncodeDecode(t *testing.T) {
+	var typ NotificationRoutingRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 NotificationRoutingRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestNotificationTarget_EncodeDecode(t *testing.T) {
@@ -621,6 +813,30 @@ func TestNotificationTargetConfig_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 NotificationTargetConfig
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestNotificationTargetRequest_EncodeDecode(t *testing.T) {
+	var typ NotificationTargetRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 NotificationTargetRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestNotificationTargetRequestServiceType_EncodeDecode(t *testing.T) {
+	var typ NotificationTargetRequestServiceType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 NotificationTargetRequestServiceType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestNotificationTargetServiceType_EncodeDecode(t *testing.T) {
@@ -693,6 +909,30 @@ func TestOperator2_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Operator2
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestOperator3_EncodeDecode(t *testing.T) {
+	var typ Operator3
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Operator3
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestOperator4_EncodeDecode(t *testing.T) {
+	var typ Operator4
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Operator4
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestOrMatcher_EncodeDecode(t *testing.T) {
@@ -899,8 +1139,8 @@ func TestPaginatedTraceStorageList_EncodeDecode(t *testing.T) {
 	var typ2 PaginatedTraceStorageList
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedAlertProject_EncodeDecode(t *testing.T) {
-	var typ PatchedAlertProject
+func TestPatchedAlertProjectRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedAlertProjectRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -908,11 +1148,11 @@ func TestPatchedAlertProject_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedAlertProject
+	var typ2 PatchedAlertProjectRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedAlertProjectIcon_EncodeDecode(t *testing.T) {
-	var typ PatchedAlertProjectIcon
+func TestPatchedAlertRuleRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedAlertRuleRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -920,11 +1160,11 @@ func TestPatchedAlertProjectIcon_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedAlertProjectIcon
+	var typ2 PatchedAlertRuleRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedAlertRule_EncodeDecode(t *testing.T) {
-	var typ PatchedAlertRule
+func TestPatchedDashboardProjectRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedDashboardProjectRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -932,11 +1172,11 @@ func TestPatchedAlertRule_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedAlertRule
+	var typ2 PatchedDashboardProjectRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedDashboardProject_EncodeDecode(t *testing.T) {
-	var typ PatchedDashboardProject
+func TestPatchedLogMeasureRuleRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedLogMeasureRuleRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -944,11 +1184,11 @@ func TestPatchedDashboardProject_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedDashboardProject
+	var typ2 PatchedLogMeasureRuleRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedDashboardProjectIcon_EncodeDecode(t *testing.T) {
-	var typ PatchedDashboardProjectIcon
+func TestPatchedLogRoutingRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedLogRoutingRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -956,11 +1196,11 @@ func TestPatchedDashboardProjectIcon_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedDashboardProjectIcon
+	var typ2 PatchedLogRoutingRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedLogMeasureRule_EncodeDecode(t *testing.T) {
-	var typ PatchedLogMeasureRule
+func TestPatchedLogStorageAccessKeyRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedLogStorageAccessKeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -968,11 +1208,11 @@ func TestPatchedLogMeasureRule_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedLogMeasureRule
+	var typ2 PatchedLogStorageAccessKeyRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedLogRouting_EncodeDecode(t *testing.T) {
-	var typ PatchedLogRouting
+func TestPatchedLogStorageRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedLogStorageRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -980,11 +1220,11 @@ func TestPatchedLogRouting_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedLogRouting
+	var typ2 PatchedLogStorageRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedLogStorage_EncodeDecode(t *testing.T) {
-	var typ PatchedLogStorage
+func TestPatchedMetricsRoutingRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedMetricsRoutingRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -992,11 +1232,11 @@ func TestPatchedLogStorage_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedLogStorage
+	var typ2 PatchedMetricsRoutingRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedLogStorageAccessKey_EncodeDecode(t *testing.T) {
-	var typ PatchedLogStorageAccessKey
+func TestPatchedMetricsStorageAccessKeyRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedMetricsStorageAccessKeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1004,11 +1244,11 @@ func TestPatchedLogStorageAccessKey_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedLogStorageAccessKey
+	var typ2 PatchedMetricsStorageAccessKeyRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedLogStorageEndpoints_EncodeDecode(t *testing.T) {
-	var typ PatchedLogStorageEndpoints
+func TestPatchedMetricsStorageRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedMetricsStorageRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1016,11 +1256,11 @@ func TestPatchedLogStorageEndpoints_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedLogStorageEndpoints
+	var typ2 PatchedMetricsStorageRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedLogStorageEndpointsIngester_EncodeDecode(t *testing.T) {
-	var typ PatchedLogStorageEndpointsIngester
+func TestPatchedNotificationRoutingRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedNotificationRoutingRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1028,11 +1268,11 @@ func TestPatchedLogStorageEndpointsIngester_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedLogStorageEndpointsIngester
+	var typ2 PatchedNotificationRoutingRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedLogStorageIcon_EncodeDecode(t *testing.T) {
-	var typ PatchedLogStorageIcon
+func TestPatchedNotificationTargetRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedNotificationTargetRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1040,11 +1280,11 @@ func TestPatchedLogStorageIcon_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedLogStorageIcon
+	var typ2 PatchedNotificationTargetRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedLogStorageUsage_EncodeDecode(t *testing.T) {
-	var typ PatchedLogStorageUsage
+func TestPatchedNotificationTargetRequestServiceType_EncodeDecode(t *testing.T) {
+	var typ PatchedNotificationTargetRequestServiceType
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1052,11 +1292,11 @@ func TestPatchedLogStorageUsage_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedLogStorageUsage
+	var typ2 PatchedNotificationTargetRequestServiceType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedMetricsRouting_EncodeDecode(t *testing.T) {
-	var typ PatchedMetricsRouting
+func TestPatchedTraceStorageAccessKeyRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedTraceStorageAccessKeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1064,11 +1304,11 @@ func TestPatchedMetricsRouting_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedMetricsRouting
+	var typ2 PatchedTraceStorageAccessKeyRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchedMetricsStorage_EncodeDecode(t *testing.T) {
-	var typ PatchedMetricsStorage
+func TestPatchedTraceStorageRequest_EncodeDecode(t *testing.T) {
+	var typ PatchedTraceStorageRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1076,163 +1316,7 @@ func TestPatchedMetricsStorage_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchedMetricsStorage
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedMetricsStorageAccessKey_EncodeDecode(t *testing.T) {
-	var typ PatchedMetricsStorageAccessKey
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedMetricsStorageAccessKey
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedMetricsStorageEndpoints_EncodeDecode(t *testing.T) {
-	var typ PatchedMetricsStorageEndpoints
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedMetricsStorageEndpoints
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedMetricsStorageIcon_EncodeDecode(t *testing.T) {
-	var typ PatchedMetricsStorageIcon
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedMetricsStorageIcon
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedMetricsStorageUsage_EncodeDecode(t *testing.T) {
-	var typ PatchedMetricsStorageUsage
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedMetricsStorageUsage
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedNotificationRouting_EncodeDecode(t *testing.T) {
-	var typ PatchedNotificationRouting
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedNotificationRouting
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedNotificationTarget_EncodeDecode(t *testing.T) {
-	var typ PatchedNotificationTarget
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedNotificationTarget
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedNotificationTargetConfig_EncodeDecode(t *testing.T) {
-	var typ PatchedNotificationTargetConfig
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedNotificationTargetConfig
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedNotificationTargetServiceType_EncodeDecode(t *testing.T) {
-	var typ PatchedNotificationTargetServiceType
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedNotificationTargetServiceType
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedTraceStorage_EncodeDecode(t *testing.T) {
-	var typ PatchedTraceStorage
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedTraceStorage
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedTraceStorageAccessKey_EncodeDecode(t *testing.T) {
-	var typ PatchedTraceStorageAccessKey
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedTraceStorageAccessKey
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedTraceStorageEndpoints_EncodeDecode(t *testing.T) {
-	var typ PatchedTraceStorageEndpoints
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedTraceStorageEndpoints
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedTraceStorageEndpointsIngester_EncodeDecode(t *testing.T) {
-	var typ PatchedTraceStorageEndpointsIngester
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedTraceStorageEndpointsIngester
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPatchedTraceStorageIcon_EncodeDecode(t *testing.T) {
-	var typ PatchedTraceStorageIcon
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchedTraceStorageIcon
+	var typ2 PatchedTraceStorageRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestPostProvisioningInitializeCreated_EncodeDecode(t *testing.T) {
@@ -1271,8 +1355,8 @@ func TestProvisioning_EncodeDecode(t *testing.T) {
 	var typ2 Provisioning
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProvisioningCreate_EncodeDecode(t *testing.T) {
-	var typ ProvisioningCreate
+func TestProvisioningCreateRequest_EncodeDecode(t *testing.T) {
+	var typ ProvisioningCreateRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1280,7 +1364,7 @@ func TestProvisioningCreate_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProvisioningCreate
+	var typ2 ProvisioningCreateRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestProvisioningExist_EncodeDecode(t *testing.T) {
@@ -1293,6 +1377,18 @@ func TestProvisioningExist_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ProvisioningExist
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestProvisioningExistRequest_EncodeDecode(t *testing.T) {
+	var typ ProvisioningExistRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ProvisioningExistRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestPublisher_EncodeDecode(t *testing.T) {
@@ -1367,8 +1463,8 @@ func TestResourcesLimits_EncodeDecode(t *testing.T) {
 	var typ2 ResourcesLimits
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestSetLogStorageExpireDay_EncodeDecode(t *testing.T) {
-	var typ SetLogStorageExpireDay
+func TestSetLogStorageExpireDayRequest_EncodeDecode(t *testing.T) {
+	var typ SetLogStorageExpireDayRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1376,11 +1472,11 @@ func TestSetLogStorageExpireDay_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 SetLogStorageExpireDay
+	var typ2 SetLogStorageExpireDayRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestSetTraceStorageExpireDay_EncodeDecode(t *testing.T) {
-	var typ SetTraceStorageExpireDay
+func TestSetTraceStorageExpireDayRequest_EncodeDecode(t *testing.T) {
+	var typ SetTraceStorageExpireDayRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1388,7 +1484,7 @@ func TestSetTraceStorageExpireDay_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 SetTraceStorageExpireDay
+	var typ2 SetTraceStorageExpireDayRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestStrMatcher_EncodeDecode(t *testing.T) {
@@ -1439,8 +1535,8 @@ func TestTraceStorageAccessKey_EncodeDecode(t *testing.T) {
 	var typ2 TraceStorageAccessKey
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestTraceStorageCreate_EncodeDecode(t *testing.T) {
-	var typ TraceStorageCreate
+func TestTraceStorageAccessKeyRequest_EncodeDecode(t *testing.T) {
+	var typ TraceStorageAccessKeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1448,11 +1544,11 @@ func TestTraceStorageCreate_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 TraceStorageCreate
+	var typ2 TraceStorageAccessKeyRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestTraceStorageCreateClassification_EncodeDecode(t *testing.T) {
-	var typ TraceStorageCreateClassification
+func TestTraceStorageClassification_EncodeDecode(t *testing.T) {
+	var typ TraceStorageClassification
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1460,7 +1556,31 @@ func TestTraceStorageCreateClassification_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 TraceStorageCreateClassification
+	var typ2 TraceStorageClassification
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestTraceStorageCreateRequest_EncodeDecode(t *testing.T) {
+	var typ TraceStorageCreateRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 TraceStorageCreateRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestTraceStorageCreateRequestClassification_EncodeDecode(t *testing.T) {
+	var typ TraceStorageCreateRequestClassification
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 TraceStorageCreateRequestClassification
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestTraceStorageDailyUsageBody_EncodeDecode(t *testing.T) {
@@ -1521,6 +1641,18 @@ func TestTraceStorageMonthlyUsageBody_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 TraceStorageMonthlyUsageBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestTraceStorageRequest_EncodeDecode(t *testing.T) {
+	var typ TraceStorageRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 TraceStorageRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestType_EncodeDecode(t *testing.T) {
@@ -1619,6 +1751,30 @@ func TestType7_EncodeDecode(t *testing.T) {
 	var typ2 Type7
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestType8_EncodeDecode(t *testing.T) {
+	var typ Type8
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Type8
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestType9_EncodeDecode(t *testing.T) {
+	var typ Type9
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Type9
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestValueEnum_EncodeDecode(t *testing.T) {
 	var typ ValueEnum
 	typ.SetFake()
@@ -1713,6 +1869,18 @@ func TestWrappedLogStorageAccessKey_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 WrappedLogStorageAccessKey
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedLogStorageClassification_EncodeDecode(t *testing.T) {
+	var typ WrappedLogStorageClassification
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedLogStorageClassification
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestWrappedLogStorageEndpoints_EncodeDecode(t *testing.T) {
@@ -1869,6 +2037,18 @@ func TestWrappedTraceStorageAccessKey_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 WrappedTraceStorageAccessKey
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedTraceStorageClassification_EncodeDecode(t *testing.T) {
+	var typ WrappedTraceStorageClassification
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedTraceStorageClassification
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestWrappedTraceStorageEndpoints_EncodeDecode(t *testing.T) {

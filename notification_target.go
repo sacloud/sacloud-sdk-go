@@ -96,8 +96,8 @@ func (op *notificationTargetOp) Create(ctx context.Context, projectId string, pa
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsNotificationTargetsCreate(ctx, &v1.NotificationTarget{
-			ServiceType: params.ServiceType,
+		return op.client.AlertsProjectsNotificationTargetsCreate(ctx, &v1.NotificationTargetRequest{
+			ServiceType: v1.NotificationTargetRequestServiceType(params.ServiceType),
 			URL:         intoOpt[v1.OptString](params.urlstr()),
 			Description: intoOpt[v1.OptString](params.Description),
 		}, v1.AlertsProjectsNotificationTargetsCreateParams{ProjectResourceID: pid})
@@ -105,7 +105,7 @@ func (op *notificationTargetOp) Create(ctx context.Context, projectId string, pa
 }
 
 type NotificationTargetUpdateParams struct {
-	ServiceType *v1.PatchedNotificationTargetServiceType
+	ServiceType *v1.PatchedNotificationTargetRequestServiceType
 	URL         *string
 	Description *string
 }
@@ -116,8 +116,8 @@ func (op *notificationTargetOp) Update(ctx context.Context, projectId string, ui
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsNotificationTargetsPartialUpdate(ctx, v1.NewOptPatchedNotificationTarget(v1.PatchedNotificationTarget{
-			ServiceType: intoOpt[v1.OptPatchedNotificationTargetServiceType](params.ServiceType),
+		return op.client.AlertsProjectsNotificationTargetsPartialUpdate(ctx, v1.NewOptPatchedNotificationTargetRequest(v1.PatchedNotificationTargetRequest{
+			ServiceType: intoOpt[v1.OptPatchedNotificationTargetRequestServiceType](params.ServiceType),
 			URL:         intoOpt[v1.OptString](params.URL),
 			Description: intoOpt[v1.OptString](params.Description),
 		}), v1.AlertsProjectsNotificationTargetsPartialUpdateParams{

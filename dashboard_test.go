@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -150,7 +151,7 @@ func TestDashboardIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewDashboardOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	// Create
 	created, err := api.Create(ctx, DashboardProjectCreateParams{

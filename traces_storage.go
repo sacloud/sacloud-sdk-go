@@ -93,15 +93,15 @@ func (op *tracesStorageOp) Read(ctx context.Context, resourceID string) (*v1.Tra
 type TracesStorageCreateParams struct {
 	Name           string
 	Description    *string
-	Classification *v1.TraceStorageCreateClassification
+	Classification *v1.TraceStorageCreateRequestClassification
 }
 
 func (op *tracesStorageOp) Create(ctx context.Context, params TracesStorageCreateParams) (*v1.TraceStorage, error) {
 	res, err := errorFromDecodedResponse("TracesStorage.Create", func() (*v1.TraceStorage, error) {
-		req := v1.TraceStorageCreate{
+		req := v1.TraceStorageCreateRequest{
 			Name:           params.Name,
 			Description:    intoOpt[v1.OptString](params.Description),
-			Classification: intoOpt[v1.OptTraceStorageCreateClassification](params.Classification),
+			Classification: intoOpt[v1.OptTraceStorageCreateRequestClassification](params.Classification),
 		}
 		return op.client.TracesStoragesCreate(ctx, &req)
 	})
@@ -119,7 +119,7 @@ func (op *tracesStorageOp) Update(ctx context.Context, id string, p TracesStorag
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesPartialUpdate(ctx, v1.NewOptPatchedTraceStorage(v1.PatchedTraceStorage{
+		return op.client.TracesStoragesPartialUpdate(ctx, v1.NewOptPatchedTraceStorageRequest(v1.PatchedTraceStorageRequest{
 			Name:        intoOpt[v1.OptString](p.Name),
 			Description: intoOpt[v1.OptString](p.Description),
 		}), v1.TracesStoragesPartialUpdateParams{ResourceID: rid})
@@ -145,7 +145,7 @@ func (op *tracesStorageOp) SetExpire(ctx context.Context, resourceID string, day
 		}
 		return op.client.TracesStoragesSetExpireCreate(
 			ctx,
-			&v1.SetTraceStorageExpireDay{Days: days},
+			&v1.SetTraceStorageExpireDayRequest{Days: days},
 			v1.TracesStoragesSetExpireCreateParams{ResourceID: rid},
 		)
 	})
@@ -211,7 +211,7 @@ func (op *tracesStorageOp) CreateKey(ctx context.Context, tracesResourceId strin
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesKeysCreate(ctx, v1.NewOptTraceStorageAccessKey(v1.TraceStorageAccessKey{
+		return op.client.TracesStoragesKeysCreate(ctx, v1.NewOptTraceStorageAccessKeyRequest(v1.TraceStorageAccessKeyRequest{
 			Description: intoOpt[v1.OptString](description),
 		}), v1.TracesStoragesKeysCreateParams{TraceResourceID: rid})
 	})
@@ -238,7 +238,7 @@ func (op *tracesStorageOp) UpdateKey(ctx context.Context, tracesResourceId strin
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesKeysUpdate(ctx, v1.NewOptTraceStorageAccessKey(v1.TraceStorageAccessKey{
+		return op.client.TracesStoragesKeysUpdate(ctx, v1.NewOptTraceStorageAccessKeyRequest(v1.TraceStorageAccessKeyRequest{
 			Description: intoOpt[v1.OptString](description),
 		}), v1.TracesStoragesKeysUpdateParams{
 			TraceResourceID: rid,

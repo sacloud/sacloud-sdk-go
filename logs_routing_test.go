@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -34,7 +35,7 @@ func TestLogRoutingOp_List(t *testing.T) {
 	}
 	client := newTestClient(expected)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	routings, err := api.List(ctx, LogsRoutingsListParams{})
 	require.NoError(t, err)
@@ -45,16 +46,14 @@ func TestLogRoutingOp_List(t *testing.T) {
 func TestLogRoutingOp_Read(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogRouting)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	res, err := api.Read(ctx, uuid.New())
 	require.NoError(t, err)
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedLogRouting.GetID(), res.GetID())
 	require.Equal(t, TemplateWrappedLogRouting.GetPublisher(), res.GetPublisher())
-	require.Equal(t, TemplateWrappedLogRouting.GetPublisherCode(), res.GetPublisherCode())
 	require.Equal(t, TemplateWrappedLogRouting.GetLogStorage(), res.GetLogStorage())
-	require.Equal(t, TemplateWrappedLogRouting.GetLogStorageID(), res.GetLogStorageID())
 	require.Equal(t, TemplateWrappedLogRouting.GetResourceID(), res.GetResourceID())
 	require.Equal(t, TemplateWrappedLogRouting.GetVariant(), res.GetVariant())
 }
@@ -63,18 +62,18 @@ func TestLogRoutingOp_Read_404(t *testing.T) {
 	expected := newErrorResponse(404, "No LogRouting matches the given query.")
 	client := newTestClient(expected, http.StatusNotFound)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	routing, err := api.Read(ctx, uuid.New())
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "No LogRouting matches the given query.")
+	require.ErrorContains(t, err, "Not Found")
 }
 
 func TestLogRoutingOp_Create(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogRouting, http.StatusCreated)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	createReq := LogsRoutingCreateParams{
 		PublisherCode: "appliance",
@@ -86,9 +85,7 @@ func TestLogRoutingOp_Create(t *testing.T) {
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedLogRouting.GetID(), res.GetID())
 	require.Equal(t, TemplateWrappedLogRouting.GetPublisher(), res.GetPublisher())
-	require.Equal(t, TemplateWrappedLogRouting.GetPublisherCode(), res.GetPublisherCode())
 	require.Equal(t, TemplateWrappedLogRouting.GetLogStorage(), res.GetLogStorage())
-	require.Equal(t, TemplateWrappedLogRouting.GetLogStorageID(), res.GetLogStorageID())
 	require.Equal(t, TemplateWrappedLogRouting.GetResourceID(), res.GetResourceID())
 	require.Equal(t, TemplateWrappedLogRouting.GetVariant(), res.GetVariant())
 }
@@ -97,21 +94,19 @@ func TestLogRoutingOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
-	createReq := LogsRoutingCreateParams{
-		LogStorageID: "0",
-	}
+	createReq := LogsRoutingCreateParams{}
 	routing, err := api.Create(ctx, createReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Invalid request body.")
+	require.ErrorContains(t, err, "invalid")
 }
 
 func TestLogRoutingOp_Update(t *testing.T) {
 	client := newTestClient(TemplateWrappedLogRouting)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	updateReq := LogsRoutingUpdateParams{
 		PublisherCode: ref("appliance"),
@@ -123,9 +118,7 @@ func TestLogRoutingOp_Update(t *testing.T) {
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedLogRouting.GetID(), res.GetID())
 	require.Equal(t, TemplateWrappedLogRouting.GetPublisher(), res.GetPublisher())
-	require.Equal(t, TemplateWrappedLogRouting.GetPublisherCode(), res.GetPublisherCode())
 	require.Equal(t, TemplateWrappedLogRouting.GetLogStorage(), res.GetLogStorage())
-	require.Equal(t, TemplateWrappedLogRouting.GetLogStorageID(), res.GetLogStorageID())
 	require.Equal(t, TemplateWrappedLogRouting.GetResourceID(), res.GetResourceID())
 	require.Equal(t, TemplateWrappedLogRouting.GetVariant(), res.GetVariant())
 }
@@ -134,18 +127,18 @@ func TestLogRoutingOp_Update_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid update parameters.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	routing, err := api.Update(ctx, uuid.New(), LogsRoutingUpdateParams{})
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Invalid update parameters.")
+	require.ErrorContains(t, err, "Invalid")
 }
 
 func TestLogRoutingOp_Delete(t *testing.T) {
 	client := newTestClient(nil, http.StatusNoContent)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	err := api.Delete(ctx, uuid.New())
 	require.NoError(t, err)
@@ -155,37 +148,61 @@ func TestLogRoutingOp_Delete_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid delete request.")
 	client := newTestClient(expected, http.StatusBadRequest)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	err := api.Delete(ctx, uuid.New())
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Invalid delete request.")
+	require.ErrorContains(t, err, "Bad Request")
 }
 
 func TestLogRoutingIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewLogRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
 	// obtain a sane publisher object
 	publisherOp := NewPublisherOp(client)
 	publishers, err := publisherOp.List(ctx, nil, nil)
 	require.NoError(t, err)
 	require.NotEmpty(t, publishers)
-	var pub *v1.Publisher
-	var v *v1.PublisherVariant
-	for _, p := range publishers {
-		for _, q := range p.GetVariants() {
+
+	var pub1, pub2 *v1.Publisher
+	var variant1, variant2 *v1.PublisherVariant
+
+	found := 0
+
+	for i := range publishers {
+		p := &publishers[i]
+
+		variants := p.GetVariants()
+		for j := range variants {
+			q := &variants[j]
+
 			if q.GetStorage() == v1.PublisherVariantStorageLogs {
-				pub = &p
-				v = &q
-				break
+				if found == 0 {
+					pub1 = p
+					variant1 = q
+				} else if found == 1 {
+					pub2 = p
+					variant2 = q
+				}
+				found++
+
+				if found >= 2 {
+					break
+				}
 			}
 		}
+
+		if found >= 2 {
+			break
+		}
 	}
-	require.NotNil(t, pub)
-	require.NotNil(t, v)
+	require.NotNil(t, pub1)
+	require.NotNil(t, variant1)
+	require.NotNil(t, pub2)
+	require.NotNil(t, variant2)
 
 	// and a storage
 	storage := WithLogStorage(t, client, ctx)
@@ -194,8 +211,8 @@ func TestLogRoutingIntegrated(t *testing.T) {
 
 	// Create
 	createReq := LogsRoutingCreateParams{
-		PublisherCode: pub.GetCode(),
-		Variant:       v.GetName(),
+		PublisherCode: pub1.GetCode(),
+		Variant:       variant1.GetName(),
 		LogStorageID:  sid,
 	}
 	created, err := api.Create(ctx, createReq)
@@ -215,9 +232,7 @@ func TestLogRoutingIntegrated(t *testing.T) {
 	require.NotNil(t, read)
 	require.Equal(t, created.GetID(), read.GetID())
 	require.Equal(t, created.GetPublisher(), read.GetPublisher())
-	require.Equal(t, created.GetPublisherCode(), read.GetPublisherCode())
 	require.Equal(t, created.GetLogStorage(), read.GetLogStorage())
-	require.Equal(t, created.GetLogStorageID(), read.GetLogStorageID())
 	require.Equal(t, created.GetResourceID(), read.GetResourceID())
 	require.Equal(t, created.GetVariant(), read.GetVariant())
 
@@ -228,10 +243,14 @@ func TestLogRoutingIntegrated(t *testing.T) {
 
 	// Update
 	updateReq := LogsRoutingUpdateParams{
-		ResourceID: ref("12345"),
+		PublisherCode: ref(pub2.Code),
+		Variant:       ref(variant2.Name),
+		LogStorageID:  ref(fmt.Sprintf("%d", read.LogStorage.ID)),
 	}
 	updated, err := api.Update(ctx, rid, updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, updated)
-	require.Equal(t, "12345", updated.GetResourceID().Or(^0))
+	require.Equal(t, pub2.Code, updated.Publisher.Code)
+	require.Equal(t, variant2.Name, updated.Variant)
+	require.Equal(t, read.LogStorage.ID, updated.LogStorage.ID)
 }

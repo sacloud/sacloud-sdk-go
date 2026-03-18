@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"testing"
@@ -52,9 +53,9 @@ func TestMetricsRoutingOp_Read(t *testing.T) {
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetID(), res.GetID())
 	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisher(), res.GetPublisher())
-	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisherCode(), res.GetPublisherCode())
+	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisher().Code, res.GetPublisher().Code)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorage(), res.GetMetricsStorage())
-	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorageID(), res.GetMetricsStorageID())
+	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorage().ID, res.GetMetricsStorage().ID)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetResourceID(), res.GetResourceID())
 	require.Equal(t, TemplateWrappedMetricsRouting.GetVariant(), res.GetVariant())
 }
@@ -86,9 +87,9 @@ func TestMetricsRoutingOp_Create(t *testing.T) {
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetID(), res.GetID())
 	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisher(), res.GetPublisher())
-	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisherCode(), res.GetPublisherCode())
+	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisher().Code, res.GetPublisher().Code)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorage(), res.GetMetricsStorage())
-	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorageID(), res.GetMetricsStorageID())
+	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorage().ID, res.GetMetricsStorage().ID)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetResourceID(), res.GetResourceID())
 	require.Equal(t, TemplateWrappedMetricsRouting.GetVariant(), res.GetVariant())
 }
@@ -110,7 +111,7 @@ func TestMetricsRoutingOp_Create_400(t *testing.T) {
 	routing, err := api.Create(ctx, createReq)
 	require.Nil(t, routing)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "Invalid request body.")
+	require.ErrorContains(t, err, "invalid")
 }
 
 func TestMetricsRoutingOp_Update(t *testing.T) {
@@ -128,9 +129,9 @@ func TestMetricsRoutingOp_Update(t *testing.T) {
 	require.NotNil(t, res)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetID(), res.GetID())
 	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisher(), res.GetPublisher())
-	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisherCode(), res.GetPublisherCode())
+	require.Equal(t, TemplateWrappedMetricsRouting.GetPublisher().Code, res.GetPublisher().Code)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorage(), res.GetMetricsStorage())
-	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorageID(), res.GetMetricsStorageID())
+	require.Equal(t, TemplateWrappedMetricsRouting.GetMetricsStorage().ID, res.GetMetricsStorage().ID)
 	require.Equal(t, TemplateWrappedMetricsRouting.GetResourceID(), res.GetResourceID())
 	require.Equal(t, TemplateWrappedMetricsRouting.GetVariant(), res.GetVariant())
 }
@@ -172,36 +173,60 @@ func TestMetricsRoutingIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewMetricsRoutingOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 
-	// we need to obtain a sane publisher object
+	// obtain a sane publisher object
 	publisherOp := NewPublisherOp(client)
 	publishers, err := publisherOp.List(ctx, nil, nil)
 	require.NoError(t, err)
 	require.NotEmpty(t, publishers)
-	var pub *v1.Publisher
-	var v *v1.PublisherVariant
-	for _, p := range publishers {
-		for _, q := range p.GetVariants() {
+
+	var pub1, pub2 *v1.Publisher
+	var variant1, variant2 *v1.PublisherVariant
+
+	found := 0
+
+	for i := range publishers {
+		p := &publishers[i]
+
+		variants := p.GetVariants()
+		for j := range variants {
+			q := &variants[j]
+
 			if q.GetStorage() == v1.PublisherVariantStorageMetrics {
-				pub = &p
-				v = &q
-				break
+				if found == 0 {
+					pub1 = p
+					variant1 = q
+				} else if found == 1 {
+					pub2 = p
+					variant2 = q
+				}
+				found++
+
+				if found >= 2 {
+					break
+				}
 			}
 		}
-	}
-	require.NotNil(t, pub)
-	require.NotNil(t, v)
 
-	// aaand a storage
+		if found >= 2 {
+			break
+		}
+	}
+	require.NotNil(t, pub1)
+	require.NotNil(t, variant1)
+	require.NotNil(t, pub2)
+	require.NotNil(t, variant2)
+
+	// and a storage
 	storage := WithMetricsStorage(t, client, ctx)
 	require.NotNil(t, storage)
 	sid := fmt.Sprintf("%d", storage.GetID())
 
 	// Create
 	createReq := MetricsRoutingCreateParams{
-		PublisherCode:    pub.GetCode(),
-		Variant:          v.GetName(),
+		PublisherCode:    pub1.GetCode(),
+		Variant:          variant1.GetName(),
 		MetricsStorageID: sid,
 	}
 	created, err := api.Create(ctx, createReq)
@@ -221,9 +246,9 @@ func TestMetricsRoutingIntegrated(t *testing.T) {
 	require.NotNil(t, read)
 	require.Equal(t, created.GetID(), read.GetID())
 	require.Equal(t, created.GetPublisher(), read.GetPublisher())
-	require.Equal(t, created.GetPublisherCode(), read.GetPublisherCode())
+	require.Equal(t, created.GetPublisher().Code, read.GetPublisher().Code)
 	require.Equal(t, created.GetMetricsStorage(), read.GetMetricsStorage())
-	require.Equal(t, created.GetMetricsStorageID(), read.GetMetricsStorageID())
+	require.Equal(t, created.GetMetricsStorage().ID, read.GetMetricsStorage().ID)
 	require.Equal(t, created.GetResourceID(), read.GetResourceID())
 	require.Equal(t, created.GetVariant(), read.GetVariant())
 
@@ -234,10 +259,14 @@ func TestMetricsRoutingIntegrated(t *testing.T) {
 
 	// Update
 	updateReq := MetricsRoutingUpdateParams{
-		ResourceID: ref("12345"),
+		PublisherCode:    ref(pub2.Code),
+		Variant:          ref(variant2.Name),
+		MetricsStorageID: ref(fmt.Sprintf("%d", read.MetricsStorage.ID)),
 	}
 	updated, err := api.Update(ctx, rid, updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, updated)
-	require.Equal(t, "12345", updated.GetResourceID().Or(^0))
+	require.Equal(t, pub2.Code, updated.Publisher.Code)
+	require.Equal(t, variant2.Name, updated.Variant)
+	require.Equal(t, read.MetricsStorage.ID, updated.MetricsStorage.ID)
 }

@@ -345,8 +345,8 @@ type LogsStoragesKeysUpdateParams struct {
 // LogsStoragesListParams is parameters of logs_storages_list operation.
 type LogsStoragesListParams struct {
 	AccountID OptString `json:",omitempty,omitzero"`
-	// * `shared` - 共有
-	// * `separated` - 分離.
+	// * `shared` - 共用
+	// * `dedicated` - 専有.
 	BucketClassification OptLogsStoragesListBucketClassification `json:",omitempty,omitzero"`
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
@@ -574,8 +574,8 @@ type TracesStoragesListParams struct {
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From OptInt `json:",omitempty,omitzero"`
-	// * `shared` - 共有
-	// * `separated` - 分離.
+	// * `shared` - 共用
+	// * `dedicated` - 専有.
 	LogStorageBucketClassification OptTracesStoragesListLogStorageBucketClassification `json:",omitempty,omitzero"`
 	ResourceID                     OptInt64                                            `json:",omitempty,omitzero"`
 }

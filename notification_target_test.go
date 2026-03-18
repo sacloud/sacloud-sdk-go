@@ -15,6 +15,7 @@
 package monitoringsuite_test
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -122,7 +123,7 @@ func TestNotificationTargetService_Update(t *testing.T) {
 	ctx := t.Context()
 
 	updateParams := NotificationTargetUpdateParams{
-		ServiceType: ref(v1.PatchedNotificationTargetServiceTypeSAKURASIMPLENOTICE),
+		ServiceType: ref(v1.PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE),
 		URL:         ref("https://example.com/notify"),
 		Description: ref("description"),
 	}
@@ -176,7 +177,7 @@ func TestNotificationTargetIntegrated(t *testing.T) {
 	client, err := IntegratedClient(t)
 	require.NoError(t, err)
 	api := NewNotificationTargetOp(client)
-	ctx := t.Context()
+	ctx := context.Background()
 	project := WithAlertProject(t, client, ctx)
 	created := WithNotificationTarget(t, client, ctx, project.GetID())
 	id := fmt.Sprintf("%d", project.GetID())

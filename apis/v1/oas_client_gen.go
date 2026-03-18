@@ -27,7 +27,7 @@ type Invoker interface {
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 	//
 	// POST /alerts/projects/
-	AlertsProjectsCreate(ctx context.Context, request *AlertProjectCreate) (*AlertProject, error)
+	AlertsProjectsCreate(ctx context.Context, request *AlertProjectCreateRequest) (*AlertProject, error)
 	// AlertsProjectsDestroy invokes alerts_projects_destroy operation.
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
@@ -57,7 +57,7 @@ type Invoker interface {
 	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 	//
 	// POST /alerts/projects/{project_resource_id}/log-measure-rules/
-	AlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesCreateParams) (*LogMeasureRule, error)
+	AlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesCreateParams) (*LogMeasureRule, error)
 	// AlertsProjectsLogMeasureRulesDestroy invokes alerts_projects_log_measure_rules_destroy operation.
 	//
 	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
@@ -75,7 +75,7 @@ type Invoker interface {
 	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 	//
 	// PATCH /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-	AlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRule, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (*LogMeasureRule, error)
+	AlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (*LogMeasureRule, error)
 	// AlertsProjectsLogMeasureRulesRetrieve invokes alerts_projects_log_measure_rules_retrieve operation.
 	//
 	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
@@ -87,13 +87,13 @@ type Invoker interface {
 	// ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 	//
 	// PUT /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-	AlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesUpdateParams) (*LogMeasureRule, error)
+	AlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesUpdateParams) (*LogMeasureRule, error)
 	// AlertsProjectsNotificationRoutingsCreate invokes alerts_projects_notification_routings_create operation.
 	//
 	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
 	//
 	// POST /alerts/projects/{project_resource_id}/notification-routings/
-	AlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsCreateParams) (*NotificationRouting, error)
+	AlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsCreateParams) (*NotificationRouting, error)
 	// AlertsProjectsNotificationRoutingsDestroy invokes alerts_projects_notification_routings_destroy operation.
 	//
 	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
@@ -111,13 +111,13 @@ type Invoker interface {
 	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
 	//
 	// PATCH /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-	AlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRouting, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (*NotificationRouting, error)
+	AlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRoutingRequest, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (*NotificationRouting, error)
 	// AlertsProjectsNotificationRoutingsReorderUpdate invokes alerts_projects_notification_routings_reorder_update operation.
 	//
 	// アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。.
 	//
 	// PUT /alerts/projects/{project_resource_id}/notification-routings/reorder/
-	AlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrder, params AlertsProjectsNotificationRoutingsReorderUpdateParams) error
+	AlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrderRequest, params AlertsProjectsNotificationRoutingsReorderUpdateParams) error
 	// AlertsProjectsNotificationRoutingsRetrieve invokes alerts_projects_notification_routings_retrieve operation.
 	//
 	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
@@ -129,13 +129,13 @@ type Invoker interface {
 	// アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
 	//
 	// PUT /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-	AlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsUpdateParams) (*NotificationRouting, error)
+	AlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsUpdateParams) (*NotificationRouting, error)
 	// AlertsProjectsNotificationTargetsCreate invokes alerts_projects_notification_targets_create operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
 	// POST /alerts/projects/{project_resource_id}/notification-targets/
-	AlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsCreateParams) (*NotificationTarget, error)
+	AlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsCreateParams) (*NotificationTarget, error)
 	// AlertsProjectsNotificationTargetsDestroy invokes alerts_projects_notification_targets_destroy operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
@@ -153,7 +153,7 @@ type Invoker interface {
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
 	// PATCH /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-	AlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTarget, params AlertsProjectsNotificationTargetsPartialUpdateParams) (*NotificationTarget, error)
+	AlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTargetRequest, params AlertsProjectsNotificationTargetsPartialUpdateParams) (*NotificationTarget, error)
 	// AlertsProjectsNotificationTargetsRetrieve invokes alerts_projects_notification_targets_retrieve operation.
 	//
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
@@ -165,13 +165,13 @@ type Invoker interface {
 	// アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 	//
 	// PUT /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-	AlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsUpdateParams) (*NotificationTarget, error)
+	AlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsUpdateParams) (*NotificationTarget, error)
 	// AlertsProjectsPartialUpdate invokes alerts_projects_partial_update operation.
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /alerts/projects/{resource_id}/
-	AlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProject, params AlertsProjectsPartialUpdateParams) (*WrappedAlertProject, error)
+	AlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProjectRequest, params AlertsProjectsPartialUpdateParams) (*WrappedAlertProject, error)
 	// AlertsProjectsRetrieve invokes alerts_projects_retrieve operation.
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
@@ -183,7 +183,7 @@ type Invoker interface {
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
 	// POST /alerts/projects/{project_resource_id}/rules/
-	AlertsProjectsRulesCreate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesCreateParams) (*AlertRule, error)
+	AlertsProjectsRulesCreate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesCreateParams) (*AlertRule, error)
 	// AlertsProjectsRulesDestroy invokes alerts_projects_rules_destroy operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
@@ -213,7 +213,7 @@ type Invoker interface {
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /alerts/projects/{project_resource_id}/rules/{uid}/
-	AlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRule, params AlertsProjectsRulesPartialUpdateParams) (*AlertRule, error)
+	AlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRuleRequest, params AlertsProjectsRulesPartialUpdateParams) (*AlertRule, error)
 	// AlertsProjectsRulesRetrieve invokes alerts_projects_rules_retrieve operation.
 	//
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
@@ -225,19 +225,19 @@ type Invoker interface {
 	// アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /alerts/projects/{project_resource_id}/rules/{uid}/
-	AlertsProjectsRulesUpdate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesUpdateParams) (*AlertRule, error)
+	AlertsProjectsRulesUpdate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesUpdateParams) (*AlertRule, error)
 	// AlertsProjectsUpdate invokes alerts_projects_update operation.
 	//
 	// アラートプロジェクトを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /alerts/projects/{resource_id}/
-	AlertsProjectsUpdate(ctx context.Context, request OptAlertProject, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error)
+	AlertsProjectsUpdate(ctx context.Context, request OptAlertProjectRequest, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error)
 	// DashboardsProjectsCreate invokes dashboards_projects_create operation.
 	//
 	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
 	// POST /dashboards/projects/
-	DashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreate) (*DashboardProject, error)
+	DashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreateRequest) (*DashboardProject, error)
 	// DashboardsProjectsDestroy invokes dashboards_projects_destroy operation.
 	//
 	// ダッシュボードを管理するためのAPIエンドポイントです。.
@@ -255,7 +255,7 @@ type Invoker interface {
 	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /dashboards/projects/{resource_id}/
-	DashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProject, params DashboardsProjectsPartialUpdateParams) (*WrappedDashboardProject, error)
+	DashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProjectRequest, params DashboardsProjectsPartialUpdateParams) (*WrappedDashboardProject, error)
 	// DashboardsProjectsRetrieve invokes dashboards_projects_retrieve operation.
 	//
 	// ダッシュボードを管理するためのAPIエンドポイントです。.
@@ -267,7 +267,7 @@ type Invoker interface {
 	// ダッシュボードを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /dashboards/projects/{resource_id}/
-	DashboardsProjectsUpdate(ctx context.Context, request OptDashboardProject, params DashboardsProjectsUpdateParams) (*WrappedDashboardProject, error)
+	DashboardsProjectsUpdate(ctx context.Context, request OptDashboardProjectRequest, params DashboardsProjectsUpdateParams) (*WrappedDashboardProject, error)
 	// GetProvisioningState invokes get_provisioning_state operation.
 	//
 	// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング状態を確認するAPIエンドポイントです。.
@@ -285,7 +285,7 @@ type Invoker interface {
 	// ログルーティングを管理するためのAPIエンドポイントです。.
 	//
 	// POST /logs/routings/
-	LogsRoutingsCreate(ctx context.Context, request *LogRouting) (*WrappedLogRouting, error)
+	LogsRoutingsCreate(ctx context.Context, request *LogRoutingRequest) (*WrappedLogRouting, error)
 	// LogsRoutingsDestroy invokes logs_routings_destroy operation.
 	//
 	// ログルーティングを管理するためのAPIエンドポイントです。.
@@ -303,7 +303,7 @@ type Invoker interface {
 	// ログルーティングを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /logs/routings/{uid}/
-	LogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRouting, params LogsRoutingsPartialUpdateParams) (*WrappedLogRouting, error)
+	LogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRoutingRequest, params LogsRoutingsPartialUpdateParams) (*WrappedLogRouting, error)
 	// LogsRoutingsRetrieve invokes logs_routings_retrieve operation.
 	//
 	// ログルーティングを管理するためのAPIエンドポイントです。.
@@ -315,13 +315,13 @@ type Invoker interface {
 	// ログルーティングを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /logs/routings/{uid}/
-	LogsRoutingsUpdate(ctx context.Context, request *LogRouting, params LogsRoutingsUpdateParams) (*WrappedLogRouting, error)
+	LogsRoutingsUpdate(ctx context.Context, request *LogRoutingRequest, params LogsRoutingsUpdateParams) (*WrappedLogRouting, error)
 	// LogsStoragesCreate invokes logs_storages_create operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// POST /logs/storages/
-	LogsStoragesCreate(ctx context.Context, request *LogStorageCreate) (*LogStorage, error)
+	LogsStoragesCreate(ctx context.Context, request *LogStorageCreateRequest) (*LogStorage, error)
 	// LogsStoragesDestroy invokes logs_storages_destroy operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
@@ -333,7 +333,7 @@ type Invoker interface {
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// POST /logs/storages/{log_resource_id}/keys/
-	LogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysCreateParams) (*WrappedLogStorageAccessKey, error)
+	LogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysCreateParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesKeysDestroy invokes logs_storages_keys_destroy operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
@@ -351,7 +351,7 @@ type Invoker interface {
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PATCH /logs/storages/{log_resource_id}/keys/{uid}/
-	LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKey, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error)
+	LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesKeysRetrieve invokes logs_storages_keys_retrieve operation.
 	//
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
@@ -363,7 +363,7 @@ type Invoker interface {
 	// ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PUT /logs/storages/{log_resource_id}/keys/{uid}/
-	LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error)
+	LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error)
 	// LogsStoragesList invokes logs_storages_list operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
@@ -375,7 +375,7 @@ type Invoker interface {
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /logs/storages/{resource_id}/
-	LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorage, params LogsStoragesPartialUpdateParams) (*WrappedLogStorage, error)
+	LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorageRequest, params LogsStoragesPartialUpdateParams) (*WrappedLogStorage, error)
 	// LogsStoragesRetrieve invokes logs_storages_retrieve operation.
 	//
 	// ログストレージを管理するためのAPIエンドポイントです。.
@@ -387,7 +387,7 @@ type Invoker interface {
 	// ログストレージの保存期間を設定します。.
 	//
 	// POST /logs/storages/{resource_id}/set-expire/
-	LogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDay, params LogsStoragesSetExpireCreateParams) (*LogStorage, error)
+	LogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDayRequest, params LogsStoragesSetExpireCreateParams) (*LogStorage, error)
 	// LogsStoragesStatsDailyRetrieve invokes logs_storages_stats_daily_retrieve operation.
 	//
 	// ログストレージの日次利用状況を取得します。.
@@ -405,13 +405,13 @@ type Invoker interface {
 	// ログストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /logs/storages/{resource_id}/
-	LogsStoragesUpdate(ctx context.Context, request OptLogStorage, params LogsStoragesUpdateParams) (*WrappedLogStorage, error)
+	LogsStoragesUpdate(ctx context.Context, request OptLogStorageRequest, params LogsStoragesUpdateParams) (*WrappedLogStorage, error)
 	// MetricsRoutingsCreate invokes metrics_routings_create operation.
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 	//
 	// POST /metrics/routings/
-	MetricsRoutingsCreate(ctx context.Context, request *MetricsRouting) (*WrappedMetricsRouting, error)
+	MetricsRoutingsCreate(ctx context.Context, request *MetricsRoutingRequest) (*WrappedMetricsRouting, error)
 	// MetricsRoutingsDestroy invokes metrics_routings_destroy operation.
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
@@ -429,7 +429,7 @@ type Invoker interface {
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /metrics/routings/{uid}/
-	MetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRouting, params MetricsRoutingsPartialUpdateParams) (*WrappedMetricsRouting, error)
+	MetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRoutingRequest, params MetricsRoutingsPartialUpdateParams) (*WrappedMetricsRouting, error)
 	// MetricsRoutingsRetrieve invokes metrics_routings_retrieve operation.
 	//
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
@@ -441,13 +441,13 @@ type Invoker interface {
 	// メトリクスルーティングを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /metrics/routings/{uid}/
-	MetricsRoutingsUpdate(ctx context.Context, request *MetricsRouting, params MetricsRoutingsUpdateParams) (*WrappedMetricsRouting, error)
+	MetricsRoutingsUpdate(ctx context.Context, request *MetricsRoutingRequest, params MetricsRoutingsUpdateParams) (*WrappedMetricsRouting, error)
 	// MetricsStoragesCreate invokes metrics_storages_create operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// POST /metrics/storages/
-	MetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreate) (*MetricsStorage, error)
+	MetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreateRequest) (*MetricsStorage, error)
 	// MetricsStoragesDestroy invokes metrics_storages_destroy operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
@@ -459,7 +459,7 @@ type Invoker interface {
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// POST /metrics/storages/{metrics_resource_id}/keys/
-	MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysCreateParams) (*WrappedMetricsStorageAccessKey, error)
+	MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysCreateParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesKeysDestroy invokes metrics_storages_keys_destroy operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
@@ -477,7 +477,7 @@ type Invoker interface {
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PATCH /metrics/storages/{metrics_resource_id}/keys/{uid}/
-	MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKey, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error)
+	MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesKeysRetrieve invokes metrics_storages_keys_retrieve operation.
 	//
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
@@ -489,7 +489,7 @@ type Invoker interface {
 	// メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PUT /metrics/storages/{metrics_resource_id}/keys/{uid}/
-	MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error)
+	MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error)
 	// MetricsStoragesList invokes metrics_storages_list operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
@@ -501,7 +501,7 @@ type Invoker interface {
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /metrics/storages/{resource_id}/
-	MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorage, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsStorage, error)
+	MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageRequest, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsStorage, error)
 	// MetricsStoragesRetrieve invokes metrics_storages_retrieve operation.
 	//
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
@@ -525,13 +525,13 @@ type Invoker interface {
 	// メトリクスストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /metrics/storages/{resource_id}/
-	MetricsStoragesUpdate(ctx context.Context, request OptMetricsStorage, params MetricsStoragesUpdateParams) (*WrappedMetricsStorage, error)
+	MetricsStoragesUpdate(ctx context.Context, request OptMetricsStorageRequest, params MetricsStoragesUpdateParams) (*WrappedMetricsStorage, error)
 	// PostProvisioningInitialize invokes post_provisioning_initialize operation.
 	//
 	// リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
 	//
 	// POST /management/provisioning/initialize/
-	PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (PostProvisioningInitializeRes, error)
+	PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreateRequest) (PostProvisioningInitializeRes, error)
 	// PublishersList invokes publishers_list operation.
 	//
 	// 連携サービス情報を取得するAPIエンドポイントです。.
@@ -549,7 +549,7 @@ type Invoker interface {
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
 	// POST /traces/storages/
-	TracesStoragesCreate(ctx context.Context, request *TraceStorageCreate) (*TraceStorage, error)
+	TracesStoragesCreate(ctx context.Context, request *TraceStorageCreateRequest) (*TraceStorage, error)
 	// TracesStoragesDestroy invokes traces_storages_destroy operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
@@ -561,7 +561,7 @@ type Invoker interface {
 	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// POST /traces/storages/{trace_resource_id}/keys/
-	TracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysCreateParams) (*WrappedTraceStorageAccessKey, error)
+	TracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysCreateParams) (*WrappedTraceStorageAccessKey, error)
 	// TracesStoragesKeysDestroy invokes traces_storages_keys_destroy operation.
 	//
 	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
@@ -579,7 +579,7 @@ type Invoker interface {
 	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PATCH /traces/storages/{trace_resource_id}/keys/{uid}/
-	TracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKey, params TracesStoragesKeysPartialUpdateParams) (*WrappedTraceStorageAccessKey, error)
+	TracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params TracesStoragesKeysPartialUpdateParams) (*WrappedTraceStorageAccessKey, error)
 	// TracesStoragesKeysRetrieve invokes traces_storages_keys_retrieve operation.
 	//
 	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
@@ -591,7 +591,7 @@ type Invoker interface {
 	// トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 	//
 	// PUT /traces/storages/{trace_resource_id}/keys/{uid}/
-	TracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysUpdateParams) (*WrappedTraceStorageAccessKey, error)
+	TracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysUpdateParams) (*WrappedTraceStorageAccessKey, error)
 	// TracesStoragesList invokes traces_storages_list operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
@@ -603,7 +603,7 @@ type Invoker interface {
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PATCH /traces/storages/{resource_id}/
-	TracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorage, params TracesStoragesPartialUpdateParams) (*WrappedTraceStorage, error)
+	TracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorageRequest, params TracesStoragesPartialUpdateParams) (*WrappedTraceStorage, error)
 	// TracesStoragesRetrieve invokes traces_storages_retrieve operation.
 	//
 	// トレースストレージを管理するためのAPIエンドポイントです。.
@@ -615,7 +615,7 @@ type Invoker interface {
 	// トレースストレージの保存期間を設定します。.
 	//
 	// POST /traces/storages/{resource_id}/set-expire/
-	TracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDay, params TracesStoragesSetExpireCreateParams) (*TraceStorage, error)
+	TracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDayRequest, params TracesStoragesSetExpireCreateParams) (*TraceStorage, error)
 	// TracesStoragesStatsDailyRetrieve invokes traces_storages_stats_daily_retrieve operation.
 	//
 	// トレースストレージの日次利用状況を取得します。.
@@ -633,7 +633,7 @@ type Invoker interface {
 	// トレースストレージを管理するためのAPIエンドポイントです。.
 	//
 	// PUT /traces/storages/{resource_id}/
-	TracesStoragesUpdate(ctx context.Context, request OptTraceStorage, params TracesStoragesUpdateParams) (*WrappedTraceStorage, error)
+	TracesStoragesUpdate(ctx context.Context, request OptTraceStorageRequest, params TracesStoragesUpdateParams) (*WrappedTraceStorage, error)
 }
 
 // Client implements OAS client.
@@ -680,12 +680,12 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 // アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
 // POST /alerts/projects/
-func (c *Client) AlertsProjectsCreate(ctx context.Context, request *AlertProjectCreate) (*AlertProject, error) {
+func (c *Client) AlertsProjectsCreate(ctx context.Context, request *AlertProjectCreateRequest) (*AlertProject, error) {
 	res, err := c.sendAlertsProjectsCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertProjectCreate) (res *AlertProject, err error) {
+func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertProjectCreateRequest) (res *AlertProject, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -713,7 +713,8 @@ func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertPro
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsCreateResponse(resp)
 	if err != nil {
@@ -768,7 +769,8 @@ func (c *Client) sendAlertsProjectsDestroy(ctx context.Context, params AlertsPro
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsDestroyResponse(resp)
 	if err != nil {
@@ -911,7 +913,8 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsHistoriesListResponse(resp)
 	if err != nil {
@@ -985,7 +988,8 @@ func (c *Client) sendAlertsProjectsHistoriesRetrieve(ctx context.Context, params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsHistoriesRetrieveResponse(resp)
 	if err != nil {
@@ -1058,7 +1062,8 @@ func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjec
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsListResponse(resp)
 	if err != nil {
@@ -1073,12 +1078,12 @@ func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjec
 // ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 //
 // POST /alerts/projects/{project_resource_id}/log-measure-rules/
-func (c *Client) AlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesCreateParams) (*LogMeasureRule, error) {
+func (c *Client) AlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesCreateParams) (*LogMeasureRule, error) {
 	res, err := c.sendAlertsProjectsLogMeasureRulesCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesCreateParams) (res *LogMeasureRule, err error) {
+func (c *Client) sendAlertsProjectsLogMeasureRulesCreate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesCreateParams) (res *LogMeasureRule, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -1125,7 +1130,8 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesCreate(ctx context.Context, re
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesCreateResponse(resp)
 	if err != nil {
@@ -1199,7 +1205,8 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesDestroy(ctx context.Context, p
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesDestroyResponse(resp)
 	if err != nil {
@@ -1325,7 +1332,8 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesListResponse(resp)
 	if err != nil {
@@ -1340,12 +1348,12 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 // ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 //
 // PATCH /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-func (c *Client) AlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRule, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (*LogMeasureRule, error) {
+func (c *Client) AlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (*LogMeasureRule, error) {
 	res, err := c.sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRule, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (res *LogMeasureRule, err error) {
+func (c *Client) sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Context, request OptPatchedLogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesPartialUpdateParams) (res *LogMeasureRule, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -1418,7 +1426,8 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Cont
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesPartialUpdateResponse(resp)
 	if err != nil {
@@ -1492,7 +1501,8 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesRetrieveResponse(resp)
 	if err != nil {
@@ -1507,12 +1517,12 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, 
 // ログベースメトリクスのための記録ルールを管理するAPIエンドポイントです。.
 //
 // PUT /alerts/projects/{project_resource_id}/log-measure-rules/{uid}/
-func (c *Client) AlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesUpdateParams) (*LogMeasureRule, error) {
+func (c *Client) AlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesUpdateParams) (*LogMeasureRule, error) {
 	res, err := c.sendAlertsProjectsLogMeasureRulesUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRule, params AlertsProjectsLogMeasureRulesUpdateParams) (res *LogMeasureRule, err error) {
+func (c *Client) sendAlertsProjectsLogMeasureRulesUpdate(ctx context.Context, request *LogMeasureRuleRequest, params AlertsProjectsLogMeasureRulesUpdateParams) (res *LogMeasureRule, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -1578,7 +1588,8 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesUpdate(ctx context.Context, re
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesUpdateResponse(resp)
 	if err != nil {
@@ -1593,12 +1604,12 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesUpdate(ctx context.Context, re
 // アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
 //
 // POST /alerts/projects/{project_resource_id}/notification-routings/
-func (c *Client) AlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsCreateParams) (*NotificationRouting, error) {
+func (c *Client) AlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsCreateParams) (*NotificationRouting, error) {
 	res, err := c.sendAlertsProjectsNotificationRoutingsCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsCreateParams) (res *NotificationRouting, err error) {
+func (c *Client) sendAlertsProjectsNotificationRoutingsCreate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsCreateParams) (res *NotificationRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -1645,7 +1656,8 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsCreate(ctx context.Contex
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsCreateResponse(resp)
 	if err != nil {
@@ -1719,7 +1731,8 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsDestroy(ctx context.Conte
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsDestroyResponse(resp)
 	if err != nil {
@@ -1828,7 +1841,8 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsListResponse(resp)
 	if err != nil {
@@ -1843,12 +1857,12 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 // アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
 //
 // PATCH /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-func (c *Client) AlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRouting, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (*NotificationRouting, error) {
+func (c *Client) AlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRoutingRequest, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (*NotificationRouting, error) {
 	res, err := c.sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRouting, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (res *NotificationRouting, err error) {
+func (c *Client) sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx context.Context, request OptPatchedNotificationRoutingRequest, params AlertsProjectsNotificationRoutingsPartialUpdateParams) (res *NotificationRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -1921,7 +1935,8 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx context
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsPartialUpdateResponse(resp)
 	if err != nil {
@@ -1936,12 +1951,12 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx context
 // アラートプロジェクト内の通知ルーティングの並び順を一括変更するAPIエンドポイントです。.
 //
 // PUT /alerts/projects/{project_resource_id}/notification-routings/reorder/
-func (c *Client) AlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrder, params AlertsProjectsNotificationRoutingsReorderUpdateParams) error {
+func (c *Client) AlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrderRequest, params AlertsProjectsNotificationRoutingsReorderUpdateParams) error {
 	_, err := c.sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx, request, params)
 	return err
 }
 
-func (c *Client) sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrder, params AlertsProjectsNotificationRoutingsReorderUpdateParams) (res *AlertsProjectsNotificationRoutingsReorderUpdateNoContent, err error) {
+func (c *Client) sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx context.Context, request []NotificationRoutingOrderRequest, params AlertsProjectsNotificationRoutingsReorderUpdateParams) (res *AlertsProjectsNotificationRoutingsReorderUpdateNoContent, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if request == nil {
@@ -2005,7 +2020,8 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx context
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsReorderUpdateResponse(resp)
 	if err != nil {
@@ -2079,7 +2095,8 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsRetrieve(ctx context.Cont
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsRetrieveResponse(resp)
 	if err != nil {
@@ -2094,12 +2111,12 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsRetrieve(ctx context.Cont
 // アラートプロジェクト内の通知ルーティングを管理するAPIエンドポイントです。.
 //
 // PUT /alerts/projects/{project_resource_id}/notification-routings/{uid}/
-func (c *Client) AlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsUpdateParams) (*NotificationRouting, error) {
+func (c *Client) AlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsUpdateParams) (*NotificationRouting, error) {
 	res, err := c.sendAlertsProjectsNotificationRoutingsUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRouting, params AlertsProjectsNotificationRoutingsUpdateParams) (res *NotificationRouting, err error) {
+func (c *Client) sendAlertsProjectsNotificationRoutingsUpdate(ctx context.Context, request *NotificationRoutingRequest, params AlertsProjectsNotificationRoutingsUpdateParams) (res *NotificationRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -2165,7 +2182,8 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsUpdate(ctx context.Contex
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsUpdateResponse(resp)
 	if err != nil {
@@ -2180,12 +2198,12 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsUpdate(ctx context.Contex
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
 // POST /alerts/projects/{project_resource_id}/notification-targets/
-func (c *Client) AlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsCreateParams) (*NotificationTarget, error) {
+func (c *Client) AlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsCreateParams) (*NotificationTarget, error) {
 	res, err := c.sendAlertsProjectsNotificationTargetsCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsCreateParams) (res *NotificationTarget, err error) {
+func (c *Client) sendAlertsProjectsNotificationTargetsCreate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsCreateParams) (res *NotificationTarget, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -2232,7 +2250,8 @@ func (c *Client) sendAlertsProjectsNotificationTargetsCreate(ctx context.Context
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationTargetsCreateResponse(resp)
 	if err != nil {
@@ -2306,7 +2325,8 @@ func (c *Client) sendAlertsProjectsNotificationTargetsDestroy(ctx context.Contex
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationTargetsDestroyResponse(resp)
 	if err != nil {
@@ -2415,7 +2435,8 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationTargetsListResponse(resp)
 	if err != nil {
@@ -2430,12 +2451,12 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
 // PATCH /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-func (c *Client) AlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTarget, params AlertsProjectsNotificationTargetsPartialUpdateParams) (*NotificationTarget, error) {
+func (c *Client) AlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTargetRequest, params AlertsProjectsNotificationTargetsPartialUpdateParams) (*NotificationTarget, error) {
 	res, err := c.sendAlertsProjectsNotificationTargetsPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTarget, params AlertsProjectsNotificationTargetsPartialUpdateParams) (res *NotificationTarget, err error) {
+func (c *Client) sendAlertsProjectsNotificationTargetsPartialUpdate(ctx context.Context, request OptPatchedNotificationTargetRequest, params AlertsProjectsNotificationTargetsPartialUpdateParams) (res *NotificationTarget, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -2508,7 +2529,8 @@ func (c *Client) sendAlertsProjectsNotificationTargetsPartialUpdate(ctx context.
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationTargetsPartialUpdateResponse(resp)
 	if err != nil {
@@ -2582,7 +2604,8 @@ func (c *Client) sendAlertsProjectsNotificationTargetsRetrieve(ctx context.Conte
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationTargetsRetrieveResponse(resp)
 	if err != nil {
@@ -2597,12 +2620,12 @@ func (c *Client) sendAlertsProjectsNotificationTargetsRetrieve(ctx context.Conte
 // アラートプロジェクト内の通知対象を管理するAPIエンドポイントです。.
 //
 // PUT /alerts/projects/{project_resource_id}/notification-targets/{uid}/
-func (c *Client) AlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsUpdateParams) (*NotificationTarget, error) {
+func (c *Client) AlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsUpdateParams) (*NotificationTarget, error) {
 	res, err := c.sendAlertsProjectsNotificationTargetsUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTarget, params AlertsProjectsNotificationTargetsUpdateParams) (res *NotificationTarget, err error) {
+func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context, request *NotificationTargetRequest, params AlertsProjectsNotificationTargetsUpdateParams) (res *NotificationTarget, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -2668,7 +2691,8 @@ func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsNotificationTargetsUpdateResponse(resp)
 	if err != nil {
@@ -2683,12 +2707,12 @@ func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context
 // アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
 // PATCH /alerts/projects/{resource_id}/
-func (c *Client) AlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProject, params AlertsProjectsPartialUpdateParams) (*WrappedAlertProject, error) {
+func (c *Client) AlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProjectRequest, params AlertsProjectsPartialUpdateParams) (*WrappedAlertProject, error) {
 	res, err := c.sendAlertsProjectsPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProject, params AlertsProjectsPartialUpdateParams) (res *WrappedAlertProject, err error) {
+func (c *Client) sendAlertsProjectsPartialUpdate(ctx context.Context, request OptPatchedAlertProjectRequest, params AlertsProjectsPartialUpdateParams) (res *WrappedAlertProject, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -2742,7 +2766,8 @@ func (c *Client) sendAlertsProjectsPartialUpdate(ctx context.Context, request Op
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsPartialUpdateResponse(resp)
 	if err != nil {
@@ -2797,7 +2822,8 @@ func (c *Client) sendAlertsProjectsRetrieve(ctx context.Context, params AlertsPr
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRetrieveResponse(resp)
 	if err != nil {
@@ -2812,12 +2838,12 @@ func (c *Client) sendAlertsProjectsRetrieve(ctx context.Context, params AlertsPr
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
 // POST /alerts/projects/{project_resource_id}/rules/
-func (c *Client) AlertsProjectsRulesCreate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesCreateParams) (*AlertRule, error) {
+func (c *Client) AlertsProjectsRulesCreate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesCreateParams) (*AlertRule, error) {
 	res, err := c.sendAlertsProjectsRulesCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsRulesCreate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesCreateParams) (res *AlertRule, err error) {
+func (c *Client) sendAlertsProjectsRulesCreate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesCreateParams) (res *AlertRule, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -2864,7 +2890,8 @@ func (c *Client) sendAlertsProjectsRulesCreate(ctx context.Context, request *Ale
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRulesCreateResponse(resp)
 	if err != nil {
@@ -2938,7 +2965,8 @@ func (c *Client) sendAlertsProjectsRulesDestroy(ctx context.Context, params Aler
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRulesDestroyResponse(resp)
 	if err != nil {
@@ -3100,7 +3128,8 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRulesHistoriesListResponse(resp)
 	if err != nil {
@@ -3193,7 +3222,8 @@ func (c *Client) sendAlertsProjectsRulesHistoriesRetrieve(ctx context.Context, p
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRulesHistoriesRetrieveResponse(resp)
 	if err != nil {
@@ -3285,7 +3315,8 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRulesListResponse(resp)
 	if err != nil {
@@ -3300,12 +3331,12 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
 // PATCH /alerts/projects/{project_resource_id}/rules/{uid}/
-func (c *Client) AlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRule, params AlertsProjectsRulesPartialUpdateParams) (*AlertRule, error) {
+func (c *Client) AlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRuleRequest, params AlertsProjectsRulesPartialUpdateParams) (*AlertRule, error) {
 	res, err := c.sendAlertsProjectsRulesPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRule, params AlertsProjectsRulesPartialUpdateParams) (res *AlertRule, err error) {
+func (c *Client) sendAlertsProjectsRulesPartialUpdate(ctx context.Context, request OptPatchedAlertRuleRequest, params AlertsProjectsRulesPartialUpdateParams) (res *AlertRule, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -3378,7 +3409,8 @@ func (c *Client) sendAlertsProjectsRulesPartialUpdate(ctx context.Context, reque
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRulesPartialUpdateResponse(resp)
 	if err != nil {
@@ -3452,7 +3484,8 @@ func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params Ale
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRulesRetrieveResponse(resp)
 	if err != nil {
@@ -3467,12 +3500,12 @@ func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params Ale
 // アラートプロジェクト内のアラートルールを管理するためのAPIエンドポイントです。.
 //
 // PUT /alerts/projects/{project_resource_id}/rules/{uid}/
-func (c *Client) AlertsProjectsRulesUpdate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesUpdateParams) (*AlertRule, error) {
+func (c *Client) AlertsProjectsRulesUpdate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesUpdateParams) (*AlertRule, error) {
 	res, err := c.sendAlertsProjectsRulesUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *AlertRule, params AlertsProjectsRulesUpdateParams) (res *AlertRule, err error) {
+func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *AlertRuleRequest, params AlertsProjectsRulesUpdateParams) (res *AlertRule, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -3538,7 +3571,8 @@ func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *Ale
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsRulesUpdateResponse(resp)
 	if err != nil {
@@ -3553,12 +3587,12 @@ func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *Ale
 // アラートプロジェクトを管理するためのAPIエンドポイントです。.
 //
 // PUT /alerts/projects/{resource_id}/
-func (c *Client) AlertsProjectsUpdate(ctx context.Context, request OptAlertProject, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error) {
+func (c *Client) AlertsProjectsUpdate(ctx context.Context, request OptAlertProjectRequest, params AlertsProjectsUpdateParams) (*WrappedAlertProject, error) {
 	res, err := c.sendAlertsProjectsUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendAlertsProjectsUpdate(ctx context.Context, request OptAlertProject, params AlertsProjectsUpdateParams) (res *WrappedAlertProject, err error) {
+func (c *Client) sendAlertsProjectsUpdate(ctx context.Context, request OptAlertProjectRequest, params AlertsProjectsUpdateParams) (res *WrappedAlertProject, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -3612,7 +3646,8 @@ func (c *Client) sendAlertsProjectsUpdate(ctx context.Context, request OptAlertP
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeAlertsProjectsUpdateResponse(resp)
 	if err != nil {
@@ -3627,12 +3662,12 @@ func (c *Client) sendAlertsProjectsUpdate(ctx context.Context, request OptAlertP
 // ダッシュボードを管理するためのAPIエンドポイントです。.
 //
 // POST /dashboards/projects/
-func (c *Client) DashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreate) (*DashboardProject, error) {
+func (c *Client) DashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreateRequest) (*DashboardProject, error) {
 	res, err := c.sendDashboardsProjectsCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendDashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreate) (res *DashboardProject, err error) {
+func (c *Client) sendDashboardsProjectsCreate(ctx context.Context, request *DashboardProjectCreateRequest) (res *DashboardProject, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -3660,7 +3695,8 @@ func (c *Client) sendDashboardsProjectsCreate(ctx context.Context, request *Dash
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeDashboardsProjectsCreateResponse(resp)
 	if err != nil {
@@ -3715,7 +3751,8 @@ func (c *Client) sendDashboardsProjectsDestroy(ctx context.Context, params Dashb
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeDashboardsProjectsDestroyResponse(resp)
 	if err != nil {
@@ -3788,7 +3825,8 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeDashboardsProjectsListResponse(resp)
 	if err != nil {
@@ -3803,12 +3841,12 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 // ダッシュボードを管理するためのAPIエンドポイントです。.
 //
 // PATCH /dashboards/projects/{resource_id}/
-func (c *Client) DashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProject, params DashboardsProjectsPartialUpdateParams) (*WrappedDashboardProject, error) {
+func (c *Client) DashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProjectRequest, params DashboardsProjectsPartialUpdateParams) (*WrappedDashboardProject, error) {
 	res, err := c.sendDashboardsProjectsPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendDashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProject, params DashboardsProjectsPartialUpdateParams) (res *WrappedDashboardProject, err error) {
+func (c *Client) sendDashboardsProjectsPartialUpdate(ctx context.Context, request OptPatchedDashboardProjectRequest, params DashboardsProjectsPartialUpdateParams) (res *WrappedDashboardProject, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -3862,7 +3900,8 @@ func (c *Client) sendDashboardsProjectsPartialUpdate(ctx context.Context, reques
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeDashboardsProjectsPartialUpdateResponse(resp)
 	if err != nil {
@@ -3917,7 +3956,8 @@ func (c *Client) sendDashboardsProjectsRetrieve(ctx context.Context, params Dash
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeDashboardsProjectsRetrieveResponse(resp)
 	if err != nil {
@@ -3932,12 +3972,12 @@ func (c *Client) sendDashboardsProjectsRetrieve(ctx context.Context, params Dash
 // ダッシュボードを管理するためのAPIエンドポイントです。.
 //
 // PUT /dashboards/projects/{resource_id}/
-func (c *Client) DashboardsProjectsUpdate(ctx context.Context, request OptDashboardProject, params DashboardsProjectsUpdateParams) (*WrappedDashboardProject, error) {
+func (c *Client) DashboardsProjectsUpdate(ctx context.Context, request OptDashboardProjectRequest, params DashboardsProjectsUpdateParams) (*WrappedDashboardProject, error) {
 	res, err := c.sendDashboardsProjectsUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendDashboardsProjectsUpdate(ctx context.Context, request OptDashboardProject, params DashboardsProjectsUpdateParams) (res *WrappedDashboardProject, err error) {
+func (c *Client) sendDashboardsProjectsUpdate(ctx context.Context, request OptDashboardProjectRequest, params DashboardsProjectsUpdateParams) (res *WrappedDashboardProject, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -3991,7 +4031,8 @@ func (c *Client) sendDashboardsProjectsUpdate(ctx context.Context, request OptDa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeDashboardsProjectsUpdateResponse(resp)
 	if err != nil {
@@ -4027,7 +4068,8 @@ func (c *Client) sendGetProvisioningState(ctx context.Context) (res *Provisionin
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeGetProvisioningStateResponse(resp)
 	if err != nil {
@@ -4063,7 +4105,8 @@ func (c *Client) sendGetResourcesLimits(ctx context.Context) (res *ResourcesLimi
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeGetResourcesLimitsResponse(resp)
 	if err != nil {
@@ -4078,12 +4121,12 @@ func (c *Client) sendGetResourcesLimits(ctx context.Context) (res *ResourcesLimi
 // ログルーティングを管理するためのAPIエンドポイントです。.
 //
 // POST /logs/routings/
-func (c *Client) LogsRoutingsCreate(ctx context.Context, request *LogRouting) (*WrappedLogRouting, error) {
+func (c *Client) LogsRoutingsCreate(ctx context.Context, request *LogRoutingRequest) (*WrappedLogRouting, error) {
 	res, err := c.sendLogsRoutingsCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendLogsRoutingsCreate(ctx context.Context, request *LogRouting) (res *WrappedLogRouting, err error) {
+func (c *Client) sendLogsRoutingsCreate(ctx context.Context, request *LogRoutingRequest) (res *WrappedLogRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -4111,7 +4154,8 @@ func (c *Client) sendLogsRoutingsCreate(ctx context.Context, request *LogRouting
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsRoutingsCreateResponse(resp)
 	if err != nil {
@@ -4166,7 +4210,8 @@ func (c *Client) sendLogsRoutingsDestroy(ctx context.Context, params LogsRouting
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsRoutingsDestroyResponse(resp)
 	if err != nil {
@@ -4290,7 +4335,8 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsRoutingsListResponse(resp)
 	if err != nil {
@@ -4305,12 +4351,12 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 // ログルーティングを管理するためのAPIエンドポイントです。.
 //
 // PATCH /logs/routings/{uid}/
-func (c *Client) LogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRouting, params LogsRoutingsPartialUpdateParams) (*WrappedLogRouting, error) {
+func (c *Client) LogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRoutingRequest, params LogsRoutingsPartialUpdateParams) (*WrappedLogRouting, error) {
 	res, err := c.sendLogsRoutingsPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRouting, params LogsRoutingsPartialUpdateParams) (res *WrappedLogRouting, err error) {
+func (c *Client) sendLogsRoutingsPartialUpdate(ctx context.Context, request OptPatchedLogRoutingRequest, params LogsRoutingsPartialUpdateParams) (res *WrappedLogRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -4364,7 +4410,8 @@ func (c *Client) sendLogsRoutingsPartialUpdate(ctx context.Context, request OptP
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsRoutingsPartialUpdateResponse(resp)
 	if err != nil {
@@ -4419,7 +4466,8 @@ func (c *Client) sendLogsRoutingsRetrieve(ctx context.Context, params LogsRoutin
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsRoutingsRetrieveResponse(resp)
 	if err != nil {
@@ -4434,12 +4482,12 @@ func (c *Client) sendLogsRoutingsRetrieve(ctx context.Context, params LogsRoutin
 // ログルーティングを管理するためのAPIエンドポイントです。.
 //
 // PUT /logs/routings/{uid}/
-func (c *Client) LogsRoutingsUpdate(ctx context.Context, request *LogRouting, params LogsRoutingsUpdateParams) (*WrappedLogRouting, error) {
+func (c *Client) LogsRoutingsUpdate(ctx context.Context, request *LogRoutingRequest, params LogsRoutingsUpdateParams) (*WrappedLogRouting, error) {
 	res, err := c.sendLogsRoutingsUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRouting, params LogsRoutingsUpdateParams) (res *WrappedLogRouting, err error) {
+func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRoutingRequest, params LogsRoutingsUpdateParams) (res *WrappedLogRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -4486,7 +4534,8 @@ func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRouting
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsRoutingsUpdateResponse(resp)
 	if err != nil {
@@ -4501,12 +4550,12 @@ func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRouting
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // POST /logs/storages/
-func (c *Client) LogsStoragesCreate(ctx context.Context, request *LogStorageCreate) (*LogStorage, error) {
+func (c *Client) LogsStoragesCreate(ctx context.Context, request *LogStorageCreateRequest) (*LogStorage, error) {
 	res, err := c.sendLogsStoragesCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesCreate(ctx context.Context, request *LogStorageCreate) (res *LogStorage, err error) {
+func (c *Client) sendLogsStoragesCreate(ctx context.Context, request *LogStorageCreateRequest) (res *LogStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -4534,7 +4583,8 @@ func (c *Client) sendLogsStoragesCreate(ctx context.Context, request *LogStorage
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesCreateResponse(resp)
 	if err != nil {
@@ -4589,7 +4639,8 @@ func (c *Client) sendLogsStoragesDestroy(ctx context.Context, params LogsStorage
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesDestroyResponse(resp)
 	if err != nil {
@@ -4604,12 +4655,12 @@ func (c *Client) sendLogsStoragesDestroy(ctx context.Context, params LogsStorage
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // POST /logs/storages/{log_resource_id}/keys/
-func (c *Client) LogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysCreateParams) (*WrappedLogStorageAccessKey, error) {
+func (c *Client) LogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysCreateParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysCreateParams) (res *WrappedLogStorageAccessKey, err error) {
+func (c *Client) sendLogsStoragesKeysCreate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysCreateParams) (res *WrappedLogStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -4663,7 +4714,8 @@ func (c *Client) sendLogsStoragesKeysCreate(ctx context.Context, request OptLogS
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesKeysCreateResponse(resp)
 	if err != nil {
@@ -4737,7 +4789,8 @@ func (c *Client) sendLogsStoragesKeysDestroy(ctx context.Context, params LogsSto
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesKeysDestroyResponse(resp)
 	if err != nil {
@@ -4829,7 +4882,8 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesKeysListResponse(resp)
 	if err != nil {
@@ -4844,12 +4898,12 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PATCH /logs/storages/{log_resource_id}/keys/{uid}/
-func (c *Client) LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKey, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error) {
+func (c *Client) LogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params LogsStoragesKeysPartialUpdateParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKey, params LogsStoragesKeysPartialUpdateParams) (res *WrappedLogStorageAccessKey, err error) {
+func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedLogStorageAccessKeyRequest, params LogsStoragesKeysPartialUpdateParams) (res *WrappedLogStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -4922,7 +4976,8 @@ func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesKeysPartialUpdateResponse(resp)
 	if err != nil {
@@ -4996,7 +5051,8 @@ func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsSt
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesKeysRetrieveResponse(resp)
 	if err != nil {
@@ -5011,12 +5067,12 @@ func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsSt
 // ログストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PUT /logs/storages/{log_resource_id}/keys/{uid}/
-func (c *Client) LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error) {
+func (c *Client) LogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysUpdateParams) (*WrappedLogStorageAccessKey, error) {
 	res, err := c.sendLogsStoragesKeysUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKey, params LogsStoragesKeysUpdateParams) (res *WrappedLogStorageAccessKey, err error) {
+func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogStorageAccessKeyRequest, params LogsStoragesKeysUpdateParams) (res *WrappedLogStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -5089,7 +5145,8 @@ func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogS
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesKeysUpdateResponse(resp)
 	if err != nil {
@@ -5247,7 +5304,8 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesListResponse(resp)
 	if err != nil {
@@ -5262,12 +5320,12 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // PATCH /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorage, params LogsStoragesPartialUpdateParams) (*WrappedLogStorage, error) {
+func (c *Client) LogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorageRequest, params LogsStoragesPartialUpdateParams) (*WrappedLogStorage, error) {
 	res, err := c.sendLogsStoragesPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorage, params LogsStoragesPartialUpdateParams) (res *WrappedLogStorage, err error) {
+func (c *Client) sendLogsStoragesPartialUpdate(ctx context.Context, request OptPatchedLogStorageRequest, params LogsStoragesPartialUpdateParams) (res *WrappedLogStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -5321,7 +5379,8 @@ func (c *Client) sendLogsStoragesPartialUpdate(ctx context.Context, request OptP
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesPartialUpdateResponse(resp)
 	if err != nil {
@@ -5376,7 +5435,8 @@ func (c *Client) sendLogsStoragesRetrieve(ctx context.Context, params LogsStorag
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesRetrieveResponse(resp)
 	if err != nil {
@@ -5391,12 +5451,12 @@ func (c *Client) sendLogsStoragesRetrieve(ctx context.Context, params LogsStorag
 // ログストレージの保存期間を設定します。.
 //
 // POST /logs/storages/{resource_id}/set-expire/
-func (c *Client) LogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDay, params LogsStoragesSetExpireCreateParams) (*LogStorage, error) {
+func (c *Client) LogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDayRequest, params LogsStoragesSetExpireCreateParams) (*LogStorage, error) {
 	res, err := c.sendLogsStoragesSetExpireCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDay, params LogsStoragesSetExpireCreateParams) (res *LogStorage, err error) {
+func (c *Client) sendLogsStoragesSetExpireCreate(ctx context.Context, request *SetLogStorageExpireDayRequest, params LogsStoragesSetExpireCreateParams) (res *LogStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -5443,7 +5503,8 @@ func (c *Client) sendLogsStoragesSetExpireCreate(ctx context.Context, request *S
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesSetExpireCreateResponse(resp)
 	if err != nil {
@@ -5535,7 +5596,8 @@ func (c *Client) sendLogsStoragesStatsDailyRetrieve(ctx context.Context, params 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesStatsDailyRetrieveResponse(resp)
 	if err != nil {
@@ -5607,7 +5669,8 @@ func (c *Client) sendLogsStoragesStatsMonthlyRetrieve(ctx context.Context, param
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesStatsMonthlyRetrieveResponse(resp)
 	if err != nil {
@@ -5622,12 +5685,12 @@ func (c *Client) sendLogsStoragesStatsMonthlyRetrieve(ctx context.Context, param
 // ログストレージを管理するためのAPIエンドポイントです。.
 //
 // PUT /logs/storages/{resource_id}/
-func (c *Client) LogsStoragesUpdate(ctx context.Context, request OptLogStorage, params LogsStoragesUpdateParams) (*WrappedLogStorage, error) {
+func (c *Client) LogsStoragesUpdate(ctx context.Context, request OptLogStorageRequest, params LogsStoragesUpdateParams) (*WrappedLogStorage, error) {
 	res, err := c.sendLogsStoragesUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendLogsStoragesUpdate(ctx context.Context, request OptLogStorage, params LogsStoragesUpdateParams) (res *WrappedLogStorage, err error) {
+func (c *Client) sendLogsStoragesUpdate(ctx context.Context, request OptLogStorageRequest, params LogsStoragesUpdateParams) (res *WrappedLogStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -5681,7 +5744,8 @@ func (c *Client) sendLogsStoragesUpdate(ctx context.Context, request OptLogStora
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeLogsStoragesUpdateResponse(resp)
 	if err != nil {
@@ -5696,12 +5760,12 @@ func (c *Client) sendLogsStoragesUpdate(ctx context.Context, request OptLogStora
 // メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
 // POST /metrics/routings/
-func (c *Client) MetricsRoutingsCreate(ctx context.Context, request *MetricsRouting) (*WrappedMetricsRouting, error) {
+func (c *Client) MetricsRoutingsCreate(ctx context.Context, request *MetricsRoutingRequest) (*WrappedMetricsRouting, error) {
 	res, err := c.sendMetricsRoutingsCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendMetricsRoutingsCreate(ctx context.Context, request *MetricsRouting) (res *WrappedMetricsRouting, err error) {
+func (c *Client) sendMetricsRoutingsCreate(ctx context.Context, request *MetricsRoutingRequest) (res *WrappedMetricsRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -5729,7 +5793,8 @@ func (c *Client) sendMetricsRoutingsCreate(ctx context.Context, request *Metrics
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsRoutingsCreateResponse(resp)
 	if err != nil {
@@ -5784,7 +5849,8 @@ func (c *Client) sendMetricsRoutingsDestroy(ctx context.Context, params MetricsR
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsRoutingsDestroyResponse(resp)
 	if err != nil {
@@ -5908,7 +5974,8 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsRoutingsListResponse(resp)
 	if err != nil {
@@ -5923,12 +5990,12 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 // メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
 // PATCH /metrics/routings/{uid}/
-func (c *Client) MetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRouting, params MetricsRoutingsPartialUpdateParams) (*WrappedMetricsRouting, error) {
+func (c *Client) MetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRoutingRequest, params MetricsRoutingsPartialUpdateParams) (*WrappedMetricsRouting, error) {
 	res, err := c.sendMetricsRoutingsPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRouting, params MetricsRoutingsPartialUpdateParams) (res *WrappedMetricsRouting, err error) {
+func (c *Client) sendMetricsRoutingsPartialUpdate(ctx context.Context, request OptPatchedMetricsRoutingRequest, params MetricsRoutingsPartialUpdateParams) (res *WrappedMetricsRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -5982,7 +6049,8 @@ func (c *Client) sendMetricsRoutingsPartialUpdate(ctx context.Context, request O
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsRoutingsPartialUpdateResponse(resp)
 	if err != nil {
@@ -6037,7 +6105,8 @@ func (c *Client) sendMetricsRoutingsRetrieve(ctx context.Context, params Metrics
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsRoutingsRetrieveResponse(resp)
 	if err != nil {
@@ -6052,12 +6121,12 @@ func (c *Client) sendMetricsRoutingsRetrieve(ctx context.Context, params Metrics
 // メトリクスルーティングを管理するためのAPIエンドポイントです。.
 //
 // PUT /metrics/routings/{uid}/
-func (c *Client) MetricsRoutingsUpdate(ctx context.Context, request *MetricsRouting, params MetricsRoutingsUpdateParams) (*WrappedMetricsRouting, error) {
+func (c *Client) MetricsRoutingsUpdate(ctx context.Context, request *MetricsRoutingRequest, params MetricsRoutingsUpdateParams) (*WrappedMetricsRouting, error) {
 	res, err := c.sendMetricsRoutingsUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *MetricsRouting, params MetricsRoutingsUpdateParams) (res *WrappedMetricsRouting, err error) {
+func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *MetricsRoutingRequest, params MetricsRoutingsUpdateParams) (res *WrappedMetricsRouting, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -6104,7 +6173,8 @@ func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *Metrics
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsRoutingsUpdateResponse(resp)
 	if err != nil {
@@ -6119,12 +6189,12 @@ func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *Metrics
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // POST /metrics/storages/
-func (c *Client) MetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreate) (*MetricsStorage, error) {
+func (c *Client) MetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreateRequest) (*MetricsStorage, error) {
 	res, err := c.sendMetricsStoragesCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreate) (res *MetricsStorage, err error) {
+func (c *Client) sendMetricsStoragesCreate(ctx context.Context, request *MetricsStorageCreateRequest) (res *MetricsStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -6152,7 +6222,8 @@ func (c *Client) sendMetricsStoragesCreate(ctx context.Context, request *Metrics
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesCreateResponse(resp)
 	if err != nil {
@@ -6207,7 +6278,8 @@ func (c *Client) sendMetricsStoragesDestroy(ctx context.Context, params MetricsS
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesDestroyResponse(resp)
 	if err != nil {
@@ -6222,12 +6294,12 @@ func (c *Client) sendMetricsStoragesDestroy(ctx context.Context, params MetricsS
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // POST /metrics/storages/{metrics_resource_id}/keys/
-func (c *Client) MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysCreateParams) (*WrappedMetricsStorageAccessKey, error) {
+func (c *Client) MetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysCreateParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysCreateParams) (res *WrappedMetricsStorageAccessKey, err error) {
+func (c *Client) sendMetricsStoragesKeysCreate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysCreateParams) (res *WrappedMetricsStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -6281,7 +6353,8 @@ func (c *Client) sendMetricsStoragesKeysCreate(ctx context.Context, request OptM
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesKeysCreateResponse(resp)
 	if err != nil {
@@ -6355,7 +6428,8 @@ func (c *Client) sendMetricsStoragesKeysDestroy(ctx context.Context, params Metr
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesKeysDestroyResponse(resp)
 	if err != nil {
@@ -6447,7 +6521,8 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesKeysListResponse(resp)
 	if err != nil {
@@ -6462,12 +6537,12 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PATCH /metrics/storages/{metrics_resource_id}/keys/{uid}/
-func (c *Client) MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKey, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
+func (c *Client) MetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params MetricsStoragesKeysPartialUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKey, params MetricsStoragesKeysPartialUpdateParams) (res *WrappedMetricsStorageAccessKey, err error) {
+func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageAccessKeyRequest, params MetricsStoragesKeysPartialUpdateParams) (res *WrappedMetricsStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -6540,7 +6615,8 @@ func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, reque
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesKeysPartialUpdateResponse(resp)
 	if err != nil {
@@ -6614,7 +6690,8 @@ func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params Met
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesKeysRetrieveResponse(resp)
 	if err != nil {
@@ -6629,12 +6706,12 @@ func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params Met
 // メトリクスストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PUT /metrics/storages/{metrics_resource_id}/keys/{uid}/
-func (c *Client) MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
+func (c *Client) MetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysUpdateParams) (*WrappedMetricsStorageAccessKey, error) {
 	res, err := c.sendMetricsStoragesKeysUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKey, params MetricsStoragesKeysUpdateParams) (res *WrappedMetricsStorageAccessKey, err error) {
+func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptMetricsStorageAccessKeyRequest, params MetricsStoragesKeysUpdateParams) (res *WrappedMetricsStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -6707,7 +6784,8 @@ func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptM
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesKeysUpdateResponse(resp)
 	if err != nil {
@@ -6831,7 +6909,8 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesListResponse(resp)
 	if err != nil {
@@ -6846,12 +6925,12 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // PATCH /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorage, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsStorage, error) {
+func (c *Client) MetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageRequest, params MetricsStoragesPartialUpdateParams) (*WrappedMetricsStorage, error) {
 	res, err := c.sendMetricsStoragesPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorage, params MetricsStoragesPartialUpdateParams) (res *WrappedMetricsStorage, err error) {
+func (c *Client) sendMetricsStoragesPartialUpdate(ctx context.Context, request OptPatchedMetricsStorageRequest, params MetricsStoragesPartialUpdateParams) (res *WrappedMetricsStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -6905,7 +6984,8 @@ func (c *Client) sendMetricsStoragesPartialUpdate(ctx context.Context, request O
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesPartialUpdateResponse(resp)
 	if err != nil {
@@ -6960,7 +7040,8 @@ func (c *Client) sendMetricsStoragesRetrieve(ctx context.Context, params Metrics
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesRetrieveResponse(resp)
 	if err != nil {
@@ -7052,7 +7133,8 @@ func (c *Client) sendMetricsStoragesStatsDailyRetrieve(ctx context.Context, para
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesStatsDailyRetrieveResponse(resp)
 	if err != nil {
@@ -7124,7 +7206,8 @@ func (c *Client) sendMetricsStoragesStatsMonthlyRetrieve(ctx context.Context, pa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesStatsMonthlyRetrieveResponse(resp)
 	if err != nil {
@@ -7139,12 +7222,12 @@ func (c *Client) sendMetricsStoragesStatsMonthlyRetrieve(ctx context.Context, pa
 // メトリクスストレージを管理するためのAPIエンドポイントです。.
 //
 // PUT /metrics/storages/{resource_id}/
-func (c *Client) MetricsStoragesUpdate(ctx context.Context, request OptMetricsStorage, params MetricsStoragesUpdateParams) (*WrappedMetricsStorage, error) {
+func (c *Client) MetricsStoragesUpdate(ctx context.Context, request OptMetricsStorageRequest, params MetricsStoragesUpdateParams) (*WrappedMetricsStorage, error) {
 	res, err := c.sendMetricsStoragesUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetricsStorage, params MetricsStoragesUpdateParams) (res *WrappedMetricsStorage, err error) {
+func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetricsStorageRequest, params MetricsStoragesUpdateParams) (res *WrappedMetricsStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -7198,7 +7281,8 @@ func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetri
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeMetricsStoragesUpdateResponse(resp)
 	if err != nil {
@@ -7213,12 +7297,12 @@ func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetri
 // リソース（ログストレージ、メトリクスストレージ）のプロビジョニング（初期化）を行うAPIエンドポイントです。指定した種別のリソースが存在しない場合のみ作成を行います。既存のリソースは変更されません。.
 //
 // POST /management/provisioning/initialize/
-func (c *Client) PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (PostProvisioningInitializeRes, error) {
+func (c *Client) PostProvisioningInitialize(ctx context.Context, request OptProvisioningCreateRequest) (PostProvisioningInitializeRes, error) {
 	res, err := c.sendPostProvisioningInitialize(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendPostProvisioningInitialize(ctx context.Context, request OptProvisioningCreate) (res PostProvisioningInitializeRes, err error) {
+func (c *Client) sendPostProvisioningInitialize(ctx context.Context, request OptProvisioningCreateRequest) (res PostProvisioningInitializeRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -7237,7 +7321,8 @@ func (c *Client) sendPostProvisioningInitialize(ctx context.Context, request Opt
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodePostProvisioningInitializeResponse(resp)
 	if err != nil {
@@ -7310,7 +7395,8 @@ func (c *Client) sendPublishersList(ctx context.Context, params PublishersListPa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodePublishersListResponse(resp)
 	if err != nil {
@@ -7365,7 +7451,8 @@ func (c *Client) sendPublishersRetrieve(ctx context.Context, params PublishersRe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodePublishersRetrieveResponse(resp)
 	if err != nil {
@@ -7380,12 +7467,12 @@ func (c *Client) sendPublishersRetrieve(ctx context.Context, params PublishersRe
 // トレースストレージを管理するためのAPIエンドポイントです。.
 //
 // POST /traces/storages/
-func (c *Client) TracesStoragesCreate(ctx context.Context, request *TraceStorageCreate) (*TraceStorage, error) {
+func (c *Client) TracesStoragesCreate(ctx context.Context, request *TraceStorageCreateRequest) (*TraceStorage, error) {
 	res, err := c.sendTracesStoragesCreate(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesCreate(ctx context.Context, request *TraceStorageCreate) (res *TraceStorage, err error) {
+func (c *Client) sendTracesStoragesCreate(ctx context.Context, request *TraceStorageCreateRequest) (res *TraceStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -7413,7 +7500,8 @@ func (c *Client) sendTracesStoragesCreate(ctx context.Context, request *TraceSto
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesCreateResponse(resp)
 	if err != nil {
@@ -7468,7 +7556,8 @@ func (c *Client) sendTracesStoragesDestroy(ctx context.Context, params TracesSto
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesDestroyResponse(resp)
 	if err != nil {
@@ -7483,12 +7572,12 @@ func (c *Client) sendTracesStoragesDestroy(ctx context.Context, params TracesSto
 // トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // POST /traces/storages/{trace_resource_id}/keys/
-func (c *Client) TracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysCreateParams) (*WrappedTraceStorageAccessKey, error) {
+func (c *Client) TracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysCreateParams) (*WrappedTraceStorageAccessKey, error) {
 	res, err := c.sendTracesStoragesKeysCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysCreateParams) (res *WrappedTraceStorageAccessKey, err error) {
+func (c *Client) sendTracesStoragesKeysCreate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysCreateParams) (res *WrappedTraceStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -7542,7 +7631,8 @@ func (c *Client) sendTracesStoragesKeysCreate(ctx context.Context, request OptTr
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesKeysCreateResponse(resp)
 	if err != nil {
@@ -7616,7 +7706,8 @@ func (c *Client) sendTracesStoragesKeysDestroy(ctx context.Context, params Trace
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesKeysDestroyResponse(resp)
 	if err != nil {
@@ -7708,7 +7799,8 @@ func (c *Client) sendTracesStoragesKeysList(ctx context.Context, params TracesSt
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesKeysListResponse(resp)
 	if err != nil {
@@ -7723,12 +7815,12 @@ func (c *Client) sendTracesStoragesKeysList(ctx context.Context, params TracesSt
 // トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PATCH /traces/storages/{trace_resource_id}/keys/{uid}/
-func (c *Client) TracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKey, params TracesStoragesKeysPartialUpdateParams) (*WrappedTraceStorageAccessKey, error) {
+func (c *Client) TracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params TracesStoragesKeysPartialUpdateParams) (*WrappedTraceStorageAccessKey, error) {
 	res, err := c.sendTracesStoragesKeysPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKey, params TracesStoragesKeysPartialUpdateParams) (res *WrappedTraceStorageAccessKey, err error) {
+func (c *Client) sendTracesStoragesKeysPartialUpdate(ctx context.Context, request OptPatchedTraceStorageAccessKeyRequest, params TracesStoragesKeysPartialUpdateParams) (res *WrappedTraceStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -7801,7 +7893,8 @@ func (c *Client) sendTracesStoragesKeysPartialUpdate(ctx context.Context, reques
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesKeysPartialUpdateResponse(resp)
 	if err != nil {
@@ -7875,7 +7968,8 @@ func (c *Client) sendTracesStoragesKeysRetrieve(ctx context.Context, params Trac
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesKeysRetrieveResponse(resp)
 	if err != nil {
@@ -7890,12 +7984,12 @@ func (c *Client) sendTracesStoragesKeysRetrieve(ctx context.Context, params Trac
 // トレースストレージのアクセスキーを管理するAPIエンドポイントです。.
 //
 // PUT /traces/storages/{trace_resource_id}/keys/{uid}/
-func (c *Client) TracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysUpdateParams) (*WrappedTraceStorageAccessKey, error) {
+func (c *Client) TracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysUpdateParams) (*WrappedTraceStorageAccessKey, error) {
 	res, err := c.sendTracesStoragesKeysUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKey, params TracesStoragesKeysUpdateParams) (res *WrappedTraceStorageAccessKey, err error) {
+func (c *Client) sendTracesStoragesKeysUpdate(ctx context.Context, request OptTraceStorageAccessKeyRequest, params TracesStoragesKeysUpdateParams) (res *WrappedTraceStorageAccessKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -7968,7 +8062,8 @@ func (c *Client) sendTracesStoragesKeysUpdate(ctx context.Context, request OptTr
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesKeysUpdateResponse(resp)
 	if err != nil {
@@ -8092,7 +8187,8 @@ func (c *Client) sendTracesStoragesList(ctx context.Context, params TracesStorag
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesListResponse(resp)
 	if err != nil {
@@ -8107,12 +8203,12 @@ func (c *Client) sendTracesStoragesList(ctx context.Context, params TracesStorag
 // トレースストレージを管理するためのAPIエンドポイントです。.
 //
 // PATCH /traces/storages/{resource_id}/
-func (c *Client) TracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorage, params TracesStoragesPartialUpdateParams) (*WrappedTraceStorage, error) {
+func (c *Client) TracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorageRequest, params TracesStoragesPartialUpdateParams) (*WrappedTraceStorage, error) {
 	res, err := c.sendTracesStoragesPartialUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorage, params TracesStoragesPartialUpdateParams) (res *WrappedTraceStorage, err error) {
+func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request OptPatchedTraceStorageRequest, params TracesStoragesPartialUpdateParams) (res *WrappedTraceStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -8166,7 +8262,8 @@ func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request Op
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesPartialUpdateResponse(resp)
 	if err != nil {
@@ -8221,7 +8318,8 @@ func (c *Client) sendTracesStoragesRetrieve(ctx context.Context, params TracesSt
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesRetrieveResponse(resp)
 	if err != nil {
@@ -8236,12 +8334,12 @@ func (c *Client) sendTracesStoragesRetrieve(ctx context.Context, params TracesSt
 // トレースストレージの保存期間を設定します。.
 //
 // POST /traces/storages/{resource_id}/set-expire/
-func (c *Client) TracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDay, params TracesStoragesSetExpireCreateParams) (*TraceStorage, error) {
+func (c *Client) TracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDayRequest, params TracesStoragesSetExpireCreateParams) (*TraceStorage, error) {
 	res, err := c.sendTracesStoragesSetExpireCreate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDay, params TracesStoragesSetExpireCreateParams) (res *TraceStorage, err error) {
+func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request *SetTraceStorageExpireDayRequest, params TracesStoragesSetExpireCreateParams) (res *TraceStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -8288,7 +8386,8 @@ func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesSetExpireCreateResponse(resp)
 	if err != nil {
@@ -8380,7 +8479,8 @@ func (c *Client) sendTracesStoragesStatsDailyRetrieve(ctx context.Context, param
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesStatsDailyRetrieveResponse(resp)
 	if err != nil {
@@ -8452,7 +8552,8 @@ func (c *Client) sendTracesStoragesStatsMonthlyRetrieve(ctx context.Context, par
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesStatsMonthlyRetrieveResponse(resp)
 	if err != nil {
@@ -8467,12 +8568,12 @@ func (c *Client) sendTracesStoragesStatsMonthlyRetrieve(ctx context.Context, par
 // トレースストレージを管理するためのAPIエンドポイントです。.
 //
 // PUT /traces/storages/{resource_id}/
-func (c *Client) TracesStoragesUpdate(ctx context.Context, request OptTraceStorage, params TracesStoragesUpdateParams) (*WrappedTraceStorage, error) {
+func (c *Client) TracesStoragesUpdate(ctx context.Context, request OptTraceStorageRequest, params TracesStoragesUpdateParams) (*WrappedTraceStorage, error) {
 	res, err := c.sendTracesStoragesUpdate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceStorage, params TracesStoragesUpdateParams) (res *WrappedTraceStorage, err error) {
+func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceStorageRequest, params TracesStoragesUpdateParams) (res *WrappedTraceStorage, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -8526,7 +8627,8 @@ func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceS
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer body.Close()
 
 	result, err := decodeTracesStoragesUpdateResponse(resp)
 	if err != nil {
