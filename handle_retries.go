@@ -122,6 +122,12 @@ func (d *doer) retryableClient(c *config) (*retryablehttp.Client, error) {
 	// This is callled right before the retryablehttp client gives up.
 	// without it the `res` would be lost
 	ret.ErrorHandler = func(res *http.Response, err error, n int) (*http.Response, error) {
+		// It seems there are chances when `res` can already be nil.
+		// We can do nothing then.  Just return as-is.
+		if res == nil {
+			return res, err
+		}
+
 		req := res.Request
 		msg := fmt.Sprintf("%s %s giving up after %d attempt(s)", req.Method, req.URL, n)
 
