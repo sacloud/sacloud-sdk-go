@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.3.4](https://github.com/sacloud/saclient-go/compare/v0.3.3...v0.3.4) - 2026-03-19
+- Avoid dereference when response is nil by @shyouhei in https://github.com/sacloud/saclient-go/pull/88
+
 ## [v0.3.3](https://github.com/sacloud/saclient-go/compare/v0.3.2...v0.3.3) - 2026-03-18
 - [chore] tagpr label settings by @shyouhei in https://github.com/sacloud/saclient-go/pull/83
 - `SAKURA_SERVICE_PRINCIPAL_KEY_KID` environment variable by @shyouhei in https://github.com/sacloud/saclient-go/pull/85
