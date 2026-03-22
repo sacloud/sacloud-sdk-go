@@ -22,8 +22,11 @@ import (
 	"github.com/sacloud/saclient-go"
 )
 
-// DefaultAPIRootURL デフォルトのAPIルートURL
-const DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/api/addon/1.0/"
+const (
+	// DefaultAPIRootURL デフォルトのAPIルートURL
+	DefaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/api/addon/1.0/"
+	serviceKey        = "addon"
+)
 
 // UserAgent APIリクエスト時のユーザーエージェント
 var UserAgent = fmt.Sprintf(
@@ -34,7 +37,17 @@ var UserAgent = fmt.Sprintf(
 )
 
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
-	return NewClientWithAPIRootURL(client, DefaultAPIRootURL)
+	endpointConfig, err := client.EndpointConfig()
+	if err != nil {
+		return nil, NewError("unable to load message endpoint configuration", err)
+	}
+
+	endpoint := DefaultAPIRootURL
+	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
+		endpoint = ep
+	}
+
+	return NewClientWithAPIRootURL(client, endpoint)
 }
 
 func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
