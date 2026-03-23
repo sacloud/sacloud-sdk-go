@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.2.0](https://github.com/sacloud/object-storage-api-go/compare/v0.1.1...v0.2.0) - 2026-03-22
+- Add support endpoint setting from env and profiles by @to-shoji in https://github.com/sacloud/object-storage-api-go/pull/223
+
 ## [v0.1.1](https://github.com/sacloud/object-storage-api-go/compare/v0.1.0...v0.1.1) - 2026-03-06
 - Prevent accidental acceptance/example test runs by @yamamoto-febc in https://github.com/sacloud/object-storage-api-go/pull/213
 - replication: disable replicatoin response validation for temporal fix by @repeatedly in https://github.com/sacloud/object-storage-api-go/pull/220
