@@ -1,5 +1,20 @@
 # Changelog
 
+## [v0.2.0](https://github.com/sacloud/monitoring-suite-api-go/compare/v0.1.1...v0.2.0) - 2026-03-23
+- ci: bump Songmu/tagpr from 1.8.4 to 1.11.1 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/70
+- ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/71
+- Use SAKURA_* env instead of SAKURACLOUD_* by @yamamoto-febc in https://github.com/sacloud/monitoring-suite-api-go/pull/79
+- actions: test with stable and oldstable Go versions by @yamamoto-febc in https://github.com/sacloud/monitoring-suite-api-go/pull/80
+- Update `openapi.json` (and related APIs) by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/73
+- [feat] use saclient-go by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/87
+- go: bump github.com/ogen-go/ogen from 1.18.0 to 1.20.1 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/86
+- Server side error message by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/88
+- Update openapi.json - use API v1.1.0 by @yamamoto-febc in https://github.com/sacloud/monitoring-suite-api-go/pull/90
+- ci: bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/75
+- ci: bump Songmu/tagpr from 1.11.1 to 1.17.1 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/83
+- ci: bump actions/setup-go from 6.2.0 to 6.3.0 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/85
+- go: bump github.com/sacloud/saclient-go from 0.3.1 to 0.3.4 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/92
+
 ## [v0.1.1](https://github.com/sacloud/monitoring-suite-api-go/compare/v0.1.0...v0.1.1) - 2025-12-08
 - go: bump github.com/ogen-go/ogen from 1.14.0 to 1.16.0 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/54
 - ignore CHANGELOG.md by @shyouhei in https://github.com/sacloud/monitoring-suite-api-go/pull/56
