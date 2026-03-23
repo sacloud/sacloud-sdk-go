@@ -14,4 +14,4 @@
 
 package monitoringsuite
 
-const Version = "0.1.1"
+const Version = "0.2.0"
