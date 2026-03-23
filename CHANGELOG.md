@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.1.0](https://github.com/sacloud/addon-api-go/compare/v0.0.1...v0.1.0) - 2026-03-22
+- Add support  endpoint setting from env and profiles by @to-shoji in https://github.com/sacloud/addon-api-go/pull/37
+
 ## [v0.0.1](https://github.com/sacloud/addon-api-go/commits/v0.0.1) - 2026-01-30
 - ci: bump actions/checkout from 5.0.0 to 6.0.1 by @dependabot[bot] in https://github.com/sacloud/addon-api-go/pull/3
 - Fundamental parts by @shyouhei in https://github.com/sacloud/addon-api-go/pull/7
