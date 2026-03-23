@@ -1,5 +1,8 @@
 # Changelog
 
+## [v0.3.0](https://github.com/sacloud/security-control-api-go/compare/v0.2.2...v0.3.0) - 2026-03-23
+- Add endpoint config from env and profile  by @to-shoji in https://github.com/sacloud/security-control-api-go/pull/26
+
 ## [v0.2.2](https://github.com/sacloud/security-control-api-go/compare/v0.2.1...v0.2.2) - 2026-01-27
 - ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/security-control-api-go/pull/8
 - ci: bump actions/checkout from 6.0.0 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/security-control-api-go/pull/13
