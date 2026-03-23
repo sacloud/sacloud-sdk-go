@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.0](https://github.com/sacloud/dedicated-storage-api-go/compare/v0.1.0...v0.2.0) - 2026-03-23
+- Add endpoint setting from profile or env by @to-shoji in https://github.com/sacloud/dedicated-storage-api-go/pull/41
+- retrigger tagpr by @to-shoji in https://github.com/sacloud/dedicated-storage-api-go/pull/43
+
 ## [v0.1.0](https://github.com/sacloud/dedicated-storage-api-go/compare/v0.0.4...v0.1.0) - 2026-02-13
 - remove unsed field: ReinstallCount by @yamamoto-febc in https://github.com/sacloud/dedicated-storage-api-go/pull/32
 
