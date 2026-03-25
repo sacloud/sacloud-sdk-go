@@ -24,7 +24,7 @@ import (
 	v1 "github.com/sacloud/service-endpoint-gateway-api-go/apis/v1"
 )
 
-func Example_SEGCRUDL() {
+func Example() {
 	// setup
 	// TODO replace your access token/secret
 	os.Setenv("SAKURA_ACCESS_TOKEN", "your-token")         //nolint:errcheck,gosec
@@ -39,7 +39,7 @@ func Example_SEGCRUDL() {
 	constructAPI := seg.NewConstructOp(client)
 	ctx := context.Background()
 
-	//create request
+	// create request
 	createRequest := v1.ModelsApplianceApplianceCreateRequest{
 		Appliance: v1.ModelsApplianceApplianceCreateBody{
 			Remark: v1.ModelsRemarkApplianceCreateRemark{
@@ -58,7 +58,7 @@ func Example_SEGCRUDL() {
 		},
 	}
 
-	//create call (auto power on after creation)
+	// create call (auto power on after creation)
 	created, err := constructAPI.Create(ctx, createRequest)
 	if err != nil {
 		panic(err)
@@ -89,7 +89,7 @@ func Example_SEGCRUDL() {
 							Type: v1.ModelsSettingsEnabledServiceTypeObjectStorage,
 							Config: v1.ModelsSettingsServiceConfig{
 								Endpoints: []string{
-									"objectstorage-endpoint", //"s3.isk01.sakurastorage.jp" etc...
+									"objectstorage-endpoint", // "s3.isk01.sakurastorage.jp" etc...
 								},
 							},
 						},
@@ -97,7 +97,7 @@ func Example_SEGCRUDL() {
 							Type: v1.ModelsSettingsEnabledServiceTypeMonitoringSuite,
 							Config: v1.ModelsSettingsServiceConfig{
 								Endpoints: []string{
-									"monitoring-endpoint", //"XXXXXXXXXX.logs.monitoring.global.api.sacloud.jp"
+									"monitoring-endpoint", // "XXXXXXXXXX.logs.monitoring.global.api.sacloud.jp"
 								},
 							},
 						},
@@ -105,7 +105,7 @@ func Example_SEGCRUDL() {
 							Type: v1.ModelsSettingsEnabledServiceTypeContainerRegistry,
 							Config: v1.ModelsSettingsServiceConfig{
 								Endpoints: []string{
-									"container-registry-endpoint", //"XXXXXXXX.sakuracr.jp" etc...
+									"container-registry-endpoint", // "XXXXXXXX.sakuracr.jp" etc...
 								},
 							},
 						},
