@@ -126,6 +126,16 @@ func TestConstructOpFULL(t *testing.T) {
 			t.Fatal("expected response but got nil")
 		}
 	})
+	t.Run("ReadInterface", func(t *testing.T) {
+		interfaceID := "1"
+		resp, err := constructAPI.ReadInterface(ctx, id, interfaceID)
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if resp == nil {
+			t.Fatal("expected response but got nil")
+		}
+	})
 
 	t.Run("Update and Apply", func(t *testing.T) {
 		crEndpoints := os.Getenv("SAKURA_SEG_CR_ENDPOINTS")
