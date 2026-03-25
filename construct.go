@@ -43,6 +43,7 @@ func NewConstructOp(client *v1.Client) ConstructAPI {
 
 func (op *ConstructOp) List(ctx context.Context) (*v1.ModelsApplianceApplianceListResponseBody, error) {
 	const methodName = "Construct.List"
+
 	res, err := op.client.SegList(ctx)
 	if err != nil {
 		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
