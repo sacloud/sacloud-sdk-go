@@ -15,7 +15,7 @@ import (
 )
 
 func TestActivationAPI(t *testing.T) {
-	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_SERVICE_PRINCIPAL_ID", "SAKURA_SERVICE_PRINCIPAL_KEY_KID")(t)
+	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID", "SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_KEY_KID")(t)
 
 	ctx := t.Context()
 	var theClient saclient.Client
@@ -25,12 +25,12 @@ func TestActivationAPI(t *testing.T) {
 	actOp := securitycontrol.NewActivationOp(client)
 	respRead, err := actOp.Read(ctx)
 	if saclient.IsNotFoundError(err) { // アクティベーションされてないアカウントではReadで404が返るため、それを利用してCreateをテスト
-		created, err := actOp.Create(ctx, os.Getenv("SAKURA_SERVICE_PRINCIPAL_ID"))
+		created, err := actOp.Create(ctx, os.Getenv("SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID"))
 		require.NoError(t, err)
 		require.NotNil(t, created)
 		assert.True(t, created.IsActive)
 
-		respUpdate, err := actOp.Update(ctx, os.Getenv("SAKURA_SERVICE_PRINCIPAL_ID"), false)
+		respUpdate, err := actOp.Update(ctx, os.Getenv("SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID"), false)
 		require.NoError(t, err)
 		require.NotNil(t, respUpdate)
 		assert.False(t, respUpdate.IsActive)
@@ -39,13 +39,13 @@ func TestActivationAPI(t *testing.T) {
 		require.NotNil(t, respRead)
 		assert.True(t, respRead.AutomatedActionLimit > 0)
 
-		respUpdate, err := actOp.Update(ctx, os.Getenv("SAKURA_SERVICE_PRINCIPAL_ID"), false)
+		respUpdate, err := actOp.Update(ctx, os.Getenv("SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID"), false)
 		require.NoError(t, err)
 		require.NotNil(t, respUpdate)
 		assert.False(t, respUpdate.IsActive)
 	}
 
-	respUpdate, err := actOp.Update(ctx, os.Getenv("SAKURA_SERVICE_PRINCIPAL_ID"), true)
+	respUpdate, err := actOp.Update(ctx, os.Getenv("SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID"), true)
 	require.NoError(t, err)
 	require.NotNil(t, respUpdate)
 	assert.True(t, respUpdate.IsActive)
