@@ -16,7 +16,7 @@ import (
 )
 
 func TestEvaluationRulesAPI(t *testing.T) {
-	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_SERVICE_PRINCIPAL_ID", "SAKURA_SERVICE_PRINCIPAL_KEY_KID")(t)
+	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID", "SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_KEY_KID")(t)
 
 	ctx := t.Context()
 	var theClient saclient.Client
@@ -37,7 +37,7 @@ func TestEvaluationRulesAPI(t *testing.T) {
 	zones := []string{"is1a", "is1b", "tk1a", "tk1b"}
 	respUpdate, err := erOp.Update(ctx, "server-no-public-ip", securitycontrol.SetupEvaluationRuleInput(&securitycontrol.EvaluationRuleInputParams{
 		ID:                 "server-no-public-ip",
-		ServicePrincipalID: os.Getenv("SAKURA_SERVICE_PRINCIPAL_ID"),
+		ServicePrincipalID: os.Getenv("SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID"),
 		Targets:            zones,
 		Enabled:            !respRead.IsEnabled,
 	}))

@@ -77,7 +77,3 @@ jobs:
       - name: make test
         run: |
           make test
-        env:
-          SAKURA_ACCESS_TOKEN: ${{secrets.ACCESS_TOKEN}}
-          SAKURA_ACCESS_TOKEN_SECRET: ${{secrets.ACCESS_TOKEN_SECRET}}
-          SAKURA_SERVICE_PRINCIPAL_ID: ${{secrets.SERVICE_PRINCIPAL_ID}}

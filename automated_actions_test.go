@@ -17,7 +17,7 @@ import (
 
 func TestAutomatedActionsAPI(t *testing.T) {
 	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET",
-		"SAKURA_SERVICE_PRINCIPAL_ID", "SAKURA_SERVICE_PRINCIPAL_KEY_KID", "SAKURA_SIMPLE_NOTIFICATION_GROUP_ID")(t)
+		"SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID", "SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_KEY_KID", "SAKURA_SIMPLE_NOTIFICATION_GROUP_ID")(t)
 
 	ctx := t.Context()
 
@@ -40,7 +40,7 @@ func TestAutomatedActionsAPI(t *testing.T) {
 				ActionDefinitionSimpleNotification: v1.ActionDefinitionSimpleNotification{
 					ActionType: v1.ActionDefinitionSimpleNotificationActionType("simpleNotification"),
 					ActionParameter: v1.SakuraSimpleNotification{
-						ServicePrincipalId:  os.Getenv("SAKURA_SERVICE_PRINCIPAL_ID"),
+						ServicePrincipalId:  os.Getenv("SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID"),
 						NotificationGroupId: os.Getenv("SAKURA_SIMPLE_NOTIFICATION_GROUP_ID"),
 					},
 				},
@@ -76,7 +76,7 @@ func TestAutomatedActionsAPI(t *testing.T) {
 				ActionDefinitionSimpleNotification: v1.ActionDefinitionSimpleNotification{
 					ActionType: v1.ActionDefinitionSimpleNotificationActionType("simpleNotification"),
 					ActionParameter: v1.SakuraSimpleNotification{
-						ServicePrincipalId:  os.Getenv("SAKURA_SERVICE_PRINCIPAL_ID"),
+						ServicePrincipalId:  os.Getenv("SAKURA_SECURITY_CONTROL_SERVICE_PRINCIPAL_ID"),
 						NotificationGroupId: os.Getenv("SAKURA_SIMPLE_NOTIFICATION_GROUP_ID"),
 					},
 				},
