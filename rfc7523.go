@@ -205,12 +205,13 @@ func (d *doer) newTokenResponse(ctx context.Context, cfg *config) (*tokenRespons
 
 			enc := json.NewEncoder(fp)
 			enc.SetIndent("", "  ")
+			locked, eerr := lock.TryLockContext(ctx, retryDelay)
 			if res, err := d.inquireAccessToken(ctx, cfg); err != nil {
 				return nil, err
 			} else if res.isFake {
 				// This response is not for caching.
 				return res, nil
-			} else if locked, err := lock.TryLockContext(ctx, retryDelay); err != nil {
+			} else if eerr != nil {
 				// lock promotion failed; no write and return
 				return res, nil
 			} else if !locked {
