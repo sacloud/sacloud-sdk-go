@@ -1,6 +1,6 @@
 #====================
 AUTHOR         ?= The sacloud/service-endpoint-gateway-api-go Authors
-COPYRIGHT_YEAR ?= 2022-2026
+COPYRIGHT_YEAR ?= 2026-
 
 BIN            ?= service-endpoint-gateway-api-go 
 GO_FILES       ?= $(shell find . -name '*.go')
