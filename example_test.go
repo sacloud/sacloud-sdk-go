@@ -36,7 +36,7 @@ func Example() {
 		panic(err)
 	}
 
-	constructAPI := seg.NewConstructOp(client)
+	serviceEndpointGatewayAPI := seg.NewServiceEndpointGatewayOp(client)
 	ctx := context.Background()
 
 	// create request
@@ -59,21 +59,21 @@ func Example() {
 	}
 
 	// create call (auto power on after creation)
-	created, err := constructAPI.Create(ctx, createRequest)
+	created, err := serviceEndpointGatewayAPI.Create(ctx, createRequest)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(created)
 
 	// read call
-	read, err := constructAPI.Read(ctx, created.Appliance.ID)
+	read, err := serviceEndpointGatewayAPI.Read(ctx, created.Appliance.ID)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(read)
 
 	// list call
-	listed, err := constructAPI.List(ctx)
+	listed, err := serviceEndpointGatewayAPI.List(ctx)
 	if err != nil {
 		panic(err)
 	}
@@ -119,33 +119,47 @@ func Example() {
 							},
 						},
 					},
+					MonitoringSuite: v1.OptModelsSettingsMonitoringSuiteSettings{
+						Value: v1.ModelsSettingsMonitoringSuiteSettings{
+							Enabled: v1.ModelsSettingsMonitoringSuiteSettingsEnabledTrue,
+						},
+						Set: true,
+					},
+					DNSForwarding: v1.OptModelsSettingsDNSForwardingSettings{
+						Value: v1.ModelsSettingsDNSForwardingSettings{
+							Enabled:           v1.ModelsSettingsDNSForwardingSettingsEnabledTrue,
+							PrivateHostedZone: "your-private-hosted-zone", // "example.com" etc...
+							UpstreamDNS1:      "your-upstream-dns-1",      // "ns1.example.com" etc...
+							UpstreamDNS2:      "your-upstream-dns-2",      // "ns2.example.com" etc...
+						},
+						Set: true,
+					},
 				},
 			},
 		},
 	}
 	// update call (wait until seg instance is up)
-	updated, err := constructAPI.Update(ctx, created.Appliance.ID, updateRequest)
+	updated, err := serviceEndpointGatewayAPI.Update(ctx, created.Appliance.ID, updateRequest)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(updated)
 
 	// apply call(update request is not applied until this call is made)
-	err = constructAPI.Apply(ctx, created.Appliance.ID)
+	err = serviceEndpointGatewayAPI.Apply(ctx, created.Appliance.ID)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(updated)
 
 	// power off before delete (wait until seg instance is up before power off, otherwise power off call will fail)
-	powerAPI := seg.NewPowerOp(client)
-	err = powerAPI.Delete(ctx, created.Appliance.ID)
+	err = serviceEndpointGatewayAPI.Shutdown(ctx, created.Appliance.ID)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println("powered off")
 	// delete
-	if err := constructAPI.Delete(ctx, created.Appliance.ID); err != nil {
+	if err := serviceEndpointGatewayAPI.Delete(ctx, created.Appliance.ID); err != nil {
 		panic(err)
 	}
 	fmt.Println("deleted")

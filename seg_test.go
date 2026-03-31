@@ -16,6 +16,7 @@ package seg_test
 
 import (
 	"context"
+	"errors"
 	"os"
 	"strconv"
 	"testing"
@@ -25,10 +26,10 @@ import (
 	"github.com/sacloud/saclient-go"
 	seg "github.com/sacloud/service-endpoint-gateway-api-go"
 	v1 "github.com/sacloud/service-endpoint-gateway-api-go/apis/v1"
-	seg_testutil "github.com/sacloud/service-endpoint-gateway-api-go/testutil"
+	"github.com/stretchr/testify/assert"
 )
 
-func constructAPISetup(t *testing.T) (ctx context.Context, api seg.ConstructAPI) {
+func segAPISetup(t *testing.T) (ctx context.Context, api seg.ServiceEndpointGatewayAPI) {
 	ctx = t.Context()
 	var saClient saclient.Client
 
@@ -36,27 +37,30 @@ func constructAPISetup(t *testing.T) (ctx context.Context, api seg.ConstructAPI)
 	if err != nil {
 		t.Fatalf("failed to create client: %v", err)
 	}
-	api = seg.NewConstructOp(client)
+	api = seg.NewServiceEndpointGatewayOp(client)
 
 	return ctx, api
 }
 
-func TestConstructOpFULL(t *testing.T) {
-	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET")(t)
-	ctx, constructAPI := constructAPISetup(t)
+func TestOpFULL(t *testing.T) {
+	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET",
+		"SAKURA_SEG_SWITCH_ID", "SAKURA_SEG_SERVER_IP", "SAKURA_SEG_NETMASK_LEN",
+		"SAKURA_SEG_CR_ENDPOINTS", "SAKURA_SEG_MONITORING_ENDPOINTS",
+		"SAKURA_SEG_DNS_PRIVATEZONE", "SAKURA_SEG_DNS_UPSTREAM_SERVER_1", "SAKURA_SEG_DNS_UPSTREAM_SERVER_2")(t)
+	ctx, segAPI := segAPISetup(t)
 
 	// prepare for create (by iaas API)
 	switchID := os.Getenv("SAKURA_SEG_SWITCH_ID")
 	serverIPAddress := os.Getenv("SAKURA_SEG_SERVER_IP")
 
-	//netmask length for construct instance, should be between 1 and 32
+	// netmask length for construct instance, should be between 1 and 32
 	networkMaskLen, err := strconv.ParseInt(os.Getenv("SAKURA_SEG_NETMASK_LEN"), 10, 32)
 	int32NetworkMaskLen := int32(networkMaskLen)
 	if err != nil {
 		t.Fatalf("invalid SAKURA_SEG_NETMASK_LEN(valid:1-32): %v", err)
 	}
 
-	//create seg instance id for control and cleanup in defer
+	// create seg instance id for control and cleanup in defer
 	id := ""
 
 	result := t.Run("Create", func(t *testing.T) {
@@ -77,7 +81,7 @@ func TestConstructOpFULL(t *testing.T) {
 				},
 			},
 		}
-		resp, err := constructAPI.Create(ctx, request)
+		resp, err := segAPI.Create(ctx, request)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
@@ -86,15 +90,7 @@ func TestConstructOpFULL(t *testing.T) {
 		}
 		id = resp.Appliance.ID
 
-		// wait until instance is up
-		waitDownCtx := context.Background()
-		withTimeout, cancel := context.WithTimeout(waitDownCtx, 3*time.Minute)
-		defer cancel()
-		checkInterval := 5 * time.Second
-
-		err = seg_testutil.WaitUntil(withTimeout, checkInterval, func(ctx context.Context) (bool, error) {
-			return checkInstanceStatus(ctx, constructAPI, id, v1.ModelsInstanceInstanceStatusUp)
-		})
+		err = waitForInstanceStatus(t, ctx, segAPI, id, v1.ModelsInstanceInstanceStatusUp)
 		if err != nil {
 			t.Fatalf("instance did not become up in time: %v", err)
 		}
@@ -102,7 +98,7 @@ func TestConstructOpFULL(t *testing.T) {
 
 	defer func() {
 		if id != "" {
-			err := deleteConstruct(t, ctx, constructAPI, id)
+			err := delete(t, ctx, segAPI, id)
 			if err != nil {
 				t.Fatalf("unexpected error on delete: %v", err)
 			}
@@ -115,7 +111,7 @@ func TestConstructOpFULL(t *testing.T) {
 	}
 
 	t.Run("List", func(t *testing.T) {
-		resp, err := constructAPI.List(ctx)
+		resp, err := segAPI.List(ctx)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
@@ -124,7 +120,7 @@ func TestConstructOpFULL(t *testing.T) {
 		}
 	})
 	t.Run("Read", func(t *testing.T) {
-		resp, err := constructAPI.Read(ctx, id)
+		resp, err := segAPI.Read(ctx, id)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
@@ -134,7 +130,7 @@ func TestConstructOpFULL(t *testing.T) {
 	})
 	t.Run("ReadInterface", func(t *testing.T) {
 		interfaceID := "1"
-		resp, err := constructAPI.ReadInterface(ctx, id, interfaceID)
+		resp, err := segAPI.ReadInterface(ctx, id, interfaceID)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
@@ -146,6 +142,9 @@ func TestConstructOpFULL(t *testing.T) {
 	t.Run("Update and Apply", func(t *testing.T) {
 		crEndpoints := os.Getenv("SAKURA_SEG_CR_ENDPOINTS")
 		monitorEndpoint := os.Getenv("SAKURA_SEG_MONITORING_ENDPOINTS")
+		dnsPrivateZone := os.Getenv("SAKURA_SEG_DNS_PRIVATEZONE")
+		dnsUpstreamServer1 := os.Getenv("SAKURA_SEG_DNS_UPSTREAM_SERVER_1")
+		dnsUpstreamServer2 := os.Getenv("SAKURA_SEG_DNS_UPSTREAM_SERVER_2")
 		settings := v1.ModelsSettingsApplianceSettings{
 			ServiceEndpointGateway: v1.ModelsSettingsServiceEndpointGatewaySettings{
 				EnabledServices: []v1.ModelsSettingsEnabledService{
@@ -185,6 +184,21 @@ func TestConstructOpFULL(t *testing.T) {
 						},
 					},
 				},
+				MonitoringSuite: v1.OptModelsSettingsMonitoringSuiteSettings{
+					Value: v1.ModelsSettingsMonitoringSuiteSettings{
+						Enabled: v1.ModelsSettingsMonitoringSuiteSettingsEnabledTrue,
+					},
+					Set: true,
+				},
+				DNSForwarding: v1.OptModelsSettingsDNSForwardingSettings{
+					Value: v1.ModelsSettingsDNSForwardingSettings{
+						Enabled:           v1.ModelsSettingsDNSForwardingSettingsEnabledTrue,
+						PrivateHostedZone: dnsPrivateZone,
+						UpstreamDNS1:      dnsUpstreamServer1,
+						UpstreamDNS2:      dnsUpstreamServer2,
+					},
+					Set: true,
+				},
 			},
 		}
 
@@ -193,7 +207,7 @@ func TestConstructOpFULL(t *testing.T) {
 				Settings: settings,
 			},
 		}
-		resp, err := constructAPI.Update(ctx, id, request)
+		resp, err := segAPI.Update(ctx, id, request)
 		if err != nil {
 			t.Fatalf("unexpected error: %v", err)
 		}
@@ -201,14 +215,58 @@ func TestConstructOpFULL(t *testing.T) {
 			t.Fatal("expected response but got nil")
 		}
 
-		err = constructAPI.Apply(ctx, id)
+		err = segAPI.Apply(ctx, id)
 		if err != nil {
 			t.Fatalf("unexpected error on apply: %v", err)
 		}
+		res, err := segAPI.Read(ctx, id)
+		if err != nil {
+			t.Fatalf("unexpected error on read: %v", err)
+		}
+		if res == nil {
+			t.Fatal("expected response but got nil")
+		}
+		assert.Equal(t, settings.ServiceEndpointGateway.EnabledServices, res.Appliance.Settings.Value.ServiceEndpointGateway.EnabledServices)
+	})
+	t.Run("Shutdown and PowerOn", func(t *testing.T) {
+		err := segAPI.Shutdown(ctx, id)
+		if err != nil {
+			t.Fatalf("unexpected error on shutdown: %v", err)
+		}
+		err = waitForInstanceStatus(t, ctx, segAPI, id, v1.ModelsInstanceInstanceStatusDown)
+		if err != nil {
+			t.Fatalf("instance did not become down in time: %v", err)
+		}
+		_, err = segAPI.PowerOn(ctx, id)
+		if err != nil {
+			t.Fatalf("unexpected error on power on: %v", err)
+		}
+		err = waitForInstanceStatus(t, ctx, segAPI, id, v1.ModelsInstanceInstanceStatusUp)
+		if err != nil {
+			t.Fatalf("instance did not become up in time: %v", err)
+		}
+	})
+
+	t.Run("Reset", func(t *testing.T) {
+		err := segAPI.Reset(ctx, id)
+		if err != nil {
+			t.Fatalf("unexpected error on reset: %v", err)
+		}
+	})
+
+	t.Run("GetPowerStatus", func(t *testing.T) {
+		resp, err := segAPI.ReadPowerStatus(ctx, id)
+		if err != nil {
+			t.Fatalf("unexpected error on get power status: %v", err)
+		}
+		if resp == nil {
+			t.Fatal("expected response but got nil")
+		}
+		assert.Equal(t, v1.ModelsInstanceInstanceForPowerStatusUp, resp.Instance.Status)
 	})
 
 	t.Run("Delete", func(t *testing.T) {
-		err := deleteConstruct(t, ctx, constructAPI, id)
+		err := delete(t, ctx, segAPI, id)
 		if err != nil {
 			t.Fatalf("unexpected error on delete: %v", err)
 		}
@@ -216,31 +274,56 @@ func TestConstructOpFULL(t *testing.T) {
 	})
 }
 
-func deleteConstruct(t *testing.T, ctx context.Context, api seg.ConstructAPI, id string) error {
-	_, powerAPI := powerAPISetup(t)
-	err := powerAPI.Delete(ctx, id)
+func delete(t *testing.T, ctx context.Context, api seg.ServiceEndpointGatewayAPI, id string) error {
+	needShutdown, err := checkInstanceStatus(t, ctx, api, id, v1.ModelsInstanceInstanceStatusUp)
 	if err != nil {
-		t.Fatalf("unexpected error on power delete: %v", err)
+		t.Logf("Failed to check instance status before delete, attempting shutdown just in case: %v", err)
+		return err
 	}
-
-	waitDownCtx := context.Background()
-	withTimeout, cancel := context.WithTimeout(waitDownCtx, 3*time.Minute)
-	defer cancel()
-
-	checkInterval := 5 * time.Second
-	err = seg_testutil.WaitUntil(withTimeout, checkInterval, func(ctx context.Context) (bool, error) {
-		return checkInstanceStatus(ctx, api, id, v1.ModelsInstanceInstanceStatusDown)
-	})
-	if err != nil {
-		t.Fatalf("instance did not become down in time: %v", err)
+	if needShutdown {
+		err := api.Shutdown(ctx, id)
+		if err != nil {
+			t.Logf("Failed to shutdown instance before delete: %v", err)
+			return err
+		}
+		err = waitForInstanceStatus(t, ctx, api, id, v1.ModelsInstanceInstanceStatusDown)
+		if err != nil {
+			t.Logf("Instance did not become down in time before delete: %v", err)
+			return err
+		}
 	}
 	return api.Delete(ctx, id)
 }
 
-func checkInstanceStatus(ctx context.Context, api seg.ConstructAPI, id string,
-	status v1.ModelsInstanceInstanceStatus) (bool, error) {
+func waitForInstanceStatus(t *testing.T, ctx context.Context, api seg.ServiceEndpointGatewayAPI, id string, status v1.ModelsInstanceInstanceStatus) error {
+	withTimeout, cancel := context.WithTimeout(ctx, 5*time.Minute)
+	defer cancel()
+
+	ticker := time.NewTicker(5 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		ok, err := checkInstanceStatus(t, ctx, api, id, status)
+		if err != nil {
+			return err
+		}
+		if ok {
+			return nil // desired status reached
+		}
+		select {
+		case <-withTimeout.Done():
+			return errors.New("timeout waiting for condition")
+		case <-ticker.C:
+			// retry
+		}
+	}
+}
+
+func checkInstanceStatus(t *testing.T, ctx context.Context, api seg.ServiceEndpointGatewayAPI, id string,
+	requestStatus v1.ModelsInstanceInstanceStatus) (bool, error) {
 	resp, err := api.Read(ctx, id)
 	if err != nil {
+		t.Errorf("failed to read instance status: %v", err)
 		return false, err
 	}
 	if resp == nil {
@@ -250,5 +333,5 @@ func checkInstanceStatus(ctx context.Context, api seg.ConstructAPI, id string,
 	if !set {
 		return false, nil
 	}
-	return currentStatus == status, nil
+	return currentStatus == requestStatus, nil
 }
