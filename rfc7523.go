@@ -238,5 +238,5 @@ func (r *tokenResponse) HTTPAuthorizationHeader() string {
 func (c *cachedTokenResponse) isExpired() bool {
 	expiresIn := time.Duration(c.Token.ExpiresIn) * time.Second
 	expiresAt := c.CachedAt.Add(expiresIn)
-	return time.Now().Add(-skew).After(expiresAt)
+	return time.Now().Add(skew).After(expiresAt)
 }
