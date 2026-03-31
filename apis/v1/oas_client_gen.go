@@ -206,8 +206,7 @@ func (c *Client) sendSegApply(ctx context.Context, request OptModelsApplianceApp
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegApplyResponse(resp)
 	if err != nil {
@@ -255,8 +254,7 @@ func (c *Client) sendSegCreate(ctx context.Context, request *ModelsApplianceAppl
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegCreateResponse(resp)
 	if err != nil {
@@ -310,8 +308,7 @@ func (c *Client) sendSegDelete(ctx context.Context, params SegDeleteParams) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegDeleteResponse(resp)
 	if err != nil {
@@ -365,8 +362,7 @@ func (c *Client) sendSegGet(ctx context.Context, params SegGetParams) (res *Mode
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegGetResponse(resp)
 	if err != nil {
@@ -439,8 +435,7 @@ func (c *Client) sendSegInterfaceGetInterface(ctx context.Context, params SegInt
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegInterfaceGetInterfaceResponse(resp)
 	if err != nil {
@@ -476,8 +471,7 @@ func (c *Client) sendSegList(ctx context.Context) (res *ModelsApplianceAppliance
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegListResponse(resp)
 	if err != nil {
@@ -535,8 +529,7 @@ func (c *Client) sendSegStatusDeletePowerStatus(ctx context.Context, request Opt
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegStatusDeletePowerStatusResponse(resp)
 	if err != nil {
@@ -591,8 +584,7 @@ func (c *Client) sendSegStatusGetPowerStatus(ctx context.Context, params SegStat
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegStatusGetPowerStatusResponse(resp)
 	if err != nil {
@@ -647,8 +639,7 @@ func (c *Client) sendSegStatusResetPowerStatus(ctx context.Context, params SegSt
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegStatusResetPowerStatusResponse(resp)
 	if err != nil {
@@ -703,8 +694,7 @@ func (c *Client) sendSegStatusUpdatePowerStatus(ctx context.Context, params SegS
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegStatusUpdatePowerStatusResponse(resp)
 	if err != nil {
@@ -771,8 +761,7 @@ func (c *Client) sendSegUpdate(ctx context.Context, request *ModelsApplianceAppl
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	body := resp.Body
-	defer body.Close()
+	defer resp.Body.Close()
 
 	result, err := decodeSegUpdateResponse(resp)
 	if err != nil {

@@ -973,11 +973,6 @@ func (s *NilModelsNetworkUserSubnet) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) SetFake() {
-	s.Null = true
-}
-
-// SetFake set fake values.
 func (s *NilModelsRemarkApplianceRemark) SetFake() {
 	s.Null = true
 }

@@ -1747,13 +1747,13 @@ func (s *ModelsPowerApplianceGetPowerStatusResponseBody) SetIsOk(val bool) {
 
 // Ref: #/components/schemas/Models.Power.ApplianceUpdatePowerStatusResponseBody
 type ModelsPowerApplianceUpdatePowerStatusResponseBody struct {
-	Success NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess `json:"Success"`
+	Success ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess `json:"Success"`
 	// 操作結果.
 	IsOk bool `json:"is_ok"`
 }
 
 // GetSuccess returns the value of Success.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) GetSuccess() NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess {
+func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) GetSuccess() ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess {
 	return s.Success
 }
 
@@ -1763,7 +1763,7 @@ func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) GetIsOk() bool {
 }
 
 // SetSuccess sets the value of Success.
-func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) SetSuccess(val NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) {
+func (s *ModelsPowerApplianceUpdatePowerStatusResponseBody) SetSuccess(val ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) {
 	s.Success = val
 }
 
@@ -2716,51 +2716,6 @@ func (o NilModelsNetworkUserSubnet) Get() (v ModelsNetworkUserSubnet, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilModelsNetworkUserSubnet) Or(d ModelsNetworkUserSubnet) ModelsNetworkUserSubnet {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewNilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess returns new NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess with value set to v.
-func NewNilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess(v ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess {
-	return NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess{
-		Value: v,
-	}
-}
-
-// NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess is nullable ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess.
-type NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess struct {
-	Value ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) SetTo(v ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) SetToNull() {
-	o.Null = true
-	var v ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) Get() (v ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) Or(d ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess) ModelsPowerApplianceUpdatePowerStatusResponseBodySuccess {
 	if v, ok := o.Get(); ok {
 		return v
 	}
