@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.3.5](https://github.com/sacloud/saclient-go/compare/v0.3.4...v0.3.5) - 2026-04-01
+- bug: token expiration skew: wrong direction by @shyouhei in https://github.com/sacloud/saclient-go/pull/90
+- bug: promote lock before requesting a token by @shyouhei in https://github.com/sacloud/saclient-go/pull/91
+
 ## [v0.3.4](https://github.com/sacloud/saclient-go/compare/v0.3.3...v0.3.4) - 2026-03-19
 - Avoid dereference when response is nil by @shyouhei in https://github.com/sacloud/saclient-go/pull/88
 
