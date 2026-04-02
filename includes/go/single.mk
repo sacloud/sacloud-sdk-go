@@ -15,8 +15,8 @@
 #
 
 GO             ?= go
-BIN            ?= TODO_PLEASE_SET_BIN_VARIABLE
-GO_ENTRY_FILE  ?= main.go
+BIN            ?= bin/example.exe
+GO_ENTRY_FILE  ?= example/main.go
 GO_FILES       ?= $(shell find . -name '*.go')
 BUILD_LDFLAGS  ?=
 
