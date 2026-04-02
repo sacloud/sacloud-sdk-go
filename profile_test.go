@@ -17,6 +17,7 @@ package saclient_test
 import (
 	"encoding/json"
 	"os"
+	"runtime"
 	"testing"
 
 	. "github.com/sacloud/saclient-go"
@@ -37,12 +38,20 @@ func (s *ProfileTestSuite) SetupSuite() {
 	// Note that `s.T().TempDir()` is removed every time after a _test_, not afrer a suite.
 	if dir, err := os.MkdirTemp(os.TempDir(), "profile_test"); err != nil {
 		s.T().Fatal(err)
-	} else if home, ok := os.LookupEnv("HOME"); !ok {
-		s.T().Fatal("$HOME is not set")
+	} else if home, err := os.UserHomeDir(); err != nil {
+		s.T().Fatal("unable to determine home directory:", err)
 	} else {
 		s.dir = dir
 		s.home = home
-		if err := os.Setenv("HOME", s.dir); err != nil {
+
+		var envkey string
+		switch runtime.GOOS {
+		case "windows":
+			envkey = "USERPROFILE"
+		default:
+			envkey = "HOME"
+		}
+		if err := os.Setenv(envkey, s.dir); err != nil {
 			s.T().Fatal(err)
 		}
 
