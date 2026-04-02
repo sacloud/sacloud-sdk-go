@@ -40,7 +40,7 @@ dev-tools:
 	$(GO) install golang.org/x/tools/cmd/stringer@latest
 	$(GO) install github.com/sacloud/addlicense@latest
 	$(GO) install github.com/client9/misspell/cmd/misspell@latest
-	$(GO) install github.com/google/go-licenses@v1.0.0
+	$(GO) install github.com/google/go-licenses/v2@v2.0.1
 	$(GO) install github.com/rhysd/actionlint/cmd/actionlint@latest
 	$(GO) install golang.org/x/vuln/cmd/govulncheck@latest
 	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin $(GOLANG_CI_LINT_VERSION)
@@ -85,7 +85,7 @@ set-license:
 .PHONY: go-licenses-check
 go-licenses-check:
 	@echo "running go-licenses..."
-	@go-licenses check .
+	@go-licenses check . --ignore github.com/segmentio/asm
 
 .PHONY: vulncheck
 vulncheck:

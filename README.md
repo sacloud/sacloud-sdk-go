@@ -1,39 +1,22 @@
-# sacloud/go-template
+# sacloud/service-endpoint-gateway-api-go
+[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/service-endpoint-gateway-api-go.svg)](https://pkg.go.dev/github.com/sacloud/service-endpoint-gateway-api-go)
+[![Tests](https://github.com/sacloud/service-endpoint-gateway-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/service-endpoint-gateway-api-go/actions/workflows/tests.yaml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/service-endpoint-gateway-api-go)](https://goreportcard.com/report/github.com/sacloud/service-endpoint-gateway-api-go)
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/go-template.svg)](https://pkg.go.dev/github.com/sacloud/go-template)
-[![Tests](https://github.com/sacloud/go-template/workflows/Tests/badge.svg)](https://github.com/sacloud/go-template/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/go-template)](https://goreportcard.com/report/github.com/sacloud/go-template)
+さくらのクラウド サービスエンドポイントゲートウェイ Go言語向け APIライブラリ
 
-さくらのクラウド向けOSSプロダクトでのプロジェクトテンプレート(Go)
+マニュアル: https://manual.sakura.ad.jp/cloud/network/switch/seg.html
+
 
 ## 概要
+sacloud/service-endpoint-gateway-api-goはさくらのクラウド サービスエンドポイントゲートウェイ APIをGo言語から利用するためのAPIライブラリです。
 
-さくらのクラウド向けOSSプロダクトでGo言語を中心に用いるプロジェクトのためのテンプレート
+Note: このライブラリはサービスエンドポイントゲートウェイ関連のAPIのみを扱います。サーバおよびスイッチの作成や操作はサポートしていないため必要に応じて [sacloud/iaas-api-go](https://github.com/sacloud/iaas-api-go)と組み合わせてご利用ください。
 
-## 使い方
+## 利用イメージ
+利用例: [example_test.go](./example_test.go)
+:warning:  v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
-GitHubでリポジトリを作成する際にテンプレートとしてsacloud/go-templateを選択して作成します。  
-![テンプレートの選択](docs/new_repo.png)
-
-次に`go-teplate`という文字列を自身のプロジェクトのものに置き換えてください。
-
-例: exampleという名前のプロジェクトを作成する場合
-
-```bash
-# 作成したプロジェクトのディレクトリに移動
-cd example
-# 置き換え
-find . -type f | xargs sed -i '' -e "s/go-template/example/g"
-```
-
-### DockerイメージをGitHub Container Registryで公開する際の注意点
-
-デフォルトでは`CR_PAT`が渡されないためGitHub Actionsでのイメージのビルド/プッシュに失敗します。
-また、パッケージを公開したい場合は初回のみ手作業が必要です。
-
-このためDockerイメージをGitHub Container Registryで公開したい場合はオーガニゼーション管理者にご相談ください。
-
-## License
-
-`go-template` Copyright (C) 2022-2026 The sacloud/go-template authors.
+# Licence
+`service-endpoint-gateway-api-go` Copyright (C) 2026- The sacloud/service-endpoint-gateway-api-go authors.
 This project is published under [Apache 2.0 License](LICENSE).

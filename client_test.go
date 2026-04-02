@@ -1,4 +1,4 @@
-// Copyright 2022-2026 The sacloud/go-template Authors
+// Copyright 2026- The sacloud/service-endpoint-gateway-api-go Authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,21 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package version
+package seg_test
 
 import (
-	"fmt"
-	"runtime"
+	"testing"
+
+	"github.com/sacloud/saclient-go"
+	seg "github.com/sacloud/service-endpoint-gateway-api-go"
+	"github.com/stretchr/testify/require"
 )
 
-var (
-	// Version app version
-	Version = "0.0.0"
-	// Revision git commit short commit hash
-	Revision = "xxxxxx" // set on build time
-)
+func TestNewClient(t *testing.T) {
+	assert := require.New(t)
 
-// FullVersion return full version text
-func FullVersion() string {
-	return fmt.Sprintf("v%s %s/%s, build %s", Version, runtime.GOOS, runtime.GOARCH, Revision)
+	var theClient saclient.Client
+	actual, err := seg.NewClient(&theClient)
+	assert.NoError(err)
+	assert.NotNil(actual)
 }
