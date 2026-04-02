@@ -17,6 +17,8 @@ package saclient_test
 import (
 	"encoding/json"
 	"os"
+	"path/filepath"
+	"runtime"
 	"testing"
 
 	. "github.com/sacloud/saclient-go"
@@ -37,12 +39,20 @@ func (s *ProfileTestSuite) SetupSuite() {
 	// Note that `s.T().TempDir()` is removed every time after a _test_, not afrer a suite.
 	if dir, err := os.MkdirTemp(os.TempDir(), "profile_test"); err != nil {
 		s.T().Fatal(err)
-	} else if home, ok := os.LookupEnv("HOME"); !ok {
-		s.T().Fatal("$HOME is not set")
+	} else if home, err := os.UserHomeDir(); err != nil {
+		s.T().Fatal("unable to determine home directory:", err)
 	} else {
 		s.dir = dir
 		s.home = home
-		if err := os.Setenv("HOME", s.dir); err != nil {
+
+		var envkey string
+		switch runtime.GOOS {
+		case "windows":
+			envkey = "USERPROFILE"
+		default:
+			envkey = "HOME"
+		}
+		if err := os.Setenv(envkey, s.dir); err != nil {
 			s.T().Fatal(err)
 		}
 
@@ -324,5 +334,6 @@ func (s *ProfileTestSuite) TestProfile_GetCacheFilePath() {
 	path, err := subject.GetCacheFilePath(nil, nil)
 	s.NoError(err)
 	s.NotEmpty(path)
-	s.Equal(s.dir+"/.usacloud/usacloud/cache/5f20028ef6763408a4dd438db2b0e3a6e7455b82195335f04204b0662345a132.json", path)
+	expected := filepath.Join(s.dir, ".usacloud", "usacloud", "cache", "5f20028ef6763408a4dd438db2b0e3a6e7455b82195335f04204b0662345a132.json")
+	s.Equal(expected, path)
 }
