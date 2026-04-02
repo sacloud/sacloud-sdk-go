@@ -592,7 +592,7 @@ func (s *ClientTestSuite) TestProfileName() {
 		dir, name := subject.ProfileName()
 		s.NotNil(name)
 		s.NotNil(dir)
-		s.Equal(os.Getenv("XDG_CONFIG_HOME")+"/usacloud", *dir)
+		s.Equal(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "usacloud"), *dir)
 		s.Equal("usacloud", *name)
 	})
 
@@ -605,7 +605,7 @@ func (s *ClientTestSuite) TestProfileName() {
 		s.ErrorContains(err, "failed to parse")
 		dir, name := subject.ProfileName()
 		s.Equal("broken", *name)
-		s.Equal(os.Getenv("XDG_CONFIG_HOME")+"/usacloud", *dir)
+		s.Equal(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "usacloud"), *dir)
 	})
 
 	s.Run("Specified, but not found", func() {
@@ -617,7 +617,7 @@ func (s *ClientTestSuite) TestProfileName() {
 		s.ErrorContains(err, "failed to open")
 		dir, name := subject.ProfileName()
 		s.Equal("nonexistent", *name)
-		s.Equal(os.Getenv("XDG_CONFIG_HOME")+"/usacloud", *dir)
+		s.Equal(filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "usacloud"), *dir)
 	})
 
 	s.Run("unspecified", func() {
