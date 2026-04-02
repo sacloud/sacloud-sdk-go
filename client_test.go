@@ -26,6 +26,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"runtime"
 	"testing"
 	"time"
@@ -177,7 +178,7 @@ func (s *ClientTestSuite) SetupSuite() {
 			"TraceMode": "",
 			"Zone":"usacloud",
 			"PrivateKeyPEMPath":"%s/usacloud/usacloud/usamin.pem"
-		}`, dir)),
+		}`, filepath.ToSlash(dir))),
 		0o600,
 	)
 
