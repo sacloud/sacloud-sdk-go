@@ -17,6 +17,7 @@ package saclient_test
 import (
 	"encoding/json"
 	"os"
+	"path/filepath"
 	"runtime"
 	"testing"
 
@@ -333,5 +334,6 @@ func (s *ProfileTestSuite) TestProfile_GetCacheFilePath() {
 	path, err := subject.GetCacheFilePath(nil, nil)
 	s.NoError(err)
 	s.NotEmpty(path)
-	s.Equal(s.dir+"/.usacloud/usacloud/cache/5f20028ef6763408a4dd438db2b0e3a6e7455b82195335f04204b0662345a132.json", path)
+	expected := filepath.Join(s.dir, ".usacloud", "usacloud", "cache", "5f20028ef6763408a4dd438db2b0e3a6e7455b82195335f04204b0662345a132.json")
+	s.Equal(expected, path)
 }
