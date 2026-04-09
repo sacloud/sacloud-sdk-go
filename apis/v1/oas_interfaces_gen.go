@@ -117,6 +117,10 @@ type FoldersPostRes interface {
 	foldersPostRes()
 }
 
+type GetAuthContextRes interface {
+	getAuthContextRes()
+}
+
 type GroupsGetRes interface {
 	groupsGetRes()
 }
@@ -271,6 +275,30 @@ type SSOProfilesSSOProfileIDPutRes interface {
 
 type SSOProfilesSSOProfileIDUnassignPostRes interface {
 	sSOProfilesSSOProfileIDUnassignPostRes()
+}
+
+type ScimConfigurationsGetRes interface {
+	scimConfigurationsGetRes()
+}
+
+type ScimConfigurationsIDDeleteRes interface {
+	scimConfigurationsIDDeleteRes()
+}
+
+type ScimConfigurationsIDGetRes interface {
+	scimConfigurationsIDGetRes()
+}
+
+type ScimConfigurationsIDPutRes interface {
+	scimConfigurationsIDPutRes()
+}
+
+type ScimConfigurationsIDRegenerateTokenPostRes interface {
+	scimConfigurationsIDRegenerateTokenPostRes()
+}
+
+type ScimConfigurationsPostRes interface {
+	scimConfigurationsPostRes()
 }
 
 type ServicePolicyRuleTemplatesGetRes interface {

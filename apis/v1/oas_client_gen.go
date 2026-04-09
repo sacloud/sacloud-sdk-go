@@ -23,31 +23,31 @@ func trimTrailingSlashes(u *url.URL) {
 type Invoker interface {
 	// CompatAPIKeysApikeyIDDelete invokes DELETE /compat/api-keys/{apikey_id} operation.
 	//
-	// 指定したAPIキーを削除する.
+	// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 	//
 	// DELETE /compat/api-keys/{apikey_id}
 	CompatAPIKeysApikeyIDDelete(ctx context.Context, params CompatAPIKeysApikeyIDDeleteParams) (CompatAPIKeysApikeyIDDeleteRes, error)
 	// CompatAPIKeysApikeyIDGet invokes GET /compat/api-keys/{apikey_id} operation.
 	//
-	// 指定したAPIキーを取得する.
+	// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 	//
 	// GET /compat/api-keys/{apikey_id}
 	CompatAPIKeysApikeyIDGet(ctx context.Context, params CompatAPIKeysApikeyIDGetParams) (CompatAPIKeysApikeyIDGetRes, error)
 	// CompatAPIKeysApikeyIDPut invokes PUT /compat/api-keys/{apikey_id} operation.
 	//
-	// 指定したAPIキーを更新する.
+	// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 	//
 	// PUT /compat/api-keys/{apikey_id}
 	CompatAPIKeysApikeyIDPut(ctx context.Context, request *CompatAPIKeysApikeyIDPutReq, params CompatAPIKeysApikeyIDPutParams) (CompatAPIKeysApikeyIDPutRes, error)
 	// CompatAPIKeysGet invokes GET /compat/api-keys operation.
 	//
-	// APIキー一覧を取得する.
+	// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 	//
 	// GET /compat/api-keys
 	CompatAPIKeysGet(ctx context.Context, params CompatAPIKeysGetParams) (CompatAPIKeysGetRes, error)
 	// CompatAPIKeysPost invokes POST /compat/api-keys operation.
 	//
-	// APIキーを作成する.
+	// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 	//
 	// POST /compat/api-keys
 	CompatAPIKeysPost(ctx context.Context, request *CompatAPIKeysPostReq) (CompatAPIKeysPostRes, error)
@@ -195,6 +195,12 @@ type Invoker interface {
 	//
 	// POST /folders
 	FoldersPost(ctx context.Context, request *FoldersPostReq) (FoldersPostRes, error)
+	// GetAuthContext invokes GetAuthContext operation.
+	//
+	// APIキーとサービスプリンシパルが操作可能なプロジェクトのIDを取得する。usacloudなどOSSプロダクトからの利用を想定としたAPI。.
+	//
+	// GET /auth/context
+	GetAuthContext(ctx context.Context) (GetAuthContextRes, error)
 	// GroupsGet invokes GET /groups operation.
 	//
 	// グループ一覧を取得する.
@@ -429,6 +435,42 @@ type Invoker interface {
 	//
 	// POST /sso-profiles/{sso_profile_id}/unassign
 	SSOProfilesSSOProfileIDUnassignPost(ctx context.Context, params SSOProfilesSSOProfileIDUnassignPostParams) (SSOProfilesSSOProfileIDUnassignPostRes, error)
+	// ScimConfigurationsGet invokes GET /scim-configurations operation.
+	//
+	// ユーザープロビジョニングを取得する.
+	//
+	// GET /scim-configurations
+	ScimConfigurationsGet(ctx context.Context, params ScimConfigurationsGetParams) (ScimConfigurationsGetRes, error)
+	// ScimConfigurationsIDDelete invokes DELETE /scim-configurations/{id} operation.
+	//
+	// ユーザープロビジョニングを削除する.
+	//
+	// DELETE /scim-configurations/{id}
+	ScimConfigurationsIDDelete(ctx context.Context, params ScimConfigurationsIDDeleteParams) (ScimConfigurationsIDDeleteRes, error)
+	// ScimConfigurationsIDGet invokes GET /scim-configurations/{id} operation.
+	//
+	// ユーザープロビジョニングを取得する.
+	//
+	// GET /scim-configurations/{id}
+	ScimConfigurationsIDGet(ctx context.Context, params ScimConfigurationsIDGetParams) (ScimConfigurationsIDGetRes, error)
+	// ScimConfigurationsIDPut invokes PUT /scim-configurations/{id} operation.
+	//
+	// ユーザープロビジョニングを更新する.
+	//
+	// PUT /scim-configurations/{id}
+	ScimConfigurationsIDPut(ctx context.Context, request *ScimConfigurationsIDPutReq, params ScimConfigurationsIDPutParams) (ScimConfigurationsIDPutRes, error)
+	// ScimConfigurationsIDRegenerateTokenPost invokes POST /scim-configurations/{id}/regenerate-token operation.
+	//
+	// この操作によって既にあるシークレットトークンは無効化されます。ユーザープロビジョニングのクライアント側に新しいシークレットトークンを再設定する必要があります。.
+	//
+	// POST /scim-configurations/{id}/regenerate-token
+	ScimConfigurationsIDRegenerateTokenPost(ctx context.Context, params ScimConfigurationsIDRegenerateTokenPostParams) (ScimConfigurationsIDRegenerateTokenPostRes, error)
+	// ScimConfigurationsPost invokes POST /scim-configurations operation.
+	//
+	// ユーザープロビジョニングを作成する.
+	//
+	// POST /scim-configurations
+	ScimConfigurationsPost(ctx context.Context, request *ScimConfigurationsPostReq) (ScimConfigurationsPostRes, error)
 	// ServicePolicyRuleTemplatesGet invokes GET /service-policy-rule-templates operation.
 	//
 	// ルールテンプレートの一覧を取得する.
@@ -570,7 +612,7 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 
 // CompatAPIKeysApikeyIDDelete invokes DELETE /compat/api-keys/{apikey_id} operation.
 //
-// 指定したAPIキーを削除する.
+// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 //
 // DELETE /compat/api-keys/{apikey_id}
 func (c *Client) CompatAPIKeysApikeyIDDelete(ctx context.Context, params CompatAPIKeysApikeyIDDeleteParams) (CompatAPIKeysApikeyIDDeleteRes, error) {
@@ -613,13 +655,13 @@ func (c *Client) sendCompatAPIKeysApikeyIDDelete(ctx context.Context, params Com
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatAPIKeysApikeyIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatAPIKeysApikeyIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -657,7 +699,7 @@ func (c *Client) sendCompatAPIKeysApikeyIDDelete(ctx context.Context, params Com
 
 // CompatAPIKeysApikeyIDGet invokes GET /compat/api-keys/{apikey_id} operation.
 //
-// 指定したAPIキーを取得する.
+// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 //
 // GET /compat/api-keys/{apikey_id}
 func (c *Client) CompatAPIKeysApikeyIDGet(ctx context.Context, params CompatAPIKeysApikeyIDGetParams) (CompatAPIKeysApikeyIDGetRes, error) {
@@ -700,13 +742,13 @@ func (c *Client) sendCompatAPIKeysApikeyIDGet(ctx context.Context, params Compat
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatAPIKeysApikeyIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatAPIKeysApikeyIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -744,7 +786,7 @@ func (c *Client) sendCompatAPIKeysApikeyIDGet(ctx context.Context, params Compat
 
 // CompatAPIKeysApikeyIDPut invokes PUT /compat/api-keys/{apikey_id} operation.
 //
-// 指定したAPIキーを更新する.
+// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 //
 // PUT /compat/api-keys/{apikey_id}
 func (c *Client) CompatAPIKeysApikeyIDPut(ctx context.Context, request *CompatAPIKeysApikeyIDPutReq, params CompatAPIKeysApikeyIDPutParams) (CompatAPIKeysApikeyIDPutRes, error) {
@@ -799,13 +841,13 @@ func (c *Client) sendCompatAPIKeysApikeyIDPut(ctx context.Context, request *Comp
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatAPIKeysApikeyIDPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatAPIKeysApikeyIDPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -843,7 +885,7 @@ func (c *Client) sendCompatAPIKeysApikeyIDPut(ctx context.Context, request *Comp
 
 // CompatAPIKeysGet invokes GET /compat/api-keys operation.
 //
-// APIキー一覧を取得する.
+// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 //
 // GET /compat/api-keys
 func (c *Client) CompatAPIKeysGet(ctx context.Context, params CompatAPIKeysGetParams) (CompatAPIKeysGetRes, error) {
@@ -922,13 +964,13 @@ func (c *Client) sendCompatAPIKeysGet(ctx context.Context, params CompatAPIKeysG
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatAPIKeysGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatAPIKeysGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -966,7 +1008,7 @@ func (c *Client) sendCompatAPIKeysGet(ctx context.Context, params CompatAPIKeysG
 
 // CompatAPIKeysPost invokes POST /compat/api-keys operation.
 //
-// APIキーを作成する.
+// サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。.
 //
 // POST /compat/api-keys
 func (c *Client) CompatAPIKeysPost(ctx context.Context, request *CompatAPIKeysPostReq) (CompatAPIKeysPostRes, error) {
@@ -1003,13 +1045,13 @@ func (c *Client) sendCompatAPIKeysPost(ctx context.Context, request *CompatAPIKe
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatAPIKeysPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatAPIKeysPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1126,13 +1168,13 @@ func (c *Client) sendCompatUsersGet(ctx context.Context, params CompatUsersGetPa
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1207,13 +1249,13 @@ func (c *Client) sendCompatUsersPost(ctx context.Context, request *CompatUsersPo
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1295,13 +1337,13 @@ func (c *Client) sendCompatUsersUserIDClearTrustedDevicesPost(ctx context.Contex
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDClearTrustedDevicesPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDClearTrustedDevicesPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1383,13 +1425,13 @@ func (c *Client) sendCompatUsersUserIDDeactivateOtpPost(ctx context.Context, par
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDDeactivateOtpPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDDeactivateOtpPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1470,13 +1512,13 @@ func (c *Client) sendCompatUsersUserIDDelete(ctx context.Context, params CompatU
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1557,13 +1599,13 @@ func (c *Client) sendCompatUsersUserIDGet(ctx context.Context, params CompatUser
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1647,13 +1689,13 @@ func (c *Client) sendCompatUsersUserIDPut(ctx context.Context, request *CompatUs
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1738,13 +1780,13 @@ func (c *Client) sendCompatUsersUserIDRegisterEmailPost(ctx context.Context, req
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDRegisterEmailPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDRegisterEmailPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1826,13 +1868,13 @@ func (c *Client) sendCompatUsersUserIDSecurityKeysGet(ctx context.Context, param
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDSecurityKeysGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDSecurityKeysGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -1932,13 +1974,13 @@ func (c *Client) sendCompatUsersUserIDSecurityKeysSecurityKeyIDDelete(ctx contex
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2038,13 +2080,13 @@ func (c *Client) sendCompatUsersUserIDSecurityKeysSecurityKeyIDGet(ctx context.C
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDSecurityKeysSecurityKeyIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDSecurityKeysSecurityKeyIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2147,13 +2189,13 @@ func (c *Client) sendCompatUsersUserIDSecurityKeysSecurityKeyIDPut(ctx context.C
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDSecurityKeysSecurityKeyIDPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDSecurityKeysSecurityKeyIDPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2235,13 +2277,13 @@ func (c *Client) sendCompatUsersUserIDTrustedDevicesGet(ctx context.Context, par
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDTrustedDevicesGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDTrustedDevicesGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2341,13 +2383,13 @@ func (c *Client) sendCompatUsersUserIDTrustedDevicesTrustedDeviceIDDelete(ctx co
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2429,13 +2471,13 @@ func (c *Client) sendCompatUsersUserIDUnregisterEmailPost(ctx context.Context, p
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, CompatUsersUserIDUnregisterEmailPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, CompatUsersUserIDUnregisterEmailPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2498,13 +2540,13 @@ func (c *Client) sendDisableServicePolicyPost(ctx context.Context) (res DisableS
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, DisableServicePolicyPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, DisableServicePolicyPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2567,13 +2609,13 @@ func (c *Client) sendEnableServicePolicyPost(ctx context.Context) (res EnableSer
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, EnableServicePolicyPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, EnableServicePolicyPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2654,13 +2696,13 @@ func (c *Client) sendFoldersFolderIDDelete(ctx context.Context, params FoldersFo
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, FoldersFolderIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, FoldersFolderIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2741,13 +2783,13 @@ func (c *Client) sendFoldersFolderIDGet(ctx context.Context, params FoldersFolde
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, FoldersFolderIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, FoldersFolderIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2829,13 +2871,13 @@ func (c *Client) sendFoldersFolderIDIamPolicyGet(ctx context.Context, params Fol
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, FoldersFolderIDIamPolicyGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, FoldersFolderIDIamPolicyGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -2929,13 +2971,13 @@ func (c *Client) sendFoldersFolderIDIamPolicyPut(ctx context.Context, request *F
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, FoldersFolderIDIamPolicyPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, FoldersFolderIDIamPolicyPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3019,13 +3061,13 @@ func (c *Client) sendFoldersFolderIDPut(ctx context.Context, request *FoldersFol
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, FoldersFolderIDPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, FoldersFolderIDPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3159,13 +3201,13 @@ func (c *Client) sendFoldersGet(ctx context.Context, params FoldersGetParams) (r
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, FoldersGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, FoldersGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3231,13 +3273,13 @@ func (c *Client) sendFoldersPost(ctx context.Context, request *FoldersPostReq) (
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, FoldersPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, FoldersPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3266,6 +3308,87 @@ func (c *Client) sendFoldersPost(ctx context.Context, request *FoldersPostReq) (
 	defer resp.Body.Close()
 
 	result, err := decodeFoldersPostResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetAuthContext invokes GetAuthContext operation.
+//
+// APIキーとサービスプリンシパルが操作可能なプロジェクトのIDを取得する。usacloudなどOSSプロダクトからの利用を想定としたAPI。.
+//
+// GET /auth/context
+func (c *Client) GetAuthContext(ctx context.Context) (GetAuthContextRes, error) {
+	res, err := c.sendGetAuthContext(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetAuthContext(ctx context.Context) (res GetAuthContextRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/auth/context"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityProjectApiKeyAuth(ctx, GetAuthContextOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ProjectApiKeyAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityServicePrincipalAuth(ctx, GetAuthContextOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+				{0b00000010},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetAuthContextResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3371,13 +3494,13 @@ func (c *Client) sendGroupsGet(ctx context.Context, params GroupsGetParams) (res
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, GroupsGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, GroupsGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3458,13 +3581,13 @@ func (c *Client) sendGroupsGroupIDDelete(ctx context.Context, params GroupsGroup
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, GroupsGroupIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, GroupsGroupIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3545,13 +3668,13 @@ func (c *Client) sendGroupsGroupIDGet(ctx context.Context, params GroupsGroupIDG
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, GroupsGroupIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, GroupsGroupIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3633,13 +3756,13 @@ func (c *Client) sendGroupsGroupIDMembershipsGet(ctx context.Context, params Gro
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, GroupsGroupIDMembershipsGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, GroupsGroupIDMembershipsGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3733,13 +3856,13 @@ func (c *Client) sendGroupsGroupIDMembershipsPut(ctx context.Context, request *G
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, GroupsGroupIDMembershipsPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, GroupsGroupIDMembershipsPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3823,13 +3946,13 @@ func (c *Client) sendGroupsGroupIDPut(ctx context.Context, request *GroupsGroupI
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, GroupsGroupIDPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, GroupsGroupIDPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -3895,13 +4018,13 @@ func (c *Client) sendGroupsPost(ctx context.Context, request *GroupsPostReq) (re
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, GroupsPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, GroupsPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4001,13 +4124,13 @@ func (c *Client) sendIDRolesGet(ctx context.Context, params IDRolesGetParams) (r
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, IDRolesGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, IDRolesGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4088,13 +4211,13 @@ func (c *Client) sendIDRolesIDRoleIDGet(ctx context.Context, params IDRolesIDRol
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, IDRolesIDRoleIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, IDRolesIDRoleIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4194,13 +4317,13 @@ func (c *Client) sendIamRolesGet(ctx context.Context, params IamRolesGetParams) 
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, IamRolesGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, IamRolesGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4281,13 +4404,13 @@ func (c *Client) sendIamRolesIamRoleIDGet(ctx context.Context, params IamRolesIa
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, IamRolesIamRoleIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, IamRolesIamRoleIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4362,13 +4485,13 @@ func (c *Client) sendMoveFoldersPost(ctx context.Context, request *MoveFolders) 
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, MoveFoldersPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, MoveFoldersPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4443,13 +4566,13 @@ func (c *Client) sendMoveProjectsPost(ctx context.Context, request *MoveProjects
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, MoveProjectsPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, MoveProjectsPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4512,13 +4635,13 @@ func (c *Client) sendOrganizationAuthConditionsGet(ctx context.Context) (res Org
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationAuthConditionsGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationAuthConditionsGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4593,13 +4716,13 @@ func (c *Client) sendOrganizationAuthConditionsPut(ctx context.Context, request 
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationAuthConditionsPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationAuthConditionsPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4662,13 +4785,13 @@ func (c *Client) sendOrganizationGet(ctx context.Context) (res OrganizationGetRe
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4731,13 +4854,13 @@ func (c *Client) sendOrganizationIDPolicyGet(ctx context.Context) (res Organizat
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationIDPolicyGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationIDPolicyGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4812,13 +4935,13 @@ func (c *Client) sendOrganizationIDPolicyPut(ctx context.Context, request *Organ
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationIDPolicyPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationIDPolicyPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4881,13 +5004,13 @@ func (c *Client) sendOrganizationIamPolicyGet(ctx context.Context) (res Organiza
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationIamPolicyGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationIamPolicyGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -4962,13 +5085,13 @@ func (c *Client) sendOrganizationIamPolicyPut(ctx context.Context, request *Orga
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationIamPolicyPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationIamPolicyPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5031,13 +5154,13 @@ func (c *Client) sendOrganizationPasswordPolicyGet(ctx context.Context) (res Org
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationPasswordPolicyGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationPasswordPolicyGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5103,13 +5226,13 @@ func (c *Client) sendOrganizationPasswordPolicyPut(ctx context.Context, request 
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationPasswordPolicyPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationPasswordPolicyPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5175,13 +5298,13 @@ func (c *Client) sendOrganizationPut(ctx context.Context, request *OrganizationP
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5332,13 +5455,13 @@ func (c *Client) sendOrganizationServicePolicyGet(ctx context.Context, params Or
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationServicePolicyGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationServicePolicyGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5413,13 +5536,13 @@ func (c *Client) sendOrganizationServicePolicyPut(ctx context.Context, request *
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, OrganizationServicePolicyPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, OrganizationServicePolicyPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5570,13 +5693,13 @@ func (c *Client) sendProjectsGet(ctx context.Context, params ProjectsGetParams) 
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ProjectsGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ProjectsGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5642,13 +5765,13 @@ func (c *Client) sendProjectsPost(ctx context.Context, request *ProjectsPostReq)
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ProjectsPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ProjectsPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5729,13 +5852,13 @@ func (c *Client) sendProjectsProjectIDDelete(ctx context.Context, params Project
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ProjectsProjectIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ProjectsProjectIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5816,13 +5939,13 @@ func (c *Client) sendProjectsProjectIDGet(ctx context.Context, params ProjectsPr
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ProjectsProjectIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ProjectsProjectIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -5904,13 +6027,13 @@ func (c *Client) sendProjectsProjectIDIamPolicyGet(ctx context.Context, params P
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ProjectsProjectIDIamPolicyGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ProjectsProjectIDIamPolicyGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6004,13 +6127,13 @@ func (c *Client) sendProjectsProjectIDIamPolicyPut(ctx context.Context, request 
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ProjectsProjectIDIamPolicyPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ProjectsProjectIDIamPolicyPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6094,13 +6217,13 @@ func (c *Client) sendProjectsProjectIDPut(ctx context.Context, request *Projects
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ProjectsProjectIDPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ProjectsProjectIDPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6200,13 +6323,13 @@ func (c *Client) sendSSOProfilesGet(ctx context.Context, params SSOProfilesGetPa
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, SSOProfilesGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, SSOProfilesGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6272,13 +6395,13 @@ func (c *Client) sendSSOProfilesPost(ctx context.Context, request *SSOProfilesPo
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, SSOProfilesPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, SSOProfilesPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6360,13 +6483,13 @@ func (c *Client) sendSSOProfilesSSOProfileIDAssignPost(ctx context.Context, para
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, SSOProfilesSSOProfileIDAssignPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, SSOProfilesSSOProfileIDAssignPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6447,13 +6570,13 @@ func (c *Client) sendSSOProfilesSSOProfileIDDelete(ctx context.Context, params S
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, SSOProfilesSSOProfileIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, SSOProfilesSSOProfileIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6534,13 +6657,13 @@ func (c *Client) sendSSOProfilesSSOProfileIDGet(ctx context.Context, params SSOP
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, SSOProfilesSSOProfileIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, SSOProfilesSSOProfileIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6624,13 +6747,13 @@ func (c *Client) sendSSOProfilesSSOProfileIDPut(ctx context.Context, request *SS
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, SSOProfilesSSOProfileIDPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, SSOProfilesSSOProfileIDPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6712,13 +6835,13 @@ func (c *Client) sendSSOProfilesSSOProfileIDUnassignPost(ctx context.Context, pa
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, SSOProfilesSSOProfileIDUnassignPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, SSOProfilesSSOProfileIDUnassignPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6747,6 +6870,536 @@ func (c *Client) sendSSOProfilesSSOProfileIDUnassignPost(ctx context.Context, pa
 	defer resp.Body.Close()
 
 	result, err := decodeSSOProfilesSSOProfileIDUnassignPostResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ScimConfigurationsGet invokes GET /scim-configurations operation.
+//
+// ユーザープロビジョニングを取得する.
+//
+// GET /scim-configurations
+func (c *Client) ScimConfigurationsGet(ctx context.Context, params ScimConfigurationsGetParams) (ScimConfigurationsGetRes, error) {
+	res, err := c.sendScimConfigurationsGet(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendScimConfigurationsGet(ctx context.Context, params ScimConfigurationsGetParams) (res ScimConfigurationsGetRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/scim-configurations"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "per_page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "per_page",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PerPage.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityServicePrincipalAuth(ctx, ScimConfigurationsGetOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeScimConfigurationsGetResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ScimConfigurationsIDDelete invokes DELETE /scim-configurations/{id} operation.
+//
+// ユーザープロビジョニングを削除する.
+//
+// DELETE /scim-configurations/{id}
+func (c *Client) ScimConfigurationsIDDelete(ctx context.Context, params ScimConfigurationsIDDeleteParams) (ScimConfigurationsIDDeleteRes, error) {
+	res, err := c.sendScimConfigurationsIDDelete(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendScimConfigurationsIDDelete(ctx context.Context, params ScimConfigurationsIDDeleteParams) (res ScimConfigurationsIDDeleteRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/scim-configurations/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityServicePrincipalAuth(ctx, ScimConfigurationsIDDeleteOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeScimConfigurationsIDDeleteResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ScimConfigurationsIDGet invokes GET /scim-configurations/{id} operation.
+//
+// ユーザープロビジョニングを取得する.
+//
+// GET /scim-configurations/{id}
+func (c *Client) ScimConfigurationsIDGet(ctx context.Context, params ScimConfigurationsIDGetParams) (ScimConfigurationsIDGetRes, error) {
+	res, err := c.sendScimConfigurationsIDGet(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendScimConfigurationsIDGet(ctx context.Context, params ScimConfigurationsIDGetParams) (res ScimConfigurationsIDGetRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/scim-configurations/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityServicePrincipalAuth(ctx, ScimConfigurationsIDGetOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeScimConfigurationsIDGetResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ScimConfigurationsIDPut invokes PUT /scim-configurations/{id} operation.
+//
+// ユーザープロビジョニングを更新する.
+//
+// PUT /scim-configurations/{id}
+func (c *Client) ScimConfigurationsIDPut(ctx context.Context, request *ScimConfigurationsIDPutReq, params ScimConfigurationsIDPutParams) (ScimConfigurationsIDPutRes, error) {
+	res, err := c.sendScimConfigurationsIDPut(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendScimConfigurationsIDPut(ctx context.Context, request *ScimConfigurationsIDPutReq, params ScimConfigurationsIDPutParams) (res ScimConfigurationsIDPutRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/scim-configurations/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeScimConfigurationsIDPutRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityServicePrincipalAuth(ctx, ScimConfigurationsIDPutOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeScimConfigurationsIDPutResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ScimConfigurationsIDRegenerateTokenPost invokes POST /scim-configurations/{id}/regenerate-token operation.
+//
+// この操作によって既にあるシークレットトークンは無効化されます。ユーザープロビジョニングのクライアント側に新しいシークレットトークンを再設定する必要があります。.
+//
+// POST /scim-configurations/{id}/regenerate-token
+func (c *Client) ScimConfigurationsIDRegenerateTokenPost(ctx context.Context, params ScimConfigurationsIDRegenerateTokenPostParams) (ScimConfigurationsIDRegenerateTokenPostRes, error) {
+	res, err := c.sendScimConfigurationsIDRegenerateTokenPost(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendScimConfigurationsIDRegenerateTokenPost(ctx context.Context, params ScimConfigurationsIDRegenerateTokenPostParams) (res ScimConfigurationsIDRegenerateTokenPostRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/scim-configurations/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/regenerate-token"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityServicePrincipalAuth(ctx, ScimConfigurationsIDRegenerateTokenPostOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeScimConfigurationsIDRegenerateTokenPostResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ScimConfigurationsPost invokes POST /scim-configurations operation.
+//
+// ユーザープロビジョニングを作成する.
+//
+// POST /scim-configurations
+func (c *Client) ScimConfigurationsPost(ctx context.Context, request *ScimConfigurationsPostReq) (ScimConfigurationsPostRes, error) {
+	res, err := c.sendScimConfigurationsPost(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendScimConfigurationsPost(ctx context.Context, request *ScimConfigurationsPostReq) (res ScimConfigurationsPostRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/scim-configurations"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeScimConfigurationsPostRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityServicePrincipalAuth(ctx, ScimConfigurationsPostOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeScimConfigurationsPostResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -6869,13 +7522,13 @@ func (c *Client) sendServicePolicyRuleTemplatesGet(ctx context.Context, params S
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePolicyRuleTemplatesGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePolicyRuleTemplatesGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -6938,13 +7591,13 @@ func (c *Client) sendServicePolicyStatusGet(ctx context.Context) (res ServicePol
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePolicyStatusGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePolicyStatusGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7078,13 +7731,13 @@ func (c *Client) sendServicePrincipalsGet(ctx context.Context, params ServicePri
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7172,39 +7825,6 @@ func (c *Client) sendServicePrincipalsOAuth2TokenPost(ctx context.Context, reque
 		return res, errors.Wrap(err, "encode request")
 	}
 
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsOAuth2TokenPostOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
 	resp, err := c.cfg.Client.Do(r)
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
@@ -7249,13 +7869,13 @@ func (c *Client) sendServicePrincipalsPost(ctx context.Context, request *Service
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7336,13 +7956,13 @@ func (c *Client) sendServicePrincipalsServicePrincipalIDDelete(ctx context.Conte
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsServicePrincipalIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsServicePrincipalIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7423,13 +8043,13 @@ func (c *Client) sendServicePrincipalsServicePrincipalIDGet(ctx context.Context,
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsServicePrincipalIDGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsServicePrincipalIDGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7565,13 +8185,13 @@ func (c *Client) sendServicePrincipalsServicePrincipalIDKeysGet(ctx context.Cont
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsServicePrincipalIDKeysGetOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsServicePrincipalIDKeysGetOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7671,13 +8291,13 @@ func (c *Client) sendServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyI
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7778,13 +8398,13 @@ func (c *Client) sendServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyI
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7885,13 +8505,13 @@ func (c *Client) sendServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyI
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -7975,13 +8595,13 @@ func (c *Client) sendServicePrincipalsServicePrincipalIDPut(ctx context.Context,
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsServicePrincipalIDPutOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsServicePrincipalIDPutOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 
@@ -8066,13 +8686,13 @@ func (c *Client) sendServicePrincipalsServicePrincipalIDUploadKeyPost(ctx contex
 		var satisfied bitset
 		{
 
-			switch err := c.securityCompatAccessTokenAuth(ctx, ServicePrincipalsServicePrincipalIDUploadKeyPostOperation, r); {
+			switch err := c.securityServicePrincipalAuth(ctx, ServicePrincipalsServicePrincipalIDUploadKeyPostOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
 				// Skip this security.
 			default:
-				return res, errors.Wrap(err, "security \"CompatAccessTokenAuth\"")
+				return res, errors.Wrap(err, "security \"ServicePrincipalAuth\"")
 			}
 		}
 

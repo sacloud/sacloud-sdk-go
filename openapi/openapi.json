@@ -2,7 +2,7 @@
   "openapi": "3.0.3",
   "info": {
     "title": "さくらのクラウドIAM API",
-    "version": "1.0.0",
+    "version": "1.3.0",
     "contact": {
       "name": "SAKURA internet Inc."
     },
@@ -11,6 +11,11 @@
   "servers": [
     {
       "url": "https://secure.sakura.ad.jp/cloud/api/iam/1.0"
+    }
+  ],
+  "security": [
+    {
+      "ServicePrincipalAuth": []
     }
   ],
   "tags": [
@@ -72,7 +77,7 @@
     {
       "name": "project-apikey",
       "x-displayName": "プロジェクトAPIキー",
-      "description": "クラウドAPIにアクセスするためのAPIキーに関する機能"
+      "description": "クラウドAPIにアクセスするためのAPIキーに関する機能。"
     },
     {
       "name": "sso",
@@ -88,11 +93,11 @@
       "name": "service-policy",
       "x-displayName": "サービスポリシー",
       "description": "サービスポリシーに関する機能"
-    }
-  ],
-  "security": [
+    },
     {
-      "CompatAccessTokenAuth": []
+      "name": "scim",
+      "x-displayName": "ユーザープロビジョニング",
+      "description": "ユーザープロビジョニングに関する機能"
     }
   ],
   "paths": {
@@ -4021,6 +4026,7 @@
           "service-principal"
         ],
         "summary": "RFC 7523 (JWT Bearer Token Grant) に基づき、署名済みJWTを使って一時的なサービスプリンシパルトークンを取得する",
+        "security": [],
         "description": "登録済みサービスプリンシパルキーの秘密鍵を使い、以下のようなJWTを署名してください。\n\n#### JWTのヘッダー\n\n```json\n{\n  \"alg\": \"RS256\",\n  \"kid\": \"$SERVICE_PRINCIPAL_KEY_KID\",\n  \"typ\": \"JWT\"\n}\n```\n\n### JWTのペイロード\n\n```json\n{\n  \"aud\": \"https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token\",\n  \"exp\": 現在のUnix time + 5分,\n  \"iat\": 現在のUnix time,\n  \"iss\": \"$SERVICE_PRINCIPAL_RESOURCE_ID\",\n  \"sub\": \"$SERVICE_PRINCIPAL_RESOURCE_ID\"\n}\n```\n",
         "requestBody": {
           "required": true,
@@ -4285,12 +4291,12 @@
                 },
                 "example": {
                   "id": "00000000-0000-0000-0000-000000000000",
-                  "kid": "key-id-123456",
+                  "kid": "1234567890abcdef1234567890abcdef12345678",
                   "status": "enabled",
                   "key_origin": "user",
                   "public_key": "BEGIN PUBLIC KEY\\n...\\nEND PUBLIC KEY",
                   "created_at": "2023-10-01T00:00:00Z",
-                  "expired_at": "2024-10-01T00:00:00Z"
+                  "key_expires_at": "2024-10-01T00:00:00Z"
                 }
               }
             }
@@ -4362,12 +4368,12 @@
                 },
                 "example": {
                   "id": "00000000-0000-0000-0000-000000000000",
-                  "kid": "key-id-123456",
+                  "kid": "1234567890abcdef1234567890abcdef12345678",
                   "status": "disabled",
                   "key_origin": "user",
                   "public_key": "BEGIN PUBLIC KEY\\n...\\nEND PUBLIC KEY",
                   "created_at": "2023-10-01T00:00:00Z",
-                  "expired_at": "2024-10-01T00:00:00Z"
+                  "key_expires_at": "2024-10-01T00:00:00Z"
                 }
               }
             }
@@ -4482,6 +4488,7 @@
           "project-apikey"
         ],
         "summary": "APIキー一覧を取得する",
+        "description": "サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。",
         "parameters": [
           {
             "$ref": "#/components/parameters/PaginationPage"
@@ -4568,6 +4575,7 @@
           "project-apikey"
         ],
         "summary": "APIキーを作成する",
+        "description": "サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。",
         "requestBody": {
           "description": "APIキーの情報",
           "required": true,
@@ -4584,40 +4592,57 @@
                 "properties": {
                   "project_id": {
                     "type": "integer",
-                    "description": "プロジェクトID",
-                    "example": 1
+                    "description": "プロジェクトID"
                   },
                   "name": {
                     "type": "string",
-                    "description": "APIキー名",
-                    "example": "Sakura API Key"
+                    "description": "APIキー名"
                   },
                   "description": {
                     "type": "string",
-                    "description": "APIキーの説明",
-                    "example": "APIキーの説明"
+                    "description": "APIキーの説明"
                   },
                   "server_resource_id": {
                     "type": "string",
-                    "description": "APIキーがシングルサーバコントロールパネルで利用される場合は必須",
-                    "example": "123456789123"
+                    "description": "APIキーがシングルサーバコントロールパネルで利用される場合は必須"
                   },
                   "iam_roles": {
                     "type": "array",
-                    "description": "IAMのロール。",
-                    "example": [
-                      "viewer",
-                      "editor",
-                      "admin"
-                    ],
+                    "description": "IAMのロール",
                     "items": {
                       "type": "string"
                     }
                   },
                   "zone_id": {
                     "type": "string",
-                    "description": "ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合は必須。",
-                    "example": "is1a"
+                    "description": "ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合は必須。"
+                  }
+                }
+              },
+              "examples": {
+                "resource-api-key": {
+                  "summary": "リソース操作APIキー",
+                  "value": {
+                    "project_id": 123456789123,
+                    "name": "リソース操作APIキー",
+                    "description": "通常のリソース操作用",
+                    "iam_roles": [
+                      "admin"
+                    ]
+                  }
+                },
+                "single-server-api-key": {
+                  "summary": "シングルサーバAPIキー",
+                  "value": {
+                    "project_id": 123456789123,
+                    "name": "シングルサーバAPIキー",
+                    "description": "シングルサーバコントロールパネル用",
+                    "server_resource_id": "111222333444",
+                    "iam_roles": [
+                      "viewer",
+                      "editor"
+                    ],
+                    "zone_id": "is1a"
                   }
                 }
               }
@@ -4631,6 +4656,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProjectApiKeyWithSecret"
+                },
+                "examples": {
+                  "resource-api-key": {
+                    "$ref": "#/components/examples/ProjectApiKeyResourceWithSecret"
+                  },
+                  "single-server-api-key": {
+                    "$ref": "#/components/examples/ProjectApiKeySingleServerWithSecret"
+                  }
                 }
               }
             }
@@ -4719,6 +4752,7 @@
           "project-apikey"
         ],
         "summary": "指定したAPIキーを取得する",
+        "description": "サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。",
         "responses": {
           "200": {
             "description": "成功",
@@ -4726,6 +4760,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProjectApiKey"
+                },
+                "examples": {
+                  "resource-api-key": {
+                    "$ref": "#/components/examples/ProjectApiKeyResource"
+                  },
+                  "single-server-api-key": {
+                    "$ref": "#/components/examples/ProjectApiKeySingleServer"
+                  }
                 }
               }
             }
@@ -4777,6 +4819,7 @@
           "project-apikey"
         ],
         "summary": "指定したAPIキーを更新する",
+        "description": "サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。",
         "requestBody": {
           "required": true,
           "content": {
@@ -4791,35 +4834,51 @@
                 "properties": {
                   "name": {
                     "type": "string",
-                    "description": "APIキー名",
-                    "example": "Sakura API Key"
+                    "description": "APIキー名"
                   },
                   "description": {
                     "type": "string",
-                    "description": "APIキーの説明",
-                    "example": "APIキーの説明"
+                    "description": "APIキーの説明"
                   },
                   "server_resource_id": {
                     "type": "string",
-                    "description": "APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能。",
-                    "example": "123456789123"
+                    "description": "APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能"
                   },
                   "iam_roles": {
                     "type": "array",
                     "description": "IAMのロール。",
-                    "example": [
-                      "viewer",
-                      "editor",
-                      "admin"
-                    ],
                     "items": {
                       "type": "string"
                     }
                   },
                   "zone_id": {
                     "type": "string",
-                    "description": "ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能。",
-                    "example": "is1a"
+                    "description": "ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能"
+                  }
+                }
+              },
+              "examples": {
+                "resource-api-key": {
+                  "summary": "リソース操作APIキー",
+                  "value": {
+                    "name": "リソース操作APIキー",
+                    "description": "通常のリソース操作用",
+                    "iam_roles": [
+                      "admin"
+                    ]
+                  }
+                },
+                "single-server-api-key": {
+                  "summary": "シングルサーバAPIキー",
+                  "value": {
+                    "name": "シングルサーバAPIキー",
+                    "description": "シングルサーバコントロールパネル用",
+                    "server_resource_id": "111222333444",
+                    "iam_roles": [
+                      "viewer",
+                      "editor"
+                    ],
+                    "zone_id": "is1a"
                   }
                 }
               }
@@ -4833,6 +4892,14 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProjectApiKey"
+                },
+                "examples": {
+                  "resource-api-key": {
+                    "$ref": "#/components/examples/ProjectApiKeyResource"
+                  },
+                  "single-server-api-key": {
+                    "$ref": "#/components/examples/ProjectApiKeySingleServer"
+                  }
                 }
               }
             }
@@ -4904,6 +4971,7 @@
           "project-apikey"
         ],
         "summary": "指定したAPIキーを削除する",
+        "description": "サービスプリンシパルによる操作の場合、サービスプリンシパルが所属するプロジェクトとは異なるプロジェクトのAPIキーは操作できません。",
         "responses": {
           "204": {
             "description": "成功"
@@ -5069,24 +5137,44 @@
                   },
                   "idp_entity_id": {
                     "type": "string",
-                    "description": "IdPのエンティティID",
-                    "example": "https://idp.example.com/ile2ephei7saeph6"
+                    "description": "IdPのエンティティID"
                   },
                   "idp_login_url": {
                     "type": "string",
-                    "description": "IdPのログインURL",
-                    "example": "https://idp.example.com/ile2ephei7saeph6/sso/login"
+                    "description": "IdPのログインURL"
                   },
                   "idp_logout_url": {
                     "type": "string",
-                    "description": "IdPのログアウトURL",
-                    "example": "https://idp.example.com/ile2ephei7saeph6/sso/logout"
+                    "description": "IdPのログアウトURL"
                   },
                   "idp_certificate": {
                     "type": "string",
-                    "description": "IdPのX.509証明書",
-                    "example": "-----BEGIN CERTIFICATE-----\nMIIDqjCCApKgAwIBA<snip>\n-----END CERTIFICATE-----"
+                    "description": "IdPのX.509証明書"
                   }
+                }
+              },
+              "examples": {
+                "partial-fields": {
+                  "value": {
+                    "name": "SSOプロファイル1",
+                    "description": "SSOプロファイル1の説明",
+                    "idp_entity_id": "",
+                    "idp_login_url": "",
+                    "idp_logout_url": "",
+                    "idp_certificate": ""
+                  },
+                  "summary": "IdPの情報を後で設定する場合"
+                },
+                "complete-fields": {
+                  "value": {
+                    "name": "SSOプロファイル1",
+                    "description": "SSOプロファイル1の説明",
+                    "idp_entity_id": "https://idp.example.com/ile2ephei7saeph6",
+                    "idp_login_url": "https://idp.example.com/ile2ephei7saeph6/sso/login",
+                    "idp_logout_url": "https://idp.example.com/ile2ephei7saeph6/sso/logout",
+                    "idp_certificate": "-----BEGIN CERTIFICATE-----\nMIIDqjCCApKgAwIBA<snip>\n-----END CERTIFICATE-----"
+                  },
+                  "summary": "全てのフィールドを作成時に指定する場合"
                 }
               }
             }
@@ -7468,17 +7556,553 @@
           }
         }
       }
+    },
+    "/auth/context": {
+      "get": {
+        "summary": "認証情報のコンテキストを取得",
+        "security": [
+          {
+            "ProjectApiKeyAuth": []
+          },
+          {
+            "ServicePrincipalAuth": []
+          }
+        ],
+        "description": "APIキーとサービスプリンシパルが操作可能なプロジェクトのIDを取得する。usacloudなどOSSプロダクトからの利用を想定としたAPI。",
+        "operationId": "GetAuthContext",
+        "tags": [
+          "auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "認証情報のコンテキストの取得に成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "resource_id",
+                    "auth_type",
+                    "limited_to_project_id"
+                  ],
+                  "properties": {
+                    "resource_id": {
+                      "type": "integer",
+                      "format": "int64",
+                      "nullable": false,
+                      "description": "APIキーのIDまたはサービスプリンシパルのID",
+                      "example": 987654321098
+                    },
+                    "auth_type": {
+                      "type": "string",
+                      "nullable": false,
+                      "enum": [
+                        "apikey",
+                        "service_principal"
+                      ],
+                      "description": "認証種別。APIキーまたはサービスプリンシパル。"
+                    },
+                    "limited_to_project_id": {
+                      "type": "integer",
+                      "nullable": true,
+                      "description": "操作可能なプロジェクトのID。現状、APIキー・サービスプリンシパルが属するプロジェクトのIDが設定されるが、将来的に操作可能なプロジェクトの制限が撤廃された場合にはnullが設定される可能性がある。",
+                      "example": 123456789012
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "認証に失敗",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http401Unauthorized"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scim-configurations": {
+      "get": {
+        "tags": [
+          "scim"
+        ],
+        "summary": "ユーザープロビジョニングを取得する",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PaginationPage"
+          },
+          {
+            "$ref": "#/components/parameters/PaginationPerPage"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "items"
+                      ],
+                      "properties": {
+                        "items": {
+                          "type": "array",
+                          "items": {
+                            "$ref": "#/components/schemas/ScimConfigurationPublic"
+                          }
+                        }
+                      }
+                    },
+                    {
+                      "$ref": "#/components/schemas/Pagination"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "認証情報が無効",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http401Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "アクセス権限がない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http403Forbidden"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "APIリクエストのレートリミット超過",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http429TooManyRequests"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "scim"
+        ],
+        "summary": "ユーザープロビジョニングを作成する",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "ユーザープロビジョニング名",
+                    "example": "MicrosoftEntraID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScimConfiguration"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "不正なリクエスト",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http400BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "認証情報が無効",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http401Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "アクセス権限がない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http403Forbidden"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "既にユーザープロビジョニングが存在する",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http409Conflict"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "APIリクエストのレートリミット超過",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http429TooManyRequests"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scim-configurations/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ユーザープロビジョニングID",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "tags": [
+          "scim"
+        ],
+        "summary": "ユーザープロビジョニングを取得する",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScimConfigurationPublic"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "認証情報が無効",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http401Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "アクセス権限がない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http403Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "指定したユーザープロビジョニングが存在しない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http404NotFound"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "APIリクエストのレートリミット超過",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http429TooManyRequests"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "scim"
+        ],
+        "summary": "ユーザープロビジョニングを更新する",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "ユーザープロビジョニング名",
+                    "example": "MicrosoftEntraID"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScimConfigurationPublic"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "不正なリクエスト",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http400BadRequest"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "認証情報が無効",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http401Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "アクセス権限がない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http403Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "指定したユーザープロビジョニングが存在しない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http404NotFound"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "APIリクエストのレートリミット超過",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http429TooManyRequests"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "scim"
+        ],
+        "summary": "ユーザープロビジョニングを削除する",
+        "responses": {
+          "204": {
+            "description": "成功"
+          },
+          "401": {
+            "description": "認証情報が無効",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http401Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "アクセス権限がない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http403Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "指定したユーザープロビジョニングが存在しない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http404NotFound"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "- 削除対象のユーザープロビジョニングから作成されたユーザーが存在する\n- 削除対象のユーザープロビジョニングから作成されたグループが存在する\n",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http409Conflict"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "APIリクエストのレートリミット超過",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http429TooManyRequests"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scim-configurations/{id}/regenerate-token": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ユーザープロビジョニングID",
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "post": {
+        "tags": [
+          "scim"
+        ],
+        "summary": "ユーザープロビジョニングのシークレットトークンを再発行する",
+        "description": "この操作によって既にあるシークレットトークンは無効化されます。ユーザープロビジョニングのクライアント側に新しいシークレットトークンを再設定する必要があります。\n",
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "secret_token": {
+                      "type": "string",
+                      "description": "再発行されたユーザープロビジョニングのシークレットトークン"
+                    }
+                  },
+                  "example": {
+                    "secret_token": "your-secret-token"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "認証情報が無効",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http401Unauthorized"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "アクセス権限がない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http403Forbidden"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "指定したユーザープロビジョニングが存在しない",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http404NotFound"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "APIリクエストのレートリミット超過",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Http429TooManyRequests"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "securitySchemes": {
-      "CompatAccessTokenAuth": {
-        "description": "コントロールパネルアクセストークン認証\n- ユーザ名にアクセスモード（M-G、M-A、U-G、U-A）を指定\n- パスワードに発行したアクセストークンを指定\n",
+      "ServicePrincipalAuth": {
+        "description": "サービスプリンシパル認証\n- サービスプリンシパルのアクセストークンを指定\n",
         "type": "http",
-        "scheme": "basic"
+        "scheme": "bearer"
       },
       "ProjectApiKeyAuth": {
-        "description": "APIキー認証\n- ユーザ名に発行したAPIキーのアクセストークンを指定\n- パスワードに発行したAPIキーのアクセストークンシークレットを指定\n",
+        "description": "APIキー認証\n- ユーザー名に発行したAPIキーのアクセストークンを指定\n- パスワードに発行したAPIキーのアクセストークンシークレットを指定\n",
         "type": "http",
         "scheme": "basic"
       }
@@ -7576,7 +8200,8 @@
         "description": "サービスプリンシパルID",
         "required": true,
         "schema": {
-          "type": "integer"
+          "type": "integer",
+          "example": 123456789123
         }
       },
       "ServicePrincipalKeyID": {
@@ -7586,7 +8211,8 @@
         "required": true,
         "schema": {
           "type": "string",
-          "format": "uuid"
+          "format": "uuid",
+          "example": "00000000-0000-0000-0000-000000000000"
         }
       },
       "ProjectApiKeyID": {
@@ -7935,7 +8561,8 @@
           "id",
           "name",
           "description",
-          "category"
+          "category",
+          "lowest_grantable_resource"
         ],
         "properties": {
           "id": {
@@ -7958,6 +8585,16 @@
             "type": "string",
             "description": "IAMロールのカテゴリ",
             "example": "apprun"
+          },
+          "lowest_grantable_resource": {
+            "type": "string",
+            "enum": [
+              "organization",
+              "folder",
+              "project"
+            ],
+            "description": "このIAMロールを付与可能な最低階層。\n* `\"organization\"` - 組織\n* `\"folder\"` - フォルダ\n* `\"project\"` - プロジェクト\n",
+            "example": "folder"
           }
         }
       },
@@ -8426,7 +9063,7 @@
             "description": "作成日時",
             "example": "2024-05-01T14:30:00Z"
           },
-          "expired_at": {
+          "key_expires_at": {
             "type": "string",
             "description": "有効期限",
             "example": "2024-05-01T14:30:00Z",
@@ -8506,22 +9143,22 @@
             "type": "integer",
             "description": "APIキーID",
             "readOnly": true,
-            "example": 1
+            "example": 111222333444
           },
           "project_id": {
             "type": "integer",
             "description": "プロジェクトID",
-            "example": 1
+            "example": 123456789123
           },
           "name": {
             "type": "string",
             "description": "APIキー名",
-            "example": "Sakura API Key"
+            "example": "リソース操作APIキー"
           },
           "description": {
             "type": "string",
             "description": "APIキーの説明",
-            "example": "APIキーの説明"
+            "example": "通常のリソース操作用"
           },
           "access_token": {
             "type": "string",
@@ -8532,7 +9169,7 @@
             "type": "string",
             "description": "APIキーがシングルサーバコントロールパネルで利用される場合は必須。",
             "nullable": true,
-            "example": "123456789123"
+            "example": null
           },
           "iam_roles": {
             "type": "array",
@@ -8550,7 +9187,7 @@
             "type": "string",
             "description": "ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合は必須。",
             "nullable": true,
-            "example": "is1a"
+            "example": null
           },
           "created_at": {
             "type": "string",
@@ -9110,6 +9747,156 @@
               }
             }
           }
+        }
+      },
+      "ScimConfigurationBase": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "base_url",
+          "created_at",
+          "updated_at"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "ユーザープロビジョニングID",
+            "readOnly": true
+          },
+          "name": {
+            "type": "string",
+            "description": "ユーザープロビジョニング名",
+            "example": "MicrosoftEntraID"
+          },
+          "base_url": {
+            "type": "string",
+            "format": "uri",
+            "description": "ユーザープロビジョニングエンドポイントのベースURL（ユーザープロビジョニングIDを含む）",
+            "readOnly": true,
+            "example": "https://secure.sakura.ad.jp/cloud/api/iam/1.0/scim/550e8400-e29b-41d4-a716-446655440000/v2/"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "作成日時",
+            "readOnly": true,
+            "example": "2024-05-01T14:30:00Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "更新日時",
+            "readOnly": true,
+            "example": "2024-05-02T14:30:00Z"
+          }
+        }
+      },
+      "ScimConfiguration": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ScimConfigurationBase"
+          },
+          {
+            "type": "object",
+            "required": [
+              "secret_token"
+            ],
+            "properties": {
+              "secret_token": {
+                "type": "string",
+                "description": "ユーザープロビジョニングの認証に使用するシークレットトークン",
+                "readOnly": true,
+                "example": "your_secret_token"
+              }
+            }
+          }
+        ]
+      },
+      "ScimConfigurationPublic": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ScimConfigurationBase"
+          }
+        ]
+      }
+    },
+    "examples": {
+      "ProjectApiKeyResource": {
+        "summary": "リソース操作APIキー",
+        "value": {
+          "id": 111222333444,
+          "project_id": 123456789123,
+          "name": "リソース操作APIキー",
+          "description": "通常のリソース操作用",
+          "access_token": "********",
+          "server_resource_id": null,
+          "iam_roles": [
+            "viewer",
+            "editor",
+            "admin"
+          ],
+          "zone_id": null,
+          "created_at": "2024-05-01T14:30:00Z",
+          "updated_at": "2024-05-02T14:30:00Z"
+        }
+      },
+      "ProjectApiKeySingleServer": {
+        "summary": "シングルサーバAPIキー",
+        "value": {
+          "id": 222333444555,
+          "project_id": 123456789123,
+          "name": "シングルサーバAPIキー",
+          "description": "シングルサーバコントロールパネル用",
+          "access_token": "********",
+          "server_resource_id": "321987654321",
+          "iam_roles": [
+            "viewer",
+            "editor",
+            "admin"
+          ],
+          "zone_id": "is1a",
+          "created_at": "2024-05-01T14:30:00Z",
+          "updated_at": "2024-05-02T14:30:00Z"
+        }
+      },
+      "ProjectApiKeyResourceWithSecret": {
+        "summary": "リソース操作APIキー（シークレットあり）",
+        "value": {
+          "id": 111222333444,
+          "project_id": 123456789123,
+          "name": "リソース操作APIキー",
+          "description": "通常のリソース操作用",
+          "access_token": "********",
+          "access_token_secret": "********",
+          "server_resource_id": null,
+          "iam_roles": [
+            "viewer",
+            "editor",
+            "admin"
+          ],
+          "zone_id": null,
+          "created_at": "2024-05-01T14:30:00Z",
+          "updated_at": "2024-05-02T14:30:00Z"
+        }
+      },
+      "ProjectApiKeySingleServerWithSecret": {
+        "summary": "シングルサーバAPIキー（シークレットあり）",
+        "value": {
+          "id": 222333444555,
+          "project_id": 123456789123,
+          "name": "シングルサーバAPIキー",
+          "description": "シングルサーバコントロールパネル用",
+          "access_token": "********",
+          "access_token_secret": "********",
+          "server_resource_id": "321987654321",
+          "iam_roles": [
+            "viewer",
+            "editor",
+            "admin"
+          ],
+          "zone_id": "is1a",
+          "created_at": "2024-05-01T14:30:00Z",
+          "updated_at": "2024-05-02T14:30:00Z"
         }
       }
     }

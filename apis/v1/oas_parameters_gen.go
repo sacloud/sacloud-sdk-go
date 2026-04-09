@@ -330,6 +330,36 @@ type SSOProfilesSSOProfileIDUnassignPostParams struct {
 	SSOProfileID int
 }
 
+// ScimConfigurationsGetParams is parameters of GET /scim-configurations operation.
+type ScimConfigurationsGetParams struct {
+	Page    OptInt `json:",omitempty,omitzero"`
+	PerPage OptInt `json:",omitempty,omitzero"`
+}
+
+// ScimConfigurationsIDDeleteParams is parameters of DELETE /scim-configurations/{id} operation.
+type ScimConfigurationsIDDeleteParams struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID
+}
+
+// ScimConfigurationsIDGetParams is parameters of GET /scim-configurations/{id} operation.
+type ScimConfigurationsIDGetParams struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID
+}
+
+// ScimConfigurationsIDPutParams is parameters of PUT /scim-configurations/{id} operation.
+type ScimConfigurationsIDPutParams struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID
+}
+
+// ScimConfigurationsIDRegenerateTokenPostParams is parameters of POST /scim-configurations/{id}/regenerate-token operation.
+type ScimConfigurationsIDRegenerateTokenPostParams struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID
+}
+
 // ServicePolicyRuleTemplatesGetParams is parameters of GET /service-policy-rule-templates operation.
 type ServicePolicyRuleTemplatesGetParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`

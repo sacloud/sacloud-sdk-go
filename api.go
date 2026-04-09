@@ -25,6 +25,7 @@ import (
 	"github.com/sacloud/iam-api-go/apis/organization"
 	"github.com/sacloud/iam-api-go/apis/project"
 	"github.com/sacloud/iam-api-go/apis/projectapikey"
+	"github.com/sacloud/iam-api-go/apis/scim"
 	"github.com/sacloud/iam-api-go/apis/servicepolicy"
 	"github.com/sacloud/iam-api-go/apis/serviceprincipal"
 	"github.com/sacloud/iam-api-go/apis/sso"
@@ -42,6 +43,7 @@ type IDRoleAPI = idrole.IDRoleAPI
 type OrganizationAPI = organization.OrganizationAPI
 type ProjectAPI = project.ProjectAPI
 type ProjectApiKeyAPI = projectapikey.ProjectAPIKeyAPI
+type ScimAPI = scim.ScimAPI
 type ServicePolicyAPI = servicepolicy.ServicePolicyAPI
 type ServicePrincipalAPI = serviceprincipal.ServicePrincipalAPI
 type SSOAPI = sso.SSOAPI
@@ -58,6 +60,7 @@ var NewIDRoleOp = idrole.NewIdRoleOp
 var NewOrganizationOp = organization.NewOrganizationOp
 var NewProjectOp = project.NewProjectOp
 var NewProjectAPIKeyOp = projectapikey.NewProjectAPIKeyOp
+var NewScimOp = scim.NewScimOp
 var NewServicePolicyOp = servicepolicy.NewServicePolicyOp
 var NewServicePrincipalOp = serviceprincipal.NewServicePrincipalOp
 var NewSSOOp = sso.NewSSOOp

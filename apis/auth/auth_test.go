@@ -143,6 +143,28 @@ func TestPutAuthConditions_Fail(t *testing.T) {
 	assert.Contains(err.Error(), expected)
 }
 
+func TestGetAuthContext(t *testing.T) {
+	var expected v1.GetAuthContextOK
+	expected.SetFake()
+	assert, api := setup(t, &expected)
+
+	actual, err := api.GetAuthContext(t.Context())
+	assert.NoError(err)
+	assert.NotNil(actual)
+	assert.Equal(&expected, actual)
+}
+
+func TestGetAuthContext_Fail(t *testing.T) {
+	var res v1.Http403Forbidden
+	res.SetFake()
+	res.SetStatus(http.StatusForbidden)
+	assert, api := setup(t, &res, res.Status)
+
+	actual, err := api.GetAuthContext(t.Context())
+	assert.Error(err)
+	assert.Nil(actual)
+}
+
 func TestIntegrated(t *testing.T) {
 	assert, client := iam_test.IntegratedClient(t)
 	op := NewAuthOp(client)
@@ -160,4 +182,8 @@ func TestIntegrated(t *testing.T) {
 
 	_, err = op.UpdateAuthConditions(t.Context(), ac)
 	assert.NoError(err)
+
+	authContext, err := op.GetAuthContext(t.Context())
+	assert.NoError(err)
+	assert.NotNil(authContext)
 }

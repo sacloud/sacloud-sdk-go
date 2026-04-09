@@ -3,13 +3,15 @@
 package v1
 
 import (
-	std "encoding/json"
 	"fmt"
-	"testing"
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
 	"github.com/ogen-go/ogen/validate"
+
+	std "encoding/json"
+	"testing"
+
 	"github.com/stretchr/testify/require"
 )
 
@@ -192,6 +194,36 @@ func TestCompatAPIKeysApikeyIDPutReq_EncodeDecode(t *testing.T) {
 	var typ2 CompatAPIKeysApikeyIDPutReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+
+func TestCompatAPIKeysApikeyIDPutReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"description\":\"シングルサーバコントロールパネル用\",\"iam_roles\":[\"viewer\",\"editor\"],\"name\":\"シングルサーバAPIキー\",\"server_resource_id\":\"111222333444\",\"zone_id\":\"is1a\"}"},
+		{Input: "{\"description\":\"通常のリソース操作用\",\"iam_roles\":[\"admin\"],\"name\":\"リソース操作APIキー\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CompatAPIKeysApikeyIDPutReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CompatAPIKeysApikeyIDPutReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestCompatAPIKeysGetOK_EncodeDecode(t *testing.T) {
 	var typ CompatAPIKeysGetOK
 	typ.SetFake()
@@ -215,6 +247,36 @@ func TestCompatAPIKeysPostReq_EncodeDecode(t *testing.T) {
 
 	var typ2 CompatAPIKeysPostReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCompatAPIKeysPostReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"description\":\"シングルサーバコントロールパネル用\",\"iam_roles\":[\"viewer\",\"editor\"],\"name\":\"シングルサーバAPIキー\",\"project_id\":123456789123,\"server_resource_id\":\"111222333444\",\"zone_id\":\"is1a\"}"},
+		{Input: "{\"description\":\"通常のリソース操作用\",\"iam_roles\":[\"admin\"],\"name\":\"リソース操作APIキー\",\"project_id\":123456789123}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CompatAPIKeysPostReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CompatAPIKeysPostReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestCompatUsersGetOK_EncodeDecode(t *testing.T) {
 	var typ CompatUsersGetOK
@@ -440,6 +502,30 @@ func TestFoldersPostReq_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 FoldersPostReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestGetAuthContextOK_EncodeDecode(t *testing.T) {
+	var typ GetAuthContextOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 GetAuthContextOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestGetAuthContextOKAuthType_EncodeDecode(t *testing.T) {
+	var typ GetAuthContextOKAuthType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 GetAuthContextOKAuthType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestGroup_EncodeDecode(t *testing.T) {
@@ -826,6 +912,47 @@ func TestIamRole_EncodeDecode(t *testing.T) {
 
 	var typ2 IamRole
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestIamRoleLowestGrantableResource_EncodeDecode(t *testing.T) {
+	var typ IamRoleLowestGrantableResource
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 IamRoleLowestGrantableResource
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestIamRoleLowestGrantableResource_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"folder\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ IamRoleLowestGrantableResource
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 IamRoleLowestGrantableResource
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestIamRolesGetOK_EncodeDecode(t *testing.T) {
 	var typ IamRolesGetOK
@@ -1276,6 +1403,36 @@ func TestProjectApiKey_EncodeDecode(t *testing.T) {
 	var typ2 ProjectApiKey
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+
+func TestProjectApiKey_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"access_token\":\"********\",\"created_at\":\"2024-05-01T14:30:00Z\",\"description\":\"シングルサーバコントロールパネル用\",\"iam_roles\":[\"viewer\",\"editor\",\"admin\"],\"id\":222333444555,\"name\":\"シングルサーバAPIキー\",\"project_id\":123456789123,\"server_resource_id\":\"321987654321\",\"updated_at\":\"2024-05-02T14:30:00Z\",\"zone_id\":\"is1a\"}"},
+		{Input: "{\"access_token\":\"********\",\"created_at\":\"2024-05-01T14:30:00Z\",\"description\":\"通常のリソース操作用\",\"iam_roles\":[\"viewer\",\"editor\",\"admin\"],\"id\":111222333444,\"name\":\"リソース操作APIキー\",\"project_id\":123456789123,\"server_resource_id\":null,\"updated_at\":\"2024-05-02T14:30:00Z\",\"zone_id\":null}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ProjectApiKey
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ProjectApiKey
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestProjectApiKeyWithSecret_EncodeDecode(t *testing.T) {
 	var typ ProjectApiKeyWithSecret
 	typ.SetFake()
@@ -1567,6 +1724,36 @@ func TestSSOProfilesPostReq_EncodeDecode(t *testing.T) {
 	var typ2 SSOProfilesPostReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+
+func TestSSOProfilesPostReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"description\":\"SSOプロファイル1の説明\",\"idp_certificate\":\"\",\"idp_entity_id\":\"\",\"idp_login_url\":\"\",\"idp_logout_url\":\"\",\"name\":\"SSOプロファイル1\"}"},
+		{Input: "{\"description\":\"SSOプロファイル1の説明\",\"idp_certificate\":\"-----BEGIN CERTIFICATE-----\\nMIIDqjCCApKgAwIBA\\u003csnip\\u003e\\n-----END CERTIFICATE-----\",\"idp_entity_id\":\"https://idp.example.com/ile2ephei7saeph6\",\"idp_login_url\":\"https://idp.example.com/ile2ephei7saeph6/sso/login\",\"idp_logout_url\":\"https://idp.example.com/ile2ephei7saeph6/sso/logout\",\"name\":\"SSOプロファイル1\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ SSOProfilesPostReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 SSOProfilesPostReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
 func TestSSOProfilesSSOProfileIDPutReq_EncodeDecode(t *testing.T) {
 	var typ SSOProfilesSSOProfileIDPutReq
 	typ.SetFake()
@@ -1577,6 +1764,107 @@ func TestSSOProfilesSSOProfileIDPutReq_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 SSOProfilesSSOProfileIDPutReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimConfiguration_EncodeDecode(t *testing.T) {
+	var typ ScimConfiguration
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimConfiguration
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimConfigurationBase_EncodeDecode(t *testing.T) {
+	var typ ScimConfigurationBase
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimConfigurationBase
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimConfigurationsGetOK_EncodeDecode(t *testing.T) {
+	var typ ScimConfigurationsGetOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimConfigurationsGetOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimConfigurationsIDPutReq_EncodeDecode(t *testing.T) {
+	var typ ScimConfigurationsIDPutReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimConfigurationsIDPutReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestScimConfigurationsIDRegenerateTokenPostOK_EncodeDecode(t *testing.T) {
+	var typ ScimConfigurationsIDRegenerateTokenPostOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimConfigurationsIDRegenerateTokenPostOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestScimConfigurationsIDRegenerateTokenPostOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"secret_token\":\"your-secret-token\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ScimConfigurationsIDRegenerateTokenPostOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ScimConfigurationsIDRegenerateTokenPostOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestScimConfigurationsPostReq_EncodeDecode(t *testing.T) {
+	var typ ScimConfigurationsPostReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ScimConfigurationsPostReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestServicePolicyRuleTemplatesGetOK_EncodeDecode(t *testing.T) {
@@ -1633,8 +1921,8 @@ func TestServicePrincipalKey_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"created_at\":\"2023-10-01T00:00:00Z\",\"expired_at\":\"2024-10-01T00:00:00Z\",\"id\":\"00000000-0000-0000-0000-000000000000\",\"key_origin\":\"user\",\"kid\":\"key-id-123456\",\"public_key\":\"BEGIN PUBLIC KEY\\\\n...\\\\nEND PUBLIC KEY\",\"status\":\"disabled\"}"},
-		{Input: "{\"created_at\":\"2023-10-01T00:00:00Z\",\"expired_at\":\"2024-10-01T00:00:00Z\",\"id\":\"00000000-0000-0000-0000-000000000000\",\"key_origin\":\"user\",\"kid\":\"key-id-123456\",\"public_key\":\"BEGIN PUBLIC KEY\\\\n...\\\\nEND PUBLIC KEY\",\"status\":\"enabled\"}"},
+		{Input: "{\"created_at\":\"2023-10-01T00:00:00Z\",\"id\":\"00000000-0000-0000-0000-000000000000\",\"key_expires_at\":\"2024-10-01T00:00:00Z\",\"key_origin\":\"user\",\"kid\":\"1234567890abcdef1234567890abcdef12345678\",\"public_key\":\"BEGIN PUBLIC KEY\\\\n...\\\\nEND PUBLIC KEY\",\"status\":\"disabled\"}"},
+		{Input: "{\"created_at\":\"2023-10-01T00:00:00Z\",\"id\":\"00000000-0000-0000-0000-000000000000\",\"key_expires_at\":\"2024-10-01T00:00:00Z\",\"key_origin\":\"user\",\"kid\":\"1234567890abcdef1234567890abcdef12345678\",\"public_key\":\"BEGIN PUBLIC KEY\\\\n...\\\\nEND PUBLIC KEY\",\"status\":\"enabled\"}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {

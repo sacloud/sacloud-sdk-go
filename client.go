@@ -43,8 +43,12 @@ var UserAgent = fmt.Sprintf(
 // saclientにて処理するためここにはロジック不要だが何か渡さないといけないので空の構造体を用意する
 type voidSecuritySource struct{}
 
-func (voidSecuritySource) CompatAccessTokenAuth(context.Context, v1.OperationName) (v1.CompatAccessTokenAuth, error) {
-	return v1.CompatAccessTokenAuth{}, nil
+func (voidSecuritySource) ProjectApiKeyAuth(context.Context, v1.OperationName) (v1.ProjectApiKeyAuth, error) {
+	return v1.ProjectApiKeyAuth{}, nil
+}
+
+func (voidSecuritySource) ServicePrincipalAuth(context.Context, v1.OperationName) (v1.ServicePrincipalAuth, error) {
+	return v1.ServicePrincipalAuth{}, nil
 }
 
 func NewClient(client saclient.ClientAPI) (*v1.Client, error) {

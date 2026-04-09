@@ -304,11 +304,11 @@ type CompatAPIKeysApikeyIDPutReq struct {
 	Name string `json:"name"`
 	// APIキーの説明.
 	Description string `json:"description"`
-	// APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能。.
+	// APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能.
 	ServerResourceID OptString `json:"server_resource_id"`
 	// IAMのロール。.
 	IamRoles []string `json:"iam_roles"`
-	// ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能。.
+	// ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能.
 	ZoneID OptString `json:"zone_id"`
 }
 
@@ -465,7 +465,7 @@ type CompatAPIKeysPostReq struct {
 	Description string `json:"description"`
 	// APIキーがシングルサーバコントロールパネルで利用される場合は必須.
 	ServerResourceID OptString `json:"server_resource_id"`
-	// IAMのロール。.
+	// IAMのロール.
 	IamRoles []string `json:"iam_roles"`
 	// ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合は必須。.
 	ZoneID OptString `json:"zone_id"`
@@ -529,42 +529,6 @@ func (s *CompatAPIKeysPostReq) SetIamRoles(val []string) {
 // SetZoneID sets the value of ZoneID.
 func (s *CompatAPIKeysPostReq) SetZoneID(val OptString) {
 	s.ZoneID = val
-}
-
-type CompatAccessTokenAuth struct {
-	Username string
-	Password string
-	Roles    []string
-}
-
-// GetUsername returns the value of Username.
-func (s *CompatAccessTokenAuth) GetUsername() string {
-	return s.Username
-}
-
-// GetPassword returns the value of Password.
-func (s *CompatAccessTokenAuth) GetPassword() string {
-	return s.Password
-}
-
-// GetRoles returns the value of Roles.
-func (s *CompatAccessTokenAuth) GetRoles() []string {
-	return s.Roles
-}
-
-// SetUsername sets the value of Username.
-func (s *CompatAccessTokenAuth) SetUsername(val string) {
-	s.Username = val
-}
-
-// SetPassword sets the value of Password.
-func (s *CompatAccessTokenAuth) SetPassword(val string) {
-	s.Password = val
-}
-
-// SetRoles sets the value of Roles.
-func (s *CompatAccessTokenAuth) SetRoles(val []string) {
-	s.Roles = val
 }
 
 // Merged schema.
@@ -1196,6 +1160,89 @@ func (s *FoldersPostReq) SetParentID(val OptNilInt) {
 	s.ParentID = val
 }
 
+type GetAuthContextOK struct {
+	// APIキーのIDまたはサービスプリンシパルのID.
+	ResourceID int64 `json:"resource_id"`
+	// 認証種別。APIキーまたはサービスプリンシパル。.
+	AuthType GetAuthContextOKAuthType `json:"auth_type"`
+	// 操作可能なプロジェクトのID。現状、APIキー・サービスプリンシパルが属するプロジェクトのIDが設定されるが、将来的に操作可能なプロジェクトの制限が撤廃された場合にはnullが設定される可能性がある。.
+	LimitedToProjectID NilInt `json:"limited_to_project_id"`
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *GetAuthContextOK) GetResourceID() int64 {
+	return s.ResourceID
+}
+
+// GetAuthType returns the value of AuthType.
+func (s *GetAuthContextOK) GetAuthType() GetAuthContextOKAuthType {
+	return s.AuthType
+}
+
+// GetLimitedToProjectID returns the value of LimitedToProjectID.
+func (s *GetAuthContextOK) GetLimitedToProjectID() NilInt {
+	return s.LimitedToProjectID
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *GetAuthContextOK) SetResourceID(val int64) {
+	s.ResourceID = val
+}
+
+// SetAuthType sets the value of AuthType.
+func (s *GetAuthContextOK) SetAuthType(val GetAuthContextOKAuthType) {
+	s.AuthType = val
+}
+
+// SetLimitedToProjectID sets the value of LimitedToProjectID.
+func (s *GetAuthContextOK) SetLimitedToProjectID(val NilInt) {
+	s.LimitedToProjectID = val
+}
+
+func (*GetAuthContextOK) getAuthContextRes() {}
+
+// 認証種別。APIキーまたはサービスプリンシパル。.
+type GetAuthContextOKAuthType string
+
+const (
+	GetAuthContextOKAuthTypeApikey           GetAuthContextOKAuthType = "apikey"
+	GetAuthContextOKAuthTypeServicePrincipal GetAuthContextOKAuthType = "service_principal"
+)
+
+// AllValues returns all GetAuthContextOKAuthType values.
+func (GetAuthContextOKAuthType) AllValues() []GetAuthContextOKAuthType {
+	return []GetAuthContextOKAuthType{
+		GetAuthContextOKAuthTypeApikey,
+		GetAuthContextOKAuthTypeServicePrincipal,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetAuthContextOKAuthType) MarshalText() ([]byte, error) {
+	switch s {
+	case GetAuthContextOKAuthTypeApikey:
+		return []byte(s), nil
+	case GetAuthContextOKAuthTypeServicePrincipal:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetAuthContextOKAuthType) UnmarshalText(data []byte) error {
+	switch GetAuthContextOKAuthType(data) {
+	case GetAuthContextOKAuthTypeApikey:
+		*s = GetAuthContextOKAuthTypeApikey
+		return nil
+	case GetAuthContextOKAuthTypeServicePrincipal:
+		*s = GetAuthContextOKAuthTypeServicePrincipal
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/Group
 type Group struct {
 	// グループID.
@@ -1562,6 +1609,8 @@ func (*Http400BadRequest) projectsProjectIDIamPolicyPutRes()                    
 func (*Http400BadRequest) projectsProjectIDPutRes()                             {}
 func (*Http400BadRequest) sSOProfilesPostRes()                                  {}
 func (*Http400BadRequest) sSOProfilesSSOProfileIDPutRes()                       {}
+func (*Http400BadRequest) scimConfigurationsIDPutRes()                          {}
+func (*Http400BadRequest) scimConfigurationsPostRes()                           {}
 func (*Http400BadRequest) servicePrincipalsOAuth2TokenPostRes()                 {}
 func (*Http400BadRequest) servicePrincipalsPostRes()                            {}
 func (*Http400BadRequest) servicePrincipalsServicePrincipalIDPutRes()           {}
@@ -1739,6 +1788,7 @@ func (*Http401Unauthorized) foldersFolderIDIamPolicyPutRes()                    
 func (*Http401Unauthorized) foldersFolderIDPutRes()                                                 {}
 func (*Http401Unauthorized) foldersGetRes()                                                         {}
 func (*Http401Unauthorized) foldersPostRes()                                                        {}
+func (*Http401Unauthorized) getAuthContextRes()                                                     {}
 func (*Http401Unauthorized) groupsGetRes()                                                          {}
 func (*Http401Unauthorized) groupsGroupIDDeleteRes()                                                {}
 func (*Http401Unauthorized) groupsGroupIDGetRes()                                                   {}
@@ -1778,6 +1828,12 @@ func (*Http401Unauthorized) sSOProfilesSSOProfileIDDeleteRes()                  
 func (*Http401Unauthorized) sSOProfilesSSOProfileIDGetRes()                                         {}
 func (*Http401Unauthorized) sSOProfilesSSOProfileIDPutRes()                                         {}
 func (*Http401Unauthorized) sSOProfilesSSOProfileIDUnassignPostRes()                                {}
+func (*Http401Unauthorized) scimConfigurationsGetRes()                                              {}
+func (*Http401Unauthorized) scimConfigurationsIDDeleteRes()                                         {}
+func (*Http401Unauthorized) scimConfigurationsIDGetRes()                                            {}
+func (*Http401Unauthorized) scimConfigurationsIDPutRes()                                            {}
+func (*Http401Unauthorized) scimConfigurationsIDRegenerateTokenPostRes()                            {}
+func (*Http401Unauthorized) scimConfigurationsPostRes()                                             {}
 func (*Http401Unauthorized) servicePolicyRuleTemplatesGetRes()                                      {}
 func (*Http401Unauthorized) servicePolicyStatusGetRes()                                             {}
 func (*Http401Unauthorized) servicePrincipalsGetRes()                                               {}
@@ -1914,6 +1970,12 @@ func (*Http403Forbidden) sSOProfilesSSOProfileIDDeleteRes()                     
 func (*Http403Forbidden) sSOProfilesSSOProfileIDGetRes()                                         {}
 func (*Http403Forbidden) sSOProfilesSSOProfileIDPutRes()                                         {}
 func (*Http403Forbidden) sSOProfilesSSOProfileIDUnassignPostRes()                                {}
+func (*Http403Forbidden) scimConfigurationsGetRes()                                              {}
+func (*Http403Forbidden) scimConfigurationsIDDeleteRes()                                         {}
+func (*Http403Forbidden) scimConfigurationsIDGetRes()                                            {}
+func (*Http403Forbidden) scimConfigurationsIDPutRes()                                            {}
+func (*Http403Forbidden) scimConfigurationsIDRegenerateTokenPostRes()                            {}
+func (*Http403Forbidden) scimConfigurationsPostRes()                                             {}
 func (*Http403Forbidden) servicePolicyRuleTemplatesGetRes()                                      {}
 func (*Http403Forbidden) servicePolicyStatusGetRes()                                             {}
 func (*Http403Forbidden) servicePrincipalsGetRes()                                               {}
@@ -2021,6 +2083,10 @@ func (*Http404NotFound) sSOProfilesSSOProfileIDDeleteRes()                      
 func (*Http404NotFound) sSOProfilesSSOProfileIDGetRes()                                         {}
 func (*Http404NotFound) sSOProfilesSSOProfileIDPutRes()                                         {}
 func (*Http404NotFound) sSOProfilesSSOProfileIDUnassignPostRes()                                {}
+func (*Http404NotFound) scimConfigurationsIDDeleteRes()                                         {}
+func (*Http404NotFound) scimConfigurationsIDGetRes()                                            {}
+func (*Http404NotFound) scimConfigurationsIDPutRes()                                            {}
+func (*Http404NotFound) scimConfigurationsIDRegenerateTokenPostRes()                            {}
 func (*Http404NotFound) servicePrincipalsServicePrincipalIDDeleteRes()                          {}
 func (*Http404NotFound) servicePrincipalsServicePrincipalIDGetRes()                             {}
 func (*Http404NotFound) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteRes() {}
@@ -2092,6 +2158,8 @@ func (*Http409Conflict) projectsProjectIDDeleteRes()                          {}
 func (*Http409Conflict) sSOProfilesPostRes()                                  {}
 func (*Http409Conflict) sSOProfilesSSOProfileIDAssignPostRes()                {}
 func (*Http409Conflict) sSOProfilesSSOProfileIDDeleteRes()                    {}
+func (*Http409Conflict) scimConfigurationsIDDeleteRes()                       {}
+func (*Http409Conflict) scimConfigurationsPostRes()                           {}
 func (*Http409Conflict) servicePrincipalsPostRes()                            {}
 func (*Http409Conflict) servicePrincipalsServicePrincipalIDDeleteRes()        {}
 func (*Http409Conflict) servicePrincipalsServicePrincipalIDUploadKeyPostRes() {}
@@ -2216,6 +2284,12 @@ func (*Http429TooManyRequests) sSOProfilesSSOProfileIDDeleteRes()               
 func (*Http429TooManyRequests) sSOProfilesSSOProfileIDGetRes()                           {}
 func (*Http429TooManyRequests) sSOProfilesSSOProfileIDPutRes()                           {}
 func (*Http429TooManyRequests) sSOProfilesSSOProfileIDUnassignPostRes()                  {}
+func (*Http429TooManyRequests) scimConfigurationsGetRes()                                {}
+func (*Http429TooManyRequests) scimConfigurationsIDDeleteRes()                           {}
+func (*Http429TooManyRequests) scimConfigurationsIDGetRes()                              {}
+func (*Http429TooManyRequests) scimConfigurationsIDPutRes()                              {}
+func (*Http429TooManyRequests) scimConfigurationsIDRegenerateTokenPostRes()              {}
+func (*Http429TooManyRequests) scimConfigurationsPostRes()                               {}
 func (*Http429TooManyRequests) servicePolicyRuleTemplatesGetRes()                        {}
 func (*Http429TooManyRequests) servicePolicyStatusGetRes()                               {}
 func (*Http429TooManyRequests) servicePrincipalsGetRes()                                 {}
@@ -2456,6 +2530,11 @@ type IamRole struct {
 	Description string `json:"description"`
 	// IAMロールのカテゴリ.
 	Category string `json:"category"`
+	// このIAMロールを付与可能な最低階層。
+	// * `"organization"` - 組織
+	// * `"folder"` - フォルダ
+	// * `"project"` - プロジェクト.
+	LowestGrantableResource IamRoleLowestGrantableResource `json:"lowest_grantable_resource"`
 }
 
 // GetID returns the value of ID.
@@ -2478,6 +2557,11 @@ func (s *IamRole) GetCategory() string {
 	return s.Category
 }
 
+// GetLowestGrantableResource returns the value of LowestGrantableResource.
+func (s *IamRole) GetLowestGrantableResource() IamRoleLowestGrantableResource {
+	return s.LowestGrantableResource
+}
+
 // SetID sets the value of ID.
 func (s *IamRole) SetID(val string) {
 	s.ID = val
@@ -2498,7 +2582,64 @@ func (s *IamRole) SetCategory(val string) {
 	s.Category = val
 }
 
+// SetLowestGrantableResource sets the value of LowestGrantableResource.
+func (s *IamRole) SetLowestGrantableResource(val IamRoleLowestGrantableResource) {
+	s.LowestGrantableResource = val
+}
+
 func (*IamRole) iamRolesIamRoleIDGetRes() {}
+
+// このIAMロールを付与可能な最低階層。
+// * `"organization"` - 組織
+// * `"folder"` - フォルダ
+// * `"project"` - プロジェクト.
+type IamRoleLowestGrantableResource string
+
+const (
+	IamRoleLowestGrantableResourceOrganization IamRoleLowestGrantableResource = "organization"
+	IamRoleLowestGrantableResourceFolder       IamRoleLowestGrantableResource = "folder"
+	IamRoleLowestGrantableResourceProject      IamRoleLowestGrantableResource = "project"
+)
+
+// AllValues returns all IamRoleLowestGrantableResource values.
+func (IamRoleLowestGrantableResource) AllValues() []IamRoleLowestGrantableResource {
+	return []IamRoleLowestGrantableResource{
+		IamRoleLowestGrantableResourceOrganization,
+		IamRoleLowestGrantableResourceFolder,
+		IamRoleLowestGrantableResourceProject,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s IamRoleLowestGrantableResource) MarshalText() ([]byte, error) {
+	switch s {
+	case IamRoleLowestGrantableResourceOrganization:
+		return []byte(s), nil
+	case IamRoleLowestGrantableResourceFolder:
+		return []byte(s), nil
+	case IamRoleLowestGrantableResourceProject:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *IamRoleLowestGrantableResource) UnmarshalText(data []byte) error {
+	switch IamRoleLowestGrantableResource(data) {
+	case IamRoleLowestGrantableResourceOrganization:
+		*s = IamRoleLowestGrantableResourceOrganization
+		return nil
+	case IamRoleLowestGrantableResourceFolder:
+		*s = IamRoleLowestGrantableResourceFolder
+		return nil
+	case IamRoleLowestGrantableResourceProject:
+		*s = IamRoleLowestGrantableResourceProject
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Merged schema.
 type IamRolesGetOK struct {
@@ -4515,6 +4656,42 @@ func (s *ProjectApiKey) SetUpdatedAt(val OptString) {
 func (*ProjectApiKey) compatAPIKeysApikeyIDGetRes() {}
 func (*ProjectApiKey) compatAPIKeysApikeyIDPutRes() {}
 
+type ProjectApiKeyAuth struct {
+	Username string
+	Password string
+	Roles    []string
+}
+
+// GetUsername returns the value of Username.
+func (s *ProjectApiKeyAuth) GetUsername() string {
+	return s.Username
+}
+
+// GetPassword returns the value of Password.
+func (s *ProjectApiKeyAuth) GetPassword() string {
+	return s.Password
+}
+
+// GetRoles returns the value of Roles.
+func (s *ProjectApiKeyAuth) GetRoles() []string {
+	return s.Roles
+}
+
+// SetUsername sets the value of Username.
+func (s *ProjectApiKeyAuth) SetUsername(val string) {
+	s.Username = val
+}
+
+// SetPassword sets the value of Password.
+func (s *ProjectApiKeyAuth) SetPassword(val string) {
+	s.Password = val
+}
+
+// SetRoles sets the value of Roles.
+func (s *ProjectApiKeyAuth) SetRoles(val []string) {
+	s.Roles = val
+}
+
 // Merged schema.
 // Ref: #/components/schemas/ProjectApiKeyWithSecret
 type ProjectApiKeyWithSecret struct {
@@ -5583,6 +5760,257 @@ func (s *SSOProfilesSSOProfileIDPutReq) SetIdpCertificate(val string) {
 }
 
 // Merged schema.
+// Ref: #/components/schemas/ScimConfiguration
+type ScimConfiguration struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID `json:"id"`
+	// ユーザープロビジョニング名.
+	Name string `json:"name"`
+	// ユーザープロビジョニングエンドポイントのベースURL（ユーザープロビジョニングIDを含む）.
+	BaseURL url.URL `json:"base_url"`
+	// 作成日時.
+	CreatedAt string `json:"created_at"`
+	// 更新日時.
+	UpdatedAt string `json:"updated_at"`
+	// ユーザープロビジョニングの認証に使用するシークレットトークン.
+	SecretToken string `json:"secret_token"`
+}
+
+// GetID returns the value of ID.
+func (s *ScimConfiguration) GetID() uuid.UUID {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *ScimConfiguration) GetName() string {
+	return s.Name
+}
+
+// GetBaseURL returns the value of BaseURL.
+func (s *ScimConfiguration) GetBaseURL() url.URL {
+	return s.BaseURL
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ScimConfiguration) GetCreatedAt() string {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ScimConfiguration) GetUpdatedAt() string {
+	return s.UpdatedAt
+}
+
+// GetSecretToken returns the value of SecretToken.
+func (s *ScimConfiguration) GetSecretToken() string {
+	return s.SecretToken
+}
+
+// SetID sets the value of ID.
+func (s *ScimConfiguration) SetID(val uuid.UUID) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *ScimConfiguration) SetName(val string) {
+	s.Name = val
+}
+
+// SetBaseURL sets the value of BaseURL.
+func (s *ScimConfiguration) SetBaseURL(val url.URL) {
+	s.BaseURL = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ScimConfiguration) SetCreatedAt(val string) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ScimConfiguration) SetUpdatedAt(val string) {
+	s.UpdatedAt = val
+}
+
+// SetSecretToken sets the value of SecretToken.
+func (s *ScimConfiguration) SetSecretToken(val string) {
+	s.SecretToken = val
+}
+
+func (*ScimConfiguration) scimConfigurationsPostRes() {}
+
+// Ref: #/components/schemas/ScimConfigurationBase
+type ScimConfigurationBase struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID `json:"id"`
+	// ユーザープロビジョニング名.
+	Name string `json:"name"`
+	// ユーザープロビジョニングエンドポイントのベースURL（ユーザープロビジョニングIDを含む）.
+	BaseURL url.URL `json:"base_url"`
+	// 作成日時.
+	CreatedAt string `json:"created_at"`
+	// 更新日時.
+	UpdatedAt string `json:"updated_at"`
+}
+
+// GetID returns the value of ID.
+func (s *ScimConfigurationBase) GetID() uuid.UUID {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *ScimConfigurationBase) GetName() string {
+	return s.Name
+}
+
+// GetBaseURL returns the value of BaseURL.
+func (s *ScimConfigurationBase) GetBaseURL() url.URL {
+	return s.BaseURL
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ScimConfigurationBase) GetCreatedAt() string {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ScimConfigurationBase) GetUpdatedAt() string {
+	return s.UpdatedAt
+}
+
+// SetID sets the value of ID.
+func (s *ScimConfigurationBase) SetID(val uuid.UUID) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *ScimConfigurationBase) SetName(val string) {
+	s.Name = val
+}
+
+// SetBaseURL sets the value of BaseURL.
+func (s *ScimConfigurationBase) SetBaseURL(val url.URL) {
+	s.BaseURL = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ScimConfigurationBase) SetCreatedAt(val string) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ScimConfigurationBase) SetUpdatedAt(val string) {
+	s.UpdatedAt = val
+}
+
+func (*ScimConfigurationBase) scimConfigurationsIDGetRes() {}
+func (*ScimConfigurationBase) scimConfigurationsIDPutRes() {}
+
+// Merged schema.
+type ScimConfigurationsGetOK struct {
+	Items []ScimConfigurationBase `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ScimConfigurationsGetOK) GetItems() []ScimConfigurationBase {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ScimConfigurationsGetOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ScimConfigurationsGetOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ScimConfigurationsGetOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ScimConfigurationsGetOK) SetItems(val []ScimConfigurationBase) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ScimConfigurationsGetOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ScimConfigurationsGetOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ScimConfigurationsGetOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ScimConfigurationsGetOK) scimConfigurationsGetRes() {}
+
+// ScimConfigurationsIDDeleteNoContent is response for ScimConfigurationsIDDelete operation.
+type ScimConfigurationsIDDeleteNoContent struct{}
+
+func (*ScimConfigurationsIDDeleteNoContent) scimConfigurationsIDDeleteRes() {}
+
+type ScimConfigurationsIDPutReq struct {
+	// ユーザープロビジョニング名.
+	Name string `json:"name"`
+}
+
+// GetName returns the value of Name.
+func (s *ScimConfigurationsIDPutReq) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *ScimConfigurationsIDPutReq) SetName(val string) {
+	s.Name = val
+}
+
+type ScimConfigurationsIDRegenerateTokenPostOK struct {
+	// 再発行されたユーザープロビジョニングのシークレットトークン.
+	SecretToken OptString `json:"secret_token"`
+}
+
+// GetSecretToken returns the value of SecretToken.
+func (s *ScimConfigurationsIDRegenerateTokenPostOK) GetSecretToken() OptString {
+	return s.SecretToken
+}
+
+// SetSecretToken sets the value of SecretToken.
+func (s *ScimConfigurationsIDRegenerateTokenPostOK) SetSecretToken(val OptString) {
+	s.SecretToken = val
+}
+
+func (*ScimConfigurationsIDRegenerateTokenPostOK) scimConfigurationsIDRegenerateTokenPostRes() {}
+
+type ScimConfigurationsPostReq struct {
+	// ユーザープロビジョニング名.
+	Name string `json:"name"`
+}
+
+// GetName returns the value of Name.
+func (s *ScimConfigurationsPostReq) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *ScimConfigurationsPostReq) SetName(val string) {
+	s.Name = val
+}
+
+// Merged schema.
 type ServicePolicyRuleTemplatesGetOK struct {
 	Items []RuleTemplate `json:"items"`
 	// データ総数.
@@ -5773,6 +6201,31 @@ func (*ServicePrincipal) servicePrincipalsPostRes()                  {}
 func (*ServicePrincipal) servicePrincipalsServicePrincipalIDGetRes() {}
 func (*ServicePrincipal) servicePrincipalsServicePrincipalIDPutRes() {}
 
+type ServicePrincipalAuth struct {
+	Token string
+	Roles []string
+}
+
+// GetToken returns the value of Token.
+func (s *ServicePrincipalAuth) GetToken() string {
+	return s.Token
+}
+
+// GetRoles returns the value of Roles.
+func (s *ServicePrincipalAuth) GetRoles() []string {
+	return s.Roles
+}
+
+// SetToken sets the value of Token.
+func (s *ServicePrincipalAuth) SetToken(val string) {
+	s.Token = val
+}
+
+// SetRoles sets the value of Roles.
+func (s *ServicePrincipalAuth) SetRoles(val []string) {
+	s.Roles = val
+}
+
 // Ref: #/components/schemas/ServicePrincipalJWTGrantRequest
 type ServicePrincipalJWTGrantRequest struct {
 	// 固定値 JWT Bearer Grant Type.
@@ -5852,7 +6305,7 @@ type ServicePrincipalKey struct {
 	// 作成日時.
 	CreatedAt string `json:"created_at"`
 	// 有効期限.
-	ExpiredAt OptNilString `json:"expired_at"`
+	KeyExpiresAt OptNilString `json:"key_expires_at"`
 }
 
 // GetID returns the value of ID.
@@ -5885,9 +6338,9 @@ func (s *ServicePrincipalKey) GetCreatedAt() string {
 	return s.CreatedAt
 }
 
-// GetExpiredAt returns the value of ExpiredAt.
-func (s *ServicePrincipalKey) GetExpiredAt() OptNilString {
-	return s.ExpiredAt
+// GetKeyExpiresAt returns the value of KeyExpiresAt.
+func (s *ServicePrincipalKey) GetKeyExpiresAt() OptNilString {
+	return s.KeyExpiresAt
 }
 
 // SetID sets the value of ID.
@@ -5920,9 +6373,9 @@ func (s *ServicePrincipalKey) SetCreatedAt(val string) {
 	s.CreatedAt = val
 }
 
-// SetExpiredAt sets the value of ExpiredAt.
-func (s *ServicePrincipalKey) SetExpiredAt(val OptNilString) {
-	s.ExpiredAt = val
+// SetKeyExpiresAt sets the value of KeyExpiresAt.
+func (s *ServicePrincipalKey) SetKeyExpiresAt(val OptNilString) {
+	s.KeyExpiresAt = val
 }
 
 func (*ServicePrincipalKey) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostRes() {

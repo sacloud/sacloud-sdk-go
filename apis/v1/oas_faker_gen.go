@@ -4,6 +4,7 @@ package v1
 
 import (
 	"fmt"
+	"net/url"
 	"time"
 
 	"github.com/google/uuid"
@@ -524,6 +525,30 @@ func (s *FoldersPostReq) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *GetAuthContextOK) SetFake() {
+	{
+		{
+			s.ResourceID = int64(0)
+		}
+	}
+	{
+		{
+			s.AuthType.SetFake()
+		}
+	}
+	{
+		{
+			s.LimitedToProjectID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *GetAuthContextOKAuthType) SetFake() {
+	*s = GetAuthContextOKAuthTypeApikey
+}
+
+// SetFake set fake values.
 func (s *Group) SetFake() {
 	{
 		{
@@ -987,6 +1012,16 @@ func (s *IamRole) SetFake() {
 			s.Category = "string"
 		}
 	}
+	{
+		{
+			s.LowestGrantableResource.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *IamRoleLowestGrantableResource) SetFake() {
+	*s = IamRoleLowestGrantableResourceOrganization
 }
 
 // SetFake set fake values.
@@ -2099,6 +2134,127 @@ func (s *SSOProfilesSSOProfileIDPutReq) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *ScimConfiguration) SetFake() {
+	{
+		{
+			s.ID = uuid.New()
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.BaseURL = url.URL{Scheme: "https", Host: "github.com", Path: "/ogen-go/ogen"}
+		}
+	}
+	{
+		{
+			s.CreatedAt = "string"
+		}
+	}
+	{
+		{
+			s.UpdatedAt = "string"
+		}
+	}
+	{
+		{
+			s.SecretToken = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ScimConfigurationBase) SetFake() {
+	{
+		{
+			s.ID = uuid.New()
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.BaseURL = url.URL{Scheme: "https", Host: "github.com", Path: "/ogen-go/ogen"}
+		}
+	}
+	{
+		{
+			s.CreatedAt = "string"
+		}
+	}
+	{
+		{
+			s.UpdatedAt = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ScimConfigurationsGetOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem ScimConfigurationBase
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ScimConfigurationsIDPutReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ScimConfigurationsIDRegenerateTokenPostOK) SetFake() {
+	{
+		{
+			s.SecretToken.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ScimConfigurationsPostReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *ServicePolicyRuleTemplatesGetOK) SetFake() {
 	{
 		{
@@ -2206,7 +2362,7 @@ func (s *ServicePrincipalKey) SetFake() {
 	}
 	{
 		{
-			s.ExpiredAt.SetFake()
+			s.KeyExpiresAt.SetFake()
 		}
 	}
 }

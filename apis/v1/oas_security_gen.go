@@ -11,18 +11,30 @@ import (
 
 // SecuritySource is provider of security values (tokens, passwords, etc.).
 type SecuritySource interface {
-	// CompatAccessTokenAuth provides CompatAccessTokenAuth security value.
-	// コントロールパネルアクセストークン認証
-	// - ユーザ名にアクセスモード（M-G、M-A、U-G、U-A）を指定
-	// - パスワードに発行したアクセストークンを指定.
-	CompatAccessTokenAuth(ctx context.Context, operationName OperationName) (CompatAccessTokenAuth, error)
+	// ProjectApiKeyAuth provides ProjectApiKeyAuth security value.
+	// APIキー認証
+	// - ユーザー名に発行したAPIキーのアクセストークンを指定
+	// - パスワードに発行したAPIキーのアクセストークンシークレットを指定.
+	ProjectApiKeyAuth(ctx context.Context, operationName OperationName) (ProjectApiKeyAuth, error)
+	// ServicePrincipalAuth provides ServicePrincipalAuth security value.
+	// サービスプリンシパル認証
+	// - サービスプリンシパルのアクセストークンを指定.
+	ServicePrincipalAuth(ctx context.Context, operationName OperationName) (ServicePrincipalAuth, error)
 }
 
-func (s *Client) securityCompatAccessTokenAuth(ctx context.Context, operationName OperationName, req *http.Request) error {
-	t, err := s.sec.CompatAccessTokenAuth(ctx, operationName)
+func (s *Client) securityProjectApiKeyAuth(ctx context.Context, operationName OperationName, req *http.Request) error {
+	t, err := s.sec.ProjectApiKeyAuth(ctx, operationName)
 	if err != nil {
-		return errors.Wrap(err, "security source \"CompatAccessTokenAuth\"")
+		return errors.Wrap(err, "security source \"ProjectApiKeyAuth\"")
 	}
 	req.SetBasicAuth(t.Username, t.Password)
+	return nil
+}
+func (s *Client) securityServicePrincipalAuth(ctx context.Context, operationName OperationName, req *http.Request) error {
+	t, err := s.sec.ServicePrincipalAuth(ctx, operationName)
+	if err != nil {
+		return errors.Wrap(err, "security source \"ServicePrincipalAuth\"")
+	}
+	req.Header.Set("Authorization", "Bearer "+t.Token)
 	return nil
 }

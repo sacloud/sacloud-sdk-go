@@ -563,6 +563,40 @@ func (s *FoldersGetOK) Validate() error {
 	return nil
 }
 
+func (s *GetAuthContextOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.AuthType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "auth_type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s GetAuthContextOKAuthType) Validate() error {
+	switch s {
+	case "apikey":
+		return nil
+	case "service_principal":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *GroupMemberships) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -803,6 +837,42 @@ func (s IamPolicyRoleType) Validate() error {
 	}
 }
 
+func (s *IamRole) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.LowestGrantableResource.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "lowest_grantable_resource",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s IamRoleLowestGrantableResource) Validate() error {
+	switch s {
+	case "organization":
+		return nil
+	case "folder":
+		return nil
+	case "project":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *IamRolesGetOK) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -812,6 +882,23 @@ func (s *IamRolesGetOK) Validate() error {
 	if err := func() error {
 		if s.Items == nil {
 			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Items {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
 		}
 		return nil
 	}(); err != nil {
@@ -1488,6 +1575,29 @@ func (s *ProjectsProjectIDIamPolicyPutReq) Validate() error {
 }
 
 func (s *SSOProfilesGetOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Items == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "items",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *ScimConfigurationsGetOK) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
