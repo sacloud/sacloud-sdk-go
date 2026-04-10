@@ -281,6 +281,7 @@ func (s *ClientTestSuite) TestEnviron() {
 		e := subject.SetEnviron([]string{
 			"SAKURACLOUD_ACCESS_TOKEN_SECRET=bar",
 			"SAKURACLOUD_ACCESS_TOKEN=foo",
+			"SAKURACLOUD_ACCEPT_LANGUAGE=baz",
 			"SAKURACLOUD_API_REQUEST_RATE_LIMIT=20",
 			"SAKURACLOUD_API_REQUEST_TIMEOUT=30",
 			"SAKURACLOUD_API_ROOT_URL=https://api.example.com",
@@ -301,6 +302,7 @@ func (s *ClientTestSuite) TestEnviron() {
 		s.Equal(map[string]any{
 			"AccessToken":         "foo",
 			"AccessTokenSecret":   "bar",
+			"AcceptLanguage":      "baz",
 			"APIRequestRateLimit": int64(20),
 			"APIRequestTimeout":   time.Duration(30) * time.Second,
 			"APIRootURL":          "https://api.example.com",
@@ -326,6 +328,7 @@ func (s *ClientTestSuite) TestEnviron() {
 		e := subject.SetEnviron([]string{
 			"SAKURA_ACCESS_TOKEN_SECRET=bar",
 			"SAKURA_ACCESS_TOKEN=foo",
+			"SAKURA_ACCEPT_LANGUAGE=baz",
 			"SAKURA_RATE_LIMIT=20",
 			"SAKURA_API_REQUEST_TIMEOUT=30",
 			"SAKURA_API_ROOT_URL=https://api.example.com",
@@ -346,6 +349,7 @@ func (s *ClientTestSuite) TestEnviron() {
 		s.Equal(map[string]any{
 			"AccessToken":         "foo",
 			"AccessTokenSecret":   "bar",
+			"AcceptLanguage":      "baz",
 			"APIRequestRateLimit": int64(20),
 			"APIRequestTimeout":   time.Duration(30) * time.Second,
 			"APIRootURL":          "https://api.example.com",
