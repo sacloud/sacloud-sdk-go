@@ -23,6 +23,12 @@ func (c *config) middlewareSetHeader() Middleware {
 			req.Header.Set("User-Agent", ua)
 		}
 
+		if req.Header.Get("Accept-Language") == "" {
+			if al, ok := obtainFromConfig[string](c, "AcceptLanguage").some(); ok {
+				req.Header.Set("Accept-Language", al)
+			}
+		}
+
 		if req.Body != nil && req.Header.Get("Content-Type") == "" {
 			req.Header.Set("Content-Type", "application/json")
 		}

@@ -552,6 +552,7 @@ func (s *ClientTestSuite) TestDynamicUsinfgClientOptions() {
 		&old.Options{RetryWaitMax: 70},
 		&old.Options{RetryWaitMin: 50},
 		&old.Options{UserAgent: ua},
+		&old.Options{AcceptLanguage: "en-US,en;q=0.9"},
 		&old.Options{Trace: true},
 		&old.Options{TraceOnlyError: true},
 		&old.Options{RequestCustomizers: []saht.RequestCustomizer{
@@ -579,6 +580,7 @@ func (s *ClientTestSuite) TestDynamicUsinfgClientOptions() {
 		"RetryMax":            int64(30),
 		"RetryWaitMax":        int64(70),
 		"RetryWaitMin":        int64(50),
+		"AcceptLanguage":      "en-US,en;q=0.9",
 		"TokenEndpoint":       "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token",
 		"TraceMode":           "error",
 		"UserAgent":           ua,

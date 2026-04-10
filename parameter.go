@@ -55,6 +55,7 @@ type storage struct {
 	traceMode             option[string]
 	mockServer            option[*httptest.Server]
 	userAgent             option[string]
+	acceptLanguage        option[string]
 	authPreference        option[string]
 	middlewares           option[[]Middleware]
 	checkRetryFunc        option[retryablehttp.CheckRetry]
@@ -270,8 +271,7 @@ func (p *parameter) setOldOptions(opts ...*old.Options) error {
 			p.dynamic.accessTokenSecret.initialize(o.AccessTokenSecret)
 		}
 		if o.AcceptLanguage != "" {
-			// :NOTE: This can be implemented later; just low priority for now.
-			return NewErrorf("setting AcceptLanguage not supported")
+			p.dynamic.acceptLanguage.initialize(o.AcceptLanguage)
 		}
 		if o.Gzip == true {
 			// This is default enabled for us.
@@ -343,7 +343,7 @@ func (p *parameter) setOldOptions(opts ...*old.Options) error {
 
 func (p *parameter) populate(c *config) error {
 	// This is the mother-of-all populate function.
-	ret := make([]error, 0, 26) // <- 26 is the # of `append` calls below
+	ret := make([]error, 0, 27) // <- 27 is the # of `append` calls below
 
 	//nolint:gocritic
 	if p == nil {
@@ -384,6 +384,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateTraceMode(c))
 	ret = append(ret, p.populateMockServer(c))
 	ret = append(ret, p.populateUserAgent(c))
+	ret = append(ret, p.populateAcceptLanguage(c))
 	ret = append(ret, p.populateAuthPreference(c))
 	ret = append(ret, p.populateMiddlewares(c))
 	ret = append(ret, p.populateCheckRetryFunc(c))
@@ -732,6 +733,10 @@ func (p *parameter) populateCheckRetryFunc(c *config) error {
 
 func (p *parameter) populateUserAgent(c *config) error {
 	return p.populateString(c, "UserAgent")
+}
+
+func (p *parameter) populateAcceptLanguage(c *config) error {
+	return p.populateString(c, "AcceptLanguage")
 }
 
 // Deprecated: only for compatibility.
@@ -1086,6 +1091,9 @@ func (s *storage) get(k string) (any, bool) {
 
 	case "UserAgent":
 		return s.userAgent.Get()
+
+	case "AcceptLanguage":
+		return s.acceptLanguage.Get()
 
 	case "AuthPreference":
 		return s.authPreference.Get()
