@@ -88,7 +88,7 @@ func (p *parameter) setEnviron(env []string) error {
 		return NewErrorf("nil parameter")
 	} else {
 		p.profileOp = NewProfileOp(env)
-		r := make([]error, 0, 41) // <- 41 is the # of `append` calls below
+		r := make([]error, 0, 43) // <- 43 is the # of `append` calls below
 		e := intoEnvmap(env)
 		s := &p.envp
 
@@ -116,6 +116,7 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURA_API_REQUEST_TIMEOUT", s.apiRequestTimeout.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_RATE_LIMIT", s.apiRequestRateLimit.fromEnv)) // <- intentional; not SAKURA_API_REQUEST_RATE_LIMIT
 		r = append(r, e.fetchInto("SAKURA_TRACE", s.traceMode.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ACCEPT_LANGUAGE", s.acceptLanguage.fromEnv))
 
 		// SAKURA_ENDPOINTS_* variables
 		endpoints := make(map[string]string)
@@ -148,6 +149,7 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURACLOUD_API_REQUEST_TIMEOUT", s.apiRequestTimeout.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_API_REQUEST_RATE_LIMIT", s.apiRequestRateLimit.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_TRACE_MODE", s.traceMode.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ACCEPT_LANGUAGE", s.acceptLanguage.fromEnv))
 
 		// usacloud compatibility
 		r = append(r, e.fetchInto("USACLOUD_PROFILE", s.profileName.fromEnv))
