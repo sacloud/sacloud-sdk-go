@@ -5,6 +5,13 @@
 - golang 1.26.2 by @tokuhirom in https://github.com/sacloud/saclient-go/pull/98
 - Support AcceptLanguage option in CompatSettingsFromAPIClientOptions by @tokuhirom in https://github.com/sacloud/saclient-go/pull/97
 - add SAKURA_ACCEPT_LANGUAGE environment variable by @shyouhei in https://github.com/sacloud/saclient-go/pull/99
+- Release for v0.3.6 by @github-actions[bot] in https://github.com/sacloud/saclient-go/pull/96
+
+## [v0.3.6](https://github.com/sacloud/saclient-go/compare/v0.3.5...v0.3.6) - 2026-04-13
+- Test: Windows CI by @shyouhei in https://github.com/sacloud/saclient-go/pull/95
+- golang 1.26.2 by @tokuhirom in https://github.com/sacloud/saclient-go/pull/98
+- Support AcceptLanguage option in CompatSettingsFromAPIClientOptions by @tokuhirom in https://github.com/sacloud/saclient-go/pull/97
+- add SAKURA_ACCEPT_LANGUAGE environment variable by @shyouhei in https://github.com/sacloud/saclient-go/pull/99
 
 ## [v0.3.5](https://github.com/sacloud/saclient-go/compare/v0.3.4...v0.3.5) - 2026-04-01
 - bug: token expiration skew: wrong direction by @shyouhei in https://github.com/sacloud/saclient-go/pull/90
