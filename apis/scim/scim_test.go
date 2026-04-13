@@ -15,6 +15,7 @@
 package scim_test
 
 import (
+	"net/http"
 	"testing"
 
 	"github.com/google/uuid"
@@ -22,6 +23,7 @@ import (
 	v1 "github.com/sacloud/iam-api-go/apis/v1"
 	iam_test "github.com/sacloud/iam-api-go/testutil"
 	"github.com/sacloud/packages-go/testutil"
+	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )
 
@@ -61,7 +63,13 @@ func TestList(t *testing.T) {
 }
 
 func TestList_Fail(t *testing.T) {
-	assert, api := setup(t, nil, 500)
+	var res v1.Http403Forbidden
+	expected := testutil.Random(128, testutil.CharSetAlphaNum)
+	res.SetFake()
+	res.SetStatus(http.StatusForbidden)
+	res.SetDetail(expected)
+	assert, api := setup(t, &res, res.Status)
+
 	params := ListParams{
 		Page:    intPtr(1),
 		PerPage: intPtr(10),
@@ -69,6 +77,8 @@ func TestList_Fail(t *testing.T) {
 	actual, err := api.List(t.Context(), params)
 	assert.Error(err)
 	assert.Nil(actual)
+	assert.False(saclient.IsNotFoundError(err))
+	assert.Contains(err.Error(), expected)
 }
 
 func TestCreate(t *testing.T) {
@@ -86,13 +96,20 @@ func TestCreate(t *testing.T) {
 }
 
 func TestCreate_Fail(t *testing.T) {
-	assert, api := setup(t, nil, 500)
+	var res v1.Http400BadRequest
+	expected := testutil.Random(128, testutil.CharSetAlphaNum)
+	res.SetFake()
+	res.SetStatus(http.StatusBadRequest)
+	res.SetDetail(expected)
+	assert, api := setup(t, &res, res.Status)
+
 	params := CreateParams{
 		Name: testutil.RandomName("scim", 32, testutil.CharSetAlphaNum),
 	}
 	actual, err := api.Create(t.Context(), params)
 	assert.Error(err)
 	assert.Nil(actual)
+	assert.Contains(err.Error(), expected)
 }
 
 func TestGet(t *testing.T) {
@@ -108,11 +125,19 @@ func TestGet(t *testing.T) {
 }
 
 func TestGet_Fail(t *testing.T) {
-	assert, api := setup(t, nil, 500)
+	var res v1.Http404NotFound
+	expected := testutil.Random(128, testutil.CharSetAlphaNum)
+	res.SetFake()
+	res.SetStatus(http.StatusNotFound)
+	res.SetDetail(expected)
+	assert, api := setup(t, &res, res.Status)
+
 	id := uuid.New().String()
 	actual, err := api.Read(t.Context(), id)
 	assert.Error(err)
 	assert.Nil(actual)
+	assert.True(saclient.IsNotFoundError(err))
+	assert.Contains(err.Error(), expected)
 }
 
 func TestUpdate(t *testing.T) {
@@ -131,7 +156,13 @@ func TestUpdate(t *testing.T) {
 }
 
 func TestUpdate_Fail(t *testing.T) {
-	assert, api := setup(t, nil, 500)
+	var res v1.Http400BadRequest
+	expected := testutil.Random(128, testutil.CharSetAlphaNum)
+	res.SetFake()
+	res.SetStatus(http.StatusBadRequest)
+	res.SetDetail(expected)
+	assert, api := setup(t, &res, res.Status)
+
 	id := uuid.New().String()
 	params := UpdateParams{
 		Name: testutil.RandomName("scim", 32, testutil.CharSetAlphaNum),
@@ -139,6 +170,7 @@ func TestUpdate_Fail(t *testing.T) {
 	actual, err := api.Update(t.Context(), id, params)
 	assert.Error(err)
 	assert.Nil(actual)
+	assert.Contains(err.Error(), expected)
 }
 
 func TestDelete(t *testing.T) {
@@ -150,10 +182,18 @@ func TestDelete(t *testing.T) {
 }
 
 func TestDelete_Fail(t *testing.T) {
-	assert, api := setup(t, nil, 500)
+	var res v1.Http404NotFound
+	expected := testutil.Random(128, testutil.CharSetAlphaNum)
+	res.SetFake()
+	res.SetStatus(http.StatusNotFound)
+	res.SetDetail(expected)
+	assert, api := setup(t, &res, res.Status)
+
 	id := uuid.New().String()
 	err := api.Delete(t.Context(), id)
 	assert.Error(err)
+	assert.True(saclient.IsNotFoundError(err))
+	assert.Contains(err.Error(), expected)
 }
 
 func TestRegenerateToken(t *testing.T) {
@@ -169,11 +209,19 @@ func TestRegenerateToken(t *testing.T) {
 }
 
 func TestRegenerateToken_Fail(t *testing.T) {
-	assert, api := setup(t, nil, 500)
+	var res v1.Http404NotFound
+	expected := testutil.Random(128, testutil.CharSetAlphaNum)
+	res.SetFake()
+	res.SetStatus(http.StatusNotFound)
+	res.SetDetail(expected)
+	assert, api := setup(t, &res, res.Status)
+
 	id := uuid.New().String()
 	actual, err := api.RegenerateToken(t.Context(), id)
 	assert.Error(err)
 	assert.Nil(actual)
+	assert.True(saclient.IsNotFoundError(err))
+	assert.Contains(err.Error(), expected)
 }
 
 func TestIntegrated(t *testing.T) {
