@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.3.0](https://github.com/sacloud/iam-api-go/compare/v0.2.0...v0.3.0) - 2026-04-13
+- IAM API v1.3.0 by @yamamoto-febc in https://github.com/sacloud/iam-api-go/pull/70
+- go: bump github.com/ogen-go/ogen from 1.18.0 to 1.20.2 by @dependabot[bot] in https://github.com/sacloud/iam-api-go/pull/68
+- ci: bump actions/setup-go from 6.1.0 to 6.4.0 by @dependabot[bot] in https://github.com/sacloud/iam-api-go/pull/67
+- test: align SCIM failure tests and avoid 5xx retries by @yamamoto-febc in https://github.com/sacloud/iam-api-go/pull/73
+- go: bump github.com/sacloud/saclient-go from 0.3.1 to 0.3.5 by @dependabot[bot] in https://github.com/sacloud/iam-api-go/pull/69
+- ci: bump Songmu/tagpr from 1.10.0 to 1.18.1 by @dependabot[bot] in https://github.com/sacloud/iam-api-go/pull/71
+- ci: bump actions/checkout from 6.0.1 to 6.0.2 by @dependabot[bot] in https://github.com/sacloud/iam-api-go/pull/48
+
 ## [v0.2.0](https://github.com/sacloud/iam-api-go/compare/v0.1.0...v0.2.0) - 2026-02-13
 - Make API root URL configurable via saclient-go endpoints by @yamamoto-febc in https://github.com/sacloud/iam-api-go/pull/50
 - Feature/shyouhei/nullability/@2026/02/06 by @shyouhei in https://github.com/sacloud/iam-api-go/pull/55
