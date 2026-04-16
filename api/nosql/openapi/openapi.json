@@ -1,0 +1,3074 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "2.0.1",
+    "title": "NoSQL APIドキュメント",
+    "contact": {
+      "name": "SAKURA internet Inc."
+    },
+    "license": {
+      "name": "Copyright(C) SAKURA internet Inc. all rights reserved."
+    },
+    "description": "---\n「NoSQL」が提供するAPIの利用方法とサンプルを公開しております。\n# 基本的な使い方\n## APIキーの発行\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。  \nAPIキーは「ユーザID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## APIエンドポイント\nhttps://secure.sakura.ad.jp/cloud/zone/tk1b/api/cloud/1.1\n\n### 用語\n\n- **プライマリノード (PrimaryNodes)**  \n  新規作成時に作成されるノード群を指します。  \n  本マニュアルではこれを「プライマリノード」と呼びます。  \n\n# NoSQLプラン\n| プラン名 | 仮想コア数 | メモリ(MB) | ディスクサイズ(MB) | ノード数 | 追加ノード可能数 |\n|---------|-----------|------------|------------------|----------|-----------------|\n| 40GBプラン  |     2     |    4096    |   40960         |    1      |      追加不可    |\n| 100GBプラン  |     3     |    8192    |   102400        |    3      |      2台*3回     |\n| 250GBプラン  |     6     |    16384   |   256000        |    3      |      2台*3回     |\n"
+  },
+  "servers": [
+    {
+      "url": "https://secure.sakura.ad.jp/cloud/zone/tk1b/api/cloud/1.1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "NoSQL",
+      "description": "NoSQLの作成・ノード追加・更新・削除"
+    },
+    {
+      "name": "電源",
+      "description": "NoSQLの起動・停止"
+    },
+    {
+      "name": "バックアップ",
+      "description": "NoSQLのバックアップ"
+    },
+    {
+      "name": "パラメーター設定",
+      "description": "NoSQLのパラメーター設定"
+    },
+    {
+      "name": "バージョンアップ",
+      "description": "NoSQLのバージョンアップ"
+    },
+    {
+      "name": "リペア",
+      "description": "NoSQLのリペア"
+    }
+  ],
+  "paths": {
+    "/appliance": {
+      "get": {
+        "tags": [
+          "NoSQL"
+        ],
+        "summary": "NoSQL一覧取得API",
+        "description": "NoSQLの一覧取得を行います。",
+        "operationId": "ListDB",
+        "parameters": [
+          {
+            "name": "Filter.Class",
+            "in": "query",
+            "description": "Class固定",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "nosql"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "NoSQL"
+        ],
+        "summary": "NoSQL作成API",
+        "description": "NoSQLの新規作成および既存NoSQLへのノード追加を行います。  \n新規作成時とノード追加時では、必要となる項目が異なります。  \n各操作ごとの必須項目は、スキーマ定義内の各プロパティの説明欄に明記していますので、詳細はそちらをご参照ください。  \n- **新規作成時必須**: 新規作成の際に必須の項目\n- **ノード追加時必須**: ノード追加の際に必須の項目\n- **新規作成時・ノード追加時必須**: 新規作成・ノード追加の両方で必須の項目\n\n※ノード追加では、既存NoSQLの設定情報（**ノード追加時必須**以外の項目）と一致させるか未指定である必要があります。  \n",
+        "operationId": "CreateDB",
+        "requestBody": {
+          "description": "NoSQLの作成を行うためのリクエストボディ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NosqlCreateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlCreateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}": {
+      "get": {
+        "tags": [
+          "NoSQL"
+        ],
+        "summary": "NoSQL取得API",
+        "description": "対象のNoSQLの取得を行います。",
+        "operationId": "GetDB",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlGetResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "NoSQL"
+        ],
+        "summary": "NoSQL更新API",
+        "description": "対象のNoSQLに対しての更新を行います。  \n追加ノードのアプライアンスIDを指定して更新を行うことはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が適用されます。\n",
+        "operationId": "UpdateDB",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "requestBody": {
+          "description": "NoSQLの更新を行うためのリクエストボディ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NosqlUpdateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "NoSQL"
+        ],
+        "summary": "NoSQL削除API",
+        "description": "対象のNoSQLを削除します。  \nプライマリノードのアプライアンスIDを指定して削除する場合、ノード追加したデータは削除されません。  \nノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に削除する必要があります。\n",
+        "operationId": "DeleteDB",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "NoSQL削除受け付け成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlSuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/config": {
+      "put": {
+        "tags": [
+          "NoSQL"
+        ],
+        "summary": "NoSQL反映API",
+        "description": "対象のNoSQLに対しての更新を反映します。  \n追加ノードのアプライアンスIDを指定して反映処理をすることはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が反映されます。\n",
+        "operationId": "UpdateConfigDB",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlIsOkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/power": {
+      "put": {
+        "tags": [
+          "電源"
+        ],
+        "summary": "NoSQL起動",
+        "description": "対象のNoSQLを起動します。  \nプライマリノードのアプライアンスIDを指定しての起動では、ノード追加したデータは起動しません。  \nノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に起動する必要があります。\n",
+        "operationId": "PutAppliancePower",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "NoSQL起動成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "電源"
+        ],
+        "summary": "NoSQL停止",
+        "description": "対象のNoSQLを停止します。  \nプライマリノードのアプライアンスIDを指定しての停止では、ノード追加したデータは停止しません。  \nノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に停止する必要があります。\n",
+        "operationId": "DeleteAppliancePower",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "NoSQL停止成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/nosql/nodes/health": {
+      "get": {
+        "tags": [
+          "電源"
+        ],
+        "summary": "NoSQLの起動状態確認API",
+        "description": "対象のNoSQL全体の起動状態を確認します。",
+        "operationId": "GetNoSQLNodeHealth",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NodeHealth"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/nosql/nodes/recover": {
+      "post": {
+        "tags": [
+          "電源"
+        ],
+        "summary": "NoSQL状態復旧API",
+        "description": "対象のNoSQLのノードを復旧します。\n起動状態を確認し、停止している場合は、再起動を試みます。\n",
+        "operationId": "RecoverNoSQLNode",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "全ノードが起動している状態。復旧不要のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "一台停止している状態。復旧開始のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "description": "二台以上停止している状態。復旧不可のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConflictErrorResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/status": {
+      "get": {
+        "tags": [
+          "NoSQL"
+        ],
+        "summary": "NoSQL状態確認API",
+        "description": "対象のNoSQLの情報を取得します。  \n追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。  \n",
+        "operationId": "ConfirmStatusDB",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlStatusResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/nosql/backup": {
+      "get": {
+        "tags": [
+          "バックアップ"
+        ],
+        "summary": "NoSQLバックアップ取得API",
+        "description": "対象NoSQLのバックアップ情報を取得します。  \n追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。\n",
+        "operationId": "GetBackupByApplianceID",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlBackupResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "バックアップ"
+        ],
+        "summary": "NoSQLバックアップ作成API",
+        "description": "対象のNoSQLに対してバックアップ作成を行います。  \n追加ノードのアプライアンスIDを指定してバックアップを作成することはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバックアップが作成されます。\n",
+        "operationId": "createBackup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlOkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/nosql/backup/{backupID}": {
+      "put": {
+        "tags": [
+          "バックアップ"
+        ],
+        "summary": "NoSQLバックアップ復元API",
+        "description": "対象のNoSQLに対してバックアップ復元を開始します。  \nバックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。  \n追加ノードのアプライアンスIDを指定してバックアップを復元することはできません。  \nプライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの復元が適用されます。\n",
+        "operationId": "restoreBackup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          },
+          {
+            "$ref": "#/components/parameters/BackupID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlOkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "バックアップ"
+        ],
+        "summary": "NoSQLバックアップ削除API",
+        "description": "対象のNoSQLのバックアップ削除を開始します。  \nバックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。  \n追加ノードのアプライアンスIDを指定してバックアップを削除することはできません。  \nプライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの削除が適用されます。\n",
+        "operationId": "deleteBackup",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          },
+          {
+            "$ref": "#/components/parameters/BackupID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlOkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/nosql/parameter": {
+      "get": {
+        "tags": [
+          "パラメーター設定"
+        ],
+        "summary": "NoSQLパラメータ取得API",
+        "description": "対象のNoSQLのパラメータ設定情報を取得します。  \n追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。\n",
+        "operationId": "getParameter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetParameterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "パラメーター設定"
+        ],
+        "summary": "NoSQLパラメータ反映API",
+        "description": "対象のNoSQLに対してのパラメータ設定を行います。  \n追加ノードのアプライアンスIDを指定してパラメータ設定を行うことはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対してもパラメータ設定を行うことができます。\n",
+        "operationId": "putParameter",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PutParameterRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PutParameterResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/nosql/version": {
+      "get": {
+        "tags": [
+          "バージョンアップ"
+        ],
+        "summary": "NoSQLバージョン取得API",
+        "description": "対象のNoSQLの更新可能なバージョンを取得します。  \n追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。\n",
+        "operationId": "getVersion",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlGetVersionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "バージョンアップ"
+        ],
+        "summary": "NoSQLバージョン更新API",
+        "description": "対象のNoSQLに対してのバージョン更新を行います。  \n追加ノードのアプライアンスIDを指定してバージョン更新を行うことはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバージョン更新を行うことができます。\n",
+        "operationId": "putVersion",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NosqlPutVersionRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlPutVersionResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    },
+    "/appliance/{applianceID}/nosql/repair": {
+      "post": {
+        "tags": [
+          "リペア"
+        ],
+        "summary": "NoSQLリペア実行API",
+        "description": "プライマリノードを対象にNoSQLのリペアを開始します。\n「増分リペア」または「完全リペア」を実行します。<br>\nリペアとはデータの整合性（一貫性）を維持するために、複数のノード間で発生したデータのずれを検出・修復するメンテナンス作業です。<br>\n増分リペアは、前回のリペア実行以降に更新されたデータのみを対象に修復を行います。<br>\n完全リペアは、クラスタ内のすべてのデータを対象に修復を行います。<br>\n追加ノードのアプライアンスIDを指定してリペアを実行することはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対してもリペアが実行されます。\n",
+        "operationId": "PostNoSQLRepair",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "requestBody": {
+          "description": "リペアAPIのリクエストボディ",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NosqlRepairRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "リペア成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlRepairResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "409": {
+            "$ref": "#/components/responses/ConflictResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "is_ok": {
+        "type": "boolean",
+        "description": "成功のレスポンス(true:成功)",
+        "example": true
+      },
+      "Success": {
+        "oneOf": [
+          {
+            "type": "boolean",
+            "example": true
+          },
+          {
+            "type": "string",
+            "example": "Accepted"
+          }
+        ]
+      },
+      "Tags": {
+        "type": "array",
+        "description": "タグ",
+        "nullable": true,
+        "maxItems": 10,
+        "items": {
+          "type": "string",
+          "example": "tag",
+          "maxLength": 32,
+          "pattern": "^[^\\s\\u3000]+$"
+        },
+        "example": [
+          "tag1"
+        ]
+      },
+      "Availability": {
+        "type": "string",
+        "description": "NoSQLの利用可能状態\n| 値        | 説明       |\n|-----------|------------|\n| migrating | 準備中     |\n| available | 利用可能   |\n| failed    | 利用不可   |\n",
+        "enum": [
+          "migrating",
+          "available",
+          "failed"
+        ],
+        "example": "available"
+      },
+      "Password": {
+        "type": "string",
+        "example": "Default-Password01",
+        "description": "パスワード  \n**新規作成時必須**\n",
+        "pattern": "^[a-zA-Z0-9-._]+$",
+        "minLength": 12,
+        "maxLength": 30
+      },
+      "NosqlSettings": {
+        "type": "object",
+        "properties": {
+          "Password": {
+            "$ref": "#/components/schemas/Password"
+          },
+          "ReserveIPAddress": {
+            "description": "予備IPアドレス  \n**新規作成時・ノード追加時必須**  \n※デッドノード発生時、ノード切替を行う際に使用する予備のIPアドレス  \nただし、40GBプランの場合は必須ではありません。\n",
+            "type": "string",
+            "format": "ipv4",
+            "example": "192.168.100.203"
+          },
+          "Backup": {
+            "type": "object",
+            "description": "バックアップ情報",
+            "nullable": true,
+            "properties": {
+              "Connect": {
+                "type": "string",
+                "description": "バックアップ先（NFS URL形式）",
+                "example": "nfs://192.168.100.250/export",
+                "pattern": "^(nfs://[0-9\\.]+/[A-Za-z0-9_\\-\\/]+)$"
+              },
+              "DayOfWeek": {
+                "type": "array",
+                "description": "バックアップスケジュール",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "sun",
+                    "mon",
+                    "tue",
+                    "wed",
+                    "thu",
+                    "fri",
+                    "sat"
+                  ]
+                },
+                "example": [
+                  "sun",
+                  "mon"
+                ]
+              },
+              "Time": {
+                "type": "string",
+                "description": "バックアップする時間",
+                "nullable": true,
+                "example": "00:00",
+                "pattern": "^(([0-1][0-9]|2[0-3]):(00|15|30|45))?$"
+              },
+              "Rotate": {
+                "type": "integer",
+                "description": "バックアップ数（1から8まで）",
+                "minimum": 1,
+                "maximum": 8,
+                "example": 3
+              }
+            },
+            "required": [
+              "Connect",
+              "Rotate"
+            ]
+          },
+          "SourceNetwork": {
+            "type": "array",
+            "description": "送信元ネットワークアドレス",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?:/(?:[0-9]|[1-2][0-9]|3[0-2]))?$"
+            },
+            "example": [
+              "192.168.100.200",
+              "192.168.100.201",
+              "192.168.100.202"
+            ]
+          },
+          "Repair": {
+            "type": "object",
+            "description": "定期リペア設定  \n※40GBプランはノード数が1のため、リペア設定を行うことはできません。 \n",
+            "nullable": true,
+            "properties": {
+              "Incremental": {
+                "type": "object",
+                "description": "増分リペア設定",
+                "properties": {
+                  "DaysOfWeek": {
+                    "type": "array",
+                    "description": "実行曜日",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "sun",
+                        "mon",
+                        "tue",
+                        "wed",
+                        "thu",
+                        "fri",
+                        "sat"
+                      ]
+                    },
+                    "example": [
+                      "sun",
+                      "mon"
+                    ]
+                  },
+                  "Time": {
+                    "type": "string",
+                    "description": "実行時間",
+                    "pattern": "^(([0-1][0-9]|2[0-3]):(00|15|30|45))?$",
+                    "example": "00:00"
+                  }
+                },
+                "required": [
+                  "DaysOfWeek",
+                  "Time"
+                ]
+              },
+              "Full": {
+                "type": "object",
+                "description": "完全リペア設定",
+                "properties": {
+                  "Interval": {
+                    "type": "integer",
+                    "description": "7日ごとの実行間隔（日数）",
+                    "enum": [
+                      7,
+                      14,
+                      21,
+                      28
+                    ],
+                    "example": 7
+                  },
+                  "DayOfWeek": {
+                    "type": "string",
+                    "description": "実行曜日",
+                    "enum": [
+                      "sun",
+                      "mon",
+                      "tue",
+                      "wed",
+                      "thu",
+                      "fri",
+                      "sat"
+                    ],
+                    "example": "sun"
+                  },
+                  "Time": {
+                    "type": "string",
+                    "description": "実行時間",
+                    "pattern": "^(([0-1][0-9]|2[0-3]):(00|15|30|45))?$",
+                    "example": "00:00"
+                  }
+                },
+                "required": [
+                  "Interval",
+                  "DayOfWeek",
+                  "Time"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "NosqlRemark": {
+        "type": "object",
+        "properties": {
+          "Nosql": {
+            "type": "object",
+            "properties": {
+              "PrimaryNodes": {
+                "type": "object",
+                "description": "プライマリノード情報。\n**ノード追加時必須**  \nノード追加を行う場合は、対象となる既存NoSQLのアプライアンス情報を設定してください。\n",
+                "properties": {
+                  "Appliance": {
+                    "type": "object",
+                    "description": "既存のNoSQLのアプライアンス情報  \n**ノード追加時必須**\n",
+                    "properties": {
+                      "ID": {
+                        "type": "string",
+                        "description": "既存のNoSQLのアプライアンスID  \n**ノード追加時必須**\n",
+                        "example": "113700352689"
+                      },
+                      "Zone": {
+                        "type": "object",
+                        "description": "既存のNoSQLのゾーン  \n**ノード追加時必須**\n",
+                        "properties": {
+                          "Name": {
+                            "type": "string",
+                            "description": "既存のNoSQLのゾーン情報  \n**ノード追加時必須**\n",
+                            "example": "tk1b"
+                          }
+                        },
+                        "required": [
+                          "Name"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "ID",
+                      "Zone"
+                    ]
+                  }
+                },
+                "required": [
+                  "Appliance"
+                ]
+              },
+              "DatabaseEngine": {
+                "type": "string",
+                "nullable": true,
+                "description": "データベースに使用するエンジン  \n**新規作成時必須**\n",
+                "enum": [
+                  "Cassandra"
+                ],
+                "example": "Cassandra"
+              },
+              "DatabaseVersion": {
+                "type": "string",
+                "nullable": true,
+                "description": "データベースバージョン  \n**新規作成時必須**\n",
+                "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                "example": "4.1.9"
+              },
+              "DefaultUser": {
+                "type": "string",
+                "nullable": true,
+                "description": "デフォルトユーザ名  \n**新規作成時必須**\n",
+                "example": "defaultuser01",
+                "maxLength": 20,
+                "pattern": "^[a-z][a-z0-9_]{3,19}$"
+              },
+              "DiskSize": {
+                "type": "integer",
+                "nullable": true,
+                "description": "ディスクサイズ(MB)  \n未指定時はプランから自動設定\n",
+                "example": 102400
+              },
+              "Memory": {
+                "type": "integer",
+                "nullable": true,
+                "description": "メモリ(MB)  \n未指定時はプランから自動設定\n",
+                "example": 8192
+              },
+              "Nodes": {
+                "type": "integer",
+                "nullable": true,
+                "description": "ノード数  \n未指定時はプランから自動設定\n",
+                "example": 3,
+                "minimum": 1,
+                "maximum": 3
+              },
+              "Port": {
+                "type": "integer",
+                "nullable": true,
+                "description": "ポート  \n**新規作成時必須**\n",
+                "example": 9042,
+                "minimum": 1024,
+                "maximum": 65535
+              },
+              "Storage": {
+                "type": "string",
+                "nullable": true,
+                "description": "ストレージ  \n**新規作成時必須**\n",
+                "example": "SSD",
+                "enum": [
+                  "SSD"
+                ]
+              },
+              "Virtualcore": {
+                "type": "integer",
+                "nullable": true,
+                "description": "仮想コア  \n未指定時はプランから自動設定  \n",
+                "example": 3
+              },
+              "Zone": {
+                "type": "string",
+                "description": "ゾーン  \n**新規作成時・ノード追加時必須**\n",
+                "example": "tk1b"
+              }
+            },
+            "required": [
+              "Zone"
+            ]
+          },
+          "Servers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "UserIPAddress": {
+                  "type": "string",
+                  "format": "ipv4",
+                  "description": "ユーザ側スイッチに接続するIPアドレス  \n**新規作成時・ノード追加時必須**\n\n※ノード数分指定する\n",
+                  "example": "192.168.100.11"
+                }
+              },
+              "required": [
+                "UserIPAddress"
+              ]
+            }
+          },
+          "Network": {
+            "type": "object",
+            "description": "ネットワーク情報",
+            "properties": {
+              "DefaultRoute": {
+                "type": "string",
+                "description": "ゲートウェイのアドレス  \n**新規作成時・ノード追加時必須**\n",
+                "example": "192.168.100.254"
+              },
+              "NetworkMaskLen": {
+                "type": "integer",
+                "description": "ネットマスク  \n**新規作成時・ノード追加時必須**\n",
+                "example": 24
+              }
+            },
+            "required": [
+              "DefaultRoute",
+              "NetworkMaskLen"
+            ]
+          }
+        },
+        "required": [
+          "Nosql",
+          "Servers",
+          "Network"
+        ]
+      },
+      "Instance": {
+        "type": "object",
+        "properties": {
+          "Status": {
+            "type": "string",
+            "example": "up"
+          },
+          "StatusChangedAt": {
+            "type": "string",
+            "nullable": true,
+            "format": "date-time",
+            "example": "2021-01-01T00:00:00Z"
+          },
+          "Host": {
+            "type": "object",
+            "nullable": true,
+            "properties": {
+              "Name": {
+                "type": "string",
+                "example": "host_name"
+              },
+              "InfoURL": {
+                "type": "string",
+                "example": ""
+              }
+            }
+          },
+          "Hosts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "Name": {
+                  "type": "string"
+                },
+                "InfoURL": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServiceClass": {
+        "type": "string",
+        "description": "サービスクラス  \n**新規作成時・ノード追加時必須**\n\n| プラン名      | サービスクラスパス          | \n|--------------|----------------------------|\n| 40GBプラン       |  cloud/nosql/plan/1        |\n| 100GBプラン       |  cloud/nosql/plan/2        |\n| 100GBプラン/ノード |  cloud/nosql/plan/2/node  |\n| 250GBプラン       |  cloud/nosql/plan/3        |\n| 250GBプラン/ノード |  cloud/nosql/plan/3/node  |\n",
+        "example": "cloud/nosql/plan/1"
+      },
+      "Plan": {
+        "type": "object",
+        "description": "プラン  \n**新規作成時・ノード追加時必須**\n",
+        "properties": {
+          "ID": {
+            "type": "integer",
+            "description": "プランID  \n**新規作成時・ノード追加時必須**\n\n利用可能なプランID:\n| プラン名      | プランID   | \n|--------------|------------|\n| 40GBプラン       |   51142    |\n| 100GBプラン       |   51143    |\n| 100GBプラン/ノード |   51145    |\n| 250GBプラン       |   51144    |\n| 250GBプラン/ノード |   51146    |\n",
+            "example": 51142
+          }
+        },
+        "required": [
+          "ID"
+        ]
+      },
+      "NosqlApplianceInput": {
+        "type": "object",
+        "properties": {
+          "Class": {
+            "type": "string",
+            "description": "クラス  \n**新規作成時・ノード追加時必須**\n",
+            "example": "nosql"
+          },
+          "Name": {
+            "type": "string",
+            "description": "NoSQLの名前  \n**新規作成時・ノード追加時必須**\n",
+            "example": "CassandraName",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "Description": {
+            "type": "string",
+            "description": "NoSQLの説明",
+            "example": "説明",
+            "minLength": 0,
+            "maxLength": 512
+          },
+          "Tags": {
+            "$ref": "#/components/schemas/Tags"
+          }
+        }
+      },
+      "NosqlAppliance": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NosqlApplianceInput"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "type": "string",
+                "description": "アプライアンスID",
+                "example": "113600097295"
+              },
+              "Plan": {
+                "$ref": "#/components/schemas/Plan"
+              },
+              "Settings": {
+                "$ref": "#/components/schemas/NosqlSettings"
+              },
+              "SettingsHash": {
+                "type": "string",
+                "example": "d41d8cd98f00b204e9800998ecf8427e"
+              },
+              "Remark": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/NosqlRemark"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "Zone": {
+                        "type": "object",
+                        "description": "ゾーン",
+                        "properties": {
+                          "ID": {
+                            "type": "string",
+                            "description": "ゾーンID",
+                            "example": "30293"
+                          }
+                        }
+                      },
+                      "ServiceClass": {
+                        "type": "string",
+                        "description": "サービスクラス",
+                        "example": "cloud/nosql/plan/1"
+                      }
+                    }
+                  }
+                ]
+              },
+              "Availability": {
+                "$ref": "#/components/schemas/Availability"
+              },
+              "Instance": {
+                "$ref": "#/components/schemas/Instance"
+              },
+              "Disk": {
+                "type": "object",
+                "nullable": true,
+                "description": "ディスク情報  \n",
+                "properties": {
+                  "EncryptionKey": {
+                    "type": "object",
+                    "description": "暗号化キー情報",
+                    "nullable": true,
+                    "properties": {
+                      "KMSKeyID": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "KMSキーID",
+                        "example": "113700349294"
+                      }
+                    }
+                  },
+                  "EncryptionAlgorithm": {
+                    "type": "string",
+                    "description": "暗号化アルゴリズム",
+                    "example": "aes256_xts"
+                  }
+                }
+              },
+              "ServiceClass": {
+                "$ref": "#/components/schemas/ServiceClass"
+              },
+              "Generation": {
+                "type": "integer",
+                "example": 200
+              },
+              "CreatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2021-01-01T00:00:00Z"
+              },
+              "Interfaces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "nullable": true,
+                  "properties": {
+                    "IPAddress": {
+                      "type": "string",
+                      "description": "IPアドレス",
+                      "example": "163.43.142.254",
+                      "nullable": true
+                    },
+                    "UserIPAddress": {
+                      "type": "string",
+                      "description": "ユーザ側スイッチに接続するIPアドレス",
+                      "example": "192.168.100.11",
+                      "nullable": true
+                    },
+                    "HostName": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "ホスト名",
+                      "example": null
+                    },
+                    "Switch": {
+                      "type": "object",
+                      "description": "スイッチ情報",
+                      "required": [
+                        "ID"
+                      ],
+                      "properties": {
+                        "ID": {
+                          "type": "string",
+                          "description": "スイッチID",
+                          "example": "113600097295"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "スイッチ名",
+                          "example": "switch_name"
+                        },
+                        "Scope": {
+                          "type": "string",
+                          "description": "スコープ(shared/user)",
+                          "example": "user"
+                        },
+                        "Subnet": {
+                          "type": "object",
+                          "description": "サブネット情報",
+                          "nullable": true,
+                          "properties": {
+                            "NetworkAddress": {
+                              "type": "string",
+                              "description": "ネットワークアドレス",
+                              "example": "163.43.142.0"
+                            },
+                            "NetworkMaskLen": {
+                              "type": "integer",
+                              "description": "ネットマスク",
+                              "example": 24
+                            },
+                            "DefaultRoute": {
+                              "type": "string",
+                              "description": "ゲートウェイのアドレス",
+                              "example": "163.43.142.1",
+                              "nullable": true
+                            },
+                            "Internet": {
+                              "type": "object",
+                              "properties": {
+                                "BandWidthMbps": {
+                                  "type": "integer",
+                                  "example": 100
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "UserSubnet": {
+                          "type": "object",
+                          "description": "ユーザサブネット情報",
+                          "properties": {
+                            "DefaultRoute": {
+                              "type": "string",
+                              "description": "ゲートウェイのアドレス",
+                              "example": "192.168.100.254",
+                              "nullable": true
+                            },
+                            "NetworkMaskLen": {
+                              "type": "integer",
+                              "description": "ネットマスク",
+                              "example": 24
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "NosqlCreateRequest": {
+        "type": "object",
+        "properties": {
+          "Appliance": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/NosqlApplianceInput"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ServiceClass": {
+                    "$ref": "#/components/schemas/ServiceClass"
+                  },
+                  "Plan": {
+                    "$ref": "#/components/schemas/Plan"
+                  },
+                  "Disk": {
+                    "type": "object",
+                    "nullable": true,
+                    "description": "ディスク情報  \nディスクの情報は暗号化する場合は EncryptionAlgorithm と EncryptionKey を指定する必要があります。\n",
+                    "properties": {
+                      "EncryptionKey": {
+                        "type": "object",
+                        "description": "暗号化キー情報",
+                        "nullable": true,
+                        "properties": {
+                          "KMSKeyID": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "KMSキーID",
+                            "example": "113700349294"
+                          }
+                        }
+                      },
+                      "EncryptionAlgorithm": {
+                        "type": "string",
+                        "description": "暗号化アルゴリズム",
+                        "example": "aes256_xts"
+                      }
+                    }
+                  },
+                  "Settings": {
+                    "$ref": "#/components/schemas/NosqlSettings"
+                  },
+                  "Remark": {
+                    "$ref": "#/components/schemas/NosqlRemark"
+                  },
+                  "UserInterfaces": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "Switch": {
+                          "type": "object",
+                          "description": "スイッチ",
+                          "properties": {
+                            "ID": {
+                              "type": "string",
+                              "description": "スイッチID  \n**新規作成時・ノード追加時必須**\n",
+                              "example": "113600097295"
+                            }
+                          },
+                          "required": [
+                            "ID"
+                          ]
+                        },
+                        "UserIPAddress1": {
+                          "type": "string",
+                          "description": "ユーザIPアドレス1  \n**新規作成時・ノード追加時必須**\n",
+                          "format": "ipv4",
+                          "example": "192.168.100.11"
+                        },
+                        "UserIPAddress2": {
+                          "type": "string",
+                          "description": "ユーザIPアドレス2  \n**新規作成時・ノード追加時必須**  \n40GBプラン（ノード数1）の場合は設定不要です。\n",
+                          "format": "ipv4",
+                          "example": "192.168.100.12"
+                        },
+                        "UserIPAddress3": {
+                          "type": "string",
+                          "description": "ユーザIPアドレス3  \n**新規作成時必須**  \n40GBプラン（ノード数1）の場合は設定不要です。\n",
+                          "format": "ipv4",
+                          "example": "192.168.100.13"
+                        },
+                        "UserSubnet": {
+                          "type": "object",
+                          "properties": {
+                            "DefaultRoute": {
+                              "type": "string",
+                              "example": "192.168.100.254",
+                              "description": "ゲートウェイのアドレス  \n**新規作成時・ノード追加時必須**\n"
+                            },
+                            "NetworkMaskLen": {
+                              "type": "integer",
+                              "example": 24,
+                              "description": "ネットマスク  \n**新規作成時・ノード追加時必須**\n"
+                            }
+                          },
+                          "required": [
+                            "NetworkMaskLen",
+                            "DefaultRoute"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "Switch",
+                        "UserIPAddress1",
+                        "UserSubnet"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "Class",
+                  "Name",
+                  "ServiceClass",
+                  "Plan",
+                  "Remark",
+                  "UserInterfaces",
+                  "Settings"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "Appliance"
+        ]
+      },
+      "NosqlCreateResponse": {
+        "type": "object",
+        "properties": {
+          "Appliance": {
+            "$ref": "#/components/schemas/NosqlAppliance"
+          },
+          "Success": {
+            "$ref": "#/components/schemas/Success"
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        },
+        "required": [
+          "Appliance",
+          "Success",
+          "is_ok"
+        ]
+      },
+      "NosqlUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "Appliance": {
+            "type": "object",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/NosqlApplianceInput"
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "ID": {
+                    "type": "string",
+                    "description": "アプライアンスID",
+                    "example": "113600097295"
+                  },
+                  "Settings": {
+                    "$ref": "#/components/schemas/NosqlSettings"
+                  }
+                },
+                "required": [
+                  "ID",
+                  "Settings"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "Appliance"
+        ]
+      },
+      "NosqlListResponse": {
+        "type": "object",
+        "properties": {
+          "From": {
+            "type": "integer",
+            "example": 0
+          },
+          "Count": {
+            "type": "integer",
+            "example": 1
+          },
+          "Total": {
+            "type": "integer",
+            "example": 1
+          },
+          "Appliances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetNosqlAppliance"
+            }
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        },
+        "required": [
+          "From",
+          "Count",
+          "Total",
+          "Appliances"
+        ]
+      },
+      "NosqlGetResponse": {
+        "type": "object",
+        "properties": {
+          "Appliance": {
+            "$ref": "#/components/schemas/GetNosqlAppliance"
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        },
+        "required": [
+          "Appliance"
+        ]
+      },
+      "NosqlNodeAppliance": {
+        "type": "object",
+        "description": "ノードのアプライアンス情報",
+        "required": [
+          "ID",
+          "Availability"
+        ],
+        "properties": {
+          "ID": {
+            "type": "string",
+            "description": "アプライアンスID",
+            "example": "113700352689"
+          },
+          "Availability": {
+            "$ref": "#/components/schemas/Availability"
+          },
+          "Zone": {
+            "type": "object",
+            "description": "ゾーン情報",
+            "properties": {
+              "Name": {
+                "type": "string",
+                "description": "ゾーン名",
+                "example": "tk1b"
+              }
+            }
+          },
+          "Nodes": {
+            "type": "array",
+            "description": "ノードの詳細情報",
+            "items": {
+              "$ref": "#/components/schemas/NosqldbNodeStatus"
+            }
+          }
+        }
+      },
+      "NosqlStatusResponse": {
+        "type": "object",
+        "properties": {
+          "Appliance": {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "type": "string",
+                "example": "113600097295"
+              },
+              "SettingsResponse": {
+                "type": "object",
+                "description": "NoSQLのステータスレスポンス",
+                "properties": {
+                  "Nosql": {
+                    "type": "object",
+                    "properties": {
+                      "DatabaseVersion": {
+                        "type": "string",
+                        "description": "NoSQLの現在のバージョン",
+                        "example": "4.1.7"
+                      },
+                      "UpgradeVersion": {
+                        "type": "string",
+                        "description": "NoSQLの更新可能な最新のバージョン",
+                        "example": "4.1.9"
+                      },
+                      "Jobs": {
+                        "type": "array",
+                        "description": "ジョブ情報",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "JobType": {
+                              "type": "string",
+                              "description": "ジョブタイプ",
+                              "example": "Create"
+                            },
+                            "JobStatus": {
+                              "type": "string",
+                              "description": "ジョブステータス",
+                              "example": "Done"
+                            }
+                          }
+                        }
+                      },
+                      "PrimaryNodes": {
+                        "type": "object",
+                        "description": "プライマリノード情報",
+                        "properties": {
+                          "Appliance": {
+                            "$ref": "#/components/schemas/NosqlNodeAppliance"
+                          }
+                        }
+                      },
+                      "AddNodes": {
+                        "type": "array",
+                        "description": "追加されたノードの情報",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "Appliance"
+                          ],
+                          "properties": {
+                            "Appliance": {
+                              "$ref": "#/components/schemas/NosqlNodeAppliance"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "NosqlSuccessResponse": {
+        "type": "object",
+        "properties": {
+          "Appliance": {
+            "$ref": "#/components/schemas/NosqlAppliance"
+          },
+          "Success": {
+            "$ref": "#/components/schemas/Success"
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "Success": {
+            "$ref": "#/components/schemas/Success"
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "NosqlIsOkResponse": {
+        "type": "object",
+        "properties": {
+          "Nosql": {
+            "type": "object",
+            "properties": {
+              "is_ok": {
+                "$ref": "#/components/schemas/is_ok"
+              }
+            }
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "NosqlOkResponse": {
+        "type": "object",
+        "properties": {
+          "nosql": {
+            "type": "object",
+            "properties": {
+              "is_ok": {
+                "$ref": "#/components/schemas/is_ok"
+              }
+            }
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "NosqlBackup": {
+        "type": "object",
+        "required": [
+          "backupId",
+          "backupDestination",
+          "backupAt",
+          "size"
+        ],
+        "properties": {
+          "backupId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "バックアップID",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "backupDestination": {
+            "type": "string",
+            "description": "バックアップ先",
+            "example": "nfs://192.168.100.250/export"
+          },
+          "backupAt": {
+            "type": "string",
+            "description": "バックアップ日時",
+            "format": "date-time",
+            "example": "2024-11-18T16:03:48.844+09:00"
+          },
+          "restoreAt": {
+            "type": "string",
+            "description": "バックアップ復元日時",
+            "format": "date-time",
+            "example": "2024-11-18T16:03:51.223+09:00"
+          },
+          "size": {
+            "type": "integer",
+            "description": "バックアップサイズ",
+            "format": "int64",
+            "example": 2
+          },
+          "deleteStatus": {
+            "type": "string",
+            "description": "バックアップ削除ステータス(0:未削除, 1:削除中, 2:削除完了, 9:削除失敗)",
+            "example": "2"
+          },
+          "restoreStatus": {
+            "type": "string",
+            "description": "バックアップ復元ステータス(0:未復元, 1:復元中, 2:復元完了, 9:復元失敗)",
+            "example": "2"
+          }
+        }
+      },
+      "NosqlBackupResponse": {
+        "type": "object",
+        "properties": {
+          "nosql": {
+            "type": "object",
+            "properties": {
+              "backups": {
+                "type": "array",
+                "description": "バックアップデータリスト",
+                "items": {
+                  "$ref": "#/components/schemas/NosqlBackup"
+                }
+              }
+            }
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "NosqlGetParameter": {
+        "type": "object",
+        "required": [
+          "settingItemId",
+          "settingItem",
+          "description"
+        ],
+        "properties": {
+          "settingItemId": {
+            "type": "string",
+            "description": "設定項目ID",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "settingItem": {
+            "type": "string",
+            "description": "設定項目名",
+            "example": "settingItem1"
+          },
+          "defaultValue": {
+            "type": "string",
+            "description": "デフォルト値",
+            "example": "defaultValue1"
+          },
+          "description": {
+            "type": "string",
+            "description": "説明",
+            "example": "説明1"
+          },
+          "parameterOptions": {
+            "type": "array",
+            "example": [
+              "option1",
+              "option2"
+            ],
+            "description": "パラメータオプション",
+            "items": {
+              "type": "string"
+            }
+          },
+          "settingValue": {
+            "type": "string",
+            "description": "設定値",
+            "example": "settingValue1"
+          }
+        }
+      },
+      "GetParameterResponse": {
+        "type": "object",
+        "properties": {
+          "nosql": {
+            "type": "object",
+            "properties": {
+              "parameters": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/NosqlGetParameter"
+                }
+              }
+            }
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "NosqlPutParameter": {
+        "type": "object",
+        "properties": {
+          "settingItemId": {
+            "type": "string",
+            "description": "設定項目ID",
+            "example": "123e4567-e89b-12d3-a456-426614174000"
+          },
+          "settingValue": {
+            "type": "string",
+            "description": "設定値",
+            "example": "settingValue1"
+          }
+        },
+        "required": [
+          "settingItemId",
+          "settingValue"
+        ]
+      },
+      "PutParameterRequest": {
+        "type": "object",
+        "properties": {
+          "nosql": {
+            "type": "object",
+            "properties": {
+              "parameters": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/NosqlPutParameter"
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "nosql"
+        ]
+      },
+      "PutParameterResponse": {
+        "type": "object",
+        "properties": {
+          "nosql": {
+            "type": "object",
+            "properties": {
+              "parameters": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/NosqlPutParameter"
+                }
+              }
+            }
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "NosqlVersion": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string",
+            "description": "NoSQLの更新可能なバージョン",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "example": "4.1.9"
+          }
+        }
+      },
+      "NosqlGetVersionResponse": {
+        "type": "object",
+        "properties": {
+          "nosql": {
+            "type": "object",
+            "required": [
+              "DatabaseVersion",
+              "UpgradableVersions"
+            ],
+            "properties": {
+              "DatabaseVersion": {
+                "type": "string",
+                "description": "現在のNoSQLのバージョン",
+                "example": "4.1.7"
+              },
+              "UpgradableVersions": {
+                "type": "array",
+                "description": "更新可能なバージョンのリスト",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "version"
+                  ],
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "description": "更新可能なバージョン",
+                      "example": "4.1.9"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "is_ok": {
+            "type": "boolean",
+            "description": "成功のレスポンス",
+            "example": true
+          }
+        }
+      },
+      "NosqlPutVersionRequest": {
+        "type": "object",
+        "required": [
+          "nosql"
+        ],
+        "properties": {
+          "nosql": {
+            "$ref": "#/components/schemas/NosqlVersion"
+          }
+        }
+      },
+      "NosqlPutVersionResponse": {
+        "type": "object",
+        "properties": {
+          "nosql": {
+            "$ref": "#/components/schemas/NosqlVersion"
+          },
+          "is_ok": {
+            "$ref": "#/components/schemas/is_ok"
+          }
+        }
+      },
+      "NosqldbNodeStatus": {
+        "type": "object",
+        "properties": {
+          "Index": {
+            "type": "integer",
+            "description": "ノードの通番",
+            "example": 0
+          },
+          "UserIPAddress": {
+            "type": "string",
+            "format": "ipv4",
+            "description": "ユーザ側スイッチに接続するIPアドレス",
+            "example": "192.168.100.11"
+          },
+          "NodeType": {
+            "type": "string",
+            "description": "ノードタイプ\n\n| 値 | 説明         |\n|----|--------------|\n| 0  | 正常         |\n| 1  | デッドノード |\n| 2  | 予備IPサーバ |\n",
+            "enum": [
+              "0",
+              "1",
+              "2"
+            ],
+            "example": "0"
+          }
+        }
+      },
+      "NodeHealth": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/SuccessResponse"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Nosql": {
+                "type": "object",
+                "properties": {
+                  "Status": {
+                    "type": "string",
+                    "description": "NoSQLの状態\n\n| 値        | 説明   |\n|-----------|--------|\n| healthy        | 起動(すべてのノードが起動している)   |\n| healthy-partial | 部分起動(1台のノードが停止している)  |\n| unhealthy       | 停止(2台以上のノードが停止している)   |\n\n※40GBプランではノードが1台のため、部分起動(`healthy-partial`)は発生しません。\n",
+                    "enum": [
+                      "healthy",
+                      "healthy-partial",
+                      "unhealthy"
+                    ],
+                    "example": "healthy"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "NosqlRepairRequest": {
+        "type": "object",
+        "properties": {
+          "nosql": {
+            "type": "object",
+            "properties": {
+              "repairType": {
+                "type": "string",
+                "description": "リペアタイプ\n\n| 値          | 説明      | 実行コマンド                 |\n|-------------|-----------|-----------------------------|\n| Incremental | 増分リペア | nodetool repair -pr         |\n| Full        | 完全リペア | nodetool repair --full -pr  |\n",
+                "enum": [
+                  "Incremental",
+                  "Full"
+                ],
+                "example": "Incremental"
+              }
+            }
+          }
+        }
+      },
+      "NosqlRepairResponse": {
+        "type": "object",
+        "properties": {
+          "is_ok": {
+            "type": "boolean",
+            "description": "成功のレスポンス(true:成功)",
+            "example": true
+          }
+        },
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/NosqlRepairRequest"
+          }
+        ]
+      },
+      "ConflictErrorResponse": {
+        "type": "object",
+        "description": "エラーレスポンス",
+        "properties": {
+          "is_fatal": {
+            "type": "boolean",
+            "description": "エラーのレスポンス(true:エラー)",
+            "example": true
+          },
+          "serial": {
+            "type": "string",
+            "description": "追跡コード",
+            "example": "3a5a51fdxxxxx5f6794e82cc8d00d3xx"
+          },
+          "status": {
+            "type": "string",
+            "description": "ステータス",
+            "example": "409 Conflict"
+          },
+          "error_code": {
+            "type": "string",
+            "description": "エラーコード",
+            "example": "limit_count_in_zone"
+          },
+          "error_msg": {
+            "type": "string",
+            "description": "エラーメッセージ",
+            "example": "要求を受け付けできません。"
+          }
+        }
+      },
+      "GetNosqlSettings": {
+        "type": "object",
+        "properties": {
+          "Backup": {
+            "type": "object",
+            "description": "バックアップ情報",
+            "nullable": true,
+            "properties": {
+              "Connect": {
+                "type": "string",
+                "description": "バックアップ先（NFS URL形式）",
+                "example": "nfs://192.168.100.250/export",
+                "pattern": "^(nfs://[0-9\\.]+/[A-Za-z0-9_\\-\\/]+)$"
+              },
+              "DayOfWeek": {
+                "type": "array",
+                "description": "バックアップスケジュール",
+                "nullable": true,
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "sun",
+                    "mon",
+                    "tue",
+                    "wed",
+                    "thu",
+                    "fri",
+                    "sat"
+                  ]
+                },
+                "example": [
+                  "sun",
+                  "mon"
+                ]
+              },
+              "Time": {
+                "type": "string",
+                "description": "バックアップする時間",
+                "nullable": true,
+                "example": "00:00",
+                "pattern": "^(([0-1][0-9]|2[0-3]):(00|15|30|45))?$"
+              },
+              "Rotate": {
+                "type": "integer",
+                "description": "バックアップ数（1から8まで）",
+                "minimum": 1,
+                "maximum": 8,
+                "example": 3
+              }
+            }
+          },
+          "SourceNetwork": {
+            "type": "array",
+            "description": "送信元ネットワークアドレス",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}(?:/(?:[0-9]|[1-2][0-9]|3[0-2]))?$"
+            },
+            "example": [
+              "192.168.100.200",
+              "192.168.100.201",
+              "192.168.100.202"
+            ]
+          },
+          "ReserveIPAddress": {
+            "description": "予備IPアドレス  \n※デッドノード発生時、ノード切替を行う際に使用する予備のIPアドレス\n",
+            "type": "string",
+            "format": "ipv4",
+            "example": "192.168.100.203"
+          },
+          "Repair": {
+            "type": "object",
+            "description": "定期リペア設定",
+            "nullable": true,
+            "properties": {
+              "Incremental": {
+                "type": "object",
+                "description": "増分リペア設定",
+                "properties": {
+                  "DaysOfWeek": {
+                    "type": "array",
+                    "description": "実行曜日",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "sun",
+                        "mon",
+                        "tue",
+                        "wed",
+                        "thu",
+                        "fri",
+                        "sat"
+                      ]
+                    },
+                    "example": [
+                      "sun",
+                      "mon"
+                    ]
+                  },
+                  "Time": {
+                    "type": "string",
+                    "description": "実行時間",
+                    "pattern": "^(([0-1][0-9]|2[0-3]):(00|15|30|45))?$",
+                    "example": "00:00"
+                  }
+                }
+              },
+              "Full": {
+                "type": "object",
+                "description": "完全リペア設定",
+                "properties": {
+                  "Interval": {
+                    "type": "integer",
+                    "description": "7日ごとの実行間隔（日数）",
+                    "enum": [
+                      7,
+                      14,
+                      21,
+                      28
+                    ],
+                    "example": 7
+                  },
+                  "DayOfWeek": {
+                    "type": "string",
+                    "description": "実行曜日",
+                    "enum": [
+                      "sun",
+                      "mon",
+                      "tue",
+                      "wed",
+                      "thu",
+                      "fri",
+                      "sat"
+                    ],
+                    "example": "sun"
+                  },
+                  "Time": {
+                    "type": "string",
+                    "description": "実行時間",
+                    "pattern": "^(([0-1][0-9]|2[0-3]):(00|15|30|45))?$",
+                    "example": "00:00"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "GetNosqlRemark": {
+        "type": "object",
+        "properties": {
+          "Nosql": {
+            "type": "object",
+            "properties": {
+              "PrimaryNodes": {
+                "type": "object",
+                "description": "プライマリノード情報",
+                "properties": {
+                  "Appliance": {
+                    "type": "object",
+                    "description": "既存のNoSQLのアプライアンス情報",
+                    "properties": {
+                      "ID": {
+                        "type": "string",
+                        "description": "既存のNoSQLのアプライアンスID",
+                        "example": "113700352689"
+                      },
+                      "Zone": {
+                        "type": "object",
+                        "description": "既存のNoSQLのゾーン",
+                        "properties": {
+                          "Name": {
+                            "type": "string",
+                            "description": "既存のNoSQLのゾーン情報",
+                            "example": "tk1b"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "DatabaseEngine": {
+                "type": "string",
+                "description": "データベースに使用するエンジン",
+                "enum": [
+                  "Cassandra"
+                ],
+                "example": "Cassandra"
+              },
+              "DatabaseVersion": {
+                "type": "string",
+                "description": "データベースバージョン",
+                "pattern": "^\\d+\\.\\d+\\.\\d+$",
+                "example": "4.1.9"
+              },
+              "DefaultUser": {
+                "type": "string",
+                "description": "デフォルトユーザ名",
+                "example": "defaultuser01",
+                "minLength": 4,
+                "maxLength": 20,
+                "pattern": "^[a-z][a-z0-9_]{3,19}$"
+              },
+              "DiskSize": {
+                "type": "integer",
+                "description": "ディスクサイズ(MB)",
+                "example": 102400,
+                "enum": [
+                  40960,
+                  102400,
+                  256000
+                ]
+              },
+              "Memory": {
+                "type": "integer",
+                "description": "メモリ(MB)",
+                "example": 8192,
+                "enum": [
+                  4096,
+                  8192,
+                  16384
+                ]
+              },
+              "Nodes": {
+                "type": "integer",
+                "description": "ノード数",
+                "example": 3,
+                "minimum": 1,
+                "maximum": 3
+              },
+              "Port": {
+                "type": "integer",
+                "description": "ポート",
+                "example": 9042,
+                "minimum": 1024,
+                "maximum": 65535
+              },
+              "Storage": {
+                "type": "string",
+                "description": "ストレージ",
+                "example": "SSD",
+                "enum": [
+                  "SSD"
+                ]
+              },
+              "Virtualcore": {
+                "type": "integer",
+                "description": "仮想コア",
+                "example": 3,
+                "enum": [
+                  2,
+                  3,
+                  6
+                ]
+              },
+              "Zone": {
+                "type": "string",
+                "description": "ゾーン",
+                "example": "tk1b"
+              }
+            }
+          },
+          "Servers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "UserIPAddress": {
+                  "type": "string",
+                  "format": "ipv4",
+                  "description": "ユーザ側スイッチに接続するIPアドレス  \n",
+                  "example": "192.168.100.11"
+                }
+              }
+            }
+          },
+          "Network": {
+            "type": "object",
+            "description": "ネットワーク情報",
+            "properties": {
+              "DefaultRoute": {
+                "type": "string",
+                "description": "ゲートウェイのアドレス",
+                "example": "192.168.100.254"
+              },
+              "NetworkMaskLen": {
+                "type": "integer",
+                "description": "ネットマスク",
+                "example": 24
+              }
+            }
+          }
+        }
+      },
+      "GetServiceClass": {
+        "type": "string",
+        "description": "サービスクラス\n\n| プラン名      | サービスクラスパス          | \n|--------------|----------------------------|\n| 40GBプラン       |  cloud/nosql/plan/1        |\n| 100GBプラン       |  cloud/nosql/plan/2        |\n| 100GBプラン/ノード |  cloud/nosql/plan/2/node  |\n| 250GBプラン       |  cloud/nosql/plan/3        |\n| 250GBプラン/ノード |  cloud/nosql/plan/3/node  |\n",
+        "example": "cloud/nosql/plan/1"
+      },
+      "GetPlan": {
+        "type": "object",
+        "description": "プラン",
+        "properties": {
+          "ID": {
+            "type": "integer",
+            "description": "プランID  \n\n| プラン名      | プランID   | \n|--------------|------------|\n| 40GBプラン       |   51142    |\n| 100GBプラン       |   51143    |\n| 100GBプラン/ノード |   51145    |\n| 250GBプラン       |   51144    |\n| 250GBプラン/ノード |   51146    |\n",
+            "example": 51142
+          }
+        }
+      },
+      "GetNosqlApplianceInput": {
+        "type": "object",
+        "properties": {
+          "Class": {
+            "type": "string",
+            "description": "クラス",
+            "example": "nosql"
+          },
+          "Name": {
+            "type": "string",
+            "description": "NoSQLの名前",
+            "example": "CassandraName",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "Description": {
+            "type": "string",
+            "description": "NoSQLの説明",
+            "example": "説明",
+            "minLength": 0,
+            "maxLength": 512
+          },
+          "Tags": {
+            "$ref": "#/components/schemas/Tags"
+          }
+        }
+      },
+      "GetNosqlAppliance": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/GetNosqlApplianceInput"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "ID": {
+                "type": "string",
+                "description": "アプライアンスID",
+                "example": "113600097295"
+              },
+              "Plan": {
+                "$ref": "#/components/schemas/GetPlan"
+              },
+              "Settings": {
+                "$ref": "#/components/schemas/GetNosqlSettings"
+              },
+              "SettingsHash": {
+                "type": "string",
+                "example": "d41d8cd98f00b204e9800998ecf8427e"
+              },
+              "Remark": {
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/GetNosqlRemark"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "Zone": {
+                        "type": "object",
+                        "description": "ゾーン",
+                        "properties": {
+                          "ID": {
+                            "type": "string",
+                            "description": "ゾーンID",
+                            "example": "30293"
+                          }
+                        }
+                      },
+                      "ServiceClass": {
+                        "type": "string",
+                        "description": "サービスクラス",
+                        "example": "cloud/nosql/plan/1"
+                      }
+                    }
+                  }
+                ]
+              },
+              "Availability": {
+                "$ref": "#/components/schemas/Availability"
+              },
+              "Instance": {
+                "$ref": "#/components/schemas/Instance"
+              },
+              "Disk": {
+                "type": "object",
+                "nullable": true,
+                "description": "ディスク情報  \n",
+                "properties": {
+                  "EncryptionKey": {
+                    "type": "object",
+                    "description": "暗号化キー情報",
+                    "nullable": true,
+                    "properties": {
+                      "KMSKeyID": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "KMSキーID",
+                        "example": "113700349294"
+                      }
+                    }
+                  },
+                  "EncryptionAlgorithm": {
+                    "type": "string",
+                    "description": "暗号化アルゴリズム",
+                    "example": "aes256_xts"
+                  }
+                }
+              },
+              "ServiceClass": {
+                "$ref": "#/components/schemas/GetServiceClass"
+              },
+              "Generation": {
+                "type": "integer",
+                "example": 200
+              },
+              "CreatedAt": {
+                "type": "string",
+                "format": "date-time",
+                "example": "2021-01-01T00:00:00Z"
+              },
+              "Interfaces": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "nullable": true,
+                  "properties": {
+                    "IPAddress": {
+                      "type": "string",
+                      "description": "IPアドレス",
+                      "example": "163.43.142.254",
+                      "nullable": true
+                    },
+                    "UserIPAddress": {
+                      "type": "string",
+                      "description": "ユーザ側スイッチに接続するIPアドレス",
+                      "example": "192.168.100.11",
+                      "nullable": true
+                    },
+                    "HostName": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "ホスト名",
+                      "example": null
+                    },
+                    "Switch": {
+                      "type": "object",
+                      "description": "スイッチ情報",
+                      "properties": {
+                        "ID": {
+                          "type": "string",
+                          "description": "スイッチID",
+                          "example": "113600097295"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "スイッチ名",
+                          "example": "switch_name"
+                        },
+                        "Scope": {
+                          "type": "string",
+                          "description": "スコープ(shared/user)",
+                          "example": "user"
+                        },
+                        "Subnet": {
+                          "type": "object",
+                          "description": "サブネット情報",
+                          "nullable": true,
+                          "properties": {
+                            "NetworkAddress": {
+                              "type": "string",
+                              "description": "ネットワークアドレス",
+                              "example": "163.43.142.0"
+                            },
+                            "NetworkMaskLen": {
+                              "type": "integer",
+                              "description": "ネットマスク",
+                              "example": 24
+                            },
+                            "DefaultRoute": {
+                              "type": "string",
+                              "description": "ゲートウェイのアドレス",
+                              "example": "163.43.142.1",
+                              "nullable": true
+                            },
+                            "Internet": {
+                              "type": "object",
+                              "properties": {
+                                "BandWidthMbps": {
+                                  "type": "integer",
+                                  "example": 100
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "UserSubnet": {
+                          "type": "object",
+                          "description": "ユーザサブネット情報",
+                          "properties": {
+                            "DefaultRoute": {
+                              "type": "string",
+                              "description": "ゲートウェイのアドレス",
+                              "example": "192.168.100.254",
+                              "nullable": true
+                            },
+                            "NetworkMaskLen": {
+                              "type": "integer",
+                              "description": "ネットマスク",
+                              "example": 24
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "responses": {
+      "BadRequestResponse": {
+        "description": "Requestエラー",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "description": "エラーレスポンス",
+              "properties": {
+                "is_fatal": {
+                  "type": "boolean",
+                  "description": "エラーのレスポンス(true:エラー)",
+                  "example": true
+                },
+                "serial": {
+                  "type": "string",
+                  "description": "追跡コード",
+                  "example": "3a5a51fdxxxxx5f6794e82cc8d00d3xx"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "ステータス",
+                  "example": "400 Bad Request"
+                },
+                "error_code": {
+                  "type": "string",
+                  "description": "エラーコード",
+                  "example": "bad_request"
+                },
+                "error_msg": {
+                  "type": "string",
+                  "description": "エラーメッセージ",
+                  "example": "不適切な要求です。"
+                }
+              }
+            }
+          }
+        }
+      },
+      "UnauthorizedResponse": {
+        "description": "認証エラー",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "description": "エラーレスポンス",
+              "properties": {
+                "is_fatal": {
+                  "type": "boolean",
+                  "description": "エラーのレスポンス(true:エラー)",
+                  "example": true
+                },
+                "serial": {
+                  "type": "string",
+                  "description": "追跡コード",
+                  "example": "3a5a51fdxxxxx5f6794e82cc8d00d3xx"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "ステータス",
+                  "example": "401 Unauthorized"
+                },
+                "error_code": {
+                  "type": "string",
+                  "description": "エラーコード",
+                  "example": "unauthorized"
+                },
+                "error_msg": {
+                  "type": "string",
+                  "description": "エラーメッセージ",
+                  "example": "この操作は認証が必要です。"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotFoundResponse": {
+        "description": "リソースが存在しない",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "description": "エラーレスポンス",
+              "properties": {
+                "is_fatal": {
+                  "type": "boolean",
+                  "description": "エラーのレスポンス(true:エラー)",
+                  "example": true
+                },
+                "serial": {
+                  "type": "string",
+                  "description": "追跡コード",
+                  "example": "3a5a51fdxxxxx5f6794e82cc8d00d3xx"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "ステータス",
+                  "example": "404 Not Found"
+                },
+                "error_code": {
+                  "type": "string",
+                  "description": "エラーコード",
+                  "example": "not_found"
+                },
+                "error_msg": {
+                  "type": "string",
+                  "description": "エラーメッセージ",
+                  "example": "対象が見つかりません。"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ConflictResponse": {
+        "description": "リソースが競合している",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ConflictErrorResponse"
+            }
+          }
+        }
+      },
+      "ServerErrorResponse": {
+        "description": "サーバエラー",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "description": "エラーレスポンス",
+              "properties": {
+                "is_fatal": {
+                  "type": "boolean",
+                  "description": "エラーのレスポンス(true:エラー)",
+                  "example": true
+                },
+                "serial": {
+                  "type": "string",
+                  "description": "追跡コード",
+                  "example": "3a5a51fdxxxxx5f6794e82cc8d00d3xx"
+                },
+                "status": {
+                  "type": "string",
+                  "description": "ステータス",
+                  "example": "500 Internal Server Error"
+                },
+                "error_code": {
+                  "type": "string",
+                  "description": "エラーコード",
+                  "example": "internal_server_error"
+                },
+                "error_msg": {
+                  "type": "string",
+                  "description": "エラーメッセージ",
+                  "example": "サーバ内部エラーが発生しました。"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "parameters": {
+      "ApplianceID": {
+        "name": "applianceID",
+        "in": "path",
+        "description": "アプライアンスID",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "113600102549"
+        }
+      },
+      "BackupID": {
+        "name": "backupID",
+        "in": "path",
+        "description": "バックアップID",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "format": "uuid",
+          "example": "123e4567-e89b-12d3-a456-426614174000"
+        }
+      }
+    }
+  }
+}
