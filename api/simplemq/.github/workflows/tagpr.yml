@@ -1,0 +1,18 @@
+# .github/workflows/tagpr.yml
+name: tagpr
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  tagpr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+    - uses: Songmu/tagpr@84850af451fc53753c6685a3a6a2af7beef23607 # v1.18.2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
