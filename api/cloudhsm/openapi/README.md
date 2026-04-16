@@ -1,0 +1,1 @@
+openapi.jsonは https://manual.sakura.ad.jp/api/cloud/security-encryption/ からダウンロードできるJSONのうち、KMSおよびシークレットマネージャ関連部分を除いた物です。

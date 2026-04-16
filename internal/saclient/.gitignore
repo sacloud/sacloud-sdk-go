@@ -1,0 +1,6 @@
+.env
+vendor/
+dist/
+work/
+.vscode/
+bin/example.exe

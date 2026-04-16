@@ -1,0 +1,5 @@
+.env
+vendor/
+dist/
+work/
+go-template

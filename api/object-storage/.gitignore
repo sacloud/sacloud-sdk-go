@@ -1,0 +1,11 @@
+.env
+.mailmap
+key.gpg
+
+apis/v1/spec/original-swagger.yaml
+apis/v1/spec/swagger.json
+
+bin/
+dist/
+vendor/
+work/

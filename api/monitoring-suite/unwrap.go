@@ -1,0 +1,51 @@
+// Copyright 2025- The sacloud/monitoring-suite-api-go Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package monitoringsuite
+
+import (
+	"encoding/json"
+	"reflect"
+
+	"github.com/go-faster/errors"
+)
+
+func Unwrap[T json.Unmarshaler, U json.Marshaler](dst T, src U) (T, error) {
+	// :FIXME: I know it's super inefficient, but works anyways...
+	// Contributions welcomed.
+	bytes, err := src.MarshalJSON()
+	if err != nil {
+		return dst, errors.Wrapf(err, "failed to marshal source")
+	}
+	err = dst.UnmarshalJSON(bytes)
+	if err != nil {
+		return dst, errors.Wrapf(err, "failed to unmarshal to destination: %s", reflect.TypeOf(dst).String())
+	}
+	return dst, nil
+}
+
+func unwrapE[
+	T interface {
+		*V
+		json.Unmarshaler
+	},
+	U json.Marshaler,
+	V any,
+](src U, e error) (dst T, err error) {
+	if e != nil {
+		return dst, e
+	}
+	dst = new(V)
+	return Unwrap(dst, src)
+}

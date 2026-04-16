@@ -1,0 +1,12 @@
+AUTHORS             linguist-generated merge=union
+go.sum              linguist-generated merge=ours
+go.mod              linguist-generated
+docs/*              linguist-documentation
+*.md                merge=union
+
+/.github            export-ignore
+.gitattributes      export-ignore
+.gitignore          export-ignore
+
+apis/v1/*.go        linguist-generated
+openapi/*.json      linguist-generated

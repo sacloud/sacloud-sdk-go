@@ -1,0 +1,131 @@
+// Copyright 2022-2025 The sacloud/iaas-api-go Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package define
+
+import (
+	"net/http"
+
+	"github.com/sacloud/iaas-api-go/internal/define/names"
+	"github.com/sacloud/iaas-api-go/internal/define/ops"
+	"github.com/sacloud/iaas-api-go/internal/dsl"
+	"github.com/sacloud/iaas-api-go/internal/dsl/meta"
+	"github.com/sacloud/iaas-api-go/naked"
+)
+
+const (
+	packetFilterAPIName     = "PacketFilter"
+	packetFilterAPIPathName = "packetfilter"
+)
+
+var packetFilterAPI = &dsl.Resource{
+	Name:       packetFilterAPIName,
+	PathName:   packetFilterAPIPathName,
+	PathSuffix: dsl.CloudAPISuffix,
+	Operations: dsl.Operations{
+		// find
+		ops.Find(packetFilterAPIName, packetFilterNakedType, findParameter, packetFilterView),
+
+		// create
+		ops.Create(packetFilterAPIName, packetFilterNakedType, packetFilterCreateParam, packetFilterView),
+
+		// read
+		ops.Read(packetFilterAPIName, packetFilterNakedType, packetFilterView),
+
+		// update
+		{
+			ResourceName: packetFilterAPIName,
+			Name:         "Update",
+			PathFormat:   dsl.DefaultPathFormatWithID,
+			Method:       http.MethodPut,
+			RequestEnvelope: dsl.RequestEnvelope(
+				&dsl.EnvelopePayloadDesc{
+					Type: packetFilterNakedType,
+					Name: "PacketFilter",
+				},
+				&dsl.EnvelopePayloadDesc{
+					Type: meta.TypeString,
+					Name: "OriginalExpressionHash",
+					Tags: &dsl.FieldTags{JSON: ",omitempty"},
+				},
+			),
+			Arguments: dsl.Arguments{
+				dsl.ArgumentID,
+				{
+					Name:       "updateParam",
+					MapConvTag: "PacketFilter,recursive",
+					Type:       packetFilterUpdateParam,
+				},
+				{
+					Name:       "originalExpressionHash",
+					MapConvTag: "OriginalExpressionHash",
+					Type:       meta.TypeString,
+				},
+			},
+			ResponseEnvelope: dsl.ResponseEnvelope(&dsl.EnvelopePayloadDesc{
+				Type: packetFilterNakedType,
+				Name: "PacketFilter",
+			}),
+			Results: dsl.Results{
+				{
+					SourceField: "PacketFilter",
+					DestField:   packetFilterView.Name,
+					IsPlural:    false,
+					Model:       packetFilterView,
+				},
+			},
+		},
+
+		// delete
+		ops.Delete(packetFilterAPIName),
+	},
+}
+
+var (
+	packetFilterNakedType = meta.Static(naked.PacketFilter{})
+
+	packetFilterView = &dsl.Model{
+		Name:      packetFilterAPIName,
+		NakedType: packetFilterNakedType,
+		Fields: []*dsl.FieldDesc{
+			fields.ID(),
+			fields.Name(),
+			fields.Description(),
+			fields.RequiredHostVersion(),
+			fields.PacketFilterExpressions(),
+			fields.ExpressionHash(),
+			fields.CreatedAt(),
+		},
+	}
+
+	packetFilterCreateParam = &dsl.Model{
+		Name:      names.CreateParameterName(packetFilterAPIName),
+		NakedType: packetFilterNakedType,
+		Fields: []*dsl.FieldDesc{
+			fields.Name(),
+			fields.Description(),
+			fields.PacketFilterExpressions(),
+		},
+	}
+
+	packetFilterUpdateParam = &dsl.Model{
+		Name:      names.UpdateParameterName(packetFilterAPIName),
+		NakedType: packetFilterNakedType,
+		Fields: []*dsl.FieldDesc{
+			fields.Name(),
+			fields.Description(),
+			fields.PacketFilterExpressions(),
+		},
+	}
+)
