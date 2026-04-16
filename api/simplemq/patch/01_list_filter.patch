@@ -1,0 +1,13 @@
+diff --git a/apis/v1/queue/oas_client_gen.go b/apis/v1/queue/oas_client_gen.go
+index 6ab5c8d..27d14d4 100644
+--- a/apis/v1/queue/oas_client_gen.go
++++ b/apis/v1/queue/oas_client_gen.go
+@@ -658,7 +658,8 @@ func (c *Client) sendGetQueues(ctx context.Context) (res GetQueuesRes, err error
+ 
+ 	u := uri.Clone(c.requestURL(ctx))
+ 	var pathParts [1]string
+ 	pathParts[0] = "/commonserviceitem"
+ 	uri.AddPathParts(u, pathParts[:]...)
++	u.RawQuery = url.QueryEscape(`{"Filter":{"Provider.Class":"simplemq"}}`) // NOTE: ここだけOpenAPIで表現できず手動で書き加えている
+ 
+ 	r, err := ht.NewRequest(ctx, "GET", u)

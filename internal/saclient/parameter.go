@@ -1,0 +1,1233 @@
+// Copyright 2025- The sacloud/saclient-go Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package saclient
+
+import (
+	"context"
+	"errors"
+	"flag"
+	"fmt"
+	"log"
+	"maps"
+	"net/http"
+	"net/http/httptest"
+	"os"
+	"runtime"
+	"slices"
+	"strings"
+	"time"
+
+	"github.com/hashicorp/go-retryablehttp"
+	old "github.com/sacloud/api-client-go"
+	saht "github.com/sacloud/go-http"
+)
+
+type storage struct {
+	profileName           option[string]
+	privateKeyPath        option[string]
+	privateKey            option[string]
+	servicePrincipalKeyID option[string]
+	servicePrincipalID    option[string]
+	tokenEndpoint         option[string]
+	accessToken           option[string]
+	accessTokenSecret     option[string]
+	zone                  option[string]
+	defaultZone           option[string]
+	zones                 option[[]string]
+	retryMax              option[int64]
+	retryWaitMax          option[int64]
+	retryWaitMin          option[int64]
+	apiRootURL            option[string]
+	apiRequestTimeout     option[time.Duration]
+	apiRequestRateLimit   option[int64]
+	traceMode             option[string]
+	mockServer            option[*httptest.Server]
+	userAgent             option[string]
+	acceptLanguage        option[string]
+	authPreference        option[string]
+	middlewares           option[[]Middleware]
+	checkRetryFunc        option[retryablehttp.CheckRetry]
+	endpoints             option[map[string]string]
+
+	// Deprecated: this is to migrate from old client.
+	requestCustomizers option[[]saht.RequestCustomizer]
+}
+
+// :INTERNAL: it is intentional that this is not a struct
+// This is also not JSONable because it contains functions etc.
+type config map[string]any
+
+type parameter struct {
+	// Deprecated: for compatibility
+	noProfile bool
+
+	// Deprecated: for compatibility
+	noEnv bool
+
+	profileOp *ProfileOp
+	envp      storage
+	argv      storage
+	hcl       storage
+	dynamic   storage
+}
+
+func (p *parameter) setEnviron(env []string) error {
+	if p == nil {
+		return NewErrorf("nil parameter")
+	} else {
+		p.profileOp = NewProfileOp(env)
+		r := make([]error, 0, 43) // <- 43 is the # of `append` calls below
+		e := intoEnvmap(env)
+		s := &p.envp
+
+		// ORDER MATTERS do not sort
+
+		deprecateKIDenv(&e)
+
+		// SAKURA_ variables (current active)
+		r = append(r, e.fetchInto("SAKURA_PROFILE", s.profileName.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY", s.privateKey.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_KID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN", s.accessToken.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ZONE", s.zone.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ZONES", s.zones.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_DEFAULT_ZONE", s.defaultZone.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_RETRY_MAX", s.retryMax.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_RETRY_WAIT_MAX", s.retryWaitMax.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_RETRY_WAIT_MIN", s.retryWaitMin.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_API_ROOT_URL", s.apiRootURL.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_API_REQUEST_TIMEOUT", s.apiRequestTimeout.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_RATE_LIMIT", s.apiRequestRateLimit.fromEnv)) // <- intentional; not SAKURA_API_REQUEST_RATE_LIMIT
+		r = append(r, e.fetchInto("SAKURA_TRACE", s.traceMode.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_ACCEPT_LANGUAGE", s.acceptLanguage.fromEnv))
+
+		// SAKURA_ENDPOINTS_* variables
+		endpoints := make(map[string]string)
+		for k, v := range e {
+			if strings.HasPrefix(k, "SAKURA_ENDPOINTS_") {
+				serviceKey := strings.TrimPrefix(k, "SAKURA_ENDPOINTS_")
+				endpoints[serviceKey] = v
+			}
+		}
+		if len(endpoints) > 0 {
+			s.endpoints.initialize(normalizeEndpoints(endpoints))
+		}
+
+		// SAKURACLOUD_ variables (legacy still supported)
+		r = append(r, e.fetchInto("SAKURACLOUD_PROFILE", s.profileName.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY", s.privateKey.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ACCESS_TOKEN", s.accessToken.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ZONE", s.zone.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ZONES", s.zones.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_DEFAULT_ZONE", s.defaultZone.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_RETRY_MAX", s.retryMax.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_RETRY_WAIT_MAX", s.retryWaitMax.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_RETRY_WAIT_MIN", s.retryWaitMin.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_API_ROOT_URL", s.apiRootURL.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_API_REQUEST_TIMEOUT", s.apiRequestTimeout.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_API_REQUEST_RATE_LIMIT", s.apiRequestRateLimit.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_TRACE_MODE", s.traceMode.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_ACCEPT_LANGUAGE", s.acceptLanguage.fromEnv))
+
+		// usacloud compatibility
+		r = append(r, e.fetchInto("USACLOUD_PROFILE", s.profileName.fromEnv))
+		r = append(r, e.fetchInto("USACLOUD_TRACE", s.traceMode.fromEnv))
+
+		// terraform compatibility
+		r = append(r, e.fetchInto("SAKURACLOUD_RATE_LIMIT", s.apiRequestRateLimit.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_TRACE", s.traceMode.fromEnv))
+
+		return errors.Join(r...)
+	}
+}
+
+func (p *parameter) setHCL(config TerraformProviderInterface) {
+	if p == nil {
+		return
+	}
+
+	p.hcl.profileName.from(config.LookupClientConfigProfileName)
+	p.hcl.privateKeyPath.from(config.LookupClientConfigPrivateKeyPath)
+	p.hcl.accessToken.from(config.LookupClientConfigAccessToken)
+	p.hcl.accessTokenSecret.from(config.LookupClientConfigAccessTokenSecret)
+	p.hcl.zone.from(config.LookupClientConfigZone)
+	p.hcl.zones.from(config.LookupClientConfigZones)
+	p.hcl.defaultZone.from(config.LookupClientConfigDefaultZone)
+	p.hcl.retryMax.from(config.LookupClientConfigRetryMax)
+	p.hcl.retryWaitMax.from(config.LookupClientConfigRetryWaitMax)
+	p.hcl.retryWaitMin.from(config.LookupClientConfigRetryWaitMin)
+	p.hcl.apiRootURL.from(config.LookupClientConfigAPIRootURL)
+	p.hcl.apiRequestTimeout.from(func() (ret time.Duration, ok bool) {
+		var t int64
+		t, ok = config.LookupClientConfigAPIRequestTimeout()
+		if ok {
+			ret = time.Duration(t) * time.Second
+		}
+		return
+	})
+	p.hcl.apiRequestRateLimit.from(config.LookupClientConfigAPIRequestRateLimit)
+	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
+	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
+	p.hcl.servicePrincipalKeyID.from(config.LookupClientConfigServicePrincipalKeyID)
+}
+
+func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
+	var fs *flag.FlagSet
+
+	if p != nil {
+		fs = flag.NewFlagSet("saclient-go", eh)
+
+		// :NOTE: these help messages are from usacloud's old --help output
+		fs.Var(&p.argv.profileName, "profile", "the name of saved credentials")
+		fs.Var(&p.argv.privateKeyPath, "private-key-path", "path to an RSA 2048 bit private key PEM format")
+		fs.Var(&p.argv.servicePrincipalID, "service-principal-id", "the ID of the service principal")
+		fs.Var(&p.argv.servicePrincipalKeyID, "service-principal-key-id", "the `kid` of the service principal")
+		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
+		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
+		fs.Var(&p.argv.zones, "zones", "permitted zone names")
+		fs.BoolFunc("trace", "enable trace logs for API calling", func(str string) error {
+			return p.argv.traceMode.Set("all")
+		})
+
+		// Not sure why but not everything can be specified from command line
+		// for instance usacloud lacks --zone, in spiyte of having --zones.
+	}
+
+	return fs
+}
+
+func (p *parameter) setOldParams(url string, params ...old.ClientParam) error {
+	var cp old.ClientParams
+
+	if p == nil {
+		return NewErrorf("nil parameter")
+	}
+
+	if url != "" {
+		cp.APIRootURL = url
+	}
+	for _, yield := range params {
+		yield(&cp)
+	}
+	p.noProfile = cp.DisableProfile
+	p.noEnv = cp.DisableEnv
+	if cp.APIRootURL != "" {
+		p.dynamic.apiRootURL.initialize(cp.APIRootURL)
+	}
+	if cp.Token != "" {
+		p.dynamic.accessToken.initialize(cp.Token)
+	}
+	if cp.Secret != "" {
+		p.dynamic.accessTokenSecret.initialize(cp.Secret)
+	}
+	if cp.UserAgent != "" {
+		p.dynamic.userAgent.initialize(cp.UserAgent)
+	}
+	if cp.Profile != "" {
+		p.dynamic.profileName.initialize(cp.Profile)
+	}
+	if cp.HTTPClient != nil {
+		return NewErrorf("setting HTTPClient not supported")
+	}
+	if cp.Options != nil {
+		if err := p.setOldOptions(cp.Options); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (p *parameter) setOldOptions(opts ...*old.Options) error {
+	if p == nil {
+		return NewErrorf("nil parameter")
+	} else if o := old.MergeOptions(opts...); o == nil {
+		return NewErrorf("nil options")
+	} else {
+		if o.AccessToken != "" {
+			p.dynamic.accessToken.initialize(o.AccessToken)
+		}
+		if o.AccessTokenSecret != "" {
+			p.dynamic.accessTokenSecret.initialize(o.AccessTokenSecret)
+		}
+		if o.AcceptLanguage != "" {
+			p.dynamic.acceptLanguage.initialize(o.AcceptLanguage)
+		}
+		if o.Gzip == true {
+			// This is default enabled for us.
+			// OTOH it is not clear if o.Gzip == false means the user wants to disable it,
+			// or just zero value is filled.
+		}
+		if o.HttpClient != nil {
+			// :NOTE: This is not possible for us.
+			return NewErrorf("setting HttpClient not supported")
+		}
+		if o.HttpRequestTimeout > 0 {
+			p.dynamic.apiRequestTimeout.initialize(time.Duration(o.HttpRequestTimeout) * time.Second)
+		}
+		if o.HttpRequestRateLimit > 0 {
+			p.dynamic.apiRequestRateLimit.initialize(int64(o.HttpRequestRateLimit))
+		}
+		if o.RetryMax > 0 {
+			p.dynamic.retryMax.initialize(int64(o.RetryMax))
+		}
+		if o.RetryWaitMax > 0 {
+			p.dynamic.retryWaitMax.initialize(int64(o.RetryWaitMax))
+		}
+		if o.RetryWaitMin > 0 {
+			p.dynamic.retryWaitMin.initialize(int64(o.RetryWaitMin))
+		}
+		if o.UserAgent != "" {
+			p.dynamic.userAgent.initialize(o.UserAgent)
+		}
+		if o.Trace == true {
+			p.dynamic.traceMode.initialize("all")
+		}
+		if o.TraceOnlyError == true {
+			p.dynamic.traceMode.initialize("error")
+		}
+		if n := len(o.RequestCustomizers); n > 0 {
+			// this option is cumulative
+			var a []saht.RequestCustomizer = make([]saht.RequestCustomizer, n)
+			if b, ok := p.dynamic.requestCustomizers.Get(); ok {
+				a = append(a, b...)
+			}
+			a = append(a, o.RequestCustomizers...)
+			p.dynamic.requestCustomizers.initialize(a)
+		}
+		if o.CheckRetryFunc != nil {
+			p.dynamic.checkRetryFunc.initialize(o.CheckRetryFunc)
+		}
+		if len(o.CheckRetryStatusCodes) > 0 {
+			p.dynamic.checkRetryFunc.initialize(
+				func(ctx context.Context, res *http.Response, err error) (bool, error) {
+					//nolint:gocritic
+					if eerr := ctx.Err(); eerr != nil {
+						return false, eerr
+					} else if err != nil {
+						return retryablehttp.DefaultRetryPolicy(ctx, res, err)
+					} else if res.StatusCode == 0 {
+						return true, nil
+					} else if slices.Contains(o.CheckRetryStatusCodes, res.StatusCode) {
+						return true, nil
+					} else {
+						return false, nil
+					}
+				},
+			)
+		}
+
+		return nil
+	}
+}
+
+func (p *parameter) populate(c *config) error {
+	// This is the mother-of-all populate function.
+	ret := make([]error, 0, 27) // <- 27 is the # of `append` calls below
+
+	//nolint:gocritic
+	if p == nil {
+		return NewErrorf("nil parameter")
+	} else if c == nil {
+		return NewErrorf("nil config")
+	} else if p.profileOp == nil {
+		// Operator not initialized, means there was no call to SetEnviron()
+		// This could be meddling, but we initialize it here for safety.
+		var envp []string
+		if p.noEnv {
+			envp = make([]string, 0)
+		} else {
+			envp = os.Environ()
+		}
+		ret = append(ret, p.setEnviron(envp))
+	}
+
+	*c = make(config)
+	ret = append(ret, p.populateProfileName(c))
+	ret = append(ret, p.populateProfile(c))
+	ret = append(ret, p.populatePrivateKeyPath(c))
+	ret = append(ret, p.populatePrivateKey(c))
+	ret = append(ret, p.populateServicePrincipalKeyID(c))
+	ret = append(ret, p.populateServicePrincipalID(c))
+	ret = append(ret, p.populateTokenEndpoint(c))
+	ret = append(ret, p.populateAccessToken(c))
+	ret = append(ret, p.populateAccessTokenSecret(c))
+	ret = append(ret, p.populateZone(c))
+	ret = append(ret, p.populateZones(c)...)
+	ret = append(ret, p.populateDefaultZone(c))
+	ret = append(ret, p.populateRetryMax(c))
+	ret = append(ret, p.populateRetryWaitMax(c))
+	ret = append(ret, p.populateRetryWaitMin(c))
+	ret = append(ret, p.populateAPIRootURL(c))
+	ret = append(ret, p.populateAPIRequestTimeout(c))
+	ret = append(ret, p.populateAPIRequestRateLimit(c))
+	ret = append(ret, p.populateTraceMode(c))
+	ret = append(ret, p.populateMockServer(c))
+	ret = append(ret, p.populateUserAgent(c))
+	ret = append(ret, p.populateAcceptLanguage(c))
+	ret = append(ret, p.populateAuthPreference(c))
+	ret = append(ret, p.populateMiddlewares(c))
+	ret = append(ret, p.populateCheckRetryFunc(c))
+	ret = append(ret, p.populateRequestCustomizers(c))
+	ret = append(ret, p.populateEndpoints(c))
+
+	return errors.Join(ret...)
+}
+
+func (p *parameter) populateProfileName(c *config) error {
+	// We need to load a profile.
+	// The one from command-line flag has the highest priority,
+	// then the one from environment variable,
+	// and finally the one from Terraform provider is the lowest priority.
+	// In case none of them are set, the "current" profile is used.
+	var profileName option[string]
+
+	if p == nil {
+		return NewErrorf("nil parameter")
+	} else if p.noProfile {
+		// Explicitly opted out
+		return nil
+	} else if v, ok := p.dynamic.profileName.Get(); ok {
+		profileName.initialize(v)
+	} else if v, ok := p.argv.profileName.Get(); ok {
+		profileName.initialize(v)
+	} else if v, ok := p.envp.profileName.Get(); ok {
+		profileName.initialize(v)
+	} else if v, ok := p.hcl.profileName.Get(); ok {
+		profileName.initialize(v)
+	} else if v, err := p.profileOp.GetCurrentName(); err == nil {
+		profileName.initialize(v)
+	}
+
+	if v, ok := profileName.Get(); !ok {
+		// None of above succeeded, and there is no "current" profile.
+		// Maybe the user opted to not use profiles at all.
+		// This is not an error, continue populating with empty profile.
+		return nil
+	} else {
+		return c.set("ProfileName", v)
+	}
+}
+
+func (p *parameter) populateProfile(c *config) error {
+	if p == nil {
+		return NewErrorf("nil parameter")
+	}
+
+	if p.noProfile {
+		// Explicitly opted out
+		return nil
+	}
+
+	v, ok, err := obtainFromConfig[string](c, "ProfileName").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil
+	}
+
+	profile, err := p.profileOp.Read(v)
+
+	if err != nil {
+		// Explicitly specified profile not found, this is surely an error.
+		return err
+	}
+
+	return c.set("Profile", profile)
+}
+
+func (p *parameter) populatePrivateKeyPath(c *config) error {
+	err := p.populateString(c, "PrivateKeyPEMPath")
+
+	if err != nil {
+		return err
+	}
+
+	v, ok, err := obtainFromConfig[string](c, "PrivateKeyPEMPath").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set
+	}
+
+	s, err := os.Stat(v)
+
+	if err != nil {
+		return NewErrorf("private key file not found: %s", v)
+	}
+
+	if !s.Mode().IsRegular() {
+		return NewErrorf("private key not a file: %s", v)
+	}
+
+	if runtime.GOOS == "windows" {
+		// There is no concept like world writable directory on Windows.
+		// The &0o077 check below makes no sense here.
+		return nil
+	}
+
+	if s.Mode().Perm()&0o077 != 0 {
+		return NewErrorf("private key file %s permission is too lax: %o", v, s.Mode().Perm())
+	}
+
+	return nil
+}
+
+func (p *parameter) populatePrivateKey(c *config) error {
+	return p.populateString(c, "PrivateKey")
+}
+
+func (p *parameter) populateServicePrincipalID(c *config) error {
+	return p.populateString(c, "ServicePrincipalID")
+}
+
+func (p *parameter) populateServicePrincipalKeyID(c *config) error {
+	return p.populateString(c, "ServicePrincipalKeyID")
+}
+
+func (p *parameter) populateTokenEndpoint(c *config) error {
+	return p.populateString(c, "TokenEndpoint")
+}
+
+func (p *parameter) populateAccessToken(c *config) error {
+	return p.populateString(c, "AccessToken")
+}
+
+func (p *parameter) populateAccessTokenSecret(c *config) error {
+	return p.populateString(c, "AccessTokenSecret")
+}
+
+func (p *parameter) populateZone(c *config) error {
+	return p.populateString(c, "Zone")
+}
+
+func (p *parameter) populateDefaultZone(c *config) error {
+	return p.populateString(c, "DefaultZone")
+}
+
+func (p *parameter) populateZones(c *config) []error {
+	var ret []error
+	var whence string
+	var val option[[]string]
+
+	if p == nil {
+		ret = append(ret, NewErrorf("nil parameter"))
+	} else if c == nil {
+		ret = append(ret, NewErrorf("nil config"))
+	} else if v, ok := p.envp.zones.Get(); ok {
+		val.initialize(v)
+		whence = "environment variable"
+	} else if v, ok := p.argv.zones.Get(); ok {
+		val.initialize(v)
+		whence = "command-line argument"
+	} else if v, ok := p.hcl.zones.Get(); ok {
+		val.initialize(v)
+		whence = "terraform configuration"
+	} else if whence, result := obtainFromProfile[[]any](c, "Zones", "profile"); result.isErr() {
+		ret = append(ret, result.error())
+	} else if v, ok := result.some(); !ok {
+		// just not set
+
+	} else {
+		w := []string{}
+		for i, z := range v {
+			if s, ok := z.(string); !ok {
+				ret = append(ret, NewErrorf("nonstring zone %v in %s's #%d", z, whence, i))
+			} else {
+				w = append(w, s)
+			}
+		}
+		val.initialize(w)
+	}
+
+	if v, ok := val.Get(); !ok {
+		// just not set
+
+	} else if len(v) == 0 {
+		ret = append(ret, NewErrorf("empty Zones (from %s)", whence))
+	} else if err := c.set("Zones", v); err != nil {
+		ret = append(ret, err)
+	}
+
+	return ret
+}
+
+func (this *parameter) populateRetryMax(c *config) error {
+	return this.populateUInt64(c, "RetryMax")
+}
+
+func (this *parameter) populateRetryWaitMax(c *config) error {
+	return this.populateUInt64(c, "RetryWaitMax")
+}
+
+func (this *parameter) populateRetryWaitMin(c *config) error {
+	return this.populateUInt64(c, "RetryWaitMin")
+}
+
+func (this *parameter) populateAPIRootURL(c *config) error {
+	// :TODO: validate URL format?
+	return this.populateString(c, "APIRootURL")
+}
+
+func (this *parameter) populateAPIRequestTimeout(c *config) error {
+	v, ok, err := prioritizedParameterValue[time.Duration](this, c, "APIRequestTimeout").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	return c.set("APIRequestTimeout", v)
+}
+
+func (this *parameter) populateAPIRequestRateLimit(c *config) error {
+	return this.populateUInt64(c, "APIRequestRateLimit")
+}
+
+func (this *parameter) populateTraceMode(c *config) error {
+	// TraceMode _seems_ like an enum.
+	// Known values so far:
+	//
+	// - unset (no trace)
+	// - "all" (trace everything)
+	// - "error" (only after errors)
+	// - "api" (???)
+	// - "http" (???)
+	return this.populateString(c, "TraceMode")
+}
+
+func (p *parameter) populateMockServer(c *config) error {
+	v, ok, err := prioritizedParameterValue[*httptest.Server](p, c, "MockServer").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	if v == nil {
+		return nil // avoid SEGV
+	}
+
+	return c.set("MockServer", v)
+}
+
+func (p *parameter) populateAuthPreference(c *config) error {
+	if result := prioritizedParameterValue[string](p, c, "AuthPreference"); result.isSome() {
+		// If explicitly specified, honour that at #1 priority.  This is normal with other configs.
+		return c.set("AuthPreference", result.unwrap())
+	} else {
+		// But if absent, things get complicated...
+		key2auth := [][2]string{
+			{"PrivateKeyPEMPath", "bearer"},
+			{"ServicePrincipalID", "bearer"},
+			{"ServicePrincipalKeyID", "bearer"},
+			{"AccessToken", "basic"},
+			{"AccessTokenSecret", "basic"},
+		}
+
+		// At this point if command-line arguent of any sort is given, that takes precedence.
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
+			if p.argv.hasSome(k) {
+				return c.set("AuthPreference", v)
+			}
+		}
+
+		// Terraform provider block comes next.
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
+			if p.hcl.hasSome(k) {
+				return c.set("AuthPreference", v)
+			}
+		}
+
+		// Next priority is environment variables.
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
+			if p.envp.hasSome(k) {
+				return c.set("AuthPreference", v)
+			}
+		}
+		// EXTRA: there also is `SAKURACLOUD_PRIVATE_KEY`
+		if p.envp.hasSome("PrivateKey") {
+			return c.set("AuthPreference", "bearer")
+		}
+
+		// Lastly if profile has any of the keys, that decides.
+		for _, kv := range key2auth {
+			k, v := kv[0], kv[1]
+			if _, result := obtainFromProfile[string](c, k, "profile"); result.isSome() {
+				return c.set("AuthPreference", v)
+			}
+		}
+
+		// Here, no auth info found at all.
+		// Leave it unset, which effectively calls server without auth; let it return 401.
+		return nil
+	}
+}
+
+func (p *parameter) populateMiddlewares(c *config) error {
+	v, ok, err := prioritizedParameterValue[[]Middleware](p, c, "Middlewares").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	if len(v) == 0 {
+		return nil // no use
+	}
+
+	return c.set("Middlewares", v)
+}
+
+func (p *parameter) populateCheckRetryFunc(c *config) error {
+	v, ok, err := prioritizedParameterValue[retryablehttp.CheckRetry](p, c, "CheckRetryFunc").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set
+	}
+
+	return c.set("CheckRetryFunc", v)
+}
+
+func (p *parameter) populateUserAgent(c *config) error {
+	return p.populateString(c, "UserAgent")
+}
+
+func (p *parameter) populateAcceptLanguage(c *config) error {
+	return p.populateString(c, "AcceptLanguage")
+}
+
+// Deprecated: only for compatibility.
+func (p *parameter) populateRequestCustomizers(c *config) error {
+	v, ok, err := prioritizedParameterValue[[]saht.RequestCustomizer](p, c, "RequestCustomizers").decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set
+	}
+
+	return c.set("RequestCustomizers", v)
+}
+
+func (p *parameter) populateEndpoints(c *config) error {
+	if p == nil {
+		return NewErrorf("nil parameter")
+	}
+	if c == nil {
+		return NewErrorf("nil config")
+	}
+
+	// merged holds the effective endpoints (first-wins per key)
+	merged := make(map[string]string)
+
+	// list sources in priority order: highest first
+	sources := []option[map[string]string]{
+		p.envp.endpoints,
+	}
+
+	for _, src := range sources {
+		if m, ok := src.Get(); ok && m != nil {
+			for k, v := range m {
+				nk := normalizeServiceKey(k)
+				if nk == "" {
+					continue
+				}
+				if _, exists := merged[nk]; !exists {
+					merged[nk] = strings.TrimSpace(v)
+				}
+			}
+		}
+	}
+
+	_, res := obtainFromProfile[map[string]any](c, "Endpoints", "profile")
+	m, ok, err := res.decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if ok && m != nil {
+		eps := make(map[string]string, len(m))
+		for k, v := range m {
+			if s, ok := v.(string); ok {
+				eps[k] = s
+			} else {
+				return NewErrorf("invalid endpoint value for %s in profile Endpoints: %T", k, v)
+			}
+		}
+
+		norm := normalizeEndpoints(eps)
+		for k, v := range norm {
+			if _, exists := merged[k]; !exists {
+				merged[k] = strings.TrimSpace(v)
+			}
+		}
+	}
+
+	if len(merged) == 0 {
+		return nil
+	}
+	return c.set("Endpoints", normalizeEndpoints(merged))
+}
+
+func (p *parameter) populateString(c *config, key string) error {
+	v, ok, err := prioritizedParameterValue[string](p, c, key).decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	if v == "" {
+		// Mmm... found out that previous config from usacloud used to
+		// set empty string for some parameters. Returning error here is a no-go.
+		// Not sure what to do instead though...
+		// Do we want to propagate that emptiness?
+
+		// c.set(key, "")
+		return nil
+	}
+
+	return c.set(key, v)
+}
+
+func (p *parameter) populateUInt64(c *config, key string) error {
+	whence, result := prioritizedParameterValue2[int64](p, c, key)
+	v, ok, err := result.decompose()
+
+	if err != nil {
+		return err
+	}
+
+	if !ok {
+		return nil // just not set; leave blank
+	}
+
+	if v < 0 {
+		return NewErrorf("negative %s (from %s): %d", key, whence, v)
+	}
+
+	return c.set(key, v)
+}
+
+func prioritizedParameterValue[T any](p *parameter, c *config, k string) (r resultOption[T]) {
+	_, r = prioritizedParameterValue2[T](p, c, k)
+	return
+}
+
+//nolint:nakedret
+func prioritizedParameterValue2[
+	T any,
+](
+	p *parameter,
+	c *config,
+	k string,
+) (
+	whence string,
+	result resultOption[T],
+) {
+	if p == nil {
+		result = resultOptionErr[T](NewErrorf("nil parameter"))
+		return
+	}
+
+	if c == nil {
+		result = resultOptionErr[T](NewErrorf("nil config"))
+		return
+	}
+
+	whence, result = obtainFromStorage[T](&p.dynamic, k, "on-the-fly")
+
+	if result.isSome() {
+		return
+	}
+
+	whence, result = obtainFromStorage[T](&p.argv, k, "command-line argument")
+
+	if result.isSome() {
+		return
+	}
+
+	whence, result = obtainFromStorage[T](&p.hcl, k, "terraform configuration")
+
+	if result.isSome() {
+		return
+	}
+
+	whence, result = obtainFromStorage[T](&p.envp, k, "environment variable")
+
+	if result.isSome() {
+		return
+	}
+
+	whence, result = obtainFromProfile[T](c, k, "profile")
+
+	if result.isSome() {
+		return
+	}
+
+	return obtainFromStorage[T](&defaults, k, "defaults")
+}
+
+func obtainFromStorage[
+	T any,
+](
+	s *storage,
+	k string,
+	whence string,
+) (
+	string,
+	resultOption[T],
+) {
+	if s == nil {
+		return whence, resultOptionErr[T](NewErrorf("nil %s", whence))
+	} else if v, ok := s.get(k); !ok {
+		return whence, resultOptionNone[T]()
+	} else if t, ok := v.(T); !ok {
+		return whence, resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
+	} else {
+		return whence, resultOptionSome(t)
+	}
+}
+
+//nolint:nakedret
+func obtainFromProfile[
+	T any,
+](
+	c *config,
+	k string,
+	msg string,
+) (
+	whence string,
+	result resultOption[T],
+) {
+	whence = fmt.Sprintf("%s %s", msg, k)
+	result = resultOptionNone[T]()
+
+	if c == nil {
+		result = resultOptionErr[T](NewErrorf("nil config"))
+		return
+	}
+
+	p, ok, err := obtainFromConfig[*Profile](c, "Profile").decompose()
+
+	if err != nil {
+		result = resultOptionErr[T](result.error())
+		return
+	}
+
+	if !ok {
+		// profile not set; ok unspecified
+		return
+	}
+
+	v, ok := p.Get(k)
+
+	if !ok {
+		// profile does not have this key; ok unspecified
+		return
+	}
+
+	if v == nil {
+		// profile has this key but with nil value; interpret as unspecified
+		return
+	}
+
+	w, ok := v.(T)
+
+	if !ok {
+		// float64 -> int64 conversion special case
+		if _, isInt64 := any((*new(T))).(int64); isInt64 {
+			if w, isFloat64 := v.(float64); isFloat64 {
+				if (float64(int64(w))) == w {
+					result = resultOptionSome(any(int64(w)).(T))
+					return
+				}
+			}
+		}
+		result = resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
+		return
+	}
+
+	str, ok := v.(string)
+
+	if ok && str == "" {
+		// AD HOC: previous config from usacloud used to set empty string
+		// when it wanted to mean "not set".
+		return
+	}
+
+	result = resultOptionSome(w)
+	return
+}
+
+func obtainFromConfig[T any](c *config, k string) resultOption[T] {
+	if c == nil {
+		return resultOptionErr[T](NewErrorf("nil config"))
+	} else if v, ok := (*c)[k]; !ok {
+		return resultOptionNone[T]()
+	} else if w, ok := v.(T); !ok {
+		return resultOptionErr[T](NewErrorf("invalid type for %s in config: %T", k, v))
+	} else {
+		return resultOptionSome(w)
+	}
+}
+
+func (c *config) set(k string, v any) error {
+	if c == nil {
+		return NewErrorf("nil config")
+	} else {
+		(*c)[k] = v
+		return nil
+	}
+}
+
+func (s *storage) get(k string) (any, bool) {
+	switch k {
+	case "profileName":
+		return s.profileName.Get()
+
+	case "PrivateKeyPEMPath":
+		return s.privateKeyPath.Get()
+
+	case "PrivateKey":
+		return s.privateKey.Get()
+
+	case "ServicePrincipalID":
+		return s.servicePrincipalID.Get()
+
+	case "ServicePrincipalKeyID":
+		return s.servicePrincipalKeyID.Get()
+
+	case "TokenEndpoint":
+		return s.tokenEndpoint.Get()
+
+	case "AccessToken":
+		return s.accessToken.Get()
+
+	case "AccessTokenSecret":
+		return s.accessTokenSecret.Get()
+
+	case "Zone":
+		return s.zone.Get()
+
+	case "DefaultZone":
+		return s.defaultZone.Get()
+
+	case "Zones":
+		return s.zones.Get()
+
+	case "RetryMax":
+		return s.retryMax.Get()
+
+	case "RetryWaitMax":
+		return s.retryWaitMax.Get()
+
+	case "RetryWaitMin":
+		return s.retryWaitMin.Get()
+
+	case "APIRootURL":
+		return s.apiRootURL.Get()
+
+	case "APIRequestTimeout":
+		return s.apiRequestTimeout.Get()
+
+	case "APIRequestRateLimit":
+		return s.apiRequestRateLimit.Get()
+
+	case "TraceMode":
+		return s.traceMode.Get()
+
+	case "MockServer":
+		return s.mockServer.Get()
+
+	case "UserAgent":
+		return s.userAgent.Get()
+
+	case "AcceptLanguage":
+		return s.acceptLanguage.Get()
+
+	case "AuthPreference":
+		return s.authPreference.Get()
+
+	case "Middlewares":
+		return s.middlewares.Get()
+
+	case "CheckRetryFunc":
+		return s.checkRetryFunc.Get()
+
+	case "RequestCustomizers":
+		return s.requestCustomizers.Get()
+
+	case "Endpoints":
+		return s.endpoints.Get()
+
+	default:
+		panic("unknown key: " + k)
+	}
+}
+
+func (s *storage) hasSome(k string) (ok bool) {
+	_, ok = s.get(k)
+	return
+}
+
+func (c *config) hasSome(k string) (ok bool) {
+	if c != nil {
+		_, ok = (*c)[k]
+	}
+	return
+}
+
+type envmap map[string]string
+
+func intoEnvmap(envp []string) envmap {
+	f := func(i string) (string, string, bool) { return strings.Cut(i, "=") }
+	s := slices.Values(envp)
+	t := intoSeq2(s, f)
+
+	// There could be discussions what an environment variable of empty string means.
+	// We choose to ignore such variables here.
+	u := rejectSeq2(t, func(_, v string) bool { return v == "" })
+	return maps.Collect(u)
+}
+
+func (e *envmap) fetchInto(key string, yield func(string) error) error {
+	if e == nil {
+		return NewErrorf("nil envmap")
+	} else if v, ok := (*e)[key]; !ok {
+		return nil
+	} else {
+		return yield(v)
+	}
+}
+
+var _ flag.Value = (*option[string])(nil)
+var _ flag.Value = (*option[int64])(nil)
+var _ flag.Value = (*option[[]string])(nil)
+
+// values copied from: sacloud/api-client-go/options.go:defaultOption
+var defaults = storage{
+	// absent keys are "not defaults"
+	profileName:         option[string]{set: true, some: "default"},
+	retryMax:            option[int64]{set: true, some: 10},
+	retryWaitMax:        option[int64]{set: true, some: 64},
+	retryWaitMin:        option[int64]{set: true, some: 1},
+	apiRequestTimeout:   option[time.Duration]{set: true, some: 300 * time.Second},
+	apiRequestRateLimit: option[int64]{set: true, some: 5},
+	tokenEndpoint:       option[string]{set: true, some: "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token"},
+	checkRetryFunc:      option[retryablehttp.CheckRetry]{set: true, some: retryablehttp.DefaultRetryPolicy},
+	userAgent: option[string]{set: true, some: fmt.Sprintf(
+		// :INTENTIONAL: keeping "api-client-go" here for backward compatibility
+		"api-client-go/v%s (%s/%s; +https://github.com/sacloud/saclient-go)",
+		Version,
+		runtime.GOOS,
+		runtime.GOARCH,
+	)},
+}
+
+func normalizeServiceKey(key string) string {
+	return strings.TrimSpace(strings.ToLower(key))
+}
+
+// normalizeEndpoints returns a new map with all keys normalized to lowercase
+func normalizeEndpoints(endpoints map[string]string) map[string]string {
+	if endpoints == nil {
+		return nil
+	}
+	normalized := make(map[string]string, len(endpoints))
+	for k, v := range endpoints {
+		normalized[normalizeServiceKey(k)] = v
+	}
+	return normalized
+}
+
+// It would be annoying to see this warning every time
+// So we limit it to only once per a process
+func deprecateKIDenv(e *envmap) {
+	if e == nil {
+		return
+	}
+
+	if kIDenvAlreadyWarned {
+		return
+	}
+
+	if _, withK := (*e)["SAKURA_SERVICE_PRINCIPAL_KEY_KID"]; withK {
+		return
+	}
+
+	var key string
+	_, cloud := (*e)["SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID"]
+	_, nocloud := (*e)["SAKURA_SERVICE_PRINCIPAL_KEY_ID"]
+
+	if !cloud && !nocloud {
+		return
+	}
+
+	if cloud {
+		key = "SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID"
+	}
+
+	if nocloud {
+		key = "SAKURA_SERVICE_PRINCIPAL_KEY_ID"
+	}
+
+	fmt := `%s environment variable is deprecated.
+Will be removed in future release.
+Use SAKURA_SERVICE_PRINCIPAL_KEY_KID instead.`
+	log.Printf(fmt, key)
+	kIDenvAlreadyWarned = true
+}
+
+var kIDenvAlreadyWarned bool

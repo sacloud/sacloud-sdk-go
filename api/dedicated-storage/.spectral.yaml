@@ -1,0 +1,6 @@
+extends: spectral:oas
+#rules:
+#  info-contact: true
+#  operation-tag-defined: false
+#  path-keys-no-trailing-slash: true
+#  oas3-server-trailing-slash: true

@@ -1,0 +1,12 @@
+# sets generator options.
+generator:
+  # sets generator features.
+  features:
+    enable:
+      - 'paths/client'
+      - 'client/request/validation'
+      - 'debug/example_tests'
+    disable_all: true
+
+# 現状ogenがサポートしてない機能群。これを使うと生成されなくなるので、OpenAPI定義側を変更することで対処している
+# ignore_not_implemented: ["complex anyOf", "array defaults", "non-primitive enum"]

@@ -1,0 +1,20 @@
+# Copyright 2026- The sacloud/sacloud-sdk-go authors
+# SPDX-License-Identifier: Apache-2.0
+
+*              text=auto eol=lf
+
+go.sum         text -binary eol=lf linguist-generated merge=ours
+go.mod         text -binary eol=lf linguist-generated
+go.work        text -binary eol=lf linguist-generated
+*.md           text -binary eol=lf diff=markdown merge=union
+*.go           text -binary eol=lf diff=golang
+*.yaml         text -binary eol=lf diff=yaml
+*.yml          text -binary eol=lf diff=yaml
+*.json         text -binary eol=lf diff=json
+*.toml         text -binary eol=lf
+*.tf           text -binary eol=lf
+
+/.github       export-ignore
+.gitattributes export-ignore
+.gitignore     export-ignore
+AUTHORS        linguist-generated merge=union

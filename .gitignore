@@ -1,0 +1,13 @@
+# Copyright 2026- The sacloud/apprun-dedicated-api-go authors
+# SPDX-License-Identifier: Apache-2.0
+
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+
+.env
+.mailmap
+.terraform/
+.vscode/
+vendor/

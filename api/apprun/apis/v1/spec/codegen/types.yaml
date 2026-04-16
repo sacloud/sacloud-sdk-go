@@ -1,0 +1,7 @@
+output: apis/v1/zz_types_gen.go
+generate:
+  - types
+package: v1
+compatibility:
+  old-merge-schemas: true
+  old-enum-conflicts: true

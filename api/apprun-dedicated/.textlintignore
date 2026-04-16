@@ -1,0 +1,6 @@
+LICENSE
+dist/
+doc/integrated/.terraform/**
+
+CHANGELOG.md
+AGENTS.md

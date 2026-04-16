@@ -1,0 +1,8 @@
+output: apis/v1/zz_client_gen.go
+templates: apis/v1/spec/codegen/templates
+generate:
+  - client
+package: v1
+compatibility:
+  old-merge-schemas: true
+  old-enum-conflicts: true

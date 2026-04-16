@@ -1,0 +1,32 @@
+diff --git a/apis/v1/oas_client_gen.go b/apis/v1/oas_client_gen.go
+index ee5d611..993e9df 100644
+--- a/apis/v1/oas_client_gen.go
++++ b/apis/v1/oas_client_gen.go
+@@ -740,26 +740,9 @@ func (c *Client) sendListDB(ctx context.Context, params ListDBParams) (res ListD
+ 
+ 	u := uri.Clone(c.requestURL(ctx))
+ 	var pathParts [1]string
+-	pathParts[0] = "/appliance"
++	pathParts[0] = "/appliance?{\"Filter\":{\"Class\":\"nosql\"}}"
+ 	uri.AddPathParts(u, pathParts[:]...)
+ 
+-	q := uri.NewQueryEncoder()
+-	{
+-		// Encode "Filter.Appliance.Class" parameter.
+-		cfg := uri.QueryParameterEncodingConfig{
+-			Name:    "Filter.Appliance.Class",
+-			Style:   uri.QueryStyleForm,
+-			Explode: true,
+-		}
+-
+-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+-			return e.EncodeValue(conv.StringToString(params.FilterApplianceClass))
+-		}); err != nil {
+-			return res, errors.Wrap(err, "encode query")
+-		}
+-	}
+-	u.RawQuery = q.Values().Encode()
+-
+ 	r, err := ht.NewRequest(ctx, "GET", u)
+ 	if err != nil {
+ 		return res, errors.Wrap(err, "create request")
