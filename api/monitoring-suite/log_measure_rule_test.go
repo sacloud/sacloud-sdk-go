@@ -1,0 +1,308 @@
+// Copyright 2025- The sacloud/monitoring-suite-api-go Authors
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package monitoringsuite_test
+
+import (
+	"context"
+	"fmt"
+	"net/http"
+	"testing"
+
+	"github.com/google/uuid"
+	. "github.com/sacloud/monitoring-suite-api-go"
+	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
+	"github.com/sacloud/packages-go/testutil"
+	"github.com/stretchr/testify/require"
+)
+
+func TestLogMeasureRuleOp_List(t *testing.T) {
+	expected := v1.PaginatedLogMeasureRuleList{
+		IsOk:    v1.NewOptBool(true),
+		Count:   1,
+		From:    0,
+		Results: []v1.LogMeasureRule{TemplateLogMeasureRule},
+	}
+	client := newTestClient(expected)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	rules, err := api.List(ctx, "12345", nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, rules)
+	require.Equal(t, 1, len(rules))
+	rule := rules[0]
+	require.Equal(t, TemplateLogMeasureRule.GetUID(), rule.GetUID())
+	require.Equal(t, TemplateLogMeasureRule.GetProjectID(), rule.GetProjectID())
+	require.Equal(t, TemplateLogMeasureRule.GetName(), rule.GetName())
+	require.Equal(t, TemplateLogMeasureRule.GetRule(), rule.GetRule())
+}
+
+func TestLogMeasureRuleOp_List_403(t *testing.T) {
+	expected := newErrorResponse(403, "request not authorized")
+	client := newTestClient(expected, http.StatusForbidden)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	_, err := api.List(ctx, "12345", nil, nil)
+	require.Error(t, err)
+	require.ErrorContains(t, err, "request not authorized")
+}
+
+func TestLogMeasureRuleOp_Read(t *testing.T) {
+	client := newTestClient(TemplateLogMeasureRule)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	actual, err := api.Read(ctx, "12345", uuid.New())
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+	require.Equal(t, TemplateLogMeasureRule.GetUID(), actual.GetUID())
+	require.Equal(t, TemplateLogMeasureRule.GetProjectID(), actual.GetProjectID())
+	require.Equal(t, TemplateLogMeasureRule.GetName(), actual.GetName())
+	require.Equal(t, TemplateLogMeasureRule.GetRule(), actual.GetRule())
+}
+
+func TestLogMeasureRuleOp_Read_404(t *testing.T) {
+	expected := newErrorResponse(404, "No LogMeasureRule matches the given query.")
+	client := newTestClient(expected, http.StatusNotFound)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	_, err := api.Read(ctx, "12345", uuid.New())
+	require.Error(t, err)
+	require.ErrorContains(t, err, "No LogMeasureRule matches the given query.")
+}
+
+func TestLogMeasureRuleOp_Create(t *testing.T) {
+	client := newTestClient(TemplateLogMeasureRule, http.StatusCreated)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	actual, err := api.Create(ctx, "12345", LogMeasureRuleCreateParams{
+		LogStorageID:     "56789",
+		MetricsStorageID: "98765",
+		Rule: v1.LogMeasureRuleModel{
+			Version: "v1",
+			Query: v1.LogMeasureRuleV1{
+				Matchers: []v1.FieldMatcher{
+					{
+						Type: "string",
+						StrMatcher: v1.StrMatcher{
+							Type:      "string",
+							Field:     "text_payload",
+							Value:     "value",
+							Operator:  "eq",
+							ValueList: []string{},
+						},
+					},
+				},
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+	require.Equal(t, TemplateLogMeasureRule.GetName(), actual.GetName())
+	require.Equal(t, TemplateLogMeasureRule.GetRule(), actual.GetRule())
+}
+
+func TestLogMeasureRuleOp_Create_400(t *testing.T) {
+	expected := newErrorResponse(400, "Invalid request body.")
+	client := newTestClient(expected, http.StatusBadRequest)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	actual, err := api.Create(ctx, "12345", LogMeasureRuleCreateParams{
+		LogStorageID:     "56789",
+		MetricsStorageID: "98765",
+		Rule: v1.LogMeasureRuleModel{
+			Version: "v1",
+			Query: v1.LogMeasureRuleV1{
+				Matchers: []v1.FieldMatcher{},
+			},
+		},
+	})
+	require.Nil(t, actual)
+	require.Error(t, err)
+	require.ErrorContains(t, err, "Invalid request body.")
+}
+
+func TestLogMeasureRuleOp_Update(t *testing.T) {
+	client := newTestClient(TemplateLogMeasureRule)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	name := "rule"
+	actual, err := api.Update(ctx, "12345", uuid.New(), LogMeasureRuleUpdateParams{
+		Name: &name,
+	})
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+	require.Equal(t, TemplateLogMeasureRule.GetName(), actual.GetName())
+	require.Equal(t, TemplateLogMeasureRule.GetRule(), actual.GetRule())
+}
+
+func TestLogMeasureRuleOp_Update_400(t *testing.T) {
+	expected := newErrorResponse(400, "Invalid update parameters.")
+	client := newTestClient(expected, http.StatusBadRequest)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	actual, err := api.Update(ctx, "12345", uuid.New(), LogMeasureRuleUpdateParams{})
+	require.Nil(t, actual)
+	require.Error(t, err)
+	require.ErrorContains(t, err, "Invalid update parameters.")
+}
+
+func TestLogMeasureRuleOp_Delete(t *testing.T) {
+	client := newTestClient(nil, http.StatusNoContent)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	err := api.Delete(ctx, "12345", uuid.New())
+	require.NoError(t, err)
+}
+
+func TestLogMeasureRuleOp_Delete_400(t *testing.T) {
+	expected := newErrorResponse(400, "Invalid delete request.")
+	client := newTestClient(expected, http.StatusBadRequest)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	err := api.Delete(ctx, "12345", uuid.New())
+	require.Error(t, err)
+	require.ErrorContains(t, err, "Invalid delete request.")
+}
+
+func TestLogMeasureRuleOp_ListHistories(t *testing.T) {
+	expected := v1.PaginatedHistoryList{
+		IsOk:    v1.NewOptBool(true),
+		Count:   1,
+		From:    0,
+		Total:   1,
+		Results: []v1.History{TemplateHistory},
+	}
+	client := newTestClient(expected)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	params := LogMeasureRuleListHistoriesParams{
+		Count: nil,
+		From:  nil,
+	}
+	histories, err := api.ListHistories(ctx, "12345", params)
+	require.NoError(t, err)
+	require.Equal(t, 1, len(histories))
+	require.Equal(t, TemplateHistory.GetUID(), histories[0].GetUID())
+}
+
+func TestLogMeasureRuleOp_ListHistories_403(t *testing.T) {
+	expected := newErrorResponse(403, "request not authorized")
+	client := newTestClient(expected, http.StatusForbidden)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	params := LogMeasureRuleListHistoriesParams{
+		Count: nil,
+		From:  nil,
+	}
+	_, err := api.ListHistories(ctx, "12345", params)
+	require.Error(t, err)
+	require.ErrorContains(t, err, "request not authorized")
+}
+
+func TestLogMeasureRuleOp_ReadHistory(t *testing.T) {
+	client := newTestClient(TemplateHistory)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	actual, err := api.ReadHistory(ctx, "123", uuid.New())
+	require.NoError(t, err)
+	require.Equal(t, TemplateHistory.GetUID(), actual.GetUID())
+}
+
+func TestLogMeasureRuleOp_ReadHistory_404(t *testing.T) {
+	expected := newErrorResponse(404, "No History matches the given query.")
+	client := newTestClient(expected, http.StatusNotFound)
+	api := NewLogMeasureRuleOp(client)
+	ctx := t.Context()
+	_, err := api.ReadHistory(ctx, "123", uuid.New())
+	require.Error(t, err)
+	require.ErrorContains(t, err, "No History matches the given query.")
+}
+
+func TestLogMeasureRuleIntegrated(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+
+	api := NewLogMeasureRuleOp(client)
+	ctx := context.Background()
+
+	project := WithAlertProject(t, client, ctx)
+	projectId := fmt.Sprintf("%d", project.GetID())
+
+	logStorage := WithLogStorage(t, client, ctx)
+	logStorageId := fmt.Sprintf("%d", logStorage.GetID())
+
+	metricsStorage := WithMetricsStorage(t, client, ctx)
+	metricsStorageId := fmt.Sprintf("%d", metricsStorage.GetID())
+
+	// Create
+	name := testutil.RandomName("test-log-measure-rule-", 16, testutil.CharSetAlphaNum)
+	created, err := api.Create(ctx, projectId, LogMeasureRuleCreateParams{
+		LogStorageID:     logStorageId,
+		MetricsStorageID: metricsStorageId,
+		Name:             &name,
+		Rule: v1.LogMeasureRuleModel{
+			Version: "v1",
+			Query: v1.LogMeasureRuleV1{
+				Matchers: []v1.FieldMatcher{
+					{
+						Type: "string",
+						StrMatcher: v1.StrMatcher{
+							Type:      "string",
+							Field:     "text_payload",
+							Value:     "value",
+							Operator:  "eq",
+							ValueList: []string{},
+						},
+					},
+				},
+			},
+		},
+	})
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	uid := created.GetUID()
+
+	// Delete
+	t.Cleanup(func() {
+		err = api.Delete(ctx, projectId, uid)
+		require.NoError(t, err)
+	})
+
+	// Read
+	read, err := api.Read(ctx, projectId, uid)
+	require.NoError(t, err)
+	require.NotNil(t, read)
+	require.Equal(t, uid, read.GetUID())
+	require.Equal(t, created.GetName(), read.GetName())
+	require.Equal(t, created.GetRule(), read.GetRule())
+
+	// Update
+	rename := testutil.Random(16, testutil.CharSetAlphaNum)
+	updated, err := api.Update(ctx, projectId, uid, LogMeasureRuleUpdateParams{
+		Name: &rename,
+	})
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, rename, updated.GetName().Or("failure"))
+
+	// List rules
+	rules, err := api.List(ctx, projectId, nil, nil)
+	require.NoError(t, err)
+	require.NotNil(t, rules)
+
+	// List histories
+	histories, err := api.ListHistories(ctx, projectId, LogMeasureRuleListHistoriesParams{})
+	require.NoError(t, err)
+	require.NotNil(t, histories)
+}
