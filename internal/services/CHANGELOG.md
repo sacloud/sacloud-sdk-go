@@ -1,0 +1,58 @@
+# Changelog
+
+## [v0.1.0](https://github.com/sacloud/services/compare/v0.0.1...v0.1.0) - 2025-12-23
+- Dispatcherの導入 by @yamamoto-febc in https://github.com/sacloud/services/pull/14
+- dispatcherの細かな改善 by @yamamoto-febc in https://github.com/sacloud/services/pull/18
+- services.Service実装が仕様を満たしているか確認するためのヘルパーを追加 by @yamamoto-febc in https://github.com/sacloud/services/pull/19
+- OperationごとのDescriptionを任意で追加可能に by @yamamoto-febc in https://github.com/sacloud/services/pull/20
+- Info.Descriptionが空の場合の警告出力を廃止 by @yamamoto-febc in https://github.com/sacloud/services/pull/21
+- パラメータで例示用の値を返す仕組みを導入 by @yamamoto-febc in https://github.com/sacloud/services/pull/26
+- カテゴリー対応 by @yamamoto-febc in https://github.com/sacloud/services/pull/27
+- services.Servicesの導入 by @yamamoto-febc in https://github.com/sacloud/services/pull/28
+- docs: 関連プロジェクトを追記 by @yamamoto-febc in https://github.com/sacloud/services/pull/29
+- sacloud/go-template@v0.0.2 by @yamamoto-febc in https://github.com/sacloud/services/pull/30
+- go: bump github.com/stretchr/testify from 1.7.1 to 1.7.5 by @dependabot[bot] in https://github.com/sacloud/services/pull/31
+- go: bump github.com/go-playground/validator/v10 from 10.10.1 to 10.11.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/32
+- sacloud/go-template@v0.0.5 by @yamamoto-febc in https://github.com/sacloud/services/pull/35
+- go: bump github.com/stretchr/testify from 1.7.5 to 1.8.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/33
+- go: bump github.com/go-playground/validator/v10 from 10.11.0 to 10.11.1 by @dependabot[bot] in https://github.com/sacloud/services/pull/36
+- go 1.19 by @yamamoto-febc in https://github.com/sacloud/services/pull/37
+- sacloud/makefile v0.0.7 by @yamamoto-febc in https://github.com/sacloud/services/pull/38
+- go: bump github.com/stretchr/testify from 1.8.0 to 1.8.1 by @dependabot[bot] in https://github.com/sacloud/services/pull/39
+- go: bump github.com/huandu/xstrings from 1.3.2 to 1.3.3 by @dependabot[bot] in https://github.com/sacloud/services/pull/40
+- go: bump github.com/huandu/xstrings from 1.3.3 to 1.4.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/41
+- ci: bump goreleaser/goreleaser-action from 3 to 4 by @dependabot[bot] in https://github.com/sacloud/services/pull/42
+- copyright: 2023 by @yamamoto-febc in https://github.com/sacloud/services/pull/43
+- go: bump github.com/go-playground/validator/v10 from 10.11.1 to 10.11.2 by @dependabot[bot] in https://github.com/sacloud/services/pull/44
+- go: bump github.com/stretchr/testify from 1.8.1 to 1.8.2 by @dependabot[bot] in https://github.com/sacloud/services/pull/45
+- go 1.20 by @yamamoto-febc in https://github.com/sacloud/services/pull/46
+- ci: bump actions/setup-go from 3 to 4 by @dependabot[bot] in https://github.com/sacloud/services/pull/47
+- go: bump github.com/go-playground/validator/v10 from 10.11.2 to 10.12.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/48
+- go: bump github.com/go-playground/validator/v10 from 10.12.0 to 10.13.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/49
+- go: bump github.com/stretchr/testify from 1.8.2 to 1.8.4 by @dependabot[bot] in https://github.com/sacloud/services/pull/52
+- go: bump github.com/go-playground/validator/v10 from 10.13.0 to 10.14.1 by @dependabot[bot] in https://github.com/sacloud/services/pull/53
+- go 1.21 by @yamamoto-febc in https://github.com/sacloud/services/pull/56
+- ci: bump actions/checkout from 3 to 4 by @dependabot[bot] in https://github.com/sacloud/services/pull/57
+- ci: bump goreleaser/goreleaser-action from 4 to 5 by @dependabot[bot] in https://github.com/sacloud/services/pull/58
+- go: bump github.com/go-playground/validator/v10 from 10.14.1 to 10.15.5 by @dependabot[bot] in https://github.com/sacloud/services/pull/60
+- ci: bump actions/setup-go from 4 to 5 by @dependabot[bot] in https://github.com/sacloud/services/pull/62
+- go: bump github.com/go-playground/validator/v10 from 10.15.5 to 10.16.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/61
+- update dependencies by @yamamoto-febc in https://github.com/sacloud/services/pull/67
+- go: bump github.com/stretchr/testify from 1.8.4 to 1.9.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/66
+- Copyright 2025 by @yamamoto-febc in https://github.com/sacloud/services/pull/73
+- Update dev env by @yamamoto-febc in https://github.com/sacloud/services/pull/74
+- go: bump github.com/go-playground/validator/v10 from 10.16.0 to 10.30.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/72
+- go: bump github.com/huandu/xstrings from 1.4.0 to 1.5.0 by @dependabot[bot] in https://github.com/sacloud/services/pull/71
+
+## [v0.0.1](https://github.com/sacloud/services/commits/v0.0.1) - 2022-04-15
+- 初期プロジェクト構成 by @yamamoto-febc in https://github.com/sacloud/services/pull/1
+- go.mod by @yamamoto-febc in https://github.com/sacloud/services/pull/2
+- design: serviceドキュメント by @yamamoto-febc in https://github.com/sacloud/services/pull/3
+- sacloudサービスのための基盤実装 by @yamamoto-febc in https://github.com/sacloud/services/pull/5
+- インターフェース/パッケージの整理 by @yamamoto-febc in https://github.com/sacloud/services/pull/7
+- helper/ServiceMeta()を追加 by @yamamoto-febc in https://github.com/sacloud/services/pull/8
+- サービスメタデータにサービス名称を追加 by @yamamoto-febc in https://github.com/sacloud/services/pull/9
+- helper.PrintServiceMeta()を追加 by @yamamoto-febc in https://github.com/sacloud/services/pull/10
+- helper.PrintServiceMetaの出力をYAML形式に by @yamamoto-febc in https://github.com/sacloud/services/pull/11
+- helper.PrintServiceMeta()で出力する名称の修正 by @yamamoto-febc in https://github.com/sacloud/services/pull/12
+- サービスの実装されているgoパッケージパスの参照/出力 by @yamamoto-febc in https://github.com/sacloud/services/pull/13
