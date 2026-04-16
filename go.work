@@ -1,3 +1,6 @@
+// Copyright 2026- The sacloud/sacloud-sdk-go authors
+// SPDX-License-Identifier: Apache-2.0
+
 go 1.25.5
 
 use (
