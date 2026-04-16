@@ -1,0 +1,7 @@
+output: apis/v1/zz_server_gen.go
+generate:
+  std-http-server: true
+package: v1
+compatibility:
+  old-merge-schemas: true
+  old-enum-conflicts: true
