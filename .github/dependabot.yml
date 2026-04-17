@@ -9,6 +9,7 @@ updates:
     schedule:
       interval: daily
       time: "00:00"
+      timezone: "Asia/Tokyo"
     commit-message:
       prefix: "ci:"
     cooldown:
