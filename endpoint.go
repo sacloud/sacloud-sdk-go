@@ -25,8 +25,6 @@ type EndpointConfig struct {
 	Endpoints map[string]string
 
 	// Zone is the currently selected zone.
-	//
-	// Deprecated: Do not use. Kept only for compatibility.
 	Zone string
 
 	// Zones lists all permitted zones.
