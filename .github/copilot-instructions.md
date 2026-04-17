@@ -29,7 +29,9 @@ For detailed information about project architecture, naming conventions, code pa
 
 ### License Header (Required for all files)
 
-- This repo is transitioning from verbose license headers to a concise format. For new files, use the following header:
+- This repo is transitioning from verbose license headers to a concise format.
+- For new files, use the concise header below, but do **not** copy `YYYY-` literally: replace it with the current year when creating the file.
+- If there are already files alongside the new file, follow their existing year style and module name.
 
 ```go
 // Copyright YYYY- The sacloud/sacloud-sdk-go Authors
