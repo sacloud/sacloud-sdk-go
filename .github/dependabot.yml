@@ -25,6 +25,7 @@ updates:
       - /api/dedicated-storage
       - /api/eventbus
       - /api/iaas
+      - /api/iaas/trace/otel
       - /api/iam
       - /api/kms
       - /api/monitoring-suite
