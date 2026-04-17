@@ -111,3 +111,12 @@ func IsNotFoundError(err error) bool {
 		return false
 	}
 }
+
+// Returns whether the given error is an Error with a 409 status code.
+func IsConflictError(err error) bool {
+	if e, ok := asType[*Error](err); ok {
+		return e.codeIs(409)
+	} else {
+		return false
+	}
+}
