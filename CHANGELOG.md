@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.3.7](https://github.com/sacloud/saclient-go/compare/v0.3.6...v0.3.7) - 2026-04-17
+- Add IsConflictError helper by @repeatedly in https://github.com/sacloud/saclient-go/pull/102
+- resupported zone on endpoint config by @to-shoji in https://github.com/sacloud/saclient-go/pull/104
+
 ## [v0.3.6](https://github.com/sacloud/saclient-go/compare/v0.3.5...v0.3.6) - 2026-04-13
 - Test: Windows CI by @shyouhei in https://github.com/sacloud/saclient-go/pull/95
 - golang 1.26.2 by @tokuhirom in https://github.com/sacloud/saclient-go/pull/98
