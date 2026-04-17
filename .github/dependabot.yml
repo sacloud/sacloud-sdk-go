@@ -1,0 +1,55 @@
+# Copyright 2026- The sacloud/sacloud-sdk-go Authors
+# SPDX-License-Identifier: Apache-2.0
+
+version: 2
+
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: daily
+      time: "00:00"
+      timezone: "Asia/Tokyo"
+    commit-message:
+      prefix: "ci:"
+    cooldown:
+      default-days: 7
+
+  - package-ecosystem: gomod
+    directories:
+      - /api/addon
+      - /api/apigw
+      - /api/apprun
+      - /api/apprun-dedicated
+      - /api/cloudhsm
+      - /api/dedicated-storage
+      - /api/eventbus
+      - /api/iaas
+      - /api/iaas/trace/otel
+      - /api/iam
+      - /api/kms
+      - /api/monitoring-suite
+      - /api/nosql
+      - /api/object-storage
+      - /api/secretmanager
+      - /api/security-control
+      - /api/service-endpoint-gateway
+      - /api/simple-notification
+      - /api/simplemq
+      - /api/webaccel
+      - /api/workflows
+      - /internal/api-client
+      - /internal/go-http
+      - /internal/packages
+      - /internal/saclient
+      - /internal/services
+      - /service/iaas
+      - /service/webaccel
+    schedule:
+      interval: daily
+      time: "00:00"
+      timezone: "Asia/Tokyo"
+    commit-message:
+      prefix: "go:"
+    cooldown:
+      default-days: 7
