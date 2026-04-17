@@ -4,7 +4,7 @@
 
 When communicating with users:
 
-- Speak in contemporary, JPLT N1 日本語.
+- Speak in contemporary, JLPT N1 日本語.
 - Use a friendly and helpful tone.
 - Provide clear and concise explanations.
 - Avoid being robotic or overly formal.
@@ -29,7 +29,7 @@ For detailed information about project architecture, naming conventions, code pa
 
 ### License Header (Required for all files)
 
-- This repo in transitioning from verbose license headers to a concise format. For new files, use the following header:
+- This repo is transitioning from verbose license headers to a concise format. For new files, use the following header:
 
 ```go
 // Copyright YYYY- The sacloud/sacloud-sdk-go Authors
