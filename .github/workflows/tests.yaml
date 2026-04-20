@@ -1,4 +1,4 @@
-# Copyright 2026- The sacloud/sacloud-sdk-go authors
+# Copyright 2026- The sacloud/sacloud-sdk-go Authors
 # SPDX-License-Identifier: Apache-2.0
 
 name: Tests
@@ -12,12 +12,11 @@ jobs:
     outputs:
       changes: ${{ steps.filter.outputs.changes }}
     steps:
-      # note that dorny/paths-filter itself runs without actions/checkout
-      # but the git ls-files needs the repository
+      # Note that `dorny/paths-filter` itself runs without `actions/checkout`
+      # but the `git ls-files` below mandates `.git` to exist.
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          fetch-depth: 1
-      - id: submodules
+      - name: list submodules
+        id: submodules
         run: >-
           echo 'submodules<<EOF' >> "${GITHUB_OUTPUT}" ;
           git ls-files                                 |
