@@ -30,8 +30,8 @@ const (
 	defaultEndpoint = "https://secure.sakura.ad.jp/cloud/zone/"
 )
 
-func NewClient(client *saclient.Client) (*v1.Client, error) {
-	endpointConfig, err := client.EndpointConfig()
+func NewClient(clientAPI saclient.ClientAPI) (*v1.Client, error) {
+	endpointConfig, err := clientAPI.EndpointConfig()
 	if err != nil {
 		return nil, NewError("unable to load service endpoint configuration", err)
 	}
@@ -52,14 +52,23 @@ func NewClient(client *saclient.Client) (*v1.Client, error) {
 		endpoint += "/"
 	}
 
-	return NewClientWithAPIRootURL(client, endpoint)
+	return NewClientWithAPIRootURL(clientAPI, endpoint)
 }
 
 // NewClientWithAPIRootURL creates a new service-endpoint-gateway API client with a custom API root URL
-func NewClientWithAPIRootURL(client *saclient.Client, apiRootURL string) (*v1.Client, error) {
-	newcl, err := client.DupWith(saclient.WithBigInt(false))
+func NewClientWithAPIRootURL(clientAPI saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
+	// cast the clientAPI to *saclient.Client to access DupWith method
+	client, ok := clientAPI.(*saclient.Client)
+	if !ok {
+		return nil, NewError("invalid client type", nil)
+	}
+
+	newcl, err := client.DupWith(saclient.WithBigInt(false),
+		saclient.WithMiddleware(modifyMiddleware()))
+
 	if err != nil {
 		return nil, err
 	}
+
 	return v1.NewClient(apiRootURL, v1.WithClient(newcl))
 }
