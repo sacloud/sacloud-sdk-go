@@ -104,7 +104,7 @@ api/<service>/
 
 ## Go パッケージ命名
 
-ディレクトリ名にハイフンが含まれる場合は**ハイフンを除去して全小文字**にする。
+ディレクトリ名にハイフンが含まれる場合は**ハイフンを除去して全小文字**とする。名前が長くなりすぎる場合は略称を採用してよい。
 
 | ディレクトリ | Go パッケージ名 |
 | --- | --- |
@@ -124,11 +124,11 @@ api/<service>/
 | `object-storage` | `objectstorage` |
 | `security-control` | `securitycontrol` |
 | `simple-notification` | `simplenotification` |
+| `service-endpoint-gateway` | `seg` (略称) |
 
 **既存逸脱 (新規では真似しない):**
 
 - `api/apprun-dedicated` → `package apprun_dedicated` (アンダースコア入り)。Go のスタイルガイド上はハイフン除去が望ましい。
-- `api/service-endpoint-gateway` → `package seg` (略称)。リソース名としての意味が不明瞭。
 
 ## ライセンスヘッダ
 
@@ -577,14 +577,12 @@ tools: dev-tools
 | `api/nosql` | `instances.go` | `instance.go` |
 | `api/object-storage` | `accounts.go`, `buckets.go` ほか | 単数形 |
 | `api/secretmanager` | `secrets.go`, `vaults.go` | `secret.go`, `vault.go` |
-| `api/service-endpoint-gateway` | `seg.go` (略称) | `service_endpoint_gateway.go` |
 
 ### Go パッケージ名
 
 | パッケージ | 現状 | あるべき形 |
 | --- | --- | --- |
 | `api/apprun-dedicated` | `package apprun_dedicated` (アンダースコア) | `package apprundedicated` (ハイフン除去のみ) |
-| `api/service-endpoint-gateway` | `package seg` (略称) | `package serviceendpointgateway` |
 
 ### ライセンスヘッダ形式の混在
 
