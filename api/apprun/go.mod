@@ -8,7 +8,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/oapi-codegen/runtime v1.1.2
 	github.com/sacloud/api-client-go v0.3.5
-	github.com/sacloud/saclient-go v0.3.5
+	github.com/sacloud/saclient-go v0.3.6
 	github.com/spf13/cobra v1.10.2
 	github.com/stretchr/testify v1.11.1
 )
