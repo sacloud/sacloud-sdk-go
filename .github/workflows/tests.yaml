@@ -1,0 +1,143 @@
+# Copyright 2026- The sacloud/sacloud-sdk-go Authors
+# SPDX-License-Identifier: Apache-2.0
+
+name: Tests
+on: [push, pull_request]
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    outputs:
+      changes: ${{ steps.filter.outputs.changes }}
+    steps:
+      # Note that `dorny/paths-filter` itself runs without `actions/checkout`
+      # but the `git ls-files` below mandates `.git` to exist.
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: list submodules
+        id: submodules
+        run: >-
+          echo 'submodules<<EOF' >> "${GITHUB_OUTPUT}" ;
+          git ls-files                                 |
+          grep /Makefile                               |
+          sed 's/\/Makefile//'                         |
+          sort -u                                      |
+          xargs -I{} printf '%s: %s/**\n' {} {}
+          >> "${GITHUB_OUTPUT}"                        ;
+          echo 'EOF' >> "${GITHUB_OUTPUT}"
+      - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
+        id: filter
+        with:
+          filters: ${{ steps.submodules.outputs.submodules }}
+
+  lint-text:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.changes != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJSON(needs.changes.outputs.changes) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.module }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+        with:
+          go-version-file: '${{ matrix.module }}/go.mod'
+      - run: make tools
+      - run: make lint-text
+
+  lint-go:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.changes != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJSON(needs.changes.outputs.changes) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.module }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+        with:
+          go-version-file: '${{ matrix.module }}/go.mod'
+      - run: make tools
+      - name: make lint-go
+        run: |
+          # Explicitly set GOROOT to avoid golangci-lint/issues/3107
+          GOROOT=$(go env GOROOT)
+          export GOROOT
+          make lint-go
+
+  vulncheck:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.changes != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJSON(needs.changes.outputs.changes) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.module }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+        with:
+          go-version-file: '${{ matrix.module }}/go.mod'
+      - run: make tools
+      - run: make vulncheck
+
+  lint-def:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.changes != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJSON(needs.changes.outputs.changes) }}
+    defaults:
+      run:
+        working-directory: ${{ matrix.module }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+        with:
+          go-version-file: '${{ matrix.module }}/go.mod'
+      - name: seek out lint-def
+        id: has-lint-def
+        run: |
+          make -q lint-def 2>/dev/null
+          echo "q=${?}" >> "${GITHUB_OUTPUT}"
+      - run: make tools
+        if: steps.has-lint-def.outputs.q != '2'
+      - run: make lint-def
+        if: steps.has-lint-def.outputs.q != '2'
+
+  test:
+    runs-on: ubuntu-latest
+    needs: changes
+    if: needs.changes.outputs.changes != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        module: ${{ fromJSON(needs.changes.outputs.changes) }}
+        go-version:
+          - stable
+          - oldstable
+    defaults:
+      run:
+        working-directory: ${{ matrix.module }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+        with:
+          go-version: ${{ matrix.go-version }}
+      - run: make tools
+      - run: make test
