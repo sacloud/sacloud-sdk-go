@@ -9,6 +9,7 @@ issues:
 linters:
   default: none
   enable:
+    - copyloopvar
     - errcheck
     - gocritic
     - goprintffuncname
@@ -21,6 +22,7 @@ linters:
     - unconvert
     - unused
     - whitespace
+    - staticcheck
 
 formatters:
   enable:
