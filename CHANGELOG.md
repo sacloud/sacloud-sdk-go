@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.3.1](https://github.com/sacloud/simple-notification-api-go/compare/v0.3.0...v0.3.1) - 2026-04-23
+- 通知履歴テストの修正 by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/45
+- NewClientの引数見直しおよびvulncheck対応 by @to-shoji in https://github.com/sacloud/simple-notification-api-go/pull/56
+- ci: bump actions/setup-go from 6.2.0 to 6.4.0 by @dependabot[bot] in https://github.com/sacloud/simple-notification-api-go/pull/49
+
 ## [v0.3.0](https://github.com/sacloud/simple-notification-api-go/compare/v0.2.1...v0.3.0) - 2026-02-24
 - openapi.yaml更新 by @sugyan in https://github.com/sacloud/simple-notification-api-go/pull/35
 
