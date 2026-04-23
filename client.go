@@ -43,7 +43,7 @@ func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
 func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
 	clientOption, ok := client.(saclient.ClientOptionAPI)
 	if !ok {
-		return nil, NewError("invalid client type: expected saclient.Client", nil)
+		return nil, NewError("invalid client type: expected saclient.ClientOptionAPI", nil)
 	}
 
 	newcl, err := clientOption.DupWith(saclient.WithBigInt(false), saclient.WithMiddleware(modifiyMiddleware()))
