@@ -1,6 +1,8 @@
 module github.com/sacloud/simple-notification-api-go
 
-go 1.25.9
+go 1.25.0
+
+toolchain go1.26.2
 
 tool github.com/ogen-go/ogen/cmd/ogen
 
