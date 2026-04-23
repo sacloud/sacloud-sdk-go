@@ -13,4 +13,4 @@
 // limitations under the License.
 package simplenotification
 
-const Version = "0.3.0"
+const Version = "0.3.1"
