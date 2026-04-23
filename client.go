@@ -60,7 +60,7 @@ func NewClientWithAPIRootURL(clientAPI saclient.ClientAPI, apiRootURL string) (*
 	// cast the clientAPI to saclient.ClientOperationAPI to access DupWith method
 	clientOption, ok := clientAPI.(saclient.ClientOptionAPI)
 	if !ok {
-		return nil, NewError("client requires ClientOptionAPI", nil)
+		return nil, NewError("client requires saclient.ClientOptionAPI", nil)
 	}
 
 	newcl, err := clientOption.DupWith(saclient.WithBigInt(false),
