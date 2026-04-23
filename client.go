@@ -57,13 +57,13 @@ func NewClient(clientAPI saclient.ClientAPI) (*v1.Client, error) {
 
 // NewClientWithAPIRootURL creates a new service-endpoint-gateway API client with a custom API root URL
 func NewClientWithAPIRootURL(clientAPI saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
-	// cast the clientAPI to *saclient.Client to access DupWith method
-	client, ok := clientAPI.(*saclient.Client)
+	// cast the clientAPI to saclient.ClientOperationAPI to access DupWith method
+	clientOption, ok := clientAPI.(saclient.ClientOptionAPI)
 	if !ok {
-		return nil, NewError("invalid client type", nil)
+		return nil, NewError("client requires ClientOptionAPI", nil)
 	}
 
-	newcl, err := client.DupWith(saclient.WithBigInt(false),
+	newcl, err := clientOption.DupWith(saclient.WithBigInt(false),
 		saclient.WithMiddleware(modifyMiddleware()))
 	if err != nil {
 		return nil, err
