@@ -25,24 +25,31 @@ const (
 )
 
 // NewClient creates a new simple-notification API client with default settings
-func NewClient(client *saclient.Client) (*v1.Client, error) {
+func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
 	endpointConfig, err := client.EndpointConfig()
 	if err != nil {
 		return nil, NewError("unable to load message endpoint configuration", err)
 	}
-	endpoint := defaultAPIRootURL
 
+	endpoint := defaultAPIRootURL
 	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
 		endpoint = ep
 	}
+
 	return NewClientWithAPIRootURL(client, endpoint)
 }
 
 // NewClientWithAPIRootURL creates a new simple-notification API client with a custom API root URL
-func NewClientWithAPIRootURL(client *saclient.Client, apiRootURL string) (*v1.Client, error) {
-	newcl, err := client.DupWith(saclient.WithBigInt(false), saclient.WithMiddleware(modifiyMiddleware()))
+func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
+	clientImpl, ok := client.(*saclient.Client)
+	if !ok {
+		return nil, NewError("invalid client type: expected saclient.Client", nil)
+	}
+
+	newcl, err := clientImpl.DupWith(saclient.WithBigInt(false), saclient.WithMiddleware(modifiyMiddleware()))
 	if err != nil {
 		return nil, err
 	}
+
 	return v1.NewClient(apiRootURL, v1.WithClient(newcl))
 }
