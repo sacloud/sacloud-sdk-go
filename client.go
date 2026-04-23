@@ -34,7 +34,7 @@ var UserAgent = fmt.Sprintf(
 	runtime.GOARCH,
 )
 
-func NewClient(client *saclient.Client) (*v1.Client, error) {
+func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
 	endpointConfig, err := client.EndpointConfig()
 	if err != nil {
 		return nil, NewError("unable to load endpoint configuration", err)
@@ -47,8 +47,12 @@ func NewClient(client *saclient.Client) (*v1.Client, error) {
 	return NewClientWithAPIRootURL(client, apiURL)
 }
 
-func NewClientWithAPIRootURL(client *saclient.Client, apiRootURL string) (*v1.Client, error) {
-	c, err := client.DupWith(saclient.WithUserAgent(UserAgent))
+func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
+	clientOption, ok := client.(saclient.ClientOptionAPI)
+	if !ok {
+		return nil, NewError("client requires saclient.ClientOptionAPI", nil)
+	}
+	c, err := clientOption.DupWith(saclient.WithUserAgent(UserAgent))
 	if err != nil {
 		return nil, err
 	}
