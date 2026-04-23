@@ -41,12 +41,12 @@ func NewClient(client saclient.ClientAPI) (*v1.Client, error) {
 
 // NewClientWithAPIRootURL creates a new simple-notification API client with a custom API root URL
 func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
-	clientImpl, ok := client.(*saclient.Client)
+	clientOption, ok := client.(saclient.ClientOptionAPI)
 	if !ok {
 		return nil, NewError("invalid client type: expected saclient.Client", nil)
 	}
 
-	newcl, err := clientImpl.DupWith(saclient.WithBigInt(false), saclient.WithMiddleware(modifiyMiddleware()))
+	newcl, err := clientOption.DupWith(saclient.WithBigInt(false), saclient.WithMiddleware(modifiyMiddleware()))
 	if err != nil {
 		return nil, err
 	}
