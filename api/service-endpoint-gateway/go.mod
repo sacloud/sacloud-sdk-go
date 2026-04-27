@@ -9,7 +9,7 @@ tool github.com/ogen-go/ogen/cmd/ogen
 require (
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.2.0
-	github.com/ogen-go/ogen v1.18.0
+	github.com/ogen-go/ogen v1.20.3
 	github.com/sacloud/packages-go v0.0.13
 	github.com/sacloud/saclient-go v0.3.7
 	github.com/stretchr/testify v1.11.1
@@ -19,7 +19,7 @@ require (
 	github.com/benbjohnson/clock v1.3.5 // indirect
 	github.com/davecgh/go-spew v1.1.2-0.20180830191138-d8f796af33cc // indirect
 	github.com/dlclark/regexp2 v1.11.5 // indirect
-	github.com/fatih/color v1.18.0 // indirect
+	github.com/fatih/color v1.19.0 // indirect
 	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/go-faster/yaml v0.4.6 // indirect
 	github.com/gofrs/flock v0.13.0 // indirect
