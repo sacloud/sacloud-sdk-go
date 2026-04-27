@@ -34,8 +34,8 @@ type NFSPlanInfo struct {
 }
 
 // GetNFSPlanInfo NFSプランIDから対応するプラン情報を取得
-func GetNFSPlanInfo(ctx context.Context, finder NoteFinder, nfsPlanID types.ID) (*NFSPlanInfo, error) {
-	plans, err := findNFSPlans(ctx, finder)
+func GetNFSPlanInfo(ctx context.Context, finder NoteFinder, zone string, nfsPlanID types.ID) (*NFSPlanInfo, error) {
+	plans, err := findNFSPlans(ctx, finder, zone)
 	if err != nil {
 		return nil, err
 	}
@@ -47,8 +47,8 @@ func GetNFSPlanInfo(ctx context.Context, finder NoteFinder, nfsPlanID types.ID) 
 }
 
 // FindNFSPlanID ディスクプランとサイズからNFSのプランIDを取得
-func FindNFSPlanID(ctx context.Context, finder NoteFinder, diskPlanID types.ID, size types.ENFSSize) (types.ID, error) {
-	plans, err := findNFSPlans(ctx, finder)
+func FindNFSPlanID(ctx context.Context, finder NoteFinder, zone string, diskPlanID types.ID, size types.ENFSSize) (types.ID, error) {
+	plans, err := findNFSPlans(ctx, finder, zone)
 	if err != nil {
 		return types.ID(0), err
 	}
@@ -112,7 +112,7 @@ type nfsPlanValue struct {
 	PlanID       types.ID            `json:"planId"`
 }
 
-func findNFSPlans(ctx context.Context, finder NoteFinder) (*nfsPlans, error) {
+func findNFSPlans(ctx context.Context, finder NoteFinder, zone string) (*nfsPlans, error) {
 	// find note
 	searched, err := finder.Find(ctx, &iaas.FindCondition{
 		Filter: search.Filter{
@@ -126,7 +126,23 @@ func findNFSPlans(ctx context.Context, finder NoteFinder) (*nfsPlans, error) {
 	if searched.Count == 0 || len(searched.Notes) == 0 {
 		return nil, errors.New("note[sys-nfs] not found")
 	}
-	note := searched.Notes[0]
+
+	// find note for the specified zone
+	var note *iaas.Note
+	for _, n := range searched.Notes {
+		for _, tag := range n.Tags {
+			if tag == "@zone="+zone {
+				note = n
+				break
+			}
+		}
+		if note != nil {
+			break
+		}
+	}
+	if note == nil {
+		return nil, fmt.Errorf("note[sys-nfs] not found for zone %s", zone)
+	}
 
 	// parse note's content
 	var pe nfsPlansEnvelope

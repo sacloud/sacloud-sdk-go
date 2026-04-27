@@ -224,12 +224,12 @@ var (
 		Description:    "desc",
 		Tags:           []string{"tag1", "tag2"},
 
-		Conf: &iaas.DatabaseRemarkDBConfCommon{
+		Conf: &iaas.DatabaseRemarkDBConfCommon{ //nolint:gosec
 			DatabaseName: types.RDBMSTypesMariaDB.String(),
 			DefaultUser:  "exa.mple",
 			UserPassword: "LibsacloudExamplePassword01",
 		},
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     5432,
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword01",
@@ -251,7 +251,7 @@ var (
 		DefaultRoute:   createDatabaseParam.DefaultRoute,
 		NetworkMaskLen: createDatabaseParam.NetworkMaskLen,
 		IPAddresses:    createDatabaseParam.IPAddresses,
-		Conf: &iaas.DatabaseRemarkDBConfCommon{
+		Conf: &iaas.DatabaseRemarkDBConfCommon{ //nolint:gosec
 			DatabaseName:     types.RDBMSTypesMariaDB.String(),
 			DatabaseVersion:  "10.11",
 			DatabaseRevision: "10.11.9",
@@ -268,7 +268,7 @@ var (
 		},
 	}
 	updateDatabaseSettingsParam = &iaas.DatabaseUpdateSettingsRequest{
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     54322,
 			DefaultUser:     "exa.mple.upd",
 			UserPassword:    "LibsacloudExamplePassword01up1",
@@ -290,7 +290,7 @@ var (
 		NetworkMaskLen: createDatabaseParam.NetworkMaskLen,
 		IPAddresses:    createDatabaseParam.IPAddresses,
 		Conf:           createDatabaseExpected.Conf,
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     54322,
 			DefaultUser:     "exa.mple.upd",
 			UserPassword:    "LibsacloudExamplePassword01up1",
@@ -309,7 +309,7 @@ var (
 		Name:        testutil.ResourceName("db-upd"),
 		Tags:        []string{"tag1-upd", "tag2-upd"},
 		Description: "desc-upd",
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     5432,
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword02",
@@ -333,7 +333,7 @@ var (
 		NetworkMaskLen: createDatabaseParam.NetworkMaskLen,
 		IPAddresses:    createDatabaseParam.IPAddresses,
 		Conf:           createDatabaseExpected.Conf,
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     5432,
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword02",
@@ -360,7 +360,7 @@ var (
 				types.DaysOfTheWeek.Monday,
 			},
 		},
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     54321,
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword03",
@@ -386,7 +386,7 @@ var (
 		NetworkMaskLen: createDatabaseParam.NetworkMaskLen,
 		IPAddresses:    createDatabaseParam.IPAddresses,
 		Conf:           createDatabaseExpected.Conf,
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     54321,
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword03",
@@ -406,7 +406,7 @@ var (
 	}
 	updateDatabaseToMinParam = &iaas.DatabaseUpdateRequest{
 		Name: testutil.ResourceName("db-to-min"),
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword04",
 			ReplicaUser:     "replica",
@@ -428,7 +428,7 @@ var (
 		NetworkMaskLen: createDatabaseParam.NetworkMaskLen,
 		IPAddresses:    createDatabaseParam.IPAddresses,
 		Conf:           createDatabaseExpected.Conf,
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword04",
 			ReplicaUser:     "replica",
@@ -452,13 +452,13 @@ var (
 		Description:    "desc",
 		Tags:           []string{"tag1", "tag2"},
 
-		Conf: &iaas.DatabaseRemarkDBConfCommon{
+		Conf: &iaas.DatabaseRemarkDBConfCommon{ //nolint:gosec
 			DatabaseName:    types.RDBMSTypesMariaDB.String(),
 			DatabaseVersion: "10.11",
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword01",
 		},
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     5432,
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword01",
@@ -490,7 +490,7 @@ var (
 		DefaultRoute:   createDatabaseWithBackupv2Param.DefaultRoute,
 		NetworkMaskLen: createDatabaseWithBackupv2Param.NetworkMaskLen,
 		IPAddresses:    createDatabaseWithBackupv2Param.IPAddresses,
-		Conf: &iaas.DatabaseRemarkDBConfCommon{
+		Conf: &iaas.DatabaseRemarkDBConfCommon{ //nolint:gosec
 			DatabaseName:     types.RDBMSTypesMariaDB.String(),
 			DatabaseVersion:  "10.11",
 			DatabaseRevision: "10.11.9",
@@ -527,7 +527,7 @@ var (
 			},
 			Connect: "nfs://192.0.2.254/export",
 		},
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     54321,
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword03",
@@ -553,7 +553,7 @@ var (
 		NetworkMaskLen: createDatabaseWithBackupv2Param.NetworkMaskLen,
 		IPAddresses:    createDatabaseWithBackupv2Param.IPAddresses,
 		Conf:           createDatabaseWithBackupv2Expected.Conf,
-		CommonSetting: &iaas.DatabaseSettingCommon{
+		CommonSetting: &iaas.DatabaseSettingCommon{ //nolint:gosec
 			ServicePort:     54321,
 			DefaultUser:     "exa.mple",
 			UserPassword:    "LibsacloudExamplePassword03",
