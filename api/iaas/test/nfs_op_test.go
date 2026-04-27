@@ -41,7 +41,7 @@ func TestNFSOp_CRUD(t *testing.T) {
 			}
 
 			// find plan id
-			planID, err := query.FindNFSPlanID(ctx, iaas.NewNoteOp(caller), types.NFSPlans.HDD, types.NFSHDDSizes.Size100GB)
+			planID, err := query.FindNFSPlanID(ctx, iaas.NewNoteOp(caller), testZone, types.NFSPlans.HDD, types.NFSHDDSizes.Size100GB)
 			if err != nil {
 				return err
 			}

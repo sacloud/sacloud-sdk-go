@@ -42,7 +42,7 @@ func main() {
 
 	// This is optional (done automatically)
 	// but it is a bit polite to do so explicitly
-	err = theClient.Popuate()
+	err = theClient.Populate()
 	if err != nil {
 		os.Exit(1)
 	}

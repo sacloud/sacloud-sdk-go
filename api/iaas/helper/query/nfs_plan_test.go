@@ -29,6 +29,7 @@ func TestFindNFSPlanID(t *testing.T) {
 	cases := []struct {
 		msg             string
 		finder          NoteFinder
+		zone            string
 		inputDiskPlanID types.ID
 		inputDiskSize   types.ENFSSize
 		expectedValue   types.ID
@@ -40,6 +41,7 @@ func TestFindNFSPlanID(t *testing.T) {
 				notes: []*iaas.Note{},
 				err:   errors.New("dummy"),
 			},
+			zone:        "is1a",
 			expectedErr: errors.New("dummy"),
 		},
 		{
@@ -47,7 +49,24 @@ func TestFindNFSPlanID(t *testing.T) {
 			finder: &dummyNoteFinder{
 				notes: []*iaas.Note{},
 			},
+			zone:        "is1a",
 			expectedErr: errors.New("note[sys-nfs] not found"),
+		},
+		{
+			msg: "zone not found",
+			finder: &dummyNoteFinder{
+				notes: []*iaas.Note{
+					{
+						Name:    "sys-nfs",
+						Class:   "json",
+						Tags:    []string{"@zone=is1b"},
+						Content: `{"plans":{"HDD":[{"size": 100,"availability":"available","planId":1}]}}`,
+					},
+				},
+				err: nil,
+			},
+			zone:        "is1a",
+			expectedErr: errors.New("note[sys-nfs] not found for zone is1a"),
 		},
 		{
 			msg: "not found",
@@ -56,11 +75,13 @@ func TestFindNFSPlanID(t *testing.T) {
 					{
 						Name:    "sys-nfs",
 						Class:   "json",
+						Tags:    []string{"@zone=is1a"},
 						Content: `{"plans":{"HDD":[{"size": 100,"availability":"available","planId":1}]}}`,
 					},
 				},
 				err: nil,
 			},
+			zone:            "is1a",
 			inputDiskPlanID: types.NFSPlans.SSD,
 			inputDiskSize:   types.NFSHDDSizes.Size100GB,
 			expectedValue:   0,
@@ -73,11 +94,38 @@ func TestFindNFSPlanID(t *testing.T) {
 					{
 						Name:    "sys-nfs",
 						Class:   "json",
+						Tags:    []string{"@zone=is1a"},
 						Content: `{"plans":{"HDD":[{"size": 100,"availability":"available","planId":1}]}}`,
 					},
 				},
 				err: nil,
 			},
+			zone:            "is1a",
+			inputDiskPlanID: types.NFSPlans.HDD,
+			inputDiskSize:   types.NFSHDDSizes.Size100GB,
+			expectedValue:   1,
+			expectedErr:     nil,
+		},
+		{
+			msg: "multiple zones - select correct zone",
+			finder: &dummyNoteFinder{
+				notes: []*iaas.Note{
+					{
+						Name:    "sys-nfs",
+						Class:   "json",
+						Tags:    []string{"@zone=is1b"},
+						Content: `{"plans":{"HDD":[{"size": 100,"availability":"available","planId":2}]}}`,
+					},
+					{
+						Name:    "sys-nfs",
+						Class:   "json",
+						Tags:    []string{"@zone=is1a"},
+						Content: `{"plans":{"HDD":[{"size": 100,"availability":"available","planId":1}]}}`,
+					},
+				},
+				err: nil,
+			},
+			zone:            "is1a",
 			inputDiskPlanID: types.NFSPlans.HDD,
 			inputDiskSize:   types.NFSHDDSizes.Size100GB,
 			expectedValue:   1,
@@ -86,7 +134,7 @@ func TestFindNFSPlanID(t *testing.T) {
 	}
 
 	for _, tc := range cases {
-		actual, err := FindNFSPlanID(context.Background(), tc.finder, tc.inputDiskPlanID, tc.inputDiskSize)
+		actual, err := FindNFSPlanID(context.Background(), tc.finder, tc.zone, tc.inputDiskPlanID, tc.inputDiskSize)
 		if tc.expectedErr != nil {
 			require.Equal(t, tc.expectedErr, err, tc.msg)
 		} else {
@@ -100,6 +148,7 @@ func TestGetPlanInfo(t *testing.T) {
 	cases := []struct {
 		msg           string
 		finder        NoteFinder
+		zone          string
 		input         types.ID
 		expectedValue *NFSPlanInfo
 		expectedErr   error
@@ -110,6 +159,7 @@ func TestGetPlanInfo(t *testing.T) {
 				notes: []*iaas.Note{},
 				err:   errors.New("dummy"),
 			},
+			zone:        "is1a",
 			expectedErr: errors.New("dummy"),
 		},
 		{
@@ -117,6 +167,7 @@ func TestGetPlanInfo(t *testing.T) {
 			finder: &dummyNoteFinder{
 				notes: []*iaas.Note{},
 			},
+			zone:        "is1a",
 			expectedErr: errors.New("note[sys-nfs] not found"),
 		},
 		{
@@ -126,11 +177,13 @@ func TestGetPlanInfo(t *testing.T) {
 					{
 						Name:    "sys-nfs",
 						Class:   "json",
+						Tags:    []string{"@zone=is1a"},
 						Content: `{"plans":{"HDD":[{"size": 100,"availability":"available","planId":1}]}}`,
 					},
 				},
 				err: nil,
 			},
+			zone:          "is1a",
 			input:         2,
 			expectedValue: nil,
 			expectedErr:   fmt.Errorf("nfs plan [id:%d] not found", 2),
@@ -142,11 +195,13 @@ func TestGetPlanInfo(t *testing.T) {
 					{
 						Name:    "sys-nfs",
 						Class:   "json",
+						Tags:    []string{"@zone=is1a"},
 						Content: `{"plans":{"HDD":[{"size": 100,"availability":"available","planId":1}]}}`,
 					},
 				},
 				err: nil,
 			},
+			zone:  "is1a",
 			input: 1,
 			expectedValue: &NFSPlanInfo{
 				NFSPlanID:  1,
@@ -158,7 +213,7 @@ func TestGetPlanInfo(t *testing.T) {
 	}
 
 	for _, tc := range cases {
-		actual, err := GetNFSPlanInfo(context.Background(), tc.finder, tc.input)
+		actual, err := GetNFSPlanInfo(context.Background(), tc.finder, tc.zone, tc.input)
 		if tc.expectedErr != nil {
 			require.Equal(t, tc.expectedErr, err, tc.msg)
 		} else {

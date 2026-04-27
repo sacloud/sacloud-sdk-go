@@ -20,15 +20,13 @@ import (
 	"time"
 )
 
-func init() {
-	rand.Seed(time.Now().UTC().UnixNano())
-}
+var r = rand.New(rand.NewSource(time.Now().UnixNano())) //nolint: gosec
 
 const (
-	// CharSetAlphaNum アフファベット(小文字)+数値
+	// CharSetAlphaNum アルファベット(小文字)+数値
 	CharSetAlphaNum = "abcdefghijklmnopqrstuvwxyz012346789"
 
-	// CharSetAlpha アフファベット(小文字)
+	// CharSetAlpha アルファベット(小文字)
 	CharSetAlpha = "abcdefghijklmnopqrstuvwxyz"
 
 	// CharSetNumber 数値
@@ -44,7 +42,7 @@ func Random(strlen int, charSet string) string {
 func RandomName(prefix string, strlen int, charSet string) string {
 	result := make([]byte, strlen)
 	for i := 0; i < strlen; i++ {
-		result[i] = charSet[rand.Intn(len(charSet))] //nolint: gosec
+		result[i] = charSet[r.Intn(len(charSet))]
 	}
 	return prefix + string(result)
 }

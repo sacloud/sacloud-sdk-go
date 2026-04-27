@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,11 +25,11 @@ import (
 // Serverに渡した後はDataStore内のデータを外部から操作しないこと
 type Engine struct {
 	User         *User
-	Applications []*v1.Application
-	Versions     []*v1.Version
+	Applications []*v1.HandlerGetApplication
+	Versions     []*v1.HandlerGetVersion
 
 	// MapのkeyにApplicationのIDを利用する
-	Traffics map[string][]*v1.Traffic
+	Traffics map[string][]v1.HandlerListTrafficsDataItem
 
 	// MapのkeyにApplicationのIDを利用する
 	appVersionRelations map[string][]*appVersionRelation
@@ -46,15 +46,15 @@ type Engine struct {
 }
 
 type appVersionRelation struct {
-	application *v1.Application
-	version     *v1.Version
+	application *v1.HandlerGetApplication
+	version     *v1.HandlerGetVersion
 }
 
 func NewEngine() *Engine {
 	return &Engine{
 		appVersionRelations:      make(map[string][]*appVersionRelation),
 		appPacketFilterRelations: make(map[string]*v1.HandlerGetPacketFilter),
-		Traffics:                 make(map[string][]*v1.Traffic),
+		Traffics:                 make(map[string][]v1.HandlerListTrafficsDataItem),
 	}
 }
 

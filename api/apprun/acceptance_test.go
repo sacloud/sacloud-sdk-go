@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -37,16 +37,24 @@ func TestUserAPI(t *testing.T) {
 	skipIfNoAPIKey(t)
 
 	ctx := context.Background()
+	client, err := newAPIClient()
+	require.NoError(t, err)
 	userOp := apprun.NewUserOp(client)
 
 	// Create
-	_, err := userOp.Create(ctx)
-	require.NoError(t, err)
+	_, err = userOp.Create(ctx)
+	if err != nil {
+		if saclient.IsConflictError(err) {
+			t.Log("user already exists, ignoring conflict error and continuing test")
+		} else {
+			t.Fatal(err)
+		}
+	}
 
 	// Read
 	res, err := userOp.Read(ctx)
 	require.NoError(t, err)
-	require.Equal(t, res.StatusCode, 200)
+	require.GreaterOrEqual(t, res.Limit.ApplicationCount, 0)
 }
 
 // TestApplicationAPI アプリケーションの一連の操作テスト
@@ -65,50 +73,58 @@ func TestApplicationAPI(t *testing.T) {
 	}
 
 	ctx := context.Background()
+	client, err := newAPIClient()
+	require.NoError(t, err)
 	appOp := apprun.NewApplicationOp(client)
 
 	// Create
-	application, err := appOp.Create(ctx, &v1.PostApplicationBody{
+	created, err := appOp.Create(ctx, &v1.PostApplicationBody{
 		Name:                   appName,
 		TimeoutSeconds:         100,
 		Port:                   80,
 		MinScale:               0,
 		MaxScale:               1,
-		ScaleTargetConcurrency: saclient.Ptr(100),
-		Components: []v1.PostApplicationBodyComponent{
+		ScaleTargetConcurrency: v1.NewOptInt(100),
+		Components: []v1.PostApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCpu:    "0.5",
-				MaxMemory: "1Gi",
-				DeploySource: v1.PostApplicationBodyComponentDeploySource{
-					ContainerRegistry: &v1.PostApplicationBodyComponentDeploySourceContainerRegistry{
-						Image: "apprun-test.sakuracr.jp/apprun/test1:latest",
-					},
+				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+						},
+					),
 				},
-				Probe: &v1.PostApplicationBodyComponentProbe{
-					HttpGet: &v1.PostApplicationBodyComponentProbeHttpGet{
-						Path: "/",
-						Port: 80,
+				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
+					v1.PostApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
+							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+								Path: "/",
+								Port: 80,
+							},
+						),
 					},
-				},
+				),
 			},
 		},
 	})
 	require.NoError(t, err)
 
 	// Read
-	application, err = appOp.Read(ctx, application.Id)
+	application, err := appOp.Read(ctx, created.ID)
 	require.NoError(t, err)
 	require.Equal(t, application.Name, appName)
 
 	// Update
 	timeoutUpdated := 20
-	appOp.Update(ctx, application.Id, &v1.PatchApplicationBody{
-		TimeoutSeconds: &timeoutUpdated,
+	appOp.Update(ctx, application.ID, &v1.PatchApplicationBody{
+		TimeoutSeconds: v1.NewOptInt(timeoutUpdated),
 	})
 
 	// Read
-	application, err = appOp.Read(ctx, application.Id)
+	application, err = appOp.Read(ctx, application.ID)
 	require.NoError(t, err)
 	require.Equal(t, application.TimeoutSeconds, timeoutUpdated)
 
@@ -116,12 +132,12 @@ func TestApplicationAPI(t *testing.T) {
 	// ヘルスチェックが完了するまでタイムラグがあるため暫く待つ
 	time.Sleep(30 * time.Second)
 
-	res, err := appOp.ReadStatus(ctx, application.Id)
+	res, err := appOp.ReadStatus(ctx, application.ID)
 	require.NoError(t, err)
-	require.Equal(t, res.Status, v1.HandlerGetApplicationStatusStatusHealthy)
+	require.Equal(t, res.Status, v1.HandlerGetApplicationOnlyStatusStatusHealthy)
 
 	// Delete
-	err = appOp.Delete(ctx, application.Id)
+	err = appOp.Delete(ctx, application.ID)
 	require.NoError(t, err)
 }
 
@@ -139,6 +155,8 @@ func TestPacketFilterAPI(t *testing.T) {
 	}
 
 	ctx := context.Background()
+	client, err := newAPIClient()
+	require.NoError(t, err)
 	appOp := apprun.NewApplicationOp(client)
 	pfOp := apprun.NewPacketFilterOp(client)
 
@@ -149,55 +167,60 @@ func TestPacketFilterAPI(t *testing.T) {
 		Port:                   80,
 		MinScale:               0,
 		MaxScale:               1,
-		ScaleTargetConcurrency: saclient.Ptr(100),
-		Components: []v1.PostApplicationBodyComponent{
+		ScaleTargetConcurrency: v1.NewOptInt(100),
+		Components: []v1.PostApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCpu:    "0.5",
-				MaxMemory: "1Gi",
-
-				DeploySource: v1.PostApplicationBodyComponentDeploySource{
-					ContainerRegistry: &v1.PostApplicationBodyComponentDeploySourceContainerRegistry{
-						Image: "apprun-test.sakuracr.jp/apprun/test1:latest",
-					},
+				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+						},
+					),
 				},
-				Probe: &v1.PostApplicationBodyComponentProbe{
-					HttpGet: &v1.PostApplicationBodyComponentProbeHttpGet{
-						Path: "/",
-						Port: 80,
+				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
+					v1.PostApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
+							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+								Path: "/",
+								Port: 80,
+							},
+						),
 					},
-				},
+				),
 			},
 		},
 	})
 
 	// Update PacketFilter
 	enabled := true
-	settings := []v1.PacketFilterSetting{
+	settings := []v1.PatchPacketFilterSettingsItem{
 		{
-			FromIp:             "192.0.2.0",
-			FromIpPrefixLength: 24,
+			FromIP:             "192.0.2.0",
+			FromIPPrefixLength: 24,
 		},
 	}
-	updated, err := pfOp.Update(ctx, application.Id, &v1.PatchPacketFilter{
-		IsEnabled: &enabled,
-		Settings:  &settings,
+	updated, err := pfOp.Update(ctx, application.ID, &v1.PatchPacketFilter{
+		IsEnabled: v1.NewOptBool(enabled),
+		Settings:  settings,
 	})
 	require.NoError(t, err)
 	require.Equal(t, updated.IsEnabled, true)
 	require.Equal(t, len(updated.Settings), 1)
-	require.Equal(t, (updated.Settings)[0].FromIp, "192.0.2.0")
-	require.Equal(t, (updated.Settings)[0].FromIpPrefixLength, 24)
+	require.Equal(t, (updated.Settings)[0].FromIP, "192.0.2.0")
+	require.Equal(t, (updated.Settings)[0].FromIPPrefixLength, 24)
 
-	read, err := pfOp.Read(ctx, application.Id)
+	read, err := pfOp.Read(ctx, application.ID)
 	require.NoError(t, err)
 	require.Equal(t, read.IsEnabled, true)
 	require.Equal(t, len(read.Settings), 1)
-	require.Equal(t, (read.Settings)[0].FromIp, "192.0.2.0")
-	require.Equal(t, (read.Settings)[0].FromIpPrefixLength, 24)
+	require.Equal(t, (read.Settings)[0].FromIP, "192.0.2.0")
+	require.Equal(t, (read.Settings)[0].FromIPPrefixLength, 24)
 
 	// Delete Application
-	appOp.Delete(ctx, application.Id)
+	appOp.Delete(ctx, application.ID)
 }
 
 // TestVersionAPI アプリケーションバージョンの一連の操作テスト
@@ -216,6 +239,8 @@ func TestVersionAPI(t *testing.T) {
 	}
 
 	ctx := context.Background()
+	client, err := newAPIClient()
+	require.NoError(t, err)
 	appOp := apprun.NewApplicationOp(client)
 	versionOp := apprun.NewVersionOp(client)
 
@@ -226,55 +251,60 @@ func TestVersionAPI(t *testing.T) {
 		Port:                   80,
 		MinScale:               0,
 		MaxScale:               1,
-		ScaleTargetConcurrency: saclient.Ptr(100),
-		Components: []v1.PostApplicationBodyComponent{
+		ScaleTargetConcurrency: v1.NewOptInt(100),
+		Components: []v1.PostApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCpu:    "0.5",
-				MaxMemory: "1Gi",
-
-				DeploySource: v1.PostApplicationBodyComponentDeploySource{
-					ContainerRegistry: &v1.PostApplicationBodyComponentDeploySourceContainerRegistry{
-						Image: "apprun-test.sakuracr.jp/apprun/test1:latest",
-					},
+				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+						},
+					),
 				},
-				Probe: &v1.PostApplicationBodyComponentProbe{
-					HttpGet: &v1.PostApplicationBodyComponentProbeHttpGet{
-						Path: "/",
-						Port: 80,
+				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
+					v1.PostApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
+							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+								Path: "/",
+								Port: 80,
+							},
+						),
 					},
-				},
+				),
 			},
 		},
 	})
 
 	// Update Application
 	timeoutSeconds := 10
-	appOp.Update(ctx, application.Id, &v1.PatchApplicationBody{
-		TimeoutSeconds: &timeoutSeconds,
+	appOp.Update(ctx, application.ID, &v1.PatchApplicationBody{
+		TimeoutSeconds: v1.NewOptInt(timeoutSeconds),
 	})
 
 	// List Version
-	versions, err := versionOp.List(ctx, application.Id, &v1.ListApplicationVersionsParams{})
+	versions, err := versionOp.List(ctx, application.ID, &v1.ListApplicationVersionsParams{})
 	require.NoError(t, err)
 	require.Equal(t, len(versions.Data), 2)
 
 	// Delete Version
-	err = versionOp.Delete(ctx, application.Id, versions.Data[1].Id)
+	err = versionOp.Delete(ctx, application.ID, versions.Data[1].ID)
 	require.NoError(t, err)
 
 	// List Version
-	versions, err = versionOp.List(ctx, application.Id, &v1.ListApplicationVersionsParams{})
+	versions, err = versionOp.List(ctx, application.ID, &v1.ListApplicationVersionsParams{})
 	require.NoError(t, err)
 	require.Equal(t, len(versions.Data), 1)
 
-	status, err := versionOp.ReadStatus(ctx, application.Id, versions.Data[0].Id)
+	status, err := versionOp.ReadStatus(ctx, application.ID, versions.Data[0].ID)
 	require.NoError(t, err)
 	// タイミングによってはDeployingの可能性もあるため、HealthyかDeployingのどちらかであればテスト成功とする
-	require.Contains(t, []string{string(v1.HandlerGetVersionStatusStatusHealthy), string(v1.HandlerGetVersionStatusStatusDeploying)}, string(status.Status))
+	require.Contains(t, []string{string(v1.HandlerGetApplicationVersionOnlyStatusStatusHealthy), string(v1.HandlerGetApplicationVersionOnlyStatusStatusDeploying)}, string(status.Status))
 
 	// Delete Application
-	appOp.Delete(ctx, application.Id)
+	appOp.Delete(ctx, application.ID)
 }
 
 // TestTrafficAPI アプリケーショントラフィックの一連の操作テスト
@@ -292,6 +322,8 @@ func TestTrafficAPI(t *testing.T) {
 	}
 
 	ctx := context.Background()
+	client, err := newAPIClient()
+	require.NoError(t, err)
 	appOp := apprun.NewApplicationOp(client)
 	versionOp := apprun.NewVersionOp(client)
 	trafficOp := apprun.NewTrafficOp(client)
@@ -303,34 +335,40 @@ func TestTrafficAPI(t *testing.T) {
 		Port:           80,
 		MinScale:       0,
 		MaxScale:       1,
-		Components: []v1.PostApplicationBodyComponent{
+		Components: []v1.PostApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCpu:    "0.5",
-				MaxMemory: "1Gi",
-				DeploySource: v1.PostApplicationBodyComponentDeploySource{
-					ContainerRegistry: &v1.PostApplicationBodyComponentDeploySourceContainerRegistry{
-						Image: "apprun-test.sakuracr.jp/apprun/test1:latest",
-					},
+				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+						},
+					),
 				},
-				Probe: &v1.PostApplicationBodyComponentProbe{
-					HttpGet: &v1.PostApplicationBodyComponentProbeHttpGet{
-						Path: "/",
-						Port: 80,
+				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
+					v1.PostApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
+							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+								Path: "/",
+								Port: 80,
+							},
+						),
 					},
-				},
+				),
 			},
 		},
 	})
 
 	// Update Application
 	timeoutSeconds := 10
-	appOp.Update(ctx, application.Id, &v1.PatchApplicationBody{
-		TimeoutSeconds: &timeoutSeconds,
+	appOp.Update(ctx, application.ID, &v1.PatchApplicationBody{
+		TimeoutSeconds: v1.NewOptInt(timeoutSeconds),
 	})
 
 	// Update Application Traffic
-	versions, _ := versionOp.List(ctx, application.Id, &v1.ListApplicationVersionsParams{})
+	versions, _ := versionOp.List(ctx, application.ID, &v1.ListApplicationVersionsParams{})
 
 	v0IsLatestVersion := true
 	v0Percent := 90
@@ -338,55 +376,33 @@ func TestTrafficAPI(t *testing.T) {
 	v1Name := versions.Data[1].Name
 	v1Percent := 10
 
-	traffic1 := &v1.Traffic{}
-	traffic2 := &v1.Traffic{}
-
-	if err := traffic1.FromTrafficWithLatestVersion(v1.TrafficWithLatestVersion{
-		IsLatestVersion: v0IsLatestVersion,
-		Percent:         v0Percent,
-	}); err != nil {
-		t.Fatal(err)
-	}
-	if err := traffic2.FromTrafficWithVersionName(v1.TrafficWithVersionName{
-		VersionName: v1Name,
-		Percent:     v1Percent,
-	}); err != nil {
-		t.Fatal(err)
+	trafficBody := v1.PutTrafficsBody{
+		v1.NewPutTrafficsBodyItem0PutTrafficsBodyItem(v1.PutTrafficsBodyItem0{
+			IsLatestVersion: v0IsLatestVersion,
+			Percent:         v0Percent,
+		}),
+		v1.NewPutTrafficsBodyItem1PutTrafficsBodyItem(v1.PutTrafficsBodyItem1{
+			VersionName: v1Name,
+			Percent:     v1Percent,
+		}),
 	}
 
-	_, err := trafficOp.Update(ctx, application.Id, &[]v1.Traffic{*traffic1, *traffic2})
+	_, err = trafficOp.Update(ctx, application.ID, &trafficBody)
 	require.NoError(t, err)
 
 	// List Application Traffic
-	traffics, err := trafficOp.List(ctx, application.Id)
+	traffics, err := trafficOp.List(ctx, application.ID)
 	require.NoError(t, err)
 
-	gotv1, err := traffics.Data[0].AsTrafficWithLatestVersion()
-	if err != nil {
-		t.Fatal(err)
-	}
-	gotv2, err := traffics.Data[1].AsTrafficWithVersionName()
-	if err != nil {
-		t.Fatal(err)
-	}
-	wantv1, err := traffic1.AsTrafficWithLatestVersion()
-	if err != nil {
-		t.Fatal(err)
-	}
-	wantv2, err := traffic2.AsTrafficWithVersionName()
-	if err != nil {
-		t.Fatal(err)
-	}
-
 	require.Equal(t, len(traffics.Data), 2)
-	require.Equal(t, gotv1, wantv1)
-	require.Equal(t, gotv2, wantv2)
+	require.Equal(t, traffics.Data[0].IsLatestVersion, v0IsLatestVersion)
+	require.Equal(t, traffics.Data[0].Percent, v0Percent)
+	require.Equal(t, traffics.Data[1].VersionName, v1Name)
+	require.Equal(t, traffics.Data[1].Percent, v1Percent)
 
 	// Delete Application
-	appOp.Delete(ctx, application.Id)
+	appOp.Delete(ctx, application.ID)
 }
-
-var client = &apprun.Client{}
 
 // skipIfNoEnv 指定の環境変数のいずれかが空の場合はt.SkipNow()する
 func skipIfNoEnv(t *testing.T, envs ...string) {
@@ -410,8 +426,12 @@ func skipIfNoAPIKey(t *testing.T) {
 
 func cleanupTestApplication() error {
 	ctx := context.Background()
-	appOp := apprun.NewApplicationOp(client)
+	client, err := newAPIClient()
+	if err != nil {
+		return err
+	}
 
+	appOp := apprun.NewApplicationOp(client)
 	apps, err := appOp.List(ctx, &v1.ListApplicationsParams{})
 	if err != nil {
 		return err
@@ -422,11 +442,16 @@ func cleanupTestApplication() error {
 
 	for _, app := range apps.Data {
 		if app.Name == appName {
-			if err := appOp.Delete(ctx, app.Id); err != nil {
+			if err := appOp.Delete(ctx, app.ID); err != nil {
 				return err
 			}
 			return nil
 		}
 	}
 	return nil
+}
+
+func newAPIClient() (*v1.Client, error) {
+	var theClient saclient.Client
+	return apprun.NewClient(&theClient)
 }

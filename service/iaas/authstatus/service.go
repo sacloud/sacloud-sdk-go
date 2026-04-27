@@ -21,6 +21,8 @@ type Service struct {
 	caller iaas.APICaller
 }
 
+// Deprecated: New is deprecated. Use the AuthOp from iam-api-go instead.
+// See: https://pkg.go.dev/github.com/sacloud/iam-api-go/apis/auth#AuthAPI
 // New returns new service instance of AuthStatus
 func New(caller iaas.APICaller) *Service {
 	return &Service{caller: caller}

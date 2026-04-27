@@ -19,6 +19,9 @@ import (
 	"errors"
 
 	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/iam-api-go"
+	"github.com/sacloud/iam-api-go/apis/auth"
 )
 
 func (s *Service) Csv(req *CsvRequest) (*iaas.BillDetailCSV, error) {
@@ -31,29 +34,35 @@ func (s *Service) CsvWithContext(ctx context.Context, req *CsvRequest) (*iaas.Bi
 	}
 
 	billOp := iaas.NewBillOp(s.caller)
-	authOp := iaas.NewAuthStatusOp(s.caller)
-
-	// check auth status
-	auth, err := authOp.Read(ctx)
+	iamClient, err := iam.NewClient(s.saclient)
 	if err != nil {
 		return nil, err
 	}
-	if auth.AccountID.IsEmpty() {
-		return nil, errors.New("invalid account id")
-	}
+	authOp := auth.NewAuthOp(iamClient)
 
-	// get latest bill ID if empty
+	// check auth status
+	authContext, err := authOp.ReadAuthContext(ctx)
+	if err != nil {
+		return nil, err
+	}
+	if authContext.LimitedToProjectID.IsNull() {
+		return nil, errors.New("LimitedToProjectID is nil")
+	}
+	projectId := types.ID(authContext.LimitedToProjectID.Value)
+
 	billID := req.ID
+	bills, err := billOp.ByContract(ctx, projectId)
+	if err != nil {
+		return nil, err
+	}
+	if len(bills.Bills) == 0 {
+		return nil, iaas.NewNoResultsError()
+	}
 	if billID.IsEmpty() {
-		bills, err := billOp.ByContract(ctx, auth.AccountID)
-		if err != nil {
-			return nil, err
-		}
-		if len(bills.Bills) == 0 {
-			return nil, iaas.NewNoResultsError()
-		}
+		// get latest bill ID if empty
 		billID = bills.Bills[0].ID
 	}
+	memberId := bills.Bills[0].MemberID
 
-	return billOp.DetailsCSV(ctx, auth.MemberCode, billID)
+	return billOp.DetailsCSV(ctx, memberId, billID)
 }

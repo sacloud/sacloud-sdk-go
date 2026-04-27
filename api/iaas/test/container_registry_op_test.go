@@ -128,7 +128,7 @@ var (
 		Description:    "desc",
 		Tags:           []string{"tag1", "tag2"},
 		VirtualDomain:  "libsacloud-test.usacloud.jp",
-		AccessLevel:    types.ContainerRegistryAccessLevels.ReadWrite,
+		AccessLevel:    types.ContainerRegistryAccessLevels.None,
 		SubDomainLabel: sacloudtestutil.RandomName(testutil.TestResourcePrefix, 45, sacloudtestutil.CharSetAlpha),
 	}
 	createContainerRegistryExpected = &iaas.ContainerRegistry{

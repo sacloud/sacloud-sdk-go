@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,20 +31,20 @@ func TestEngine_Version(t *testing.T) {
 		require.NoError(t, err)
 
 		timeoutUpdated := 20
-		patchedApp, err := engine.UpdateApplication(createdApp.Id, &v1.PatchApplicationBody{
-			TimeoutSeconds: &timeoutUpdated,
+		patchedApp, err := engine.UpdateApplication(createdApp.ID, &v1.PatchApplicationBody{
+			TimeoutSeconds: v1.NewOptInt(timeoutUpdated),
 		})
 		require.NoError(t, err)
 
 		pageNum := 1
 		pageSize := 2
 		sortField := "created_at"
-		sortOrder := v1.ListApplicationVersionsParamsSortOrderDesc
-		resp, err := engine.ListVersions(patchedApp.Id, v1.ListApplicationVersionsParams{
-			PageNum:   &pageNum,
-			PageSize:  &pageSize,
-			SortField: &sortField,
-			SortOrder: &sortOrder,
+		sortOrder := v1.ListApplicationVersionsSortOrderDesc
+		resp, err := engine.ListVersions(patchedApp.ID, v1.ListApplicationVersionsParams{
+			PageNum:   v1.NewOptInt(pageNum),
+			PageSize:  v1.NewOptInt(pageSize),
+			SortField: v1.NewOptString(sortField),
+			SortOrder: v1.NewOptListApplicationVersionsSortOrder(sortOrder),
 		})
 		require.NoError(t, err)
 
@@ -66,13 +66,13 @@ func TestEngine_Version(t *testing.T) {
 			},
 			"data": [
 				{
-					"id": "` + d0.Id + `",
+					"id": "` + d0.ID + `",
 					"name": "` + d0.Name + `",
 					"status": "` + string(d0.Status) + `",
 					"created_at": "` + d0.CreatedAt.Format(time.RFC3339) + `"
 				},
 				{
-					"id": "` + d1.Id + `",
+					"id": "` + d1.ID + `",
 					"name": "` + d1.Name + `",
 					"status": "` + string(d1.Status) + `",
 					"created_at": "` + d1.CreatedAt.Format(time.RFC3339) + `"
@@ -89,13 +89,13 @@ func TestEngine_Version(t *testing.T) {
 		require.NoError(t, err)
 
 		timeoutUpdated := 20
-		patchedApp, err := engine.UpdateApplication(createdApp.Id, &v1.PatchApplicationBody{
-			TimeoutSeconds: &timeoutUpdated,
+		patchedApp, err := engine.UpdateApplication(createdApp.ID, &v1.PatchApplicationBody{
+			TimeoutSeconds: v1.NewOptInt(timeoutUpdated),
 		})
 		require.NoError(t, err)
 
-		r := engine.appVersionRelations[patchedApp.Id][0]
-		resp, err := engine.ReadVersion(r.application.Id, r.version.Id)
+		r := engine.appVersionRelations[patchedApp.ID][0]
+		resp, err := engine.ReadVersion(r.application.ID, r.version.ID)
 		require.NoError(t, err)
 
 		respJson, err := json.Marshal(resp)
@@ -103,18 +103,19 @@ func TestEngine_Version(t *testing.T) {
 
 		expectedJSON := `
 		{
-			"id": "` + r.version.Id + `",
+			"id": "` + r.version.ID + `",
 			"name": "` + r.version.Name + `",
 			"status": "Healthy",
 			"timeout_seconds": 20,
 			"port": 8081,
 			"min_scale": 1,
 			"max_scale": 10,
+			"scale_target_concurrency": 100,
 			"components": [
 				{
 					"name": "component1",
-					"max_cpu": "0.2",
-					"max_memory": "512Mi",
+					"max_cpu": "0.5",
+					"max_memory": "1Gi",
 					"deploy_source": {
 						"container_registry": {
 							"image": "apprun-example.sakuracr.jp/helloworld:latest",
@@ -153,12 +154,12 @@ func TestEngine_Version(t *testing.T) {
 		createdApp, err := engine.CreateApplication(req)
 		require.NoError(t, err)
 
-		r := engine.appVersionRelations[createdApp.Id][0]
-		resp, err := engine.ReadVersionStatus(r.application.Id, r.version.Id)
+		r := engine.appVersionRelations[createdApp.ID][0]
+		resp, err := engine.ReadVersionStatus(r.application.ID, r.version.ID)
 		require.NoError(t, err)
 
 		require.Equal(t, "", resp.Message)
-		require.Equal(t, v1.HandlerGetVersionStatusStatus(r.version.Status), resp.Status)
+		require.Equal(t, v1.HandlerGetApplicationVersionOnlyStatusStatus(r.version.Status), resp.Status)
 	})
 
 	t.Run("delete version", func(t *testing.T) {
@@ -168,15 +169,15 @@ func TestEngine_Version(t *testing.T) {
 		require.NoError(t, err)
 
 		timeoutUpdated := 20
-		_, err = engine.UpdateApplication(createdApp.Id, &v1.PatchApplicationBody{
-			TimeoutSeconds: &timeoutUpdated,
+		_, err = engine.UpdateApplication(createdApp.ID, &v1.PatchApplicationBody{
+			TimeoutSeconds: v1.NewOptInt(timeoutUpdated),
 		})
 		require.NoError(t, err)
-		require.Equal(t, len(engine.appVersionRelations[createdApp.Id]), 2)
+		require.Equal(t, len(engine.appVersionRelations[createdApp.ID]), 2)
 
-		r := engine.appVersionRelations[createdApp.Id][0]
-		err = engine.DeleteVersion(r.application.Id, r.version.Id)
+		r := engine.appVersionRelations[createdApp.ID][0]
+		err = engine.DeleteVersion(r.application.ID, r.version.ID)
 		require.NoError(t, err)
-		require.Equal(t, len(engine.appVersionRelations[createdApp.Id]), 1)
+		require.Equal(t, len(engine.appVersionRelations[createdApp.ID]), 1)
 	})
 }

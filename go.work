@@ -1,7 +1,7 @@
 // Copyright 2026- The sacloud/sacloud-sdk-go authors
 // SPDX-License-Identifier: Apache-2.0
 
-go 1.25.5
+go 1.25.8
 
 use (
 	./api/addon
@@ -28,6 +28,7 @@ use (
 	./internal/api-client
 	./internal/go-http
 	./internal/packages
+	./internal/packages/e2e
 	./internal/saclient
 	./internal/services
 	./service/iaas

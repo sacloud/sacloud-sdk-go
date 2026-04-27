@@ -87,3 +87,13 @@ func (s *ErrorTestSuite) TestIsNotFoundError_404() {
 	e := NewError(404, "not found", nil)
 	s.True(IsNotFoundError(e))
 }
+
+func (s *ErrorTestSuite) TestIsConflictError_not409() {
+	e := NewError(500, "internal server error", nil)
+	s.False(IsConflictError(e))
+}
+
+func (s *ErrorTestSuite) TestIsConflictError_409() {
+	e := NewError(409, "conflict", nil)
+	s.True(IsConflictError(e))
+}

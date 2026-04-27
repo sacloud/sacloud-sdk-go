@@ -15,6 +15,9 @@
 package seg
 
 import (
+	"net/url"
+	"path"
+
 	"github.com/sacloud/saclient-go"
 	v1 "github.com/sacloud/service-endpoint-gateway-api-go/apis/v1"
 )
@@ -22,10 +25,13 @@ import (
 const (
 	defaultAPIRootURL = "https://secure.sakura.ad.jp/cloud/zone/is1a/api/cloud/1.1/"
 	serviceKey        = "service_endpoint_gateway"
+
+	// used zone info from saclient
+	defaultEndpoint = "https://secure.sakura.ad.jp/cloud/zone/"
 )
 
-func NewClient(client *saclient.Client) (*v1.Client, error) {
-	endpointConfig, err := client.EndpointConfig()
+func NewClient(clientAPI saclient.ClientAPI) (*v1.Client, error) {
+	endpointConfig, err := clientAPI.EndpointConfig()
 	if err != nil {
 		return nil, NewError("unable to load service endpoint configuration", err)
 	}
@@ -34,14 +40,34 @@ func NewClient(client *saclient.Client) (*v1.Client, error) {
 	if ep, ok := endpointConfig.Endpoints[serviceKey]; ok && ep != "" {
 		endpoint = ep
 	}
-	return NewClientWithAPIRootURL(client, endpoint)
+
+	if endpointConfig.Zone != "" {
+		u, err := url.Parse(defaultEndpoint)
+		if err != nil {
+			return nil, NewError("invalid endpoint URL", err)
+		}
+		u.Path = path.Join(u.Path, endpointConfig.Zone, "api", "cloud", "1.1")
+		endpoint = u.String()
+		// Ensure the endpoint URL ends with a slash
+		endpoint += "/"
+	}
+
+	return NewClientWithAPIRootURL(clientAPI, endpoint)
 }
 
 // NewClientWithAPIRootURL creates a new service-endpoint-gateway API client with a custom API root URL
-func NewClientWithAPIRootURL(client *saclient.Client, apiRootURL string) (*v1.Client, error) {
-	newcl, err := client.DupWith(saclient.WithBigInt(false))
+func NewClientWithAPIRootURL(clientAPI saclient.ClientAPI, apiRootURL string) (*v1.Client, error) {
+	// cast the clientAPI to saclient.ClientOperationAPI to access DupWith method
+	clientOption, ok := clientAPI.(saclient.ClientOptionAPI)
+	if !ok {
+		return nil, NewError("client requires saclient.ClientOptionAPI", nil)
+	}
+
+	newcl, err := clientOption.DupWith(saclient.WithBigInt(false),
+		saclient.WithMiddleware(modifyMiddleware()))
 	if err != nil {
 		return nil, err
 	}
+
 	return v1.NewClient(apiRootURL, v1.WithClient(newcl))
 }
