@@ -149,6 +149,7 @@ func initNotes(s Store, p *valuePool) {
 			ID:    1,
 			Name:  "sys-nfs",
 			Class: "json",
+			Tags:  []string{"@zone=tk1a", "@zone=tk1b", "@zone=is1a", "@zone=is1b", "@zone=is1c", "@zone=tk1v"},
 			Content: `
 {
 	"plans":{
@@ -255,7 +256,9 @@ func initNotes(s Store, p *valuePool) {
 		},
 	}
 	for _, note := range notes {
-		s.Put(ResourceNote, iaas.APIDefaultZone, note.ID, note)
+		for _, zone := range zones {
+			s.Put(ResourceNote, zone, note.ID, note)
+		}
 	}
 }
 

@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.28.0](https://github.com/sacloud/iaas-api-go/compare/v1.27.0...v1.28.0) - 2026-04-23
+- update: bump Go version to 1.25.0 and upgrade packages-go by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/470
+- fix: add zone parameter to NFS plan queries by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/469
+- refactor: remove text/template dependency from buildURL by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/472
+
+## [v1.27.0](https://github.com/sacloud/iaas-api-go/compare/v1.26.0...v1.27.0) - 2026-04-22
+- typo by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/458
+- Remove ReadWrite in ContainerRegistry public setting by @u5surf in https://github.com/sacloud/iaas-api-go/pull/464
+- go: bump github.com/sacloud/packages-go from 0.0.12 to 0.0.13 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/467
+- go: bump github.com/sacloud/saclient-go from 0.3.1 to 0.3.7 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/465
+- go: bump golang.org/x/crypto from 0.49.0 to 0.50.0 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/460
+
 ## [v1.26.0](https://github.com/sacloud/iaas-api-go/compare/v1.25.0...v1.26.0) - 2026-03-10
 - tagpr: use custom major/minorLabels by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/448
 - go: bump github.com/sacloud/saclient-go from 0.2.7 to 0.3.1 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/450

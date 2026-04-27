@@ -34,7 +34,7 @@ func HttpGetWithResponse(url string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer res.Body.Close()
+	defer res.Body.Close() //nolint: errcheck
 
 	if res.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("got unexpected status code: %d", res.StatusCode)

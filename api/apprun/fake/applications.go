@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package fake
 
 import (
+	"encoding/json"
 	"fmt"
 	"math/rand/v2"
 	"sort"
@@ -35,15 +36,32 @@ func (engine *Engine) ListApplications(param v1.ListApplicationsParams) (*v1.Han
 	}
 
 	// 各Applicationの最新バージョンのみを取り出す
-	var apps []*v1.Application
+	var apps []*v1.HandlerGetApplication
 	for id := range engine.appVersionRelations {
 		apps = append(apps, engine.latestApplication(id))
 	}
 
+	sortField := "created_at"
+	if v, ok := param.SortField.Get(); ok {
+		sortField = v
+	}
+	sortOrder := v1.ListApplicationsSortOrderAsc
+	if v, ok := param.SortOrder.Get(); ok {
+		sortOrder = v
+	}
+	pageNum := 1
+	if v, ok := param.PageNum.Get(); ok {
+		pageNum = v
+	}
+	pageSize := len(apps)
+	if v, ok := param.PageSize.Get(); ok {
+		pageSize = v
+	}
+
 	sort.Slice(apps, func(i int, j int) bool {
-		switch *param.SortField {
+		switch sortField {
 		case "created_at":
-			if *param.SortOrder == "desc" {
+			if sortOrder == v1.ListApplicationsSortOrderDesc {
 				return apps[i].CreatedAt.After(apps[j].CreatedAt)
 			}
 			return apps[i].CreatedAt.Before(apps[j].CreatedAt)
@@ -54,25 +72,25 @@ func (engine *Engine) ListApplications(param v1.ListApplicationsParams) (*v1.Han
 	})
 
 	appsLen := len(apps)
-	start := (*param.PageNum - 1) * *param.PageSize
+	start := (pageNum - 1) * pageSize
 	// 範囲外の場合nilを返す
 	if start > appsLen {
 		return nil, nil
 	}
 
-	end := start + *param.PageSize
+	end := start + pageSize
 	if end > appsLen {
 		end = appsLen
 	}
 
-	var data []v1.HandlerListApplicationsData
+	var data []v1.HandlerListApplicationsDataItem
 	for _, app := range apps[start:end] {
 		if app != nil {
-			data = append(data, v1.HandlerListApplicationsData{
-				Id:        app.Id,
+			data = append(data, v1.HandlerListApplicationsDataItem{
+				ID:        app.ID,
 				Name:      app.Name,
-				Status:    (v1.HandlerListApplicationsDataStatus)(app.Status),
-				PublicUrl: app.PublicUrl,
+				Status:    v1.HandlerListApplicationsDataItemStatus(app.Status),
+				PublicURL: app.PublicURL,
 				CreatedAt: app.CreatedAt,
 			})
 		}
@@ -81,18 +99,17 @@ func (engine *Engine) ListApplications(param v1.ListApplicationsParams) (*v1.Han
 	meta := v1.HandlerListApplicationsMeta{
 		ObjectTotal: appsLen,
 	}
-	if param.PageNum != nil {
-		meta.PageNum = *param.PageNum
+	if v, ok := param.PageNum.Get(); ok {
+		meta.PageNum = v
 	}
-	if param.PageSize != nil {
-		meta.PageSize = *param.PageSize
+	if v, ok := param.PageSize.Get(); ok {
+		meta.PageSize = v
 	}
-	if param.SortField != nil {
-		meta.SortField = *param.SortField
+	if v, ok := param.SortField.Get(); ok {
+		meta.SortField = v
 	}
-	if param.SortOrder != nil {
-		so := (*v1.HandlerListApplicationsMetaSortOrder)(param.SortOrder)
-		meta.SortOrder = *so
+	if v, ok := param.SortOrder.Get(); ok {
+		meta.SortOrder = v1.HandlerListApplicationsMetaSortOrder(v)
 	}
 
 	return &v1.HandlerListApplications{
@@ -101,65 +118,22 @@ func (engine *Engine) ListApplications(param v1.ListApplicationsParams) (*v1.Han
 	}, nil
 }
 
-func (engine *Engine) CreateApplication(reqBody *v1.PostApplicationBody) (*v1.Application, error) {
+func (engine *Engine) CreateApplication(reqBody *v1.PostApplicationBody) (*v1.HandlerPostApplication, error) {
 	defer engine.lock()()
 
-	appId, err := engine.newId()
+	appID, err := engine.newId()
 	if err != nil {
 		return nil, newError(
 			ErrorTypeUnknown, "application", nil,
 			"Application IDの生成に失敗しました。")
 	}
 
-	var components []v1.HandlerApplicationComponent
-	for _, reqComponent := range reqBody.Components {
-		var cr v1.HandlerApplicationComponentDeploySourceContainerRegistry
-		if reqComponent.DeploySource.ContainerRegistry != nil {
-			cr.Image = reqComponent.DeploySource.ContainerRegistry.Image
-			cr.Server = reqComponent.DeploySource.ContainerRegistry.Server
-			cr.Username = reqComponent.DeploySource.ContainerRegistry.Username
-		}
-
-		var env []v1.HandlerApplicationComponentEnv
-		if reqComponent.Env != nil {
-			for _, e := range *reqComponent.Env {
-				env = append(env, v1.HandlerApplicationComponentEnv(e))
-			}
-		}
-
-		var probe v1.HandlerApplicationComponentProbe
-		if reqComponent.Probe != nil && reqComponent.Probe.HttpGet != nil {
-			headers := []v1.HandlerApplicationComponentProbeHttpGetHeader{}
-			if reqComponent.Probe.HttpGet.Headers != nil {
-				for _, header := range *reqComponent.Probe.HttpGet.Headers {
-					headers = append(headers, v1.HandlerApplicationComponentProbeHttpGetHeader(header))
-				}
-			}
-
-			probe = v1.HandlerApplicationComponentProbe{
-				HttpGet: &v1.HandlerApplicationComponentProbeHttpGet{
-					Path:    reqComponent.Probe.HttpGet.Path,
-					Port:    reqComponent.Probe.HttpGet.Port,
-					Headers: &headers,
-				},
-			}
-		}
-
-		var component v1.HandlerApplicationComponent
-		component.Name = reqComponent.Name
-		component.MaxCpu = string(reqComponent.MaxCpu)
-		component.MaxMemory = string(reqComponent.MaxMemory)
-		component.DeploySource.ContainerRegistry = &cr
-		component.Env = &env
-		component.Probe = &probe
-		components = append(components, component)
-	}
-
-	status := v1.ApplicationStatusHealthy
-	url := fmt.Sprintf("https://example.com/apprun/dummy/%s", appId)
+	components := convertPostComponents(reqBody.Components)
+	status := v1.HandlerGetApplicationStatusHealthy
+	url := fmt.Sprintf("https://example.com/apprun/dummy/%s", appID)
 	createdAt := time.Now().UTC().Truncate(time.Second)
-	app := &v1.Application{
-		Id:                     appId,
+	app := &v1.HandlerGetApplication{
+		ID:                     appID,
 		Name:                   reqBody.Name,
 		TimeoutSeconds:         reqBody.TimeoutSeconds,
 		Port:                   reqBody.Port,
@@ -168,14 +142,13 @@ func (engine *Engine) CreateApplication(reqBody *v1.PostApplicationBody) (*v1.Ap
 		ScaleTargetConcurrency: reqBody.ScaleTargetConcurrency,
 		Components:             components,
 		Status:                 status,
-		PublicUrl:              url,
-		ResourceId:             engine.newResourceId(),
+		PublicURL:              url,
+		ResourceID:             engine.newResourceId(),
 		CreatedAt:              createdAt,
 	}
 	engine.Applications = append(engine.Applications, app)
 
-	err = engine.createVersion(app)
-	if err != nil {
+	if err := engine.createVersion(app); err != nil {
 		return nil, newError(
 			ErrorTypeUnknown, "application", nil,
 			"Version の生成に失敗しました。")
@@ -183,10 +156,10 @@ func (engine *Engine) CreateApplication(reqBody *v1.PostApplicationBody) (*v1.Ap
 
 	engine.initTraffic(app)
 
-	return app, nil
+	return toHandlerPostApplication(app), nil
 }
 
-func (engine *Engine) ReadApplication(id string) (*v1.Application, error) {
+func (engine *Engine) ReadApplication(id string) (*v1.HandlerGetApplication, error) {
 	defer engine.rLock()()
 
 	if len(engine.Applications) == 0 {
@@ -196,7 +169,7 @@ func (engine *Engine) ReadApplication(id string) (*v1.Application, error) {
 	}
 
 	app := engine.latestApplication(id)
-	if app != nil && app.Id == id {
+	if app != nil && app.ID == id {
 		return app, nil
 	}
 
@@ -209,64 +182,23 @@ func (engine *Engine) UpdateApplication(id string, reqBody *v1.PatchApplicationB
 	defer engine.lock()()
 
 	patchedApp := *(engine.latestApplication(id))
-	if reqBody.TimeoutSeconds != nil {
-		patchedApp.TimeoutSeconds = *reqBody.TimeoutSeconds
+	if v, ok := reqBody.TimeoutSeconds.Get(); ok {
+		patchedApp.TimeoutSeconds = v
 	}
-	if reqBody.Port != nil {
-		patchedApp.Port = *reqBody.Port
+	if v, ok := reqBody.Port.Get(); ok {
+		patchedApp.Port = v
 	}
-	if reqBody.MinScale != nil {
-		patchedApp.MinScale = *reqBody.MinScale
+	if v, ok := reqBody.MinScale.Get(); ok {
+		patchedApp.MinScale = v
 	}
-	if reqBody.MaxScale != nil {
-		patchedApp.MaxScale = *reqBody.MaxScale
+	if v, ok := reqBody.MaxScale.Get(); ok {
+		patchedApp.MaxScale = v
 	}
-	if reqBody.Components != nil && len(*reqBody.Components) > 0 {
-		var components []v1.HandlerApplicationComponent
-		for _, reqComponent := range *reqBody.Components {
-			var cr v1.HandlerApplicationComponentDeploySourceContainerRegistry
-			if reqComponent.DeploySource.ContainerRegistry != nil {
-				cr.Image = reqComponent.DeploySource.ContainerRegistry.Image
-				cr.Server = reqComponent.DeploySource.ContainerRegistry.Server
-				cr.Username = reqComponent.DeploySource.ContainerRegistry.Username
-			}
-
-			var env []v1.HandlerApplicationComponentEnv
-			if reqComponent.Env != nil {
-				for _, e := range *reqComponent.Env {
-					env = append(env, v1.HandlerApplicationComponentEnv(e))
-				}
-			}
-
-			var probe v1.HandlerApplicationComponentProbe
-			if reqComponent.Probe != nil && reqComponent.Probe.HttpGet != nil {
-				headers := []v1.HandlerApplicationComponentProbeHttpGetHeader{}
-				if reqComponent.Probe.HttpGet.Headers != nil {
-					for _, header := range *reqComponent.Probe.HttpGet.Headers {
-						headers = append(headers, v1.HandlerApplicationComponentProbeHttpGetHeader(header))
-					}
-				}
-
-				probe = v1.HandlerApplicationComponentProbe{
-					HttpGet: &v1.HandlerApplicationComponentProbeHttpGet{
-						Path:    reqComponent.Probe.HttpGet.Path,
-						Port:    reqComponent.Probe.HttpGet.Port,
-						Headers: &headers,
-					},
-				}
-			}
-
-			var component v1.HandlerApplicationComponent
-			component.Name = reqComponent.Name
-			component.MaxCpu = string(reqComponent.MaxCpu)
-			component.MaxMemory = string(reqComponent.MaxMemory)
-			component.DeploySource.ContainerRegistry = &cr
-			component.Env = &env
-			component.Probe = &probe
-			components = append(components, component)
-		}
-
-		patchedApp.Components = components
+	if v, ok := reqBody.ScaleTargetConcurrency.Get(); ok {
+		patchedApp.ScaleTargetConcurrency = v1.NewOptInt(v)
+	}
+	if len(reqBody.Components) > 0 {
+		patchedApp.Components = convertPatchComponents(reqBody.Components)
 	}
 
 	now := time.Now().UTC().Truncate(time.Second)
@@ -279,24 +211,11 @@ func (engine *Engine) UpdateApplication(id string, reqBody *v1.PatchApplicationB
 			"Version の生成に失敗しました。")
 	}
 
-	if reqBody.AllTrafficAvailable != nil && *reqBody.AllTrafficAvailable {
+	if v, ok := reqBody.AllTrafficAvailable.Get(); ok && v {
 		engine.initTraffic(&patchedApp)
 	}
 
-	return &v1.HandlerPatchApplication{
-		Id:                     patchedApp.Id,
-		Name:                   patchedApp.Name,
-		TimeoutSeconds:         patchedApp.TimeoutSeconds,
-		Port:                   patchedApp.Port,
-		MinScale:               patchedApp.MinScale,
-		MaxScale:               patchedApp.MaxScale,
-		ScaleTargetConcurrency: patchedApp.ScaleTargetConcurrency,
-		Components:             patchedApp.Components,
-		Status:                 (v1.HandlerPatchApplicationStatus)(patchedApp.Status),
-		PublicUrl:              patchedApp.PublicUrl,
-		ResourceId:             patchedApp.ResourceId,
-		UpdatedAt:              now,
-	}, nil
+	return toHandlerPatchApplication(&patchedApp, now), nil
 }
 
 func (engine *Engine) DeleteApplication(id string) error {
@@ -307,8 +226,8 @@ func (engine *Engine) DeleteApplication(id string) error {
 	return nil
 }
 
-func (engine *Engine) latestApplication(id string) *v1.Application {
-	var app *v1.Application
+func (engine *Engine) latestApplication(id string) *v1.HandlerGetApplication {
+	var app *v1.HandlerGetApplication
 	if rs, ok := engine.appVersionRelations[id]; ok {
 		// 最新のVersionのApplicationを取得
 		for i, r := range rs {
@@ -319,6 +238,82 @@ func (engine *Engine) latestApplication(id string) *v1.Application {
 	}
 
 	return app
+}
+
+func convertPostComponents(components []v1.PostApplicationBodyComponentsItem) []v1.HandlerGetApplicationComponentsItem {
+	if len(components) == 0 {
+		return nil
+	}
+	payload, err := json.Marshal(components)
+	if err != nil {
+		return nil
+	}
+	var out []v1.HandlerGetApplicationComponentsItem
+	if err := json.Unmarshal(payload, &out); err != nil {
+		return nil
+	}
+	return out
+}
+
+func convertPatchComponents(components []v1.PatchApplicationBodyComponentsItem) []v1.HandlerGetApplicationComponentsItem {
+	if len(components) == 0 {
+		return nil
+	}
+	payload, err := json.Marshal(components)
+	if err != nil {
+		return nil
+	}
+	var out []v1.HandlerGetApplicationComponentsItem
+	if err := json.Unmarshal(payload, &out); err != nil {
+		return nil
+	}
+	return out
+}
+
+func toHandlerPostApplication(app *v1.HandlerGetApplication) *v1.HandlerPostApplication {
+	if app == nil {
+		return nil
+	}
+	payload, err := json.Marshal(app)
+	if err != nil {
+		return nil
+	}
+	var out v1.HandlerPostApplication
+	if err := json.Unmarshal(payload, &out); err != nil {
+		return nil
+	}
+	out.Status = v1.HandlerPostApplicationStatus(app.Status)
+	return &out
+}
+
+func toHandlerPatchApplication(app *v1.HandlerGetApplication, updatedAt time.Time) *v1.HandlerPatchApplication {
+	if app == nil {
+		return nil
+	}
+	payload, err := json.Marshal(app)
+	if err != nil {
+		return nil
+	}
+
+	// HandlerPatchApplicationはupdated_atをrequiredフィールドとして持つため、payloadからcreated_atを削除し、updated_atを追加する
+	tempJson := make(map[string]interface{})
+	if err := json.Unmarshal(payload, &tempJson); err != nil {
+		return nil
+	}
+	delete(tempJson, "created_at")
+	tempJson["updated_at"] = updatedAt.Format(time.RFC3339)
+	payload, err = json.Marshal(tempJson)
+	if err != nil {
+		return nil
+	}
+
+	var out v1.HandlerPatchApplication
+	if err := json.Unmarshal(payload, &out); err != nil {
+		fmt.Printf("patched error: %s\n", err)
+		return nil
+	}
+	out.Status = v1.HandlerPatchApplicationStatus(app.Status)
+	return &out
 }
 
 func (engine *Engine) newId() (string, error) {

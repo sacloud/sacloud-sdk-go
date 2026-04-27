@@ -20,10 +20,14 @@ import (
 	"github.com/sacloud/iaas-api-go"
 )
 
+// Deprecated: Read is deprecated. Use AuthOp.GetAuth in iam-api-go instead.
+// See: https://pkg.go.dev/github.com/sacloud/iam-api-go/apis/auth#AuthAPI
 func (s *Service) Read() (*iaas.AuthStatus, error) {
 	return s.ReadWithContext(context.Background())
 }
 
+// Deprecated: ReadWithContext is deprecated. Use AuthOp.GetAuth in iam-api-go instead.
+// See: https://pkg.go.dev/github.com/sacloud/iam-api-go/apis/auth#AuthAPI
 func (s *Service) ReadWithContext(ctx context.Context) (*iaas.AuthStatus, error) {
 	client := iaas.NewAuthStatusOp(s.caller)
 	return client.Read(ctx)

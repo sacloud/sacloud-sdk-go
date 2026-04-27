@@ -16,8 +16,12 @@ package coupon
 
 import (
 	"context"
+	"errors"
 
 	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/iam-api-go"
+	"github.com/sacloud/iam-api-go/apis/auth"
 )
 
 func (s *Service) List() ([]*iaas.Coupon, error) {
@@ -25,16 +29,26 @@ func (s *Service) List() ([]*iaas.Coupon, error) {
 }
 
 func (s *Service) ListWithContext(ctx context.Context) ([]*iaas.Coupon, error) {
-	authOp := iaas.NewAuthStatusOp(s.caller)
-	couponOp := iaas.NewCouponOp(s.caller)
+	iamClient, err := iam.NewClient(s.saclient)
+	if err != nil {
+		return nil, err
+	}
 
-	account, err := authOp.Read(ctx)
+	// check auth status
+	authOp := auth.NewAuthOp(iamClient)
+	authContext, err := authOp.ReadAuthContext(ctx)
 	if err != nil {
 		return nil, err
 	}
-	searched, err := couponOp.Find(ctx, account.AccountID)
+	if authContext.LimitedToProjectID.IsNull() {
+		return nil, errors.New("LimitedToProjectID is nil")
+	}
+	projectId := types.ID(authContext.LimitedToProjectID.Value)
+
+	couponOp := iaas.NewCouponOp(s.caller)
+	found, err := couponOp.Find(ctx, projectId)
 	if err != nil {
 		return nil, err
 	}
-	return searched.Coupons, nil
+	return found.Coupons, nil
 }

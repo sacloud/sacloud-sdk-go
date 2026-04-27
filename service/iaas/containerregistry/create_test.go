@@ -35,7 +35,7 @@ func TestContainerRegistryService_convertCreateRequest(t *testing.T) {
 				Description:    "desc",
 				Tags:           types.Tags{"tag1", "tag2"},
 				IconID:         1,
-				AccessLevel:    types.ContainerRegistryAccessLevels.ReadWrite,
+				AccessLevel:    types.ContainerRegistryAccessLevels.ReadOnly,
 				VirtualDomain:  "container-registry.test.libsacloud.com",
 				SubDomainLabel: name,
 				Users: []*builder.User{
@@ -52,7 +52,7 @@ func TestContainerRegistryService_convertCreateRequest(t *testing.T) {
 				Description:    "desc",
 				Tags:           types.Tags{"tag1", "tag2"},
 				IconID:         1,
-				AccessLevel:    types.ContainerRegistryAccessLevels.ReadWrite,
+				AccessLevel:    types.ContainerRegistryAccessLevels.ReadOnly,
 				VirtualDomain:  "container-registry.test.libsacloud.com",
 				SubDomainLabel: name,
 				Users: []*builder.User{

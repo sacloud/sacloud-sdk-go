@@ -36,7 +36,7 @@ func TestContainerRegistryService_convertUpdateRequest(t *testing.T) {
 		Name:           name,
 		Description:    "desc",
 		Tags:           types.Tags{"tag1", "tag2"},
-		AccessLevel:    types.ContainerRegistryAccessLevels.ReadWrite,
+		AccessLevel:    types.ContainerRegistryAccessLevels.ReadOnly,
 		VirtualDomain:  "container-registry.test.libsacloud.com",
 		SubDomainLabel: name,
 		Users: []*builder.User{

@@ -15,14 +15,20 @@
 package iaas
 
 import (
-	"bytes"
-	"text/template"
+	"fmt"
+	"strings"
 )
 
-func buildURL(pathFormat string, param interface{}) (string, error) {
-	buf := bytes.NewBufferString("")
-	t := template.New("buildURL")
-	template.Must(t.Parse(pathFormat))
-	err := t.Execute(buf, param)
-	return buf.String(), err
+func buildURL(pathFormat string, param map[string]interface{}) (string, error) {
+	var replPairs []string
+	for k, v := range param {
+		replPairs = append(replPairs, fmt.Sprintf("{{.%s}}", k), fmt.Sprint(v))
+	}
+	replacer := strings.NewReplacer(replPairs...)
+	result := replacer.Replace(pathFormat)
+
+	if strings.Contains(result, "{{") {
+		return "", fmt.Errorf("undefined variable in URL template: %s", result)
+	}
+	return result, nil
 }

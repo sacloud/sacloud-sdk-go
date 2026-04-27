@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,14 +18,13 @@ import (
 	"encoding/json"
 	"net/http"
 
-	openapi_types "github.com/oapi-codegen/runtime/types"
 	v1 "github.com/sacloud/apprun-api-go/apis/v1"
 )
 
 // GetPacketFilter returns packet filter
 // (GET /applications/{id}/packet_filter)
-func (s *Server) GetPacketFilter(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
-	pf, err := s.Engine.ReadPacketFilter(id.String())
+func (s *Server) GetPacketFilter(w http.ResponseWriter, r *http.Request, id string) {
+	pf, err := s.Engine.ReadPacketFilter(id)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)
 		return
@@ -36,14 +35,14 @@ func (s *Server) GetPacketFilter(w http.ResponseWriter, r *http.Request, id open
 
 // PatchPacketFilter partially updates packet filter
 // (PATCH /applications/{id}/packet_filter)
-func (s *Server) PatchPacketFilter(w http.ResponseWriter, r *http.Request, id openapi_types.UUID) {
+func (s *Server) PatchPacketFilter(w http.ResponseWriter, r *http.Request, id string) {
 	paramJSON := &v1.PatchPacketFilter{}
 	if err := json.NewDecoder(r.Body).Decode(paramJSON); err != nil {
 		writeError(w, http.StatusBadRequest, err)
 		return
 	}
 
-	ut, err := s.Engine.UpdatePacketFilter(id.String(), paramJSON)
+	ut, err := s.Engine.UpdatePacketFilter(id, paramJSON)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)
 		return

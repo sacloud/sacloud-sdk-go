@@ -54,7 +54,7 @@ func (b *Builder) Build(ctx context.Context) (*iaas.NFS, error) {
 }
 
 func (b *Builder) findPlanID(ctx context.Context) (types.ID, error) {
-	return query.FindNFSPlanID(ctx, iaas.NewNoteOp(b.Caller), b.Plan, b.Size)
+	return query.FindNFSPlanID(ctx, iaas.NewNoteOp(b.Caller), b.Zone, b.Plan, b.Size)
 }
 
 func (b *Builder) create(ctx context.Context) (*iaas.NFS, error) {

@@ -64,5 +64,5 @@ func RunCommandWithCombinedOutput(t *testing.T, command string, args ...string) 
 }
 
 func runCommand(t *testing.T, command string, args ...string) *exec.Cmd {
-	return exec.Command(command, args...)
+	return exec.Command(command, args...) //nolint: gosec
 }

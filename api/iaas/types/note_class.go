@@ -16,11 +16,11 @@ package types
 
 import "strings"
 
-// NoteClassStrings スタートアップスクリプクラスを表す文字列
+// NoteClassStrings スタートアップスクリプトのクラスを表す文字列
 var NoteClassStrings = []string{
 	"shell",
 	"yaml_cloud_config",
 }
 
-// NoteClassString スタートアップスクリプクラスを表す文字列(スペース区切り)
+// NoteClassString スタートアップスクリプトのクラスを表す文字列(スペース区切り)
 var NoteClassString = strings.Join(NoteClassStrings, " ")

@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -40,16 +40,31 @@ func (engine *Engine) UpdatePacketFilter(appId string, body *v1.PatchPacketFilte
 	}
 
 	v := &v1.HandlerGetPacketFilter{}
-	if body.IsEnabled != nil {
-		v.IsEnabled = *body.IsEnabled
+	if enabled, ok := body.IsEnabled.Get(); ok {
+		v.IsEnabled = enabled
 	}
-	if body.Settings != nil {
-		v.Settings = *body.Settings
+	if len(body.Settings) > 0 {
+		settings := make([]v1.HandlerGetPacketFilterSettingsItem, 0, len(body.Settings))
+		for _, s := range body.Settings {
+			settings = append(settings, v1.HandlerGetPacketFilterSettingsItem{
+				FromIP:             s.FromIP,
+				FromIPPrefixLength: s.FromIPPrefixLength,
+			})
+		}
+		v.Settings = settings
 	}
 	engine.appPacketFilterRelations[appId] = v
 
+	patchSettings := make([]v1.HandlerPatchPacketFilterSettingsItem, 0, len(v.Settings))
+	for _, s := range v.Settings {
+		patchSettings = append(patchSettings, v1.HandlerPatchPacketFilterSettingsItem{
+			FromIP:             s.FromIP,
+			FromIPPrefixLength: s.FromIPPrefixLength,
+		})
+	}
+
 	return &v1.HandlerPatchPacketFilter{
 		IsEnabled: v.IsEnabled,
-		Settings:  v.Settings,
+		Settings:  patchSettings,
 	}, nil
 }

@@ -19,6 +19,9 @@ import (
 	"errors"
 
 	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/iam-api-go"
+	"github.com/sacloud/iam-api-go/apis/auth"
 )
 
 func (s *Service) List(req *ListRequest) ([]*iaas.Bill, error) {
@@ -31,34 +34,38 @@ func (s *Service) ListWithContext(ctx context.Context, req *ListRequest) ([]*iaa
 	}
 
 	billOp := iaas.NewBillOp(s.caller)
-	authOp := iaas.NewAuthStatusOp(s.caller)
-
-	// check auth status
-	auth, err := authOp.Read(ctx)
+	iamClient, err := iam.NewClient(s.saclient)
 	if err != nil {
 		return nil, err
 	}
-	if auth.AccountID.IsEmpty() {
-		return nil, errors.New("invalid account id")
+	authOp := auth.NewAuthOp(iamClient)
+
+	authContext, err := authOp.ReadAuthContext(ctx)
+	if err != nil {
+		return nil, err
 	}
+	if authContext.LimitedToProjectID.IsNull() {
+		return nil, errors.New("LimitedToProjectID is nil")
+	}
+	projectId := types.ID(authContext.LimitedToProjectID.Value)
 
 	// get bills
 	var bills []*iaas.Bill
 	switch {
 	case req.Month > 0:
-		res, err := billOp.ByContractYearMonth(ctx, auth.AccountID, req.Year, req.Month)
+		res, err := billOp.ByContractYearMonth(ctx, projectId, req.Year, req.Month)
 		if err != nil {
 			return nil, err
 		}
 		bills = res.Bills
 	case req.Year > 0:
-		res, err := billOp.ByContractYear(ctx, auth.AccountID, req.Year)
+		res, err := billOp.ByContractYear(ctx, projectId, req.Year)
 		if err != nil {
 			return nil, err
 		}
 		bills = res.Bills
 	default:
-		res, err := billOp.ByContract(ctx, auth.AccountID)
+		res, err := billOp.ByContract(ctx, projectId)
 		if err != nil {
 			return nil, err
 		}

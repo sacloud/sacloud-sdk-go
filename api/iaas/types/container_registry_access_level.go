@@ -24,25 +24,21 @@ func (v EContainerRegistryAccessLevel) String() string {
 
 // ContainerRegistryAccessLevels コンテナレジストリのアクセス範囲
 var ContainerRegistryAccessLevels = struct {
-	ReadWrite EContainerRegistryAccessLevel
-	ReadOnly  EContainerRegistryAccessLevel
-	None      EContainerRegistryAccessLevel
+	ReadOnly EContainerRegistryAccessLevel
+	None     EContainerRegistryAccessLevel
 }{
-	ReadWrite: "readwrite",
-	ReadOnly:  "readonly",
-	None:      "none",
+	ReadOnly: "readonly",
+	None:     "none",
 }
 
 // ContainerRegistryAccessLevelStrings アクセス範囲に指定可能な文字列
 var ContainerRegistryAccessLevelStrings = []string{
-	ContainerRegistryAccessLevels.ReadWrite.String(),
 	ContainerRegistryAccessLevels.ReadOnly.String(),
 	ContainerRegistryAccessLevels.None.String(),
 }
 
 // ContainerRegistryAccessLevelMap 文字列とEContainerRegistryVisibilityのマップ
 var ContainerRegistryAccessLevelMap = map[string]EContainerRegistryAccessLevel{
-	ContainerRegistryAccessLevels.ReadWrite.String(): ContainerRegistryAccessLevels.ReadWrite,
-	ContainerRegistryAccessLevels.ReadOnly.String():  ContainerRegistryAccessLevels.ReadOnly,
-	ContainerRegistryAccessLevels.None.String():      ContainerRegistryAccessLevels.None,
+	ContainerRegistryAccessLevels.ReadOnly.String(): ContainerRegistryAccessLevels.ReadOnly,
+	ContainerRegistryAccessLevels.None.String():     ContainerRegistryAccessLevels.None,
 }
