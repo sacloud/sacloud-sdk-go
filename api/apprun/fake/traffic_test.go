@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,7 +29,7 @@ func TestEngine_Traffic(t *testing.T) {
 		createdApp, err := engine.CreateApplication(req)
 		require.NoError(t, err)
 
-		resp, err := engine.ListTraffics(createdApp.Id)
+		resp, err := engine.ListTraffics(createdApp.ID)
 		require.NoError(t, err)
 
 		respJson, err := json.Marshal(resp)
@@ -37,11 +37,12 @@ func TestEngine_Traffic(t *testing.T) {
 
 		expectedJSON := `
 		{
-			"meta": null,
+			"meta": {},
 			"data": [
 				{
 					"is_latest_version": true,
-					"percent": 100
+					"percent": 100,
+					"version_name": ""
 				}
 			]
 		}`
@@ -57,8 +58,8 @@ func TestEngine_Traffic(t *testing.T) {
 		previousVersionName := engine.Versions[0].Name
 
 		timeoutUpdated := 20
-		_, err = engine.UpdateApplication(createdApp.Id, &v1.PatchApplicationBody{
-			TimeoutSeconds: &timeoutUpdated,
+		_, err = engine.UpdateApplication(createdApp.ID, &v1.PatchApplicationBody{
+			TimeoutSeconds: v1.NewOptInt(timeoutUpdated),
 		})
 		require.NoError(t, err)
 
@@ -66,24 +67,18 @@ func TestEngine_Traffic(t *testing.T) {
 		latestPercent := 20
 		previousVersionPercent := 100 - latestPercent
 
-		latestVersionTraffic := &v1.Traffic{}
-		if err := latestVersionTraffic.FromTrafficWithLatestVersion(v1.TrafficWithLatestVersion{
-			IsLatestVersion: isLatestVersion,
-			Percent:         latestPercent,
-		}); err != nil {
-			t.Fatal(err)
-		}
-		withVersionNameTraffic := &v1.Traffic{}
-		if err := withVersionNameTraffic.FromTrafficWithVersionName(v1.TrafficWithVersionName{
-			VersionName: previousVersionName,
-			Percent:     previousVersionPercent,
-		}); err != nil {
-			t.Fatal(err)
+		tb := v1.PutTrafficsBody{
+			v1.NewPutTrafficsBodyItem0PutTrafficsBodyItem(v1.PutTrafficsBodyItem0{
+				IsLatestVersion: isLatestVersion,
+				Percent:         latestPercent,
+			}),
+			v1.NewPutTrafficsBodyItem1PutTrafficsBodyItem(v1.PutTrafficsBodyItem1{
+				VersionName: previousVersionName,
+				Percent:     previousVersionPercent,
+			}),
 		}
 
-		tb := v1.PutTrafficsBody{*latestVersionTraffic, *withVersionNameTraffic}
-
-		resp, err := engine.UpdateTraffic(createdApp.Id, &tb)
+		resp, err := engine.UpdateTraffic(createdApp.ID, &tb)
 		require.NoError(t, err)
 
 		respJson, err := json.Marshal(resp)
@@ -91,13 +86,15 @@ func TestEngine_Traffic(t *testing.T) {
 
 		expectedJSON := `
 		{
-			"meta": null,
+			"meta": {},
 			"data": [
 				{
 					"is_latest_version": true,
-					"percent": 20
+					"percent": 20,
+					"version_name": ""
 				},
 				{
+					"is_latest_version": false,
 					"version_name": "` + previousVersionName + `",
 					"percent": 80
 				}

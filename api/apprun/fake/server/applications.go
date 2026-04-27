@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,23 +25,23 @@ var (
 	defaultPageNum   = 1
 	defaultPageSize  = 50
 	defaultSortField = "created_at"
-	defaultSortOrder = v1.ListApplicationsParamsSortOrderDesc
+	defaultSortOrder = v1.ListApplicationsSortOrderDesc
 )
 
 // ListApplications returns the list of applications.
 // (GET /applications)
 func (s *Server) ListApplications(w http.ResponseWriter, r *http.Request, params v1.ListApplicationsParams) {
-	if params.PageNum == nil {
-		params.PageNum = &defaultPageNum
+	if !params.PageNum.IsSet() {
+		params.PageNum = v1.NewOptInt(defaultPageNum)
 	}
-	if params.PageSize == nil {
-		params.PageSize = &defaultPageSize
+	if !params.PageSize.IsSet() {
+		params.PageSize = v1.NewOptInt(defaultPageSize)
 	}
-	if params.SortField == nil {
-		params.SortField = &defaultSortField
+	if !params.SortField.IsSet() {
+		params.SortField = v1.NewOptString(defaultSortField)
 	}
-	if params.SortOrder == nil {
-		params.SortOrder = &defaultSortOrder
+	if !params.SortOrder.IsSet() {
+		params.SortOrder = v1.NewOptListApplicationsSortOrder(defaultSortOrder)
 	}
 
 	applications, err := s.Engine.ListApplications(params)
@@ -72,7 +72,7 @@ func (s *Server) PostApplication(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	writeJSON(w, http.StatusCreated, &application)
+	writeJSON(w, http.StatusCreated, application)
 }
 
 // GetApplication returns application details.
@@ -84,7 +84,7 @@ func (s *Server) GetApplication(w http.ResponseWriter, r *http.Request, id strin
 		return
 	}
 
-	writeJSON(w, http.StatusOK, &application)
+	writeJSON(w, http.StatusOK, application)
 }
 
 // PatchApplication partially updates an application.
@@ -102,7 +102,7 @@ func (s *Server) PatchApplication(w http.ResponseWriter, r *http.Request, id str
 		return
 	}
 
-	writeJSON(w, http.StatusOK, &application)
+	writeJSON(w, http.StatusOK, application)
 }
 
 // DeleteApplication deletes an application.
@@ -125,16 +125,8 @@ func (s *Server) GetApplicationStatus(w http.ResponseWriter, r *http.Request, id
 		return
 	}
 
-	var status v1.HandlerGetApplicationStatusStatus
+	status := v1.HandlerGetApplicationOnlyStatusStatus(application.Status)
 	message := ""
-	switch application.Status {
-	case v1.ApplicationStatusHealthy:
-		status = v1.HandlerGetApplicationStatusStatusHealthy
-	case v1.ApplicationStatusDeploying:
-		status = v1.HandlerGetApplicationStatusStatusDeploying
-	case v1.ApplicationStatusUnHealthy:
-		status = v1.HandlerGetApplicationStatusStatusUnHealthy
-	}
 	writeJSON(w, http.StatusOK, v1.HandlerGetApplicationOnlyStatus{
 		Status:  status,
 		Message: message,

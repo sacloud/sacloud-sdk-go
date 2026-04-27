@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import (
 	"time"
 
 	v1 "github.com/sacloud/apprun-api-go/apis/v1"
-	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )
 
@@ -36,12 +35,12 @@ func TestEngine_Application(t *testing.T) {
 		pageNum := 1
 		pageSize := 2
 		sortField := "created_at"
-		sortOrder := v1.ListApplicationsParamsSortOrderDesc
+		sortOrder := v1.ListApplicationsSortOrderDesc
 		resp, err := engine.ListApplications(v1.ListApplicationsParams{
-			PageNum:   &pageNum,
-			PageSize:  &pageSize,
-			SortField: &sortField,
-			SortOrder: &sortOrder,
+			PageNum:   v1.NewOptInt(pageNum),
+			PageSize:  v1.NewOptInt(pageSize),
+			SortField: v1.NewOptString(sortField),
+			SortOrder: v1.NewOptListApplicationsSortOrder(sortOrder),
 		})
 		require.NoError(t, err)
 
@@ -63,17 +62,17 @@ func TestEngine_Application(t *testing.T) {
 			},
 			"data": [
 				{
-					"id": "` + d0.Id + `",
+					"id": "` + d0.ID + `",
 					"name": "` + d0.Name + `",
 					"status": "` + string(d0.Status) + `",
-					"public_url": "` + d0.PublicUrl + `",
+					"public_url": "` + d0.PublicURL + `",
 					"created_at": "` + d0.CreatedAt.Format(time.RFC3339) + `"
 				},
 				{
-					"id": "` + d1.Id + `",
+					"id": "` + d1.ID + `",
 					"name": "` + d1.Name + `",
 					"status": "` + string(d1.Status) + `",
-					"public_url": "` + d1.PublicUrl + `",
+					"public_url": "` + d1.PublicURL + `",
 					"created_at": "` + d1.CreatedAt.Format(time.RFC3339) + `"
 				}
 			]
@@ -92,7 +91,7 @@ func TestEngine_Application(t *testing.T) {
 
 		expectedJSON := `
 		{
-			"id": "` + resp.Id + `",
+			"id": "` + resp.ID + `",
 			"name": "app1",
 			"timeout_seconds": 20,
 			"port": 8081,
@@ -102,8 +101,8 @@ func TestEngine_Application(t *testing.T) {
 			"components": [
 				{
 					"name": "component1",
-					"max_cpu": "0.2",
-					"max_memory": "512Mi",
+					"max_cpu": "0.5",
+					"max_memory": "1Gi",
 					"deploy_source": {
 						"container_registry": {
 							"image": "apprun-example.sakuracr.jp/helloworld:latest",
@@ -132,8 +131,8 @@ func TestEngine_Application(t *testing.T) {
 				}
 			],
 			"status": "Healthy",
-			"public_url": "` + resp.PublicUrl + `",
-			"resource_id": "` + resp.ResourceId + `",
+			"public_url": "` + resp.PublicURL + `",
+			"resource_id": "` + resp.ResourceID + `",
 			"created_at": "` + resp.CreatedAt.Format(time.RFC3339) + `"
 		}`
 		require.JSONEq(t, expectedJSON, string(respJson))
@@ -145,7 +144,7 @@ func TestEngine_Application(t *testing.T) {
 		createResp, err := engine.CreateApplication(req)
 		require.NoError(t, err)
 
-		readResp, err := engine.ReadApplication(createResp.Id)
+		readResp, err := engine.ReadApplication(createResp.ID)
 		require.NoError(t, err)
 
 		respJson, err := json.Marshal(readResp)
@@ -153,7 +152,7 @@ func TestEngine_Application(t *testing.T) {
 
 		expectedJSON := `
 		{
-			"id": "` + readResp.Id + `",
+			"id": "` + readResp.ID + `",
 			"name": "app1",
 			"timeout_seconds": 20,
 			"port": 8081,
@@ -163,8 +162,8 @@ func TestEngine_Application(t *testing.T) {
 			"components": [
 				{
 					"name": "component1",
-					"max_cpu": "0.2",
-					"max_memory": "512Mi",
+					"max_cpu": "0.5",
+					"max_memory": "1Gi",
 					"deploy_source": {
 						"container_registry": {
 							"image": "apprun-example.sakuracr.jp/helloworld:latest",
@@ -193,8 +192,8 @@ func TestEngine_Application(t *testing.T) {
 				}
 			],
 			"status": "Healthy",
-			"public_url": "` + readResp.PublicUrl + `",
-			"resource_id": "` + readResp.ResourceId + `",
+			"public_url": "` + readResp.PublicURL + `",
+			"resource_id": "` + readResp.ResourceID + `",
 			"created_at": "` + readResp.CreatedAt.Format(time.RFC3339) + `"
 		}`
 		require.JSONEq(t, expectedJSON, string(respJson))
@@ -207,8 +206,8 @@ func TestEngine_Application(t *testing.T) {
 		require.NoError(t, err)
 
 		timeoutUpdated := 20
-		patchedApp, err := engine.UpdateApplication(createdApp.Id, &v1.PatchApplicationBody{
-			TimeoutSeconds: &timeoutUpdated,
+		patchedApp, err := engine.UpdateApplication(createdApp.ID, &v1.PatchApplicationBody{
+			TimeoutSeconds: v1.NewOptInt(timeoutUpdated),
 		})
 		require.NoError(t, err)
 		require.Equal(t, timeoutUpdated, patchedApp.TimeoutSeconds)
@@ -224,7 +223,7 @@ func TestEngine_Application(t *testing.T) {
 			require.NoError(t, err)
 		}
 
-		id := engine.Applications[0].Id
+		id := engine.Applications[0].ID
 		err := engine.DeleteApplication(id)
 		require.NoError(t, err)
 
@@ -236,44 +235,50 @@ func postApplicationBody() *v1.PostApplicationBody {
 	server, userName, password := "apprun-example.sakuracr.jp", "apprun", "apprun" //nolint:gosec
 	envKey, envValue := "envkey", "envvalue"
 	headerName, headerValue := "Custom-Header", "Awesome"
-	probe := v1.PostApplicationBodyComponentProbe{
-		HttpGet: &v1.PostApplicationBodyComponentProbeHttpGet{
-			Path: "/healthz",
-			Port: 8080,
-			Headers: &[]v1.PostApplicationBodyComponentProbeHttpGetHeader{
-				{
-					Name:  &headerName,
-					Value: &headerValue,
+	probe := v1.PostApplicationBodyComponentsItemProbe{
+		HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
+			v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Path: "/healthz",
+				Port: 8080,
+				Headers: []v1.PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem{
+					{
+						Name:  v1.NewOptString(headerName),
+						Value: v1.NewOptString(headerValue),
+					},
 				},
 			},
-		},
+		),
 	}
 	req := &v1.PostApplicationBody{
 		Name:                   "app1",
 		Port:                   8081,
 		MinScale:               1,
 		MaxScale:               10,
-		ScaleTargetConcurrency: saclient.Ptr(100),
-		Components: []v1.PostApplicationBodyComponent{
+		ScaleTargetConcurrency: v1.NewOptInt(100),
+		Components: []v1.PostApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCpu:    "0.2",
-				MaxMemory: "512Mi",
-				DeploySource: v1.PostApplicationBodyComponentDeploySource{
-					ContainerRegistry: &v1.PostApplicationBodyComponentDeploySourceContainerRegistry{
-						Image:    "apprun-example.sakuracr.jp/helloworld:latest",
-						Server:   &server,
-						Username: &userName,
-						Password: &password,
-					},
+				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image:    "apprun-example.sakuracr.jp/helloworld:latest",
+							Server:   v1.NewOptNilString(server),
+							Username: v1.NewOptNilString(userName),
+							Password: v1.NewOptNilString(password),
+						},
+					),
 				},
-				Env: &[]v1.PostApplicationBodyComponentEnv{
-					{
-						Key:   &envKey,
-						Value: &envValue,
+				Env: v1.NewOptNilPostApplicationBodyComponentsItemEnvItemArray(
+					[]v1.PostApplicationBodyComponentsItemEnvItem{
+						{
+							Key:   v1.NewOptString(envKey),
+							Value: v1.NewOptString(envValue),
+						},
 					},
-				},
-				Probe: &probe,
+				),
+				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(probe),
 			},
 		},
 		TimeoutSeconds: 20,

@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -30,19 +30,19 @@ func TestEngine_PacketFilter(t *testing.T) {
 		require.NoError(t, err)
 
 		// 初期状態ではパケットフィルタは存在しない
-		_, err = engine.ReadPacketFilter(createdApp.Id)
+		_, err = engine.ReadPacketFilter(createdApp.ID)
 		require.Error(t, err)
 
 		enabled := true
-		settings := []v1.PacketFilterSetting{
+		settings := []v1.PatchPacketFilterSettingsItem{
 			{
-				FromIp:             "192.0.2.0",
-				FromIpPrefixLength: 24,
+				FromIP:             "192.0.2.0",
+				FromIPPrefixLength: 24,
 			},
 		}
-		updated, err := engine.UpdatePacketFilter(createdApp.Id, &v1.PatchPacketFilter{
-			IsEnabled: &enabled,
-			Settings:  &settings,
+		updated, err := engine.UpdatePacketFilter(createdApp.ID, &v1.PatchPacketFilter{
+			IsEnabled: v1.NewOptBool(enabled),
+			Settings:  settings,
 		})
 
 		require.NoError(t, err)
@@ -62,7 +62,7 @@ func TestEngine_PacketFilter(t *testing.T) {
 		}`
 		require.JSONEq(t, expectedJSON, string(respJson))
 
-		got, err := engine.ReadPacketFilter(createdApp.Id)
+		got, err := engine.ReadPacketFilter(createdApp.ID)
 		require.NoError(t, err)
 
 		respJson, err = json.Marshal(got)

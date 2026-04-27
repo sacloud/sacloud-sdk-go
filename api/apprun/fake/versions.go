@@ -1,4 +1,4 @@
-// Copyright 2021-2024 The sacloud/apprun-api-go authors
+// Copyright 2021-2026 The sacloud/apprun-api-go authors
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 package fake
 
 import (
+	"encoding/json"
 	"fmt"
 	"sort"
 	"time"
@@ -25,7 +26,7 @@ import (
 func (engine *Engine) ListVersions(appId string, param v1.ListApplicationVersionsParams) (*v1.HandlerListVersions, error) {
 	defer engine.rLock()()
 
-	var versions []*v1.Version
+	var versions []*v1.HandlerGetVersion
 	for _, r := range engine.appVersionRelations[appId] {
 		versions = append(versions, r.version)
 	}
@@ -37,10 +38,27 @@ func (engine *Engine) ListVersions(appId string, param v1.ListApplicationVersion
 			"アプリケーションが見つかりませんでした。")
 	}
 
+	sortField := "created_at"
+	if v, ok := param.SortField.Get(); ok {
+		sortField = v
+	}
+	sortOrder := v1.ListApplicationVersionsSortOrderAsc
+	if v, ok := param.SortOrder.Get(); ok {
+		sortOrder = v
+	}
+	pageNum := 1
+	if v, ok := param.PageNum.Get(); ok {
+		pageNum = v
+	}
+	pageSize := len(versions)
+	if v, ok := param.PageSize.Get(); ok {
+		pageSize = v
+	}
+
 	sort.Slice(versions, func(i int, j int) bool {
-		switch *param.SortField {
+		switch sortField {
 		case "created_at":
-			if *param.SortOrder == "desc" {
+			if sortOrder == v1.ListApplicationVersionsSortOrderDesc {
 				return versions[i].CreatedAt.After(versions[j].CreatedAt)
 			}
 			return versions[i].CreatedAt.Before(versions[j].CreatedAt)
@@ -50,37 +68,41 @@ func (engine *Engine) ListVersions(appId string, param v1.ListApplicationVersion
 		}
 	})
 
-	start := (*param.PageNum - 1) * *param.PageSize
+	start := (pageNum - 1) * pageSize
 	// 範囲外の場合nilを返す
 	if start > versionsLen {
 		return nil, nil
 	}
 
-	end := start + *param.PageSize
+	end := start + pageSize
 	if end > versionsLen {
 		end = versionsLen
 	}
 
-	var data []v1.Version
+	var data []v1.HandlerListVersionsDataItem
 	for _, v := range versions[start:end] {
-		data = append(data, *v)
+		data = append(data, v1.HandlerListVersionsDataItem{
+			ID:        v.ID,
+			Name:      v.Name,
+			Status:    v1.HandlerListVersionsDataItemStatus(v.Status),
+			CreatedAt: v.CreatedAt,
+		})
 	}
 
 	meta := v1.HandlerListVersionsMeta{
 		ObjectTotal: versionsLen,
 	}
-	if param.PageNum != nil {
-		meta.PageNum = *param.PageNum
+	if v, ok := param.PageNum.Get(); ok {
+		meta.PageNum = v
 	}
-	if param.PageSize != nil {
-		meta.PageSize = *param.PageSize
+	if v, ok := param.PageSize.Get(); ok {
+		meta.PageSize = v
 	}
-	if param.SortField != nil {
-		meta.SortField = *param.SortField
+	if v, ok := param.SortField.Get(); ok {
+		meta.SortField = v
 	}
-	if param.SortOrder != nil {
-		so := (*v1.HandlerListVersionsMetaSortOrder)(param.SortOrder)
-		meta.SortOrder = *so
+	if v, ok := param.SortOrder.Get(); ok {
+		meta.SortOrder = v1.HandlerListVersionsMetaSortOrder(v)
 	}
 
 	return &v1.HandlerListVersions{
@@ -98,22 +120,21 @@ func (engine *Engine) ReadVersion(appId string, versionId string) (*v1.HandlerGe
 			"アプリケーションが見つかりませんでした。")
 	}
 
-	var v v1.HandlerGetVersion
+	var v *v1.HandlerGetVersion
 	for _, r := range engine.appVersionRelations[appId] {
-		if r.version.Id == versionId {
-			v.Id = r.version.Id
-			v.Name = r.version.Name
-			v.Status = (v1.HandlerGetVersionStatus)(r.version.Status)
-			v.TimeoutSeconds = r.application.TimeoutSeconds
-			v.Port = r.application.Port
-			v.MinScale = r.application.MinScale
-			v.MaxScale = r.application.MaxScale
-			v.Components = r.application.Components
-			v.CreatedAt = r.application.CreatedAt
+		if r.version.ID == versionId {
+			v = r.version
+			break
 		}
 	}
 
-	return &v, nil
+	if v == nil {
+		return nil, newError(
+			ErrorTypeNotFound, "version", nil,
+			"アプリケーションが見つかりませんでした。")
+	}
+
+	return v, nil
 }
 
 func (engine *Engine) ReadVersionStatus(appId string, versionId string) (*v1.HandlerGetApplicationVersionOnlyStatus, error) {
@@ -126,9 +147,9 @@ func (engine *Engine) ReadVersionStatus(appId string, versionId string) (*v1.Han
 	}
 
 	for _, r := range engine.appVersionRelations[appId] {
-		if r.version.Id == versionId {
+		if r.version.ID == versionId {
 			return &v1.HandlerGetApplicationVersionOnlyStatus{
-				Status:  v1.HandlerGetVersionStatusStatus(r.version.Status),
+				Status:  v1.HandlerGetApplicationVersionOnlyStatusStatus(r.version.Status),
 				Message: "",
 			}, nil
 		}
@@ -151,7 +172,7 @@ func (engine *Engine) DeleteVersion(appId string, versionId string) error {
 	var idx int
 	rs := engine.appVersionRelations[appId]
 	for i, r := range rs {
-		if r.version.Id == versionId {
+		if r.version.ID == versionId {
 			idx = i
 			break
 		}
@@ -164,29 +185,51 @@ func (engine *Engine) DeleteVersion(appId string, versionId string) error {
 	return nil
 }
 
-func (engine *Engine) createVersion(app *v1.Application) error {
+func (engine *Engine) createVersion(app *v1.HandlerGetApplication) error {
 	versionId, err := engine.newId()
 	if err != nil {
 		return err
 	}
 	name := fmt.Sprintf("version-%03d", engine.nextVersionId())
 	createdAt := time.Now().UTC().Truncate(time.Second)
+	components := convertVersionComponents(app.Components)
 
-	v := v1.Version{
-		Id:        versionId,
-		Name:      name,
-		Status:    (v1.VersionStatus)(app.Status),
-		CreatedAt: createdAt,
+	v := &v1.HandlerGetVersion{
+		ID:                     versionId,
+		Name:                   name,
+		Status:                 v1.HandlerGetVersionStatus(app.Status),
+		TimeoutSeconds:         app.TimeoutSeconds,
+		Port:                   app.Port,
+		MinScale:               app.MinScale,
+		MaxScale:               app.MaxScale,
+		ScaleTargetConcurrency: app.ScaleTargetConcurrency,
+		Components:             components,
+		CreatedAt:              createdAt,
 	}
-	engine.Versions = append(engine.Versions, &v)
+	engine.Versions = append(engine.Versions, v)
 
 	// 内部的にVersionとApplicationのリレーションを保持する
-	engine.appVersionRelations[app.Id] = append(engine.appVersionRelations[app.Id],
+	engine.appVersionRelations[app.ID] = append(engine.appVersionRelations[app.ID],
 		&appVersionRelation{
 			application: app,
-			version:     &v,
+			version:     v,
 		},
 	)
 
 	return nil
+}
+
+func convertVersionComponents(components []v1.HandlerGetApplicationComponentsItem) []v1.HandlerGetVersionComponentsItem {
+	if len(components) == 0 {
+		return nil
+	}
+	payload, err := json.Marshal(components)
+	if err != nil {
+		return nil
+	}
+	var out []v1.HandlerGetVersionComponentsItem
+	if err := json.Unmarshal(payload, &out); err != nil {
+		return nil
+	}
+	return out
 }

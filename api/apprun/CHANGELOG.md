@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.8.0](https://github.com/sacloud/apprun-api-go/compare/v0.7.1...v0.8.0) - 2026-04-21
+- github: update settings by @repeatedly in https://github.com/sacloud/apprun-api-go/pull/87
+- Use ogen by @repeatedly in https://github.com/sacloud/apprun-api-go/pull/92
+- ci: bump Songmu/tagpr from 1.17.1 to 1.18.2 by @dependabot[bot] in https://github.com/sacloud/apprun-api-go/pull/91
+
 ## [v0.7.1](https://github.com/sacloud/apprun-api-go/compare/v0.7.0...v0.7.1) - 2026-04-03
 - go: bump github.com/sacloud/saclient-go from 0.3.2 to 0.3.4 by @dependabot[bot] in https://github.com/sacloud/apprun-api-go/pull/82
 - Use OpenAPI spec v1.3.0 by @repeatedly in https://github.com/sacloud/apprun-api-go/pull/85
