@@ -46,7 +46,7 @@ func (req *UpdateRequest) ApplyRequest(ctx context.Context, caller iaas.APICalle
 	}
 
 	// find plan
-	plan, err := query.GetNFSPlanInfo(ctx, iaas.NewNoteOp(caller), current.PlanID)
+	plan, err := query.GetNFSPlanInfo(ctx, iaas.NewNoteOp(caller), req.Zone, current.PlanID)
 	if err != nil {
 		return nil, err
 	}

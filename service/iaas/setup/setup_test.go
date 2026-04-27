@@ -50,7 +50,7 @@ func TestRetryableSetup(t *testing.T) {
 				nfsOp := iaas.NewNFSOp(caller)
 				nfsSetup := &RetryableSetup{
 					Create: func(ctx context.Context, zone string) (accessor.ID, error) {
-						nfsPlanID, err := query.FindNFSPlanID(ctx, iaas.NewNoteOp(caller), types.NFSPlans.HDD, types.NFSHDDSizes.Size100GB)
+						nfsPlanID, err := query.FindNFSPlanID(ctx, iaas.NewNoteOp(caller), testZone, types.NFSPlans.HDD, types.NFSHDDSizes.Size100GB)
 						if err != nil {
 							return nil, err
 						}

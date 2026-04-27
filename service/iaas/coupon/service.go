@@ -14,14 +14,18 @@
 
 package coupon
 
-import "github.com/sacloud/iaas-api-go"
+import (
+	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/saclient-go"
+)
 
 // Service provides a high-level API of for Coupon
 type Service struct {
-	caller iaas.APICaller
+	caller   iaas.APICaller
+	saclient saclient.ClientAPI
 }
 
 // New returns new service instance of Coupon
-func New(caller iaas.APICaller) *Service {
-	return &Service{caller: caller}
+func New(caller iaas.APICaller, client saclient.ClientAPI) *Service {
+	return &Service{caller: caller, saclient: client}
 }
