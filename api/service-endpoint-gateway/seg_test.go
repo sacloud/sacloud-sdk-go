@@ -118,6 +118,18 @@ func TestOpFULL(t *testing.T) {
 		if resp == nil {
 			t.Fatal("expected response but got nil")
 		}
+		if len(resp.Appliances) == 0 {
+			t.Fatal("expected at least one appliance but got zero")
+		}
+		if !assert.Contains(t, func() []string {
+			respIds := make([]string, len(resp.Appliances))
+			for i, appliance := range resp.Appliances {
+				respIds[i] = appliance.ID
+			}
+			return respIds
+		}(), id) {
+			t.Fatalf("expected to find created appliance ID %s in list response", id)
+		}
 	})
 	t.Run("Read", func(t *testing.T) {
 		resp, err := segAPI.Read(ctx, id)
@@ -127,6 +139,7 @@ func TestOpFULL(t *testing.T) {
 		if resp == nil {
 			t.Fatal("expected response but got nil")
 		}
+		assert.Equal(t, id, resp.Appliance.ID)
 	})
 	t.Run("ReadInterface", func(t *testing.T) {
 		interfaceID := "1"
@@ -176,6 +189,15 @@ func TestOpFULL(t *testing.T) {
 					},
 					{
 						Type: v1.ModelsSettingsEnabledServiceTypeAppRunDedicatedControlPlane,
+						Config: v1.ModelsSettingsServiceConfig{
+							Mode: v1.OptModelsSettingsServiceConfigMode{
+								Value: v1.ModelsSettingsServiceConfigModeManaged,
+								Set:   true,
+							},
+						},
+					},
+					{
+						Type: v1.ModelsSettingsEnabledServiceTypeAIEngine,
 						Config: v1.ModelsSettingsServiceConfig{
 							Mode: v1.OptModelsSettingsServiceConfigMode{
 								Value: v1.ModelsSettingsServiceConfigModeManaged,
