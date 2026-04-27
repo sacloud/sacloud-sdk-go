@@ -91,8 +91,18 @@ jobs:
       - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
         with:
           go-version-file: '${{ matrix.module }}/go.mod'
+      - name: seek out vulncheck
+        id: has-vulncheck
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+          make -q vulncheck 2>/dev/null
+          echo "q=${?}" >> "${GITHUB_OUTPUT}"
       - run: make tools
+        if: steps.has-vulncheck.outputs.q != '2'
       - run: make vulncheck
+        if: steps.has-vulncheck.outputs.q != '2'
 
   lint-def:
     runs-on: ubuntu-latest
@@ -112,7 +122,10 @@ jobs:
           go-version-file: '${{ matrix.module }}/go.mod'
       - name: seek out lint-def
         id: has-lint-def
+        continue-on-error: true
+        shell: bash
         run: |
+          set +e
           make -q lint-def 2>/dev/null
           echo "q=${?}" >> "${GITHUB_OUTPUT}"
       - run: make tools
