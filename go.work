@@ -4,6 +4,7 @@
 go 1.25.8
 
 use (
+	.
 	./api/addon
 	./api/apigw
 	./api/apprun
