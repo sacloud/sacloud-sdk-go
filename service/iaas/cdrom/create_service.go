@@ -21,7 +21,7 @@ import (
 	"os"
 
 	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-service-go/internal/ftps"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/internal/ftps"
 	"github.com/sacloud/packages-go/size"
 )
 

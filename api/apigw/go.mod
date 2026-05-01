@@ -1,4 +1,4 @@
-module github.com/sacloud/apigw-api-go
+module github.com/sacloud/sacloud-sdk-go/api/apigw
 
 go 1.25.0
 

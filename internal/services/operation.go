@@ -17,7 +17,7 @@ package services
 import (
 	"fmt"
 
-	"github.com/sacloud/services/naming"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/naming"
 )
 
 // SupportedOperation サービスが提供する操作のメタデータ

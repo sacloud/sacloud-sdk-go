@@ -19,7 +19,7 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/sacloud/simplemq-api-go/apis/v1/queue"
+	"github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/queue"
 )
 
 type QueueAPI interface {

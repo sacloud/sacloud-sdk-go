@@ -9,7 +9,7 @@ import (
 
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
-	securitycontrol "github.com/sacloud/security-control-api-go"
+	securitycontrol "github.com/sacloud/sacloud-sdk-go/api/security-control"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

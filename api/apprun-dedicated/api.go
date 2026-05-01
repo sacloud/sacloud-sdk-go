@@ -4,14 +4,14 @@
 package apprun_dedicated
 
 import (
-	"github.com/sacloud/apprun-dedicated-api-go/apis/application"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/autoscalinggroup"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/certificate"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/cluster"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/loadbalancer"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/service_class"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/version"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/workernode"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/application"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/autoscalinggroup"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/certificate"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/cluster"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/loadbalancer"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/service_class"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/version"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/workernode"
 )
 
 type ApplicationAPI = application.ApplicationAPI

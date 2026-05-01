@@ -23,9 +23,9 @@ import (
 	"github.com/sacloud/iaas-api-go/helper/cleanup"
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	internetService "github.com/sacloud/iaas-service-go/internet"
-	"github.com/sacloud/iaas-service-go/setup"
-	vpcRouterBuilder "github.com/sacloud/iaas-service-go/vpcrouter/builder"
+	internetService "github.com/sacloud/sacloud-sdk-go/service/iaas/internet"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
+	vpcRouterBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/vpcrouter/builder"
 	"github.com/sacloud/packages-go/pointer"
 	"github.com/stretchr/testify/require"
 )

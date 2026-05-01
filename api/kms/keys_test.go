@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	kms "github.com/sacloud/kms-api-go"
-	v1 "github.com/sacloud/kms-api-go/apis/v1"
+	kms "github.com/sacloud/sacloud-sdk-go/api/kms"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/kms/apis/v1"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 )

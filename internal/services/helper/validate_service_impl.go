@@ -20,7 +20,7 @@ import (
 	"testing"
 
 	"github.com/hashicorp/go-multierror"
-	"github.com/sacloud/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
 )
 
 func TestServiceImplementation(t *testing.T, ss ...services.Service) bool {

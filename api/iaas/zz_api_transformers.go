@@ -19,8 +19,8 @@ package iaas
 import (
 	"encoding/json"
 
-	"github.com/sacloud/iaas-api-go/mapconv"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/mapconv"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 func (o *ArchiveOp) transformFindArgs(conditions *FindCondition) (*archiveFindRequestEnvelope, error) {

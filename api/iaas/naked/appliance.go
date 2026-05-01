@@ -17,7 +17,7 @@ package naked
 import (
 	"encoding/json"
 
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 // ApplianceRemark アプライアンスの設定/ステータスなど

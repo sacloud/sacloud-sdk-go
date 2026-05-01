@@ -5,8 +5,8 @@ import (
 	"os"
 	"testing"
 
-	eventbus "github.com/sacloud/eventbus-api-go"
-	v1 "github.com/sacloud/eventbus-api-go/apis/v1"
+	eventbus "github.com/sacloud/sacloud-sdk-go/api/eventbus"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/assert"

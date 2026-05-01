@@ -23,8 +23,8 @@ import (
 	"github.com/sacloud/iaas-api-go/helper/wait"
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	builder2 "github.com/sacloud/iaas-service-go/database/builder"
-	"github.com/sacloud/iaas-service-go/setup"
+	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/database/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 	"github.com/sacloud/packages-go/pointer"
 	"github.com/stretchr/testify/require"
 )

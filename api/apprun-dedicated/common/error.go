@@ -8,7 +8,7 @@ import (
 
 	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
-	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/saclient-go"
 )
 

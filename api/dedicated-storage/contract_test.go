@@ -19,7 +19,7 @@ import (
 	"strconv"
 	"testing"
 
-	v1 "github.com/sacloud/dedicated-storage-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage/apis/v1"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 )

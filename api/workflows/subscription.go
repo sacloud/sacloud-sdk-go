@@ -19,7 +19,7 @@ import (
 	"errors"
 	"net/http"
 
-	v1 "github.com/sacloud/workflows-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/workflows/apis/v1"
 )
 
 type SubscriptionAPI interface {

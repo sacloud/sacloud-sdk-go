@@ -17,7 +17,7 @@ package nfs
 import (
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/nfs/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/nfs/builder"
 	"github.com/sacloud/packages-go/validate"
 )
 

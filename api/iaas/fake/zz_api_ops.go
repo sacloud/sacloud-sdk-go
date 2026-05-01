@@ -19,7 +19,7 @@ package fake
 import (
 	"sync"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 var switchOnce sync.Once

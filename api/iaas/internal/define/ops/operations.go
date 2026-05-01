@@ -17,10 +17,10 @@ package ops
 import (
 	"net/http"
 
-	"github.com/sacloud/iaas-api-go/internal/define/names"
-	"github.com/sacloud/iaas-api-go/internal/dsl"
-	"github.com/sacloud/iaas-api-go/internal/dsl/meta"
-	"github.com/sacloud/iaas-api-go/naked"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/define/names"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl/meta"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/naked"
 )
 
 func find(resourceName string, nakedType meta.Type, findParam, result *dsl.Model, payloadName string) *dsl.Operation {

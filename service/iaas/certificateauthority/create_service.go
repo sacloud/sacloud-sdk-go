@@ -17,7 +17,7 @@ package certificateauthority
 import (
 	"context"
 
-	"github.com/sacloud/iaas-service-go/certificateauthority/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/certificateauthority/builder"
 )
 
 func (s *Service) Create(req *CreateRequest) (*builder.CertificateAuthority, error) {

@@ -18,7 +18,7 @@ import (
 	"context"
 
 	"github.com/sacloud/iaas-api-go"
-	builder2 "github.com/sacloud/iaas-service-go/certificateauthority/builder"
+	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/certificateauthority/builder"
 )
 
 func (s *Service) Read(req *ReadRequest) (*builder2.CertificateAuthority, error) {

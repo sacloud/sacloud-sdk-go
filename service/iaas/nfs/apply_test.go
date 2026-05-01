@@ -19,7 +19,7 @@ import (
 
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/nfs/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/nfs/builder"
 	"github.com/stretchr/testify/require"
 )
 

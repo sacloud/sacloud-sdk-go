@@ -23,7 +23,7 @@ import (
 	"testing"
 
 	"github.com/sacloud/saclient-go"
-	"github.com/sacloud/simplemq-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/simplemq"
 	"github.com/stretchr/testify/require"
 )
 

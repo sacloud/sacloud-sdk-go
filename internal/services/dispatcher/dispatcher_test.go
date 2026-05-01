@@ -17,8 +17,8 @@ package dispatcher
 import (
 	"testing"
 
-	"github.com/sacloud/services"
-	"github.com/sacloud/services/dummy"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/dummy"
 	"github.com/stretchr/testify/require"
 )
 

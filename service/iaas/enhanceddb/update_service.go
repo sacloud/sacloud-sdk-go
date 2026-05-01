@@ -18,7 +18,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-service-go/enhanceddb/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/enhanceddb/builder"
 )
 
 func (s *Service) Update(req *UpdateRequest) (*builder.EnhancedDB, error) {

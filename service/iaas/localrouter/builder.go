@@ -19,7 +19,7 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	localrouter "github.com/sacloud/iaas-service-go/localrouter/builder"
+	localrouter "github.com/sacloud/sacloud-sdk-go/service/iaas/localrouter/builder"
 )
 
 // Builder ローカルルータの構築を行う

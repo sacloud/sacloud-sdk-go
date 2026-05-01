@@ -21,7 +21,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	client "github.com/sacloud/api-client-go"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 	"github.com/stretchr/testify/require"
 )
 

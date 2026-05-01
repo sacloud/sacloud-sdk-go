@@ -21,8 +21,8 @@ import (
 	"os"
 	"testing"
 
-	. "github.com/sacloud/cloudhsm-api-go"
-	v1 "github.com/sacloud/cloudhsm-api-go/apis/v1"
+	. "github.com/sacloud/sacloud-sdk-go/api/cloudhsm"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/cloudhsm/apis/v1"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"

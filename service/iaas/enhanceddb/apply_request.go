@@ -17,7 +17,7 @@ package enhanceddb
 import (
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/enhanceddb/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/enhanceddb/builder"
 	"github.com/sacloud/packages-go/validate"
 )
 

@@ -18,8 +18,8 @@ import (
 	"context"
 	"fmt"
 
-	apprun "github.com/sacloud/apprun-api-go"
-	v1 "github.com/sacloud/apprun-api-go/apis/v1"
+	apprun "github.com/sacloud/sacloud-sdk-go/api/apprun"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 	"github.com/sacloud/saclient-go"
 )
 

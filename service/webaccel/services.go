@@ -17,10 +17,10 @@ package service
 import (
 	"github.com/sacloud/services"
 	"github.com/sacloud/webaccel-api-go"
-	"github.com/sacloud/webaccel-service-go/cache"
-	"github.com/sacloud/webaccel-service-go/site"
-	"github.com/sacloud/webaccel-service-go/site/certificate"
-	"github.com/sacloud/webaccel-service-go/usage"
+	"github.com/sacloud/sacloud-sdk-go/service/webaccel/cache"
+	"github.com/sacloud/sacloud-sdk-go/service/webaccel/site"
+	"github.com/sacloud/sacloud-sdk-go/service/webaccel/site/certificate"
+	"github.com/sacloud/sacloud-sdk-go/service/webaccel/usage"
 )
 
 // Services サービス一覧を返す

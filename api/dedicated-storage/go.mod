@@ -1,4 +1,4 @@
-module github.com/sacloud/dedicated-storage-api-go
+module github.com/sacloud/sacloud-sdk-go/api/dedicated-storage
 
 go 1.25.0
 

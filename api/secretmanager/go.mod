@@ -1,4 +1,4 @@
-module github.com/sacloud/secretmanager-api-go
+module github.com/sacloud/sacloud-sdk-go/api/secretmanager
 
 go 1.25.5
 

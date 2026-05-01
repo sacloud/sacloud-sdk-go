@@ -19,9 +19,9 @@ import (
 
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	diskService "github.com/sacloud/iaas-service-go/disk"
-	disk "github.com/sacloud/iaas-service-go/disk/builder"
-	server "github.com/sacloud/iaas-service-go/server/builder"
+	diskService "github.com/sacloud/sacloud-sdk-go/service/iaas/disk"
+	disk "github.com/sacloud/sacloud-sdk-go/service/iaas/disk/builder"
+	server "github.com/sacloud/sacloud-sdk-go/service/iaas/server/builder"
 	"github.com/stretchr/testify/require"
 )
 

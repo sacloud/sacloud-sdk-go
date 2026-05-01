@@ -10,8 +10,8 @@ import (
 	"fmt"
 	"strconv"
 
-	objectstorage "github.com/sacloud/object-storage-api-go"
-	v2 "github.com/sacloud/object-storage-api-go/apis/v2"
+	objectstorage "github.com/sacloud/sacloud-sdk-go/api/object-storage"
+	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
 	"github.com/sacloud/saclient-go"
 )
 

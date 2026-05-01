@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/sacloud/iaas-api-go/internal/dsl"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl"
 )
 
 // ResourceFieldName リソース名がペイロードなどで利用される場合のフィールド名、コード生成時に利用される

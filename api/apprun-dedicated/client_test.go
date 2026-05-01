@@ -6,7 +6,7 @@ package apprun_dedicated_test
 import (
 	"testing"
 
-	. "github.com/sacloud/apprun-dedicated-api-go"
+	. "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )

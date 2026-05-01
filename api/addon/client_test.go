@@ -17,7 +17,7 @@ package addon_test
 import (
 	"testing"
 
-	. "github.com/sacloud/addon-api-go"
+	. "github.com/sacloud/sacloud-sdk-go/api/addon"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )

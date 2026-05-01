@@ -15,22 +15,22 @@
 package iam
 
 import (
-	"github.com/sacloud/iam-api-go/apis/auth"
-	"github.com/sacloud/iam-api-go/apis/folder"
-	"github.com/sacloud/iam-api-go/apis/group"
-	"github.com/sacloud/iam-api-go/apis/iampolicy"
-	"github.com/sacloud/iam-api-go/apis/iamrole"
-	"github.com/sacloud/iam-api-go/apis/idpolicy"
-	"github.com/sacloud/iam-api-go/apis/idrole"
-	"github.com/sacloud/iam-api-go/apis/organization"
-	"github.com/sacloud/iam-api-go/apis/project"
-	"github.com/sacloud/iam-api-go/apis/projectapikey"
-	"github.com/sacloud/iam-api-go/apis/scim"
-	"github.com/sacloud/iam-api-go/apis/servicepolicy"
-	"github.com/sacloud/iam-api-go/apis/serviceprincipal"
-	"github.com/sacloud/iam-api-go/apis/sso"
-	"github.com/sacloud/iam-api-go/apis/user"
-	"github.com/sacloud/iam-api-go/apis/user2fa"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/auth"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/folder"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/group"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/iampolicy"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/iamrole"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/idpolicy"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/idrole"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/organization"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/project"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/projectapikey"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/scim"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/servicepolicy"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/serviceprincipal"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/sso"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/user"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/user2fa"
 )
 
 type AuthAPI = auth.AuthAPI

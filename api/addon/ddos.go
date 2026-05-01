@@ -18,7 +18,7 @@ import (
 	"context"
 	"fmt"
 
-	v1 "github.com/sacloud/addon-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/addon/apis/v1"
 )
 
 type DDoSAPI interface {

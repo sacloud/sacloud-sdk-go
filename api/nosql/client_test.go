@@ -9,7 +9,7 @@ import (
 	"sync"
 	"testing"
 
-	. "github.com/sacloud/nosql-api-go"
+	. "github.com/sacloud/sacloud-sdk-go/api/nosql"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )

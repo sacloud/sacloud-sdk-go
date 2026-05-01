@@ -25,7 +25,7 @@ import (
 	"github.com/sacloud/iaas-api-go/helper/api"
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/internal/ftps"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/internal/ftps"
 )
 
 func TestService_Create(t *testing.T) {

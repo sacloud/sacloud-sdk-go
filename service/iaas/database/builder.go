@@ -19,7 +19,7 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/database/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/database/builder"
 )
 
 func BuilderFromResource(ctx context.Context, caller iaas.APICaller, zone string, id types.ID) (*builder.Builder, error) {

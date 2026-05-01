@@ -17,7 +17,7 @@ package apprun
 import (
 	stderrs "errors"
 
-	v1 "github.com/sacloud/apprun-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 	"github.com/sacloud/saclient-go"
 )
 

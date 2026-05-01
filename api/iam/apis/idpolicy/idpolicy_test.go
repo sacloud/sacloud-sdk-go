@@ -18,9 +18,9 @@ import (
 	"net/http"
 	"testing"
 
-	. "github.com/sacloud/iam-api-go/apis/idpolicy"
-	v1 "github.com/sacloud/iam-api-go/apis/v1"
-	iam_test "github.com/sacloud/iam-api-go/testutil"
+	. "github.com/sacloud/sacloud-sdk-go/api/iam/apis/idpolicy"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
+	iam_test "github.com/sacloud/sacloud-sdk-go/api/iam/testutil"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/stretchr/testify/require"
 )

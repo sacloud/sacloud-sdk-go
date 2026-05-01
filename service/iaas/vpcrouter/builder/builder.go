@@ -24,7 +24,7 @@ import (
 	"github.com/sacloud/iaas-api-go/accessor"
 	"github.com/sacloud/iaas-api-go/helper/power"
 	"github.com/sacloud/iaas-api-go/types"
-	setup2 "github.com/sacloud/iaas-service-go/setup"
+	setup2 "github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 )
 
 // Builder VPCルータの構築を行う

@@ -18,8 +18,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/ostype"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/ostype"
 )
 
 // FindArchiveByOSType OS種別ごとの最新安定板のアーカイブを取得

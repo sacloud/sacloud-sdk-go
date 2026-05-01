@@ -21,8 +21,8 @@ import (
 
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
-	simplenotification "github.com/sacloud/simple-notification-api-go"
-	v1 "github.com/sacloud/simple-notification-api-go/apis/v1"
+	simplenotification "github.com/sacloud/sacloud-sdk-go/api/simple-notification"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/simple-notification/apis/v1"
 	"github.com/stretchr/testify/require"
 )
 

@@ -17,7 +17,7 @@ package secretmanager
 import (
 	"context"
 
-	v1 "github.com/sacloud/secretmanager-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
 )
 
 // SecretAPIはSecretの操作をCRUD+Lで行うためのインターフェース. READは未実装

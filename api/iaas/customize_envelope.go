@@ -17,8 +17,8 @@ package iaas
 import (
 	"encoding/json"
 
-	"github.com/sacloud/iaas-api-go/naked"
-	"github.com/sacloud/iaas-api-go/search"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/naked"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/search"
 )
 
 // Note: sacloud/配下でのUnmarshalJSONの実装

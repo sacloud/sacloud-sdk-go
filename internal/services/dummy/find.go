@@ -17,7 +17,7 @@ package dummy
 import (
 	"context"
 
-	"github.com/sacloud/services/meta"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/meta"
 )
 
 func (s *Service) Find(req *FindRequest) ([]*FindResult, error) {

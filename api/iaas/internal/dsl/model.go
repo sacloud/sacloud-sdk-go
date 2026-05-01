@@ -17,7 +17,7 @@ package dsl
 import (
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go/internal/dsl/meta"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl/meta"
 )
 
 // Models APIのリクエスト/レスポンスなどのデータ型を示すモデル
@@ -108,7 +108,7 @@ func (m *Model) GoPkg() string {
 // GoImportPath インポートパス
 func (m *Model) GoImportPath() string {
 	if IsOutOfSacloudPackage {
-		return "github.com/sacloud/iaas-api-go"
+		return "github.com/sacloud/sacloud-sdk-go/api/iaas"
 	}
 	return ""
 }

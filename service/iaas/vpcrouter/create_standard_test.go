@@ -19,7 +19,7 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	vpcRouterBuilder "github.com/sacloud/iaas-service-go/vpcrouter/builder"
+	vpcRouterBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/vpcrouter/builder"
 	"github.com/stretchr/testify/require"
 )
 

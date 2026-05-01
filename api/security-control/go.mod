@@ -1,4 +1,4 @@
-module github.com/sacloud/security-control-api-go
+module github.com/sacloud/sacloud-sdk-go/api/security-control
 
 go 1.25.0
 

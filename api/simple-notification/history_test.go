@@ -20,7 +20,7 @@ import (
 
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
-	simplenotification "github.com/sacloud/simple-notification-api-go"
+	simplenotification "github.com/sacloud/sacloud-sdk-go/api/simple-notification"
 )
 
 func historyAPISetup(t *testing.T) (ctx context.Context, api simplenotification.HistoryAPI) {

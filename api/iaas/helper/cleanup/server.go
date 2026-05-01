@@ -17,9 +17,9 @@ package cleanup
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/power"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/power"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 // DeleteServer サーバの削除を行う。引数に応じて接続されたディスクの削除も同時に行う。

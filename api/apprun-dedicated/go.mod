@@ -1,4 +1,4 @@
-module github.com/sacloud/apprun-dedicated-api-go
+module github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated
 
 go 1.25.0
 

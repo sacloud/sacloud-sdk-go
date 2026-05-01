@@ -17,7 +17,7 @@ package fake
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 // Read is fake implementation

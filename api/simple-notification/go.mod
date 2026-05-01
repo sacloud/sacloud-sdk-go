@@ -1,4 +1,4 @@
-module github.com/sacloud/simple-notification-api-go
+module github.com/sacloud/sacloud-sdk-go/api/simple-notification
 
 go 1.25.0
 

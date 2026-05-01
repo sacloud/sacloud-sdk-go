@@ -17,7 +17,7 @@ package dsl
 import (
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go/internal/dsl/meta"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl/meta"
 )
 
 // ResultType Operationからの戻り値の型情報
@@ -48,7 +48,7 @@ func (r *ResultType) GoPkg() string {
 // GoImportPath インポートパス
 func (r *ResultType) GoImportPath() string {
 	if IsOutOfSacloudPackage {
-		return "github.com/sacloud/iaas-api-go"
+		return "github.com/sacloud/sacloud-sdk-go/api/iaas"
 	}
 	return ""
 }

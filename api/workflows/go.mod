@@ -1,4 +1,4 @@
-module github.com/sacloud/workflows-api-go
+module github.com/sacloud/sacloud-sdk-go/api/workflows
 
 go 1.25.0
 

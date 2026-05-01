@@ -22,7 +22,7 @@ import (
 
 	"github.com/go-playground/validator/v10"
 	"github.com/hashicorp/go-multierror"
-	"github.com/sacloud/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
 )
 
 type FormatErrorFunc func(target interface{}, err validator.FieldError) string

@@ -1,4 +1,4 @@
-module github.com/sacloud/iaas-api-go
+module github.com/sacloud/sacloud-sdk-go/api/iaas
 
 go 1.25.0
 

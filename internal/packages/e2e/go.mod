@@ -1,4 +1,4 @@
-module github.com/sacloud/packages-go/e2e
+module github.com/sacloud/sacloud-sdk-go/internal/packages/e2e
 
 go 1.25.8
 
