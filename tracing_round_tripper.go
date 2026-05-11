@@ -33,6 +33,8 @@ type TracingRoundTripper struct {
 }
 
 // RoundTrip http.RoundTripperの実装
+//
+// #nosec G706 -- This is deprecated, just kept for theoretical backward compatibility.
 func (r *TracingRoundTripper) RoundTrip(req *http.Request) (*http.Response, error) {
 	if r.Transport == nil {
 		r.Transport = http.DefaultTransport
