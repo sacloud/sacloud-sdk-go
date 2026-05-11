@@ -39,7 +39,6 @@ updates:
       - /api/webaccel
       - /api/workflows
       - /internal/api-client
-      - /internal/go-http
       - /internal/packages
       - /internal/saclient
       - /internal/services
