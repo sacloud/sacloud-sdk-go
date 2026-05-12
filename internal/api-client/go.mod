@@ -1,14 +1,14 @@
 module github.com/sacloud/sacloud-sdk-go/internal/api-client
 
-go 1.24.0
+go 1.25.0
 
 toolchain go1.25.5
 
 require (
 	github.com/hashicorp/go-retryablehttp v0.7.8
 	github.com/sacloud/go-http v0.1.9
-	github.com/sacloud/packages-go v0.0.12
-	github.com/stretchr/testify v1.10.0
+	github.com/sacloud/packages-go v0.1.0
+	github.com/stretchr/testify v1.11.1
 )
 
 require (
