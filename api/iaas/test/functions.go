@@ -18,8 +18,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/search"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/search"
 )
 
 func lookupDNSByName(caller iaas.APICaller, zoneName string) (*iaas.DNS, error) {

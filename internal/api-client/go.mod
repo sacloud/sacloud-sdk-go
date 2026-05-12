@@ -1,4 +1,4 @@
-module github.com/sacloud/api-client-go
+module github.com/sacloud/sacloud-sdk-go/internal/api-client
 
 go 1.24.0
 

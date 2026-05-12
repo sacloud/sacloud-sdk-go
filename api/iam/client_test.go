@@ -20,8 +20,8 @@ import (
 	"sync"
 	"testing"
 
-	. "github.com/sacloud/iam-api-go"
-	"github.com/sacloud/iam-api-go/apis/user"
+	. "github.com/sacloud/sacloud-sdk-go/api/iam"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/user"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )

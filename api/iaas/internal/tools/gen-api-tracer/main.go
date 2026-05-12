@@ -18,9 +18,9 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/sacloud/iaas-api-go/internal/define"
-	"github.com/sacloud/iaas-api-go/internal/dsl"
-	"github.com/sacloud/iaas-api-go/internal/tools"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/define"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/tools"
 )
 
 const destination = "trace/zz_api_tracer.go"

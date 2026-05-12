@@ -18,11 +18,11 @@ import (
 	"context"
 	"testing"
 
-	"github.com/sacloud/iaas-api-go"
-	internetBuilder "github.com/sacloud/iaas-api-go/helper/builder/internet"
-	"github.com/sacloud/iaas-api-go/helper/plans"
-	"github.com/sacloud/iaas-api-go/testutil"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	internetBuilder "github.com/sacloud/sacloud-sdk-go/api/iaas/helper/builder/internet"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/plans"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	"github.com/sacloud/packages-go/size"
 	"github.com/stretchr/testify/require"
 )

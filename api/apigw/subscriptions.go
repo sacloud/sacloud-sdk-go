@@ -19,7 +19,7 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
-	v1 "github.com/sacloud/apigw-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apigw/apis/v1"
 )
 
 type SubscriptionAPI interface {

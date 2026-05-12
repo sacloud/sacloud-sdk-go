@@ -15,8 +15,8 @@
 package helper
 
 import (
-	"github.com/sacloud/services"
-	"github.com/sacloud/services/meta"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/meta"
 )
 
 // OperationMeta サービスの操作ごとのメタ情報

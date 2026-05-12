@@ -18,8 +18,8 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/sacloud/iaas-api-go/internal/define"
-	"github.com/sacloud/iaas-api-go/internal/tools"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/define"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/tools"
 )
 
 const destination = "zz_apis.go"
@@ -47,7 +47,7 @@ package iaas
 
 import (
 	"context"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 {{ range . }} {{ $typeName := .TypeName }} {{ $resource := . }}

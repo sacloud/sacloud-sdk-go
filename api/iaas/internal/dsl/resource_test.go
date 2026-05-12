@@ -17,8 +17,8 @@ package dsl
 import (
 	"testing"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/internal/dsl/meta"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl/meta"
 	"github.com/stretchr/testify/require"
 )
 
@@ -83,7 +83,7 @@ func TestResource_ImportStatements(t *testing.T) {
 				},
 			},
 			additionalImports: []string{"context"},
-			imports:           wrapByDoubleQuote("context", "github.com/sacloud/iaas-api-go"),
+			imports:           wrapByDoubleQuote("context", "github.com/sacloud/sacloud-sdk-go/api/iaas"),
 		},
 	}
 
@@ -138,7 +138,7 @@ func TestResources_ImportStatements(t *testing.T) {
 				},
 			}),
 			additionalImports: []string{"context"},
-			imports:           wrapByDoubleQuote("context", "github.com/sacloud/iaas-api-go"),
+			imports:           wrapByDoubleQuote("context", "github.com/sacloud/sacloud-sdk-go/api/iaas"),
 		},
 	}
 

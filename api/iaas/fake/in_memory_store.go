@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 // InMemoryStore データをメモリ上に保存するためのデータストア

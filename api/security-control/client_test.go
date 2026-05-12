@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	"github.com/sacloud/saclient-go"
-	. "github.com/sacloud/security-control-api-go"
+	. "github.com/sacloud/sacloud-sdk-go/api/security-control"
 	"github.com/stretchr/testify/require"
 )
 

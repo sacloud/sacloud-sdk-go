@@ -17,8 +17,8 @@ package dummy
 import (
 	"context"
 
-	"github.com/sacloud/services/examples"
-	"github.com/sacloud/services/meta"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/examples"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/meta"
 )
 
 func (s *Service) Example(req *ExampleRequest) ([]*ExampleRequest, error) {

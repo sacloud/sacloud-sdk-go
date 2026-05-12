@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/sacloud/saclient-go"
-	. "github.com/sacloud/workflows-api-go"
+	. "github.com/sacloud/sacloud-sdk-go/api/workflows"
 	"github.com/stretchr/testify/require"
 )
 

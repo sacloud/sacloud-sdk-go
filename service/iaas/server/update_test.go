@@ -21,7 +21,7 @@ import (
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	diskService "github.com/sacloud/iaas-service-go/disk"
+	diskService "github.com/sacloud/sacloud-sdk-go/service/iaas/disk"
 	"github.com/sacloud/packages-go/pointer"
 	"github.com/sacloud/packages-go/size"
 	"github.com/stretchr/testify/require"

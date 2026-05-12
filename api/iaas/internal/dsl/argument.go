@@ -17,7 +17,7 @@ package dsl
 import (
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go/internal/dsl/meta"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl/meta"
 )
 
 // Arguments Operationへの引数リスト

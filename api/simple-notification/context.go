@@ -18,7 +18,7 @@ import (
 	"context"
 	"fmt"
 
-	v1 "github.com/sacloud/simple-notification-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/simple-notification/apis/v1"
 )
 
 // contextKey is a custom type for context keys in this package

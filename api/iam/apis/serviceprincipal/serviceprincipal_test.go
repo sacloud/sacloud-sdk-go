@@ -26,10 +26,10 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
-	"github.com/sacloud/iam-api-go/apis/serviceprincipal"
-	. "github.com/sacloud/iam-api-go/apis/serviceprincipal"
-	v1 "github.com/sacloud/iam-api-go/apis/v1"
-	iam_test "github.com/sacloud/iam-api-go/testutil"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/serviceprincipal"
+	. "github.com/sacloud/sacloud-sdk-go/api/iam/apis/serviceprincipal"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
+	iam_test "github.com/sacloud/sacloud-sdk-go/api/iam/testutil"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/stretchr/testify/require"
 )

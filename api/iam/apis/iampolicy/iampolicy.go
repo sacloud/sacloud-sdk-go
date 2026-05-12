@@ -17,8 +17,8 @@ package iampolicy
 import (
 	"context"
 
-	v1 "github.com/sacloud/iam-api-go/apis/v1"
-	"github.com/sacloud/iam-api-go/common"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
 )
 
 type IAMPolicyAPI interface {

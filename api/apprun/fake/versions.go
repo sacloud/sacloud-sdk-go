@@ -20,7 +20,7 @@ import (
 	"sort"
 	"time"
 
-	v1 "github.com/sacloud/apprun-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 )
 
 func (engine *Engine) ListVersions(appId string, param v1.ListApplicationVersionsParams) (*v1.HandlerListVersions, error) {

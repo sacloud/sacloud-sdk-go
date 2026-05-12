@@ -19,7 +19,7 @@ import (
 	"runtime/debug"
 	"time"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 type ResourceTestCase struct {

@@ -18,8 +18,8 @@ import (
 	"log"
 	"path/filepath"
 
-	"github.com/sacloud/iaas-api-go/internal/define"
-	"github.com/sacloud/iaas-api-go/internal/tools"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/define"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/tools"
 )
 
 const destination = "zz_api_transformers.go"
@@ -47,8 +47,8 @@ package iaas
 
 import (
 	"encoding/json"
-	"github.com/sacloud/iaas-api-go/mapconv"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/mapconv"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 {{ range . }}{{ $typeName := .TypeName }}{{$resource := .}}

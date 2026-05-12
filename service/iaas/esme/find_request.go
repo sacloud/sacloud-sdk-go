@@ -17,7 +17,7 @@ package esme
 import (
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/search"
-	"github.com/sacloud/iaas-service-go/serviceutil"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
 	"github.com/sacloud/packages-go/objutil"
 	"github.com/sacloud/packages-go/validate"
 )

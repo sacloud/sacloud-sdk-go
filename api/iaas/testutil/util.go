@@ -20,8 +20,8 @@ import (
 	"sync"
 
 	client "github.com/sacloud/api-client-go"
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/api"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/api"
 	"github.com/sacloud/packages-go/testutil"
 )
 

@@ -14,7 +14,7 @@
 
 package accessor
 
-import "github.com/sacloud/iaas-api-go/types"
+import "github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 
 // DiskPlan ディスクプランのアクセッサ
 type DiskPlan interface {

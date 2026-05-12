@@ -24,8 +24,8 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	v1 "github.com/sacloud/apprun-api-go/apis/v1"
-	"github.com/sacloud/apprun-api-go/fake"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun/fake"
 )
 
 type Server struct {

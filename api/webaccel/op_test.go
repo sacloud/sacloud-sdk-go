@@ -24,7 +24,7 @@ import (
 	client "github.com/sacloud/api-client-go"
 	"github.com/sacloud/packages-go/pointer"
 	"github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
 	"github.com/stretchr/testify/require"
 )
 

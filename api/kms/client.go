@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"runtime"
 
-	v1 "github.com/sacloud/kms-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/kms/apis/v1"
 	"github.com/sacloud/saclient-go"
 )
 

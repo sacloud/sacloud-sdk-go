@@ -1,4 +1,4 @@
-module github.com/sacloud/simplemq-api-go
+module github.com/sacloud/sacloud-sdk-go/api/simplemq
 
 go 1.25.0
 

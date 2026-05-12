@@ -21,7 +21,7 @@ import (
 	"os"
 
 	"github.com/sacloud/iaas-api-go"
-	builder2 "github.com/sacloud/iaas-service-go/archive/builder"
+	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/archive/builder"
 )
 
 func (s *Service) Create(req *CreateRequest) (*iaas.Archive, error) {

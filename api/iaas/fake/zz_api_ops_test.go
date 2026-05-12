@@ -19,7 +19,7 @@ package fake
 import (
 	"testing"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func TestResourceOps(t *testing.T) {

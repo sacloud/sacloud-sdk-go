@@ -18,7 +18,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-service-go/certificateauthority/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/certificateauthority/builder"
 )
 
 func (s *Service) Update(req *UpdateRequest) (*builder.CertificateAuthority, error) {

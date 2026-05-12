@@ -25,7 +25,7 @@ import (
 
 	client "github.com/sacloud/api-client-go"
 	sacloudhttp "github.com/sacloud/go-http"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	"github.com/sacloud/saclient-go"
 )
 

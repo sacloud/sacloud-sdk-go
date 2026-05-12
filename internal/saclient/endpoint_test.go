@@ -20,7 +20,7 @@ import (
 	"os"
 	"testing"
 
-	. "github.com/sacloud/saclient-go"
+	. "github.com/sacloud/sacloud-sdk-go/internal/saclient"
 	"github.com/stretchr/testify/suite"
 )
 

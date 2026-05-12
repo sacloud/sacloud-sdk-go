@@ -17,8 +17,8 @@ package meta
 import (
 	"testing"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	"github.com/stretchr/testify/require"
 )
 
@@ -104,7 +104,7 @@ func TestStaticType_TypeImplements(t *testing.T) {
 			instance:                 types.EAvailability(""),
 			goType:                   "types.EAvailability",
 			goPkg:                    "types",
-			goImportPath:             "github.com/sacloud/iaas-api-go/types",
+			goImportPath:             "github.com/sacloud/sacloud-sdk-go/api/iaas/types",
 			goTypeSourceCode:         "types.EAvailability",
 			zeroInitializeSourceCode: `types.EAvailability("")`,
 			zeroValueSourceCode:      `types.EAvailability("")`,
@@ -113,8 +113,8 @@ func TestStaticType_TypeImplements(t *testing.T) {
 			caseName:                 "another package struct",
 			instance:                 iaas.Client{},
 			goType:                   "iaas.Client",
-			goPkg:                    "iaas-api-go",
-			goImportPath:             "github.com/sacloud/iaas-api-go",
+			goPkg:                    "iaas",
+			goImportPath:             "github.com/sacloud/sacloud-sdk-go/api/iaas",
 			goTypeSourceCode:         "*iaas.Client",
 			zeroInitializeSourceCode: "&iaas.Client{}",
 			zeroValueSourceCode:      "nil",

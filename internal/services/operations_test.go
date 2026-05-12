@@ -18,8 +18,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/sacloud/services"
-	"github.com/sacloud/services/dummy"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/dummy"
 )
 
 func TestOperations_Categories(t *testing.T) {

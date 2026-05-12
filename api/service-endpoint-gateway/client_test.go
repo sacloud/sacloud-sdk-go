@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/sacloud/saclient-go"
-	seg "github.com/sacloud/service-endpoint-gateway-api-go"
+	seg "github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway"
 	"github.com/stretchr/testify/require"
 )
 

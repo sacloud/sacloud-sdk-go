@@ -16,7 +16,7 @@ package server
 
 import (
 	"github.com/sacloud/iaas-api-go/types"
-	diskService "github.com/sacloud/iaas-service-go/disk"
+	diskService "github.com/sacloud/sacloud-sdk-go/service/iaas/disk"
 	"github.com/sacloud/packages-go/validate"
 )
 

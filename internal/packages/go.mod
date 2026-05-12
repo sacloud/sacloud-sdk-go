@@ -1,4 +1,4 @@
-module github.com/sacloud/packages-go
+module github.com/sacloud/sacloud-sdk-go/internal/packages
 
 go 1.25.0
 

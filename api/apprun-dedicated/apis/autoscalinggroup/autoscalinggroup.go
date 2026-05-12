@@ -6,8 +6,8 @@ package autoscalinggroup
 import (
 	"context"
 
-	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
-	"github.com/sacloud/apprun-dedicated-api-go/common"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
 	"github.com/sacloud/saclient-go"
 )
 

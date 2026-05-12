@@ -15,7 +15,7 @@
 package otel
 
 import (
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/trace"
 )
@@ -45,7 +45,7 @@ func newConfig(opts ...Option) *config {
 	}
 
 	c.Tracer = c.TracerProvider.Tracer(
-		"github.com/sacloud/iaas-api-go",
+		"github.com/sacloud/sacloud-sdk-go/api/iaas",
 		trace.WithInstrumentationVersion(iaas.Version),
 	)
 	return c

@@ -1,4 +1,4 @@
-module github.com/sacloud/cloudhsm-api-go
+module github.com/sacloud/sacloud-sdk-go/api/cloudhsm
 
 go 1.25.0
 

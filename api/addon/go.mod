@@ -1,4 +1,4 @@
-module github.com/sacloud/addon-api-go
+module github.com/sacloud/sacloud-sdk-go/api/addon
 
 go 1.25.0
 

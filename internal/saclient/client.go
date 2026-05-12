@@ -41,7 +41,7 @@ type ClientAPI interface {
 	//	import (
 	//		"os"
 	//
-	//	   "github.com/sacloud/saclient-go"
+	//	   "github.com/sacloud/sacloud-sdk-go/internal/saclient"
 	//	)
 	//
 	//	var client saclient.Client
@@ -61,7 +61,7 @@ type ClientAPI interface {
 	//		"os"
 	//
 	//		"github.com/hashicorp/terraform-plugin-framework/provider"
-	//		"github.com/sacloud/saclient-go"
+	//		"github.com/sacloud/sacloud-sdk-go/internal/saclient"
 	//	)
 	//
 	//	type providerModel struct {
@@ -91,8 +91,8 @@ type ClientAPI interface {
 	// ```golang
 	//
 	//	import (
-	//		old "github.com/sacloud/saclient-go"
-	//		current "github.com/sacloud/saclient-go"
+	//		old "github.com/sacloud/sacloud-sdk-go/internal/saclient"
+	//		current "github.com/sacloud/sacloud-sdk-go/internal/saclient"
 	//	)
 	//
 	//	var client current.Client
@@ -114,8 +114,8 @@ type ClientAPI interface {
 	// ```golang
 	//
 	//	import (
-	//		old "github.com/sacloud/saclient-go"
-	//		current "github.com/sacloud/saclient-go"
+	//		old "github.com/sacloud/sacloud-sdk-go/internal/saclient"
+	//		current "github.com/sacloud/sacloud-sdk-go/internal/saclient"
 	//	)
 	//
 	//	var client current.Client
@@ -141,7 +141,7 @@ type ClientAPI interface {
 	//	import (
 	//	   "github.com/spf13/cobra"
 	//	   "github.com/spf13/pflag"
-	//	   "github.com/sacloud/saclient-go"
+	//	   "github.com/sacloud/sacloud-sdk-go/internal/saclient"
 	//	)
 	//
 	//	var client saclient.Client

@@ -1,4 +1,4 @@
-module github.com/sacloud/object-storage-api-go
+module github.com/sacloud/sacloud-sdk-go/api/object-storage
 
 go 1.25.0
 

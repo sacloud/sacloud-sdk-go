@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	client "github.com/sacloud/api-client-go"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 )
 
 type XXXAPIError struct {

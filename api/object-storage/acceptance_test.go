@@ -13,8 +13,8 @@ import (
 
 	"github.com/minio/minio-go/v7"
 	"github.com/minio/minio-go/v7/pkg/credentials"
-	objectstorage "github.com/sacloud/object-storage-api-go"
-	v2 "github.com/sacloud/object-storage-api-go/apis/v2"
+	objectstorage "github.com/sacloud/sacloud-sdk-go/api/object-storage"
+	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
 	"github.com/sacloud/packages-go/envvar"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"

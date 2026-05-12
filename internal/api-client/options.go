@@ -19,7 +19,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/sacloud/api-client-go/profile"
+	"github.com/sacloud/sacloud-sdk-go/internal/api-client/profile"
 	sacloudhttp "github.com/sacloud/go-http"
 	"github.com/sacloud/packages-go/envvar"
 )

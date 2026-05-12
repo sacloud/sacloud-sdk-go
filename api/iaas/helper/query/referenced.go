@@ -18,8 +18,8 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 // IsPrivateHostReferenced 指定の専有ホストが利用されている場合trueを返す

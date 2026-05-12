@@ -1,4 +1,4 @@
-module github.com/sacloud/kms-api-go
+module github.com/sacloud/sacloud-sdk-go/api/kms
 
 go 1.25.0
 

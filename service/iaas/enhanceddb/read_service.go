@@ -18,7 +18,7 @@ import (
 	"context"
 
 	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-service-go/enhanceddb/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/enhanceddb/builder"
 )
 
 func (s *Service) Read(req *ReadRequest) (*builder.EnhancedDB, error) {

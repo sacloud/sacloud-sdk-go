@@ -18,7 +18,7 @@ import (
 	"testing"
 
 	"github.com/sacloud/saclient-go"
-	simplenotification "github.com/sacloud/simple-notification-api-go"
+	simplenotification "github.com/sacloud/sacloud-sdk-go/api/simple-notification"
 	"github.com/stretchr/testify/require"
 )
 

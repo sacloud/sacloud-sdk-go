@@ -20,7 +20,7 @@ import (
 	"net/http"
 	"time"
 
-	v1 "github.com/sacloud/service-endpoint-gateway-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway/apis/v1"
 )
 
 const (

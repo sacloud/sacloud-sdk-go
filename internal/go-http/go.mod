@@ -1,4 +1,4 @@
-module github.com/sacloud/go-http
+module github.com/sacloud/sacloud-sdk-go/internal/go-http
 
 go 1.21
 

@@ -21,7 +21,7 @@ import (
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/helper/cleanup"
 	"github.com/sacloud/iaas-api-go/helper/query"
-	"github.com/sacloud/iaas-service-go/serviceutil"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
 )
 
 func (s *Service) Delete(req *DeleteRequest) error {

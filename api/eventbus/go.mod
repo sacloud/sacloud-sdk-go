@@ -1,4 +1,4 @@
-module github.com/sacloud/eventbus-api-go
+module github.com/sacloud/sacloud-sdk-go/api/eventbus
 
 go 1.25.0
 

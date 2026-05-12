@@ -14,7 +14,7 @@
 
 package naked
 
-import "github.com/sacloud/iaas-api-go/types"
+import "github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 
 // InternetPlan サーバープラン
 type InternetPlan struct {

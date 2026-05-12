@@ -26,8 +26,8 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/sacloud/apprun-api-go/fake"
-	"github.com/sacloud/apprun-api-go/fake/server"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun/fake"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun/fake/server"
 	"github.com/spf13/cobra"
 )
 

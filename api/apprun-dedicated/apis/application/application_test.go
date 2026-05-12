@@ -9,9 +9,9 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-	. "github.com/sacloud/apprun-dedicated-api-go/apis/application"
-	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
-	apprun_test "github.com/sacloud/apprun-dedicated-api-go/testutil"
+	. "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/application"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
+	apprun_test "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/testutil"
 	super "github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"

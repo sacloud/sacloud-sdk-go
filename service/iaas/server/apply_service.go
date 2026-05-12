@@ -18,7 +18,7 @@ import (
 	"context"
 
 	"github.com/sacloud/iaas-api-go"
-	serverBuilder "github.com/sacloud/iaas-service-go/server/builder"
+	serverBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/server/builder"
 )
 
 func (s *Service) Apply(req *ApplyRequest) (*iaas.Server, error) {

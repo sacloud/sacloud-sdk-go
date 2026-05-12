@@ -19,7 +19,7 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	builder2 "github.com/sacloud/iaas-service-go/database/builder"
+	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/database/builder"
 	"github.com/sacloud/packages-go/validate"
 )
 

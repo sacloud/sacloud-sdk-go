@@ -18,10 +18,10 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/plans"
-	"github.com/sacloud/iaas-api-go/search"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/plans"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/search"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 func findByPreviousIDCondition(id types.ID) *iaas.FindCondition {

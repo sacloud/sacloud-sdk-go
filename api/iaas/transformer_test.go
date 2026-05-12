@@ -18,8 +18,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/sacloud/iaas-api-go/naked"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/naked"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	"github.com/stretchr/testify/require"
 )
 

@@ -1,4 +1,4 @@
-module github.com/sacloud/service-endpoint-gateway-api-go
+module github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway
 
 go 1.25.8
 

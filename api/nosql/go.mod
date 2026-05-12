@@ -1,4 +1,4 @@
-module github.com/sacloud/nosql-api-go
+module github.com/sacloud/sacloud-sdk-go/api/nosql
 
 go 1.25.0
 

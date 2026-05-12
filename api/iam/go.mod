@@ -1,4 +1,4 @@
-module github.com/sacloud/iam-api-go
+module github.com/sacloud/sacloud-sdk-go/api/iam
 
 go 1.25.0
 

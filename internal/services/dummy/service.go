@@ -15,9 +15,9 @@
 package dummy
 
 import (
-	"github.com/sacloud/services"
-	"github.com/sacloud/services/meta"
-	"github.com/sacloud/services/validate"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/meta"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/validate"
 )
 
 var _ services.Service = (*Service)(nil)

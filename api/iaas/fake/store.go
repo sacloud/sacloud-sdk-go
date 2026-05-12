@@ -14,7 +14,7 @@
 
 package fake
 
-import "github.com/sacloud/iaas-api-go/types"
+import "github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 
 // Store fakeドライバーでのバックエンド(永続化)を担当するドライバーインターフェース
 type Store interface {

@@ -18,7 +18,7 @@ import (
 	"context"
 
 	"github.com/sacloud/iaas-api-go"
-	builder2 "github.com/sacloud/iaas-service-go/sim/builder"
+	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/sim/builder"
 )
 
 func (s *Service) Apply(req *ApplyRequest) (*iaas.SIM, error) {

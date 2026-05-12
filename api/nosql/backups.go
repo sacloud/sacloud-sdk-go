@@ -8,7 +8,7 @@ import (
 	"errors"
 
 	"github.com/google/uuid"
-	v1 "github.com/sacloud/nosql-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/nosql/apis/v1"
 )
 
 type BackupAPI interface {

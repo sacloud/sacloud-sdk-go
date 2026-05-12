@@ -15,10 +15,10 @@
 package define
 
 import (
-	"github.com/sacloud/iaas-api-go/internal/define/ops"
-	"github.com/sacloud/iaas-api-go/internal/dsl"
-	"github.com/sacloud/iaas-api-go/internal/dsl/meta"
-	"github.com/sacloud/iaas-api-go/naked"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/define/ops"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl/meta"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/naked"
 )
 
 const (
