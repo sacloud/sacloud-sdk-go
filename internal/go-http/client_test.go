@@ -101,11 +101,12 @@ func TestClient_Do_CheckRetryWithContext(t *testing.T) {
 	})
 }
 
+//nolint:errcheck // this is only a test
 func TestClient_Do_withGzip(t *testing.T) {
 	var buf bytes.Buffer
 	writer := gzip.NewWriter(&buf)
 	io.WriteString(writer, "ok") //nolint //エラーは無視
-	writer.Close()
+	writer.Close()               // #nosec G104 -- this is only a test
 	gzipped := buf.Bytes()
 
 	dummyServer := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {

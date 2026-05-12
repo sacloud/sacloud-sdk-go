@@ -13,7 +13,7 @@
 ### 関連プロジェクト
 
 - [sacloud/api-client-go](https://github.com/sacloud/api-client-go): sacloudプロダクト向けHTTP/APIクライアントライブラリ
-  sacloud/go-httpをラップし環境変数やUsacloud互換のプロファイルの処理などを提供します。
+  sacloud/go-httpをラップし環境変数やUsacloud互換のプロファイルの処理などを提供する。
 
 
 ## License
