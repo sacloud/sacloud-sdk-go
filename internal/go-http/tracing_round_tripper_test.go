@@ -29,7 +29,7 @@ import (
 func TestTracingRoundTripper_OutputOnlyError(t *testing.T) {
 	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		fmt.Fprintln(w, "ok")
+		fmt.Fprintln(w, "ok") //nolint:errcheck // this is only a test
 	})
 	server := httptest.NewServer(h)
 

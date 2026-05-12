@@ -6,6 +6,7 @@
 go.sum         text -binary eol=lf linguist-generated merge=ours
 go.mod         text -binary eol=lf linguist-generated
 go.work        text -binary eol=lf linguist-generated
+go.work.sum    text -binary eol=lf linguist-generated
 *.md           text -binary eol=lf diff=markdown merge=union
 *.go           text -binary eol=lf diff=golang
 *.yaml         text -binary eol=lf diff=yaml
