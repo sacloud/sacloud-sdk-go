@@ -27,7 +27,6 @@ use (
 	./api/webaccel
 	./api/workflows
 	./internal/api-client
-	./internal/packages
 	./internal/packages/e2e
 	./internal/saclient
 	./internal/services
