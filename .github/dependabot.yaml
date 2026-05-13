@@ -40,7 +40,6 @@ updates:
       - /api/workflows
       - /internal/api-client
       - /internal/saclient
-      - /internal/services
       - /service/iaas
       - /service/webaccel
     schedule:
