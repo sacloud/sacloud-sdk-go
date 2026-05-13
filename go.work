@@ -26,7 +26,6 @@ use (
 	./api/simplemq
 	./api/webaccel
 	./api/workflows
-	./internal/api-client
 	./internal/saclient
 	./service/iaas
 	./service/webaccel
