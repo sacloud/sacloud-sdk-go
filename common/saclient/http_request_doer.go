@@ -21,7 +21,7 @@ import (
 	"slices"
 	"time"
 
-	saht "github.com/sacloud/go-http"
+	saht "github.com/sacloud/sacloud-sdk-go/internal/go-http"
 	"go.uber.org/ratelimit"
 )
 

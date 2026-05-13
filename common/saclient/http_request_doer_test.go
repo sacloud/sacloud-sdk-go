@@ -25,8 +25,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/sacloud/packages-go/testutil"
-	. "github.com/sacloud/saclient-go"
+	. "github.com/sacloud/sacloud-sdk-go/common/saclient"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/suite"
 )
 

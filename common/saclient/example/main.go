@@ -21,7 +21,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 var theClient saclient.Client
