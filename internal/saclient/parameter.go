@@ -30,8 +30,8 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
-	old "github.com/sacloud/api-client-go"
-	saht "github.com/sacloud/go-http"
+	old "github.com/sacloud/sacloud-sdk-go/internal/api-client"
+	saht "github.com/sacloud/sacloud-sdk-go/internal/go-http"
 )
 
 type storage struct {

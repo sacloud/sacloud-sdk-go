@@ -21,7 +21,7 @@ import (
 	"maps"
 	"net/http"
 
-	old "github.com/sacloud/api-client-go"
+	old "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 )
 
 // The API

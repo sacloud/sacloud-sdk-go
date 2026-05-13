@@ -14,9 +14,6 @@ require (
 	github.com/hashicorp/terraform-exec v0.25.2
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/huandu/xstrings v1.5.0
-	github.com/sacloud/api-client-go v0.3.5
-	github.com/sacloud/go-http v0.1.9
-	github.com/sacloud/packages-go v0.1.0
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/ratelimit v0.3.1
 )
