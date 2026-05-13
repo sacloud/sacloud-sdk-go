@@ -8,6 +8,7 @@ require (
 	github.com/go-playground/validator/v10 v10.30.2
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/go-retryablehttp v0.7.8
+	github.com/huandu/xstrings v1.5.0
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/ratelimit v0.3.1
 )

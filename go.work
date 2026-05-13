@@ -29,7 +29,6 @@ use (
 	./internal/api-client
 	./internal/packages/e2e
 	./internal/saclient
-	./internal/services
 	./service/iaas
 	./service/webaccel
 )
