@@ -28,7 +28,7 @@ import (
 
 	"github.com/gofrs/flock"
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/sacloud/packages-go/testutil"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 )
 
 const skew = 30 * time.Second // :FIXME: should be configurable?
