@@ -11,8 +11,6 @@ require (
 	github.com/hashicorp/hc-install v0.9.5
 	github.com/hashicorp/terraform-exec v0.25.2
 	github.com/huandu/xstrings v1.5.0
-	github.com/sacloud/go-http v0.1.9
-	github.com/sacloud/packages-go v0.1.0
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/ratelimit v0.3.1
 )

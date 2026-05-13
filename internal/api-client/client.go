@@ -21,7 +21,7 @@ import (
 	"strings"
 	"sync"
 
-	sacloudhttp "github.com/sacloud/go-http"
+	sacloudhttp "github.com/sacloud/sacloud-sdk-go/internal/go-http"
 )
 
 // DefaultUserAgent デフォルトのユーザーエージェント
