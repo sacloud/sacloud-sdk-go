@@ -39,7 +39,6 @@ updates:
       - /api/webaccel
       - /api/workflows
       - /internal/api-client
-      - /internal/packages
       - /internal/saclient
       - /internal/services
       - /service/iaas
