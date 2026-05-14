@@ -17,7 +17,7 @@ package dedicatedstorage
 import (
 	"testing"
 
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/internal/saclient"
 )
 
 func TestNewClient(t *testing.T) {

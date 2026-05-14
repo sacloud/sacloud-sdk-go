@@ -21,7 +21,7 @@ import (
 
 	dedicatedstorage "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/internal/saclient"
 )
 
 func Example_dedicatedStorageCRUDL() {
