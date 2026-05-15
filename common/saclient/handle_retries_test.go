@@ -21,7 +21,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	. "github.com/sacloud/sacloud-sdk-go/internal/saclient"
+	. "github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -47,7 +47,7 @@ func (s *HandleRequestTestSuite) TestNilResponse() {
 	defer svr.Close()
 
 	// #nosec G104 -- this is only a test
-	s.client.SetWith(WithTestServer(svr))
+	s.client.SetWith(WithTestServer(svr), WithoutRetry())
 	req, _ := http.NewRequest("GET", svr.URL, bytes.NewBuffer([]byte(nil)))
 	actual, err := s.client.Do(req)
 	s.Nil(actual)

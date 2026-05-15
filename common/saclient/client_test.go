@@ -33,9 +33,9 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-framework/attr"
 	"github.com/hashicorp/terraform-plugin-framework/types"
+	. "github.com/sacloud/sacloud-sdk-go/common/saclient"
 	old "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 	saht "github.com/sacloud/sacloud-sdk-go/internal/go-http"
-	. "github.com/sacloud/sacloud-sdk-go/internal/saclient"
 	"github.com/stretchr/testify/suite"
 )
 

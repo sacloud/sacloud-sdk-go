@@ -76,6 +76,7 @@ type parameter struct {
 	// Deprecated: for compatibility
 	noEnv bool
 
+	env       []string
 	profileOp *ProfileOp
 	envp      storage
 	argv      storage
@@ -87,7 +88,7 @@ func (p *parameter) setEnviron(env []string) error {
 	if p == nil {
 		return NewErrorf("nil parameter")
 	} else {
-		p.profileOp = NewProfileOp(env)
+		p.env = slices.Clone(env)
 		r := make([]error, 0, 43) // <- 43 is the # of `append` calls below
 		e := intoEnvmap(env)
 		s := &p.envp
@@ -352,8 +353,7 @@ func (p *parameter) populate(c *config) error {
 		return NewErrorf("nil parameter")
 	} else if c == nil {
 		return NewErrorf("nil config")
-	} else if p.profileOp == nil {
-		// Operator not initialized, means there was no call to SetEnviron()
+	} else if p.env == nil {
 		// This could be meddling, but we initialize it here for safety.
 		var envp []string
 		if p.noEnv {
@@ -363,6 +363,9 @@ func (p *parameter) populate(c *config) error {
 		}
 		ret = append(ret, p.setEnviron(envp))
 	}
+
+	op, _ := NewProfileOp(p.env)
+	p.profileOp = op
 
 	*c = make(config)
 	ret = append(ret, p.populateProfileName(c))
@@ -417,6 +420,9 @@ func (p *parameter) populateProfileName(c *config) error {
 		profileName.initialize(v)
 	} else if v, ok := p.hcl.profileName.Get(); ok {
 		profileName.initialize(v)
+	} else if p.profileOp == nil {
+		// `~/.usacloud` doesn't exist, no profile can be loaded
+		return nil
 	} else if v, err := p.profileOp.GetCurrentName(); err == nil {
 		profileName.initialize(v)
 	}
@@ -451,6 +457,12 @@ func (p *parameter) populateProfile(c *config) error {
 		return nil
 	}
 
+	if p.profileOp == nil {
+		// `~/.usacloud` doesn't exist, no profile can be loaded
+		return nil
+	}
+
+	// At this point we can assume p.profileOp is not nil
 	profile, err := p.profileOp.Read(v)
 
 	if err != nil {
