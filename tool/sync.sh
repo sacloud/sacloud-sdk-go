@@ -23,7 +23,7 @@ map=(
     "nosql-api-go:api/nosql"
     "object-storage-api-go:api/object-storage"
     "packages-go:internal/packages"
-    "saclient-go:internal/saclient"
+    "saclient-go:common/saclient"
     "secretmanager-api-go:api/secretmanager"
     "security-control-api-go:api/security-control"
     "service-endpoint-gateway-api-go:api/service-endpoint-gateway"

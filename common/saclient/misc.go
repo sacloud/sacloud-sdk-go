@@ -21,7 +21,7 @@ package saclient
 //
 // ```golang
 //
-//	import "github.com/sacloud/sacloud-sdk-go/internal/saclient"
+//	import "github.com/sacloud/sacloud-sdk-go/common/saclient"
 //
 //	func main() {
 //		ret, err := OtherFunc(saclient.Ptr("string literal"))
