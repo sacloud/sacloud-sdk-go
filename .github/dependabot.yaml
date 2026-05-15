@@ -38,8 +38,8 @@ updates:
       - /api/simplemq
       - /api/webaccel
       - /api/workflows
+      - /common/saclient
       - /internal/api-client
-      - /internal/saclient
       - /service/iaas
       - /service/webaccel
     schedule:

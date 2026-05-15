@@ -21,7 +21,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	. "github.com/sacloud/sacloud-sdk-go/internal/saclient"
+	. "github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/suite"
 )
 
