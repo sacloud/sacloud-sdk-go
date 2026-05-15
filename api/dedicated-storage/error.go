@@ -17,7 +17,7 @@ package dedicatedstorage
 import (
 	"strings"
 
-	"github.com/sacloud/sacloud-sdk-go/internal/saclient"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type Error struct {

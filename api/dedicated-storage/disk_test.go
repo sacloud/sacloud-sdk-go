@@ -20,9 +20,9 @@ import (
 	"testing"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/sacloud/sacloud-sdk-go/internal/packages/size"
 	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
-	"github.com/sacloud/sacloud-sdk-go/internal/saclient"
 )
 
 func TestDisk_SnapShotCRUDL(t *testing.T) {
