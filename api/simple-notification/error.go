@@ -17,7 +17,7 @@ package simplenotification
 import (
 	"strings"
 
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type Error struct {
