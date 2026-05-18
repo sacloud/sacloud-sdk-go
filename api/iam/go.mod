@@ -12,7 +12,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.3.1
 	github.com/google/uuid v1.6.0
 	github.com/ogen-go/ogen v1.20.2
-	github.com/sacloud/packages-go v0.0.12
+	github.com/sacloud/packages-go v0.1.0
 	github.com/sacloud/saclient-go v0.3.5
 	github.com/stretchr/testify v1.11.1
 )
