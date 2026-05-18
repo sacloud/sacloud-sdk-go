@@ -12,8 +12,8 @@ import (
 	. "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/application"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	apprun_test "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/testutil"
-	super "github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	super "github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 

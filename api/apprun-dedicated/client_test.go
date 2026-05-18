@@ -7,7 +7,7 @@ import (
 	"testing"
 
 	. "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 
