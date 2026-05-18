@@ -10,7 +10,6 @@ use (
 	./api/apprun
 	./api/apprun-dedicated
 	./api/cloudhsm
-	./api/dedicated-storage
 	./api/eventbus
 	./api/iaas
 	./api/iaas/trace/otel
