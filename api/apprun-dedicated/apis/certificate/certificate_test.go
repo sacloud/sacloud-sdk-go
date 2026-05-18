@@ -14,7 +14,6 @@ import (
 	apprun_test "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
-	super "github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -188,7 +187,7 @@ func TestIntegrated(t *testing.T) {
 	assert.NotNil(api)
 
 	t.Run("Create", func(t *testing.T) {
-		certName := super.RandomName("test-", 15, super.CharSetAlphaNum)
+		certName := testutil.RandomName("test-", 15, testutil.CharSetAlphaNum)
 		c, p, err := apprun_test.OreSign()
 		assert.NoError(err)
 
@@ -228,7 +227,7 @@ func TestIntegrated(t *testing.T) {
 			c2, p2, err := apprun_test.OreSign()
 			assert.NoError(err)
 			err = api.Update(t.Context(), certID, UpdateParams{
-				Name:           super.RandomName("test-", 15, super.CharSetAlphaNum),
+				Name:           testutil.RandomName("test-", 15, testutil.CharSetAlphaNum),
 				CertificatePEM: string(c2),
 				PrivateKeyPEM:  string(p2),
 			})
