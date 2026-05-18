@@ -17,12 +17,12 @@ updates:
 
   - package-ecosystem: gomod
     directories:
+      - /
       - /api/addon
       - /api/apigw
       - /api/apprun
       - /api/apprun-dedicated
       - /api/cloudhsm
-      - /api/dedicated-storage
       - /api/eventbus
       - /api/iaas
       - /api/iaas/trace/otel
@@ -38,8 +38,6 @@ updates:
       - /api/simplemq
       - /api/webaccel
       - /api/workflows
-      - /common/saclient
-      - /internal/api-client
       - /service/iaas
       - /service/webaccel
     schedule:
