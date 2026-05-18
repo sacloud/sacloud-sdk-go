@@ -13,7 +13,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/service_class"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	apprun_test "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/testutil"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 

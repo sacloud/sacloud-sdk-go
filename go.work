@@ -8,7 +8,6 @@ use (
 	./api/addon
 	./api/apigw
 	./api/apprun
-	./api/apprun-dedicated
 	./api/cloudhsm
 	./api/eventbus
 	./api/iaas

@@ -12,7 +12,7 @@ import (
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	. "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/workernode"
 	apprun_test "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/testutil"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 
