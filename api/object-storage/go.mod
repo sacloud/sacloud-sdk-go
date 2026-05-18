@@ -9,7 +9,7 @@ require (
 	github.com/go-faster/jx v1.2.0
 	github.com/minio/minio-go/v7 v7.0.98
 	github.com/ogen-go/ogen v1.18.0
-	github.com/sacloud/packages-go v0.0.12
+	github.com/sacloud/packages-go v0.1.0
 	github.com/sacloud/saclient-go v0.3.2
 	github.com/stretchr/testify v1.11.1
 )
