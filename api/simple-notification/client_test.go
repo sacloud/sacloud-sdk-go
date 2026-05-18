@@ -17,8 +17,8 @@ package simplenotification_test
 import (
 	"testing"
 
-	"github.com/sacloud/saclient-go"
 	simplenotification "github.com/sacloud/sacloud-sdk-go/api/simple-notification"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 
