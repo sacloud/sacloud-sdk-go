@@ -23,7 +23,6 @@ updates:
       - /api/apprun
       - /api/cloudhsm
       - /api/eventbus
-      - /api/iaas
       - /api/iaas/trace/otel
       - /api/kms
       - /api/monitoring-suite

@@ -7,6 +7,8 @@ toolchain go1.26.2
 tool github.com/ogen-go/ogen/cmd/ogen
 
 require (
+	github.com/fatih/structs v1.1.0
+	github.com/fsnotify/fsnotify v1.10.1
 	github.com/go-faster/errors v0.7.1
 	github.com/go-faster/jx v1.2.0
 	github.com/go-playground/validator/v10 v10.30.2
@@ -19,9 +21,16 @@ require (
 	github.com/hashicorp/terraform-exec v0.25.2
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/huandu/xstrings v1.5.0
+	github.com/mitchellh/go-homedir v1.1.0
+	github.com/mitchellh/mapstructure v1.5.0
 	github.com/ogen-go/ogen v1.20.3
+	github.com/sacloud/api-client-go v0.3.5
+	github.com/sacloud/go-http v0.1.9
+	github.com/sacloud/packages-go v0.1.0
+	github.com/sacloud/saclient-go v0.3.7
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/ratelimit v0.3.1
+	golang.org/x/crypto v0.51.0
 )
 
 require (
@@ -57,14 +66,13 @@ require (
 	github.com/zclconf/go-cty v1.18.1 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.1 // indirect
-	golang.org/x/crypto v0.49.0 // indirect
 	golang.org/x/exp v0.0.0-20260112195511-716be5621a96 // indirect
-	golang.org/x/mod v0.35.0 // indirect
-	golang.org/x/net v0.52.0 // indirect
+	golang.org/x/mod v0.36.0 // indirect
+	golang.org/x/net v0.54.0 // indirect
 	golang.org/x/sync v0.20.0 // indirect
-	golang.org/x/sys v0.42.0 // indirect
-	golang.org/x/text v0.35.0 // indirect
-	golang.org/x/tools v0.43.0 // indirect
+	golang.org/x/sys v0.44.0 // indirect
+	golang.org/x/text v0.37.0 // indirect
+	golang.org/x/tools v0.45.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
