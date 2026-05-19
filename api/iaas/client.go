@@ -23,10 +23,10 @@ import (
 	"net/http"
 	"runtime"
 
-	client "github.com/sacloud/api-client-go"
-	sacloudhttp "github.com/sacloud/go-http"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
+	sacloudhttp "github.com/sacloud/sacloud-sdk-go/internal/go-http"
 )
 
 var (

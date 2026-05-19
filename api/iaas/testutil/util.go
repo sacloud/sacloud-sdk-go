@@ -19,10 +19,10 @@ import (
 	"os"
 	"sync"
 
-	client "github.com/sacloud/api-client-go"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/api"
-	"github.com/sacloud/packages-go/testutil"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 )
 
 // TestResourcePrefix テスト時に作成するリソースの名称に付与するプレフィックス
