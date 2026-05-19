@@ -20,7 +20,6 @@ updates:
       - /
       - /api/addon
       - /api/apigw
-      - /api/apprun
       - /api/cloudhsm
       - /api/eventbus
       - /api/iaas/trace/otel
