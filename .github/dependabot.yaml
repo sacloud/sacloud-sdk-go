@@ -30,7 +30,6 @@ updates:
       - /api/secretmanager
       - /api/security-control
       - /api/webaccel
-      - /api/workflows
       - /service/iaas
       - /service/webaccel
     schedule:
