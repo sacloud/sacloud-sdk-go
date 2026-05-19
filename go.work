@@ -16,7 +16,6 @@ use (
 	./api/object-storage
 	./api/secretmanager
 	./api/security-control
-	./api/simplemq
 	./api/webaccel
 	./api/workflows
 	./service/iaas
