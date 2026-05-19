@@ -30,7 +30,6 @@ updates:
       - /api/object-storage
       - /api/secretmanager
       - /api/security-control
-      - /api/service-endpoint-gateway
       - /api/simplemq
       - /api/webaccel
       - /api/workflows

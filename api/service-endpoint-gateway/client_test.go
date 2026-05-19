@@ -17,8 +17,8 @@ package seg_test
 import (
 	"testing"
 
-	"github.com/sacloud/saclient-go"
 	seg "github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 

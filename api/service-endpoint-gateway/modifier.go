@@ -20,8 +20,8 @@ import (
 	"net/http"
 	"path"
 
-	"github.com/sacloud/saclient-go"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 func modifyMiddleware() saclient.Middleware {
