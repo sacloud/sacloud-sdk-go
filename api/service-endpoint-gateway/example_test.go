@@ -19,9 +19,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sacloud/saclient-go"
 	seg "github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 func Example() {
