@@ -18,10 +18,10 @@ import (
 	"context"
 	"testing"
 
-	"github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/saclient-go"
 	"github.com/sacloud/sacloud-sdk-go/api/simplemq"
 	"github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/queue"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
