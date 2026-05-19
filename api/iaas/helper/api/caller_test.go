@@ -20,8 +20,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	client "github.com/sacloud/api-client-go"
-	"github.com/sacloud/api-client-go/profile"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
+	"github.com/sacloud/sacloud-sdk-go/internal/api-client/profile"
 	"github.com/stretchr/testify/require"
 )
 

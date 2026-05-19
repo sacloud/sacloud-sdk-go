@@ -14,7 +14,7 @@
 
 package accessor
 
-import "github.com/sacloud/packages-go/size"
+import "github.com/sacloud/sacloud-sdk-go/internal/packages/size"
 
 /************************************************
  AssignedMemoryMB - MemoryGB
