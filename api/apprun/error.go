@@ -18,7 +18,7 @@ import (
 	stderrs "errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type Error struct {

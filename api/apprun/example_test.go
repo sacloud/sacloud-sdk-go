@@ -20,7 +20,7 @@ import (
 
 	apprun "github.com/sacloud/sacloud-sdk-go/api/apprun"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 const defaultServerURL = "https://secure.sakura.ad.jp/cloud/api/apprun/1.0/apprun/api"
