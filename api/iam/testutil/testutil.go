@@ -29,8 +29,8 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/serviceprincipal"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/user"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
-	super "github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	super "github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 

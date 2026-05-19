@@ -22,7 +22,7 @@ import (
 
 	. "github.com/sacloud/sacloud-sdk-go/api/iam"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/apis/user"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 

@@ -21,7 +21,7 @@ import (
 
 	"github.com/sacloud/sacloud-sdk-go/api/iam"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 var theClient saclient.Client
