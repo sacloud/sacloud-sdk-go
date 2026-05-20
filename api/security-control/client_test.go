@@ -6,8 +6,8 @@ package securitycontrol_test
 import (
 	"testing"
 
-	"github.com/sacloud/saclient-go"
 	. "github.com/sacloud/sacloud-sdk-go/api/security-control"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 
