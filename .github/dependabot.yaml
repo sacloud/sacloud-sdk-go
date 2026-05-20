@@ -28,7 +28,6 @@ updates:
       - /api/nosql
       - /api/object-storage
       - /api/secretmanager
-      - /api/security-control
       - /api/webaccel
       - /service/iaas
       - /service/webaccel
