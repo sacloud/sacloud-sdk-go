@@ -20,10 +20,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/saclient-go"
 	"github.com/sacloud/sacloud-sdk-go/api/workflows"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/workflows/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
