@@ -19,7 +19,7 @@ import (
 	"runtime"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 const (
