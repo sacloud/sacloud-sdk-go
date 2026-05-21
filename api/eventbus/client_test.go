@@ -33,7 +33,7 @@ import (
 	"sync"
 	"testing"
 
-	. "github.com/sacloud/eventbus-api-go"
+	. "github.com/sacloud/sacloud-sdk-go/api/eventbus"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )

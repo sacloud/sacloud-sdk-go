@@ -21,14 +21,14 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-	apprun_dedicated "github.com/sacloud/apprun-dedicated-api-go"
-	application "github.com/sacloud/apprun-dedicated-api-go/apis/application"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/autoscalinggroup"
-	cluster "github.com/sacloud/apprun-dedicated-api-go/apis/cluster"
-	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
-	"github.com/sacloud/apprun-dedicated-api-go/apis/workernode"
-	super "github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/saclient-go"
+	apprun_dedicated "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated"
+	application "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/application"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/autoscalinggroup"
+	cluster "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/cluster"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/workernode"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	super "github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 

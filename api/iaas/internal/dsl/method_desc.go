@@ -14,7 +14,7 @@
 
 package dsl
 
-import "github.com/sacloud/iaas-api-go/internal/dsl/meta"
+import "github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl/meta"
 
 // MethodDesc モデルにメソッドを持たせるための定義
 type MethodDesc struct {

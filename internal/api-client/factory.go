@@ -21,7 +21,7 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-retryablehttp"
-	sacloudhttp "github.com/sacloud/go-http"
+	sacloudhttp "github.com/sacloud/sacloud-sdk-go/internal/go-http"
 )
 
 // Factory client.HttpRequestDoerを作成して返すファクトリー

@@ -20,8 +20,8 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/serviceutil"
-	vpcRouterBuilder "github.com/sacloud/iaas-service-go/vpcrouter/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
+	vpcRouterBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/vpcrouter/builder"
 	"github.com/sacloud/packages-go/validate"
 )
 

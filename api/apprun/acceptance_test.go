@@ -23,9 +23,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sacloud/apprun-api-go"
-	v1 "github.com/sacloud/apprun-api-go/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 

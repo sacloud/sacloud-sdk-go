@@ -18,7 +18,7 @@ import (
 	"fmt"
 	"runtime"
 
-	v1 "github.com/sacloud/monitoring-suite-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
 	"github.com/sacloud/saclient-go"
 )
 

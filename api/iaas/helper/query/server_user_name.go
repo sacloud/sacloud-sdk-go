@@ -17,7 +17,7 @@ package query
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 // ServerDefaultUserName returns default admin user name from source archives/disks

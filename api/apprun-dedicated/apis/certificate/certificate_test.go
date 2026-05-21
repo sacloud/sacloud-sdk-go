@@ -9,12 +9,11 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-	. "github.com/sacloud/apprun-dedicated-api-go/apis/certificate"
-	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
-	apprun_test "github.com/sacloud/apprun-dedicated-api-go/testutil"
-	"github.com/sacloud/packages-go/testutil"
-	super "github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/saclient-go"
+	. "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/certificate"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
+	apprun_test "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/testutil"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 
@@ -188,7 +187,7 @@ func TestIntegrated(t *testing.T) {
 	assert.NotNil(api)
 
 	t.Run("Create", func(t *testing.T) {
-		certName := super.RandomName("test-", 15, super.CharSetAlphaNum)
+		certName := testutil.RandomName("test-", 15, testutil.CharSetAlphaNum)
 		c, p, err := apprun_test.OreSign()
 		assert.NoError(err)
 
@@ -228,7 +227,7 @@ func TestIntegrated(t *testing.T) {
 			c2, p2, err := apprun_test.OreSign()
 			assert.NoError(err)
 			err = api.Update(t.Context(), certID, UpdateParams{
-				Name:           super.RandomName("test-", 15, super.CharSetAlphaNum),
+				Name:           testutil.RandomName("test-", 15, testutil.CharSetAlphaNum),
 				CertificatePEM: string(c2),
 				PrivateKeyPEM:  string(p2),
 			})

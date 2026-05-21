@@ -4,8 +4,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/sacloud/nosql-api-go"
-	v1 "github.com/sacloud/nosql-api-go/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/api/nosql"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/nosql/apis/v1"
 )
 
 func TestPlan_AllValues(t *testing.T) {

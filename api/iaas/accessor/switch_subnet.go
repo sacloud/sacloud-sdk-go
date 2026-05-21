@@ -17,7 +17,7 @@ package accessor
 import (
 	"net"
 
-	"github.com/sacloud/packages-go/cidr"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/cidr"
 )
 
 // AssignedIPAddress スイッチ+ルータの割り当てられたIPアドレスリスト

@@ -6,9 +6,9 @@ package cluster
 import (
 	"context"
 
-	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
-	"github.com/sacloud/apprun-dedicated-api-go/common"
-	"github.com/sacloud/saclient-go"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type ClusterAPI interface {

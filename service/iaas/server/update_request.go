@@ -20,8 +20,8 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	diskService "github.com/sacloud/iaas-service-go/disk"
-	"github.com/sacloud/iaas-service-go/serviceutil"
+	diskService "github.com/sacloud/sacloud-sdk-go/service/iaas/disk"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
 	"github.com/sacloud/packages-go/validate"
 )
 

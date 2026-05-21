@@ -17,7 +17,7 @@ package enhanceddb
 import (
 	"context"
 
-	"github.com/sacloud/iaas-service-go/enhanceddb/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/enhanceddb/builder"
 )
 
 func (s *Service) Apply(req *ApplyRequest) (*builder.EnhancedDB, error) {

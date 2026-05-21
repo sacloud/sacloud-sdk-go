@@ -19,8 +19,8 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/internet/builder"
-	"github.com/sacloud/iaas-service-go/serviceutil"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/internet/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
 	"github.com/sacloud/packages-go/validate"
 )
 

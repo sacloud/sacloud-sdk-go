@@ -19,9 +19,9 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	diskService "github.com/sacloud/iaas-service-go/disk"
-	diskBuilder "github.com/sacloud/iaas-service-go/disk/builder"
-	server "github.com/sacloud/iaas-service-go/server/builder"
+	diskService "github.com/sacloud/sacloud-sdk-go/service/iaas/disk"
+	diskBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/disk/builder"
+	server "github.com/sacloud/sacloud-sdk-go/service/iaas/server/builder"
 	"github.com/sacloud/packages-go/validate"
 )
 

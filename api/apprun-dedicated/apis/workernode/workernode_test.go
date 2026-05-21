@@ -9,10 +9,10 @@ import (
 
 	"github.com/go-faster/jx"
 	"github.com/google/uuid"
-	v1 "github.com/sacloud/apprun-dedicated-api-go/apis/v1"
-	. "github.com/sacloud/apprun-dedicated-api-go/apis/workernode"
-	apprun_test "github.com/sacloud/apprun-dedicated-api-go/testutil"
-	"github.com/sacloud/saclient-go"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
+	. "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/workernode"
+	apprun_test "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/testutil"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
 

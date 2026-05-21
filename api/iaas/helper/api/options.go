@@ -19,10 +19,10 @@ import (
 	"os"
 	"runtime"
 
-	client "github.com/sacloud/api-client-go"
-	"github.com/sacloud/api-client-go/profile"
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/packages-go/envvar"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
+	"github.com/sacloud/sacloud-sdk-go/internal/api-client/profile"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/envvar"
 )
 
 var UserAgent = fmt.Sprintf(

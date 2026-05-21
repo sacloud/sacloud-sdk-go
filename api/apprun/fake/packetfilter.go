@@ -14,7 +14,7 @@
 
 package fake
 
-import v1 "github.com/sacloud/apprun-api-go/apis/v1"
+import v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 
 func (engine *Engine) ReadPacketFilter(appId string) (*v1.HandlerGetPacketFilter, error) {
 	defer engine.rLock()()

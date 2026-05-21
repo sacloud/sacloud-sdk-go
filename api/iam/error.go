@@ -14,7 +14,7 @@
 
 package iam
 
-import "github.com/sacloud/iam-api-go/common"
+import "github.com/sacloud/sacloud-sdk-go/api/iam/common"
 
 type Error = common.Error
 

@@ -22,7 +22,7 @@ import (
 	"github.com/sacloud/iaas-api-go/helper/cleanup"
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	builder2 "github.com/sacloud/iaas-service-go/internet/builder"
+	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/internet/builder"
 	"github.com/sacloud/packages-go/pointer"
 	"github.com/stretchr/testify/require"
 )

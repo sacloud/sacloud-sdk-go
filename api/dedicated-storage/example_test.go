@@ -19,9 +19,9 @@ import (
 	"fmt"
 	"os"
 
-	dedicatedstorage "github.com/sacloud/dedicated-storage-api-go"
-	v1 "github.com/sacloud/dedicated-storage-api-go/apis/v1"
-	"github.com/sacloud/saclient-go"
+	dedicatedstorage "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 func Example_dedicatedStorageCRUDL() {

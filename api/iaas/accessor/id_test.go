@@ -17,7 +17,7 @@ package accessor
 import (
 	"testing"
 
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	"github.com/stretchr/testify/require"
 )
 

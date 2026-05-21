@@ -19,9 +19,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/sacloud/api-client-go/profile"
-	sacloudhttp "github.com/sacloud/go-http"
-	"github.com/sacloud/packages-go/envvar"
+	"github.com/sacloud/sacloud-sdk-go/internal/api-client/profile"
+	sacloudhttp "github.com/sacloud/sacloud-sdk-go/internal/go-http"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/envvar"
 )
 
 // Options sacloudhttp.Clientを作成する際のオプション

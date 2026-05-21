@@ -8,7 +8,7 @@ import (
 	"errors"
 	"time"
 
-	v2 "github.com/sacloud/object-storage-api-go/apis/v2"
+	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
 )
 
 type SiteStatusAPI interface {

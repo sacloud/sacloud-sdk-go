@@ -1,4 +1,4 @@
-module github.com/sacloud/monitoring-suite-api-go
+module github.com/sacloud/sacloud-sdk-go/api/monitoring-suite
 
 go 1.25.0
 

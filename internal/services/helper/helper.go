@@ -18,10 +18,10 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/sacloud/services"
-	"github.com/sacloud/services/meta"
-	"github.com/sacloud/services/naming"
-	"github.com/sacloud/services/validate"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/meta"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/naming"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/validate"
 )
 
 // NewParameter 指定のfuncのパラメータを新規作成&初期化して返す

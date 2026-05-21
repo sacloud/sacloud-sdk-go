@@ -7,10 +7,10 @@ import (
 	"os"
 	"testing"
 
-	"github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/saclient-go"
-	securitycontrol "github.com/sacloud/security-control-api-go"
-	v1 "github.com/sacloud/security-control-api-go/apis/v1"
+	securitycontrol "github.com/sacloud/sacloud-sdk-go/api/security-control"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/security-control/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

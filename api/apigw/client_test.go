@@ -20,7 +20,7 @@ import (
 	"sync"
 	"testing"
 
-	. "github.com/sacloud/apigw-api-go"
+	. "github.com/sacloud/sacloud-sdk-go/api/apigw"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"
 )

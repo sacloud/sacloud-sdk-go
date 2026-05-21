@@ -22,7 +22,7 @@ import (
 
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/internal/ftps"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/internal/ftps"
 )
 
 func (s *Service) Upload(req *UploadRequest) error {

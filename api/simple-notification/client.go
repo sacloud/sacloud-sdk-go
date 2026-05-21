@@ -15,8 +15,8 @@
 package simplenotification
 
 import (
-	"github.com/sacloud/saclient-go"
-	v1 "github.com/sacloud/simple-notification-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/simple-notification/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 const (

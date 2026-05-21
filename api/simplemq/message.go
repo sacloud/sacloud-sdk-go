@@ -18,7 +18,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/sacloud/simplemq-api-go/apis/v1/message"
+	"github.com/sacloud/sacloud-sdk-go/api/simplemq/apis/v1/message"
 )
 
 type MessageAPI interface {

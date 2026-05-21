@@ -18,7 +18,7 @@ import (
 	"fmt"
 
 	"github.com/sacloud/iaas-api-go/types"
-	serverBuilder "github.com/sacloud/iaas-service-go/server/builder"
+	serverBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/server/builder"
 	"github.com/sacloud/packages-go/validate"
 )
 

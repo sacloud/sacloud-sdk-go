@@ -20,7 +20,7 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/sacloud/services/naming"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/naming"
 )
 
 // DefaultTagName meta-tagのデフォルト名

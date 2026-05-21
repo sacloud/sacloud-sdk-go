@@ -17,8 +17,8 @@ package apprun_test
 import (
 	"net/http/httptest"
 
-	"github.com/sacloud/apprun-api-go/fake"
-	"github.com/sacloud/apprun-api-go/fake/server"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun/fake"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun/fake/server"
 )
 
 func init() {

@@ -21,7 +21,7 @@ import (
 	"github.com/sacloud/iaas-api-go"
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/iaas-service-go/certificateauthority/builder"
+	"github.com/sacloud/sacloud-sdk-go/service/iaas/certificateauthority/builder"
 )
 
 func TestCertificateAuthorityService_CRUD(t *testing.T) {

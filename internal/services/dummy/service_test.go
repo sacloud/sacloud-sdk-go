@@ -17,7 +17,7 @@ package dummy
 import (
 	"testing"
 
-	"github.com/sacloud/services/helper"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/helper"
 )
 
 func TestServiceImpl(t *testing.T) {

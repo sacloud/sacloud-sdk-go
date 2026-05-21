@@ -17,7 +17,7 @@ package helper
 import (
 	"fmt"
 
-	"github.com/sacloud/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
 )
 
 // PrintServiceMeta サービスメタデータを標準出力に整形して書き込む

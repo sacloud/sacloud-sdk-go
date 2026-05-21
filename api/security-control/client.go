@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/sacloud/saclient-go"
-	v1 "github.com/sacloud/security-control-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/security-control/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 const (

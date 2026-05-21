@@ -21,8 +21,8 @@ import (
 	"time"
 
 	"github.com/go-faster/jx"
-	"github.com/sacloud/addon-api-go"
-	v1 "github.com/sacloud/addon-api-go/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/api/addon"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/addon/apis/v1"
 	"github.com/sacloud/packages-go/testutil"
 	"github.com/sacloud/saclient-go"
 	"github.com/stretchr/testify/require"

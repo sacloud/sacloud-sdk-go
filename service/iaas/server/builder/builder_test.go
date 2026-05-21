@@ -28,8 +28,8 @@ import (
 	"github.com/sacloud/iaas-api-go/ostype"
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	service "github.com/sacloud/iaas-service-go"
-	disk "github.com/sacloud/iaas-service-go/disk/builder"
+	service "github.com/sacloud/sacloud-sdk-go/service/iaas"
+	disk "github.com/sacloud/sacloud-sdk-go/service/iaas/disk/builder"
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/ssh"
 )

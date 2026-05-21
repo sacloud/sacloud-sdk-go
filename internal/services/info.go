@@ -17,7 +17,7 @@ package services
 import (
 	"strings"
 
-	"github.com/sacloud/services/naming"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/naming"
 )
 
 // Info サービスについての情報

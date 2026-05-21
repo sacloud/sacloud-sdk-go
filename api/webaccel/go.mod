@@ -1,4 +1,4 @@
-module github.com/sacloud/webaccel-api-go
+module github.com/sacloud/sacloud-sdk-go/api/webaccel
 
 go 1.25.5
 

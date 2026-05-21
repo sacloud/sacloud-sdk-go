@@ -22,8 +22,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/fake"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/fake"
 	"github.com/stretchr/testify/require"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
@@ -57,7 +57,7 @@ func TestTracer(t *testing.T) {
 		t.Fatal(err)
 	}
 	require.EqualValues(t, instrumentation.Library{
-		Name:    "github.com/sacloud/iaas-api-go",
+		Name:    "github.com/sacloud/sacloud-sdk-go/api/iaas",
 		Version: iaas.Version,
 	}, sp.InstrumentationLibrary)
 

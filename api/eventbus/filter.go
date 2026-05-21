@@ -21,7 +21,7 @@ import (
 	"net/http"
 	"net/url"
 
-	v1 "github.com/sacloud/eventbus-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
 	"github.com/sacloud/saclient-go"
 )
 

@@ -14,7 +14,7 @@
 
 package services
 
-import "github.com/sacloud/services/meta"
+import "github.com/sacloud/sacloud-sdk-go/internal/services/meta"
 
 // Config サービスのバリデーションやメタデータ出力のためのコンフィグ
 type Config struct {

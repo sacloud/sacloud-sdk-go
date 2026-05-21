@@ -17,8 +17,8 @@ package test
 import (
 	"testing"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/testutil"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/stretchr/testify/assert"
 )
 

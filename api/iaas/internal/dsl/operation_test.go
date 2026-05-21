@@ -18,7 +18,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/sacloud/iaas-api-go/internal/dsl/meta"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl/meta"
 	"github.com/stretchr/testify/require"
 )
 

@@ -21,8 +21,8 @@ import (
 	"reflect"
 	"strings"
 
-	"github.com/sacloud/services"
-	"github.com/sacloud/services/helper"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/helper"
 )
 
 var registry = map[string]services.Service{}

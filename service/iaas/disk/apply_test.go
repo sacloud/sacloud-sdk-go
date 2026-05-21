@@ -20,7 +20,7 @@ import (
 	"github.com/sacloud/iaas-api-go/ostype"
 	"github.com/sacloud/iaas-api-go/testutil"
 	"github.com/sacloud/iaas-api-go/types"
-	disk "github.com/sacloud/iaas-service-go/disk/builder"
+	disk "github.com/sacloud/sacloud-sdk-go/service/iaas/disk/builder"
 	"github.com/stretchr/testify/require"
 )
 

@@ -17,8 +17,8 @@ package cleanup
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 // DeleteInternet スイッチ+ルータの削除 IPv6の無効化やサブネットの削除を一括して行う

@@ -28,7 +28,7 @@
 //go:generate go run ../tools/gen-api-fake-op/
 package define
 
-import "github.com/sacloud/iaas-api-go/internal/dsl"
+import "github.com/sacloud/sacloud-sdk-go/api/iaas/internal/dsl"
 
 // APIs APIでの操作対象リソースの定義
 var APIs dsl.Resources

@@ -25,8 +25,8 @@ import (
 	"github.com/sacloud/iaas-api-go/helper/power"
 	"github.com/sacloud/iaas-api-go/helper/query"
 	"github.com/sacloud/iaas-api-go/types"
-	service "github.com/sacloud/iaas-service-go"
-	disk "github.com/sacloud/iaas-service-go/disk/builder"
+	service "github.com/sacloud/sacloud-sdk-go/service/iaas"
+	disk "github.com/sacloud/sacloud-sdk-go/service/iaas/disk/builder"
 	"github.com/sacloud/packages-go/size"
 )
 

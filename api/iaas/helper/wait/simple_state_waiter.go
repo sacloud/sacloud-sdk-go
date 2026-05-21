@@ -18,9 +18,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/packages-go/wait"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/wait"
 )
 
 // ByFunc デフォルトのパラメータでSimpleStateWaiterを作成して返す

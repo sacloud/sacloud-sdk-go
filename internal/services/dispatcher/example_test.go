@@ -17,9 +17,9 @@ package dispatcher_test
 import (
 	"fmt"
 
-	"github.com/sacloud/services"
-	"github.com/sacloud/services/dispatcher"
-	"github.com/sacloud/services/dummy"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/dispatcher"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/dummy"
 )
 
 func Example() {

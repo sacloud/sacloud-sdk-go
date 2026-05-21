@@ -18,7 +18,7 @@ import (
 	"context"
 	"errors"
 
-	v1 "github.com/sacloud/dedicated-storage-api-go/apis/v1"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/dedicated-storage/apis/v1"
 )
 
 type DiskAPI interface {
