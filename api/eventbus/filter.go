@@ -22,7 +22,7 @@ import (
 	"net/url"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 func injectFilterMiddleware(apiRootURL string) (saclient.Middleware, error) {
