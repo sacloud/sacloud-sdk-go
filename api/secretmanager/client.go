@@ -19,8 +19,8 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/sacloud/saclient-go"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 const (
