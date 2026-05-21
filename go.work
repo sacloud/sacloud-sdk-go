@@ -13,7 +13,6 @@ use (
 	./api/kms
 	./api/monitoring-suite
 	./api/nosql
-	./api/object-storage
 	./api/webaccel
 	./service/iaas
 	./service/webaccel
