@@ -24,7 +24,6 @@ updates:
       - /api/eventbus
       - /api/iaas/trace/otel
       - /api/kms
-      - /api/monitoring-suite
       - /api/nosql
       - /api/webaccel
       - /service/iaas
