@@ -12,7 +12,7 @@ import (
 
 	objectstorage "github.com/sacloud/sacloud-sdk-go/api/object-storage"
 	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 // Example_siteAPI サイト(クラスタ)APIの利用例
