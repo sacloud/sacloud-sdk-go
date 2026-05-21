@@ -10,7 +10,7 @@ import (
 	"runtime"
 
 	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 const (
