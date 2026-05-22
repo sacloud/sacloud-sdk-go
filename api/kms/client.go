@@ -20,7 +20,7 @@ import (
 	"runtime"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/kms/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 // DefaultAPIRootURL デフォルトのAPIルートURL

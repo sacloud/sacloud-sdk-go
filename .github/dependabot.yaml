@@ -20,7 +20,6 @@ updates:
       - /
       - /api/apigw
       - /api/iaas/trace/otel
-      - /api/kms
       - /api/webaccel
       - /service/iaas
       - /service/webaccel
