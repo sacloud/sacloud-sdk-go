@@ -8,7 +8,6 @@ use (
 	./api/apigw
 	./api/iaas/trace/otel
 	./api/kms
-	./api/nosql
 	./api/webaccel
 	./service/iaas
 	./service/webaccel
