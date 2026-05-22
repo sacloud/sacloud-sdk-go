@@ -17,9 +17,9 @@ package bridge
 import (
 	"testing"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/testutil"
-	"github.com/sacloud/packages-go/pointer"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/pointer"
 )
 
 func TestBridgeService_CRUD(t *testing.T) {

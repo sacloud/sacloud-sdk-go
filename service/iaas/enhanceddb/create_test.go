@@ -17,9 +17,9 @@ package enhanceddb
 import (
 	"testing"
 
-	"github.com/sacloud/iaas-api-go/testutil"
-	"github.com/sacloud/iaas-api-go/types"
-	sacloudTestUtil "github.com/sacloud/packages-go/testutil"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	sacloudTestUtil "github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 

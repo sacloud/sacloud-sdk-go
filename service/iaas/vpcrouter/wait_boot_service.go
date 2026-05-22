@@ -17,8 +17,8 @@ package vpcrouter
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/wait"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/wait"
 )
 
 func (s *Service) WaitBoot(req *WaitBootRequest) error {

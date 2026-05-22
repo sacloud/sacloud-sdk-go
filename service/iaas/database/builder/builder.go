@@ -19,11 +19,11 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/accessor"
-	"github.com/sacloud/iaas-api-go/defaults"
-	"github.com/sacloud/iaas-api-go/helper/power"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/accessor"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/defaults"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/power"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	setup2 "github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 )
 

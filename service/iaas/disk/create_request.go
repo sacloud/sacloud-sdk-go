@@ -17,9 +17,9 @@ package disk
 import (
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go/ostype"
-	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/packages-go/validate"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/ostype"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
 )
 
 // CreateRequest ディスク作成リクエスト

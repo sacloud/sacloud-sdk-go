@@ -14,7 +14,7 @@
 
 package containerregistry
 
-import "github.com/sacloud/iaas-api-go"
+import "github.com/sacloud/sacloud-sdk-go/api/iaas"
 
 // Service provides a high-level API of for ContainerRegistry
 type Service struct {

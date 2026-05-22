@@ -19,7 +19,6 @@ updates:
     directories:
       - /
       - /api/iaas/trace/otel
-      - /service/iaas
       - /service/webaccel
     schedule:
       interval: daily

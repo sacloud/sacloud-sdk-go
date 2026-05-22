@@ -15,8 +15,8 @@
 package bridge
 
 import (
-	"github.com/sacloud/iaas-api-go/types"
-	"github.com/sacloud/packages-go/validate"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
 )
 
 type DeleteRequest struct {

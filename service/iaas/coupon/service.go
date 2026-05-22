@@ -15,8 +15,8 @@
 package coupon
 
 import (
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 // Service provides a high-level API of for Coupon

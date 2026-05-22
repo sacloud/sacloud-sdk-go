@@ -20,12 +20,12 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/query"
-	"github.com/sacloud/iaas-api-go/ostype"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/query"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/ostype"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/size"
 	service "github.com/sacloud/sacloud-sdk-go/service/iaas"
-	"github.com/sacloud/packages-go/size"
 )
 
 // Builder ディスクの構築インターフェース

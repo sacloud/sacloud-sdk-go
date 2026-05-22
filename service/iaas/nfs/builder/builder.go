@@ -19,10 +19,10 @@ import (
 	"errors"
 	"reflect"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/query"
-	"github.com/sacloud/iaas-api-go/helper/wait"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/query"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/wait"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 type Builder struct {

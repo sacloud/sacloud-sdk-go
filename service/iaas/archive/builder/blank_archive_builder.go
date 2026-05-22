@@ -20,10 +20,10 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/size"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/internal/ftps"
-	"github.com/sacloud/packages-go/size"
 )
 
 // BlankArchiveBuilder ブランクアーカイブの作成〜FTPSでのファイルアップロードを行う

@@ -17,7 +17,7 @@ package nfs
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func (s *Service) Read(req *ReadRequest) (*iaas.NFS, error) {

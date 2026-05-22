@@ -17,7 +17,7 @@ package authstatus
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 // Deprecated: Read is deprecated. Use AuthOp.GetAuth in iam-api-go instead.

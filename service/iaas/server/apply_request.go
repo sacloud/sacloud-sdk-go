@@ -17,12 +17,12 @@ package server
 import (
 	"errors"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
 	diskService "github.com/sacloud/sacloud-sdk-go/service/iaas/disk"
 	diskBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/disk/builder"
 	server "github.com/sacloud/sacloud-sdk-go/service/iaas/server/builder"
-	"github.com/sacloud/packages-go/validate"
 )
 
 type ApplyRequest struct {

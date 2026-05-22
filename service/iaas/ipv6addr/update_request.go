@@ -15,7 +15,7 @@
 package ipv6addr
 
 import (
-	"github.com/sacloud/packages-go/validate"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
 )
 
 type UpdateRequest struct {

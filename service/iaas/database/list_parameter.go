@@ -14,7 +14,7 @@
 
 package database
 
-import "github.com/sacloud/iaas-api-go"
+import "github.com/sacloud/sacloud-sdk-go/api/iaas"
 
 type Parameter struct {
 	Key   string

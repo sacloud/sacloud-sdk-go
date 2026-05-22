@@ -17,7 +17,7 @@ package ipv6addr
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func (s *Service) Find(req *FindRequest) ([]*iaas.IPv6Addr, error) {

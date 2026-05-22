@@ -17,7 +17,7 @@ package sim
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/sim/builder"
 )
 

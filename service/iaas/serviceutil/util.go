@@ -18,9 +18,9 @@ import (
 	"fmt"
 	"time"
 
-	iaas "github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/mapconv"
-	"github.com/sacloud/packages-go/size"
+	iaas "github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/mapconv"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/size"
 )
 
 func HandleNotFoundError(err error, ignoreNotFoundError bool) error {

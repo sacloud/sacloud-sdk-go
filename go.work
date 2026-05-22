@@ -6,6 +6,5 @@ go 1.25.8
 use (
 	.
 	./api/iaas/trace/otel
-	./service/iaas
 	./service/webaccel
 )

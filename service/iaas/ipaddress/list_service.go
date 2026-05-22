@@ -17,7 +17,7 @@ package ipaddress
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func (s *Service) List(req *ListRequest) ([]*iaas.IPAddress, error) {

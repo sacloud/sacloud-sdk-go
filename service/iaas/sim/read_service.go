@@ -17,8 +17,8 @@ package sim
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/query"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/query"
 )
 
 func (s *Service) Read(req *ReadRequest) (*iaas.SIM, error) {

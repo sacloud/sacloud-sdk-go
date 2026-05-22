@@ -20,9 +20,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/ostype"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/ostype"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 	disk "github.com/sacloud/sacloud-sdk-go/service/iaas/disk/builder"
 	server "github.com/sacloud/sacloud-sdk-go/service/iaas/server/builder"
 )

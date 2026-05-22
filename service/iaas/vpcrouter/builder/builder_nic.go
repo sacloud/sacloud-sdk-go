@@ -15,8 +15,8 @@
 package builder
 
 import (
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 // NICSettingHolder VPCルータのeth0の設定 SharedNICSettingまたはRouterNICSettingを指定する
