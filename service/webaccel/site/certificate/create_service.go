@@ -17,8 +17,8 @@ package certificate
 import (
 	"context"
 
-	"github.com/sacloud/services/helper"
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/helper"
 )
 
 func (s *Service) Create(req *CreateRequest) (*webaccel.Certificates, error) {

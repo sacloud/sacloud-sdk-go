@@ -15,7 +15,7 @@
 package site
 
 import (
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
 )
 
 type UpdateRequest struct {

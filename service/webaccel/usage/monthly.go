@@ -14,7 +14,7 @@
 
 package usage
 
-import "github.com/sacloud/webaccel-api-go"
+import "github.com/sacloud/sacloud-sdk-go/api/webaccel"
 
 type Monthly struct {
 	Year  int

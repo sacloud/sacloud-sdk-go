@@ -18,9 +18,9 @@ import (
 	"testing"
 	"time"
 
-	client "github.com/sacloud/api-client-go"
-	"github.com/sacloud/packages-go/testutil"
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 
