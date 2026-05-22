@@ -5,7 +5,6 @@ go 1.25.8
 
 use (
 	.
-	./api/apigw
 	./api/iaas/trace/otel
 	./api/webaccel
 	./service/iaas
