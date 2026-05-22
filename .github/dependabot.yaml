@@ -20,7 +20,6 @@ updates:
       - /
       - /api/addon
       - /api/apigw
-      - /api/cloudhsm
       - /api/iaas/trace/otel
       - /api/kms
       - /api/nosql
