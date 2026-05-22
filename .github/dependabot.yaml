@@ -21,7 +21,6 @@ updates:
       - /api/addon
       - /api/apigw
       - /api/cloudhsm
-      - /api/eventbus
       - /api/iaas/trace/otel
       - /api/kms
       - /api/nosql
