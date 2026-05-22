@@ -15,8 +15,8 @@
 package usage
 
 import (
-	"github.com/sacloud/services"
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
 )
 
 // Service provides a high-level API of for Service

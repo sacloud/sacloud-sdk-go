@@ -17,8 +17,8 @@ package site
 import (
 	"context"
 
-	"github.com/sacloud/services/helper"
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
+	"github.com/sacloud/sacloud-sdk-go/internal/services/helper"
 )
 
 func (s *Service) Update(req *UpdateRequest) (*webaccel.Site, error) {

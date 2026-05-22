@@ -15,8 +15,8 @@
 package service
 
 import (
-	"github.com/sacloud/services"
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
+	"github.com/sacloud/sacloud-sdk-go/internal/services"
 	"github.com/sacloud/sacloud-sdk-go/service/webaccel/cache"
 	"github.com/sacloud/sacloud-sdk-go/service/webaccel/site"
 	"github.com/sacloud/sacloud-sdk-go/service/webaccel/site/certificate"

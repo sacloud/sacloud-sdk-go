@@ -15,7 +15,7 @@
 package certificate
 
 import (
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
 )
 
 type CreateRequest struct {

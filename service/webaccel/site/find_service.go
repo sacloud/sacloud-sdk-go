@@ -17,7 +17,7 @@ package site
 import (
 	"context"
 
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
 )
 
 func (s *Service) Find(req *FindRequest) ([]*webaccel.Site, error) {
