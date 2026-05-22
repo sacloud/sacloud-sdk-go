@@ -25,8 +25,8 @@ import (
 	"strings"
 	"sync"
 
-	client "github.com/sacloud/api-client-go"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 )
 
 const (
