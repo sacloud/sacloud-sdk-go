@@ -18,7 +18,6 @@ updates:
   - package-ecosystem: gomod
     directories:
       - /
-      - /api/addon
       - /api/apigw
       - /api/iaas/trace/otel
       - /api/kms
