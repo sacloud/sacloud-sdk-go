@@ -18,7 +18,7 @@ import (
 
 	nosql "github.com/sacloud/nosql-api-go"
 	v1 "github.com/sacloud/nosql-api-go/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 func main() {

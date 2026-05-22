@@ -3,7 +3,7 @@
 
 package nosql
 
-import "github.com/sacloud/saclient-go"
+import "github.com/sacloud/sacloud-sdk-go/common/saclient"
 
 type Error struct {
 	msg string
