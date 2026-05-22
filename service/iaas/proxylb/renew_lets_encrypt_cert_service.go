@@ -17,7 +17,7 @@ package proxylb
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func (s *Service) RenewLetsEncryptCert(req *RenewLetsEncryptCertRequest) error {

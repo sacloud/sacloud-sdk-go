@@ -18,9 +18,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/plans"
-	"github.com/sacloud/packages-go/objutil"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/plans"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/objutil"
 )
 
 func (s *Service) Update(req *UpdateRequest) (*iaas.ProxyLB, error) {

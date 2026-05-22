@@ -17,7 +17,7 @@ package internet
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func (s *Service) DeleteSubnet(req *DeleteSubnetRequest) error {

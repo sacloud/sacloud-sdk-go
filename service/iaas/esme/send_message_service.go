@@ -18,7 +18,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func (s *Service) SendMessage(req *SendMessageRequest) (*iaas.ESMESendMessageResult, error) {

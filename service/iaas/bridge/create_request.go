@@ -15,9 +15,9 @@
 package bridge
 
 import (
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
-	"github.com/sacloud/packages-go/validate"
 )
 
 type CreateRequest struct {

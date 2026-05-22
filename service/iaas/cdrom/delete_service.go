@@ -18,9 +18,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/cleanup"
-	"github.com/sacloud/iaas-api-go/helper/query"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/cleanup"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/query"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
 )
 

@@ -17,10 +17,10 @@ package database
 import (
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
 	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/database/builder"
-	"github.com/sacloud/packages-go/validate"
 )
 
 type ApplyRequest struct {

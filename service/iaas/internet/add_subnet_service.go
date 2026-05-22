@@ -18,7 +18,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func (s *Service) AddSubnet(req *AddSubnetRequest) (*iaas.Subnet, error) {

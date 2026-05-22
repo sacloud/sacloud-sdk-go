@@ -15,7 +15,7 @@
 package ipaddress
 
 import (
-	"github.com/sacloud/packages-go/validate"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
 )
 
 type ListRequest struct {

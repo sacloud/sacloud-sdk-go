@@ -18,9 +18,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/query"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/query"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
 // FromSharedArchiveBuilder 共有アーカイブからアーカイブの作成を行う

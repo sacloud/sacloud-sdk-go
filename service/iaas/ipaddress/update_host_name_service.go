@@ -19,7 +19,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 const (

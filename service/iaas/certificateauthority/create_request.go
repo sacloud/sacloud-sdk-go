@@ -17,9 +17,9 @@ package certificateauthority
 import (
 	"time"
 
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/certificateauthority/builder"
-	"github.com/sacloud/packages-go/validate"
 )
 
 type CreateRequest struct {

@@ -14,7 +14,7 @@
 
 package builder
 
-import "github.com/sacloud/iaas-api-go"
+import "github.com/sacloud/sacloud-sdk-go/api/iaas"
 
 // APIClient builderが利用するAPIクライアント
 type APIClient struct {

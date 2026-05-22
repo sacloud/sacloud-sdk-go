@@ -17,8 +17,8 @@ package nfs
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/power"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/power"
 )
 
 func (s *Service) Shutdown(req *ShutdownRequest) error {

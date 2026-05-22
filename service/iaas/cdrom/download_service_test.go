@@ -19,11 +19,11 @@ import (
 	"os"
 	"testing"
 
-	client "github.com/sacloud/api-client-go"
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/api"
-	"github.com/sacloud/iaas-api-go/testutil"
-	"github.com/sacloud/iaas-api-go/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/api"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 )
 
 func TestService_Download(t *testing.T) {

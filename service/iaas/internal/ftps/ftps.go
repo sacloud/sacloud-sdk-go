@@ -23,7 +23,7 @@ import (
 	"time"
 
 	"github.com/jlaffaye/ftp"
-	"github.com/sacloud/iaas-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 )
 
 func NewClient(ftpServer *iaas.FTPServer) (*ftp.ServerConn, error) {

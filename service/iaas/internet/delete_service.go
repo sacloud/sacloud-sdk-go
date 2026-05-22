@@ -17,8 +17,8 @@ package internet
 import (
 	"context"
 
-	"github.com/sacloud/iaas-api-go"
-	"github.com/sacloud/iaas-api-go/helper/cleanup"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/cleanup"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
 )
 
