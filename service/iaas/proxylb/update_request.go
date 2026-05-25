@@ -42,6 +42,8 @@ type UpdateRequest struct {
 	Syslog               *iaas.ProxyLBSyslog               `service:",omitempty"`
 	Timeout              *iaas.ProxyLBTimeout              `service:",omitempty"`
 	MonitoringSuiteLog   *iaas.MonitoringSuiteLog          `service:",omitempty"`
+	OriginGuard          *iaas.ProxyLBOriginGuard          `service:",omitempty"`
+	StrictRule           *iaas.ProxyLBStrictRule           `service:",omitempty"`
 	SettingsHash         string
 }
 

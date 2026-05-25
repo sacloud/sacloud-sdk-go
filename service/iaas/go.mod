@@ -7,7 +7,7 @@ toolchain go1.26.2
 require (
 	github.com/jlaffaye/ftp v0.2.0
 	github.com/sacloud/api-client-go v0.3.5
-	github.com/sacloud/iaas-api-go v1.28.0
+	github.com/sacloud/iaas-api-go v1.29.0
 	github.com/sacloud/iam-api-go v0.3.0
 	github.com/sacloud/packages-go v0.1.0
 	github.com/sacloud/saclient-go v0.3.7

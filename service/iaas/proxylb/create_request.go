@@ -42,6 +42,8 @@ type CreateRequest struct {
 	UseVIPFailover       bool
 	Region               types.EProxyLBRegion
 	MonitoringSuiteLog   *iaas.MonitoringSuiteLog
+	OriginGuard          *iaas.ProxyLBOriginGuard
+	StrictRule           *iaas.ProxyLBStrictRule
 }
 
 func (req *CreateRequest) Validate() error {
