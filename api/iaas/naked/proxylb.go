@@ -98,6 +98,8 @@ type ProxyLBSetting struct {
 	MonitoringSuiteLog   *MonitoringSuiteLog          `json:",omitempty" yaml:"monitoring_suite_log,omitempty" structs:",omitempty"`
 	ProxyProtocol        ProxyLBProxyProtocol         `yaml:"proxy_protocol"`
 	Syslog               ProxyLBSyslog                `yaml:"syslog"`
+	OriginGuard          *ProxyLBOriginGuard          `json:",omitempty" yaml:"origin_guard,omitempty" structs:",omitempty"`
+	StrictRule           *ProxyLBStrictRule           `json:",omitempty" yaml:"strict_rule,omitempty" structs:",omitempty"`
 }
 
 // MarshalJSON nullの場合に空配列を出力するための実装
@@ -336,6 +338,16 @@ func (p *ProxyLBCertificate) UnmarshalJSON(data []byte) error {
 	}
 
 	return nil
+}
+
+// ProxyLBOriginGuard OriginGuard設定
+type ProxyLBOriginGuard struct {
+	Token string `yaml:"token"`
+}
+
+// ProxyLBStrictRule StrictRule設定
+type ProxyLBStrictRule struct {
+	Enabled bool `yaml:"enabled"`
 }
 
 // ProxyLBHealth ProxyLBのヘルスチェック戻り値
