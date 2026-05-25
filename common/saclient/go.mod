@@ -11,7 +11,7 @@ require (
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/sacloud/api-client-go v0.3.5
 	github.com/sacloud/go-http v0.1.9
-	github.com/sacloud/packages-go v0.0.12
+	github.com/sacloud/packages-go v0.1.0
 	github.com/stretchr/testify v1.11.1
 	go.uber.org/ratelimit v0.3.1
 )
@@ -32,6 +32,6 @@ require (
 	github.com/rogpeppe/go-internal v1.9.0 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
-	golang.org/x/sys v0.39.0 // indirect
+	golang.org/x/sys v0.42.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

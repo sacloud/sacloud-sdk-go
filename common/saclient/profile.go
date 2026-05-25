@@ -79,7 +79,15 @@ type ProfileOp struct {
 var _ ProfileAPI = (*ProfileOp)(nil)
 
 // Creates a profile operator
-func NewProfileOp(envp []string) *ProfileOp { return &ProfileOp{lookupProfileDir(envp)} }
+func NewProfileOp(envp []string) (*ProfileOp, error) {
+	dir, err := lookupProfileDir(envp)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &ProfileOp{dir}, nil
+}
 
 func (this *ProfileOp) List() ([]string, error) {
 	glob := filepath.Join(this.dir, "*", "config.json")
@@ -361,31 +369,36 @@ func merge(dst, src map[string]any) map[string]any {
 	return ret
 }
 
-func lookupProfileDir(envp []string) string {
+func lookupProfileDir(envp []string) (string, error) {
 	if v, ok := lookupEnv(envp, "SAKURA_PROFILE_DIR"); ok {
-		return filepath.Clean(v)
+		return filepath.Clean(v), nil
 	} else if v, ok := lookupEnv(envp, "SAKURACLOUD_PROFILE_DIR"); ok {
-		return filepath.Clean(v)
+		return filepath.Clean(v), nil
 	} else if v, ok := lookupEnv(envp, "USACLOUD_PROFILE_DIR"); ok {
-		return filepath.Clean(v) // backward compat
+		return filepath.Clean(v), nil // backward compat
 	} else if v, ok := lookupEnv(envp, "XDG_CONFIG_HOME"); ok {
 		// if, and only if `~/.config/usacloud` exists, take it.
 		ret := filepath.Join(v, "usacloud")
-		if stat, err := os.Stat(ret); err == nil && stat.IsDir() {
-			return filepath.Clean(ret)
+		if stat, err := os.Stat(ret); err == nil && stat.IsDir() { // #nosec G703 -- this is in fact secure
+			return filepath.Clean(ret), nil
 		}
 	}
 
 	// fallback to '~/.usacloud'
-	if home, err := os.UserHomeDir(); err == nil && home != "" {
-		return filepath.Join(home, ".usacloud")
-	} else {
+	home, err := os.UserHomeDir()
+
+	if err != nil {
 		// :ESOTERIC: $HOME not set
-		//
-		// @shyouhei doesn't think it's worth returning an error here.
-		// Is there any mitigation we can do then?
-		panic("unable to determine profile directory")
+		return "", err
+	} else if home == "" {
+		// :UNLIKELY: current implementation of `os.UserHomeDir`
+		// does not return empty string without error.  But in case
+		// it changes its mind in the future, we want to be defensive here.
+		// We want to avoid creating global toplevel `/.usacloud`
+		return "", NewErrorf("unable to determine home directory")
 	}
+
+	return filepath.Join(home, ".usacloud"), nil
 }
 
 // lookupEnv searches for an environment variable in the provided slice
