@@ -88,17 +88,17 @@ func (op *WorkerNodeOp) Update(ctx context.Context, id v1.WorkerNodeID, draining
 var _ WorkerNodeAPI = (*WorkerNodeOp)(nil)
 
 type WorkerNodeDetail struct {
-	WorkerNodeID       v1.WorkerNodeID
-	ResourceID         *string
-	Draining           bool
-	Status             v1.WorkerNodeStatus
-	Healthy            bool
-	Creating           bool
-	Created            int
-	RunningContainers  []v1.RunningContainer
-	NetworkInterfaces  []WorkerNodeNetworkInterface
-	ArchiveVersion     *string
-	CreateErrorMessage *string
+	WorkerNodeID       v1.WorkerNodeID              `json:"workerNodeID"`
+	ResourceID         *string                      `json:"resourceID"`
+	Draining           bool                         `json:"draining"`
+	Status             v1.WorkerNodeStatus          `json:"status"`
+	Healthy            bool                         `json:"healthy"`
+	Creating           bool                         `json:"creating"`
+	Created            int                          `json:"created"`
+	RunningContainers  []v1.RunningContainer        `json:"runningContainers"`
+	NetworkInterfaces  []WorkerNodeNetworkInterface `json:"networkInterfaces"`
+	ArchiveVersion     *string                      `json:"archiveVersion"`
+	CreateErrorMessage *string                      `json:"createErrorMessage"`
 }
 
 func (w *WorkerNodeDetail) fromSummary(res *v1.ReadWorkerNodeSummary) {
@@ -130,8 +130,8 @@ func (w *WorkerNodeDetail) from(res *v1.ReadWorkerNodeDetail) {
 }
 
 type WorkerNodeNetworkInterface struct {
-	InterfaceIndex int16
-	Addresses      []string
+	InterfaceIndex int16    `json:"interfaceIndex"`
+	Addresses      []string `json:"addresses"`
 }
 
 func (w *WorkerNodeNetworkInterface) From(res *v1.ReadWorkerNodeNetworkInterface) {

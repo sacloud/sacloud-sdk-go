@@ -93,13 +93,13 @@ func (op *AutoScalingGroupOp) Delete(ctx context.Context, id v1.AutoScalingGroup
 var _ AutoScalingGroupAPI = (*AutoScalingGroupOp)(nil)
 
 type NodeInterface struct {
-	InterfaceIndex int16
-	Upstream       string
-	IpPool         []v1.IpRange
-	NetmaskLen     *int16
-	DefaultGateway *string
-	PacketFilterID *string
-	ConnectsToLB   bool
+	InterfaceIndex int16        `json:"interfaceIndex"`
+	Upstream       string       `json:"upstream"`
+	IpPool         []v1.IpRange `json:"ipPool"`
+	NetmaskLen     *int16       `json:"netmaskLen"`
+	DefaultGateway *string      `json:"defaultGateway"`
+	PacketFilterID *string      `json:"packetFilterID"`
+	ConnectsToLB   bool         `json:"connectsToLB"`
 }
 
 func (n NodeInterface) into() (ret v1.AutoScalingGroupNodeInterface) {
@@ -125,13 +125,13 @@ func (n *NodeInterface) From(res *v1.AutoScalingGroupNodeInterface) {
 }
 
 type CreateParams struct {
-	Name                   string
-	Zone                   string
-	NameServers            []v1.IPv4
-	WorkerServiceClassPath string
-	MinNodes               int32
-	MaxNodes               int32
-	Interfaces             []NodeInterface
+	Name                   string          `json:"name"`
+	Zone                   string          `json:"zone"`
+	NameServers            []v1.IPv4       `json:"nameServers"`
+	WorkerServiceClassPath string          `json:"workerServiceClassPath"`
+	MinNodes               int32           `json:"minNodes"`
+	MaxNodes               int32           `json:"maxNodes"`
+	Interfaces             []NodeInterface `json:"interfaces"`
 }
 
 func (c CreateParams) into() (ret v1.CreateAutoScalingGroup) {
@@ -147,16 +147,16 @@ func (c CreateParams) into() (ret v1.CreateAutoScalingGroup) {
 }
 
 type AutoScalingGroupDetail struct {
-	AutoScalingGroupID     v1.AutoScalingGroupID
-	Name                   string
-	Zone                   string
-	NameServers            []v1.IPv4
-	WorkerServiceClassPath string
-	MinNodes               int32
-	MaxNodes               int32
-	CurrentNodes           int32
-	Deleting               bool
-	Interfaces             []NodeInterface
+	AutoScalingGroupID     v1.AutoScalingGroupID `json:"autoScalingGroupID"`
+	Name                   string                `json:"name"`
+	Zone                   string                `json:"zone"`
+	NameServers            []v1.IPv4             `json:"nameServers"`
+	WorkerServiceClassPath string                `json:"workerServiceClassPath"`
+	MinNodes               int32                 `json:"minNodes"`
+	MaxNodes               int32                 `json:"maxNodes"`
+	CurrentNodes           int32                 `json:"currentNodes"`
+	Deleting               bool                  `json:"deleting"`
+	Interfaces             []NodeInterface       `json:"interfaces"`
 }
 
 func (a *AutoScalingGroupDetail) from(res *v1.ReadAutoScalingGroupDetail) {
