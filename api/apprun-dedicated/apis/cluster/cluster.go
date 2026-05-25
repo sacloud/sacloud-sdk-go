@@ -87,10 +87,10 @@ func (op *ClusterOp) Delete(ctx context.Context, id v1.ClusterID) error {
 var _ ClusterAPI = (*ClusterOp)(nil)
 
 type CreateParams struct {
-	Name               string
-	LetsEncryptEmail   *string
-	Ports              []v1.CreateLoadBalancerPort
-	ServicePrincipalID string
+	Name               string                      `json:"name"`
+	LetsEncryptEmail   *string                     `json:"letsEncryptEmail"`
+	Ports              []v1.CreateLoadBalancerPort `json:"ports"`
+	ServicePrincipalID string                      `json:"servicePrincipalID"`
 }
 
 func (c CreateParams) into() (ret v1.CreateCluster) {
@@ -103,8 +103,8 @@ func (c CreateParams) into() (ret v1.CreateCluster) {
 }
 
 type UpdateParams struct {
-	LetsEncryptEmail   *string
-	ServicePrincipalID string
+	LetsEncryptEmail   *string `json:"letsEncryptEmail"`
+	ServicePrincipalID string  `json:"servicePrincipalID"`
 }
 
 func (u UpdateParams) into() (ret v1.UpdateCluster) {
@@ -115,12 +115,12 @@ func (u UpdateParams) into() (ret v1.UpdateCluster) {
 }
 
 type ClusterDetail struct {
-	ClusterID           v1.ClusterID
-	Name                string
-	Ports               []v1.ReadLoadBalancerPort
-	ServicePrincipalID  string
-	HasLetsEncryptEmail bool
-	Created             int
+	ClusterID           v1.ClusterID                `json:"clusterID"`
+	Name                string                      `json:"name"`
+	Ports               []v1.ReadLoadBalancerPort   `json:"ports"`
+	ServicePrincipalID  string                      `json:"servicePrincipalID"`
+	HasLetsEncryptEmail bool                        `json:"hasLetsEncryptEmail"`
+	Created             int                         `json:"created"`
 }
 
 func (c *ClusterDetail) fromSummary(res *v1.ReadClusterSummary) {

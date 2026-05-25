@@ -58,13 +58,13 @@ func (op *ApplicationOp) Create(ctx context.Context, name string, clusterID v1.C
 }
 
 type ApplicationDetail struct {
-	ApplicationID          v1.ApplicationID
-	Name                   string
-	ClusterID              v1.ClusterID
-	ClusterName            string
-	ActiveVersion          *int32
-	DesiredCount           *int32
-	ScalingCooldownSeconds int32
+	ApplicationID          v1.ApplicationID `json:"applicationID"`
+	Name                   string           `json:"name"`
+	ClusterID              v1.ClusterID     `json:"clusterID"`
+	ClusterName            string           `json:"clusterName"`
+	ActiveVersion          *int32           `json:"activeVersion"`
+	DesiredCount           *int32           `json:"desiredCount"`
+	ScalingCooldownSeconds int32            `json:"scalingCooldownSeconds"`
 }
 
 func (op *ApplicationOp) Read(ctx context.Context, id v1.ApplicationID) (app *ApplicationDetail, err error) {
@@ -108,9 +108,9 @@ func (op *ApplicationOp) Update(ctx context.Context, id v1.ApplicationID, toVers
 }
 
 type Placement struct {
-	NodeID          string
-	ContainersStats v1.ApplicationContainersStats
-	Desired         v1.ApplicationPeekDesiredContainersResponse
+	NodeID          string                                      `json:"nodeID"`
+	ContainersStats v1.ApplicationContainersStats               `json:"containersStats"`
+	Desired         v1.ApplicationPeekDesiredContainersResponse `json:"desired"`
 }
 
 func (op *ApplicationOp) Containers(ctx context.Context, id v1.ApplicationID) (list []Placement, err error) {
