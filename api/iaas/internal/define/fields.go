@@ -1830,6 +1830,42 @@ func (f *fieldsDef) ProxyLBSyslog() *dsl.FieldDesc {
 	}
 }
 
+func (f *fieldsDef) ProxyLBOriginGuard() *dsl.FieldDesc {
+	return &dsl.FieldDesc{
+		Name: "OriginGuard",
+		Type: &dsl.Model{
+			Name: "ProxyLBOriginGuard",
+			Fields: []*dsl.FieldDesc{
+				{
+					Name: "Token",
+					Type: meta.TypeString,
+				},
+			},
+		},
+		Tags: &dsl.FieldTags{
+			MapConv: "Settings.ProxyLB.OriginGuard,recursive",
+		},
+	}
+}
+
+func (f *fieldsDef) ProxyLBStrictRule() *dsl.FieldDesc {
+	return &dsl.FieldDesc{
+		Name: "StrictRule",
+		Type: &dsl.Model{
+			Name: "ProxyLBStrictRule",
+			Fields: []*dsl.FieldDesc{
+				{
+					Name: "Enabled",
+					Type: meta.TypeFlag,
+				},
+			},
+		},
+		Tags: &dsl.FieldTags{
+			MapConv: "Settings.ProxyLB.StrictRule,recursive",
+		},
+	}
+}
+
 func (f *fieldsDef) ProxyLBTimeout() *dsl.FieldDesc {
 	return &dsl.FieldDesc{
 		Name: "Timeout",
