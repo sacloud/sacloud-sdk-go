@@ -62,6 +62,12 @@ func TestProxyLBService_CRUD(t *testing.T) {
 						InactiveSec: 10,
 					},
 					Region: types.ProxyLBRegions.IS1,
+					OriginGuard: &iaas.ProxyLBOriginGuard{
+						Token: "exampletoken",
+					},
+					StrictRule: &iaas.ProxyLBStrictRule{
+						Enabled: true,
+					},
 				})
 			},
 		},
@@ -77,6 +83,12 @@ func TestProxyLBService_CRUD(t *testing.T) {
 						ID:          ctx.ID,
 						Name:        pointer.NewString(name + "-upd"),
 						Description: pointer.NewString("test-upd"),
+						OriginGuard: &iaas.ProxyLBOriginGuard{
+							Token: "updatedtoken",
+						},
+						StrictRule: &iaas.ProxyLBStrictRule{
+							Enabled: true,
+						},
 					})
 				},
 			},

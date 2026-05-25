@@ -4,6 +4,7 @@
 package version_test
 
 import (
+	"encoding/json"
 	"net/http"
 	"testing"
 
@@ -221,4 +222,74 @@ func TestIntegrated(t *testing.T) {
 			assert.Equal(vid, actual.Version)
 		})
 	})
+}
+
+func TestJSONTags(t *testing.T) {
+	assert := assert.New(t)
+
+	params := CreateParams{
+		CPU:     100,
+		Memory:  128,
+		Image:   "nginx:latest",
+		Cmd:     []string{"/bin/sh"},
+		EnvVars: []EnvironmentVariable{{Key: "K", Value: saclient.Ptr("V")}},
+		ExposedPorts: []ExposedPort{{
+			TargetPort:     8080,
+			UseLetsEncrypt: true,
+			Host:           []string{"example.com"},
+			HealthCheck: &v1.HealthCheck{
+				Path:            "/health",
+				IntervalSeconds: 10,
+				TimeoutSeconds:  5,
+			},
+		}},
+	}
+
+	b, err := json.Marshal(params)
+	assert.NoError(err)
+
+	var raw map[string]interface{}
+	assert.NoError(json.Unmarshal(b, &raw))
+
+	assert.Equal(float64(100), raw["cpu"])
+	assert.Equal(float64(128), raw["memory"])
+	assert.Equal("nginx:latest", raw["image"])
+	assert.Equal([]interface{}{"/bin/sh"}, raw["cmd"])
+
+	envVars, ok := raw["envVars"].([]interface{})
+	assert.True(ok)
+	assert.Len(envVars, 1)
+	env := envVars[0].(map[string]interface{})
+	assert.Equal("K", env["key"])
+	assert.Equal("V", env["value"])
+
+	ports, ok := raw["exposedPorts"].([]interface{})
+	assert.True(ok)
+	assert.Len(ports, 1)
+	port := ports[0].(map[string]interface{})
+	assert.Equal(float64(8080), port["targetPort"])
+	assert.Equal(true, port["useLetsEncrypt"])
+	assert.Equal([]interface{}{"example.com"}, port["host"])
+
+	hc := port["healthCheck"].(map[string]interface{})
+	assert.Equal("/health", hc["path"])
+	assert.Equal(float64(10), hc["intervalSeconds"])
+	assert.Equal(float64(5), hc["timeoutSeconds"])
+
+	// verify pointer fields are present even when nil
+	assert.Contains(raw, "fixedScale")
+	assert.Nil(raw["fixedScale"])
+	assert.Contains(raw, "registryUsername")
+	assert.Nil(raw["registryUsername"])
+
+	// round-trip
+	var restored CreateParams
+	assert.NoError(json.Unmarshal(b, &restored))
+	assert.Equal(params.CPU, restored.CPU)
+	assert.Equal(params.Memory, restored.Memory)
+	assert.Equal(params.Image, restored.Image)
+	assert.Equal(params.Cmd, restored.Cmd)
+	assert.Len(restored.EnvVars, 1)
+	assert.Equal("K", restored.EnvVars[0].Key)
+	assert.Equal("V", *restored.EnvVars[0].Value)
 }

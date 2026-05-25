@@ -141,14 +141,14 @@ func (op *LoadBalancerOp) ReadNode(ctx context.Context, lbID v1.LoadBalancerID, 
 var _ LoadBalancerAPI = (*LoadBalancerOp)(nil)
 
 type LoadBalancerInterface struct {
-	InterfaceIndex  int16
-	Upstream        string
-	IpPool          []v1.IpRange
-	NetmaskLen      *int16
-	DefaultGateway  *string
-	Vip             *string
-	VirtualRouterID *int16
-	PacketFilterID  *string
+	InterfaceIndex  int16        `json:"interfaceIndex"`
+	Upstream        string       `json:"upstream"`
+	IpPool          []v1.IpRange `json:"ipPool"`
+	NetmaskLen      *int16       `json:"netmaskLen"`
+	DefaultGateway  *string      `json:"defaultGateway"`
+	Vip             *string      `json:"vip"`
+	VirtualRouterID *int16       `json:"virtualRouterID"`
+	PacketFilterID  *string      `json:"packetFilterID"`
 }
 
 func (l LoadBalancerInterface) into() (ret v1.LoadBalancerInterface) {
@@ -176,8 +176,8 @@ func (l *LoadBalancerInterface) From(res *v1.LoadBalancerInterface) {
 }
 
 type NodeInterface struct {
-	InterfaceIndex int16
-	Addresses      []NodeInterfaceAddress
+	InterfaceIndex int16                  `json:"interfaceIndex"`
+	Addresses      []NodeInterfaceAddress `json:"addresses"`
 }
 
 func (n *NodeInterface) From(res *v1.ReadLoadBalancerNodeInterface) {
@@ -186,8 +186,8 @@ func (n *NodeInterface) From(res *v1.ReadLoadBalancerNodeInterface) {
 }
 
 type NodeInterfaceAddress struct {
-	Address string
-	Vip     bool
+	Address string `json:"address"`
+	Vip     bool   `json:"vip"`
 }
 
 func (n *NodeInterfaceAddress) From(res *v1.ReadLoadBalancerNodeInterfaceAddress) {
@@ -196,10 +196,10 @@ func (n *NodeInterfaceAddress) From(res *v1.ReadLoadBalancerNodeInterfaceAddress
 }
 
 type CreateParams struct {
-	Name             string
-	ServiceClassPath string
-	NameServers      []v1.IPv4
-	Interfaces       []LoadBalancerInterface
+	Name             string                  `json:"name"`
+	ServiceClassPath string                  `json:"serviceClassPath"`
+	NameServers      []v1.IPv4               `json:"nameServers"`
+	Interfaces       []LoadBalancerInterface `json:"interfaces"`
 }
 
 func (c CreateParams) into() (ret v1.CreateLoadBalancer) {
@@ -212,13 +212,13 @@ func (c CreateParams) into() (ret v1.CreateLoadBalancer) {
 }
 
 type LoadBalancerDetail struct {
-	LoadBalancerID   v1.LoadBalancerID
-	Name             string
-	ServiceClassPath string
-	NameServers      []v1.IPv4
-	Interfaces       []LoadBalancerInterface
-	Created          int
-	Deleting         bool
+	LoadBalancerID   v1.LoadBalancerID       `json:"loadBalancerID"`
+	Name             string                  `json:"name"`
+	ServiceClassPath string                  `json:"serviceClassPath"`
+	NameServers      []v1.IPv4               `json:"nameServers"`
+	Interfaces       []LoadBalancerInterface `json:"interfaces"`
+	Created          int                     `json:"created"`
+	Deleting         bool                    `json:"deleting"`
 }
 
 func (l *LoadBalancerDetail) from(res *v1.ReadLoadBalancerDetail) {
@@ -232,13 +232,13 @@ func (l *LoadBalancerDetail) from(res *v1.ReadLoadBalancerDetail) {
 }
 
 type LoadBalancerNodeDetail struct {
-	LoadBalancerNodeID v1.LoadBalancerNodeID
-	ResourceID         *string
-	Interfaces         []NodeInterface
-	Status             v1.LoadBalancerNodeStatus
-	ArchiveVersion     *string
-	CreateErrorMessage *string
-	Created            int
+	LoadBalancerNodeID v1.LoadBalancerNodeID `json:"loadBalancerNodeID"`
+	ResourceID         *string               `json:"resourceID"`
+	Interfaces         []NodeInterface       `json:"interfaces"`
+	Status             v1.LoadBalancerNodeStatus `json:"status"`
+	ArchiveVersion     *string               `json:"archiveVersion"`
+	CreateErrorMessage *string               `json:"createErrorMessage"`
+	Created            int                   `json:"created"`
 }
 
 func (l *LoadBalancerNodeDetail) from(res *v1.ReadLoadBalancerNode) {
