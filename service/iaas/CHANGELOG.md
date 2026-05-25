@@ -1,5 +1,8 @@
 # Changelog
 
+## [v1.25.0](https://github.com/sacloud/iaas-service-go/compare/v1.24.0...v1.25.0) - 2026-04-28
+- feat: add ProxyLB OriginGuard/StrictRule and bump iaas-api-go to v1.29.0 by @yamamoto-febc in https://github.com/sacloud/iaas-service-go/pull/231
+
 ## [v1.24.0](https://github.com/sacloud/iaas-service-go/compare/v1.23.0...v1.24.0) - 2026-04-23
 - fix: adapt to iaas-api-go v1.27.0 breaking changes by @yamamoto-febc in https://github.com/sacloud/iaas-service-go/pull/228
 - fix: pass zone to NFS plan query functions by @yamamoto-febc in https://github.com/sacloud/iaas-service-go/pull/230

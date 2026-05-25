@@ -21060,6 +21060,8 @@ type ProxyLB struct {
 	MonitoringSuiteLog   *MonitoringSuiteLog          `mapconv:"Settings.ProxyLB.MonitoringSuiteLog,recursive"`
 	ProxyProtocol        *ProxyLBProxyProtocol        `mapconv:"Settings.ProxyLB.ProxyProtocol,recursive"`
 	Syslog               *ProxyLBSyslog               `mapconv:"Settings.ProxyLB.Syslog,recursive"`
+	OriginGuard          *ProxyLBOriginGuard          `mapconv:"Settings.ProxyLB.OriginGuard,recursive"`
+	StrictRule           *ProxyLBStrictRule           `mapconv:"Settings.ProxyLB.StrictRule,recursive"`
 	Timeout              *ProxyLBTimeout              `json:",omitempty" mapconv:"Settings.ProxyLB.Timeout,recursive,omitempty"`
 	SettingsHash         string                       `json:",omitempty" mapconv:",omitempty"`
 	UseVIPFailover       bool                         `mapconv:"Status.UseVIPFailover"`
@@ -21093,6 +21095,8 @@ func (o *ProxyLB) setDefaults() interface{} {
 		MonitoringSuiteLog   *MonitoringSuiteLog          `mapconv:"Settings.ProxyLB.MonitoringSuiteLog,recursive"`
 		ProxyProtocol        *ProxyLBProxyProtocol        `mapconv:"Settings.ProxyLB.ProxyProtocol,recursive"`
 		Syslog               *ProxyLBSyslog               `mapconv:"Settings.ProxyLB.Syslog,recursive"`
+		OriginGuard          *ProxyLBOriginGuard          `mapconv:"Settings.ProxyLB.OriginGuard,recursive"`
+		StrictRule           *ProxyLBStrictRule           `mapconv:"Settings.ProxyLB.StrictRule,recursive"`
 		Timeout              *ProxyLBTimeout              `json:",omitempty" mapconv:"Settings.ProxyLB.Timeout,recursive,omitempty"`
 		SettingsHash         string                       `json:",omitempty" mapconv:",omitempty"`
 		UseVIPFailover       bool                         `mapconv:"Status.UseVIPFailover"`
@@ -21122,6 +21126,8 @@ func (o *ProxyLB) setDefaults() interface{} {
 		MonitoringSuiteLog:   o.GetMonitoringSuiteLog(),
 		ProxyProtocol:        o.GetProxyProtocol(),
 		Syslog:               o.GetSyslog(),
+		OriginGuard:          o.GetOriginGuard(),
+		StrictRule:           o.GetStrictRule(),
 		Timeout:              o.GetTimeout(),
 		SettingsHash:         o.GetSettingsHash(),
 		UseVIPFailover:       o.GetUseVIPFailover(),
@@ -21380,6 +21386,26 @@ func (o *ProxyLB) GetSyslog() *ProxyLBSyslog {
 // SetSyslog sets value to Syslog
 func (o *ProxyLB) SetSyslog(v *ProxyLBSyslog) {
 	o.Syslog = v
+}
+
+// GetOriginGuard returns value of OriginGuard
+func (o *ProxyLB) GetOriginGuard() *ProxyLBOriginGuard {
+	return o.OriginGuard
+}
+
+// SetOriginGuard sets value to OriginGuard
+func (o *ProxyLB) SetOriginGuard(v *ProxyLBOriginGuard) {
+	o.OriginGuard = v
+}
+
+// GetStrictRule returns value of StrictRule
+func (o *ProxyLB) GetStrictRule() *ProxyLBStrictRule {
+	return o.StrictRule
+}
+
+// SetStrictRule sets value to StrictRule
+func (o *ProxyLB) SetStrictRule(v *ProxyLBStrictRule) {
+	o.StrictRule = v
 }
 
 // GetTimeout returns value of Timeout
@@ -22195,6 +22221,62 @@ func (o *ProxyLBSyslog) SetPort(v int) {
 }
 
 /*************************************************
+* ProxyLBOriginGuard
+*************************************************/
+
+// ProxyLBOriginGuard represents API parameter/response structure
+type ProxyLBOriginGuard struct {
+	Token string
+}
+
+// setDefaults implements iaas.argumentDefaulter
+func (o *ProxyLBOriginGuard) setDefaults() interface{} {
+	return &struct {
+		Token string
+	}{
+		Token: o.GetToken(),
+	}
+}
+
+// GetToken returns value of Token
+func (o *ProxyLBOriginGuard) GetToken() string {
+	return o.Token
+}
+
+// SetToken sets value to Token
+func (o *ProxyLBOriginGuard) SetToken(v string) {
+	o.Token = v
+}
+
+/*************************************************
+* ProxyLBStrictRule
+*************************************************/
+
+// ProxyLBStrictRule represents API parameter/response structure
+type ProxyLBStrictRule struct {
+	Enabled bool
+}
+
+// setDefaults implements iaas.argumentDefaulter
+func (o *ProxyLBStrictRule) setDefaults() interface{} {
+	return &struct {
+		Enabled bool
+	}{
+		Enabled: o.GetEnabled(),
+	}
+}
+
+// GetEnabled returns value of Enabled
+func (o *ProxyLBStrictRule) GetEnabled() bool {
+	return o.Enabled
+}
+
+// SetEnabled sets value to Enabled
+func (o *ProxyLBStrictRule) SetEnabled(v bool) {
+	o.Enabled = v
+}
+
+/*************************************************
 * ProxyLBTimeout
 *************************************************/
 
@@ -22245,6 +22327,8 @@ type ProxyLBCreateRequest struct {
 	MonitoringSuiteLog   *MonitoringSuiteLog          `mapconv:"Settings.ProxyLB.MonitoringSuiteLog,recursive"`
 	ProxyProtocol        *ProxyLBProxyProtocol        `mapconv:"Settings.ProxyLB.ProxyProtocol,recursive"`
 	Syslog               *ProxyLBSyslog               `mapconv:"Settings.ProxyLB.Syslog,recursive"`
+	OriginGuard          *ProxyLBOriginGuard          `mapconv:"Settings.ProxyLB.OriginGuard,recursive"`
+	StrictRule           *ProxyLBStrictRule           `mapconv:"Settings.ProxyLB.StrictRule,recursive"`
 	UseVIPFailover       bool                         `mapconv:"Status.UseVIPFailover"`
 	Region               types.EProxyLBRegion         `mapconv:"Status.Region"`
 	Name                 string
@@ -22270,6 +22354,8 @@ func (o *ProxyLBCreateRequest) setDefaults() interface{} {
 		MonitoringSuiteLog   *MonitoringSuiteLog          `mapconv:"Settings.ProxyLB.MonitoringSuiteLog,recursive"`
 		ProxyProtocol        *ProxyLBProxyProtocol        `mapconv:"Settings.ProxyLB.ProxyProtocol,recursive"`
 		Syslog               *ProxyLBSyslog               `mapconv:"Settings.ProxyLB.Syslog,recursive"`
+		OriginGuard          *ProxyLBOriginGuard          `mapconv:"Settings.ProxyLB.OriginGuard,recursive"`
+		StrictRule           *ProxyLBStrictRule           `mapconv:"Settings.ProxyLB.StrictRule,recursive"`
 		UseVIPFailover       bool                         `mapconv:"Status.UseVIPFailover"`
 		Region               types.EProxyLBRegion         `mapconv:"Status.Region"`
 		Name                 string
@@ -22292,6 +22378,8 @@ func (o *ProxyLBCreateRequest) setDefaults() interface{} {
 		MonitoringSuiteLog:   o.GetMonitoringSuiteLog(),
 		ProxyProtocol:        o.GetProxyProtocol(),
 		Syslog:               o.GetSyslog(),
+		OriginGuard:          o.GetOriginGuard(),
+		StrictRule:           o.GetStrictRule(),
 		UseVIPFailover:       o.GetUseVIPFailover(),
 		Region:               o.GetRegion(),
 		Name:                 o.GetName(),
@@ -22442,6 +22530,26 @@ func (o *ProxyLBCreateRequest) SetSyslog(v *ProxyLBSyslog) {
 	o.Syslog = v
 }
 
+// GetOriginGuard returns value of OriginGuard
+func (o *ProxyLBCreateRequest) GetOriginGuard() *ProxyLBOriginGuard {
+	return o.OriginGuard
+}
+
+// SetOriginGuard sets value to OriginGuard
+func (o *ProxyLBCreateRequest) SetOriginGuard(v *ProxyLBOriginGuard) {
+	o.OriginGuard = v
+}
+
+// GetStrictRule returns value of StrictRule
+func (o *ProxyLBCreateRequest) GetStrictRule() *ProxyLBStrictRule {
+	return o.StrictRule
+}
+
+// SetStrictRule sets value to StrictRule
+func (o *ProxyLBCreateRequest) SetStrictRule(v *ProxyLBStrictRule) {
+	o.StrictRule = v
+}
+
 // GetUseVIPFailover returns value of UseVIPFailover
 func (o *ProxyLBCreateRequest) GetUseVIPFailover() bool {
 	return o.UseVIPFailover
@@ -22541,6 +22649,8 @@ type ProxyLBUpdateRequest struct {
 	MonitoringSuiteLog   *MonitoringSuiteLog          `mapconv:"Settings.ProxyLB.MonitoringSuiteLog,recursive"`
 	ProxyProtocol        *ProxyLBProxyProtocol        `mapconv:"Settings.ProxyLB.ProxyProtocol,recursive"`
 	Syslog               *ProxyLBSyslog               `mapconv:"Settings.ProxyLB.Syslog,recursive"`
+	OriginGuard          *ProxyLBOriginGuard          `mapconv:"Settings.ProxyLB.OriginGuard,recursive"`
+	StrictRule           *ProxyLBStrictRule           `mapconv:"Settings.ProxyLB.StrictRule,recursive"`
 	SettingsHash         string                       `json:",omitempty" mapconv:",omitempty"`
 	Name                 string
 	Description          string
@@ -22564,6 +22674,8 @@ func (o *ProxyLBUpdateRequest) setDefaults() interface{} {
 		MonitoringSuiteLog   *MonitoringSuiteLog          `mapconv:"Settings.ProxyLB.MonitoringSuiteLog,recursive"`
 		ProxyProtocol        *ProxyLBProxyProtocol        `mapconv:"Settings.ProxyLB.ProxyProtocol,recursive"`
 		Syslog               *ProxyLBSyslog               `mapconv:"Settings.ProxyLB.Syslog,recursive"`
+		OriginGuard          *ProxyLBOriginGuard          `mapconv:"Settings.ProxyLB.OriginGuard,recursive"`
+		StrictRule           *ProxyLBStrictRule           `mapconv:"Settings.ProxyLB.StrictRule,recursive"`
 		SettingsHash         string                       `json:",omitempty" mapconv:",omitempty"`
 		Name                 string
 		Description          string
@@ -22583,6 +22695,8 @@ func (o *ProxyLBUpdateRequest) setDefaults() interface{} {
 		MonitoringSuiteLog:   o.GetMonitoringSuiteLog(),
 		ProxyProtocol:        o.GetProxyProtocol(),
 		Syslog:               o.GetSyslog(),
+		OriginGuard:          o.GetOriginGuard(),
+		StrictRule:           o.GetStrictRule(),
 		SettingsHash:         o.GetSettingsHash(),
 		Name:                 o.GetName(),
 		Description:          o.GetDescription(),
@@ -22721,6 +22835,26 @@ func (o *ProxyLBUpdateRequest) SetSyslog(v *ProxyLBSyslog) {
 	o.Syslog = v
 }
 
+// GetOriginGuard returns value of OriginGuard
+func (o *ProxyLBUpdateRequest) GetOriginGuard() *ProxyLBOriginGuard {
+	return o.OriginGuard
+}
+
+// SetOriginGuard sets value to OriginGuard
+func (o *ProxyLBUpdateRequest) SetOriginGuard(v *ProxyLBOriginGuard) {
+	o.OriginGuard = v
+}
+
+// GetStrictRule returns value of StrictRule
+func (o *ProxyLBUpdateRequest) GetStrictRule() *ProxyLBStrictRule {
+	return o.StrictRule
+}
+
+// SetStrictRule sets value to StrictRule
+func (o *ProxyLBUpdateRequest) SetStrictRule(v *ProxyLBStrictRule) {
+	o.StrictRule = v
+}
+
 // GetSettingsHash returns value of SettingsHash
 func (o *ProxyLBUpdateRequest) GetSettingsHash() string {
 	return o.SettingsHash
@@ -22810,6 +22944,8 @@ type ProxyLBUpdateSettingsRequest struct {
 	MonitoringSuiteLog   *MonitoringSuiteLog          `mapconv:"Settings.ProxyLB.MonitoringSuiteLog,recursive"`
 	ProxyProtocol        *ProxyLBProxyProtocol        `mapconv:"Settings.ProxyLB.ProxyProtocol,recursive"`
 	Syslog               *ProxyLBSyslog               `mapconv:"Settings.ProxyLB.Syslog,recursive"`
+	OriginGuard          *ProxyLBOriginGuard          `mapconv:"Settings.ProxyLB.OriginGuard,recursive"`
+	StrictRule           *ProxyLBStrictRule           `mapconv:"Settings.ProxyLB.StrictRule,recursive"`
 	SettingsHash         string                       `json:",omitempty" mapconv:",omitempty"`
 }
 
@@ -22829,6 +22965,8 @@ func (o *ProxyLBUpdateSettingsRequest) setDefaults() interface{} {
 		MonitoringSuiteLog   *MonitoringSuiteLog          `mapconv:"Settings.ProxyLB.MonitoringSuiteLog,recursive"`
 		ProxyProtocol        *ProxyLBProxyProtocol        `mapconv:"Settings.ProxyLB.ProxyProtocol,recursive"`
 		Syslog               *ProxyLBSyslog               `mapconv:"Settings.ProxyLB.Syslog,recursive"`
+		OriginGuard          *ProxyLBOriginGuard          `mapconv:"Settings.ProxyLB.OriginGuard,recursive"`
+		StrictRule           *ProxyLBStrictRule           `mapconv:"Settings.ProxyLB.StrictRule,recursive"`
 		SettingsHash         string                       `json:",omitempty" mapconv:",omitempty"`
 	}{
 		HealthCheck:          o.GetHealthCheck(),
@@ -22844,6 +22982,8 @@ func (o *ProxyLBUpdateSettingsRequest) setDefaults() interface{} {
 		MonitoringSuiteLog:   o.GetMonitoringSuiteLog(),
 		ProxyProtocol:        o.GetProxyProtocol(),
 		Syslog:               o.GetSyslog(),
+		OriginGuard:          o.GetOriginGuard(),
+		StrictRule:           o.GetStrictRule(),
 		SettingsHash:         o.GetSettingsHash(),
 	}
 }
@@ -22976,6 +23116,26 @@ func (o *ProxyLBUpdateSettingsRequest) GetSyslog() *ProxyLBSyslog {
 // SetSyslog sets value to Syslog
 func (o *ProxyLBUpdateSettingsRequest) SetSyslog(v *ProxyLBSyslog) {
 	o.Syslog = v
+}
+
+// GetOriginGuard returns value of OriginGuard
+func (o *ProxyLBUpdateSettingsRequest) GetOriginGuard() *ProxyLBOriginGuard {
+	return o.OriginGuard
+}
+
+// SetOriginGuard sets value to OriginGuard
+func (o *ProxyLBUpdateSettingsRequest) SetOriginGuard(v *ProxyLBOriginGuard) {
+	o.OriginGuard = v
+}
+
+// GetStrictRule returns value of StrictRule
+func (o *ProxyLBUpdateSettingsRequest) GetStrictRule() *ProxyLBStrictRule {
+	return o.StrictRule
+}
+
+// SetStrictRule sets value to StrictRule
+func (o *ProxyLBUpdateSettingsRequest) SetStrictRule(v *ProxyLBStrictRule) {
+	o.StrictRule = v
 }
 
 // GetSettingsHash returns value of SettingsHash

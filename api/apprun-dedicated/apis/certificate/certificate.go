@@ -51,10 +51,10 @@ func (op *CertificateOp) List(ctx context.Context, maxItems int64, cursor *v1.Ce
 }
 
 type CreateParams struct {
-	Name                       string
-	CertificatePEM             string
-	PrivateKeyPEM              string
-	IntermediateCertificatePEM *string
+	Name                       string  `json:"name"`
+	CertificatePEM             string  `json:"certificatePem"`
+	PrivateKeyPEM              string  `json:"privatekeyPem"`
+	IntermediateCertificatePEM *string `json:"intermediateCertificatePem"`
 }
 
 func (op *CertificateOp) Create(ctx context.Context, req CreateParams) (ret *v1.CreatedCertificate, err error) {

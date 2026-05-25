@@ -188,6 +188,8 @@ var (
 			fields.ProxyLBMonitoringSuiteLog(),
 			fields.ProxyLBProxyProtocol(),
 			fields.ProxyLBSyslog(),
+			fields.ProxyLBOriginGuard(),
+			fields.ProxyLBStrictRule(),
 			fields.ProxyLBTimeout(),
 			fields.SettingsHash(),
 
@@ -231,6 +233,8 @@ var (
 			fields.ProxyLBMonitoringSuiteLog(),
 			fields.ProxyLBProxyProtocol(),
 			fields.ProxyLBSyslog(),
+			fields.ProxyLBOriginGuard(),
+			fields.ProxyLBStrictRule(),
 			// status
 			fields.ProxyLBUseVIPFailover(),
 			fields.ProxyLBRegion(),
@@ -262,6 +266,8 @@ var (
 			fields.ProxyLBMonitoringSuiteLog(),
 			fields.ProxyLBProxyProtocol(),
 			fields.ProxyLBSyslog(),
+			fields.ProxyLBOriginGuard(),
+			fields.ProxyLBStrictRule(),
 			// settings hash
 			fields.SettingsHash(),
 
@@ -291,6 +297,8 @@ var (
 			fields.ProxyLBMonitoringSuiteLog(),
 			fields.ProxyLBProxyProtocol(),
 			fields.ProxyLBSyslog(),
+			fields.ProxyLBOriginGuard(),
+			fields.ProxyLBStrictRule(),
 			// settings hash
 			fields.SettingsHash(),
 		},

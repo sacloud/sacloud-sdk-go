@@ -93,11 +93,11 @@ func (op *VersionOp) Delete(ctx context.Context, id v1.ApplicationVersionNumber)
 var _ VersionAPI = (*VersionOp)(nil)
 
 type ExposedPort struct {
-	TargetPort       v1.Port
-	LoadBalancerPort *v1.Port
-	UseLetsEncrypt   bool
-	Host             []string
-	HealthCheck      *v1.HealthCheck
+	TargetPort       v1.Port         `json:"targetPort"`
+	LoadBalancerPort *v1.Port        `json:"loadBalancerPort"`
+	UseLetsEncrypt   bool            `json:"useLetsEncrypt"`
+	Host             []string        `json:"host"`
+	HealthCheck      *v1.HealthCheck `json:"healthCheck"`
 }
 
 func (p ExposedPort) into() (ret v1.ExposedPort) {
@@ -119,9 +119,9 @@ func (p *ExposedPort) From(res *v1.ExposedPort) {
 }
 
 type EnvironmentVariable struct {
-	Key    string
-	Value  *string
-	Secret bool
+	Key    string  `json:"key"`
+	Value  *string `json:"value"`
+	Secret bool    `json:"secret"`
 }
 
 func (e EnvironmentVariable) into() (ret v1.CreateEnvironmentVariable) {
@@ -139,21 +139,21 @@ func (e *EnvironmentVariable) From(res *v1.ReadEnvironmentVariable) {
 }
 
 type CreateParams struct {
-	CPU                    int64
-	Memory                 int64
-	ScalingMode            v1.ScalingMode
-	FixedScale             *int32
-	MinScale               *int32
-	MaxScale               *int32
-	ScaleInThreshold       *int32
-	ScaleOutThreshold      *int32
-	Image                  string
-	Cmd                    []string
-	RegistryUsername       *string
-	RegistryPassword       *string
-	RegistryPasswordAction v1.RegistryPasswordAction
-	ExposedPorts           []ExposedPort
-	EnvVars                []EnvironmentVariable
+	CPU                    int64                     `json:"cpu"`
+	Memory                 int64                     `json:"memory"`
+	ScalingMode            v1.ScalingMode            `json:"scalingMode"`
+	FixedScale             *int32                    `json:"fixedScale"`
+	MinScale               *int32                    `json:"minScale"`
+	MaxScale               *int32                    `json:"maxScale"`
+	ScaleInThreshold       *int32                    `json:"scaleInThreshold"`
+	ScaleOutThreshold      *int32                    `json:"scaleOutThreshold"`
+	Image                  string                    `json:"image"`
+	Cmd                    []string                  `json:"cmd"`
+	RegistryUsername       *string                   `json:"registryUsername"`
+	RegistryPassword       *string                   `json:"registryPassword"`
+	RegistryPasswordAction v1.RegistryPasswordAction `json:"registryPasswordAction"`
+	ExposedPorts           []ExposedPort             `json:"exposedPorts"`
+	EnvVars                []EnvironmentVariable     `json:"envVars"`
 }
 
 func (c *CreateParams) into() (ret v1.CreateApplicationVersion) {
@@ -177,23 +177,23 @@ func (c *CreateParams) into() (ret v1.CreateApplicationVersion) {
 }
 
 type VersionDetail struct {
-	Version           v1.ApplicationVersionNumber
-	CPU               int64
-	Memory            int64
-	ScalingMode       v1.ScalingMode
-	FixedScale        *int32
-	MinScale          *int32
-	MaxScale          *int32
-	ScaleInThreshold  *int32
-	ScaleOutThreshold *int32
-	Image             string
-	Cmd               []string
-	RegistryUsername  *string
-	RegistryPassword  *string
-	ActiveNodeCount   int64
-	Created           int
-	ExposedPorts      []ExposedPort
-	EnvVars           []EnvironmentVariable
+	Version           v1.ApplicationVersionNumber `json:"version"`
+	CPU               int64                       `json:"cpu"`
+	Memory            int64                       `json:"memory"`
+	ScalingMode       v1.ScalingMode              `json:"scalingMode"`
+	FixedScale        *int32                      `json:"fixedScale"`
+	MinScale          *int32                      `json:"minScale"`
+	MaxScale          *int32                      `json:"maxScale"`
+	ScaleInThreshold  *int32                      `json:"scaleInThreshold"`
+	ScaleOutThreshold *int32                      `json:"scaleOutThreshold"`
+	Image             string                      `json:"image"`
+	Cmd               []string                    `json:"cmd"`
+	RegistryUsername  *string                     `json:"registryUsername"`
+	RegistryPassword  *string                     `json:"registryPassword"`
+	ActiveNodeCount   int64                       `json:"activeNodeCount"`
+	Created           int                         `json:"created"`
+	ExposedPorts      []ExposedPort               `json:"exposedPorts"`
+	EnvVars           []EnvironmentVariable       `json:"envVars"`
 }
 
 func (v *VersionDetail) from(res *v1.ReadApplicationVersionDetail) {
