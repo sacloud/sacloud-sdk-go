@@ -4,35 +4,35 @@ set -o pipefail
 
 WD="sacloud-sdk-go"
 initial=$([[ ! -d "${WD}" ]]; echo "${?}")
-map=(
-    "addon-api-go:api/addon"
-    "api-client-go:internal/api-client"
-    "apigw-api-go:api/apigw"
-    "apprun-api-go:api/apprun"
-    "apprun-dedicated-api-go:api/apprun-dedicated"
-    "cloudhsm-api-go:api/cloudhsm"
-    "dedicated-storage-api-go:api/dedicated-storage"
-    "eventbus-api-go:api/eventbus"
-    "go-http:internal/go-http"
-    "iaas-api-go:api/iaas"
-    "iaas-service-go:service/iaas"
-    "iam-api-go:api/iam"
-    "kms-api-go:api/kms"
-    "makefile:makefiles"
-    "monitoring-suite-api-go:api/monitoring-suite"
-    "nosql-api-go:api/nosql"
-    "object-storage-api-go:api/object-storage"
-    "packages-go:internal/packages"
-    "saclient-go:common/saclient"
-    "secretmanager-api-go:api/secretmanager"
-    "security-control-api-go:api/security-control"
-    "service-endpoint-gateway-api-go:api/service-endpoint-gateway"
-    "services:internal/services"
-    "simple-notification-api-go:api/simple-notification"
-    "simplemq-api-go:api/simplemq"
-    "webaccel-api-go:api/webaccel"
-    "webaccel-service-go:service/webaccel"
-    "workflows-api-go:api/workflows"
+declare -A map=(
+    ["addon-api-go"]="api/addon"
+    ["api-client-go"]="internal/api-client"
+    ["apigw-api-go"]="api/apigw"
+    ["apprun-api-go"]="api/apprun"
+    ["apprun-dedicated-api-go"]="api/apprun-dedicated"
+    ["cloudhsm-api-go"]="api/cloudhsm"
+    ["dedicated-storage-api-go"]="api/dedicated-storage"
+    ["eventbus-api-go"]="api/eventbus"
+    ["go-http"]="internal/go-http"
+    ["iaas-api-go"]="api/iaas"
+    ["iaas-service-go"]="service/iaas"
+    ["iam-api-go"]="api/iam"
+    ["kms-api-go"]="api/kms"
+    ["makefile"]="makefiles"
+    ["monitoring-suite-api-go"]="api/monitoring-suite"
+    ["nosql-api-go"]="api/nosql"
+    ["object-storage-api-go"]="api/object-storage"
+    ["packages-go"]="internal/packages"
+    ["saclient-go"]="common/saclient"
+    ["secretmanager-api-go"]="api/secretmanager"
+    ["security-control-api-go"]="api/security-control"
+    ["service-endpoint-gateway-api-go"]="api/service-endpoint-gateway"
+    ["services"]="internal/services"
+    ["simple-notification-api-go"]="api/simple-notification"
+    ["simplemq-api-go"]="api/simplemq"
+    ["webaccel-api-go"]="api/webaccel"
+    ["webaccel-service-go"]="service/webaccel"
+    ["workflows-api-go"]="api/workflows"
 )
 
 if [[ "${initial}" -eq 0 ]]
@@ -43,23 +43,24 @@ then
     git -C "${WD}" add go.work
     git -C "${WD}" commit --no-edit --signoff --gpg-sign -m "Initial implementation of go.work"
 
-    for item in "${map[@]}"
+    for repo in "${!map[@]}"
     do
-        IFS=":" read -r repo path <<< "$item"
+        path="${map[${repo}]}"
         git -C "${WD}" remote add "${repo}" "git@github.com:sacloud/${repo}.git"
     done
 fi
 
 git -C "${WD}" fetch --all --recurse-submodules=yes --progress --jobs "${#map[@]}"
 
-for item in "${map[@]}"
+for repo in "${!map[@]}"
 do
-    IFS=":" read -r repo path <<< "${item}"
+    path="${map[${repo}]}"
     if [[ "${initial}" -eq 0 ]]
     then
         git -C "${WD}" checkout -b "${repo}" "main"
         git -C "${WD}" subtree add --no-squash --prefix "${path}" "${repo}" main
         git -C "${WD}" commit --amend --no-edit --signoff --gpg-sign
+        git -C "${WD}" checkout -b "${path}"
     else
         git -C "${WD}" checkout "${repo}"
         before=$(git -C "${WD}" rev-parse HEAD)
@@ -69,16 +70,17 @@ do
         if [ "$before" != "$after" ]
         then
             git -C "${WD}" commit --amend --no-edit --signoff --gpg-sign
+            git -C "${WD}" checkout "${path}"
+            git -C "${WD}" merge --no-ff --signoff --gpg-sign "${repo}"
         fi
     fi
 done
 
 git -C "${WD}" checkout main
 git -C "${WD}" merge --no-ff --no-edit --signoff --gpg-sign $(
-    for item in "${map[@]}"
+    for repo in "${!map[@]}"
     do
-        IFS=":" read -r repo path <<< "${item}"
-        echo "${repo}"
+        echo "${map[${repo}]}"
     done
 )
 
