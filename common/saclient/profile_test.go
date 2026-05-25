@@ -17,6 +17,7 @@ package saclient_test
 import (
 	"encoding/json"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -39,10 +40,9 @@ func (s *ProfileTestSuite) SetupSuite() {
 	// Note that `s.T().TempDir()` is removed every time after a _test_, not afrer a suite.
 	if dir, err := os.MkdirTemp(os.TempDir(), "profile_test"); err != nil {
 		s.T().Fatal(err)
-	} else if home, err := os.UserHomeDir(); err != nil {
-		s.T().Fatal("unable to determine home directory:", err)
 	} else {
 		s.dir = dir
+		home, _ := os.UserHomeDir()
 		s.home = home
 
 		var envkey string
@@ -92,12 +92,20 @@ sP9Knwr9WVBtRYPRFjC3YccLTwoQnjVcF1qJN6ybMvnS
 }
 
 func (s *ProfileTestSuite) TearDownSuite() {
+	if s.home == "" {
+		return
+	}
+
 	if err := os.Setenv("HOME", s.home); err != nil {
 		s.T().Fatal(err)
 	}
 }
 
 func (s *ProfileTestSuite) TearDownSubTest() {
+	if s.op == nil {
+		return
+	}
+
 	_ = s.op.Create(&Profile{
 		Name: "usacloud",
 		Attributes: map[string]any{
@@ -108,7 +116,9 @@ func (s *ProfileTestSuite) TearDownSubTest() {
 }
 
 func (s *ProfileTestSuite) TestProfileOp_usacloud() {
-	s.op = NewProfileOp(os.Environ())
+	var err error
+	s.op, err = NewProfileOp(os.Environ())
+	s.NoError(err)
 	s.NotNil(s.op)
 	op := s.op
 
@@ -287,7 +297,9 @@ func (s *ProfileTestSuite) TestProfileOp_usacloud() {
 }
 
 func (s *ProfileTestSuite) TestProfileOp_XDG() {
-	s.op = NewProfileOp([]string{"XDG_CONFIG_HOME=" + s.dir + "/.config"})
+	var err error
+	s.op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + s.dir + "/.config"})
+	s.NoError(err)
 	s.NotNil(s.op)
 	op := s.op
 
@@ -323,9 +335,35 @@ func (s *ProfileTestSuite) TestProfileOp_XDG() {
 	})
 }
 
+func (s *ProfileTestSuite) TestProfileOp_UnsetHOME() {
+	runWithoutEnv(s, "TestProfileTestSuite/TestProfileOp_UnsetHOME", func() {
+		err := os.Unsetenv("HOME")
+		s.NoError(err)
+
+		s.Run("Barely no env", func() {
+			op, err := NewProfileOp(os.Environ())
+			s.Nil(op)
+			s.Error(err)
+		})
+
+		s.Run("with SAKURA_PROFILE_DIR", func() {
+			s.T().Setenv("SAKURA_PROFILE_DIR", s.dir+"/.usacloud")
+
+			op, err := NewProfileOp(os.Environ())
+			s.NoError(err)
+			s.NotNil(op)
+
+			names, err := op.List()
+			s.NoError(err)
+			s.Equal([]string{"broken", "usacloud"}, names)
+		})
+	})
+}
+
 func (s *ProfileTestSuite) TestProfile_GetCacheFilePath() {
-	op := NewProfileOp(os.Environ())
-	s.NotNil(s.op)
+	op, err := NewProfileOp(os.Environ())
+	s.NoError(err)
+	s.NotNil(op)
 
 	subject, err := op.Read("usacloud")
 	s.NoError(err)
@@ -336,4 +374,20 @@ func (s *ProfileTestSuite) TestProfile_GetCacheFilePath() {
 	s.NotEmpty(path)
 	expected := filepath.Join(s.dir, ".usacloud", "usacloud", "cache", "5f20028ef6763408a4dd438db2b0e3a6e7455b82195335f04204b0662345a132.json")
 	s.Equal(expected, path)
+}
+
+const randomKey = "jD6XUaOeniloPCB9X2ydjznzgOVgz1Bn"
+
+//nolint:gosec // this is only a test
+func runWithoutEnv(s *ProfileTestSuite, name string, yield func()) {
+	if os.Getenv(randomKey) == "child" {
+		yield()
+	} else {
+		cmd := exec.CommandContext(s.T().Context(), os.Args[0], "-test.run="+name)
+		cmd.Env = []string{randomKey + "=child"}
+
+		out, err := cmd.CombinedOutput()
+		s.NoError(err)
+		s.Equal("PASS\n", string(out))
+	}
 }
