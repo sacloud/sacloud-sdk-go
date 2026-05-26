@@ -24,7 +24,7 @@ jobs:
           grep /Makefile                               |
           sed 's/\/Makefile//'                         |
           sort -u                                      |
-          xargs -I{} printf '%s: %s/**\n' {} {}
+          xargs -I{} printf '%s:\n  - %s/**\n  - go.mod\n  - go.sum\n  - .github/workflows/tests.yaml\n' {} {}
           >> "${GITHUB_OUTPUT}"                        ;
           echo 'EOF' >> "${GITHUB_OUTPUT}"
       - uses: dorny/paths-filter@fbd0ab8f3e69293af611ebaee6363fc25e6d187d # v4.0.1
@@ -40,17 +40,13 @@ jobs:
       fail-fast: false
       matrix:
         module: ${{ fromJSON(needs.changes.outputs.changes) }}
-    defaults:
-      run:
-        working-directory: ${{ matrix.module }}
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+      - uses: sacloud/textlint-action@ffccb93746d1cf48d69b5da8ca79a64ca998f248 # v0.1.0
         with:
-          go-version-file: >-
-            ${{ hashFiles(format('{0}/{1}', matrix.module, 'go.mod')) != '' && matrix.module || '.' }}/go.mod
-      - run: make tools
-      - run: make lint-text
+          working-directory: ${{ matrix.module }}
 
   lint-go:
     runs-on: ubuntu-latest
@@ -60,22 +56,20 @@ jobs:
       fail-fast: false
       matrix:
         module: ${{ fromJSON(needs.changes.outputs.changes) }}
-    defaults:
-      run:
-        working-directory: ${{ matrix.module }}
+    permissions:
+      pull-requests: read
+      contents: read
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
         with:
-          go-version-file: >-
-            ${{ hashFiles(format('{0}/{1}', matrix.module, 'go.mod')) != '' && matrix.module || '.' }}/go.mod
-      - run: make tools
-      - name: make lint-go
-        run: |
-          # Explicitly set GOROOT to avoid golangci-lint/issues/3107
-          GOROOT=$(go env GOROOT)
-          export GOROOT
-          make lint-go
+          go-version-file: go.mod
+      - uses: golangci/golangci-lint-action@82606bf257cbaff209d206a39f5134f0cfbfd2ee # v9.2.1
+        with:
+          version: latest
+          working-directory: ${{ matrix.module }}
+          only-new-issues: true
+          args: --timeout 5m
 
   vulncheck:
     runs-on: ubuntu-latest
@@ -85,27 +79,22 @@ jobs:
       fail-fast: false
       matrix:
         module: ${{ fromJSON(needs.changes.outputs.changes) }}
-    defaults:
-      run:
-        working-directory: ${{ matrix.module }}
+    permissions:
+      contents: read
+      security-events: write
     steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
+      # Somehow `golang/govulncheck-action` does not make releases for years.
+      # We just pin the commit SHA.
+      - uses: golang/govulncheck-action@31f7c5463448f83528bd771c2d978d940080c9fd
         with:
-          go-version-file: >-
-            ${{ hashFiles(format('{0}/{1}', matrix.module, 'go.mod')) != '' && matrix.module || '.' }}/go.mod
-      - name: seek out vulncheck
-        id: has-vulncheck
-        continue-on-error: true
-        shell: bash
-        run: |
-          set +e
-          make -q vulncheck 2>/dev/null
-          echo "q=${?}" >> "${GITHUB_OUTPUT}"
-      - run: make tools
-        if: steps.has-vulncheck.outputs.q != '2'
-      - run: make vulncheck
-        if: steps.has-vulncheck.outputs.q != '2'
+          go-version-file: go.mod
+          go-version-input: ''
+          work-dir: ${{ matrix.module }}
+          output-format: sarif
+          output-file: govulncheck.sarif
+      - uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
+        with:
+          sarif_file: govulncheck.sarif
 
   lint-def:
     runs-on: ubuntu-latest
@@ -122,8 +111,7 @@ jobs:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
         with:
-          go-version-file: >-
-            ${{ hashFiles(format('{0}/{1}', matrix.module, 'go.mod')) != '' && matrix.module || '.' }}/go.mod
+          go-version-file: go.mod
       - name: seek out lint-def
         id: has-lint-def
         continue-on-error: true
