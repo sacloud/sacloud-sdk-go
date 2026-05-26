@@ -85,8 +85,8 @@ github.com/sacloud/iam-api-go v0.3.0 h1:t7dav2jRnn2DhSg5u9tpyoltFpastnTR/jNZ3OsW
 github.com/sacloud/iam-api-go v0.3.0/go.mod h1:uKYamf4LfU7gDkWS7MN2xFaiHr4g0DcAOGyr2fNSuL8=
 github.com/sacloud/packages-go v0.1.0 h1:rixWcvkVUI4kX6UYTFJbQgZIoBoNhN48MivHIu3aYq0=
 github.com/sacloud/packages-go v0.1.0/go.mod h1:ntmPnjF8+mGWNtxgBmO0CrLphUlmRkpy+DztjlECp8M=
-github.com/sacloud/saclient-go v0.3.7 h1:LAkOHStYxIKoypiaarhNOwm/JPuubgoKuOSXZWEerbc=
-github.com/sacloud/saclient-go v0.3.7/go.mod h1:h8ATHi9AnQhOxYNm8mbVWyM9/2569PPESIGwAc2SNg4=
+github.com/sacloud/saclient-go v0.4.0 h1:d4CqjKDU0muPVukZ2qGB9Me6ANEcMg73z5tIqXIyGWA=
+github.com/sacloud/saclient-go v0.4.0/go.mod h1:5CqxypkPgUW6qZxBGRdKX3I+mVx/OWbbFrrRm6LBNeE=
 github.com/segmentio/asm v1.2.1 h1:DTNbBqs57ioxAD4PrArqftgypG4/qNpXoJx8TVXxPR0=
 github.com/segmentio/asm v1.2.1/go.mod h1:BqMnlJP91P8d+4ibuonYZw9mfnzI9HfxselHZr5aAcs=
 github.com/shopspring/decimal v1.4.0 h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp81k=
