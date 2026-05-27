@@ -27,7 +27,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/ostype"
 	sacloudotel "github.com/sacloud/sacloud-sdk-go/api/iaas/trace/otel"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel"
 	"go.opentelemetry.io/otel/attribute"
@@ -99,7 +98,7 @@ func op(ctx context.Context) {
 	httpClient.Transport = otelhttp.NewTransport(http.DefaultTransport)
 
 	caller := api.NewCallerWithOptions(&api.CallerOptions{
-		Options: &client.Options{
+		Options: &api.ClientOptions{
 			AccessToken:       os.Getenv("SAKURACLOUD_ACCESS_TOKEN"),
 			AccessTokenSecret: os.Getenv("SAKURACLOUD_ACCESS_TOKEN_SECRET"),
 			HttpClient:        httpClient,

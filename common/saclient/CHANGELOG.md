@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.4.0](https://github.com/sacloud/saclient-go/compare/v0.3.7...v0.4.0) - 2026-05-25
+- Fix typo by @sugyan in https://github.com/sacloud/saclient-go/pull/106
+- [CI] reduce retry count for tests by @shyouhei in https://github.com/sacloud/saclient-go/pull/109
+- feat: delay calling `NewProfileOp()` until dead necessary by @shyouhei in https://github.com/sacloud/saclient-go/pull/112
+- go: bump github.com/sacloud/packages-go from 0.0.12 to 0.1.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/111
+- ci: bump Songmu/tagpr from 1.17.1 to 1.19.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/113
+- ci: bump actions/setup-go from 6.2.0 to 6.4.0 by @dependabot[bot] in https://github.com/sacloud/saclient-go/pull/92
+- fix: Windows compatibility for profile test by @yamamoto-febc in https://github.com/sacloud/saclient-go/pull/114
+
 ## [v0.3.7](https://github.com/sacloud/saclient-go/compare/v0.3.6...v0.3.7) - 2026-04-17
 - Add IsConflictError helper by @repeatedly in https://github.com/sacloud/saclient-go/pull/102
 - resupported zone on endpoint config by @to-shoji in https://github.com/sacloud/saclient-go/pull/104
