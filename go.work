@@ -9,3 +9,5 @@ use (
 	.
 	./api/iaas/trace/otel
 )
+
+replace github.com/sacloud/sacloud-sdk-go v0.0.0 => .
