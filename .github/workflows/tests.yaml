@@ -55,7 +55,9 @@ jobs:
   lint-go:
     runs-on: ubuntu-latest
     needs: changes
-    if: needs.changes.outputs.changes != '[]'
+    if: >-
+      needs.changes.outputs.changes != '[]' &&
+      github.event_name == 'pull_request'
     strategy:
       fail-fast: false
       matrix:
