@@ -3,6 +3,8 @@
 
 go 1.25.0
 
+toolchain go1.26.2
+
 use (
 	.
 	./api/iaas/trace/otel
