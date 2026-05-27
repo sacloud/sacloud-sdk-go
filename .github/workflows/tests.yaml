@@ -16,6 +16,8 @@ jobs:
       # Note that `dorny/paths-filter` itself runs without `actions/checkout`
       # but the `git ls-files` below mandates `.git` to exist.
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - name: list submodules
         id: submodules
         run: >-
@@ -44,6 +46,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - uses: sacloud/textlint-action@ffccb93746d1cf48d69b5da8ca79a64ca998f248 # v0.1.0
         with:
           working-directory: ${{ matrix.module }}
@@ -61,6 +65,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
         with:
           go-version-file: go.mod
@@ -83,6 +89,9 @@ jobs:
       contents: read
       security-events: write
     steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       # Somehow `golang/govulncheck-action` does not make releases for years.
       # We just pin the commit SHA.
       - uses: golang/govulncheck-action@31f7c5463448f83528bd771c2d978d940080c9fd
@@ -90,6 +99,7 @@ jobs:
           go-version-file: go.mod
           go-version-input: ''
           work-dir: ${{ matrix.module }}
+          repo-checkout: false
           output-format: sarif
           output-file: govulncheck.sarif
       - uses: github/codeql-action/upload-sarif@7211b7c8077ea37d8641b6271f6a365a22a5fbfa # v4.36.0
@@ -111,6 +121,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
         with:
           go-version-file: go.mod
@@ -145,6 +157,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
       - uses: actions/setup-go@4b73464bb391d4059bd26b0524d20df3927bd417 # v6.3.0
         with:
           go-version: ${{ matrix.go-version }}
