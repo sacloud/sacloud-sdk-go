@@ -1,5 +1,17 @@
 # Changelog
 
+## [v1.29.1](https://github.com/sacloud/iaas-api-go/compare/v1.29.0...v1.29.1) - 2026-05-26
+- fix: preserve missing ELB fields during plan change by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/479
+- go: bump golang.org/x/crypto from 0.50.0 to 0.52.0 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/478
+- go: bump github.com/fsnotify/fsnotify from 1.9.0 to 1.10.1 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/476
+- ci: add trace/otel to dependabot gomod updates by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/481
+- go: bump github.com/sacloud/saclient-go from 0.3.7 to 0.4.0 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/482
+- go: bump go.opentelemetry.io/otel/sdk from 1.19.0 to 1.43.0 in /trace/otel by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/487
+- go: bump go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp from 0.45.0 to 0.68.0 in /trace/otel by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/486
+- go: bump go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace from 0.45.0 to 0.68.0 in /trace/otel by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/483
+- go: bump go.opentelemetry.io/otel/exporters/stdout/stdouttrace from 1.19.0 to 1.43.0 in /trace/otel by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/484
+- go: bump google.golang.org/grpc from 1.58.2 to 1.79.3 in /trace/otel by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/488
+
 ## [v1.29.0](https://github.com/sacloud/iaas-api-go/compare/v1.28.0...v1.29.0) - 2026-04-28
 - add: OriginGuard and StrictRule fields to ProxyLB by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/473
 
