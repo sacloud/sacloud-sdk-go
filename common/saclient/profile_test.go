@@ -20,6 +20,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"testing"
 
 	. "github.com/sacloud/saclient-go"
@@ -96,7 +97,14 @@ func (s *ProfileTestSuite) TearDownSuite() {
 		return
 	}
 
-	if err := os.Setenv("HOME", s.home); err != nil {
+	var envkey string
+	switch runtime.GOOS {
+	case "windows":
+		envkey = "USERPROFILE"
+	default:
+		envkey = "HOME"
+	}
+	if err := os.Setenv(envkey, s.home); err != nil {
 		s.T().Fatal(err)
 	}
 }
@@ -340,6 +348,14 @@ func (s *ProfileTestSuite) TestProfileOp_UnsetHOME() {
 		err := os.Unsetenv("HOME")
 		s.NoError(err)
 
+		// SetupSuite sets USERPROFILE on Windows;
+		// unset it explicitly to ensure NewProfileOp fails without home dir.
+		if runtime.GOOS == "windows" {
+			_ = os.Unsetenv("USERPROFILE")
+			_ = os.Unsetenv("HOMEDRIVE")
+			_ = os.Unsetenv("HOMEPATH")
+		}
+
 		s.Run("Barely no env", func() {
 			op, err := NewProfileOp(os.Environ())
 			s.Nil(op)
@@ -384,10 +400,16 @@ func runWithoutEnv(s *ProfileTestSuite, name string, yield func()) {
 		yield()
 	} else {
 		cmd := exec.CommandContext(s.T().Context(), os.Args[0], "-test.run="+name)
-		cmd.Env = []string{randomKey + "=child"}
+		cmd.Env = []string{
+			randomKey + "=child",
+			"HOME=",
+			"USERPROFILE=",
+			"HOMEDRIVE=",
+			"HOMEPATH=",
+		}
 
 		out, err := cmd.CombinedOutput()
 		s.NoError(err)
-		s.Equal("PASS\n", string(out))
+		s.True(strings.HasPrefix(strings.TrimSpace(string(out)), "PASS"))
 	}
 }
