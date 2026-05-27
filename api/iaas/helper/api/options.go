@@ -33,6 +33,8 @@ var UserAgent = fmt.Sprintf(
 	client.DefaultUserAgent,
 )
 
+type ClientOptions = client.Options
+
 // CallerOptions iaas.APICallerを作成する際のオプション
 type CallerOptions struct {
 	*client.Options
