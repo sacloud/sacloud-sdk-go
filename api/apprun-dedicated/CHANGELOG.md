@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.2.1](https://github.com/sacloud/apprun-dedicated-api-go/compare/v0.2.0...v0.2.1) - 2026-05-25
+- add: JSON tags to all exported struct fields in wrapper packages by @yamamoto-febc in https://github.com/sacloud/apprun-dedicated-api-go/pull/44
+- ci: bump actions/setup-go from 6.3.0 to 6.4.0 by @dependabot[bot] in https://github.com/sacloud/apprun-dedicated-api-go/pull/33
+- go: bump github.com/ogen-go/ogen from 1.20.1 to 1.20.3 by @dependabot[bot] in https://github.com/sacloud/apprun-dedicated-api-go/pull/35
+- go: bump github.com/sacloud/packages-go from 0.0.12 to 0.1.0 by @dependabot[bot] in https://github.com/sacloud/apprun-dedicated-api-go/pull/41
+- ci: bump Songmu/tagpr from 1.17.1 to 1.19.0 by @dependabot[bot] in https://github.com/sacloud/apprun-dedicated-api-go/pull/43
+- go: bump github.com/sacloud/saclient-go from 0.3.3 to 0.3.7 by @dependabot[bot] in https://github.com/sacloud/apprun-dedicated-api-go/pull/39
+
 ## [v0.2.0](https://github.com/sacloud/apprun-dedicated-api-go/compare/v0.1.0...v0.2.0) - 2026-03-22
 - add support endpoint setting from env and profiles by @to-shoji in https://github.com/sacloud/apprun-dedicated-api-go/pull/28
 
