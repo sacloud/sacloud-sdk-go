@@ -23,7 +23,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/cleanup"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/pointer"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	internetService "github.com/sacloud/sacloud-sdk-go/service/iaas/internet"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 	vpcRouterBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/vpcrouter/builder"

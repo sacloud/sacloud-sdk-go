@@ -12,8 +12,8 @@ import (
 
 	sm "github.com/sacloud/sacloud-sdk-go/api/secretmanager"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 )
 
 var theClient saclient.Client

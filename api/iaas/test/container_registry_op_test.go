@@ -20,7 +20,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	sacloudtestutil "github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
+	sacloudtestutil "github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 )
 
 func TestContainerRegistryOp_CRUD(t *testing.T) {

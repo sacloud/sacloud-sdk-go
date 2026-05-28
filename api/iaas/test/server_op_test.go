@@ -24,7 +24,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/search/keys"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/size"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/size"
 	"github.com/stretchr/testify/assert"
 )
 

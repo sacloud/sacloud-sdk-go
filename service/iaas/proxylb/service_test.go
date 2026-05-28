@@ -21,7 +21,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/pointer"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 )
 
 func TestProxyLBService_CRUD(t *testing.T) {

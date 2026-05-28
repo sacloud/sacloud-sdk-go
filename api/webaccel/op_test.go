@@ -22,9 +22,9 @@ import (
 	"time"
 
 	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/pointer"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 

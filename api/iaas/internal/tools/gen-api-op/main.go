@@ -47,7 +47,7 @@ package iaas
 
 import (
 	"context"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/mutexkv"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/mutexkv"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 

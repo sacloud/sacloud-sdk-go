@@ -20,7 +20,7 @@ import (
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/plans"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/objutil"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/objutil"
 )
 
 func (s *Service) Update(req *UpdateRequest) (*iaas.ProxyLB, error) {

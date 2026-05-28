@@ -19,7 +19,7 @@ import (
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	sacloudTestUtil "github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
+	sacloudTestUtil "github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 

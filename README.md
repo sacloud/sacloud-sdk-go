@@ -63,7 +63,6 @@ SDKの内部で使用される共有パッケージです。
 |-----------|------|
 | `internal/api-client` | APIクライアントの共通実装 |
 | `internal/go-http` | HTTP通信の共通実装 |
-| `internal/packages` | 汎用パッケージ群 |
 | `internal/services` | サービスレイヤーの共通実装 |
 
 ### 共通パッケージ (`common/`)
@@ -72,6 +71,7 @@ SDK外からも利用可能な共有パッケージです。
 
 | パッケージ | 説明 |
 |-----------|------|
+| `common/packages` | 汎用パッケージ群 |
 | `common/saclient` | クライアント認証・設定の共通実装 |
 
 ## ワークスペース構成

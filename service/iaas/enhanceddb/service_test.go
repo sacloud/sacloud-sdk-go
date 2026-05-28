@@ -20,8 +20,8 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/pointer"
-	sacloudTestUtil "github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
+	sacloudTestUtil "github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 )
 
 func TestEnhancedDBService_CRUD(t *testing.T) {

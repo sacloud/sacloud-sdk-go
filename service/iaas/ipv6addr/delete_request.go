@@ -15,7 +15,7 @@
 package ipv6addr
 
 import (
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/validate"
 )
 
 type DeleteRequest struct {
