@@ -2,10 +2,10 @@ module github.com/sacloud/sacloud-sdk-go/api/iaas/trace/otel
 
 go 1.25.0
 
-toolchain go1.26.2
+toolchain go1.26.3
 
 require (
-	github.com/sacloud/sacloud-sdk-go v0.0.0
+	github.com/sacloud/sacloud-sdk-go/api/iaas v0.0.0-20260519024208-f2eaed9d3ae9
 	github.com/stretchr/testify v1.11.1
 	go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace v0.68.0
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.68.0
@@ -35,6 +35,10 @@ require (
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/pmezard/go-difflib v1.0.1-0.20181226105442-5d4384ee4fb2 // indirect
+	github.com/sacloud/api-client-go v0.3.5 // indirect
+	github.com/sacloud/go-http v0.1.9 // indirect
+	github.com/sacloud/packages-go v0.1.0 // indirect
+	github.com/sacloud/saclient-go v0.3.7 // indirect
 	go.opentelemetry.io/auto/sdk v1.2.1 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.19.0 // indirect
 	go.opentelemetry.io/otel/metric v1.43.0 // indirect
