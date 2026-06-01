@@ -18,7 +18,7 @@ import (
 	"io"
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/validate"
 )
 
 type UploadRequest struct {

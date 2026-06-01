@@ -18,7 +18,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/ostype"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/validate"
 	disk "github.com/sacloud/sacloud-sdk-go/service/iaas/disk/builder"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
 )

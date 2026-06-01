@@ -15,9 +15,9 @@ import (
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	objectstorage "github.com/sacloud/sacloud-sdk-go/api/object-storage"
 	v2 "github.com/sacloud/sacloud-sdk-go/api/object-storage/apis/v2"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/envvar"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/envvar"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
 

@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/envvar"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/envvar"
 )
 
 const (

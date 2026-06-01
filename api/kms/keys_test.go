@@ -9,8 +9,8 @@ import (
 
 	kms "github.com/sacloud/sacloud-sdk-go/api/kms"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/kms/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/testutil"
 )
 
 func TestKeyAPI(t *testing.T) {

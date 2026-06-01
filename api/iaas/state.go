@@ -23,7 +23,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/accessor"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/defaults"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/wait"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/wait"
 )
 
 // UnexpectedAvailabilityError 予期しないAvailabilityとなった場合のerror

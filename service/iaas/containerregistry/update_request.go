@@ -19,7 +19,7 @@ import (
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/internal/packages/validate"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/validate"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/containerregistry/builder"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/serviceutil"
 )
