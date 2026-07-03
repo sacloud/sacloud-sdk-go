@@ -74,11 +74,11 @@ func TestSRN_String(t *testing.T) {
 			name: "numeric id",
 			srn: SRN{
 				Version:  1,
-				Location: "is1y",
+				Location: "is1a",
 				Resource: "sakura.iaas.switch",
 				ID:       "113702228717",
 			},
-			want: "srnv1:is1y:sakura.iaas.switch:113702228717",
+			want: "srnv1:is1a:sakura.iaas.switch:113702228717",
 		},
 		{
 			name: "sqids id",
@@ -104,7 +104,59 @@ func TestSRN_String(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			require.NoError(t, tt.srn.Validate())
 			require.Equal(t, tt.want, tt.srn.String())
+		})
+	}
+}
+
+func TestSRN_ValidateWithError(t *testing.T) {
+	// ValidateはParseの内部で呼ばれており成功のケースは省略し、失敗のケースだけ列挙する
+	tests := []struct {
+		name string
+		srn  SRN
+	}{
+		{
+			name: "invalid version",
+			srn: SRN{
+				Version:  3,
+				Location: "tk1b",
+				Resource: "sakura.iaas.switch",
+				ID:       "113702228717",
+			},
+		},
+		{
+			name: "invalid location",
+			srn: SRN{
+				Version:  1,
+				Location: "foo",
+				Resource: "sakura.cloudhsm.license",
+				ID:       "5ReQGzN",
+			},
+		},
+		{
+			name: "invalid resource",
+			srn: SRN{
+				Version:  1,
+				Location: "is1b",
+				Resource: "",
+				ID:       "019e738e-0915-7a7c-9bd2-ef4284076927",
+			},
+		},
+		{
+			name: "invalid id",
+			srn: SRN{
+				Version:  1,
+				Location: "is1b",
+				Resource: "sakura.apprun.dedicated.auto-scaling-group",
+				ID:       "123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890",
+			},
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			require.Error(t, tt.srn.Validate())
 		})
 	}
 }

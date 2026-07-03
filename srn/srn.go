@@ -34,22 +34,16 @@ func Parse(str string) (SRN, error) {
 	}
 
 	version, _ := strconv.ParseInt(strings.TrimPrefix(versionPart, "srnv"), 10, 32)
-	if parts[1] == "" {
-		return SRN{}, fmt.Errorf("invalid SRN format: missing location: %q", str)
-	}
-	if parts[2] == "" {
-		return SRN{}, fmt.Errorf("invalid SRN format: missing resource: %q", str)
-	}
-	if parts[3] == "" {
-		return SRN{}, fmt.Errorf("invalid SRN format: missing ID: %q", str)
-	}
-
-	return SRN{
+	srn := SRN{
 		Version:  int32(version),
 		Location: parts[1],
 		Resource: parts[2],
 		ID:       parts[3],
-	}, nil
+	}
+	if err := srn.Validate(); err != nil {
+		return SRN{}, err
+	}
+	return srn, nil
 }
 
 // IsSRN returns whether the given value is an SRN or not.
@@ -61,4 +55,24 @@ func IsSRN(str string) bool {
 // String returns the canonical SRN string representation.
 func (s SRN) String() string {
 	return fmt.Sprintf("srnv%d:%s:%s:%s", s.Version, s.Location, s.Resource, s.ID)
+}
+
+// Validate checks if the SRN fields are valid or not. It returns an error if any field is invalid.
+func (s SRN) Validate() error {
+	if s.Version != 1 {
+		return fmt.Errorf("invalid SRN version: %d", s.Version)
+	}
+	locLen := len(s.Location)
+	if locLen < 4 || 21 < locLen {
+		return fmt.Errorf("invalid SRN: invalid location: %s", s.Location)
+	}
+	resourceLen := len(s.Resource)
+	if resourceLen < 1 || 256 < resourceLen {
+		return fmt.Errorf("invalid SRN: invalid resource: %s", s.Resource)
+	}
+	idLen := len(s.ID)
+	if idLen < 1 || 99 < idLen {
+		return fmt.Errorf("invalid SRN: invalid ID: %s", s.ID)
+	}
+	return nil
 }
