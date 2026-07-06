@@ -2026,11 +2026,11 @@ type ModelsSettingsDNSForwardingSettings struct {
 	// 有効化・無効化の選択.
 	Enabled ModelsSettingsDNSForwardingSettingsEnabled `json:"Enabled"`
 	// ゾーン名.
-	PrivateHostedZone string `json:"PrivateHostedZone"`
+	PrivateHostedZone OptString `json:"PrivateHostedZone"`
 	// フォワード先のDNSサーバ(1).
-	UpstreamDNS1 string `json:"UpstreamDNS1"`
+	UpstreamDNS1 OptString `json:"UpstreamDNS1"`
 	// フォワード先のDNSサーバ(2).
-	UpstreamDNS2 string `json:"UpstreamDNS2"`
+	UpstreamDNS2 OptString `json:"UpstreamDNS2"`
 }
 
 // GetEnabled returns the value of Enabled.
@@ -2039,17 +2039,17 @@ func (s *ModelsSettingsDNSForwardingSettings) GetEnabled() ModelsSettingsDNSForw
 }
 
 // GetPrivateHostedZone returns the value of PrivateHostedZone.
-func (s *ModelsSettingsDNSForwardingSettings) GetPrivateHostedZone() string {
+func (s *ModelsSettingsDNSForwardingSettings) GetPrivateHostedZone() OptString {
 	return s.PrivateHostedZone
 }
 
 // GetUpstreamDNS1 returns the value of UpstreamDNS1.
-func (s *ModelsSettingsDNSForwardingSettings) GetUpstreamDNS1() string {
+func (s *ModelsSettingsDNSForwardingSettings) GetUpstreamDNS1() OptString {
 	return s.UpstreamDNS1
 }
 
 // GetUpstreamDNS2 returns the value of UpstreamDNS2.
-func (s *ModelsSettingsDNSForwardingSettings) GetUpstreamDNS2() string {
+func (s *ModelsSettingsDNSForwardingSettings) GetUpstreamDNS2() OptString {
 	return s.UpstreamDNS2
 }
 
@@ -2059,17 +2059,17 @@ func (s *ModelsSettingsDNSForwardingSettings) SetEnabled(val ModelsSettingsDNSFo
 }
 
 // SetPrivateHostedZone sets the value of PrivateHostedZone.
-func (s *ModelsSettingsDNSForwardingSettings) SetPrivateHostedZone(val string) {
+func (s *ModelsSettingsDNSForwardingSettings) SetPrivateHostedZone(val OptString) {
 	s.PrivateHostedZone = val
 }
 
 // SetUpstreamDNS1 sets the value of UpstreamDNS1.
-func (s *ModelsSettingsDNSForwardingSettings) SetUpstreamDNS1(val string) {
+func (s *ModelsSettingsDNSForwardingSettings) SetUpstreamDNS1(val OptString) {
 	s.UpstreamDNS1 = val
 }
 
 // SetUpstreamDNS2 sets the value of UpstreamDNS2.
-func (s *ModelsSettingsDNSForwardingSettings) SetUpstreamDNS2(val string) {
+func (s *ModelsSettingsDNSForwardingSettings) SetUpstreamDNS2(val OptString) {
 	s.UpstreamDNS2 = val
 }
 
