@@ -832,17 +832,17 @@ func (s *ModelsSettingsDNSForwardingSettings) SetFake() {
 	}
 	{
 		{
-			s.PrivateHostedZone = "string"
+			s.PrivateHostedZone.SetFake()
 		}
 	}
 	{
 		{
-			s.UpstreamDNS1 = "string"
+			s.UpstreamDNS1.SetFake()
 		}
 	}
 	{
 		{
-			s.UpstreamDNS2 = "string"
+			s.UpstreamDNS2.SetFake()
 		}
 	}
 }
