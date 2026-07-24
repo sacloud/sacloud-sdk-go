@@ -68,10 +68,25 @@ func (m *option[T]) Get() (T, bool) {
 	}
 }
 
+func (m *option[T]) MustGet() T {
+	if v, ok := m.Get(); ok {
+		return v
+	} else {
+		panic("called MustGet on a None value")
+	}
+}
+
 func (m *option[T]) Set(s string) error {
 	// This is used by flag package
 
 	switch m := any(m).(type) {
+	case *option[bool]:
+		if v, err := strconv.ParseBool(s); err != nil {
+			return err
+		} else {
+			m.initialize(v)
+		}
+
 	case *option[string]:
 		m.initialize(s)
 
@@ -107,6 +122,18 @@ func (m *option[T]) Set(s string) error {
 		panic("unsupported type")
 	}
 	return nil
+}
+
+func (m *option[T]) SetTo(v T) {
+	m.initialize(v)
+}
+
+func (m *option[T]) IsSet() bool {
+	if m == nil {
+		return false
+	} else {
+		return m.set
+	}
 }
 
 func (m *option[T]) fromEnv(s string) error {
