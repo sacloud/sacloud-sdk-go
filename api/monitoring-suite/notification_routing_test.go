@@ -119,7 +119,7 @@ func TestNotificationRoutingService_Create_400(t *testing.T) {
 	createParams := NotificationRoutingCreateParams{}
 	_, err := api.Create(ctx, "12345", createParams)
 	require.Error(t, err)
-	require.ErrorContains(t, err, "invalid")
+	require.ErrorContains(t, err, "Invalid")
 }
 
 func TestNotificationRoutingService_Update(t *testing.T) {
@@ -265,4 +265,40 @@ func TestNotificationRoutingIntegrated(t *testing.T) {
 	}
 	err = api.Reorder(ctx, id, orders)
 	require.NoError(t, err)
+}
+
+func TestNotificationRoutingIntegratedWithEmptyMatchLabels(t *testing.T) {
+	client, err := IntegratedClient(t)
+	require.NoError(t, err)
+	api := NewNotificationRoutingOp(client)
+	ctx := context.Background()
+	project := WithAlertProject(t, client, ctx)
+	createdTarget := WithNotificationTarget(t, client, ctx, project.GetID())
+	targetID := createdTarget.GetUID()
+	id := fmt.Sprintf("%d", project.GetID())
+
+	createParams := NotificationRoutingCreateParams{
+		NotificationTargetUID: targetID,
+		MatchLabels:           []v1.MatchLabelsItem{},
+		ResendIntervalMinutes: ref(30),
+	}
+	created, err := api.Create(ctx, id, createParams)
+	require.NoError(t, err)
+	require.NotNil(t, created)
+	rid := created.GetUID()
+
+	newInterval := 60
+	updateParams := NotificationRoutingUpdateParams{
+		MatchLabels:           []v1.MatchLabelsItem{},
+		ResendIntervalMinutes: &newInterval,
+	}
+	updated, err := api.Update(ctx, id, rid, updateParams)
+	require.NoError(t, err)
+	require.NotNil(t, updated)
+	require.Equal(t, newInterval, updated.GetResendIntervalMinutes().Or(0))
+
+	t.Cleanup(func() {
+		err := api.Delete(ctx, id, rid)
+		require.NoError(t, err)
+	})
 }

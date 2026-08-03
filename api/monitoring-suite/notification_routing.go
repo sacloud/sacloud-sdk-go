@@ -75,9 +75,6 @@ func (op *notificationRoutingOp) Create(ctx context.Context, projectId string, p
 		req := v1.NotificationRoutingRequest{
 			NotificationTargetUID: params.NotificationTargetUID,
 			MatchLabels: func() []v1.MatchLabelsItemRequest {
-				if len(params.MatchLabels) == 0 {
-					return nil
-				}
 				ret := make([]v1.MatchLabelsItemRequest, len(params.MatchLabels))
 				for i, item := range params.MatchLabels {
 					ret[i] = v1.MatchLabelsItemRequest{
@@ -110,9 +107,6 @@ func (op *notificationRoutingOp) Update(ctx context.Context, projectId string, u
 		return op.client.AlertsProjectsNotificationRoutingsPartialUpdate(ctx, v1.NewOptPatchedNotificationRoutingRequest(v1.PatchedNotificationRoutingRequest{
 			NotificationTargetUID: intoOpt[v1.OptUUID](params.NotificationTargetUID),
 			MatchLabels: func() []v1.MatchLabelsItemRequest {
-				if len(params.MatchLabels) == 0 {
-					return nil
-				}
 				ret := make([]v1.MatchLabelsItemRequest, len(params.MatchLabels))
 				for i, item := range params.MatchLabels {
 					ret[i] = v1.MatchLabelsItemRequest{

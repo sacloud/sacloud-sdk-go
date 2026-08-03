@@ -2088,6 +2088,7 @@ func (f *fieldsDef) ContainerRegistryFQDN() *dsl.FieldDesc {
 
 func (f *fieldsDef) ContainerRegistryAccessLevel() *dsl.FieldDesc {
 	return &dsl.FieldDesc{
+		// Deprecated: コンテナレジストリの公開設定（Pullのみ）は廃止予定です。今後は一律「非公開」での運用となります。
 		Name: "AccessLevel",
 		Type: meta.Static(types.EContainerRegistryAccessLevel("")),
 		Tags: &dsl.FieldTags{

@@ -6638,11 +6638,11 @@ func (s *ModelDefaultErrorError) SetErrors(val ModelErrors) {
 type ModelErrors []ModelErrorsItem
 
 type ModelErrorsItem struct {
-	Domain       NilString                      `json:"domain"`
-	Reason       NilString                      `json:"reason"`
-	Message      NilString                      `json:"message"`
-	LocationType NilModelErrorsItemLocationType `json:"location_type"`
-	Location     OptNilString                   `json:"location"`
+	Domain       NilString                         `json:"domain"`
+	Reason       NilString                         `json:"reason"`
+	Message      NilString                         `json:"message"`
+	LocationType OptNilModelErrorsItemLocationType `json:"location_type"`
+	Location     OptNilString                      `json:"location"`
 }
 
 // GetDomain returns the value of Domain.
@@ -6661,7 +6661,7 @@ func (s *ModelErrorsItem) GetMessage() NilString {
 }
 
 // GetLocationType returns the value of LocationType.
-func (s *ModelErrorsItem) GetLocationType() NilModelErrorsItemLocationType {
+func (s *ModelErrorsItem) GetLocationType() OptNilModelErrorsItemLocationType {
 	return s.LocationType
 }
 
@@ -6686,7 +6686,7 @@ func (s *ModelErrorsItem) SetMessage(val NilString) {
 }
 
 // SetLocationType sets the value of LocationType.
-func (s *ModelErrorsItem) SetLocationType(val NilModelErrorsItemLocationType) {
+func (s *ModelErrorsItem) SetLocationType(val OptNilModelErrorsItemLocationType) {
 	s.LocationType = val
 }
 
@@ -6748,51 +6748,6 @@ func (s *ModelErrorsItemLocationType) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
-}
-
-// NewNilModelErrorsItemLocationType returns new NilModelErrorsItemLocationType with value set to v.
-func NewNilModelErrorsItemLocationType(v ModelErrorsItemLocationType) NilModelErrorsItemLocationType {
-	return NilModelErrorsItemLocationType{
-		Value: v,
-	}
-}
-
-// NilModelErrorsItemLocationType is nullable ModelErrorsItemLocationType.
-type NilModelErrorsItemLocationType struct {
-	Value ModelErrorsItemLocationType
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilModelErrorsItemLocationType) SetTo(v ModelErrorsItemLocationType) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o NilModelErrorsItemLocationType) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *NilModelErrorsItemLocationType) SetToNull() {
-	o.Null = true
-	var v ModelErrorsItemLocationType
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilModelErrorsItemLocationType) Get() (v ModelErrorsItemLocationType, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilModelErrorsItemLocationType) Or(d ModelErrorsItemLocationType) ModelErrorsItemLocationType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
 }
 
 // NewNilString returns new NilString with value set to v.
@@ -7827,6 +7782,69 @@ func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Or(d HandlerPost
 	return d
 }
 
+// NewOptNilModelErrorsItemLocationType returns new OptNilModelErrorsItemLocationType with value set to v.
+func NewOptNilModelErrorsItemLocationType(v ModelErrorsItemLocationType) OptNilModelErrorsItemLocationType {
+	return OptNilModelErrorsItemLocationType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilModelErrorsItemLocationType is optional nullable ModelErrorsItemLocationType.
+type OptNilModelErrorsItemLocationType struct {
+	Value ModelErrorsItemLocationType
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilModelErrorsItemLocationType was set.
+func (o OptNilModelErrorsItemLocationType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilModelErrorsItemLocationType) Reset() {
+	var v ModelErrorsItemLocationType
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilModelErrorsItemLocationType) SetTo(v ModelErrorsItemLocationType) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilModelErrorsItemLocationType) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilModelErrorsItemLocationType) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ModelErrorsItemLocationType
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilModelErrorsItemLocationType) Get() (v ModelErrorsItemLocationType, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilModelErrorsItemLocationType) Or(d ModelErrorsItemLocationType) ModelErrorsItemLocationType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilPatchApplicationBodyComponentsItemEnvItemArray returns new OptNilPatchApplicationBodyComponentsItemEnvItemArray with value set to v.
 func NewOptNilPatchApplicationBodyComponentsItemEnvItemArray(v []PatchApplicationBodyComponentsItemEnvItem) OptNilPatchApplicationBodyComponentsItemEnvItemArray {
 	return OptNilPatchApplicationBodyComponentsItemEnvItemArray{
@@ -8644,7 +8662,11 @@ func (s *PatchApplicationBodyComponentsItem) SetProbe(val OptNilPatchApplication
 
 // コンポーネントを構成するソース.
 type PatchApplicationBodyComponentsItemDeploySource struct {
-	// コンテナレジストリ.
+	// コンテナレジストリ
+	// 以下のレジストリを利用できます。
+	// * さくらのクラウドで提供中のコンテナレジストリ
+	// * Docker Hub
+	// * GitHub Container Registry.
 	ContainerRegistry OptPatchApplicationBodyComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
 }
 
@@ -8658,15 +8680,21 @@ func (s *PatchApplicationBodyComponentsItemDeploySource) SetContainerRegistry(va
 	s.ContainerRegistry = val
 }
 
-// コンテナレジストリ.
+// コンテナレジストリ
+// 以下のレジストリを利用できます。
+// * さくらのクラウドで提供中のコンテナレジストリ
+// * Docker Hub
+// * GitHub Container Registry.
 type PatchApplicationBodyComponentsItemDeploySourceContainerRegistry struct {
 	// コンテナイメージ名.
 	Image string `json:"image"`
-	// コンテナレジストリのサーバー名（認証が必要な場合は入力してください）.
+	// コンテナレジストリのサーバー名（認証が必要な場合は入力してください）
+	// Docker Hub利用時は `index.docker.io` を指定してください。.
 	Server OptNilString `json:"server"`
 	// コンテナレジストリのユーザー名（認証が必要な場合は入力してください）.
 	Username OptNilString `json:"username"`
-	// コンテナレジストリのパスワード（認証が必要な場合は入力してください）.
+	// コンテナレジストリのパスワード（認証が必要な場合は入力してください）
+	// ※ 認証にトークンを使用する場合は、この欄に入力してください。.
 	Password OptNilString                  `json:"password"`
 	Action   OptNilContainerRegistryAction `json:"action"`
 }
@@ -9920,7 +9948,11 @@ func (s *PostApplicationBodyComponentsItem) SetProbe(val OptNilPostApplicationBo
 
 // コンポーネントを構成するソース.
 type PostApplicationBodyComponentsItemDeploySource struct {
-	// コンテナレジストリ.
+	// コンテナレジストリ
+	// 以下のレジストリを利用できます。
+	// * さくらのクラウドで提供中のコンテナレジストリ
+	// * Docker Hub
+	// * GitHub Container Registry.
 	ContainerRegistry OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
 }
 
@@ -9934,15 +9966,21 @@ func (s *PostApplicationBodyComponentsItemDeploySource) SetContainerRegistry(val
 	s.ContainerRegistry = val
 }
 
-// コンテナレジストリ.
+// コンテナレジストリ
+// 以下のレジストリを利用できます。
+// * さくらのクラウドで提供中のコンテナレジストリ
+// * Docker Hub
+// * GitHub Container Registry.
 type PostApplicationBodyComponentsItemDeploySourceContainerRegistry struct {
 	// コンテナイメージ名.
 	Image string `json:"image"`
-	// コンテナレジストリのサーバー名（認証が必要な場合は入力してください）.
+	// コンテナレジストリのサーバー名（認証が必要な場合は入力してください）
+	// Docker Hub利用時は `index.docker.io` を指定してください。.
 	Server OptNilString `json:"server"`
 	// コンテナレジストリのユーザー名（認証が必要な場合は入力してください）.
 	Username OptNilString `json:"username"`
-	// コンテナレジストリのパスワード（認証が必要な場合は入力してください）.
+	// コンテナレジストリのパスワード（認証が必要な場合は入力してください）
+	// ※ 認証にトークンを使用する場合は、この欄に入力してください。.
 	Password OptNilString `json:"password"`
 }
 

@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.2](https://github.com/sacloud/monitoring-suite-api-go/compare/v0.2.1...v0.2.2) - 2026-07-22
+- log_measure_rule: fix openapi discriminator by @DCS-nishiura in https://github.com/sacloud/monitoring-suite-api-go/pull/116
+
+## [v0.2.1](https://github.com/sacloud/monitoring-suite-api-go/compare/v0.2.0...v0.2.1) - 2026-06-16
+- notification_routing: support empty match labels by @repeatedly in https://github.com/sacloud/monitoring-suite-api-go/pull/109
+
 ## [v0.2.0](https://github.com/sacloud/monitoring-suite-api-go/compare/v0.1.1...v0.2.0) - 2026-03-23
 - ci: bump Songmu/tagpr from 1.8.4 to 1.11.1 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/70
 - ci: bump actions/setup-go from 6.1.0 to 6.2.0 by @dependabot[bot] in https://github.com/sacloud/monitoring-suite-api-go/pull/71

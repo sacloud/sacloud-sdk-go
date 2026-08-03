@@ -15,6 +15,8 @@
 package types
 
 // EContainerRegistryAccessLevel コンテナレジストリへアクセスレベル
+//
+// Deprecated: コンテナレジストリの公開設定（Pullのみ）は廃止予定です。今後は一律「非公開」での運用となります。
 type EContainerRegistryAccessLevel string
 
 // String EContainerRegistryVisibilityの文字列表現
@@ -24,6 +26,7 @@ func (v EContainerRegistryAccessLevel) String() string {
 
 // ContainerRegistryAccessLevels コンテナレジストリのアクセス範囲
 var ContainerRegistryAccessLevels = struct {
+	// Deprecated: コンテナレジストリの公開設定（Pullのみ）は廃止予定です。今後は一律「非公開」での運用となります。
 	ReadOnly EContainerRegistryAccessLevel
 	None     EContainerRegistryAccessLevel
 }{

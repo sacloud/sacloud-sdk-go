@@ -94,10 +94,10 @@ var _ VersionAPI = (*VersionOp)(nil)
 
 type ExposedPort struct {
 	TargetPort       v1.Port         `json:"targetPort"`
-	LoadBalancerPort *v1.Port        `json:"loadBalancerPort"`
+	LoadBalancerPort *v1.Port        `json:"loadBalancerPort,omitempty"`
 	UseLetsEncrypt   bool            `json:"useLetsEncrypt"`
-	Host             []string        `json:"host"`
-	HealthCheck      *v1.HealthCheck `json:"healthCheck"`
+	Host             []string        `json:"host,omitempty"`
+	HealthCheck      *v1.HealthCheck `json:"healthCheck,omitempty"`
 }
 
 func (p ExposedPort) into() (ret v1.ExposedPort) {
@@ -120,7 +120,7 @@ func (p *ExposedPort) From(res *v1.ExposedPort) {
 
 type EnvironmentVariable struct {
 	Key    string  `json:"key"`
-	Value  *string `json:"value"`
+	Value  *string `json:"value,omitempty"`
 	Secret bool    `json:"secret"`
 }
 
@@ -142,18 +142,18 @@ type CreateParams struct {
 	CPU                    int64                     `json:"cpu"`
 	Memory                 int64                     `json:"memory"`
 	ScalingMode            v1.ScalingMode            `json:"scalingMode"`
-	FixedScale             *int32                    `json:"fixedScale"`
-	MinScale               *int32                    `json:"minScale"`
-	MaxScale               *int32                    `json:"maxScale"`
-	ScaleInThreshold       *int32                    `json:"scaleInThreshold"`
-	ScaleOutThreshold      *int32                    `json:"scaleOutThreshold"`
+	FixedScale             *int32                    `json:"fixedScale,omitempty"`
+	MinScale               *int32                    `json:"minScale,omitempty"`
+	MaxScale               *int32                    `json:"maxScale,omitempty"`
+	ScaleInThreshold       *int32                    `json:"scaleInThreshold,omitempty"`
+	ScaleOutThreshold      *int32                    `json:"scaleOutThreshold,omitempty"`
 	Image                  string                    `json:"image"`
-	Cmd                    []string                  `json:"cmd"`
-	RegistryUsername       *string                   `json:"registryUsername"`
-	RegistryPassword       *string                   `json:"registryPassword"`
-	RegistryPasswordAction v1.RegistryPasswordAction `json:"registryPasswordAction"`
-	ExposedPorts           []ExposedPort             `json:"exposedPorts"`
-	EnvVars                []EnvironmentVariable     `json:"envVars"`
+	Cmd                    []string                  `json:"cmd,omitempty"`
+	RegistryUsername       *string                   `json:"registryUsername,omitempty"`
+	RegistryPassword       *string                   `json:"registryPassword,omitempty"`
+	RegistryPasswordAction v1.RegistryPasswordAction `json:"registryPasswordAction,omitempty"`
+	ExposedPorts           []ExposedPort             `json:"exposedPorts,omitempty"`
+	EnvVars                []EnvironmentVariable     `json:"envVars,omitempty"`
 }
 
 func (c *CreateParams) into() (ret v1.CreateApplicationVersion) {
@@ -181,19 +181,19 @@ type VersionDetail struct {
 	CPU               int64                       `json:"cpu"`
 	Memory            int64                       `json:"memory"`
 	ScalingMode       v1.ScalingMode              `json:"scalingMode"`
-	FixedScale        *int32                      `json:"fixedScale"`
-	MinScale          *int32                      `json:"minScale"`
-	MaxScale          *int32                      `json:"maxScale"`
-	ScaleInThreshold  *int32                      `json:"scaleInThreshold"`
-	ScaleOutThreshold *int32                      `json:"scaleOutThreshold"`
+	FixedScale        *int32                      `json:"fixedScale,omitempty"`
+	MinScale          *int32                      `json:"minScale,omitempty"`
+	MaxScale          *int32                      `json:"maxScale,omitempty"`
+	ScaleInThreshold  *int32                      `json:"scaleInThreshold,omitempty"`
+	ScaleOutThreshold *int32                      `json:"scaleOutThreshold,omitempty"`
 	Image             string                      `json:"image"`
-	Cmd               []string                    `json:"cmd"`
-	RegistryUsername  *string                     `json:"registryUsername"`
-	RegistryPassword  *string                     `json:"registryPassword"`
+	Cmd               []string                    `json:"cmd,omitempty"`
+	RegistryUsername  *string                     `json:"registryUsername,omitempty"`
+	RegistryPassword  *string                     `json:"registryPassword,omitempty"`
 	ActiveNodeCount   int64                       `json:"activeNodeCount"`
 	Created           int                         `json:"created"`
-	ExposedPorts      []ExposedPort               `json:"exposedPorts"`
-	EnvVars           []EnvironmentVariable       `json:"envVars"`
+	ExposedPorts      []ExposedPort               `json:"exposedPorts,omitempty"`
+	EnvVars           []EnvironmentVariable       `json:"envVars,omitempty"`
 }
 
 func (v *VersionDetail) from(res *v1.ReadApplicationVersionDetail) {

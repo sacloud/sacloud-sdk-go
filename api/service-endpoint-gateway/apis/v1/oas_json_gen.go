@@ -5323,16 +5323,22 @@ func (s *ModelsSettingsDNSForwardingSettings) encodeFields(e *jx.Encoder) {
 		s.Enabled.Encode(e)
 	}
 	{
-		e.FieldStart("PrivateHostedZone")
-		e.Str(s.PrivateHostedZone)
+		if s.PrivateHostedZone.Set {
+			e.FieldStart("PrivateHostedZone")
+			s.PrivateHostedZone.Encode(e)
+		}
 	}
 	{
-		e.FieldStart("UpstreamDNS1")
-		e.Str(s.UpstreamDNS1)
+		if s.UpstreamDNS1.Set {
+			e.FieldStart("UpstreamDNS1")
+			s.UpstreamDNS1.Encode(e)
+		}
 	}
 	{
-		e.FieldStart("UpstreamDNS2")
-		e.Str(s.UpstreamDNS2)
+		if s.UpstreamDNS2.Set {
+			e.FieldStart("UpstreamDNS2")
+			s.UpstreamDNS2.Encode(e)
+		}
 	}
 }
 
@@ -5363,11 +5369,9 @@ func (s *ModelsSettingsDNSForwardingSettings) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Enabled\"")
 			}
 		case "PrivateHostedZone":
-			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Str()
-				s.PrivateHostedZone = string(v)
-				if err != nil {
+				s.PrivateHostedZone.Reset()
+				if err := s.PrivateHostedZone.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -5375,11 +5379,9 @@ func (s *ModelsSettingsDNSForwardingSettings) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"PrivateHostedZone\"")
 			}
 		case "UpstreamDNS1":
-			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Str()
-				s.UpstreamDNS1 = string(v)
-				if err != nil {
+				s.UpstreamDNS1.Reset()
+				if err := s.UpstreamDNS1.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -5387,11 +5389,9 @@ func (s *ModelsSettingsDNSForwardingSettings) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"UpstreamDNS1\"")
 			}
 		case "UpstreamDNS2":
-			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				v, err := d.Str()
-				s.UpstreamDNS2 = string(v)
-				if err != nil {
+				s.UpstreamDNS2.Reset()
+				if err := s.UpstreamDNS2.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -5408,7 +5408,7 @@ func (s *ModelsSettingsDNSForwardingSettings) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00001111,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
