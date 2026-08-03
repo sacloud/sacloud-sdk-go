@@ -3791,14 +3791,37 @@ func decodePostUserResponse(resp *http.Response) (res PostUserRes, _ error) {
 		}
 		switch {
 		case ct == "application/json":
-			// OpenAPIとは違ってレスポンスが空なので、ここではデコードせずに直接レスポンスを返す。OpenAPIが修正されたら削除
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
 			var response PostUserConflict
-			response.Type = PostUserConflictType("Conflict")
-			response.ModelDefaultError = ModelDefaultError{
-				Error: ModelDefaultErrorError{
-					Code:    409,
-					Message: "Conflict",
-				},
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
 			}
 			return &response, nil
 		default:

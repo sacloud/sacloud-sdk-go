@@ -28,12 +28,12 @@ type Error struct {
 
 func (e *Error) Error() string {
 	if e.msg == "" {
-		return "monitoringsuite: " + e.err.Error()
+		return "apprun_shared: " + e.err.Error()
 	}
 	if e.err != nil {
-		return "monitoringsuite: " + e.msg + ": " + e.err.Error()
+		return "apprun_shared: " + e.msg + ": " + e.err.Error()
 	}
-	return "monitoringsuite: " + e.msg
+	return "apprun_shared: " + e.msg
 }
 
 func (e *Error) Unwrap() error {
