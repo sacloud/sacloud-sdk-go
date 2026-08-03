@@ -1,5 +1,13 @@
 # Changelog
 
+## [v1.29.2](https://github.com/sacloud/iaas-api-go/compare/v1.29.1...v1.29.2) - 2026-06-17
+
+- deprecate: ContainerRegistry public access settings by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/498
+- go: bump golang.org/x/crypto from 0.52.0 to 0.53.0 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/497
+- go: bump go.opentelemetry.io/otel/sdk from 1.43.0 to 1.44.0 in /trace/otel by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/496
+- go: bump go.opentelemetry.io/otel/exporters/stdout/stdouttrace from 1.43.0 to 1.44.0 in /trace/otel by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/494
+- go: bump go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc from 1.19.0 to 1.44.0 in /trace/otel by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/492
+
 ## [v1.29.1](https://github.com/sacloud/iaas-api-go/compare/v1.29.0...v1.29.1) - 2026-05-26
 - fix: preserve missing ELB fields during plan change by @yamamoto-febc in https://github.com/sacloud/iaas-api-go/pull/479
 - go: bump golang.org/x/crypto from 0.50.0 to 0.52.0 by @dependabot[bot] in https://github.com/sacloud/iaas-api-go/pull/478

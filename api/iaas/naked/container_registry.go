@@ -50,6 +50,7 @@ type ContainerRegistrySettings struct {
 
 // ContainerRegistrySetting セッティング
 type ContainerRegistrySetting struct {
+	// Deprecated: コンテナレジストリの公開設定（Pullのみ）は廃止予定です。今後は一律「非公開」での運用となります。
 	Public        types.EContainerRegistryAccessLevel `json:"public" yaml:"public"` // readwrite or readonly or none
 	VirtualDomain string                              `json:"virtual_domain" yaml:"virtual_domain"`
 }
