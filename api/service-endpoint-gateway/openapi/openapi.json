@@ -1954,10 +1954,7 @@
       "Models.Settings.DNSForwardingSettings": {
         "type": "object",
         "required": [
-          "Enabled",
-          "PrivateHostedZone",
-          "UpstreamDNS1",
-          "UpstreamDNS2"
+          "Enabled"
         ],
         "properties": {
           "Enabled": {

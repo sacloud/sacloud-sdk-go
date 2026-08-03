@@ -15271,8 +15271,10 @@ func (s *ModelDefaultErrorError) encodeFields(e *jx.Encoder) {
 		e.Str(s.Message)
 	}
 	{
-		e.FieldStart("errors")
-		s.Errors.Encode(e)
+		if s.Errors != nil {
+			e.FieldStart("errors")
+			s.Errors.Encode(e)
+		}
 	}
 }
 
@@ -15316,7 +15318,6 @@ func (s *ModelDefaultErrorError) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"message\"")
 			}
 		case "errors":
-			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
 				if err := s.Errors.Decode(d); err != nil {
 					return err
@@ -15335,7 +15336,7 @@ func (s *ModelDefaultErrorError) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000111,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -15384,12 +15385,17 @@ func (s *ModelDefaultErrorError) UnmarshalJSON(data []byte) error {
 // Encode encodes ModelErrors as json.
 func (s ModelErrors) Encode(e *jx.Encoder) {
 	unwrapped := []ModelErrorsItem(s)
-
-	e.ArrStart()
-	for _, elem := range unwrapped {
-		elem.Encode(e)
+	if unwrapped == nil {
+		e.ArrEmpty()
+		return
 	}
-	e.ArrEnd()
+	if unwrapped != nil {
+		e.ArrStart()
+		for _, elem := range unwrapped {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
 }
 
 // Decode decodes ModelErrors from json.
@@ -15453,8 +15459,10 @@ func (s *ModelErrorsItem) encodeFields(e *jx.Encoder) {
 		s.Message.Encode(e)
 	}
 	{
-		e.FieldStart("location_type")
-		s.LocationType.Encode(e)
+		if s.LocationType.Set {
+			e.FieldStart("location_type")
+			s.LocationType.Encode(e)
+		}
 	}
 	{
 		if s.Location.Set {
@@ -15512,8 +15520,8 @@ func (s *ModelErrorsItem) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"message\"")
 			}
 		case "location_type":
-			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
+				s.LocationType.Reset()
 				if err := s.LocationType.Decode(d); err != nil {
 					return err
 				}
@@ -15541,7 +15549,7 @@ func (s *ModelErrorsItem) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00001111,
+		0b00000111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -15627,50 +15635,6 @@ func (s ModelErrorsItemLocationType) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *ModelErrorsItemLocationType) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes ModelErrorsItemLocationType as json.
-func (o NilModelErrorsItemLocationType) Encode(e *jx.Encoder) {
-	if o.Null {
-		e.Null()
-		return
-	}
-	e.Str(string(o.Value))
-}
-
-// Decode decodes ModelErrorsItemLocationType from json.
-func (o *NilModelErrorsItemLocationType) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode NilModelErrorsItemLocationType to nil")
-	}
-	if d.Next() == jx.Null {
-		if err := d.Null(); err != nil {
-			return err
-		}
-
-		var v ModelErrorsItemLocationType
-		o.Value = v
-		o.Null = true
-		return nil
-	}
-	o.Null = false
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s NilModelErrorsItemLocationType) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *NilModelErrorsItemLocationType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -16394,6 +16358,55 @@ func (s OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ModelErrorsItemLocationType as json.
+func (o OptNilModelErrorsItemLocationType) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	if o.Null {
+		e.Null()
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes ModelErrorsItemLocationType from json.
+func (o *OptNilModelErrorsItemLocationType) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptNilModelErrorsItemLocationType to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v ModelErrorsItemLocationType
+		o.Value = v
+		o.Set = true
+		o.Null = true
+		return nil
+	}
+	o.Set = true
+	o.Null = false
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptNilModelErrorsItemLocationType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptNilModelErrorsItemLocationType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
