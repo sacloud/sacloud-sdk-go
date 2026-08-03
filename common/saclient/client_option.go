@@ -166,6 +166,14 @@ func WithoutRetry() clientOption {
 	return WithCheckRetryFunc(disableRetry)
 }
 
+// WithoutProfile disables loading of usacloud-compatible profiles.
+func WithoutProfile() clientOption {
+	return func(c *Client) error {
+		c.params.noProfile = true
+		return nil
+	}
+}
+
 // WithDefaultTimeout sets default timeout for requests.
 // For each individual request, timeout can also be set using context.
 //

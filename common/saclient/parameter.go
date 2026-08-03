@@ -70,7 +70,7 @@ type storage struct {
 type config map[string]any
 
 type parameter struct {
-	// Deprecated: for compatibility
+	// Disable loading of usacloud-compatible profiles.
 	noProfile bool
 
 	// Deprecated: for compatibility
