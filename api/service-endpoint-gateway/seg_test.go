@@ -215,9 +215,9 @@ func TestOpFULL(t *testing.T) {
 				DNSForwarding: v1.OptModelsSettingsDNSForwardingSettings{
 					Value: v1.ModelsSettingsDNSForwardingSettings{
 						Enabled:           v1.ModelsSettingsDNSForwardingSettingsEnabledTrue,
-						PrivateHostedZone: dnsPrivateZone,
-						UpstreamDNS1:      dnsUpstreamServer1,
-						UpstreamDNS2:      dnsUpstreamServer2,
+						PrivateHostedZone: v1.NewOptString(dnsPrivateZone),
+						UpstreamDNS1:      v1.NewOptString(dnsUpstreamServer1),
+						UpstreamDNS2:      v1.NewOptString(dnsUpstreamServer2),
 					},
 					Set: true,
 				},
