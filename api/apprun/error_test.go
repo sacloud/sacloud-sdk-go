@@ -32,17 +32,17 @@ func TestError_Error(t *testing.T) {
 		{
 			name: "with msg and err",
 			err:  &Error{msg: "something failed", err: baseErr},
-			want: "monitoringsuite: something failed: base error",
+			want: "apprun_shared: something failed: base error",
 		},
 		{
 			name: "with msg only",
 			err:  &Error{msg: "only msg"},
-			want: "monitoringsuite: only msg",
+			want: "apprun_shared: only msg",
 		},
 		{
 			name: "with err only",
 			err:  &Error{err: baseErr},
-			want: "monitoringsuite: base error",
+			want: "apprun_shared: base error",
 		},
 	}
 

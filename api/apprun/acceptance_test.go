@@ -66,7 +66,7 @@ func TestUserAPI(t *testing.T) {
 //   - アプリケーションのステータスを取得
 //   - アプリケーションを削除
 func TestApplicationAPI(t *testing.T) {
-	skipIfNoAPIKey(t)
+	skipIfNoRequiredKeys(t)
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -93,7 +93,10 @@ func TestApplicationAPI(t *testing.T) {
 				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
+							Username: v1.NewOptNilString("test-user"),
+							Password: v1.NewOptNilString(os.Getenv("SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")),
 						},
 					),
 				},
@@ -141,6 +144,62 @@ func TestApplicationAPI(t *testing.T) {
 	require.NoError(t, err)
 }
 
+// TestApplicationAPIWithExternalRegistry 外部レジストリを利用してのアプリケーションの作成テスト。外部レジストリとしてdockerhub/ghcrがあるが、レートリミット等を考慮してghcrを利用する。
+// 以下のシナリオでテストを行う
+//   - アプリケーションを作成
+//   - アプリケーションを削除
+func TestApplicationAPIWithExternalRegistry(t *testing.T) {
+	skipIfNoAPIKey(t)
+
+	if err := cleanupTestApplication(); err != nil {
+		t.Fatal(err)
+	}
+
+	ctx := context.Background()
+	client, err := newAPIClient()
+	require.NoError(t, err)
+	appOp := apprun.NewApplicationOp(client)
+
+	// Create
+	created, err := appOp.Create(ctx, &v1.PostApplicationBody{
+		Name:                   appName,
+		TimeoutSeconds:         100,
+		Port:                   80,
+		MinScale:               0,
+		MaxScale:               1,
+		ScaleTargetConcurrency: v1.NewOptInt(100),
+		Components: []v1.PostApplicationBodyComponentsItem{
+			{
+				Name:      "component1",
+				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image: "ghcr.io/nginx/nginx-gateway-fabric/nginx:2.6.2",
+						},
+					),
+				},
+				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
+					v1.PostApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
+							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+								Path: "/",
+								Port: 80,
+							},
+						),
+					},
+				),
+			},
+		},
+	})
+	require.NoError(t, err)
+
+	// Delete
+	err = appOp.Delete(ctx, created.ID)
+	require.NoError(t, err)
+}
+
 // TestPacketFilterAPI アプリケーションのパケットフィルタの一連の操作テスト
 // 以下のシナリオでテストを行う
 //   - アプリケーションを作成
@@ -148,7 +207,7 @@ func TestApplicationAPI(t *testing.T) {
 //   - パケットフィルタの取得
 //   - アプリケーションを削除
 func TestPacketFilterAPI(t *testing.T) {
-	skipIfNoAPIKey(t)
+	skipIfNoRequiredKeys(t)
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -176,7 +235,10 @@ func TestPacketFilterAPI(t *testing.T) {
 				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
+							Username: v1.NewOptNilString("test-user"),
+							Password: v1.NewOptNilString(os.Getenv("SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")),
 						},
 					),
 				},
@@ -232,7 +294,7 @@ func TestPacketFilterAPI(t *testing.T) {
 //   - アプリケーションバージョンを確認し、削除できていることを確認
 //   - アプリケーションを削除
 func TestVersionAPI(t *testing.T) {
-	skipIfNoAPIKey(t)
+	skipIfNoRequiredKeys(t)
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -260,7 +322,10 @@ func TestVersionAPI(t *testing.T) {
 				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
+							Username: v1.NewOptNilString("test-user"),
+							Password: v1.NewOptNilString(os.Getenv("SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")),
 						},
 					),
 				},
@@ -315,7 +380,7 @@ func TestVersionAPI(t *testing.T) {
 //   - アプリケーショントラフィックを確認
 //   - アプリケーションを削除
 func TestTrafficAPI(t *testing.T) {
-	skipIfNoAPIKey(t)
+	skipIfNoRequiredKeys(t)
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -343,7 +408,10 @@ func TestTrafficAPI(t *testing.T) {
 				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
+							Username: v1.NewOptNilString("test-user"),
+							Password: v1.NewOptNilString(os.Getenv("SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")),
 						},
 					),
 				},
@@ -422,6 +490,10 @@ func skipIfNoEnv(t *testing.T, envs ...string) {
 
 func skipIfNoAPIKey(t *testing.T) {
 	skipIfNoEnv(t, "SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET")
+}
+
+func skipIfNoRequiredKeys(t *testing.T) {
+	skipIfNoEnv(t, "SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")
 }
 
 func cleanupTestApplication() error {

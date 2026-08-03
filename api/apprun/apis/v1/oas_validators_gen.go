@@ -2380,9 +2380,6 @@ func (s *ModelDefaultErrorError) Validate() error {
 
 func (s ModelErrors) Validate() error {
 	alias := ([]ModelErrorsItem)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
 	var failures []validate.FieldError
 	for i, elem := range alias {
 		if err := func() error {

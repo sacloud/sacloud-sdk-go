@@ -73,7 +73,10 @@ func Example_applicationAPI() {
 				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image: "apprun-test.sakuracr.jp/apprun/test1:latest",
+							Image:    "apprun-test.sakuracr.jp/apprun/test1:latest",
+							Server:   v1.NewOptNilString("apprun-test.sakuracr.jp"),
+							Username: v1.NewOptNilString("test-user"),
+							Password: v1.NewOptNilString("test-password"),
 						},
 					),
 				},
@@ -138,7 +141,10 @@ func Example_versionAPI() {
 				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image: "apprun-test.sakuracr.jp/apprun/test1:latest",
+							Image:    "apprun-test.sakuracr.jp/apprun/test1:latest",
+							Server:   v1.NewOptNilString("apprun-test.sakuracr.jp"),
+							Username: v1.NewOptNilString("test-user"),
+							Password: v1.NewOptNilString("test-password"),
 						},
 					),
 				},
@@ -226,7 +232,10 @@ func Example_trafficAPI() {
 				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image: "apprun-test.sakuracr.jp/apprun/test1:latest",
+							Image:    "apprun-test.sakuracr.jp/apprun/test1:latest",
+							Server:   v1.NewOptNilString("apprun-test.sakuracr.jp"),
+							Username: v1.NewOptNilString("test-user"),
+							Password: v1.NewOptNilString("test-password"),
 						},
 					),
 				},

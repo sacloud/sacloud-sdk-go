@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.8.2](https://github.com/sacloud/apprun-api-go/compare/v0.8.1...v0.8.2) - 2026-06-11
+- Update openapi by @repeatedly in https://github.com/sacloud/apprun-api-go/pull/101
+
+## [v0.8.1](https://github.com/sacloud/apprun-api-go/compare/v0.8.0...v0.8.1) - 2026-06-02
+- Fix error message by @repeatedly in https://github.com/sacloud/apprun-api-go/pull/96
+
 ## [v0.8.0](https://github.com/sacloud/apprun-api-go/compare/v0.7.1...v0.8.0) - 2026-04-21
 - github: update settings by @repeatedly in https://github.com/sacloud/apprun-api-go/pull/87
 - Use ogen by @repeatedly in https://github.com/sacloud/apprun-api-go/pull/92

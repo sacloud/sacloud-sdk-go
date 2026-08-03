@@ -1876,11 +1876,6 @@ func (s *ModelErrorsItemLocationType) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NilModelErrorsItemLocationType) SetFake() {
-	s.Null = true
-}
-
-// SetFake set fake values.
 func (s *NilString) SetFake() {
 	s.Null = true
 }
@@ -1998,6 +1993,12 @@ func (s *OptNilHandlerPostApplicationComponentsItemProbe) SetFake() {
 
 // SetFake set fake values.
 func (s *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilModelErrorsItemLocationType) SetFake() {
 	s.Null = true
 	s.Set = true
 }
