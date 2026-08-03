@@ -1,0 +1,63 @@
+# Changelog
+
+## [v0.0.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.0.0...v0.0.1) - 2026-08-03
+
+- feat: initial implementation by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/1
+- feat: .github/copilot-instructions.md by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/2
+- feat: .github/dependabot.yml by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/3
+- feat: .github/workflows/tests.yaml by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/38
+- [CI] fix CI failures by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/66
+- pull upstream @ 2026/04/27 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/67
+- initial implementation of `package sacloud` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/68
+- internal/go-http: merge `go.mod` into toplevel by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/69
+- internal/packages: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/73
+- internal/packages/e2e: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/115
+- internal/services: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/116
+- internal/api-client: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/122
+- internal/saclient: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/123
+- common/saclient: added by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/125
+- api/dedicated-storage: merge go.mod into root go.mod  by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/124
+- [CI][chore] dependabot target sync by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/127
+- api/simple-notification: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/128
+- api/apprun-dedicated: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/129
+- api/iam: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/130
+- api/iaas: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/131
+- api/service-endpoint-gateway: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/132
+- api/apprun: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/133
+- api/simplemq: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/134
+- api/workflows: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/135
+- api/security-control: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/136
+- api/secretmanager: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/137
+- api/object-storage: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/138
+- api/monitoring-suite: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/139
+- api/eventbus: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/140
+- api/cloudhsm: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/141
+- api/addon: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/142
+- api/nosql: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/143
+- api/kms: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/144
+- api/apigw: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/154
+- api/webaccel: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/155
+- service/iaas: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/156
+- service/webaccel: merge go.mod into root go.mod by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/157
+- pull upstream @ 2026/05/25 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/158
+- CI: GitHub Actions update by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/159
+- pull upstream @ 2026/05/27 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/160
+- CI: give up lint-go at push by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/162
+- CI: minimal permission by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/161
+- toolchain: go1.26.3 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/168
+- common/packages: added by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/166
+- Add srn module for SRN support by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/179
+- pull upstream @ 2026/08/03 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/183
+- ci: bump actions/setup-go from 6.3.0 to 7.0.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/40
+- go: bump golang.org/x/crypto from 0.51.0 to 0.54.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/167
+- ci: bump Songmu/tagpr from 1.18.3 to 1.20.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/174
+- go: bump github.com/minio/minio-go/v7 from 7.0.98 to 7.2.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/170
+- go: bump go.opentelemetry.io/otel/sdk from 1.43.0 to 1.44.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/169
+- go: bump go.opentelemetry.io/otel/sdk from 1.43.0 to 1.44.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/172
+- ci: bump actions/checkout from 6.0.2 to 7.0.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/176
+- ci: bump golang/govulncheck-action from 31f7c5463448f83528bd771c2d978d940080c9fd to 032d45514ae346b1db93c04b0c90b841c370344f by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/178
+- feat: add WithoutProfile option to disable profile loading by @yamamoto-febc in https://github.com/sacloud/sacloud-sdk-go/pull/184
+- go: bump google.golang.org/grpc from 1.79.3 to 1.82.1 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/182
+- go: bump go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc from 1.19.0 to 1.44.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/173
+
+## [v0.0.0](https://github.com/sacloud/sacloud-sdk-go/commits/v0.0.0) - 2026-04-16
