@@ -1,5 +1,10 @@
 # Changelog
 
+## [v1.25.1](https://github.com/sacloud/iaas-service-go/compare/v1.25.0...v1.25.1) - 2026-05-26
+- go: bump github.com/sacloud/saclient-go from 0.3.7 to 0.4.0 by @dependabot[bot] in https://github.com/sacloud/iaas-service-go/pull/235
+- go: bump golang.org/x/crypto from 0.50.0 to 0.52.0 by @dependabot[bot] in https://github.com/sacloud/iaas-service-go/pull/234
+- chore(deps): update iaas-api-go to v1.29.1 by @yamamoto-febc in https://github.com/sacloud/iaas-service-go/pull/237
+
 ## [v1.25.0](https://github.com/sacloud/iaas-service-go/compare/v1.24.0...v1.25.0) - 2026-04-28
 - feat: add ProxyLB OriginGuard/StrictRule and bump iaas-api-go to v1.29.0 by @yamamoto-febc in https://github.com/sacloud/iaas-service-go/pull/231
 
