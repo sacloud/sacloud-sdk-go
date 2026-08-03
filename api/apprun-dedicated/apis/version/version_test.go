@@ -248,39 +248,41 @@ func TestJSONTags(t *testing.T) {
 	b, err := json.Marshal(params)
 	assert.NoError(err)
 
-	var raw map[string]interface{}
+	var raw map[string]any
 	assert.NoError(json.Unmarshal(b, &raw))
 
 	assert.Equal(float64(100), raw["cpu"])
 	assert.Equal(float64(128), raw["memory"])
 	assert.Equal("nginx:latest", raw["image"])
-	assert.Equal([]interface{}{"/bin/sh"}, raw["cmd"])
+	assert.Equal([]any{"/bin/sh"}, raw["cmd"])
 
-	envVars, ok := raw["envVars"].([]interface{})
+	envVars, ok := raw["envVars"].([]any)
 	assert.True(ok)
 	assert.Len(envVars, 1)
-	env := envVars[0].(map[string]interface{})
+	env := envVars[0].(map[string]any)
 	assert.Equal("K", env["key"])
 	assert.Equal("V", env["value"])
+	// bool fields are not omitempty: false is a meaningful value and is
+	// always serialized, so unset/false can be distinguished from omission.
+	assert.Equal(false, env["secret"])
 
-	ports, ok := raw["exposedPorts"].([]interface{})
+	ports, ok := raw["exposedPorts"].([]any)
 	assert.True(ok)
 	assert.Len(ports, 1)
-	port := ports[0].(map[string]interface{})
+	port := ports[0].(map[string]any)
 	assert.Equal(float64(8080), port["targetPort"])
 	assert.Equal(true, port["useLetsEncrypt"])
-	assert.Equal([]interface{}{"example.com"}, port["host"])
+	assert.Equal([]any{"example.com"}, port["host"])
 
-	hc := port["healthCheck"].(map[string]interface{})
+	hc := port["healthCheck"].(map[string]any)
 	assert.Equal("/health", hc["path"])
 	assert.Equal(float64(10), hc["intervalSeconds"])
 	assert.Equal(float64(5), hc["timeoutSeconds"])
 
-	// verify pointer fields are present even when nil
-	assert.Contains(raw, "fixedScale")
-	assert.Nil(raw["fixedScale"])
-	assert.Contains(raw, "registryUsername")
-	assert.Nil(raw["registryUsername"])
+	// optional fields are omitted when unset (omitempty)
+	assert.NotContains(raw, "fixedScale")
+	assert.NotContains(raw, "registryUsername")
+	assert.NotContains(raw, "registryPassword")
 
 	// round-trip
 	var restored CreateParams
