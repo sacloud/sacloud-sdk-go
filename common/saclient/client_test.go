@@ -660,6 +660,56 @@ func (s *ClientTestSuite) TestProfileWithNullValue() {
 	s.NotContains(actual, "Zones")
 }
 
+func (s *ClientTestSuite) TestWithoutProfile() {
+	xdg := os.Getenv("XDG_CONFIG_HOME")
+
+	s.Run("profile loaded by default", func() {
+		var subject Client
+		err := subject.SetEnviron([]string{"XDG_CONFIG_HOME=" + xdg})
+		s.NoError(err)
+		err = subject.Populate()
+		s.NoError(err)
+		s.Equal("usacloud", subject.JSON()["Zone"])
+	})
+
+	s.Run("WithoutProfile skips profile loading", func() {
+		var subject Client
+		err := subject.SetEnviron([]string{"XDG_CONFIG_HOME=" + xdg})
+		s.NoError(err)
+		err = subject.SetWith(WithoutProfile())
+		s.NoError(err)
+		err = subject.Populate()
+		s.NoError(err)
+		s.Nil(subject.JSON()["Zone"])
+	})
+
+	s.Run("WithoutProfile keeps environment variables", func() {
+		var subject Client
+		err := subject.SetEnviron([]string{
+			"XDG_CONFIG_HOME=" + xdg,
+			"SAKURACLOUD_ZONE=envzone",
+		})
+		s.NoError(err)
+		err = subject.SetWith(WithoutProfile())
+		s.NoError(err)
+		err = subject.Populate()
+		s.NoError(err)
+		s.Equal("envzone", subject.JSON()["Zone"])
+	})
+
+	s.Run("WithoutProfile ignores explicit --profile", func() {
+		var subject Client
+		err := subject.SetEnviron([]string{"XDG_CONFIG_HOME=" + xdg})
+		s.NoError(err)
+		err = subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=broken"})
+		s.NoError(err)
+		err = subject.SetWith(WithoutProfile())
+		s.NoError(err)
+		err = subject.Populate()
+		s.NoError(err)
+	})
+}
+
 func (s *ClientTestSuite) TestPrecedence() {
 	// Setup
 	subject := s.subject.Dup().(*Client)
