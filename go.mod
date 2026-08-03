@@ -1,6 +1,6 @@
 module github.com/sacloud/sacloud-sdk-go
 
-go 1.25.0
+go 1.26
 
 toolchain go1.26.3
 
@@ -21,7 +21,7 @@ require (
 	github.com/hashicorp/terraform-exec v0.25.2
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/huandu/xstrings v1.5.0
-	github.com/jlaffaye/ftp v0.2.0
+	github.com/jlaffaye/ftp v0.2.1
 	github.com/minio/minio-go/v7 v7.2.1
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.5.0
