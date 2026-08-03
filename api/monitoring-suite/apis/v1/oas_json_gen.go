@@ -2079,7 +2079,7 @@ func (s FieldMatcher) encodeFields(e *jx.Encoder) {
 		}
 	case BoolMatcherFieldMatcher:
 		e.FieldStart("type")
-		e.Str("BoolMatcher")
+		e.Str("boolean")
 		{
 			s := s.BoolMatcher
 			{
@@ -2147,7 +2147,7 @@ func (s FieldMatcher) encodeFields(e *jx.Encoder) {
 		}
 	case MapValueStrMatcherFieldMatcher:
 		e.FieldStart("type")
-		e.Str("MapValueStrMatcher")
+		e.Str("map-value-string")
 		{
 			s := s.MapValueStrMatcher
 			{
@@ -2177,7 +2177,7 @@ func (s FieldMatcher) encodeFields(e *jx.Encoder) {
 		}
 	case MapValueNumMatcherFieldMatcher:
 		e.FieldStart("type")
-		e.Str("MapValueNumMatcher")
+		e.Str("map-value-number")
 		{
 			s := s.MapValueNumMatcher
 			{
@@ -2243,7 +2243,7 @@ func (s *FieldMatcher) Decode(d *jx.Decoder) error {
 				case "number":
 					s.Type = NumMatcherFieldMatcher
 					found = true
-				case "BoolMatcher":
+				case "boolean":
 					s.Type = BoolMatcherFieldMatcher
 					found = true
 				case "enum":
@@ -2255,10 +2255,10 @@ func (s *FieldMatcher) Decode(d *jx.Decoder) error {
 				case "map-key-value-matcher":
 					s.Type = MapKeyValueMatcherFieldMatcher
 					found = true
-				case "MapValueStrMatcher":
+				case "map-value-string":
 					s.Type = MapValueStrMatcherFieldMatcher
 					found = true
-				case "MapValueNumMatcher":
+				case "map-value-number":
 					s.Type = MapValueNumMatcherFieldMatcher
 					found = true
 				default:
