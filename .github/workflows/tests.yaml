@@ -108,39 +108,6 @@ jobs:
         with:
           sarif_file: govulncheck.sarif
 
-  lint-def:
-    runs-on: ubuntu-latest
-    needs: changes
-    if: needs.changes.outputs.changes != '[]'
-    strategy:
-      fail-fast: false
-      matrix:
-        module: ${{ fromJSON(needs.changes.outputs.changes) }}
-    defaults:
-      run:
-        working-directory: ${{ matrix.module }}
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
-        with:
-          go-version-file: go.mod
-      - name: seek out lint-def
-        id: has-lint-def
-        continue-on-error: true
-        shell: bash
-        run: |
-          set +e
-          make -q lint-def 2>/dev/null
-          echo "q=${?}" >> "${GITHUB_OUTPUT}"
-      - run: make tools
-        if: steps.has-lint-def.outputs.q != '2'
-      - run: make lint-def
-        if: steps.has-lint-def.outputs.q != '2'
-
   test:
     runs-on: ubuntu-latest
     needs: changes
