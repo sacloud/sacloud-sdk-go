@@ -179,6 +179,104 @@ func (this *endpointTest) TestEndpointConfig_EnvOverridesProfile() {
 	this.Equal("https://env.example.com/cloud/zone", cfg.Endpoints["iaas"])
 }
 
+func (this *endpointTest) TestEndpointConfig_DefaultZone_FromEnv() {
+	this.setEnv("SAKURA_ACCESS_TOKEN", "test-token")
+	this.setEnv("SAKURA_ACCESS_TOKEN_SECRET", "test-secret")
+	this.setEnv("SAKURA_DEFAULT_ZONE", "tk1a")
+
+	var client Client
+	err := client.SetEnviron(os.Environ())
+	this.NoError(err)
+
+	api, err := client.DupWith(WithTestServer(this.testServer))
+	this.NoError(err)
+
+	err = api.Populate()
+	this.NoError(err)
+
+	cfg, err := api.EndpointConfig()
+	this.NoError(err)
+	this.NotNil(cfg)
+	this.Equal("tk1a", cfg.DefaultZone)
+}
+
+func (this *endpointTest) TestEndpointConfig_DefaultZone_FromProfile() {
+	defer func() {
+		_ = os.RemoveAll(os.TempDir() + "/test-profiles-override")
+		_ = os.Unsetenv("XDG_CONFIG_HOME")
+	}()
+
+	profileDir := os.TempDir() + "/test-profiles-override"
+	_ = os.MkdirAll(profileDir+"/usacloud/default", 0700)
+
+	profileContent := `{
+  "AccessToken": "test-token",
+  "AccessTokenSecret": "test-secret",
+  "DefaultZone": "is1b"
+}`
+
+	this.setEnv("SAKURA_PROFILE", "default")
+	this.setEnv("XDG_CONFIG_HOME", profileDir)
+	_ = os.WriteFile(profileDir+"/usacloud/default/config.json", []byte(profileContent), 0600)
+
+	_ = os.Unsetenv("SAKURA_DEFAULT_ZONE")
+
+	var client Client
+	err := client.SetEnviron(os.Environ())
+	this.NoError(err)
+
+	api, err := client.DupWith(WithTestServer(this.testServer))
+	this.NoError(err)
+
+	err = api.Populate()
+	this.NoError(err)
+
+	cfg, err := api.EndpointConfig()
+	this.NoError(err)
+	this.NotNil(cfg)
+	this.Equal("is1b", cfg.DefaultZone)
+}
+
+func (this *endpointTest) TestEndpointConfig_DefaultZone_EnvOverridesProfile() {
+	defer func() {
+		_ = os.RemoveAll(os.TempDir() + "/test-profiles-override")
+		_ = os.Unsetenv("XDG_CONFIG_HOME")
+	}()
+
+	profileDir := os.TempDir() + "/test-profiles-override"
+	_ = os.MkdirAll(profileDir+"/usacloud/default", 0700)
+
+	profileContent := `{
+  "AccessToken": "test-token",
+  "AccessTokenSecret": "test-secret",
+  "DefaultZone": "is1b"
+}`
+
+	this.setEnv("SAKURA_PROFILE", "default")
+	this.setEnv("XDG_CONFIG_HOME", profileDir)
+	_ = os.WriteFile(profileDir+"/usacloud/default/config.json", []byte(profileContent), 0600)
+
+	this.setEnv("SAKURA_DEFAULT_ZONE", "tk1a")
+	this.setEnv("SAKURA_ACCESS_TOKEN", "test-token")
+	this.setEnv("SAKURA_ACCESS_TOKEN_SECRET", "test-secret")
+
+	var client Client
+	err := client.SetEnviron(os.Environ())
+	this.NoError(err)
+
+	api, err := client.DupWith(WithTestServer(this.testServer))
+	this.NoError(err)
+
+	err = api.Populate()
+	this.NoError(err)
+
+	cfg, err := api.EndpointConfig()
+	this.NoError(err)
+	this.NotNil(cfg)
+	// Environment variable should override profile
+	this.Equal("tk1a", cfg.DefaultZone)
+}
+
 func TestEndpointSuite(t *testing.T) {
 	suite.Run(t, new(endpointTest))
 }

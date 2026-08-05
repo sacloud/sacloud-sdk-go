@@ -36,4 +36,12 @@ type EndpointConfig struct {
 	//
 	// Deprecated: Do not use. Kept only for compatibility.
 	APIRootURL string
+
+	// DefaultZone is the default zone used to access global resources.
+	//
+	// In IaaS API, some resources are global (not zone-scoped) but still
+	// need a zone context. This value tells which zone to use in such cases.
+	//
+	// Deprecated: Do not use. Kept only for compatibility.
+	DefaultZone string
 }

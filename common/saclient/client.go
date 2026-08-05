@@ -424,6 +424,16 @@ func (c *Client) EndpointConfig() (*EndpointConfig, error) {
 		ret.APIRootURL = url
 	}
 
+	defaultZone, ok, err := obtainFromConfig[string](cfg, "DefaultZone").decompose()
+
+	if err != nil {
+		return nil, err
+	}
+
+	if ok {
+		ret.DefaultZone = defaultZone
+	}
+
 	return ret, nil
 }
 func (c *Client) ensurePopulated() (*config, error) {
