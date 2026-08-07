@@ -2,7 +2,7 @@ module github.com/sacloud/sacloud-sdk-go/api/iaas/trace/otel
 
 go 1.25.0
 
-toolchain go1.26.3
+toolchain go1.26.5
 
 require (
 	github.com/sacloud/sacloud-sdk-go/api/iaas v0.0.0-20260519024208-f2eaed9d3ae9
