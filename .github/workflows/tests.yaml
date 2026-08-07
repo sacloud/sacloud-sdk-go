@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: sacloud/textlint-action@ffccb93746d1cf48d69b5da8ca79a64ca998f248 # v0.1.0
+      - uses: sacloud/textlint-action@f0e5128aff22b8ce29ceb9b053dda71303f3f0a9 # v0.1.1
         with:
           working-directory: ${{ matrix.module }}
 
