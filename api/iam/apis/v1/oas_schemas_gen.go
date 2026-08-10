@@ -52,11 +52,11 @@ func (*AuthConditions) organizationAuthConditionsGetRes() {}
 func (*AuthConditions) organizationAuthConditionsPutRes() {}
 
 type AuthConditionsDatetimeRestriction struct {
-	// 日時がこの時間より後であることを要求 (ISO 8601形式;
-	// デフォルトは未設定 (`null`)).
+	// 日時がこの時間より後であることを要求 (ISO 8601形式; デフォルトは未設定
+	// (`null`)).
 	After NilDateTime `json:"after"`
-	// 日時がこの時間より前であることを要求 (ISO 8601形式;
-	// デフォルトは未設定 (`null`)).
+	// 日時がこの時間より前であることを要求 (ISO 8601形式; デフォルトは未設定
+	// (`null`)).
 	Before NilDateTime `json:"before"`
 }
 
@@ -97,7 +97,8 @@ func (s *AuthConditionsIPRestriction) SetOneOf(val AuthConditionsIPRestrictionSu
 
 // AuthConditionsIPRestrictionSum represents sum type.
 type AuthConditionsIPRestrictionSum struct {
-	Type                            AuthConditionsIPRestrictionSumType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                            AuthConditionsIPRestrictionSumType
 	AuthConditionsIPRestrictionSum0 AuthConditionsIPRestrictionSum0
 	AuthConditionsIPRestrictionSum1 AuthConditionsIPRestrictionSum1
 }
@@ -164,8 +165,7 @@ func NewAuthConditionsIPRestrictionSum1AuthConditionsIPRestrictionSum(v AuthCond
 }
 
 type AuthConditionsIPRestrictionSum0 struct {
-	// Allow_all = すべて許可
-	// allow_list = source_networkで許可リスト指定.
+	// Allow_all = すべて許可 allow_list = source_networkで許可リスト指定.
 	Mode OptAuthConditionsIPRestrictionSum0Mode `json:"mode"`
 }
 
@@ -179,8 +179,7 @@ func (s *AuthConditionsIPRestrictionSum0) SetMode(val OptAuthConditionsIPRestric
 	s.Mode = val
 }
 
-// Allow_all = すべて許可
-// allow_list = source_networkで許可リスト指定.
+// Allow_all = すべて許可 allow_list = source_networkで許可リスト指定.
 type AuthConditionsIPRestrictionSum0Mode string
 
 const (
@@ -216,8 +215,7 @@ func (s *AuthConditionsIPRestrictionSum0Mode) UnmarshalText(data []byte) error {
 }
 
 type AuthConditionsIPRestrictionSum1 struct {
-	// Allow_all = すべて許可
-	// allow_list = source_networkで許可リスト指定.
+	// Allow_all = すべて許可 allow_list = source_networkで許可リスト指定.
 	Mode OptAuthConditionsIPRestrictionSum1Mode `json:"mode"`
 	// Modeがallow_listの場合のみ必須.
 	SourceNetwork []string `json:"source_network"`
@@ -243,8 +241,7 @@ func (s *AuthConditionsIPRestrictionSum1) SetSourceNetwork(val []string) {
 	s.SourceNetwork = val
 }
 
-// Allow_all = すべて許可
-// allow_list = source_networkで許可リスト指定.
+// Allow_all = すべて許可 allow_list = source_networkで許可リスト指定.
 type AuthConditionsIPRestrictionSum1Mode string
 
 const (
@@ -628,9 +625,8 @@ func (s *CompatUsersGetOrdering) UnmarshalText(data []byte) error {
 type CompatUsersPostReq struct {
 	// ユーザの名前.
 	Name string `json:"name"`
-	// ユーザのパスワード
-	// 英数字とASCII標準文字における記号 !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
-	// のみ受け付ける
+	// ユーザのパスワード 英数字とASCII標準文字における記号
+	// !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~ のみ受け付ける
 	// 英字と数字を必ず含める必要がある.
 	Password string `json:"password"`
 	// ユーザコード.
@@ -2531,9 +2527,10 @@ type IamRole struct {
 	// IAMロールのカテゴリ.
 	Category string `json:"category"`
 	// このIAMロールを付与可能な最低階層。
-	// * `"organization"` - 組織
-	// * `"folder"` - フォルダ
-	// * `"project"` - プロジェクト.
+	//
+	//  - `"organization"` - 組織
+	//  - `"folder"` - フォルダ
+	//  - `"project"` - プロジェクト
 	LowestGrantableResource IamRoleLowestGrantableResource `json:"lowest_grantable_resource"`
 }
 
@@ -2590,9 +2587,10 @@ func (s *IamRole) SetLowestGrantableResource(val IamRoleLowestGrantableResource)
 func (*IamRole) iamRolesIamRoleIDGetRes() {}
 
 // このIAMロールを付与可能な最低階層。
-// * `"organization"` - 組織
-// * `"folder"` - フォルダ
-// * `"project"` - プロジェクト.
+//
+//   - `"organization"` - 組織
+//   - `"folder"` - フォルダ
+//   - `"project"` - プロジェクト
 type IamRoleLowestGrantableResource string
 
 const (
@@ -3619,6 +3617,11 @@ func (o *OptNilInt) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilInt) Get() (v int, ok bool) {
 	if o.Null {
@@ -3680,6 +3683,11 @@ func (o *OptNilString) SetToNull() {
 	o.Null = true
 	var v string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -4344,11 +4352,11 @@ func (s *OrganizationServicePolicyPutReq) SetRules(val []Rule) {
 type PasswordPolicy struct {
 	// パスワードの最小文字数 (8文字以上64文字以下; デフォルトは`8`).
 	MinLength int `json:"min_length"`
-	// 大文字を必須とするか (デフォルトは`false`)
-	// `false` であっても英字自体は必須.
+	// 大文字を必須とするか (デフォルトは`false`) `false`
+	// であっても英字自体は必須.
 	RequireUppercase bool `json:"require_uppercase"`
-	// 小文字を必須とするか (デフォルトは`false`)
-	// `false` であっても英字自体は必須.
+	// 小文字を必須とするか (デフォルトは`false`) `false`
+	// であっても英字自体は必須.
 	RequireLowercase bool `json:"require_lowercase"`
 	// 記号を必須とするか (デフォルトは`false`).
 	RequireSymbols bool `json:"require_symbols"`
@@ -5093,17 +5101,17 @@ func (s *ProjectsProjectIDPutReq) SetDescription(val string) {
 // Ref: #/components/schemas/Rule
 type Rule struct {
 	// ルールテンプレートのコード.
-	Code       OptString   `json:"code"`
+	Code       string      `json:"code"`
 	Spec       OptRuleSpec `json:"spec"`
 	DryRunSpec OptRuleSpec `json:"dry_run_spec"`
 	// ルールが有効かどうか.
-	IsActive OptBool `json:"is_active"`
+	IsActive bool `json:"is_active"`
 	// ルールがドライランかどうか.
-	IsDryRun OptBool `json:"is_dry_run"`
+	IsDryRun bool `json:"is_dry_run"`
 }
 
 // GetCode returns the value of Code.
-func (s *Rule) GetCode() OptString {
+func (s *Rule) GetCode() string {
 	return s.Code
 }
 
@@ -5118,17 +5126,17 @@ func (s *Rule) GetDryRunSpec() OptRuleSpec {
 }
 
 // GetIsActive returns the value of IsActive.
-func (s *Rule) GetIsActive() OptBool {
+func (s *Rule) GetIsActive() bool {
 	return s.IsActive
 }
 
 // GetIsDryRun returns the value of IsDryRun.
-func (s *Rule) GetIsDryRun() OptBool {
+func (s *Rule) GetIsDryRun() bool {
 	return s.IsDryRun
 }
 
 // SetCode sets the value of Code.
-func (s *Rule) SetCode(val OptString) {
+func (s *Rule) SetCode(val string) {
 	s.Code = val
 }
 
@@ -5143,12 +5151,12 @@ func (s *Rule) SetDryRunSpec(val OptRuleSpec) {
 }
 
 // SetIsActive sets the value of IsActive.
-func (s *Rule) SetIsActive(val OptBool) {
+func (s *Rule) SetIsActive(val bool) {
 	s.IsActive = val
 }
 
 // SetIsDryRun sets the value of IsDryRun.
-func (s *Rule) SetIsDryRun(val OptBool) {
+func (s *Rule) SetIsDryRun(val bool) {
 	s.IsDryRun = val
 }
 
@@ -6296,8 +6304,9 @@ type ServicePrincipalKey struct {
 	// 公開鍵のkid.
 	Kid string `json:"kid"`
 	// サービスプリンシパルキーの状態
-	// * enabled 有効
-	// * disabled 無効.
+	//
+	//  - enabled 有効
+	//  - disabled 無効
 	Status ServicePrincipalKeyStatus `json:"status"`
 	// 鍵の生成元.
 	KeyOrigin ServicePrincipalKeyKeyOrigin `json:"key_origin"`
@@ -6420,8 +6429,9 @@ func (s *ServicePrincipalKeyKeyOrigin) UnmarshalText(data []byte) error {
 }
 
 // サービスプリンシパルキーの状態
-// * enabled 有効
-// * disabled 無効.
+//
+//   - enabled 有効
+//   - disabled 無効
 type ServicePrincipalKeyStatus string
 
 const (
@@ -6993,9 +7003,10 @@ func (s *UserMember) SetCode(val string) {
 
 type UserOtp struct {
 	// OTP設定状態
-	// * deactivated OTP無効状態
-	// * activated OTP有効状態
-	// * activating OTP有効化中.
+	//
+	//  - deactivated OTP無効状態
+	//  - activated OTP有効状態
+	//  - activating OTP有効化中
 	Status UserOtpStatus `json:"status"`
 	// リカバリーコード作成済みかどうか.
 	HasRecoveryCode bool `json:"has_recovery_code"`
@@ -7022,9 +7033,10 @@ func (s *UserOtp) SetHasRecoveryCode(val bool) {
 }
 
 // OTP設定状態
-// * deactivated OTP無効状態
-// * activated OTP有効状態
-// * activating OTP有効化中.
+//
+//   - deactivated OTP無効状態
+//   - activated OTP有効状態
+//   - activating OTP有効化中
 type UserOtpStatus string
 
 const (
