@@ -16,6 +16,49 @@ type SecuritySource interface {
 	BasicAuth(ctx context.Context, operationName OperationName) (BasicAuth, error)
 }
 
+// operationRolesBasicAuth is a private map storing roles per operation.
+var operationRolesBasicAuth = map[string][]string{
+	CloudhsmCloudhsmsClientsCreateOperation:   []string{},
+	CloudhsmCloudhsmsClientsDestroyOperation:  []string{},
+	CloudhsmCloudhsmsClientsListOperation:     []string{},
+	CloudhsmCloudhsmsClientsRetrieveOperation: []string{},
+	CloudhsmCloudhsmsClientsUpdateOperation:   []string{},
+	CloudhsmCloudhsmsCreateOperation:          []string{},
+	CloudhsmCloudhsmsDestroyOperation:         []string{},
+	CloudhsmCloudhsmsListOperation:            []string{},
+	CloudhsmCloudhsmsPeersCreateOperation:     []string{},
+	CloudhsmCloudhsmsPeersDestroyOperation:    []string{},
+	CloudhsmCloudhsmsPeersRetrieveOperation:   []string{},
+	CloudhsmCloudhsmsRetrieveOperation:        []string{},
+	CloudhsmCloudhsmsUpdateOperation:          []string{},
+	CloudhsmLicensesCreateOperation:           []string{},
+	CloudhsmLicensesDestroyOperation:          []string{},
+	CloudhsmLicensesListOperation:             []string{},
+	CloudhsmLicensesRetrieveOperation:         []string{},
+	CloudhsmLicensesUpdateOperation:           []string{},
+}
+
+// GetRolesForBasicAuth returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForBasicAuth(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForBasicAuth(operation string) []string {
+	roles, ok := operationRolesBasicAuth[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
 func (s *Client) securityBasicAuth(ctx context.Context, operationName OperationName, req *http.Request) error {
 	t, err := s.sec.BasicAuth(ctx, operationName)
 	if err != nil {
