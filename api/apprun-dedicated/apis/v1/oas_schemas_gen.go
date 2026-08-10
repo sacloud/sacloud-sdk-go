@@ -280,7 +280,10 @@ type AutoScalingGroupNodeInterface struct {
 	DefaultGateway OptString `json:"defaultGateway"`
 	// パケットフィルターid.
 	PacketFilterID OptString `json:"packetFilterID"`
-	// 一つのオートスケーリンググループにつき､一つのインターフェースのみがロードバランサー接続対象となる｡接続対象になった場合､そのインターフェースに割り当てられた IP アドレスがロードバランサーのバックエンドとして登録される｡クラスターにロードバランサーポートが設定されている場合､一つのインターフェースが true である必要がある｡.
+	// 一つのオートスケーリンググループにつき､一つのインターフェースのみがロードバランサー接続対象となる｡接続対象になった場合､そのインターフェースに割り当てられた
+	// IP
+	// アドレスがロードバランサーのバックエンドとして登録される｡クラスターにロードバランサーポートが設定されている場合､一つのインターフェースが
+	// true である必要がある｡.
 	ConnectsToLB bool `json:"connectsToLB"`
 }
 
@@ -1209,15 +1212,17 @@ func (s *ErrorStatusCode) SetResponse(val Error) {
 type ExposedPort struct {
 	// アプリケーション内部でリッスンするポート番号｡このポートがホストでリッスンされます｡同一クラスタ内で､ポートの重複不可｡.
 	TargetPort Port `json:"targetPort"`
-	// 公開先となるロードバランサーのポート番号。ロードバランサーに設定しない場合は null を指定する｡.
+	// 公開先となるロードバランサーのポート番号。ロードバランサーに設定しない場合は
+	// null を指定する｡.
 	LoadBalancerPort NilPort `json:"loadBalancerPort"`
 	// Let's encrypt を利用するかどうか(https の場合のみサポート).
 	UseLetsEncrypt bool `json:"useLetsEncrypt"`
-	// - HTTP/HTTPS のロードバランサーポートを利用する場合は
-	// **必須**（1〜5件）。
-	// - TCP または loadBalancerPort = null の場合は **指定不可**。.
+	//  - HTTP/HTTPS のロードバランサーポートを利用する場合は 必須（1〜5件）。
+	//  - TCP または loadBalancerPort = null の場合は 指定不可。
 	Host []string `json:"host"`
-	// ロードバランサーがアプリケーションの正常性を確認するための設定です。ヘルスチェックが有効な場合、指定したパスにアクセスし、HTTPステータスコードが 2xx または 3xx 以外の場合は、そのノードへのトラフィックが停止されます。これにより、異常なノードへのアクセスを自動的に防止できます。.
+	// ロードバランサーがアプリケーションの正常性を確認するための設定です。ヘルスチェックが有効な場合、指定したパスにアクセスし、HTTPステータスコードが
+	// 2xx または 3xx
+	// 以外の場合は、そのノードへのトラフィックが停止されます。これにより、異常なノードへのアクセスを自動的に防止できます。.
 	HealthCheck NilHealthCheck `json:"healthCheck"`
 }
 
@@ -3105,7 +3110,7 @@ func (s *ReadAutoScalingGroupDetail) SetInterfaces(val []AutoScalingGroupNodeInt
 // Ref: #/components/schemas/ReadCertificate
 type ReadCertificate struct {
 	// 証明書ID.
-	CertificateID CertificateID `json:"certificateID"`
+	CertificateID uuid.UUID `json:"certificateID"`
 	// 証明書の名前｡クラスタ内でユニーク｡英数字、アンダースコア、ハイフン､ドットのみ使用可能.
 	Name string `json:"name"`
 	// 証明書の共通名.
@@ -3123,7 +3128,7 @@ type ReadCertificate struct {
 }
 
 // GetCertificateID returns the value of CertificateID.
-func (s *ReadCertificate) GetCertificateID() CertificateID {
+func (s *ReadCertificate) GetCertificateID() uuid.UUID {
 	return s.CertificateID
 }
 
@@ -3163,7 +3168,7 @@ func (s *ReadCertificate) GetUpdated() int {
 }
 
 // SetCertificateID sets the value of CertificateID.
-func (s *ReadCertificate) SetCertificateID(val CertificateID) {
+func (s *ReadCertificate) SetCertificateID(val uuid.UUID) {
 	s.CertificateID = val
 }
 

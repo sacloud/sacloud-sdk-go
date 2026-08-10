@@ -1455,7 +1455,7 @@ func (s *ReadAutoScalingGroupDetail) SetFake() {
 func (s *ReadCertificate) SetFake() {
 	{
 		{
-			s.CertificateID.SetFake()
+			s.CertificateID = uuid.New()
 		}
 	}
 	{

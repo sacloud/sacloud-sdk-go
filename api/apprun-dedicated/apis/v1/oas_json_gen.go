@@ -8334,7 +8334,7 @@ func (s *ReadCertificate) Encode(e *jx.Encoder) {
 func (s *ReadCertificate) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("certificateID")
-		s.CertificateID.Encode(e)
+		json.EncodeUUID(e, s.CertificateID)
 	}
 	{
 		e.FieldStart("name")
@@ -8393,7 +8393,9 @@ func (s *ReadCertificate) Decode(d *jx.Decoder) error {
 		case "certificateID":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				if err := s.CertificateID.Decode(d); err != nil {
+				v, err := json.DecodeUUID(d)
+				s.CertificateID = v
+				if err != nil {
 					return err
 				}
 				return nil
