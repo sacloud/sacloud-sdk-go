@@ -329,9 +329,10 @@ func (s *KeyCipher) SetCipher(val string) {
 	s.Cipher = val
 }
 
-// * `aes-256-gcm` - AES256-GCMモードでの暗号化(default)
-// * `aes-256-cbc` - AES256-CBCモードでの暗号化
-// * `aes-256-kw` - AES256-KWモードでの暗号化.
+//   - `aes-256-gcm` - AES256-GCMモードでの暗号化(default)
+//   - `aes-256-cbc` - AES256-CBCモードでの暗号化
+//   - `aes-256-kw` - AES256-KWモードでの暗号化
+//
 // Ref: #/components/schemas/KeyEncryptAlgoEnum
 type KeyEncryptAlgoEnum string
 
@@ -381,8 +382,9 @@ func (s *KeyEncryptAlgoEnum) UnmarshalText(data []byte) error {
 	}
 }
 
-// * `generated` - 生成
-// * `imported` - インポート.
+//   - `generated` - 生成
+//   - `imported` - インポート
+//
 // Ref: #/components/schemas/KeyOriginEnum
 type KeyOriginEnum string
 
@@ -494,10 +496,11 @@ func (s *KeyServiceClassEnum) UnmarshalText(data []byte) error {
 	}
 }
 
-// * `active` - 有効
-// * `restricted` - 復号と署名検証にのみ利用可能
-// * `suspended` - 利用不可
-// * `pending_destruction` - 削除猶予.
+//   - `active` - 有効
+//   - `restricted` - 復号と署名検証にのみ利用可能
+//   - `suspended` - 利用不可
+//   - `pending_destruction` - 削除猶予
+//
 // Ref: #/components/schemas/KeyStatusEnum
 type KeyStatusEnum string
 
