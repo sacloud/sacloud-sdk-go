@@ -1806,6 +1806,34 @@ func (s *NosqlRepairRequestNosqlRepairType) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *NosqlRepairResponse) SetFake() {
+	{
+		{
+			s.Nosql.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlRepairResponseNosql) SetFake() {
+	{
+		{
+			s.RepairType.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlRepairResponseNosqlRepairType) SetFake() {
+	*s = NosqlRepairResponseNosqlRepairTypeIncremental
+}
+
+// SetFake set fake values.
 func (s *NosqlSettings) SetFake() {
 	{
 		{
@@ -2739,6 +2767,24 @@ func (s *OptNosqlRepairRequestNosql) SetFake() {
 // SetFake set fake values.
 func (s *OptNosqlRepairRequestNosqlRepairType) SetFake() {
 	var elem NosqlRepairRequestNosqlRepairType
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlRepairResponseNosql) SetFake() {
+	var elem NosqlRepairResponseNosql
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlRepairResponseNosqlRepairType) SetFake() {
+	var elem NosqlRepairResponseNosqlRepairType
 	{
 		elem.SetFake()
 	}

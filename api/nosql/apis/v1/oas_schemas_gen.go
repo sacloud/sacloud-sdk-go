@@ -11,11 +11,13 @@ import (
 )
 
 // NoSQLの利用可能状態
-// | 値        | 説明       |
-// |-----------|------------|
-// | migrating | 準備中     |
-// | available | 利用可能   |
-// | failed    | 利用不可   |.
+//
+//	値       | 説明
+//	----------+-------------
+//	migrating | 準備中
+//	available | 利用可能
+//	failed    | 利用不可
+//
 // Ref: #/components/schemas/Availability
 type Availability string
 
@@ -1602,13 +1604,14 @@ func (s *GetParameterResponseNosql) SetParameters(val []NosqlGetParameter) {
 // Ref: #/components/schemas/GetPlan
 type GetPlan struct {
 	// プランID
-	// | プラン名      | プランID   |
-	// |--------------|------------|
-	// | 40GBプラン       |   51142    |
-	// | 100GBプラン       |   51143    |
-	// | 100GBプラン/ノード |   51145    |
-	// | 250GBプラン       |   51144    |
-	// | 250GBプラン/ノード |   51146    |.
+	//
+	// 	プラン名             | プランID
+	// 	-------------------------+------------
+	// 	40GBプラン            | 51142
+	// 	100GBプラン           | 51143
+	// 	100GBプラン/ノード | 51145
+	// 	250GBプラン           | 51144
+	// 	250GBプラン/ノード | 51146
 	ID OptInt `json:"ID"`
 }
 
@@ -1856,11 +1859,13 @@ func (*NodeHealth) getNoSQLNodeHealthRes() {}
 
 type NodeHealthNosql struct {
 	// NoSQLの状態
-	// | 値        | 説明   |
-	// |-----------|--------|
-	// | healthy        | 起動(すべてのノードが起動している)   |
-	// | healthy-partial | 部分起動(1台のノードが停止している)  |
-	// | unhealthy       | 停止(2台以上のノードが停止している)   |
+	//
+	// 	値             | 説明
+	// 	----------------+----------------------------------------------------
+	// 	healthy         | 起動(すべてのノードが起動している)
+	// 	healthy-partial | 部分起動(1台のノードが停止している)
+	// 	unhealthy       | 停止(2台以上のノードが停止している)
+	//
 	// ※40GBプランではノードが1台のため、部分起動(`healthy-partial`)は発生しません。.
 	Status OptNodeHealthNosqlStatus `json:"Status"`
 }
@@ -1876,11 +1881,13 @@ func (s *NodeHealthNosql) SetStatus(val OptNodeHealthNosqlStatus) {
 }
 
 // NoSQLの状態
-// | 値        | 説明   |
-// |-----------|--------|
-// | healthy        | 起動(すべてのノードが起動している)   |
-// | healthy-partial | 部分起動(1台のノードが停止している)  |
-// | unhealthy       | 停止(2台以上のノードが停止している)   |
+//
+//	値             | 説明
+//	----------------+----------------------------------------------------
+//	healthy         | 起動(すべてのノードが起動している)
+//	healthy-partial | 部分起動(1台のノードが停止している)
+//	unhealthy       | 停止(2台以上のノードが停止している)
+//
 // ※40GBプランではノードが1台のため、部分起動(`healthy-partial`)は発生しません。.
 type NodeHealthNosqlStatus string
 
@@ -1933,11 +1940,9 @@ func (s *NodeHealthNosqlStatus) UnmarshalText(data []byte) error {
 // Merged schema.
 // Ref: #/components/schemas/NosqlAppliance
 type NosqlAppliance struct {
-	// クラス
-	// **新規作成時・ノード追加時必須**.
+	// クラス 新規作成時・ノード追加時必須.
 	Class OptString `json:"Class"`
-	// NoSQLの名前
-	// **新規作成時・ノード追加時必須**.
+	// NoSQLの名前 新規作成時・ノード追加時必須.
 	Name OptString `json:"Name"`
 	// NoSQLの説明.
 	Description OptString  `json:"Description"`
@@ -2434,11 +2439,9 @@ func (s *NosqlApplianceRemark) SetServiceClass(val OptString) {
 
 // ネットワーク情報.
 type NosqlApplianceRemarkNetwork struct {
-	// ゲートウェイのアドレス
-	// **新規作成時・ノード追加時必須**.
+	// ゲートウェイのアドレス 新規作成時・ノード追加時必須.
 	DefaultRoute string `json:"DefaultRoute"`
-	// ネットマスク
-	// **新規作成時・ノード追加時必須**.
+	// ネットマスク 新規作成時・ノード追加時必須.
 	NetworkMaskLen int `json:"NetworkMaskLen"`
 }
 
@@ -2463,39 +2466,28 @@ func (s *NosqlApplianceRemarkNetwork) SetNetworkMaskLen(val int) {
 }
 
 type NosqlApplianceRemarkNosql struct {
-	// プライマリノード情報。
-	// **ノード追加時必須**
+	// プライマリノード情報。 ノード追加時必須
 	// ノード追加を行う場合は、対象となる既存NoSQLのアプライアンス情報を設定してください。.
 	PrimaryNodes OptNosqlApplianceRemarkNosqlPrimaryNodes `json:"PrimaryNodes"`
-	// データベースに使用するエンジン
-	// **新規作成時必須**.
+	// データベースに使用するエンジン 新規作成時必須.
 	DatabaseEngine OptNilNosqlApplianceRemarkNosqlDatabaseEngine `json:"DatabaseEngine"`
-	// データベースバージョン
-	// **新規作成時必須**.
+	// データベースバージョン 新規作成時必須.
 	DatabaseVersion OptNilString `json:"DatabaseVersion"`
-	// デフォルトユーザ名
-	// **新規作成時必須**.
+	// デフォルトユーザ名 新規作成時必須.
 	DefaultUser OptNilString `json:"DefaultUser"`
-	// ディスクサイズ(MB)
-	// 未指定時はプランから自動設定.
+	// ディスクサイズ(MB) 未指定時はプランから自動設定.
 	DiskSize OptNilInt `json:"DiskSize"`
-	// メモリ(MB)
-	// 未指定時はプランから自動設定.
+	// メモリ(MB) 未指定時はプランから自動設定.
 	Memory OptNilInt `json:"Memory"`
-	// ノード数
-	// 未指定時はプランから自動設定.
+	// ノード数 未指定時はプランから自動設定.
 	Nodes OptNilInt `json:"Nodes"`
-	// ポート
-	// **新規作成時必須**.
+	// ポート 新規作成時必須.
 	Port OptNilInt `json:"Port"`
-	// ストレージ
-	// **新規作成時必須**.
+	// ストレージ 新規作成時必須.
 	Storage OptNilNosqlApplianceRemarkNosqlStorage `json:"Storage"`
-	// 仮想コア
-	// 未指定時はプランから自動設定.
+	// 仮想コア 未指定時はプランから自動設定.
 	Virtualcore OptNilInt `json:"Virtualcore"`
-	// ゾーン
-	// **新規作成時・ノード追加時必須**.
+	// ゾーン 新規作成時・ノード追加時必須.
 	Zone string `json:"Zone"`
 }
 
@@ -2609,8 +2601,7 @@ func (s *NosqlApplianceRemarkNosql) SetZone(val string) {
 	s.Zone = val
 }
 
-// データベースに使用するエンジン
-// **新規作成時必須**.
+// データベースに使用するエンジン 新規作成時必須.
 type NosqlApplianceRemarkNosqlDatabaseEngine string
 
 const (
@@ -2645,12 +2636,10 @@ func (s *NosqlApplianceRemarkNosqlDatabaseEngine) UnmarshalText(data []byte) err
 	}
 }
 
-// プライマリノード情報。
-// **ノード追加時必須**
+// プライマリノード情報。 ノード追加時必須
 // ノード追加を行う場合は、対象となる既存NoSQLのアプライアンス情報を設定してください。.
 type NosqlApplianceRemarkNosqlPrimaryNodes struct {
-	// 既存のNoSQLのアプライアンス情報
-	// **ノード追加時必須**.
+	// 既存のNoSQLのアプライアンス情報 ノード追加時必須.
 	Appliance NosqlApplianceRemarkNosqlPrimaryNodesAppliance `json:"Appliance"`
 }
 
@@ -2664,14 +2653,11 @@ func (s *NosqlApplianceRemarkNosqlPrimaryNodes) SetAppliance(val NosqlApplianceR
 	s.Appliance = val
 }
 
-// 既存のNoSQLのアプライアンス情報
-// **ノード追加時必須**.
+// 既存のNoSQLのアプライアンス情報 ノード追加時必須.
 type NosqlApplianceRemarkNosqlPrimaryNodesAppliance struct {
-	// 既存のNoSQLのアプライアンスID
-	// **ノード追加時必須**.
+	// 既存のNoSQLのアプライアンスID ノード追加時必須.
 	ID string `json:"ID"`
-	// 既存のNoSQLのゾーン
-	// **ノード追加時必須**.
+	// 既存のNoSQLのゾーン ノード追加時必須.
 	Zone NosqlApplianceRemarkNosqlPrimaryNodesApplianceZone `json:"Zone"`
 }
 
@@ -2695,11 +2681,9 @@ func (s *NosqlApplianceRemarkNosqlPrimaryNodesAppliance) SetZone(val NosqlApplia
 	s.Zone = val
 }
 
-// 既存のNoSQLのゾーン
-// **ノード追加時必須**.
+// 既存のNoSQLのゾーン ノード追加時必須.
 type NosqlApplianceRemarkNosqlPrimaryNodesApplianceZone struct {
-	// 既存のNoSQLのゾーン情報
-	// **ノード追加時必須**.
+	// 既存のNoSQLのゾーン情報 ノード追加時必須.
 	Name string `json:"Name"`
 }
 
@@ -2713,8 +2697,7 @@ func (s *NosqlApplianceRemarkNosqlPrimaryNodesApplianceZone) SetName(val string)
 	s.Name = val
 }
 
-// ストレージ
-// **新規作成時必須**.
+// ストレージ 新規作成時必須.
 type NosqlApplianceRemarkNosqlStorage string
 
 const (
@@ -2750,8 +2733,8 @@ func (s *NosqlApplianceRemarkNosqlStorage) UnmarshalText(data []byte) error {
 }
 
 type NosqlApplianceRemarkServersItem struct {
-	// ユーザ側スイッチに接続するIPアドレス
-	// **新規作成時・ノード追加時必須**
+	// ユーザ側スイッチに接続するIPアドレス 新規作成時・ノード追加時必須
+	//
 	// ※ノード数分指定する.
 	UserIPAddress netip.Addr `json:"UserIPAddress"`
 }
@@ -2930,20 +2913,17 @@ func (s *NosqlCreateRequest) SetAppliance(val NosqlCreateRequestAppliance) {
 
 // Merged schema.
 type NosqlCreateRequestAppliance struct {
-	// クラス
-	// **新規作成時・ノード追加時必須**.
+	// クラス 新規作成時・ノード追加時必須.
 	Class string `json:"Class"`
-	// NoSQLの名前
-	// **新規作成時・ノード追加時必須**.
+	// NoSQLの名前 新規作成時・ノード追加時必須.
 	Name string `json:"Name"`
 	// NoSQLの説明.
 	Description  OptString    `json:"Description"`
 	Tags         OptNilTags   `json:"Tags"`
 	ServiceClass ServiceClass `json:"ServiceClass"`
 	Plan         Plan         `json:"Plan"`
-	// ディスク情報
-	// ディスクの情報は暗号化する場合は EncryptionAlgorithm と EncryptionKey
-	// を指定する必要があります。.
+	// ディスク情報 ディスクの情報は暗号化する場合は EncryptionAlgorithm と
+	// EncryptionKey を指定する必要があります。.
 	Disk           OptNilNosqlCreateRequestApplianceDisk           `json:"Disk"`
 	Settings       NosqlSettings                                   `json:"Settings"`
 	Remark         NosqlRemark                                     `json:"Remark"`
@@ -3050,9 +3030,8 @@ func (s *NosqlCreateRequestAppliance) SetUserInterfaces(val []NosqlCreateRequest
 	s.UserInterfaces = val
 }
 
-// ディスク情報
-// ディスクの情報は暗号化する場合は EncryptionAlgorithm と EncryptionKey
-// を指定する必要があります。.
+// ディスク情報 ディスクの情報は暗号化する場合は EncryptionAlgorithm と
+// EncryptionKey を指定する必要があります。.
 type NosqlCreateRequestApplianceDisk struct {
 	// 暗号化キー情報.
 	EncryptionKey OptNilNosqlCreateRequestApplianceDiskEncryptionKey `json:"EncryptionKey"`
@@ -3099,15 +3078,12 @@ func (s *NosqlCreateRequestApplianceDiskEncryptionKey) SetKMSKeyID(val OptNilStr
 type NosqlCreateRequestApplianceUserInterfacesItem struct {
 	// スイッチ.
 	Switch NosqlCreateRequestApplianceUserInterfacesItemSwitch `json:"Switch"`
-	// ユーザIPアドレス1
-	// **新規作成時・ノード追加時必須**.
+	// ユーザIPアドレス1 新規作成時・ノード追加時必須.
 	UserIPAddress1 netip.Addr `json:"UserIPAddress1"`
-	// ユーザIPアドレス2
-	// **新規作成時・ノード追加時必須**
+	// ユーザIPアドレス2 新規作成時・ノード追加時必須
 	// 40GBプラン（ノード数1）の場合は設定不要です。.
 	UserIPAddress2 OptIPv4 `json:"UserIPAddress2"`
-	// ユーザIPアドレス3
-	// **新規作成時必須**
+	// ユーザIPアドレス3 新規作成時必須
 	// 40GBプラン（ノード数1）の場合は設定不要です。.
 	UserIPAddress3 OptIPv4                                                 `json:"UserIPAddress3"`
 	UserSubnet     NosqlCreateRequestApplianceUserInterfacesItemUserSubnet `json:"UserSubnet"`
@@ -3165,8 +3141,7 @@ func (s *NosqlCreateRequestApplianceUserInterfacesItem) SetUserSubnet(val NosqlC
 
 // スイッチ.
 type NosqlCreateRequestApplianceUserInterfacesItemSwitch struct {
-	// スイッチID
-	// **新規作成時・ノード追加時必須**.
+	// スイッチID 新規作成時・ノード追加時必須.
 	ID string `json:"ID"`
 }
 
@@ -3181,11 +3156,9 @@ func (s *NosqlCreateRequestApplianceUserInterfacesItemSwitch) SetID(val string) 
 }
 
 type NosqlCreateRequestApplianceUserInterfacesItemUserSubnet struct {
-	// ゲートウェイのアドレス
-	// **新規作成時・ノード追加時必須**.
+	// ゲートウェイのアドレス 新規作成時・ノード追加時必須.
 	DefaultRoute string `json:"DefaultRoute"`
-	// ネットマスク
-	// **新規作成時・ノード追加時必須**.
+	// ネットマスク 新規作成時・ノード追加時必須.
 	NetworkMaskLen int `json:"NetworkMaskLen"`
 }
 
@@ -3749,11 +3722,9 @@ func (s *NosqlRemark) SetNetwork(val NosqlRemarkNetwork) {
 
 // ネットワーク情報.
 type NosqlRemarkNetwork struct {
-	// ゲートウェイのアドレス
-	// **新規作成時・ノード追加時必須**.
+	// ゲートウェイのアドレス 新規作成時・ノード追加時必須.
 	DefaultRoute string `json:"DefaultRoute"`
-	// ネットマスク
-	// **新規作成時・ノード追加時必須**.
+	// ネットマスク 新規作成時・ノード追加時必須.
 	NetworkMaskLen int `json:"NetworkMaskLen"`
 }
 
@@ -3778,39 +3749,28 @@ func (s *NosqlRemarkNetwork) SetNetworkMaskLen(val int) {
 }
 
 type NosqlRemarkNosql struct {
-	// プライマリノード情報。
-	// **ノード追加時必須**
+	// プライマリノード情報。 ノード追加時必須
 	// ノード追加を行う場合は、対象となる既存NoSQLのアプライアンス情報を設定してください。.
 	PrimaryNodes OptNosqlRemarkNosqlPrimaryNodes `json:"PrimaryNodes"`
-	// データベースに使用するエンジン
-	// **新規作成時必須**.
+	// データベースに使用するエンジン 新規作成時必須.
 	DatabaseEngine OptNilNosqlRemarkNosqlDatabaseEngine `json:"DatabaseEngine"`
-	// データベースバージョン
-	// **新規作成時必須**.
+	// データベースバージョン 新規作成時必須.
 	DatabaseVersion OptNilString `json:"DatabaseVersion"`
-	// デフォルトユーザ名
-	// **新規作成時必須**.
+	// デフォルトユーザ名 新規作成時必須.
 	DefaultUser OptNilString `json:"DefaultUser"`
-	// ディスクサイズ(MB)
-	// 未指定時はプランから自動設定.
+	// ディスクサイズ(MB) 未指定時はプランから自動設定.
 	DiskSize OptNilInt `json:"DiskSize"`
-	// メモリ(MB)
-	// 未指定時はプランから自動設定.
+	// メモリ(MB) 未指定時はプランから自動設定.
 	Memory OptNilInt `json:"Memory"`
-	// ノード数
-	// 未指定時はプランから自動設定.
+	// ノード数 未指定時はプランから自動設定.
 	Nodes OptNilInt `json:"Nodes"`
-	// ポート
-	// **新規作成時必須**.
+	// ポート 新規作成時必須.
 	Port OptNilInt `json:"Port"`
-	// ストレージ
-	// **新規作成時必須**.
+	// ストレージ 新規作成時必須.
 	Storage OptNilNosqlRemarkNosqlStorage `json:"Storage"`
-	// 仮想コア
-	// 未指定時はプランから自動設定.
+	// 仮想コア 未指定時はプランから自動設定.
 	Virtualcore OptNilInt `json:"Virtualcore"`
-	// ゾーン
-	// **新規作成時・ノード追加時必須**.
+	// ゾーン 新規作成時・ノード追加時必須.
 	Zone string `json:"Zone"`
 }
 
@@ -3924,8 +3884,7 @@ func (s *NosqlRemarkNosql) SetZone(val string) {
 	s.Zone = val
 }
 
-// データベースに使用するエンジン
-// **新規作成時必須**.
+// データベースに使用するエンジン 新規作成時必須.
 type NosqlRemarkNosqlDatabaseEngine string
 
 const (
@@ -3960,12 +3919,10 @@ func (s *NosqlRemarkNosqlDatabaseEngine) UnmarshalText(data []byte) error {
 	}
 }
 
-// プライマリノード情報。
-// **ノード追加時必須**
+// プライマリノード情報。 ノード追加時必須
 // ノード追加を行う場合は、対象となる既存NoSQLのアプライアンス情報を設定してください。.
 type NosqlRemarkNosqlPrimaryNodes struct {
-	// 既存のNoSQLのアプライアンス情報
-	// **ノード追加時必須**.
+	// 既存のNoSQLのアプライアンス情報 ノード追加時必須.
 	Appliance NosqlRemarkNosqlPrimaryNodesAppliance `json:"Appliance"`
 }
 
@@ -3979,14 +3936,11 @@ func (s *NosqlRemarkNosqlPrimaryNodes) SetAppliance(val NosqlRemarkNosqlPrimaryN
 	s.Appliance = val
 }
 
-// 既存のNoSQLのアプライアンス情報
-// **ノード追加時必須**.
+// 既存のNoSQLのアプライアンス情報 ノード追加時必須.
 type NosqlRemarkNosqlPrimaryNodesAppliance struct {
-	// 既存のNoSQLのアプライアンスID
-	// **ノード追加時必須**.
+	// 既存のNoSQLのアプライアンスID ノード追加時必須.
 	ID string `json:"ID"`
-	// 既存のNoSQLのゾーン
-	// **ノード追加時必須**.
+	// 既存のNoSQLのゾーン ノード追加時必須.
 	Zone NosqlRemarkNosqlPrimaryNodesApplianceZone `json:"Zone"`
 }
 
@@ -4010,11 +3964,9 @@ func (s *NosqlRemarkNosqlPrimaryNodesAppliance) SetZone(val NosqlRemarkNosqlPrim
 	s.Zone = val
 }
 
-// 既存のNoSQLのゾーン
-// **ノード追加時必須**.
+// 既存のNoSQLのゾーン ノード追加時必須.
 type NosqlRemarkNosqlPrimaryNodesApplianceZone struct {
-	// 既存のNoSQLのゾーン情報
-	// **ノード追加時必須**.
+	// 既存のNoSQLのゾーン情報 ノード追加時必須.
 	Name string `json:"Name"`
 }
 
@@ -4028,8 +3980,7 @@ func (s *NosqlRemarkNosqlPrimaryNodesApplianceZone) SetName(val string) {
 	s.Name = val
 }
 
-// ストレージ
-// **新規作成時必須**.
+// ストレージ 新規作成時必須.
 type NosqlRemarkNosqlStorage string
 
 const (
@@ -4065,8 +4016,8 @@ func (s *NosqlRemarkNosqlStorage) UnmarshalText(data []byte) error {
 }
 
 type NosqlRemarkServersItem struct {
-	// ユーザ側スイッチに接続するIPアドレス
-	// **新規作成時・ノード追加時必須**
+	// ユーザ側スイッチに接続するIPアドレス 新規作成時・ノード追加時必須
+	//
 	// ※ノード数分指定する.
 	UserIPAddress netip.Addr `json:"UserIPAddress"`
 }
@@ -4096,14 +4047,13 @@ func (s *NosqlRepairRequest) SetNosql(val OptNosqlRepairRequestNosql) {
 	s.Nosql = val
 }
 
-func (*NosqlRepairRequest) postNoSQLRepairRes() {}
-
 type NosqlRepairRequestNosql struct {
 	// リペアタイプ
-	// | 値          | 説明      | 実行コマンド                 |
-	// |-------------|-----------|-----------------------------|
-	// | Incremental | 増分リペア | nodetool repair -pr         |
-	// | Full        | 完全リペア | nodetool repair --full -pr  |.
+	//
+	// 	値         | 説明          | 実行コマンド
+	// 	------------+-----------------+---------------------------
+	// 	Incremental | 増分リペア | nodetool repair -pr
+	// 	Full        | 完全リペア | nodetool repair --full -pr
 	RepairType OptNosqlRepairRequestNosqlRepairType `json:"repairType"`
 }
 
@@ -4118,10 +4068,11 @@ func (s *NosqlRepairRequestNosql) SetRepairType(val OptNosqlRepairRequestNosqlRe
 }
 
 // リペアタイプ
-// | 値          | 説明      | 実行コマンド                 |
-// |-------------|-----------|-----------------------------|
-// | Incremental | 増分リペア | nodetool repair -pr         |
-// | Full        | 完全リペア | nodetool repair --full -pr  |.
+//
+//	値         | 説明          | 実行コマンド
+//	------------+-----------------+---------------------------
+//	Incremental | 増分リペア | nodetool repair -pr
+//	Full        | 完全リペア | nodetool repair --full -pr
 type NosqlRepairRequestNosqlRepairType string
 
 const (
@@ -4163,11 +4114,107 @@ func (s *NosqlRepairRequestNosqlRepairType) UnmarshalText(data []byte) error {
 	}
 }
 
+// Merged schema.
+// Ref: #/components/schemas/NosqlRepairResponse
+type NosqlRepairResponse struct {
+	Nosql OptNosqlRepairResponseNosql `json:"nosql"`
+	// 成功のレスポンス(true:成功).
+	IsOk OptBool `json:"is_ok"`
+}
+
+// GetNosql returns the value of Nosql.
+func (s *NosqlRepairResponse) GetNosql() OptNosqlRepairResponseNosql {
+	return s.Nosql
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *NosqlRepairResponse) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// SetNosql sets the value of Nosql.
+func (s *NosqlRepairResponse) SetNosql(val OptNosqlRepairResponseNosql) {
+	s.Nosql = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *NosqlRepairResponse) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+func (*NosqlRepairResponse) postNoSQLRepairRes() {}
+
+type NosqlRepairResponseNosql struct {
+	// リペアタイプ
+	//
+	// 	値         | 説明          | 実行コマンド
+	// 	------------+-----------------+---------------------------
+	// 	Incremental | 増分リペア | nodetool repair -pr
+	// 	Full        | 完全リペア | nodetool repair --full -pr
+	RepairType OptNosqlRepairResponseNosqlRepairType `json:"repairType"`
+}
+
+// GetRepairType returns the value of RepairType.
+func (s *NosqlRepairResponseNosql) GetRepairType() OptNosqlRepairResponseNosqlRepairType {
+	return s.RepairType
+}
+
+// SetRepairType sets the value of RepairType.
+func (s *NosqlRepairResponseNosql) SetRepairType(val OptNosqlRepairResponseNosqlRepairType) {
+	s.RepairType = val
+}
+
+// リペアタイプ
+//
+//	値         | 説明          | 実行コマンド
+//	------------+-----------------+---------------------------
+//	Incremental | 増分リペア | nodetool repair -pr
+//	Full        | 完全リペア | nodetool repair --full -pr
+type NosqlRepairResponseNosqlRepairType string
+
+const (
+	NosqlRepairResponseNosqlRepairTypeIncremental NosqlRepairResponseNosqlRepairType = "Incremental"
+	NosqlRepairResponseNosqlRepairTypeFull        NosqlRepairResponseNosqlRepairType = "Full"
+)
+
+// AllValues returns all NosqlRepairResponseNosqlRepairType values.
+func (NosqlRepairResponseNosqlRepairType) AllValues() []NosqlRepairResponseNosqlRepairType {
+	return []NosqlRepairResponseNosqlRepairType{
+		NosqlRepairResponseNosqlRepairTypeIncremental,
+		NosqlRepairResponseNosqlRepairTypeFull,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NosqlRepairResponseNosqlRepairType) MarshalText() ([]byte, error) {
+	switch s {
+	case NosqlRepairResponseNosqlRepairTypeIncremental:
+		return []byte(s), nil
+	case NosqlRepairResponseNosqlRepairTypeFull:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NosqlRepairResponseNosqlRepairType) UnmarshalText(data []byte) error {
+	switch NosqlRepairResponseNosqlRepairType(data) {
+	case NosqlRepairResponseNosqlRepairTypeIncremental:
+		*s = NosqlRepairResponseNosqlRepairTypeIncremental
+		return nil
+	case NosqlRepairResponseNosqlRepairTypeFull:
+		*s = NosqlRepairResponseNosqlRepairTypeFull
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/NosqlSettings
 type NosqlSettings struct {
 	Password OptPassword `json:"Password"`
-	// 予備IPアドレス
-	// **新規作成時・ノード追加時必須**
+	// 予備IPアドレス 新規作成時・ノード追加時必須
 	// ※デッドノード発生時、ノード切替を行う際に使用する予備のIPアドレス
 	// ただし、40GBプランの場合は必須ではありません。.
 	ReserveIPAddress OptIPv4 `json:"ReserveIPAddress"`
@@ -4873,11 +4920,9 @@ func (s *NosqlUpdateRequest) SetAppliance(val NosqlUpdateRequestAppliance) {
 
 // Merged schema.
 type NosqlUpdateRequestAppliance struct {
-	// クラス
-	// **新規作成時・ノード追加時必須**.
+	// クラス 新規作成時・ノード追加時必須.
 	Class OptString `json:"Class"`
-	// NoSQLの名前
-	// **新規作成時・ノード追加時必須**.
+	// NoSQLの名前 新規作成時・ノード追加時必須.
 	Name OptString `json:"Name"`
 	// NoSQLの説明.
 	Description OptString  `json:"Description"`
@@ -4970,11 +5015,12 @@ type NosqldbNodeStatus struct {
 	// ユーザ側スイッチに接続するIPアドレス.
 	UserIPAddress OptIPv4 `json:"UserIPAddress"`
 	// ノードタイプ
-	// | 値 | 説明         |
-	// |----|--------------|
-	// | 0  | 正常         |
-	// | 1  | デッドノード |
-	// | 2  | 予備IPサーバ |.
+	//
+	// 	値 | 説明
+	// 	----+-------------------
+	// 	0   | 正常
+	// 	1   | デッドノード
+	// 	2   | 予備IPサーバ
 	NodeType OptNosqldbNodeStatusNodeType `json:"NodeType"`
 }
 
@@ -5009,11 +5055,12 @@ func (s *NosqldbNodeStatus) SetNodeType(val OptNosqldbNodeStatusNodeType) {
 }
 
 // ノードタイプ
-// | 値 | 説明         |
-// |----|--------------|
-// | 0  | 正常         |
-// | 1  | デッドノード |
-// | 2  | 予備IPサーバ |.
+//
+//	値 | 説明
+//	----+-------------------
+//	0   | 正常
+//	1   | デッドノード
+//	2   | 予備IPサーバ
 type NosqldbNodeStatusNodeType string
 
 const (
@@ -6562,6 +6609,11 @@ func (o *OptNilDateTime) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilDateTime) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilDateTime) Get() (v time.Time, ok bool) {
 	if o.Null {
@@ -6623,6 +6675,11 @@ func (o *OptNilGetNosqlApplianceDisk) SetToNull() {
 	o.Null = true
 	var v GetNosqlApplianceDisk
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGetNosqlApplianceDisk) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -6688,6 +6745,11 @@ func (o *OptNilGetNosqlApplianceDiskEncryptionKey) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGetNosqlApplianceDiskEncryptionKey) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilGetNosqlApplianceDiskEncryptionKey) Get() (v GetNosqlApplianceDiskEncryptionKey, ok bool) {
 	if o.Null {
@@ -6749,6 +6811,11 @@ func (o *OptNilGetNosqlApplianceInterfacesItemSwitchSubnet) SetToNull() {
 	o.Null = true
 	var v GetNosqlApplianceInterfacesItemSwitchSubnet
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGetNosqlApplianceInterfacesItemSwitchSubnet) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -6814,6 +6881,11 @@ func (o *OptNilGetNosqlSettingsBackup) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGetNosqlSettingsBackup) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilGetNosqlSettingsBackup) Get() (v GetNosqlSettingsBackup, ok bool) {
 	if o.Null {
@@ -6875,6 +6947,11 @@ func (o *OptNilGetNosqlSettingsBackupDayOfWeekItemArray) SetToNull() {
 	o.Null = true
 	var v []GetNosqlSettingsBackupDayOfWeekItem
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGetNosqlSettingsBackupDayOfWeekItemArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -6940,6 +7017,11 @@ func (o *OptNilGetNosqlSettingsRepair) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGetNosqlSettingsRepair) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilGetNosqlSettingsRepair) Get() (v GetNosqlSettingsRepair, ok bool) {
 	if o.Null {
@@ -7001,6 +7083,11 @@ func (o *OptNilInstanceHost) SetToNull() {
 	o.Null = true
 	var v InstanceHost
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInstanceHost) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7066,6 +7153,11 @@ func (o *OptNilInt) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilInt) Get() (v int, ok bool) {
 	if o.Null {
@@ -7127,6 +7219,11 @@ func (o *OptNilNosqlApplianceDisk) SetToNull() {
 	o.Null = true
 	var v NosqlApplianceDisk
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlApplianceDisk) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7192,6 +7289,11 @@ func (o *OptNilNosqlApplianceDiskEncryptionKey) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlApplianceDiskEncryptionKey) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilNosqlApplianceDiskEncryptionKey) Get() (v NosqlApplianceDiskEncryptionKey, ok bool) {
 	if o.Null {
@@ -7253,6 +7355,11 @@ func (o *OptNilNosqlApplianceInterfacesItemSwitchSubnet) SetToNull() {
 	o.Null = true
 	var v NosqlApplianceInterfacesItemSwitchSubnet
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlApplianceInterfacesItemSwitchSubnet) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7318,6 +7425,11 @@ func (o *OptNilNosqlApplianceRemarkNosqlDatabaseEngine) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlApplianceRemarkNosqlDatabaseEngine) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilNosqlApplianceRemarkNosqlDatabaseEngine) Get() (v NosqlApplianceRemarkNosqlDatabaseEngine, ok bool) {
 	if o.Null {
@@ -7379,6 +7491,11 @@ func (o *OptNilNosqlApplianceRemarkNosqlStorage) SetToNull() {
 	o.Null = true
 	var v NosqlApplianceRemarkNosqlStorage
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlApplianceRemarkNosqlStorage) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7444,6 +7561,11 @@ func (o *OptNilNosqlCreateRequestApplianceDisk) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlCreateRequestApplianceDisk) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilNosqlCreateRequestApplianceDisk) Get() (v NosqlCreateRequestApplianceDisk, ok bool) {
 	if o.Null {
@@ -7505,6 +7627,11 @@ func (o *OptNilNosqlCreateRequestApplianceDiskEncryptionKey) SetToNull() {
 	o.Null = true
 	var v NosqlCreateRequestApplianceDiskEncryptionKey
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlCreateRequestApplianceDiskEncryptionKey) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7570,6 +7697,11 @@ func (o *OptNilNosqlRemarkNosqlDatabaseEngine) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlRemarkNosqlDatabaseEngine) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilNosqlRemarkNosqlDatabaseEngine) Get() (v NosqlRemarkNosqlDatabaseEngine, ok bool) {
 	if o.Null {
@@ -7631,6 +7763,11 @@ func (o *OptNilNosqlRemarkNosqlStorage) SetToNull() {
 	o.Null = true
 	var v NosqlRemarkNosqlStorage
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlRemarkNosqlStorage) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7696,6 +7833,11 @@ func (o *OptNilNosqlSettingsBackup) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlSettingsBackup) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilNosqlSettingsBackup) Get() (v NosqlSettingsBackup, ok bool) {
 	if o.Null {
@@ -7757,6 +7899,11 @@ func (o *OptNilNosqlSettingsBackupDayOfWeekItemArray) SetToNull() {
 	o.Null = true
 	var v []NosqlSettingsBackupDayOfWeekItem
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlSettingsBackupDayOfWeekItemArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7822,6 +7969,11 @@ func (o *OptNilNosqlSettingsRepair) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilNosqlSettingsRepair) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilNosqlSettingsRepair) Get() (v NosqlSettingsRepair, ok bool) {
 	if o.Null {
@@ -7885,6 +8037,11 @@ func (o *OptNilString) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilString) Get() (v string, ok bool) {
 	if o.Null {
@@ -7946,6 +8103,11 @@ func (o *OptNilTags) SetToNull() {
 	o.Null = true
 	var v Tags
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilTags) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -8795,6 +8957,98 @@ func (o OptNosqlRepairRequestNosqlRepairType) Or(d NosqlRepairRequestNosqlRepair
 	return d
 }
 
+// NewOptNosqlRepairResponseNosql returns new OptNosqlRepairResponseNosql with value set to v.
+func NewOptNosqlRepairResponseNosql(v NosqlRepairResponseNosql) OptNosqlRepairResponseNosql {
+	return OptNosqlRepairResponseNosql{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNosqlRepairResponseNosql is optional NosqlRepairResponseNosql.
+type OptNosqlRepairResponseNosql struct {
+	Value NosqlRepairResponseNosql
+	Set   bool
+}
+
+// IsSet returns true if OptNosqlRepairResponseNosql was set.
+func (o OptNosqlRepairResponseNosql) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNosqlRepairResponseNosql) Reset() {
+	var v NosqlRepairResponseNosql
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNosqlRepairResponseNosql) SetTo(v NosqlRepairResponseNosql) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNosqlRepairResponseNosql) Get() (v NosqlRepairResponseNosql, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNosqlRepairResponseNosql) Or(d NosqlRepairResponseNosql) NosqlRepairResponseNosql {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNosqlRepairResponseNosqlRepairType returns new OptNosqlRepairResponseNosqlRepairType with value set to v.
+func NewOptNosqlRepairResponseNosqlRepairType(v NosqlRepairResponseNosqlRepairType) OptNosqlRepairResponseNosqlRepairType {
+	return OptNosqlRepairResponseNosqlRepairType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNosqlRepairResponseNosqlRepairType is optional NosqlRepairResponseNosqlRepairType.
+type OptNosqlRepairResponseNosqlRepairType struct {
+	Value NosqlRepairResponseNosqlRepairType
+	Set   bool
+}
+
+// IsSet returns true if OptNosqlRepairResponseNosqlRepairType was set.
+func (o OptNosqlRepairResponseNosqlRepairType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNosqlRepairResponseNosqlRepairType) Reset() {
+	var v NosqlRepairResponseNosqlRepairType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNosqlRepairResponseNosqlRepairType) SetTo(v NosqlRepairResponseNosqlRepairType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNosqlRepairResponseNosqlRepairType) Get() (v NosqlRepairResponseNosqlRepairType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNosqlRepairResponseNosqlRepairType) Or(d NosqlRepairResponseNosqlRepairType) NosqlRepairResponseNosqlRepairType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNosqlSettings returns new OptNosqlSettings with value set to v.
 func NewOptNosqlSettings(v NosqlSettings) OptNosqlSettings {
 	return OptNosqlSettings{
@@ -9487,20 +9741,20 @@ func (o OptSuccess) Or(d Success) Success {
 
 type Password string
 
-// プラン
-// **新規作成時・ノード追加時必須**.
+// プラン 新規作成時・ノード追加時必須.
 // Ref: #/components/schemas/Plan
 type Plan struct {
-	// プランID
-	// **新規作成時・ノード追加時必須**
+	// プランID 新規作成時・ノード追加時必須
+	//
 	// 利用可能なプランID:
-	// | プラン名      | プランID   |
-	// |--------------|------------|
-	// | 40GBプラン       |   51142    |
-	// | 100GBプラン       |   51143    |
-	// | 100GBプラン/ノード |   51145    |
-	// | 250GBプラン       |   51144    |
-	// | 250GBプラン/ノード |   51146    |.
+	//
+	// 	プラン名             | プランID
+	// 	-------------------------+------------
+	// 	40GBプラン            | 51142
+	// 	100GBプラン           | 51143
+	// 	100GBプラン/ノード | 51145
+	// 	250GBプラン           | 51144
+	// 	250GBプラン/ノード | 51146
 	ID int `json:"ID"`
 }
 
@@ -9682,7 +9936,8 @@ type ServiceClass string
 // Ref: #/components/schemas/Success
 // Success represents sum type.
 type Success struct {
-	Type   SuccessType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   SuccessType
 	Bool   bool
 	String string
 }
