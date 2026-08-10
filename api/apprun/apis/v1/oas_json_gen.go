@@ -9485,6 +9485,12 @@ func (s *HandlerListTrafficsMeta) Decode(d *jx.Decoder) error {
 		return errors.New("invalid: unable to decode HandlerListTrafficsMeta to nil")
 	}
 
+	// OpenAPI上ではnullableだがogenがそれを正しく処理できずにいるため、nullを許容するための特別な処理を追加。
+	if d.Next() == jx.Null {
+		d.Null()
+		return nil
+	}
+
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
 		default:
@@ -12884,6 +12890,12 @@ var jsonFieldsNameOfHandlerPutTrafficsMeta = [0]string{}
 func (s *HandlerPutTrafficsMeta) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode HandlerPutTrafficsMeta to nil")
+	}
+
+	// OpenAPI上ではnullableだがogenがそれを正しく処理できずにいるため、nullを許容するための特別な処理を追加。
+	if d.Next() == jx.Null {
+		d.Null()
+		return nil
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
