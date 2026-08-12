@@ -215,7 +215,16 @@ func (o *ProxyLBOp) SetCertificates(ctx context.Context, id types.ID, param *iaa
 	}
 
 	cert := &iaas.ProxyLBCertificates{}
-	copySameNameField(param, cert)
+	copySameNameField(&struct {
+		PrimaryCert     *iaas.ProxyLBPrimaryCert
+		AdditionalCerts []*iaas.ProxyLBAdditionalCert
+	}{
+		PrimaryCert:     param.PrimaryCerts,
+		AdditionalCerts: param.AdditionalCerts,
+	}, cert)
+	if cert.PrimaryCert == nil {
+		cert.PrimaryCert = &iaas.ProxyLBPrimaryCert{}
+	}
 	cert.PrimaryCert.CertificateCommonName = "dummy-common-name.org"
 	cert.PrimaryCert.CertificateEndDate = time.Now().Add(365 * 24 * time.Hour)
 
