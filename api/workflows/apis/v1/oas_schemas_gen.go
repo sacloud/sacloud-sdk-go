@@ -493,7 +493,8 @@ func (s *CancelExecutionAcceptedExecutionWorkflowConcurrencyMode) UnmarshalText(
 
 // CancelExecutionAcceptedExecutionWorkflowServicePrincipalId represents sum type.
 type CancelExecutionAcceptedExecutionWorkflowServicePrincipalId struct {
-	Type    CancelExecutionAcceptedExecutionWorkflowServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    CancelExecutionAcceptedExecutionWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -1157,7 +1158,8 @@ func (s *CancelExecutionOKExecutionWorkflowConcurrencyMode) UnmarshalText(data [
 
 // CancelExecutionOKExecutionWorkflowServicePrincipalId represents sum type.
 type CancelExecutionOKExecutionWorkflowServicePrincipalId struct {
-	Type    CancelExecutionOKExecutionWorkflowServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    CancelExecutionOKExecutionWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -1794,7 +1796,8 @@ func (s *CreateExecutionCreatedExecutionWorkflowConcurrencyMode) UnmarshalText(d
 
 // CreateExecutionCreatedExecutionWorkflowServicePrincipalId represents sum type.
 type CreateExecutionCreatedExecutionWorkflowServicePrincipalId struct {
-	Type    CreateExecutionCreatedExecutionWorkflowServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    CreateExecutionCreatedExecutionWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -2427,7 +2430,8 @@ func (s *CreateWorkflowCreatedWorkflowConcurrencyMode) UnmarshalText(data []byte
 
 // CreateWorkflowCreatedWorkflowServicePrincipalId represents sum type.
 type CreateWorkflowCreatedWorkflowServicePrincipalId struct {
-	Type    CreateWorkflowCreatedWorkflowServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    CreateWorkflowCreatedWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -2767,7 +2771,8 @@ func (s *CreateWorkflowReqConcurrencyMode) UnmarshalText(data []byte) error {
 
 // CreateWorkflowReqServicePrincipalId represents sum type.
 type CreateWorkflowReqServicePrincipalId struct {
-	Type    CreateWorkflowReqServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    CreateWorkflowReqServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -4549,7 +4554,8 @@ func (s *GetExecutionOKExecutionWorkflowConcurrencyMode) UnmarshalText(data []by
 
 // GetExecutionOKExecutionWorkflowServicePrincipalId represents sum type.
 type GetExecutionOKExecutionWorkflowServicePrincipalId struct {
-	Type    GetExecutionOKExecutionWorkflowServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    GetExecutionOKExecutionWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -5413,7 +5419,8 @@ func (s *GetWorkflowOKWorkflowConcurrencyMode) UnmarshalText(data []byte) error 
 
 // GetWorkflowOKWorkflowServicePrincipalId represents sum type.
 type GetWorkflowOKWorkflowServicePrincipalId struct {
-	Type    GetWorkflowOKWorkflowServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    GetWorkflowOKWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -6860,7 +6867,8 @@ func (s *ListExecutionOKExecutionsItemWorkflowConcurrencyMode) UnmarshalText(dat
 
 // ListExecutionOKExecutionsItemWorkflowServicePrincipalId represents sum type.
 type ListExecutionOKExecutionsItemWorkflowServicePrincipalId struct {
-	Type    ListExecutionOKExecutionsItemWorkflowServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    ListExecutionOKExecutionsItemWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -7671,7 +7679,8 @@ func (s *ListWorkflowOKWorkflowsItemConcurrencyMode) UnmarshalText(data []byte) 
 
 // ListWorkflowOKWorkflowsItemServicePrincipalId represents sum type.
 type ListWorkflowOKWorkflowsItemServicePrincipalId struct {
-	Type    ListWorkflowOKWorkflowsItemServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    ListWorkflowOKWorkflowsItemServicePrincipalIdType
 	String  string
 	Float64 float64
 }
@@ -10164,6 +10173,11 @@ func (o *OptNilGetSubscriptionOKCurrentPlan) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilGetSubscriptionOKCurrentPlan) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilGetSubscriptionOKCurrentPlan) Get() (v GetSubscriptionOKCurrentPlan, ok bool) {
 	if o.Null {
@@ -10665,7 +10679,8 @@ func (s *UpdateWorkflowOKWorkflowConcurrencyMode) UnmarshalText(data []byte) err
 
 // UpdateWorkflowOKWorkflowServicePrincipalId represents sum type.
 type UpdateWorkflowOKWorkflowServicePrincipalId struct {
-	Type    UpdateWorkflowOKWorkflowServicePrincipalIdType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type    UpdateWorkflowOKWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
