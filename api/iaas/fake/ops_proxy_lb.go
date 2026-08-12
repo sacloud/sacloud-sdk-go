@@ -222,6 +222,9 @@ func (o *ProxyLBOp) SetCertificates(ctx context.Context, id types.ID, param *iaa
 		PrimaryCert:     param.PrimaryCerts,
 		AdditionalCerts: param.AdditionalCerts,
 	}, cert)
+	if cert.PrimaryCert == nil {
+		cert.PrimaryCert = &iaas.ProxyLBPrimaryCert{}
+	}
 	cert.PrimaryCert.CertificateCommonName = "dummy-common-name.org"
 	cert.PrimaryCert.CertificateEndDate = time.Now().Add(365 * 24 * time.Hour)
 

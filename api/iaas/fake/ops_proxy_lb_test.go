@@ -52,3 +52,18 @@ func TestProxyLBOpSetCertificates(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, certificates, stored)
 }
+
+func TestProxyLBOpSetCertificatesWithoutPrimaryCert(t *testing.T) {
+	SwitchFactoryFuncToFake()
+
+	ctx := context.Background()
+	op := iaas.NewProxyLBOp(nil)
+	proxyLB, err := op.Create(ctx, &iaas.ProxyLBCreateRequest{})
+	require.NoError(t, err)
+
+	certificates, err := op.SetCertificates(ctx, proxyLB.ID, &iaas.ProxyLBSetCertificatesRequest{})
+	require.NoError(t, err)
+	require.NotNil(t, certificates.PrimaryCert)
+	require.Equal(t, "dummy-common-name.org", certificates.PrimaryCert.CertificateCommonName)
+	require.False(t, certificates.PrimaryCert.CertificateEndDate.IsZero())
+}
