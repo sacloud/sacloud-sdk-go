@@ -9,7 +9,6 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/validate"
 )
@@ -61,7 +60,7 @@ func decodeCloudhsmCloudhsmsClientsCreateResponse(resp *http.Response) (res *Wra
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsClientsDestroyResponse(resp *http.Response) (res *CloudhsmCloudhsmsClientsDestroyNoContent, _ error) {
@@ -70,7 +69,7 @@ func decodeCloudhsmCloudhsmsClientsDestroyResponse(resp *http.Response) (res *Cl
 		// Code 204.
 		return &CloudhsmCloudhsmsClientsDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsClientsListResponse(resp *http.Response) (res *PaginatedCloudHSMClientList, _ error) {
@@ -120,7 +119,7 @@ func decodeCloudhsmCloudhsmsClientsListResponse(resp *http.Response) (res *Pagin
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsClientsRetrieveResponse(resp *http.Response) (res *WrappedCloudHSMClient, _ error) {
@@ -170,7 +169,7 @@ func decodeCloudhsmCloudhsmsClientsRetrieveResponse(resp *http.Response) (res *W
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsClientsUpdateResponse(resp *http.Response) (res *WrappedCloudHSMClient, _ error) {
@@ -220,7 +219,7 @@ func decodeCloudhsmCloudhsmsClientsUpdateResponse(resp *http.Response) (res *Wra
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsCreateResponse(resp *http.Response) (res *WrappedCreateCloudHSM, _ error) {
@@ -270,7 +269,7 @@ func decodeCloudhsmCloudhsmsCreateResponse(resp *http.Response) (res *WrappedCre
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsDestroyResponse(resp *http.Response) (res *CloudhsmCloudhsmsDestroyNoContent, _ error) {
@@ -279,7 +278,7 @@ func decodeCloudhsmCloudhsmsDestroyResponse(resp *http.Response) (res *CloudhsmC
 		// Code 204.
 		return &CloudhsmCloudhsmsDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsListResponse(resp *http.Response) (res *PaginatedCloudHSMList, _ error) {
@@ -329,7 +328,7 @@ func decodeCloudhsmCloudhsmsListResponse(resp *http.Response) (res *PaginatedClo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsPeersCreateResponse(resp *http.Response) (res *CloudhsmCloudhsmsPeersCreateNoContent, _ error) {
@@ -338,7 +337,7 @@ func decodeCloudhsmCloudhsmsPeersCreateResponse(resp *http.Response) (res *Cloud
 		// Code 204.
 		return &CloudhsmCloudhsmsPeersCreateNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsPeersDestroyResponse(resp *http.Response) (res *CloudhsmCloudhsmsPeersDestroyNoContent, _ error) {
@@ -347,7 +346,7 @@ func decodeCloudhsmCloudhsmsPeersDestroyResponse(resp *http.Response) (res *Clou
 		// Code 204.
 		return &CloudhsmCloudhsmsPeersDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsPeersRetrieveResponse(resp *http.Response) (res *CloudHSMPeerList, _ error) {
@@ -397,7 +396,7 @@ func decodeCloudhsmCloudhsmsPeersRetrieveResponse(resp *http.Response) (res *Clo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsRetrieveResponse(resp *http.Response) (res *WrappedCloudHSM, _ error) {
@@ -447,7 +446,7 @@ func decodeCloudhsmCloudhsmsRetrieveResponse(resp *http.Response) (res *WrappedC
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmCloudhsmsUpdateResponse(resp *http.Response) (res *WrappedCloudHSM, _ error) {
@@ -497,7 +496,7 @@ func decodeCloudhsmCloudhsmsUpdateResponse(resp *http.Response) (res *WrappedClo
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmLicensesCreateResponse(resp *http.Response) (res *WrappedCreateCloudHSMSoftwareLicense, _ error) {
@@ -547,7 +546,7 @@ func decodeCloudhsmLicensesCreateResponse(resp *http.Response) (res *WrappedCrea
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmLicensesDestroyResponse(resp *http.Response) (res *CloudhsmLicensesDestroyNoContent, _ error) {
@@ -556,7 +555,7 @@ func decodeCloudhsmLicensesDestroyResponse(resp *http.Response) (res *CloudhsmLi
 		// Code 204.
 		return &CloudhsmLicensesDestroyNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmLicensesListResponse(resp *http.Response) (res *PaginatedCloudHSMSoftwareLicenseList, _ error) {
@@ -606,7 +605,7 @@ func decodeCloudhsmLicensesListResponse(resp *http.Response) (res *PaginatedClou
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmLicensesRetrieveResponse(resp *http.Response) (res *WrappedCloudHSMSoftwareLicense, _ error) {
@@ -656,7 +655,7 @@ func decodeCloudhsmLicensesRetrieveResponse(resp *http.Response) (res *WrappedCl
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
 func decodeCloudhsmLicensesUpdateResponse(resp *http.Response) (res *WrappedCloudHSMSoftwareLicense, _ error) {
@@ -706,5 +705,5 @@ func decodeCloudhsmLicensesUpdateResponse(resp *http.Response) (res *WrappedClou
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }

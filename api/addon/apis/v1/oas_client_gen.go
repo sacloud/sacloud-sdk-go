@@ -4,6 +4,7 @@ package v1
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
@@ -423,7 +424,14 @@ func (c *Client) sendCreateAZ0101(ctx context.Context, request *DatalakePostRequ
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0101Response(resp)
 	if err != nil {
@@ -471,7 +479,14 @@ func (c *Client) sendCreateAZ0102(ctx context.Context, request *DatawarehousePos
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0102Response(resp)
 	if err != nil {
@@ -519,7 +534,14 @@ func (c *Client) sendCreateAZ0103(ctx context.Context, request *EtlPostRequestBo
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0103Response(resp)
 	if err != nil {
@@ -567,7 +589,14 @@ func (c *Client) sendCreateAZ0104(ctx context.Context, request *QueryPostRequest
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0104Response(resp)
 	if err != nil {
@@ -615,7 +644,14 @@ func (c *Client) sendCreateAZ0105(ctx context.Context, request *SearchPostReques
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0105Response(resp)
 	if err != nil {
@@ -663,7 +699,14 @@ func (c *Client) sendCreateAZ0107(ctx context.Context, request *StreamingRequest
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0107Response(resp)
 	if err != nil {
@@ -711,7 +754,14 @@ func (c *Client) sendCreateAZ0301(ctx context.Context, request *NetworkRequestBo
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0301Response(resp)
 	if err != nil {
@@ -759,7 +809,14 @@ func (c *Client) sendCreateAZ0401(ctx context.Context, request *DdosRequestBody)
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0401Response(resp)
 	if err != nil {
@@ -807,7 +864,14 @@ func (c *Client) sendCreateAZ0402(ctx context.Context, request *WafRequestBody) 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0402Response(resp)
 	if err != nil {
@@ -855,7 +919,14 @@ func (c *Client) sendCreateAZ0403(ctx context.Context, request *VulnerabilityReq
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0403Response(resp)
 	if err != nil {
@@ -903,7 +974,14 @@ func (c *Client) sendCreateAZ0501(ctx context.Context, request *AiRequestBody) (
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateAZ0501Response(resp)
 	if err != nil {
@@ -957,7 +1035,14 @@ func (c *Client) sendDeleteAZ0101(ctx context.Context, params DeleteAZ0101Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0101Response(resp)
 	if err != nil {
@@ -1011,7 +1096,14 @@ func (c *Client) sendDeleteAZ0102(ctx context.Context, params DeleteAZ0102Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0102Response(resp)
 	if err != nil {
@@ -1065,7 +1157,14 @@ func (c *Client) sendDeleteAZ0103(ctx context.Context, params DeleteAZ0103Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0103Response(resp)
 	if err != nil {
@@ -1119,7 +1218,14 @@ func (c *Client) sendDeleteAZ0104(ctx context.Context, params DeleteAZ0104Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0104Response(resp)
 	if err != nil {
@@ -1173,7 +1279,14 @@ func (c *Client) sendDeleteAZ0105(ctx context.Context, params DeleteAZ0105Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0105Response(resp)
 	if err != nil {
@@ -1227,7 +1340,14 @@ func (c *Client) sendDeleteAZ0107(ctx context.Context, params DeleteAZ0107Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0107Response(resp)
 	if err != nil {
@@ -1281,7 +1401,14 @@ func (c *Client) sendDeleteAZ0301(ctx context.Context, params DeleteAZ0301Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0301Response(resp)
 	if err != nil {
@@ -1335,7 +1462,14 @@ func (c *Client) sendDeleteAZ0401(ctx context.Context, params DeleteAZ0401Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0401Response(resp)
 	if err != nil {
@@ -1389,7 +1523,14 @@ func (c *Client) sendDeleteAZ0402(ctx context.Context, params DeleteAZ0402Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0402Response(resp)
 	if err != nil {
@@ -1443,7 +1584,14 @@ func (c *Client) sendDeleteAZ0403(ctx context.Context, params DeleteAZ0403Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0403Response(resp)
 	if err != nil {
@@ -1497,7 +1645,14 @@ func (c *Client) sendDeleteAZ0501(ctx context.Context, params DeleteAZ0501Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAZ0501Response(resp)
 	if err != nil {
@@ -1551,7 +1706,14 @@ func (c *Client) sendGetAZ0101(ctx context.Context, params GetAZ0101Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0101Response(resp)
 	if err != nil {
@@ -1605,7 +1767,14 @@ func (c *Client) sendGetAZ0102(ctx context.Context, params GetAZ0102Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0102Response(resp)
 	if err != nil {
@@ -1659,7 +1828,14 @@ func (c *Client) sendGetAZ0103(ctx context.Context, params GetAZ0103Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0103Response(resp)
 	if err != nil {
@@ -1713,7 +1889,14 @@ func (c *Client) sendGetAZ0104(ctx context.Context, params GetAZ0104Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0104Response(resp)
 	if err != nil {
@@ -1767,7 +1950,14 @@ func (c *Client) sendGetAZ0105(ctx context.Context, params GetAZ0105Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0105Response(resp)
 	if err != nil {
@@ -1821,7 +2011,14 @@ func (c *Client) sendGetAZ0107(ctx context.Context, params GetAZ0107Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0107Response(resp)
 	if err != nil {
@@ -1875,7 +2072,14 @@ func (c *Client) sendGetAZ0301(ctx context.Context, params GetAZ0301Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0301Response(resp)
 	if err != nil {
@@ -1929,7 +2133,14 @@ func (c *Client) sendGetAZ0401(ctx context.Context, params GetAZ0401Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0401Response(resp)
 	if err != nil {
@@ -1983,7 +2194,14 @@ func (c *Client) sendGetAZ0402(ctx context.Context, params GetAZ0402Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0402Response(resp)
 	if err != nil {
@@ -2037,7 +2255,14 @@ func (c *Client) sendGetAZ0403(ctx context.Context, params GetAZ0403Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0403Response(resp)
 	if err != nil {
@@ -2091,7 +2316,14 @@ func (c *Client) sendGetAZ0501(ctx context.Context, params GetAZ0501Params) (res
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetAZ0501Response(resp)
 	if err != nil {
@@ -2127,7 +2359,14 @@ func (c *Client) sendListAZ0101(ctx context.Context) (res ListAZ0101Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0101Response(resp)
 	if err != nil {
@@ -2163,7 +2402,14 @@ func (c *Client) sendListAZ0102(ctx context.Context) (res ListAZ0102Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0102Response(resp)
 	if err != nil {
@@ -2199,7 +2445,14 @@ func (c *Client) sendListAZ0103(ctx context.Context) (res ListAZ0103Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0103Response(resp)
 	if err != nil {
@@ -2235,7 +2488,14 @@ func (c *Client) sendListAZ0104(ctx context.Context) (res ListAZ0104Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0104Response(resp)
 	if err != nil {
@@ -2271,7 +2531,14 @@ func (c *Client) sendListAZ0105(ctx context.Context) (res ListAZ0105Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0105Response(resp)
 	if err != nil {
@@ -2307,7 +2574,14 @@ func (c *Client) sendListAZ0107(ctx context.Context) (res ListAZ0107Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0107Response(resp)
 	if err != nil {
@@ -2343,7 +2617,14 @@ func (c *Client) sendListAZ0301(ctx context.Context) (res ListAZ0301Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0301Response(resp)
 	if err != nil {
@@ -2379,7 +2660,14 @@ func (c *Client) sendListAZ0401(ctx context.Context) (res ListAZ0401Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0401Response(resp)
 	if err != nil {
@@ -2415,7 +2703,14 @@ func (c *Client) sendListAZ0402(ctx context.Context) (res ListAZ0402Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0402Response(resp)
 	if err != nil {
@@ -2451,7 +2746,14 @@ func (c *Client) sendListAZ0403(ctx context.Context) (res ListAZ0403Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0403Response(resp)
 	if err != nil {
@@ -2487,7 +2789,14 @@ func (c *Client) sendListAZ0501(ctx context.Context) (res ListAZ0501Res, err err
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListAZ0501Response(resp)
 	if err != nil {
@@ -2560,7 +2869,14 @@ func (c *Client) sendStatusAZ0101(ctx context.Context, params StatusAZ0101Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0101Response(resp)
 	if err != nil {
@@ -2633,7 +2949,14 @@ func (c *Client) sendStatusAZ0102(ctx context.Context, params StatusAZ0102Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0102Response(resp)
 	if err != nil {
@@ -2706,7 +3029,14 @@ func (c *Client) sendStatusAZ0103(ctx context.Context, params StatusAZ0103Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0103Response(resp)
 	if err != nil {
@@ -2779,7 +3109,14 @@ func (c *Client) sendStatusAZ0104(ctx context.Context, params StatusAZ0104Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0104Response(resp)
 	if err != nil {
@@ -2852,7 +3189,14 @@ func (c *Client) sendStatusAZ0105(ctx context.Context, params StatusAZ0105Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0105Response(resp)
 	if err != nil {
@@ -2925,7 +3269,14 @@ func (c *Client) sendStatusAZ0107(ctx context.Context, params StatusAZ0107Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0107Response(resp)
 	if err != nil {
@@ -2998,7 +3349,14 @@ func (c *Client) sendStatusAZ0301(ctx context.Context, params StatusAZ0301Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0301Response(resp)
 	if err != nil {
@@ -3071,7 +3429,14 @@ func (c *Client) sendStatusAZ0401(ctx context.Context, params StatusAZ0401Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0401Response(resp)
 	if err != nil {
@@ -3144,7 +3509,14 @@ func (c *Client) sendStatusAZ0402(ctx context.Context, params StatusAZ0402Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0402Response(resp)
 	if err != nil {
@@ -3217,7 +3589,14 @@ func (c *Client) sendStatusAZ0501(ctx context.Context, params StatusAZ0501Params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeStatusAZ0501Response(resp)
 	if err != nil {

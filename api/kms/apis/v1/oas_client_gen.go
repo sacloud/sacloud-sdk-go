@@ -4,6 +4,7 @@ package v1
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
@@ -173,7 +174,14 @@ func (c *Client) sendKmsKeysCreate(ctx context.Context, request *WrappedCreateKe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysCreateResponse(resp)
 	if err != nil {
@@ -262,7 +270,14 @@ func (c *Client) sendKmsKeysDecrypt(ctx context.Context, request *WrappedKeyCiph
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysDecryptResponse(resp)
 	if err != nil {
@@ -347,7 +362,14 @@ func (c *Client) sendKmsKeysDestroy(ctx context.Context, params KmsKeysDestroyPa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysDestroyResponse(resp)
 	if err != nil {
@@ -445,7 +467,14 @@ func (c *Client) sendKmsKeysEncrypt(ctx context.Context, request *WrappedKeyPlai
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysEncryptResponse(resp)
 	if err != nil {
@@ -512,7 +541,14 @@ func (c *Client) sendKmsKeysList(ctx context.Context) (res *PaginatedKeyList, er
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysListResponse(resp)
 	if err != nil {
@@ -597,7 +633,14 @@ func (c *Client) sendKmsKeysRetrieve(ctx context.Context, params KmsKeysRetrieve
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysRetrieveResponse(resp)
 	if err != nil {
@@ -683,7 +726,14 @@ func (c *Client) sendKmsKeysRotate(ctx context.Context, params KmsKeysRotatePara
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysRotateResponse(resp)
 	if err != nil {
@@ -772,7 +822,14 @@ func (c *Client) sendKmsKeysScheduleDestruction(ctx context.Context, request *Wr
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysScheduleDestructionResponse(resp)
 	if err != nil {
@@ -870,7 +927,14 @@ func (c *Client) sendKmsKeysStatus(ctx context.Context, request *WrappedChangeKe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysStatusResponse(resp)
 	if err != nil {
@@ -967,7 +1031,14 @@ func (c *Client) sendKmsKeysUpdate(ctx context.Context, request *WrappedKey, par
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeKmsKeysUpdateResponse(resp)
 	if err != nil {

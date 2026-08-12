@@ -2229,7 +2229,7 @@ func decodePostNoSQLRepairResponse(resp *http.Response) (res PostNoSQLRepairRes,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response NosqlRepairRequest
+			var response NosqlRepairResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

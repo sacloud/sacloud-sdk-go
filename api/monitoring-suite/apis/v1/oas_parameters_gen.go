@@ -19,8 +19,8 @@ type AlertsProjectsHistoriesListParams struct {
 	From              OptInt  `json:",omitempty,omitzero"`
 	Open              OptBool `json:",omitempty,omitzero"`
 	ProjectResourceID int64
-	// * `warning` - Warning
-	// * `critical` - Critical.
+	//  - `warning` - Warning
+	//  - `critical` - Critical
 	Severity OptAlertsProjectsHistoriesListSeverity `json:",omitempty,omitzero"`
 	StartsAt OptDateTime                            `json:",omitempty,omitzero"`
 }
@@ -141,8 +141,8 @@ type AlertsProjectsNotificationTargetsListParams struct {
 	// The initial index from which to return the results.
 	From              OptInt `json:",omitempty,omitzero"`
 	ProjectResourceID int64
-	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
-	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+	//  - `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+	//  - `SAKURA_EVENT_BUS` - Sakura cloud event bus
 	ServiceType OptAlertsProjectsNotificationTargetsListServiceType `json:",omitempty,omitzero"`
 }
 
@@ -194,8 +194,8 @@ type AlertsProjectsRulesHistoriesListParams struct {
 	Open              OptBool `json:",omitempty,omitzero"`
 	ProjectResourceID int64
 	RuleUID           uuid.UUID
-	// * `warning` - Warning
-	// * `critical` - Critical.
+	//  - `warning` - Warning
+	//  - `critical` - Critical
 	Severity OptAlertsProjectsRulesHistoriesListSeverity `json:",omitempty,omitzero"`
 	StartsAt OptDateTime                                 `json:",omitempty,omitzero"`
 }
@@ -345,8 +345,8 @@ type LogsStoragesKeysUpdateParams struct {
 // LogsStoragesListParams is parameters of logs_storages_list operation.
 type LogsStoragesListParams struct {
 	AccountID OptString `json:",omitempty,omitzero"`
-	// * `shared` - 共用
-	// * `dedicated` - 専有.
+	//  - `shared` - 共用
+	//  - `dedicated` - 専有
 	BucketClassification OptLogsStoragesListBucketClassification `json:",omitempty,omitzero"`
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
@@ -355,11 +355,11 @@ type LogsStoragesListParams struct {
 	// Is system.
 	IsSystem   OptBool  `json:",omitempty,omitzero"`
 	ResourceID OptInt64 `json:",omitempty,omitzero"`
-	// * `init` - 初期化中
-	// * `free` - 未割り当て
-	// * `assigned` - 割り当て済み
-	// * `deleted` - 削除済み
-	// * `purged` - ログデータ削除済み.
+	//  - `init` - 初期化中
+	//  - `free` - 未割り当て
+	//  - `assigned` - 割り当て済み
+	//  - `deleted` - 削除済み
+	//  - `purged` - ログデータ削除済み
 	Status OptLogsStoragesListStatus `json:",omitempty,omitzero"`
 }
 
@@ -574,8 +574,8 @@ type TracesStoragesListParams struct {
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From OptInt `json:",omitempty,omitzero"`
-	// * `shared` - 共用
-	// * `dedicated` - 専有.
+	//  - `shared` - 共用
+	//  - `dedicated` - 専有
 	LogStorageBucketClassification OptTracesStoragesListLogStorageBucketClassification `json:",omitempty,omitzero"`
 	ResourceID                     OptInt64                                            `json:",omitempty,omitzero"`
 }

@@ -19,3 +19,4 @@ go.work.sum    text -binary eol=lf linguist-generated
 .gitattributes export-ignore
 .gitignore     export-ignore
 AUTHORS        linguist-generated merge=union
+oas_*_gen.go   linguist-generated

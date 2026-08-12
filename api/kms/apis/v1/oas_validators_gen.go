@@ -60,13 +60,17 @@ func (s *CreateKey) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.String{
-			MinLength:    0,
-			MinLengthSet: false,
-			MaxLength:    255,
-			MaxLengthSet: true,
-			Email:        false,
-			Hostname:     false,
-			Regex:        nil,
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     255,
+			MaxLengthSet:  true,
+			Email:         false,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
 		}).Validate(string(s.Name)); err != nil {
 			return errors.Wrap(err, "string")
 		}
@@ -120,13 +124,17 @@ func (s *Key) Validate() error {
 	}
 	if err := func() error {
 		if err := (validate.String{
-			MinLength:    0,
-			MinLengthSet: false,
-			MaxLength:    255,
-			MaxLengthSet: true,
-			Email:        false,
-			Hostname:     false,
-			Regex:        nil,
+			MinLength:     0,
+			MinLengthSet:  false,
+			MaxLength:     255,
+			MaxLengthSet:  true,
+			Email:         false,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
 		}).Validate(string(s.Name)); err != nil {
 			return errors.Wrap(err, "string")
 		}

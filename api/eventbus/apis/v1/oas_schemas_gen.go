@@ -755,6 +755,11 @@ func (o *OptNilIcon) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilIcon) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilIcon) Get() (v Icon, ok bool) {
 	if o.Null {
@@ -816,6 +821,11 @@ func (o *OptNilStatus) SetToNull() {
 	o.Null = true
 	var v Status
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStatus) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -881,6 +891,11 @@ func (o *OptNilString) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilString) Get() (v string, ok bool) {
 	if o.Null {
@@ -944,6 +959,11 @@ func (o *OptNilStringArray) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringArray) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilStringArray) Get() (v []string, ok bool) {
 	if o.Null {
@@ -1005,6 +1025,11 @@ func (o *OptNilTriggerSettingsConditionsItemArray) SetToNull() {
 	o.Null = true
 	var v []TriggerSettingsConditionsItem
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilTriggerSettingsConditionsItemArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -1577,7 +1602,8 @@ func (s *ScheduleSettingsRecurringUnit) UnmarshalText(data []byte) error {
 // レスポンスはstringで返却されます。.
 // ScheduleSettingsStartsAt represents sum type.
 type ScheduleSettingsStartsAt struct {
-	Type   ScheduleSettingsStartsAtType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   ScheduleSettingsStartsAtType
 	Int64  int64
 	String string
 }
@@ -1715,7 +1741,8 @@ func (s *SetSecretRequest) SetSecret(val SetSecretRequestSecret) {
 // 設定するシークレット値.
 // SetSecretRequestSecret represents sum type.
 type SetSecretRequestSecret struct {
-	Type             SetSecretRequestSecretType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type             SetSecretRequestSecretType
 	SacloudAPISecret SacloudAPISecret
 	SimpleMQSecret   SimpleMQSecret
 }
@@ -1785,7 +1812,8 @@ func NewSimpleMQSecretSetSecretRequestSecret(v SimpleMQSecret) SetSecretRequestS
 // Ref: #/components/schemas/Settings
 // Settings represents sum type.
 type Settings struct {
-	Type                         SettingsType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                         SettingsType
 	ProcessConfigurationSettings ProcessConfigurationSettings
 	ScheduleSettings             ScheduleSettings
 	TriggerSettings              TriggerSettings
@@ -2120,7 +2148,8 @@ func (s *TriggerSettings) SetProcessConfigurationID(val string) {
 
 // TriggerSettingsConditionsItem represents sum type.
 type TriggerSettingsConditionsItem struct {
-	Type               TriggerSettingsConditionsItemType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type               TriggerSettingsConditionsItemType
 	TriggerConditionEq TriggerConditionEq
 	TriggerConditionIn TriggerConditionIn
 }

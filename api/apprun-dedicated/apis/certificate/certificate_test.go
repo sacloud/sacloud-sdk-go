@@ -99,13 +99,13 @@ func TestCreate_failed(t *testing.T) {
 
 func TestRead(t *testing.T) {
 	var expected v1.GetCertificateResponse
-	cid := v1.CertificateID(uuid.New())
+	cid := uuid.New()
 	expected.SetFake()
 	expected.Certificate = apprun_test.FakeCertificate()
 	expected.Certificate.SetCertificateID(cid)
 	assert, api := setup(t, &expected)
 
-	actual, err := api.Read(t.Context(), cid)
+	actual, err := api.Read(t.Context(), v1.CertificateID(cid))
 
 	assert.NoError(err)
 	assert.NotNil(actual)

@@ -4,6 +4,7 @@ package v1
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
@@ -40,11 +41,13 @@ type Invoker interface {
 	// NoSQLの新規作成および既存NoSQLへのノード追加を行います。
 	// 新規作成時とノード追加時では、必要となる項目が異なります。
 	// 各操作ごとの必須項目は、スキーマ定義内の各プロパティの説明欄に明記していますので、詳細はそちらをご参照ください。
-	// - **新規作成時必須**: 新規作成の際に必須の項目
-	// - **ノード追加時必須**: ノード追加の際に必須の項目
-	// - **新規作成時・ノード追加時必須**:
-	// 新規作成・ノード追加の両方で必須の項目
-	// ※ノード追加では、既存NoSQLの設定情報（**ノード追加時必須**以外の項目）と一致させるか未指定である必要があります。.
+	//
+	//  - 新規作成時必須: 新規作成の際に必須の項目
+	//  - ノード追加時必須: ノード追加の際に必須の項目
+	//  - 新規作成時・ノード追加時必須:
+	//    新規作成・ノード追加の両方で必須の項目
+	//
+	// ※ノード追加では、既存NoSQLの設定情報（ノード追加時必須以外の項目）と一致させるか未指定である必要があります。.
 	//
 	// POST /appliance
 	CreateDB(ctx context.Context, request *NosqlCreateRequest) (CreateDBRes, error)
@@ -115,10 +118,10 @@ type Invoker interface {
 	// PostNoSQLRepair invokes PostNoSQLRepair operation.
 	//
 	// プライマリノードを対象にNoSQLのリペアを開始します。
-	// 「増分リペア」または「完全リペア」を実行します。<br>
-	// リペアとはデータの整合性（一貫性）を維持するために、複数のノード間で発生したデータのずれを検出・修復するメンテナンス作業です。<br>
-	// 増分リペアは、前回のリペア実行以降に更新されたデータのみを対象に修復を行います。<br>
-	// 完全リペアは、クラスタ内のすべてのデータを対象に修復を行います。<br>
+	// 「増分リペア」または「完全リペア」を実行します。
+	// リペアとはデータの整合性（一貫性）を維持するために、複数のノード間で発生したデータのずれを検出・修復するメンテナンス作業です。
+	// 増分リペアは、前回のリペア実行以降に更新されたデータのみを対象に修復を行います。
+	// 完全リペアは、クラスタ内のすべてのデータを対象に修復を行います。
 	// 追加ノードのアプライアンスIDを指定してリペアを実行することはできません。
 	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもリペアが実行されます。.
 	//
@@ -267,7 +270,14 @@ func (c *Client) sendConfirmStatusDB(ctx context.Context, params ConfirmStatusDB
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeConfirmStatusDBResponse(resp)
 	if err != nil {
@@ -324,7 +334,14 @@ func (c *Client) sendCreateBackup(ctx context.Context, params CreateBackupParams
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateBackupResponse(resp)
 	if err != nil {
@@ -339,11 +356,13 @@ func (c *Client) sendCreateBackup(ctx context.Context, params CreateBackupParams
 // NoSQLの新規作成および既存NoSQLへのノード追加を行います。
 // 新規作成時とノード追加時では、必要となる項目が異なります。
 // 各操作ごとの必須項目は、スキーマ定義内の各プロパティの説明欄に明記していますので、詳細はそちらをご参照ください。
-// - **新規作成時必須**: 新規作成の際に必須の項目
-// - **ノード追加時必須**: ノード追加の際に必須の項目
-// - **新規作成時・ノード追加時必須**:
-// 新規作成・ノード追加の両方で必須の項目
-// ※ノード追加では、既存NoSQLの設定情報（**ノード追加時必須**以外の項目）と一致させるか未指定である必要があります。.
+//
+//   - 新規作成時必須: 新規作成の際に必須の項目
+//   - ノード追加時必須: ノード追加の際に必須の項目
+//   - 新規作成時・ノード追加時必須:
+//     新規作成・ノード追加の両方で必須の項目
+//
+// ※ノード追加では、既存NoSQLの設定情報（ノード追加時必須以外の項目）と一致させるか未指定である必要があります。.
 //
 // POST /appliance
 func (c *Client) CreateDB(ctx context.Context, request *NosqlCreateRequest) (CreateDBRes, error) {
@@ -379,7 +398,14 @@ func (c *Client) sendCreateDB(ctx context.Context, request *NosqlCreateRequest) 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateDBResponse(resp)
 	if err != nil {
@@ -436,7 +462,14 @@ func (c *Client) sendDeleteAppliancePower(ctx context.Context, params DeleteAppl
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteAppliancePowerResponse(resp)
 	if err != nil {
@@ -512,7 +545,14 @@ func (c *Client) sendDeleteBackup(ctx context.Context, params DeleteBackupParams
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteBackupResponse(resp)
 	if err != nil {
@@ -568,7 +608,14 @@ func (c *Client) sendDeleteDB(ctx context.Context, params DeleteDBParams) (res D
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteDBResponse(resp)
 	if err != nil {
@@ -624,7 +671,14 @@ func (c *Client) sendGetBackupByApplianceID(ctx context.Context, params GetBacku
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetBackupByApplianceIDResponse(resp)
 	if err != nil {
@@ -678,7 +732,14 @@ func (c *Client) sendGetDB(ctx context.Context, params GetDBParams) (res GetDBRe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetDBResponse(resp)
 	if err != nil {
@@ -733,7 +794,14 @@ func (c *Client) sendGetNoSQLNodeHealth(ctx context.Context, params GetNoSQLNode
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetNoSQLNodeHealthResponse(resp)
 	if err != nil {
@@ -789,7 +857,14 @@ func (c *Client) sendGetParameter(ctx context.Context, params GetParameterParams
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetParameterResponse(resp)
 	if err != nil {
@@ -845,7 +920,14 @@ func (c *Client) sendGetVersion(ctx context.Context, params GetVersionParams) (r
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetVersionResponse(resp)
 	if err != nil {
@@ -898,7 +980,14 @@ func (c *Client) sendListDB(ctx context.Context, params ListDBParams) (res ListD
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListDBResponse(resp)
 	if err != nil {
@@ -911,10 +1000,10 @@ func (c *Client) sendListDB(ctx context.Context, params ListDBParams) (res ListD
 // PostNoSQLRepair invokes PostNoSQLRepair operation.
 //
 // プライマリノードを対象にNoSQLのリペアを開始します。
-// 「増分リペア」または「完全リペア」を実行します。<br>
-// リペアとはデータの整合性（一貫性）を維持するために、複数のノード間で発生したデータのずれを検出・修復するメンテナンス作業です。<br>
-// 増分リペアは、前回のリペア実行以降に更新されたデータのみを対象に修復を行います。<br>
-// 完全リペアは、クラスタ内のすべてのデータを対象に修復を行います。<br>
+// 「増分リペア」または「完全リペア」を実行します。
+// リペアとはデータの整合性（一貫性）を維持するために、複数のノード間で発生したデータのずれを検出・修復するメンテナンス作業です。
+// 増分リペアは、前回のリペア実行以降に更新されたデータのみを対象に修復を行います。
+// 完全リペアは、クラスタ内のすべてのデータを対象に修復を行います。
 // 追加ノードのアプライアンスIDを指定してリペアを実行することはできません。
 // プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもリペアが実行されます。.
 //
@@ -971,7 +1060,14 @@ func (c *Client) sendPostNoSQLRepair(ctx context.Context, request *NosqlRepairRe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodePostNoSQLRepairResponse(resp)
 	if err != nil {
@@ -1028,7 +1124,14 @@ func (c *Client) sendPutAppliancePower(ctx context.Context, params PutApplianceP
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodePutAppliancePowerResponse(resp)
 	if err != nil {
@@ -1088,7 +1191,14 @@ func (c *Client) sendPutParameter(ctx context.Context, request *PutParameterRequ
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodePutParameterResponse(resp)
 	if err != nil {
@@ -1157,7 +1267,14 @@ func (c *Client) sendPutVersion(ctx context.Context, request *NosqlPutVersionReq
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodePutVersionResponse(resp)
 	if err != nil {
@@ -1213,7 +1330,14 @@ func (c *Client) sendRecoverNoSQLNode(ctx context.Context, params RecoverNoSQLNo
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeRecoverNoSQLNodeResponse(resp)
 	if err != nil {
@@ -1289,7 +1413,14 @@ func (c *Client) sendRestoreBackup(ctx context.Context, params RestoreBackupPara
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeRestoreBackupResponse(resp)
 	if err != nil {
@@ -1346,7 +1477,14 @@ func (c *Client) sendUpdateConfigDB(ctx context.Context, params UpdateConfigDBPa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeUpdateConfigDBResponse(resp)
 	if err != nil {
@@ -1414,7 +1552,14 @@ func (c *Client) sendUpdateDB(ctx context.Context, request *NosqlUpdateRequest, 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeUpdateDBResponse(resp)
 	if err != nil {

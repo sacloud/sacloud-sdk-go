@@ -200,7 +200,7 @@ func TestIntegrated(t *testing.T) {
 
 func into(from *v1.RuleResponse) (ret v1.Rule) {
 	if val, ok := from.GetCode().Get(); ok {
-		ret.SetCode(v1.NewOptString(val))
+		ret.SetCode(val)
 	}
 	if val, ok := from.GetSpec().Get(); ok {
 		if len(val.GetContents()) > 0 {
@@ -225,10 +225,10 @@ func into(from *v1.RuleResponse) (ret v1.Rule) {
 	}
 
 	if val, ok := from.GetIsActive().Get(); ok {
-		ret.SetIsActive(v1.NewOptBool(val))
+		ret.SetIsActive(val)
 	}
 	if val, ok := from.GetIsDryRun().Get(); ok {
-		ret.SetIsDryRun(v1.NewOptBool(val))
+		ret.SetIsDryRun(val)
 	}
 	return ret
 }

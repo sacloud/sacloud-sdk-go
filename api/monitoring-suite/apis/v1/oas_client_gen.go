@@ -5,6 +5,7 @@ package v1
 import (
 	"context"
 	"fmt"
+	"io"
 	"net/url"
 	"strings"
 
@@ -714,7 +715,13 @@ func (c *Client) sendAlertsProjectsCreate(ctx context.Context, request *AlertPro
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsCreateResponse(resp)
 	if err != nil {
@@ -770,7 +777,13 @@ func (c *Client) sendAlertsProjectsDestroy(ctx context.Context, params AlertsPro
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsDestroyResponse(resp)
 	if err != nil {
@@ -914,7 +927,13 @@ func (c *Client) sendAlertsProjectsHistoriesList(ctx context.Context, params Ale
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsHistoriesListResponse(resp)
 	if err != nil {
@@ -989,7 +1008,13 @@ func (c *Client) sendAlertsProjectsHistoriesRetrieve(ctx context.Context, params
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsHistoriesRetrieveResponse(resp)
 	if err != nil {
@@ -1063,7 +1088,13 @@ func (c *Client) sendAlertsProjectsList(ctx context.Context, params AlertsProjec
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsListResponse(resp)
 	if err != nil {
@@ -1131,7 +1162,13 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesCreate(ctx context.Context, re
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesCreateResponse(resp)
 	if err != nil {
@@ -1206,7 +1243,13 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesDestroy(ctx context.Context, p
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesDestroyResponse(resp)
 	if err != nil {
@@ -1333,7 +1376,13 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesList(ctx context.Context, para
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesListResponse(resp)
 	if err != nil {
@@ -1427,7 +1476,13 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesPartialUpdate(ctx context.Cont
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesPartialUpdateResponse(resp)
 	if err != nil {
@@ -1502,7 +1557,13 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesRetrieve(ctx context.Context, 
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesRetrieveResponse(resp)
 	if err != nil {
@@ -1589,7 +1650,13 @@ func (c *Client) sendAlertsProjectsLogMeasureRulesUpdate(ctx context.Context, re
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsLogMeasureRulesUpdateResponse(resp)
 	if err != nil {
@@ -1657,7 +1724,13 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsCreate(ctx context.Contex
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsCreateResponse(resp)
 	if err != nil {
@@ -1732,7 +1805,13 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsDestroy(ctx context.Conte
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsDestroyResponse(resp)
 	if err != nil {
@@ -1842,7 +1921,13 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsList(ctx context.Context,
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsListResponse(resp)
 	if err != nil {
@@ -1936,7 +2021,13 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsPartialUpdate(ctx context
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsPartialUpdateResponse(resp)
 	if err != nil {
@@ -2021,7 +2112,13 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsReorderUpdate(ctx context
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsReorderUpdateResponse(resp)
 	if err != nil {
@@ -2096,7 +2193,13 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsRetrieve(ctx context.Cont
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsRetrieveResponse(resp)
 	if err != nil {
@@ -2183,7 +2286,13 @@ func (c *Client) sendAlertsProjectsNotificationRoutingsUpdate(ctx context.Contex
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationRoutingsUpdateResponse(resp)
 	if err != nil {
@@ -2251,7 +2360,13 @@ func (c *Client) sendAlertsProjectsNotificationTargetsCreate(ctx context.Context
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationTargetsCreateResponse(resp)
 	if err != nil {
@@ -2326,7 +2441,13 @@ func (c *Client) sendAlertsProjectsNotificationTargetsDestroy(ctx context.Contex
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationTargetsDestroyResponse(resp)
 	if err != nil {
@@ -2436,7 +2557,13 @@ func (c *Client) sendAlertsProjectsNotificationTargetsList(ctx context.Context, 
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationTargetsListResponse(resp)
 	if err != nil {
@@ -2530,7 +2657,13 @@ func (c *Client) sendAlertsProjectsNotificationTargetsPartialUpdate(ctx context.
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationTargetsPartialUpdateResponse(resp)
 	if err != nil {
@@ -2605,7 +2738,13 @@ func (c *Client) sendAlertsProjectsNotificationTargetsRetrieve(ctx context.Conte
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationTargetsRetrieveResponse(resp)
 	if err != nil {
@@ -2692,7 +2831,13 @@ func (c *Client) sendAlertsProjectsNotificationTargetsUpdate(ctx context.Context
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsNotificationTargetsUpdateResponse(resp)
 	if err != nil {
@@ -2767,7 +2912,13 @@ func (c *Client) sendAlertsProjectsPartialUpdate(ctx context.Context, request Op
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsPartialUpdateResponse(resp)
 	if err != nil {
@@ -2823,7 +2974,13 @@ func (c *Client) sendAlertsProjectsRetrieve(ctx context.Context, params AlertsPr
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRetrieveResponse(resp)
 	if err != nil {
@@ -2891,7 +3048,13 @@ func (c *Client) sendAlertsProjectsRulesCreate(ctx context.Context, request *Ale
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRulesCreateResponse(resp)
 	if err != nil {
@@ -2966,7 +3129,13 @@ func (c *Client) sendAlertsProjectsRulesDestroy(ctx context.Context, params Aler
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRulesDestroyResponse(resp)
 	if err != nil {
@@ -3129,7 +3298,13 @@ func (c *Client) sendAlertsProjectsRulesHistoriesList(ctx context.Context, param
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRulesHistoriesListResponse(resp)
 	if err != nil {
@@ -3223,7 +3398,13 @@ func (c *Client) sendAlertsProjectsRulesHistoriesRetrieve(ctx context.Context, p
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRulesHistoriesRetrieveResponse(resp)
 	if err != nil {
@@ -3316,7 +3497,13 @@ func (c *Client) sendAlertsProjectsRulesList(ctx context.Context, params AlertsP
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRulesListResponse(resp)
 	if err != nil {
@@ -3410,7 +3597,13 @@ func (c *Client) sendAlertsProjectsRulesPartialUpdate(ctx context.Context, reque
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRulesPartialUpdateResponse(resp)
 	if err != nil {
@@ -3485,7 +3678,13 @@ func (c *Client) sendAlertsProjectsRulesRetrieve(ctx context.Context, params Ale
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRulesRetrieveResponse(resp)
 	if err != nil {
@@ -3572,7 +3771,13 @@ func (c *Client) sendAlertsProjectsRulesUpdate(ctx context.Context, request *Ale
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsRulesUpdateResponse(resp)
 	if err != nil {
@@ -3647,7 +3852,13 @@ func (c *Client) sendAlertsProjectsUpdate(ctx context.Context, request OptAlertP
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeAlertsProjectsUpdateResponse(resp)
 	if err != nil {
@@ -3696,7 +3907,13 @@ func (c *Client) sendDashboardsProjectsCreate(ctx context.Context, request *Dash
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDashboardsProjectsCreateResponse(resp)
 	if err != nil {
@@ -3752,7 +3969,13 @@ func (c *Client) sendDashboardsProjectsDestroy(ctx context.Context, params Dashb
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDashboardsProjectsDestroyResponse(resp)
 	if err != nil {
@@ -3826,7 +4049,13 @@ func (c *Client) sendDashboardsProjectsList(ctx context.Context, params Dashboar
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDashboardsProjectsListResponse(resp)
 	if err != nil {
@@ -3901,7 +4130,13 @@ func (c *Client) sendDashboardsProjectsPartialUpdate(ctx context.Context, reques
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDashboardsProjectsPartialUpdateResponse(resp)
 	if err != nil {
@@ -3957,7 +4192,13 @@ func (c *Client) sendDashboardsProjectsRetrieve(ctx context.Context, params Dash
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDashboardsProjectsRetrieveResponse(resp)
 	if err != nil {
@@ -4032,7 +4273,13 @@ func (c *Client) sendDashboardsProjectsUpdate(ctx context.Context, request OptDa
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDashboardsProjectsUpdateResponse(resp)
 	if err != nil {
@@ -4069,7 +4316,13 @@ func (c *Client) sendGetProvisioningState(ctx context.Context) (res *Provisionin
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetProvisioningStateResponse(resp)
 	if err != nil {
@@ -4106,7 +4359,13 @@ func (c *Client) sendGetResourcesLimits(ctx context.Context) (res *ResourcesLimi
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetResourcesLimitsResponse(resp)
 	if err != nil {
@@ -4155,7 +4414,13 @@ func (c *Client) sendLogsRoutingsCreate(ctx context.Context, request *LogRouting
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsRoutingsCreateResponse(resp)
 	if err != nil {
@@ -4211,7 +4476,13 @@ func (c *Client) sendLogsRoutingsDestroy(ctx context.Context, params LogsRouting
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsRoutingsDestroyResponse(resp)
 	if err != nil {
@@ -4336,7 +4607,13 @@ func (c *Client) sendLogsRoutingsList(ctx context.Context, params LogsRoutingsLi
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsRoutingsListResponse(resp)
 	if err != nil {
@@ -4411,7 +4688,13 @@ func (c *Client) sendLogsRoutingsPartialUpdate(ctx context.Context, request OptP
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsRoutingsPartialUpdateResponse(resp)
 	if err != nil {
@@ -4467,7 +4750,13 @@ func (c *Client) sendLogsRoutingsRetrieve(ctx context.Context, params LogsRoutin
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsRoutingsRetrieveResponse(resp)
 	if err != nil {
@@ -4535,7 +4824,13 @@ func (c *Client) sendLogsRoutingsUpdate(ctx context.Context, request *LogRouting
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsRoutingsUpdateResponse(resp)
 	if err != nil {
@@ -4584,7 +4879,13 @@ func (c *Client) sendLogsStoragesCreate(ctx context.Context, request *LogStorage
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesCreateResponse(resp)
 	if err != nil {
@@ -4640,7 +4941,13 @@ func (c *Client) sendLogsStoragesDestroy(ctx context.Context, params LogsStorage
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesDestroyResponse(resp)
 	if err != nil {
@@ -4715,7 +5022,13 @@ func (c *Client) sendLogsStoragesKeysCreate(ctx context.Context, request OptLogS
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesKeysCreateResponse(resp)
 	if err != nil {
@@ -4790,7 +5103,13 @@ func (c *Client) sendLogsStoragesKeysDestroy(ctx context.Context, params LogsSto
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesKeysDestroyResponse(resp)
 	if err != nil {
@@ -4883,7 +5202,13 @@ func (c *Client) sendLogsStoragesKeysList(ctx context.Context, params LogsStorag
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesKeysListResponse(resp)
 	if err != nil {
@@ -4977,7 +5302,13 @@ func (c *Client) sendLogsStoragesKeysPartialUpdate(ctx context.Context, request 
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesKeysPartialUpdateResponse(resp)
 	if err != nil {
@@ -5052,7 +5383,13 @@ func (c *Client) sendLogsStoragesKeysRetrieve(ctx context.Context, params LogsSt
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesKeysRetrieveResponse(resp)
 	if err != nil {
@@ -5146,7 +5483,13 @@ func (c *Client) sendLogsStoragesKeysUpdate(ctx context.Context, request OptLogS
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesKeysUpdateResponse(resp)
 	if err != nil {
@@ -5305,7 +5648,13 @@ func (c *Client) sendLogsStoragesList(ctx context.Context, params LogsStoragesLi
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesListResponse(resp)
 	if err != nil {
@@ -5380,7 +5729,13 @@ func (c *Client) sendLogsStoragesPartialUpdate(ctx context.Context, request OptP
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesPartialUpdateResponse(resp)
 	if err != nil {
@@ -5436,7 +5791,13 @@ func (c *Client) sendLogsStoragesRetrieve(ctx context.Context, params LogsStorag
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesRetrieveResponse(resp)
 	if err != nil {
@@ -5504,7 +5865,13 @@ func (c *Client) sendLogsStoragesSetExpireCreate(ctx context.Context, request *S
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesSetExpireCreateResponse(resp)
 	if err != nil {
@@ -5597,7 +5964,13 @@ func (c *Client) sendLogsStoragesStatsDailyRetrieve(ctx context.Context, params 
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesStatsDailyRetrieveResponse(resp)
 	if err != nil {
@@ -5670,7 +6043,13 @@ func (c *Client) sendLogsStoragesStatsMonthlyRetrieve(ctx context.Context, param
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesStatsMonthlyRetrieveResponse(resp)
 	if err != nil {
@@ -5745,7 +6124,13 @@ func (c *Client) sendLogsStoragesUpdate(ctx context.Context, request OptLogStora
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeLogsStoragesUpdateResponse(resp)
 	if err != nil {
@@ -5794,7 +6179,13 @@ func (c *Client) sendMetricsRoutingsCreate(ctx context.Context, request *Metrics
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsRoutingsCreateResponse(resp)
 	if err != nil {
@@ -5850,7 +6241,13 @@ func (c *Client) sendMetricsRoutingsDestroy(ctx context.Context, params MetricsR
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsRoutingsDestroyResponse(resp)
 	if err != nil {
@@ -5975,7 +6372,13 @@ func (c *Client) sendMetricsRoutingsList(ctx context.Context, params MetricsRout
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsRoutingsListResponse(resp)
 	if err != nil {
@@ -6050,7 +6453,13 @@ func (c *Client) sendMetricsRoutingsPartialUpdate(ctx context.Context, request O
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsRoutingsPartialUpdateResponse(resp)
 	if err != nil {
@@ -6106,7 +6515,13 @@ func (c *Client) sendMetricsRoutingsRetrieve(ctx context.Context, params Metrics
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsRoutingsRetrieveResponse(resp)
 	if err != nil {
@@ -6174,7 +6589,13 @@ func (c *Client) sendMetricsRoutingsUpdate(ctx context.Context, request *Metrics
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsRoutingsUpdateResponse(resp)
 	if err != nil {
@@ -6223,7 +6644,13 @@ func (c *Client) sendMetricsStoragesCreate(ctx context.Context, request *Metrics
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesCreateResponse(resp)
 	if err != nil {
@@ -6279,7 +6706,13 @@ func (c *Client) sendMetricsStoragesDestroy(ctx context.Context, params MetricsS
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesDestroyResponse(resp)
 	if err != nil {
@@ -6354,7 +6787,13 @@ func (c *Client) sendMetricsStoragesKeysCreate(ctx context.Context, request OptM
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesKeysCreateResponse(resp)
 	if err != nil {
@@ -6429,7 +6868,13 @@ func (c *Client) sendMetricsStoragesKeysDestroy(ctx context.Context, params Metr
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesKeysDestroyResponse(resp)
 	if err != nil {
@@ -6522,7 +6967,13 @@ func (c *Client) sendMetricsStoragesKeysList(ctx context.Context, params Metrics
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesKeysListResponse(resp)
 	if err != nil {
@@ -6616,7 +7067,13 @@ func (c *Client) sendMetricsStoragesKeysPartialUpdate(ctx context.Context, reque
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesKeysPartialUpdateResponse(resp)
 	if err != nil {
@@ -6691,7 +7148,13 @@ func (c *Client) sendMetricsStoragesKeysRetrieve(ctx context.Context, params Met
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesKeysRetrieveResponse(resp)
 	if err != nil {
@@ -6785,7 +7248,13 @@ func (c *Client) sendMetricsStoragesKeysUpdate(ctx context.Context, request OptM
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesKeysUpdateResponse(resp)
 	if err != nil {
@@ -6910,7 +7379,13 @@ func (c *Client) sendMetricsStoragesList(ctx context.Context, params MetricsStor
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesListResponse(resp)
 	if err != nil {
@@ -6985,7 +7460,13 @@ func (c *Client) sendMetricsStoragesPartialUpdate(ctx context.Context, request O
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesPartialUpdateResponse(resp)
 	if err != nil {
@@ -7041,7 +7522,13 @@ func (c *Client) sendMetricsStoragesRetrieve(ctx context.Context, params Metrics
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesRetrieveResponse(resp)
 	if err != nil {
@@ -7134,7 +7621,13 @@ func (c *Client) sendMetricsStoragesStatsDailyRetrieve(ctx context.Context, para
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesStatsDailyRetrieveResponse(resp)
 	if err != nil {
@@ -7207,7 +7700,13 @@ func (c *Client) sendMetricsStoragesStatsMonthlyRetrieve(ctx context.Context, pa
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesStatsMonthlyRetrieveResponse(resp)
 	if err != nil {
@@ -7282,7 +7781,13 @@ func (c *Client) sendMetricsStoragesUpdate(ctx context.Context, request OptMetri
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeMetricsStoragesUpdateResponse(resp)
 	if err != nil {
@@ -7322,7 +7827,13 @@ func (c *Client) sendPostProvisioningInitialize(ctx context.Context, request Opt
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodePostProvisioningInitializeResponse(resp)
 	if err != nil {
@@ -7396,7 +7907,13 @@ func (c *Client) sendPublishersList(ctx context.Context, params PublishersListPa
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodePublishersListResponse(resp)
 	if err != nil {
@@ -7452,7 +7969,13 @@ func (c *Client) sendPublishersRetrieve(ctx context.Context, params PublishersRe
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodePublishersRetrieveResponse(resp)
 	if err != nil {
@@ -7501,7 +8024,13 @@ func (c *Client) sendTracesStoragesCreate(ctx context.Context, request *TraceSto
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesCreateResponse(resp)
 	if err != nil {
@@ -7557,7 +8086,13 @@ func (c *Client) sendTracesStoragesDestroy(ctx context.Context, params TracesSto
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesDestroyResponse(resp)
 	if err != nil {
@@ -7632,7 +8167,13 @@ func (c *Client) sendTracesStoragesKeysCreate(ctx context.Context, request OptTr
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesKeysCreateResponse(resp)
 	if err != nil {
@@ -7707,7 +8248,13 @@ func (c *Client) sendTracesStoragesKeysDestroy(ctx context.Context, params Trace
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesKeysDestroyResponse(resp)
 	if err != nil {
@@ -7800,7 +8347,13 @@ func (c *Client) sendTracesStoragesKeysList(ctx context.Context, params TracesSt
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesKeysListResponse(resp)
 	if err != nil {
@@ -7894,7 +8447,13 @@ func (c *Client) sendTracesStoragesKeysPartialUpdate(ctx context.Context, reques
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesKeysPartialUpdateResponse(resp)
 	if err != nil {
@@ -7969,7 +8528,13 @@ func (c *Client) sendTracesStoragesKeysRetrieve(ctx context.Context, params Trac
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesKeysRetrieveResponse(resp)
 	if err != nil {
@@ -8063,7 +8628,13 @@ func (c *Client) sendTracesStoragesKeysUpdate(ctx context.Context, request OptTr
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesKeysUpdateResponse(resp)
 	if err != nil {
@@ -8188,7 +8759,13 @@ func (c *Client) sendTracesStoragesList(ctx context.Context, params TracesStorag
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesListResponse(resp)
 	if err != nil {
@@ -8263,7 +8840,13 @@ func (c *Client) sendTracesStoragesPartialUpdate(ctx context.Context, request Op
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesPartialUpdateResponse(resp)
 	if err != nil {
@@ -8319,7 +8902,13 @@ func (c *Client) sendTracesStoragesRetrieve(ctx context.Context, params TracesSt
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesRetrieveResponse(resp)
 	if err != nil {
@@ -8387,7 +8976,13 @@ func (c *Client) sendTracesStoragesSetExpireCreate(ctx context.Context, request 
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesSetExpireCreateResponse(resp)
 	if err != nil {
@@ -8480,7 +9075,13 @@ func (c *Client) sendTracesStoragesStatsDailyRetrieve(ctx context.Context, param
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesStatsDailyRetrieveResponse(resp)
 	if err != nil {
@@ -8553,7 +9154,13 @@ func (c *Client) sendTracesStoragesStatsMonthlyRetrieve(ctx context.Context, par
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesStatsMonthlyRetrieveResponse(resp)
 	if err != nil {
@@ -8628,7 +9235,13 @@ func (c *Client) sendTracesStoragesUpdate(ctx context.Context, request OptTraceS
 		return res, errors.Wrap(err, "do request")
 	}
 	body := resp.Body
-	defer body.Close()
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeTracesStoragesUpdateResponse(resp)
 	if err != nil {
