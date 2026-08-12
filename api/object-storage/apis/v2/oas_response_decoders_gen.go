@@ -2980,6 +2980,7 @@ func decodeGetBucketReplicationResponse(resp *http.Response) (res GetBucketRepli
 				return res, err
 			}
 			// Validate response.
+			/*　plan/service classが空だとエラーになるので一時期的にvalidateを外す
 			if err := func() error {
 				if err := response.Validate(); err != nil {
 					return err
@@ -2988,6 +2989,7 @@ func decodeGetBucketReplicationResponse(resp *http.Response) (res GetBucketRepli
 			}(); err != nil {
 				return res, errors.Wrap(err, "validate")
 			}
+			*/
 			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
@@ -4537,6 +4539,7 @@ func decodePostBucketReplicationResponse(resp *http.Response) (res PostBucketRep
 				return res, err
 			}
 			// Validate response.
+			/*　plan/service classが空だとエラーになるので一時期的にvalidateを外す
 			if err := func() error {
 				if err := response.Validate(); err != nil {
 					return err
@@ -4545,6 +4548,7 @@ func decodePostBucketReplicationResponse(resp *http.Response) (res PostBucketRep
 			}(); err != nil {
 				return res, errors.Wrap(err, "validate")
 			}
+			*/
 			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
