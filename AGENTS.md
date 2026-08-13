@@ -53,3 +53,14 @@ sacloud-sdk-go/
 | `service/*` | High-level abstractions over API clients | `github.com/sacloud/iaas-service-go` |
 | `internal/*` | Shared implementation details | Internal use only |
 
+## License Header (Required for all files)
+
+- This repo is transitioning from verbose license headers to a concise format.
+- For new files, use the concise header below, but do **not** copy `YYYY-` literally: replace it with the current year when creating the file.
+- If there are already files alongside the new file, follow their existing year style and module name.
+
+```go
+// Copyright YYYY- The sacloud/sacloud-sdk-go Authors
+// SPDX-License-Identifier: Apache-2.0
+```
+
