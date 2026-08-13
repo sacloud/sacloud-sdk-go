@@ -1,4 +1,4 @@
-# sacloud/apigw-api-go
+# sacloud-sdk-go/api/apigw
 
 Go言語向けのさくらのクラウド APIゲートウェイ APIライブラリ
 
@@ -6,14 +6,14 @@ APIゲートウェイ ドキュメント: https://manual.sakura.ad.jp/cloud/appl
 
 ## 概要
 
-sacloud/apigw-api-goはさくらのクラウド APIゲートウェイ APIをGo言語から利用するためのAPIライブラリです。
+sacloud-sdk-go/api/apigwはさくらのクラウド APIゲートウェイ APIをGo言語から利用するためのAPIライブラリです。
 
 ```go
 import (
 	"context"
 
-	apigw "github.com/sacloud/apigw-api-go"
-	v1 "github.com/sacloud/apigw-api-go/apis/v1"
+	apigw "github.com/sacloud/sacloud-sdk-go/api/apigw"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apigw/apis/v1"
 )
 
 func main() {
@@ -64,7 +64,8 @@ func main() {
 
 各 `xxx_test.go` も参照。
 
-:warning:  v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
+> [!WARNING]
+> v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
 ## ogenによるコード生成
 
@@ -81,5 +82,5 @@ $ go tool ogen -package v1 -target apis/v1 -clean -config ogen-config.yaml ./ope
 
 ## License
 
-`apigw-api-go` Copyright (C) 2025- The sacloud/apigw-api-go authors.
+Copyright (C) 2025- The sacloud/sacloud-sdk-go Authors
 This project is published under [Apache 2.0 License](LICENSE).
