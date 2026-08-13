@@ -1,8 +1,4 @@
-# iam-api-go
-
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/iam-api-go.svg)](https://pkg.go.dev/github.com/sacloud/iam-api-go)
-[![Tests](https://github.com/sacloud/iam-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/iam-api-go/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/iam-api-go)](https://goreportcard.com/report/github.com/sacloud/iam-api-go)
+# sacloud-sdk-go/api/iam
 
 さくらのクラウド「IAM」APIのGoクライアントライブラリ
 
@@ -18,7 +14,7 @@ OpenAPI仕様から自動生成された型安全なAPIクライアントと、�
 ## インストール
 
 ```bash
-go get github.com/sacloud/iam-api-go
+go get github.com/sacloud/sacloud-sdk-go/api/iam
 ```
 
 ## 使い方
@@ -30,9 +26,9 @@ import (
     "context"
     "os"
 
-    "github.com/sacloud/iam-api-go"
-    "github.com/sacloud/iam-api-go/apis/user"
-    "github.com/sacloud/saclient-go"
+    "github.com/sacloud/sacloud-sdk-go/api/iam"
+    "github.com/sacloud/sacloud-sdk-go/api/iam/apis/user"
+    "github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 var theClient saclient.Client
@@ -62,7 +58,7 @@ func main() {
 }
 ```
 
-APIの詳細は[GoDoc](https://pkg.go.dev/github.com/sacloud/iam-api-go)や`apis/v1/`配下の型定義を参照してください。
+APIの詳細は[Go Reference](https://pkg.go.dev/github.com/sacloud/sacloud-sdk-go/api/iam)や`apis/v1/`配下の型定義を参照してください。
 
 ### 認証情報
 
@@ -108,5 +104,5 @@ make test
 
 ## ライセンス
 
-Copyright (C) 2025- The sacloud/iam-api-go Authors.
+Copyright (C) 2025- The sacloud/sacloud-sdk-go Authors.
 このプロジェクトは[Apache 2.0 License](LICENSE)の下で公開されています。
