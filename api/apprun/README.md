@@ -1,8 +1,4 @@
-# sacloud/apprun-api-go
-
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/apprun-api-go.svg)](https://pkg.go.dev/github.com/sacloud/apprun-api-go)
-[![Tests](https://github.com/sacloud/apprun-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/apprun-api-go/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/apprun-api-go)](https://goreportcard.com/report/github.com/sacloud/apprun-api-go)
+# sacloud-sdk-go/api/apprun
 
 Go言語向けのさくらのクラウド AppRun APIライブラリ
 
@@ -10,7 +6,7 @@ AppRun共用型ドキュメント: https://manual.sakura.ad.jp/cloud/manual-saku
 AppRun共用型 APIドキュメント: https://manual.sakura.ad.jp/api/cloud/portal/?api=apprun-shared-api
 
 ## 概要
-sacloud/apprun-api-goはさくらのクラウド AppRun共用型 APIをGo言語から利用するためのAPIライブラリです。
+sacloud-sdk-go/api/apprunはさくらのクラウド AppRun共用型 APIをGo言語から利用するためのAPIライブラリです。
 
 利用イメージ:
 
@@ -21,9 +17,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/apprun-api-go"
-	v1 "github.com/sacloud/apprun-api-go/apis/v1"
-	"github.com/sacloud/saclient-go"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 func main() {
@@ -92,11 +88,12 @@ func main() {
 }
 ```
 
-:warning:  v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
+> [!WARNING]
+> v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
-apprun-api-goはv0.8からogenベースの実装となっています。oapi-codegenベースの実装を使いたい場合にはv0.7系を使ってください。ただし新機能は追加されないため、新規APIを利用したい場合には移行が必要となります。
+sacloud-sdk-go/api/apprunはv0.8からogenベースの実装となっています。oapi-codegenベースの実装を使いたい場合にはv0.7系を使ってください。ただし新機能は追加されないため、新規APIを利用したい場合には移行が必要となります。
 
 ## License
 
-`apprun-api-go` Copyright (C) 2021-2026 The sacloud/apprun-api-go authors.
-This project is published under [Apache 2.0 License](LICENSE).
+Copyright (C) 2021-2026 The sacloud/sacloud-sdk-go Authors.
+このプロジェクトは[Apache 2.0 License](LICENSE)の下で公開されています。
