@@ -2,7 +2,6 @@ changelog:
   exclude:
     labels:
       - tagpr
-      - tagpr:minor
   categories:
     - title: 💥 Breaking Changes
       labels:
@@ -12,10 +11,7 @@ changelog:
         - sacloud-minor
     - title: 📦 Dependency Updates
       labels:
-        - go
-    - title: ⚙️ CI/CD Updates
-      labels:
-        - github_actions
+        - dependencies
     - title: Other Changes
       labels:
         - "*"
