@@ -20,6 +20,7 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"strings"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
@@ -31,6 +32,10 @@ func injectFilterMiddleware(apiRootURL string) (saclient.Middleware, error) {
 		return nil, err
 	}
 	listAPIPath := u.JoinPath("/commonserviceitem").Path
+	// apiRootURL の Path が空の場合、JoinPath が先頭の "/" を削ることがあるため正規化
+	if !strings.HasPrefix(listAPIPath, "/") {
+		listAPIPath = "/" + listAPIPath
+	}
 
 	return func(req *http.Request, pull func() (saclient.Middleware, bool)) (*http.Response, error) {
 		injectFilterToRequest(req, listAPIPath)
