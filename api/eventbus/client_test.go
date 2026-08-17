@@ -64,7 +64,8 @@ func TestNewClient_WithCustomEndpoint(t *testing.T) {
 	assert.NotNil(client)
 
 	op := NewProcessConfigurationOp(client)
-	_, _ = op.List(t.Context())
+	_, err = op.List(t.Context())
+	assert.NoError(err)
 
 	requests := tracker.Requests()
 	assert.Len(requests, 1)
@@ -109,7 +110,8 @@ func TestNewClient_InjectFilterQuery(t *testing.T) {
 	for _, tt := range cases {
 		t.Run(tt.name, func(t *testing.T) {
 			tracker.Reset()
-			_, _ = tt.list(t.Context())
+			_, err := tt.list(t.Context())
+			assert.NoError(err)
 
 			requests := tracker.Requests()
 			assert.Len(requests, 1)
@@ -129,6 +131,13 @@ func (m *mockRequestTracker) handler() http.HandlerFunc {
 		m.mu.Lock()
 		m.requests = append(m.requests, r)
 		m.mu.Unlock()
+
+		if r.Method == http.MethodGet && r.URL.Path == "/commonserviceitem" {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(`{"CommonServiceItems":[]}`))
+			return
+		}
 
 		w.WriteHeader(http.StatusNoContent)
 	}
