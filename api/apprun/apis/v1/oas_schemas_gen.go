@@ -9,8 +9,10 @@ import (
 )
 
 // コンテナレジストリの認証情報の設定方法
-// * new: 指定された認証情報を使用します。
-// * keep: 最新のバージョンで保存された認証情報を使用します。.
+//
+//   - new: 指定された認証情報を使用します。
+//   - keep: 最新のバージョンで保存された認証情報を使用します。
+//
 // Ref: #/components/schemas/containerRegistryAction
 type ContainerRegistryAction string
 
@@ -55,7 +57,8 @@ func (s *ContainerRegistryAction) UnmarshalText(data []byte) error {
 
 // DeleteApplicationBadRequest represents sum type.
 type DeleteApplicationBadRequest struct {
-	Type                DeleteApplicationBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -125,7 +128,8 @@ func (*DeleteApplicationBadRequest) deleteApplicationRes() {}
 
 // DeleteApplicationForbidden represents sum type.
 type DeleteApplicationForbidden struct {
-	Type                DeleteApplicationForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -195,7 +199,8 @@ func (*DeleteApplicationForbidden) deleteApplicationRes() {}
 
 // DeleteApplicationInternalServerError represents sum type.
 type DeleteApplicationInternalServerError struct {
-	Type                DeleteApplicationInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -270,7 +275,8 @@ func (*DeleteApplicationNoContent) deleteApplicationRes() {}
 
 // DeleteApplicationNotFound represents sum type.
 type DeleteApplicationNotFound struct {
-	Type                DeleteApplicationNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -340,7 +346,8 @@ func (*DeleteApplicationNotFound) deleteApplicationRes() {}
 
 // DeleteApplicationUnauthorized represents sum type.
 type DeleteApplicationUnauthorized struct {
-	Type                DeleteApplicationUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -410,7 +417,8 @@ func (*DeleteApplicationUnauthorized) deleteApplicationRes() {}
 
 // DeleteApplicationVersionBadRequest represents sum type.
 type DeleteApplicationVersionBadRequest struct {
-	Type                DeleteApplicationVersionBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationVersionBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -480,7 +488,8 @@ func (*DeleteApplicationVersionBadRequest) deleteApplicationVersionRes() {}
 
 // DeleteApplicationVersionForbidden represents sum type.
 type DeleteApplicationVersionForbidden struct {
-	Type                DeleteApplicationVersionForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationVersionForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -550,7 +559,8 @@ func (*DeleteApplicationVersionForbidden) deleteApplicationVersionRes() {}
 
 // DeleteApplicationVersionInternalServerError represents sum type.
 type DeleteApplicationVersionInternalServerError struct {
-	Type                DeleteApplicationVersionInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationVersionInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -625,7 +635,8 @@ func (*DeleteApplicationVersionNoContent) deleteApplicationVersionRes() {}
 
 // DeleteApplicationVersionNotFound represents sum type.
 type DeleteApplicationVersionNotFound struct {
-	Type                DeleteApplicationVersionNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationVersionNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -695,7 +706,8 @@ func (*DeleteApplicationVersionNotFound) deleteApplicationVersionRes() {}
 
 // DeleteApplicationVersionUnauthorized represents sum type.
 type DeleteApplicationVersionUnauthorized struct {
-	Type                DeleteApplicationVersionUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                DeleteApplicationVersionUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -765,7 +777,8 @@ func (*DeleteApplicationVersionUnauthorized) deleteApplicationVersionRes() {}
 
 // GetApplicationBadRequest represents sum type.
 type GetApplicationBadRequest struct {
-	Type                GetApplicationBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -835,7 +848,8 @@ func (*GetApplicationBadRequest) getApplicationRes() {}
 
 // GetApplicationForbidden represents sum type.
 type GetApplicationForbidden struct {
-	Type                GetApplicationForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -905,7 +919,8 @@ func (*GetApplicationForbidden) getApplicationRes() {}
 
 // GetApplicationInternalServerError represents sum type.
 type GetApplicationInternalServerError struct {
-	Type                GetApplicationInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -975,7 +990,8 @@ func (*GetApplicationInternalServerError) getApplicationRes() {}
 
 // GetApplicationNotFound represents sum type.
 type GetApplicationNotFound struct {
-	Type                GetApplicationNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1045,7 +1061,8 @@ func (*GetApplicationNotFound) getApplicationRes() {}
 
 // GetApplicationStatusBadRequest represents sum type.
 type GetApplicationStatusBadRequest struct {
-	Type                GetApplicationStatusBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationStatusBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1115,7 +1132,8 @@ func (*GetApplicationStatusBadRequest) getApplicationStatusRes() {}
 
 // GetApplicationStatusForbidden represents sum type.
 type GetApplicationStatusForbidden struct {
-	Type                GetApplicationStatusForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationStatusForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1185,7 +1203,8 @@ func (*GetApplicationStatusForbidden) getApplicationStatusRes() {}
 
 // GetApplicationStatusInternalServerError represents sum type.
 type GetApplicationStatusInternalServerError struct {
-	Type                GetApplicationStatusInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationStatusInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1255,7 +1274,8 @@ func (*GetApplicationStatusInternalServerError) getApplicationStatusRes() {}
 
 // GetApplicationStatusNotFound represents sum type.
 type GetApplicationStatusNotFound struct {
-	Type                GetApplicationStatusNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationStatusNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1325,7 +1345,8 @@ func (*GetApplicationStatusNotFound) getApplicationStatusRes() {}
 
 // GetApplicationStatusUnauthorized represents sum type.
 type GetApplicationStatusUnauthorized struct {
-	Type                GetApplicationStatusUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationStatusUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1395,7 +1416,8 @@ func (*GetApplicationStatusUnauthorized) getApplicationStatusRes() {}
 
 // GetApplicationUnauthorized represents sum type.
 type GetApplicationUnauthorized struct {
-	Type                GetApplicationUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1465,7 +1487,8 @@ func (*GetApplicationUnauthorized) getApplicationRes() {}
 
 // GetApplicationVersionBadRequest represents sum type.
 type GetApplicationVersionBadRequest struct {
-	Type                GetApplicationVersionBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1535,7 +1558,8 @@ func (*GetApplicationVersionBadRequest) getApplicationVersionRes() {}
 
 // GetApplicationVersionForbidden represents sum type.
 type GetApplicationVersionForbidden struct {
-	Type                GetApplicationVersionForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1605,7 +1629,8 @@ func (*GetApplicationVersionForbidden) getApplicationVersionRes() {}
 
 // GetApplicationVersionInternalServerError represents sum type.
 type GetApplicationVersionInternalServerError struct {
-	Type                GetApplicationVersionInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1675,7 +1700,8 @@ func (*GetApplicationVersionInternalServerError) getApplicationVersionRes() {}
 
 // GetApplicationVersionNotFound represents sum type.
 type GetApplicationVersionNotFound struct {
-	Type                GetApplicationVersionNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1745,7 +1771,8 @@ func (*GetApplicationVersionNotFound) getApplicationVersionRes() {}
 
 // GetApplicationVersionStatusBadRequest represents sum type.
 type GetApplicationVersionStatusBadRequest struct {
-	Type                GetApplicationVersionStatusBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionStatusBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1815,7 +1842,8 @@ func (*GetApplicationVersionStatusBadRequest) getApplicationVersionStatusRes() {
 
 // GetApplicationVersionStatusForbidden represents sum type.
 type GetApplicationVersionStatusForbidden struct {
-	Type                GetApplicationVersionStatusForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionStatusForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1885,7 +1913,8 @@ func (*GetApplicationVersionStatusForbidden) getApplicationVersionStatusRes() {}
 
 // GetApplicationVersionStatusInternalServerError represents sum type.
 type GetApplicationVersionStatusInternalServerError struct {
-	Type                GetApplicationVersionStatusInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionStatusInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -1955,7 +1984,8 @@ func (*GetApplicationVersionStatusInternalServerError) getApplicationVersionStat
 
 // GetApplicationVersionStatusNotFound represents sum type.
 type GetApplicationVersionStatusNotFound struct {
-	Type                GetApplicationVersionStatusNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionStatusNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2025,7 +2055,8 @@ func (*GetApplicationVersionStatusNotFound) getApplicationVersionStatusRes() {}
 
 // GetApplicationVersionStatusUnauthorized represents sum type.
 type GetApplicationVersionStatusUnauthorized struct {
-	Type                GetApplicationVersionStatusUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionStatusUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2095,7 +2126,8 @@ func (*GetApplicationVersionStatusUnauthorized) getApplicationVersionStatusRes()
 
 // GetApplicationVersionUnauthorized represents sum type.
 type GetApplicationVersionUnauthorized struct {
-	Type                GetApplicationVersionUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetApplicationVersionUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2165,7 +2197,8 @@ func (*GetApplicationVersionUnauthorized) getApplicationVersionRes() {}
 
 // GetPacketFilterBadRequest represents sum type.
 type GetPacketFilterBadRequest struct {
-	Type                GetPacketFilterBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetPacketFilterBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2235,7 +2268,8 @@ func (*GetPacketFilterBadRequest) getPacketFilterRes() {}
 
 // GetPacketFilterForbidden represents sum type.
 type GetPacketFilterForbidden struct {
-	Type                GetPacketFilterForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetPacketFilterForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2305,7 +2339,8 @@ func (*GetPacketFilterForbidden) getPacketFilterRes() {}
 
 // GetPacketFilterInternalServerError represents sum type.
 type GetPacketFilterInternalServerError struct {
-	Type                GetPacketFilterInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetPacketFilterInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2375,7 +2410,8 @@ func (*GetPacketFilterInternalServerError) getPacketFilterRes() {}
 
 // GetPacketFilterNotFound represents sum type.
 type GetPacketFilterNotFound struct {
-	Type                GetPacketFilterNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetPacketFilterNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2445,7 +2481,8 @@ func (*GetPacketFilterNotFound) getPacketFilterRes() {}
 
 // GetPacketFilterUnauthorized represents sum type.
 type GetPacketFilterUnauthorized struct {
-	Type                GetPacketFilterUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetPacketFilterUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2515,7 +2552,8 @@ func (*GetPacketFilterUnauthorized) getPacketFilterRes() {}
 
 // GetUserForbidden represents sum type.
 type GetUserForbidden struct {
-	Type                GetUserForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetUserForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2585,7 +2623,8 @@ func (*GetUserForbidden) getUserRes() {}
 
 // GetUserInternalServerError represents sum type.
 type GetUserInternalServerError struct {
-	Type                GetUserInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetUserInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2655,7 +2694,8 @@ func (*GetUserInternalServerError) getUserRes() {}
 
 // GetUserNotFound represents sum type.
 type GetUserNotFound struct {
-	Type                GetUserNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetUserNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -2725,7 +2765,8 @@ func (*GetUserNotFound) getUserRes() {}
 
 // GetUserUnauthorized represents sum type.
 type GetUserUnauthorized struct {
-	Type                GetUserUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                GetUserUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -5465,7 +5506,8 @@ type HandlerPutTrafficsMeta struct{}
 
 // ListApplicationTrafficsBadRequest represents sum type.
 type ListApplicationTrafficsBadRequest struct {
-	Type                ListApplicationTrafficsBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationTrafficsBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -5535,7 +5577,8 @@ func (*ListApplicationTrafficsBadRequest) listApplicationTrafficsRes() {}
 
 // ListApplicationTrafficsForbidden represents sum type.
 type ListApplicationTrafficsForbidden struct {
-	Type                ListApplicationTrafficsForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationTrafficsForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -5605,7 +5648,8 @@ func (*ListApplicationTrafficsForbidden) listApplicationTrafficsRes() {}
 
 // ListApplicationTrafficsInternalServerError represents sum type.
 type ListApplicationTrafficsInternalServerError struct {
-	Type                ListApplicationTrafficsInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationTrafficsInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -5675,7 +5719,8 @@ func (*ListApplicationTrafficsInternalServerError) listApplicationTrafficsRes() 
 
 // ListApplicationTrafficsNotFound represents sum type.
 type ListApplicationTrafficsNotFound struct {
-	Type                ListApplicationTrafficsNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationTrafficsNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -5745,7 +5790,8 @@ func (*ListApplicationTrafficsNotFound) listApplicationTrafficsRes() {}
 
 // ListApplicationTrafficsUnauthorized represents sum type.
 type ListApplicationTrafficsUnauthorized struct {
-	Type                ListApplicationTrafficsUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationTrafficsUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -5815,7 +5861,8 @@ func (*ListApplicationTrafficsUnauthorized) listApplicationTrafficsRes() {}
 
 // ListApplicationVersionsBadRequest represents sum type.
 type ListApplicationVersionsBadRequest struct {
-	Type                ListApplicationVersionsBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationVersionsBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -5885,7 +5932,8 @@ func (*ListApplicationVersionsBadRequest) listApplicationVersionsRes() {}
 
 // ListApplicationVersionsForbidden represents sum type.
 type ListApplicationVersionsForbidden struct {
-	Type                ListApplicationVersionsForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationVersionsForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -5955,7 +6003,8 @@ func (*ListApplicationVersionsForbidden) listApplicationVersionsRes() {}
 
 // ListApplicationVersionsInternalServerError represents sum type.
 type ListApplicationVersionsInternalServerError struct {
-	Type                ListApplicationVersionsInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationVersionsInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -6025,7 +6074,8 @@ func (*ListApplicationVersionsInternalServerError) listApplicationVersionsRes() 
 
 // ListApplicationVersionsNotFound represents sum type.
 type ListApplicationVersionsNotFound struct {
-	Type                ListApplicationVersionsNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationVersionsNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -6136,7 +6186,8 @@ func (s *ListApplicationVersionsSortOrder) UnmarshalText(data []byte) error {
 
 // ListApplicationVersionsUnauthorized represents sum type.
 type ListApplicationVersionsUnauthorized struct {
-	Type                ListApplicationVersionsUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationVersionsUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -6206,7 +6257,8 @@ func (*ListApplicationVersionsUnauthorized) listApplicationVersionsRes() {}
 
 // ListApplicationsBadRequest represents sum type.
 type ListApplicationsBadRequest struct {
-	Type                ListApplicationsBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationsBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -6276,7 +6328,8 @@ func (*ListApplicationsBadRequest) listApplicationsRes() {}
 
 // ListApplicationsForbidden represents sum type.
 type ListApplicationsForbidden struct {
-	Type                ListApplicationsForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationsForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -6346,7 +6399,8 @@ func (*ListApplicationsForbidden) listApplicationsRes() {}
 
 // ListApplicationsInternalServerError represents sum type.
 type ListApplicationsInternalServerError struct {
-	Type                ListApplicationsInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationsInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -6457,7 +6511,8 @@ func (s *ListApplicationsSortOrder) UnmarshalText(data []byte) error {
 
 // ListApplicationsUnauthorized represents sum type.
 type ListApplicationsUnauthorized struct {
-	Type                ListApplicationsUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                ListApplicationsUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -7259,6 +7314,11 @@ func (o *OptNilContainerRegistryAction) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilContainerRegistryAction) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilContainerRegistryAction) Get() (v ContainerRegistryAction, ok bool) {
 	if o.Null {
@@ -7320,6 +7380,11 @@ func (o *OptNilHandlerGetApplicationComponentsItemProbe) SetToNull() {
 	o.Null = true
 	var v HandlerGetApplicationComponentsItemProbe
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerGetApplicationComponentsItemProbe) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7385,6 +7450,11 @@ func (o *OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Get() (v HandlerGetApplicationComponentsItemProbeHTTPGet, ok bool) {
 	if o.Null {
@@ -7446,6 +7516,11 @@ func (o *OptNilHandlerGetVersionComponentsItemProbe) SetToNull() {
 	o.Null = true
 	var v HandlerGetVersionComponentsItemProbe
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerGetVersionComponentsItemProbe) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7511,6 +7586,11 @@ func (o *OptNilHandlerGetVersionComponentsItemProbeHTTPGet) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Get() (v HandlerGetVersionComponentsItemProbeHTTPGet, ok bool) {
 	if o.Null {
@@ -7572,6 +7652,11 @@ func (o *OptNilHandlerPatchApplicationComponentsItemProbe) SetToNull() {
 	o.Null = true
 	var v HandlerPatchApplicationComponentsItemProbe
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerPatchApplicationComponentsItemProbe) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7637,6 +7722,11 @@ func (o *OptNilHandlerPatchApplicationComponentsItemProbeHTTPGet) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerPatchApplicationComponentsItemProbeHTTPGet) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilHandlerPatchApplicationComponentsItemProbeHTTPGet) Get() (v HandlerPatchApplicationComponentsItemProbeHTTPGet, ok bool) {
 	if o.Null {
@@ -7698,6 +7788,11 @@ func (o *OptNilHandlerPostApplicationComponentsItemProbe) SetToNull() {
 	o.Null = true
 	var v HandlerPostApplicationComponentsItemProbe
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerPostApplicationComponentsItemProbe) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7763,6 +7858,11 @@ func (o *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Get() (v HandlerPostApplicationComponentsItemProbeHTTPGet, ok bool) {
 	if o.Null {
@@ -7824,6 +7924,11 @@ func (o *OptNilModelErrorsItemLocationType) SetToNull() {
 	o.Null = true
 	var v ModelErrorsItemLocationType
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilModelErrorsItemLocationType) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -7889,6 +7994,11 @@ func (o *OptNilPatchApplicationBodyComponentsItemEnvItemArray) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPatchApplicationBodyComponentsItemEnvItemArray) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilPatchApplicationBodyComponentsItemEnvItemArray) Get() (v []PatchApplicationBodyComponentsItemEnvItem, ok bool) {
 	if o.Null {
@@ -7950,6 +8060,11 @@ func (o *OptNilPatchApplicationBodyComponentsItemProbe) SetToNull() {
 	o.Null = true
 	var v PatchApplicationBodyComponentsItemProbe
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPatchApplicationBodyComponentsItemProbe) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -8015,6 +8130,11 @@ func (o *OptNilPatchApplicationBodyComponentsItemProbeHTTPGet) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPatchApplicationBodyComponentsItemProbeHTTPGet) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilPatchApplicationBodyComponentsItemProbeHTTPGet) Get() (v PatchApplicationBodyComponentsItemProbeHTTPGet, ok bool) {
 	if o.Null {
@@ -8076,6 +8196,11 @@ func (o *OptNilPostApplicationBodyComponentsItemEnvItemArray) SetToNull() {
 	o.Null = true
 	var v []PostApplicationBodyComponentsItemEnvItem
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -8141,6 +8266,11 @@ func (o *OptNilPostApplicationBodyComponentsItemProbe) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPostApplicationBodyComponentsItemProbe) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilPostApplicationBodyComponentsItemProbe) Get() (v PostApplicationBodyComponentsItemProbe, ok bool) {
 	if o.Null {
@@ -8204,6 +8334,11 @@ func (o *OptNilPostApplicationBodyComponentsItemProbeHTTPGet) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilPostApplicationBodyComponentsItemProbeHTTPGet) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilPostApplicationBodyComponentsItemProbeHTTPGet) Get() (v PostApplicationBodyComponentsItemProbeHTTPGet, ok bool) {
 	if o.Null {
@@ -8265,6 +8400,11 @@ func (o *OptNilString) SetToNull() {
 	o.Null = true
 	var v string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -8428,7 +8568,8 @@ func (o OptString) Or(d string) string {
 
 // PatchApplicationBadRequest represents sum type.
 type PatchApplicationBadRequest struct {
-	Type                PatchApplicationBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -8500,8 +8641,8 @@ func (*PatchApplicationBadRequest) patchApplicationRes() {}
 type PatchApplicationBody struct {
 	// アプリケーションの公開URLにアクセスして、インスタンスが起動してからレスポンスが返るまでの時間制限.
 	TimeoutSeconds OptInt `json:"timeout_seconds"`
-	// アプリケーションがリクエストを待ち受けるポート番号。
-	// ただし、8012, 8013, 8022, 9090, 9091, 8008 は予約済みのため設定不可。.
+	// アプリケーションがリクエストを待ち受けるポート番号。 ただし、8012,
+	// 8013, 8022, 9090, 9091, 8008 は予約済みのため設定不可。.
 	Port OptInt `json:"port"`
 	// アプリケーション全体の最小スケール数.
 	MinScale OptInt `json:"min_scale"`
@@ -8662,11 +8803,11 @@ func (s *PatchApplicationBodyComponentsItem) SetProbe(val OptNilPatchApplication
 
 // コンポーネントを構成するソース.
 type PatchApplicationBodyComponentsItemDeploySource struct {
-	// コンテナレジストリ
-	// 以下のレジストリを利用できます。
-	// * さくらのクラウドで提供中のコンテナレジストリ
-	// * Docker Hub
-	// * GitHub Container Registry.
+	// コンテナレジストリ 以下のレジストリを利用できます。
+	//
+	//  - さくらのクラウドで提供中のコンテナレジストリ
+	//  - Docker Hub
+	//  - GitHub Container Registry
 	ContainerRegistry OptPatchApplicationBodyComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
 }
 
@@ -8680,11 +8821,11 @@ func (s *PatchApplicationBodyComponentsItemDeploySource) SetContainerRegistry(va
 	s.ContainerRegistry = val
 }
 
-// コンテナレジストリ
-// 以下のレジストリを利用できます。
-// * さくらのクラウドで提供中のコンテナレジストリ
-// * Docker Hub
-// * GitHub Container Registry.
+// コンテナレジストリ 以下のレジストリを利用できます。
+//
+//   - さくらのクラウドで提供中のコンテナレジストリ
+//   - Docker Hub
+//   - GitHub Container Registry
 type PatchApplicationBodyComponentsItemDeploySourceContainerRegistry struct {
 	// コンテナイメージ名.
 	Image string `json:"image"`
@@ -8750,8 +8891,8 @@ func (s *PatchApplicationBodyComponentsItemDeploySourceContainerRegistry) SetAct
 }
 
 type PatchApplicationBodyComponentsItemEnvItem struct {
-	// 環境変数名。
-	// ただし、K_SERVICE, K_CONFIGURATION, K_REVISION, PORTは予約済みのため設定不可。.
+	// 環境変数名。 ただし、K_SERVICE, K_CONFIGURATION, K_REVISION,
+	// PORTは予約済みのため設定不可。.
 	Key OptString `json:"key"`
 	// 環境変数の値.
 	Value OptString `json:"value"`
@@ -8960,7 +9101,8 @@ func (s *PatchApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetValue(val
 
 // PatchApplicationConflict represents sum type.
 type PatchApplicationConflict struct {
-	Type                PatchApplicationConflictType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationConflictType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9030,7 +9172,8 @@ func (*PatchApplicationConflict) patchApplicationRes() {}
 
 // PatchApplicationForbidden represents sum type.
 type PatchApplicationForbidden struct {
-	Type                PatchApplicationForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9100,7 +9243,8 @@ func (*PatchApplicationForbidden) patchApplicationRes() {}
 
 // PatchApplicationInternalServerError represents sum type.
 type PatchApplicationInternalServerError struct {
-	Type                PatchApplicationInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9170,7 +9314,8 @@ func (*PatchApplicationInternalServerError) patchApplicationRes() {}
 
 // PatchApplicationNotFound represents sum type.
 type PatchApplicationNotFound struct {
-	Type                PatchApplicationNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9240,7 +9385,8 @@ func (*PatchApplicationNotFound) patchApplicationRes() {}
 
 // PatchApplicationUnauthorized represents sum type.
 type PatchApplicationUnauthorized struct {
-	Type                PatchApplicationUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9337,7 +9483,8 @@ func (s *PatchPacketFilter) SetSettings(val []PatchPacketFilterSettingsItem) {
 
 // PatchPacketFilterBadRequest represents sum type.
 type PatchPacketFilterBadRequest struct {
-	Type                PatchPacketFilterBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchPacketFilterBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9407,7 +9554,8 @@ func (*PatchPacketFilterBadRequest) patchPacketFilterRes() {}
 
 // PatchPacketFilterForbidden represents sum type.
 type PatchPacketFilterForbidden struct {
-	Type                PatchPacketFilterForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchPacketFilterForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9477,7 +9625,8 @@ func (*PatchPacketFilterForbidden) patchPacketFilterRes() {}
 
 // PatchPacketFilterInternalServerError represents sum type.
 type PatchPacketFilterInternalServerError struct {
-	Type                PatchPacketFilterInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchPacketFilterInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9547,7 +9696,8 @@ func (*PatchPacketFilterInternalServerError) patchPacketFilterRes() {}
 
 // PatchPacketFilterNotFound represents sum type.
 type PatchPacketFilterNotFound struct {
-	Type                PatchPacketFilterNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchPacketFilterNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9644,7 +9794,8 @@ func (s *PatchPacketFilterSettingsItem) SetFromIPPrefixLength(val int) {
 
 // PatchPacketFilterUnauthorized represents sum type.
 type PatchPacketFilterUnauthorized struct {
-	Type                PatchPacketFilterUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchPacketFilterUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9714,7 +9865,8 @@ func (*PatchPacketFilterUnauthorized) patchPacketFilterRes() {}
 
 // PostApplicationBadRequest represents sum type.
 type PostApplicationBadRequest struct {
-	Type                PostApplicationBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostApplicationBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -9788,8 +9940,8 @@ type PostApplicationBody struct {
 	Name string `json:"name"`
 	// アプリケーションの公開URLにアクセスして、インスタンスが起動してからレスポンスが返るまでの時間制限.
 	TimeoutSeconds int `json:"timeout_seconds"`
-	// アプリケーションがリクエストを待ち受けるポート番号。
-	// ただし、8012, 8013, 8022, 9090, 9091, 8008 は予約済みのため設定不可。.
+	// アプリケーションがリクエストを待ち受けるポート番号。 ただし、8012,
+	// 8013, 8022, 9090, 9091, 8008 は予約済みのため設定不可。.
 	Port int `json:"port"`
 	// アプリケーション全体の最小スケール数.
 	MinScale int `json:"min_scale"`
@@ -9948,11 +10100,11 @@ func (s *PostApplicationBodyComponentsItem) SetProbe(val OptNilPostApplicationBo
 
 // コンポーネントを構成するソース.
 type PostApplicationBodyComponentsItemDeploySource struct {
-	// コンテナレジストリ
-	// 以下のレジストリを利用できます。
-	// * さくらのクラウドで提供中のコンテナレジストリ
-	// * Docker Hub
-	// * GitHub Container Registry.
+	// コンテナレジストリ 以下のレジストリを利用できます。
+	//
+	//  - さくらのクラウドで提供中のコンテナレジストリ
+	//  - Docker Hub
+	//  - GitHub Container Registry
 	ContainerRegistry OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
 }
 
@@ -9966,11 +10118,11 @@ func (s *PostApplicationBodyComponentsItemDeploySource) SetContainerRegistry(val
 	s.ContainerRegistry = val
 }
 
-// コンテナレジストリ
-// 以下のレジストリを利用できます。
-// * さくらのクラウドで提供中のコンテナレジストリ
-// * Docker Hub
-// * GitHub Container Registry.
+// コンテナレジストリ 以下のレジストリを利用できます。
+//
+//   - さくらのクラウドで提供中のコンテナレジストリ
+//   - Docker Hub
+//   - GitHub Container Registry
 type PostApplicationBodyComponentsItemDeploySourceContainerRegistry struct {
 	// コンテナイメージ名.
 	Image string `json:"image"`
@@ -10025,8 +10177,8 @@ func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) SetPass
 }
 
 type PostApplicationBodyComponentsItemEnvItem struct {
-	// 環境変数名。
-	// ただし、K_SERVICE, K_CONFIGURATION, K_REVISION, PORTは予約済みのため設定不可。.
+	// 環境変数名。 ただし、K_SERVICE, K_CONFIGURATION, K_REVISION,
+	// PORTは予約済みのため設定不可。.
 	Key OptString `json:"key"`
 	// 環境変数の値.
 	Value OptString `json:"value"`
@@ -10235,7 +10387,8 @@ func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetValue(val 
 
 // PostApplicationConflict represents sum type.
 type PostApplicationConflict struct {
-	Type                PostApplicationConflictType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostApplicationConflictType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10305,7 +10458,8 @@ func (*PostApplicationConflict) postApplicationRes() {}
 
 // PostApplicationForbidden represents sum type.
 type PostApplicationForbidden struct {
-	Type                PostApplicationForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostApplicationForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10375,7 +10529,8 @@ func (*PostApplicationForbidden) postApplicationRes() {}
 
 // PostApplicationInternalServerError represents sum type.
 type PostApplicationInternalServerError struct {
-	Type                PostApplicationInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostApplicationInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10445,7 +10600,8 @@ func (*PostApplicationInternalServerError) postApplicationRes() {}
 
 // PostApplicationUnauthorized represents sum type.
 type PostApplicationUnauthorized struct {
-	Type                PostApplicationUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostApplicationUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10515,7 +10671,8 @@ func (*PostApplicationUnauthorized) postApplicationRes() {}
 
 // PostUserConflict represents sum type.
 type PostUserConflict struct {
-	Type                PostUserConflictType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostUserConflictType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10585,7 +10742,8 @@ func (*PostUserConflict) postUserRes() {}
 
 // PostUserForbidden represents sum type.
 type PostUserForbidden struct {
-	Type                PostUserForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostUserForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10655,7 +10813,8 @@ func (*PostUserForbidden) postUserRes() {}
 
 // PostUserInternalServerError represents sum type.
 type PostUserInternalServerError struct {
-	Type                PostUserInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostUserInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10725,7 +10884,8 @@ func (*PostUserInternalServerError) postUserRes() {}
 
 // PostUserUnauthorized represents sum type.
 type PostUserUnauthorized struct {
-	Type                PostUserUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PostUserUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10795,7 +10955,8 @@ func (*PostUserUnauthorized) postUserRes() {}
 
 // PutApplicationTrafficBadRequest represents sum type.
 type PutApplicationTrafficBadRequest struct {
-	Type                PutApplicationTrafficBadRequestType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PutApplicationTrafficBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10865,7 +11026,8 @@ func (*PutApplicationTrafficBadRequest) putApplicationTrafficRes() {}
 
 // PutApplicationTrafficForbidden represents sum type.
 type PutApplicationTrafficForbidden struct {
-	Type                PutApplicationTrafficForbiddenType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PutApplicationTrafficForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -10935,7 +11097,8 @@ func (*PutApplicationTrafficForbidden) putApplicationTrafficRes() {}
 
 // PutApplicationTrafficInternalServerError represents sum type.
 type PutApplicationTrafficInternalServerError struct {
-	Type                PutApplicationTrafficInternalServerErrorType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PutApplicationTrafficInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -11005,7 +11168,8 @@ func (*PutApplicationTrafficInternalServerError) putApplicationTrafficRes() {}
 
 // PutApplicationTrafficNotFound represents sum type.
 type PutApplicationTrafficNotFound struct {
-	Type                PutApplicationTrafficNotFoundType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PutApplicationTrafficNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -11075,7 +11239,8 @@ func (*PutApplicationTrafficNotFound) putApplicationTrafficRes() {}
 
 // PutApplicationTrafficUnauthorized represents sum type.
 type PutApplicationTrafficUnauthorized struct {
-	Type                PutApplicationTrafficUnauthorizedType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                PutApplicationTrafficUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
@@ -11147,7 +11312,8 @@ type PutTrafficsBody []PutTrafficsBodyItem
 
 // PutTrafficsBodyItem represents sum type.
 type PutTrafficsBodyItem struct {
-	Type                 PutTrafficsBodyItemType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                 PutTrafficsBodyItemType
 	PutTrafficsBodyItem0 PutTrafficsBodyItem0
 	PutTrafficsBodyItem1 PutTrafficsBodyItem1
 }

@@ -1802,7 +1802,7 @@ func (s *ProjectsProjectIDPutReq) SetFake() {
 func (s *Rule) SetFake() {
 	{
 		{
-			s.Code.SetFake()
+			s.Code = "string"
 		}
 	}
 	{
@@ -1817,12 +1817,12 @@ func (s *Rule) SetFake() {
 	}
 	{
 		{
-			s.IsActive.SetFake()
+			s.IsActive = true
 		}
 	}
 	{
 		{
-			s.IsDryRun.SetFake()
+			s.IsDryRun = true
 		}
 	}
 }

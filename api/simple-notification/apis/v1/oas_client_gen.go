@@ -4,6 +4,7 @@ package v1
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
@@ -22,8 +23,7 @@ func trimTrailingSlashes(u *url.URL) {
 type Invoker interface {
 	// CreateCommonServiceItem invokes createCommonServiceItem operation.
 	//
-	// リソースの作成。`Provider.
-	// Class`の値に応じて必要な`Settings`の内容が異なります。.
+	// リソースの作成。`Provider.Class`の値に応じて必要な`Settings`の内容が異なります。.
 	//
 	// POST /commonserviceitem
 	CreateCommonServiceItem(ctx context.Context, request OptPostCommonServiceItemRequest) (*CreateCommonServiceItemCreated, error)
@@ -35,8 +35,7 @@ type Invoker interface {
 	DeleteCommonServiceItem(ctx context.Context, params DeleteCommonServiceItemParams) (*DeleteCommonServiceItemOK, error)
 	// GetCommonServiceItem invokes getCommonServiceItem operation.
 	//
-	// リソースの取得。取得された`CommonServiceItem`の`Provider.
-	// Class`の値に応じて`Settings`の内容は異なります。.
+	// リソースの取得。取得された`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
 	//
 	// GET /commonserviceitem/{id}
 	GetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (*GetCommonServiceItemOK, error)
@@ -54,11 +53,11 @@ type Invoker interface {
 	GetNotificationHistory(ctx context.Context, params GetNotificationHistoryParams) (*GetSimpleNotificationHistoryResponse, error)
 	// ListCommonServiceItems invokes listCommonServiceItems operation.
 	//
-	// リソースの一覧取得。クエリパラメータにて下記のように`Provider.
-	// Class`を指定してフィルタを設定することで通知先、通知先グループまたは通知ルーティングのリソースのみを取得できます。
-	// - 通知先: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticedestination"}}`<br>
-	// - 通知先グループ: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticegroup"}}`<br>
-	// - 通知ルーティング: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticerouting"}}`.
+	// リソースの一覧取得。クエリパラメータにて下記のように`Provider.Class`を指定してフィルタを設定することで通知先、通知先グループまたは通知ルーティングのリソースのみを取得できます。
+	//
+	//  - 通知先: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticedestination"}}`
+	//  - 通知先グループ: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticegroup"}}`
+	//  - 通知ルーティング: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticerouting"}}`
 	//
 	// GET /commonserviceitem
 	ListCommonServiceItems(ctx context.Context) (*ListCommonServiceItemsResponse, error)
@@ -90,8 +89,7 @@ type Invoker interface {
 	SendNotificationMessage(ctx context.Context, request OptSendNotificationMessageRequest, params SendNotificationMessageParams) (*SendNotificationMessageResponse, error)
 	// UpdateCommonServiceItem invokes updateCommonServiceItem operation.
 	//
-	// リソースの更新。更新される`CommonServiceItem`の`Provider.
-	// Class`の値に応じて`Settings`の内容は異なります。.
+	// リソースの更新。更新される`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
 	//
 	// PUT /commonserviceitem/{id}
 	UpdateCommonServiceItem(ctx context.Context, request OptPutCommonServiceItemRequest, params UpdateCommonServiceItemParams) (*UpdateCommonServiceItemOK, error)
@@ -138,8 +136,7 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 
 // CreateCommonServiceItem invokes createCommonServiceItem operation.
 //
-// リソースの作成。`Provider.
-// Class`の値に応じて必要な`Settings`の内容が異なります。.
+// リソースの作成。`Provider.Class`の値に応じて必要な`Settings`の内容が異なります。.
 //
 // POST /commonserviceitem
 func (c *Client) CreateCommonServiceItem(ctx context.Context, request OptPostCommonServiceItemRequest) (*CreateCommonServiceItemCreated, error) {
@@ -182,7 +179,14 @@ func (c *Client) sendCreateCommonServiceItem(ctx context.Context, request OptPos
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateCommonServiceItemResponse(resp)
 	if err != nil {
@@ -236,7 +240,14 @@ func (c *Client) sendDeleteCommonServiceItem(ctx context.Context, params DeleteC
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteCommonServiceItemResponse(resp)
 	if err != nil {
@@ -248,8 +259,7 @@ func (c *Client) sendDeleteCommonServiceItem(ctx context.Context, params DeleteC
 
 // GetCommonServiceItem invokes getCommonServiceItem operation.
 //
-// リソースの取得。取得された`CommonServiceItem`の`Provider.
-// Class`の値に応じて`Settings`の内容は異なります。.
+// リソースの取得。取得された`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
 //
 // GET /commonserviceitem/{id}
 func (c *Client) GetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (*GetCommonServiceItemOK, error) {
@@ -291,7 +301,14 @@ func (c *Client) sendGetCommonServiceItem(ctx context.Context, params GetCommonS
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetCommonServiceItemResponse(resp)
 	if err != nil {
@@ -346,7 +363,14 @@ func (c *Client) sendGetCommonServiceItemStatus(ctx context.Context, params GetC
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetCommonServiceItemStatusResponse(resp)
 	if err != nil {
@@ -400,7 +424,14 @@ func (c *Client) sendGetNotificationHistory(ctx context.Context, params GetNotif
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetNotificationHistoryResponse(resp)
 	if err != nil {
@@ -412,11 +443,11 @@ func (c *Client) sendGetNotificationHistory(ctx context.Context, params GetNotif
 
 // ListCommonServiceItems invokes listCommonServiceItems operation.
 //
-// リソースの一覧取得。クエリパラメータにて下記のように`Provider.
-// Class`を指定してフィルタを設定することで通知先、通知先グループまたは通知ルーティングのリソースのみを取得できます。
-// - 通知先: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticedestination"}}`<br>
-// - 通知先グループ: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticegroup"}}`<br>
-// - 通知ルーティング: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticerouting"}}`.
+// リソースの一覧取得。クエリパラメータにて下記のように`Provider.Class`を指定してフィルタを設定することで通知先、通知先グループまたは通知ルーティングのリソースのみを取得できます。
+//
+//   - 通知先: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticedestination"}}`
+//   - 通知先グループ: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticegroup"}}`
+//   - 通知ルーティング: `/commonserviceitem?{"Filter":{"Provider.Class":"saknoticerouting"}}`
 //
 // GET /commonserviceitem
 func (c *Client) ListCommonServiceItems(ctx context.Context) (*ListCommonServiceItemsResponse, error) {
@@ -440,7 +471,14 @@ func (c *Client) sendListCommonServiceItems(ctx context.Context) (res *ListCommo
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListCommonServiceItemsResponse(resp)
 	if err != nil {
@@ -477,7 +515,14 @@ func (c *Client) sendListNotificationHistories(ctx context.Context) (res *ListSi
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListNotificationHistoriesResponse(resp)
 	if err != nil {
@@ -513,7 +558,14 @@ func (c *Client) sendListSources(ctx context.Context) (res *ListSourcesResponse,
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeListSourcesResponse(resp)
 	if err != nil {
@@ -569,7 +621,14 @@ func (c *Client) sendReorderRouting(ctx context.Context, request OptPutCommonSer
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeReorderRoutingResponse(resp)
 	if err != nil {
@@ -643,7 +702,14 @@ func (c *Client) sendSendNotificationMessage(ctx context.Context, request OptSen
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeSendNotificationMessageResponse(resp)
 	if err != nil {
@@ -655,8 +721,7 @@ func (c *Client) sendSendNotificationMessage(ctx context.Context, request OptSen
 
 // UpdateCommonServiceItem invokes updateCommonServiceItem operation.
 //
-// リソースの更新。更新される`CommonServiceItem`の`Provider.
-// Class`の値に応じて`Settings`の内容は異なります。.
+// リソースの更新。更新される`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
 //
 // PUT /commonserviceitem/{id}
 func (c *Client) UpdateCommonServiceItem(ctx context.Context, request OptPutCommonServiceItemRequest, params UpdateCommonServiceItemParams) (*UpdateCommonServiceItemOK, error) {
@@ -717,7 +782,14 @@ func (c *Client) sendUpdateCommonServiceItem(ctx context.Context, request OptPut
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeUpdateCommonServiceItemResponse(resp)
 	if err != nil {

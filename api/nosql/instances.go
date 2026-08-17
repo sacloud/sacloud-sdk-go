@@ -210,7 +210,7 @@ func (op *instanceOp) Repair(ctx context.Context, repairType string) error {
 	}
 
 	switch p := res.(type) {
-	case *v1.NosqlRepairRequest:
+	case *v1.NosqlRepairResponse:
 		return nil
 	case *v1.BadRequestResponse:
 		return NewAPIError("Instance.Repair", 400, errors.New(p.ErrorMsg.Value))

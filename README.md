@@ -20,41 +20,41 @@ sacloud-sdk-goは、[さくらのクラウド](https://cloud.sakura.ad.jp/)の�
 
 さくらのクラウド各サービスのREST APIを操作するための低レベルクライアントライブラリです。
 
-| パッケージ | 説明 | Goパッケージ |
+| パッケージ | 説明 | importパス |
 |-----------|------|-------------|
-| `api/iaas` | IaaS API (サーバー、ディスク、ネットワークなど) | `github.com/sacloud/iaas-api-go` |
-| `api/webaccel` | ウェブアクセラレータ API | `github.com/sacloud/webaccel-api-go` |
-| `api/iam` | IAM API (認証・認可) | `github.com/sacloud/iam-api-go` |
-| `api/addon` | Add-on API (データレーク、WAFなど) | `github.com/sacloud/addon-api-go` |
-| `api/apigw` | API Gateway API | `github.com/sacloud/apigw-api-go` |
-| `api/apprun` | AppRun API | `github.com/sacloud/apprun-api-go` |
-| `api/apprun-dedicated` | AppRun Dedicated API | `github.com/sacloud/apprun-dedicated-api-go` |
-| `api/cloudhsm` | CloudHSM API | `github.com/sacloud/cloudhsm-api-go` |
-| `api/dedicated-storage` | 専用ストレージ API | `github.com/sacloud/dedicated-storage-api-go` |
-| `api/eventbus` | EventBus API | `github.com/sacloud/eventbus-api-go` |
-| `api/kms` | Key Management Service API | `github.com/sacloud/kms-api-go` |
-| `api/monitoring-suite` | 監視サービス API | `github.com/sacloud/monitoring-suite-api-go` |
-| `api/nosql` | NoSQL API | `github.com/sacloud/nosql-api-go` |
-| `api/object-storage` | オブジェクトストレージ API | `github.com/sacloud/object-storage-api-go` |
-| `api/secretmanager` | Secret Manager API | `github.com/sacloud/secretmanager-api-go` |
-| `api/security-control` | セキュリティコントロール API | `github.com/sacloud/security-control-api-go` |
-| `api/service-endpoint-gateway` | Service Endpoint Gateway API | `github.com/sacloud/service-endpoint-gateway-api-go` |
-| `api/simple-notification` | シンプル通知 API | `github.com/sacloud/simple-notification-api-go` |
-| `api/simplemq` | SimpleMQ API | `github.com/sacloud/simplemq-api-go` |
-| `api/workflows` | Workflows API | `github.com/sacloud/workflows-api-go` |
+| `api/iaas` | IaaS API (サーバー、ディスク、ネットワークなど) | `github.com/sacloud/sacloud-sdk-go/api/iaas` |
+| `api/webaccel` | ウェブアクセラレータ API | `github.com/sacloud/sacloud-sdk-go/api/webaccel` |
+| `api/iam` | IAM API (認証・認可) | `github.com/sacloud/sacloud-sdk-go/api/iam` |
+| `api/addon` | Add-on API (データレーク、WAFなど) | `github.com/sacloud/sacloud-sdk-go/api/addon` |
+| `api/apigw` | API Gateway API | `github.com/sacloud/sacloud-sdk-go/api/apigw` |
+| `api/apprun` | AppRun API | `github.com/sacloud/sacloud-sdk-go/api/apprun` |
+| `api/apprun-dedicated` | AppRun Dedicated API | `github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated` |
+| `api/cloudhsm` | CloudHSM API | `github.com/sacloud/sacloud-sdk-go/api/cloudhsm` |
+| `api/dedicated-storage` | 専用ストレージ API | `github.com/sacloud/sacloud-sdk-go/api/dedicated-storage` |
+| `api/eventbus` | EventBus API | `github.com/sacloud/sacloud-sdk-go/api/eventbus` |
+| `api/kms` | Key Management Service API | `github.com/sacloud/sacloud-sdk-go/api/kms` |
+| `api/monitoring-suite` | 監視サービス API | `github.com/sacloud/sacloud-sdk-go/api/monitoring-suite` |
+| `api/nosql` | NoSQL API | `github.com/sacloud/sacloud-sdk-go/api/nosql` |
+| `api/object-storage` | オブジェクトストレージ API | `github.com/sacloud/sacloud-sdk-go/api/object-storage` |
+| `api/secretmanager` | Secret Manager API | `github.com/sacloud/sacloud-sdk-go/api/secretmanager` |
+| `api/security-control` | セキュリティコントロール API | `github.com/sacloud/sacloud-sdk-go/api/security-control` |
+| `api/service-endpoint-gateway` | Service Endpoint Gateway API | `github.com/sacloud/sacloud-sdk-go/api/service-endpoint-gateway` |
+| `api/simple-notification` | シンプル通知 API | `github.com/sacloud/sacloud-sdk-go/api/simple-notification` |
+| `api/simplemq` | SimpleMQ API | `github.com/sacloud/sacloud-sdk-go/api/simplemq` |
+| `api/workflows` | Workflows API | `github.com/sacloud/sacloud-sdk-go/api/workflows` |
 
 ### 高レベルサービスライブラリ (`service/`)
 
 APIクライアントライブラリをラップし、より使いやすいインターフェースを提供する高レベルライブラリです。
 
-| パッケージ | 説明 | Goパッケージ |
+| パッケージ | 説明 | importパス |
 |-----------|------|-------------|
-| `service/iaas` | IaaS向け高レベルAPI | `github.com/sacloud/iaas-service-go` |
-| `service/webaccel` | ウェブアクセラレータ高レベルAPI | `github.com/sacloud/webaccel-service-go` |
+| `service/iaas` | IaaS向け高レベルAPI | `github.com/sacloud/sacloud-sdk-go/service/iaas` |
+| `service/webaccel` | ウェブアクセラレータ高レベルAPI | `github.com/sacloud/sacloud-sdk-go/service/webaccel` |
 
 ### 内部パッケージ (`internal/`)
 
-SDKの内部で使用される共有パッケージです。
+SDKの内部で使用される共有パッケージです。Goの`internal`制約により、外部モジュールから直接importできません。
 
 | パッケージ | 説明 |
 |-----------|------|
@@ -66,56 +66,47 @@ SDKの内部で使用される共有パッケージです。
 
 SDK外からも利用可能な共有パッケージです。
 
-| パッケージ | 説明 |
-|-----------|------|
-| `common/packages` | 汎用パッケージ群 |
-| `common/saclient` | クライアント認証・設定の共通実装 |
+| パッケージ | 説明 | importパス |
+|-----------|------|-------------|
+| `common/packages` | 汎用パッケージ群 | `github.com/sacloud/sacloud-sdk-go/common/packages` |
+| `common/saclient` | クライアント認証・設定の共通実装 | `github.com/sacloud/sacloud-sdk-go/common/saclient` |
+
 
 ### SRNパッケージ (`srn/`)
 
 Sakura resource name(SRN)を扱うパッケージ。
 
-| パッケージ | 説明 |
-|-----------|------|
-| `srn` | SRN構造体と関連メソッドを提供 |
+| パッケージ | 説明 | importパス |
+|-----------|------|-------------|
+| `srn` | SRN 構造体と関連メソッドを提供 | `github.com/sacloud/sacloud-sdk-go/srn` |
 
-## ワークスペース構成
-
-このリポジトリはGoワークスペース(`go.work`)を使用して管理されています。
-
-```
-go.work
-├── api/               # APIクライアントライブラリ
-├── service/           # 高レベルサービスライブラリ
-├── internal/          # 内部共有パッケージ
-└── makefiles/         # 共有Makefile
-```
 
 ## インストール
 
-各パッケージは個別にインストールできます。
+このリポジトリは単一のGoモジュールです。
 
-### IaaS APIクライアントの場合
+### ルートモジュール
 
 ```bash
-go get github.com/sacloud/iaas-api-go
+go get github.com/sacloud/sacloud-sdk-go
 ```
 
-### ウェブアクセラレータ APIクライアントの場合
+### サブパッケージの例
 
 ```bash
-go get github.com/sacloud/webaccel-api-go
-```
+# IAM APIクライアントの場合
+go get github.com/sacloud/sacloud-sdk-go/api/iam
 
-### IAM APIクライアントの場合
+# IaaS APIクライアントの場合
+go get github.com/sacloud/sacloud-sdk-go/api/iaas
 
-```bash
-go get github.com/sacloud/iam-api-go
+# 高レベルサービスライブラリ
+go get github.com/sacloud/sacloud-sdk-go/service/iaas
 ```
 
 ## 使用方法
 
-基本的な使用方法は各パッケージのREADME.mdを参照してください。
+各パッケージの詳しい使い方は、それぞれのディレクトリにある README.mdを参照してください。
 
 ### 簡単な使用例 (IaaS)
 
@@ -126,8 +117,8 @@ import (
     "context"
     "log"
 
-    "github.com/sacloud/iaas-api-go"
-    "github.com/sacloud/saclient-go"
+    "github.com/sacloud/sacloud-sdk-go/api/iaas"
+    "github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 func main() {
@@ -150,7 +141,9 @@ func main() {
 
 ## 認証情報
 
-APIを利用するには、さくらのクラウドのアクセストークンが必要です。
+APIを利用するには、さくらのクラウドの認証情報が必要です。`common/saclient` が環境変数、プロファイル、コマンドラインフラグなどを統合的に読み込みます。
+
+主な方法は次の 2 つです。
 
 ### [usacloud](https://github.com/sacloud/usacloud)プロファイルの利用
 
@@ -171,6 +164,8 @@ export SAKURA_SERVICE_PRINCIPAL_ID=sub
 export SAKURA_SERVICE_PRINCIPAL_KEY_KID=kid
 export SAKURA_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----...
 ```
+
+その他の設定項目（リトライ、エンドポイント上書き、ゾーン指定など）については [common/saclient/README.md](common/saclient/README.md) を参照してください。
 
 ## 関連プロジェクト
 
@@ -199,6 +194,33 @@ cd api/iaas && make test
 cd api/webaccel && make test
 # ...
 ```
+
+### モノレポ全体のテスト
+
+ルートには横断的な Makefile はないため、以下のように各ディレクトリで順次実行してください。
+
+```bash
+for d in api/*/ service/*/ common/*/ internal/*/ srn; do
+    if [ -f "$d/Makefile" ]; then
+        make -C "$d" test
+    fi
+done
+```
+
+### 共通ターゲット
+
+各 Makefile で利用できる主なターゲットです。
+
+| ターゲット | 内容 |
+|-----------|------|
+| `make test` | ユニットテストを実行 |
+| `make testacc` | 受け入れテストを実行 |
+| `make build` | ビルド（single.mkをincludeしているパッケージ） |
+| `make fmt` | `gofmt` でフォーマット |
+| `make goimports` | `gosimports`でimport整理 |
+| `make lint` | Go / 文章のlint |
+| `make set-license` | ライセンスヘッダーを追加・更新 |
+| `make go-licenses-check` | 依存ライブラリのライセンスをチェック |
 
 ## ライセンス
 

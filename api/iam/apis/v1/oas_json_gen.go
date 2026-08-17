@@ -10486,10 +10486,8 @@ func (s *Rule) Encode(e *jx.Encoder) {
 // encodeFields encodes fields.
 func (s *Rule) encodeFields(e *jx.Encoder) {
 	{
-		if s.Code.Set {
-			e.FieldStart("code")
-			s.Code.Encode(e)
-		}
+		e.FieldStart("code")
+		e.Str(s.Code)
 	}
 	{
 		if s.Spec.Set {
@@ -10504,16 +10502,12 @@ func (s *Rule) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
-		if s.IsActive.Set {
-			e.FieldStart("is_active")
-			s.IsActive.Encode(e)
-		}
+		e.FieldStart("is_active")
+		e.Bool(s.IsActive)
 	}
 	{
-		if s.IsDryRun.Set {
-			e.FieldStart("is_dry_run")
-			s.IsDryRun.Encode(e)
-		}
+		e.FieldStart("is_dry_run")
+		e.Bool(s.IsDryRun)
 	}
 }
 
@@ -10530,13 +10524,16 @@ func (s *Rule) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode Rule to nil")
 	}
+	var requiredBitSet [1]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
 		case "code":
+			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				s.Code.Reset()
-				if err := s.Code.Decode(d); err != nil {
+				v, err := d.Str()
+				s.Code = string(v)
+				if err != nil {
 					return err
 				}
 				return nil
@@ -10564,9 +10561,11 @@ func (s *Rule) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"dry_run_spec\"")
 			}
 		case "is_active":
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				s.IsActive.Reset()
-				if err := s.IsActive.Decode(d); err != nil {
+				v, err := d.Bool()
+				s.IsActive = bool(v)
+				if err != nil {
 					return err
 				}
 				return nil
@@ -10574,9 +10573,11 @@ func (s *Rule) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"is_active\"")
 			}
 		case "is_dry_run":
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
-				s.IsDryRun.Reset()
-				if err := s.IsDryRun.Decode(d); err != nil {
+				v, err := d.Bool()
+				s.IsDryRun = bool(v)
+				if err != nil {
 					return err
 				}
 				return nil
@@ -10589,6 +10590,38 @@ func (s *Rule) Decode(d *jx.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode Rule")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00011001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfRule) {
+					name = jsonFieldsNameOfRule[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
 	}
 
 	return nil

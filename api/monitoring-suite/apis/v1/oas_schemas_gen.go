@@ -908,7 +908,8 @@ func (s *EnumMatcher) SetValue(val []ValueEnum) {
 // Ref: #/components/schemas/FieldMatcher
 // FieldMatcher represents sum type.
 type FieldMatcher struct {
-	Type                FieldMatcherType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                FieldMatcherType
 	OrMatcher           OrMatcher
 	AndMatcher          AndMatcher
 	StrMatcher          StrMatcher
@@ -1222,8 +1223,8 @@ type History struct {
 	EndsAt    OptNilDateTime `json:"endsAt"`
 	Open      bool           `json:"open"`
 	Labels    string         `json:"labels"`
-	// * `warning` - Warning
-	// * `critical` - Critical.
+	//  - `warning` - Warning
+	//  - `critical` - Critical
 	Severity  HistorySeverity `json:"severity"`
 	Query     OptString       `json:"query"`
 	Threshold OptString       `json:"threshold"`
@@ -1340,8 +1341,8 @@ func (s *History) SetValue(val OptFloat64) {
 	s.Value = val
 }
 
-// * `warning` - Warning
-// * `critical` - Critical.
+// - `warning` - Warning
+// - `critical` - Critical
 type HistorySeverity string
 
 const (
@@ -2090,8 +2091,8 @@ func (s *LogStorageClassification) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/LogStorageCreateRequest
 type LogStorageCreateRequest struct {
-	// * `shared` - 共用
-	// * `dedicated` - 専有.
+	//  - `shared` - 共用
+	//  - `dedicated` - 専有
 	Classification     OptLogStorageCreateRequestClassification `json:"classification"`
 	IsSystem           bool                                     `json:"is_system"`
 	Name               string                                   `json:"name"`
@@ -2160,8 +2161,8 @@ func (s *LogStorageCreateRequest) SetServicePrincipalID(val OptNilInt64) {
 	s.ServicePrincipalID = val
 }
 
-// * `shared` - 共用
-// * `dedicated` - 専有.
+// - `shared` - 共用
+// - `dedicated` - 専有
 type LogStorageCreateRequestClassification string
 
 const (
@@ -4213,8 +4214,8 @@ func (s *NotificationRoutingRequest) SetResendIntervalMinutes(val OptInt) {
 type NotificationTarget struct {
 	UID       uuid.UUID `json:"uid"`
 	ProjectID NilInt64  `json:"project_id"`
-	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
-	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+	//  - `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+	//  - `SAKURA_EVENT_BUS` - Sakura cloud event bus
 	ServiceType NotificationTargetServiceType `json:"service_type"`
 	URL         OptString                     `json:"url"`
 	Config      NotificationTargetConfig      `json:"config"`
@@ -4285,8 +4286,8 @@ type NotificationTargetConfig struct{}
 
 // Ref: #/components/schemas/NotificationTargetRequest
 type NotificationTargetRequest struct {
-	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
-	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+	//  - `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+	//  - `SAKURA_EVENT_BUS` - Sakura cloud event bus
 	ServiceType NotificationTargetRequestServiceType `json:"service_type"`
 	URL         OptString                            `json:"url"`
 	Description OptString                            `json:"description"`
@@ -4322,8 +4323,8 @@ func (s *NotificationTargetRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
-// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+// - `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+// - `SAKURA_EVENT_BUS` - Sakura cloud event bus
 type NotificationTargetRequestServiceType string
 
 const (
@@ -4365,8 +4366,8 @@ func (s *NotificationTargetRequestServiceType) UnmarshalText(data []byte) error 
 	}
 }
 
-// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
-// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+// - `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+// - `SAKURA_EVENT_BUS` - Sakura cloud event bus
 type NotificationTargetServiceType string
 
 const (
@@ -5862,6 +5863,11 @@ func (o *OptNilDateTime) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilDateTime) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilDateTime) Get() (v time.Time, ok bool) {
 	if o.Null {
@@ -5925,6 +5931,11 @@ func (o *OptNilInt64) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt64) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilInt64) Get() (v int64, ok bool) {
 	if o.Null {
@@ -5986,6 +5997,11 @@ func (o *OptNilString) SetToNull() {
 	o.Null = true
 	var v string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -8501,8 +8517,8 @@ func (s *PatchedNotificationRoutingRequest) SetResendIntervalMinutes(val OptInt)
 
 // Ref: #/components/schemas/PatchedNotificationTargetRequest
 type PatchedNotificationTargetRequest struct {
-	// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
-	// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+	//  - `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+	//  - `SAKURA_EVENT_BUS` - Sakura cloud event bus
 	ServiceType OptPatchedNotificationTargetRequestServiceType `json:"service_type"`
 	URL         OptString                                      `json:"url"`
 	Description OptString                                      `json:"description"`
@@ -8538,8 +8554,8 @@ func (s *PatchedNotificationTargetRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// * `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
-// * `SAKURA_EVENT_BUS` - Sakura cloud event bus.
+// - `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
+// - `SAKURA_EVENT_BUS` - Sakura cloud event bus
 type PatchedNotificationTargetRequestServiceType string
 
 const (
@@ -8786,11 +8802,11 @@ func (s *Publisher) SetVariants(val []PublisherVariant) {
 type PublisherVariant struct {
 	Name  string `json:"name"`
 	Label string `json:"label"`
-	// * `metrics` - metrics
-	// * `logs` - logs.
+	//  - `metrics` - metrics
+	//  - `logs` - logs
 	Storage PublisherVariantStorage `json:"storage"`
-	// * `disallow` - disallow
-	// * `required` - required.
+	//  - `disallow` - disallow
+	//  - `required` - required
 	System        PublisherVariantSystem `json:"system"`
 	MetricsPrefix OptNilString           `json:"metrics_prefix"`
 }
@@ -8845,8 +8861,8 @@ func (s *PublisherVariant) SetMetricsPrefix(val OptNilString) {
 	s.MetricsPrefix = val
 }
 
-// * `metrics` - metrics
-// * `logs` - logs.
+// - `metrics` - metrics
+// - `logs` - logs
 type PublisherVariantStorage string
 
 const (
@@ -8888,8 +8904,8 @@ func (s *PublisherVariantStorage) UnmarshalText(data []byte) error {
 	}
 }
 
-// * `disallow` - disallow
-// * `required` - required.
+// - `disallow` - disallow
+// - `required` - required
 type PublisherVariantSystem string
 
 const (
@@ -9599,8 +9615,8 @@ func (s *TraceStorageClassification) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/TraceStorageCreateRequest
 type TraceStorageCreateRequest struct {
-	// * `shared` - 共用
-	// * `dedicated` - 専有.
+	//  - `shared` - 共用
+	//  - `dedicated` - 専有
 	Classification     OptTraceStorageCreateRequestClassification `json:"classification"`
 	Name               string                                     `json:"name"`
 	Description        OptString                                  `json:"description"`
@@ -9658,8 +9674,8 @@ func (s *TraceStorageCreateRequest) SetServicePrincipalID(val OptNilInt64) {
 	s.ServicePrincipalID = val
 }
 
-// * `shared` - 共用
-// * `dedicated` - 専有.
+// - `shared` - 共用
+// - `dedicated` - 専有
 type TraceStorageCreateRequestClassification string
 
 const (

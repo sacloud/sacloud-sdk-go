@@ -312,7 +312,8 @@ func (s *CommonServiceItemServiceClass) UnmarshalText(data []byte) error {
 // Ref: #/components/schemas/CommonServiceItemSettings
 // CommonServiceItemSettings represents sum type.
 type CommonServiceItemSettings struct {
-	Type                CommonServiceItemSettingsType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type                CommonServiceItemSettingsType
 	DestinationSettings DestinationSettings
 	GroupSettings       GroupSettings
 	RoutingSettings     RoutingSettings
@@ -972,11 +973,11 @@ func (s *NotificationMessage) SetTitle(val string) {
 // Ref: #/components/schemas/NotificationStatus
 type NotificationStatus struct {
 	ID string `json:"id"`
-	// - 0: 未送信
-	// - 1: 送信中
-	// - 2: 送信済
-	// - 3: スキップ
-	// - 9: 送信失敗.
+	//  - 0: 未送信
+	//  - 1: 送信中
+	//  - 2: 送信済
+	//  - 3: スキップ
+	//  - 9: 送信失敗
 	Status                NotificationStatusStatus `json:"status"`
 	ErrorInfo             string                   `json:"error_info"`
 	NotificationRequestID string                   `json:"notification_request_id"`
@@ -1070,7 +1071,7 @@ func (s *NotificationStatus) SetUpdatedAt(val time.Time) {
 // - 1: 送信中
 // - 2: 送信済
 // - 3: スキップ
-// - 9: 送信失敗.
+// - 9: 送信失敗
 type NotificationStatusStatus int
 
 const (

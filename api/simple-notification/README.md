@@ -1,7 +1,4 @@
-# sacloud/simple-notification-api-go
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/simple-notification-api-go.svg)](https://pkg.go.dev/github.com/sacloud/simple-notification-api-go)
-[![Tests](https://github.com/sacloud/simple-notification-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/simple-notification-api-go/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/simple-notification-api-go)](https://goreportcard.com/report/github.com/sacloud/simple-notification-api-go)
+# sacloud-sdk-go/api/simple-notification
 
 さくらのクラウド シンプル通知 Go言語向け APIライブラリ
 
@@ -9,7 +6,7 @@
 
 
 ## 概要
-sacloud/simple-notification-api-goはさくらのクラウド シンプル通知 APIをGo言語から利用するためのAPIライブラリです。
+sacloud-sdk-go/api/simple-notificationはさくらのクラウド シンプル通知 APIをGo言語から利用するためのAPIライブラリです。
 
 ## 利用イメージ
 
@@ -19,9 +16,9 @@ import (
 	"context"
 	"os"
 
-	"github.com/sacloud/saclient-go"
-	simplenotification "github.com/sacloud/simple-notification-api-go"
-	v1 "github.com/sacloud/simple-notification-api-go/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	simplenotification "github.com/sacloud/sacloud-sdk-go/api/simple-notification"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/simple-notification/apis/v1"
 )
 
 func main() {
@@ -95,9 +92,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/sacloud/saclient-go"
-	simplenotification "github.com/sacloud/simple-notification-api-go"
-	v1 "github.com/sacloud/simple-notification-api-go/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	simplenotification "github.com/sacloud/sacloud-sdk-go/api/simple-notification"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/simple-notification/apis/v1"
 )
 
 func main() {
@@ -126,10 +123,11 @@ func main() {
 	fmt.Println("Message sent successfully", resp)
 }
 ```
-⚠️ v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
+> [!WARNING]
+> v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
 
 ## License
 
-`simple-notification-api-go` Copyright (C) 2026- The sacloud/simple-notification-api-go authors.
+Copyright (C) 2026- The sacloud/sacloud-sdk-go Authors.
 This project is published under [Apache 2.0 License](LICENSE).

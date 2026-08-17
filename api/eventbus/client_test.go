@@ -28,12 +28,14 @@
 package eventbus_test
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"sync"
 	"testing"
 
 	. "github.com/sacloud/sacloud-sdk-go/api/eventbus"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/eventbus/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 	"github.com/stretchr/testify/require"
 )
@@ -62,10 +64,60 @@ func TestNewClient_WithCustomEndpoint(t *testing.T) {
 	assert.NotNil(client)
 
 	op := NewProcessConfigurationOp(client)
-	_, _ = op.List(t.Context())
+	_, err = op.List(t.Context())
+	assert.NoError(err)
 
 	requests := tracker.Requests()
 	assert.Len(requests, 1)
+}
+
+func TestNewClient_InjectFilterQuery(t *testing.T) {
+	assert := require.New(t)
+
+	tracker := newMockRequestTracker()
+	defer tracker.Close()
+
+	var theClient saclient.Client
+	err := theClient.SetEnviron([]string{"SAKURA_ENDPOINTS_EVENTBUS=" + tracker.URL()})
+	assert.NoError(err)
+
+	client, err := NewClient(&theClient)
+	assert.NoError(err)
+	assert.NotNil(client)
+
+	cases := []struct {
+		name     string
+		list     func(context.Context) ([]v1.CommonServiceItem, error)
+		expected string
+	}{
+		{
+			name:     "ProcessConfiguration",
+			list:     NewProcessConfigurationOp(client).List,
+			expected: `{"Filter":{"Provider.Class":"eventbusprocessconfiguration"}}`,
+		},
+		{
+			name:     "Schedule",
+			list:     NewScheduleOp(client).List,
+			expected: `{"Filter":{"Provider.Class":"eventbusschedule"}}`,
+		},
+		{
+			name:     "Trigger",
+			list:     NewTriggerOp(client).List,
+			expected: `{"Filter":{"Provider.Class":"eventbustrigger"}}`,
+		},
+	}
+
+	for _, tt := range cases {
+		t.Run(tt.name, func(t *testing.T) {
+			tracker.Reset()
+			_, err := tt.list(t.Context())
+			assert.NoError(err)
+
+			requests := tracker.Requests()
+			assert.Len(requests, 1)
+			assert.Equal(tt.expected, requests[0].URL.RawQuery)
+		})
+	}
 }
 
 type mockRequestTracker struct {
@@ -79,6 +131,13 @@ func (m *mockRequestTracker) handler() http.HandlerFunc {
 		m.mu.Lock()
 		m.requests = append(m.requests, r)
 		m.mu.Unlock()
+
+		if r.Method == http.MethodGet && r.URL.Path == "/commonserviceitem" {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			_, _ = w.Write([]byte(`{"CommonServiceItems":[]}`))
+			return
+		}
 
 		w.WriteHeader(http.StatusNoContent)
 	}
@@ -98,6 +157,12 @@ func (m *mockRequestTracker) Close() {
 
 func (m *mockRequestTracker) URL() string {
 	return m.server.URL
+}
+
+func (m *mockRequestTracker) Reset() {
+	m.mu.Lock()
+	defer m.mu.Unlock()
+	m.requests = m.requests[:0]
 }
 
 func (m *mockRequestTracker) Requests() []*http.Request {

@@ -13,13 +13,153 @@ import (
 type SecuritySource interface {
 	// ProjectApiKeyAuth provides ProjectApiKeyAuth security value.
 	// APIキー認証
-	// - ユーザー名に発行したAPIキーのアクセストークンを指定
-	// - パスワードに発行したAPIキーのアクセストークンシークレットを指定.
+	//
+	//  - ユーザー名に発行したAPIキーのアクセストークンを指定
+	//  - パスワードに発行したAPIキーのアクセストークンシークレットを指定
 	ProjectApiKeyAuth(ctx context.Context, operationName OperationName) (ProjectApiKeyAuth, error)
 	// ServicePrincipalAuth provides ServicePrincipalAuth security value.
 	// サービスプリンシパル認証
-	// - サービスプリンシパルのアクセストークンを指定.
+	//
+	//  - サービスプリンシパルのアクセストークンを指定
 	ServicePrincipalAuth(ctx context.Context, operationName OperationName) (ServicePrincipalAuth, error)
+}
+
+// operationRolesProjectApiKeyAuth is a private map storing roles per operation.
+var operationRolesProjectApiKeyAuth = map[string][]string{
+	GetAuthContextOperation: []string{},
+}
+
+// GetRolesForProjectApiKeyAuth returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForProjectApiKeyAuth(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForProjectApiKeyAuth(operation string) []string {
+	roles, ok := operationRolesProjectApiKeyAuth[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
+}
+
+// operationRolesServicePrincipalAuth is a private map storing roles per operation.
+var operationRolesServicePrincipalAuth = map[string][]string{
+	CompatAPIKeysApikeyIDDeleteOperation:                                             []string{},
+	CompatAPIKeysApikeyIDGetOperation:                                                []string{},
+	CompatAPIKeysApikeyIDPutOperation:                                                []string{},
+	CompatAPIKeysGetOperation:                                                        []string{},
+	CompatAPIKeysPostOperation:                                                       []string{},
+	CompatUsersGetOperation:                                                          []string{},
+	CompatUsersPostOperation:                                                         []string{},
+	CompatUsersUserIDClearTrustedDevicesPostOperation:                                []string{},
+	CompatUsersUserIDDeactivateOtpPostOperation:                                      []string{},
+	CompatUsersUserIDDeleteOperation:                                                 []string{},
+	CompatUsersUserIDGetOperation:                                                    []string{},
+	CompatUsersUserIDPutOperation:                                                    []string{},
+	CompatUsersUserIDRegisterEmailPostOperation:                                      []string{},
+	CompatUsersUserIDSecurityKeysGetOperation:                                        []string{},
+	CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteOperation:                        []string{},
+	CompatUsersUserIDSecurityKeysSecurityKeyIDGetOperation:                           []string{},
+	CompatUsersUserIDSecurityKeysSecurityKeyIDPutOperation:                           []string{},
+	CompatUsersUserIDTrustedDevicesGetOperation:                                      []string{},
+	CompatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteOperation:                    []string{},
+	CompatUsersUserIDUnregisterEmailPostOperation:                                    []string{},
+	DisableServicePolicyPostOperation:                                                []string{},
+	EnableServicePolicyPostOperation:                                                 []string{},
+	FoldersFolderIDDeleteOperation:                                                   []string{},
+	FoldersFolderIDGetOperation:                                                      []string{},
+	FoldersFolderIDIamPolicyGetOperation:                                             []string{},
+	FoldersFolderIDIamPolicyPutOperation:                                             []string{},
+	FoldersFolderIDPutOperation:                                                      []string{},
+	FoldersGetOperation:                                                              []string{},
+	FoldersPostOperation:                                                             []string{},
+	GetAuthContextOperation:                                                          []string{},
+	GroupsGetOperation:                                                               []string{},
+	GroupsGroupIDDeleteOperation:                                                     []string{},
+	GroupsGroupIDGetOperation:                                                        []string{},
+	GroupsGroupIDMembershipsGetOperation:                                             []string{},
+	GroupsGroupIDMembershipsPutOperation:                                             []string{},
+	GroupsGroupIDPutOperation:                                                        []string{},
+	GroupsPostOperation:                                                              []string{},
+	IDRolesGetOperation:                                                              []string{},
+	IDRolesIDRoleIDGetOperation:                                                      []string{},
+	IamRolesGetOperation:                                                             []string{},
+	IamRolesIamRoleIDGetOperation:                                                    []string{},
+	MoveFoldersPostOperation:                                                         []string{},
+	MoveProjectsPostOperation:                                                        []string{},
+	OrganizationAuthConditionsGetOperation:                                           []string{},
+	OrganizationAuthConditionsPutOperation:                                           []string{},
+	OrganizationGetOperation:                                                         []string{},
+	OrganizationIDPolicyGetOperation:                                                 []string{},
+	OrganizationIDPolicyPutOperation:                                                 []string{},
+	OrganizationIamPolicyGetOperation:                                                []string{},
+	OrganizationIamPolicyPutOperation:                                                []string{},
+	OrganizationPasswordPolicyGetOperation:                                           []string{},
+	OrganizationPasswordPolicyPutOperation:                                           []string{},
+	OrganizationPutOperation:                                                         []string{},
+	OrganizationServicePolicyGetOperation:                                            []string{},
+	OrganizationServicePolicyPutOperation:                                            []string{},
+	ProjectsGetOperation:                                                             []string{},
+	ProjectsPostOperation:                                                            []string{},
+	ProjectsProjectIDDeleteOperation:                                                 []string{},
+	ProjectsProjectIDGetOperation:                                                    []string{},
+	ProjectsProjectIDIamPolicyGetOperation:                                           []string{},
+	ProjectsProjectIDIamPolicyPutOperation:                                           []string{},
+	ProjectsProjectIDPutOperation:                                                    []string{},
+	SSOProfilesGetOperation:                                                          []string{},
+	SSOProfilesPostOperation:                                                         []string{},
+	SSOProfilesSSOProfileIDAssignPostOperation:                                       []string{},
+	SSOProfilesSSOProfileIDDeleteOperation:                                           []string{},
+	SSOProfilesSSOProfileIDGetOperation:                                              []string{},
+	SSOProfilesSSOProfileIDPutOperation:                                              []string{},
+	SSOProfilesSSOProfileIDUnassignPostOperation:                                     []string{},
+	ScimConfigurationsGetOperation:                                                   []string{},
+	ScimConfigurationsIDDeleteOperation:                                              []string{},
+	ScimConfigurationsIDGetOperation:                                                 []string{},
+	ScimConfigurationsIDPutOperation:                                                 []string{},
+	ScimConfigurationsIDRegenerateTokenPostOperation:                                 []string{},
+	ScimConfigurationsPostOperation:                                                  []string{},
+	ServicePolicyRuleTemplatesGetOperation:                                           []string{},
+	ServicePolicyStatusGetOperation:                                                  []string{},
+	ServicePrincipalsGetOperation:                                                    []string{},
+	ServicePrincipalsPostOperation:                                                   []string{},
+	ServicePrincipalsServicePrincipalIDDeleteOperation:                               []string{},
+	ServicePrincipalsServicePrincipalIDGetOperation:                                  []string{},
+	ServicePrincipalsServicePrincipalIDKeysGetOperation:                              []string{},
+	ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteOperation:      []string{},
+	ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostOperation: []string{},
+	ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostOperation:  []string{},
+	ServicePrincipalsServicePrincipalIDPutOperation:                                  []string{},
+	ServicePrincipalsServicePrincipalIDUploadKeyPostOperation:                        []string{},
+}
+
+// GetRolesForServicePrincipalAuth returns the required roles for the given operation.
+//
+// This is useful for authorization scenarios where you need to know which roles
+// are required for an operation.
+//
+// Example:
+//
+//	requiredRoles := GetRolesForServicePrincipalAuth(AddPetOperation)
+//
+// Returns nil if the operation has no role requirements or if the operation is unknown.
+func GetRolesForServicePrincipalAuth(operation string) []string {
+	roles, ok := operationRolesServicePrincipalAuth[operation]
+	if !ok {
+		return nil
+	}
+	// Return a copy to prevent external modification
+	result := make([]string, len(roles))
+	copy(result, roles)
+	return result
 }
 
 func (s *Client) securityProjectApiKeyAuth(ctx context.Context, operationName OperationName, req *http.Request) error {

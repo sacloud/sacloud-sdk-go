@@ -4,6 +4,7 @@ package v1
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
@@ -41,8 +42,7 @@ type Invoker interface {
 	GetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (GetCommonServiceItemRes, error)
 	// GetCommonServiceItems invokes getCommonServiceItems operation.
 	//
-	// Provider.
-	// Classでeventbusschedule、eventbustriggerまたはeventbusprocessconfigurationを指定してフィルタ可能。
+	// Provider.Classでeventbusschedule、eventbustriggerまたはeventbusprocessconfigurationを指定してフィルタ可能。
 	// クエリパラメータに下記のようにフィルタを設定することでスケジュール、トリガーまたは実行設定のリソースのみを取得できます
 	// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbusschedule"}}`
 	// `/commonserviceitem?{"Filter":{"Provider.Class":"eventbustrigger"}}`
@@ -176,7 +176,14 @@ func (c *Client) sendCreateCommonServiceItem(ctx context.Context, request *Creat
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateCommonServiceItemResponse(resp)
 	if err != nil {
@@ -263,7 +270,14 @@ func (c *Client) sendDeleteCommonServiceItem(ctx context.Context, params DeleteC
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteCommonServiceItemResponse(resp)
 	if err != nil {
@@ -350,7 +364,14 @@ func (c *Client) sendGetCommonServiceItem(ctx context.Context, params GetCommonS
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetCommonServiceItemResponse(resp)
 	if err != nil {
@@ -362,8 +383,7 @@ func (c *Client) sendGetCommonServiceItem(ctx context.Context, params GetCommonS
 
 // GetCommonServiceItems invokes getCommonServiceItems operation.
 //
-// Provider.
-// Classでeventbusschedule、eventbustriggerまたはeventbusprocessconfigurationを指定してフィルタ可能。
+// Provider.Classでeventbusschedule、eventbustriggerまたはeventbusprocessconfigurationを指定してフィルタ可能。
 // クエリパラメータに下記のようにフィルタを設定することでスケジュール、トリガーまたは実行設定のリソースのみを取得できます
 // `/commonserviceitem?{"Filter":{"Provider.Class":"eventbusschedule"}}`
 // `/commonserviceitem?{"Filter":{"Provider.Class":"eventbustrigger"}}`
@@ -424,7 +444,14 @@ func (c *Client) sendGetCommonServiceItems(ctx context.Context) (res GetCommonSe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeGetCommonServiceItemsResponse(resp)
 	if err != nil {
@@ -515,7 +542,14 @@ func (c *Client) sendSetProcessConfigurationSecret(ctx context.Context, request 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeSetProcessConfigurationSecretResponse(resp)
 	if err != nil {
@@ -614,7 +648,14 @@ func (c *Client) sendUpdateCommonServiceItem(ctx context.Context, request *Updat
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeUpdateCommonServiceItemResponse(resp)
 	if err != nil {

@@ -1,4 +1,4 @@
-# sacloud/security-control-api-go
+# sacloud-sdk-go/api/security-control
 
 Go言語向けのさくらのクラウド セキュリティコントロール APIライブラリ
 
@@ -8,7 +8,7 @@ APIドキュメント/OpenAPIは未公開なため、公開され次第更新。
 
 ## 概要
 
-sacloud/security-control-api-goはさくらのクラウド セキュリティコントロール APIをGo言語から利用するためのAPIライブラリです。
+sacloud-sdk-go/api/security-controlはさくらのクラウド セキュリティコントロール APIをGo言語から利用するためのAPIライブラリです。
 
 ```
 package main
@@ -17,9 +17,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/sacloud/saclient-go"
-	securitycontrol "github.com/sacloud/security-control-api-go"
-	v1 "github.com/sacloud/security-control-api-go/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	securitycontrol "github.com/sacloud/sacloud-sdk-go/api/security-control"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/security-control/apis/v1"
 )
 
 func runEvalRules() {
@@ -27,10 +27,10 @@ func runEvalRules() {
 	client, err := securitycontrol.NewClient(&theClient)
 	if err != nil {
 		panic(err)
-    }
-    ctx := context.Background()
+	}
+	ctx := context.Background()
 
-    // Evaluation Rules APIs
+	// Evaluation Rules APIs
 	erOp := securitycontrol.NewEvaluationRulesOp(client)
 	erInput := securitycontrol.SetupEvaluationRuleInput(&securitycontrol.EvaluationRuleInputParams{
 		ID:                 "server-no-public-ip",
@@ -38,12 +38,12 @@ func runEvalRules() {
 		Targets:            []string{"is1b", "tk1b"},
 		Enabled:            true,
 	})
-    updated, err := erOp.Update(ctx, "server-no-public-ip", erInput)
-    // Read/List
+	updated, err := erOp.Update(ctx, "server-no-public-ip", erInput)
+	// Read/List
 
-    // Automated Actions API
-    aaOp := securitycontrol.NewAutomatedActionsOp(client)
-    created, err := aaOp.Create(ctx, &v1.AutomatedActionInput{
+	// Automated Actions API
+	aaOp := securitycontrol.NewAutomatedActionsOp(client)
+	created, err := aaOp.Create(ctx, &v1.AutomatedActionInput{
 		Name:        "example-action",
 		Description: v1.NewOptString("example automated action"),
 		IsEnabled:   true,
@@ -61,17 +61,19 @@ func runEvalRules() {
 		},
 		ExecutionCondition: `event.evaluationResult.status == "REJECTED"`,
 	})
-    // List/Read/Update/Delete
+	// List/Read/Update/Delete
 ```
 
 [evaluation_rules_test.go](./evaluation_rules_test.go) / [automated_actions_test.go](./automated_actions_test.go) 等も参照。
 
 TODO: Automated Actions向けの設定ヘルパーを用意
 
-:warning:  v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
+> [!WARNING]
+> v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
 ## License
 
-`security-control-api-go` Copyright (C) 2026- The sacloud/security-control-api-go authors.
+Copyright (C) 2026- The sacloud/sacloud-sdk-go Authors.
+
 This project is published under [Apache 2.0 License](LICENSE).
 

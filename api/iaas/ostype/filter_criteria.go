@@ -70,6 +70,10 @@ var ArchiveCriteria = map[ArchiveOSType]search.Filter{
 		search.Key(keys.Tags):  search.TagsAndEqual("current-stable", "distro-ubuntu"),
 		search.Key(keys.Scope): search.ExactMatch(types.Scopes.Shared.String()),
 	},
+	Ubuntu2604: {
+		search.Key(keys.Tags):  search.TagsAndEqual("ubuntu-26.04-latest"),
+		search.Key(keys.Scope): search.ExactMatch(types.Scopes.Shared.String()),
+	},
 	Ubuntu2404: {
 		search.Key(keys.Tags):  search.TagsAndEqual("ubuntu-24.04-latest"),
 		search.Key(keys.Scope): search.ExactMatch(types.Scopes.Shared.String()),

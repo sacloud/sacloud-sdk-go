@@ -4,11 +4,11 @@ package v1
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -225,7 +225,14 @@ func (c *Client) sendCloudhsmCloudhsmsClientsCreate(ctx context.Context, request
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsClientsCreateResponse(resp)
 	if err != nil {
@@ -329,7 +336,14 @@ func (c *Client) sendCloudhsmCloudhsmsClientsDestroy(ctx context.Context, params
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsClientsDestroyResponse(resp)
 	if err != nil {
@@ -415,7 +429,14 @@ func (c *Client) sendCloudhsmCloudhsmsClientsList(ctx context.Context, params Cl
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsClientsListResponse(resp)
 	if err != nil {
@@ -519,7 +540,14 @@ func (c *Client) sendCloudhsmCloudhsmsClientsRetrieve(ctx context.Context, param
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsClientsRetrieveResponse(resp)
 	if err != nil {
@@ -635,7 +663,14 @@ func (c *Client) sendCloudhsmCloudhsmsClientsUpdate(ctx context.Context, request
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsClientsUpdateResponse(resp)
 	if err != nil {
@@ -714,7 +749,14 @@ func (c *Client) sendCloudhsmCloudhsmsCreate(ctx context.Context, request *Wrapp
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsCreateResponse(resp)
 	if err != nil {
@@ -799,7 +841,14 @@ func (c *Client) sendCloudhsmCloudhsmsDestroy(ctx context.Context, params Cloudh
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsDestroyResponse(resp)
 	if err != nil {
@@ -866,7 +915,14 @@ func (c *Client) sendCloudhsmCloudhsmsList(ctx context.Context) (res *PaginatedC
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsListResponse(resp)
 	if err != nil {
@@ -955,7 +1011,14 @@ func (c *Client) sendCloudhsmCloudhsmsPeersCreate(ctx context.Context, request *
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsPeersCreateResponse(resp)
 	if err != nil {
@@ -1059,7 +1122,14 @@ func (c *Client) sendCloudhsmCloudhsmsPeersDestroy(ctx context.Context, params C
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsPeersDestroyResponse(resp)
 	if err != nil {
@@ -1145,7 +1215,14 @@ func (c *Client) sendCloudhsmCloudhsmsPeersRetrieve(ctx context.Context, params 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsPeersRetrieveResponse(resp)
 	if err != nil {
@@ -1230,7 +1307,14 @@ func (c *Client) sendCloudhsmCloudhsmsRetrieve(ctx context.Context, params Cloud
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsRetrieveResponse(resp)
 	if err != nil {
@@ -1327,7 +1411,14 @@ func (c *Client) sendCloudhsmCloudhsmsUpdate(ctx context.Context, request *Wrapp
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmCloudhsmsUpdateResponse(resp)
 	if err != nil {
@@ -1406,7 +1497,14 @@ func (c *Client) sendCloudhsmLicensesCreate(ctx context.Context, request *Wrappe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmLicensesCreateResponse(resp)
 	if err != nil {
@@ -1491,7 +1589,14 @@ func (c *Client) sendCloudhsmLicensesDestroy(ctx context.Context, params Cloudhs
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmLicensesDestroyResponse(resp)
 	if err != nil {
@@ -1558,7 +1663,14 @@ func (c *Client) sendCloudhsmLicensesList(ctx context.Context) (res *PaginatedCl
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmLicensesListResponse(resp)
 	if err != nil {
@@ -1643,7 +1755,14 @@ func (c *Client) sendCloudhsmLicensesRetrieve(ctx context.Context, params Cloudh
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmLicensesRetrieveResponse(resp)
 	if err != nil {
@@ -1740,7 +1859,14 @@ func (c *Client) sendCloudhsmLicensesUpdate(ctx context.Context, request *Wrappe
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCloudhsmLicensesUpdateResponse(resp)
 	if err != nil {

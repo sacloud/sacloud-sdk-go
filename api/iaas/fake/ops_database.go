@@ -311,7 +311,7 @@ func (o *DatabaseOp) GetParameter(ctx context.Context, zone string, id types.ID)
 	}
 
 	meta := fakeDatabaseParameterMetaForMariaDB
-	if v.Conf.DatabaseName == "postgres" {
+	if v.Conf != nil && v.Conf.DatabaseName == "postgres" {
 		meta = fakeDatabaseParameterMetaForPostgreSQL
 	}
 	return &iaas.DatabaseParameter{

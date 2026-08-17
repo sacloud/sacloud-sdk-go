@@ -6,9 +6,10 @@ import (
 	"github.com/go-faster/errors"
 )
 
-// * `precreate` - 準備中
-// * `available` - 利用可能
-// * `discontinued` - 廃止.
+//   - `precreate` - 準備中
+//   - `available` - 利用可能
+//   - `discontinued` - 廃止
+//
 // Ref: #/components/schemas/AvailabilityEnum
 type AvailabilityEnum string
 
@@ -525,7 +526,8 @@ func (s *CloudHSMSoftwareLicense) SetTags(val []string) {
 	s.Tags = val
 }
 
-// * `cloud/cloudhsm/license/l7` - for Type-L7 Client.
+//   - `cloud/cloudhsm/license/l7` - for Type-L7 Client
+//
 // Ref: #/components/schemas/CloudHSMSoftwareLicenseServiceClassEnum
 type CloudHSMSoftwareLicenseServiceClassEnum string
 
@@ -1299,7 +1301,8 @@ func (s *PaginatedCloudHSMSoftwareLicenseList) SetLicenses(val []CloudHSMSoftwar
 	s.Licenses = val
 }
 
-// * `cloud/cloudhsm/partition` - Type-L7.
+//   - `cloud/cloudhsm/partition` - Type-L7
+//
 // Ref: #/components/schemas/ServiceClassEnum
 type ServiceClassEnum string
 

@@ -29,8 +29,9 @@ type CompatAPIKeysGetParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 	// 並び替えキー
-	// * `name` - APIキー名昇順
-	// * `-name` - APIキー名降順.
+	//
+	//  - `name` - APIキー名昇順
+	//  - `-name` - APIキー名降順
 	Ordering OptCompatAPIKeysGetOrdering `json:",omitempty,omitzero"`
 }
 
@@ -39,8 +40,9 @@ type CompatUsersGetParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 	// 並び替えキー
-	// * `code` - ユーザコード昇順
-	// * `-code` - ユーザコード降順.
+	//
+	//  - `code` - ユーザコード昇順
+	//  - `-code` - ユーザコード降順
 	Ordering OptCompatUsersGetOrdering `json:",omitempty,omitzero"`
 }
 
@@ -175,8 +177,9 @@ type GroupsGetParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 	// 並び替えキー
-	// * `name` - グループ名昇順
-	// * `-name` - グループ名降順.
+	//
+	//  - `name` - グループ名昇順
+	//  - `-name` - グループ名降順
 	Ordering OptGroupsGetOrdering `json:",omitempty,omitzero"`
 	// 所属するユーザIDでの絞り込み.
 	CompatUserID OptInt `json:",omitempty,omitzero"`
@@ -255,8 +258,9 @@ type ProjectsGetParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 	// 並び替えキー
-	// * `code` - プロジェクトコード昇順
-	// * `-code` - プロジェクトコード降順.
+	//
+	//  - `code` - プロジェクトコード昇順
+	//  - `-code` - プロジェクトコード降順
 	Ordering OptProjectsGetOrdering `json:",omitempty,omitzero"`
 	// IAMロールでの絞り込み。カンマ区切りで複数指定可能.
 	IamRole OptString `json:",omitempty,omitzero"`
@@ -379,8 +383,9 @@ type ServicePrincipalsGetParams struct {
 	// プロジェクトID.
 	ProjectID OptInt `json:",omitempty,omitzero"`
 	// 並び替えキー
-	// * `name` - サービスプリンシパル名昇順
-	// * `-name` - サービスプリンシパル名降順.
+	//
+	//  - `name` - サービスプリンシパル名昇順
+	//  - `-name` - サービスプリンシパル名降順
 	Ordering OptServicePrincipalsGetOrdering `json:",omitempty,omitzero"`
 }
 
@@ -403,10 +408,11 @@ type ServicePrincipalsServicePrincipalIDKeysGetParams struct {
 	Page               OptInt `json:",omitempty,omitzero"`
 	PerPage            OptInt `json:",omitempty,omitzero"`
 	// 並び替えキー
-	// * `created_at` - 作成日時昇順
-	// * `-created_at` - 作成日時降順
-	// * `key_expires_at` - 有効期限昇順
-	// * `-key_expires_at` - 有効期限降順.
+	//
+	//  - `created_at` - 作成日時昇順
+	//  - `-created_at` - 作成日時降順
+	//  - `key_expires_at` - 有効期限昇順
+	//  - `-key_expires_at` - 有効期限降順
 	Ordering OptServicePrincipalsServicePrincipalIDKeysGetOrdering `json:",omitempty,omitzero"`
 }
 
