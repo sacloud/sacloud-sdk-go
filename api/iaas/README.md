@@ -6,7 +6,7 @@ Go言語向けのさくらのクラウドIaaS APIライブラリ
 
 sacloud-sdk-go/api/iaasは[sacloud/libsacloud v2](https://github.com/sacloud/libsacloud)の後継プロジェクトで、さくらのクラウド APIのうちのIaaS部分を担当します。
 
-概要/設計/実装方針: [docs/design/overview.md](api/iaas/docs/design/overview.md)
+概要/設計/実装方針: [docs/design/overview.md](docs/design/overview.md)
 
 ### libsacloudとiaas-api-goのバージョン対応表
 

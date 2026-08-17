@@ -7,4 +7,4 @@
 
 Copyright (C) 2022-2025 The sacloud/sacloud-sdk-go Authors.
 
-This project is published under [Apache 2.0 License](LICENSE.txt).
+This project is published under [Apache 2.0 License](LICENSE).

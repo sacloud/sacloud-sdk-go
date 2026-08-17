@@ -68,7 +68,7 @@ SDK外からも利用可能な共有パッケージです。
 
 | パッケージ | 説明 | importパス |
 |-----------|------|-------------|
-| `common/packages` | 汎用パッケージ群 | `github.com/sacloud/sacloud-sdk-go/common/packages/...` |
+| `common/packages` | 汎用パッケージ群 | `github.com/sacloud/sacloud-sdk-go/common/packages` |
 | `common/saclient` | クライアント認証・設定の共通実装 | `github.com/sacloud/sacloud-sdk-go/common/saclient` |
 
 

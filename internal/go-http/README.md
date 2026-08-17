@@ -8,7 +8,7 @@
 
 ### 関連プロジェクト
 
-- [sacloud-sdk-go/internal/api-client](internal/api-client): sacloudプロダクト向けHTTP/APIクライアントライブラリ
+- [sacloud-sdk-go/internal/api-client](../api-client): sacloudプロダクト向けHTTP/APIクライアントライブラリ
   sacloud-sdk-go/internal/go-httpをラップし環境変数やUsacloud互換のプロファイルの処理などを提供する。
 
 
