@@ -1,4 +1,4 @@
-# sacloud/saclient-go
+# sacloud-sdk-go/common/saclient
 
 Golang binding of Sakura Cloud API client.
 
@@ -14,7 +14,7 @@ Golang binding of Sakura Cloud API client.
 The library provides `Client` struct as its sole public API.  All operations are against it.  You have to first allocate it:
 
 ```golang
-import "github.com/sacloud/saclient-go"
+import "github.com/sacloud/sacloud-sdk-go/common/saclient"
 
 var theClient saclient.Client
 ```
@@ -53,8 +53,8 @@ After these set up you can use the client like other HTTP clients, by using its 
 
 ```golang
 import (
+	"net/http"
 	"strings"
-	"http"
 )
 
 func yourLogic() error {
@@ -67,7 +67,7 @@ func yourLogic() error {
 	}`)
 
 	// Create a request
-	req, err := http.NewRequest("POST", api, io);
+	req, err := http.NewRequest("POST", api, io)
 	if err != nil {
 		return err
 	}

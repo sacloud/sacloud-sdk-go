@@ -1,19 +1,15 @@
-# iaas-service-go
+# sacloud-sdk-go/service/iaas
 
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/iaas-service-go.svg)](https://pkg.go.dev/github.com/sacloud/iaas-service-go)
-[![Tests](https://github.com/sacloud/iaas-service-go/workflows/Tests/badge.svg)](https://github.com/sacloud/iaas-service-go/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/iaas-service-go)](https://goreportcard.com/report/github.com/sacloud/iaas-service-go)
-
-さくらのクラウド高レベルAPIライブラリ  
+さくらのクラウド高レベルAPIライブラリ
 
 ## 概要
 
-iaas-service-goは[sacloud/libsacloud v2](https://github.com/sacloud/libsacloud)の後継プロジェクトで、さくらのクラウド APIのうちのIaaS部分を担当します。  
-[sacloud/iaas-api-go](https://github.com/sacloud/iaas-api-go)を用いた高レベルAPIを提供します。  
+sacloud-sdk-go/service/iaasは[sacloud/libsacloud v2](https://github.com/sacloud/libsacloud)の後継プロジェクトで、さくらのクラウド APIのうちのIaaS部分を担当します。
+[sacloud-sdk-go/api/iaas](../../api/iaas)を用いた高レベルAPIを提供します。
 
-概要/設計/実装方針: [docs/overview.md](https://github.com/sacloud/iaas-service-go/blob/main/docs/design/overview.md)
+概要/設計/実装方針: [docs/design/overview.md](docs/design/overview.md)
 
-### libsacloudとiaas-service-goのバージョン対応表
+### libsacloudとsacloud-sdk-go/service/iaasのバージョン対応表
 
 | libsacloud | iaas-api-go | Note/Status                       |
 |------------|-------------|-----------------------------------|
@@ -23,6 +19,5 @@ iaas-service-goは[sacloud/libsacloud v2](https://github.com/sacloud/libsacloud)
 
 ## License
 
-`sacloud/iaas-service-go` Copyright (C) 2022-2025 [The sacloud/iaas-service-go Authors](AUTHORS).
-
+Copyright (C) 2022-2025 The sacloud/sacloud-sdk-go Authors.
 This project is published under [Apache 2.0 License](LICENSE.txt).

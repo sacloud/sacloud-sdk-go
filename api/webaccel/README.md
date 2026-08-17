@@ -1,16 +1,12 @@
-# webaccel-api-go
-
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/webaccel-api-go.svg)](https://pkg.go.dev/github.com/sacloud/webaccel-api-go)
-[![Tests](https://github.com/sacloud/webaccel-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/webaccel-api-go/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/webaccel-api-go)](https://goreportcard.com/report/github.com/sacloud/webaccel-api-go)
+# sacloud-sdk-go/api/webaccel
 
 [ウェブアクセラレータ](https://www.sakura.ad.jp/services/cdn/) の [API](https://manual.sakura.ad.jp/cloud/webaccel/api.html) をGo言語から扱うためのライブラリ
 
 ## Overview
 
-従来はiaas-api-go(libsacloud v2)で提供していたAPIライブラリを独立したリポジトリとして切り出したものです。  
+sacloud-sdk-go/api/webaccelはさくらのクラウド ウェブアクセラレータ APIをGo言語から利用するためのAPIライブラリです。
 
-#### webaccel-api-goを利用したクライアントコードの例
+#### sacloud-sdk-go/api/webaccelを利用したクライアントコードの例
 
 ```go
 package example
@@ -19,7 +15,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/sacloud/webaccel-api-go"
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
 )
 
 func Example() {
@@ -66,14 +62,14 @@ func Example() {
 
 Use go get.
 
-    go get github.com/sacloud/webaccel-api-go
+    go get github.com/sacloud/sacloud-sdk-go/api/webaccel
 
 Then import the `webaccel` package into your own code.
 
-    import "github.com/sacloud/webaccel-api-go"
+    import "github.com/sacloud/sacloud-sdk-go/api/webaccel"
 
 ## License
 
-`webaccel-api-go` Copyright 2022-2025 The webaccel-api-go authors.
+Copyright (C) 2025- The sacloud/sacloud-sdk-go Authors.
 
 This project is published under [Apache 2.0 License](LICENSE).
