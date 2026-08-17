@@ -25,5 +25,10 @@ updates:
       timezone: "Asia/Tokyo"
     commit-message:
       prefix: "go:"
+    groups:
+      otel:
+        applies-to: version-updates
+        patterns:
+          - go.opentelemetry.io/*
     cooldown:
       default-days: 7
