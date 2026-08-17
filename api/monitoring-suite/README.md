@@ -1,9 +1,5 @@
 
-# monitoring-suite-api-go
-
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/monitoring-suite-api-go.svg)](https://pkg.go.dev/github.com/sacloud/monitoring-suite-api-go)
-[![Tests](https://github.com/sacloud/monitoring-suite-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/monitoring-suite-api-go/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/monitoring-suite-api-go)](https://goreportcard.com/report/github.com/sacloud/monitoring-suite-api-go)
+# sacloud-sdk-go/api/monitoring-suite
 
 さくらのクラウド「モニタリングスイート」APIのGoクライアントライブラリ
 
@@ -19,7 +15,7 @@ OpenAPI仕様から自動生成された型安全なAPIクライアントと、�
 ## インストール
 
 ```bash
-go get github.com/sacloud/monitoring-suite-api-go
+go get github.com/sacloud/sacloud-sdk-go/api/monitoring-suite
 ```
 
 ## 使い方
@@ -31,8 +27,8 @@ import (
     "context"
     "os"
 
-    monitoringsuite "github.com/sacloud/monitoring-suite-api-go"
-    "github.com/sacloud/saclient-go"
+    monitoringsuite "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite"
+    "github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 var theClient saclient.Client
@@ -62,7 +58,7 @@ func main() {
 }
 ```
 
-APIの詳細は[GoDoc](https://pkg.go.dev/github.com/sacloud/monitoring-suite-api-go)や`apis/v1/`配下の型定義を参照してください。
+APIの詳細は[Go Reference](https://pkg.go.dev/github.com/sacloud/sacloud-sdk-go/api/monitoring-suite)や`apis/v1/`配下の型定義を参照してください。
 
 ### 認証情報
 
@@ -110,5 +106,5 @@ make test
 
 ## ライセンス
 
-Copyright (C) 2022-2025 The sacloud/monitoring-suite-api-go Authors.
+Copyright (C) 2025- The sacloud/sacloud-sdk-go Authors.
 このプロジェクトは[Apache 2.0 License](LICENSE)の下で公開されています。

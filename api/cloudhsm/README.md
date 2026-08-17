@@ -1,8 +1,4 @@
-# cloudhsm-api-go
-
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/cloudhsm-api-go.svg)](https://pkg.go.dev/github.com/sacloud/cloudhsm-api-go)
-[![Tests](https://github.com/sacloud/cloudhsm-api-go/workflows/Tests/badge.svg)](https://github.com/sacloud/cloudhsm-api-go/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/cloudhsm-api-go)](https://goreportcard.com/report/github.com/sacloud/cloudhsm-api-go)
+# sacloud-sdk-go/api/cloudhsm
 
 さくらのクラウド「クラウドHSM」APIのGoクライアントライブラリ
 
@@ -18,7 +14,7 @@ OpenAPI仕様から自動生成された型安全なAPIクライアントと、�
 ## インストール
 
 ```bash
-go get github.com/sacloud/cloudhsm-api-go
+go get github.com/sacloud/sacloud-sdk-go/api/cloudhsm
 ```
 
 ## 使い方
@@ -39,8 +35,8 @@ usacloud config create --name is1a
 
 ```golang
 import (
-    "github.com/sacloud/cloudhsm-api-go"
-    "github.com/sacloud/saclient-go"
+    "github.com/sacloud/sacloud-sdk-go/api/cloudhsm"
+    "github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 var theClient saclient.Client
@@ -61,8 +57,8 @@ func main() {
 import (
     "os"
 
-    "github.com/sacloud/cloudhsm-api-go"
-    "github.com/sacloud/saclient-go"
+    "github.com/sacloud/sacloud-sdk-go/api/cloudhsm"
+    "github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 var theClient saclient.Client
@@ -89,8 +85,8 @@ package main
 import (
     "context"
 
-    "github.com/sacloud/cloudhsm-api-go"
-    v1 "github.com/sacloud/cloudhsm-api-go/apis/v1"
+    "github.com/sacloud/sacloud-sdk-go/api/cloudhsm"
+    v1 "github.com/sacloud/sacloud-sdk-go/api/cloudhsm/apis/v1"
 )
 
 func Logic(ctx context.Context, client *v1.Client) {
@@ -102,7 +98,7 @@ func Logic(ctx context.Context, client *v1.Client) {
 }
 ```
 
-APIの詳細は[GoDoc](https://pkg.go.dev/github.com/sacloud/cloudhsm-api-go)や`apis/v1/`配下の型定義を参照してください。
+APIの詳細は[Go Reference](https://pkg.go.dev/github.com/sacloud/sacloud-sdk-go/api/cloudhsm)や`apis/v1/`配下の型定義を参照してください。
 
 ## OpenAPI仕様について
 
@@ -119,5 +115,5 @@ make test
 
 ## ライセンス
 
-Copyright (C) 2022-2025 The sacloud/cloudhsm-api-go Authors.
+Copyright (C) 2025- The sacloud/sacloud-sdk-go Authors.
 このプロジェクトは[Apache 2.0 License](LICENSE)の下で公開されています。

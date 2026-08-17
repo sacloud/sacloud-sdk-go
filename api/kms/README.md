@@ -1,4 +1,4 @@
-# sacloud/kms-api-go
+# sacloud-sdk-go/api/kms
 
 Go言語向けのさくらのクラウド KMS APIライブラリ
 
@@ -6,7 +6,7 @@ KMS ドキュメント: https://manual.sakura.ad.jp/cloud/appliance/kms/index.ht
 
 ## 概要
 
-sacloud/kms-api-goはさくらのクラウド KMS APIをGo言語から利用するためのAPIライブラリです。
+sacloud-sdk-go/api/kmsはさくらのクラウド KMS APIをGo言語から利用するためのAPIライブラリです。
 
 ```go
 package main
@@ -15,9 +15,9 @@ import (
     "context"
     "fmt"
 
-    "github.com/sacloud/saclient-go"
-    kms "github.com/sacloud/kms-api-go"
-    v1 "github.com/sacloud/kms-api-go/apis/v1"
+    "github.com/sacloud/sacloud-sdk-go/common/saclient"
+    "github.com/sacloud/sacloud-sdk-go/api/kms"
+    v1 "github.com/sacloud/sacloud-sdk-go/api/kms/apis/v1"
 )
 
 func main() {
@@ -51,7 +51,8 @@ func main() {
 
 [keys_test.go](./keys_test.go) も参照。
 
-:warning:  v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
+> [!WARNING]
+> v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
 ## ogenによるコード生成
 
@@ -64,5 +65,5 @@ $ go tool ogen -package v1 -target apis/v1 -clean -config ogen-config.yaml ./ope
 
 ## License
 
-`kms-api-go` Copyright (C) 2025- The sacloud/kms-api-go authors.
-This project is published under [Apache 2.0 License](LICENSE).
+Copyright (C) 2025- The sacloud/sacloud-sdk-go Authors.
+このプロジェクトは[Apache 2.0 License](LICENSE)の下で公開されています。

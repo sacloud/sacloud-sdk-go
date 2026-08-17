@@ -1,8 +1,4 @@
-# webaccel-service-go
-
-[![Go Reference](https://pkg.go.dev/badge/github.com/sacloud/webaccel-service-go.svg)](https://pkg.go.dev/github.com/sacloud/webaccel-service-go)
-[![Tests](https://github.com/sacloud/webaccel-service-go/workflows/Tests/badge.svg)](https://github.com/sacloud/webaccel-service-go/actions/workflows/tests.yaml)
-[![Go Report Card](https://goreportcard.com/badge/github.com/sacloud/webaccel-service-go)](https://goreportcard.com/report/github.com/sacloud/webaccel-service-go)
+# sacloud-sdk-go/service/webaccel
 
 [ウェブアクセラレータ](https://www.sakura.ad.jp/services/cdn/)向け高レベルAPIライブラリ
 
@@ -10,23 +6,31 @@
 
 ウェブアクセラレータのAPIをラップし、CRUD+L+Action操作を統一的な手順で行えるインターフェースを提供します。
 
-:warning: webaccel-service-goは現在開発中です。
+> [!WARNING]
+> sacloud-sdk-go/service/webaccelは現在開発中です。
 
-関連プロジェクト: 
-- [sacloud/webaccel-api-go](https://github.com/sacloud/webaccel-api-go)
-- [sacloud/services](https://github.com/sacloud/services)
+関連プロジェクト:
+- [sacloud-sdk-go/api/webaccel](../../api/webaccel)
+- [sacloud-sdk-go/internal/services](../../internal/services)
 
 インターフェースの例:
 ```go
+import (
+	"context"
+
+	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
+	"github.com/sacloud/sacloud-sdk-go/service/webaccel/site"
+)
+
 // サイト操作の例
-func (s *Service) Find(req *FindRequest) ([]*webaccel.Site, error)
-func (s *Service) FindWithContext(ctx context.Context, req *FindRequest) ([]*webaccel.Site, error)
+func (s *site.Service) Find(req *site.FindRequest) ([]*webaccel.Site, error)
+func (s *site.Service) FindWithContext(ctx context.Context, req *site.FindRequest) ([]*webaccel.Site, error)
 
-func (s *Service) Read(req *ReadRequest) (*webaccel.Site, error)
-func (s *Service) ReadWithContext(ctx context.Context, req *ReadRequest) (*webaccel.Site, error)
+func (s *site.Service) Read(req *site.ReadRequest) (*webaccel.Site, error)
+func (s *site.Service) ReadWithContext(ctx context.Context, req *site.ReadRequest) (*webaccel.Site, error)
 
-func (s *Service) Update(req *UpdateRequest) (*webaccel.Site, error)
-func (s *Service) UpdateWithContext(ctx context.Context, req *UpdateRequest) (*webaccel.Site, error)
+func (s *site.Service) Update(req *site.UpdateRequest) (*webaccel.Site, error)
+func (s *site.Service) UpdateWithContext(ctx context.Context, req *site.UpdateRequest) (*webaccel.Site, error)
 ```
 
 以下のリソースに対応しています。
@@ -43,15 +47,14 @@ func (s *Service) UpdateWithContext(ctx context.Context, req *UpdateRequest) (*w
 
 Use go get.
 
-    go get github.com/sacloud/webaccel-service-go
+    go get github.com/sacloud/sacloud-sdk-go/service/webaccel
 
 Then import the `webaccel` package into your own code.
 
-    import "github.com/sacloud/webaccel-service-go"
+    import "github.com/sacloud/sacloud-sdk-go/service/webaccel"
 
 ## License
 
-`webaccel-service-go` Copyright 2022-2025 The sacloud/webaccel-service-go authors.
-
+Copyright (C) 2022-2025 The sacloud/sacloud-sdk-go Authors.
 This project is published under [Apache 2.0 License](LICENSE).
 

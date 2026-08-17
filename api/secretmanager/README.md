@@ -1,4 +1,4 @@
-# sacloud/secretmanager-api-go
+# sacloud-sdk-go/api/secretmanager
 
 Go言語向けのさくらのクラウド シークレットマネージャ APIライブラリ
 
@@ -6,18 +6,20 @@ Go言語向けのさくらのクラウド シークレットマネージャ API�
 
 ## 概要
 
-sacloud/secretmanager-api-goはさくらのクラウド KMS APIをGo言語から利用するためのAPIライブラリです。
+sacloud-sdk-go/api/secretmanagerはさくらのクラウド シークレットマネージャ APIをGo言語から利用するためのAPIライブラリです。
 
 ```go
 package main
 
 import (
-    "context"
-    "fmt"
+	"context"
+	"fmt"
+	"os"
+	"strconv"
 
-	"github.com/sacloud/saclient-go"
-    sm "github.com/sacloud/secretmanager-api-go"
-    v1 "github.com/sacloud/secretmanager-api-go/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	sm "github.com/sacloud/sacloud-sdk-go/api/secretmanager"
+	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
 )
 
 var theClient saclient.Client
@@ -77,7 +79,7 @@ func main() {
 
 ### クライアントに設定を渡す
 
-`saclient-go`側で設定を読み込み、渡します。
+`saclient` 側で設定を読み込み、渡します。
 
 ```go
 // API keysをコードから指定する例
@@ -85,8 +87,8 @@ import (
 	"os"
 	// ...
 
-	"github.com/sacloud/saclient-go"
-	sm "github.com/sacloud/secretmanager-api-go"
+	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	sm "github.com/sacloud/sacloud-sdk-go/api/secretmanager"
 )
 
 var theClient saclient.Client
@@ -100,7 +102,8 @@ func main() {
 }
 ```
 
-:warning:  v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
+> [!WARNING]
+> v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
 ## ogenによるコード生成
 
@@ -113,5 +116,6 @@ $ go tool ogen -package v1 -target apis/v1 -clean -config ogen-config.yaml ./ope
 
 ## License
 
-`secretmanager-api-go` Copyright (C) 2025- The sacloud/secretmanager-api-go authors.
+Copyright (C) 2025- The sacloud/sacloud-sdk-go Authors.
+
 This project is published under [Apache 2.0 License](LICENSE).
