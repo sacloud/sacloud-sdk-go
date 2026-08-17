@@ -2,3 +2,20 @@ changelog:
   exclude:
     labels:
       - tagpr
+      - tagpr:minor
+  categories:
+    - title: 💥 Breaking Changes
+      labels:
+        - sacloud-major
+    - title: 🚀 New Features
+      labels:
+        - sacloud-minor
+    - title: 📦 Dependency Updates
+      labels:
+        - go
+    - title: ⚙️ CI/CD Updates
+      labels:
+        - github_actions
+    - title: Other Changes
+      labels:
+        - "*"
