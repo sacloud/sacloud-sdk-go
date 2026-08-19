@@ -34,7 +34,7 @@ type CreateRequest struct {
 	BandWidthMbps  int
 	EnableIPv6     bool
 	NoWait         bool
-	NotFoundRetry  int // スイッチ+ルータは作成直後だと404を返すことがあることへの対応でリトライする際のリトライ上限回数、省略時はDefaultNotFoundRetry
+	NotFoundRetry  int // ルータ+スイッチは作成直後だと404を返すことがあることへの対応でリトライする際のリトライ上限回数、省略時はDefaultNotFoundRetry
 }
 
 func (req *CreateRequest) Validate() error {

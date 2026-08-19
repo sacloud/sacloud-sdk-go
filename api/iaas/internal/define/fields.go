@@ -2376,7 +2376,7 @@ func (f *fieldsDef) NextHop() *dsl.FieldDesc {
 		Name: "NextHop",
 		Type: meta.TypeString,
 		Description: `
-			スイッチ+ルータでの追加IPアドレスブロックを示すSubnetの中でのみ設定される項目。
+			ルータ+スイッチでの追加IPアドレスブロックを示すSubnetの中でのみ設定される項目。
 			この場合DefaultRouteの値は設定されないためNextHopを代用する。
 			StaticRouteと同じ値が設定される。`,
 	}
@@ -2387,7 +2387,7 @@ func (f *fieldsDef) StaticRoute() *dsl.FieldDesc {
 		Name: "StaticRoute",
 		Type: meta.TypeString,
 		Description: `
-			スイッチ+ルータでの追加IPアドレスブロックを示すSubnetの中でのみ設定される項目。
+			ルータ+スイッチでの追加IPアドレスブロックを示すSubnetの中でのみ設定される項目。
 			この場合DefaultRouteの値は設定されないためNextHopを代用する。
 			NextHopと同じ値が設定される。`,
 	}
