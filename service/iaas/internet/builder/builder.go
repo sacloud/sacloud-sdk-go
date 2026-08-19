@@ -24,10 +24,10 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
-// DefaultNotFoundRetry スイッチ+ルータ作成後のReadで404が返ってこなくなるまでに許容する404エラーの回数
+// DefaultNotFoundRetry ルータ+スイッチ作成後のReadで404が返ってこなくなるまでに許容する404エラーの回数
 var DefaultNotFoundRetry = 360 // デフォルトの5秒おきリトライの場合30分
 
-// Builder スイッチ+ルータの構築を行う
+// Builder ルータ+スイッチの構築を行う
 type Builder struct {
 	Name           string
 	Description    string
@@ -106,7 +106,7 @@ func (b *Builder) Build(ctx context.Context, zone string) (*iaas.Internet, error
 	return b.Client.Internet.Read(ctx, zone, internet.ID)
 }
 
-// Update スイッチ+ルータの更新
+// Update ルータ+スイッチの更新
 func (b *Builder) Update(ctx context.Context, zone string, id types.ID) (*iaas.Internet, error) {
 	if err := b.Validate(ctx, zone); err != nil {
 		return nil, err

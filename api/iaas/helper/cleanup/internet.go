@@ -21,7 +21,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 )
 
-// DeleteInternet スイッチ+ルータの削除 IPv6の無効化やサブネットの削除を一括して行う
+// DeleteInternet ルータ+スイッチの削除 IPv6の無効化やサブネットの削除を一括して行う
 func DeleteInternet(ctx context.Context, client iaas.InternetAPI, zone string, id types.ID) error {
 	internet, err := client.Read(ctx, zone, id)
 	if err != nil {

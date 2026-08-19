@@ -41,7 +41,7 @@ func (s *StandardNICSetting) getInterfaceSetting() *iaas.VPCRouterInterfaceSetti
 	return nil
 }
 
-// PremiumNICSetting VPCルータのeth0をスイッチ+ルータに接続するためのSetting(プレミアム/ハイスペックプラン)
+// PremiumNICSetting VPCルータのeth0をルータ+スイッチに接続するためのSetting(プレミアム/ハイスペックプラン)
 type PremiumNICSetting struct {
 	SwitchID         types.ID
 	IPAddresses      []string
