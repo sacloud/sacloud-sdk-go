@@ -1,5 +1,41 @@
 # Changelog
 
+## [v0.1.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.0.1...v0.1.0) - 2026-08-20
+
+### 🚀 New Features
+- feat: re-generate V1 codes using ogen v1.23.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/215
+### 📦 Dependency Updates
+- ci: bump golangci/golangci-lint-action from 9.2.1 to 9.3.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/189
+- ci: bump sacloud/textlint-action from 0.1.0 to 0.1.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/200
+- ci: bump dorny/paths-filter from 4.0.1 to 4.0.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/199
+- ci: bump github/codeql-action/upload-sarif from 4.36.0 to 4.37.5 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/204
+- go: bump go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace from 0.68.0 to 0.69.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/197
+- go: bump go.opentelemetry.io/otel/exporters/stdout/stdouttrace from 1.43.0 to 1.44.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/195
+- go: bump github.com/ogen-go/ogen from 1.20.3 to 1.23.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/192
+- go: bump github.com/jlaffaye/ftp from 0.2.0 to 0.2.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/207
+- go: bump github.com/go-playground/validator/v10 from 10.30.2 to 10.30.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/208
+- go: bump github.com/go-faster/errors from 0.7.1 to 0.8.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/209
+- ci: bump github/codeql-action/upload-sarif from 4.37.5 to 4.37.6 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/214
+- ci: bump dorny/paths-filter from 4.0.2 to 4.0.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/219
+- go: bump the otel group across 2 directories with 7 updates by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/225
+### Other Changes
+- [doc] repository no longer under transition by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/186
+- add: expose DefaultZone via EndpointConfig() by @yamamoto-febc in https://github.com/sacloud/sacloud-sdk-go/pull/201
+- [CI] get rid of `lint-def` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/202
+- toolchain go1.26.5 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/188
+- [chore] delete unnecessary replace by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/203
+- [CI] speed up by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/205
+- [chore] delete unnecessary scripts by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/206
+- Fix fake ProxyLB certificate mapping by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/216
+- api/iaas/trace/otel: use sacloud-sdk-go v0.0.1 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/217
+- fix: prevent fake database parameter panic without Conf by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/218
+- iaas: add Ubuntu 26.04 to ostype by @yamamoto-febc in https://github.com/sacloud/sacloud-sdk-go/pull/220
+- `README.md` fix after transition by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/223
+- api/eventbus: fix Provider.Class filter query injection by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/222
+- [CI] dependabot groups for otel updates by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/221
+- chore: categorize GitHub auto-generated release notes by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/224
+- s/スイッチ\+ルータ/ルータ+スイッチ/g by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/229
+
 ## [v0.0.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.0.0...v0.0.1) - 2026-08-03
 
 - feat: initial implementation by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/1
