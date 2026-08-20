@@ -9,7 +9,7 @@ tool github.com/ogen-go/ogen/cmd/ogen
 require (
 	github.com/fatih/structs v1.1.0
 	github.com/fsnotify/fsnotify v1.10.1
-	github.com/go-faster/errors v0.7.1
+	github.com/go-faster/errors v0.8.0
 	github.com/go-faster/jx v1.2.0
 	github.com/go-playground/validator/v10 v10.30.3
 	github.com/gofrs/flock v0.13.0
