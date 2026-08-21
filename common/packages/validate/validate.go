@@ -51,7 +51,7 @@ func (v *Validator) init() {
 			v.instance = validator.New()
 		}
 		v.instance.RegisterTagNameFunc(func(fld reflect.StructField) string {
-			name := strings.SplitN(fld.Tag.Get("name"), ",", 2)[0]
+			name, _, _ := strings.Cut(fld.Tag.Get("name"), ",")
 			if name == "" {
 				// nameタグがない場合はyamlタグを参照
 				name = strings.SplitN(fld.Tag.Get("yaml"), ",", 2)[0]
