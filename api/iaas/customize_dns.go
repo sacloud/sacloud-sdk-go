@@ -14,9 +14,11 @@
 
 package iaas
 
-import "slices"
+import (
+	"slices"
 
-import "github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+)
 
 type DNSRecords []*DNSRecord
 

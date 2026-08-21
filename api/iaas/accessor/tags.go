@@ -14,9 +14,11 @@
 
 package accessor
 
-import "slices"
+import (
+	"slices"
 
-import "github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
+)
 
 // Tags Tagsを持つリソース向けのインターフェース
 type Tags interface {
