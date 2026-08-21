@@ -15,5 +15,5 @@
 package iaas
 
 type argumentDefaulter interface {
-	setDefaults() interface{}
+	setDefaults() any
 }

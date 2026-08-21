@@ -22,48 +22,48 @@ import (
 func TestToSlice(t *testing.T) {
 	tests := []struct {
 		name string
-		args interface{}
-		want []interface{}
+		args any
+		want []any
 	}{
 		{
 			name: "string",
 			args: "a",
-			want: []interface{}{"a"},
+			want: []any{"a"},
 		},
 		{
 			name: "string-slice",
 			args: []string{"a", "b"},
-			want: []interface{}{"a", "b"},
+			want: []any{"a", "b"},
 		},
 		{
 			name: "int",
 			args: 1,
-			want: []interface{}{1},
+			want: []any{1},
 		},
 		{
 			name: "int-slice",
 			args: []int{1, 2},
-			want: []interface{}{1, 2},
+			want: []any{1, 2},
 		},
 		{
 			name: "struct",
 			args: dummy{value: "1"},
-			want: []interface{}{dummy{value: "1"}},
+			want: []any{dummy{value: "1"}},
 		},
 		{
 			name: "struct-slice",
 			args: []dummy{{value: "1"}, {value: "2"}},
-			want: []interface{}{dummy{value: "1"}, dummy{value: "2"}},
+			want: []any{dummy{value: "1"}, dummy{value: "2"}},
 		},
 		{
 			name: "pointer",
 			args: &dummy{value: "1"},
-			want: []interface{}{&dummy{value: "1"}},
+			want: []any{&dummy{value: "1"}},
 		},
 		{
 			name: "pointer-slice",
 			args: []*dummy{{value: "1"}, {value: "2"}},
-			want: []interface{}{&dummy{value: "1"}, &dummy{value: "2"}},
+			want: []any{&dummy{value: "1"}, &dummy{value: "2"}},
 		},
 	}
 	for _, tt := range tests {

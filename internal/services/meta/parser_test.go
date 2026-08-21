@@ -61,7 +61,7 @@ type nestedSquash struct {
 
 func TestParser_Parse(t *testing.T) {
 	cases := []struct {
-		in        interface{}
+		in        any
 		expect    []StructField
 		errString string
 	}{

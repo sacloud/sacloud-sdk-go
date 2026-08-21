@@ -119,17 +119,17 @@ var (
 	}
 )
 
-func testInterfaceCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testInterfaceCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewInterfaceOp(caller)
 	return client.Create(ctx, testZone, createInterfaceParam)
 }
 
-func testInterfaceRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testInterfaceRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewInterfaceOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testInterfaceUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testInterfaceUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewInterfaceOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateInterfaceParam)
 }

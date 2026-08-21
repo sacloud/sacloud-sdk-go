@@ -401,11 +401,11 @@ func TestBuilder_Build_BlackBox(t *testing.T) {
 		},
 
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				return blackboxBuilder.Build(ctx, testZone)
 			},
 			SkipExtractID: true,
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 				result := v.(*BuildResult)
 				err := testutil.DoAsserts(
 					testutil.AssertNotEmptyFunc(t, result.ServerID, "BuildResult.ServerID"),
@@ -419,7 +419,7 @@ func TestBuilder_Build_BlackBox(t *testing.T) {
 		},
 
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				serverOp := iaas.NewServerOp(caller)
 				server, err := serverOp.Read(ctx, testZone, ctx.ID)
 				if err != nil {
@@ -431,7 +431,7 @@ func TestBuilder_Build_BlackBox(t *testing.T) {
 				}
 				return server, nil
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 				if testutil.IsAccTest() && testZone != "tk1v" { // サンドボックス以外
 					time.Sleep(30 * time.Second) // sshd起動まで少し待つ
 					server := i.(*iaas.Server)
@@ -444,7 +444,7 @@ func TestBuilder_Build_BlackBox(t *testing.T) {
 		},
 		Updates: []*testutil.CRUDTestFunc{
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					blackboxBuilder.AdditionalNICs = []AdditionalNICSettingHolder{blackboxBuilder.AdditionalNICs[1]}
 					blackboxBuilder.DiskBuilders = append(blackboxBuilder.DiskBuilders, &disk.BlankBuilder{
 						Name:        "libsacloud-disk-builder",
@@ -458,7 +458,7 @@ func TestBuilder_Build_BlackBox(t *testing.T) {
 					return blackboxBuilder.Update(ctx, testZone)
 				},
 				SkipExtractID: true,
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					result := v.(*BuildResult)
 					ctx.ID = result.ServerID
 					return nil

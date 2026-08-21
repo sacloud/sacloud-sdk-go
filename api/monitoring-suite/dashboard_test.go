@@ -26,7 +26,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func newTestDashboardClient(res interface{}, status ...int) *v1.Client {
+func newTestDashboardClient(res any, status ...int) *v1.Client {
 	return newTestClient(res, status...)
 }
 

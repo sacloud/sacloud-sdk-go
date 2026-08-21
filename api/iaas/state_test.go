@@ -27,11 +27,11 @@ import (
 )
 
 type dummyState struct {
-	state interface{}
+	state any
 	err   error
 }
 
-func testStateCheckFunc(target interface{}) (bool, error) {
+func testStateCheckFunc(target any) (bool, error) {
 	state, ok := target.(*dummyState)
 	if !ok {
 		return false, fmt.Errorf("got invalid state type: %+v", target)
@@ -42,7 +42,7 @@ func testStateCheckFunc(target interface{}) (bool, error) {
 func TestStatePollingWaiter_withStateCheckFunc(t *testing.T) {
 	t.Run("timeout", func(t *testing.T) {
 		waiter := &StatePollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				return &dummyState{}, nil
 			},
 			StateCheckFunc: testStateCheckFunc,
@@ -57,7 +57,7 @@ func TestStatePollingWaiter_withStateCheckFunc(t *testing.T) {
 
 	t.Run("parent context was canceled", func(t *testing.T) {
 		waiter := &StatePollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				return &dummyState{}, nil
 			},
 			StateCheckFunc: testStateCheckFunc,
@@ -82,7 +82,7 @@ func TestStatePollingWaiter_withStateCheckFunc(t *testing.T) {
 		read := 0
 		waiter := &StatePollingWaiter{
 			NotFoundRetry: 10,
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				read++
 				if read < retry {
 					return nil, &apiError{responseCode: http.StatusNotFound}
@@ -105,7 +105,7 @@ func TestStatePollingWaiter_withStateCheckFunc(t *testing.T) {
 		read := 0
 		waiter := &StatePollingWaiter{
 			NotFoundRetry: 2,
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				read++
 				if read < retry {
 					return nil, &apiError{responseCode: http.StatusNotFound}
@@ -126,7 +126,7 @@ func TestStatePollingWaiter_withStateCheckFunc(t *testing.T) {
 
 	t.Run("ReadFunc got unexpected error", func(t *testing.T) {
 		waiter := &StatePollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				return &dummyState{}, errors.New("dummy")
 			},
 			StateCheckFunc: testStateCheckFunc,
@@ -165,7 +165,7 @@ func TestStatePollingWaiter_withTargetStates(t *testing.T) {
 		counter := 0
 		max := 3
 		waiter := &StatePollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				counter++
 				status := ""
 				if counter > max {
@@ -184,7 +184,7 @@ func TestStatePollingWaiter_withTargetStates(t *testing.T) {
 	})
 	t.Run("ReadFunc got unknown state with RaiseErrorWithUnknownState=true", func(t *testing.T) {
 		waiter := &StatePollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				return &dummyInstanceStatus{status: "unknown-instance-status"}, nil
 			},
 			TargetInstanceStatus:       []types.EServerInstanceStatus{types.ServerInstanceStatuses.Up},
@@ -203,7 +203,7 @@ func TestStatePollingWaiter_withTargetStates(t *testing.T) {
 		counter := 0
 		max := 3
 		waiter := &StatePollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				counter++
 				availability := ""
 				if counter > max {
@@ -223,7 +223,7 @@ func TestStatePollingWaiter_withTargetStates(t *testing.T) {
 
 	t.Run("ReadFunc got unknown availability with RaiseErrorWithUnknownState=true", func(t *testing.T) {
 		waiter := &StatePollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				return &dummyInstanceStatus{availability: "unknown-availability"}, nil
 			},
 			TargetAvailability:         []types.EAvailability{types.Availabilities.Available},

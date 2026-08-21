@@ -21,7 +21,7 @@ import (
 )
 
 func TestAccessor(t *testing.T) {
-	var v interface{}
+	var v any
 
 	v = &Archive{}
 	if _, ok := v.(accessor.Tags); !ok {

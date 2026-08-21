@@ -59,7 +59,7 @@ func TestContainerRegistryOp_CRUD(t *testing.T) {
 				}),
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					registryOp := iaas.NewContainerRegistryOp(caller)
 					err := registryOp.AddUser(ctx, ctx.ID, &iaas.ContainerRegistryUserCreateRequest{
 						UserName:   "user1",
@@ -79,7 +79,7 @@ func TestContainerRegistryOp_CRUD(t *testing.T) {
 					}
 					return registryOp.ListUsers(ctx, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 					users := value.(*iaas.ContainerRegistryUsers).Users
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, users, 2, "ContainerRegistry.Users"),
@@ -92,14 +92,14 @@ func TestContainerRegistryOp_CRUD(t *testing.T) {
 				SkipExtractID: true,
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					registryOp := iaas.NewContainerRegistryOp(caller)
 					if err := registryOp.DeleteUser(ctx, ctx.ID, "user1"); err != nil {
 						return nil, err
 					}
 					return registryOp.ListUsers(ctx, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 					users := value.(*iaas.ContainerRegistryUsers).Users
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, users, 1, "ContainerRegistry.Users"),
@@ -177,22 +177,22 @@ var (
 	}
 )
 
-func testContainerRegistryCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testContainerRegistryCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewContainerRegistryOp(caller)
 	return client.Create(ctx, createContainerRegistryParam)
 }
 
-func testContainerRegistryRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testContainerRegistryRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewContainerRegistryOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testContainerRegistryUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testContainerRegistryUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewContainerRegistryOp(caller)
 	return client.Update(ctx, ctx.ID, updateContainerRegistryParam)
 }
 
-func testContainerRegistryUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testContainerRegistryUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewContainerRegistryOp(caller)
 	return client.UpdateSettings(ctx, ctx.ID, updateContainerRegistrySettingsParam)
 }

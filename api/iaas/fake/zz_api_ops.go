@@ -32,148 +32,148 @@ func SwitchFactoryFuncToFake() {
 }
 
 func switchFactoryFuncToFake() {
-	iaas.SetClientFactoryFunc(ResourceArchive, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceArchive, func(caller iaas.APICaller) any {
 		return NewArchiveOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceAuthStatus, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceAuthStatus, func(caller iaas.APICaller) any {
 		return NewAuthStatusOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceAutoBackup, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceAutoBackup, func(caller iaas.APICaller) any {
 		return NewAutoBackupOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceAutoScale, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceAutoScale, func(caller iaas.APICaller) any {
 		return NewAutoScaleOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceBill, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceBill, func(caller iaas.APICaller) any {
 		return NewBillOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceBridge, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceBridge, func(caller iaas.APICaller) any {
 		return NewBridgeOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceCDROM, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceCDROM, func(caller iaas.APICaller) any {
 		return NewCDROMOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceCertificateAuthority, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceCertificateAuthority, func(caller iaas.APICaller) any {
 		return NewCertificateAuthorityOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceContainerRegistry, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceContainerRegistry, func(caller iaas.APICaller) any {
 		return NewContainerRegistryOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceCoupon, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceCoupon, func(caller iaas.APICaller) any {
 		return NewCouponOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceDatabase, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceDatabase, func(caller iaas.APICaller) any {
 		return NewDatabaseOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceDisk, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceDisk, func(caller iaas.APICaller) any {
 		return NewDiskOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceDiskPlan, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceDiskPlan, func(caller iaas.APICaller) any {
 		return NewDiskPlanOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceDNS, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceDNS, func(caller iaas.APICaller) any {
 		return NewDNSOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceEnhancedDB, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceEnhancedDB, func(caller iaas.APICaller) any {
 		return NewEnhancedDBOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceESME, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceESME, func(caller iaas.APICaller) any {
 		return NewESMEOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceGSLB, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceGSLB, func(caller iaas.APICaller) any {
 		return NewGSLBOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceIcon, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceIcon, func(caller iaas.APICaller) any {
 		return NewIconOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceInterface, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceInterface, func(caller iaas.APICaller) any {
 		return NewInterfaceOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceInternet, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceInternet, func(caller iaas.APICaller) any {
 		return NewInternetOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceInternetPlan, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceInternetPlan, func(caller iaas.APICaller) any {
 		return NewInternetPlanOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceIPAddress, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceIPAddress, func(caller iaas.APICaller) any {
 		return NewIPAddressOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceIPv6Net, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceIPv6Net, func(caller iaas.APICaller) any {
 		return NewIPv6NetOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceIPv6Addr, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceIPv6Addr, func(caller iaas.APICaller) any {
 		return NewIPv6AddrOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceLicense, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceLicense, func(caller iaas.APICaller) any {
 		return NewLicenseOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceLicenseInfo, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceLicenseInfo, func(caller iaas.APICaller) any {
 		return NewLicenseInfoOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceLoadBalancer, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceLoadBalancer, func(caller iaas.APICaller) any {
 		return NewLoadBalancerOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceLocalRouter, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceLocalRouter, func(caller iaas.APICaller) any {
 		return NewLocalRouterOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceMobileGateway, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceMobileGateway, func(caller iaas.APICaller) any {
 		return NewMobileGatewayOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceNFS, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceNFS, func(caller iaas.APICaller) any {
 		return NewNFSOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceNote, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceNote, func(caller iaas.APICaller) any {
 		return NewNoteOp()
 	})
-	iaas.SetClientFactoryFunc(ResourcePacketFilter, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourcePacketFilter, func(caller iaas.APICaller) any {
 		return NewPacketFilterOp()
 	})
-	iaas.SetClientFactoryFunc(ResourcePrivateHost, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourcePrivateHost, func(caller iaas.APICaller) any {
 		return NewPrivateHostOp()
 	})
-	iaas.SetClientFactoryFunc(ResourcePrivateHostPlan, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourcePrivateHostPlan, func(caller iaas.APICaller) any {
 		return NewPrivateHostPlanOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceProxyLB, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceProxyLB, func(caller iaas.APICaller) any {
 		return NewProxyLBOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceRegion, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceRegion, func(caller iaas.APICaller) any {
 		return NewRegionOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceServer, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceServer, func(caller iaas.APICaller) any {
 		return NewServerOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceServerPlan, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceServerPlan, func(caller iaas.APICaller) any {
 		return NewServerPlanOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceServiceClass, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceServiceClass, func(caller iaas.APICaller) any {
 		return NewServiceClassOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceSIM, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceSIM, func(caller iaas.APICaller) any {
 		return NewSIMOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceSimpleMonitor, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceSimpleMonitor, func(caller iaas.APICaller) any {
 		return NewSimpleMonitorOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceSimpleNotificationDestination, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceSimpleNotificationDestination, func(caller iaas.APICaller) any {
 		return NewSimpleNotificationDestinationOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceSimpleNotificationGroup, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceSimpleNotificationGroup, func(caller iaas.APICaller) any {
 		return NewSimpleNotificationGroupOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceSSHKey, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceSSHKey, func(caller iaas.APICaller) any {
 		return NewSSHKeyOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceSubnet, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceSubnet, func(caller iaas.APICaller) any {
 		return NewSubnetOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceSwitch, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceSwitch, func(caller iaas.APICaller) any {
 		return NewSwitchOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceVPCRouter, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceVPCRouter, func(caller iaas.APICaller) any {
 		return NewVPCRouterOp()
 	})
-	iaas.SetClientFactoryFunc(ResourceZone, func(caller iaas.APICaller) interface{} {
+	iaas.SetClientFactoryFunc(ResourceZone, func(caller iaas.APICaller) any {
 		return NewZoneOp()
 	})
 }

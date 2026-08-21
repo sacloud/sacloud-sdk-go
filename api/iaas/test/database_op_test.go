@@ -95,9 +95,9 @@ func TestDatabaseOpCRUD(t *testing.T) {
 			},
 			// parameter settings
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					dbOp := iaas.NewDatabaseOp(caller)
-					err := dbOp.SetParameter(ctx, testZone, ctx.ID, map[string]interface{}{
+					err := dbOp.SetParameter(ctx, testZone, ctx.ID, map[string]any{
 						"MariaDB/server.cnf/mysqld/max_connections": 50,
 					})
 					if err != nil {
@@ -105,7 +105,7 @@ func TestDatabaseOpCRUD(t *testing.T) {
 					}
 					return dbOp.GetParameter(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					param := v.(*iaas.DatabaseParameter)
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, param.Settings, 1, "Settings"),
@@ -116,9 +116,9 @@ func TestDatabaseOpCRUD(t *testing.T) {
 			},
 			// reset parameter
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					dbOp := iaas.NewDatabaseOp(caller)
-					err := dbOp.SetParameter(ctx, testZone, ctx.ID, map[string]interface{}{
+					err := dbOp.SetParameter(ctx, testZone, ctx.ID, map[string]any{
 						"MariaDB/server.cnf/mysqld/max_connections": nil,
 					})
 					if err != nil {
@@ -126,7 +126,7 @@ func TestDatabaseOpCRUD(t *testing.T) {
 					}
 					return dbOp.GetParameter(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					param := v.(*iaas.DatabaseParameter)
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, param.Settings, 0, "Settings"),
@@ -579,7 +579,7 @@ var (
 	}
 )
 
-func testDatabaseCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDatabaseCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDatabaseOp(caller)
 	db, err := client.Create(ctx, testZone, createDatabaseParam)
 	if err != nil {
@@ -588,27 +588,27 @@ func testDatabaseCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i
 	return wait.UntilDatabaseIsUp(ctx, client, testZone, db.ID)
 }
 
-func testDatabaseRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDatabaseRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDatabaseOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testDatabaseUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDatabaseUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDatabaseOp(caller)
 	return client.UpdateSettings(ctx, testZone, ctx.ID, updateDatabaseSettingsParam)
 }
 
-func testDatabaseUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDatabaseUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDatabaseOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateDatabaseParam)
 }
 
-func testDatabaseUpdateToFull(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDatabaseUpdateToFull(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDatabaseOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateDatabaseToFullParam)
 }
 
-func testDatabaseUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDatabaseUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDatabaseOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateDatabaseToMinParam)
 }
@@ -618,7 +618,7 @@ func testDatabaseDelete(ctx *testutil.CRUDTestContext, caller iaas.APICaller) er
 	return client.Delete(ctx, testZone, ctx.ID)
 }
 
-func testDatabaseCreateWithBackupv2(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDatabaseCreateWithBackupv2(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDatabaseOp(caller)
 	db, err := client.Create(ctx, testZone, createDatabaseWithBackupv2Param)
 	if err != nil {
@@ -627,7 +627,7 @@ func testDatabaseCreateWithBackupv2(ctx *testutil.CRUDTestContext, caller iaas.A
 	return wait.UntilDatabaseIsUp(ctx, client, testZone, db.ID)
 }
 
-func testDatabaseUpdateWithBackupv2(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDatabaseUpdateWithBackupv2(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDatabaseOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateDatabaseWithBackupv2Param)
 }

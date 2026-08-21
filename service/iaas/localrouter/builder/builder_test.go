@@ -48,7 +48,7 @@ func TestLocalRouterBuilder_Build(t *testing.T) {
 			return err
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &Builder{
 					Name:        testutil.ResourceName("local-router-builder"),
 					Description: "description",
@@ -83,10 +83,10 @@ func TestLocalRouterBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				return iaas.NewLocalRouterOp(caller).Read(ctx, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				lr := value.(*iaas.LocalRouter)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, lr, "LocalRouter"),
@@ -116,7 +116,7 @@ func TestLocalRouterBuilder_minimum(t *testing.T) {
 		Parallel:           true,
 		IgnoreStartupWait:  true,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &Builder{
 					Name:   testutil.ResourceName("local-router-builder"),
 					Client: NewAPIClient(caller),
@@ -125,10 +125,10 @@ func TestLocalRouterBuilder_minimum(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				return iaas.NewLocalRouterOp(caller).Read(ctx, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				lr := value.(*iaas.LocalRouter)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, lr, "LocalRouter"),

@@ -48,14 +48,14 @@ func TestTransferArchiveBuilder_Build(t *testing.T) {
 				return err
 			}
 			sourceArchive = created
-			_, err = iaas.WaiterForReady(func() (interface{}, error) {
+			_, err = iaas.WaiterForReady(func() (any, error) {
 				return archiveOp.Read(ctx, zoneFrom, sourceArchive.ID)
 			}).WaitForState(ctx)
 
 			return err
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &TransferArchiveBuilder{
 					Name:              testutil.ResourceName("archive-from-other-zone"),
 					Description:       "description",
@@ -68,10 +68,10 @@ func TestTransferArchiveBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				return iaas.NewArchiveOp(caller).Read(ctx, zoneTo, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				archive := value.(*iaas.Archive)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, archive, "Archive"),
@@ -82,7 +82,7 @@ func TestTransferArchiveBuilder_Build(t *testing.T) {
 			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) error {
 				archiveOp := iaas.NewArchiveOp(caller)
 
-				_, err := iaas.WaiterForReady(func() (interface{}, error) {
+				_, err := iaas.WaiterForReady(func() (any, error) {
 					return archiveOp.Read(ctx, zoneTo, ctx.ID)
 				}).WaitForState(ctx)
 				if err != nil {

@@ -27,7 +27,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func newTestCloudHSMClient(resp interface{}, status ...int) *v1.Client {
+func newTestCloudHSMClient(resp any, status ...int) *v1.Client {
 	return newTestClient(resp, status...)
 }
 

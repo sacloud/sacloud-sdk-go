@@ -58,7 +58,7 @@ func TestBuilder_Build(t *testing.T) {
 			return nil
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &Builder{
 					Zone:        testZone,
 					Name:        testutil.ResourceName("vpc-router-builder"),
@@ -85,11 +85,11 @@ func TestBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				vpcRouterOp := iaas.NewVPCRouterOp(caller)
 				return vpcRouterOp.Read(ctx, testZone, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				vpcRouter := value.(*iaas.VPCRouter)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, vpcRouter, "VPCRouter"),
@@ -161,7 +161,7 @@ func TestBuilder_BuildWithRouter(t *testing.T) {
 			return nil
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &Builder{
 					Zone:        testZone,
 					Name:        testutil.ResourceName("vpc-router-builder"),
@@ -192,7 +192,7 @@ func TestBuilder_BuildWithRouter(t *testing.T) {
 				}
 				return builder.Build(ctx)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				vpcRouter := value.(*iaas.VPCRouter)
 				found := false
 				for _, iface := range vpcRouter.Interfaces {
@@ -207,11 +207,11 @@ func TestBuilder_BuildWithRouter(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				vpcRouterOp := iaas.NewVPCRouterOp(caller)
 				return vpcRouterOp.Read(ctx, testZone, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				vpcRouter := value.(*iaas.VPCRouter)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, vpcRouter, "VPCRouter"),
@@ -222,7 +222,7 @@ func TestBuilder_BuildWithRouter(t *testing.T) {
 		},
 		Updates: []*testutil.CRUDTestFunc{
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					builder := &Builder{
 						ID:   ctx.ID,
 						Zone: testZone,
@@ -255,7 +255,7 @@ func TestBuilder_BuildWithRouter(t *testing.T) {
 					}
 					return builder.Build(ctx)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 					vpcRouter := value.(*iaas.VPCRouter)
 					found := false
 					for _, iface := range vpcRouter.Interfaces {

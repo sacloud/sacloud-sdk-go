@@ -18,17 +18,17 @@ import "reflect"
 
 // ToSlice vがsliceだったら[]interface{}にする
 // vが非スライスだったらvを単一の要素とする[]interface{}を返す
-func ToSlice(v interface{}) []interface{} {
+func ToSlice(v any) []any {
 	if v == nil {
 		return nil
 	}
 
 	rv := reflect.ValueOf(v)
 	if rv.Kind() != reflect.Slice {
-		return []interface{}{v}
+		return []any{v}
 	}
 
-	var results []interface{}
+	var results []any
 	for i := 0; i < rv.Len(); i++ {
 		results = append(results, rv.Index(i).Interface())
 	}

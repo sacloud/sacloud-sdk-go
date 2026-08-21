@@ -146,7 +146,7 @@ func (t *StaticType) ToPtrType() Type {
 }
 
 // Static 型情報を受け取りTypeを返す
-func Static(v interface{}) *StaticType {
+func Static(v any) *StaticType {
 	t := reflect.TypeOf(v)
 	pkgName := ""
 	pkgPath := t.PkgPath()

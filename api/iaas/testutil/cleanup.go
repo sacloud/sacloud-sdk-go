@@ -252,7 +252,7 @@ var cleanupFindCondition = &iaas.FindCondition{
 }
 
 type cleanupTarget struct {
-	resource    interface{}
+	resource    any
 	prepareFunc func(context.Context) error
 	deleteFunc  func(context.Context) error
 }
@@ -451,7 +451,7 @@ func findDatabase(ctx context.Context, caller iaas.APICaller) ([]*cleanupTarget,
 					if err := op.Shutdown(ctx, zone, v.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return err
 					}
-					_, err := iaas.WaiterForDown(func() (interface{}, error) {
+					_, err := iaas.WaiterForDown(func() (any, error) {
 						return op.Read(ctx, zone, v.ID)
 					}).WaitForState(ctx)
 					return err
@@ -586,7 +586,7 @@ func findLoadBalancer(ctx context.Context, caller iaas.APICaller) ([]*cleanupTar
 					if err := op.Shutdown(ctx, zone, v.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return err
 					}
-					_, err := iaas.WaiterForDown(func() (interface{}, error) {
+					_, err := iaas.WaiterForDown(func() (any, error) {
 						return op.Read(ctx, zone, v.ID)
 					}).WaitForState(ctx)
 					return err
@@ -634,7 +634,7 @@ func findMobileGateway(ctx context.Context, caller iaas.APICaller) ([]*cleanupTa
 					if err := op.Shutdown(ctx, zone, v.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return err
 					}
-					_, err = iaas.WaiterForDown(func() (interface{}, error) {
+					_, err = iaas.WaiterForDown(func() (any, error) {
 						return op.Read(ctx, zone, v.ID)
 					}).WaitForState(ctx)
 					return err
@@ -666,7 +666,7 @@ func findNFS(ctx context.Context, caller iaas.APICaller) ([]*cleanupTarget, erro
 					if err := op.Shutdown(ctx, zone, v.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return err
 					}
-					_, err := iaas.WaiterForDown(func() (interface{}, error) {
+					_, err := iaas.WaiterForDown(func() (any, error) {
 						return op.Read(ctx, zone, v.ID)
 					}).WaitForState(ctx)
 					return err
@@ -761,7 +761,7 @@ func findServer(ctx context.Context, caller iaas.APICaller) ([]*cleanupTarget, e
 					if err := op.Shutdown(ctx, zone, v.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return err
 					}
-					_, err := iaas.WaiterForDown(func() (interface{}, error) {
+					_, err := iaas.WaiterForDown(func() (any, error) {
 						return op.Read(ctx, zone, v.ID)
 					}).WaitForState(ctx)
 					return err
@@ -853,7 +853,7 @@ func findVPCRouter(ctx context.Context, caller iaas.APICaller) ([]*cleanupTarget
 					if err := op.Shutdown(ctx, zone, v.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return err
 					}
-					_, err := iaas.WaiterForDown(func() (interface{}, error) {
+					_, err := iaas.WaiterForDown(func() (any, error) {
 						return op.Read(ctx, zone, v.ID)
 					}).WaitForState(ctx)
 					return err

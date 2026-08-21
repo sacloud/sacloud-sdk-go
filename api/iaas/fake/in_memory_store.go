@@ -23,14 +23,14 @@ import (
 
 // InMemoryStore データをメモリ上に保存するためのデータストア
 type InMemoryStore struct {
-	data map[string]map[string]interface{}
+	data map[string]map[string]any
 	mu   sync.Mutex
 }
 
 // NewInMemoryStore .
 func NewInMemoryStore() *InMemoryStore {
 	return &InMemoryStore{
-		data: make(map[string]map[string]interface{}),
+		data: make(map[string]map[string]any),
 	}
 }
 
@@ -45,20 +45,20 @@ func (s *InMemoryStore) NeedInitData() bool {
 }
 
 // Put .
-func (s *InMemoryStore) Put(resourceKey, zone string, id types.ID, value interface{}) {
+func (s *InMemoryStore) Put(resourceKey, zone string, id types.ID, value any) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	values := s.values(resourceKey, zone)
 	if values == nil {
-		values = map[string]interface{}{}
+		values = map[string]any{}
 	}
 	values[id.String()] = value
 	s.data[s.key(resourceKey, zone)] = values
 }
 
 // Get .
-func (s *InMemoryStore) Get(resourceKey, zone string, id types.ID) interface{} {
+func (s *InMemoryStore) Get(resourceKey, zone string, id types.ID) any {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -70,12 +70,12 @@ func (s *InMemoryStore) Get(resourceKey, zone string, id types.ID) interface{} {
 }
 
 // List .
-func (s *InMemoryStore) List(resourceKey, zone string) []interface{} {
+func (s *InMemoryStore) List(resourceKey, zone string) []any {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	values := s.values(resourceKey, zone)
-	var ret []interface{}
+	var ret []any
 	for _, v := range values {
 		ret = append(ret, v)
 	}
@@ -97,6 +97,6 @@ func (s *InMemoryStore) key(resourceKey, zone string) string {
 	return fmt.Sprintf("%s/%s", resourceKey, zone)
 }
 
-func (s *InMemoryStore) values(resourceKey, zone string) map[string]interface{} {
+func (s *InMemoryStore) values(resourceKey, zone string) map[string]any {
 	return s.data[s.key(resourceKey, zone)]
 }

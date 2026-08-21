@@ -62,14 +62,14 @@ func TestSIMOpCRUD(t *testing.T) {
 			},
 			// activate
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewSIMOp(caller)
 					if err := client.Activate(ctx, ctx.ID); err != nil {
 						return nil, err
 					}
 					return client.Status(ctx, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					simInfo := v.(*iaas.SIMInfo)
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, simInfo, "SIMInfo"),
@@ -80,14 +80,14 @@ func TestSIMOpCRUD(t *testing.T) {
 			},
 			// deactivate
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewSIMOp(caller)
 					if err := client.Deactivate(ctx, ctx.ID); err != nil {
 						return nil, err
 					}
 					return client.Status(ctx, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					simInfo := v.(*iaas.SIMInfo)
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, simInfo, "SIMInfo"),
@@ -98,7 +98,7 @@ func TestSIMOpCRUD(t *testing.T) {
 			},
 			// IMEI lock
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewSIMOp(caller)
 					if err := client.IMEILock(ctx, ctx.ID, &iaas.SIMIMEILockRequest{
 						IMEI: "123456789012345",
@@ -107,7 +107,7 @@ func TestSIMOpCRUD(t *testing.T) {
 					}
 					return client.Status(ctx, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					simInfo := v.(*iaas.SIMInfo)
 					return testutil.DoAsserts(
 						testutil.AssertTrueFunc(t, simInfo.IMEILock, "SIMInfo.IMEILock"),
@@ -118,14 +118,14 @@ func TestSIMOpCRUD(t *testing.T) {
 			},
 			// IMEI unlock
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewSIMOp(caller)
 					if err := client.IMEIUnlock(ctx, ctx.ID); err != nil {
 						return nil, err
 					}
 					return client.Status(ctx, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					simInfo := v.(*iaas.SIMInfo)
 					return testutil.DoAsserts(
 						testutil.AssertFalseFunc(t, simInfo.IMEILock, "SIMInfo.IMEILock"),
@@ -136,7 +136,7 @@ func TestSIMOpCRUD(t *testing.T) {
 			},
 			// network operator
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewSIMOp(caller)
 					configs := []*iaas.SIMNetworkOperatorConfig{
 						{
@@ -149,7 +149,7 @@ func TestSIMOpCRUD(t *testing.T) {
 					}
 					return client.GetNetworkOperator(ctx, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					config := v.([]*iaas.SIMNetworkOperatorConfig)
 					return testutil.DoAsserts(
 						testutil.AssertNotEmptyFunc(t, config, "NetworkOperatorConfig"),
@@ -225,17 +225,17 @@ var (
 	updateSIMExpected *iaas.SIM
 )
 
-func testSIMCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSIMCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSIMOp(caller)
 	return client.Create(ctx, createSIMParam)
 }
 
-func testSIMRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSIMRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSIMOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testSIMUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSIMUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSIMOp(caller)
 	return client.Update(ctx, ctx.ID, updateSIMParam)
 }

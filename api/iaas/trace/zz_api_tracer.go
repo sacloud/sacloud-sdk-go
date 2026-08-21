@@ -36,148 +36,148 @@ func AddClientFactoryHooks() {
 }
 
 func addClientFactoryHooks() {
-	iaas.AddClientFacotyHookFunc("Archive", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Archive", func(in any) any {
 		return NewArchiveTracer(in.(iaas.ArchiveAPI))
 	})
-	iaas.AddClientFacotyHookFunc("AuthStatus", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("AuthStatus", func(in any) any {
 		return NewAuthStatusTracer(in.(iaas.AuthStatusAPI))
 	})
-	iaas.AddClientFacotyHookFunc("AutoBackup", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("AutoBackup", func(in any) any {
 		return NewAutoBackupTracer(in.(iaas.AutoBackupAPI))
 	})
-	iaas.AddClientFacotyHookFunc("AutoScale", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("AutoScale", func(in any) any {
 		return NewAutoScaleTracer(in.(iaas.AutoScaleAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Bill", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Bill", func(in any) any {
 		return NewBillTracer(in.(iaas.BillAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Bridge", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Bridge", func(in any) any {
 		return NewBridgeTracer(in.(iaas.BridgeAPI))
 	})
-	iaas.AddClientFacotyHookFunc("CDROM", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("CDROM", func(in any) any {
 		return NewCDROMTracer(in.(iaas.CDROMAPI))
 	})
-	iaas.AddClientFacotyHookFunc("CertificateAuthority", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("CertificateAuthority", func(in any) any {
 		return NewCertificateAuthorityTracer(in.(iaas.CertificateAuthorityAPI))
 	})
-	iaas.AddClientFacotyHookFunc("ContainerRegistry", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("ContainerRegistry", func(in any) any {
 		return NewContainerRegistryTracer(in.(iaas.ContainerRegistryAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Coupon", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Coupon", func(in any) any {
 		return NewCouponTracer(in.(iaas.CouponAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Database", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Database", func(in any) any {
 		return NewDatabaseTracer(in.(iaas.DatabaseAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Disk", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Disk", func(in any) any {
 		return NewDiskTracer(in.(iaas.DiskAPI))
 	})
-	iaas.AddClientFacotyHookFunc("DiskPlan", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("DiskPlan", func(in any) any {
 		return NewDiskPlanTracer(in.(iaas.DiskPlanAPI))
 	})
-	iaas.AddClientFacotyHookFunc("DNS", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("DNS", func(in any) any {
 		return NewDNSTracer(in.(iaas.DNSAPI))
 	})
-	iaas.AddClientFacotyHookFunc("EnhancedDB", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("EnhancedDB", func(in any) any {
 		return NewEnhancedDBTracer(in.(iaas.EnhancedDBAPI))
 	})
-	iaas.AddClientFacotyHookFunc("ESME", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("ESME", func(in any) any {
 		return NewESMETracer(in.(iaas.ESMEAPI))
 	})
-	iaas.AddClientFacotyHookFunc("GSLB", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("GSLB", func(in any) any {
 		return NewGSLBTracer(in.(iaas.GSLBAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Icon", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Icon", func(in any) any {
 		return NewIconTracer(in.(iaas.IconAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Interface", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Interface", func(in any) any {
 		return NewInterfaceTracer(in.(iaas.InterfaceAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Internet", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Internet", func(in any) any {
 		return NewInternetTracer(in.(iaas.InternetAPI))
 	})
-	iaas.AddClientFacotyHookFunc("InternetPlan", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("InternetPlan", func(in any) any {
 		return NewInternetPlanTracer(in.(iaas.InternetPlanAPI))
 	})
-	iaas.AddClientFacotyHookFunc("IPAddress", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("IPAddress", func(in any) any {
 		return NewIPAddressTracer(in.(iaas.IPAddressAPI))
 	})
-	iaas.AddClientFacotyHookFunc("IPv6Net", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("IPv6Net", func(in any) any {
 		return NewIPv6NetTracer(in.(iaas.IPv6NetAPI))
 	})
-	iaas.AddClientFacotyHookFunc("IPv6Addr", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("IPv6Addr", func(in any) any {
 		return NewIPv6AddrTracer(in.(iaas.IPv6AddrAPI))
 	})
-	iaas.AddClientFacotyHookFunc("License", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("License", func(in any) any {
 		return NewLicenseTracer(in.(iaas.LicenseAPI))
 	})
-	iaas.AddClientFacotyHookFunc("LicenseInfo", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("LicenseInfo", func(in any) any {
 		return NewLicenseInfoTracer(in.(iaas.LicenseInfoAPI))
 	})
-	iaas.AddClientFacotyHookFunc("LoadBalancer", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("LoadBalancer", func(in any) any {
 		return NewLoadBalancerTracer(in.(iaas.LoadBalancerAPI))
 	})
-	iaas.AddClientFacotyHookFunc("LocalRouter", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("LocalRouter", func(in any) any {
 		return NewLocalRouterTracer(in.(iaas.LocalRouterAPI))
 	})
-	iaas.AddClientFacotyHookFunc("MobileGateway", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("MobileGateway", func(in any) any {
 		return NewMobileGatewayTracer(in.(iaas.MobileGatewayAPI))
 	})
-	iaas.AddClientFacotyHookFunc("NFS", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("NFS", func(in any) any {
 		return NewNFSTracer(in.(iaas.NFSAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Note", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Note", func(in any) any {
 		return NewNoteTracer(in.(iaas.NoteAPI))
 	})
-	iaas.AddClientFacotyHookFunc("PacketFilter", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("PacketFilter", func(in any) any {
 		return NewPacketFilterTracer(in.(iaas.PacketFilterAPI))
 	})
-	iaas.AddClientFacotyHookFunc("PrivateHost", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("PrivateHost", func(in any) any {
 		return NewPrivateHostTracer(in.(iaas.PrivateHostAPI))
 	})
-	iaas.AddClientFacotyHookFunc("PrivateHostPlan", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("PrivateHostPlan", func(in any) any {
 		return NewPrivateHostPlanTracer(in.(iaas.PrivateHostPlanAPI))
 	})
-	iaas.AddClientFacotyHookFunc("ProxyLB", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("ProxyLB", func(in any) any {
 		return NewProxyLBTracer(in.(iaas.ProxyLBAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Region", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Region", func(in any) any {
 		return NewRegionTracer(in.(iaas.RegionAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Server", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Server", func(in any) any {
 		return NewServerTracer(in.(iaas.ServerAPI))
 	})
-	iaas.AddClientFacotyHookFunc("ServerPlan", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("ServerPlan", func(in any) any {
 		return NewServerPlanTracer(in.(iaas.ServerPlanAPI))
 	})
-	iaas.AddClientFacotyHookFunc("ServiceClass", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("ServiceClass", func(in any) any {
 		return NewServiceClassTracer(in.(iaas.ServiceClassAPI))
 	})
-	iaas.AddClientFacotyHookFunc("SIM", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("SIM", func(in any) any {
 		return NewSIMTracer(in.(iaas.SIMAPI))
 	})
-	iaas.AddClientFacotyHookFunc("SimpleMonitor", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("SimpleMonitor", func(in any) any {
 		return NewSimpleMonitorTracer(in.(iaas.SimpleMonitorAPI))
 	})
-	iaas.AddClientFacotyHookFunc("SimpleNotificationDestination", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("SimpleNotificationDestination", func(in any) any {
 		return NewSimpleNotificationDestinationTracer(in.(iaas.SimpleNotificationDestinationAPI))
 	})
-	iaas.AddClientFacotyHookFunc("SimpleNotificationGroup", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("SimpleNotificationGroup", func(in any) any {
 		return NewSimpleNotificationGroupTracer(in.(iaas.SimpleNotificationGroupAPI))
 	})
-	iaas.AddClientFacotyHookFunc("SSHKey", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("SSHKey", func(in any) any {
 		return NewSSHKeyTracer(in.(iaas.SSHKeyAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Subnet", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Subnet", func(in any) any {
 		return NewSubnetTracer(in.(iaas.SubnetAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Switch", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Switch", func(in any) any {
 		return NewSwitchTracer(in.(iaas.SwitchAPI))
 	})
-	iaas.AddClientFacotyHookFunc("VPCRouter", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("VPCRouter", func(in any) any {
 		return NewVPCRouterTracer(in.(iaas.VPCRouterAPI))
 	})
-	iaas.AddClientFacotyHookFunc("Zone", func(in interface{}) interface{} {
+	iaas.AddClientFacotyHookFunc("Zone", func(in any) any {
 		return NewZoneTracer(in.(iaas.ZoneAPI))
 	})
 }
@@ -3305,12 +3305,12 @@ func (t *DatabaseTracer) GetParameter(ctx context.Context, zone string, id types
 }
 
 // SetParameter is API call with trace log
-func (t *DatabaseTracer) SetParameter(ctx context.Context, zone string, id types.ID, param map[string]interface{}) error {
+func (t *DatabaseTracer) SetParameter(ctx context.Context, zone string, id types.ID, param map[string]any) error {
 	log.Println("[TRACE] DatabaseAPI.SetParameter start")
 	targetArguments := struct {
 		Argzone  string
-		Argid    types.ID               `json:"id"`
-		Argparam map[string]interface{} `json:"param"`
+		Argid    types.ID       `json:"id"`
+		Argparam map[string]any `json:"param"`
 	}{
 		Argzone:  zone,
 		Argid:    id,

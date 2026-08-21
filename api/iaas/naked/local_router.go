@@ -68,9 +68,9 @@ type LocalRouterSettingSwitch struct {
 // UnmarshalJSON ZoneIDに数値/文字列が混在する問題への対応
 func (l *LocalRouterSettingSwitch) UnmarshalJSON(b []byte) error {
 	type alias struct {
-		Code     string      `json:",omitempty" yaml:",omitempty" structs:",omitempty"` // リソースIDなど
-		Category string      `json:",omitempty" yaml:",omitempty" structs:",omitempty"` // cloud/vps/専用サーバなどを表す
-		ZoneID   interface{} `json:",omitempty" yaml:",omitempty" structs:",omitempty"` // クラウドの場合is1aなど Note: VPSの場合は数値型となる
+		Code     string `json:",omitempty" yaml:",omitempty" structs:",omitempty"` // リソースIDなど
+		Category string `json:",omitempty" yaml:",omitempty" structs:",omitempty"` // cloud/vps/専用サーバなどを表す
+		ZoneID   any    `json:",omitempty" yaml:",omitempty" structs:",omitempty"` // クラウドの場合is1aなど Note: VPSの場合は数値型となる
 	}
 
 	var a alias

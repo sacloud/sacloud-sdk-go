@@ -71,12 +71,12 @@ type Parser struct {
 var DefaultParser = &Parser{Config: &ParserConfig{TagName: DefaultTagName}}
 
 // Parse デフォルトのParser(タグ名:meta)でmeta-tagをパースする
-func Parse(v interface{}) ([]StructField, error) {
+func Parse(v any) ([]StructField, error) {
 	return DefaultParser.Parse(v)
 }
 
 // Parse meta-tagをパースする
-func (p *Parser) Parse(v interface{}) ([]StructField, error) {
+func (p *Parser) Parse(v any) ([]StructField, error) {
 	if v == nil {
 		return nil, errors.New("value required")
 	}

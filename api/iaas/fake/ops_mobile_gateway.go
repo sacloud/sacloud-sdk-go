@@ -136,7 +136,7 @@ func (o *MobileGatewayOp) Boot(ctx context.Context, zone string, id types.ID) er
 		return newErrorConflict(o.key, id, "Boot is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -153,7 +153,7 @@ func (o *MobileGatewayOp) Shutdown(ctx context.Context, zone string, id types.ID
 		return newErrorConflict(o.key, id, "Shutdown is failed")
 	}
 
-	startPowerOff(o.key, zone, func() (interface{}, error) {
+	startPowerOff(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -170,7 +170,7 @@ func (o *MobileGatewayOp) Reset(ctx context.Context, zone string, id types.ID) e
 		return newErrorConflict(o.key, id, "Reset is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 

@@ -25,7 +25,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func newTestLicenseClient(resp interface{}, status ...int) *v1.Client {
+func newTestLicenseClient(resp any, status ...int) *v1.Client {
 	return newTestClient(resp, status...)
 }
 

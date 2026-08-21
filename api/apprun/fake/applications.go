@@ -296,7 +296,7 @@ func toHandlerPatchApplication(app *v1.HandlerGetApplication, updatedAt time.Tim
 	}
 
 	// HandlerPatchApplicationはupdated_atをrequiredフィールドとして持つため、payloadからcreated_atを削除し、updated_atを追加する
-	tempJson := make(map[string]interface{})
+	tempJson := make(map[string]any)
 	if err := json.Unmarshal(payload, &tempJson); err != nil {
 		return nil
 	}

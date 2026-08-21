@@ -93,7 +93,7 @@ func (o *DiskOp) Create(ctx context.Context, zone string, param *iaas.DiskCreate
 	putDisk(zone, result)
 
 	id := result.ID
-	startDiskCopy(o.key, zone, func() (interface{}, error) {
+	startDiskCopy(o.key, zone, func() (any, error) {
 		disk, err := o.Read(context.Background(), zone, id)
 		if err != nil {
 			return nil, err
@@ -180,7 +180,7 @@ func (o *DiskOp) CreateWithConfig(ctx context.Context, zone string, createParam 
 	}
 
 	if !createParam.ServerID.IsEmpty() && bootAtAvailable {
-		waiter := iaas.WaiterForReady(func() (interface{}, error) {
+		waiter := iaas.WaiterForReady(func() (any, error) {
 			disk, err := o.Read(ctx, zone, result.ID)
 			if err != nil {
 				return nil, err

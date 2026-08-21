@@ -75,7 +75,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 		Tags:         types.Tags{"tag1", "tag2"},
 		SettingsHash: "",
 		NoWait:       false,
-		Parameters: map[string]interface{}{
+		Parameters: map[string]any{
 			"max_connections": float64(100),
 		},
 		SetupOptions: &setup.Options{
@@ -138,7 +138,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 				BackupWeekdays:        []types.EDayOfTheWeek{types.DaysOfTheWeek.Monday},
 				BackupStartTimeHour:   10,
 				BackupStartTimeMinute: 0,
-				Parameters: map[string]interface{}{
+				Parameters: map[string]any{
 					"max_connections": float64(100),
 				},
 				NoWait: true,
@@ -150,7 +150,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 				ID:                db.ID,
 				EnableReplication: pointer.NewBool(false),
 				EnableBackup:      pointer.NewBool(false),
-				Parameters: &map[string]interface{}{
+				Parameters: &map[string]any{
 					"work_mem": float64(4096),
 				},
 				NoWait: true,
@@ -178,7 +178,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 				BackupWeekdays:        []types.EDayOfTheWeek{types.DaysOfTheWeek.Monday},
 				BackupStartTimeHour:   10,
 				BackupStartTimeMinute: 0,
-				Parameters: map[string]interface{}{
+				Parameters: map[string]any{
 					"max_connections": float64(100),
 					"work_mem":        float64(4096),
 				},

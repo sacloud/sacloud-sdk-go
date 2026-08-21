@@ -24,7 +24,7 @@ import (
 
 type inputKeyValue struct {
 	key       FilterKey
-	condition interface{}
+	condition any
 }
 
 func TestFilter(t *testing.T) {

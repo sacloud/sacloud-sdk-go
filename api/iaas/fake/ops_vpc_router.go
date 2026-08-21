@@ -104,7 +104,7 @@ func (o *VPCRouterOp) Create(ctx context.Context, zone string, param *iaas.VPCRo
 	putVPCRouter(zone, result)
 
 	id := result.ID
-	startMigration(o.key, zone, func() (interface{}, error) {
+	startMigration(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 	return result, nil
@@ -172,7 +172,7 @@ func (o *VPCRouterOp) Boot(ctx context.Context, zone string, id types.ID) error 
 		return newErrorConflict(o.key, id, "Boot is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -189,7 +189,7 @@ func (o *VPCRouterOp) Shutdown(ctx context.Context, zone string, id types.ID, sh
 		return newErrorConflict(o.key, id, "Shutdown is failed")
 	}
 
-	startPowerOff(o.key, zone, func() (interface{}, error) {
+	startPowerOff(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -206,7 +206,7 @@ func (o *VPCRouterOp) Reset(ctx context.Context, zone string, id types.ID) error
 		return newErrorConflict(o.key, id, "Reset is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 

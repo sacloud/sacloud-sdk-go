@@ -33,7 +33,7 @@ func TestMapConvDecoder_inheritsDecoderConfig(t *testing.T) {
 		Config: &DecoderConfig{
 			TagName: DefaultMapConvTag,
 			FilterFuncs: map[string]FilterFunc{
-				"test": func(v interface{}) (interface{}, error) {
+				"test": func(v any) (any, error) {
 					s := v.(string)
 					return strings.ToUpper(s), nil
 				},

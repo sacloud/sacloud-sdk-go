@@ -27,7 +27,7 @@ func TestAuthStatusOp_Read(t *testing.T) {
 		Parallel:           true,
 		SetupAPICallerFunc: singletonAPICaller,
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				client := iaas.NewAuthStatusOp(singletonAPICaller())
 				authStatus, err := client.Read(ctx)
 

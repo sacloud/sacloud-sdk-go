@@ -66,7 +66,7 @@ func TestESMEOpCRUD(t *testing.T) {
 			},
 			// send SMS
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewESMEOp(caller)
 					_, err := client.SendMessageWithGeneratedOTP(ctx, ctx.ID, &iaas.ESMESendMessageWithGeneratedOTPRequest{
 						Destination: destination,
@@ -77,7 +77,7 @@ func TestESMEOpCRUD(t *testing.T) {
 				},
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewESMEOp(caller)
 					logs, err := client.Logs(ctx, ctx.ID)
 					if err != nil {
@@ -89,7 +89,7 @@ func TestESMEOpCRUD(t *testing.T) {
 				},
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewESMEOp(caller)
 					_, err := client.SendMessageWithInputtedOTP(ctx, ctx.ID, &iaas.ESMESendMessageWithInputtedOTPRequest{
 						Destination: destination,
@@ -101,7 +101,7 @@ func TestESMEOpCRUD(t *testing.T) {
 				},
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewESMEOp(caller)
 					logs, err := client.Logs(ctx, ctx.ID)
 					if err != nil {
@@ -163,22 +163,22 @@ var (
 	}
 )
 
-func testESMECreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testESMECreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewESMEOp(caller)
 	return client.Create(ctx, createESMEParam)
 }
 
-func testESMERead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testESMERead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewESMEOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testESMEUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testESMEUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewESMEOp(caller)
 	return client.Update(ctx, ctx.ID, updateESMEParam)
 }
 
-func testESMEUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testESMEUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewESMEOp(caller)
 	return client.Update(ctx, ctx.ID, updateESMEToMinParam)
 }

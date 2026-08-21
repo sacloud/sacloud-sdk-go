@@ -27,12 +27,12 @@ func (o *ArchiveOp) transformFindArgs(conditions *FindCondition) (*archiveFindRe
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -61,12 +61,12 @@ func (o *ArchiveOp) transformCreateArgs(param *ArchiveCreateRequest) (*archiveCr
 	if param == nil {
 		param = &ArchiveCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Archive,recursive"`
+		Arg0 any `mapconv:"Archive,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -95,12 +95,12 @@ func (o *ArchiveOp) transformCreateBlankArgs(param *ArchiveCreateBlankRequest) (
 	if param == nil {
 		param = &ArchiveCreateBlankRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Archive,recursive"`
+		Arg0 any `mapconv:"Archive,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -142,20 +142,20 @@ func (o *ArchiveOp) transformUpdateArgs(id types.ID, param *ArchiveUpdateRequest
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ArchiveUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Archive,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Archive,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -185,20 +185,20 @@ func (o *ArchiveOp) transformOpenFTPArgs(id types.ID, openOption *OpenFTPRequest
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if openOption == nil {
 		openOption = &OpenFTPRequest{}
 	}
-	var arg1 interface{} = openOption
+	var arg1 any = openOption
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -228,12 +228,12 @@ func (o *ArchiveOp) transformShareArgs(id types.ID) (*archiveShareRequestEnvelop
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
+		Arg0 any
 	}{
 		Arg0: arg0,
 	}
@@ -262,28 +262,28 @@ func (o *ArchiveOp) transformCreateFromSharedArgs(sourceArchiveID types.ID, dest
 	if sourceArchiveID == types.ID(int64(0)) {
 		sourceArchiveID = types.ID(int64(0))
 	}
-	var arg0 interface{} = sourceArchiveID
+	var arg0 any = sourceArchiveID
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if destZoneID == types.ID(int64(0)) {
 		destZoneID = types.ID(int64(0))
 	}
-	var arg1 interface{} = destZoneID
+	var arg1 any = destZoneID
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ArchiveCreateRequestFromShared{}
 	}
-	var arg2 interface{} = param
+	var arg2 any = param
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{}
-		Arg2 interface{} `mapconv:"Archive,recursive"`
+		Arg0 any
+		Arg1 any
+		Arg2 any `mapconv:"Archive,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -314,28 +314,28 @@ func (o *ArchiveOp) transformTransferArgs(sourceArchiveID types.ID, destZoneID t
 	if sourceArchiveID == types.ID(int64(0)) {
 		sourceArchiveID = types.ID(int64(0))
 	}
-	var arg0 interface{} = sourceArchiveID
+	var arg0 any = sourceArchiveID
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if destZoneID == types.ID(int64(0)) {
 		destZoneID = types.ID(int64(0))
 	}
-	var arg1 interface{} = destZoneID
+	var arg1 any = destZoneID
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ArchiveTransferRequest{}
 	}
-	var arg2 interface{} = param
+	var arg2 any = param
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{}
-		Arg2 interface{} `mapconv:"Archive,recursive"`
+		Arg0 any
+		Arg1 any
+		Arg2 any `mapconv:"Archive,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -379,12 +379,12 @@ func (o *AutoBackupOp) transformFindArgs(conditions *FindCondition) (*autoBackup
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -413,12 +413,12 @@ func (o *AutoBackupOp) transformCreateArgs(param *AutoBackupCreateRequest) (*aut
 	if param == nil {
 		param = &AutoBackupCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -460,20 +460,20 @@ func (o *AutoBackupOp) transformUpdateArgs(id types.ID, param *AutoBackupUpdateR
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &AutoBackupUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -503,20 +503,20 @@ func (o *AutoBackupOp) transformUpdateSettingsArgs(id types.ID, param *AutoBacku
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &AutoBackupUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -546,12 +546,12 @@ func (o *AutoScaleOp) transformFindArgs(conditions *FindCondition) (*autoScaleFi
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -580,12 +580,12 @@ func (o *AutoScaleOp) transformCreateArgs(param *AutoScaleCreateRequest) (*autoS
 	if param == nil {
 		param = &AutoScaleCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -627,20 +627,20 @@ func (o *AutoScaleOp) transformUpdateArgs(id types.ID, param *AutoScaleUpdateReq
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &AutoScaleUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -670,20 +670,20 @@ func (o *AutoScaleOp) transformUpdateSettingsArgs(id types.ID, param *AutoScaleU
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &AutoScaleUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -804,12 +804,12 @@ func (o *BridgeOp) transformFindArgs(conditions *FindCondition) (*bridgeFindRequ
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -838,12 +838,12 @@ func (o *BridgeOp) transformCreateArgs(param *BridgeCreateRequest) (*bridgeCreat
 	if param == nil {
 		param = &BridgeCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Bridge,recursive"`
+		Arg0 any `mapconv:"Bridge,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -885,20 +885,20 @@ func (o *BridgeOp) transformUpdateArgs(id types.ID, param *BridgeUpdateRequest) 
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &BridgeUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Bridge,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Bridge,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -928,12 +928,12 @@ func (o *CDROMOp) transformFindArgs(conditions *FindCondition) (*cDROMFindReques
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -962,12 +962,12 @@ func (o *CDROMOp) transformCreateArgs(param *CDROMCreateRequest) (*cDROMCreateRe
 	if param == nil {
 		param = &CDROMCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CDROM,recursive"`
+		Arg0 any `mapconv:"CDROM,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -1009,20 +1009,20 @@ func (o *CDROMOp) transformUpdateArgs(id types.ID, param *CDROMUpdateRequest) (*
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &CDROMUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CDROM,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CDROM,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1052,20 +1052,20 @@ func (o *CDROMOp) transformOpenFTPArgs(id types.ID, openOption *OpenFTPRequest) 
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if openOption == nil {
 		openOption = &OpenFTPRequest{}
 	}
-	var arg1 interface{} = openOption
+	var arg1 any = openOption
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1095,12 +1095,12 @@ func (o *CertificateAuthorityOp) transformFindArgs(conditions *FindCondition) (*
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -1129,12 +1129,12 @@ func (o *CertificateAuthorityOp) transformCreateArgs(param *CertificateAuthority
 	if param == nil {
 		param = &CertificateAuthorityCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -1176,20 +1176,20 @@ func (o *CertificateAuthorityOp) transformUpdateArgs(id types.ID, param *Certifi
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &CertificateAuthorityUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1232,20 +1232,20 @@ func (o *CertificateAuthorityOp) transformAddClientArgs(id types.ID, param *Cert
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &CertificateAuthorityAddClientParam{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CertificateAuthority.Status,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CertificateAuthority.Status,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1301,20 +1301,20 @@ func (o *CertificateAuthorityOp) transformAddServerArgs(id types.ID, param *Cert
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &CertificateAuthorityAddServerParam{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CertificateAuthority.Status,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CertificateAuthority.Status,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1370,12 +1370,12 @@ func (o *ContainerRegistryOp) transformFindArgs(conditions *FindCondition) (*con
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -1404,12 +1404,12 @@ func (o *ContainerRegistryOp) transformCreateArgs(param *ContainerRegistryCreate
 	if param == nil {
 		param = &ContainerRegistryCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -1451,20 +1451,20 @@ func (o *ContainerRegistryOp) transformUpdateArgs(id types.ID, param *ContainerR
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ContainerRegistryUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1494,20 +1494,20 @@ func (o *ContainerRegistryOp) transformUpdateSettingsArgs(id types.ID, param *Co
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ContainerRegistryUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1550,20 +1550,20 @@ func (o *ContainerRegistryOp) transformAddUserArgs(id types.ID, param *Container
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ContainerRegistryUserCreateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"ContainerRegistry,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"ContainerRegistry,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1580,28 +1580,28 @@ func (o *ContainerRegistryOp) transformUpdateUserArgs(id types.ID, username stri
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if username == "" {
 		username = ""
 	}
-	var arg1 interface{} = username
+	var arg1 any = username
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ContainerRegistryUserUpdateRequest{}
 	}
-	var arg2 interface{} = param
+	var arg2 any = param
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{}
-		Arg2 interface{} `mapconv:"ContainerRegistry,recursive"`
+		Arg0 any
+		Arg1 any
+		Arg2 any `mapconv:"ContainerRegistry,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1632,12 +1632,12 @@ func (o *DatabaseOp) transformFindArgs(conditions *FindCondition) (*databaseFind
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -1666,12 +1666,12 @@ func (o *DatabaseOp) transformCreateArgs(param *DatabaseCreateRequest) (*databas
 	if param == nil {
 		param = &DatabaseCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -1713,20 +1713,20 @@ func (o *DatabaseOp) transformUpdateArgs(id types.ID, param *DatabaseUpdateReque
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &DatabaseUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1756,20 +1756,20 @@ func (o *DatabaseOp) transformUpdateSettingsArgs(id types.ID, param *DatabaseUpd
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &DatabaseUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1799,20 +1799,20 @@ func (o *DatabaseOp) transformShutdownArgs(id types.ID, shutdownOption *Shutdown
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if shutdownOption == nil {
 		shutdownOption = &ShutdownOption{}
 	}
-	var arg1 interface{} = shutdownOption
+	var arg1 any = shutdownOption
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1829,20 +1829,20 @@ func (o *DatabaseOp) transformMonitorCPUArgs(id types.ID, condition *MonitorCond
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1872,20 +1872,20 @@ func (o *DatabaseOp) transformMonitorDiskArgs(id types.ID, condition *MonitorCon
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1915,20 +1915,20 @@ func (o *DatabaseOp) transformMonitorInterfaceArgs(id types.ID, condition *Monit
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -1958,20 +1958,20 @@ func (o *DatabaseOp) transformMonitorDatabaseArgs(id types.ID, condition *Monito
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2023,24 +2023,24 @@ func (o *DatabaseOp) transformGetParameterResults(data []byte) (*databaseGetPara
 	return results, nil
 }
 
-func (o *DatabaseOp) transformSetParameterArgs(id types.ID, param map[string]interface{}) (*databaseSetParameterRequestEnvelope, error) {
+func (o *DatabaseOp) transformSetParameterArgs(id types.ID, param map[string]any) (*databaseSetParameterRequestEnvelope, error) {
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
-		param = map[string]interface{}{}
+		param = map[string]any{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Parameter.Attr"`
+		Arg0 any
+		Arg1 any `mapconv:"Parameter.Attr"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2057,12 +2057,12 @@ func (o *DiskOp) transformFindArgs(conditions *FindCondition) (*diskFindRequestE
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -2091,28 +2091,28 @@ func (o *DiskOp) transformCreateArgs(createParam *DiskCreateRequest, distantFrom
 	if createParam == nil {
 		createParam = &DiskCreateRequest{}
 	}
-	var arg0 interface{} = createParam
+	var arg0 any = createParam
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if distantFrom == nil {
 		distantFrom = []types.ID{}
 	}
-	var arg1 interface{} = distantFrom
+	var arg1 any = distantFrom
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if kmeKeyID == types.ID(int64(0)) {
 		kmeKeyID = types.ID(int64(0))
 	}
-	var arg2 interface{} = kmeKeyID
+	var arg2 any = kmeKeyID
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Disk,recursive"`
-		Arg1 interface{} `mapconv:"DistantFrom"`
-		Arg2 interface{} `mapconv:"KMSKey.ID"`
+		Arg0 any `mapconv:"Disk,recursive"`
+		Arg1 any `mapconv:"DistantFrom"`
+		Arg2 any `mapconv:"KMSKey.ID"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2143,36 +2143,36 @@ func (o *DiskOp) transformCreateOnDedicatedStorageArgs(createParam *DiskCreateRe
 	if createParam == nil {
 		createParam = &DiskCreateRequest{}
 	}
-	var arg0 interface{} = createParam
+	var arg0 any = createParam
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if distantFrom == nil {
 		distantFrom = []types.ID{}
 	}
-	var arg1 interface{} = distantFrom
+	var arg1 any = distantFrom
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if kmeKeyID == types.ID(int64(0)) {
 		kmeKeyID = types.ID(int64(0))
 	}
-	var arg2 interface{} = kmeKeyID
+	var arg2 any = kmeKeyID
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	if dedicatedStorageContractID == types.ID(int64(0)) {
 		dedicatedStorageContractID = types.ID(int64(0))
 	}
-	var arg3 interface{} = dedicatedStorageContractID
+	var arg3 any = dedicatedStorageContractID
 	if v, ok := arg3.(argumentDefaulter); ok {
 		arg3 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Disk,recursive"`
-		Arg1 interface{} `mapconv:"DistantFrom"`
-		Arg2 interface{} `mapconv:"KMSKey.ID"`
-		Arg3 interface{} `mapconv:"TargetDedicatedStorageContract.ID"`
+		Arg0 any `mapconv:"Disk,recursive"`
+		Arg1 any `mapconv:"DistantFrom"`
+		Arg2 any `mapconv:"KMSKey.ID"`
+		Arg3 any `mapconv:"TargetDedicatedStorageContract.ID"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2204,20 +2204,20 @@ func (o *DiskOp) transformConfigArgs(id types.ID, edit *DiskEditRequest) (*diskC
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if edit == nil {
 		edit = &DiskEditRequest{}
 	}
-	var arg1 interface{} = edit
+	var arg1 any = edit
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2234,44 +2234,44 @@ func (o *DiskOp) transformCreateWithConfigArgs(createParam *DiskCreateRequest, e
 	if createParam == nil {
 		createParam = &DiskCreateRequest{}
 	}
-	var arg0 interface{} = createParam
+	var arg0 any = createParam
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if editParam == nil {
 		editParam = &DiskEditRequest{}
 	}
-	var arg1 interface{} = editParam
+	var arg1 any = editParam
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if bootAtAvailable == false {
 		bootAtAvailable = false
 	}
-	var arg2 interface{} = bootAtAvailable
+	var arg2 any = bootAtAvailable
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	if distantFrom == nil {
 		distantFrom = []types.ID{}
 	}
-	var arg3 interface{} = distantFrom
+	var arg3 any = distantFrom
 	if v, ok := arg3.(argumentDefaulter); ok {
 		arg3 = v.setDefaults()
 	}
 	if kmeKeyID == types.ID(int64(0)) {
 		kmeKeyID = types.ID(int64(0))
 	}
-	var arg4 interface{} = kmeKeyID
+	var arg4 any = kmeKeyID
 	if v, ok := arg4.(argumentDefaulter); ok {
 		arg4 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Disk,recursive"`
-		Arg1 interface{} `mapconv:"Config,recursive"`
-		Arg2 interface{} `mapconv:"BootAtAvailable"`
-		Arg3 interface{} `mapconv:"DistantFrom"`
-		Arg4 interface{} `mapconv:"KMSKey.ID"`
+		Arg0 any `mapconv:"Disk,recursive"`
+		Arg1 any `mapconv:"Config,recursive"`
+		Arg2 any `mapconv:"BootAtAvailable"`
+		Arg3 any `mapconv:"DistantFrom"`
+		Arg4 any `mapconv:"KMSKey.ID"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2304,52 +2304,52 @@ func (o *DiskOp) transformCreateOnDedicatedStorageWithConfigArgs(createParam *Di
 	if createParam == nil {
 		createParam = &DiskCreateRequest{}
 	}
-	var arg0 interface{} = createParam
+	var arg0 any = createParam
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if editParam == nil {
 		editParam = &DiskEditRequest{}
 	}
-	var arg1 interface{} = editParam
+	var arg1 any = editParam
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if bootAtAvailable == false {
 		bootAtAvailable = false
 	}
-	var arg2 interface{} = bootAtAvailable
+	var arg2 any = bootAtAvailable
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	if distantFrom == nil {
 		distantFrom = []types.ID{}
 	}
-	var arg3 interface{} = distantFrom
+	var arg3 any = distantFrom
 	if v, ok := arg3.(argumentDefaulter); ok {
 		arg3 = v.setDefaults()
 	}
 	if kmeKeyID == types.ID(int64(0)) {
 		kmeKeyID = types.ID(int64(0))
 	}
-	var arg4 interface{} = kmeKeyID
+	var arg4 any = kmeKeyID
 	if v, ok := arg4.(argumentDefaulter); ok {
 		arg4 = v.setDefaults()
 	}
 	if dedicatedStorageContractID == types.ID(int64(0)) {
 		dedicatedStorageContractID = types.ID(int64(0))
 	}
-	var arg5 interface{} = dedicatedStorageContractID
+	var arg5 any = dedicatedStorageContractID
 	if v, ok := arg5.(argumentDefaulter); ok {
 		arg5 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Disk,recursive"`
-		Arg1 interface{} `mapconv:"Config,recursive"`
-		Arg2 interface{} `mapconv:"BootAtAvailable"`
-		Arg3 interface{} `mapconv:"DistantFrom"`
-		Arg4 interface{} `mapconv:"KMSKey.ID"`
-		Arg5 interface{} `mapconv:"TargetDedicatedStorageContract.ID"`
+		Arg0 any `mapconv:"Disk,recursive"`
+		Arg1 any `mapconv:"Config,recursive"`
+		Arg2 any `mapconv:"BootAtAvailable"`
+		Arg3 any `mapconv:"DistantFrom"`
+		Arg4 any `mapconv:"KMSKey.ID"`
+		Arg5 any `mapconv:"TargetDedicatedStorageContract.ID"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2383,20 +2383,20 @@ func (o *DiskOp) transformResizePartitionArgs(id types.ID, param *DiskResizePart
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &DiskResizePartitionRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2426,20 +2426,20 @@ func (o *DiskOp) transformUpdateArgs(id types.ID, param *DiskUpdateRequest) (*di
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &DiskUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Disk,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Disk,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2469,20 +2469,20 @@ func (o *DiskOp) transformMonitorArgs(id types.ID, condition *MonitorCondition) 
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2512,20 +2512,20 @@ func (o *DiskOp) transformMonitorDiskArgs(id types.ID, condition *MonitorConditi
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2555,12 +2555,12 @@ func (o *DiskPlanOp) transformFindArgs(conditions *FindCondition) (*diskPlanFind
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -2602,12 +2602,12 @@ func (o *DNSOp) transformFindArgs(conditions *FindCondition) (*dNSFindRequestEnv
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -2636,12 +2636,12 @@ func (o *DNSOp) transformCreateArgs(param *DNSCreateRequest) (*dNSCreateRequestE
 	if param == nil {
 		param = &DNSCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -2683,20 +2683,20 @@ func (o *DNSOp) transformUpdateArgs(id types.ID, param *DNSUpdateRequest) (*dNSU
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &DNSUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2726,20 +2726,20 @@ func (o *DNSOp) transformUpdateSettingsArgs(id types.ID, param *DNSUpdateSetting
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &DNSUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2769,12 +2769,12 @@ func (o *EnhancedDBOp) transformFindArgs(conditions *FindCondition) (*enhancedDB
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -2803,12 +2803,12 @@ func (o *EnhancedDBOp) transformCreateArgs(param *EnhancedDBCreateRequest) (*enh
 	if param == nil {
 		param = &EnhancedDBCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -2850,20 +2850,20 @@ func (o *EnhancedDBOp) transformUpdateArgs(id types.ID, param *EnhancedDBUpdateR
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &EnhancedDBUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2893,20 +2893,20 @@ func (o *EnhancedDBOp) transformSetPasswordArgs(id types.ID, param *EnhancedDBSe
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &EnhancedDBSetPasswordRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2936,20 +2936,20 @@ func (o *EnhancedDBOp) transformSetConfigArgs(id types.ID, param *EnhancedDBSetC
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &EnhancedDBSetConfigRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -2966,12 +2966,12 @@ func (o *ESMEOp) transformFindArgs(conditions *FindCondition) (*eSMEFindRequestE
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -3000,12 +3000,12 @@ func (o *ESMEOp) transformCreateArgs(param *ESMECreateRequest) (*eSMECreateReque
 	if param == nil {
 		param = &ESMECreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -3047,20 +3047,20 @@ func (o *ESMEOp) transformUpdateArgs(id types.ID, param *ESMEUpdateRequest) (*eS
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ESMEUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3090,20 +3090,20 @@ func (o *ESMEOp) transformSendMessageWithGeneratedOTPArgs(id types.ID, param *ES
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ESMESendMessageWithGeneratedOTPRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"ESME,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"ESME,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3133,20 +3133,20 @@ func (o *ESMEOp) transformSendMessageWithInputtedOTPArgs(id types.ID, param *ESM
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ESMESendMessageWithInputtedOTPRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"ESME,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"ESME,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3189,12 +3189,12 @@ func (o *GSLBOp) transformFindArgs(conditions *FindCondition) (*gSLBFindRequestE
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -3223,12 +3223,12 @@ func (o *GSLBOp) transformCreateArgs(param *GSLBCreateRequest) (*gSLBCreateReque
 	if param == nil {
 		param = &GSLBCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -3270,20 +3270,20 @@ func (o *GSLBOp) transformUpdateArgs(id types.ID, param *GSLBUpdateRequest) (*gS
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &GSLBUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3313,20 +3313,20 @@ func (o *GSLBOp) transformUpdateSettingsArgs(id types.ID, param *GSLBUpdateSetti
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &GSLBUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3356,12 +3356,12 @@ func (o *IconOp) transformFindArgs(conditions *FindCondition) (*iconFindRequestE
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -3390,12 +3390,12 @@ func (o *IconOp) transformCreateArgs(param *IconCreateRequest) (*iconCreateReque
 	if param == nil {
 		param = &IconCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Icon,recursive"`
+		Arg0 any `mapconv:"Icon,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -3437,20 +3437,20 @@ func (o *IconOp) transformUpdateArgs(id types.ID, param *IconUpdateRequest) (*ic
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &IconUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Icon,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Icon,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3480,12 +3480,12 @@ func (o *InterfaceOp) transformFindArgs(conditions *FindCondition) (*interfaceFi
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -3514,12 +3514,12 @@ func (o *InterfaceOp) transformCreateArgs(param *InterfaceCreateRequest) (*inter
 	if param == nil {
 		param = &InterfaceCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Interface,recursive"`
+		Arg0 any `mapconv:"Interface,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -3561,20 +3561,20 @@ func (o *InterfaceOp) transformUpdateArgs(id types.ID, param *InterfaceUpdateReq
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &InterfaceUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Interface,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Interface,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3604,20 +3604,20 @@ func (o *InterfaceOp) transformMonitorArgs(id types.ID, condition *MonitorCondit
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3647,12 +3647,12 @@ func (o *InternetOp) transformFindArgs(conditions *FindCondition) (*internetFind
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -3681,12 +3681,12 @@ func (o *InternetOp) transformCreateArgs(param *InternetCreateRequest) (*interne
 	if param == nil {
 		param = &InternetCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Internet,recursive"`
+		Arg0 any `mapconv:"Internet,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -3728,20 +3728,20 @@ func (o *InternetOp) transformUpdateArgs(id types.ID, param *InternetUpdateReque
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &InternetUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Internet,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Internet,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3771,20 +3771,20 @@ func (o *InternetOp) transformUpdateBandWidthArgs(id types.ID, param *InternetUp
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &InternetUpdateBandWidthRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Internet,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Internet,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3814,20 +3814,20 @@ func (o *InternetOp) transformAddSubnetArgs(id types.ID, param *InternetAddSubne
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &InternetAddSubnetRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3857,28 +3857,28 @@ func (o *InternetOp) transformUpdateSubnetArgs(id types.ID, subnetID types.ID, p
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if subnetID == types.ID(int64(0)) {
 		subnetID = types.ID(int64(0))
 	}
-	var arg1 interface{} = subnetID
+	var arg1 any = subnetID
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if param == nil {
 		param = &InternetUpdateSubnetRequest{}
 	}
-	var arg2 interface{} = param
+	var arg2 any = param
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{}
-		Arg2 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any
+		Arg2 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3909,20 +3909,20 @@ func (o *InternetOp) transformMonitorArgs(id types.ID, condition *MonitorConditi
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -3952,20 +3952,20 @@ func (o *InternetOp) transformMonitorRouterArgs(id types.ID, condition *MonitorC
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4008,12 +4008,12 @@ func (o *InternetPlanOp) transformFindArgs(conditions *FindCondition) (*internet
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -4081,20 +4081,20 @@ func (o *IPAddressOp) transformUpdateHostNameArgs(ipAddress string, hostName str
 	if ipAddress == "" {
 		ipAddress = ""
 	}
-	var arg0 interface{} = ipAddress
+	var arg0 any = ipAddress
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if hostName == "" {
 		hostName = ""
 	}
-	var arg1 interface{} = hostName
+	var arg1 any = hostName
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"IPAddress.HostName"`
+		Arg0 any
+		Arg1 any `mapconv:"IPAddress.HostName"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4137,12 +4137,12 @@ func (o *IPv6NetOp) transformFindArgs(conditions *FindCondition) (*iPv6NetFindRe
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -4184,12 +4184,12 @@ func (o *IPv6AddrOp) transformFindArgs(conditions *FindCondition) (*iPv6AddrFind
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -4218,12 +4218,12 @@ func (o *IPv6AddrOp) transformCreateArgs(param *IPv6AddrCreateRequest) (*iPv6Add
 	if param == nil {
 		param = &IPv6AddrCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"IPv6Addr,recursive"`
+		Arg0 any `mapconv:"IPv6Addr,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -4265,20 +4265,20 @@ func (o *IPv6AddrOp) transformUpdateArgs(ipv6addr string, param *IPv6AddrUpdateR
 	if ipv6addr == "" {
 		ipv6addr = ""
 	}
-	var arg0 interface{} = ipv6addr
+	var arg0 any = ipv6addr
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &IPv6AddrUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"IPv6Addr,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"IPv6Addr,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4308,12 +4308,12 @@ func (o *LicenseOp) transformFindArgs(conditions *FindCondition) (*licenseFindRe
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -4342,12 +4342,12 @@ func (o *LicenseOp) transformCreateArgs(param *LicenseCreateRequest) (*licenseCr
 	if param == nil {
 		param = &LicenseCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"License,recursive"`
+		Arg0 any `mapconv:"License,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -4389,20 +4389,20 @@ func (o *LicenseOp) transformUpdateArgs(id types.ID, param *LicenseUpdateRequest
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &LicenseUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"License,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"License,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4432,12 +4432,12 @@ func (o *LicenseInfoOp) transformFindArgs(conditions *FindCondition) (*licenseIn
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -4479,12 +4479,12 @@ func (o *LoadBalancerOp) transformFindArgs(conditions *FindCondition) (*loadBala
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -4513,12 +4513,12 @@ func (o *LoadBalancerOp) transformCreateArgs(param *LoadBalancerCreateRequest) (
 	if param == nil {
 		param = &LoadBalancerCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -4560,20 +4560,20 @@ func (o *LoadBalancerOp) transformUpdateArgs(id types.ID, param *LoadBalancerUpd
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &LoadBalancerUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4603,20 +4603,20 @@ func (o *LoadBalancerOp) transformUpdateSettingsArgs(id types.ID, param *LoadBal
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &LoadBalancerUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4646,20 +4646,20 @@ func (o *LoadBalancerOp) transformShutdownArgs(id types.ID, shutdownOption *Shut
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if shutdownOption == nil {
 		shutdownOption = &ShutdownOption{}
 	}
-	var arg1 interface{} = shutdownOption
+	var arg1 any = shutdownOption
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4676,20 +4676,20 @@ func (o *LoadBalancerOp) transformMonitorCPUArgs(id types.ID, condition *Monitor
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4719,20 +4719,20 @@ func (o *LoadBalancerOp) transformMonitorInterfaceArgs(id types.ID, condition *M
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4775,12 +4775,12 @@ func (o *LocalRouterOp) transformFindArgs(conditions *FindCondition) (*localRout
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -4809,12 +4809,12 @@ func (o *LocalRouterOp) transformCreateArgs(param *LocalRouterCreateRequest) (*l
 	if param == nil {
 		param = &LocalRouterCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -4856,20 +4856,20 @@ func (o *LocalRouterOp) transformUpdateArgs(id types.ID, param *LocalRouterUpdat
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &LocalRouterUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4899,20 +4899,20 @@ func (o *LocalRouterOp) transformUpdateSettingsArgs(id types.ID, param *LocalRou
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &LocalRouterUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4955,20 +4955,20 @@ func (o *LocalRouterOp) transformMonitorLocalRouterArgs(id types.ID, condition *
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -4998,12 +4998,12 @@ func (o *MobileGatewayOp) transformFindArgs(conditions *FindCondition) (*mobileG
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -5032,12 +5032,12 @@ func (o *MobileGatewayOp) transformCreateArgs(param *MobileGatewayCreateRequest)
 	if param == nil {
 		param = &MobileGatewayCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -5079,20 +5079,20 @@ func (o *MobileGatewayOp) transformUpdateArgs(id types.ID, param *MobileGatewayU
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &MobileGatewayUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5122,20 +5122,20 @@ func (o *MobileGatewayOp) transformUpdateSettingsArgs(id types.ID, param *Mobile
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &MobileGatewayUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5165,20 +5165,20 @@ func (o *MobileGatewayOp) transformShutdownArgs(id types.ID, shutdownOption *Shu
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if shutdownOption == nil {
 		shutdownOption = &ShutdownOption{}
 	}
-	var arg1 interface{} = shutdownOption
+	var arg1 any = shutdownOption
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5208,20 +5208,20 @@ func (o *MobileGatewayOp) transformSetDNSArgs(id types.ID, param *MobileGatewayD
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &MobileGatewayDNSSetting{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"SIMGroup,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"SIMGroup,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5251,20 +5251,20 @@ func (o *MobileGatewayOp) transformSetSIMRoutesArgs(id types.ID, param []*Mobile
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = []*MobileGatewaySIMRouteParam{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"[]SIMRoutes,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"[]SIMRoutes,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5294,20 +5294,20 @@ func (o *MobileGatewayOp) transformAddSIMArgs(id types.ID, param *MobileGatewayA
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &MobileGatewayAddSIMRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"SIM,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"SIM,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5350,20 +5350,20 @@ func (o *MobileGatewayOp) transformSetTrafficConfigArgs(id types.ID, param *Mobi
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &MobileGatewayTrafficControl{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"TrafficMonitoring,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"TrafficMonitoring,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5393,28 +5393,28 @@ func (o *MobileGatewayOp) transformMonitorInterfaceArgs(id types.ID, index int, 
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if index == 0 {
 		index = 0
 	}
-	var arg1 interface{} = index
+	var arg1 any = index
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg2 interface{} = condition
+	var arg2 any = condition
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{}
-		Arg2 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any
+		Arg2 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5445,12 +5445,12 @@ func (o *NFSOp) transformFindArgs(conditions *FindCondition) (*nFSFindRequestEnv
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -5479,12 +5479,12 @@ func (o *NFSOp) transformCreateArgs(param *NFSCreateRequest) (*nFSCreateRequestE
 	if param == nil {
 		param = &NFSCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -5526,20 +5526,20 @@ func (o *NFSOp) transformUpdateArgs(id types.ID, param *NFSUpdateRequest) (*nFSU
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &NFSUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5569,20 +5569,20 @@ func (o *NFSOp) transformShutdownArgs(id types.ID, shutdownOption *ShutdownOptio
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if shutdownOption == nil {
 		shutdownOption = &ShutdownOption{}
 	}
-	var arg1 interface{} = shutdownOption
+	var arg1 any = shutdownOption
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5599,20 +5599,20 @@ func (o *NFSOp) transformMonitorCPUArgs(id types.ID, condition *MonitorCondition
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5642,20 +5642,20 @@ func (o *NFSOp) transformMonitorFreeDiskSizeArgs(id types.ID, condition *Monitor
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5685,20 +5685,20 @@ func (o *NFSOp) transformMonitorInterfaceArgs(id types.ID, condition *MonitorCon
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5728,12 +5728,12 @@ func (o *NoteOp) transformFindArgs(conditions *FindCondition) (*noteFindRequestE
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -5762,12 +5762,12 @@ func (o *NoteOp) transformCreateArgs(param *NoteCreateRequest) (*noteCreateReque
 	if param == nil {
 		param = &NoteCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Note,recursive"`
+		Arg0 any `mapconv:"Note,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -5809,20 +5809,20 @@ func (o *NoteOp) transformUpdateArgs(id types.ID, param *NoteUpdateRequest) (*no
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &NoteUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Note,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Note,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5852,12 +5852,12 @@ func (o *PacketFilterOp) transformFindArgs(conditions *FindCondition) (*packetFi
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -5886,12 +5886,12 @@ func (o *PacketFilterOp) transformCreateArgs(param *PacketFilterCreateRequest) (
 	if param == nil {
 		param = &PacketFilterCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"PacketFilter,recursive"`
+		Arg0 any `mapconv:"PacketFilter,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -5933,28 +5933,28 @@ func (o *PacketFilterOp) transformUpdateArgs(id types.ID, updateParam *PacketFil
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if updateParam == nil {
 		updateParam = &PacketFilterUpdateRequest{}
 	}
-	var arg1 interface{} = updateParam
+	var arg1 any = updateParam
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if originalExpressionHash == "" {
 		originalExpressionHash = ""
 	}
-	var arg2 interface{} = originalExpressionHash
+	var arg2 any = originalExpressionHash
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"PacketFilter,recursive"`
-		Arg2 interface{} `mapconv:"OriginalExpressionHash"`
+		Arg0 any
+		Arg1 any `mapconv:"PacketFilter,recursive"`
+		Arg2 any `mapconv:"OriginalExpressionHash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -5985,12 +5985,12 @@ func (o *PrivateHostOp) transformFindArgs(conditions *FindCondition) (*privateHo
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -6019,12 +6019,12 @@ func (o *PrivateHostOp) transformCreateArgs(param *PrivateHostCreateRequest) (*p
 	if param == nil {
 		param = &PrivateHostCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"PrivateHost,recursive"`
+		Arg0 any `mapconv:"PrivateHost,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -6053,20 +6053,20 @@ func (o *PrivateHostOp) transformCreateWithDedicatedStorageArgs(createParam *Pri
 	if createParam == nil {
 		createParam = &PrivateHostCreateRequest{}
 	}
-	var arg0 interface{} = createParam
+	var arg0 any = createParam
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if dedicatedStorageContractID == types.ID(int64(0)) {
 		dedicatedStorageContractID = types.ID(int64(0))
 	}
-	var arg1 interface{} = dedicatedStorageContractID
+	var arg1 any = dedicatedStorageContractID
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"PrivateHost,recursive"`
-		Arg1 interface{} `mapconv:"TargetDedicatedStorageContract.ID"`
+		Arg0 any `mapconv:"PrivateHost,recursive"`
+		Arg1 any `mapconv:"TargetDedicatedStorageContract.ID"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6109,20 +6109,20 @@ func (o *PrivateHostOp) transformUpdateArgs(id types.ID, param *PrivateHostUpdat
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &PrivateHostUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"PrivateHost,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"PrivateHost,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6152,12 +6152,12 @@ func (o *PrivateHostPlanOp) transformFindArgs(conditions *FindCondition) (*priva
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -6199,12 +6199,12 @@ func (o *ProxyLBOp) transformFindArgs(conditions *FindCondition) (*proxyLBFindRe
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -6233,12 +6233,12 @@ func (o *ProxyLBOp) transformCreateArgs(param *ProxyLBCreateRequest) (*proxyLBCr
 	if param == nil {
 		param = &ProxyLBCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -6280,20 +6280,20 @@ func (o *ProxyLBOp) transformUpdateArgs(id types.ID, param *ProxyLBUpdateRequest
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ProxyLBUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6323,20 +6323,20 @@ func (o *ProxyLBOp) transformUpdateSettingsArgs(id types.ID, param *ProxyLBUpdat
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ProxyLBUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6366,20 +6366,20 @@ func (o *ProxyLBOp) transformChangePlanArgs(id types.ID, param *ProxyLBChangePla
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ProxyLBChangePlanRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6422,20 +6422,20 @@ func (o *ProxyLBOp) transformSetCertificatesArgs(id types.ID, param *ProxyLBSetC
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ProxyLBSetCertificatesRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"ProxyLB,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"ProxyLB,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6478,20 +6478,20 @@ func (o *ProxyLBOp) transformMonitorConnectionArgs(id types.ID, condition *Monit
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6521,12 +6521,12 @@ func (o *RegionOp) transformFindArgs(conditions *FindCondition) (*regionFindRequ
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -6568,12 +6568,12 @@ func (o *ServerOp) transformFindArgs(conditions *FindCondition) (*serverFindRequ
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -6602,12 +6602,12 @@ func (o *ServerOp) transformCreateArgs(param *ServerCreateRequest) (*serverCreat
 	if param == nil {
 		param = &ServerCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Server,recursive"`
+		Arg0 any `mapconv:"Server,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -6649,20 +6649,20 @@ func (o *ServerOp) transformUpdateArgs(id types.ID, param *ServerUpdateRequest) 
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ServerUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Server,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Server,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6692,20 +6692,20 @@ func (o *ServerOp) transformDeleteWithDisksArgs(id types.ID, disks *ServerDelete
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if disks == nil {
 		disks = &ServerDeleteWithDisksRequest{}
 	}
-	var arg1 interface{} = disks
+	var arg1 any = disks
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6722,20 +6722,20 @@ func (o *ServerOp) transformChangePlanArgs(id types.ID, plan *ServerChangePlanRe
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if plan == nil {
 		plan = &ServerChangePlanRequest{}
 	}
-	var arg1 interface{} = plan
+	var arg1 any = plan
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6765,20 +6765,20 @@ func (o *ServerOp) transformInsertCDROMArgs(id types.ID, insertParam *InsertCDRO
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if insertParam == nil {
 		insertParam = &InsertCDROMRequest{}
 	}
-	var arg1 interface{} = insertParam
+	var arg1 any = insertParam
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CDROM"`
+		Arg0 any
+		Arg1 any `mapconv:"CDROM"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6795,20 +6795,20 @@ func (o *ServerOp) transformEjectCDROMArgs(id types.ID, ejectParam *EjectCDROMRe
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if ejectParam == nil {
 		ejectParam = &EjectCDROMRequest{}
 	}
-	var arg1 interface{} = ejectParam
+	var arg1 any = ejectParam
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CDROM"`
+		Arg0 any
+		Arg1 any `mapconv:"CDROM"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6825,20 +6825,20 @@ func (o *ServerOp) transformShutdownArgs(id types.ID, shutdownOption *ShutdownOp
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if shutdownOption == nil {
 		shutdownOption = &ShutdownOption{}
 	}
-	var arg1 interface{} = shutdownOption
+	var arg1 any = shutdownOption
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6855,20 +6855,20 @@ func (o *ServerOp) transformBootWithVariablesArgs(id types.ID, param *ServerBoot
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &ServerBootVariables{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"UserBootVariables,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"UserBootVariables,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6885,20 +6885,20 @@ func (o *ServerOp) transformSendKeyArgs(id types.ID, keyboardParam *SendKeyReque
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if keyboardParam == nil {
 		keyboardParam = &SendKeyRequest{}
 	}
-	var arg1 interface{} = keyboardParam
+	var arg1 any = keyboardParam
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6928,20 +6928,20 @@ func (o *ServerOp) transformMonitorArgs(id types.ID, condition *MonitorCondition
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -6971,20 +6971,20 @@ func (o *ServerOp) transformMonitorCPUArgs(id types.ID, condition *MonitorCondit
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7014,12 +7014,12 @@ func (o *ServerPlanOp) transformFindArgs(conditions *FindCondition) (*serverPlan
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -7061,12 +7061,12 @@ func (o *ServiceClassOp) transformFindArgs(conditions *FindCondition) (*serviceC
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -7095,12 +7095,12 @@ func (o *SIMOp) transformFindArgs(conditions *FindCondition) (*sIMFindRequestEnv
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -7129,12 +7129,12 @@ func (o *SIMOp) transformCreateArgs(param *SIMCreateRequest) (*sIMCreateRequestE
 	if param == nil {
 		param = &SIMCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -7176,20 +7176,20 @@ func (o *SIMOp) transformUpdateArgs(id types.ID, param *SIMUpdateRequest) (*sIMU
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SIMUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7219,20 +7219,20 @@ func (o *SIMOp) transformAssignIPArgs(id types.ID, param *SIMAssignIPRequest) (*
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SIMAssignIPRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"SIM,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"SIM,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7249,20 +7249,20 @@ func (o *SIMOp) transformIMEILockArgs(id types.ID, param *SIMIMEILockRequest) (*
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SIMIMEILockRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"SIM,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"SIM,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7305,20 +7305,20 @@ func (o *SIMOp) transformSetNetworkOperatorArgs(id types.ID, configs []*SIMNetwo
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if configs == nil {
 		configs = []*SIMNetworkOperatorConfig{}
 	}
-	var arg1 interface{} = configs
+	var arg1 any = configs
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"[]NetworkOperatorConfigs,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"[]NetworkOperatorConfigs,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7335,20 +7335,20 @@ func (o *SIMOp) transformMonitorSIMArgs(id types.ID, condition *MonitorCondition
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7391,12 +7391,12 @@ func (o *SimpleMonitorOp) transformFindArgs(conditions *FindCondition) (*simpleM
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -7425,12 +7425,12 @@ func (o *SimpleMonitorOp) transformCreateArgs(param *SimpleMonitorCreateRequest)
 	if param == nil {
 		param = &SimpleMonitorCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -7472,20 +7472,20 @@ func (o *SimpleMonitorOp) transformUpdateArgs(id types.ID, param *SimpleMonitorU
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SimpleMonitorUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7515,20 +7515,20 @@ func (o *SimpleMonitorOp) transformUpdateSettingsArgs(id types.ID, param *Simple
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SimpleMonitorUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7558,20 +7558,20 @@ func (o *SimpleMonitorOp) transformMonitorResponseTimeArgs(id types.ID, conditio
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7614,12 +7614,12 @@ func (o *SimpleNotificationDestinationOp) transformFindArgs(conditions *FindCond
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -7648,12 +7648,12 @@ func (o *SimpleNotificationDestinationOp) transformCreateArgs(param *SimpleNotif
 	if param == nil {
 		param = &SimpleNotificationDestinationCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -7695,20 +7695,20 @@ func (o *SimpleNotificationDestinationOp) transformUpdateArgs(id types.ID, param
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SimpleNotificationDestinationUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7738,20 +7738,20 @@ func (o *SimpleNotificationDestinationOp) transformUpdateSettingsArgs(id types.I
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SimpleNotificationDestinationUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7794,12 +7794,12 @@ func (o *SimpleNotificationGroupOp) transformFindArgs(conditions *FindCondition)
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -7828,12 +7828,12 @@ func (o *SimpleNotificationGroupOp) transformCreateArgs(param *SimpleNotificatio
 	if param == nil {
 		param = &SimpleNotificationGroupCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -7875,20 +7875,20 @@ func (o *SimpleNotificationGroupOp) transformUpdateArgs(id types.ID, param *Simp
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SimpleNotificationGroupUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7918,20 +7918,20 @@ func (o *SimpleNotificationGroupOp) transformUpdateSettingsArgs(id types.ID, par
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SimpleNotificationGroupUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"CommonServiceItem,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"CommonServiceItem,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -7961,20 +7961,20 @@ func (o *SimpleNotificationGroupOp) transformPostMessageArgs(id types.ID, messag
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if message == "" {
 		message = ""
 	}
-	var arg1 interface{} = message
+	var arg1 any = message
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Message"`
+		Arg0 any
+		Arg1 any `mapconv:"Message"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -8004,12 +8004,12 @@ func (o *SSHKeyOp) transformFindArgs(conditions *FindCondition) (*sSHKeyFindRequ
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -8038,12 +8038,12 @@ func (o *SSHKeyOp) transformCreateArgs(param *SSHKeyCreateRequest) (*sSHKeyCreat
 	if param == nil {
 		param = &SSHKeyCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"SSHKey,recursive"`
+		Arg0 any `mapconv:"SSHKey,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -8085,20 +8085,20 @@ func (o *SSHKeyOp) transformUpdateArgs(id types.ID, param *SSHKeyUpdateRequest) 
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SSHKeyUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"SSHKey,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"SSHKey,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -8128,12 +8128,12 @@ func (o *SubnetOp) transformFindArgs(conditions *FindCondition) (*subnetFindRequ
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -8175,12 +8175,12 @@ func (o *SwitchOp) transformFindArgs(conditions *FindCondition) (*switchFindRequ
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -8209,12 +8209,12 @@ func (o *SwitchOp) transformCreateArgs(param *SwitchCreateRequest) (*switchCreat
 	if param == nil {
 		param = &SwitchCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Switch,recursive"`
+		Arg0 any `mapconv:"Switch,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -8256,20 +8256,20 @@ func (o *SwitchOp) transformUpdateArgs(id types.ID, param *SwitchUpdateRequest) 
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &SwitchUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Switch,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Switch,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -8312,12 +8312,12 @@ func (o *VPCRouterOp) transformFindArgs(conditions *FindCondition) (*vPCRouterFi
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}
@@ -8346,12 +8346,12 @@ func (o *VPCRouterOp) transformCreateArgs(param *VPCRouterCreateRequest) (*vPCRo
 	if param == nil {
 		param = &VPCRouterCreateRequest{}
 	}
-	var arg0 interface{} = param
+	var arg0 any = param
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 	}
@@ -8393,20 +8393,20 @@ func (o *VPCRouterOp) transformUpdateArgs(id types.ID, param *VPCRouterUpdateReq
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &VPCRouterUpdateRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -8436,20 +8436,20 @@ func (o *VPCRouterOp) transformUpdateSettingsArgs(id types.ID, param *VPCRouterU
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if param == nil {
 		param = &VPCRouterUpdateSettingsRequest{}
 	}
-	var arg1 interface{} = param
+	var arg1 any = param
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:"Appliance,recursive"`
+		Arg0 any
+		Arg1 any `mapconv:"Appliance,recursive"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -8479,20 +8479,20 @@ func (o *VPCRouterOp) transformShutdownArgs(id types.ID, shutdownOption *Shutdow
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if shutdownOption == nil {
 		shutdownOption = &ShutdownOption{}
 	}
-	var arg1 interface{} = shutdownOption
+	var arg1 any = shutdownOption
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -8509,20 +8509,20 @@ func (o *VPCRouterOp) transformMonitorCPUArgs(id types.ID, condition *MonitorCon
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg1 interface{} = condition
+	var arg1 any = condition
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -8552,28 +8552,28 @@ func (o *VPCRouterOp) transformMonitorInterfaceArgs(id types.ID, index int, cond
 	if id == types.ID(int64(0)) {
 		id = types.ID(int64(0))
 	}
-	var arg0 interface{} = id
+	var arg0 any = id
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	if index == 0 {
 		index = 0
 	}
-	var arg1 interface{} = index
+	var arg1 any = index
 	if v, ok := arg1.(argumentDefaulter); ok {
 		arg1 = v.setDefaults()
 	}
 	if condition == nil {
 		condition = &MonitorCondition{}
 	}
-	var arg2 interface{} = condition
+	var arg2 any = condition
 	if v, ok := arg2.(argumentDefaulter); ok {
 		arg2 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{}
-		Arg1 interface{}
-		Arg2 interface{} `mapconv:",squash"`
+		Arg0 any
+		Arg1 any
+		Arg2 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 		Arg1: arg1,
@@ -8643,12 +8643,12 @@ func (o *ZoneOp) transformFindArgs(conditions *FindCondition) (*zoneFindRequestE
 	if conditions == nil {
 		conditions = &FindCondition{}
 	}
-	var arg0 interface{} = conditions
+	var arg0 any = conditions
 	if v, ok := arg0.(argumentDefaulter); ok {
 		arg0 = v.setDefaults()
 	}
 	args := &struct {
-		Arg0 interface{} `mapconv:",squash"`
+		Arg0 any `mapconv:",squash"`
 	}{
 		Arg0: arg0,
 	}

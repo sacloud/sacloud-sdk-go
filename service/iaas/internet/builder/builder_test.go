@@ -31,7 +31,7 @@ func TestBuilder_Build(t *testing.T) {
 		Parallel:           true,
 		IgnoreStartupWait:  true,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &Builder{
 					Name:           testutil.ResourceName("internet-builder"),
 					Description:    "description",
@@ -45,10 +45,10 @@ func TestBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				return iaas.NewInternetOp(caller).Read(ctx, testZone, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				internet := value.(*iaas.Internet)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, internet, "Internet"),
@@ -60,7 +60,7 @@ func TestBuilder_Build(t *testing.T) {
 		},
 		Updates: []*testutil.CRUDTestFunc{
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					builder := &Builder{
 						Name:           testutil.ResourceName("internet-builder"),
 						Description:    "description",
@@ -72,7 +72,7 @@ func TestBuilder_Build(t *testing.T) {
 					}
 					return builder.Update(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 					internet := value.(*iaas.Internet)
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, internet, "Internet"),
@@ -83,7 +83,7 @@ func TestBuilder_Build(t *testing.T) {
 				},
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					internetOp := iaas.NewInternetOp(caller)
 					swOp := iaas.NewSwitchOp(caller)
 
@@ -102,7 +102,7 @@ func TestBuilder_Build(t *testing.T) {
 					})
 					return nil, err
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 					internet := value.(*iaas.Internet)
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, internet, "Internet"),

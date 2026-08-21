@@ -19,7 +19,7 @@ import (
 )
 
 // IsEmpty is copied from github.com/stretchr/testify/assert/assertions.go
-func IsEmpty(object interface{}) bool {
+func IsEmpty(object any) bool {
 	// get nil case out of the way
 	if object == nil {
 		return true
