@@ -345,7 +345,7 @@ func (o *InternetOp) Monitor(ctx context.Context, zone string, id types.ID, cond
 	}
 
 	res := &iaas.RouterActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorRouterValue{
 			Time: now.Add(time.Duration(i*-5) * time.Minute),
 			In:   float64(random(1000)),

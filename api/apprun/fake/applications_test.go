@@ -26,7 +26,7 @@ import (
 func TestEngine_Application(t *testing.T) {
 	t.Run("list applications", func(t *testing.T) {
 		engine := NewEngine()
-		for i := 0; i < 3; i++ {
+		for range 3 {
 			req := postApplicationBody()
 			_, err := engine.CreateApplication(req)
 			require.NoError(t, err)
@@ -217,7 +217,7 @@ func TestEngine_Application(t *testing.T) {
 
 	t.Run("delete application", func(t *testing.T) {
 		engine := NewEngine()
-		for i := 0; i < 3; i++ {
+		for range 3 {
 			req := postApplicationBody()
 			_, err := engine.CreateApplication(req)
 			require.NoError(t, err)

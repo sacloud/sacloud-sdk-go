@@ -187,7 +187,7 @@ func (o *DatabaseOp) MonitorCPU(ctx context.Context, zone string, id types.ID, c
 	}
 
 	res := &iaas.CPUTimeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorCPUTimeValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			CPUTime: float64(random(1000)),
@@ -211,7 +211,7 @@ func (o *DatabaseOp) MonitorDisk(ctx context.Context, zone string, id types.ID, 
 	}
 
 	res := &iaas.DiskActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorDiskValue{
 			Time:  now.Add(time.Duration(i*-5) * time.Minute),
 			Read:  float64(random(1000)),
@@ -236,7 +236,7 @@ func (o *DatabaseOp) MonitorInterface(ctx context.Context, zone string, id types
 	}
 
 	res := &iaas.InterfaceActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorInterfaceValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			Receive: float64(random(1000)),
@@ -261,7 +261,7 @@ func (o *DatabaseOp) MonitorDatabase(ctx context.Context, zone string, id types.
 	}
 
 	res := &iaas.DatabaseActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorDatabaseValue{
 			Time:              now.Add(time.Duration(i*-5) * time.Minute),
 			TotalMemorySize:   float64(random(1000)),

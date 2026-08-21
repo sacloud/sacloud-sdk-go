@@ -193,7 +193,7 @@ func (o *LoadBalancerOp) MonitorInterface(ctx context.Context, zone string, id t
 	}
 
 	res := &iaas.InterfaceActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorInterfaceValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			Send:    float64(random(1000)),
@@ -252,7 +252,7 @@ func (o *LoadBalancerOp) MonitorCPU(ctx context.Context, zone string, id types.I
 	}
 
 	res := &iaas.CPUTimeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorCPUTimeValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			CPUTime: float64(random(1000)),

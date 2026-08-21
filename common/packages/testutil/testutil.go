@@ -41,7 +41,7 @@ func Random(strlen int, charSet string) string {
 // RandomName ランダムな文字列を生成して返す
 func RandomName(prefix string, strlen int, charSet string) string {
 	result := make([]byte, strlen)
-	for i := 0; i < strlen; i++ {
+	for i := range strlen {
 		result[i] = charSet[r.Intn(len(charSet))]
 	}
 	return prefix + string(result)

@@ -91,7 +91,7 @@ func (o *ESMEOp) Delete(ctx context.Context, id types.ID) error {
 func (o *ESMEOp) randomName(strlen int) string {
 	charSetNumber := "012346789"
 	result := make([]byte, strlen)
-	for i := 0; i < strlen; i++ {
+	for i := range strlen {
 		result[i] = charSetNumber[rand.Intn(len(charSetNumber))] //nolint:gosec
 	}
 	return string(result)

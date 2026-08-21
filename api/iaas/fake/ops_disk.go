@@ -334,7 +334,7 @@ func (o *DiskOp) Monitor(ctx context.Context, zone string, id types.ID, conditio
 	}
 
 	res := &iaas.DiskActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorDiskValue{
 			Time:  now.Add(time.Duration(i*-5) * time.Minute),
 			Read:  float64(random(1000)),

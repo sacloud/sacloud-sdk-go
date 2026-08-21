@@ -410,7 +410,7 @@ func (o *ServerOp) Monitor(ctx context.Context, zone string, id types.ID, condit
 	}
 
 	res := &iaas.CPUTimeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorCPUTimeValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			CPUTime: float64(random(value.CPU * 1000)),

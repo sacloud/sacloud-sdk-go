@@ -43,7 +43,7 @@ func TestSecretAPI(t *testing.T) {
 
 	secOp := sm.NewSecretOp(client, vault.ID)
 
-	for i := 0; i < 2; i++ {
+	for i := range 2 {
 		resCreate, err := secOp.Create(ctx, v1.CreateSecret{
 			Name:  "Sec1",
 			Value: "SecretValue" + strconv.Itoa(i),
@@ -68,7 +68,7 @@ func TestSecretAPI(t *testing.T) {
 	assert.Equal(t, "Sec2", resList[1].Name)
 	assert.Equal(t, 1, resList[1].LatestVersion)
 
-	for i := 0; i < 2; i++ {
+	for i := range 2 {
 		resUn, err := secOp.Unveil(ctx, v1.Unveil{
 			Name:    "Sec1",
 			Version: v1.NewOptNilInt(i + 1),
