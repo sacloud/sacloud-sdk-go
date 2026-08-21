@@ -21,7 +21,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 )
 
 func TestProxyLBService_CRUD(t *testing.T) {
@@ -81,8 +80,8 @@ func TestProxyLBService_CRUD(t *testing.T) {
 				Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 					return svc.Update(&UpdateRequest{
 						ID:          ctx.ID,
-						Name:        pointer.NewString(name + "-upd"),
-						Description: pointer.NewString("test-upd"),
+						Name:        new(name + "-upd"),
+						Description: new("test-upd"),
 						OriginGuard: &iaas.ProxyLBOriginGuard{
 							Token: "updatedtoken",
 						},

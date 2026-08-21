@@ -80,7 +80,7 @@ func TestLicenseOp_Create(t *testing.T) {
 
 	res, err := api.Create(ctx, CloudHSMSoftwareLicenseCreateParams{
 		Name:        "Test License",
-		Description: ref("This is a test license"),
+		Description: new("This is a test license"),
 		Tags: []string{
 			"tag1",
 			"tag2",
@@ -167,7 +167,7 @@ func TestLicenseIntegrated(t *testing.T) {
 	// Create
 	created, err := api.Create(ctx, CloudHSMSoftwareLicenseCreateParams{
 		Name:        testutil.RandomName("test-license-", 16, testutil.CharSetAlphaNum),
-		Description: ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+		Description: new(testutil.Random(128, testutil.CharSetAlphaNum)),
 	})
 	assert.NoError(err)
 	assert.NotNil(created)

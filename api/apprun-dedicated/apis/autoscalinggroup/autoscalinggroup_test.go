@@ -74,9 +74,9 @@ func TestCreate(t *testing.T) {
 			InterfaceIndex: 0,
 			Upstream:       "shared",
 			IpPool:         []v1.IpRange{},
-			NetmaskLen:     saclient.Ptr(int16(24)),
-			DefaultGateway: saclient.Ptr("192.168.1.1"),
-			PacketFilterID: saclient.Ptr("filter-id"),
+			NetmaskLen:     new(int16(24)),
+			DefaultGateway: new("192.168.1.1"),
+			PacketFilterID: new("filter-id"),
 			ConnectsToLB:   true,
 		}},
 	})

@@ -20,7 +20,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/containerregistry/builder"
 )
 
@@ -67,11 +66,11 @@ func TestContainerRegistryService_CRUD(t *testing.T) {
 				Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 					return svc.Update(&UpdateRequest{
 						ID:            ctx.ID,
-						Name:          pointer.NewString(name + "-upd"),
-						Description:   pointer.NewString("test-upd"),
+						Name:          new(name + "-upd"),
+						Description:   new("test-upd"),
 						Tags:          &types.Tags{"tag1-upd", "tag2-upd"},
 						AccessLevel:   &types.ContainerRegistryAccessLevels.ReadOnly,
-						VirtualDomain: pointer.NewString(name + "-upd.usacloud.jp"),
+						VirtualDomain: new(name + "-upd.usacloud.jp"),
 						Users: &[]*builder.User{
 							{
 								UserName:   "user1",

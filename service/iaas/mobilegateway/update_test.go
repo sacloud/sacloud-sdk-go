@@ -23,7 +23,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/cleanup"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/mobilegateway/builder"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 	"github.com/stretchr/testify/require"
@@ -50,7 +49,7 @@ func TestMobileGatewayService_validate(t *testing.T) {
 				Zone: "tk1a",
 				ID:   1,
 				DNS: &DNSSettingUpdate{
-					DNS1: pointer.NewString("8.8.8.8"),
+					DNS1: new("8.8.8.8"),
 					DNS2: nil,
 				},
 			},
@@ -61,8 +60,8 @@ func TestMobileGatewayService_validate(t *testing.T) {
 				Zone: "tk1a",
 				ID:   1,
 				DNS: &DNSSettingUpdate{
-					DNS1: pointer.NewString("8.8.8.8"),
-					DNS2: pointer.NewString("8.8.4.4"),
+					DNS1: new("8.8.8.8"),
+					DNS2: new("8.8.4.4"),
 				},
 			},
 			errorExists: false,
@@ -129,11 +128,11 @@ func TestMobileGatewayService_convertUpdateRequest(t *testing.T) {
 			in: &UpdateRequest{
 				ID:   mgw.ID,
 				Zone: zone,
-				Name: pointer.NewString(name + "-upd"),
+				Name: new(name + "-upd"),
 				PrivateInterface: &PrivateInterfaceSettingUpdate{
 					SwitchID:       &sw.ID,
-					IPAddress:      pointer.NewString("192.168.0.1"),
-					NetworkMaskLen: pointer.NewInt(24),
+					IPAddress:      new("192.168.0.1"),
+					NetworkMaskLen: new(24),
 				},
 				StaticRoutes: &[]*iaas.MobileGatewayStaticRoute{
 					{
@@ -141,17 +140,17 @@ func TestMobileGatewayService_convertUpdateRequest(t *testing.T) {
 						NextHop: "192.168.0.2",
 					},
 				},
-				InternetConnectionEnabled:       pointer.NewBool(false),
-				InterDeviceCommunicationEnabled: pointer.NewBool(false),
+				InternetConnectionEnabled:       new(false),
+				InterDeviceCommunicationEnabled: new(false),
 				DNS: &DNSSettingUpdate{
-					DNS1: pointer.NewString("8.8.8.8"),
-					DNS2: pointer.NewString("8.8.4.4"),
+					DNS1: new("8.8.8.8"),
+					DNS2: new("8.8.4.4"),
 				},
 				SIMs: nil,
 				TrafficConfig: &TrafficConfigUpdate{
-					BandWidthLimitInKbps: pointer.NewInt(128),
-					EmailNotifyEnabled:   pointer.NewBool(true),
-					AutoTrafficShaping:   pointer.NewBool(true),
+					BandWidthLimitInKbps: new(128),
+					EmailNotifyEnabled:   new(true),
+					AutoTrafficShaping:   new(true),
 				},
 				NoWait: true,
 			},

@@ -82,7 +82,7 @@ func TestDashboardOp_Create(t *testing.T) {
 
 	res, err := api.Create(ctx, DashboardProjectCreateParams{
 		Name:        "Test Project",
-		Description: ref("This is a test project"),
+		Description: new("This is a test project"),
 	})
 	require.NoError(t, err)
 	require.NotNil(t, res)
@@ -106,8 +106,8 @@ func TestDashboardOp_Update(t *testing.T) {
 	ctx := t.Context()
 
 	updateReq := DashboardProjectUpdateParams{
-		Name:        ref("Updated Project Name"),
-		Description: ref("Updated description"),
+		Name:        new("Updated Project Name"),
+		Description: new("Updated description"),
 	}
 	res, err := api.Update(ctx, "12345", updateReq)
 	require.NoError(t, err)
@@ -156,7 +156,7 @@ func TestDashboardIntegrated(t *testing.T) {
 	// Create
 	created, err := api.Create(ctx, DashboardProjectCreateParams{
 		Name:        testutil.RandomName("test-dashboard-project-", 16, testutil.CharSetAlphaNum),
-		Description: ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+		Description: new(testutil.Random(128, testutil.CharSetAlphaNum)),
 	})
 	require.NoError(t, err)
 	require.NotNil(t, created)
@@ -184,7 +184,7 @@ func TestDashboardIntegrated(t *testing.T) {
 	// Update
 	newDesc := "updated integration test dashboard"
 	updateReq := DashboardProjectUpdateParams{
-		Description: ref(newDesc),
+		Description: new(newDesc),
 	}
 	updated, err := api.Update(ctx, did, updateReq)
 	require.NoError(t, err)

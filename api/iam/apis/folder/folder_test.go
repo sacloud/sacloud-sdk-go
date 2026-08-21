@@ -224,6 +224,6 @@ func TestIntegrated(t *testing.T) {
 		err = op.Move(t.Context(), []int{folder1.GetID()}, nil)
 		assert.NoError(err)
 	}()
-	err = op.Move(t.Context(), []int{folder1.GetID()}, saclient.Ptr(folder2.GetID()))
+	err = op.Move(t.Context(), []int{folder1.GetID()}, new(folder2.GetID()))
 	assert.NoError(err)
 }

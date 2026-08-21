@@ -21,7 +21,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 )
 
 func TestSIMService_CRUD(t *testing.T) {
@@ -84,7 +83,7 @@ func TestSIMService_CRUD(t *testing.T) {
 				Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 					return svc.Update(&UpdateRequest{
 						ID:   ctx.ID,
-						Name: pointer.NewString(name + "-upd"),
+						Name: new(name + "-upd"),
 					})
 				},
 				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {

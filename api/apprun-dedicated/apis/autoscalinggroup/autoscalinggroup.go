@@ -8,7 +8,6 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
-	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type AutoScalingGroupAPI interface {
@@ -52,7 +51,7 @@ func (op *AutoScalingGroupOp) List(ctx context.Context, maxItems int64, cursor *
 
 func (op *AutoScalingGroupOp) Create(ctx context.Context, params CreateParams) (group *v1.CreatedAutoScalingGroup, err error) {
 	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.Create", func() (*v1.CreateAutoScalingGroupResponse, error) {
-		return op.client.CreateAutoScalingGroup(ctx, saclient.Ptr(params.into()), v1.CreateAutoScalingGroupParams{
+		return op.client.CreateAutoScalingGroup(ctx, new(params.into()), v1.CreateAutoScalingGroupParams{
 			ClusterID: op.clusterID,
 		})
 	})

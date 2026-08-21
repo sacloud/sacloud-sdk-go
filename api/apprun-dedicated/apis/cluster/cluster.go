@@ -8,7 +8,6 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
-	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type ClusterAPI interface {
@@ -48,7 +47,7 @@ func (op *ClusterOp) List(ctx context.Context, maxItems int64, cursor *v1.Cluste
 
 func (op *ClusterOp) Create(ctx context.Context, params CreateParams) (cluster *v1.CreatedCluster, err error) {
 	res, err := common.ErrorFromDecodedResponse("Cluster.Create", func() (*v1.CreateClusterResponse, error) {
-		return op.Client.CreateCluster(ctx, saclient.Ptr(params.into()))
+		return op.Client.CreateCluster(ctx, new(params.into()))
 	})
 
 	if res != nil {
@@ -74,7 +73,7 @@ func (op *ClusterOp) Read(ctx context.Context, id v1.ClusterID) (cluster *Cluste
 
 func (op *ClusterOp) Update(ctx context.Context, id v1.ClusterID, params UpdateParams) error {
 	return common.ErrorFromDecodedResponseE("Cluster.Update", func() error {
-		return op.Client.UpdateCluster(ctx, saclient.Ptr(params.into()), v1.UpdateClusterParams{ClusterID: id})
+		return op.Client.UpdateCluster(ctx, new(params.into()), v1.UpdateClusterParams{ClusterID: id})
 	})
 }
 
@@ -115,12 +114,12 @@ func (u UpdateParams) into() (ret v1.UpdateCluster) {
 }
 
 type ClusterDetail struct {
-	ClusterID           v1.ClusterID                `json:"clusterID"`
-	Name                string                      `json:"name"`
-	Ports               []v1.ReadLoadBalancerPort   `json:"ports"`
-	ServicePrincipalID  string                      `json:"servicePrincipalID"`
-	HasLetsEncryptEmail bool                        `json:"hasLetsEncryptEmail"`
-	Created             int                         `json:"created"`
+	ClusterID           v1.ClusterID              `json:"clusterID"`
+	Name                string                    `json:"name"`
+	Ports               []v1.ReadLoadBalancerPort `json:"ports"`
+	ServicePrincipalID  string                    `json:"servicePrincipalID"`
+	HasLetsEncryptEmail bool                      `json:"hasLetsEncryptEmail"`
+	Created             int                       `json:"created"`
 }
 
 func (c *ClusterDetail) fromSummary(res *v1.ReadClusterSummary) {

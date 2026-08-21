@@ -20,7 +20,6 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
-	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type NotificationTargetAPI interface {
@@ -85,7 +84,7 @@ type NotificationTargetCreateParams struct {
 
 func (cp *NotificationTargetCreateParams) urlstr() (ret *string) {
 	if cp.URL != nil {
-		ret = saclient.Ptr(cp.URL.String())
+		ret = new(cp.URL.String())
 	}
 	return
 }

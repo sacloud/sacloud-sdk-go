@@ -22,7 +22,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/size"
 )
 
@@ -81,14 +80,14 @@ func TestAutoScaleService_CRUD(t *testing.T) {
 				Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 					return svc.Update(&UpdateRequest{
 						ID:          ctx.ID,
-						Name:        pointer.NewString(name + "-upd"),
-						Description: pointer.NewString("test-upd"),
+						Name:        new(name + "-upd"),
+						Description: new("test-upd"),
 						Tags:        &types.Tags{"tag1-upd", "tag2-upd"},
 						Zones:       &[]string{testutil.TestZone()},
-						Config:      pointer.NewString(fmt.Sprintf(autoScaleConfigTemplateUpd, testServerName, testutil.TestZone())),
+						Config:      new(fmt.Sprintf(autoScaleConfigTemplateUpd, testServerName, testutil.TestZone())),
 						CPUThresholdScaling: &UpdateCPUThresholdScaling{
-							Up:   pointer.NewInt(80),
-							Down: pointer.NewInt(50),
+							Up:   new(80),
+							Down: new(50),
 						},
 					})
 				},

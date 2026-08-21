@@ -19,7 +19,6 @@ import (
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/stretchr/testify/require"
 )
 
@@ -53,8 +52,8 @@ func TestUpdateRequest_ToRequestParameter(t *testing.T) {
 			fields: fields{
 				ID: 1,
 				CPUThresholdScaling: &UpdateCPUThresholdScaling{
-					Up:   pointer.NewInt(81),
-					Down: pointer.NewInt(21),
+					Up:   new(81),
+					Down: new(21),
 				},
 			},
 			args: args{
