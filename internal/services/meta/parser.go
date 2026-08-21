@@ -94,8 +94,7 @@ func (p *Parser) Parse(v any) ([]StructField, error) {
 
 func (p *Parser) ParseFields(parent StructField, tp reflect.Type) ([]StructField, error) {
 	var fields []StructField
-	for i := 0; i < tp.NumField(); i++ {
-		f := tp.Field(i)
+	for f := range tp.Fields() {
 		if f.PkgPath == "" { // exported?
 			parsed, err := p.ParseField(parent, f)
 			if err != nil {
