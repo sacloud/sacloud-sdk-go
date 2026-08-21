@@ -15,6 +15,8 @@
 package archive
 
 import (
+	"maps"
+
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/ostype"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/search"
@@ -53,9 +55,7 @@ func (req *FindRequest) ToRequestParameter() (*iaas.FindCondition, error) {
 
 	filter, ok := ostype.ArchiveCriteria[req.OSType]
 	if ok {
-		for k, v := range filter {
-			condition.Filter[k] = v
-		}
+		maps.Copy(condition.Filter, filter)
 	}
 	if !objutil.IsEmpty(req.Names) {
 		condition.Filter[search.Key("Name")] = search.AndEqual(req.Names...)

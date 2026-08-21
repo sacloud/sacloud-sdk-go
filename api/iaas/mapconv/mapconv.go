@@ -17,6 +17,7 @@ package mapconv
 import (
 	"errors"
 	"fmt"
+	"maps"
 	"reflect"
 	"strings"
 
@@ -143,9 +144,7 @@ func (d *Decoder) ConvertTo(source any, dest any) error {
 								}
 							}
 							if ok {
-								for k, v := range destMap.Map() {
-									mv[k] = v
-								}
+								maps.Copy(mv, destMap.Map())
 								destMap = Map(mv)
 							}
 						}

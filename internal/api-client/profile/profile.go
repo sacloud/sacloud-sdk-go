@@ -17,6 +17,7 @@ package profile
 import (
 	"encoding/json"
 	"fmt"
+	"maps"
 	"os"
 	"path/filepath"
 	"strings"
@@ -251,9 +252,7 @@ func Save(profileName string, val any) error {
 		}
 
 		// merge
-		for k, v := range newDataMap {
-			currentDataMap[k] = v
-		}
+		maps.Copy(currentDataMap, newDataMap)
 
 		rawBody, err = json.MarshalIndent(currentDataMap, "", "  ")
 		if err != nil {
