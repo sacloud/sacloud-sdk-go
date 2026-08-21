@@ -18,6 +18,7 @@ import (
 	"context"
 	"net/http"
 	"os"
+	"slices"
 	"testing"
 
 	. "github.com/sacloud/sacloud-sdk-go/api/cloudhsm"
@@ -142,13 +143,7 @@ func TestCloudHSMPeerIntegrated(t *testing.T) {
 	// find
 	var createdPeerID string
 	for _, i := range newPeerIDs {
-		found := false
-		for _, j := range existingPeerIDs {
-			if i == j {
-				found = true
-				break
-			}
-		}
+		found := slices.Contains(existingPeerIDs, i)
 		if !found {
 			createdPeerID = i
 			break

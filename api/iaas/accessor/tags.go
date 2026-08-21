@@ -14,6 +14,8 @@
 
 package accessor
 
+import "slices"
+
 import "github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 
 // Tags Tagsを持つリソース向けのインターフェース
@@ -25,12 +27,7 @@ type Tags interface {
 // HasTag 指定のタグが存在する場合trueを返す
 func HasTag(target Tags, tag string) bool {
 	tags := target.GetTags()
-	for _, t := range tags {
-		if t == tag {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(tags, tag)
 }
 
 // AppendTag 指定のタグを追加

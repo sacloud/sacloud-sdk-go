@@ -14,6 +14,8 @@
 
 package iaas
 
+import "slices"
+
 import "github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 
 type DNSRecords []*DNSRecord
@@ -32,13 +34,7 @@ func (o *DNSRecords) Add(rs ...*DNSRecord) {
 func (o *DNSRecords) Delete(rs ...*DNSRecord) {
 	var res []*DNSRecord
 	for _, cur := range *o {
-		remove := false
-		for _, r := range rs {
-			if cur.Equal(r) {
-				remove = true
-				break
-			}
-		}
+		remove := slices.ContainsFunc(rs, cur.Equal)
 		if !remove {
 			res = append(res, cur)
 		}

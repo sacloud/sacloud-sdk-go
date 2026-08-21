@@ -18,6 +18,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"slices"
 	"time"
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/accessor"
@@ -241,19 +242,9 @@ func (w *StatePollingWaiter) handleInstanceState(state accessor.InstanceStatus) 
 }
 
 func (w *StatePollingWaiter) isInAvailability(v types.EAvailability, conditions []types.EAvailability) bool {
-	for _, cond := range conditions {
-		if v == cond {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(conditions, v)
 }
 
 func (w *StatePollingWaiter) isInInstanceStatus(v types.EServerInstanceStatus, conditions []types.EServerInstanceStatus) bool {
-	for _, cond := range conditions {
-		if v == cond {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(conditions, v)
 }
