@@ -83,7 +83,7 @@ func (p *Parser) Parse(v any) ([]StructField, error) {
 
 	rv := reflect.ValueOf(v)
 	switch rv.Kind() {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		return p.Parse(rv.Elem().Interface()) // dereference pointer
 	case reflect.Struct:
 		return p.ParseFields(StructField{}, reflect.TypeOf(v))
@@ -146,7 +146,7 @@ func (p *Parser) ParseField(parent StructField, f reflect.StructField) ([]Struct
 
 	kind := f.Type.Kind()
 	switch kind {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		if f.Type.Elem().Kind() == reflect.Struct {
 			return p.ParseFields(parent, f.Type.Elem())
 		}

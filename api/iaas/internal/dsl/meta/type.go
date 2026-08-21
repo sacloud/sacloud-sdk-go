@@ -94,7 +94,7 @@ func (t *StaticType) ZeroInitializeSourceCode() string {
 		return fmt.Sprintf(format, "&"+t.goType+"{}")
 	case reflect.String:
 		return fmt.Sprintf(format, `""`)
-	case reflect.Ptr:
+	case reflect.Pointer:
 		return fmt.Sprintf(format, `nil`)
 	default:
 		log.Panicf("unsupported Kind: %s", t.reflectKind)
@@ -123,7 +123,7 @@ func (t *StaticType) ZeroValueSourceCode() string {
 		return fmt.Sprintf(format, "float32(0)")
 	case reflect.Float64:
 		return fmt.Sprintf(format, "float64(0)")
-	case reflect.Interface, reflect.Map, reflect.Slice, reflect.Struct, reflect.Ptr:
+	case reflect.Interface, reflect.Map, reflect.Slice, reflect.Struct, reflect.Pointer:
 		if t.goType == "time.Time" {
 			return fmt.Sprintf(format, t.goType+"{}")
 		}
@@ -141,7 +141,7 @@ func (t *StaticType) ToPtrType() Type {
 		goType:       "*" + t.goType,
 		goPkg:        t.goPkg,
 		goImportPath: t.goImportPath,
-		reflectKind:  reflect.Ptr,
+		reflectKind:  reflect.Pointer,
 	}
 }
 
@@ -159,7 +159,7 @@ func Static(v any) *StaticType {
 		reflect.Float32, reflect.Float64, reflect.Interface,
 		reflect.Map, reflect.Slice, reflect.Struct, reflect.String:
 		// noop
-	case reflect.Ptr:
+	case reflect.Pointer:
 		// TODO どう実装する？
 		// return Static(reflect.ValueOf(v).Elem().Interface())
 	default:

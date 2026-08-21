@@ -134,7 +134,7 @@ func (d *JSONFileStoreData) isArrayOrSlice(v any) bool {
 	switch rt.Kind() {
 	case reflect.Slice, reflect.Array:
 		return true
-	case reflect.Ptr:
+	case reflect.Pointer:
 		return d.isArrayOrSlice(reflect.ValueOf(v).Elem().Interface())
 	}
 	return false
