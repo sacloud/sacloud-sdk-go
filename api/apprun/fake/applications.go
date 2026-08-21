@@ -78,10 +78,7 @@ func (engine *Engine) ListApplications(param v1.ListApplicationsParams) (*v1.Han
 		return nil, nil
 	}
 
-	end := start + pageSize
-	if end > appsLen {
-		end = appsLen
-	}
+	end := min(start+pageSize, appsLen)
 
 	var data []v1.HandlerListApplicationsDataItem
 	for _, app := range apps[start:end] {
