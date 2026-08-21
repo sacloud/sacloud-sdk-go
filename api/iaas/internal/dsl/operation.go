@@ -91,12 +91,12 @@ func (o *Operation) ReturnErrorStatement() string {
 		if o.UseWrappedResult {
 			return "nil, err"
 		}
-		var ret string
+		var ret strings.Builder
 		for range o.Results {
-			ret += "nil,"
+			ret.WriteString("nil,")
 		}
-		ret += "err"
-		return ret
+		ret.WriteString("err")
+		return ret.String()
 	}
 	return "err"
 }
@@ -109,12 +109,12 @@ func (o *Operation) ReturnStatement() string {
 	if o.UseWrappedResult {
 		return "results, err"
 	}
-	var ret string
+	var ret strings.Builder
 	for _, r := range o.Results {
-		ret += fmt.Sprintf("results.%s,", r.DestField)
+		ret.WriteString(fmt.Sprintf("results.%s,", r.DestField))
 	}
-	ret += "nil"
-	return ret
+	ret.WriteString("nil")
+	return ret.String()
 }
 
 // ResultsStatement 戻り値定義部のソースを出力
@@ -125,11 +125,11 @@ func (o *Operation) ResultsStatement() string {
 	if o.UseWrappedResult {
 		return fmt.Sprintf("(%s, error)", o.resultType().GoTypeSourceCode())
 	}
-	var ret string
+	var ret strings.Builder
 	for _, r := range o.Results {
-		ret += r.GoTypeSourceCode() + ","
+		ret.WriteString(r.GoTypeSourceCode() + ",")
 	}
-	return fmt.Sprintf("(%s error)", ret)
+	return fmt.Sprintf("(%s error)", ret.String())
 }
 
 // ResultsTypeInfo 戻り値の型情報(error型を含まない)
@@ -164,11 +164,11 @@ func (o *Operation) ResultsAssignStatement() string {
 	if o.UseWrappedResult {
 		return "result, err"
 	}
-	var ret string
+	var ret strings.Builder
 	for _, r := range o.Results {
-		ret += fmt.Sprintf(",result%s", r.DestField)
+		ret.WriteString(fmt.Sprintf(",result%s", r.DestField))
 	}
-	return fmt.Sprintf("%s, err", ret)
+	return fmt.Sprintf("%s, err", ret.String())
 }
 
 // RequestEnvelopeStructName エンベロープのstruct名(camel-case)
