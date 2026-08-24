@@ -10,6 +10,20 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
+func encodeCreateApplicationRequest(
+	req *CreateApplicationBody,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodePatchApplicationRequest(
 	req *PatchApplicationBody,
 	r *http.Request,
@@ -24,8 +38,8 @@ func encodePatchApplicationRequest(
 	return nil
 }
 
-func encodePatchPacketFilterRequest(
-	req *PatchPacketFilter,
+func encodePatchApplicationPacketFilterRequest(
+	req *PatchPacketFilterBody,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -38,22 +52,8 @@ func encodePatchPacketFilterRequest(
 	return nil
 }
 
-func encodePostApplicationRequest(
-	req *PostApplicationBody,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePutApplicationTrafficRequest(
-	req PutTrafficsBody,
+func encodeUpdateApplicationTrafficRequest(
+	req UpdateTrafficBody,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

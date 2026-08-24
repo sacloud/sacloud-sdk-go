@@ -21,6 +21,18 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
+	// CreateApplication invokes createApplication operation.
+	//
+	// AppRun共用型にアプリケーションを作成します。.
+	//
+	// POST /applications
+	CreateApplication(ctx context.Context, request *CreateApplicationBody) (CreateApplicationRes, error)
+	// CreateUser invokes createUser operation.
+	//
+	// AppRun共用型にユーザーを作成します。.
+	//
+	// POST /user
+	CreateUser(ctx context.Context) (CreateUserRes, error)
 	// DeleteApplication invokes deleteApplication operation.
 	//
 	// AppRun共用型のアプリケーションを削除します。.
@@ -33,48 +45,12 @@ type Invoker interface {
 	//
 	// DELETE /applications/{id}/versions/{version_id}
 	DeleteApplicationVersion(ctx context.Context, params DeleteApplicationVersionParams) (DeleteApplicationVersionRes, error)
-	// GetApplication invokes getApplication operation.
-	//
-	// AppRun共用型のアプリケーション詳細を取得します。.
-	//
-	// GET /applications/{id}
-	GetApplication(ctx context.Context, params GetApplicationParams) (GetApplicationRes, error)
-	// GetApplicationStatus invokes getApplicationStatus operation.
-	//
-	// AppRun共用型のアプリケーションステータスを取得します。.
-	//
-	// GET /applications/{id}/status
-	GetApplicationStatus(ctx context.Context, params GetApplicationStatusParams) (GetApplicationStatusRes, error)
-	// GetApplicationVersion invokes getApplicationVersion operation.
-	//
-	// AppRun共用型のアプリケーションバージョン詳細を取得します。.
-	//
-	// GET /applications/{id}/versions/{version_id}
-	GetApplicationVersion(ctx context.Context, params GetApplicationVersionParams) (GetApplicationVersionRes, error)
-	// GetApplicationVersionStatus invokes getApplicationVersionStatus operation.
-	//
-	// AppRun共用型のアプリケーションバージョンステータスを取得します。.
-	//
-	// GET /applications/{id}/versions/{version_id}/status
-	GetApplicationVersionStatus(ctx context.Context, params GetApplicationVersionStatusParams) (GetApplicationVersionStatusRes, error)
-	// GetPacketFilter invokes getPacketFilter operation.
-	//
-	// AppRun共用型のパケットフィルタを取得します。.
-	//
-	// GET /applications/{id}/packet_filter
-	GetPacketFilter(ctx context.Context, params GetPacketFilterParams) (GetPacketFilterRes, error)
-	// GetUser invokes getUser operation.
-	//
-	// ログイン中のユーザー情報を取得します。.
-	//
-	// GET /user
-	GetUser(ctx context.Context) (GetUserRes, error)
-	// ListApplicationTraffics invokes listApplicationTraffics operation.
+	// ListApplicationTraffic invokes listApplicationTraffic operation.
 	//
 	// AppRun共用型のアプリケーショントラフィック分散を取得します。.
 	//
 	// GET /applications/{id}/traffics
-	ListApplicationTraffics(ctx context.Context, params ListApplicationTrafficsParams) (ListApplicationTrafficsRes, error)
+	ListApplicationTraffic(ctx context.Context, params ListApplicationTrafficParams) (ListApplicationTrafficRes, error)
 	// ListApplicationVersions invokes listApplicationVersions operation.
 	//
 	// AppRun共用型のアプリケーションバージョン一覧を取得します。.
@@ -93,30 +69,54 @@ type Invoker interface {
 	//
 	// PATCH /applications/{id}
 	PatchApplication(ctx context.Context, request *PatchApplicationBody, params PatchApplicationParams) (PatchApplicationRes, error)
-	// PatchPacketFilter invokes patchPacketFilter operation.
+	// PatchApplicationPacketFilter invokes patchApplicationPacketFilter operation.
 	//
 	// AppRun共用型のパケットフィルタを部分的に変更します。.
 	//
 	// PATCH /applications/{id}/packet_filter
-	PatchPacketFilter(ctx context.Context, request *PatchPacketFilter, params PatchPacketFilterParams) (PatchPacketFilterRes, error)
-	// PostApplication invokes postApplication operation.
+	PatchApplicationPacketFilter(ctx context.Context, request *PatchPacketFilterBody, params PatchApplicationPacketFilterParams) (PatchApplicationPacketFilterRes, error)
+	// ReadApplication invokes readApplication operation.
 	//
-	// AppRun共用型にアプリケーションを作成します。.
+	// AppRun共用型のアプリケーション詳細を取得します。.
 	//
-	// POST /applications
-	PostApplication(ctx context.Context, request *PostApplicationBody) (PostApplicationRes, error)
-	// PostUser invokes postUser operation.
+	// GET /applications/{id}
+	ReadApplication(ctx context.Context, params ReadApplicationParams) (ReadApplicationRes, error)
+	// ReadApplicationPacketFilter invokes readApplicationPacketFilter operation.
 	//
-	// AppRun共用型にユーザーを作成します。.
+	// AppRun共用型のパケットフィルタを取得します。.
 	//
-	// POST /user
-	PostUser(ctx context.Context) (PostUserRes, error)
-	// PutApplicationTraffic invokes putApplicationTraffic operation.
+	// GET /applications/{id}/packet_filter
+	ReadApplicationPacketFilter(ctx context.Context, params ReadApplicationPacketFilterParams) (ReadApplicationPacketFilterRes, error)
+	// ReadApplicationStatus invokes readApplicationStatus operation.
+	//
+	// AppRun共用型のアプリケーションステータスを取得します。.
+	//
+	// GET /applications/{id}/status
+	ReadApplicationStatus(ctx context.Context, params ReadApplicationStatusParams) (ReadApplicationStatusRes, error)
+	// ReadApplicationVersion invokes readApplicationVersion operation.
+	//
+	// AppRun共用型のアプリケーションバージョン詳細を取得します。.
+	//
+	// GET /applications/{id}/versions/{version_id}
+	ReadApplicationVersion(ctx context.Context, params ReadApplicationVersionParams) (ReadApplicationVersionRes, error)
+	// ReadApplicationVersionStatus invokes readApplicationVersionStatus operation.
+	//
+	// AppRun共用型のアプリケーションバージョンステータスを取得します。.
+	//
+	// GET /applications/{id}/versions/{version_id}/status
+	ReadApplicationVersionStatus(ctx context.Context, params ReadApplicationVersionStatusParams) (ReadApplicationVersionStatusRes, error)
+	// ReadUser invokes readUser operation.
+	//
+	// ログイン中のユーザー情報を取得します。.
+	//
+	// GET /user
+	ReadUser(ctx context.Context) (ReadUserRes, error)
+	// UpdateApplicationTraffic invokes updateApplicationTraffic operation.
 	//
 	// AppRun共用型のアプリケーショントラフィック分散を変更します。.
 	//
 	// PUT /applications/{id}/traffics
-	PutApplicationTraffic(ctx context.Context, request PutTrafficsBody, params PutApplicationTrafficParams) (PutApplicationTrafficRes, error)
+	UpdateApplicationTraffic(ctx context.Context, request UpdateTrafficBody, params UpdateApplicationTrafficParams) (UpdateApplicationTrafficRes, error)
 }
 
 // Client implements OAS client.
@@ -156,6 +156,104 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 		return c.serverURL
 	}
 	return u
+}
+
+// CreateApplication invokes createApplication operation.
+//
+// AppRun共用型にアプリケーションを作成します。.
+//
+// POST /applications
+func (c *Client) CreateApplication(ctx context.Context, request *CreateApplicationBody) (CreateApplicationRes, error) {
+	res, err := c.sendCreateApplication(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateApplication(ctx context.Context, request *CreateApplicationBody) (res CreateApplicationRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/applications"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateApplicationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateApplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateUser invokes createUser operation.
+//
+// AppRun共用型にユーザーを作成します。.
+//
+// POST /user
+func (c *Client) CreateUser(ctx context.Context) (CreateUserRes, error) {
+	res, err := c.sendCreateUser(ctx)
+	return res, err
+}
+
+func (c *Client) sendCreateUser(ctx context.Context) (res CreateUserRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/user"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateUserResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
 }
 
 // DeleteApplication invokes deleteApplication operation.
@@ -299,406 +397,17 @@ func (c *Client) sendDeleteApplicationVersion(ctx context.Context, params Delete
 	return result, nil
 }
 
-// GetApplication invokes getApplication operation.
-//
-// AppRun共用型のアプリケーション詳細を取得します。.
-//
-// GET /applications/{id}
-func (c *Client) GetApplication(ctx context.Context, params GetApplicationParams) (GetApplicationRes, error) {
-	res, err := c.sendGetApplication(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetApplication(ctx context.Context, params GetApplicationParams) (res GetApplicationRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/applications/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetApplicationResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetApplicationStatus invokes getApplicationStatus operation.
-//
-// AppRun共用型のアプリケーションステータスを取得します。.
-//
-// GET /applications/{id}/status
-func (c *Client) GetApplicationStatus(ctx context.Context, params GetApplicationStatusParams) (GetApplicationStatusRes, error) {
-	res, err := c.sendGetApplicationStatus(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetApplicationStatus(ctx context.Context, params GetApplicationStatusParams) (res GetApplicationStatusRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/applications/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/status"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetApplicationStatusResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetApplicationVersion invokes getApplicationVersion operation.
-//
-// AppRun共用型のアプリケーションバージョン詳細を取得します。.
-//
-// GET /applications/{id}/versions/{version_id}
-func (c *Client) GetApplicationVersion(ctx context.Context, params GetApplicationVersionParams) (GetApplicationVersionRes, error) {
-	res, err := c.sendGetApplicationVersion(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetApplicationVersion(ctx context.Context, params GetApplicationVersionParams) (res GetApplicationVersionRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/applications/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/versions/"
-	{
-		// Encode "version_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "version_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.VersionID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetApplicationVersionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetApplicationVersionStatus invokes getApplicationVersionStatus operation.
-//
-// AppRun共用型のアプリケーションバージョンステータスを取得します。.
-//
-// GET /applications/{id}/versions/{version_id}/status
-func (c *Client) GetApplicationVersionStatus(ctx context.Context, params GetApplicationVersionStatusParams) (GetApplicationVersionStatusRes, error) {
-	res, err := c.sendGetApplicationVersionStatus(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetApplicationVersionStatus(ctx context.Context, params GetApplicationVersionStatusParams) (res GetApplicationVersionStatusRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/applications/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/versions/"
-	{
-		// Encode "version_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "version_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.VersionID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/status"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetApplicationVersionStatusResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetPacketFilter invokes getPacketFilter operation.
-//
-// AppRun共用型のパケットフィルタを取得します。.
-//
-// GET /applications/{id}/packet_filter
-func (c *Client) GetPacketFilter(ctx context.Context, params GetPacketFilterParams) (GetPacketFilterRes, error) {
-	res, err := c.sendGetPacketFilter(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetPacketFilter(ctx context.Context, params GetPacketFilterParams) (res GetPacketFilterRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/applications/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/packet_filter"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetPacketFilterResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetUser invokes getUser operation.
-//
-// ログイン中のユーザー情報を取得します。.
-//
-// GET /user
-func (c *Client) GetUser(ctx context.Context) (GetUserRes, error) {
-	res, err := c.sendGetUser(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetUser(ctx context.Context) (res GetUserRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/user"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetUserResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ListApplicationTraffics invokes listApplicationTraffics operation.
+// ListApplicationTraffic invokes listApplicationTraffic operation.
 //
 // AppRun共用型のアプリケーショントラフィック分散を取得します。.
 //
 // GET /applications/{id}/traffics
-func (c *Client) ListApplicationTraffics(ctx context.Context, params ListApplicationTrafficsParams) (ListApplicationTrafficsRes, error) {
-	res, err := c.sendListApplicationTraffics(ctx, params)
+func (c *Client) ListApplicationTraffic(ctx context.Context, params ListApplicationTrafficParams) (ListApplicationTrafficRes, error) {
+	res, err := c.sendListApplicationTraffic(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListApplicationTraffics(ctx context.Context, params ListApplicationTrafficsParams) (res ListApplicationTrafficsRes, err error) {
+func (c *Client) sendListApplicationTraffic(ctx context.Context, params ListApplicationTrafficParams) (res ListApplicationTrafficRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -742,7 +451,7 @@ func (c *Client) sendListApplicationTraffics(ctx context.Context, params ListApp
 		_ = body.Close()
 	}()
 
-	result, err := decodeListApplicationTrafficsResponse(resp)
+	result, err := decodeListApplicationTrafficResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1070,17 +779,17 @@ func (c *Client) sendPatchApplication(ctx context.Context, request *PatchApplica
 	return result, nil
 }
 
-// PatchPacketFilter invokes patchPacketFilter operation.
+// PatchApplicationPacketFilter invokes patchApplicationPacketFilter operation.
 //
 // AppRun共用型のパケットフィルタを部分的に変更します。.
 //
 // PATCH /applications/{id}/packet_filter
-func (c *Client) PatchPacketFilter(ctx context.Context, request *PatchPacketFilter, params PatchPacketFilterParams) (PatchPacketFilterRes, error) {
-	res, err := c.sendPatchPacketFilter(ctx, request, params)
+func (c *Client) PatchApplicationPacketFilter(ctx context.Context, request *PatchPacketFilterBody, params PatchApplicationPacketFilterParams) (PatchApplicationPacketFilterRes, error) {
+	res, err := c.sendPatchApplicationPacketFilter(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendPatchPacketFilter(ctx context.Context, request *PatchPacketFilter, params PatchPacketFilterParams) (res PatchPacketFilterRes, err error) {
+func (c *Client) sendPatchApplicationPacketFilter(ctx context.Context, request *PatchPacketFilterBody, params PatchApplicationPacketFilterParams) (res PatchApplicationPacketFilterRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -1119,7 +828,7 @@ func (c *Client) sendPatchPacketFilter(ctx context.Context, request *PatchPacket
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodePatchPacketFilterRequest(request, r); err != nil {
+	if err := encodePatchApplicationPacketFilterRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -1136,7 +845,7 @@ func (c *Client) sendPatchPacketFilter(ctx context.Context, request *PatchPacket
 		_ = body.Close()
 	}()
 
-	result, err := decodePatchPacketFilterResponse(resp)
+	result, err := decodePatchApplicationPacketFilterResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1144,38 +853,106 @@ func (c *Client) sendPatchPacketFilter(ctx context.Context, request *PatchPacket
 	return result, nil
 }
 
-// PostApplication invokes postApplication operation.
+// ReadApplication invokes readApplication operation.
 //
-// AppRun共用型にアプリケーションを作成します。.
+// AppRun共用型のアプリケーション詳細を取得します。.
 //
-// POST /applications
-func (c *Client) PostApplication(ctx context.Context, request *PostApplicationBody) (PostApplicationRes, error) {
-	res, err := c.sendPostApplication(ctx, request)
+// GET /applications/{id}
+func (c *Client) ReadApplication(ctx context.Context, params ReadApplicationParams) (ReadApplicationRes, error) {
+	res, err := c.sendReadApplication(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendPostApplication(ctx context.Context, request *PostApplicationBody) (res PostApplicationRes, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendReadApplication(ctx context.Context, params ReadApplicationParams) (res ReadApplicationRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/applications"
+	var pathParts [2]string
+	pathParts[0] = "/applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "POST", u)
+	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodePostApplicationRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadApplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadApplicationPacketFilter invokes readApplicationPacketFilter operation.
+//
+// AppRun共用型のパケットフィルタを取得します。.
+//
+// GET /applications/{id}/packet_filter
+func (c *Client) ReadApplicationPacketFilter(ctx context.Context, params ReadApplicationPacketFilterParams) (ReadApplicationPacketFilterRes, error) {
+	res, err := c.sendReadApplicationPacketFilter(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadApplicationPacketFilter(ctx context.Context, params ReadApplicationPacketFilterParams) (res ReadApplicationPacketFilterRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/packet_filter"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
 	}
 
 	resp, err := c.cfg.Client.Do(r)
@@ -1191,7 +968,7 @@ func (c *Client) sendPostApplication(ctx context.Context, request *PostApplicati
 		_ = body.Close()
 	}()
 
-	result, err := decodePostApplicationResponse(resp)
+	result, err := decodeReadApplicationPacketFilterResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1199,24 +976,247 @@ func (c *Client) sendPostApplication(ctx context.Context, request *PostApplicati
 	return result, nil
 }
 
-// PostUser invokes postUser operation.
+// ReadApplicationStatus invokes readApplicationStatus operation.
 //
-// AppRun共用型にユーザーを作成します。.
+// AppRun共用型のアプリケーションステータスを取得します。.
 //
-// POST /user
-func (c *Client) PostUser(ctx context.Context) (PostUserRes, error) {
-	res, err := c.sendPostUser(ctx)
+// GET /applications/{id}/status
+func (c *Client) ReadApplicationStatus(ctx context.Context, params ReadApplicationStatusParams) (ReadApplicationStatusRes, error) {
+	res, err := c.sendReadApplicationStatus(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendPostUser(ctx context.Context) (res PostUserRes, err error) {
+func (c *Client) sendReadApplicationStatus(ctx context.Context, params ReadApplicationStatusParams) (res ReadApplicationStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/status"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadApplicationStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadApplicationVersion invokes readApplicationVersion operation.
+//
+// AppRun共用型のアプリケーションバージョン詳細を取得します。.
+//
+// GET /applications/{id}/versions/{version_id}
+func (c *Client) ReadApplicationVersion(ctx context.Context, params ReadApplicationVersionParams) (ReadApplicationVersionRes, error) {
+	res, err := c.sendReadApplicationVersion(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadApplicationVersion(ctx context.Context, params ReadApplicationVersionParams) (res ReadApplicationVersionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/versions/"
+	{
+		// Encode "version_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "version_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.VersionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadApplicationVersionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadApplicationVersionStatus invokes readApplicationVersionStatus operation.
+//
+// AppRun共用型のアプリケーションバージョンステータスを取得します。.
+//
+// GET /applications/{id}/versions/{version_id}/status
+func (c *Client) ReadApplicationVersionStatus(ctx context.Context, params ReadApplicationVersionStatusParams) (ReadApplicationVersionStatusRes, error) {
+	res, err := c.sendReadApplicationVersionStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadApplicationVersionStatus(ctx context.Context, params ReadApplicationVersionStatusParams) (res ReadApplicationVersionStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/applications/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/versions/"
+	{
+		// Encode "version_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "version_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.VersionID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/status"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadApplicationVersionStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadUser invokes readUser operation.
+//
+// ログイン中のユーザー情報を取得します。.
+//
+// GET /user
+func (c *Client) ReadUser(ctx context.Context) (ReadUserRes, error) {
+	res, err := c.sendReadUser(ctx)
+	return res, err
+}
+
+func (c *Client) sendReadUser(ctx context.Context) (res ReadUserRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/user"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "POST", u)
+	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
@@ -1234,7 +1234,7 @@ func (c *Client) sendPostUser(ctx context.Context) (res PostUserRes, err error) 
 		_ = body.Close()
 	}()
 
-	result, err := decodePostUserResponse(resp)
+	result, err := decodeReadUserResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1242,17 +1242,17 @@ func (c *Client) sendPostUser(ctx context.Context) (res PostUserRes, err error) 
 	return result, nil
 }
 
-// PutApplicationTraffic invokes putApplicationTraffic operation.
+// UpdateApplicationTraffic invokes updateApplicationTraffic operation.
 //
 // AppRun共用型のアプリケーショントラフィック分散を変更します。.
 //
 // PUT /applications/{id}/traffics
-func (c *Client) PutApplicationTraffic(ctx context.Context, request PutTrafficsBody, params PutApplicationTrafficParams) (PutApplicationTrafficRes, error) {
-	res, err := c.sendPutApplicationTraffic(ctx, request, params)
+func (c *Client) UpdateApplicationTraffic(ctx context.Context, request UpdateTrafficBody, params UpdateApplicationTrafficParams) (UpdateApplicationTrafficRes, error) {
+	res, err := c.sendUpdateApplicationTraffic(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendPutApplicationTraffic(ctx context.Context, request PutTrafficsBody, params PutApplicationTrafficParams) (res PutApplicationTrafficRes, err error) {
+func (c *Client) sendUpdateApplicationTraffic(ctx context.Context, request UpdateTrafficBody, params UpdateApplicationTrafficParams) (res UpdateApplicationTrafficRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -1291,7 +1291,7 @@ func (c *Client) sendPutApplicationTraffic(ctx context.Context, request PutTraff
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodePutApplicationTrafficRequest(request, r); err != nil {
+	if err := encodeUpdateApplicationTrafficRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -1308,7 +1308,7 @@ func (c *Client) sendPutApplicationTraffic(ctx context.Context, request PutTraff
 		_ = body.Close()
 	}()
 
-	result, err := decodePutApplicationTrafficResponse(resp)
+	result, err := decodeUpdateApplicationTrafficResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

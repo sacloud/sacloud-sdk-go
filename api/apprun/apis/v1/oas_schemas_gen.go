@@ -55,6 +55,1107 @@ func (s *ContainerRegistryAction) UnmarshalText(data []byte) error {
 	}
 }
 
+// CreateApplicationBadRequest represents sum type.
+type CreateApplicationBadRequest struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateApplicationBadRequestType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateApplicationBadRequestType is oneOf type of CreateApplicationBadRequest.
+type CreateApplicationBadRequestType string
+
+// Possible values for CreateApplicationBadRequestType.
+const (
+	ModelDefaultErrorCreateApplicationBadRequest   CreateApplicationBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateApplicationBadRequest CreateApplicationBadRequestType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateApplicationBadRequest is ModelDefaultError.
+func (s CreateApplicationBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateApplicationBadRequest
+}
+
+// IsModelCloudctrlError reports whether CreateApplicationBadRequest is ModelCloudctrlError.
+func (s CreateApplicationBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateApplicationBadRequest
+}
+
+// SetModelDefaultError sets CreateApplicationBadRequest to ModelDefaultError.
+func (s *CreateApplicationBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateApplicationBadRequest
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateApplicationBadRequest is ModelDefaultError.
+func (s CreateApplicationBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateApplicationBadRequest returns new CreateApplicationBadRequest from ModelDefaultError.
+func NewModelDefaultErrorCreateApplicationBadRequest(v ModelDefaultError) CreateApplicationBadRequest {
+	var s CreateApplicationBadRequest
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateApplicationBadRequest to ModelCloudctrlError.
+func (s *CreateApplicationBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateApplicationBadRequest
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateApplicationBadRequest is ModelCloudctrlError.
+func (s CreateApplicationBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateApplicationBadRequest returns new CreateApplicationBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateApplicationBadRequest(v ModelCloudctrlError) CreateApplicationBadRequest {
+	var s CreateApplicationBadRequest
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateApplicationBadRequest) createApplicationRes() {}
+
+// Ref: #/components/schemas/createApplicationBody
+type CreateApplicationBody struct {
+	// アプリケーション名.
+	Name string `json:"name"`
+	// アプリケーションの公開URLにアクセスして、インスタンスが起動してからレスポンスが返るまでの時間制限.
+	TimeoutSeconds int `json:"timeout_seconds"`
+	// アプリケーションがリクエストを待ち受けるポート番号。 ただし、8012,
+	// 8013, 8022, 9090, 9091, 8008 は予約済みのため設定不可。.
+	Port int `json:"port"`
+	// アプリケーション全体の最小スケール数.
+	MinScale int `json:"min_scale"`
+	// アプリケーション全体の最大スケール数.
+	MaxScale int `json:"max_scale"`
+	// アプリケーションのスケールの閾値の目安となる同時リクエスト数.
+	ScaleTargetConcurrency OptInt `json:"scale_target_concurrency"`
+	// アプリケーションのコンポーネント情報.
+	Components []CreateApplicationBodyComponentsItem `json:"components"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateApplicationBody) GetName() string {
+	return s.Name
+}
+
+// GetTimeoutSeconds returns the value of TimeoutSeconds.
+func (s *CreateApplicationBody) GetTimeoutSeconds() int {
+	return s.TimeoutSeconds
+}
+
+// GetPort returns the value of Port.
+func (s *CreateApplicationBody) GetPort() int {
+	return s.Port
+}
+
+// GetMinScale returns the value of MinScale.
+func (s *CreateApplicationBody) GetMinScale() int {
+	return s.MinScale
+}
+
+// GetMaxScale returns the value of MaxScale.
+func (s *CreateApplicationBody) GetMaxScale() int {
+	return s.MaxScale
+}
+
+// GetScaleTargetConcurrency returns the value of ScaleTargetConcurrency.
+func (s *CreateApplicationBody) GetScaleTargetConcurrency() OptInt {
+	return s.ScaleTargetConcurrency
+}
+
+// GetComponents returns the value of Components.
+func (s *CreateApplicationBody) GetComponents() []CreateApplicationBodyComponentsItem {
+	return s.Components
+}
+
+// SetName sets the value of Name.
+func (s *CreateApplicationBody) SetName(val string) {
+	s.Name = val
+}
+
+// SetTimeoutSeconds sets the value of TimeoutSeconds.
+func (s *CreateApplicationBody) SetTimeoutSeconds(val int) {
+	s.TimeoutSeconds = val
+}
+
+// SetPort sets the value of Port.
+func (s *CreateApplicationBody) SetPort(val int) {
+	s.Port = val
+}
+
+// SetMinScale sets the value of MinScale.
+func (s *CreateApplicationBody) SetMinScale(val int) {
+	s.MinScale = val
+}
+
+// SetMaxScale sets the value of MaxScale.
+func (s *CreateApplicationBody) SetMaxScale(val int) {
+	s.MaxScale = val
+}
+
+// SetScaleTargetConcurrency sets the value of ScaleTargetConcurrency.
+func (s *CreateApplicationBody) SetScaleTargetConcurrency(val OptInt) {
+	s.ScaleTargetConcurrency = val
+}
+
+// SetComponents sets the value of Components.
+func (s *CreateApplicationBody) SetComponents(val []CreateApplicationBodyComponentsItem) {
+	s.Components = val
+}
+
+type CreateApplicationBodyComponentsItem struct {
+	// コンポーネント名.
+	Name string `json:"name"`
+	// コンポーネントの最大vCPU数（メモリとの組み合わせで利用できない値もあります）.
+	MaxCPU CreateApplicationBodyComponentsItemMaxCPU `json:"max_cpu"`
+	// コンポーネントの最大メモリ（vCPUとの組み合わせで利用できない値もあります）.
+	MaxMemory CreateApplicationBodyComponentsItemMaxMemory `json:"max_memory"`
+	// コンポーネントを構成するソース.
+	DeploySource CreateApplicationBodyComponentsItemDeploySource `json:"deploy_source"`
+	Env          OptNilRequestEnv                                `json:"env"`
+	// コンポーネントに渡す環境変数（機密情報の設定に使用可能）.
+	Secret OptNilCreateApplicationBodyComponentsItemSecretItemArray `json:"secret"`
+	// コンポーネントのプローブ設定.
+	Probe OptNilCreateApplicationBodyComponentsItemProbe `json:"probe"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateApplicationBodyComponentsItem) GetName() string {
+	return s.Name
+}
+
+// GetMaxCPU returns the value of MaxCPU.
+func (s *CreateApplicationBodyComponentsItem) GetMaxCPU() CreateApplicationBodyComponentsItemMaxCPU {
+	return s.MaxCPU
+}
+
+// GetMaxMemory returns the value of MaxMemory.
+func (s *CreateApplicationBodyComponentsItem) GetMaxMemory() CreateApplicationBodyComponentsItemMaxMemory {
+	return s.MaxMemory
+}
+
+// GetDeploySource returns the value of DeploySource.
+func (s *CreateApplicationBodyComponentsItem) GetDeploySource() CreateApplicationBodyComponentsItemDeploySource {
+	return s.DeploySource
+}
+
+// GetEnv returns the value of Env.
+func (s *CreateApplicationBodyComponentsItem) GetEnv() OptNilRequestEnv {
+	return s.Env
+}
+
+// GetSecret returns the value of Secret.
+func (s *CreateApplicationBodyComponentsItem) GetSecret() OptNilCreateApplicationBodyComponentsItemSecretItemArray {
+	return s.Secret
+}
+
+// GetProbe returns the value of Probe.
+func (s *CreateApplicationBodyComponentsItem) GetProbe() OptNilCreateApplicationBodyComponentsItemProbe {
+	return s.Probe
+}
+
+// SetName sets the value of Name.
+func (s *CreateApplicationBodyComponentsItem) SetName(val string) {
+	s.Name = val
+}
+
+// SetMaxCPU sets the value of MaxCPU.
+func (s *CreateApplicationBodyComponentsItem) SetMaxCPU(val CreateApplicationBodyComponentsItemMaxCPU) {
+	s.MaxCPU = val
+}
+
+// SetMaxMemory sets the value of MaxMemory.
+func (s *CreateApplicationBodyComponentsItem) SetMaxMemory(val CreateApplicationBodyComponentsItemMaxMemory) {
+	s.MaxMemory = val
+}
+
+// SetDeploySource sets the value of DeploySource.
+func (s *CreateApplicationBodyComponentsItem) SetDeploySource(val CreateApplicationBodyComponentsItemDeploySource) {
+	s.DeploySource = val
+}
+
+// SetEnv sets the value of Env.
+func (s *CreateApplicationBodyComponentsItem) SetEnv(val OptNilRequestEnv) {
+	s.Env = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *CreateApplicationBodyComponentsItem) SetSecret(val OptNilCreateApplicationBodyComponentsItemSecretItemArray) {
+	s.Secret = val
+}
+
+// SetProbe sets the value of Probe.
+func (s *CreateApplicationBodyComponentsItem) SetProbe(val OptNilCreateApplicationBodyComponentsItemProbe) {
+	s.Probe = val
+}
+
+// コンポーネントを構成するソース.
+type CreateApplicationBodyComponentsItemDeploySource struct {
+	// コンテナレジストリ 以下のレジストリを利用できます。
+	//
+	//  - さくらのクラウドで提供中のコンテナレジストリ
+	//  - Docker Hub
+	//  - GitHub Container Registry
+	ContainerRegistry OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
+}
+
+// GetContainerRegistry returns the value of ContainerRegistry.
+func (s *CreateApplicationBodyComponentsItemDeploySource) GetContainerRegistry() OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry {
+	return s.ContainerRegistry
+}
+
+// SetContainerRegistry sets the value of ContainerRegistry.
+func (s *CreateApplicationBodyComponentsItemDeploySource) SetContainerRegistry(val OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) {
+	s.ContainerRegistry = val
+}
+
+// コンテナレジストリ 以下のレジストリを利用できます。
+//
+//   - さくらのクラウドで提供中のコンテナレジストリ
+//   - Docker Hub
+//   - GitHub Container Registry
+type CreateApplicationBodyComponentsItemDeploySourceContainerRegistry struct {
+	// コンテナイメージ名.
+	Image string `json:"image"`
+	// コンテナレジストリのサーバー名（認証が必要な場合は入力してください）
+	// Docker Hub利用時は `index.docker.io` を指定してください。.
+	Server OptNilString `json:"server"`
+	// コンテナレジストリのユーザー名（認証が必要な場合は入力してください）.
+	Username OptNilString `json:"username"`
+	// コンテナレジストリのパスワード（認証が必要な場合は入力してください）
+	// ※ 認証にトークンを使用する場合は、この欄に入力してください。.
+	Password OptNilString `json:"password"`
+}
+
+// GetImage returns the value of Image.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) GetImage() string {
+	return s.Image
+}
+
+// GetServer returns the value of Server.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) GetServer() OptNilString {
+	return s.Server
+}
+
+// GetUsername returns the value of Username.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) GetUsername() OptNilString {
+	return s.Username
+}
+
+// GetPassword returns the value of Password.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) GetPassword() OptNilString {
+	return s.Password
+}
+
+// SetImage sets the value of Image.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) SetImage(val string) {
+	s.Image = val
+}
+
+// SetServer sets the value of Server.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) SetServer(val OptNilString) {
+	s.Server = val
+}
+
+// SetUsername sets the value of Username.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) SetUsername(val OptNilString) {
+	s.Username = val
+}
+
+// SetPassword sets the value of Password.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) SetPassword(val OptNilString) {
+	s.Password = val
+}
+
+// コンポーネントの最大vCPU数（メモリとの組み合わせで利用できない値もあります）.
+type CreateApplicationBodyComponentsItemMaxCPU string
+
+const (
+	CreateApplicationBodyComponentsItemMaxCPU05 CreateApplicationBodyComponentsItemMaxCPU = "0.5"
+	CreateApplicationBodyComponentsItemMaxCPU1  CreateApplicationBodyComponentsItemMaxCPU = "1"
+	CreateApplicationBodyComponentsItemMaxCPU2  CreateApplicationBodyComponentsItemMaxCPU = "2"
+)
+
+// AllValues returns all CreateApplicationBodyComponentsItemMaxCPU values.
+func (CreateApplicationBodyComponentsItemMaxCPU) AllValues() []CreateApplicationBodyComponentsItemMaxCPU {
+	return []CreateApplicationBodyComponentsItemMaxCPU{
+		CreateApplicationBodyComponentsItemMaxCPU05,
+		CreateApplicationBodyComponentsItemMaxCPU1,
+		CreateApplicationBodyComponentsItemMaxCPU2,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateApplicationBodyComponentsItemMaxCPU) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateApplicationBodyComponentsItemMaxCPU05:
+		return []byte(s), nil
+	case CreateApplicationBodyComponentsItemMaxCPU1:
+		return []byte(s), nil
+	case CreateApplicationBodyComponentsItemMaxCPU2:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateApplicationBodyComponentsItemMaxCPU) UnmarshalText(data []byte) error {
+	switch CreateApplicationBodyComponentsItemMaxCPU(data) {
+	case CreateApplicationBodyComponentsItemMaxCPU05:
+		*s = CreateApplicationBodyComponentsItemMaxCPU05
+		return nil
+	case CreateApplicationBodyComponentsItemMaxCPU1:
+		*s = CreateApplicationBodyComponentsItemMaxCPU1
+		return nil
+	case CreateApplicationBodyComponentsItemMaxCPU2:
+		*s = CreateApplicationBodyComponentsItemMaxCPU2
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// コンポーネントの最大メモリ（vCPUとの組み合わせで利用できない値もあります）.
+type CreateApplicationBodyComponentsItemMaxMemory string
+
+const (
+	CreateApplicationBodyComponentsItemMaxMemory1Gi CreateApplicationBodyComponentsItemMaxMemory = "1Gi"
+	CreateApplicationBodyComponentsItemMaxMemory2Gi CreateApplicationBodyComponentsItemMaxMemory = "2Gi"
+	CreateApplicationBodyComponentsItemMaxMemory4Gi CreateApplicationBodyComponentsItemMaxMemory = "4Gi"
+)
+
+// AllValues returns all CreateApplicationBodyComponentsItemMaxMemory values.
+func (CreateApplicationBodyComponentsItemMaxMemory) AllValues() []CreateApplicationBodyComponentsItemMaxMemory {
+	return []CreateApplicationBodyComponentsItemMaxMemory{
+		CreateApplicationBodyComponentsItemMaxMemory1Gi,
+		CreateApplicationBodyComponentsItemMaxMemory2Gi,
+		CreateApplicationBodyComponentsItemMaxMemory4Gi,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateApplicationBodyComponentsItemMaxMemory) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateApplicationBodyComponentsItemMaxMemory1Gi:
+		return []byte(s), nil
+	case CreateApplicationBodyComponentsItemMaxMemory2Gi:
+		return []byte(s), nil
+	case CreateApplicationBodyComponentsItemMaxMemory4Gi:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateApplicationBodyComponentsItemMaxMemory) UnmarshalText(data []byte) error {
+	switch CreateApplicationBodyComponentsItemMaxMemory(data) {
+	case CreateApplicationBodyComponentsItemMaxMemory1Gi:
+		*s = CreateApplicationBodyComponentsItemMaxMemory1Gi
+		return nil
+	case CreateApplicationBodyComponentsItemMaxMemory2Gi:
+		*s = CreateApplicationBodyComponentsItemMaxMemory2Gi
+		return nil
+	case CreateApplicationBodyComponentsItemMaxMemory4Gi:
+		*s = CreateApplicationBodyComponentsItemMaxMemory4Gi
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// コンポーネントのプローブ設定.
+type CreateApplicationBodyComponentsItemProbe struct {
+	// HTTP Getプローブタイプ.
+	HTTPGet OptNilCreateApplicationBodyComponentsItemProbeHTTPGet `json:"http_get"`
+}
+
+// GetHTTPGet returns the value of HTTPGet.
+func (s *CreateApplicationBodyComponentsItemProbe) GetHTTPGet() OptNilCreateApplicationBodyComponentsItemProbeHTTPGet {
+	return s.HTTPGet
+}
+
+// SetHTTPGet sets the value of HTTPGet.
+func (s *CreateApplicationBodyComponentsItemProbe) SetHTTPGet(val OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) {
+	s.HTTPGet = val
+}
+
+// HTTP Getプローブタイプ.
+type CreateApplicationBodyComponentsItemProbeHTTPGet struct {
+	// HTTPサーバーへアクセスしプローブをチェックする際のパス.
+	Path string `json:"path"`
+	// HTTPサーバーへアクセスしプローブをチェックする際のポート番号。
+	// ただし、8012, 8013, 8022, 9090, 9091, 8008 は予約済みのため設定不可。.
+	Port    int                                                          `json:"port"`
+	Headers []CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem `json:"headers"`
+}
+
+// GetPath returns the value of Path.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) GetPath() string {
+	return s.Path
+}
+
+// GetPort returns the value of Port.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) GetPort() int {
+	return s.Port
+}
+
+// GetHeaders returns the value of Headers.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) GetHeaders() []CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem {
+	return s.Headers
+}
+
+// SetPath sets the value of Path.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) SetPath(val string) {
+	s.Path = val
+}
+
+// SetPort sets the value of Port.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) SetPort(val int) {
+	s.Port = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) SetHeaders(val []CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) {
+	s.Headers = val
+}
+
+type CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem struct {
+	// ヘッダーフィールド名.
+	Name OptString `json:"name"`
+	// ヘッダーフィールド値.
+	Value OptString `json:"value"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) GetName() OptString {
+	return s.Name
+}
+
+// GetValue returns the value of Value.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) GetValue() OptString {
+	return s.Value
+}
+
+// SetName sets the value of Name.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetValue sets the value of Value.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
+	s.Value = val
+}
+
+type CreateApplicationBodyComponentsItemSecretItem struct {
+	// 環境変数名。 ただし、K_SERVICE, K_CONFIGURATION, K_REVISION,
+	// PORTは予約済みのため設定不可。.
+	Key string `json:"key"`
+	// 環境変数の値.
+	Value string `json:"value"`
+}
+
+// GetKey returns the value of Key.
+func (s *CreateApplicationBodyComponentsItemSecretItem) GetKey() string {
+	return s.Key
+}
+
+// GetValue returns the value of Value.
+func (s *CreateApplicationBodyComponentsItemSecretItem) GetValue() string {
+	return s.Value
+}
+
+// SetKey sets the value of Key.
+func (s *CreateApplicationBodyComponentsItemSecretItem) SetKey(val string) {
+	s.Key = val
+}
+
+// SetValue sets the value of Value.
+func (s *CreateApplicationBodyComponentsItemSecretItem) SetValue(val string) {
+	s.Value = val
+}
+
+// CreateApplicationConflict represents sum type.
+type CreateApplicationConflict struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateApplicationConflictType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateApplicationConflictType is oneOf type of CreateApplicationConflict.
+type CreateApplicationConflictType string
+
+// Possible values for CreateApplicationConflictType.
+const (
+	ModelDefaultErrorCreateApplicationConflict   CreateApplicationConflictType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateApplicationConflict CreateApplicationConflictType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateApplicationConflict is ModelDefaultError.
+func (s CreateApplicationConflict) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateApplicationConflict
+}
+
+// IsModelCloudctrlError reports whether CreateApplicationConflict is ModelCloudctrlError.
+func (s CreateApplicationConflict) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateApplicationConflict
+}
+
+// SetModelDefaultError sets CreateApplicationConflict to ModelDefaultError.
+func (s *CreateApplicationConflict) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateApplicationConflict
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateApplicationConflict is ModelDefaultError.
+func (s CreateApplicationConflict) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateApplicationConflict returns new CreateApplicationConflict from ModelDefaultError.
+func NewModelDefaultErrorCreateApplicationConflict(v ModelDefaultError) CreateApplicationConflict {
+	var s CreateApplicationConflict
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateApplicationConflict to ModelCloudctrlError.
+func (s *CreateApplicationConflict) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateApplicationConflict
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateApplicationConflict is ModelCloudctrlError.
+func (s CreateApplicationConflict) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateApplicationConflict returns new CreateApplicationConflict from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateApplicationConflict(v ModelCloudctrlError) CreateApplicationConflict {
+	var s CreateApplicationConflict
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateApplicationConflict) createApplicationRes() {}
+
+// CreateApplicationForbidden represents sum type.
+type CreateApplicationForbidden struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateApplicationForbiddenType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateApplicationForbiddenType is oneOf type of CreateApplicationForbidden.
+type CreateApplicationForbiddenType string
+
+// Possible values for CreateApplicationForbiddenType.
+const (
+	ModelDefaultErrorCreateApplicationForbidden   CreateApplicationForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateApplicationForbidden CreateApplicationForbiddenType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateApplicationForbidden is ModelDefaultError.
+func (s CreateApplicationForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateApplicationForbidden
+}
+
+// IsModelCloudctrlError reports whether CreateApplicationForbidden is ModelCloudctrlError.
+func (s CreateApplicationForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateApplicationForbidden
+}
+
+// SetModelDefaultError sets CreateApplicationForbidden to ModelDefaultError.
+func (s *CreateApplicationForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateApplicationForbidden
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateApplicationForbidden is ModelDefaultError.
+func (s CreateApplicationForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateApplicationForbidden returns new CreateApplicationForbidden from ModelDefaultError.
+func NewModelDefaultErrorCreateApplicationForbidden(v ModelDefaultError) CreateApplicationForbidden {
+	var s CreateApplicationForbidden
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateApplicationForbidden to ModelCloudctrlError.
+func (s *CreateApplicationForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateApplicationForbidden
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateApplicationForbidden is ModelCloudctrlError.
+func (s CreateApplicationForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateApplicationForbidden returns new CreateApplicationForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateApplicationForbidden(v ModelCloudctrlError) CreateApplicationForbidden {
+	var s CreateApplicationForbidden
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateApplicationForbidden) createApplicationRes() {}
+
+// CreateApplicationInternalServerError represents sum type.
+type CreateApplicationInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateApplicationInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateApplicationInternalServerErrorType is oneOf type of CreateApplicationInternalServerError.
+type CreateApplicationInternalServerErrorType string
+
+// Possible values for CreateApplicationInternalServerErrorType.
+const (
+	ModelDefaultErrorCreateApplicationInternalServerError   CreateApplicationInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateApplicationInternalServerError CreateApplicationInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateApplicationInternalServerError is ModelDefaultError.
+func (s CreateApplicationInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateApplicationInternalServerError
+}
+
+// IsModelCloudctrlError reports whether CreateApplicationInternalServerError is ModelCloudctrlError.
+func (s CreateApplicationInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateApplicationInternalServerError
+}
+
+// SetModelDefaultError sets CreateApplicationInternalServerError to ModelDefaultError.
+func (s *CreateApplicationInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateApplicationInternalServerError
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateApplicationInternalServerError is ModelDefaultError.
+func (s CreateApplicationInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateApplicationInternalServerError returns new CreateApplicationInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorCreateApplicationInternalServerError(v ModelDefaultError) CreateApplicationInternalServerError {
+	var s CreateApplicationInternalServerError
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateApplicationInternalServerError to ModelCloudctrlError.
+func (s *CreateApplicationInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateApplicationInternalServerError
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateApplicationInternalServerError is ModelCloudctrlError.
+func (s CreateApplicationInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateApplicationInternalServerError returns new CreateApplicationInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateApplicationInternalServerError(v ModelCloudctrlError) CreateApplicationInternalServerError {
+	var s CreateApplicationInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateApplicationInternalServerError) createApplicationRes() {}
+
+// CreateApplicationUnauthorized represents sum type.
+type CreateApplicationUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateApplicationUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateApplicationUnauthorizedType is oneOf type of CreateApplicationUnauthorized.
+type CreateApplicationUnauthorizedType string
+
+// Possible values for CreateApplicationUnauthorizedType.
+const (
+	ModelDefaultErrorCreateApplicationUnauthorized   CreateApplicationUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateApplicationUnauthorized CreateApplicationUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateApplicationUnauthorized is ModelDefaultError.
+func (s CreateApplicationUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateApplicationUnauthorized
+}
+
+// IsModelCloudctrlError reports whether CreateApplicationUnauthorized is ModelCloudctrlError.
+func (s CreateApplicationUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateApplicationUnauthorized
+}
+
+// SetModelDefaultError sets CreateApplicationUnauthorized to ModelDefaultError.
+func (s *CreateApplicationUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateApplicationUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateApplicationUnauthorized is ModelDefaultError.
+func (s CreateApplicationUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateApplicationUnauthorized returns new CreateApplicationUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorCreateApplicationUnauthorized(v ModelDefaultError) CreateApplicationUnauthorized {
+	var s CreateApplicationUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateApplicationUnauthorized to ModelCloudctrlError.
+func (s *CreateApplicationUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateApplicationUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateApplicationUnauthorized is ModelCloudctrlError.
+func (s CreateApplicationUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateApplicationUnauthorized returns new CreateApplicationUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateApplicationUnauthorized(v ModelCloudctrlError) CreateApplicationUnauthorized {
+	var s CreateApplicationUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateApplicationUnauthorized) createApplicationRes() {}
+
+// CreateUserConflict represents sum type.
+type CreateUserConflict struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateUserConflictType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateUserConflictType is oneOf type of CreateUserConflict.
+type CreateUserConflictType string
+
+// Possible values for CreateUserConflictType.
+const (
+	ModelDefaultErrorCreateUserConflict   CreateUserConflictType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateUserConflict CreateUserConflictType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateUserConflict is ModelDefaultError.
+func (s CreateUserConflict) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateUserConflict
+}
+
+// IsModelCloudctrlError reports whether CreateUserConflict is ModelCloudctrlError.
+func (s CreateUserConflict) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateUserConflict
+}
+
+// SetModelDefaultError sets CreateUserConflict to ModelDefaultError.
+func (s *CreateUserConflict) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateUserConflict
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateUserConflict is ModelDefaultError.
+func (s CreateUserConflict) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateUserConflict returns new CreateUserConflict from ModelDefaultError.
+func NewModelDefaultErrorCreateUserConflict(v ModelDefaultError) CreateUserConflict {
+	var s CreateUserConflict
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateUserConflict to ModelCloudctrlError.
+func (s *CreateUserConflict) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateUserConflict
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateUserConflict is ModelCloudctrlError.
+func (s CreateUserConflict) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateUserConflict returns new CreateUserConflict from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateUserConflict(v ModelCloudctrlError) CreateUserConflict {
+	var s CreateUserConflict
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateUserConflict) createUserRes() {}
+
+// CreateUserForbidden represents sum type.
+type CreateUserForbidden struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateUserForbiddenType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateUserForbiddenType is oneOf type of CreateUserForbidden.
+type CreateUserForbiddenType string
+
+// Possible values for CreateUserForbiddenType.
+const (
+	ModelDefaultErrorCreateUserForbidden   CreateUserForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateUserForbidden CreateUserForbiddenType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateUserForbidden is ModelDefaultError.
+func (s CreateUserForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateUserForbidden
+}
+
+// IsModelCloudctrlError reports whether CreateUserForbidden is ModelCloudctrlError.
+func (s CreateUserForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateUserForbidden
+}
+
+// SetModelDefaultError sets CreateUserForbidden to ModelDefaultError.
+func (s *CreateUserForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateUserForbidden
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateUserForbidden is ModelDefaultError.
+func (s CreateUserForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateUserForbidden returns new CreateUserForbidden from ModelDefaultError.
+func NewModelDefaultErrorCreateUserForbidden(v ModelDefaultError) CreateUserForbidden {
+	var s CreateUserForbidden
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateUserForbidden to ModelCloudctrlError.
+func (s *CreateUserForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateUserForbidden
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateUserForbidden is ModelCloudctrlError.
+func (s CreateUserForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateUserForbidden returns new CreateUserForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateUserForbidden(v ModelCloudctrlError) CreateUserForbidden {
+	var s CreateUserForbidden
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateUserForbidden) createUserRes() {}
+
+// CreateUserInternalServerError represents sum type.
+type CreateUserInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateUserInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateUserInternalServerErrorType is oneOf type of CreateUserInternalServerError.
+type CreateUserInternalServerErrorType string
+
+// Possible values for CreateUserInternalServerErrorType.
+const (
+	ModelDefaultErrorCreateUserInternalServerError   CreateUserInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateUserInternalServerError CreateUserInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateUserInternalServerError is ModelDefaultError.
+func (s CreateUserInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateUserInternalServerError
+}
+
+// IsModelCloudctrlError reports whether CreateUserInternalServerError is ModelCloudctrlError.
+func (s CreateUserInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateUserInternalServerError
+}
+
+// SetModelDefaultError sets CreateUserInternalServerError to ModelDefaultError.
+func (s *CreateUserInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateUserInternalServerError
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateUserInternalServerError is ModelDefaultError.
+func (s CreateUserInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateUserInternalServerError returns new CreateUserInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorCreateUserInternalServerError(v ModelDefaultError) CreateUserInternalServerError {
+	var s CreateUserInternalServerError
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateUserInternalServerError to ModelCloudctrlError.
+func (s *CreateUserInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateUserInternalServerError
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateUserInternalServerError is ModelCloudctrlError.
+func (s CreateUserInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateUserInternalServerError returns new CreateUserInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateUserInternalServerError(v ModelCloudctrlError) CreateUserInternalServerError {
+	var s CreateUserInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateUserInternalServerError) createUserRes() {}
+
+// CreateUserUnauthorized represents sum type.
+type CreateUserUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                CreateUserUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// CreateUserUnauthorizedType is oneOf type of CreateUserUnauthorized.
+type CreateUserUnauthorizedType string
+
+// Possible values for CreateUserUnauthorizedType.
+const (
+	ModelDefaultErrorCreateUserUnauthorized   CreateUserUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorCreateUserUnauthorized CreateUserUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether CreateUserUnauthorized is ModelDefaultError.
+func (s CreateUserUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorCreateUserUnauthorized
+}
+
+// IsModelCloudctrlError reports whether CreateUserUnauthorized is ModelCloudctrlError.
+func (s CreateUserUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorCreateUserUnauthorized
+}
+
+// SetModelDefaultError sets CreateUserUnauthorized to ModelDefaultError.
+func (s *CreateUserUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorCreateUserUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if CreateUserUnauthorized is ModelDefaultError.
+func (s CreateUserUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorCreateUserUnauthorized returns new CreateUserUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorCreateUserUnauthorized(v ModelDefaultError) CreateUserUnauthorized {
+	var s CreateUserUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets CreateUserUnauthorized to ModelCloudctrlError.
+func (s *CreateUserUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorCreateUserUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if CreateUserUnauthorized is ModelCloudctrlError.
+func (s CreateUserUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorCreateUserUnauthorized returns new CreateUserUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorCreateUserUnauthorized(v ModelCloudctrlError) CreateUserUnauthorized {
+	var s CreateUserUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*CreateUserUnauthorized) createUserRes() {}
+
 // DeleteApplicationBadRequest represents sum type.
 type DeleteApplicationBadRequest struct {
 	// Type selects the active sum variant, switch on this field.
@@ -775,2067 +1876,8 @@ func NewModelCloudctrlErrorDeleteApplicationVersionUnauthorized(v ModelCloudctrl
 
 func (*DeleteApplicationVersionUnauthorized) deleteApplicationVersionRes() {}
 
-// GetApplicationBadRequest represents sum type.
-type GetApplicationBadRequest struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationBadRequestType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationBadRequestType is oneOf type of GetApplicationBadRequest.
-type GetApplicationBadRequestType string
-
-// Possible values for GetApplicationBadRequestType.
-const (
-	ModelDefaultErrorGetApplicationBadRequest   GetApplicationBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationBadRequest GetApplicationBadRequestType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationBadRequest is ModelDefaultError.
-func (s GetApplicationBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationBadRequest
-}
-
-// IsModelCloudctrlError reports whether GetApplicationBadRequest is ModelCloudctrlError.
-func (s GetApplicationBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationBadRequest
-}
-
-// SetModelDefaultError sets GetApplicationBadRequest to ModelDefaultError.
-func (s *GetApplicationBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationBadRequest
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationBadRequest is ModelDefaultError.
-func (s GetApplicationBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationBadRequest returns new GetApplicationBadRequest from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationBadRequest(v ModelDefaultError) GetApplicationBadRequest {
-	var s GetApplicationBadRequest
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationBadRequest to ModelCloudctrlError.
-func (s *GetApplicationBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationBadRequest
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationBadRequest is ModelCloudctrlError.
-func (s GetApplicationBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationBadRequest returns new GetApplicationBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationBadRequest(v ModelCloudctrlError) GetApplicationBadRequest {
-	var s GetApplicationBadRequest
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationBadRequest) getApplicationRes() {}
-
-// GetApplicationForbidden represents sum type.
-type GetApplicationForbidden struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationForbiddenType is oneOf type of GetApplicationForbidden.
-type GetApplicationForbiddenType string
-
-// Possible values for GetApplicationForbiddenType.
-const (
-	ModelDefaultErrorGetApplicationForbidden   GetApplicationForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationForbidden GetApplicationForbiddenType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationForbidden is ModelDefaultError.
-func (s GetApplicationForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationForbidden
-}
-
-// IsModelCloudctrlError reports whether GetApplicationForbidden is ModelCloudctrlError.
-func (s GetApplicationForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationForbidden
-}
-
-// SetModelDefaultError sets GetApplicationForbidden to ModelDefaultError.
-func (s *GetApplicationForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationForbidden
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationForbidden is ModelDefaultError.
-func (s GetApplicationForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationForbidden returns new GetApplicationForbidden from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationForbidden(v ModelDefaultError) GetApplicationForbidden {
-	var s GetApplicationForbidden
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationForbidden to ModelCloudctrlError.
-func (s *GetApplicationForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationForbidden
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationForbidden is ModelCloudctrlError.
-func (s GetApplicationForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationForbidden returns new GetApplicationForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationForbidden(v ModelCloudctrlError) GetApplicationForbidden {
-	var s GetApplicationForbidden
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationForbidden) getApplicationRes() {}
-
-// GetApplicationInternalServerError represents sum type.
-type GetApplicationInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationInternalServerErrorType is oneOf type of GetApplicationInternalServerError.
-type GetApplicationInternalServerErrorType string
-
-// Possible values for GetApplicationInternalServerErrorType.
-const (
-	ModelDefaultErrorGetApplicationInternalServerError   GetApplicationInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationInternalServerError GetApplicationInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationInternalServerError is ModelDefaultError.
-func (s GetApplicationInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationInternalServerError
-}
-
-// IsModelCloudctrlError reports whether GetApplicationInternalServerError is ModelCloudctrlError.
-func (s GetApplicationInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationInternalServerError
-}
-
-// SetModelDefaultError sets GetApplicationInternalServerError to ModelDefaultError.
-func (s *GetApplicationInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationInternalServerError is ModelDefaultError.
-func (s GetApplicationInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationInternalServerError returns new GetApplicationInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationInternalServerError(v ModelDefaultError) GetApplicationInternalServerError {
-	var s GetApplicationInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationInternalServerError to ModelCloudctrlError.
-func (s *GetApplicationInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationInternalServerError is ModelCloudctrlError.
-func (s GetApplicationInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationInternalServerError returns new GetApplicationInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationInternalServerError(v ModelCloudctrlError) GetApplicationInternalServerError {
-	var s GetApplicationInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationInternalServerError) getApplicationRes() {}
-
-// GetApplicationNotFound represents sum type.
-type GetApplicationNotFound struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationNotFoundType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationNotFoundType is oneOf type of GetApplicationNotFound.
-type GetApplicationNotFoundType string
-
-// Possible values for GetApplicationNotFoundType.
-const (
-	ModelDefaultErrorGetApplicationNotFound   GetApplicationNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationNotFound GetApplicationNotFoundType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationNotFound is ModelDefaultError.
-func (s GetApplicationNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationNotFound
-}
-
-// IsModelCloudctrlError reports whether GetApplicationNotFound is ModelCloudctrlError.
-func (s GetApplicationNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationNotFound
-}
-
-// SetModelDefaultError sets GetApplicationNotFound to ModelDefaultError.
-func (s *GetApplicationNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationNotFound
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationNotFound is ModelDefaultError.
-func (s GetApplicationNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationNotFound returns new GetApplicationNotFound from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationNotFound(v ModelDefaultError) GetApplicationNotFound {
-	var s GetApplicationNotFound
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationNotFound to ModelCloudctrlError.
-func (s *GetApplicationNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationNotFound
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationNotFound is ModelCloudctrlError.
-func (s GetApplicationNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationNotFound returns new GetApplicationNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationNotFound(v ModelCloudctrlError) GetApplicationNotFound {
-	var s GetApplicationNotFound
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationNotFound) getApplicationRes() {}
-
-// GetApplicationStatusBadRequest represents sum type.
-type GetApplicationStatusBadRequest struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationStatusBadRequestType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationStatusBadRequestType is oneOf type of GetApplicationStatusBadRequest.
-type GetApplicationStatusBadRequestType string
-
-// Possible values for GetApplicationStatusBadRequestType.
-const (
-	ModelDefaultErrorGetApplicationStatusBadRequest   GetApplicationStatusBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationStatusBadRequest GetApplicationStatusBadRequestType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationStatusBadRequest is ModelDefaultError.
-func (s GetApplicationStatusBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationStatusBadRequest
-}
-
-// IsModelCloudctrlError reports whether GetApplicationStatusBadRequest is ModelCloudctrlError.
-func (s GetApplicationStatusBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationStatusBadRequest
-}
-
-// SetModelDefaultError sets GetApplicationStatusBadRequest to ModelDefaultError.
-func (s *GetApplicationStatusBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationStatusBadRequest
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationStatusBadRequest is ModelDefaultError.
-func (s GetApplicationStatusBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationStatusBadRequest returns new GetApplicationStatusBadRequest from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationStatusBadRequest(v ModelDefaultError) GetApplicationStatusBadRequest {
-	var s GetApplicationStatusBadRequest
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationStatusBadRequest to ModelCloudctrlError.
-func (s *GetApplicationStatusBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationStatusBadRequest
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationStatusBadRequest is ModelCloudctrlError.
-func (s GetApplicationStatusBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationStatusBadRequest returns new GetApplicationStatusBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationStatusBadRequest(v ModelCloudctrlError) GetApplicationStatusBadRequest {
-	var s GetApplicationStatusBadRequest
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationStatusBadRequest) getApplicationStatusRes() {}
-
-// GetApplicationStatusForbidden represents sum type.
-type GetApplicationStatusForbidden struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationStatusForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationStatusForbiddenType is oneOf type of GetApplicationStatusForbidden.
-type GetApplicationStatusForbiddenType string
-
-// Possible values for GetApplicationStatusForbiddenType.
-const (
-	ModelDefaultErrorGetApplicationStatusForbidden   GetApplicationStatusForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationStatusForbidden GetApplicationStatusForbiddenType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationStatusForbidden is ModelDefaultError.
-func (s GetApplicationStatusForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationStatusForbidden
-}
-
-// IsModelCloudctrlError reports whether GetApplicationStatusForbidden is ModelCloudctrlError.
-func (s GetApplicationStatusForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationStatusForbidden
-}
-
-// SetModelDefaultError sets GetApplicationStatusForbidden to ModelDefaultError.
-func (s *GetApplicationStatusForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationStatusForbidden
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationStatusForbidden is ModelDefaultError.
-func (s GetApplicationStatusForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationStatusForbidden returns new GetApplicationStatusForbidden from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationStatusForbidden(v ModelDefaultError) GetApplicationStatusForbidden {
-	var s GetApplicationStatusForbidden
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationStatusForbidden to ModelCloudctrlError.
-func (s *GetApplicationStatusForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationStatusForbidden
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationStatusForbidden is ModelCloudctrlError.
-func (s GetApplicationStatusForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationStatusForbidden returns new GetApplicationStatusForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationStatusForbidden(v ModelCloudctrlError) GetApplicationStatusForbidden {
-	var s GetApplicationStatusForbidden
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationStatusForbidden) getApplicationStatusRes() {}
-
-// GetApplicationStatusInternalServerError represents sum type.
-type GetApplicationStatusInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationStatusInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationStatusInternalServerErrorType is oneOf type of GetApplicationStatusInternalServerError.
-type GetApplicationStatusInternalServerErrorType string
-
-// Possible values for GetApplicationStatusInternalServerErrorType.
-const (
-	ModelDefaultErrorGetApplicationStatusInternalServerError   GetApplicationStatusInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationStatusInternalServerError GetApplicationStatusInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationStatusInternalServerError is ModelDefaultError.
-func (s GetApplicationStatusInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationStatusInternalServerError
-}
-
-// IsModelCloudctrlError reports whether GetApplicationStatusInternalServerError is ModelCloudctrlError.
-func (s GetApplicationStatusInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationStatusInternalServerError
-}
-
-// SetModelDefaultError sets GetApplicationStatusInternalServerError to ModelDefaultError.
-func (s *GetApplicationStatusInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationStatusInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationStatusInternalServerError is ModelDefaultError.
-func (s GetApplicationStatusInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationStatusInternalServerError returns new GetApplicationStatusInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationStatusInternalServerError(v ModelDefaultError) GetApplicationStatusInternalServerError {
-	var s GetApplicationStatusInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationStatusInternalServerError to ModelCloudctrlError.
-func (s *GetApplicationStatusInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationStatusInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationStatusInternalServerError is ModelCloudctrlError.
-func (s GetApplicationStatusInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationStatusInternalServerError returns new GetApplicationStatusInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationStatusInternalServerError(v ModelCloudctrlError) GetApplicationStatusInternalServerError {
-	var s GetApplicationStatusInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationStatusInternalServerError) getApplicationStatusRes() {}
-
-// GetApplicationStatusNotFound represents sum type.
-type GetApplicationStatusNotFound struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationStatusNotFoundType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationStatusNotFoundType is oneOf type of GetApplicationStatusNotFound.
-type GetApplicationStatusNotFoundType string
-
-// Possible values for GetApplicationStatusNotFoundType.
-const (
-	ModelDefaultErrorGetApplicationStatusNotFound   GetApplicationStatusNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationStatusNotFound GetApplicationStatusNotFoundType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationStatusNotFound is ModelDefaultError.
-func (s GetApplicationStatusNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationStatusNotFound
-}
-
-// IsModelCloudctrlError reports whether GetApplicationStatusNotFound is ModelCloudctrlError.
-func (s GetApplicationStatusNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationStatusNotFound
-}
-
-// SetModelDefaultError sets GetApplicationStatusNotFound to ModelDefaultError.
-func (s *GetApplicationStatusNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationStatusNotFound
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationStatusNotFound is ModelDefaultError.
-func (s GetApplicationStatusNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationStatusNotFound returns new GetApplicationStatusNotFound from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationStatusNotFound(v ModelDefaultError) GetApplicationStatusNotFound {
-	var s GetApplicationStatusNotFound
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationStatusNotFound to ModelCloudctrlError.
-func (s *GetApplicationStatusNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationStatusNotFound
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationStatusNotFound is ModelCloudctrlError.
-func (s GetApplicationStatusNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationStatusNotFound returns new GetApplicationStatusNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationStatusNotFound(v ModelCloudctrlError) GetApplicationStatusNotFound {
-	var s GetApplicationStatusNotFound
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationStatusNotFound) getApplicationStatusRes() {}
-
-// GetApplicationStatusUnauthorized represents sum type.
-type GetApplicationStatusUnauthorized struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationStatusUnauthorizedType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationStatusUnauthorizedType is oneOf type of GetApplicationStatusUnauthorized.
-type GetApplicationStatusUnauthorizedType string
-
-// Possible values for GetApplicationStatusUnauthorizedType.
-const (
-	ModelDefaultErrorGetApplicationStatusUnauthorized   GetApplicationStatusUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationStatusUnauthorized GetApplicationStatusUnauthorizedType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationStatusUnauthorized is ModelDefaultError.
-func (s GetApplicationStatusUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationStatusUnauthorized
-}
-
-// IsModelCloudctrlError reports whether GetApplicationStatusUnauthorized is ModelCloudctrlError.
-func (s GetApplicationStatusUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationStatusUnauthorized
-}
-
-// SetModelDefaultError sets GetApplicationStatusUnauthorized to ModelDefaultError.
-func (s *GetApplicationStatusUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationStatusUnauthorized
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationStatusUnauthorized is ModelDefaultError.
-func (s GetApplicationStatusUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationStatusUnauthorized returns new GetApplicationStatusUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationStatusUnauthorized(v ModelDefaultError) GetApplicationStatusUnauthorized {
-	var s GetApplicationStatusUnauthorized
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationStatusUnauthorized to ModelCloudctrlError.
-func (s *GetApplicationStatusUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationStatusUnauthorized
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationStatusUnauthorized is ModelCloudctrlError.
-func (s GetApplicationStatusUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationStatusUnauthorized returns new GetApplicationStatusUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationStatusUnauthorized(v ModelCloudctrlError) GetApplicationStatusUnauthorized {
-	var s GetApplicationStatusUnauthorized
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationStatusUnauthorized) getApplicationStatusRes() {}
-
-// GetApplicationUnauthorized represents sum type.
-type GetApplicationUnauthorized struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationUnauthorizedType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationUnauthorizedType is oneOf type of GetApplicationUnauthorized.
-type GetApplicationUnauthorizedType string
-
-// Possible values for GetApplicationUnauthorizedType.
-const (
-	ModelDefaultErrorGetApplicationUnauthorized   GetApplicationUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationUnauthorized GetApplicationUnauthorizedType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationUnauthorized is ModelDefaultError.
-func (s GetApplicationUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationUnauthorized
-}
-
-// IsModelCloudctrlError reports whether GetApplicationUnauthorized is ModelCloudctrlError.
-func (s GetApplicationUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationUnauthorized
-}
-
-// SetModelDefaultError sets GetApplicationUnauthorized to ModelDefaultError.
-func (s *GetApplicationUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationUnauthorized
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationUnauthorized is ModelDefaultError.
-func (s GetApplicationUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationUnauthorized returns new GetApplicationUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationUnauthorized(v ModelDefaultError) GetApplicationUnauthorized {
-	var s GetApplicationUnauthorized
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationUnauthorized to ModelCloudctrlError.
-func (s *GetApplicationUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationUnauthorized
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationUnauthorized is ModelCloudctrlError.
-func (s GetApplicationUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationUnauthorized returns new GetApplicationUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationUnauthorized(v ModelCloudctrlError) GetApplicationUnauthorized {
-	var s GetApplicationUnauthorized
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationUnauthorized) getApplicationRes() {}
-
-// GetApplicationVersionBadRequest represents sum type.
-type GetApplicationVersionBadRequest struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionBadRequestType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionBadRequestType is oneOf type of GetApplicationVersionBadRequest.
-type GetApplicationVersionBadRequestType string
-
-// Possible values for GetApplicationVersionBadRequestType.
-const (
-	ModelDefaultErrorGetApplicationVersionBadRequest   GetApplicationVersionBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionBadRequest GetApplicationVersionBadRequestType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionBadRequest is ModelDefaultError.
-func (s GetApplicationVersionBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionBadRequest
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionBadRequest is ModelCloudctrlError.
-func (s GetApplicationVersionBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionBadRequest
-}
-
-// SetModelDefaultError sets GetApplicationVersionBadRequest to ModelDefaultError.
-func (s *GetApplicationVersionBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionBadRequest
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionBadRequest is ModelDefaultError.
-func (s GetApplicationVersionBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionBadRequest returns new GetApplicationVersionBadRequest from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionBadRequest(v ModelDefaultError) GetApplicationVersionBadRequest {
-	var s GetApplicationVersionBadRequest
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionBadRequest to ModelCloudctrlError.
-func (s *GetApplicationVersionBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionBadRequest
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionBadRequest is ModelCloudctrlError.
-func (s GetApplicationVersionBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionBadRequest returns new GetApplicationVersionBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionBadRequest(v ModelCloudctrlError) GetApplicationVersionBadRequest {
-	var s GetApplicationVersionBadRequest
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionBadRequest) getApplicationVersionRes() {}
-
-// GetApplicationVersionForbidden represents sum type.
-type GetApplicationVersionForbidden struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionForbiddenType is oneOf type of GetApplicationVersionForbidden.
-type GetApplicationVersionForbiddenType string
-
-// Possible values for GetApplicationVersionForbiddenType.
-const (
-	ModelDefaultErrorGetApplicationVersionForbidden   GetApplicationVersionForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionForbidden GetApplicationVersionForbiddenType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionForbidden is ModelDefaultError.
-func (s GetApplicationVersionForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionForbidden
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionForbidden is ModelCloudctrlError.
-func (s GetApplicationVersionForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionForbidden
-}
-
-// SetModelDefaultError sets GetApplicationVersionForbidden to ModelDefaultError.
-func (s *GetApplicationVersionForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionForbidden
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionForbidden is ModelDefaultError.
-func (s GetApplicationVersionForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionForbidden returns new GetApplicationVersionForbidden from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionForbidden(v ModelDefaultError) GetApplicationVersionForbidden {
-	var s GetApplicationVersionForbidden
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionForbidden to ModelCloudctrlError.
-func (s *GetApplicationVersionForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionForbidden
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionForbidden is ModelCloudctrlError.
-func (s GetApplicationVersionForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionForbidden returns new GetApplicationVersionForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionForbidden(v ModelCloudctrlError) GetApplicationVersionForbidden {
-	var s GetApplicationVersionForbidden
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionForbidden) getApplicationVersionRes() {}
-
-// GetApplicationVersionInternalServerError represents sum type.
-type GetApplicationVersionInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionInternalServerErrorType is oneOf type of GetApplicationVersionInternalServerError.
-type GetApplicationVersionInternalServerErrorType string
-
-// Possible values for GetApplicationVersionInternalServerErrorType.
-const (
-	ModelDefaultErrorGetApplicationVersionInternalServerError   GetApplicationVersionInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionInternalServerError GetApplicationVersionInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionInternalServerError is ModelDefaultError.
-func (s GetApplicationVersionInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionInternalServerError
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionInternalServerError is ModelCloudctrlError.
-func (s GetApplicationVersionInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionInternalServerError
-}
-
-// SetModelDefaultError sets GetApplicationVersionInternalServerError to ModelDefaultError.
-func (s *GetApplicationVersionInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionInternalServerError is ModelDefaultError.
-func (s GetApplicationVersionInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionInternalServerError returns new GetApplicationVersionInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionInternalServerError(v ModelDefaultError) GetApplicationVersionInternalServerError {
-	var s GetApplicationVersionInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionInternalServerError to ModelCloudctrlError.
-func (s *GetApplicationVersionInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionInternalServerError is ModelCloudctrlError.
-func (s GetApplicationVersionInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionInternalServerError returns new GetApplicationVersionInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionInternalServerError(v ModelCloudctrlError) GetApplicationVersionInternalServerError {
-	var s GetApplicationVersionInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionInternalServerError) getApplicationVersionRes() {}
-
-// GetApplicationVersionNotFound represents sum type.
-type GetApplicationVersionNotFound struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionNotFoundType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionNotFoundType is oneOf type of GetApplicationVersionNotFound.
-type GetApplicationVersionNotFoundType string
-
-// Possible values for GetApplicationVersionNotFoundType.
-const (
-	ModelDefaultErrorGetApplicationVersionNotFound   GetApplicationVersionNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionNotFound GetApplicationVersionNotFoundType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionNotFound is ModelDefaultError.
-func (s GetApplicationVersionNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionNotFound
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionNotFound is ModelCloudctrlError.
-func (s GetApplicationVersionNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionNotFound
-}
-
-// SetModelDefaultError sets GetApplicationVersionNotFound to ModelDefaultError.
-func (s *GetApplicationVersionNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionNotFound
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionNotFound is ModelDefaultError.
-func (s GetApplicationVersionNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionNotFound returns new GetApplicationVersionNotFound from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionNotFound(v ModelDefaultError) GetApplicationVersionNotFound {
-	var s GetApplicationVersionNotFound
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionNotFound to ModelCloudctrlError.
-func (s *GetApplicationVersionNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionNotFound
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionNotFound is ModelCloudctrlError.
-func (s GetApplicationVersionNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionNotFound returns new GetApplicationVersionNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionNotFound(v ModelCloudctrlError) GetApplicationVersionNotFound {
-	var s GetApplicationVersionNotFound
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionNotFound) getApplicationVersionRes() {}
-
-// GetApplicationVersionStatusBadRequest represents sum type.
-type GetApplicationVersionStatusBadRequest struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionStatusBadRequestType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionStatusBadRequestType is oneOf type of GetApplicationVersionStatusBadRequest.
-type GetApplicationVersionStatusBadRequestType string
-
-// Possible values for GetApplicationVersionStatusBadRequestType.
-const (
-	ModelDefaultErrorGetApplicationVersionStatusBadRequest   GetApplicationVersionStatusBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionStatusBadRequest GetApplicationVersionStatusBadRequestType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionStatusBadRequest is ModelDefaultError.
-func (s GetApplicationVersionStatusBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionStatusBadRequest
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionStatusBadRequest is ModelCloudctrlError.
-func (s GetApplicationVersionStatusBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionStatusBadRequest
-}
-
-// SetModelDefaultError sets GetApplicationVersionStatusBadRequest to ModelDefaultError.
-func (s *GetApplicationVersionStatusBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionStatusBadRequest
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionStatusBadRequest is ModelDefaultError.
-func (s GetApplicationVersionStatusBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionStatusBadRequest returns new GetApplicationVersionStatusBadRequest from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionStatusBadRequest(v ModelDefaultError) GetApplicationVersionStatusBadRequest {
-	var s GetApplicationVersionStatusBadRequest
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionStatusBadRequest to ModelCloudctrlError.
-func (s *GetApplicationVersionStatusBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionStatusBadRequest
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionStatusBadRequest is ModelCloudctrlError.
-func (s GetApplicationVersionStatusBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionStatusBadRequest returns new GetApplicationVersionStatusBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionStatusBadRequest(v ModelCloudctrlError) GetApplicationVersionStatusBadRequest {
-	var s GetApplicationVersionStatusBadRequest
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionStatusBadRequest) getApplicationVersionStatusRes() {}
-
-// GetApplicationVersionStatusForbidden represents sum type.
-type GetApplicationVersionStatusForbidden struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionStatusForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionStatusForbiddenType is oneOf type of GetApplicationVersionStatusForbidden.
-type GetApplicationVersionStatusForbiddenType string
-
-// Possible values for GetApplicationVersionStatusForbiddenType.
-const (
-	ModelDefaultErrorGetApplicationVersionStatusForbidden   GetApplicationVersionStatusForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionStatusForbidden GetApplicationVersionStatusForbiddenType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionStatusForbidden is ModelDefaultError.
-func (s GetApplicationVersionStatusForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionStatusForbidden
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionStatusForbidden is ModelCloudctrlError.
-func (s GetApplicationVersionStatusForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionStatusForbidden
-}
-
-// SetModelDefaultError sets GetApplicationVersionStatusForbidden to ModelDefaultError.
-func (s *GetApplicationVersionStatusForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionStatusForbidden
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionStatusForbidden is ModelDefaultError.
-func (s GetApplicationVersionStatusForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionStatusForbidden returns new GetApplicationVersionStatusForbidden from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionStatusForbidden(v ModelDefaultError) GetApplicationVersionStatusForbidden {
-	var s GetApplicationVersionStatusForbidden
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionStatusForbidden to ModelCloudctrlError.
-func (s *GetApplicationVersionStatusForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionStatusForbidden
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionStatusForbidden is ModelCloudctrlError.
-func (s GetApplicationVersionStatusForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionStatusForbidden returns new GetApplicationVersionStatusForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionStatusForbidden(v ModelCloudctrlError) GetApplicationVersionStatusForbidden {
-	var s GetApplicationVersionStatusForbidden
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionStatusForbidden) getApplicationVersionStatusRes() {}
-
-// GetApplicationVersionStatusInternalServerError represents sum type.
-type GetApplicationVersionStatusInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionStatusInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionStatusInternalServerErrorType is oneOf type of GetApplicationVersionStatusInternalServerError.
-type GetApplicationVersionStatusInternalServerErrorType string
-
-// Possible values for GetApplicationVersionStatusInternalServerErrorType.
-const (
-	ModelDefaultErrorGetApplicationVersionStatusInternalServerError   GetApplicationVersionStatusInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError GetApplicationVersionStatusInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionStatusInternalServerError is ModelDefaultError.
-func (s GetApplicationVersionStatusInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionStatusInternalServerError
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionStatusInternalServerError is ModelCloudctrlError.
-func (s GetApplicationVersionStatusInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError
-}
-
-// SetModelDefaultError sets GetApplicationVersionStatusInternalServerError to ModelDefaultError.
-func (s *GetApplicationVersionStatusInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionStatusInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionStatusInternalServerError is ModelDefaultError.
-func (s GetApplicationVersionStatusInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionStatusInternalServerError returns new GetApplicationVersionStatusInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionStatusInternalServerError(v ModelDefaultError) GetApplicationVersionStatusInternalServerError {
-	var s GetApplicationVersionStatusInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionStatusInternalServerError to ModelCloudctrlError.
-func (s *GetApplicationVersionStatusInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionStatusInternalServerError is ModelCloudctrlError.
-func (s GetApplicationVersionStatusInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionStatusInternalServerError returns new GetApplicationVersionStatusInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionStatusInternalServerError(v ModelCloudctrlError) GetApplicationVersionStatusInternalServerError {
-	var s GetApplicationVersionStatusInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionStatusInternalServerError) getApplicationVersionStatusRes() {}
-
-// GetApplicationVersionStatusNotFound represents sum type.
-type GetApplicationVersionStatusNotFound struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionStatusNotFoundType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionStatusNotFoundType is oneOf type of GetApplicationVersionStatusNotFound.
-type GetApplicationVersionStatusNotFoundType string
-
-// Possible values for GetApplicationVersionStatusNotFoundType.
-const (
-	ModelDefaultErrorGetApplicationVersionStatusNotFound   GetApplicationVersionStatusNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionStatusNotFound GetApplicationVersionStatusNotFoundType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionStatusNotFound is ModelDefaultError.
-func (s GetApplicationVersionStatusNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionStatusNotFound
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionStatusNotFound is ModelCloudctrlError.
-func (s GetApplicationVersionStatusNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionStatusNotFound
-}
-
-// SetModelDefaultError sets GetApplicationVersionStatusNotFound to ModelDefaultError.
-func (s *GetApplicationVersionStatusNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionStatusNotFound
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionStatusNotFound is ModelDefaultError.
-func (s GetApplicationVersionStatusNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionStatusNotFound returns new GetApplicationVersionStatusNotFound from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionStatusNotFound(v ModelDefaultError) GetApplicationVersionStatusNotFound {
-	var s GetApplicationVersionStatusNotFound
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionStatusNotFound to ModelCloudctrlError.
-func (s *GetApplicationVersionStatusNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionStatusNotFound
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionStatusNotFound is ModelCloudctrlError.
-func (s GetApplicationVersionStatusNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionStatusNotFound returns new GetApplicationVersionStatusNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionStatusNotFound(v ModelCloudctrlError) GetApplicationVersionStatusNotFound {
-	var s GetApplicationVersionStatusNotFound
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionStatusNotFound) getApplicationVersionStatusRes() {}
-
-// GetApplicationVersionStatusUnauthorized represents sum type.
-type GetApplicationVersionStatusUnauthorized struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionStatusUnauthorizedType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionStatusUnauthorizedType is oneOf type of GetApplicationVersionStatusUnauthorized.
-type GetApplicationVersionStatusUnauthorizedType string
-
-// Possible values for GetApplicationVersionStatusUnauthorizedType.
-const (
-	ModelDefaultErrorGetApplicationVersionStatusUnauthorized   GetApplicationVersionStatusUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized GetApplicationVersionStatusUnauthorizedType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionStatusUnauthorized is ModelDefaultError.
-func (s GetApplicationVersionStatusUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionStatusUnauthorized
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionStatusUnauthorized is ModelCloudctrlError.
-func (s GetApplicationVersionStatusUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized
-}
-
-// SetModelDefaultError sets GetApplicationVersionStatusUnauthorized to ModelDefaultError.
-func (s *GetApplicationVersionStatusUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionStatusUnauthorized
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionStatusUnauthorized is ModelDefaultError.
-func (s GetApplicationVersionStatusUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionStatusUnauthorized returns new GetApplicationVersionStatusUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionStatusUnauthorized(v ModelDefaultError) GetApplicationVersionStatusUnauthorized {
-	var s GetApplicationVersionStatusUnauthorized
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionStatusUnauthorized to ModelCloudctrlError.
-func (s *GetApplicationVersionStatusUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionStatusUnauthorized is ModelCloudctrlError.
-func (s GetApplicationVersionStatusUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionStatusUnauthorized returns new GetApplicationVersionStatusUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionStatusUnauthorized(v ModelCloudctrlError) GetApplicationVersionStatusUnauthorized {
-	var s GetApplicationVersionStatusUnauthorized
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionStatusUnauthorized) getApplicationVersionStatusRes() {}
-
-// GetApplicationVersionUnauthorized represents sum type.
-type GetApplicationVersionUnauthorized struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetApplicationVersionUnauthorizedType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetApplicationVersionUnauthorizedType is oneOf type of GetApplicationVersionUnauthorized.
-type GetApplicationVersionUnauthorizedType string
-
-// Possible values for GetApplicationVersionUnauthorizedType.
-const (
-	ModelDefaultErrorGetApplicationVersionUnauthorized   GetApplicationVersionUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorGetApplicationVersionUnauthorized GetApplicationVersionUnauthorizedType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetApplicationVersionUnauthorized is ModelDefaultError.
-func (s GetApplicationVersionUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetApplicationVersionUnauthorized
-}
-
-// IsModelCloudctrlError reports whether GetApplicationVersionUnauthorized is ModelCloudctrlError.
-func (s GetApplicationVersionUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetApplicationVersionUnauthorized
-}
-
-// SetModelDefaultError sets GetApplicationVersionUnauthorized to ModelDefaultError.
-func (s *GetApplicationVersionUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetApplicationVersionUnauthorized
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetApplicationVersionUnauthorized is ModelDefaultError.
-func (s GetApplicationVersionUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetApplicationVersionUnauthorized returns new GetApplicationVersionUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorGetApplicationVersionUnauthorized(v ModelDefaultError) GetApplicationVersionUnauthorized {
-	var s GetApplicationVersionUnauthorized
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetApplicationVersionUnauthorized to ModelCloudctrlError.
-func (s *GetApplicationVersionUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetApplicationVersionUnauthorized
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetApplicationVersionUnauthorized is ModelCloudctrlError.
-func (s GetApplicationVersionUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetApplicationVersionUnauthorized returns new GetApplicationVersionUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetApplicationVersionUnauthorized(v ModelCloudctrlError) GetApplicationVersionUnauthorized {
-	var s GetApplicationVersionUnauthorized
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetApplicationVersionUnauthorized) getApplicationVersionRes() {}
-
-// GetPacketFilterBadRequest represents sum type.
-type GetPacketFilterBadRequest struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetPacketFilterBadRequestType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetPacketFilterBadRequestType is oneOf type of GetPacketFilterBadRequest.
-type GetPacketFilterBadRequestType string
-
-// Possible values for GetPacketFilterBadRequestType.
-const (
-	ModelDefaultErrorGetPacketFilterBadRequest   GetPacketFilterBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorGetPacketFilterBadRequest GetPacketFilterBadRequestType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetPacketFilterBadRequest is ModelDefaultError.
-func (s GetPacketFilterBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetPacketFilterBadRequest
-}
-
-// IsModelCloudctrlError reports whether GetPacketFilterBadRequest is ModelCloudctrlError.
-func (s GetPacketFilterBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetPacketFilterBadRequest
-}
-
-// SetModelDefaultError sets GetPacketFilterBadRequest to ModelDefaultError.
-func (s *GetPacketFilterBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetPacketFilterBadRequest
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetPacketFilterBadRequest is ModelDefaultError.
-func (s GetPacketFilterBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetPacketFilterBadRequest returns new GetPacketFilterBadRequest from ModelDefaultError.
-func NewModelDefaultErrorGetPacketFilterBadRequest(v ModelDefaultError) GetPacketFilterBadRequest {
-	var s GetPacketFilterBadRequest
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetPacketFilterBadRequest to ModelCloudctrlError.
-func (s *GetPacketFilterBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetPacketFilterBadRequest
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetPacketFilterBadRequest is ModelCloudctrlError.
-func (s GetPacketFilterBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetPacketFilterBadRequest returns new GetPacketFilterBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetPacketFilterBadRequest(v ModelCloudctrlError) GetPacketFilterBadRequest {
-	var s GetPacketFilterBadRequest
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetPacketFilterBadRequest) getPacketFilterRes() {}
-
-// GetPacketFilterForbidden represents sum type.
-type GetPacketFilterForbidden struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetPacketFilterForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetPacketFilterForbiddenType is oneOf type of GetPacketFilterForbidden.
-type GetPacketFilterForbiddenType string
-
-// Possible values for GetPacketFilterForbiddenType.
-const (
-	ModelDefaultErrorGetPacketFilterForbidden   GetPacketFilterForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorGetPacketFilterForbidden GetPacketFilterForbiddenType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetPacketFilterForbidden is ModelDefaultError.
-func (s GetPacketFilterForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetPacketFilterForbidden
-}
-
-// IsModelCloudctrlError reports whether GetPacketFilterForbidden is ModelCloudctrlError.
-func (s GetPacketFilterForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetPacketFilterForbidden
-}
-
-// SetModelDefaultError sets GetPacketFilterForbidden to ModelDefaultError.
-func (s *GetPacketFilterForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetPacketFilterForbidden
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetPacketFilterForbidden is ModelDefaultError.
-func (s GetPacketFilterForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetPacketFilterForbidden returns new GetPacketFilterForbidden from ModelDefaultError.
-func NewModelDefaultErrorGetPacketFilterForbidden(v ModelDefaultError) GetPacketFilterForbidden {
-	var s GetPacketFilterForbidden
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetPacketFilterForbidden to ModelCloudctrlError.
-func (s *GetPacketFilterForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetPacketFilterForbidden
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetPacketFilterForbidden is ModelCloudctrlError.
-func (s GetPacketFilterForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetPacketFilterForbidden returns new GetPacketFilterForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetPacketFilterForbidden(v ModelCloudctrlError) GetPacketFilterForbidden {
-	var s GetPacketFilterForbidden
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetPacketFilterForbidden) getPacketFilterRes() {}
-
-// GetPacketFilterInternalServerError represents sum type.
-type GetPacketFilterInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetPacketFilterInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetPacketFilterInternalServerErrorType is oneOf type of GetPacketFilterInternalServerError.
-type GetPacketFilterInternalServerErrorType string
-
-// Possible values for GetPacketFilterInternalServerErrorType.
-const (
-	ModelDefaultErrorGetPacketFilterInternalServerError   GetPacketFilterInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorGetPacketFilterInternalServerError GetPacketFilterInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetPacketFilterInternalServerError is ModelDefaultError.
-func (s GetPacketFilterInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetPacketFilterInternalServerError
-}
-
-// IsModelCloudctrlError reports whether GetPacketFilterInternalServerError is ModelCloudctrlError.
-func (s GetPacketFilterInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetPacketFilterInternalServerError
-}
-
-// SetModelDefaultError sets GetPacketFilterInternalServerError to ModelDefaultError.
-func (s *GetPacketFilterInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetPacketFilterInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetPacketFilterInternalServerError is ModelDefaultError.
-func (s GetPacketFilterInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetPacketFilterInternalServerError returns new GetPacketFilterInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorGetPacketFilterInternalServerError(v ModelDefaultError) GetPacketFilterInternalServerError {
-	var s GetPacketFilterInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetPacketFilterInternalServerError to ModelCloudctrlError.
-func (s *GetPacketFilterInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetPacketFilterInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetPacketFilterInternalServerError is ModelCloudctrlError.
-func (s GetPacketFilterInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetPacketFilterInternalServerError returns new GetPacketFilterInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetPacketFilterInternalServerError(v ModelCloudctrlError) GetPacketFilterInternalServerError {
-	var s GetPacketFilterInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetPacketFilterInternalServerError) getPacketFilterRes() {}
-
-// GetPacketFilterNotFound represents sum type.
-type GetPacketFilterNotFound struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetPacketFilterNotFoundType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetPacketFilterNotFoundType is oneOf type of GetPacketFilterNotFound.
-type GetPacketFilterNotFoundType string
-
-// Possible values for GetPacketFilterNotFoundType.
-const (
-	ModelDefaultErrorGetPacketFilterNotFound   GetPacketFilterNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorGetPacketFilterNotFound GetPacketFilterNotFoundType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetPacketFilterNotFound is ModelDefaultError.
-func (s GetPacketFilterNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetPacketFilterNotFound
-}
-
-// IsModelCloudctrlError reports whether GetPacketFilterNotFound is ModelCloudctrlError.
-func (s GetPacketFilterNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetPacketFilterNotFound
-}
-
-// SetModelDefaultError sets GetPacketFilterNotFound to ModelDefaultError.
-func (s *GetPacketFilterNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetPacketFilterNotFound
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetPacketFilterNotFound is ModelDefaultError.
-func (s GetPacketFilterNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetPacketFilterNotFound returns new GetPacketFilterNotFound from ModelDefaultError.
-func NewModelDefaultErrorGetPacketFilterNotFound(v ModelDefaultError) GetPacketFilterNotFound {
-	var s GetPacketFilterNotFound
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetPacketFilterNotFound to ModelCloudctrlError.
-func (s *GetPacketFilterNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetPacketFilterNotFound
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetPacketFilterNotFound is ModelCloudctrlError.
-func (s GetPacketFilterNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetPacketFilterNotFound returns new GetPacketFilterNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetPacketFilterNotFound(v ModelCloudctrlError) GetPacketFilterNotFound {
-	var s GetPacketFilterNotFound
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetPacketFilterNotFound) getPacketFilterRes() {}
-
-// GetPacketFilterUnauthorized represents sum type.
-type GetPacketFilterUnauthorized struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetPacketFilterUnauthorizedType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetPacketFilterUnauthorizedType is oneOf type of GetPacketFilterUnauthorized.
-type GetPacketFilterUnauthorizedType string
-
-// Possible values for GetPacketFilterUnauthorizedType.
-const (
-	ModelDefaultErrorGetPacketFilterUnauthorized   GetPacketFilterUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorGetPacketFilterUnauthorized GetPacketFilterUnauthorizedType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetPacketFilterUnauthorized is ModelDefaultError.
-func (s GetPacketFilterUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetPacketFilterUnauthorized
-}
-
-// IsModelCloudctrlError reports whether GetPacketFilterUnauthorized is ModelCloudctrlError.
-func (s GetPacketFilterUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetPacketFilterUnauthorized
-}
-
-// SetModelDefaultError sets GetPacketFilterUnauthorized to ModelDefaultError.
-func (s *GetPacketFilterUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetPacketFilterUnauthorized
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetPacketFilterUnauthorized is ModelDefaultError.
-func (s GetPacketFilterUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetPacketFilterUnauthorized returns new GetPacketFilterUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorGetPacketFilterUnauthorized(v ModelDefaultError) GetPacketFilterUnauthorized {
-	var s GetPacketFilterUnauthorized
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetPacketFilterUnauthorized to ModelCloudctrlError.
-func (s *GetPacketFilterUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetPacketFilterUnauthorized
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetPacketFilterUnauthorized is ModelCloudctrlError.
-func (s GetPacketFilterUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetPacketFilterUnauthorized returns new GetPacketFilterUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetPacketFilterUnauthorized(v ModelCloudctrlError) GetPacketFilterUnauthorized {
-	var s GetPacketFilterUnauthorized
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetPacketFilterUnauthorized) getPacketFilterRes() {}
-
-// GetUserForbidden represents sum type.
-type GetUserForbidden struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetUserForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetUserForbiddenType is oneOf type of GetUserForbidden.
-type GetUserForbiddenType string
-
-// Possible values for GetUserForbiddenType.
-const (
-	ModelDefaultErrorGetUserForbidden   GetUserForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorGetUserForbidden GetUserForbiddenType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetUserForbidden is ModelDefaultError.
-func (s GetUserForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetUserForbidden
-}
-
-// IsModelCloudctrlError reports whether GetUserForbidden is ModelCloudctrlError.
-func (s GetUserForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetUserForbidden
-}
-
-// SetModelDefaultError sets GetUserForbidden to ModelDefaultError.
-func (s *GetUserForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetUserForbidden
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetUserForbidden is ModelDefaultError.
-func (s GetUserForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetUserForbidden returns new GetUserForbidden from ModelDefaultError.
-func NewModelDefaultErrorGetUserForbidden(v ModelDefaultError) GetUserForbidden {
-	var s GetUserForbidden
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetUserForbidden to ModelCloudctrlError.
-func (s *GetUserForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetUserForbidden
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetUserForbidden is ModelCloudctrlError.
-func (s GetUserForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetUserForbidden returns new GetUserForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetUserForbidden(v ModelCloudctrlError) GetUserForbidden {
-	var s GetUserForbidden
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetUserForbidden) getUserRes() {}
-
-// GetUserInternalServerError represents sum type.
-type GetUserInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetUserInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetUserInternalServerErrorType is oneOf type of GetUserInternalServerError.
-type GetUserInternalServerErrorType string
-
-// Possible values for GetUserInternalServerErrorType.
-const (
-	ModelDefaultErrorGetUserInternalServerError   GetUserInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorGetUserInternalServerError GetUserInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetUserInternalServerError is ModelDefaultError.
-func (s GetUserInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetUserInternalServerError
-}
-
-// IsModelCloudctrlError reports whether GetUserInternalServerError is ModelCloudctrlError.
-func (s GetUserInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetUserInternalServerError
-}
-
-// SetModelDefaultError sets GetUserInternalServerError to ModelDefaultError.
-func (s *GetUserInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetUserInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetUserInternalServerError is ModelDefaultError.
-func (s GetUserInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetUserInternalServerError returns new GetUserInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorGetUserInternalServerError(v ModelDefaultError) GetUserInternalServerError {
-	var s GetUserInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetUserInternalServerError to ModelCloudctrlError.
-func (s *GetUserInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetUserInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetUserInternalServerError is ModelCloudctrlError.
-func (s GetUserInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetUserInternalServerError returns new GetUserInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetUserInternalServerError(v ModelCloudctrlError) GetUserInternalServerError {
-	var s GetUserInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetUserInternalServerError) getUserRes() {}
-
-// GetUserNotFound represents sum type.
-type GetUserNotFound struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetUserNotFoundType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetUserNotFoundType is oneOf type of GetUserNotFound.
-type GetUserNotFoundType string
-
-// Possible values for GetUserNotFoundType.
-const (
-	ModelDefaultErrorGetUserNotFound   GetUserNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorGetUserNotFound GetUserNotFoundType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetUserNotFound is ModelDefaultError.
-func (s GetUserNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetUserNotFound
-}
-
-// IsModelCloudctrlError reports whether GetUserNotFound is ModelCloudctrlError.
-func (s GetUserNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetUserNotFound
-}
-
-// SetModelDefaultError sets GetUserNotFound to ModelDefaultError.
-func (s *GetUserNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetUserNotFound
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetUserNotFound is ModelDefaultError.
-func (s GetUserNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetUserNotFound returns new GetUserNotFound from ModelDefaultError.
-func NewModelDefaultErrorGetUserNotFound(v ModelDefaultError) GetUserNotFound {
-	var s GetUserNotFound
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetUserNotFound to ModelCloudctrlError.
-func (s *GetUserNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetUserNotFound
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetUserNotFound is ModelCloudctrlError.
-func (s GetUserNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetUserNotFound returns new GetUserNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetUserNotFound(v ModelCloudctrlError) GetUserNotFound {
-	var s GetUserNotFound
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetUserNotFound) getUserRes() {}
-
-// GetUserUnauthorized represents sum type.
-type GetUserUnauthorized struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                GetUserUnauthorizedType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// GetUserUnauthorizedType is oneOf type of GetUserUnauthorized.
-type GetUserUnauthorizedType string
-
-// Possible values for GetUserUnauthorizedType.
-const (
-	ModelDefaultErrorGetUserUnauthorized   GetUserUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorGetUserUnauthorized GetUserUnauthorizedType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether GetUserUnauthorized is ModelDefaultError.
-func (s GetUserUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorGetUserUnauthorized
-}
-
-// IsModelCloudctrlError reports whether GetUserUnauthorized is ModelCloudctrlError.
-func (s GetUserUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorGetUserUnauthorized
-}
-
-// SetModelDefaultError sets GetUserUnauthorized to ModelDefaultError.
-func (s *GetUserUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorGetUserUnauthorized
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if GetUserUnauthorized is ModelDefaultError.
-func (s GetUserUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorGetUserUnauthorized returns new GetUserUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorGetUserUnauthorized(v ModelDefaultError) GetUserUnauthorized {
-	var s GetUserUnauthorized
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets GetUserUnauthorized to ModelCloudctrlError.
-func (s *GetUserUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorGetUserUnauthorized
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if GetUserUnauthorized is ModelCloudctrlError.
-func (s GetUserUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorGetUserUnauthorized returns new GetUserUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorGetUserUnauthorized(v ModelCloudctrlError) GetUserUnauthorized {
-	var s GetUserUnauthorized
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*GetUserUnauthorized) getUserRes() {}
-
-// Ref: #/components/schemas/handler.getApplication
-type HandlerGetApplication struct {
+// Ref: #/components/schemas/handler.createApplication
+type HandlerCreateApplication struct {
 	// アプリケーションID.
 	ID string `json:"id"`
 	// アプリケーション名.
@@ -2851,9 +1893,9 @@ type HandlerGetApplication struct {
 	// アプリケーションのスケールの閾値の目安となる同時リクエスト数.
 	ScaleTargetConcurrency OptInt `json:"scale_target_concurrency"`
 	// アプリケーションのコンポーネント情報.
-	Components []HandlerGetApplicationComponentsItem `json:"components"`
+	Components []HandlerCreateApplicationComponentsItem `json:"components"`
 	// アプリケーションステータス.
-	Status HandlerGetApplicationStatus `json:"status"`
+	Status HandlerCreateApplicationStatus `json:"status"`
 	// 公開URL.
 	PublicURL string `json:"public_url"`
 	// リソースID.
@@ -2863,128 +1905,128 @@ type HandlerGetApplication struct {
 }
 
 // GetID returns the value of ID.
-func (s *HandlerGetApplication) GetID() string {
+func (s *HandlerCreateApplication) GetID() string {
 	return s.ID
 }
 
 // GetName returns the value of Name.
-func (s *HandlerGetApplication) GetName() string {
+func (s *HandlerCreateApplication) GetName() string {
 	return s.Name
 }
 
 // GetTimeoutSeconds returns the value of TimeoutSeconds.
-func (s *HandlerGetApplication) GetTimeoutSeconds() int {
+func (s *HandlerCreateApplication) GetTimeoutSeconds() int {
 	return s.TimeoutSeconds
 }
 
 // GetPort returns the value of Port.
-func (s *HandlerGetApplication) GetPort() int {
+func (s *HandlerCreateApplication) GetPort() int {
 	return s.Port
 }
 
 // GetMinScale returns the value of MinScale.
-func (s *HandlerGetApplication) GetMinScale() int {
+func (s *HandlerCreateApplication) GetMinScale() int {
 	return s.MinScale
 }
 
 // GetMaxScale returns the value of MaxScale.
-func (s *HandlerGetApplication) GetMaxScale() int {
+func (s *HandlerCreateApplication) GetMaxScale() int {
 	return s.MaxScale
 }
 
 // GetScaleTargetConcurrency returns the value of ScaleTargetConcurrency.
-func (s *HandlerGetApplication) GetScaleTargetConcurrency() OptInt {
+func (s *HandlerCreateApplication) GetScaleTargetConcurrency() OptInt {
 	return s.ScaleTargetConcurrency
 }
 
 // GetComponents returns the value of Components.
-func (s *HandlerGetApplication) GetComponents() []HandlerGetApplicationComponentsItem {
+func (s *HandlerCreateApplication) GetComponents() []HandlerCreateApplicationComponentsItem {
 	return s.Components
 }
 
 // GetStatus returns the value of Status.
-func (s *HandlerGetApplication) GetStatus() HandlerGetApplicationStatus {
+func (s *HandlerCreateApplication) GetStatus() HandlerCreateApplicationStatus {
 	return s.Status
 }
 
 // GetPublicURL returns the value of PublicURL.
-func (s *HandlerGetApplication) GetPublicURL() string {
+func (s *HandlerCreateApplication) GetPublicURL() string {
 	return s.PublicURL
 }
 
 // GetResourceID returns the value of ResourceID.
-func (s *HandlerGetApplication) GetResourceID() string {
+func (s *HandlerCreateApplication) GetResourceID() string {
 	return s.ResourceID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *HandlerGetApplication) GetCreatedAt() time.Time {
+func (s *HandlerCreateApplication) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // SetID sets the value of ID.
-func (s *HandlerGetApplication) SetID(val string) {
+func (s *HandlerCreateApplication) SetID(val string) {
 	s.ID = val
 }
 
 // SetName sets the value of Name.
-func (s *HandlerGetApplication) SetName(val string) {
+func (s *HandlerCreateApplication) SetName(val string) {
 	s.Name = val
 }
 
 // SetTimeoutSeconds sets the value of TimeoutSeconds.
-func (s *HandlerGetApplication) SetTimeoutSeconds(val int) {
+func (s *HandlerCreateApplication) SetTimeoutSeconds(val int) {
 	s.TimeoutSeconds = val
 }
 
 // SetPort sets the value of Port.
-func (s *HandlerGetApplication) SetPort(val int) {
+func (s *HandlerCreateApplication) SetPort(val int) {
 	s.Port = val
 }
 
 // SetMinScale sets the value of MinScale.
-func (s *HandlerGetApplication) SetMinScale(val int) {
+func (s *HandlerCreateApplication) SetMinScale(val int) {
 	s.MinScale = val
 }
 
 // SetMaxScale sets the value of MaxScale.
-func (s *HandlerGetApplication) SetMaxScale(val int) {
+func (s *HandlerCreateApplication) SetMaxScale(val int) {
 	s.MaxScale = val
 }
 
 // SetScaleTargetConcurrency sets the value of ScaleTargetConcurrency.
-func (s *HandlerGetApplication) SetScaleTargetConcurrency(val OptInt) {
+func (s *HandlerCreateApplication) SetScaleTargetConcurrency(val OptInt) {
 	s.ScaleTargetConcurrency = val
 }
 
 // SetComponents sets the value of Components.
-func (s *HandlerGetApplication) SetComponents(val []HandlerGetApplicationComponentsItem) {
+func (s *HandlerCreateApplication) SetComponents(val []HandlerCreateApplicationComponentsItem) {
 	s.Components = val
 }
 
 // SetStatus sets the value of Status.
-func (s *HandlerGetApplication) SetStatus(val HandlerGetApplicationStatus) {
+func (s *HandlerCreateApplication) SetStatus(val HandlerCreateApplicationStatus) {
 	s.Status = val
 }
 
 // SetPublicURL sets the value of PublicURL.
-func (s *HandlerGetApplication) SetPublicURL(val string) {
+func (s *HandlerCreateApplication) SetPublicURL(val string) {
 	s.PublicURL = val
 }
 
 // SetResourceID sets the value of ResourceID.
-func (s *HandlerGetApplication) SetResourceID(val string) {
+func (s *HandlerCreateApplication) SetResourceID(val string) {
 	s.ResourceID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *HandlerGetApplication) SetCreatedAt(val time.Time) {
+func (s *HandlerCreateApplication) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
-func (*HandlerGetApplication) getApplicationRes() {}
+func (*HandlerCreateApplication) createApplicationRes() {}
 
-type HandlerGetApplicationComponentsItem struct {
+type HandlerCreateApplicationComponentsItem struct {
 	// コンポーネント名.
 	Name string `json:"name"`
 	// コンポーネントの最大vCPU数.
@@ -2992,91 +2034,101 @@ type HandlerGetApplicationComponentsItem struct {
 	// コンポーネントの最大メモリ.
 	MaxMemory string `json:"max_memory"`
 	// コンポーネントを構成するソース.
-	DeploySource HandlerGetApplicationComponentsItemDeploySource `json:"deploy_source"`
-	// コンポーネントに渡す環境変数.
-	Env []HandlerGetApplicationComponentsItemEnvItem `json:"env"`
+	DeploySource HandlerCreateApplicationComponentsItemDeploySource `json:"deploy_source"`
+	Env          ResponseEnv                                        `json:"env"`
+	Secret       ResponseSecret                                     `json:"secret"`
 	// コンポーネントのプローブ設定.
-	Probe OptNilHandlerGetApplicationComponentsItemProbe `json:"probe"`
+	Probe OptNilHandlerCreateApplicationComponentsItemProbe `json:"probe"`
 }
 
 // GetName returns the value of Name.
-func (s *HandlerGetApplicationComponentsItem) GetName() string {
+func (s *HandlerCreateApplicationComponentsItem) GetName() string {
 	return s.Name
 }
 
 // GetMaxCPU returns the value of MaxCPU.
-func (s *HandlerGetApplicationComponentsItem) GetMaxCPU() string {
+func (s *HandlerCreateApplicationComponentsItem) GetMaxCPU() string {
 	return s.MaxCPU
 }
 
 // GetMaxMemory returns the value of MaxMemory.
-func (s *HandlerGetApplicationComponentsItem) GetMaxMemory() string {
+func (s *HandlerCreateApplicationComponentsItem) GetMaxMemory() string {
 	return s.MaxMemory
 }
 
 // GetDeploySource returns the value of DeploySource.
-func (s *HandlerGetApplicationComponentsItem) GetDeploySource() HandlerGetApplicationComponentsItemDeploySource {
+func (s *HandlerCreateApplicationComponentsItem) GetDeploySource() HandlerCreateApplicationComponentsItemDeploySource {
 	return s.DeploySource
 }
 
 // GetEnv returns the value of Env.
-func (s *HandlerGetApplicationComponentsItem) GetEnv() []HandlerGetApplicationComponentsItemEnvItem {
+func (s *HandlerCreateApplicationComponentsItem) GetEnv() ResponseEnv {
 	return s.Env
 }
 
+// GetSecret returns the value of Secret.
+func (s *HandlerCreateApplicationComponentsItem) GetSecret() ResponseSecret {
+	return s.Secret
+}
+
 // GetProbe returns the value of Probe.
-func (s *HandlerGetApplicationComponentsItem) GetProbe() OptNilHandlerGetApplicationComponentsItemProbe {
+func (s *HandlerCreateApplicationComponentsItem) GetProbe() OptNilHandlerCreateApplicationComponentsItemProbe {
 	return s.Probe
 }
 
 // SetName sets the value of Name.
-func (s *HandlerGetApplicationComponentsItem) SetName(val string) {
+func (s *HandlerCreateApplicationComponentsItem) SetName(val string) {
 	s.Name = val
 }
 
 // SetMaxCPU sets the value of MaxCPU.
-func (s *HandlerGetApplicationComponentsItem) SetMaxCPU(val string) {
+func (s *HandlerCreateApplicationComponentsItem) SetMaxCPU(val string) {
 	s.MaxCPU = val
 }
 
 // SetMaxMemory sets the value of MaxMemory.
-func (s *HandlerGetApplicationComponentsItem) SetMaxMemory(val string) {
+func (s *HandlerCreateApplicationComponentsItem) SetMaxMemory(val string) {
 	s.MaxMemory = val
 }
 
 // SetDeploySource sets the value of DeploySource.
-func (s *HandlerGetApplicationComponentsItem) SetDeploySource(val HandlerGetApplicationComponentsItemDeploySource) {
+func (s *HandlerCreateApplicationComponentsItem) SetDeploySource(val HandlerCreateApplicationComponentsItemDeploySource) {
 	s.DeploySource = val
 }
 
 // SetEnv sets the value of Env.
-func (s *HandlerGetApplicationComponentsItem) SetEnv(val []HandlerGetApplicationComponentsItemEnvItem) {
+func (s *HandlerCreateApplicationComponentsItem) SetEnv(val ResponseEnv) {
 	s.Env = val
 }
 
+// SetSecret sets the value of Secret.
+func (s *HandlerCreateApplicationComponentsItem) SetSecret(val ResponseSecret) {
+	s.Secret = val
+}
+
 // SetProbe sets the value of Probe.
-func (s *HandlerGetApplicationComponentsItem) SetProbe(val OptNilHandlerGetApplicationComponentsItemProbe) {
+func (s *HandlerCreateApplicationComponentsItem) SetProbe(val OptNilHandlerCreateApplicationComponentsItemProbe) {
 	s.Probe = val
 }
 
 // コンポーネントを構成するソース.
-type HandlerGetApplicationComponentsItemDeploySource struct {
+type HandlerCreateApplicationComponentsItemDeploySource struct {
 	// コンテナレジストリ.
-	ContainerRegistry OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
+	ContainerRegistry OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
 }
 
 // GetContainerRegistry returns the value of ContainerRegistry.
-func (s *HandlerGetApplicationComponentsItemDeploySource) GetContainerRegistry() OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry {
+func (s *HandlerCreateApplicationComponentsItemDeploySource) GetContainerRegistry() OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry {
 	return s.ContainerRegistry
 }
 
 // SetContainerRegistry sets the value of ContainerRegistry.
-func (s *HandlerGetApplicationComponentsItemDeploySource) SetContainerRegistry(val OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) {
+func (s *HandlerCreateApplicationComponentsItemDeploySource) SetContainerRegistry(val OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) {
 	s.ContainerRegistry = val
 }
 
 // コンテナレジストリ.
-type HandlerGetApplicationComponentsItemDeploySourceContainerRegistry struct {
+type HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry struct {
 	// コンテナイメージ名.
 	Image string `json:"image"`
 	// コンテナレジストリの認証に使用するサーバー名.
@@ -3086,118 +2138,91 @@ type HandlerGetApplicationComponentsItemDeploySourceContainerRegistry struct {
 }
 
 // GetImage returns the value of Image.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) GetImage() string {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) GetImage() string {
 	return s.Image
 }
 
 // GetServer returns the value of Server.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) GetServer() OptString {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) GetServer() OptString {
 	return s.Server
 }
 
 // GetUsername returns the value of Username.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) GetUsername() OptString {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) GetUsername() OptString {
 	return s.Username
 }
 
 // SetImage sets the value of Image.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) SetImage(val string) {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) SetImage(val string) {
 	s.Image = val
 }
 
 // SetServer sets the value of Server.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) SetServer(val OptString) {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) SetServer(val OptString) {
 	s.Server = val
 }
 
 // SetUsername sets the value of Username.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) SetUsername(val OptString) {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) SetUsername(val OptString) {
 	s.Username = val
 }
 
-type HandlerGetApplicationComponentsItemEnvItem struct {
-	// 環境変数名.
-	Key OptString `json:"key"`
-	// 環境変数の値.
-	Value OptString `json:"value"`
-}
-
-// GetKey returns the value of Key.
-func (s *HandlerGetApplicationComponentsItemEnvItem) GetKey() OptString {
-	return s.Key
-}
-
-// GetValue returns the value of Value.
-func (s *HandlerGetApplicationComponentsItemEnvItem) GetValue() OptString {
-	return s.Value
-}
-
-// SetKey sets the value of Key.
-func (s *HandlerGetApplicationComponentsItemEnvItem) SetKey(val OptString) {
-	s.Key = val
-}
-
-// SetValue sets the value of Value.
-func (s *HandlerGetApplicationComponentsItemEnvItem) SetValue(val OptString) {
-	s.Value = val
-}
-
 // コンポーネントのプローブ設定.
-type HandlerGetApplicationComponentsItemProbe struct {
+type HandlerCreateApplicationComponentsItemProbe struct {
 	// HTTP Getプローブタイプ.
-	HTTPGet OptNilHandlerGetApplicationComponentsItemProbeHTTPGet `json:"http_get"`
+	HTTPGet OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet `json:"http_get"`
 }
 
 // GetHTTPGet returns the value of HTTPGet.
-func (s *HandlerGetApplicationComponentsItemProbe) GetHTTPGet() OptNilHandlerGetApplicationComponentsItemProbeHTTPGet {
+func (s *HandlerCreateApplicationComponentsItemProbe) GetHTTPGet() OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet {
 	return s.HTTPGet
 }
 
 // SetHTTPGet sets the value of HTTPGet.
-func (s *HandlerGetApplicationComponentsItemProbe) SetHTTPGet(val OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) {
+func (s *HandlerCreateApplicationComponentsItemProbe) SetHTTPGet(val OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) {
 	s.HTTPGet = val
 }
 
 // HTTP Getプローブタイプ.
-type HandlerGetApplicationComponentsItemProbeHTTPGet struct {
+type HandlerCreateApplicationComponentsItemProbeHTTPGet struct {
 	// HTTPサーバーへアクセスしプローブをチェックする際のパス.
 	Path string `json:"path"`
 	// HTTPサーバーへアクセスしプローブをチェックする際のポート番号.
-	Port    int                                                          `json:"port"`
-	Headers []HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem `json:"headers"`
+	Port    int                                                             `json:"port"`
+	Headers []HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem `json:"headers"`
 }
 
 // GetPath returns the value of Path.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) GetPath() string {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) GetPath() string {
 	return s.Path
 }
 
 // GetPort returns the value of Port.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) GetPort() int {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) GetPort() int {
 	return s.Port
 }
 
 // GetHeaders returns the value of Headers.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) GetHeaders() []HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) GetHeaders() []HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem {
 	return s.Headers
 }
 
 // SetPath sets the value of Path.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) SetPath(val string) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) SetPath(val string) {
 	s.Path = val
 }
 
 // SetPort sets the value of Port.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) SetPort(val int) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) SetPort(val int) {
 	s.Port = val
 }
 
 // SetHeaders sets the value of Headers.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) SetHeaders(val []HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) SetHeaders(val []HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) {
 	s.Headers = val
 }
 
-type HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem struct {
+type HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem struct {
 	// ヘッダーフィールド名.
 	Name OptString `json:"name"`
 	// ヘッダーフィールド値.
@@ -3205,81 +2230,51 @@ type HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem struct {
 }
 
 // GetName returns the value of Name.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) GetName() OptString {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) GetName() OptString {
 	return s.Name
 }
 
 // GetValue returns the value of Value.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) GetValue() OptString {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) GetValue() OptString {
 	return s.Value
 }
 
 // SetName sets the value of Name.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) SetName(val OptString) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetValue sets the value of Value.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
 	s.Value = val
 }
 
-// Ref: #/components/schemas/handler.getApplicationStatus
-type HandlerGetApplicationOnlyStatus struct {
-	// アプリケーションステータス.
-	Status HandlerGetApplicationOnlyStatusStatus `json:"status"`
-	// ステータス失敗時のメッセージ.
-	Message string `json:"message"`
-}
-
-// GetStatus returns the value of Status.
-func (s *HandlerGetApplicationOnlyStatus) GetStatus() HandlerGetApplicationOnlyStatusStatus {
-	return s.Status
-}
-
-// GetMessage returns the value of Message.
-func (s *HandlerGetApplicationOnlyStatus) GetMessage() string {
-	return s.Message
-}
-
-// SetStatus sets the value of Status.
-func (s *HandlerGetApplicationOnlyStatus) SetStatus(val HandlerGetApplicationOnlyStatusStatus) {
-	s.Status = val
-}
-
-// SetMessage sets the value of Message.
-func (s *HandlerGetApplicationOnlyStatus) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*HandlerGetApplicationOnlyStatus) getApplicationStatusRes() {}
-
 // アプリケーションステータス.
-type HandlerGetApplicationOnlyStatusStatus string
+type HandlerCreateApplicationStatus string
 
 const (
-	HandlerGetApplicationOnlyStatusStatusHealthy   HandlerGetApplicationOnlyStatusStatus = "Healthy"
-	HandlerGetApplicationOnlyStatusStatusUnHealthy HandlerGetApplicationOnlyStatusStatus = "UnHealthy"
-	HandlerGetApplicationOnlyStatusStatusDeploying HandlerGetApplicationOnlyStatusStatus = "Deploying"
+	HandlerCreateApplicationStatusHealthy   HandlerCreateApplicationStatus = "Healthy"
+	HandlerCreateApplicationStatusUnHealthy HandlerCreateApplicationStatus = "UnHealthy"
+	HandlerCreateApplicationStatusDeploying HandlerCreateApplicationStatus = "Deploying"
 )
 
-// AllValues returns all HandlerGetApplicationOnlyStatusStatus values.
-func (HandlerGetApplicationOnlyStatusStatus) AllValues() []HandlerGetApplicationOnlyStatusStatus {
-	return []HandlerGetApplicationOnlyStatusStatus{
-		HandlerGetApplicationOnlyStatusStatusHealthy,
-		HandlerGetApplicationOnlyStatusStatusUnHealthy,
-		HandlerGetApplicationOnlyStatusStatusDeploying,
+// AllValues returns all HandlerCreateApplicationStatus values.
+func (HandlerCreateApplicationStatus) AllValues() []HandlerCreateApplicationStatus {
+	return []HandlerCreateApplicationStatus{
+		HandlerCreateApplicationStatusHealthy,
+		HandlerCreateApplicationStatusUnHealthy,
+		HandlerCreateApplicationStatusDeploying,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s HandlerGetApplicationOnlyStatusStatus) MarshalText() ([]byte, error) {
+func (s HandlerCreateApplicationStatus) MarshalText() ([]byte, error) {
 	switch s {
-	case HandlerGetApplicationOnlyStatusStatusHealthy:
+	case HandlerCreateApplicationStatusHealthy:
 		return []byte(s), nil
-	case HandlerGetApplicationOnlyStatusStatusUnHealthy:
+	case HandlerCreateApplicationStatusUnHealthy:
 		return []byte(s), nil
-	case HandlerGetApplicationOnlyStatusStatusDeploying:
+	case HandlerCreateApplicationStatusDeploying:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -3287,651 +2282,52 @@ func (s HandlerGetApplicationOnlyStatusStatus) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *HandlerGetApplicationOnlyStatusStatus) UnmarshalText(data []byte) error {
-	switch HandlerGetApplicationOnlyStatusStatus(data) {
-	case HandlerGetApplicationOnlyStatusStatusHealthy:
-		*s = HandlerGetApplicationOnlyStatusStatusHealthy
+func (s *HandlerCreateApplicationStatus) UnmarshalText(data []byte) error {
+	switch HandlerCreateApplicationStatus(data) {
+	case HandlerCreateApplicationStatusHealthy:
+		*s = HandlerCreateApplicationStatusHealthy
 		return nil
-	case HandlerGetApplicationOnlyStatusStatusUnHealthy:
-		*s = HandlerGetApplicationOnlyStatusStatusUnHealthy
+	case HandlerCreateApplicationStatusUnHealthy:
+		*s = HandlerCreateApplicationStatusUnHealthy
 		return nil
-	case HandlerGetApplicationOnlyStatusStatusDeploying:
-		*s = HandlerGetApplicationOnlyStatusStatusDeploying
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// アプリケーションステータス.
-type HandlerGetApplicationStatus string
-
-const (
-	HandlerGetApplicationStatusHealthy   HandlerGetApplicationStatus = "Healthy"
-	HandlerGetApplicationStatusUnHealthy HandlerGetApplicationStatus = "UnHealthy"
-	HandlerGetApplicationStatusDeploying HandlerGetApplicationStatus = "Deploying"
-)
-
-// AllValues returns all HandlerGetApplicationStatus values.
-func (HandlerGetApplicationStatus) AllValues() []HandlerGetApplicationStatus {
-	return []HandlerGetApplicationStatus{
-		HandlerGetApplicationStatusHealthy,
-		HandlerGetApplicationStatusUnHealthy,
-		HandlerGetApplicationStatusDeploying,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s HandlerGetApplicationStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case HandlerGetApplicationStatusHealthy:
-		return []byte(s), nil
-	case HandlerGetApplicationStatusUnHealthy:
-		return []byte(s), nil
-	case HandlerGetApplicationStatusDeploying:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *HandlerGetApplicationStatus) UnmarshalText(data []byte) error {
-	switch HandlerGetApplicationStatus(data) {
-	case HandlerGetApplicationStatusHealthy:
-		*s = HandlerGetApplicationStatusHealthy
-		return nil
-	case HandlerGetApplicationStatusUnHealthy:
-		*s = HandlerGetApplicationStatusUnHealthy
-		return nil
-	case HandlerGetApplicationStatusDeploying:
-		*s = HandlerGetApplicationStatusDeploying
+	case HandlerCreateApplicationStatusDeploying:
+		*s = HandlerCreateApplicationStatusDeploying
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// Ref: #/components/schemas/handler.getVersionStatus
-type HandlerGetApplicationVersionOnlyStatus struct {
-	// アプリケーションバージョンステータス.
-	Status HandlerGetApplicationVersionOnlyStatusStatus `json:"status"`
-	// ステータス失敗時のメッセージ.
-	Message string `json:"message"`
-}
-
-// GetStatus returns the value of Status.
-func (s *HandlerGetApplicationVersionOnlyStatus) GetStatus() HandlerGetApplicationVersionOnlyStatusStatus {
-	return s.Status
-}
-
-// GetMessage returns the value of Message.
-func (s *HandlerGetApplicationVersionOnlyStatus) GetMessage() string {
-	return s.Message
-}
-
-// SetStatus sets the value of Status.
-func (s *HandlerGetApplicationVersionOnlyStatus) SetStatus(val HandlerGetApplicationVersionOnlyStatusStatus) {
-	s.Status = val
-}
-
-// SetMessage sets the value of Message.
-func (s *HandlerGetApplicationVersionOnlyStatus) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*HandlerGetApplicationVersionOnlyStatus) getApplicationVersionStatusRes() {}
-
-// アプリケーションバージョンステータス.
-type HandlerGetApplicationVersionOnlyStatusStatus string
-
-const (
-	HandlerGetApplicationVersionOnlyStatusStatusHealthy   HandlerGetApplicationVersionOnlyStatusStatus = "Healthy"
-	HandlerGetApplicationVersionOnlyStatusStatusUnHealthy HandlerGetApplicationVersionOnlyStatusStatus = "UnHealthy"
-	HandlerGetApplicationVersionOnlyStatusStatusDeploying HandlerGetApplicationVersionOnlyStatusStatus = "Deploying"
-)
-
-// AllValues returns all HandlerGetApplicationVersionOnlyStatusStatus values.
-func (HandlerGetApplicationVersionOnlyStatusStatus) AllValues() []HandlerGetApplicationVersionOnlyStatusStatus {
-	return []HandlerGetApplicationVersionOnlyStatusStatus{
-		HandlerGetApplicationVersionOnlyStatusStatusHealthy,
-		HandlerGetApplicationVersionOnlyStatusStatusUnHealthy,
-		HandlerGetApplicationVersionOnlyStatusStatusDeploying,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s HandlerGetApplicationVersionOnlyStatusStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case HandlerGetApplicationVersionOnlyStatusStatusHealthy:
-		return []byte(s), nil
-	case HandlerGetApplicationVersionOnlyStatusStatusUnHealthy:
-		return []byte(s), nil
-	case HandlerGetApplicationVersionOnlyStatusStatusDeploying:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *HandlerGetApplicationVersionOnlyStatusStatus) UnmarshalText(data []byte) error {
-	switch HandlerGetApplicationVersionOnlyStatusStatus(data) {
-	case HandlerGetApplicationVersionOnlyStatusStatusHealthy:
-		*s = HandlerGetApplicationVersionOnlyStatusStatusHealthy
-		return nil
-	case HandlerGetApplicationVersionOnlyStatusStatusUnHealthy:
-		*s = HandlerGetApplicationVersionOnlyStatusStatusUnHealthy
-		return nil
-	case HandlerGetApplicationVersionOnlyStatusStatusDeploying:
-		*s = HandlerGetApplicationVersionOnlyStatusStatusDeploying
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/handler.getPacketFilter
-type HandlerGetPacketFilter struct {
-	// 有効フラグ.
-	IsEnabled bool                                 `json:"is_enabled"`
-	Settings  []HandlerGetPacketFilterSettingsItem `json:"settings"`
-}
-
-// GetIsEnabled returns the value of IsEnabled.
-func (s *HandlerGetPacketFilter) GetIsEnabled() bool {
-	return s.IsEnabled
-}
-
-// GetSettings returns the value of Settings.
-func (s *HandlerGetPacketFilter) GetSettings() []HandlerGetPacketFilterSettingsItem {
-	return s.Settings
-}
-
-// SetIsEnabled sets the value of IsEnabled.
-func (s *HandlerGetPacketFilter) SetIsEnabled(val bool) {
-	s.IsEnabled = val
-}
-
-// SetSettings sets the value of Settings.
-func (s *HandlerGetPacketFilter) SetSettings(val []HandlerGetPacketFilterSettingsItem) {
-	s.Settings = val
-}
-
-func (*HandlerGetPacketFilter) getPacketFilterRes() {}
-
-type HandlerGetPacketFilterSettingsItem struct {
-	// 送信元IPv4アドレス.
-	FromIP string `json:"from_ip"`
-	// IPv4アドレスprefix長.
-	FromIPPrefixLength int `json:"from_ip_prefix_length"`
-}
-
-// GetFromIP returns the value of FromIP.
-func (s *HandlerGetPacketFilterSettingsItem) GetFromIP() string {
-	return s.FromIP
-}
-
-// GetFromIPPrefixLength returns the value of FromIPPrefixLength.
-func (s *HandlerGetPacketFilterSettingsItem) GetFromIPPrefixLength() int {
-	return s.FromIPPrefixLength
-}
-
-// SetFromIP sets the value of FromIP.
-func (s *HandlerGetPacketFilterSettingsItem) SetFromIP(val string) {
-	s.FromIP = val
-}
-
-// SetFromIPPrefixLength sets the value of FromIPPrefixLength.
-func (s *HandlerGetPacketFilterSettingsItem) SetFromIPPrefixLength(val int) {
-	s.FromIPPrefixLength = val
-}
-
-// Ref: #/components/schemas/handler.getUser
-type HandlerGetUser struct {
-	Limit HandlerGetUserLimit `json:"limit"`
+// Ref: #/components/schemas/handler.createUser
+type HandlerCreateUser struct {
+	Limit HandlerCreateUserLimit `json:"limit"`
 }
 
 // GetLimit returns the value of Limit.
-func (s *HandlerGetUser) GetLimit() HandlerGetUserLimit {
+func (s *HandlerCreateUser) GetLimit() HandlerCreateUserLimit {
 	return s.Limit
 }
 
 // SetLimit sets the value of Limit.
-func (s *HandlerGetUser) SetLimit(val HandlerGetUserLimit) {
+func (s *HandlerCreateUser) SetLimit(val HandlerCreateUserLimit) {
 	s.Limit = val
 }
 
-func (*HandlerGetUser) getUserRes() {}
+func (*HandlerCreateUser) createUserRes() {}
 
-type HandlerGetUserLimit struct {
+type HandlerCreateUserLimit struct {
 	// プロジェクトで作成できるアプリケーション数の上限.
 	ApplicationCount int `json:"application_count"`
 }
 
 // GetApplicationCount returns the value of ApplicationCount.
-func (s *HandlerGetUserLimit) GetApplicationCount() int {
+func (s *HandlerCreateUserLimit) GetApplicationCount() int {
 	return s.ApplicationCount
 }
 
 // SetApplicationCount sets the value of ApplicationCount.
-func (s *HandlerGetUserLimit) SetApplicationCount(val int) {
+func (s *HandlerCreateUserLimit) SetApplicationCount(val int) {
 	s.ApplicationCount = val
-}
-
-// Ref: #/components/schemas/handler.getVersion
-type HandlerGetVersion struct {
-	// バージョンID.
-	ID string `json:"id"`
-	// バージョン名.
-	Name string `json:"name"`
-	// バージョンステータス.
-	Status HandlerGetVersionStatus `json:"status"`
-	// アプリケーションの公開URLにアクセスして、インスタンスが起動してからレスポンスが返るまでの時間制限.
-	TimeoutSeconds int `json:"timeout_seconds"`
-	// アプリケーションがリクエストを待ち受けるポート番号.
-	Port int `json:"port"`
-	// バージョンの最小スケール数.
-	MinScale int `json:"min_scale"`
-	// バージョンの最大スケール数.
-	MaxScale int `json:"max_scale"`
-	// バージョンのスケールの閾値の目安となる同時リクエスト数.
-	ScaleTargetConcurrency OptInt `json:"scale_target_concurrency"`
-	// バージョンのコンポーネント情報.
-	Components []HandlerGetVersionComponentsItem `json:"components"`
-	// 作成日時.
-	CreatedAt time.Time `json:"created_at"`
-}
-
-// GetID returns the value of ID.
-func (s *HandlerGetVersion) GetID() string {
-	return s.ID
-}
-
-// GetName returns the value of Name.
-func (s *HandlerGetVersion) GetName() string {
-	return s.Name
-}
-
-// GetStatus returns the value of Status.
-func (s *HandlerGetVersion) GetStatus() HandlerGetVersionStatus {
-	return s.Status
-}
-
-// GetTimeoutSeconds returns the value of TimeoutSeconds.
-func (s *HandlerGetVersion) GetTimeoutSeconds() int {
-	return s.TimeoutSeconds
-}
-
-// GetPort returns the value of Port.
-func (s *HandlerGetVersion) GetPort() int {
-	return s.Port
-}
-
-// GetMinScale returns the value of MinScale.
-func (s *HandlerGetVersion) GetMinScale() int {
-	return s.MinScale
-}
-
-// GetMaxScale returns the value of MaxScale.
-func (s *HandlerGetVersion) GetMaxScale() int {
-	return s.MaxScale
-}
-
-// GetScaleTargetConcurrency returns the value of ScaleTargetConcurrency.
-func (s *HandlerGetVersion) GetScaleTargetConcurrency() OptInt {
-	return s.ScaleTargetConcurrency
-}
-
-// GetComponents returns the value of Components.
-func (s *HandlerGetVersion) GetComponents() []HandlerGetVersionComponentsItem {
-	return s.Components
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *HandlerGetVersion) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// SetID sets the value of ID.
-func (s *HandlerGetVersion) SetID(val string) {
-	s.ID = val
-}
-
-// SetName sets the value of Name.
-func (s *HandlerGetVersion) SetName(val string) {
-	s.Name = val
-}
-
-// SetStatus sets the value of Status.
-func (s *HandlerGetVersion) SetStatus(val HandlerGetVersionStatus) {
-	s.Status = val
-}
-
-// SetTimeoutSeconds sets the value of TimeoutSeconds.
-func (s *HandlerGetVersion) SetTimeoutSeconds(val int) {
-	s.TimeoutSeconds = val
-}
-
-// SetPort sets the value of Port.
-func (s *HandlerGetVersion) SetPort(val int) {
-	s.Port = val
-}
-
-// SetMinScale sets the value of MinScale.
-func (s *HandlerGetVersion) SetMinScale(val int) {
-	s.MinScale = val
-}
-
-// SetMaxScale sets the value of MaxScale.
-func (s *HandlerGetVersion) SetMaxScale(val int) {
-	s.MaxScale = val
-}
-
-// SetScaleTargetConcurrency sets the value of ScaleTargetConcurrency.
-func (s *HandlerGetVersion) SetScaleTargetConcurrency(val OptInt) {
-	s.ScaleTargetConcurrency = val
-}
-
-// SetComponents sets the value of Components.
-func (s *HandlerGetVersion) SetComponents(val []HandlerGetVersionComponentsItem) {
-	s.Components = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *HandlerGetVersion) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-func (*HandlerGetVersion) getApplicationVersionRes() {}
-
-type HandlerGetVersionComponentsItem struct {
-	// コンポーネント名.
-	Name string `json:"name"`
-	// コンポーネントの最大vCPU数.
-	MaxCPU string `json:"max_cpu"`
-	// コンポーネントの最大メモリ.
-	MaxMemory string `json:"max_memory"`
-	// コンポーネントを構成するソース.
-	DeploySource HandlerGetVersionComponentsItemDeploySource `json:"deploy_source"`
-	// コンポーネントに渡す環境変数.
-	Env []HandlerGetVersionComponentsItemEnvItem `json:"env"`
-	// コンポーネントのプローブ設定.
-	Probe OptNilHandlerGetVersionComponentsItemProbe `json:"probe"`
-}
-
-// GetName returns the value of Name.
-func (s *HandlerGetVersionComponentsItem) GetName() string {
-	return s.Name
-}
-
-// GetMaxCPU returns the value of MaxCPU.
-func (s *HandlerGetVersionComponentsItem) GetMaxCPU() string {
-	return s.MaxCPU
-}
-
-// GetMaxMemory returns the value of MaxMemory.
-func (s *HandlerGetVersionComponentsItem) GetMaxMemory() string {
-	return s.MaxMemory
-}
-
-// GetDeploySource returns the value of DeploySource.
-func (s *HandlerGetVersionComponentsItem) GetDeploySource() HandlerGetVersionComponentsItemDeploySource {
-	return s.DeploySource
-}
-
-// GetEnv returns the value of Env.
-func (s *HandlerGetVersionComponentsItem) GetEnv() []HandlerGetVersionComponentsItemEnvItem {
-	return s.Env
-}
-
-// GetProbe returns the value of Probe.
-func (s *HandlerGetVersionComponentsItem) GetProbe() OptNilHandlerGetVersionComponentsItemProbe {
-	return s.Probe
-}
-
-// SetName sets the value of Name.
-func (s *HandlerGetVersionComponentsItem) SetName(val string) {
-	s.Name = val
-}
-
-// SetMaxCPU sets the value of MaxCPU.
-func (s *HandlerGetVersionComponentsItem) SetMaxCPU(val string) {
-	s.MaxCPU = val
-}
-
-// SetMaxMemory sets the value of MaxMemory.
-func (s *HandlerGetVersionComponentsItem) SetMaxMemory(val string) {
-	s.MaxMemory = val
-}
-
-// SetDeploySource sets the value of DeploySource.
-func (s *HandlerGetVersionComponentsItem) SetDeploySource(val HandlerGetVersionComponentsItemDeploySource) {
-	s.DeploySource = val
-}
-
-// SetEnv sets the value of Env.
-func (s *HandlerGetVersionComponentsItem) SetEnv(val []HandlerGetVersionComponentsItemEnvItem) {
-	s.Env = val
-}
-
-// SetProbe sets the value of Probe.
-func (s *HandlerGetVersionComponentsItem) SetProbe(val OptNilHandlerGetVersionComponentsItemProbe) {
-	s.Probe = val
-}
-
-// コンポーネントを構成するソース.
-type HandlerGetVersionComponentsItemDeploySource struct {
-	// コンテナレジストリ.
-	ContainerRegistry OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
-}
-
-// GetContainerRegistry returns the value of ContainerRegistry.
-func (s *HandlerGetVersionComponentsItemDeploySource) GetContainerRegistry() OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry {
-	return s.ContainerRegistry
-}
-
-// SetContainerRegistry sets the value of ContainerRegistry.
-func (s *HandlerGetVersionComponentsItemDeploySource) SetContainerRegistry(val OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) {
-	s.ContainerRegistry = val
-}
-
-// コンテナレジストリ.
-type HandlerGetVersionComponentsItemDeploySourceContainerRegistry struct {
-	// コンテナイメージ名.
-	Image string `json:"image"`
-	// コンテナレジストリの認証に使用するサーバー名.
-	Server OptString `json:"server"`
-	// コンテナレジストリの認証に使用するユーザー名.
-	Username OptString `json:"username"`
-}
-
-// GetImage returns the value of Image.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) GetImage() string {
-	return s.Image
-}
-
-// GetServer returns the value of Server.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) GetServer() OptString {
-	return s.Server
-}
-
-// GetUsername returns the value of Username.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) GetUsername() OptString {
-	return s.Username
-}
-
-// SetImage sets the value of Image.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) SetImage(val string) {
-	s.Image = val
-}
-
-// SetServer sets the value of Server.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) SetServer(val OptString) {
-	s.Server = val
-}
-
-// SetUsername sets the value of Username.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) SetUsername(val OptString) {
-	s.Username = val
-}
-
-type HandlerGetVersionComponentsItemEnvItem struct {
-	// 環境変数名.
-	Key OptString `json:"key"`
-	// 環境変数の値.
-	Value OptString `json:"value"`
-}
-
-// GetKey returns the value of Key.
-func (s *HandlerGetVersionComponentsItemEnvItem) GetKey() OptString {
-	return s.Key
-}
-
-// GetValue returns the value of Value.
-func (s *HandlerGetVersionComponentsItemEnvItem) GetValue() OptString {
-	return s.Value
-}
-
-// SetKey sets the value of Key.
-func (s *HandlerGetVersionComponentsItemEnvItem) SetKey(val OptString) {
-	s.Key = val
-}
-
-// SetValue sets the value of Value.
-func (s *HandlerGetVersionComponentsItemEnvItem) SetValue(val OptString) {
-	s.Value = val
-}
-
-// コンポーネントのプローブ設定.
-type HandlerGetVersionComponentsItemProbe struct {
-	// HTTP Getプローブタイプ.
-	HTTPGet OptNilHandlerGetVersionComponentsItemProbeHTTPGet `json:"http_get"`
-}
-
-// GetHTTPGet returns the value of HTTPGet.
-func (s *HandlerGetVersionComponentsItemProbe) GetHTTPGet() OptNilHandlerGetVersionComponentsItemProbeHTTPGet {
-	return s.HTTPGet
-}
-
-// SetHTTPGet sets the value of HTTPGet.
-func (s *HandlerGetVersionComponentsItemProbe) SetHTTPGet(val OptNilHandlerGetVersionComponentsItemProbeHTTPGet) {
-	s.HTTPGet = val
-}
-
-// HTTP Getプローブタイプ.
-type HandlerGetVersionComponentsItemProbeHTTPGet struct {
-	// HTTPサーバーへアクセスしプローブをチェックする際のパス.
-	Path string `json:"path"`
-	// HTTPサーバーへアクセスしプローブをチェックする際のポート番号.
-	Port    int                                                      `json:"port"`
-	Headers []HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem `json:"headers"`
-}
-
-// GetPath returns the value of Path.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) GetPath() string {
-	return s.Path
-}
-
-// GetPort returns the value of Port.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) GetPort() int {
-	return s.Port
-}
-
-// GetHeaders returns the value of Headers.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) GetHeaders() []HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem {
-	return s.Headers
-}
-
-// SetPath sets the value of Path.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) SetPath(val string) {
-	s.Path = val
-}
-
-// SetPort sets the value of Port.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) SetPort(val int) {
-	s.Port = val
-}
-
-// SetHeaders sets the value of Headers.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) SetHeaders(val []HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) {
-	s.Headers = val
-}
-
-type HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem struct {
-	// ヘッダーフィールド名.
-	Name OptString `json:"name"`
-	// ヘッダーフィールド値.
-	Value OptString `json:"value"`
-}
-
-// GetName returns the value of Name.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) GetName() OptString {
-	return s.Name
-}
-
-// GetValue returns the value of Value.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) GetValue() OptString {
-	return s.Value
-}
-
-// SetName sets the value of Name.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) SetName(val OptString) {
-	s.Name = val
-}
-
-// SetValue sets the value of Value.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
-	s.Value = val
-}
-
-// バージョンステータス.
-type HandlerGetVersionStatus string
-
-const (
-	HandlerGetVersionStatusHealthy   HandlerGetVersionStatus = "Healthy"
-	HandlerGetVersionStatusUnHealthy HandlerGetVersionStatus = "UnHealthy"
-	HandlerGetVersionStatusDeploying HandlerGetVersionStatus = "Deploying"
-)
-
-// AllValues returns all HandlerGetVersionStatus values.
-func (HandlerGetVersionStatus) AllValues() []HandlerGetVersionStatus {
-	return []HandlerGetVersionStatus{
-		HandlerGetVersionStatusHealthy,
-		HandlerGetVersionStatusUnHealthy,
-		HandlerGetVersionStatusDeploying,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s HandlerGetVersionStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case HandlerGetVersionStatusHealthy:
-		return []byte(s), nil
-	case HandlerGetVersionStatusUnHealthy:
-		return []byte(s), nil
-	case HandlerGetVersionStatusDeploying:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *HandlerGetVersionStatus) UnmarshalText(data []byte) error {
-	switch HandlerGetVersionStatus(data) {
-	case HandlerGetVersionStatusHealthy:
-		*s = HandlerGetVersionStatusHealthy
-		return nil
-	case HandlerGetVersionStatusUnHealthy:
-		*s = HandlerGetVersionStatusUnHealthy
-		return nil
-	case HandlerGetVersionStatusDeploying:
-		*s = HandlerGetVersionStatusDeploying
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // Ref: #/components/schemas/handler.listApplications
@@ -4173,35 +2569,35 @@ func (s *HandlerListApplicationsMetaSortOrder) UnmarshalText(data []byte) error 
 	}
 }
 
-// Ref: #/components/schemas/handler.listTraffics
-type HandlerListTraffics struct {
-	Meta OptHandlerListTrafficsMeta    `json:"meta"`
-	Data []HandlerListTrafficsDataItem `json:"data"`
+// Ref: #/components/schemas/handler.listTraffic
+type HandlerListTraffic struct {
+	Meta OptHandlerListTrafficMeta    `json:"meta"`
+	Data []HandlerListTrafficDataItem `json:"data"`
 }
 
 // GetMeta returns the value of Meta.
-func (s *HandlerListTraffics) GetMeta() OptHandlerListTrafficsMeta {
+func (s *HandlerListTraffic) GetMeta() OptHandlerListTrafficMeta {
 	return s.Meta
 }
 
 // GetData returns the value of Data.
-func (s *HandlerListTraffics) GetData() []HandlerListTrafficsDataItem {
+func (s *HandlerListTraffic) GetData() []HandlerListTrafficDataItem {
 	return s.Data
 }
 
 // SetMeta sets the value of Meta.
-func (s *HandlerListTraffics) SetMeta(val OptHandlerListTrafficsMeta) {
+func (s *HandlerListTraffic) SetMeta(val OptHandlerListTrafficMeta) {
 	s.Meta = val
 }
 
 // SetData sets the value of Data.
-func (s *HandlerListTraffics) SetData(val []HandlerListTrafficsDataItem) {
+func (s *HandlerListTraffic) SetData(val []HandlerListTrafficDataItem) {
 	s.Data = val
 }
 
-func (*HandlerListTraffics) listApplicationTrafficsRes() {}
+func (*HandlerListTraffic) listApplicationTrafficRes() {}
 
-type HandlerListTrafficsDataItem struct {
+type HandlerListTrafficDataItem struct {
 	// バージョン名.
 	VersionName string `json:"version_name"`
 	// 最新バージョンかどうか.
@@ -4211,36 +2607,36 @@ type HandlerListTrafficsDataItem struct {
 }
 
 // GetVersionName returns the value of VersionName.
-func (s *HandlerListTrafficsDataItem) GetVersionName() string {
+func (s *HandlerListTrafficDataItem) GetVersionName() string {
 	return s.VersionName
 }
 
 // GetIsLatestVersion returns the value of IsLatestVersion.
-func (s *HandlerListTrafficsDataItem) GetIsLatestVersion() bool {
+func (s *HandlerListTrafficDataItem) GetIsLatestVersion() bool {
 	return s.IsLatestVersion
 }
 
 // GetPercent returns the value of Percent.
-func (s *HandlerListTrafficsDataItem) GetPercent() int {
+func (s *HandlerListTrafficDataItem) GetPercent() int {
 	return s.Percent
 }
 
 // SetVersionName sets the value of VersionName.
-func (s *HandlerListTrafficsDataItem) SetVersionName(val string) {
+func (s *HandlerListTrafficDataItem) SetVersionName(val string) {
 	s.VersionName = val
 }
 
 // SetIsLatestVersion sets the value of IsLatestVersion.
-func (s *HandlerListTrafficsDataItem) SetIsLatestVersion(val bool) {
+func (s *HandlerListTrafficDataItem) SetIsLatestVersion(val bool) {
 	s.IsLatestVersion = val
 }
 
 // SetPercent sets the value of Percent.
-func (s *HandlerListTrafficsDataItem) SetPercent(val int) {
+func (s *HandlerListTrafficDataItem) SetPercent(val int) {
 	s.Percent = val
 }
 
-type HandlerListTrafficsMeta struct{}
+type HandlerListTrafficMeta struct{}
 
 // Ref: #/components/schemas/handler.listVersions
 type HandlerListVersions struct {
@@ -4628,8 +3024,8 @@ type HandlerPatchApplicationComponentsItem struct {
 	MaxMemory string `json:"max_memory"`
 	// コンポーネントを構成するソース.
 	DeploySource HandlerPatchApplicationComponentsItemDeploySource `json:"deploy_source"`
-	// コンポーネントに渡す環境変数.
-	Env []HandlerPatchApplicationComponentsItemEnvItem `json:"env"`
+	Env          ResponseEnv                                       `json:"env"`
+	Secret       ResponseSecret                                    `json:"secret"`
 	// コンポーネントのプローブ設定.
 	Probe OptNilHandlerPatchApplicationComponentsItemProbe `json:"probe"`
 }
@@ -4655,8 +3051,13 @@ func (s *HandlerPatchApplicationComponentsItem) GetDeploySource() HandlerPatchAp
 }
 
 // GetEnv returns the value of Env.
-func (s *HandlerPatchApplicationComponentsItem) GetEnv() []HandlerPatchApplicationComponentsItemEnvItem {
+func (s *HandlerPatchApplicationComponentsItem) GetEnv() ResponseEnv {
 	return s.Env
+}
+
+// GetSecret returns the value of Secret.
+func (s *HandlerPatchApplicationComponentsItem) GetSecret() ResponseSecret {
+	return s.Secret
 }
 
 // GetProbe returns the value of Probe.
@@ -4685,8 +3086,13 @@ func (s *HandlerPatchApplicationComponentsItem) SetDeploySource(val HandlerPatch
 }
 
 // SetEnv sets the value of Env.
-func (s *HandlerPatchApplicationComponentsItem) SetEnv(val []HandlerPatchApplicationComponentsItemEnvItem) {
+func (s *HandlerPatchApplicationComponentsItem) SetEnv(val ResponseEnv) {
 	s.Env = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *HandlerPatchApplicationComponentsItem) SetSecret(val ResponseSecret) {
+	s.Secret = val
 }
 
 // SetProbe sets the value of Probe.
@@ -4748,33 +3154,6 @@ func (s *HandlerPatchApplicationComponentsItemDeploySourceContainerRegistry) Set
 // SetUsername sets the value of Username.
 func (s *HandlerPatchApplicationComponentsItemDeploySourceContainerRegistry) SetUsername(val OptString) {
 	s.Username = val
-}
-
-type HandlerPatchApplicationComponentsItemEnvItem struct {
-	// 環境変数名.
-	Key OptString `json:"key"`
-	// 環境変数の値.
-	Value OptString `json:"value"`
-}
-
-// GetKey returns the value of Key.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) GetKey() OptString {
-	return s.Key
-}
-
-// GetValue returns the value of Value.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) GetValue() OptString {
-	return s.Value
-}
-
-// SetKey sets the value of Key.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) SetKey(val OptString) {
-	s.Key = val
-}
-
-// SetValue sets the value of Value.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) SetValue(val OptString) {
-	s.Value = val
 }
 
 // コンポーネントのプローブ設定.
@@ -4935,7 +3314,7 @@ func (s *HandlerPatchPacketFilter) SetSettings(val []HandlerPatchPacketFilterSet
 	s.Settings = val
 }
 
-func (*HandlerPatchPacketFilter) patchPacketFilterRes() {}
+func (*HandlerPatchPacketFilter) patchApplicationPacketFilterRes() {}
 
 type HandlerPatchPacketFilterSettingsItem struct {
 	// 送信元IPv4アドレス.
@@ -4964,8 +3343,8 @@ func (s *HandlerPatchPacketFilterSettingsItem) SetFromIPPrefixLength(val int) {
 	s.FromIPPrefixLength = val
 }
 
-// Ref: #/components/schemas/handler.postApplication
-type HandlerPostApplication struct {
+// Ref: #/components/schemas/handler.readApplication
+type HandlerReadApplication struct {
 	// アプリケーションID.
 	ID string `json:"id"`
 	// アプリケーション名.
@@ -4981,9 +3360,9 @@ type HandlerPostApplication struct {
 	// アプリケーションのスケールの閾値の目安となる同時リクエスト数.
 	ScaleTargetConcurrency OptInt `json:"scale_target_concurrency"`
 	// アプリケーションのコンポーネント情報.
-	Components []HandlerPostApplicationComponentsItem `json:"components"`
+	Components []HandlerReadApplicationComponentsItem `json:"components"`
 	// アプリケーションステータス.
-	Status HandlerPostApplicationStatus `json:"status"`
+	Status HandlerReadApplicationStatus `json:"status"`
 	// 公開URL.
 	PublicURL string `json:"public_url"`
 	// リソースID.
@@ -4993,128 +3372,128 @@ type HandlerPostApplication struct {
 }
 
 // GetID returns the value of ID.
-func (s *HandlerPostApplication) GetID() string {
+func (s *HandlerReadApplication) GetID() string {
 	return s.ID
 }
 
 // GetName returns the value of Name.
-func (s *HandlerPostApplication) GetName() string {
+func (s *HandlerReadApplication) GetName() string {
 	return s.Name
 }
 
 // GetTimeoutSeconds returns the value of TimeoutSeconds.
-func (s *HandlerPostApplication) GetTimeoutSeconds() int {
+func (s *HandlerReadApplication) GetTimeoutSeconds() int {
 	return s.TimeoutSeconds
 }
 
 // GetPort returns the value of Port.
-func (s *HandlerPostApplication) GetPort() int {
+func (s *HandlerReadApplication) GetPort() int {
 	return s.Port
 }
 
 // GetMinScale returns the value of MinScale.
-func (s *HandlerPostApplication) GetMinScale() int {
+func (s *HandlerReadApplication) GetMinScale() int {
 	return s.MinScale
 }
 
 // GetMaxScale returns the value of MaxScale.
-func (s *HandlerPostApplication) GetMaxScale() int {
+func (s *HandlerReadApplication) GetMaxScale() int {
 	return s.MaxScale
 }
 
 // GetScaleTargetConcurrency returns the value of ScaleTargetConcurrency.
-func (s *HandlerPostApplication) GetScaleTargetConcurrency() OptInt {
+func (s *HandlerReadApplication) GetScaleTargetConcurrency() OptInt {
 	return s.ScaleTargetConcurrency
 }
 
 // GetComponents returns the value of Components.
-func (s *HandlerPostApplication) GetComponents() []HandlerPostApplicationComponentsItem {
+func (s *HandlerReadApplication) GetComponents() []HandlerReadApplicationComponentsItem {
 	return s.Components
 }
 
 // GetStatus returns the value of Status.
-func (s *HandlerPostApplication) GetStatus() HandlerPostApplicationStatus {
+func (s *HandlerReadApplication) GetStatus() HandlerReadApplicationStatus {
 	return s.Status
 }
 
 // GetPublicURL returns the value of PublicURL.
-func (s *HandlerPostApplication) GetPublicURL() string {
+func (s *HandlerReadApplication) GetPublicURL() string {
 	return s.PublicURL
 }
 
 // GetResourceID returns the value of ResourceID.
-func (s *HandlerPostApplication) GetResourceID() string {
+func (s *HandlerReadApplication) GetResourceID() string {
 	return s.ResourceID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *HandlerPostApplication) GetCreatedAt() time.Time {
+func (s *HandlerReadApplication) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // SetID sets the value of ID.
-func (s *HandlerPostApplication) SetID(val string) {
+func (s *HandlerReadApplication) SetID(val string) {
 	s.ID = val
 }
 
 // SetName sets the value of Name.
-func (s *HandlerPostApplication) SetName(val string) {
+func (s *HandlerReadApplication) SetName(val string) {
 	s.Name = val
 }
 
 // SetTimeoutSeconds sets the value of TimeoutSeconds.
-func (s *HandlerPostApplication) SetTimeoutSeconds(val int) {
+func (s *HandlerReadApplication) SetTimeoutSeconds(val int) {
 	s.TimeoutSeconds = val
 }
 
 // SetPort sets the value of Port.
-func (s *HandlerPostApplication) SetPort(val int) {
+func (s *HandlerReadApplication) SetPort(val int) {
 	s.Port = val
 }
 
 // SetMinScale sets the value of MinScale.
-func (s *HandlerPostApplication) SetMinScale(val int) {
+func (s *HandlerReadApplication) SetMinScale(val int) {
 	s.MinScale = val
 }
 
 // SetMaxScale sets the value of MaxScale.
-func (s *HandlerPostApplication) SetMaxScale(val int) {
+func (s *HandlerReadApplication) SetMaxScale(val int) {
 	s.MaxScale = val
 }
 
 // SetScaleTargetConcurrency sets the value of ScaleTargetConcurrency.
-func (s *HandlerPostApplication) SetScaleTargetConcurrency(val OptInt) {
+func (s *HandlerReadApplication) SetScaleTargetConcurrency(val OptInt) {
 	s.ScaleTargetConcurrency = val
 }
 
 // SetComponents sets the value of Components.
-func (s *HandlerPostApplication) SetComponents(val []HandlerPostApplicationComponentsItem) {
+func (s *HandlerReadApplication) SetComponents(val []HandlerReadApplicationComponentsItem) {
 	s.Components = val
 }
 
 // SetStatus sets the value of Status.
-func (s *HandlerPostApplication) SetStatus(val HandlerPostApplicationStatus) {
+func (s *HandlerReadApplication) SetStatus(val HandlerReadApplicationStatus) {
 	s.Status = val
 }
 
 // SetPublicURL sets the value of PublicURL.
-func (s *HandlerPostApplication) SetPublicURL(val string) {
+func (s *HandlerReadApplication) SetPublicURL(val string) {
 	s.PublicURL = val
 }
 
 // SetResourceID sets the value of ResourceID.
-func (s *HandlerPostApplication) SetResourceID(val string) {
+func (s *HandlerReadApplication) SetResourceID(val string) {
 	s.ResourceID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *HandlerPostApplication) SetCreatedAt(val time.Time) {
+func (s *HandlerReadApplication) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
-func (*HandlerPostApplication) postApplicationRes() {}
+func (*HandlerReadApplication) readApplicationRes() {}
 
-type HandlerPostApplicationComponentsItem struct {
+type HandlerReadApplicationComponentsItem struct {
 	// コンポーネント名.
 	Name string `json:"name"`
 	// コンポーネントの最大vCPU数.
@@ -5122,91 +3501,101 @@ type HandlerPostApplicationComponentsItem struct {
 	// コンポーネントの最大メモリ.
 	MaxMemory string `json:"max_memory"`
 	// コンポーネントを構成するソース.
-	DeploySource HandlerPostApplicationComponentsItemDeploySource `json:"deploy_source"`
-	// コンポーネントに渡す環境変数.
-	Env []HandlerPostApplicationComponentsItemEnvItem `json:"env"`
+	DeploySource HandlerReadApplicationComponentsItemDeploySource `json:"deploy_source"`
+	Env          ResponseEnv                                      `json:"env"`
+	Secret       ResponseSecret                                   `json:"secret"`
 	// コンポーネントのプローブ設定.
-	Probe OptNilHandlerPostApplicationComponentsItemProbe `json:"probe"`
+	Probe OptNilHandlerReadApplicationComponentsItemProbe `json:"probe"`
 }
 
 // GetName returns the value of Name.
-func (s *HandlerPostApplicationComponentsItem) GetName() string {
+func (s *HandlerReadApplicationComponentsItem) GetName() string {
 	return s.Name
 }
 
 // GetMaxCPU returns the value of MaxCPU.
-func (s *HandlerPostApplicationComponentsItem) GetMaxCPU() string {
+func (s *HandlerReadApplicationComponentsItem) GetMaxCPU() string {
 	return s.MaxCPU
 }
 
 // GetMaxMemory returns the value of MaxMemory.
-func (s *HandlerPostApplicationComponentsItem) GetMaxMemory() string {
+func (s *HandlerReadApplicationComponentsItem) GetMaxMemory() string {
 	return s.MaxMemory
 }
 
 // GetDeploySource returns the value of DeploySource.
-func (s *HandlerPostApplicationComponentsItem) GetDeploySource() HandlerPostApplicationComponentsItemDeploySource {
+func (s *HandlerReadApplicationComponentsItem) GetDeploySource() HandlerReadApplicationComponentsItemDeploySource {
 	return s.DeploySource
 }
 
 // GetEnv returns the value of Env.
-func (s *HandlerPostApplicationComponentsItem) GetEnv() []HandlerPostApplicationComponentsItemEnvItem {
+func (s *HandlerReadApplicationComponentsItem) GetEnv() ResponseEnv {
 	return s.Env
 }
 
+// GetSecret returns the value of Secret.
+func (s *HandlerReadApplicationComponentsItem) GetSecret() ResponseSecret {
+	return s.Secret
+}
+
 // GetProbe returns the value of Probe.
-func (s *HandlerPostApplicationComponentsItem) GetProbe() OptNilHandlerPostApplicationComponentsItemProbe {
+func (s *HandlerReadApplicationComponentsItem) GetProbe() OptNilHandlerReadApplicationComponentsItemProbe {
 	return s.Probe
 }
 
 // SetName sets the value of Name.
-func (s *HandlerPostApplicationComponentsItem) SetName(val string) {
+func (s *HandlerReadApplicationComponentsItem) SetName(val string) {
 	s.Name = val
 }
 
 // SetMaxCPU sets the value of MaxCPU.
-func (s *HandlerPostApplicationComponentsItem) SetMaxCPU(val string) {
+func (s *HandlerReadApplicationComponentsItem) SetMaxCPU(val string) {
 	s.MaxCPU = val
 }
 
 // SetMaxMemory sets the value of MaxMemory.
-func (s *HandlerPostApplicationComponentsItem) SetMaxMemory(val string) {
+func (s *HandlerReadApplicationComponentsItem) SetMaxMemory(val string) {
 	s.MaxMemory = val
 }
 
 // SetDeploySource sets the value of DeploySource.
-func (s *HandlerPostApplicationComponentsItem) SetDeploySource(val HandlerPostApplicationComponentsItemDeploySource) {
+func (s *HandlerReadApplicationComponentsItem) SetDeploySource(val HandlerReadApplicationComponentsItemDeploySource) {
 	s.DeploySource = val
 }
 
 // SetEnv sets the value of Env.
-func (s *HandlerPostApplicationComponentsItem) SetEnv(val []HandlerPostApplicationComponentsItemEnvItem) {
+func (s *HandlerReadApplicationComponentsItem) SetEnv(val ResponseEnv) {
 	s.Env = val
 }
 
+// SetSecret sets the value of Secret.
+func (s *HandlerReadApplicationComponentsItem) SetSecret(val ResponseSecret) {
+	s.Secret = val
+}
+
 // SetProbe sets the value of Probe.
-func (s *HandlerPostApplicationComponentsItem) SetProbe(val OptNilHandlerPostApplicationComponentsItemProbe) {
+func (s *HandlerReadApplicationComponentsItem) SetProbe(val OptNilHandlerReadApplicationComponentsItemProbe) {
 	s.Probe = val
 }
 
 // コンポーネントを構成するソース.
-type HandlerPostApplicationComponentsItemDeploySource struct {
+type HandlerReadApplicationComponentsItemDeploySource struct {
 	// コンテナレジストリ.
-	ContainerRegistry OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
+	ContainerRegistry OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
 }
 
 // GetContainerRegistry returns the value of ContainerRegistry.
-func (s *HandlerPostApplicationComponentsItemDeploySource) GetContainerRegistry() OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry {
+func (s *HandlerReadApplicationComponentsItemDeploySource) GetContainerRegistry() OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry {
 	return s.ContainerRegistry
 }
 
 // SetContainerRegistry sets the value of ContainerRegistry.
-func (s *HandlerPostApplicationComponentsItemDeploySource) SetContainerRegistry(val OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) {
+func (s *HandlerReadApplicationComponentsItemDeploySource) SetContainerRegistry(val OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) {
 	s.ContainerRegistry = val
 }
 
 // コンテナレジストリ.
-type HandlerPostApplicationComponentsItemDeploySourceContainerRegistry struct {
+type HandlerReadApplicationComponentsItemDeploySourceContainerRegistry struct {
 	// コンテナイメージ名.
 	Image string `json:"image"`
 	// コンテナレジストリの認証に使用するサーバー名.
@@ -5216,118 +3605,91 @@ type HandlerPostApplicationComponentsItemDeploySourceContainerRegistry struct {
 }
 
 // GetImage returns the value of Image.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) GetImage() string {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) GetImage() string {
 	return s.Image
 }
 
 // GetServer returns the value of Server.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) GetServer() OptString {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) GetServer() OptString {
 	return s.Server
 }
 
 // GetUsername returns the value of Username.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) GetUsername() OptString {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) GetUsername() OptString {
 	return s.Username
 }
 
 // SetImage sets the value of Image.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) SetImage(val string) {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) SetImage(val string) {
 	s.Image = val
 }
 
 // SetServer sets the value of Server.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) SetServer(val OptString) {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) SetServer(val OptString) {
 	s.Server = val
 }
 
 // SetUsername sets the value of Username.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) SetUsername(val OptString) {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) SetUsername(val OptString) {
 	s.Username = val
 }
 
-type HandlerPostApplicationComponentsItemEnvItem struct {
-	// 環境変数名.
-	Key OptString `json:"key"`
-	// 環境変数の値.
-	Value OptString `json:"value"`
-}
-
-// GetKey returns the value of Key.
-func (s *HandlerPostApplicationComponentsItemEnvItem) GetKey() OptString {
-	return s.Key
-}
-
-// GetValue returns the value of Value.
-func (s *HandlerPostApplicationComponentsItemEnvItem) GetValue() OptString {
-	return s.Value
-}
-
-// SetKey sets the value of Key.
-func (s *HandlerPostApplicationComponentsItemEnvItem) SetKey(val OptString) {
-	s.Key = val
-}
-
-// SetValue sets the value of Value.
-func (s *HandlerPostApplicationComponentsItemEnvItem) SetValue(val OptString) {
-	s.Value = val
-}
-
 // コンポーネントのプローブ設定.
-type HandlerPostApplicationComponentsItemProbe struct {
+type HandlerReadApplicationComponentsItemProbe struct {
 	// HTTP Getプローブタイプ.
-	HTTPGet OptNilHandlerPostApplicationComponentsItemProbeHTTPGet `json:"http_get"`
+	HTTPGet OptNilHandlerReadApplicationComponentsItemProbeHTTPGet `json:"http_get"`
 }
 
 // GetHTTPGet returns the value of HTTPGet.
-func (s *HandlerPostApplicationComponentsItemProbe) GetHTTPGet() OptNilHandlerPostApplicationComponentsItemProbeHTTPGet {
+func (s *HandlerReadApplicationComponentsItemProbe) GetHTTPGet() OptNilHandlerReadApplicationComponentsItemProbeHTTPGet {
 	return s.HTTPGet
 }
 
 // SetHTTPGet sets the value of HTTPGet.
-func (s *HandlerPostApplicationComponentsItemProbe) SetHTTPGet(val OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) {
+func (s *HandlerReadApplicationComponentsItemProbe) SetHTTPGet(val OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) {
 	s.HTTPGet = val
 }
 
 // HTTP Getプローブタイプ.
-type HandlerPostApplicationComponentsItemProbeHTTPGet struct {
+type HandlerReadApplicationComponentsItemProbeHTTPGet struct {
 	// HTTPサーバーへアクセスしプローブをチェックする際のパス.
 	Path string `json:"path"`
 	// HTTPサーバーへアクセスしプローブをチェックする際のポート番号.
 	Port    int                                                           `json:"port"`
-	Headers []HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem `json:"headers"`
+	Headers []HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem `json:"headers"`
 }
 
 // GetPath returns the value of Path.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) GetPath() string {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) GetPath() string {
 	return s.Path
 }
 
 // GetPort returns the value of Port.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) GetPort() int {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) GetPort() int {
 	return s.Port
 }
 
 // GetHeaders returns the value of Headers.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) GetHeaders() []HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) GetHeaders() []HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem {
 	return s.Headers
 }
 
 // SetPath sets the value of Path.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) SetPath(val string) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) SetPath(val string) {
 	s.Path = val
 }
 
 // SetPort sets the value of Port.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) SetPort(val int) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) SetPort(val int) {
 	s.Port = val
 }
 
 // SetHeaders sets the value of Headers.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) SetHeaders(val []HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) SetHeaders(val []HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) {
 	s.Headers = val
 }
 
-type HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem struct {
+type HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem struct {
 	// ヘッダーフィールド名.
 	Name OptString `json:"name"`
 	// ヘッダーフィールド値.
@@ -5335,51 +3697,81 @@ type HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem struct {
 }
 
 // GetName returns the value of Name.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) GetName() OptString {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) GetName() OptString {
 	return s.Name
 }
 
 // GetValue returns the value of Value.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) GetValue() OptString {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) GetValue() OptString {
 	return s.Value
 }
 
 // SetName sets the value of Name.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) SetName(val OptString) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetValue sets the value of Value.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
 	s.Value = val
 }
 
+// Ref: #/components/schemas/handler.readApplicationStatus
+type HandlerReadApplicationOnlyStatus struct {
+	// アプリケーションステータス.
+	Status HandlerReadApplicationOnlyStatusStatus `json:"status"`
+	// ステータス失敗時のメッセージ.
+	Message string `json:"message"`
+}
+
+// GetStatus returns the value of Status.
+func (s *HandlerReadApplicationOnlyStatus) GetStatus() HandlerReadApplicationOnlyStatusStatus {
+	return s.Status
+}
+
+// GetMessage returns the value of Message.
+func (s *HandlerReadApplicationOnlyStatus) GetMessage() string {
+	return s.Message
+}
+
+// SetStatus sets the value of Status.
+func (s *HandlerReadApplicationOnlyStatus) SetStatus(val HandlerReadApplicationOnlyStatusStatus) {
+	s.Status = val
+}
+
+// SetMessage sets the value of Message.
+func (s *HandlerReadApplicationOnlyStatus) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*HandlerReadApplicationOnlyStatus) readApplicationStatusRes() {}
+
 // アプリケーションステータス.
-type HandlerPostApplicationStatus string
+type HandlerReadApplicationOnlyStatusStatus string
 
 const (
-	HandlerPostApplicationStatusHealthy   HandlerPostApplicationStatus = "Healthy"
-	HandlerPostApplicationStatusUnHealthy HandlerPostApplicationStatus = "UnHealthy"
-	HandlerPostApplicationStatusDeploying HandlerPostApplicationStatus = "Deploying"
+	HandlerReadApplicationOnlyStatusStatusHealthy   HandlerReadApplicationOnlyStatusStatus = "Healthy"
+	HandlerReadApplicationOnlyStatusStatusUnHealthy HandlerReadApplicationOnlyStatusStatus = "UnHealthy"
+	HandlerReadApplicationOnlyStatusStatusDeploying HandlerReadApplicationOnlyStatusStatus = "Deploying"
 )
 
-// AllValues returns all HandlerPostApplicationStatus values.
-func (HandlerPostApplicationStatus) AllValues() []HandlerPostApplicationStatus {
-	return []HandlerPostApplicationStatus{
-		HandlerPostApplicationStatusHealthy,
-		HandlerPostApplicationStatusUnHealthy,
-		HandlerPostApplicationStatusDeploying,
+// AllValues returns all HandlerReadApplicationOnlyStatusStatus values.
+func (HandlerReadApplicationOnlyStatusStatus) AllValues() []HandlerReadApplicationOnlyStatusStatus {
+	return []HandlerReadApplicationOnlyStatusStatus{
+		HandlerReadApplicationOnlyStatusStatusHealthy,
+		HandlerReadApplicationOnlyStatusStatusUnHealthy,
+		HandlerReadApplicationOnlyStatusStatusDeploying,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s HandlerPostApplicationStatus) MarshalText() ([]byte, error) {
+func (s HandlerReadApplicationOnlyStatusStatus) MarshalText() ([]byte, error) {
 	switch s {
-	case HandlerPostApplicationStatusHealthy:
+	case HandlerReadApplicationOnlyStatusStatusHealthy:
 		return []byte(s), nil
-	case HandlerPostApplicationStatusUnHealthy:
+	case HandlerReadApplicationOnlyStatusStatusUnHealthy:
 		return []byte(s), nil
-	case HandlerPostApplicationStatusDeploying:
+	case HandlerReadApplicationOnlyStatusStatusDeploying:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -5387,83 +3779,665 @@ func (s HandlerPostApplicationStatus) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *HandlerPostApplicationStatus) UnmarshalText(data []byte) error {
-	switch HandlerPostApplicationStatus(data) {
-	case HandlerPostApplicationStatusHealthy:
-		*s = HandlerPostApplicationStatusHealthy
+func (s *HandlerReadApplicationOnlyStatusStatus) UnmarshalText(data []byte) error {
+	switch HandlerReadApplicationOnlyStatusStatus(data) {
+	case HandlerReadApplicationOnlyStatusStatusHealthy:
+		*s = HandlerReadApplicationOnlyStatusStatusHealthy
 		return nil
-	case HandlerPostApplicationStatusUnHealthy:
-		*s = HandlerPostApplicationStatusUnHealthy
+	case HandlerReadApplicationOnlyStatusStatusUnHealthy:
+		*s = HandlerReadApplicationOnlyStatusStatusUnHealthy
 		return nil
-	case HandlerPostApplicationStatusDeploying:
-		*s = HandlerPostApplicationStatusDeploying
+	case HandlerReadApplicationOnlyStatusStatusDeploying:
+		*s = HandlerReadApplicationOnlyStatusStatusDeploying
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// Ref: #/components/schemas/handler.postUser
-type HandlerPostUser struct {
-	Limit HandlerPostUserLimit `json:"limit"`
+// アプリケーションステータス.
+type HandlerReadApplicationStatus string
+
+const (
+	HandlerReadApplicationStatusHealthy   HandlerReadApplicationStatus = "Healthy"
+	HandlerReadApplicationStatusUnHealthy HandlerReadApplicationStatus = "UnHealthy"
+	HandlerReadApplicationStatusDeploying HandlerReadApplicationStatus = "Deploying"
+)
+
+// AllValues returns all HandlerReadApplicationStatus values.
+func (HandlerReadApplicationStatus) AllValues() []HandlerReadApplicationStatus {
+	return []HandlerReadApplicationStatus{
+		HandlerReadApplicationStatusHealthy,
+		HandlerReadApplicationStatusUnHealthy,
+		HandlerReadApplicationStatusDeploying,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HandlerReadApplicationStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case HandlerReadApplicationStatusHealthy:
+		return []byte(s), nil
+	case HandlerReadApplicationStatusUnHealthy:
+		return []byte(s), nil
+	case HandlerReadApplicationStatusDeploying:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HandlerReadApplicationStatus) UnmarshalText(data []byte) error {
+	switch HandlerReadApplicationStatus(data) {
+	case HandlerReadApplicationStatusHealthy:
+		*s = HandlerReadApplicationStatusHealthy
+		return nil
+	case HandlerReadApplicationStatusUnHealthy:
+		*s = HandlerReadApplicationStatusUnHealthy
+		return nil
+	case HandlerReadApplicationStatusDeploying:
+		*s = HandlerReadApplicationStatusDeploying
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/handler.readVersionStatus
+type HandlerReadApplicationVersionOnlyStatus struct {
+	// アプリケーションバージョンステータス.
+	Status HandlerReadApplicationVersionOnlyStatusStatus `json:"status"`
+	// ステータス失敗時のメッセージ.
+	Message string `json:"message"`
+}
+
+// GetStatus returns the value of Status.
+func (s *HandlerReadApplicationVersionOnlyStatus) GetStatus() HandlerReadApplicationVersionOnlyStatusStatus {
+	return s.Status
+}
+
+// GetMessage returns the value of Message.
+func (s *HandlerReadApplicationVersionOnlyStatus) GetMessage() string {
+	return s.Message
+}
+
+// SetStatus sets the value of Status.
+func (s *HandlerReadApplicationVersionOnlyStatus) SetStatus(val HandlerReadApplicationVersionOnlyStatusStatus) {
+	s.Status = val
+}
+
+// SetMessage sets the value of Message.
+func (s *HandlerReadApplicationVersionOnlyStatus) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*HandlerReadApplicationVersionOnlyStatus) readApplicationVersionStatusRes() {}
+
+// アプリケーションバージョンステータス.
+type HandlerReadApplicationVersionOnlyStatusStatus string
+
+const (
+	HandlerReadApplicationVersionOnlyStatusStatusHealthy   HandlerReadApplicationVersionOnlyStatusStatus = "Healthy"
+	HandlerReadApplicationVersionOnlyStatusStatusUnHealthy HandlerReadApplicationVersionOnlyStatusStatus = "UnHealthy"
+	HandlerReadApplicationVersionOnlyStatusStatusDeploying HandlerReadApplicationVersionOnlyStatusStatus = "Deploying"
+)
+
+// AllValues returns all HandlerReadApplicationVersionOnlyStatusStatus values.
+func (HandlerReadApplicationVersionOnlyStatusStatus) AllValues() []HandlerReadApplicationVersionOnlyStatusStatus {
+	return []HandlerReadApplicationVersionOnlyStatusStatus{
+		HandlerReadApplicationVersionOnlyStatusStatusHealthy,
+		HandlerReadApplicationVersionOnlyStatusStatusUnHealthy,
+		HandlerReadApplicationVersionOnlyStatusStatusDeploying,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HandlerReadApplicationVersionOnlyStatusStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case HandlerReadApplicationVersionOnlyStatusStatusHealthy:
+		return []byte(s), nil
+	case HandlerReadApplicationVersionOnlyStatusStatusUnHealthy:
+		return []byte(s), nil
+	case HandlerReadApplicationVersionOnlyStatusStatusDeploying:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HandlerReadApplicationVersionOnlyStatusStatus) UnmarshalText(data []byte) error {
+	switch HandlerReadApplicationVersionOnlyStatusStatus(data) {
+	case HandlerReadApplicationVersionOnlyStatusStatusHealthy:
+		*s = HandlerReadApplicationVersionOnlyStatusStatusHealthy
+		return nil
+	case HandlerReadApplicationVersionOnlyStatusStatusUnHealthy:
+		*s = HandlerReadApplicationVersionOnlyStatusStatusUnHealthy
+		return nil
+	case HandlerReadApplicationVersionOnlyStatusStatusDeploying:
+		*s = HandlerReadApplicationVersionOnlyStatusStatusDeploying
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/handler.readPacketFilter
+type HandlerReadPacketFilter struct {
+	// 有効フラグ.
+	IsEnabled bool                                  `json:"is_enabled"`
+	Settings  []HandlerReadPacketFilterSettingsItem `json:"settings"`
+}
+
+// GetIsEnabled returns the value of IsEnabled.
+func (s *HandlerReadPacketFilter) GetIsEnabled() bool {
+	return s.IsEnabled
+}
+
+// GetSettings returns the value of Settings.
+func (s *HandlerReadPacketFilter) GetSettings() []HandlerReadPacketFilterSettingsItem {
+	return s.Settings
+}
+
+// SetIsEnabled sets the value of IsEnabled.
+func (s *HandlerReadPacketFilter) SetIsEnabled(val bool) {
+	s.IsEnabled = val
+}
+
+// SetSettings sets the value of Settings.
+func (s *HandlerReadPacketFilter) SetSettings(val []HandlerReadPacketFilterSettingsItem) {
+	s.Settings = val
+}
+
+func (*HandlerReadPacketFilter) readApplicationPacketFilterRes() {}
+
+type HandlerReadPacketFilterSettingsItem struct {
+	// 送信元IPv4アドレス.
+	FromIP string `json:"from_ip"`
+	// IPv4アドレスprefix長.
+	FromIPPrefixLength int `json:"from_ip_prefix_length"`
+}
+
+// GetFromIP returns the value of FromIP.
+func (s *HandlerReadPacketFilterSettingsItem) GetFromIP() string {
+	return s.FromIP
+}
+
+// GetFromIPPrefixLength returns the value of FromIPPrefixLength.
+func (s *HandlerReadPacketFilterSettingsItem) GetFromIPPrefixLength() int {
+	return s.FromIPPrefixLength
+}
+
+// SetFromIP sets the value of FromIP.
+func (s *HandlerReadPacketFilterSettingsItem) SetFromIP(val string) {
+	s.FromIP = val
+}
+
+// SetFromIPPrefixLength sets the value of FromIPPrefixLength.
+func (s *HandlerReadPacketFilterSettingsItem) SetFromIPPrefixLength(val int) {
+	s.FromIPPrefixLength = val
+}
+
+// Ref: #/components/schemas/handler.readUser
+type HandlerReadUser struct {
+	Limit HandlerReadUserLimit `json:"limit"`
 }
 
 // GetLimit returns the value of Limit.
-func (s *HandlerPostUser) GetLimit() HandlerPostUserLimit {
+func (s *HandlerReadUser) GetLimit() HandlerReadUserLimit {
 	return s.Limit
 }
 
 // SetLimit sets the value of Limit.
-func (s *HandlerPostUser) SetLimit(val HandlerPostUserLimit) {
+func (s *HandlerReadUser) SetLimit(val HandlerReadUserLimit) {
 	s.Limit = val
 }
 
-func (*HandlerPostUser) postUserRes() {}
+func (*HandlerReadUser) readUserRes() {}
 
-type HandlerPostUserLimit struct {
+type HandlerReadUserLimit struct {
 	// プロジェクトで作成できるアプリケーション数の上限.
 	ApplicationCount int `json:"application_count"`
 }
 
 // GetApplicationCount returns the value of ApplicationCount.
-func (s *HandlerPostUserLimit) GetApplicationCount() int {
+func (s *HandlerReadUserLimit) GetApplicationCount() int {
 	return s.ApplicationCount
 }
 
 // SetApplicationCount sets the value of ApplicationCount.
-func (s *HandlerPostUserLimit) SetApplicationCount(val int) {
+func (s *HandlerReadUserLimit) SetApplicationCount(val int) {
 	s.ApplicationCount = val
 }
 
-// Ref: #/components/schemas/handler.putTraffics
-type HandlerPutTraffics struct {
-	Meta *HandlerPutTrafficsMeta      `json:"meta"`
-	Data []HandlerPutTrafficsDataItem `json:"data"`
+// Ref: #/components/schemas/handler.readVersion
+type HandlerReadVersion struct {
+	// バージョンID.
+	ID string `json:"id"`
+	// バージョン名.
+	Name string `json:"name"`
+	// バージョンステータス.
+	Status HandlerReadVersionStatus `json:"status"`
+	// アプリケーションの公開URLにアクセスして、インスタンスが起動してからレスポンスが返るまでの時間制限.
+	TimeoutSeconds int `json:"timeout_seconds"`
+	// アプリケーションがリクエストを待ち受けるポート番号.
+	Port int `json:"port"`
+	// バージョンの最小スケール数.
+	MinScale int `json:"min_scale"`
+	// バージョンの最大スケール数.
+	MaxScale int `json:"max_scale"`
+	// バージョンのスケールの閾値の目安となる同時リクエスト数.
+	ScaleTargetConcurrency OptInt `json:"scale_target_concurrency"`
+	// バージョンのコンポーネント情報.
+	Components []HandlerReadVersionComponentsItem `json:"components"`
+	// 作成日時.
+	CreatedAt time.Time `json:"created_at"`
+}
+
+// GetID returns the value of ID.
+func (s *HandlerReadVersion) GetID() string {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *HandlerReadVersion) GetName() string {
+	return s.Name
+}
+
+// GetStatus returns the value of Status.
+func (s *HandlerReadVersion) GetStatus() HandlerReadVersionStatus {
+	return s.Status
+}
+
+// GetTimeoutSeconds returns the value of TimeoutSeconds.
+func (s *HandlerReadVersion) GetTimeoutSeconds() int {
+	return s.TimeoutSeconds
+}
+
+// GetPort returns the value of Port.
+func (s *HandlerReadVersion) GetPort() int {
+	return s.Port
+}
+
+// GetMinScale returns the value of MinScale.
+func (s *HandlerReadVersion) GetMinScale() int {
+	return s.MinScale
+}
+
+// GetMaxScale returns the value of MaxScale.
+func (s *HandlerReadVersion) GetMaxScale() int {
+	return s.MaxScale
+}
+
+// GetScaleTargetConcurrency returns the value of ScaleTargetConcurrency.
+func (s *HandlerReadVersion) GetScaleTargetConcurrency() OptInt {
+	return s.ScaleTargetConcurrency
+}
+
+// GetComponents returns the value of Components.
+func (s *HandlerReadVersion) GetComponents() []HandlerReadVersionComponentsItem {
+	return s.Components
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *HandlerReadVersion) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// SetID sets the value of ID.
+func (s *HandlerReadVersion) SetID(val string) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *HandlerReadVersion) SetName(val string) {
+	s.Name = val
+}
+
+// SetStatus sets the value of Status.
+func (s *HandlerReadVersion) SetStatus(val HandlerReadVersionStatus) {
+	s.Status = val
+}
+
+// SetTimeoutSeconds sets the value of TimeoutSeconds.
+func (s *HandlerReadVersion) SetTimeoutSeconds(val int) {
+	s.TimeoutSeconds = val
+}
+
+// SetPort sets the value of Port.
+func (s *HandlerReadVersion) SetPort(val int) {
+	s.Port = val
+}
+
+// SetMinScale sets the value of MinScale.
+func (s *HandlerReadVersion) SetMinScale(val int) {
+	s.MinScale = val
+}
+
+// SetMaxScale sets the value of MaxScale.
+func (s *HandlerReadVersion) SetMaxScale(val int) {
+	s.MaxScale = val
+}
+
+// SetScaleTargetConcurrency sets the value of ScaleTargetConcurrency.
+func (s *HandlerReadVersion) SetScaleTargetConcurrency(val OptInt) {
+	s.ScaleTargetConcurrency = val
+}
+
+// SetComponents sets the value of Components.
+func (s *HandlerReadVersion) SetComponents(val []HandlerReadVersionComponentsItem) {
+	s.Components = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *HandlerReadVersion) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+func (*HandlerReadVersion) readApplicationVersionRes() {}
+
+type HandlerReadVersionComponentsItem struct {
+	// コンポーネント名.
+	Name string `json:"name"`
+	// コンポーネントの最大vCPU数.
+	MaxCPU string `json:"max_cpu"`
+	// コンポーネントの最大メモリ.
+	MaxMemory string `json:"max_memory"`
+	// コンポーネントを構成するソース.
+	DeploySource HandlerReadVersionComponentsItemDeploySource `json:"deploy_source"`
+	Env          ResponseEnv                                  `json:"env"`
+	Secret       ResponseSecret                               `json:"secret"`
+	// コンポーネントのプローブ設定.
+	Probe OptNilHandlerReadVersionComponentsItemProbe `json:"probe"`
+}
+
+// GetName returns the value of Name.
+func (s *HandlerReadVersionComponentsItem) GetName() string {
+	return s.Name
+}
+
+// GetMaxCPU returns the value of MaxCPU.
+func (s *HandlerReadVersionComponentsItem) GetMaxCPU() string {
+	return s.MaxCPU
+}
+
+// GetMaxMemory returns the value of MaxMemory.
+func (s *HandlerReadVersionComponentsItem) GetMaxMemory() string {
+	return s.MaxMemory
+}
+
+// GetDeploySource returns the value of DeploySource.
+func (s *HandlerReadVersionComponentsItem) GetDeploySource() HandlerReadVersionComponentsItemDeploySource {
+	return s.DeploySource
+}
+
+// GetEnv returns the value of Env.
+func (s *HandlerReadVersionComponentsItem) GetEnv() ResponseEnv {
+	return s.Env
+}
+
+// GetSecret returns the value of Secret.
+func (s *HandlerReadVersionComponentsItem) GetSecret() ResponseSecret {
+	return s.Secret
+}
+
+// GetProbe returns the value of Probe.
+func (s *HandlerReadVersionComponentsItem) GetProbe() OptNilHandlerReadVersionComponentsItemProbe {
+	return s.Probe
+}
+
+// SetName sets the value of Name.
+func (s *HandlerReadVersionComponentsItem) SetName(val string) {
+	s.Name = val
+}
+
+// SetMaxCPU sets the value of MaxCPU.
+func (s *HandlerReadVersionComponentsItem) SetMaxCPU(val string) {
+	s.MaxCPU = val
+}
+
+// SetMaxMemory sets the value of MaxMemory.
+func (s *HandlerReadVersionComponentsItem) SetMaxMemory(val string) {
+	s.MaxMemory = val
+}
+
+// SetDeploySource sets the value of DeploySource.
+func (s *HandlerReadVersionComponentsItem) SetDeploySource(val HandlerReadVersionComponentsItemDeploySource) {
+	s.DeploySource = val
+}
+
+// SetEnv sets the value of Env.
+func (s *HandlerReadVersionComponentsItem) SetEnv(val ResponseEnv) {
+	s.Env = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *HandlerReadVersionComponentsItem) SetSecret(val ResponseSecret) {
+	s.Secret = val
+}
+
+// SetProbe sets the value of Probe.
+func (s *HandlerReadVersionComponentsItem) SetProbe(val OptNilHandlerReadVersionComponentsItemProbe) {
+	s.Probe = val
+}
+
+// コンポーネントを構成するソース.
+type HandlerReadVersionComponentsItemDeploySource struct {
+	// コンテナレジストリ.
+	ContainerRegistry OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
+}
+
+// GetContainerRegistry returns the value of ContainerRegistry.
+func (s *HandlerReadVersionComponentsItemDeploySource) GetContainerRegistry() OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry {
+	return s.ContainerRegistry
+}
+
+// SetContainerRegistry sets the value of ContainerRegistry.
+func (s *HandlerReadVersionComponentsItemDeploySource) SetContainerRegistry(val OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) {
+	s.ContainerRegistry = val
+}
+
+// コンテナレジストリ.
+type HandlerReadVersionComponentsItemDeploySourceContainerRegistry struct {
+	// コンテナイメージ名.
+	Image string `json:"image"`
+	// コンテナレジストリの認証に使用するサーバー名.
+	Server OptString `json:"server"`
+	// コンテナレジストリの認証に使用するユーザー名.
+	Username OptString `json:"username"`
+}
+
+// GetImage returns the value of Image.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) GetImage() string {
+	return s.Image
+}
+
+// GetServer returns the value of Server.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) GetServer() OptString {
+	return s.Server
+}
+
+// GetUsername returns the value of Username.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) GetUsername() OptString {
+	return s.Username
+}
+
+// SetImage sets the value of Image.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) SetImage(val string) {
+	s.Image = val
+}
+
+// SetServer sets the value of Server.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) SetServer(val OptString) {
+	s.Server = val
+}
+
+// SetUsername sets the value of Username.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// コンポーネントのプローブ設定.
+type HandlerReadVersionComponentsItemProbe struct {
+	// HTTP Getプローブタイプ.
+	HTTPGet OptNilHandlerReadVersionComponentsItemProbeHTTPGet `json:"http_get"`
+}
+
+// GetHTTPGet returns the value of HTTPGet.
+func (s *HandlerReadVersionComponentsItemProbe) GetHTTPGet() OptNilHandlerReadVersionComponentsItemProbeHTTPGet {
+	return s.HTTPGet
+}
+
+// SetHTTPGet sets the value of HTTPGet.
+func (s *HandlerReadVersionComponentsItemProbe) SetHTTPGet(val OptNilHandlerReadVersionComponentsItemProbeHTTPGet) {
+	s.HTTPGet = val
+}
+
+// HTTP Getプローブタイプ.
+type HandlerReadVersionComponentsItemProbeHTTPGet struct {
+	// HTTPサーバーへアクセスしプローブをチェックする際のパス.
+	Path string `json:"path"`
+	// HTTPサーバーへアクセスしプローブをチェックする際のポート番号.
+	Port    int                                                       `json:"port"`
+	Headers []HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem `json:"headers"`
+}
+
+// GetPath returns the value of Path.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) GetPath() string {
+	return s.Path
+}
+
+// GetPort returns the value of Port.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) GetPort() int {
+	return s.Port
+}
+
+// GetHeaders returns the value of Headers.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) GetHeaders() []HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem {
+	return s.Headers
+}
+
+// SetPath sets the value of Path.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) SetPath(val string) {
+	s.Path = val
+}
+
+// SetPort sets the value of Port.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) SetPort(val int) {
+	s.Port = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) SetHeaders(val []HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) {
+	s.Headers = val
+}
+
+type HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem struct {
+	// ヘッダーフィールド名.
+	Name OptString `json:"name"`
+	// ヘッダーフィールド値.
+	Value OptString `json:"value"`
+}
+
+// GetName returns the value of Name.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) GetName() OptString {
+	return s.Name
+}
+
+// GetValue returns the value of Value.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) GetValue() OptString {
+	return s.Value
+}
+
+// SetName sets the value of Name.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetValue sets the value of Value.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
+	s.Value = val
+}
+
+// バージョンステータス.
+type HandlerReadVersionStatus string
+
+const (
+	HandlerReadVersionStatusHealthy   HandlerReadVersionStatus = "Healthy"
+	HandlerReadVersionStatusUnHealthy HandlerReadVersionStatus = "UnHealthy"
+	HandlerReadVersionStatusDeploying HandlerReadVersionStatus = "Deploying"
+)
+
+// AllValues returns all HandlerReadVersionStatus values.
+func (HandlerReadVersionStatus) AllValues() []HandlerReadVersionStatus {
+	return []HandlerReadVersionStatus{
+		HandlerReadVersionStatusHealthy,
+		HandlerReadVersionStatusUnHealthy,
+		HandlerReadVersionStatusDeploying,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HandlerReadVersionStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case HandlerReadVersionStatusHealthy:
+		return []byte(s), nil
+	case HandlerReadVersionStatusUnHealthy:
+		return []byte(s), nil
+	case HandlerReadVersionStatusDeploying:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HandlerReadVersionStatus) UnmarshalText(data []byte) error {
+	switch HandlerReadVersionStatus(data) {
+	case HandlerReadVersionStatusHealthy:
+		*s = HandlerReadVersionStatusHealthy
+		return nil
+	case HandlerReadVersionStatusUnHealthy:
+		*s = HandlerReadVersionStatusUnHealthy
+		return nil
+	case HandlerReadVersionStatusDeploying:
+		*s = HandlerReadVersionStatusDeploying
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/handler.updateTraffic
+type HandlerUpdateTraffic struct {
+	Meta *HandlerUpdateTrafficMeta      `json:"meta"`
+	Data []HandlerUpdateTrafficDataItem `json:"data"`
 }
 
 // GetMeta returns the value of Meta.
-func (s *HandlerPutTraffics) GetMeta() *HandlerPutTrafficsMeta {
+func (s *HandlerUpdateTraffic) GetMeta() *HandlerUpdateTrafficMeta {
 	return s.Meta
 }
 
 // GetData returns the value of Data.
-func (s *HandlerPutTraffics) GetData() []HandlerPutTrafficsDataItem {
+func (s *HandlerUpdateTraffic) GetData() []HandlerUpdateTrafficDataItem {
 	return s.Data
 }
 
 // SetMeta sets the value of Meta.
-func (s *HandlerPutTraffics) SetMeta(val *HandlerPutTrafficsMeta) {
+func (s *HandlerUpdateTraffic) SetMeta(val *HandlerUpdateTrafficMeta) {
 	s.Meta = val
 }
 
 // SetData sets the value of Data.
-func (s *HandlerPutTraffics) SetData(val []HandlerPutTrafficsDataItem) {
+func (s *HandlerUpdateTraffic) SetData(val []HandlerUpdateTrafficDataItem) {
 	s.Data = val
 }
 
-func (*HandlerPutTraffics) putApplicationTrafficRes() {}
+func (*HandlerUpdateTraffic) updateApplicationTrafficRes() {}
 
-type HandlerPutTrafficsDataItem struct {
+type HandlerUpdateTrafficDataItem struct {
 	// バージョン名.
 	VersionName string `json:"version_name"`
 	// 最新バージョンかどうか.
@@ -5473,391 +4447,391 @@ type HandlerPutTrafficsDataItem struct {
 }
 
 // GetVersionName returns the value of VersionName.
-func (s *HandlerPutTrafficsDataItem) GetVersionName() string {
+func (s *HandlerUpdateTrafficDataItem) GetVersionName() string {
 	return s.VersionName
 }
 
 // GetIsLatestVersion returns the value of IsLatestVersion.
-func (s *HandlerPutTrafficsDataItem) GetIsLatestVersion() bool {
+func (s *HandlerUpdateTrafficDataItem) GetIsLatestVersion() bool {
 	return s.IsLatestVersion
 }
 
 // GetPercent returns the value of Percent.
-func (s *HandlerPutTrafficsDataItem) GetPercent() int {
+func (s *HandlerUpdateTrafficDataItem) GetPercent() int {
 	return s.Percent
 }
 
 // SetVersionName sets the value of VersionName.
-func (s *HandlerPutTrafficsDataItem) SetVersionName(val string) {
+func (s *HandlerUpdateTrafficDataItem) SetVersionName(val string) {
 	s.VersionName = val
 }
 
 // SetIsLatestVersion sets the value of IsLatestVersion.
-func (s *HandlerPutTrafficsDataItem) SetIsLatestVersion(val bool) {
+func (s *HandlerUpdateTrafficDataItem) SetIsLatestVersion(val bool) {
 	s.IsLatestVersion = val
 }
 
 // SetPercent sets the value of Percent.
-func (s *HandlerPutTrafficsDataItem) SetPercent(val int) {
+func (s *HandlerUpdateTrafficDataItem) SetPercent(val int) {
 	s.Percent = val
 }
 
-type HandlerPutTrafficsMeta struct{}
+type HandlerUpdateTrafficMeta struct{}
 
-// ListApplicationTrafficsBadRequest represents sum type.
-type ListApplicationTrafficsBadRequest struct {
+// ListApplicationTrafficBadRequest represents sum type.
+type ListApplicationTrafficBadRequest struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                ListApplicationTrafficsBadRequestType
+	Type                ListApplicationTrafficBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// ListApplicationTrafficsBadRequestType is oneOf type of ListApplicationTrafficsBadRequest.
-type ListApplicationTrafficsBadRequestType string
+// ListApplicationTrafficBadRequestType is oneOf type of ListApplicationTrafficBadRequest.
+type ListApplicationTrafficBadRequestType string
 
-// Possible values for ListApplicationTrafficsBadRequestType.
+// Possible values for ListApplicationTrafficBadRequestType.
 const (
-	ModelDefaultErrorListApplicationTrafficsBadRequest   ListApplicationTrafficsBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorListApplicationTrafficsBadRequest ListApplicationTrafficsBadRequestType = "ModelCloudctrlError"
+	ModelDefaultErrorListApplicationTrafficBadRequest   ListApplicationTrafficBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorListApplicationTrafficBadRequest ListApplicationTrafficBadRequestType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether ListApplicationTrafficsBadRequest is ModelDefaultError.
-func (s ListApplicationTrafficsBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorListApplicationTrafficsBadRequest
+// IsModelDefaultError reports whether ListApplicationTrafficBadRequest is ModelDefaultError.
+func (s ListApplicationTrafficBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorListApplicationTrafficBadRequest
 }
 
-// IsModelCloudctrlError reports whether ListApplicationTrafficsBadRequest is ModelCloudctrlError.
-func (s ListApplicationTrafficsBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorListApplicationTrafficsBadRequest
+// IsModelCloudctrlError reports whether ListApplicationTrafficBadRequest is ModelCloudctrlError.
+func (s ListApplicationTrafficBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorListApplicationTrafficBadRequest
 }
 
-// SetModelDefaultError sets ListApplicationTrafficsBadRequest to ModelDefaultError.
-func (s *ListApplicationTrafficsBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorListApplicationTrafficsBadRequest
+// SetModelDefaultError sets ListApplicationTrafficBadRequest to ModelDefaultError.
+func (s *ListApplicationTrafficBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorListApplicationTrafficBadRequest
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficsBadRequest is ModelDefaultError.
-func (s ListApplicationTrafficsBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficBadRequest is ModelDefaultError.
+func (s ListApplicationTrafficBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorListApplicationTrafficsBadRequest returns new ListApplicationTrafficsBadRequest from ModelDefaultError.
-func NewModelDefaultErrorListApplicationTrafficsBadRequest(v ModelDefaultError) ListApplicationTrafficsBadRequest {
-	var s ListApplicationTrafficsBadRequest
+// NewModelDefaultErrorListApplicationTrafficBadRequest returns new ListApplicationTrafficBadRequest from ModelDefaultError.
+func NewModelDefaultErrorListApplicationTrafficBadRequest(v ModelDefaultError) ListApplicationTrafficBadRequest {
+	var s ListApplicationTrafficBadRequest
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets ListApplicationTrafficsBadRequest to ModelCloudctrlError.
-func (s *ListApplicationTrafficsBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorListApplicationTrafficsBadRequest
+// SetModelCloudctrlError sets ListApplicationTrafficBadRequest to ModelCloudctrlError.
+func (s *ListApplicationTrafficBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorListApplicationTrafficBadRequest
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficsBadRequest is ModelCloudctrlError.
-func (s ListApplicationTrafficsBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficBadRequest is ModelCloudctrlError.
+func (s ListApplicationTrafficBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorListApplicationTrafficsBadRequest returns new ListApplicationTrafficsBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorListApplicationTrafficsBadRequest(v ModelCloudctrlError) ListApplicationTrafficsBadRequest {
-	var s ListApplicationTrafficsBadRequest
+// NewModelCloudctrlErrorListApplicationTrafficBadRequest returns new ListApplicationTrafficBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorListApplicationTrafficBadRequest(v ModelCloudctrlError) ListApplicationTrafficBadRequest {
+	var s ListApplicationTrafficBadRequest
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*ListApplicationTrafficsBadRequest) listApplicationTrafficsRes() {}
+func (*ListApplicationTrafficBadRequest) listApplicationTrafficRes() {}
 
-// ListApplicationTrafficsForbidden represents sum type.
-type ListApplicationTrafficsForbidden struct {
+// ListApplicationTrafficForbidden represents sum type.
+type ListApplicationTrafficForbidden struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                ListApplicationTrafficsForbiddenType
+	Type                ListApplicationTrafficForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// ListApplicationTrafficsForbiddenType is oneOf type of ListApplicationTrafficsForbidden.
-type ListApplicationTrafficsForbiddenType string
+// ListApplicationTrafficForbiddenType is oneOf type of ListApplicationTrafficForbidden.
+type ListApplicationTrafficForbiddenType string
 
-// Possible values for ListApplicationTrafficsForbiddenType.
+// Possible values for ListApplicationTrafficForbiddenType.
 const (
-	ModelDefaultErrorListApplicationTrafficsForbidden   ListApplicationTrafficsForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorListApplicationTrafficsForbidden ListApplicationTrafficsForbiddenType = "ModelCloudctrlError"
+	ModelDefaultErrorListApplicationTrafficForbidden   ListApplicationTrafficForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorListApplicationTrafficForbidden ListApplicationTrafficForbiddenType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether ListApplicationTrafficsForbidden is ModelDefaultError.
-func (s ListApplicationTrafficsForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorListApplicationTrafficsForbidden
+// IsModelDefaultError reports whether ListApplicationTrafficForbidden is ModelDefaultError.
+func (s ListApplicationTrafficForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorListApplicationTrafficForbidden
 }
 
-// IsModelCloudctrlError reports whether ListApplicationTrafficsForbidden is ModelCloudctrlError.
-func (s ListApplicationTrafficsForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorListApplicationTrafficsForbidden
+// IsModelCloudctrlError reports whether ListApplicationTrafficForbidden is ModelCloudctrlError.
+func (s ListApplicationTrafficForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorListApplicationTrafficForbidden
 }
 
-// SetModelDefaultError sets ListApplicationTrafficsForbidden to ModelDefaultError.
-func (s *ListApplicationTrafficsForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorListApplicationTrafficsForbidden
+// SetModelDefaultError sets ListApplicationTrafficForbidden to ModelDefaultError.
+func (s *ListApplicationTrafficForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorListApplicationTrafficForbidden
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficsForbidden is ModelDefaultError.
-func (s ListApplicationTrafficsForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficForbidden is ModelDefaultError.
+func (s ListApplicationTrafficForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorListApplicationTrafficsForbidden returns new ListApplicationTrafficsForbidden from ModelDefaultError.
-func NewModelDefaultErrorListApplicationTrafficsForbidden(v ModelDefaultError) ListApplicationTrafficsForbidden {
-	var s ListApplicationTrafficsForbidden
+// NewModelDefaultErrorListApplicationTrafficForbidden returns new ListApplicationTrafficForbidden from ModelDefaultError.
+func NewModelDefaultErrorListApplicationTrafficForbidden(v ModelDefaultError) ListApplicationTrafficForbidden {
+	var s ListApplicationTrafficForbidden
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets ListApplicationTrafficsForbidden to ModelCloudctrlError.
-func (s *ListApplicationTrafficsForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorListApplicationTrafficsForbidden
+// SetModelCloudctrlError sets ListApplicationTrafficForbidden to ModelCloudctrlError.
+func (s *ListApplicationTrafficForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorListApplicationTrafficForbidden
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficsForbidden is ModelCloudctrlError.
-func (s ListApplicationTrafficsForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficForbidden is ModelCloudctrlError.
+func (s ListApplicationTrafficForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorListApplicationTrafficsForbidden returns new ListApplicationTrafficsForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorListApplicationTrafficsForbidden(v ModelCloudctrlError) ListApplicationTrafficsForbidden {
-	var s ListApplicationTrafficsForbidden
+// NewModelCloudctrlErrorListApplicationTrafficForbidden returns new ListApplicationTrafficForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorListApplicationTrafficForbidden(v ModelCloudctrlError) ListApplicationTrafficForbidden {
+	var s ListApplicationTrafficForbidden
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*ListApplicationTrafficsForbidden) listApplicationTrafficsRes() {}
+func (*ListApplicationTrafficForbidden) listApplicationTrafficRes() {}
 
-// ListApplicationTrafficsInternalServerError represents sum type.
-type ListApplicationTrafficsInternalServerError struct {
+// ListApplicationTrafficInternalServerError represents sum type.
+type ListApplicationTrafficInternalServerError struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                ListApplicationTrafficsInternalServerErrorType
+	Type                ListApplicationTrafficInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// ListApplicationTrafficsInternalServerErrorType is oneOf type of ListApplicationTrafficsInternalServerError.
-type ListApplicationTrafficsInternalServerErrorType string
+// ListApplicationTrafficInternalServerErrorType is oneOf type of ListApplicationTrafficInternalServerError.
+type ListApplicationTrafficInternalServerErrorType string
 
-// Possible values for ListApplicationTrafficsInternalServerErrorType.
+// Possible values for ListApplicationTrafficInternalServerErrorType.
 const (
-	ModelDefaultErrorListApplicationTrafficsInternalServerError   ListApplicationTrafficsInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorListApplicationTrafficsInternalServerError ListApplicationTrafficsInternalServerErrorType = "ModelCloudctrlError"
+	ModelDefaultErrorListApplicationTrafficInternalServerError   ListApplicationTrafficInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorListApplicationTrafficInternalServerError ListApplicationTrafficInternalServerErrorType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether ListApplicationTrafficsInternalServerError is ModelDefaultError.
-func (s ListApplicationTrafficsInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorListApplicationTrafficsInternalServerError
+// IsModelDefaultError reports whether ListApplicationTrafficInternalServerError is ModelDefaultError.
+func (s ListApplicationTrafficInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorListApplicationTrafficInternalServerError
 }
 
-// IsModelCloudctrlError reports whether ListApplicationTrafficsInternalServerError is ModelCloudctrlError.
-func (s ListApplicationTrafficsInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorListApplicationTrafficsInternalServerError
+// IsModelCloudctrlError reports whether ListApplicationTrafficInternalServerError is ModelCloudctrlError.
+func (s ListApplicationTrafficInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorListApplicationTrafficInternalServerError
 }
 
-// SetModelDefaultError sets ListApplicationTrafficsInternalServerError to ModelDefaultError.
-func (s *ListApplicationTrafficsInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorListApplicationTrafficsInternalServerError
+// SetModelDefaultError sets ListApplicationTrafficInternalServerError to ModelDefaultError.
+func (s *ListApplicationTrafficInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorListApplicationTrafficInternalServerError
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficsInternalServerError is ModelDefaultError.
-func (s ListApplicationTrafficsInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficInternalServerError is ModelDefaultError.
+func (s ListApplicationTrafficInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorListApplicationTrafficsInternalServerError returns new ListApplicationTrafficsInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorListApplicationTrafficsInternalServerError(v ModelDefaultError) ListApplicationTrafficsInternalServerError {
-	var s ListApplicationTrafficsInternalServerError
+// NewModelDefaultErrorListApplicationTrafficInternalServerError returns new ListApplicationTrafficInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorListApplicationTrafficInternalServerError(v ModelDefaultError) ListApplicationTrafficInternalServerError {
+	var s ListApplicationTrafficInternalServerError
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets ListApplicationTrafficsInternalServerError to ModelCloudctrlError.
-func (s *ListApplicationTrafficsInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorListApplicationTrafficsInternalServerError
+// SetModelCloudctrlError sets ListApplicationTrafficInternalServerError to ModelCloudctrlError.
+func (s *ListApplicationTrafficInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorListApplicationTrafficInternalServerError
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficsInternalServerError is ModelCloudctrlError.
-func (s ListApplicationTrafficsInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficInternalServerError is ModelCloudctrlError.
+func (s ListApplicationTrafficInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorListApplicationTrafficsInternalServerError returns new ListApplicationTrafficsInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorListApplicationTrafficsInternalServerError(v ModelCloudctrlError) ListApplicationTrafficsInternalServerError {
-	var s ListApplicationTrafficsInternalServerError
+// NewModelCloudctrlErrorListApplicationTrafficInternalServerError returns new ListApplicationTrafficInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorListApplicationTrafficInternalServerError(v ModelCloudctrlError) ListApplicationTrafficInternalServerError {
+	var s ListApplicationTrafficInternalServerError
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*ListApplicationTrafficsInternalServerError) listApplicationTrafficsRes() {}
+func (*ListApplicationTrafficInternalServerError) listApplicationTrafficRes() {}
 
-// ListApplicationTrafficsNotFound represents sum type.
-type ListApplicationTrafficsNotFound struct {
+// ListApplicationTrafficNotFound represents sum type.
+type ListApplicationTrafficNotFound struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                ListApplicationTrafficsNotFoundType
+	Type                ListApplicationTrafficNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// ListApplicationTrafficsNotFoundType is oneOf type of ListApplicationTrafficsNotFound.
-type ListApplicationTrafficsNotFoundType string
+// ListApplicationTrafficNotFoundType is oneOf type of ListApplicationTrafficNotFound.
+type ListApplicationTrafficNotFoundType string
 
-// Possible values for ListApplicationTrafficsNotFoundType.
+// Possible values for ListApplicationTrafficNotFoundType.
 const (
-	ModelDefaultErrorListApplicationTrafficsNotFound   ListApplicationTrafficsNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorListApplicationTrafficsNotFound ListApplicationTrafficsNotFoundType = "ModelCloudctrlError"
+	ModelDefaultErrorListApplicationTrafficNotFound   ListApplicationTrafficNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorListApplicationTrafficNotFound ListApplicationTrafficNotFoundType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether ListApplicationTrafficsNotFound is ModelDefaultError.
-func (s ListApplicationTrafficsNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorListApplicationTrafficsNotFound
+// IsModelDefaultError reports whether ListApplicationTrafficNotFound is ModelDefaultError.
+func (s ListApplicationTrafficNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorListApplicationTrafficNotFound
 }
 
-// IsModelCloudctrlError reports whether ListApplicationTrafficsNotFound is ModelCloudctrlError.
-func (s ListApplicationTrafficsNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorListApplicationTrafficsNotFound
+// IsModelCloudctrlError reports whether ListApplicationTrafficNotFound is ModelCloudctrlError.
+func (s ListApplicationTrafficNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorListApplicationTrafficNotFound
 }
 
-// SetModelDefaultError sets ListApplicationTrafficsNotFound to ModelDefaultError.
-func (s *ListApplicationTrafficsNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorListApplicationTrafficsNotFound
+// SetModelDefaultError sets ListApplicationTrafficNotFound to ModelDefaultError.
+func (s *ListApplicationTrafficNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorListApplicationTrafficNotFound
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficsNotFound is ModelDefaultError.
-func (s ListApplicationTrafficsNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficNotFound is ModelDefaultError.
+func (s ListApplicationTrafficNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorListApplicationTrafficsNotFound returns new ListApplicationTrafficsNotFound from ModelDefaultError.
-func NewModelDefaultErrorListApplicationTrafficsNotFound(v ModelDefaultError) ListApplicationTrafficsNotFound {
-	var s ListApplicationTrafficsNotFound
+// NewModelDefaultErrorListApplicationTrafficNotFound returns new ListApplicationTrafficNotFound from ModelDefaultError.
+func NewModelDefaultErrorListApplicationTrafficNotFound(v ModelDefaultError) ListApplicationTrafficNotFound {
+	var s ListApplicationTrafficNotFound
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets ListApplicationTrafficsNotFound to ModelCloudctrlError.
-func (s *ListApplicationTrafficsNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorListApplicationTrafficsNotFound
+// SetModelCloudctrlError sets ListApplicationTrafficNotFound to ModelCloudctrlError.
+func (s *ListApplicationTrafficNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorListApplicationTrafficNotFound
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficsNotFound is ModelCloudctrlError.
-func (s ListApplicationTrafficsNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficNotFound is ModelCloudctrlError.
+func (s ListApplicationTrafficNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorListApplicationTrafficsNotFound returns new ListApplicationTrafficsNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorListApplicationTrafficsNotFound(v ModelCloudctrlError) ListApplicationTrafficsNotFound {
-	var s ListApplicationTrafficsNotFound
+// NewModelCloudctrlErrorListApplicationTrafficNotFound returns new ListApplicationTrafficNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorListApplicationTrafficNotFound(v ModelCloudctrlError) ListApplicationTrafficNotFound {
+	var s ListApplicationTrafficNotFound
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*ListApplicationTrafficsNotFound) listApplicationTrafficsRes() {}
+func (*ListApplicationTrafficNotFound) listApplicationTrafficRes() {}
 
-// ListApplicationTrafficsUnauthorized represents sum type.
-type ListApplicationTrafficsUnauthorized struct {
+// ListApplicationTrafficUnauthorized represents sum type.
+type ListApplicationTrafficUnauthorized struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                ListApplicationTrafficsUnauthorizedType
+	Type                ListApplicationTrafficUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// ListApplicationTrafficsUnauthorizedType is oneOf type of ListApplicationTrafficsUnauthorized.
-type ListApplicationTrafficsUnauthorizedType string
+// ListApplicationTrafficUnauthorizedType is oneOf type of ListApplicationTrafficUnauthorized.
+type ListApplicationTrafficUnauthorizedType string
 
-// Possible values for ListApplicationTrafficsUnauthorizedType.
+// Possible values for ListApplicationTrafficUnauthorizedType.
 const (
-	ModelDefaultErrorListApplicationTrafficsUnauthorized   ListApplicationTrafficsUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorListApplicationTrafficsUnauthorized ListApplicationTrafficsUnauthorizedType = "ModelCloudctrlError"
+	ModelDefaultErrorListApplicationTrafficUnauthorized   ListApplicationTrafficUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorListApplicationTrafficUnauthorized ListApplicationTrafficUnauthorizedType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether ListApplicationTrafficsUnauthorized is ModelDefaultError.
-func (s ListApplicationTrafficsUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorListApplicationTrafficsUnauthorized
+// IsModelDefaultError reports whether ListApplicationTrafficUnauthorized is ModelDefaultError.
+func (s ListApplicationTrafficUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorListApplicationTrafficUnauthorized
 }
 
-// IsModelCloudctrlError reports whether ListApplicationTrafficsUnauthorized is ModelCloudctrlError.
-func (s ListApplicationTrafficsUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorListApplicationTrafficsUnauthorized
+// IsModelCloudctrlError reports whether ListApplicationTrafficUnauthorized is ModelCloudctrlError.
+func (s ListApplicationTrafficUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorListApplicationTrafficUnauthorized
 }
 
-// SetModelDefaultError sets ListApplicationTrafficsUnauthorized to ModelDefaultError.
-func (s *ListApplicationTrafficsUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorListApplicationTrafficsUnauthorized
+// SetModelDefaultError sets ListApplicationTrafficUnauthorized to ModelDefaultError.
+func (s *ListApplicationTrafficUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorListApplicationTrafficUnauthorized
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficsUnauthorized is ModelDefaultError.
-func (s ListApplicationTrafficsUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if ListApplicationTrafficUnauthorized is ModelDefaultError.
+func (s ListApplicationTrafficUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorListApplicationTrafficsUnauthorized returns new ListApplicationTrafficsUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorListApplicationTrafficsUnauthorized(v ModelDefaultError) ListApplicationTrafficsUnauthorized {
-	var s ListApplicationTrafficsUnauthorized
+// NewModelDefaultErrorListApplicationTrafficUnauthorized returns new ListApplicationTrafficUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorListApplicationTrafficUnauthorized(v ModelDefaultError) ListApplicationTrafficUnauthorized {
+	var s ListApplicationTrafficUnauthorized
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets ListApplicationTrafficsUnauthorized to ModelCloudctrlError.
-func (s *ListApplicationTrafficsUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorListApplicationTrafficsUnauthorized
+// SetModelCloudctrlError sets ListApplicationTrafficUnauthorized to ModelCloudctrlError.
+func (s *ListApplicationTrafficUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorListApplicationTrafficUnauthorized
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficsUnauthorized is ModelCloudctrlError.
-func (s ListApplicationTrafficsUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ListApplicationTrafficUnauthorized is ModelCloudctrlError.
+func (s ListApplicationTrafficUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorListApplicationTrafficsUnauthorized returns new ListApplicationTrafficsUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorListApplicationTrafficsUnauthorized(v ModelCloudctrlError) ListApplicationTrafficsUnauthorized {
-	var s ListApplicationTrafficsUnauthorized
+// NewModelCloudctrlErrorListApplicationTrafficUnauthorized returns new ListApplicationTrafficUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorListApplicationTrafficUnauthorized(v ModelCloudctrlError) ListApplicationTrafficUnauthorized {
+	var s ListApplicationTrafficUnauthorized
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*ListApplicationTrafficsUnauthorized) listApplicationTrafficsRes() {}
+func (*ListApplicationTrafficUnauthorized) listApplicationTrafficRes() {}
 
 // ListApplicationVersionsBadRequest represents sum type.
 type ListApplicationVersionsBadRequest struct {
@@ -6896,40 +5870,40 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
-// NewOptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry returns new OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry with value set to v.
-func NewOptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry(v HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry {
-	return OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry{
+// NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry returns new OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry with value set to v.
+func NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(v CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry {
+	return OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry is optional HandlerGetApplicationComponentsItemDeploySourceContainerRegistry.
-type OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry struct {
-	Value HandlerGetApplicationComponentsItemDeploySourceContainerRegistry
+// OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry is optional CreateApplicationBodyComponentsItemDeploySourceContainerRegistry.
+type OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry struct {
+	Value CreateApplicationBodyComponentsItemDeploySourceContainerRegistry
 	Set   bool
 }
 
-// IsSet returns true if OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry was set.
-func (o OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) IsSet() bool {
+// IsSet returns true if OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry was set.
+func (o OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) IsSet() bool {
 	return o.Set
 }
 
 // Reset unsets value.
-func (o *OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Reset() {
-	var v HandlerGetApplicationComponentsItemDeploySourceContainerRegistry
+func (o *OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) Reset() {
+	var v CreateApplicationBodyComponentsItemDeploySourceContainerRegistry
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) SetTo(v HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) {
+func (o *OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) SetTo(v CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Get() (v HandlerGetApplicationComponentsItemDeploySourceContainerRegistry, ok bool) {
+func (o OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) Get() (v CreateApplicationBodyComponentsItemDeploySourceContainerRegistry, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6937,45 +5911,47 @@ func (o OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Get
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Or(d HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) HandlerGetApplicationComponentsItemDeploySourceContainerRegistry {
+func (o OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) Or(d CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) CreateApplicationBodyComponentsItemDeploySourceContainerRegistry {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptHandlerGetVersionComponentsItemDeploySourceContainerRegistry returns new OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry with value set to v.
-func NewOptHandlerGetVersionComponentsItemDeploySourceContainerRegistry(v HandlerGetVersionComponentsItemDeploySourceContainerRegistry) OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry {
-	return OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry{
+// NewOptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry returns new OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry with value set to v.
+func NewOptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry(v HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry {
+	return OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry is optional HandlerGetVersionComponentsItemDeploySourceContainerRegistry.
-type OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry struct {
-	Value HandlerGetVersionComponentsItemDeploySourceContainerRegistry
+// OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry is optional HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry.
+type OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry struct {
+	Value HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry
 	Set   bool
 }
 
-// IsSet returns true if OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry was set.
-func (o OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) IsSet() bool { return o.Set }
+// IsSet returns true if OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry was set.
+func (o OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) IsSet() bool {
+	return o.Set
+}
 
 // Reset unsets value.
-func (o *OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) Reset() {
-	var v HandlerGetVersionComponentsItemDeploySourceContainerRegistry
+func (o *OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) Reset() {
+	var v HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) SetTo(v HandlerGetVersionComponentsItemDeploySourceContainerRegistry) {
+func (o *OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) SetTo(v HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) Get() (v HandlerGetVersionComponentsItemDeploySourceContainerRegistry, ok bool) {
+func (o OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) Get() (v HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -6983,45 +5959,45 @@ func (o OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) Get() (
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) Or(d HandlerGetVersionComponentsItemDeploySourceContainerRegistry) HandlerGetVersionComponentsItemDeploySourceContainerRegistry {
+func (o OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) Or(d HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptHandlerListTrafficsMeta returns new OptHandlerListTrafficsMeta with value set to v.
-func NewOptHandlerListTrafficsMeta(v *HandlerListTrafficsMeta) OptHandlerListTrafficsMeta {
-	return OptHandlerListTrafficsMeta{
+// NewOptHandlerListTrafficMeta returns new OptHandlerListTrafficMeta with value set to v.
+func NewOptHandlerListTrafficMeta(v *HandlerListTrafficMeta) OptHandlerListTrafficMeta {
+	return OptHandlerListTrafficMeta{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptHandlerListTrafficsMeta is optional *HandlerListTrafficsMeta.
-type OptHandlerListTrafficsMeta struct {
-	Value *HandlerListTrafficsMeta
+// OptHandlerListTrafficMeta is optional *HandlerListTrafficMeta.
+type OptHandlerListTrafficMeta struct {
+	Value *HandlerListTrafficMeta
 	Set   bool
 }
 
-// IsSet returns true if OptHandlerListTrafficsMeta was set.
-func (o OptHandlerListTrafficsMeta) IsSet() bool { return o.Set }
+// IsSet returns true if OptHandlerListTrafficMeta was set.
+func (o OptHandlerListTrafficMeta) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptHandlerListTrafficsMeta) Reset() {
-	var v *HandlerListTrafficsMeta
+func (o *OptHandlerListTrafficMeta) Reset() {
+	var v *HandlerListTrafficMeta
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptHandlerListTrafficsMeta) SetTo(v *HandlerListTrafficsMeta) {
+func (o *OptHandlerListTrafficMeta) SetTo(v *HandlerListTrafficMeta) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptHandlerListTrafficsMeta) Get() (v *HandlerListTrafficsMeta, ok bool) {
+func (o OptHandlerListTrafficMeta) Get() (v *HandlerListTrafficMeta, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -7029,7 +6005,7 @@ func (o OptHandlerListTrafficsMeta) Get() (v *HandlerListTrafficsMeta, ok bool) 
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptHandlerListTrafficsMeta) Or(d *HandlerListTrafficsMeta) *HandlerListTrafficsMeta {
+func (o OptHandlerListTrafficMeta) Or(d *HandlerListTrafficMeta) *HandlerListTrafficMeta {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -7084,40 +6060,40 @@ func (o OptHandlerPatchApplicationComponentsItemDeploySourceContainerRegistry) O
 	return d
 }
 
-// NewOptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry returns new OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry with value set to v.
-func NewOptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry(v HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry {
-	return OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry{
+// NewOptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry returns new OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry with value set to v.
+func NewOptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry(v HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry {
+	return OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry is optional HandlerPostApplicationComponentsItemDeploySourceContainerRegistry.
-type OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry struct {
-	Value HandlerPostApplicationComponentsItemDeploySourceContainerRegistry
+// OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry is optional HandlerReadApplicationComponentsItemDeploySourceContainerRegistry.
+type OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry struct {
+	Value HandlerReadApplicationComponentsItemDeploySourceContainerRegistry
 	Set   bool
 }
 
-// IsSet returns true if OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry was set.
-func (o OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) IsSet() bool {
+// IsSet returns true if OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry was set.
+func (o OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) IsSet() bool {
 	return o.Set
 }
 
 // Reset unsets value.
-func (o *OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Reset() {
-	var v HandlerPostApplicationComponentsItemDeploySourceContainerRegistry
+func (o *OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) Reset() {
+	var v HandlerReadApplicationComponentsItemDeploySourceContainerRegistry
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) SetTo(v HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) {
+func (o *OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) SetTo(v HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Get() (v HandlerPostApplicationComponentsItemDeploySourceContainerRegistry, ok bool) {
+func (o OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) Get() (v HandlerReadApplicationComponentsItemDeploySourceContainerRegistry, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -7125,7 +6101,53 @@ func (o OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Ge
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Or(d HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) HandlerPostApplicationComponentsItemDeploySourceContainerRegistry {
+func (o OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) Or(d HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) HandlerReadApplicationComponentsItemDeploySourceContainerRegistry {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptHandlerReadVersionComponentsItemDeploySourceContainerRegistry returns new OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry with value set to v.
+func NewOptHandlerReadVersionComponentsItemDeploySourceContainerRegistry(v HandlerReadVersionComponentsItemDeploySourceContainerRegistry) OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry {
+	return OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry is optional HandlerReadVersionComponentsItemDeploySourceContainerRegistry.
+type OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry struct {
+	Value HandlerReadVersionComponentsItemDeploySourceContainerRegistry
+	Set   bool
+}
+
+// IsSet returns true if OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry was set.
+func (o OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) Reset() {
+	var v HandlerReadVersionComponentsItemDeploySourceContainerRegistry
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) SetTo(v HandlerReadVersionComponentsItemDeploySourceContainerRegistry) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) Get() (v HandlerReadVersionComponentsItemDeploySourceContainerRegistry, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) Or(d HandlerReadVersionComponentsItemDeploySourceContainerRegistry) HandlerReadVersionComponentsItemDeploySourceContainerRegistry {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -7338,57 +6360,57 @@ func (o OptNilContainerRegistryAction) Or(d ContainerRegistryAction) ContainerRe
 	return d
 }
 
-// NewOptNilHandlerGetApplicationComponentsItemProbe returns new OptNilHandlerGetApplicationComponentsItemProbe with value set to v.
-func NewOptNilHandlerGetApplicationComponentsItemProbe(v HandlerGetApplicationComponentsItemProbe) OptNilHandlerGetApplicationComponentsItemProbe {
-	return OptNilHandlerGetApplicationComponentsItemProbe{
+// NewOptNilCreateApplicationBodyComponentsItemProbe returns new OptNilCreateApplicationBodyComponentsItemProbe with value set to v.
+func NewOptNilCreateApplicationBodyComponentsItemProbe(v CreateApplicationBodyComponentsItemProbe) OptNilCreateApplicationBodyComponentsItemProbe {
+	return OptNilCreateApplicationBodyComponentsItemProbe{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilHandlerGetApplicationComponentsItemProbe is optional nullable HandlerGetApplicationComponentsItemProbe.
-type OptNilHandlerGetApplicationComponentsItemProbe struct {
-	Value HandlerGetApplicationComponentsItemProbe
+// OptNilCreateApplicationBodyComponentsItemProbe is optional nullable CreateApplicationBodyComponentsItemProbe.
+type OptNilCreateApplicationBodyComponentsItemProbe struct {
+	Value CreateApplicationBodyComponentsItemProbe
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilHandlerGetApplicationComponentsItemProbe was set.
-func (o OptNilHandlerGetApplicationComponentsItemProbe) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilCreateApplicationBodyComponentsItemProbe was set.
+func (o OptNilCreateApplicationBodyComponentsItemProbe) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilHandlerGetApplicationComponentsItemProbe) Reset() {
-	var v HandlerGetApplicationComponentsItemProbe
+func (o *OptNilCreateApplicationBodyComponentsItemProbe) Reset() {
+	var v CreateApplicationBodyComponentsItemProbe
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilHandlerGetApplicationComponentsItemProbe) SetTo(v HandlerGetApplicationComponentsItemProbe) {
+func (o *OptNilCreateApplicationBodyComponentsItemProbe) SetTo(v CreateApplicationBodyComponentsItemProbe) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilHandlerGetApplicationComponentsItemProbe) IsNull() bool { return o.Null }
+func (o OptNilCreateApplicationBodyComponentsItemProbe) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilHandlerGetApplicationComponentsItemProbe) SetToNull() {
+func (o *OptNilCreateApplicationBodyComponentsItemProbe) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v HandlerGetApplicationComponentsItemProbe
+	var v CreateApplicationBodyComponentsItemProbe
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilHandlerGetApplicationComponentsItemProbe) IsEmpty() bool {
+func (o OptNilCreateApplicationBodyComponentsItemProbe) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilHandlerGetApplicationComponentsItemProbe) Get() (v HandlerGetApplicationComponentsItemProbe, ok bool) {
+func (o OptNilCreateApplicationBodyComponentsItemProbe) Get() (v CreateApplicationBodyComponentsItemProbe, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -7399,64 +6421,64 @@ func (o OptNilHandlerGetApplicationComponentsItemProbe) Get() (v HandlerGetAppli
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilHandlerGetApplicationComponentsItemProbe) Or(d HandlerGetApplicationComponentsItemProbe) HandlerGetApplicationComponentsItemProbe {
+func (o OptNilCreateApplicationBodyComponentsItemProbe) Or(d CreateApplicationBodyComponentsItemProbe) CreateApplicationBodyComponentsItemProbe {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilHandlerGetApplicationComponentsItemProbeHTTPGet returns new OptNilHandlerGetApplicationComponentsItemProbeHTTPGet with value set to v.
-func NewOptNilHandlerGetApplicationComponentsItemProbeHTTPGet(v HandlerGetApplicationComponentsItemProbeHTTPGet) OptNilHandlerGetApplicationComponentsItemProbeHTTPGet {
-	return OptNilHandlerGetApplicationComponentsItemProbeHTTPGet{
+// NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet returns new OptNilCreateApplicationBodyComponentsItemProbeHTTPGet with value set to v.
+func NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(v CreateApplicationBodyComponentsItemProbeHTTPGet) OptNilCreateApplicationBodyComponentsItemProbeHTTPGet {
+	return OptNilCreateApplicationBodyComponentsItemProbeHTTPGet{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilHandlerGetApplicationComponentsItemProbeHTTPGet is optional nullable HandlerGetApplicationComponentsItemProbeHTTPGet.
-type OptNilHandlerGetApplicationComponentsItemProbeHTTPGet struct {
-	Value HandlerGetApplicationComponentsItemProbeHTTPGet
+// OptNilCreateApplicationBodyComponentsItemProbeHTTPGet is optional nullable CreateApplicationBodyComponentsItemProbeHTTPGet.
+type OptNilCreateApplicationBodyComponentsItemProbeHTTPGet struct {
+	Value CreateApplicationBodyComponentsItemProbeHTTPGet
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilHandlerGetApplicationComponentsItemProbeHTTPGet was set.
-func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilCreateApplicationBodyComponentsItemProbeHTTPGet was set.
+func (o OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Reset() {
-	var v HandlerGetApplicationComponentsItemProbeHTTPGet
+func (o *OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) Reset() {
+	var v CreateApplicationBodyComponentsItemProbeHTTPGet
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) SetTo(v HandlerGetApplicationComponentsItemProbeHTTPGet) {
+func (o *OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) SetTo(v CreateApplicationBodyComponentsItemProbeHTTPGet) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) IsNull() bool { return o.Null }
+func (o OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) SetToNull() {
+func (o *OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v HandlerGetApplicationComponentsItemProbeHTTPGet
+	var v CreateApplicationBodyComponentsItemProbeHTTPGet
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) IsEmpty() bool {
+func (o OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Get() (v HandlerGetApplicationComponentsItemProbeHTTPGet, ok bool) {
+func (o OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) Get() (v CreateApplicationBodyComponentsItemProbeHTTPGet, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -7467,64 +6489,64 @@ func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Get() (v HandlerG
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Or(d HandlerGetApplicationComponentsItemProbeHTTPGet) HandlerGetApplicationComponentsItemProbeHTTPGet {
+func (o OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) Or(d CreateApplicationBodyComponentsItemProbeHTTPGet) CreateApplicationBodyComponentsItemProbeHTTPGet {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilHandlerGetVersionComponentsItemProbe returns new OptNilHandlerGetVersionComponentsItemProbe with value set to v.
-func NewOptNilHandlerGetVersionComponentsItemProbe(v HandlerGetVersionComponentsItemProbe) OptNilHandlerGetVersionComponentsItemProbe {
-	return OptNilHandlerGetVersionComponentsItemProbe{
+// NewOptNilCreateApplicationBodyComponentsItemSecretItemArray returns new OptNilCreateApplicationBodyComponentsItemSecretItemArray with value set to v.
+func NewOptNilCreateApplicationBodyComponentsItemSecretItemArray(v []CreateApplicationBodyComponentsItemSecretItem) OptNilCreateApplicationBodyComponentsItemSecretItemArray {
+	return OptNilCreateApplicationBodyComponentsItemSecretItemArray{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilHandlerGetVersionComponentsItemProbe is optional nullable HandlerGetVersionComponentsItemProbe.
-type OptNilHandlerGetVersionComponentsItemProbe struct {
-	Value HandlerGetVersionComponentsItemProbe
+// OptNilCreateApplicationBodyComponentsItemSecretItemArray is optional nullable []CreateApplicationBodyComponentsItemSecretItem.
+type OptNilCreateApplicationBodyComponentsItemSecretItemArray struct {
+	Value []CreateApplicationBodyComponentsItemSecretItem
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilHandlerGetVersionComponentsItemProbe was set.
-func (o OptNilHandlerGetVersionComponentsItemProbe) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilCreateApplicationBodyComponentsItemSecretItemArray was set.
+func (o OptNilCreateApplicationBodyComponentsItemSecretItemArray) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilHandlerGetVersionComponentsItemProbe) Reset() {
-	var v HandlerGetVersionComponentsItemProbe
+func (o *OptNilCreateApplicationBodyComponentsItemSecretItemArray) Reset() {
+	var v []CreateApplicationBodyComponentsItemSecretItem
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilHandlerGetVersionComponentsItemProbe) SetTo(v HandlerGetVersionComponentsItemProbe) {
+func (o *OptNilCreateApplicationBodyComponentsItemSecretItemArray) SetTo(v []CreateApplicationBodyComponentsItemSecretItem) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilHandlerGetVersionComponentsItemProbe) IsNull() bool { return o.Null }
+func (o OptNilCreateApplicationBodyComponentsItemSecretItemArray) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilHandlerGetVersionComponentsItemProbe) SetToNull() {
+func (o *OptNilCreateApplicationBodyComponentsItemSecretItemArray) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v HandlerGetVersionComponentsItemProbe
+	var v []CreateApplicationBodyComponentsItemSecretItem
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilHandlerGetVersionComponentsItemProbe) IsEmpty() bool {
+func (o OptNilCreateApplicationBodyComponentsItemSecretItemArray) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilHandlerGetVersionComponentsItemProbe) Get() (v HandlerGetVersionComponentsItemProbe, ok bool) {
+func (o OptNilCreateApplicationBodyComponentsItemSecretItemArray) Get() (v []CreateApplicationBodyComponentsItemSecretItem, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -7535,64 +6557,64 @@ func (o OptNilHandlerGetVersionComponentsItemProbe) Get() (v HandlerGetVersionCo
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilHandlerGetVersionComponentsItemProbe) Or(d HandlerGetVersionComponentsItemProbe) HandlerGetVersionComponentsItemProbe {
+func (o OptNilCreateApplicationBodyComponentsItemSecretItemArray) Or(d []CreateApplicationBodyComponentsItemSecretItem) []CreateApplicationBodyComponentsItemSecretItem {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilHandlerGetVersionComponentsItemProbeHTTPGet returns new OptNilHandlerGetVersionComponentsItemProbeHTTPGet with value set to v.
-func NewOptNilHandlerGetVersionComponentsItemProbeHTTPGet(v HandlerGetVersionComponentsItemProbeHTTPGet) OptNilHandlerGetVersionComponentsItemProbeHTTPGet {
-	return OptNilHandlerGetVersionComponentsItemProbeHTTPGet{
+// NewOptNilHandlerCreateApplicationComponentsItemProbe returns new OptNilHandlerCreateApplicationComponentsItemProbe with value set to v.
+func NewOptNilHandlerCreateApplicationComponentsItemProbe(v HandlerCreateApplicationComponentsItemProbe) OptNilHandlerCreateApplicationComponentsItemProbe {
+	return OptNilHandlerCreateApplicationComponentsItemProbe{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilHandlerGetVersionComponentsItemProbeHTTPGet is optional nullable HandlerGetVersionComponentsItemProbeHTTPGet.
-type OptNilHandlerGetVersionComponentsItemProbeHTTPGet struct {
-	Value HandlerGetVersionComponentsItemProbeHTTPGet
+// OptNilHandlerCreateApplicationComponentsItemProbe is optional nullable HandlerCreateApplicationComponentsItemProbe.
+type OptNilHandlerCreateApplicationComponentsItemProbe struct {
+	Value HandlerCreateApplicationComponentsItemProbe
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilHandlerGetVersionComponentsItemProbeHTTPGet was set.
-func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilHandlerCreateApplicationComponentsItemProbe was set.
+func (o OptNilHandlerCreateApplicationComponentsItemProbe) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Reset() {
-	var v HandlerGetVersionComponentsItemProbeHTTPGet
+func (o *OptNilHandlerCreateApplicationComponentsItemProbe) Reset() {
+	var v HandlerCreateApplicationComponentsItemProbe
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilHandlerGetVersionComponentsItemProbeHTTPGet) SetTo(v HandlerGetVersionComponentsItemProbeHTTPGet) {
+func (o *OptNilHandlerCreateApplicationComponentsItemProbe) SetTo(v HandlerCreateApplicationComponentsItemProbe) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) IsNull() bool { return o.Null }
+func (o OptNilHandlerCreateApplicationComponentsItemProbe) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilHandlerGetVersionComponentsItemProbeHTTPGet) SetToNull() {
+func (o *OptNilHandlerCreateApplicationComponentsItemProbe) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v HandlerGetVersionComponentsItemProbeHTTPGet
+	var v HandlerCreateApplicationComponentsItemProbe
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) IsEmpty() bool {
+func (o OptNilHandlerCreateApplicationComponentsItemProbe) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Get() (v HandlerGetVersionComponentsItemProbeHTTPGet, ok bool) {
+func (o OptNilHandlerCreateApplicationComponentsItemProbe) Get() (v HandlerCreateApplicationComponentsItemProbe, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -7603,7 +6625,75 @@ func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Get() (v HandlerGetVe
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Or(d HandlerGetVersionComponentsItemProbeHTTPGet) HandlerGetVersionComponentsItemProbeHTTPGet {
+func (o OptNilHandlerCreateApplicationComponentsItemProbe) Or(d HandlerCreateApplicationComponentsItemProbe) HandlerCreateApplicationComponentsItemProbe {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHandlerCreateApplicationComponentsItemProbeHTTPGet returns new OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet with value set to v.
+func NewOptNilHandlerCreateApplicationComponentsItemProbeHTTPGet(v HandlerCreateApplicationComponentsItemProbeHTTPGet) OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet {
+	return OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet is optional nullable HandlerCreateApplicationComponentsItemProbeHTTPGet.
+type OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet struct {
+	Value HandlerCreateApplicationComponentsItemProbeHTTPGet
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet was set.
+func (o OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) Reset() {
+	var v HandlerCreateApplicationComponentsItemProbeHTTPGet
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) SetTo(v HandlerCreateApplicationComponentsItemProbeHTTPGet) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HandlerCreateApplicationComponentsItemProbeHTTPGet
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) Get() (v HandlerCreateApplicationComponentsItemProbeHTTPGet, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) Or(d HandlerCreateApplicationComponentsItemProbeHTTPGet) HandlerCreateApplicationComponentsItemProbeHTTPGet {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -7746,57 +6836,57 @@ func (o OptNilHandlerPatchApplicationComponentsItemProbeHTTPGet) Or(d HandlerPat
 	return d
 }
 
-// NewOptNilHandlerPostApplicationComponentsItemProbe returns new OptNilHandlerPostApplicationComponentsItemProbe with value set to v.
-func NewOptNilHandlerPostApplicationComponentsItemProbe(v HandlerPostApplicationComponentsItemProbe) OptNilHandlerPostApplicationComponentsItemProbe {
-	return OptNilHandlerPostApplicationComponentsItemProbe{
+// NewOptNilHandlerReadApplicationComponentsItemProbe returns new OptNilHandlerReadApplicationComponentsItemProbe with value set to v.
+func NewOptNilHandlerReadApplicationComponentsItemProbe(v HandlerReadApplicationComponentsItemProbe) OptNilHandlerReadApplicationComponentsItemProbe {
+	return OptNilHandlerReadApplicationComponentsItemProbe{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilHandlerPostApplicationComponentsItemProbe is optional nullable HandlerPostApplicationComponentsItemProbe.
-type OptNilHandlerPostApplicationComponentsItemProbe struct {
-	Value HandlerPostApplicationComponentsItemProbe
+// OptNilHandlerReadApplicationComponentsItemProbe is optional nullable HandlerReadApplicationComponentsItemProbe.
+type OptNilHandlerReadApplicationComponentsItemProbe struct {
+	Value HandlerReadApplicationComponentsItemProbe
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilHandlerPostApplicationComponentsItemProbe was set.
-func (o OptNilHandlerPostApplicationComponentsItemProbe) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilHandlerReadApplicationComponentsItemProbe was set.
+func (o OptNilHandlerReadApplicationComponentsItemProbe) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilHandlerPostApplicationComponentsItemProbe) Reset() {
-	var v HandlerPostApplicationComponentsItemProbe
+func (o *OptNilHandlerReadApplicationComponentsItemProbe) Reset() {
+	var v HandlerReadApplicationComponentsItemProbe
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilHandlerPostApplicationComponentsItemProbe) SetTo(v HandlerPostApplicationComponentsItemProbe) {
+func (o *OptNilHandlerReadApplicationComponentsItemProbe) SetTo(v HandlerReadApplicationComponentsItemProbe) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilHandlerPostApplicationComponentsItemProbe) IsNull() bool { return o.Null }
+func (o OptNilHandlerReadApplicationComponentsItemProbe) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilHandlerPostApplicationComponentsItemProbe) SetToNull() {
+func (o *OptNilHandlerReadApplicationComponentsItemProbe) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v HandlerPostApplicationComponentsItemProbe
+	var v HandlerReadApplicationComponentsItemProbe
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilHandlerPostApplicationComponentsItemProbe) IsEmpty() bool {
+func (o OptNilHandlerReadApplicationComponentsItemProbe) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilHandlerPostApplicationComponentsItemProbe) Get() (v HandlerPostApplicationComponentsItemProbe, ok bool) {
+func (o OptNilHandlerReadApplicationComponentsItemProbe) Get() (v HandlerReadApplicationComponentsItemProbe, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -7807,64 +6897,64 @@ func (o OptNilHandlerPostApplicationComponentsItemProbe) Get() (v HandlerPostApp
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilHandlerPostApplicationComponentsItemProbe) Or(d HandlerPostApplicationComponentsItemProbe) HandlerPostApplicationComponentsItemProbe {
+func (o OptNilHandlerReadApplicationComponentsItemProbe) Or(d HandlerReadApplicationComponentsItemProbe) HandlerReadApplicationComponentsItemProbe {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilHandlerPostApplicationComponentsItemProbeHTTPGet returns new OptNilHandlerPostApplicationComponentsItemProbeHTTPGet with value set to v.
-func NewOptNilHandlerPostApplicationComponentsItemProbeHTTPGet(v HandlerPostApplicationComponentsItemProbeHTTPGet) OptNilHandlerPostApplicationComponentsItemProbeHTTPGet {
-	return OptNilHandlerPostApplicationComponentsItemProbeHTTPGet{
+// NewOptNilHandlerReadApplicationComponentsItemProbeHTTPGet returns new OptNilHandlerReadApplicationComponentsItemProbeHTTPGet with value set to v.
+func NewOptNilHandlerReadApplicationComponentsItemProbeHTTPGet(v HandlerReadApplicationComponentsItemProbeHTTPGet) OptNilHandlerReadApplicationComponentsItemProbeHTTPGet {
+	return OptNilHandlerReadApplicationComponentsItemProbeHTTPGet{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilHandlerPostApplicationComponentsItemProbeHTTPGet is optional nullable HandlerPostApplicationComponentsItemProbeHTTPGet.
-type OptNilHandlerPostApplicationComponentsItemProbeHTTPGet struct {
-	Value HandlerPostApplicationComponentsItemProbeHTTPGet
+// OptNilHandlerReadApplicationComponentsItemProbeHTTPGet is optional nullable HandlerReadApplicationComponentsItemProbeHTTPGet.
+type OptNilHandlerReadApplicationComponentsItemProbeHTTPGet struct {
+	Value HandlerReadApplicationComponentsItemProbeHTTPGet
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilHandlerPostApplicationComponentsItemProbeHTTPGet was set.
-func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilHandlerReadApplicationComponentsItemProbeHTTPGet was set.
+func (o OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Reset() {
-	var v HandlerPostApplicationComponentsItemProbeHTTPGet
+func (o *OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) Reset() {
+	var v HandlerReadApplicationComponentsItemProbeHTTPGet
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) SetTo(v HandlerPostApplicationComponentsItemProbeHTTPGet) {
+func (o *OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) SetTo(v HandlerReadApplicationComponentsItemProbeHTTPGet) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) IsNull() bool { return o.Null }
+func (o OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) SetToNull() {
+func (o *OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v HandlerPostApplicationComponentsItemProbeHTTPGet
+	var v HandlerReadApplicationComponentsItemProbeHTTPGet
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) IsEmpty() bool {
+func (o OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Get() (v HandlerPostApplicationComponentsItemProbeHTTPGet, ok bool) {
+func (o OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) Get() (v HandlerReadApplicationComponentsItemProbeHTTPGet, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -7875,7 +6965,143 @@ func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Get() (v Handler
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Or(d HandlerPostApplicationComponentsItemProbeHTTPGet) HandlerPostApplicationComponentsItemProbeHTTPGet {
+func (o OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) Or(d HandlerReadApplicationComponentsItemProbeHTTPGet) HandlerReadApplicationComponentsItemProbeHTTPGet {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHandlerReadVersionComponentsItemProbe returns new OptNilHandlerReadVersionComponentsItemProbe with value set to v.
+func NewOptNilHandlerReadVersionComponentsItemProbe(v HandlerReadVersionComponentsItemProbe) OptNilHandlerReadVersionComponentsItemProbe {
+	return OptNilHandlerReadVersionComponentsItemProbe{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHandlerReadVersionComponentsItemProbe is optional nullable HandlerReadVersionComponentsItemProbe.
+type OptNilHandlerReadVersionComponentsItemProbe struct {
+	Value HandlerReadVersionComponentsItemProbe
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHandlerReadVersionComponentsItemProbe was set.
+func (o OptNilHandlerReadVersionComponentsItemProbe) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHandlerReadVersionComponentsItemProbe) Reset() {
+	var v HandlerReadVersionComponentsItemProbe
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHandlerReadVersionComponentsItemProbe) SetTo(v HandlerReadVersionComponentsItemProbe) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilHandlerReadVersionComponentsItemProbe) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilHandlerReadVersionComponentsItemProbe) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HandlerReadVersionComponentsItemProbe
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerReadVersionComponentsItemProbe) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHandlerReadVersionComponentsItemProbe) Get() (v HandlerReadVersionComponentsItemProbe, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHandlerReadVersionComponentsItemProbe) Or(d HandlerReadVersionComponentsItemProbe) HandlerReadVersionComponentsItemProbe {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHandlerReadVersionComponentsItemProbeHTTPGet returns new OptNilHandlerReadVersionComponentsItemProbeHTTPGet with value set to v.
+func NewOptNilHandlerReadVersionComponentsItemProbeHTTPGet(v HandlerReadVersionComponentsItemProbeHTTPGet) OptNilHandlerReadVersionComponentsItemProbeHTTPGet {
+	return OptNilHandlerReadVersionComponentsItemProbeHTTPGet{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHandlerReadVersionComponentsItemProbeHTTPGet is optional nullable HandlerReadVersionComponentsItemProbeHTTPGet.
+type OptNilHandlerReadVersionComponentsItemProbeHTTPGet struct {
+	Value HandlerReadVersionComponentsItemProbeHTTPGet
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHandlerReadVersionComponentsItemProbeHTTPGet was set.
+func (o OptNilHandlerReadVersionComponentsItemProbeHTTPGet) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHandlerReadVersionComponentsItemProbeHTTPGet) Reset() {
+	var v HandlerReadVersionComponentsItemProbeHTTPGet
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHandlerReadVersionComponentsItemProbeHTTPGet) SetTo(v HandlerReadVersionComponentsItemProbeHTTPGet) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilHandlerReadVersionComponentsItemProbeHTTPGet) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilHandlerReadVersionComponentsItemProbeHTTPGet) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HandlerReadVersionComponentsItemProbeHTTPGet
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilHandlerReadVersionComponentsItemProbeHTTPGet) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHandlerReadVersionComponentsItemProbeHTTPGet) Get() (v HandlerReadVersionComponentsItemProbeHTTPGet, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHandlerReadVersionComponentsItemProbeHTTPGet) Or(d HandlerReadVersionComponentsItemProbeHTTPGet) HandlerReadVersionComponentsItemProbeHTTPGet {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -7944,74 +7170,6 @@ func (o OptNilModelErrorsItemLocationType) Get() (v ModelErrorsItemLocationType,
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilModelErrorsItemLocationType) Or(d ModelErrorsItemLocationType) ModelErrorsItemLocationType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilPatchApplicationBodyComponentsItemEnvItemArray returns new OptNilPatchApplicationBodyComponentsItemEnvItemArray with value set to v.
-func NewOptNilPatchApplicationBodyComponentsItemEnvItemArray(v []PatchApplicationBodyComponentsItemEnvItem) OptNilPatchApplicationBodyComponentsItemEnvItemArray {
-	return OptNilPatchApplicationBodyComponentsItemEnvItemArray{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilPatchApplicationBodyComponentsItemEnvItemArray is optional nullable []PatchApplicationBodyComponentsItemEnvItem.
-type OptNilPatchApplicationBodyComponentsItemEnvItemArray struct {
-	Value []PatchApplicationBodyComponentsItemEnvItem
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilPatchApplicationBodyComponentsItemEnvItemArray was set.
-func (o OptNilPatchApplicationBodyComponentsItemEnvItemArray) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilPatchApplicationBodyComponentsItemEnvItemArray) Reset() {
-	var v []PatchApplicationBodyComponentsItemEnvItem
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilPatchApplicationBodyComponentsItemEnvItemArray) SetTo(v []PatchApplicationBodyComponentsItemEnvItem) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilPatchApplicationBodyComponentsItemEnvItemArray) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilPatchApplicationBodyComponentsItemEnvItemArray) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v []PatchApplicationBodyComponentsItemEnvItem
-	o.Value = v
-}
-
-// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilPatchApplicationBodyComponentsItemEnvItemArray) IsEmpty() bool {
-	return !o.Set && !o.Null
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilPatchApplicationBodyComponentsItemEnvItemArray) Get() (v []PatchApplicationBodyComponentsItemEnvItem, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilPatchApplicationBodyComponentsItemEnvItemArray) Or(d []PatchApplicationBodyComponentsItemEnvItem) []PatchApplicationBodyComponentsItemEnvItem {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -8154,57 +7312,57 @@ func (o OptNilPatchApplicationBodyComponentsItemProbeHTTPGet) Or(d PatchApplicat
 	return d
 }
 
-// NewOptNilPostApplicationBodyComponentsItemEnvItemArray returns new OptNilPostApplicationBodyComponentsItemEnvItemArray with value set to v.
-func NewOptNilPostApplicationBodyComponentsItemEnvItemArray(v []PostApplicationBodyComponentsItemEnvItem) OptNilPostApplicationBodyComponentsItemEnvItemArray {
-	return OptNilPostApplicationBodyComponentsItemEnvItemArray{
+// NewOptNilPatchApplicationBodyComponentsItemSecretItemArray returns new OptNilPatchApplicationBodyComponentsItemSecretItemArray with value set to v.
+func NewOptNilPatchApplicationBodyComponentsItemSecretItemArray(v []PatchApplicationBodyComponentsItemSecretItem) OptNilPatchApplicationBodyComponentsItemSecretItemArray {
+	return OptNilPatchApplicationBodyComponentsItemSecretItemArray{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilPostApplicationBodyComponentsItemEnvItemArray is optional nullable []PostApplicationBodyComponentsItemEnvItem.
-type OptNilPostApplicationBodyComponentsItemEnvItemArray struct {
-	Value []PostApplicationBodyComponentsItemEnvItem
+// OptNilPatchApplicationBodyComponentsItemSecretItemArray is optional nullable []PatchApplicationBodyComponentsItemSecretItem.
+type OptNilPatchApplicationBodyComponentsItemSecretItemArray struct {
+	Value []PatchApplicationBodyComponentsItemSecretItem
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilPostApplicationBodyComponentsItemEnvItemArray was set.
-func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilPatchApplicationBodyComponentsItemSecretItemArray was set.
+func (o OptNilPatchApplicationBodyComponentsItemSecretItemArray) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilPostApplicationBodyComponentsItemEnvItemArray) Reset() {
-	var v []PostApplicationBodyComponentsItemEnvItem
+func (o *OptNilPatchApplicationBodyComponentsItemSecretItemArray) Reset() {
+	var v []PatchApplicationBodyComponentsItemSecretItem
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilPostApplicationBodyComponentsItemEnvItemArray) SetTo(v []PostApplicationBodyComponentsItemEnvItem) {
+func (o *OptNilPatchApplicationBodyComponentsItemSecretItemArray) SetTo(v []PatchApplicationBodyComponentsItemSecretItem) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) IsNull() bool { return o.Null }
+func (o OptNilPatchApplicationBodyComponentsItemSecretItemArray) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilPostApplicationBodyComponentsItemEnvItemArray) SetToNull() {
+func (o *OptNilPatchApplicationBodyComponentsItemSecretItemArray) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v []PostApplicationBodyComponentsItemEnvItem
+	var v []PatchApplicationBodyComponentsItemSecretItem
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) IsEmpty() bool {
+func (o OptNilPatchApplicationBodyComponentsItemSecretItemArray) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) Get() (v []PostApplicationBodyComponentsItemEnvItem, ok bool) {
+func (o OptNilPatchApplicationBodyComponentsItemSecretItemArray) Get() (v []PatchApplicationBodyComponentsItemSecretItem, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -8215,64 +7373,64 @@ func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) Get() (v []PostAppl
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) Or(d []PostApplicationBodyComponentsItemEnvItem) []PostApplicationBodyComponentsItemEnvItem {
+func (o OptNilPatchApplicationBodyComponentsItemSecretItemArray) Or(d []PatchApplicationBodyComponentsItemSecretItem) []PatchApplicationBodyComponentsItemSecretItem {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilPostApplicationBodyComponentsItemProbe returns new OptNilPostApplicationBodyComponentsItemProbe with value set to v.
-func NewOptNilPostApplicationBodyComponentsItemProbe(v PostApplicationBodyComponentsItemProbe) OptNilPostApplicationBodyComponentsItemProbe {
-	return OptNilPostApplicationBodyComponentsItemProbe{
+// NewOptNilRequestEnv returns new OptNilRequestEnv with value set to v.
+func NewOptNilRequestEnv(v RequestEnv) OptNilRequestEnv {
+	return OptNilRequestEnv{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilPostApplicationBodyComponentsItemProbe is optional nullable PostApplicationBodyComponentsItemProbe.
-type OptNilPostApplicationBodyComponentsItemProbe struct {
-	Value PostApplicationBodyComponentsItemProbe
+// OptNilRequestEnv is optional nullable RequestEnv.
+type OptNilRequestEnv struct {
+	Value RequestEnv
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilPostApplicationBodyComponentsItemProbe was set.
-func (o OptNilPostApplicationBodyComponentsItemProbe) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilRequestEnv was set.
+func (o OptNilRequestEnv) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilPostApplicationBodyComponentsItemProbe) Reset() {
-	var v PostApplicationBodyComponentsItemProbe
+func (o *OptNilRequestEnv) Reset() {
+	var v RequestEnv
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilPostApplicationBodyComponentsItemProbe) SetTo(v PostApplicationBodyComponentsItemProbe) {
+func (o *OptNilRequestEnv) SetTo(v RequestEnv) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilPostApplicationBodyComponentsItemProbe) IsNull() bool { return o.Null }
+func (o OptNilRequestEnv) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilPostApplicationBodyComponentsItemProbe) SetToNull() {
+func (o *OptNilRequestEnv) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v PostApplicationBodyComponentsItemProbe
+	var v RequestEnv
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilPostApplicationBodyComponentsItemProbe) IsEmpty() bool {
+func (o OptNilRequestEnv) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilPostApplicationBodyComponentsItemProbe) Get() (v PostApplicationBodyComponentsItemProbe, ok bool) {
+func (o OptNilRequestEnv) Get() (v RequestEnv, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -8283,75 +7441,7 @@ func (o OptNilPostApplicationBodyComponentsItemProbe) Get() (v PostApplicationBo
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilPostApplicationBodyComponentsItemProbe) Or(d PostApplicationBodyComponentsItemProbe) PostApplicationBodyComponentsItemProbe {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet returns new OptNilPostApplicationBodyComponentsItemProbeHTTPGet with value set to v.
-func NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(v PostApplicationBodyComponentsItemProbeHTTPGet) OptNilPostApplicationBodyComponentsItemProbeHTTPGet {
-	return OptNilPostApplicationBodyComponentsItemProbeHTTPGet{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilPostApplicationBodyComponentsItemProbeHTTPGet is optional nullable PostApplicationBodyComponentsItemProbeHTTPGet.
-type OptNilPostApplicationBodyComponentsItemProbeHTTPGet struct {
-	Value PostApplicationBodyComponentsItemProbeHTTPGet
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilPostApplicationBodyComponentsItemProbeHTTPGet was set.
-func (o OptNilPostApplicationBodyComponentsItemProbeHTTPGet) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilPostApplicationBodyComponentsItemProbeHTTPGet) Reset() {
-	var v PostApplicationBodyComponentsItemProbeHTTPGet
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilPostApplicationBodyComponentsItemProbeHTTPGet) SetTo(v PostApplicationBodyComponentsItemProbeHTTPGet) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsNull returns true if value is Null.
-func (o OptNilPostApplicationBodyComponentsItemProbeHTTPGet) IsNull() bool { return o.Null }
-
-// SetToNull sets value to null.
-func (o *OptNilPostApplicationBodyComponentsItemProbeHTTPGet) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v PostApplicationBodyComponentsItemProbeHTTPGet
-	o.Value = v
-}
-
-// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilPostApplicationBodyComponentsItemProbeHTTPGet) IsEmpty() bool {
-	return !o.Set && !o.Null
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilPostApplicationBodyComponentsItemProbeHTTPGet) Get() (v PostApplicationBodyComponentsItemProbeHTTPGet, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilPostApplicationBodyComponentsItemProbeHTTPGet) Or(d PostApplicationBodyComponentsItemProbeHTTPGet) PostApplicationBodyComponentsItemProbeHTTPGet {
+func (o OptNilRequestEnv) Or(d RequestEnv) RequestEnv {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -8468,52 +7558,6 @@ func (o OptPatchApplicationBodyComponentsItemDeploySourceContainerRegistry) Get(
 
 // Or returns value if set, or given parameter if does not.
 func (o OptPatchApplicationBodyComponentsItemDeploySourceContainerRegistry) Or(d PatchApplicationBodyComponentsItemDeploySourceContainerRegistry) PatchApplicationBodyComponentsItemDeploySourceContainerRegistry {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry returns new OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry with value set to v.
-func NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(v PostApplicationBodyComponentsItemDeploySourceContainerRegistry) OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry {
-	return OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry is optional PostApplicationBodyComponentsItemDeploySourceContainerRegistry.
-type OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry struct {
-	Value PostApplicationBodyComponentsItemDeploySourceContainerRegistry
-	Set   bool
-}
-
-// IsSet returns true if OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry was set.
-func (o OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) Reset() {
-	var v PostApplicationBodyComponentsItemDeploySourceContainerRegistry
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) SetTo(v PostApplicationBodyComponentsItemDeploySourceContainerRegistry) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) Get() (v PostApplicationBodyComponentsItemDeploySourceContainerRegistry, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) Or(d PostApplicationBodyComponentsItemDeploySourceContainerRegistry) PostApplicationBodyComponentsItemDeploySourceContainerRegistry {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -8735,8 +7779,9 @@ type PatchApplicationBodyComponentsItem struct {
 	MaxMemory PatchApplicationBodyComponentsItemMaxMemory `json:"max_memory"`
 	// コンポーネントを構成するソース.
 	DeploySource PatchApplicationBodyComponentsItemDeploySource `json:"deploy_source"`
-	// コンポーネントに渡す環境変数.
-	Env OptNilPatchApplicationBodyComponentsItemEnvItemArray `json:"env"`
+	Env          OptNilRequestEnv                               `json:"env"`
+	// コンポーネントに渡す環境変数（機密情報の設定に使用可能）.
+	Secret OptNilPatchApplicationBodyComponentsItemSecretItemArray `json:"secret"`
 	// コンポーネントのプローブ設定.
 	Probe OptNilPatchApplicationBodyComponentsItemProbe `json:"probe"`
 }
@@ -8762,8 +7807,13 @@ func (s *PatchApplicationBodyComponentsItem) GetDeploySource() PatchApplicationB
 }
 
 // GetEnv returns the value of Env.
-func (s *PatchApplicationBodyComponentsItem) GetEnv() OptNilPatchApplicationBodyComponentsItemEnvItemArray {
+func (s *PatchApplicationBodyComponentsItem) GetEnv() OptNilRequestEnv {
 	return s.Env
+}
+
+// GetSecret returns the value of Secret.
+func (s *PatchApplicationBodyComponentsItem) GetSecret() OptNilPatchApplicationBodyComponentsItemSecretItemArray {
+	return s.Secret
 }
 
 // GetProbe returns the value of Probe.
@@ -8792,8 +7842,13 @@ func (s *PatchApplicationBodyComponentsItem) SetDeploySource(val PatchApplicatio
 }
 
 // SetEnv sets the value of Env.
-func (s *PatchApplicationBodyComponentsItem) SetEnv(val OptNilPatchApplicationBodyComponentsItemEnvItemArray) {
+func (s *PatchApplicationBodyComponentsItem) SetEnv(val OptNilRequestEnv) {
 	s.Env = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *PatchApplicationBodyComponentsItem) SetSecret(val OptNilPatchApplicationBodyComponentsItemSecretItemArray) {
+	s.Secret = val
 }
 
 // SetProbe sets the value of Probe.
@@ -8888,34 +7943,6 @@ func (s *PatchApplicationBodyComponentsItemDeploySourceContainerRegistry) SetPas
 // SetAction sets the value of Action.
 func (s *PatchApplicationBodyComponentsItemDeploySourceContainerRegistry) SetAction(val OptNilContainerRegistryAction) {
 	s.Action = val
-}
-
-type PatchApplicationBodyComponentsItemEnvItem struct {
-	// 環境変数名。 ただし、K_SERVICE, K_CONFIGURATION, K_REVISION,
-	// PORTは予約済みのため設定不可。.
-	Key OptString `json:"key"`
-	// 環境変数の値.
-	Value OptString `json:"value"`
-}
-
-// GetKey returns the value of Key.
-func (s *PatchApplicationBodyComponentsItemEnvItem) GetKey() OptString {
-	return s.Key
-}
-
-// GetValue returns the value of Value.
-func (s *PatchApplicationBodyComponentsItemEnvItem) GetValue() OptString {
-	return s.Value
-}
-
-// SetKey sets the value of Key.
-func (s *PatchApplicationBodyComponentsItemEnvItem) SetKey(val OptString) {
-	s.Key = val
-}
-
-// SetValue sets the value of Value.
-func (s *PatchApplicationBodyComponentsItemEnvItem) SetValue(val OptString) {
-	s.Value = val
 }
 
 // コンポーネントの最大vCPU数（メモリとの組み合わせで利用できない値もあります）.
@@ -9096,6 +8123,34 @@ func (s *PatchApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetName(val 
 
 // SetValue sets the value of Value.
 func (s *PatchApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
+	s.Value = val
+}
+
+type PatchApplicationBodyComponentsItemSecretItem struct {
+	// 環境変数名。 ただし、K_SERVICE, K_CONFIGURATION, K_REVISION,
+	// PORTは予約済みのため設定不可。.
+	Key string `json:"key"`
+	// 環境変数の値。valueを指定しない場合は、最新のバージョンで保存された値が使用されます。.
+	Value OptString `json:"value"`
+}
+
+// GetKey returns the value of Key.
+func (s *PatchApplicationBodyComponentsItemSecretItem) GetKey() string {
+	return s.Key
+}
+
+// GetValue returns the value of Value.
+func (s *PatchApplicationBodyComponentsItemSecretItem) GetValue() OptString {
+	return s.Value
+}
+
+// SetKey sets the value of Key.
+func (s *PatchApplicationBodyComponentsItemSecretItem) SetKey(val string) {
+	s.Key = val
+}
+
+// SetValue sets the value of Value.
+func (s *PatchApplicationBodyComponentsItemSecretItem) SetValue(val OptString) {
 	s.Value = val
 }
 
@@ -9383,6 +8438,361 @@ func NewModelCloudctrlErrorPatchApplicationNotFound(v ModelCloudctrlError) Patch
 
 func (*PatchApplicationNotFound) patchApplicationRes() {}
 
+// PatchApplicationPacketFilterBadRequest represents sum type.
+type PatchApplicationPacketFilterBadRequest struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationPacketFilterBadRequestType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// PatchApplicationPacketFilterBadRequestType is oneOf type of PatchApplicationPacketFilterBadRequest.
+type PatchApplicationPacketFilterBadRequestType string
+
+// Possible values for PatchApplicationPacketFilterBadRequestType.
+const (
+	ModelDefaultErrorPatchApplicationPacketFilterBadRequest   PatchApplicationPacketFilterBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest PatchApplicationPacketFilterBadRequestType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether PatchApplicationPacketFilterBadRequest is ModelDefaultError.
+func (s PatchApplicationPacketFilterBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorPatchApplicationPacketFilterBadRequest
+}
+
+// IsModelCloudctrlError reports whether PatchApplicationPacketFilterBadRequest is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest
+}
+
+// SetModelDefaultError sets PatchApplicationPacketFilterBadRequest to ModelDefaultError.
+func (s *PatchApplicationPacketFilterBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorPatchApplicationPacketFilterBadRequest
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if PatchApplicationPacketFilterBadRequest is ModelDefaultError.
+func (s PatchApplicationPacketFilterBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorPatchApplicationPacketFilterBadRequest returns new PatchApplicationPacketFilterBadRequest from ModelDefaultError.
+func NewModelDefaultErrorPatchApplicationPacketFilterBadRequest(v ModelDefaultError) PatchApplicationPacketFilterBadRequest {
+	var s PatchApplicationPacketFilterBadRequest
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets PatchApplicationPacketFilterBadRequest to ModelCloudctrlError.
+func (s *PatchApplicationPacketFilterBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchApplicationPacketFilterBadRequest is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorPatchApplicationPacketFilterBadRequest returns new PatchApplicationPacketFilterBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorPatchApplicationPacketFilterBadRequest(v ModelCloudctrlError) PatchApplicationPacketFilterBadRequest {
+	var s PatchApplicationPacketFilterBadRequest
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*PatchApplicationPacketFilterBadRequest) patchApplicationPacketFilterRes() {}
+
+// PatchApplicationPacketFilterForbidden represents sum type.
+type PatchApplicationPacketFilterForbidden struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationPacketFilterForbiddenType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// PatchApplicationPacketFilterForbiddenType is oneOf type of PatchApplicationPacketFilterForbidden.
+type PatchApplicationPacketFilterForbiddenType string
+
+// Possible values for PatchApplicationPacketFilterForbiddenType.
+const (
+	ModelDefaultErrorPatchApplicationPacketFilterForbidden   PatchApplicationPacketFilterForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorPatchApplicationPacketFilterForbidden PatchApplicationPacketFilterForbiddenType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether PatchApplicationPacketFilterForbidden is ModelDefaultError.
+func (s PatchApplicationPacketFilterForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorPatchApplicationPacketFilterForbidden
+}
+
+// IsModelCloudctrlError reports whether PatchApplicationPacketFilterForbidden is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorPatchApplicationPacketFilterForbidden
+}
+
+// SetModelDefaultError sets PatchApplicationPacketFilterForbidden to ModelDefaultError.
+func (s *PatchApplicationPacketFilterForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorPatchApplicationPacketFilterForbidden
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if PatchApplicationPacketFilterForbidden is ModelDefaultError.
+func (s PatchApplicationPacketFilterForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorPatchApplicationPacketFilterForbidden returns new PatchApplicationPacketFilterForbidden from ModelDefaultError.
+func NewModelDefaultErrorPatchApplicationPacketFilterForbidden(v ModelDefaultError) PatchApplicationPacketFilterForbidden {
+	var s PatchApplicationPacketFilterForbidden
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets PatchApplicationPacketFilterForbidden to ModelCloudctrlError.
+func (s *PatchApplicationPacketFilterForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorPatchApplicationPacketFilterForbidden
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchApplicationPacketFilterForbidden is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorPatchApplicationPacketFilterForbidden returns new PatchApplicationPacketFilterForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorPatchApplicationPacketFilterForbidden(v ModelCloudctrlError) PatchApplicationPacketFilterForbidden {
+	var s PatchApplicationPacketFilterForbidden
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*PatchApplicationPacketFilterForbidden) patchApplicationPacketFilterRes() {}
+
+// PatchApplicationPacketFilterInternalServerError represents sum type.
+type PatchApplicationPacketFilterInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationPacketFilterInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// PatchApplicationPacketFilterInternalServerErrorType is oneOf type of PatchApplicationPacketFilterInternalServerError.
+type PatchApplicationPacketFilterInternalServerErrorType string
+
+// Possible values for PatchApplicationPacketFilterInternalServerErrorType.
+const (
+	ModelDefaultErrorPatchApplicationPacketFilterInternalServerError   PatchApplicationPacketFilterInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError PatchApplicationPacketFilterInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether PatchApplicationPacketFilterInternalServerError is ModelDefaultError.
+func (s PatchApplicationPacketFilterInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorPatchApplicationPacketFilterInternalServerError
+}
+
+// IsModelCloudctrlError reports whether PatchApplicationPacketFilterInternalServerError is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError
+}
+
+// SetModelDefaultError sets PatchApplicationPacketFilterInternalServerError to ModelDefaultError.
+func (s *PatchApplicationPacketFilterInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorPatchApplicationPacketFilterInternalServerError
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if PatchApplicationPacketFilterInternalServerError is ModelDefaultError.
+func (s PatchApplicationPacketFilterInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorPatchApplicationPacketFilterInternalServerError returns new PatchApplicationPacketFilterInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorPatchApplicationPacketFilterInternalServerError(v ModelDefaultError) PatchApplicationPacketFilterInternalServerError {
+	var s PatchApplicationPacketFilterInternalServerError
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets PatchApplicationPacketFilterInternalServerError to ModelCloudctrlError.
+func (s *PatchApplicationPacketFilterInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchApplicationPacketFilterInternalServerError is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError returns new PatchApplicationPacketFilterInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError(v ModelCloudctrlError) PatchApplicationPacketFilterInternalServerError {
+	var s PatchApplicationPacketFilterInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*PatchApplicationPacketFilterInternalServerError) patchApplicationPacketFilterRes() {}
+
+// PatchApplicationPacketFilterNotFound represents sum type.
+type PatchApplicationPacketFilterNotFound struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationPacketFilterNotFoundType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// PatchApplicationPacketFilterNotFoundType is oneOf type of PatchApplicationPacketFilterNotFound.
+type PatchApplicationPacketFilterNotFoundType string
+
+// Possible values for PatchApplicationPacketFilterNotFoundType.
+const (
+	ModelDefaultErrorPatchApplicationPacketFilterNotFound   PatchApplicationPacketFilterNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorPatchApplicationPacketFilterNotFound PatchApplicationPacketFilterNotFoundType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether PatchApplicationPacketFilterNotFound is ModelDefaultError.
+func (s PatchApplicationPacketFilterNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorPatchApplicationPacketFilterNotFound
+}
+
+// IsModelCloudctrlError reports whether PatchApplicationPacketFilterNotFound is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorPatchApplicationPacketFilterNotFound
+}
+
+// SetModelDefaultError sets PatchApplicationPacketFilterNotFound to ModelDefaultError.
+func (s *PatchApplicationPacketFilterNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorPatchApplicationPacketFilterNotFound
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if PatchApplicationPacketFilterNotFound is ModelDefaultError.
+func (s PatchApplicationPacketFilterNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorPatchApplicationPacketFilterNotFound returns new PatchApplicationPacketFilterNotFound from ModelDefaultError.
+func NewModelDefaultErrorPatchApplicationPacketFilterNotFound(v ModelDefaultError) PatchApplicationPacketFilterNotFound {
+	var s PatchApplicationPacketFilterNotFound
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets PatchApplicationPacketFilterNotFound to ModelCloudctrlError.
+func (s *PatchApplicationPacketFilterNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorPatchApplicationPacketFilterNotFound
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchApplicationPacketFilterNotFound is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorPatchApplicationPacketFilterNotFound returns new PatchApplicationPacketFilterNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorPatchApplicationPacketFilterNotFound(v ModelCloudctrlError) PatchApplicationPacketFilterNotFound {
+	var s PatchApplicationPacketFilterNotFound
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*PatchApplicationPacketFilterNotFound) patchApplicationPacketFilterRes() {}
+
+// PatchApplicationPacketFilterUnauthorized represents sum type.
+type PatchApplicationPacketFilterUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                PatchApplicationPacketFilterUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// PatchApplicationPacketFilterUnauthorizedType is oneOf type of PatchApplicationPacketFilterUnauthorized.
+type PatchApplicationPacketFilterUnauthorizedType string
+
+// Possible values for PatchApplicationPacketFilterUnauthorizedType.
+const (
+	ModelDefaultErrorPatchApplicationPacketFilterUnauthorized   PatchApplicationPacketFilterUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized PatchApplicationPacketFilterUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether PatchApplicationPacketFilterUnauthorized is ModelDefaultError.
+func (s PatchApplicationPacketFilterUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorPatchApplicationPacketFilterUnauthorized
+}
+
+// IsModelCloudctrlError reports whether PatchApplicationPacketFilterUnauthorized is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized
+}
+
+// SetModelDefaultError sets PatchApplicationPacketFilterUnauthorized to ModelDefaultError.
+func (s *PatchApplicationPacketFilterUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorPatchApplicationPacketFilterUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if PatchApplicationPacketFilterUnauthorized is ModelDefaultError.
+func (s PatchApplicationPacketFilterUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorPatchApplicationPacketFilterUnauthorized returns new PatchApplicationPacketFilterUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorPatchApplicationPacketFilterUnauthorized(v ModelDefaultError) PatchApplicationPacketFilterUnauthorized {
+	var s PatchApplicationPacketFilterUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets PatchApplicationPacketFilterUnauthorized to ModelCloudctrlError.
+func (s *PatchApplicationPacketFilterUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchApplicationPacketFilterUnauthorized is ModelCloudctrlError.
+func (s PatchApplicationPacketFilterUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized returns new PatchApplicationPacketFilterUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized(v ModelCloudctrlError) PatchApplicationPacketFilterUnauthorized {
+	var s PatchApplicationPacketFilterUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*PatchApplicationPacketFilterUnauthorized) patchApplicationPacketFilterRes() {}
+
 // PatchApplicationUnauthorized represents sum type.
 type PatchApplicationUnauthorized struct {
 	// Type selects the active sum variant, switch on this field.
@@ -9454,318 +8864,34 @@ func NewModelCloudctrlErrorPatchApplicationUnauthorized(v ModelCloudctrlError) P
 
 func (*PatchApplicationUnauthorized) patchApplicationRes() {}
 
-// Ref: #/components/schemas/patchPacketFilter
-type PatchPacketFilter struct {
+// Ref: #/components/schemas/patchPacketFilterBody
+type PatchPacketFilterBody struct {
 	// 有効フラグ.
-	IsEnabled OptBool                         `json:"is_enabled"`
-	Settings  []PatchPacketFilterSettingsItem `json:"settings"`
+	IsEnabled OptBool                             `json:"is_enabled"`
+	Settings  []PatchPacketFilterBodySettingsItem `json:"settings"`
 }
 
 // GetIsEnabled returns the value of IsEnabled.
-func (s *PatchPacketFilter) GetIsEnabled() OptBool {
+func (s *PatchPacketFilterBody) GetIsEnabled() OptBool {
 	return s.IsEnabled
 }
 
 // GetSettings returns the value of Settings.
-func (s *PatchPacketFilter) GetSettings() []PatchPacketFilterSettingsItem {
+func (s *PatchPacketFilterBody) GetSettings() []PatchPacketFilterBodySettingsItem {
 	return s.Settings
 }
 
 // SetIsEnabled sets the value of IsEnabled.
-func (s *PatchPacketFilter) SetIsEnabled(val OptBool) {
+func (s *PatchPacketFilterBody) SetIsEnabled(val OptBool) {
 	s.IsEnabled = val
 }
 
 // SetSettings sets the value of Settings.
-func (s *PatchPacketFilter) SetSettings(val []PatchPacketFilterSettingsItem) {
+func (s *PatchPacketFilterBody) SetSettings(val []PatchPacketFilterBodySettingsItem) {
 	s.Settings = val
 }
 
-// PatchPacketFilterBadRequest represents sum type.
-type PatchPacketFilterBadRequest struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PatchPacketFilterBadRequestType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PatchPacketFilterBadRequestType is oneOf type of PatchPacketFilterBadRequest.
-type PatchPacketFilterBadRequestType string
-
-// Possible values for PatchPacketFilterBadRequestType.
-const (
-	ModelDefaultErrorPatchPacketFilterBadRequest   PatchPacketFilterBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorPatchPacketFilterBadRequest PatchPacketFilterBadRequestType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PatchPacketFilterBadRequest is ModelDefaultError.
-func (s PatchPacketFilterBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPatchPacketFilterBadRequest
-}
-
-// IsModelCloudctrlError reports whether PatchPacketFilterBadRequest is ModelCloudctrlError.
-func (s PatchPacketFilterBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPatchPacketFilterBadRequest
-}
-
-// SetModelDefaultError sets PatchPacketFilterBadRequest to ModelDefaultError.
-func (s *PatchPacketFilterBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPatchPacketFilterBadRequest
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PatchPacketFilterBadRequest is ModelDefaultError.
-func (s PatchPacketFilterBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPatchPacketFilterBadRequest returns new PatchPacketFilterBadRequest from ModelDefaultError.
-func NewModelDefaultErrorPatchPacketFilterBadRequest(v ModelDefaultError) PatchPacketFilterBadRequest {
-	var s PatchPacketFilterBadRequest
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PatchPacketFilterBadRequest to ModelCloudctrlError.
-func (s *PatchPacketFilterBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPatchPacketFilterBadRequest
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchPacketFilterBadRequest is ModelCloudctrlError.
-func (s PatchPacketFilterBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPatchPacketFilterBadRequest returns new PatchPacketFilterBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorPatchPacketFilterBadRequest(v ModelCloudctrlError) PatchPacketFilterBadRequest {
-	var s PatchPacketFilterBadRequest
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PatchPacketFilterBadRequest) patchPacketFilterRes() {}
-
-// PatchPacketFilterForbidden represents sum type.
-type PatchPacketFilterForbidden struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PatchPacketFilterForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PatchPacketFilterForbiddenType is oneOf type of PatchPacketFilterForbidden.
-type PatchPacketFilterForbiddenType string
-
-// Possible values for PatchPacketFilterForbiddenType.
-const (
-	ModelDefaultErrorPatchPacketFilterForbidden   PatchPacketFilterForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorPatchPacketFilterForbidden PatchPacketFilterForbiddenType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PatchPacketFilterForbidden is ModelDefaultError.
-func (s PatchPacketFilterForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPatchPacketFilterForbidden
-}
-
-// IsModelCloudctrlError reports whether PatchPacketFilterForbidden is ModelCloudctrlError.
-func (s PatchPacketFilterForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPatchPacketFilterForbidden
-}
-
-// SetModelDefaultError sets PatchPacketFilterForbidden to ModelDefaultError.
-func (s *PatchPacketFilterForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPatchPacketFilterForbidden
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PatchPacketFilterForbidden is ModelDefaultError.
-func (s PatchPacketFilterForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPatchPacketFilterForbidden returns new PatchPacketFilterForbidden from ModelDefaultError.
-func NewModelDefaultErrorPatchPacketFilterForbidden(v ModelDefaultError) PatchPacketFilterForbidden {
-	var s PatchPacketFilterForbidden
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PatchPacketFilterForbidden to ModelCloudctrlError.
-func (s *PatchPacketFilterForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPatchPacketFilterForbidden
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchPacketFilterForbidden is ModelCloudctrlError.
-func (s PatchPacketFilterForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPatchPacketFilterForbidden returns new PatchPacketFilterForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorPatchPacketFilterForbidden(v ModelCloudctrlError) PatchPacketFilterForbidden {
-	var s PatchPacketFilterForbidden
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PatchPacketFilterForbidden) patchPacketFilterRes() {}
-
-// PatchPacketFilterInternalServerError represents sum type.
-type PatchPacketFilterInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PatchPacketFilterInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PatchPacketFilterInternalServerErrorType is oneOf type of PatchPacketFilterInternalServerError.
-type PatchPacketFilterInternalServerErrorType string
-
-// Possible values for PatchPacketFilterInternalServerErrorType.
-const (
-	ModelDefaultErrorPatchPacketFilterInternalServerError   PatchPacketFilterInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorPatchPacketFilterInternalServerError PatchPacketFilterInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PatchPacketFilterInternalServerError is ModelDefaultError.
-func (s PatchPacketFilterInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPatchPacketFilterInternalServerError
-}
-
-// IsModelCloudctrlError reports whether PatchPacketFilterInternalServerError is ModelCloudctrlError.
-func (s PatchPacketFilterInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPatchPacketFilterInternalServerError
-}
-
-// SetModelDefaultError sets PatchPacketFilterInternalServerError to ModelDefaultError.
-func (s *PatchPacketFilterInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPatchPacketFilterInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PatchPacketFilterInternalServerError is ModelDefaultError.
-func (s PatchPacketFilterInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPatchPacketFilterInternalServerError returns new PatchPacketFilterInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorPatchPacketFilterInternalServerError(v ModelDefaultError) PatchPacketFilterInternalServerError {
-	var s PatchPacketFilterInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PatchPacketFilterInternalServerError to ModelCloudctrlError.
-func (s *PatchPacketFilterInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPatchPacketFilterInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchPacketFilterInternalServerError is ModelCloudctrlError.
-func (s PatchPacketFilterInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPatchPacketFilterInternalServerError returns new PatchPacketFilterInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorPatchPacketFilterInternalServerError(v ModelCloudctrlError) PatchPacketFilterInternalServerError {
-	var s PatchPacketFilterInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PatchPacketFilterInternalServerError) patchPacketFilterRes() {}
-
-// PatchPacketFilterNotFound represents sum type.
-type PatchPacketFilterNotFound struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PatchPacketFilterNotFoundType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PatchPacketFilterNotFoundType is oneOf type of PatchPacketFilterNotFound.
-type PatchPacketFilterNotFoundType string
-
-// Possible values for PatchPacketFilterNotFoundType.
-const (
-	ModelDefaultErrorPatchPacketFilterNotFound   PatchPacketFilterNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorPatchPacketFilterNotFound PatchPacketFilterNotFoundType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PatchPacketFilterNotFound is ModelDefaultError.
-func (s PatchPacketFilterNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPatchPacketFilterNotFound
-}
-
-// IsModelCloudctrlError reports whether PatchPacketFilterNotFound is ModelCloudctrlError.
-func (s PatchPacketFilterNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPatchPacketFilterNotFound
-}
-
-// SetModelDefaultError sets PatchPacketFilterNotFound to ModelDefaultError.
-func (s *PatchPacketFilterNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPatchPacketFilterNotFound
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PatchPacketFilterNotFound is ModelDefaultError.
-func (s PatchPacketFilterNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPatchPacketFilterNotFound returns new PatchPacketFilterNotFound from ModelDefaultError.
-func NewModelDefaultErrorPatchPacketFilterNotFound(v ModelDefaultError) PatchPacketFilterNotFound {
-	var s PatchPacketFilterNotFound
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PatchPacketFilterNotFound to ModelCloudctrlError.
-func (s *PatchPacketFilterNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPatchPacketFilterNotFound
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchPacketFilterNotFound is ModelCloudctrlError.
-func (s PatchPacketFilterNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPatchPacketFilterNotFound returns new PatchPacketFilterNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorPatchPacketFilterNotFound(v ModelCloudctrlError) PatchPacketFilterNotFound {
-	var s PatchPacketFilterNotFound
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PatchPacketFilterNotFound) patchPacketFilterRes() {}
-
-type PatchPacketFilterSettingsItem struct {
+type PatchPacketFilterBodySettingsItem struct {
 	// 送信元IPv4アドレス.
 	FromIP string `json:"from_ip"`
 	// IPv4アドレスprefix長.
@@ -9773,1613 +8899,2587 @@ type PatchPacketFilterSettingsItem struct {
 }
 
 // GetFromIP returns the value of FromIP.
-func (s *PatchPacketFilterSettingsItem) GetFromIP() string {
+func (s *PatchPacketFilterBodySettingsItem) GetFromIP() string {
 	return s.FromIP
 }
 
 // GetFromIPPrefixLength returns the value of FromIPPrefixLength.
-func (s *PatchPacketFilterSettingsItem) GetFromIPPrefixLength() int {
+func (s *PatchPacketFilterBodySettingsItem) GetFromIPPrefixLength() int {
 	return s.FromIPPrefixLength
 }
 
 // SetFromIP sets the value of FromIP.
-func (s *PatchPacketFilterSettingsItem) SetFromIP(val string) {
+func (s *PatchPacketFilterBodySettingsItem) SetFromIP(val string) {
 	s.FromIP = val
 }
 
 // SetFromIPPrefixLength sets the value of FromIPPrefixLength.
-func (s *PatchPacketFilterSettingsItem) SetFromIPPrefixLength(val int) {
+func (s *PatchPacketFilterBodySettingsItem) SetFromIPPrefixLength(val int) {
 	s.FromIPPrefixLength = val
 }
 
-// PatchPacketFilterUnauthorized represents sum type.
-type PatchPacketFilterUnauthorized struct {
+// ReadApplicationBadRequest represents sum type.
+type ReadApplicationBadRequest struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                PatchPacketFilterUnauthorizedType
+	Type                ReadApplicationBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// PatchPacketFilterUnauthorizedType is oneOf type of PatchPacketFilterUnauthorized.
-type PatchPacketFilterUnauthorizedType string
+// ReadApplicationBadRequestType is oneOf type of ReadApplicationBadRequest.
+type ReadApplicationBadRequestType string
 
-// Possible values for PatchPacketFilterUnauthorizedType.
+// Possible values for ReadApplicationBadRequestType.
 const (
-	ModelDefaultErrorPatchPacketFilterUnauthorized   PatchPacketFilterUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorPatchPacketFilterUnauthorized PatchPacketFilterUnauthorizedType = "ModelCloudctrlError"
+	ModelDefaultErrorReadApplicationBadRequest   ReadApplicationBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationBadRequest ReadApplicationBadRequestType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether PatchPacketFilterUnauthorized is ModelDefaultError.
-func (s PatchPacketFilterUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPatchPacketFilterUnauthorized
+// IsModelDefaultError reports whether ReadApplicationBadRequest is ModelDefaultError.
+func (s ReadApplicationBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationBadRequest
 }
 
-// IsModelCloudctrlError reports whether PatchPacketFilterUnauthorized is ModelCloudctrlError.
-func (s PatchPacketFilterUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPatchPacketFilterUnauthorized
+// IsModelCloudctrlError reports whether ReadApplicationBadRequest is ModelCloudctrlError.
+func (s ReadApplicationBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationBadRequest
 }
 
-// SetModelDefaultError sets PatchPacketFilterUnauthorized to ModelDefaultError.
-func (s *PatchPacketFilterUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPatchPacketFilterUnauthorized
+// SetModelDefaultError sets ReadApplicationBadRequest to ModelDefaultError.
+func (s *ReadApplicationBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationBadRequest
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if PatchPacketFilterUnauthorized is ModelDefaultError.
-func (s PatchPacketFilterUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationBadRequest is ModelDefaultError.
+func (s ReadApplicationBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorPatchPacketFilterUnauthorized returns new PatchPacketFilterUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorPatchPacketFilterUnauthorized(v ModelDefaultError) PatchPacketFilterUnauthorized {
-	var s PatchPacketFilterUnauthorized
+// NewModelDefaultErrorReadApplicationBadRequest returns new ReadApplicationBadRequest from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationBadRequest(v ModelDefaultError) ReadApplicationBadRequest {
+	var s ReadApplicationBadRequest
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets PatchPacketFilterUnauthorized to ModelCloudctrlError.
-func (s *PatchPacketFilterUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPatchPacketFilterUnauthorized
+// SetModelCloudctrlError sets ReadApplicationBadRequest to ModelCloudctrlError.
+func (s *ReadApplicationBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationBadRequest
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PatchPacketFilterUnauthorized is ModelCloudctrlError.
-func (s PatchPacketFilterUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationBadRequest is ModelCloudctrlError.
+func (s ReadApplicationBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorPatchPacketFilterUnauthorized returns new PatchPacketFilterUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorPatchPacketFilterUnauthorized(v ModelCloudctrlError) PatchPacketFilterUnauthorized {
-	var s PatchPacketFilterUnauthorized
+// NewModelCloudctrlErrorReadApplicationBadRequest returns new ReadApplicationBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationBadRequest(v ModelCloudctrlError) ReadApplicationBadRequest {
+	var s ReadApplicationBadRequest
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*PatchPacketFilterUnauthorized) patchPacketFilterRes() {}
+func (*ReadApplicationBadRequest) readApplicationRes() {}
 
-// PostApplicationBadRequest represents sum type.
-type PostApplicationBadRequest struct {
+// ReadApplicationForbidden represents sum type.
+type ReadApplicationForbidden struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                PostApplicationBadRequestType
+	Type                ReadApplicationForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// PostApplicationBadRequestType is oneOf type of PostApplicationBadRequest.
-type PostApplicationBadRequestType string
+// ReadApplicationForbiddenType is oneOf type of ReadApplicationForbidden.
+type ReadApplicationForbiddenType string
 
-// Possible values for PostApplicationBadRequestType.
+// Possible values for ReadApplicationForbiddenType.
 const (
-	ModelDefaultErrorPostApplicationBadRequest   PostApplicationBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorPostApplicationBadRequest PostApplicationBadRequestType = "ModelCloudctrlError"
+	ModelDefaultErrorReadApplicationForbidden   ReadApplicationForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationForbidden ReadApplicationForbiddenType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether PostApplicationBadRequest is ModelDefaultError.
-func (s PostApplicationBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostApplicationBadRequest
+// IsModelDefaultError reports whether ReadApplicationForbidden is ModelDefaultError.
+func (s ReadApplicationForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationForbidden
 }
 
-// IsModelCloudctrlError reports whether PostApplicationBadRequest is ModelCloudctrlError.
-func (s PostApplicationBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostApplicationBadRequest
+// IsModelCloudctrlError reports whether ReadApplicationForbidden is ModelCloudctrlError.
+func (s ReadApplicationForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationForbidden
 }
 
-// SetModelDefaultError sets PostApplicationBadRequest to ModelDefaultError.
-func (s *PostApplicationBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostApplicationBadRequest
+// SetModelDefaultError sets ReadApplicationForbidden to ModelDefaultError.
+func (s *ReadApplicationForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationForbidden
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostApplicationBadRequest is ModelDefaultError.
-func (s PostApplicationBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationForbidden is ModelDefaultError.
+func (s ReadApplicationForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorPostApplicationBadRequest returns new PostApplicationBadRequest from ModelDefaultError.
-func NewModelDefaultErrorPostApplicationBadRequest(v ModelDefaultError) PostApplicationBadRequest {
-	var s PostApplicationBadRequest
+// NewModelDefaultErrorReadApplicationForbidden returns new ReadApplicationForbidden from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationForbidden(v ModelDefaultError) ReadApplicationForbidden {
+	var s ReadApplicationForbidden
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets PostApplicationBadRequest to ModelCloudctrlError.
-func (s *PostApplicationBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostApplicationBadRequest
+// SetModelCloudctrlError sets ReadApplicationForbidden to ModelCloudctrlError.
+func (s *ReadApplicationForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationForbidden
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostApplicationBadRequest is ModelCloudctrlError.
-func (s PostApplicationBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationForbidden is ModelCloudctrlError.
+func (s ReadApplicationForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorPostApplicationBadRequest returns new PostApplicationBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostApplicationBadRequest(v ModelCloudctrlError) PostApplicationBadRequest {
-	var s PostApplicationBadRequest
+// NewModelCloudctrlErrorReadApplicationForbidden returns new ReadApplicationForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationForbidden(v ModelCloudctrlError) ReadApplicationForbidden {
+	var s ReadApplicationForbidden
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*PostApplicationBadRequest) postApplicationRes() {}
+func (*ReadApplicationForbidden) readApplicationRes() {}
 
-// Ref: #/components/schemas/postApplicationBody
-type PostApplicationBody struct {
-	// アプリケーション名.
-	Name string `json:"name"`
-	// アプリケーションの公開URLにアクセスして、インスタンスが起動してからレスポンスが返るまでの時間制限.
-	TimeoutSeconds int `json:"timeout_seconds"`
-	// アプリケーションがリクエストを待ち受けるポート番号。 ただし、8012,
-	// 8013, 8022, 9090, 9091, 8008 は予約済みのため設定不可。.
-	Port int `json:"port"`
-	// アプリケーション全体の最小スケール数.
-	MinScale int `json:"min_scale"`
-	// アプリケーション全体の最大スケール数.
-	MaxScale int `json:"max_scale"`
-	// アプリケーションのスケールの閾値の目安となる同時リクエスト数.
-	ScaleTargetConcurrency OptInt `json:"scale_target_concurrency"`
-	// アプリケーションのコンポーネント情報.
-	Components []PostApplicationBodyComponentsItem `json:"components"`
+// ReadApplicationInternalServerError represents sum type.
+type ReadApplicationInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
 }
 
-// GetName returns the value of Name.
-func (s *PostApplicationBody) GetName() string {
-	return s.Name
+// ReadApplicationInternalServerErrorType is oneOf type of ReadApplicationInternalServerError.
+type ReadApplicationInternalServerErrorType string
+
+// Possible values for ReadApplicationInternalServerErrorType.
+const (
+	ModelDefaultErrorReadApplicationInternalServerError   ReadApplicationInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationInternalServerError ReadApplicationInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationInternalServerError is ModelDefaultError.
+func (s ReadApplicationInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationInternalServerError
 }
 
-// GetTimeoutSeconds returns the value of TimeoutSeconds.
-func (s *PostApplicationBody) GetTimeoutSeconds() int {
-	return s.TimeoutSeconds
+// IsModelCloudctrlError reports whether ReadApplicationInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationInternalServerError
 }
 
-// GetPort returns the value of Port.
-func (s *PostApplicationBody) GetPort() int {
-	return s.Port
+// SetModelDefaultError sets ReadApplicationInternalServerError to ModelDefaultError.
+func (s *ReadApplicationInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationInternalServerError
+	s.ModelDefaultError = v
 }
 
-// GetMinScale returns the value of MinScale.
-func (s *PostApplicationBody) GetMinScale() int {
-	return s.MinScale
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationInternalServerError is ModelDefaultError.
+func (s ReadApplicationInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
 }
 
-// GetMaxScale returns the value of MaxScale.
-func (s *PostApplicationBody) GetMaxScale() int {
-	return s.MaxScale
+// NewModelDefaultErrorReadApplicationInternalServerError returns new ReadApplicationInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationInternalServerError(v ModelDefaultError) ReadApplicationInternalServerError {
+	var s ReadApplicationInternalServerError
+	s.SetModelDefaultError(v)
+	return s
 }
 
-// GetScaleTargetConcurrency returns the value of ScaleTargetConcurrency.
-func (s *PostApplicationBody) GetScaleTargetConcurrency() OptInt {
-	return s.ScaleTargetConcurrency
+// SetModelCloudctrlError sets ReadApplicationInternalServerError to ModelCloudctrlError.
+func (s *ReadApplicationInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationInternalServerError
+	s.ModelCloudctrlError = v
 }
 
-// GetComponents returns the value of Components.
-func (s *PostApplicationBody) GetComponents() []PostApplicationBodyComponentsItem {
-	return s.Components
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
 }
 
-// SetName sets the value of Name.
-func (s *PostApplicationBody) SetName(val string) {
-	s.Name = val
+// NewModelCloudctrlErrorReadApplicationInternalServerError returns new ReadApplicationInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationInternalServerError(v ModelCloudctrlError) ReadApplicationInternalServerError {
+	var s ReadApplicationInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
 }
 
-// SetTimeoutSeconds sets the value of TimeoutSeconds.
-func (s *PostApplicationBody) SetTimeoutSeconds(val int) {
-	s.TimeoutSeconds = val
+func (*ReadApplicationInternalServerError) readApplicationRes() {}
+
+// ReadApplicationNotFound represents sum type.
+type ReadApplicationNotFound struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationNotFoundType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
 }
 
-// SetPort sets the value of Port.
-func (s *PostApplicationBody) SetPort(val int) {
-	s.Port = val
+// ReadApplicationNotFoundType is oneOf type of ReadApplicationNotFound.
+type ReadApplicationNotFoundType string
+
+// Possible values for ReadApplicationNotFoundType.
+const (
+	ModelDefaultErrorReadApplicationNotFound   ReadApplicationNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationNotFound ReadApplicationNotFoundType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationNotFound is ModelDefaultError.
+func (s ReadApplicationNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationNotFound
 }
 
-// SetMinScale sets the value of MinScale.
-func (s *PostApplicationBody) SetMinScale(val int) {
-	s.MinScale = val
+// IsModelCloudctrlError reports whether ReadApplicationNotFound is ModelCloudctrlError.
+func (s ReadApplicationNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationNotFound
 }
 
-// SetMaxScale sets the value of MaxScale.
-func (s *PostApplicationBody) SetMaxScale(val int) {
-	s.MaxScale = val
+// SetModelDefaultError sets ReadApplicationNotFound to ModelDefaultError.
+func (s *ReadApplicationNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationNotFound
+	s.ModelDefaultError = v
 }
 
-// SetScaleTargetConcurrency sets the value of ScaleTargetConcurrency.
-func (s *PostApplicationBody) SetScaleTargetConcurrency(val OptInt) {
-	s.ScaleTargetConcurrency = val
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationNotFound is ModelDefaultError.
+func (s ReadApplicationNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
 }
 
-// SetComponents sets the value of Components.
-func (s *PostApplicationBody) SetComponents(val []PostApplicationBodyComponentsItem) {
-	s.Components = val
+// NewModelDefaultErrorReadApplicationNotFound returns new ReadApplicationNotFound from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationNotFound(v ModelDefaultError) ReadApplicationNotFound {
+	var s ReadApplicationNotFound
+	s.SetModelDefaultError(v)
+	return s
 }
 
-type PostApplicationBodyComponentsItem struct {
-	// コンポーネント名.
-	Name string `json:"name"`
-	// コンポーネントの最大vCPU数（メモリとの組み合わせで利用できない値もあります）.
-	MaxCPU PostApplicationBodyComponentsItemMaxCPU `json:"max_cpu"`
-	// コンポーネントの最大メモリ（vCPUとの組み合わせで利用できない値もあります）.
-	MaxMemory PostApplicationBodyComponentsItemMaxMemory `json:"max_memory"`
-	// コンポーネントを構成するソース.
-	DeploySource PostApplicationBodyComponentsItemDeploySource `json:"deploy_source"`
-	// コンポーネントに渡す環境変数.
-	Env OptNilPostApplicationBodyComponentsItemEnvItemArray `json:"env"`
-	// コンポーネントのプローブ設定.
-	Probe OptNilPostApplicationBodyComponentsItemProbe `json:"probe"`
+// SetModelCloudctrlError sets ReadApplicationNotFound to ModelCloudctrlError.
+func (s *ReadApplicationNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationNotFound
+	s.ModelCloudctrlError = v
 }
 
-// GetName returns the value of Name.
-func (s *PostApplicationBodyComponentsItem) GetName() string {
-	return s.Name
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationNotFound is ModelCloudctrlError.
+func (s ReadApplicationNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
 }
 
-// GetMaxCPU returns the value of MaxCPU.
-func (s *PostApplicationBodyComponentsItem) GetMaxCPU() PostApplicationBodyComponentsItemMaxCPU {
-	return s.MaxCPU
+// NewModelCloudctrlErrorReadApplicationNotFound returns new ReadApplicationNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationNotFound(v ModelCloudctrlError) ReadApplicationNotFound {
+	var s ReadApplicationNotFound
+	s.SetModelCloudctrlError(v)
+	return s
 }
 
-// GetMaxMemory returns the value of MaxMemory.
-func (s *PostApplicationBodyComponentsItem) GetMaxMemory() PostApplicationBodyComponentsItemMaxMemory {
-	return s.MaxMemory
+func (*ReadApplicationNotFound) readApplicationRes() {}
+
+// ReadApplicationPacketFilterBadRequest represents sum type.
+type ReadApplicationPacketFilterBadRequest struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationPacketFilterBadRequestType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
 }
 
-// GetDeploySource returns the value of DeploySource.
-func (s *PostApplicationBodyComponentsItem) GetDeploySource() PostApplicationBodyComponentsItemDeploySource {
-	return s.DeploySource
+// ReadApplicationPacketFilterBadRequestType is oneOf type of ReadApplicationPacketFilterBadRequest.
+type ReadApplicationPacketFilterBadRequestType string
+
+// Possible values for ReadApplicationPacketFilterBadRequestType.
+const (
+	ModelDefaultErrorReadApplicationPacketFilterBadRequest   ReadApplicationPacketFilterBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationPacketFilterBadRequest ReadApplicationPacketFilterBadRequestType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationPacketFilterBadRequest is ModelDefaultError.
+func (s ReadApplicationPacketFilterBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationPacketFilterBadRequest
 }
 
-// GetEnv returns the value of Env.
-func (s *PostApplicationBodyComponentsItem) GetEnv() OptNilPostApplicationBodyComponentsItemEnvItemArray {
-	return s.Env
+// IsModelCloudctrlError reports whether ReadApplicationPacketFilterBadRequest is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationPacketFilterBadRequest
 }
 
-// GetProbe returns the value of Probe.
-func (s *PostApplicationBodyComponentsItem) GetProbe() OptNilPostApplicationBodyComponentsItemProbe {
-	return s.Probe
+// SetModelDefaultError sets ReadApplicationPacketFilterBadRequest to ModelDefaultError.
+func (s *ReadApplicationPacketFilterBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationPacketFilterBadRequest
+	s.ModelDefaultError = v
 }
 
-// SetName sets the value of Name.
-func (s *PostApplicationBodyComponentsItem) SetName(val string) {
-	s.Name = val
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationPacketFilterBadRequest is ModelDefaultError.
+func (s ReadApplicationPacketFilterBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
 }
 
-// SetMaxCPU sets the value of MaxCPU.
-func (s *PostApplicationBodyComponentsItem) SetMaxCPU(val PostApplicationBodyComponentsItemMaxCPU) {
-	s.MaxCPU = val
+// NewModelDefaultErrorReadApplicationPacketFilterBadRequest returns new ReadApplicationPacketFilterBadRequest from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationPacketFilterBadRequest(v ModelDefaultError) ReadApplicationPacketFilterBadRequest {
+	var s ReadApplicationPacketFilterBadRequest
+	s.SetModelDefaultError(v)
+	return s
 }
 
-// SetMaxMemory sets the value of MaxMemory.
-func (s *PostApplicationBodyComponentsItem) SetMaxMemory(val PostApplicationBodyComponentsItemMaxMemory) {
-	s.MaxMemory = val
+// SetModelCloudctrlError sets ReadApplicationPacketFilterBadRequest to ModelCloudctrlError.
+func (s *ReadApplicationPacketFilterBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationPacketFilterBadRequest
+	s.ModelCloudctrlError = v
 }
 
-// SetDeploySource sets the value of DeploySource.
-func (s *PostApplicationBodyComponentsItem) SetDeploySource(val PostApplicationBodyComponentsItemDeploySource) {
-	s.DeploySource = val
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationPacketFilterBadRequest is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
 }
 
-// SetEnv sets the value of Env.
-func (s *PostApplicationBodyComponentsItem) SetEnv(val OptNilPostApplicationBodyComponentsItemEnvItemArray) {
-	s.Env = val
+// NewModelCloudctrlErrorReadApplicationPacketFilterBadRequest returns new ReadApplicationPacketFilterBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationPacketFilterBadRequest(v ModelCloudctrlError) ReadApplicationPacketFilterBadRequest {
+	var s ReadApplicationPacketFilterBadRequest
+	s.SetModelCloudctrlError(v)
+	return s
 }
 
-// SetProbe sets the value of Probe.
-func (s *PostApplicationBodyComponentsItem) SetProbe(val OptNilPostApplicationBodyComponentsItemProbe) {
-	s.Probe = val
+func (*ReadApplicationPacketFilterBadRequest) readApplicationPacketFilterRes() {}
+
+// ReadApplicationPacketFilterForbidden represents sum type.
+type ReadApplicationPacketFilterForbidden struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationPacketFilterForbiddenType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
 }
 
-// コンポーネントを構成するソース.
-type PostApplicationBodyComponentsItemDeploySource struct {
-	// コンテナレジストリ 以下のレジストリを利用できます。
-	//
-	//  - さくらのクラウドで提供中のコンテナレジストリ
-	//  - Docker Hub
-	//  - GitHub Container Registry
-	ContainerRegistry OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry `json:"container_registry"`
+// ReadApplicationPacketFilterForbiddenType is oneOf type of ReadApplicationPacketFilterForbidden.
+type ReadApplicationPacketFilterForbiddenType string
+
+// Possible values for ReadApplicationPacketFilterForbiddenType.
+const (
+	ModelDefaultErrorReadApplicationPacketFilterForbidden   ReadApplicationPacketFilterForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationPacketFilterForbidden ReadApplicationPacketFilterForbiddenType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationPacketFilterForbidden is ModelDefaultError.
+func (s ReadApplicationPacketFilterForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationPacketFilterForbidden
 }
 
-// GetContainerRegistry returns the value of ContainerRegistry.
-func (s *PostApplicationBodyComponentsItemDeploySource) GetContainerRegistry() OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry {
-	return s.ContainerRegistry
+// IsModelCloudctrlError reports whether ReadApplicationPacketFilterForbidden is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationPacketFilterForbidden
 }
 
-// SetContainerRegistry sets the value of ContainerRegistry.
-func (s *PostApplicationBodyComponentsItemDeploySource) SetContainerRegistry(val OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) {
-	s.ContainerRegistry = val
+// SetModelDefaultError sets ReadApplicationPacketFilterForbidden to ModelDefaultError.
+func (s *ReadApplicationPacketFilterForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationPacketFilterForbidden
+	s.ModelDefaultError = v
 }
 
-// コンテナレジストリ 以下のレジストリを利用できます。
-//
-//   - さくらのクラウドで提供中のコンテナレジストリ
-//   - Docker Hub
-//   - GitHub Container Registry
-type PostApplicationBodyComponentsItemDeploySourceContainerRegistry struct {
-	// コンテナイメージ名.
-	Image string `json:"image"`
-	// コンテナレジストリのサーバー名（認証が必要な場合は入力してください）
-	// Docker Hub利用時は `index.docker.io` を指定してください。.
-	Server OptNilString `json:"server"`
-	// コンテナレジストリのユーザー名（認証が必要な場合は入力してください）.
-	Username OptNilString `json:"username"`
-	// コンテナレジストリのパスワード（認証が必要な場合は入力してください）
-	// ※ 認証にトークンを使用する場合は、この欄に入力してください。.
-	Password OptNilString `json:"password"`
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationPacketFilterForbidden is ModelDefaultError.
+func (s ReadApplicationPacketFilterForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
 }
 
-// GetImage returns the value of Image.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) GetImage() string {
-	return s.Image
+// NewModelDefaultErrorReadApplicationPacketFilterForbidden returns new ReadApplicationPacketFilterForbidden from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationPacketFilterForbidden(v ModelDefaultError) ReadApplicationPacketFilterForbidden {
+	var s ReadApplicationPacketFilterForbidden
+	s.SetModelDefaultError(v)
+	return s
 }
 
-// GetServer returns the value of Server.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) GetServer() OptNilString {
-	return s.Server
+// SetModelCloudctrlError sets ReadApplicationPacketFilterForbidden to ModelCloudctrlError.
+func (s *ReadApplicationPacketFilterForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationPacketFilterForbidden
+	s.ModelCloudctrlError = v
 }
 
-// GetUsername returns the value of Username.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) GetUsername() OptNilString {
-	return s.Username
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationPacketFilterForbidden is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
 }
 
-// GetPassword returns the value of Password.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) GetPassword() OptNilString {
-	return s.Password
+// NewModelCloudctrlErrorReadApplicationPacketFilterForbidden returns new ReadApplicationPacketFilterForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationPacketFilterForbidden(v ModelCloudctrlError) ReadApplicationPacketFilterForbidden {
+	var s ReadApplicationPacketFilterForbidden
+	s.SetModelCloudctrlError(v)
+	return s
 }
 
-// SetImage sets the value of Image.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) SetImage(val string) {
-	s.Image = val
+func (*ReadApplicationPacketFilterForbidden) readApplicationPacketFilterRes() {}
+
+// ReadApplicationPacketFilterInternalServerError represents sum type.
+type ReadApplicationPacketFilterInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationPacketFilterInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
 }
 
-// SetServer sets the value of Server.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) SetServer(val OptNilString) {
-	s.Server = val
+// ReadApplicationPacketFilterInternalServerErrorType is oneOf type of ReadApplicationPacketFilterInternalServerError.
+type ReadApplicationPacketFilterInternalServerErrorType string
+
+// Possible values for ReadApplicationPacketFilterInternalServerErrorType.
+const (
+	ModelDefaultErrorReadApplicationPacketFilterInternalServerError   ReadApplicationPacketFilterInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError ReadApplicationPacketFilterInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationPacketFilterInternalServerError is ModelDefaultError.
+func (s ReadApplicationPacketFilterInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationPacketFilterInternalServerError
 }
 
-// SetUsername sets the value of Username.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) SetUsername(val OptNilString) {
-	s.Username = val
+// IsModelCloudctrlError reports whether ReadApplicationPacketFilterInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError
 }
 
-// SetPassword sets the value of Password.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) SetPassword(val OptNilString) {
-	s.Password = val
+// SetModelDefaultError sets ReadApplicationPacketFilterInternalServerError to ModelDefaultError.
+func (s *ReadApplicationPacketFilterInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationPacketFilterInternalServerError
+	s.ModelDefaultError = v
 }
 
-type PostApplicationBodyComponentsItemEnvItem struct {
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationPacketFilterInternalServerError is ModelDefaultError.
+func (s ReadApplicationPacketFilterInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationPacketFilterInternalServerError returns new ReadApplicationPacketFilterInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationPacketFilterInternalServerError(v ModelDefaultError) ReadApplicationPacketFilterInternalServerError {
+	var s ReadApplicationPacketFilterInternalServerError
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationPacketFilterInternalServerError to ModelCloudctrlError.
+func (s *ReadApplicationPacketFilterInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationPacketFilterInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationPacketFilterInternalServerError returns new ReadApplicationPacketFilterInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationPacketFilterInternalServerError(v ModelCloudctrlError) ReadApplicationPacketFilterInternalServerError {
+	var s ReadApplicationPacketFilterInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationPacketFilterInternalServerError) readApplicationPacketFilterRes() {}
+
+// ReadApplicationPacketFilterNotFound represents sum type.
+type ReadApplicationPacketFilterNotFound struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationPacketFilterNotFoundType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationPacketFilterNotFoundType is oneOf type of ReadApplicationPacketFilterNotFound.
+type ReadApplicationPacketFilterNotFoundType string
+
+// Possible values for ReadApplicationPacketFilterNotFoundType.
+const (
+	ModelDefaultErrorReadApplicationPacketFilterNotFound   ReadApplicationPacketFilterNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationPacketFilterNotFound ReadApplicationPacketFilterNotFoundType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationPacketFilterNotFound is ModelDefaultError.
+func (s ReadApplicationPacketFilterNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationPacketFilterNotFound
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationPacketFilterNotFound is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationPacketFilterNotFound
+}
+
+// SetModelDefaultError sets ReadApplicationPacketFilterNotFound to ModelDefaultError.
+func (s *ReadApplicationPacketFilterNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationPacketFilterNotFound
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationPacketFilterNotFound is ModelDefaultError.
+func (s ReadApplicationPacketFilterNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationPacketFilterNotFound returns new ReadApplicationPacketFilterNotFound from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationPacketFilterNotFound(v ModelDefaultError) ReadApplicationPacketFilterNotFound {
+	var s ReadApplicationPacketFilterNotFound
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationPacketFilterNotFound to ModelCloudctrlError.
+func (s *ReadApplicationPacketFilterNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationPacketFilterNotFound
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationPacketFilterNotFound is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationPacketFilterNotFound returns new ReadApplicationPacketFilterNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationPacketFilterNotFound(v ModelCloudctrlError) ReadApplicationPacketFilterNotFound {
+	var s ReadApplicationPacketFilterNotFound
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationPacketFilterNotFound) readApplicationPacketFilterRes() {}
+
+// ReadApplicationPacketFilterUnauthorized represents sum type.
+type ReadApplicationPacketFilterUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationPacketFilterUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationPacketFilterUnauthorizedType is oneOf type of ReadApplicationPacketFilterUnauthorized.
+type ReadApplicationPacketFilterUnauthorizedType string
+
+// Possible values for ReadApplicationPacketFilterUnauthorizedType.
+const (
+	ModelDefaultErrorReadApplicationPacketFilterUnauthorized   ReadApplicationPacketFilterUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized ReadApplicationPacketFilterUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationPacketFilterUnauthorized is ModelDefaultError.
+func (s ReadApplicationPacketFilterUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationPacketFilterUnauthorized
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationPacketFilterUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized
+}
+
+// SetModelDefaultError sets ReadApplicationPacketFilterUnauthorized to ModelDefaultError.
+func (s *ReadApplicationPacketFilterUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationPacketFilterUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationPacketFilterUnauthorized is ModelDefaultError.
+func (s ReadApplicationPacketFilterUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationPacketFilterUnauthorized returns new ReadApplicationPacketFilterUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationPacketFilterUnauthorized(v ModelDefaultError) ReadApplicationPacketFilterUnauthorized {
+	var s ReadApplicationPacketFilterUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationPacketFilterUnauthorized to ModelCloudctrlError.
+func (s *ReadApplicationPacketFilterUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationPacketFilterUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationPacketFilterUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationPacketFilterUnauthorized returns new ReadApplicationPacketFilterUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationPacketFilterUnauthorized(v ModelCloudctrlError) ReadApplicationPacketFilterUnauthorized {
+	var s ReadApplicationPacketFilterUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationPacketFilterUnauthorized) readApplicationPacketFilterRes() {}
+
+// ReadApplicationStatusBadRequest represents sum type.
+type ReadApplicationStatusBadRequest struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationStatusBadRequestType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationStatusBadRequestType is oneOf type of ReadApplicationStatusBadRequest.
+type ReadApplicationStatusBadRequestType string
+
+// Possible values for ReadApplicationStatusBadRequestType.
+const (
+	ModelDefaultErrorReadApplicationStatusBadRequest   ReadApplicationStatusBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationStatusBadRequest ReadApplicationStatusBadRequestType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationStatusBadRequest is ModelDefaultError.
+func (s ReadApplicationStatusBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationStatusBadRequest
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationStatusBadRequest is ModelCloudctrlError.
+func (s ReadApplicationStatusBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationStatusBadRequest
+}
+
+// SetModelDefaultError sets ReadApplicationStatusBadRequest to ModelDefaultError.
+func (s *ReadApplicationStatusBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationStatusBadRequest
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationStatusBadRequest is ModelDefaultError.
+func (s ReadApplicationStatusBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationStatusBadRequest returns new ReadApplicationStatusBadRequest from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationStatusBadRequest(v ModelDefaultError) ReadApplicationStatusBadRequest {
+	var s ReadApplicationStatusBadRequest
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationStatusBadRequest to ModelCloudctrlError.
+func (s *ReadApplicationStatusBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationStatusBadRequest
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationStatusBadRequest is ModelCloudctrlError.
+func (s ReadApplicationStatusBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationStatusBadRequest returns new ReadApplicationStatusBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationStatusBadRequest(v ModelCloudctrlError) ReadApplicationStatusBadRequest {
+	var s ReadApplicationStatusBadRequest
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationStatusBadRequest) readApplicationStatusRes() {}
+
+// ReadApplicationStatusForbidden represents sum type.
+type ReadApplicationStatusForbidden struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationStatusForbiddenType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationStatusForbiddenType is oneOf type of ReadApplicationStatusForbidden.
+type ReadApplicationStatusForbiddenType string
+
+// Possible values for ReadApplicationStatusForbiddenType.
+const (
+	ModelDefaultErrorReadApplicationStatusForbidden   ReadApplicationStatusForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationStatusForbidden ReadApplicationStatusForbiddenType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationStatusForbidden is ModelDefaultError.
+func (s ReadApplicationStatusForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationStatusForbidden
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationStatusForbidden is ModelCloudctrlError.
+func (s ReadApplicationStatusForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationStatusForbidden
+}
+
+// SetModelDefaultError sets ReadApplicationStatusForbidden to ModelDefaultError.
+func (s *ReadApplicationStatusForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationStatusForbidden
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationStatusForbidden is ModelDefaultError.
+func (s ReadApplicationStatusForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationStatusForbidden returns new ReadApplicationStatusForbidden from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationStatusForbidden(v ModelDefaultError) ReadApplicationStatusForbidden {
+	var s ReadApplicationStatusForbidden
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationStatusForbidden to ModelCloudctrlError.
+func (s *ReadApplicationStatusForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationStatusForbidden
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationStatusForbidden is ModelCloudctrlError.
+func (s ReadApplicationStatusForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationStatusForbidden returns new ReadApplicationStatusForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationStatusForbidden(v ModelCloudctrlError) ReadApplicationStatusForbidden {
+	var s ReadApplicationStatusForbidden
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationStatusForbidden) readApplicationStatusRes() {}
+
+// ReadApplicationStatusInternalServerError represents sum type.
+type ReadApplicationStatusInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationStatusInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationStatusInternalServerErrorType is oneOf type of ReadApplicationStatusInternalServerError.
+type ReadApplicationStatusInternalServerErrorType string
+
+// Possible values for ReadApplicationStatusInternalServerErrorType.
+const (
+	ModelDefaultErrorReadApplicationStatusInternalServerError   ReadApplicationStatusInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationStatusInternalServerError ReadApplicationStatusInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationStatusInternalServerError is ModelDefaultError.
+func (s ReadApplicationStatusInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationStatusInternalServerError
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationStatusInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationStatusInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationStatusInternalServerError
+}
+
+// SetModelDefaultError sets ReadApplicationStatusInternalServerError to ModelDefaultError.
+func (s *ReadApplicationStatusInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationStatusInternalServerError
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationStatusInternalServerError is ModelDefaultError.
+func (s ReadApplicationStatusInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationStatusInternalServerError returns new ReadApplicationStatusInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationStatusInternalServerError(v ModelDefaultError) ReadApplicationStatusInternalServerError {
+	var s ReadApplicationStatusInternalServerError
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationStatusInternalServerError to ModelCloudctrlError.
+func (s *ReadApplicationStatusInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationStatusInternalServerError
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationStatusInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationStatusInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationStatusInternalServerError returns new ReadApplicationStatusInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationStatusInternalServerError(v ModelCloudctrlError) ReadApplicationStatusInternalServerError {
+	var s ReadApplicationStatusInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationStatusInternalServerError) readApplicationStatusRes() {}
+
+// ReadApplicationStatusNotFound represents sum type.
+type ReadApplicationStatusNotFound struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationStatusNotFoundType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationStatusNotFoundType is oneOf type of ReadApplicationStatusNotFound.
+type ReadApplicationStatusNotFoundType string
+
+// Possible values for ReadApplicationStatusNotFoundType.
+const (
+	ModelDefaultErrorReadApplicationStatusNotFound   ReadApplicationStatusNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationStatusNotFound ReadApplicationStatusNotFoundType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationStatusNotFound is ModelDefaultError.
+func (s ReadApplicationStatusNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationStatusNotFound
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationStatusNotFound is ModelCloudctrlError.
+func (s ReadApplicationStatusNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationStatusNotFound
+}
+
+// SetModelDefaultError sets ReadApplicationStatusNotFound to ModelDefaultError.
+func (s *ReadApplicationStatusNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationStatusNotFound
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationStatusNotFound is ModelDefaultError.
+func (s ReadApplicationStatusNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationStatusNotFound returns new ReadApplicationStatusNotFound from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationStatusNotFound(v ModelDefaultError) ReadApplicationStatusNotFound {
+	var s ReadApplicationStatusNotFound
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationStatusNotFound to ModelCloudctrlError.
+func (s *ReadApplicationStatusNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationStatusNotFound
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationStatusNotFound is ModelCloudctrlError.
+func (s ReadApplicationStatusNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationStatusNotFound returns new ReadApplicationStatusNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationStatusNotFound(v ModelCloudctrlError) ReadApplicationStatusNotFound {
+	var s ReadApplicationStatusNotFound
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationStatusNotFound) readApplicationStatusRes() {}
+
+// ReadApplicationStatusUnauthorized represents sum type.
+type ReadApplicationStatusUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationStatusUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationStatusUnauthorizedType is oneOf type of ReadApplicationStatusUnauthorized.
+type ReadApplicationStatusUnauthorizedType string
+
+// Possible values for ReadApplicationStatusUnauthorizedType.
+const (
+	ModelDefaultErrorReadApplicationStatusUnauthorized   ReadApplicationStatusUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationStatusUnauthorized ReadApplicationStatusUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationStatusUnauthorized is ModelDefaultError.
+func (s ReadApplicationStatusUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationStatusUnauthorized
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationStatusUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationStatusUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationStatusUnauthorized
+}
+
+// SetModelDefaultError sets ReadApplicationStatusUnauthorized to ModelDefaultError.
+func (s *ReadApplicationStatusUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationStatusUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationStatusUnauthorized is ModelDefaultError.
+func (s ReadApplicationStatusUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationStatusUnauthorized returns new ReadApplicationStatusUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationStatusUnauthorized(v ModelDefaultError) ReadApplicationStatusUnauthorized {
+	var s ReadApplicationStatusUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationStatusUnauthorized to ModelCloudctrlError.
+func (s *ReadApplicationStatusUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationStatusUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationStatusUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationStatusUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationStatusUnauthorized returns new ReadApplicationStatusUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationStatusUnauthorized(v ModelCloudctrlError) ReadApplicationStatusUnauthorized {
+	var s ReadApplicationStatusUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationStatusUnauthorized) readApplicationStatusRes() {}
+
+// ReadApplicationUnauthorized represents sum type.
+type ReadApplicationUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationUnauthorizedType is oneOf type of ReadApplicationUnauthorized.
+type ReadApplicationUnauthorizedType string
+
+// Possible values for ReadApplicationUnauthorizedType.
+const (
+	ModelDefaultErrorReadApplicationUnauthorized   ReadApplicationUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationUnauthorized ReadApplicationUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationUnauthorized is ModelDefaultError.
+func (s ReadApplicationUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationUnauthorized
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationUnauthorized
+}
+
+// SetModelDefaultError sets ReadApplicationUnauthorized to ModelDefaultError.
+func (s *ReadApplicationUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationUnauthorized is ModelDefaultError.
+func (s ReadApplicationUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationUnauthorized returns new ReadApplicationUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationUnauthorized(v ModelDefaultError) ReadApplicationUnauthorized {
+	var s ReadApplicationUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationUnauthorized to ModelCloudctrlError.
+func (s *ReadApplicationUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationUnauthorized returns new ReadApplicationUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationUnauthorized(v ModelCloudctrlError) ReadApplicationUnauthorized {
+	var s ReadApplicationUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationUnauthorized) readApplicationRes() {}
+
+// ReadApplicationVersionBadRequest represents sum type.
+type ReadApplicationVersionBadRequest struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionBadRequestType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionBadRequestType is oneOf type of ReadApplicationVersionBadRequest.
+type ReadApplicationVersionBadRequestType string
+
+// Possible values for ReadApplicationVersionBadRequestType.
+const (
+	ModelDefaultErrorReadApplicationVersionBadRequest   ReadApplicationVersionBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionBadRequest ReadApplicationVersionBadRequestType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionBadRequest is ModelDefaultError.
+func (s ReadApplicationVersionBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionBadRequest
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionBadRequest is ModelCloudctrlError.
+func (s ReadApplicationVersionBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionBadRequest
+}
+
+// SetModelDefaultError sets ReadApplicationVersionBadRequest to ModelDefaultError.
+func (s *ReadApplicationVersionBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionBadRequest
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionBadRequest is ModelDefaultError.
+func (s ReadApplicationVersionBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionBadRequest returns new ReadApplicationVersionBadRequest from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionBadRequest(v ModelDefaultError) ReadApplicationVersionBadRequest {
+	var s ReadApplicationVersionBadRequest
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionBadRequest to ModelCloudctrlError.
+func (s *ReadApplicationVersionBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionBadRequest
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionBadRequest is ModelCloudctrlError.
+func (s ReadApplicationVersionBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionBadRequest returns new ReadApplicationVersionBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionBadRequest(v ModelCloudctrlError) ReadApplicationVersionBadRequest {
+	var s ReadApplicationVersionBadRequest
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionBadRequest) readApplicationVersionRes() {}
+
+// ReadApplicationVersionForbidden represents sum type.
+type ReadApplicationVersionForbidden struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionForbiddenType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionForbiddenType is oneOf type of ReadApplicationVersionForbidden.
+type ReadApplicationVersionForbiddenType string
+
+// Possible values for ReadApplicationVersionForbiddenType.
+const (
+	ModelDefaultErrorReadApplicationVersionForbidden   ReadApplicationVersionForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionForbidden ReadApplicationVersionForbiddenType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionForbidden is ModelDefaultError.
+func (s ReadApplicationVersionForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionForbidden
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionForbidden is ModelCloudctrlError.
+func (s ReadApplicationVersionForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionForbidden
+}
+
+// SetModelDefaultError sets ReadApplicationVersionForbidden to ModelDefaultError.
+func (s *ReadApplicationVersionForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionForbidden
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionForbidden is ModelDefaultError.
+func (s ReadApplicationVersionForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionForbidden returns new ReadApplicationVersionForbidden from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionForbidden(v ModelDefaultError) ReadApplicationVersionForbidden {
+	var s ReadApplicationVersionForbidden
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionForbidden to ModelCloudctrlError.
+func (s *ReadApplicationVersionForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionForbidden
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionForbidden is ModelCloudctrlError.
+func (s ReadApplicationVersionForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionForbidden returns new ReadApplicationVersionForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionForbidden(v ModelCloudctrlError) ReadApplicationVersionForbidden {
+	var s ReadApplicationVersionForbidden
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionForbidden) readApplicationVersionRes() {}
+
+// ReadApplicationVersionInternalServerError represents sum type.
+type ReadApplicationVersionInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionInternalServerErrorType is oneOf type of ReadApplicationVersionInternalServerError.
+type ReadApplicationVersionInternalServerErrorType string
+
+// Possible values for ReadApplicationVersionInternalServerErrorType.
+const (
+	ModelDefaultErrorReadApplicationVersionInternalServerError   ReadApplicationVersionInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionInternalServerError ReadApplicationVersionInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionInternalServerError is ModelDefaultError.
+func (s ReadApplicationVersionInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionInternalServerError
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationVersionInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionInternalServerError
+}
+
+// SetModelDefaultError sets ReadApplicationVersionInternalServerError to ModelDefaultError.
+func (s *ReadApplicationVersionInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionInternalServerError
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionInternalServerError is ModelDefaultError.
+func (s ReadApplicationVersionInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionInternalServerError returns new ReadApplicationVersionInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionInternalServerError(v ModelDefaultError) ReadApplicationVersionInternalServerError {
+	var s ReadApplicationVersionInternalServerError
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionInternalServerError to ModelCloudctrlError.
+func (s *ReadApplicationVersionInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionInternalServerError
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationVersionInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionInternalServerError returns new ReadApplicationVersionInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionInternalServerError(v ModelCloudctrlError) ReadApplicationVersionInternalServerError {
+	var s ReadApplicationVersionInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionInternalServerError) readApplicationVersionRes() {}
+
+// ReadApplicationVersionNotFound represents sum type.
+type ReadApplicationVersionNotFound struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionNotFoundType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionNotFoundType is oneOf type of ReadApplicationVersionNotFound.
+type ReadApplicationVersionNotFoundType string
+
+// Possible values for ReadApplicationVersionNotFoundType.
+const (
+	ModelDefaultErrorReadApplicationVersionNotFound   ReadApplicationVersionNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionNotFound ReadApplicationVersionNotFoundType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionNotFound is ModelDefaultError.
+func (s ReadApplicationVersionNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionNotFound
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionNotFound is ModelCloudctrlError.
+func (s ReadApplicationVersionNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionNotFound
+}
+
+// SetModelDefaultError sets ReadApplicationVersionNotFound to ModelDefaultError.
+func (s *ReadApplicationVersionNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionNotFound
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionNotFound is ModelDefaultError.
+func (s ReadApplicationVersionNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionNotFound returns new ReadApplicationVersionNotFound from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionNotFound(v ModelDefaultError) ReadApplicationVersionNotFound {
+	var s ReadApplicationVersionNotFound
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionNotFound to ModelCloudctrlError.
+func (s *ReadApplicationVersionNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionNotFound
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionNotFound is ModelCloudctrlError.
+func (s ReadApplicationVersionNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionNotFound returns new ReadApplicationVersionNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionNotFound(v ModelCloudctrlError) ReadApplicationVersionNotFound {
+	var s ReadApplicationVersionNotFound
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionNotFound) readApplicationVersionRes() {}
+
+// ReadApplicationVersionStatusBadRequest represents sum type.
+type ReadApplicationVersionStatusBadRequest struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionStatusBadRequestType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionStatusBadRequestType is oneOf type of ReadApplicationVersionStatusBadRequest.
+type ReadApplicationVersionStatusBadRequestType string
+
+// Possible values for ReadApplicationVersionStatusBadRequestType.
+const (
+	ModelDefaultErrorReadApplicationVersionStatusBadRequest   ReadApplicationVersionStatusBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionStatusBadRequest ReadApplicationVersionStatusBadRequestType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionStatusBadRequest is ModelDefaultError.
+func (s ReadApplicationVersionStatusBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionStatusBadRequest
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionStatusBadRequest is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionStatusBadRequest
+}
+
+// SetModelDefaultError sets ReadApplicationVersionStatusBadRequest to ModelDefaultError.
+func (s *ReadApplicationVersionStatusBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionStatusBadRequest
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionStatusBadRequest is ModelDefaultError.
+func (s ReadApplicationVersionStatusBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionStatusBadRequest returns new ReadApplicationVersionStatusBadRequest from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionStatusBadRequest(v ModelDefaultError) ReadApplicationVersionStatusBadRequest {
+	var s ReadApplicationVersionStatusBadRequest
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionStatusBadRequest to ModelCloudctrlError.
+func (s *ReadApplicationVersionStatusBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionStatusBadRequest
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionStatusBadRequest is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionStatusBadRequest returns new ReadApplicationVersionStatusBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionStatusBadRequest(v ModelCloudctrlError) ReadApplicationVersionStatusBadRequest {
+	var s ReadApplicationVersionStatusBadRequest
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionStatusBadRequest) readApplicationVersionStatusRes() {}
+
+// ReadApplicationVersionStatusForbidden represents sum type.
+type ReadApplicationVersionStatusForbidden struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionStatusForbiddenType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionStatusForbiddenType is oneOf type of ReadApplicationVersionStatusForbidden.
+type ReadApplicationVersionStatusForbiddenType string
+
+// Possible values for ReadApplicationVersionStatusForbiddenType.
+const (
+	ModelDefaultErrorReadApplicationVersionStatusForbidden   ReadApplicationVersionStatusForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionStatusForbidden ReadApplicationVersionStatusForbiddenType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionStatusForbidden is ModelDefaultError.
+func (s ReadApplicationVersionStatusForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionStatusForbidden
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionStatusForbidden is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionStatusForbidden
+}
+
+// SetModelDefaultError sets ReadApplicationVersionStatusForbidden to ModelDefaultError.
+func (s *ReadApplicationVersionStatusForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionStatusForbidden
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionStatusForbidden is ModelDefaultError.
+func (s ReadApplicationVersionStatusForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionStatusForbidden returns new ReadApplicationVersionStatusForbidden from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionStatusForbidden(v ModelDefaultError) ReadApplicationVersionStatusForbidden {
+	var s ReadApplicationVersionStatusForbidden
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionStatusForbidden to ModelCloudctrlError.
+func (s *ReadApplicationVersionStatusForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionStatusForbidden
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionStatusForbidden is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionStatusForbidden returns new ReadApplicationVersionStatusForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionStatusForbidden(v ModelCloudctrlError) ReadApplicationVersionStatusForbidden {
+	var s ReadApplicationVersionStatusForbidden
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionStatusForbidden) readApplicationVersionStatusRes() {}
+
+// ReadApplicationVersionStatusInternalServerError represents sum type.
+type ReadApplicationVersionStatusInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionStatusInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionStatusInternalServerErrorType is oneOf type of ReadApplicationVersionStatusInternalServerError.
+type ReadApplicationVersionStatusInternalServerErrorType string
+
+// Possible values for ReadApplicationVersionStatusInternalServerErrorType.
+const (
+	ModelDefaultErrorReadApplicationVersionStatusInternalServerError   ReadApplicationVersionStatusInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError ReadApplicationVersionStatusInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionStatusInternalServerError is ModelDefaultError.
+func (s ReadApplicationVersionStatusInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionStatusInternalServerError
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionStatusInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError
+}
+
+// SetModelDefaultError sets ReadApplicationVersionStatusInternalServerError to ModelDefaultError.
+func (s *ReadApplicationVersionStatusInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionStatusInternalServerError
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionStatusInternalServerError is ModelDefaultError.
+func (s ReadApplicationVersionStatusInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionStatusInternalServerError returns new ReadApplicationVersionStatusInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionStatusInternalServerError(v ModelDefaultError) ReadApplicationVersionStatusInternalServerError {
+	var s ReadApplicationVersionStatusInternalServerError
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionStatusInternalServerError to ModelCloudctrlError.
+func (s *ReadApplicationVersionStatusInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionStatusInternalServerError is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionStatusInternalServerError returns new ReadApplicationVersionStatusInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionStatusInternalServerError(v ModelCloudctrlError) ReadApplicationVersionStatusInternalServerError {
+	var s ReadApplicationVersionStatusInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionStatusInternalServerError) readApplicationVersionStatusRes() {}
+
+// ReadApplicationVersionStatusNotFound represents sum type.
+type ReadApplicationVersionStatusNotFound struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionStatusNotFoundType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionStatusNotFoundType is oneOf type of ReadApplicationVersionStatusNotFound.
+type ReadApplicationVersionStatusNotFoundType string
+
+// Possible values for ReadApplicationVersionStatusNotFoundType.
+const (
+	ModelDefaultErrorReadApplicationVersionStatusNotFound   ReadApplicationVersionStatusNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionStatusNotFound ReadApplicationVersionStatusNotFoundType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionStatusNotFound is ModelDefaultError.
+func (s ReadApplicationVersionStatusNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionStatusNotFound
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionStatusNotFound is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionStatusNotFound
+}
+
+// SetModelDefaultError sets ReadApplicationVersionStatusNotFound to ModelDefaultError.
+func (s *ReadApplicationVersionStatusNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionStatusNotFound
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionStatusNotFound is ModelDefaultError.
+func (s ReadApplicationVersionStatusNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionStatusNotFound returns new ReadApplicationVersionStatusNotFound from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionStatusNotFound(v ModelDefaultError) ReadApplicationVersionStatusNotFound {
+	var s ReadApplicationVersionStatusNotFound
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionStatusNotFound to ModelCloudctrlError.
+func (s *ReadApplicationVersionStatusNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionStatusNotFound
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionStatusNotFound is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionStatusNotFound returns new ReadApplicationVersionStatusNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionStatusNotFound(v ModelCloudctrlError) ReadApplicationVersionStatusNotFound {
+	var s ReadApplicationVersionStatusNotFound
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionStatusNotFound) readApplicationVersionStatusRes() {}
+
+// ReadApplicationVersionStatusUnauthorized represents sum type.
+type ReadApplicationVersionStatusUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionStatusUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionStatusUnauthorizedType is oneOf type of ReadApplicationVersionStatusUnauthorized.
+type ReadApplicationVersionStatusUnauthorizedType string
+
+// Possible values for ReadApplicationVersionStatusUnauthorizedType.
+const (
+	ModelDefaultErrorReadApplicationVersionStatusUnauthorized   ReadApplicationVersionStatusUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized ReadApplicationVersionStatusUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionStatusUnauthorized is ModelDefaultError.
+func (s ReadApplicationVersionStatusUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionStatusUnauthorized
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionStatusUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized
+}
+
+// SetModelDefaultError sets ReadApplicationVersionStatusUnauthorized to ModelDefaultError.
+func (s *ReadApplicationVersionStatusUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionStatusUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionStatusUnauthorized is ModelDefaultError.
+func (s ReadApplicationVersionStatusUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionStatusUnauthorized returns new ReadApplicationVersionStatusUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionStatusUnauthorized(v ModelDefaultError) ReadApplicationVersionStatusUnauthorized {
+	var s ReadApplicationVersionStatusUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionStatusUnauthorized to ModelCloudctrlError.
+func (s *ReadApplicationVersionStatusUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionStatusUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationVersionStatusUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionStatusUnauthorized returns new ReadApplicationVersionStatusUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionStatusUnauthorized(v ModelCloudctrlError) ReadApplicationVersionStatusUnauthorized {
+	var s ReadApplicationVersionStatusUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionStatusUnauthorized) readApplicationVersionStatusRes() {}
+
+// ReadApplicationVersionUnauthorized represents sum type.
+type ReadApplicationVersionUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadApplicationVersionUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadApplicationVersionUnauthorizedType is oneOf type of ReadApplicationVersionUnauthorized.
+type ReadApplicationVersionUnauthorizedType string
+
+// Possible values for ReadApplicationVersionUnauthorizedType.
+const (
+	ModelDefaultErrorReadApplicationVersionUnauthorized   ReadApplicationVersionUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorReadApplicationVersionUnauthorized ReadApplicationVersionUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadApplicationVersionUnauthorized is ModelDefaultError.
+func (s ReadApplicationVersionUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadApplicationVersionUnauthorized
+}
+
+// IsModelCloudctrlError reports whether ReadApplicationVersionUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationVersionUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadApplicationVersionUnauthorized
+}
+
+// SetModelDefaultError sets ReadApplicationVersionUnauthorized to ModelDefaultError.
+func (s *ReadApplicationVersionUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadApplicationVersionUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadApplicationVersionUnauthorized is ModelDefaultError.
+func (s ReadApplicationVersionUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadApplicationVersionUnauthorized returns new ReadApplicationVersionUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorReadApplicationVersionUnauthorized(v ModelDefaultError) ReadApplicationVersionUnauthorized {
+	var s ReadApplicationVersionUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadApplicationVersionUnauthorized to ModelCloudctrlError.
+func (s *ReadApplicationVersionUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadApplicationVersionUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadApplicationVersionUnauthorized is ModelCloudctrlError.
+func (s ReadApplicationVersionUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadApplicationVersionUnauthorized returns new ReadApplicationVersionUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadApplicationVersionUnauthorized(v ModelCloudctrlError) ReadApplicationVersionUnauthorized {
+	var s ReadApplicationVersionUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadApplicationVersionUnauthorized) readApplicationVersionRes() {}
+
+// ReadUserForbidden represents sum type.
+type ReadUserForbidden struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadUserForbiddenType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadUserForbiddenType is oneOf type of ReadUserForbidden.
+type ReadUserForbiddenType string
+
+// Possible values for ReadUserForbiddenType.
+const (
+	ModelDefaultErrorReadUserForbidden   ReadUserForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorReadUserForbidden ReadUserForbiddenType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadUserForbidden is ModelDefaultError.
+func (s ReadUserForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadUserForbidden
+}
+
+// IsModelCloudctrlError reports whether ReadUserForbidden is ModelCloudctrlError.
+func (s ReadUserForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadUserForbidden
+}
+
+// SetModelDefaultError sets ReadUserForbidden to ModelDefaultError.
+func (s *ReadUserForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadUserForbidden
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadUserForbidden is ModelDefaultError.
+func (s ReadUserForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadUserForbidden returns new ReadUserForbidden from ModelDefaultError.
+func NewModelDefaultErrorReadUserForbidden(v ModelDefaultError) ReadUserForbidden {
+	var s ReadUserForbidden
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadUserForbidden to ModelCloudctrlError.
+func (s *ReadUserForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadUserForbidden
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadUserForbidden is ModelCloudctrlError.
+func (s ReadUserForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadUserForbidden returns new ReadUserForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadUserForbidden(v ModelCloudctrlError) ReadUserForbidden {
+	var s ReadUserForbidden
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadUserForbidden) readUserRes() {}
+
+// ReadUserInternalServerError represents sum type.
+type ReadUserInternalServerError struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadUserInternalServerErrorType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadUserInternalServerErrorType is oneOf type of ReadUserInternalServerError.
+type ReadUserInternalServerErrorType string
+
+// Possible values for ReadUserInternalServerErrorType.
+const (
+	ModelDefaultErrorReadUserInternalServerError   ReadUserInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorReadUserInternalServerError ReadUserInternalServerErrorType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadUserInternalServerError is ModelDefaultError.
+func (s ReadUserInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadUserInternalServerError
+}
+
+// IsModelCloudctrlError reports whether ReadUserInternalServerError is ModelCloudctrlError.
+func (s ReadUserInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadUserInternalServerError
+}
+
+// SetModelDefaultError sets ReadUserInternalServerError to ModelDefaultError.
+func (s *ReadUserInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadUserInternalServerError
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadUserInternalServerError is ModelDefaultError.
+func (s ReadUserInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadUserInternalServerError returns new ReadUserInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorReadUserInternalServerError(v ModelDefaultError) ReadUserInternalServerError {
+	var s ReadUserInternalServerError
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadUserInternalServerError to ModelCloudctrlError.
+func (s *ReadUserInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadUserInternalServerError
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadUserInternalServerError is ModelCloudctrlError.
+func (s ReadUserInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadUserInternalServerError returns new ReadUserInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadUserInternalServerError(v ModelCloudctrlError) ReadUserInternalServerError {
+	var s ReadUserInternalServerError
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadUserInternalServerError) readUserRes() {}
+
+// ReadUserNotFound represents sum type.
+type ReadUserNotFound struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadUserNotFoundType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadUserNotFoundType is oneOf type of ReadUserNotFound.
+type ReadUserNotFoundType string
+
+// Possible values for ReadUserNotFoundType.
+const (
+	ModelDefaultErrorReadUserNotFound   ReadUserNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorReadUserNotFound ReadUserNotFoundType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadUserNotFound is ModelDefaultError.
+func (s ReadUserNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadUserNotFound
+}
+
+// IsModelCloudctrlError reports whether ReadUserNotFound is ModelCloudctrlError.
+func (s ReadUserNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadUserNotFound
+}
+
+// SetModelDefaultError sets ReadUserNotFound to ModelDefaultError.
+func (s *ReadUserNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadUserNotFound
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadUserNotFound is ModelDefaultError.
+func (s ReadUserNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadUserNotFound returns new ReadUserNotFound from ModelDefaultError.
+func NewModelDefaultErrorReadUserNotFound(v ModelDefaultError) ReadUserNotFound {
+	var s ReadUserNotFound
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadUserNotFound to ModelCloudctrlError.
+func (s *ReadUserNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadUserNotFound
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadUserNotFound is ModelCloudctrlError.
+func (s ReadUserNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadUserNotFound returns new ReadUserNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadUserNotFound(v ModelCloudctrlError) ReadUserNotFound {
+	var s ReadUserNotFound
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadUserNotFound) readUserRes() {}
+
+// ReadUserUnauthorized represents sum type.
+type ReadUserUnauthorized struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                ReadUserUnauthorizedType
+	ModelDefaultError   ModelDefaultError
+	ModelCloudctrlError ModelCloudctrlError
+}
+
+// ReadUserUnauthorizedType is oneOf type of ReadUserUnauthorized.
+type ReadUserUnauthorizedType string
+
+// Possible values for ReadUserUnauthorizedType.
+const (
+	ModelDefaultErrorReadUserUnauthorized   ReadUserUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorReadUserUnauthorized ReadUserUnauthorizedType = "ModelCloudctrlError"
+)
+
+// IsModelDefaultError reports whether ReadUserUnauthorized is ModelDefaultError.
+func (s ReadUserUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorReadUserUnauthorized
+}
+
+// IsModelCloudctrlError reports whether ReadUserUnauthorized is ModelCloudctrlError.
+func (s ReadUserUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorReadUserUnauthorized
+}
+
+// SetModelDefaultError sets ReadUserUnauthorized to ModelDefaultError.
+func (s *ReadUserUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorReadUserUnauthorized
+	s.ModelDefaultError = v
+}
+
+// GetModelDefaultError returns ModelDefaultError and true boolean if ReadUserUnauthorized is ModelDefaultError.
+func (s ReadUserUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+	if !s.IsModelDefaultError() {
+		return v, false
+	}
+	return s.ModelDefaultError, true
+}
+
+// NewModelDefaultErrorReadUserUnauthorized returns new ReadUserUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorReadUserUnauthorized(v ModelDefaultError) ReadUserUnauthorized {
+	var s ReadUserUnauthorized
+	s.SetModelDefaultError(v)
+	return s
+}
+
+// SetModelCloudctrlError sets ReadUserUnauthorized to ModelCloudctrlError.
+func (s *ReadUserUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorReadUserUnauthorized
+	s.ModelCloudctrlError = v
+}
+
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if ReadUserUnauthorized is ModelCloudctrlError.
+func (s ReadUserUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+	if !s.IsModelCloudctrlError() {
+		return v, false
+	}
+	return s.ModelCloudctrlError, true
+}
+
+// NewModelCloudctrlErrorReadUserUnauthorized returns new ReadUserUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorReadUserUnauthorized(v ModelCloudctrlError) ReadUserUnauthorized {
+	var s ReadUserUnauthorized
+	s.SetModelCloudctrlError(v)
+	return s
+}
+
+func (*ReadUserUnauthorized) readUserRes() {}
+
+type RequestEnv []RequestEnvItem
+
+type RequestEnvItem struct {
 	// 環境変数名。 ただし、K_SERVICE, K_CONFIGURATION, K_REVISION,
 	// PORTは予約済みのため設定不可。.
-	Key OptString `json:"key"`
+	Key string `json:"key"`
 	// 環境変数の値.
-	Value OptString `json:"value"`
+	Value string `json:"value"`
 }
 
 // GetKey returns the value of Key.
-func (s *PostApplicationBodyComponentsItemEnvItem) GetKey() OptString {
+func (s *RequestEnvItem) GetKey() string {
 	return s.Key
 }
 
 // GetValue returns the value of Value.
-func (s *PostApplicationBodyComponentsItemEnvItem) GetValue() OptString {
+func (s *RequestEnvItem) GetValue() string {
 	return s.Value
 }
 
 // SetKey sets the value of Key.
-func (s *PostApplicationBodyComponentsItemEnvItem) SetKey(val OptString) {
+func (s *RequestEnvItem) SetKey(val string) {
 	s.Key = val
 }
 
 // SetValue sets the value of Value.
-func (s *PostApplicationBodyComponentsItemEnvItem) SetValue(val OptString) {
+func (s *RequestEnvItem) SetValue(val string) {
 	s.Value = val
 }
 
-// コンポーネントの最大vCPU数（メモリとの組み合わせで利用できない値もあります）.
-type PostApplicationBodyComponentsItemMaxCPU string
+type ResponseEnv []ResponseEnvItem
 
-const (
-	PostApplicationBodyComponentsItemMaxCPU05 PostApplicationBodyComponentsItemMaxCPU = "0.5"
-	PostApplicationBodyComponentsItemMaxCPU1  PostApplicationBodyComponentsItemMaxCPU = "1"
-	PostApplicationBodyComponentsItemMaxCPU2  PostApplicationBodyComponentsItemMaxCPU = "2"
-)
-
-// AllValues returns all PostApplicationBodyComponentsItemMaxCPU values.
-func (PostApplicationBodyComponentsItemMaxCPU) AllValues() []PostApplicationBodyComponentsItemMaxCPU {
-	return []PostApplicationBodyComponentsItemMaxCPU{
-		PostApplicationBodyComponentsItemMaxCPU05,
-		PostApplicationBodyComponentsItemMaxCPU1,
-		PostApplicationBodyComponentsItemMaxCPU2,
-	}
+type ResponseEnvItem struct {
+	// 環境変数名.
+	Key string `json:"key"`
+	// 環境変数の値.
+	Value string `json:"value"`
 }
 
-// MarshalText implements encoding.TextMarshaler.
-func (s PostApplicationBodyComponentsItemMaxCPU) MarshalText() ([]byte, error) {
-	switch s {
-	case PostApplicationBodyComponentsItemMaxCPU05:
-		return []byte(s), nil
-	case PostApplicationBodyComponentsItemMaxCPU1:
-		return []byte(s), nil
-	case PostApplicationBodyComponentsItemMaxCPU2:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *PostApplicationBodyComponentsItemMaxCPU) UnmarshalText(data []byte) error {
-	switch PostApplicationBodyComponentsItemMaxCPU(data) {
-	case PostApplicationBodyComponentsItemMaxCPU05:
-		*s = PostApplicationBodyComponentsItemMaxCPU05
-		return nil
-	case PostApplicationBodyComponentsItemMaxCPU1:
-		*s = PostApplicationBodyComponentsItemMaxCPU1
-		return nil
-	case PostApplicationBodyComponentsItemMaxCPU2:
-		*s = PostApplicationBodyComponentsItemMaxCPU2
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// コンポーネントの最大メモリ（vCPUとの組み合わせで利用できない値もあります）.
-type PostApplicationBodyComponentsItemMaxMemory string
-
-const (
-	PostApplicationBodyComponentsItemMaxMemory1Gi PostApplicationBodyComponentsItemMaxMemory = "1Gi"
-	PostApplicationBodyComponentsItemMaxMemory2Gi PostApplicationBodyComponentsItemMaxMemory = "2Gi"
-	PostApplicationBodyComponentsItemMaxMemory4Gi PostApplicationBodyComponentsItemMaxMemory = "4Gi"
-)
-
-// AllValues returns all PostApplicationBodyComponentsItemMaxMemory values.
-func (PostApplicationBodyComponentsItemMaxMemory) AllValues() []PostApplicationBodyComponentsItemMaxMemory {
-	return []PostApplicationBodyComponentsItemMaxMemory{
-		PostApplicationBodyComponentsItemMaxMemory1Gi,
-		PostApplicationBodyComponentsItemMaxMemory2Gi,
-		PostApplicationBodyComponentsItemMaxMemory4Gi,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s PostApplicationBodyComponentsItemMaxMemory) MarshalText() ([]byte, error) {
-	switch s {
-	case PostApplicationBodyComponentsItemMaxMemory1Gi:
-		return []byte(s), nil
-	case PostApplicationBodyComponentsItemMaxMemory2Gi:
-		return []byte(s), nil
-	case PostApplicationBodyComponentsItemMaxMemory4Gi:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *PostApplicationBodyComponentsItemMaxMemory) UnmarshalText(data []byte) error {
-	switch PostApplicationBodyComponentsItemMaxMemory(data) {
-	case PostApplicationBodyComponentsItemMaxMemory1Gi:
-		*s = PostApplicationBodyComponentsItemMaxMemory1Gi
-		return nil
-	case PostApplicationBodyComponentsItemMaxMemory2Gi:
-		*s = PostApplicationBodyComponentsItemMaxMemory2Gi
-		return nil
-	case PostApplicationBodyComponentsItemMaxMemory4Gi:
-		*s = PostApplicationBodyComponentsItemMaxMemory4Gi
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// コンポーネントのプローブ設定.
-type PostApplicationBodyComponentsItemProbe struct {
-	// HTTP Getプローブタイプ.
-	HTTPGet OptNilPostApplicationBodyComponentsItemProbeHTTPGet `json:"http_get"`
-}
-
-// GetHTTPGet returns the value of HTTPGet.
-func (s *PostApplicationBodyComponentsItemProbe) GetHTTPGet() OptNilPostApplicationBodyComponentsItemProbeHTTPGet {
-	return s.HTTPGet
-}
-
-// SetHTTPGet sets the value of HTTPGet.
-func (s *PostApplicationBodyComponentsItemProbe) SetHTTPGet(val OptNilPostApplicationBodyComponentsItemProbeHTTPGet) {
-	s.HTTPGet = val
-}
-
-// HTTP Getプローブタイプ.
-type PostApplicationBodyComponentsItemProbeHTTPGet struct {
-	// HTTPサーバーへアクセスしプローブをチェックする際のパス.
-	Path string `json:"path"`
-	// HTTPサーバーへアクセスしプローブをチェックする際のポート番号。
-	// ただし、8012, 8013, 8022, 9090, 9091, 8008 は予約済みのため設定不可。.
-	Port    int                                                        `json:"port"`
-	Headers []PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem `json:"headers"`
-}
-
-// GetPath returns the value of Path.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) GetPath() string {
-	return s.Path
-}
-
-// GetPort returns the value of Port.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) GetPort() int {
-	return s.Port
-}
-
-// GetHeaders returns the value of Headers.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) GetHeaders() []PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem {
-	return s.Headers
-}
-
-// SetPath sets the value of Path.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) SetPath(val string) {
-	s.Path = val
-}
-
-// SetPort sets the value of Port.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) SetPort(val int) {
-	s.Port = val
-}
-
-// SetHeaders sets the value of Headers.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) SetHeaders(val []PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) {
-	s.Headers = val
-}
-
-type PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem struct {
-	// ヘッダーフィールド名.
-	Name OptString `json:"name"`
-	// ヘッダーフィールド値.
-	Value OptString `json:"value"`
-}
-
-// GetName returns the value of Name.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) GetName() OptString {
-	return s.Name
+// GetKey returns the value of Key.
+func (s *ResponseEnvItem) GetKey() string {
+	return s.Key
 }
 
 // GetValue returns the value of Value.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) GetValue() OptString {
+func (s *ResponseEnvItem) GetValue() string {
 	return s.Value
 }
 
-// SetName sets the value of Name.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetName(val OptString) {
-	s.Name = val
+// SetKey sets the value of Key.
+func (s *ResponseEnvItem) SetKey(val string) {
+	s.Key = val
 }
 
 // SetValue sets the value of Value.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetValue(val OptString) {
+func (s *ResponseEnvItem) SetValue(val string) {
 	s.Value = val
 }
 
-// PostApplicationConflict represents sum type.
-type PostApplicationConflict struct {
+type ResponseSecret []ResponseSecretItem
+
+type ResponseSecretItem struct {
+	// 環境変数名.
+	Key string `json:"key"`
+}
+
+// GetKey returns the value of Key.
+func (s *ResponseSecretItem) GetKey() string {
+	return s.Key
+}
+
+// SetKey sets the value of Key.
+func (s *ResponseSecretItem) SetKey(val string) {
+	s.Key = val
+}
+
+// UpdateApplicationTrafficBadRequest represents sum type.
+type UpdateApplicationTrafficBadRequest struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                PostApplicationConflictType
+	Type                UpdateApplicationTrafficBadRequestType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// PostApplicationConflictType is oneOf type of PostApplicationConflict.
-type PostApplicationConflictType string
+// UpdateApplicationTrafficBadRequestType is oneOf type of UpdateApplicationTrafficBadRequest.
+type UpdateApplicationTrafficBadRequestType string
 
-// Possible values for PostApplicationConflictType.
+// Possible values for UpdateApplicationTrafficBadRequestType.
 const (
-	ModelDefaultErrorPostApplicationConflict   PostApplicationConflictType = "ModelDefaultError"
-	ModelCloudctrlErrorPostApplicationConflict PostApplicationConflictType = "ModelCloudctrlError"
+	ModelDefaultErrorUpdateApplicationTrafficBadRequest   UpdateApplicationTrafficBadRequestType = "ModelDefaultError"
+	ModelCloudctrlErrorUpdateApplicationTrafficBadRequest UpdateApplicationTrafficBadRequestType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether PostApplicationConflict is ModelDefaultError.
-func (s PostApplicationConflict) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostApplicationConflict
+// IsModelDefaultError reports whether UpdateApplicationTrafficBadRequest is ModelDefaultError.
+func (s UpdateApplicationTrafficBadRequest) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorUpdateApplicationTrafficBadRequest
 }
 
-// IsModelCloudctrlError reports whether PostApplicationConflict is ModelCloudctrlError.
-func (s PostApplicationConflict) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostApplicationConflict
+// IsModelCloudctrlError reports whether UpdateApplicationTrafficBadRequest is ModelCloudctrlError.
+func (s UpdateApplicationTrafficBadRequest) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorUpdateApplicationTrafficBadRequest
 }
 
-// SetModelDefaultError sets PostApplicationConflict to ModelDefaultError.
-func (s *PostApplicationConflict) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostApplicationConflict
+// SetModelDefaultError sets UpdateApplicationTrafficBadRequest to ModelDefaultError.
+func (s *UpdateApplicationTrafficBadRequest) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorUpdateApplicationTrafficBadRequest
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostApplicationConflict is ModelDefaultError.
-func (s PostApplicationConflict) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if UpdateApplicationTrafficBadRequest is ModelDefaultError.
+func (s UpdateApplicationTrafficBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorPostApplicationConflict returns new PostApplicationConflict from ModelDefaultError.
-func NewModelDefaultErrorPostApplicationConflict(v ModelDefaultError) PostApplicationConflict {
-	var s PostApplicationConflict
+// NewModelDefaultErrorUpdateApplicationTrafficBadRequest returns new UpdateApplicationTrafficBadRequest from ModelDefaultError.
+func NewModelDefaultErrorUpdateApplicationTrafficBadRequest(v ModelDefaultError) UpdateApplicationTrafficBadRequest {
+	var s UpdateApplicationTrafficBadRequest
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets PostApplicationConflict to ModelCloudctrlError.
-func (s *PostApplicationConflict) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostApplicationConflict
+// SetModelCloudctrlError sets UpdateApplicationTrafficBadRequest to ModelCloudctrlError.
+func (s *UpdateApplicationTrafficBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorUpdateApplicationTrafficBadRequest
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostApplicationConflict is ModelCloudctrlError.
-func (s PostApplicationConflict) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if UpdateApplicationTrafficBadRequest is ModelCloudctrlError.
+func (s UpdateApplicationTrafficBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorPostApplicationConflict returns new PostApplicationConflict from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostApplicationConflict(v ModelCloudctrlError) PostApplicationConflict {
-	var s PostApplicationConflict
+// NewModelCloudctrlErrorUpdateApplicationTrafficBadRequest returns new UpdateApplicationTrafficBadRequest from ModelCloudctrlError.
+func NewModelCloudctrlErrorUpdateApplicationTrafficBadRequest(v ModelCloudctrlError) UpdateApplicationTrafficBadRequest {
+	var s UpdateApplicationTrafficBadRequest
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*PostApplicationConflict) postApplicationRes() {}
+func (*UpdateApplicationTrafficBadRequest) updateApplicationTrafficRes() {}
 
-// PostApplicationForbidden represents sum type.
-type PostApplicationForbidden struct {
+// UpdateApplicationTrafficForbidden represents sum type.
+type UpdateApplicationTrafficForbidden struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                PostApplicationForbiddenType
+	Type                UpdateApplicationTrafficForbiddenType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// PostApplicationForbiddenType is oneOf type of PostApplicationForbidden.
-type PostApplicationForbiddenType string
+// UpdateApplicationTrafficForbiddenType is oneOf type of UpdateApplicationTrafficForbidden.
+type UpdateApplicationTrafficForbiddenType string
 
-// Possible values for PostApplicationForbiddenType.
+// Possible values for UpdateApplicationTrafficForbiddenType.
 const (
-	ModelDefaultErrorPostApplicationForbidden   PostApplicationForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorPostApplicationForbidden PostApplicationForbiddenType = "ModelCloudctrlError"
+	ModelDefaultErrorUpdateApplicationTrafficForbidden   UpdateApplicationTrafficForbiddenType = "ModelDefaultError"
+	ModelCloudctrlErrorUpdateApplicationTrafficForbidden UpdateApplicationTrafficForbiddenType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether PostApplicationForbidden is ModelDefaultError.
-func (s PostApplicationForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostApplicationForbidden
+// IsModelDefaultError reports whether UpdateApplicationTrafficForbidden is ModelDefaultError.
+func (s UpdateApplicationTrafficForbidden) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorUpdateApplicationTrafficForbidden
 }
 
-// IsModelCloudctrlError reports whether PostApplicationForbidden is ModelCloudctrlError.
-func (s PostApplicationForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostApplicationForbidden
+// IsModelCloudctrlError reports whether UpdateApplicationTrafficForbidden is ModelCloudctrlError.
+func (s UpdateApplicationTrafficForbidden) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorUpdateApplicationTrafficForbidden
 }
 
-// SetModelDefaultError sets PostApplicationForbidden to ModelDefaultError.
-func (s *PostApplicationForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostApplicationForbidden
+// SetModelDefaultError sets UpdateApplicationTrafficForbidden to ModelDefaultError.
+func (s *UpdateApplicationTrafficForbidden) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorUpdateApplicationTrafficForbidden
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostApplicationForbidden is ModelDefaultError.
-func (s PostApplicationForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if UpdateApplicationTrafficForbidden is ModelDefaultError.
+func (s UpdateApplicationTrafficForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorPostApplicationForbidden returns new PostApplicationForbidden from ModelDefaultError.
-func NewModelDefaultErrorPostApplicationForbidden(v ModelDefaultError) PostApplicationForbidden {
-	var s PostApplicationForbidden
+// NewModelDefaultErrorUpdateApplicationTrafficForbidden returns new UpdateApplicationTrafficForbidden from ModelDefaultError.
+func NewModelDefaultErrorUpdateApplicationTrafficForbidden(v ModelDefaultError) UpdateApplicationTrafficForbidden {
+	var s UpdateApplicationTrafficForbidden
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets PostApplicationForbidden to ModelCloudctrlError.
-func (s *PostApplicationForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostApplicationForbidden
+// SetModelCloudctrlError sets UpdateApplicationTrafficForbidden to ModelCloudctrlError.
+func (s *UpdateApplicationTrafficForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorUpdateApplicationTrafficForbidden
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostApplicationForbidden is ModelCloudctrlError.
-func (s PostApplicationForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if UpdateApplicationTrafficForbidden is ModelCloudctrlError.
+func (s UpdateApplicationTrafficForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorPostApplicationForbidden returns new PostApplicationForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostApplicationForbidden(v ModelCloudctrlError) PostApplicationForbidden {
-	var s PostApplicationForbidden
+// NewModelCloudctrlErrorUpdateApplicationTrafficForbidden returns new UpdateApplicationTrafficForbidden from ModelCloudctrlError.
+func NewModelCloudctrlErrorUpdateApplicationTrafficForbidden(v ModelCloudctrlError) UpdateApplicationTrafficForbidden {
+	var s UpdateApplicationTrafficForbidden
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*PostApplicationForbidden) postApplicationRes() {}
+func (*UpdateApplicationTrafficForbidden) updateApplicationTrafficRes() {}
 
-// PostApplicationInternalServerError represents sum type.
-type PostApplicationInternalServerError struct {
+// UpdateApplicationTrafficInternalServerError represents sum type.
+type UpdateApplicationTrafficInternalServerError struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                PostApplicationInternalServerErrorType
+	Type                UpdateApplicationTrafficInternalServerErrorType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// PostApplicationInternalServerErrorType is oneOf type of PostApplicationInternalServerError.
-type PostApplicationInternalServerErrorType string
+// UpdateApplicationTrafficInternalServerErrorType is oneOf type of UpdateApplicationTrafficInternalServerError.
+type UpdateApplicationTrafficInternalServerErrorType string
 
-// Possible values for PostApplicationInternalServerErrorType.
+// Possible values for UpdateApplicationTrafficInternalServerErrorType.
 const (
-	ModelDefaultErrorPostApplicationInternalServerError   PostApplicationInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorPostApplicationInternalServerError PostApplicationInternalServerErrorType = "ModelCloudctrlError"
+	ModelDefaultErrorUpdateApplicationTrafficInternalServerError   UpdateApplicationTrafficInternalServerErrorType = "ModelDefaultError"
+	ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError UpdateApplicationTrafficInternalServerErrorType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether PostApplicationInternalServerError is ModelDefaultError.
-func (s PostApplicationInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostApplicationInternalServerError
+// IsModelDefaultError reports whether UpdateApplicationTrafficInternalServerError is ModelDefaultError.
+func (s UpdateApplicationTrafficInternalServerError) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorUpdateApplicationTrafficInternalServerError
 }
 
-// IsModelCloudctrlError reports whether PostApplicationInternalServerError is ModelCloudctrlError.
-func (s PostApplicationInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostApplicationInternalServerError
+// IsModelCloudctrlError reports whether UpdateApplicationTrafficInternalServerError is ModelCloudctrlError.
+func (s UpdateApplicationTrafficInternalServerError) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError
 }
 
-// SetModelDefaultError sets PostApplicationInternalServerError to ModelDefaultError.
-func (s *PostApplicationInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostApplicationInternalServerError
+// SetModelDefaultError sets UpdateApplicationTrafficInternalServerError to ModelDefaultError.
+func (s *UpdateApplicationTrafficInternalServerError) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorUpdateApplicationTrafficInternalServerError
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostApplicationInternalServerError is ModelDefaultError.
-func (s PostApplicationInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if UpdateApplicationTrafficInternalServerError is ModelDefaultError.
+func (s UpdateApplicationTrafficInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorPostApplicationInternalServerError returns new PostApplicationInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorPostApplicationInternalServerError(v ModelDefaultError) PostApplicationInternalServerError {
-	var s PostApplicationInternalServerError
+// NewModelDefaultErrorUpdateApplicationTrafficInternalServerError returns new UpdateApplicationTrafficInternalServerError from ModelDefaultError.
+func NewModelDefaultErrorUpdateApplicationTrafficInternalServerError(v ModelDefaultError) UpdateApplicationTrafficInternalServerError {
+	var s UpdateApplicationTrafficInternalServerError
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets PostApplicationInternalServerError to ModelCloudctrlError.
-func (s *PostApplicationInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostApplicationInternalServerError
+// SetModelCloudctrlError sets UpdateApplicationTrafficInternalServerError to ModelCloudctrlError.
+func (s *UpdateApplicationTrafficInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostApplicationInternalServerError is ModelCloudctrlError.
-func (s PostApplicationInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if UpdateApplicationTrafficInternalServerError is ModelCloudctrlError.
+func (s UpdateApplicationTrafficInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorPostApplicationInternalServerError returns new PostApplicationInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostApplicationInternalServerError(v ModelCloudctrlError) PostApplicationInternalServerError {
-	var s PostApplicationInternalServerError
+// NewModelCloudctrlErrorUpdateApplicationTrafficInternalServerError returns new UpdateApplicationTrafficInternalServerError from ModelCloudctrlError.
+func NewModelCloudctrlErrorUpdateApplicationTrafficInternalServerError(v ModelCloudctrlError) UpdateApplicationTrafficInternalServerError {
+	var s UpdateApplicationTrafficInternalServerError
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*PostApplicationInternalServerError) postApplicationRes() {}
+func (*UpdateApplicationTrafficInternalServerError) updateApplicationTrafficRes() {}
 
-// PostApplicationUnauthorized represents sum type.
-type PostApplicationUnauthorized struct {
+// UpdateApplicationTrafficNotFound represents sum type.
+type UpdateApplicationTrafficNotFound struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                PostApplicationUnauthorizedType
+	Type                UpdateApplicationTrafficNotFoundType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// PostApplicationUnauthorizedType is oneOf type of PostApplicationUnauthorized.
-type PostApplicationUnauthorizedType string
+// UpdateApplicationTrafficNotFoundType is oneOf type of UpdateApplicationTrafficNotFound.
+type UpdateApplicationTrafficNotFoundType string
 
-// Possible values for PostApplicationUnauthorizedType.
+// Possible values for UpdateApplicationTrafficNotFoundType.
 const (
-	ModelDefaultErrorPostApplicationUnauthorized   PostApplicationUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorPostApplicationUnauthorized PostApplicationUnauthorizedType = "ModelCloudctrlError"
+	ModelDefaultErrorUpdateApplicationTrafficNotFound   UpdateApplicationTrafficNotFoundType = "ModelDefaultError"
+	ModelCloudctrlErrorUpdateApplicationTrafficNotFound UpdateApplicationTrafficNotFoundType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether PostApplicationUnauthorized is ModelDefaultError.
-func (s PostApplicationUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostApplicationUnauthorized
+// IsModelDefaultError reports whether UpdateApplicationTrafficNotFound is ModelDefaultError.
+func (s UpdateApplicationTrafficNotFound) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorUpdateApplicationTrafficNotFound
 }
 
-// IsModelCloudctrlError reports whether PostApplicationUnauthorized is ModelCloudctrlError.
-func (s PostApplicationUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostApplicationUnauthorized
+// IsModelCloudctrlError reports whether UpdateApplicationTrafficNotFound is ModelCloudctrlError.
+func (s UpdateApplicationTrafficNotFound) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorUpdateApplicationTrafficNotFound
 }
 
-// SetModelDefaultError sets PostApplicationUnauthorized to ModelDefaultError.
-func (s *PostApplicationUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostApplicationUnauthorized
+// SetModelDefaultError sets UpdateApplicationTrafficNotFound to ModelDefaultError.
+func (s *UpdateApplicationTrafficNotFound) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorUpdateApplicationTrafficNotFound
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostApplicationUnauthorized is ModelDefaultError.
-func (s PostApplicationUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if UpdateApplicationTrafficNotFound is ModelDefaultError.
+func (s UpdateApplicationTrafficNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorPostApplicationUnauthorized returns new PostApplicationUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorPostApplicationUnauthorized(v ModelDefaultError) PostApplicationUnauthorized {
-	var s PostApplicationUnauthorized
+// NewModelDefaultErrorUpdateApplicationTrafficNotFound returns new UpdateApplicationTrafficNotFound from ModelDefaultError.
+func NewModelDefaultErrorUpdateApplicationTrafficNotFound(v ModelDefaultError) UpdateApplicationTrafficNotFound {
+	var s UpdateApplicationTrafficNotFound
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets PostApplicationUnauthorized to ModelCloudctrlError.
-func (s *PostApplicationUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostApplicationUnauthorized
+// SetModelCloudctrlError sets UpdateApplicationTrafficNotFound to ModelCloudctrlError.
+func (s *UpdateApplicationTrafficNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorUpdateApplicationTrafficNotFound
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostApplicationUnauthorized is ModelCloudctrlError.
-func (s PostApplicationUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if UpdateApplicationTrafficNotFound is ModelCloudctrlError.
+func (s UpdateApplicationTrafficNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorPostApplicationUnauthorized returns new PostApplicationUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostApplicationUnauthorized(v ModelCloudctrlError) PostApplicationUnauthorized {
-	var s PostApplicationUnauthorized
+// NewModelCloudctrlErrorUpdateApplicationTrafficNotFound returns new UpdateApplicationTrafficNotFound from ModelCloudctrlError.
+func NewModelCloudctrlErrorUpdateApplicationTrafficNotFound(v ModelCloudctrlError) UpdateApplicationTrafficNotFound {
+	var s UpdateApplicationTrafficNotFound
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*PostApplicationUnauthorized) postApplicationRes() {}
+func (*UpdateApplicationTrafficNotFound) updateApplicationTrafficRes() {}
 
-// PostUserConflict represents sum type.
-type PostUserConflict struct {
+// UpdateApplicationTrafficUnauthorized represents sum type.
+type UpdateApplicationTrafficUnauthorized struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                PostUserConflictType
+	Type                UpdateApplicationTrafficUnauthorizedType
 	ModelDefaultError   ModelDefaultError
 	ModelCloudctrlError ModelCloudctrlError
 }
 
-// PostUserConflictType is oneOf type of PostUserConflict.
-type PostUserConflictType string
+// UpdateApplicationTrafficUnauthorizedType is oneOf type of UpdateApplicationTrafficUnauthorized.
+type UpdateApplicationTrafficUnauthorizedType string
 
-// Possible values for PostUserConflictType.
+// Possible values for UpdateApplicationTrafficUnauthorizedType.
 const (
-	ModelDefaultErrorPostUserConflict   PostUserConflictType = "ModelDefaultError"
-	ModelCloudctrlErrorPostUserConflict PostUserConflictType = "ModelCloudctrlError"
+	ModelDefaultErrorUpdateApplicationTrafficUnauthorized   UpdateApplicationTrafficUnauthorizedType = "ModelDefaultError"
+	ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized UpdateApplicationTrafficUnauthorizedType = "ModelCloudctrlError"
 )
 
-// IsModelDefaultError reports whether PostUserConflict is ModelDefaultError.
-func (s PostUserConflict) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostUserConflict
+// IsModelDefaultError reports whether UpdateApplicationTrafficUnauthorized is ModelDefaultError.
+func (s UpdateApplicationTrafficUnauthorized) IsModelDefaultError() bool {
+	return s.Type == ModelDefaultErrorUpdateApplicationTrafficUnauthorized
 }
 
-// IsModelCloudctrlError reports whether PostUserConflict is ModelCloudctrlError.
-func (s PostUserConflict) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostUserConflict
+// IsModelCloudctrlError reports whether UpdateApplicationTrafficUnauthorized is ModelCloudctrlError.
+func (s UpdateApplicationTrafficUnauthorized) IsModelCloudctrlError() bool {
+	return s.Type == ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized
 }
 
-// SetModelDefaultError sets PostUserConflict to ModelDefaultError.
-func (s *PostUserConflict) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostUserConflict
+// SetModelDefaultError sets UpdateApplicationTrafficUnauthorized to ModelDefaultError.
+func (s *UpdateApplicationTrafficUnauthorized) SetModelDefaultError(v ModelDefaultError) {
+	s.Type = ModelDefaultErrorUpdateApplicationTrafficUnauthorized
 	s.ModelDefaultError = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostUserConflict is ModelDefaultError.
-func (s PostUserConflict) GetModelDefaultError() (v ModelDefaultError, ok bool) {
+// GetModelDefaultError returns ModelDefaultError and true boolean if UpdateApplicationTrafficUnauthorized is ModelDefaultError.
+func (s UpdateApplicationTrafficUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
 	if !s.IsModelDefaultError() {
 		return v, false
 	}
 	return s.ModelDefaultError, true
 }
 
-// NewModelDefaultErrorPostUserConflict returns new PostUserConflict from ModelDefaultError.
-func NewModelDefaultErrorPostUserConflict(v ModelDefaultError) PostUserConflict {
-	var s PostUserConflict
+// NewModelDefaultErrorUpdateApplicationTrafficUnauthorized returns new UpdateApplicationTrafficUnauthorized from ModelDefaultError.
+func NewModelDefaultErrorUpdateApplicationTrafficUnauthorized(v ModelDefaultError) UpdateApplicationTrafficUnauthorized {
+	var s UpdateApplicationTrafficUnauthorized
 	s.SetModelDefaultError(v)
 	return s
 }
 
-// SetModelCloudctrlError sets PostUserConflict to ModelCloudctrlError.
-func (s *PostUserConflict) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostUserConflict
+// SetModelCloudctrlError sets UpdateApplicationTrafficUnauthorized to ModelCloudctrlError.
+func (s *UpdateApplicationTrafficUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
+	s.Type = ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized
 	s.ModelCloudctrlError = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostUserConflict is ModelCloudctrlError.
-func (s PostUserConflict) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
+// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if UpdateApplicationTrafficUnauthorized is ModelCloudctrlError.
+func (s UpdateApplicationTrafficUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
 	if !s.IsModelCloudctrlError() {
 		return v, false
 	}
 	return s.ModelCloudctrlError, true
 }
 
-// NewModelCloudctrlErrorPostUserConflict returns new PostUserConflict from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostUserConflict(v ModelCloudctrlError) PostUserConflict {
-	var s PostUserConflict
+// NewModelCloudctrlErrorUpdateApplicationTrafficUnauthorized returns new UpdateApplicationTrafficUnauthorized from ModelCloudctrlError.
+func NewModelCloudctrlErrorUpdateApplicationTrafficUnauthorized(v ModelCloudctrlError) UpdateApplicationTrafficUnauthorized {
+	var s UpdateApplicationTrafficUnauthorized
 	s.SetModelCloudctrlError(v)
 	return s
 }
 
-func (*PostUserConflict) postUserRes() {}
+func (*UpdateApplicationTrafficUnauthorized) updateApplicationTrafficRes() {}
 
-// PostUserForbidden represents sum type.
-type PostUserForbidden struct {
+type UpdateTrafficBody []UpdateTrafficBodyItem
+
+// UpdateTrafficBodyItem represents sum type.
+type UpdateTrafficBodyItem struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                PostUserForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
+	Type                   UpdateTrafficBodyItemType
+	UpdateTrafficBodyItem0 UpdateTrafficBodyItem0
+	UpdateTrafficBodyItem1 UpdateTrafficBodyItem1
 }
 
-// PostUserForbiddenType is oneOf type of PostUserForbidden.
-type PostUserForbiddenType string
+// UpdateTrafficBodyItemType is oneOf type of UpdateTrafficBodyItem.
+type UpdateTrafficBodyItemType string
 
-// Possible values for PostUserForbiddenType.
+// Possible values for UpdateTrafficBodyItemType.
 const (
-	ModelDefaultErrorPostUserForbidden   PostUserForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorPostUserForbidden PostUserForbiddenType = "ModelCloudctrlError"
+	UpdateTrafficBodyItem0UpdateTrafficBodyItem UpdateTrafficBodyItemType = "UpdateTrafficBodyItem0"
+	UpdateTrafficBodyItem1UpdateTrafficBodyItem UpdateTrafficBodyItemType = "UpdateTrafficBodyItem1"
 )
 
-// IsModelDefaultError reports whether PostUserForbidden is ModelDefaultError.
-func (s PostUserForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostUserForbidden
+// IsUpdateTrafficBodyItem0 reports whether UpdateTrafficBodyItem is UpdateTrafficBodyItem0.
+func (s UpdateTrafficBodyItem) IsUpdateTrafficBodyItem0() bool {
+	return s.Type == UpdateTrafficBodyItem0UpdateTrafficBodyItem
 }
 
-// IsModelCloudctrlError reports whether PostUserForbidden is ModelCloudctrlError.
-func (s PostUserForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostUserForbidden
+// IsUpdateTrafficBodyItem1 reports whether UpdateTrafficBodyItem is UpdateTrafficBodyItem1.
+func (s UpdateTrafficBodyItem) IsUpdateTrafficBodyItem1() bool {
+	return s.Type == UpdateTrafficBodyItem1UpdateTrafficBodyItem
 }
 
-// SetModelDefaultError sets PostUserForbidden to ModelDefaultError.
-func (s *PostUserForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostUserForbidden
-	s.ModelDefaultError = v
+// SetUpdateTrafficBodyItem0 sets UpdateTrafficBodyItem to UpdateTrafficBodyItem0.
+func (s *UpdateTrafficBodyItem) SetUpdateTrafficBodyItem0(v UpdateTrafficBodyItem0) {
+	s.Type = UpdateTrafficBodyItem0UpdateTrafficBodyItem
+	s.UpdateTrafficBodyItem0 = v
 }
 
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostUserForbidden is ModelDefaultError.
-func (s PostUserForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
+// GetUpdateTrafficBodyItem0 returns UpdateTrafficBodyItem0 and true boolean if UpdateTrafficBodyItem is UpdateTrafficBodyItem0.
+func (s UpdateTrafficBodyItem) GetUpdateTrafficBodyItem0() (v UpdateTrafficBodyItem0, ok bool) {
+	if !s.IsUpdateTrafficBodyItem0() {
 		return v, false
 	}
-	return s.ModelDefaultError, true
+	return s.UpdateTrafficBodyItem0, true
 }
 
-// NewModelDefaultErrorPostUserForbidden returns new PostUserForbidden from ModelDefaultError.
-func NewModelDefaultErrorPostUserForbidden(v ModelDefaultError) PostUserForbidden {
-	var s PostUserForbidden
-	s.SetModelDefaultError(v)
+// NewUpdateTrafficBodyItem0UpdateTrafficBodyItem returns new UpdateTrafficBodyItem from UpdateTrafficBodyItem0.
+func NewUpdateTrafficBodyItem0UpdateTrafficBodyItem(v UpdateTrafficBodyItem0) UpdateTrafficBodyItem {
+	var s UpdateTrafficBodyItem
+	s.SetUpdateTrafficBodyItem0(v)
 	return s
 }
 
-// SetModelCloudctrlError sets PostUserForbidden to ModelCloudctrlError.
-func (s *PostUserForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostUserForbidden
-	s.ModelCloudctrlError = v
+// SetUpdateTrafficBodyItem1 sets UpdateTrafficBodyItem to UpdateTrafficBodyItem1.
+func (s *UpdateTrafficBodyItem) SetUpdateTrafficBodyItem1(v UpdateTrafficBodyItem1) {
+	s.Type = UpdateTrafficBodyItem1UpdateTrafficBodyItem
+	s.UpdateTrafficBodyItem1 = v
 }
 
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostUserForbidden is ModelCloudctrlError.
-func (s PostUserForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
+// GetUpdateTrafficBodyItem1 returns UpdateTrafficBodyItem1 and true boolean if UpdateTrafficBodyItem is UpdateTrafficBodyItem1.
+func (s UpdateTrafficBodyItem) GetUpdateTrafficBodyItem1() (v UpdateTrafficBodyItem1, ok bool) {
+	if !s.IsUpdateTrafficBodyItem1() {
 		return v, false
 	}
-	return s.ModelCloudctrlError, true
+	return s.UpdateTrafficBodyItem1, true
 }
 
-// NewModelCloudctrlErrorPostUserForbidden returns new PostUserForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostUserForbidden(v ModelCloudctrlError) PostUserForbidden {
-	var s PostUserForbidden
-	s.SetModelCloudctrlError(v)
+// NewUpdateTrafficBodyItem1UpdateTrafficBodyItem returns new UpdateTrafficBodyItem from UpdateTrafficBodyItem1.
+func NewUpdateTrafficBodyItem1UpdateTrafficBodyItem(v UpdateTrafficBodyItem1) UpdateTrafficBodyItem {
+	var s UpdateTrafficBodyItem
+	s.SetUpdateTrafficBodyItem1(v)
 	return s
 }
 
-func (*PostUserForbidden) postUserRes() {}
-
-// PostUserInternalServerError represents sum type.
-type PostUserInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PostUserInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PostUserInternalServerErrorType is oneOf type of PostUserInternalServerError.
-type PostUserInternalServerErrorType string
-
-// Possible values for PostUserInternalServerErrorType.
-const (
-	ModelDefaultErrorPostUserInternalServerError   PostUserInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorPostUserInternalServerError PostUserInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PostUserInternalServerError is ModelDefaultError.
-func (s PostUserInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostUserInternalServerError
-}
-
-// IsModelCloudctrlError reports whether PostUserInternalServerError is ModelCloudctrlError.
-func (s PostUserInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostUserInternalServerError
-}
-
-// SetModelDefaultError sets PostUserInternalServerError to ModelDefaultError.
-func (s *PostUserInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostUserInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostUserInternalServerError is ModelDefaultError.
-func (s PostUserInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPostUserInternalServerError returns new PostUserInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorPostUserInternalServerError(v ModelDefaultError) PostUserInternalServerError {
-	var s PostUserInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PostUserInternalServerError to ModelCloudctrlError.
-func (s *PostUserInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostUserInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostUserInternalServerError is ModelCloudctrlError.
-func (s PostUserInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPostUserInternalServerError returns new PostUserInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostUserInternalServerError(v ModelCloudctrlError) PostUserInternalServerError {
-	var s PostUserInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PostUserInternalServerError) postUserRes() {}
-
-// PostUserUnauthorized represents sum type.
-type PostUserUnauthorized struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PostUserUnauthorizedType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PostUserUnauthorizedType is oneOf type of PostUserUnauthorized.
-type PostUserUnauthorizedType string
-
-// Possible values for PostUserUnauthorizedType.
-const (
-	ModelDefaultErrorPostUserUnauthorized   PostUserUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorPostUserUnauthorized PostUserUnauthorizedType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PostUserUnauthorized is ModelDefaultError.
-func (s PostUserUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPostUserUnauthorized
-}
-
-// IsModelCloudctrlError reports whether PostUserUnauthorized is ModelCloudctrlError.
-func (s PostUserUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPostUserUnauthorized
-}
-
-// SetModelDefaultError sets PostUserUnauthorized to ModelDefaultError.
-func (s *PostUserUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPostUserUnauthorized
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PostUserUnauthorized is ModelDefaultError.
-func (s PostUserUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPostUserUnauthorized returns new PostUserUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorPostUserUnauthorized(v ModelDefaultError) PostUserUnauthorized {
-	var s PostUserUnauthorized
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PostUserUnauthorized to ModelCloudctrlError.
-func (s *PostUserUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPostUserUnauthorized
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PostUserUnauthorized is ModelCloudctrlError.
-func (s PostUserUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPostUserUnauthorized returns new PostUserUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorPostUserUnauthorized(v ModelCloudctrlError) PostUserUnauthorized {
-	var s PostUserUnauthorized
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PostUserUnauthorized) postUserRes() {}
-
-// PutApplicationTrafficBadRequest represents sum type.
-type PutApplicationTrafficBadRequest struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PutApplicationTrafficBadRequestType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PutApplicationTrafficBadRequestType is oneOf type of PutApplicationTrafficBadRequest.
-type PutApplicationTrafficBadRequestType string
-
-// Possible values for PutApplicationTrafficBadRequestType.
-const (
-	ModelDefaultErrorPutApplicationTrafficBadRequest   PutApplicationTrafficBadRequestType = "ModelDefaultError"
-	ModelCloudctrlErrorPutApplicationTrafficBadRequest PutApplicationTrafficBadRequestType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PutApplicationTrafficBadRequest is ModelDefaultError.
-func (s PutApplicationTrafficBadRequest) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPutApplicationTrafficBadRequest
-}
-
-// IsModelCloudctrlError reports whether PutApplicationTrafficBadRequest is ModelCloudctrlError.
-func (s PutApplicationTrafficBadRequest) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPutApplicationTrafficBadRequest
-}
-
-// SetModelDefaultError sets PutApplicationTrafficBadRequest to ModelDefaultError.
-func (s *PutApplicationTrafficBadRequest) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPutApplicationTrafficBadRequest
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PutApplicationTrafficBadRequest is ModelDefaultError.
-func (s PutApplicationTrafficBadRequest) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPutApplicationTrafficBadRequest returns new PutApplicationTrafficBadRequest from ModelDefaultError.
-func NewModelDefaultErrorPutApplicationTrafficBadRequest(v ModelDefaultError) PutApplicationTrafficBadRequest {
-	var s PutApplicationTrafficBadRequest
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PutApplicationTrafficBadRequest to ModelCloudctrlError.
-func (s *PutApplicationTrafficBadRequest) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPutApplicationTrafficBadRequest
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PutApplicationTrafficBadRequest is ModelCloudctrlError.
-func (s PutApplicationTrafficBadRequest) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPutApplicationTrafficBadRequest returns new PutApplicationTrafficBadRequest from ModelCloudctrlError.
-func NewModelCloudctrlErrorPutApplicationTrafficBadRequest(v ModelCloudctrlError) PutApplicationTrafficBadRequest {
-	var s PutApplicationTrafficBadRequest
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PutApplicationTrafficBadRequest) putApplicationTrafficRes() {}
-
-// PutApplicationTrafficForbidden represents sum type.
-type PutApplicationTrafficForbidden struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PutApplicationTrafficForbiddenType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PutApplicationTrafficForbiddenType is oneOf type of PutApplicationTrafficForbidden.
-type PutApplicationTrafficForbiddenType string
-
-// Possible values for PutApplicationTrafficForbiddenType.
-const (
-	ModelDefaultErrorPutApplicationTrafficForbidden   PutApplicationTrafficForbiddenType = "ModelDefaultError"
-	ModelCloudctrlErrorPutApplicationTrafficForbidden PutApplicationTrafficForbiddenType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PutApplicationTrafficForbidden is ModelDefaultError.
-func (s PutApplicationTrafficForbidden) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPutApplicationTrafficForbidden
-}
-
-// IsModelCloudctrlError reports whether PutApplicationTrafficForbidden is ModelCloudctrlError.
-func (s PutApplicationTrafficForbidden) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPutApplicationTrafficForbidden
-}
-
-// SetModelDefaultError sets PutApplicationTrafficForbidden to ModelDefaultError.
-func (s *PutApplicationTrafficForbidden) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPutApplicationTrafficForbidden
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PutApplicationTrafficForbidden is ModelDefaultError.
-func (s PutApplicationTrafficForbidden) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPutApplicationTrafficForbidden returns new PutApplicationTrafficForbidden from ModelDefaultError.
-func NewModelDefaultErrorPutApplicationTrafficForbidden(v ModelDefaultError) PutApplicationTrafficForbidden {
-	var s PutApplicationTrafficForbidden
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PutApplicationTrafficForbidden to ModelCloudctrlError.
-func (s *PutApplicationTrafficForbidden) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPutApplicationTrafficForbidden
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PutApplicationTrafficForbidden is ModelCloudctrlError.
-func (s PutApplicationTrafficForbidden) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPutApplicationTrafficForbidden returns new PutApplicationTrafficForbidden from ModelCloudctrlError.
-func NewModelCloudctrlErrorPutApplicationTrafficForbidden(v ModelCloudctrlError) PutApplicationTrafficForbidden {
-	var s PutApplicationTrafficForbidden
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PutApplicationTrafficForbidden) putApplicationTrafficRes() {}
-
-// PutApplicationTrafficInternalServerError represents sum type.
-type PutApplicationTrafficInternalServerError struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PutApplicationTrafficInternalServerErrorType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PutApplicationTrafficInternalServerErrorType is oneOf type of PutApplicationTrafficInternalServerError.
-type PutApplicationTrafficInternalServerErrorType string
-
-// Possible values for PutApplicationTrafficInternalServerErrorType.
-const (
-	ModelDefaultErrorPutApplicationTrafficInternalServerError   PutApplicationTrafficInternalServerErrorType = "ModelDefaultError"
-	ModelCloudctrlErrorPutApplicationTrafficInternalServerError PutApplicationTrafficInternalServerErrorType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PutApplicationTrafficInternalServerError is ModelDefaultError.
-func (s PutApplicationTrafficInternalServerError) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPutApplicationTrafficInternalServerError
-}
-
-// IsModelCloudctrlError reports whether PutApplicationTrafficInternalServerError is ModelCloudctrlError.
-func (s PutApplicationTrafficInternalServerError) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPutApplicationTrafficInternalServerError
-}
-
-// SetModelDefaultError sets PutApplicationTrafficInternalServerError to ModelDefaultError.
-func (s *PutApplicationTrafficInternalServerError) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPutApplicationTrafficInternalServerError
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PutApplicationTrafficInternalServerError is ModelDefaultError.
-func (s PutApplicationTrafficInternalServerError) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPutApplicationTrafficInternalServerError returns new PutApplicationTrafficInternalServerError from ModelDefaultError.
-func NewModelDefaultErrorPutApplicationTrafficInternalServerError(v ModelDefaultError) PutApplicationTrafficInternalServerError {
-	var s PutApplicationTrafficInternalServerError
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PutApplicationTrafficInternalServerError to ModelCloudctrlError.
-func (s *PutApplicationTrafficInternalServerError) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPutApplicationTrafficInternalServerError
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PutApplicationTrafficInternalServerError is ModelCloudctrlError.
-func (s PutApplicationTrafficInternalServerError) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPutApplicationTrafficInternalServerError returns new PutApplicationTrafficInternalServerError from ModelCloudctrlError.
-func NewModelCloudctrlErrorPutApplicationTrafficInternalServerError(v ModelCloudctrlError) PutApplicationTrafficInternalServerError {
-	var s PutApplicationTrafficInternalServerError
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PutApplicationTrafficInternalServerError) putApplicationTrafficRes() {}
-
-// PutApplicationTrafficNotFound represents sum type.
-type PutApplicationTrafficNotFound struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PutApplicationTrafficNotFoundType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PutApplicationTrafficNotFoundType is oneOf type of PutApplicationTrafficNotFound.
-type PutApplicationTrafficNotFoundType string
-
-// Possible values for PutApplicationTrafficNotFoundType.
-const (
-	ModelDefaultErrorPutApplicationTrafficNotFound   PutApplicationTrafficNotFoundType = "ModelDefaultError"
-	ModelCloudctrlErrorPutApplicationTrafficNotFound PutApplicationTrafficNotFoundType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PutApplicationTrafficNotFound is ModelDefaultError.
-func (s PutApplicationTrafficNotFound) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPutApplicationTrafficNotFound
-}
-
-// IsModelCloudctrlError reports whether PutApplicationTrafficNotFound is ModelCloudctrlError.
-func (s PutApplicationTrafficNotFound) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPutApplicationTrafficNotFound
-}
-
-// SetModelDefaultError sets PutApplicationTrafficNotFound to ModelDefaultError.
-func (s *PutApplicationTrafficNotFound) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPutApplicationTrafficNotFound
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PutApplicationTrafficNotFound is ModelDefaultError.
-func (s PutApplicationTrafficNotFound) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPutApplicationTrafficNotFound returns new PutApplicationTrafficNotFound from ModelDefaultError.
-func NewModelDefaultErrorPutApplicationTrafficNotFound(v ModelDefaultError) PutApplicationTrafficNotFound {
-	var s PutApplicationTrafficNotFound
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PutApplicationTrafficNotFound to ModelCloudctrlError.
-func (s *PutApplicationTrafficNotFound) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPutApplicationTrafficNotFound
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PutApplicationTrafficNotFound is ModelCloudctrlError.
-func (s PutApplicationTrafficNotFound) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPutApplicationTrafficNotFound returns new PutApplicationTrafficNotFound from ModelCloudctrlError.
-func NewModelCloudctrlErrorPutApplicationTrafficNotFound(v ModelCloudctrlError) PutApplicationTrafficNotFound {
-	var s PutApplicationTrafficNotFound
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PutApplicationTrafficNotFound) putApplicationTrafficRes() {}
-
-// PutApplicationTrafficUnauthorized represents sum type.
-type PutApplicationTrafficUnauthorized struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                PutApplicationTrafficUnauthorizedType
-	ModelDefaultError   ModelDefaultError
-	ModelCloudctrlError ModelCloudctrlError
-}
-
-// PutApplicationTrafficUnauthorizedType is oneOf type of PutApplicationTrafficUnauthorized.
-type PutApplicationTrafficUnauthorizedType string
-
-// Possible values for PutApplicationTrafficUnauthorizedType.
-const (
-	ModelDefaultErrorPutApplicationTrafficUnauthorized   PutApplicationTrafficUnauthorizedType = "ModelDefaultError"
-	ModelCloudctrlErrorPutApplicationTrafficUnauthorized PutApplicationTrafficUnauthorizedType = "ModelCloudctrlError"
-)
-
-// IsModelDefaultError reports whether PutApplicationTrafficUnauthorized is ModelDefaultError.
-func (s PutApplicationTrafficUnauthorized) IsModelDefaultError() bool {
-	return s.Type == ModelDefaultErrorPutApplicationTrafficUnauthorized
-}
-
-// IsModelCloudctrlError reports whether PutApplicationTrafficUnauthorized is ModelCloudctrlError.
-func (s PutApplicationTrafficUnauthorized) IsModelCloudctrlError() bool {
-	return s.Type == ModelCloudctrlErrorPutApplicationTrafficUnauthorized
-}
-
-// SetModelDefaultError sets PutApplicationTrafficUnauthorized to ModelDefaultError.
-func (s *PutApplicationTrafficUnauthorized) SetModelDefaultError(v ModelDefaultError) {
-	s.Type = ModelDefaultErrorPutApplicationTrafficUnauthorized
-	s.ModelDefaultError = v
-}
-
-// GetModelDefaultError returns ModelDefaultError and true boolean if PutApplicationTrafficUnauthorized is ModelDefaultError.
-func (s PutApplicationTrafficUnauthorized) GetModelDefaultError() (v ModelDefaultError, ok bool) {
-	if !s.IsModelDefaultError() {
-		return v, false
-	}
-	return s.ModelDefaultError, true
-}
-
-// NewModelDefaultErrorPutApplicationTrafficUnauthorized returns new PutApplicationTrafficUnauthorized from ModelDefaultError.
-func NewModelDefaultErrorPutApplicationTrafficUnauthorized(v ModelDefaultError) PutApplicationTrafficUnauthorized {
-	var s PutApplicationTrafficUnauthorized
-	s.SetModelDefaultError(v)
-	return s
-}
-
-// SetModelCloudctrlError sets PutApplicationTrafficUnauthorized to ModelCloudctrlError.
-func (s *PutApplicationTrafficUnauthorized) SetModelCloudctrlError(v ModelCloudctrlError) {
-	s.Type = ModelCloudctrlErrorPutApplicationTrafficUnauthorized
-	s.ModelCloudctrlError = v
-}
-
-// GetModelCloudctrlError returns ModelCloudctrlError and true boolean if PutApplicationTrafficUnauthorized is ModelCloudctrlError.
-func (s PutApplicationTrafficUnauthorized) GetModelCloudctrlError() (v ModelCloudctrlError, ok bool) {
-	if !s.IsModelCloudctrlError() {
-		return v, false
-	}
-	return s.ModelCloudctrlError, true
-}
-
-// NewModelCloudctrlErrorPutApplicationTrafficUnauthorized returns new PutApplicationTrafficUnauthorized from ModelCloudctrlError.
-func NewModelCloudctrlErrorPutApplicationTrafficUnauthorized(v ModelCloudctrlError) PutApplicationTrafficUnauthorized {
-	var s PutApplicationTrafficUnauthorized
-	s.SetModelCloudctrlError(v)
-	return s
-}
-
-func (*PutApplicationTrafficUnauthorized) putApplicationTrafficRes() {}
-
-type PutTrafficsBody []PutTrafficsBodyItem
-
-// PutTrafficsBodyItem represents sum type.
-type PutTrafficsBodyItem struct {
-	// Type selects the active sum variant, switch on this field.
-	Type                 PutTrafficsBodyItemType
-	PutTrafficsBodyItem0 PutTrafficsBodyItem0
-	PutTrafficsBodyItem1 PutTrafficsBodyItem1
-}
-
-// PutTrafficsBodyItemType is oneOf type of PutTrafficsBodyItem.
-type PutTrafficsBodyItemType string
-
-// Possible values for PutTrafficsBodyItemType.
-const (
-	PutTrafficsBodyItem0PutTrafficsBodyItem PutTrafficsBodyItemType = "PutTrafficsBodyItem0"
-	PutTrafficsBodyItem1PutTrafficsBodyItem PutTrafficsBodyItemType = "PutTrafficsBodyItem1"
-)
-
-// IsPutTrafficsBodyItem0 reports whether PutTrafficsBodyItem is PutTrafficsBodyItem0.
-func (s PutTrafficsBodyItem) IsPutTrafficsBodyItem0() bool {
-	return s.Type == PutTrafficsBodyItem0PutTrafficsBodyItem
-}
-
-// IsPutTrafficsBodyItem1 reports whether PutTrafficsBodyItem is PutTrafficsBodyItem1.
-func (s PutTrafficsBodyItem) IsPutTrafficsBodyItem1() bool {
-	return s.Type == PutTrafficsBodyItem1PutTrafficsBodyItem
-}
-
-// SetPutTrafficsBodyItem0 sets PutTrafficsBodyItem to PutTrafficsBodyItem0.
-func (s *PutTrafficsBodyItem) SetPutTrafficsBodyItem0(v PutTrafficsBodyItem0) {
-	s.Type = PutTrafficsBodyItem0PutTrafficsBodyItem
-	s.PutTrafficsBodyItem0 = v
-}
-
-// GetPutTrafficsBodyItem0 returns PutTrafficsBodyItem0 and true boolean if PutTrafficsBodyItem is PutTrafficsBodyItem0.
-func (s PutTrafficsBodyItem) GetPutTrafficsBodyItem0() (v PutTrafficsBodyItem0, ok bool) {
-	if !s.IsPutTrafficsBodyItem0() {
-		return v, false
-	}
-	return s.PutTrafficsBodyItem0, true
-}
-
-// NewPutTrafficsBodyItem0PutTrafficsBodyItem returns new PutTrafficsBodyItem from PutTrafficsBodyItem0.
-func NewPutTrafficsBodyItem0PutTrafficsBodyItem(v PutTrafficsBodyItem0) PutTrafficsBodyItem {
-	var s PutTrafficsBodyItem
-	s.SetPutTrafficsBodyItem0(v)
-	return s
-}
-
-// SetPutTrafficsBodyItem1 sets PutTrafficsBodyItem to PutTrafficsBodyItem1.
-func (s *PutTrafficsBodyItem) SetPutTrafficsBodyItem1(v PutTrafficsBodyItem1) {
-	s.Type = PutTrafficsBodyItem1PutTrafficsBodyItem
-	s.PutTrafficsBodyItem1 = v
-}
-
-// GetPutTrafficsBodyItem1 returns PutTrafficsBodyItem1 and true boolean if PutTrafficsBodyItem is PutTrafficsBodyItem1.
-func (s PutTrafficsBodyItem) GetPutTrafficsBodyItem1() (v PutTrafficsBodyItem1, ok bool) {
-	if !s.IsPutTrafficsBodyItem1() {
-		return v, false
-	}
-	return s.PutTrafficsBodyItem1, true
-}
-
-// NewPutTrafficsBodyItem1PutTrafficsBodyItem returns new PutTrafficsBodyItem from PutTrafficsBodyItem1.
-func NewPutTrafficsBodyItem1PutTrafficsBodyItem(v PutTrafficsBodyItem1) PutTrafficsBodyItem {
-	var s PutTrafficsBodyItem
-	s.SetPutTrafficsBodyItem1(v)
-	return s
-}
-
-type PutTrafficsBodyItem0 struct {
+type UpdateTrafficBodyItem0 struct {
 	// 最新バージョンかどうか.
 	IsLatestVersion bool `json:"is_latest_version"`
 	// トラフィック分散の割合.
@@ -11387,26 +11487,26 @@ type PutTrafficsBodyItem0 struct {
 }
 
 // GetIsLatestVersion returns the value of IsLatestVersion.
-func (s *PutTrafficsBodyItem0) GetIsLatestVersion() bool {
+func (s *UpdateTrafficBodyItem0) GetIsLatestVersion() bool {
 	return s.IsLatestVersion
 }
 
 // GetPercent returns the value of Percent.
-func (s *PutTrafficsBodyItem0) GetPercent() int {
+func (s *UpdateTrafficBodyItem0) GetPercent() int {
 	return s.Percent
 }
 
 // SetIsLatestVersion sets the value of IsLatestVersion.
-func (s *PutTrafficsBodyItem0) SetIsLatestVersion(val bool) {
+func (s *UpdateTrafficBodyItem0) SetIsLatestVersion(val bool) {
 	s.IsLatestVersion = val
 }
 
 // SetPercent sets the value of Percent.
-func (s *PutTrafficsBodyItem0) SetPercent(val int) {
+func (s *UpdateTrafficBodyItem0) SetPercent(val int) {
 	s.Percent = val
 }
 
-type PutTrafficsBodyItem1 struct {
+type UpdateTrafficBodyItem1 struct {
 	// バージョン名.
 	VersionName string `json:"version_name"`
 	// トラフィック分散の割合.
@@ -11414,21 +11514,21 @@ type PutTrafficsBodyItem1 struct {
 }
 
 // GetVersionName returns the value of VersionName.
-func (s *PutTrafficsBodyItem1) GetVersionName() string {
+func (s *UpdateTrafficBodyItem1) GetVersionName() string {
 	return s.VersionName
 }
 
 // GetPercent returns the value of Percent.
-func (s *PutTrafficsBodyItem1) GetPercent() int {
+func (s *UpdateTrafficBodyItem1) GetPercent() int {
 	return s.Percent
 }
 
 // SetVersionName sets the value of VersionName.
-func (s *PutTrafficsBodyItem1) SetVersionName(val string) {
+func (s *UpdateTrafficBodyItem1) SetVersionName(val string) {
 	s.VersionName = val
 }
 
 // SetPercent sets the value of Percent.
-func (s *PutTrafficsBodyItem1) SetPercent(val int) {
+func (s *UpdateTrafficBodyItem1) SetPercent(val int) {
 	s.Percent = val
 }
