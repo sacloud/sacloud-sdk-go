@@ -53,10 +53,10 @@ func (s *Server) ListApplications(w http.ResponseWriter, r *http.Request, params
 	writeJSON(w, http.StatusOK, applications)
 }
 
-// PostApplication creates an application.
+// CreateApplication creates an application.
 // (POST /applications)
-func (s *Server) PostApplication(w http.ResponseWriter, r *http.Request) {
-	paramJSON := &v1.PostApplicationBody{
+func (s *Server) CreateApplication(w http.ResponseWriter, r *http.Request) {
+	paramJSON := &v1.CreateApplicationBody{
 		TimeoutSeconds: 60,
 		MinScale:       0,
 		MaxScale:       10,
@@ -75,9 +75,9 @@ func (s *Server) PostApplication(w http.ResponseWriter, r *http.Request) {
 	writeJSON(w, http.StatusCreated, application)
 }
 
-// GetApplication returns application details.
+// ReadApplication returns application details.
 // (GET /applications/{id})
-func (s *Server) GetApplication(w http.ResponseWriter, r *http.Request, id string) {
+func (s *Server) ReadApplication(w http.ResponseWriter, r *http.Request, id string) {
 	application, err := s.Engine.ReadApplication(id)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)
@@ -116,18 +116,18 @@ func (s *Server) DeleteApplication(w http.ResponseWriter, r *http.Request, id st
 	w.WriteHeader(http.StatusNoContent)
 }
 
-// GetApplicationStatus returns application status.
+// ReadApplicationStatus returns application status.
 // (GET /applications/{id}/status)
-func (s *Server) GetApplicationStatus(w http.ResponseWriter, r *http.Request, id string) {
+func (s *Server) ReadApplicationStatus(w http.ResponseWriter, r *http.Request, id string) {
 	application, err := s.Engine.ReadApplication(id)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)
 		return
 	}
 
-	status := v1.HandlerGetApplicationOnlyStatusStatus(application.Status)
+	status := v1.HandlerReadApplicationOnlyStatusStatus(application.Status)
 	message := ""
-	writeJSON(w, http.StatusOK, v1.HandlerGetApplicationOnlyStatus{
+	writeJSON(w, http.StatusOK, v1.HandlerReadApplicationOnlyStatus{
 		Status:  status,
 		Message: message,
 	})

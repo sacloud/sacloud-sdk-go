@@ -24,16 +24,16 @@ import (
 
 // コンポーネントの最大CPU数
 var ApplicationMaxCPUs = []string{
-	(string)(v1.PostApplicationBodyComponentsItemMaxCPU05),
-	(string)(v1.PostApplicationBodyComponentsItemMaxCPU1),
-	(string)(v1.PostApplicationBodyComponentsItemMaxCPU2),
+	(string)(v1.CreateApplicationBodyComponentsItemMaxCPU05),
+	(string)(v1.CreateApplicationBodyComponentsItemMaxCPU1),
+	(string)(v1.CreateApplicationBodyComponentsItemMaxCPU2),
 }
 
 // コンポーネントの最大メモリ
 var ApplicationMaxMemories = []string{
-	(string)(v1.PostApplicationBodyComponentsItemMaxMemory1Gi),
-	(string)(v1.PostApplicationBodyComponentsItemMaxMemory2Gi),
-	(string)(v1.PostApplicationBodyComponentsItemMaxMemory4Gi),
+	(string)(v1.CreateApplicationBodyComponentsItemMaxMemory1Gi),
+	(string)(v1.CreateApplicationBodyComponentsItemMaxMemory2Gi),
+	(string)(v1.CreateApplicationBodyComponentsItemMaxMemory4Gi),
 }
 
 // ソート順
@@ -44,24 +44,24 @@ var ApplicationSortOrders = []string{
 
 // アプリケーションステータス
 var ApplicationStatuses = []string{
-	(string)(v1.HandlerGetApplicationOnlyStatusStatusHealthy),
-	(string)(v1.HandlerGetApplicationOnlyStatusStatusDeploying),
-	(string)(v1.HandlerGetApplicationOnlyStatusStatusUnHealthy),
+	(string)(v1.HandlerReadApplicationOnlyStatusStatusHealthy),
+	(string)(v1.HandlerReadApplicationOnlyStatusStatusDeploying),
+	(string)(v1.HandlerReadApplicationOnlyStatusStatusUnHealthy),
 }
 
 type ApplicationAPI interface {
 	// List アプリケーション一覧を取得
 	List(ctx context.Context, params *v1.ListApplicationsParams) (*v1.HandlerListApplications, error)
 	// Create アプリケーションを作成
-	Create(ctx context.Context, params *v1.PostApplicationBody) (*v1.HandlerPostApplication, error)
+	Create(ctx context.Context, params *v1.CreateApplicationBody) (*v1.HandlerCreateApplication, error)
 	// Read アプリケーション詳細を取得
-	Read(ctx context.Context, id string) (*v1.HandlerGetApplication, error)
+	Read(ctx context.Context, id string) (*v1.HandlerReadApplication, error)
 	// Update アプリケーションを部分的に変更
 	Update(ctx context.Context, id string, params *v1.PatchApplicationBody) (*v1.HandlerPatchApplication, error)
 	// Delete アプリケーションを削除
 	Delete(ctx context.Context, id string) error
 	// ReadStatus アプリケーションステータスを取得
-	ReadStatus(ctx context.Context, id string) (*v1.HandlerGetApplicationOnlyStatus, error)
+	ReadStatus(ctx context.Context, id string) (*v1.HandlerReadApplicationOnlyStatus, error)
 }
 
 var _ ApplicationAPI = (*applicationOp)(nil)
@@ -101,28 +101,28 @@ func (op *applicationOp) List(ctx context.Context, params *v1.ListApplicationsPa
 	}
 }
 
-func (op *applicationOp) Create(ctx context.Context, params *v1.PostApplicationBody) (*v1.HandlerPostApplication, error) {
+func (op *applicationOp) Create(ctx context.Context, params *v1.CreateApplicationBody) (*v1.HandlerCreateApplication, error) {
 	const methodName = "Applications.Create"
 	if params == nil {
 		return nil, NewError(methodName, errors.New("params is nil"))
 	}
 
-	res, err := op.client.PostApplication(ctx, params)
+	res, err := op.client.CreateApplication(ctx, params)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerPostApplication:
+	case *v1.HandlerCreateApplication:
 		return result, nil
-	case *v1.PostApplicationBadRequest:
+	case *v1.CreateApplicationBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.PostApplicationUnauthorized:
+	case *v1.CreateApplicationUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.PostApplicationForbidden:
+	case *v1.CreateApplicationForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.PostApplicationConflict:
+	case *v1.CreateApplicationConflict:
 		return nil, apiErrorFromModel(methodName, http.StatusConflict, result)
-	case *v1.PostApplicationInternalServerError:
+	case *v1.CreateApplicationInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
@@ -159,24 +159,24 @@ func (op *applicationOp) Update(ctx context.Context, id string, params *v1.Patch
 	}
 }
 
-func (op *applicationOp) Read(ctx context.Context, id string) (*v1.HandlerGetApplication, error) {
+func (op *applicationOp) Read(ctx context.Context, id string) (*v1.HandlerReadApplication, error) {
 	const methodName = "Applications.Read"
-	res, err := op.client.GetApplication(ctx, v1.GetApplicationParams{ID: id})
+	res, err := op.client.ReadApplication(ctx, v1.ReadApplicationParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerGetApplication:
+	case *v1.HandlerReadApplication:
 		return result, nil
-	case *v1.GetApplicationBadRequest:
+	case *v1.ReadApplicationBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.GetApplicationUnauthorized:
+	case *v1.ReadApplicationUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.GetApplicationForbidden:
+	case *v1.ReadApplicationForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.GetApplicationNotFound:
+	case *v1.ReadApplicationNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.GetApplicationInternalServerError:
+	case *v1.ReadApplicationInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
@@ -207,24 +207,24 @@ func (op *applicationOp) Delete(ctx context.Context, id string) error {
 	}
 }
 
-func (op *applicationOp) ReadStatus(ctx context.Context, id string) (*v1.HandlerGetApplicationOnlyStatus, error) {
+func (op *applicationOp) ReadStatus(ctx context.Context, id string) (*v1.HandlerReadApplicationOnlyStatus, error) {
 	const methodName = "Applications.ReadStatus"
-	res, err := op.client.GetApplicationStatus(ctx, v1.GetApplicationStatusParams{ID: id})
+	res, err := op.client.ReadApplicationStatus(ctx, v1.ReadApplicationStatusParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerGetApplicationOnlyStatus:
+	case *v1.HandlerReadApplicationOnlyStatus:
 		return result, nil
-	case *v1.GetApplicationStatusBadRequest:
+	case *v1.ReadApplicationStatusBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.GetApplicationStatusUnauthorized:
+	case *v1.ReadApplicationStatusUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.GetApplicationStatusForbidden:
+	case *v1.ReadApplicationStatusForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.GetApplicationStatusNotFound:
+	case *v1.ReadApplicationStatusNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.GetApplicationStatusInternalServerError:
+	case *v1.ReadApplicationStatusInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))

@@ -231,16 +231,16 @@ func TestEngine_Application(t *testing.T) {
 	})
 }
 
-func postApplicationBody() *v1.PostApplicationBody {
+func postApplicationBody() *v1.CreateApplicationBody {
 	server, userName, password := "apprun-example.sakuracr.jp", "apprun", "apprun" //nolint:gosec
 	envKey, envValue := "envkey", "envvalue"
 	headerName, headerValue := "Custom-Header", "Awesome"
-	probe := v1.PostApplicationBodyComponentsItemProbe{
-		HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-			v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+	probe := v1.CreateApplicationBodyComponentsItemProbe{
+		HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+			v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 				Path: "/healthz",
 				Port: 8080,
-				Headers: []v1.PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem{
+				Headers: []v1.CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem{
 					{
 						Name:  v1.NewOptString(headerName),
 						Value: v1.NewOptString(headerValue),
@@ -249,20 +249,20 @@ func postApplicationBody() *v1.PostApplicationBody {
 			},
 		),
 	}
-	req := &v1.PostApplicationBody{
+	req := &v1.CreateApplicationBody{
 		Name:                   "app1",
 		Port:                   8081,
 		MinScale:               1,
 		MaxScale:               10,
 		ScaleTargetConcurrency: v1.NewOptInt(100),
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
 							Image:    "apprun-example.sakuracr.jp/helloworld:latest",
 							Server:   v1.NewOptNilString(server),
 							Username: v1.NewOptNilString(userName),
@@ -270,15 +270,15 @@ func postApplicationBody() *v1.PostApplicationBody {
 						},
 					),
 				},
-				Env: v1.NewOptNilPostApplicationBodyComponentsItemEnvItemArray(
-					[]v1.PostApplicationBodyComponentsItemEnvItem{
+				Env: v1.NewOptNilRequestEnv(
+					v1.RequestEnv{
 						{
-							Key:   v1.NewOptString(envKey),
-							Value: v1.NewOptString(envValue),
+							Key:   envKey,
+							Value: envValue,
 						},
 					},
 				),
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(probe),
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(probe),
 			},
 		},
 		TimeoutSeconds: 20,

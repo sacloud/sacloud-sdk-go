@@ -25,9 +25,9 @@ import (
 
 type PacketFilterAPI interface {
 	// Read パケットフィルタ詳細を取得
-	Read(ctx context.Context, appId string) (*v1.HandlerGetPacketFilter, error)
+	Read(ctx context.Context, appId string) (*v1.HandlerReadPacketFilter, error)
 	// Update パケットフィルタを部分的に変更
-	Update(ctx context.Context, appId string, params *v1.PatchPacketFilter) (*v1.HandlerPatchPacketFilter, error)
+	Update(ctx context.Context, appId string, params *v1.PatchPacketFilterBody) (*v1.HandlerPatchPacketFilter, error)
 }
 
 var _ PacketFilterAPI = (*packetFilterOp)(nil)
@@ -41,36 +41,36 @@ func NewPacketFilterOp(client *v1.Client) PacketFilterAPI {
 	return &packetFilterOp{client: client}
 }
 
-func (op *packetFilterOp) Read(ctx context.Context, appId string) (*v1.HandlerGetPacketFilter, error) {
+func (op *packetFilterOp) Read(ctx context.Context, appId string) (*v1.HandlerReadPacketFilter, error) {
 	const methodName = "PacketFilter.Read"
 	id, err := uuid.Parse(appId)
 	if err != nil {
 		return nil, NewError(methodName, err)
 	}
 
-	res, err := op.client.GetPacketFilter(ctx, v1.GetPacketFilterParams{ID: id})
+	res, err := op.client.ReadApplicationPacketFilter(ctx, v1.ReadApplicationPacketFilterParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerGetPacketFilter:
+	case *v1.HandlerReadPacketFilter:
 		return result, nil
-	case *v1.GetPacketFilterBadRequest:
+	case *v1.ReadApplicationPacketFilterBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.GetPacketFilterUnauthorized:
+	case *v1.ReadApplicationPacketFilterUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.GetPacketFilterForbidden:
+	case *v1.ReadApplicationPacketFilterForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.GetPacketFilterNotFound:
+	case *v1.ReadApplicationPacketFilterNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.GetPacketFilterInternalServerError:
+	case *v1.ReadApplicationPacketFilterInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
 	}
 }
 
-func (op *packetFilterOp) Update(ctx context.Context, appId string, params *v1.PatchPacketFilter) (*v1.HandlerPatchPacketFilter, error) {
+func (op *packetFilterOp) Update(ctx context.Context, appId string, params *v1.PatchPacketFilterBody) (*v1.HandlerPatchPacketFilter, error) {
 	const methodName = "PacketFilter.Update"
 	id, err := uuid.Parse(appId)
 	if err != nil {
@@ -80,22 +80,22 @@ func (op *packetFilterOp) Update(ctx context.Context, appId string, params *v1.P
 		return nil, NewError(methodName, errors.New("params is nil"))
 	}
 
-	res, err := op.client.PatchPacketFilter(ctx, params, v1.PatchPacketFilterParams{ID: id})
+	res, err := op.client.PatchApplicationPacketFilter(ctx, params, v1.PatchApplicationPacketFilterParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
 	case *v1.HandlerPatchPacketFilter:
 		return result, nil
-	case *v1.PatchPacketFilterBadRequest:
+	case *v1.PatchApplicationPacketFilterBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.PatchPacketFilterUnauthorized:
+	case *v1.PatchApplicationPacketFilterUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.PatchPacketFilterForbidden:
+	case *v1.PatchApplicationPacketFilterForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.PatchPacketFilterNotFound:
+	case *v1.PatchApplicationPacketFilterNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.PatchPacketFilterInternalServerError:
+	case *v1.PatchApplicationPacketFilterInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))

@@ -30,20 +30,20 @@ var VersionSortOrders = []string{
 
 // バージョンステータス
 var VersionStatuses = []string{
-	(string)(v1.HandlerGetApplicationVersionOnlyStatusStatusHealthy),
-	(string)(v1.HandlerGetApplicationVersionOnlyStatusStatusDeploying),
-	(string)(v1.HandlerGetApplicationVersionOnlyStatusStatusUnHealthy),
+	(string)(v1.HandlerReadApplicationVersionOnlyStatusStatusHealthy),
+	(string)(v1.HandlerReadApplicationVersionOnlyStatusStatusDeploying),
+	(string)(v1.HandlerReadApplicationVersionOnlyStatusStatusUnHealthy),
 }
 
 type VersionAPI interface {
 	// List アプリケーションバージョン一覧を取得
 	List(ctx context.Context, appId string, params *v1.ListApplicationVersionsParams) (*v1.HandlerListVersions, error)
 	// Read アプリケーションバージョン詳細を取得
-	Read(ctx context.Context, appId, versionId string) (*v1.HandlerGetVersion, error)
+	Read(ctx context.Context, appId, versionId string) (*v1.HandlerReadVersion, error)
 	// Delete アプリケーションバージョンを削除
 	Delete(ctx context.Context, appId, versionId string) error
 
-	ReadStatus(ctx context.Context, appId, versionId string) (*v1.HandlerGetApplicationVersionOnlyStatus, error)
+	ReadStatus(ctx context.Context, appId, versionId string) (*v1.HandlerReadApplicationVersionOnlyStatus, error)
 }
 
 var _ VersionAPI = (*versionOp)(nil)
@@ -86,24 +86,24 @@ func (op *versionOp) List(ctx context.Context, appId string, params *v1.ListAppl
 	}
 }
 
-func (op *versionOp) Read(ctx context.Context, appId, versionId string) (*v1.HandlerGetVersion, error) {
+func (op *versionOp) Read(ctx context.Context, appId, versionId string) (*v1.HandlerReadVersion, error) {
 	const methodName = "Versions.Read"
-	res, err := op.client.GetApplicationVersion(ctx, v1.GetApplicationVersionParams{ID: appId, VersionID: versionId})
+	res, err := op.client.ReadApplicationVersion(ctx, v1.ReadApplicationVersionParams{ID: appId, VersionID: versionId})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerGetVersion:
+	case *v1.HandlerReadVersion:
 		return result, nil
-	case *v1.GetApplicationVersionBadRequest:
+	case *v1.ReadApplicationVersionBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.GetApplicationVersionUnauthorized:
+	case *v1.ReadApplicationVersionUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.GetApplicationVersionForbidden:
+	case *v1.ReadApplicationVersionForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.GetApplicationVersionNotFound:
+	case *v1.ReadApplicationVersionNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.GetApplicationVersionInternalServerError:
+	case *v1.ReadApplicationVersionInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
@@ -134,24 +134,24 @@ func (op *versionOp) Delete(ctx context.Context, appId, versionId string) error 
 	}
 }
 
-func (op *versionOp) ReadStatus(ctx context.Context, appId, versionId string) (*v1.HandlerGetApplicationVersionOnlyStatus, error) {
+func (op *versionOp) ReadStatus(ctx context.Context, appId, versionId string) (*v1.HandlerReadApplicationVersionOnlyStatus, error) {
 	const methodName = "Versions.ReadStatus"
-	res, err := op.client.GetApplicationVersionStatus(ctx, v1.GetApplicationVersionStatusParams{ID: appId, VersionID: versionId})
+	res, err := op.client.ReadApplicationVersionStatus(ctx, v1.ReadApplicationVersionStatusParams{ID: appId, VersionID: versionId})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerGetApplicationVersionOnlyStatus:
+	case *v1.HandlerReadApplicationVersionOnlyStatus:
 		return result, nil
-	case *v1.GetApplicationVersionStatusBadRequest:
+	case *v1.ReadApplicationVersionStatusBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.GetApplicationVersionStatusUnauthorized:
+	case *v1.ReadApplicationVersionStatusUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.GetApplicationVersionStatusForbidden:
+	case *v1.ReadApplicationVersionStatusForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.GetApplicationVersionStatusNotFound:
+	case *v1.ReadApplicationVersionStatusNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.GetApplicationVersionStatusInternalServerError:
+	case *v1.ReadApplicationVersionStatusInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
