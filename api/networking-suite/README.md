@@ -64,4 +64,5 @@ func main() {
 ## License
 
 Copyright (C) 2026- The sacloud/sacloud-sdk-go authors.
+`sacloud/sacloud-sdk-go` Copyright (C) 2026- The sacloud/sacloud-sdk-go authors.
 This project is published under [Apache 2.0 License](LICENSE).

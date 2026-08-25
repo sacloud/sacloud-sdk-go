@@ -34,6 +34,7 @@ sacloud-sdk-goは、[さくらのクラウド](https://cloud.sakura.ad.jp/)の�
 | `api/eventbus` | EventBus API | `github.com/sacloud/sacloud-sdk-go/api/eventbus` |
 | `api/kms` | Key Management Service API | `github.com/sacloud/sacloud-sdk-go/api/kms` |
 | `api/monitoring-suite` | 監視サービス API | `github.com/sacloud/sacloud-sdk-go/api/monitoring-suite` |
+| `api/networking-suite` | ネットワークスイート API | `github.com/sacloud/sacloud-sdk-go/api/networking-suite` |
 | `api/nosql` | NoSQL API | `github.com/sacloud/sacloud-sdk-go/api/nosql` |
 | `api/object-storage` | オブジェクトストレージ API | `github.com/sacloud/sacloud-sdk-go/api/object-storage` |
 | `api/secretmanager` | Secret Manager API | `github.com/sacloud/sacloud-sdk-go/api/secretmanager` |
