@@ -52,9 +52,9 @@ func (s *Server) ListApplicationVersions(w http.ResponseWriter, r *http.Request,
 	writeJSON(w, http.StatusOK, versions)
 }
 
-// GetApplicationVersion returns a specific version
+// ReadApplicationVersion returns a specific version
 // (GET /applications/{id}/versions/{version_id})
-func (s *Server) GetApplicationVersion(w http.ResponseWriter, r *http.Request, id string, versionId string) {
+func (s *Server) ReadApplicationVersion(w http.ResponseWriter, r *http.Request, id string, versionId string) {
 	v, err := s.Engine.ReadVersion(id, versionId)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)
@@ -64,9 +64,9 @@ func (s *Server) GetApplicationVersion(w http.ResponseWriter, r *http.Request, i
 	writeJSON(w, http.StatusOK, v)
 }
 
-// GetApplicationVersionStatus returns status for a specific version
+// ReadApplicationVersionStatus returns status for a specific version
 // (GET /applications/{id}/versions/{version_id}/status)
-func (s *Server) GetApplicationVersionStatus(w http.ResponseWriter, r *http.Request, id string, versionId string) {
+func (s *Server) ReadApplicationVersionStatus(w http.ResponseWriter, r *http.Request, id string, versionId string) {
 	status, err := s.Engine.ReadVersionStatus(id, versionId)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)

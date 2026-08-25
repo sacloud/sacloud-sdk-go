@@ -21,9 +21,9 @@ import (
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 )
 
-// GetPacketFilter returns packet filter
+// ReadApplicationPacketFilter returns packet filter
 // (GET /applications/{id}/packet_filter)
-func (s *Server) GetPacketFilter(w http.ResponseWriter, r *http.Request, id string) {
+func (s *Server) ReadApplicationPacketFilter(w http.ResponseWriter, r *http.Request, id string) {
 	pf, err := s.Engine.ReadPacketFilter(id)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)
@@ -33,10 +33,10 @@ func (s *Server) GetPacketFilter(w http.ResponseWriter, r *http.Request, id stri
 	writeJSON(w, http.StatusOK, pf)
 }
 
-// PatchPacketFilter partially updates packet filter
+// PatchApplicationPacketFilter partially updates packet filter
 // (PATCH /applications/{id}/packet_filter)
-func (s *Server) PatchPacketFilter(w http.ResponseWriter, r *http.Request, id string) {
-	paramJSON := &v1.PatchPacketFilter{}
+func (s *Server) PatchApplicationPacketFilter(w http.ResponseWriter, r *http.Request, id string) {
+	paramJSON := &v1.PatchPacketFilterBody{}
 	if err := json.NewDecoder(r.Body).Decode(paramJSON); err != nil {
 		writeError(w, http.StatusBadRequest, err)
 		return

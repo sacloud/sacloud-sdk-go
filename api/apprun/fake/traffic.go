@@ -16,51 +16,51 @@ package fake
 
 import v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 
-func (engine *Engine) ListTraffics(appId string) (*v1.HandlerListTraffics, error) {
+func (engine *Engine) ListTraffics(appId string) (*v1.HandlerListTraffic, error) {
 	if _, ok := engine.Traffics[appId]; !ok {
 		return nil, newError(
 			ErrorTypeNotFound, "traffic", nil,
 			"アプリケーションが見つかりませんでした。")
 	}
 
-	params := v1.HandlerListTrafficsMeta{}
-	return &v1.HandlerListTraffics{
-		Meta: v1.NewOptHandlerListTrafficsMeta(&params),
+	params := v1.HandlerListTrafficMeta{}
+	return &v1.HandlerListTraffic{
+		Meta: v1.NewOptHandlerListTrafficMeta(&params),
 		Data: engine.Traffics[appId],
 	}, nil
 }
 
-func (engine *Engine) UpdateTraffic(appId string, body *v1.PutTrafficsBody) (*v1.HandlerPutTraffics, error) {
+func (engine *Engine) UpdateTraffic(appId string, body *v1.UpdateTrafficBody) (*v1.HandlerUpdateTraffic, error) {
 	if _, ok := engine.Traffics[appId]; !ok {
 		return nil, newError(
 			ErrorTypeNotFound, "traffic", nil,
 			"アプリケーションが見つかりませんでした。")
 	}
 
-	var listData []v1.HandlerListTrafficsDataItem
-	var putData []v1.HandlerPutTrafficsDataItem
+	var listData []v1.HandlerListTrafficDataItem
+	var putData []v1.HandlerUpdateTrafficDataItem
 	total := 0
 	for _, v := range *body {
-		if item, ok := v.GetPutTrafficsBodyItem0(); ok {
+		if item, ok := v.GetUpdateTrafficBodyItem0(); ok {
 			total += item.Percent
-			listData = append(listData, v1.HandlerListTrafficsDataItem{
+			listData = append(listData, v1.HandlerListTrafficDataItem{
 				IsLatestVersion: item.IsLatestVersion,
 				Percent:         item.Percent,
 			})
-			putData = append(putData, v1.HandlerPutTrafficsDataItem{
+			putData = append(putData, v1.HandlerUpdateTrafficDataItem{
 				IsLatestVersion: item.IsLatestVersion,
 				Percent:         item.Percent,
 			})
 			continue
 		}
 
-		if item, ok := v.GetPutTrafficsBodyItem1(); ok {
+		if item, ok := v.GetUpdateTrafficBodyItem1(); ok {
 			total += item.Percent
-			listData = append(listData, v1.HandlerListTrafficsDataItem{
+			listData = append(listData, v1.HandlerListTrafficDataItem{
 				VersionName: item.VersionName,
 				Percent:     item.Percent,
 			})
-			putData = append(putData, v1.HandlerPutTrafficsDataItem{
+			putData = append(putData, v1.HandlerUpdateTrafficDataItem{
 				VersionName: item.VersionName,
 				Percent:     item.Percent,
 			})
@@ -74,16 +74,16 @@ func (engine *Engine) UpdateTraffic(appId string, body *v1.PutTrafficsBody) (*v1
 	}
 
 	engine.Traffics[appId] = listData
-	params := v1.HandlerPutTrafficsMeta{}
-	return &v1.HandlerPutTraffics{
+	params := v1.HandlerUpdateTrafficMeta{}
+	return &v1.HandlerUpdateTraffic{
 		Data: putData,
 		Meta: &params,
 	}, nil
 }
 
-func (engine *Engine) initTraffic(app *v1.HandlerGetApplication) {
+func (engine *Engine) initTraffic(app *v1.HandlerReadApplication) {
 	// 内部的にTrafficとApplicationのリレーションを保持する
-	engine.Traffics[app.ID] = append(engine.Traffics[app.ID], v1.HandlerListTrafficsDataItem{
+	engine.Traffics[app.ID] = append(engine.Traffics[app.ID], v1.HandlerListTrafficDataItem{
 		IsLatestVersion: true,
 		Percent:         100,
 	})

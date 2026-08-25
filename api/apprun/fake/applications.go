@@ -36,7 +36,7 @@ func (engine *Engine) ListApplications(param v1.ListApplicationsParams) (*v1.Han
 	}
 
 	// 各Applicationの最新バージョンのみを取り出す
-	var apps []*v1.HandlerGetApplication
+	var apps []*v1.HandlerReadApplication
 	for id := range engine.appVersionRelations {
 		apps = append(apps, engine.latestApplication(id))
 	}
@@ -118,7 +118,7 @@ func (engine *Engine) ListApplications(param v1.ListApplicationsParams) (*v1.Han
 	}, nil
 }
 
-func (engine *Engine) CreateApplication(reqBody *v1.PostApplicationBody) (*v1.HandlerPostApplication, error) {
+func (engine *Engine) CreateApplication(reqBody *v1.CreateApplicationBody) (*v1.HandlerCreateApplication, error) {
 	defer engine.lock()()
 
 	appID, err := engine.newId()
@@ -129,10 +129,10 @@ func (engine *Engine) CreateApplication(reqBody *v1.PostApplicationBody) (*v1.Ha
 	}
 
 	components := convertPostComponents(reqBody.Components)
-	status := v1.HandlerGetApplicationStatusHealthy
+	status := v1.HandlerReadApplicationStatusHealthy
 	url := fmt.Sprintf("https://example.com/apprun/dummy/%s", appID)
 	createdAt := time.Now().UTC().Truncate(time.Second)
-	app := &v1.HandlerGetApplication{
+	app := &v1.HandlerReadApplication{
 		ID:                     appID,
 		Name:                   reqBody.Name,
 		TimeoutSeconds:         reqBody.TimeoutSeconds,
@@ -159,7 +159,7 @@ func (engine *Engine) CreateApplication(reqBody *v1.PostApplicationBody) (*v1.Ha
 	return toHandlerPostApplication(app), nil
 }
 
-func (engine *Engine) ReadApplication(id string) (*v1.HandlerGetApplication, error) {
+func (engine *Engine) ReadApplication(id string) (*v1.HandlerReadApplication, error) {
 	defer engine.rLock()()
 
 	if len(engine.Applications) == 0 {
@@ -226,8 +226,8 @@ func (engine *Engine) DeleteApplication(id string) error {
 	return nil
 }
 
-func (engine *Engine) latestApplication(id string) *v1.HandlerGetApplication {
-	var app *v1.HandlerGetApplication
+func (engine *Engine) latestApplication(id string) *v1.HandlerReadApplication {
+	var app *v1.HandlerReadApplication
 	if rs, ok := engine.appVersionRelations[id]; ok {
 		// 最新のVersionのApplicationを取得
 		for i, r := range rs {
@@ -240,7 +240,7 @@ func (engine *Engine) latestApplication(id string) *v1.HandlerGetApplication {
 	return app
 }
 
-func convertPostComponents(components []v1.PostApplicationBodyComponentsItem) []v1.HandlerGetApplicationComponentsItem {
+func convertPostComponents(components []v1.CreateApplicationBodyComponentsItem) []v1.HandlerReadApplicationComponentsItem {
 	if len(components) == 0 {
 		return nil
 	}
@@ -248,14 +248,14 @@ func convertPostComponents(components []v1.PostApplicationBodyComponentsItem) []
 	if err != nil {
 		return nil
 	}
-	var out []v1.HandlerGetApplicationComponentsItem
+	var out []v1.HandlerReadApplicationComponentsItem
 	if err := json.Unmarshal(payload, &out); err != nil {
 		return nil
 	}
 	return out
 }
 
-func convertPatchComponents(components []v1.PatchApplicationBodyComponentsItem) []v1.HandlerGetApplicationComponentsItem {
+func convertPatchComponents(components []v1.PatchApplicationBodyComponentsItem) []v1.HandlerReadApplicationComponentsItem {
 	if len(components) == 0 {
 		return nil
 	}
@@ -263,14 +263,14 @@ func convertPatchComponents(components []v1.PatchApplicationBodyComponentsItem) 
 	if err != nil {
 		return nil
 	}
-	var out []v1.HandlerGetApplicationComponentsItem
+	var out []v1.HandlerReadApplicationComponentsItem
 	if err := json.Unmarshal(payload, &out); err != nil {
 		return nil
 	}
 	return out
 }
 
-func toHandlerPostApplication(app *v1.HandlerGetApplication) *v1.HandlerPostApplication {
+func toHandlerPostApplication(app *v1.HandlerReadApplication) *v1.HandlerCreateApplication {
 	if app == nil {
 		return nil
 	}
@@ -278,15 +278,15 @@ func toHandlerPostApplication(app *v1.HandlerGetApplication) *v1.HandlerPostAppl
 	if err != nil {
 		return nil
 	}
-	var out v1.HandlerPostApplication
+	var out v1.HandlerCreateApplication
 	if err := json.Unmarshal(payload, &out); err != nil {
 		return nil
 	}
-	out.Status = v1.HandlerPostApplicationStatus(app.Status)
+	out.Status = v1.HandlerCreateApplicationStatus(app.Status)
 	return &out
 }
 
-func toHandlerPatchApplication(app *v1.HandlerGetApplication, updatedAt time.Time) *v1.HandlerPatchApplication {
+func toHandlerPatchApplication(app *v1.HandlerReadApplication, updatedAt time.Time) *v1.HandlerPatchApplication {
 	if app == nil {
 		return nil
 	}

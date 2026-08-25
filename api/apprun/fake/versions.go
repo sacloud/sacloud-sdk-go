@@ -26,7 +26,7 @@ import (
 func (engine *Engine) ListVersions(appId string, param v1.ListApplicationVersionsParams) (*v1.HandlerListVersions, error) {
 	defer engine.rLock()()
 
-	var versions []*v1.HandlerGetVersion
+	var versions []*v1.HandlerReadVersion
 	for _, r := range engine.appVersionRelations[appId] {
 		versions = append(versions, r.version)
 	}
@@ -111,7 +111,7 @@ func (engine *Engine) ListVersions(appId string, param v1.ListApplicationVersion
 	}, nil
 }
 
-func (engine *Engine) ReadVersion(appId string, versionId string) (*v1.HandlerGetVersion, error) {
+func (engine *Engine) ReadVersion(appId string, versionId string) (*v1.HandlerReadVersion, error) {
 	defer engine.rLock()()
 
 	if _, ok := engine.appVersionRelations[appId]; !ok {
@@ -120,7 +120,7 @@ func (engine *Engine) ReadVersion(appId string, versionId string) (*v1.HandlerGe
 			"アプリケーションが見つかりませんでした。")
 	}
 
-	var v *v1.HandlerGetVersion
+	var v *v1.HandlerReadVersion
 	for _, r := range engine.appVersionRelations[appId] {
 		if r.version.ID == versionId {
 			v = r.version
@@ -137,7 +137,7 @@ func (engine *Engine) ReadVersion(appId string, versionId string) (*v1.HandlerGe
 	return v, nil
 }
 
-func (engine *Engine) ReadVersionStatus(appId string, versionId string) (*v1.HandlerGetApplicationVersionOnlyStatus, error) {
+func (engine *Engine) ReadVersionStatus(appId string, versionId string) (*v1.HandlerReadApplicationVersionOnlyStatus, error) {
 	defer engine.rLock()()
 
 	if _, ok := engine.appVersionRelations[appId]; !ok {
@@ -148,8 +148,8 @@ func (engine *Engine) ReadVersionStatus(appId string, versionId string) (*v1.Han
 
 	for _, r := range engine.appVersionRelations[appId] {
 		if r.version.ID == versionId {
-			return &v1.HandlerGetApplicationVersionOnlyStatus{
-				Status:  v1.HandlerGetApplicationVersionOnlyStatusStatus(r.version.Status),
+			return &v1.HandlerReadApplicationVersionOnlyStatus{
+				Status:  v1.HandlerReadApplicationVersionOnlyStatusStatus(r.version.Status),
 				Message: "",
 			}, nil
 		}
@@ -185,7 +185,7 @@ func (engine *Engine) DeleteVersion(appId string, versionId string) error {
 	return nil
 }
 
-func (engine *Engine) createVersion(app *v1.HandlerGetApplication) error {
+func (engine *Engine) createVersion(app *v1.HandlerReadApplication) error {
 	versionId, err := engine.newId()
 	if err != nil {
 		return err
@@ -194,10 +194,10 @@ func (engine *Engine) createVersion(app *v1.HandlerGetApplication) error {
 	createdAt := time.Now().UTC().Truncate(time.Second)
 	components := convertVersionComponents(app.Components)
 
-	v := &v1.HandlerGetVersion{
+	v := &v1.HandlerReadVersion{
 		ID:                     versionId,
 		Name:                   name,
-		Status:                 v1.HandlerGetVersionStatus(app.Status),
+		Status:                 v1.HandlerReadVersionStatus(app.Status),
 		TimeoutSeconds:         app.TimeoutSeconds,
 		Port:                   app.Port,
 		MinScale:               app.MinScale,
@@ -219,7 +219,7 @@ func (engine *Engine) createVersion(app *v1.HandlerGetApplication) error {
 	return nil
 }
 
-func convertVersionComponents(components []v1.HandlerGetApplicationComponentsItem) []v1.HandlerGetVersionComponentsItem {
+func convertVersionComponents(components []v1.HandlerReadApplicationComponentsItem) []v1.HandlerReadVersionComponentsItem {
 	if len(components) == 0 {
 		return nil
 	}
@@ -227,7 +227,7 @@ func convertVersionComponents(components []v1.HandlerGetApplicationComponentsIte
 	if err != nil {
 		return nil
 	}
-	var out []v1.HandlerGetVersionComponentsItem
+	var out []v1.HandlerReadVersionComponentsItem
 	if err := json.Unmarshal(payload, &out); err != nil {
 		return nil
 	}

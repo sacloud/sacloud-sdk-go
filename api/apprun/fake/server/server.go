@@ -92,9 +92,9 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 	if parts[0] == "user" && len(parts) == 1 {
 		switch r.Method {
 		case http.MethodGet:
-			s.GetUser(w, r)
+			s.ReadUser(w, r)
 		case http.MethodPost:
-			s.PostUser(w, r)
+			s.CreateUser(w, r)
 		default:
 			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
@@ -116,7 +116,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 			}
 			s.ListApplications(w, r, params)
 		case http.MethodPost:
-			s.PostApplication(w, r)
+			s.CreateApplication(w, r)
 		default:
 			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
@@ -128,7 +128,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 	if len(parts) == 2 {
 		switch r.Method {
 		case http.MethodGet:
-			s.GetApplication(w, r, appID)
+			s.ReadApplication(w, r, appID)
 		case http.MethodPatch:
 			s.PatchApplication(w, r, appID)
 		case http.MethodDelete:
@@ -143,15 +143,15 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 		switch parts[2] {
 		case "status":
 			if r.Method == http.MethodGet {
-				s.GetApplicationStatus(w, r, appID)
+				s.ReadApplicationStatus(w, r, appID)
 				return
 			}
 		case "traffics":
 			switch r.Method {
 			case http.MethodGet:
-				s.ListApplicationTraffics(w, r, appID)
+				s.ListApplicationTraffic(w, r, appID)
 			case http.MethodPut:
-				s.PutApplicationTraffic(w, r, appID)
+				s.UpdateApplicationTraffic(w, r, appID)
 			default:
 				w.WriteHeader(http.StatusMethodNotAllowed)
 			}
@@ -163,9 +163,9 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 			}
 			switch r.Method {
 			case http.MethodGet:
-				s.GetPacketFilter(w, r, appID)
+				s.ReadApplicationPacketFilter(w, r, appID)
 			case http.MethodPatch:
-				s.PatchPacketFilter(w, r, appID)
+				s.PatchApplicationPacketFilter(w, r, appID)
 			default:
 				w.WriteHeader(http.StatusMethodNotAllowed)
 			}
@@ -189,7 +189,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 		versionID := parts[3]
 		switch r.Method {
 		case http.MethodGet:
-			s.GetApplicationVersion(w, r, appID, versionID)
+			s.ReadApplicationVersion(w, r, appID, versionID)
 		case http.MethodDelete:
 			s.DeleteApplicationVersion(w, r, appID, versionID)
 		default:
@@ -200,7 +200,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 
 	if len(parts) == 5 && parts[2] == "versions" && parts[4] == "status" {
 		if r.Method == http.MethodGet {
-			s.GetApplicationVersionStatus(w, r, appID, parts[3])
+			s.ReadApplicationVersionStatus(w, r, appID, parts[3])
 			return
 		}
 		w.WriteHeader(http.StatusMethodNotAllowed)

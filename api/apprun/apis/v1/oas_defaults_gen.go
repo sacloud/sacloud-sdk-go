@@ -3,7 +3,7 @@
 package v1
 
 // setDefaults set default value of fields.
-func (s *HandlerGetApplication) setDefaults() {
+func (s *CreateApplicationBody) setDefaults() {
 	{
 		val := int(60)
 		s.TimeoutSeconds = val
@@ -23,7 +23,7 @@ func (s *HandlerGetApplication) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *HandlerGetVersion) setDefaults() {
+func (s *HandlerCreateApplication) setDefaults() {
 	{
 		val := int(60)
 		s.TimeoutSeconds = val
@@ -43,7 +43,27 @@ func (s *HandlerGetVersion) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *HandlerPostApplication) setDefaults() {
+func (s *HandlerReadApplication) setDefaults() {
+	{
+		val := int(60)
+		s.TimeoutSeconds = val
+	}
+	{
+		val := int(0)
+		s.MinScale = val
+	}
+	{
+		val := int(10)
+		s.MaxScale = val
+	}
+	{
+		val := int(100)
+		s.ScaleTargetConcurrency.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *HandlerReadVersion) setDefaults() {
 	{
 		val := int(60)
 		s.TimeoutSeconds = val
@@ -67,25 +87,5 @@ func (s *PatchApplicationBodyComponentsItemDeploySourceContainerRegistry) setDef
 	{
 		val := ContainerRegistryAction("new")
 		s.Action.SetTo(val)
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *PostApplicationBody) setDefaults() {
-	{
-		val := int(60)
-		s.TimeoutSeconds = val
-	}
-	{
-		val := int(0)
-		s.MinScale = val
-	}
-	{
-		val := int(10)
-		s.MaxScale = val
-	}
-	{
-		val := int(100)
-		s.ScaleTargetConcurrency.SetTo(val)
 	}
 }

@@ -67,12 +67,12 @@ func TestEngine_Traffic(t *testing.T) {
 		latestPercent := 20
 		previousVersionPercent := 100 - latestPercent
 
-		tb := v1.PutTrafficsBody{
-			v1.NewPutTrafficsBodyItem0PutTrafficsBodyItem(v1.PutTrafficsBodyItem0{
+		tb := v1.UpdateTrafficBody{
+			v1.NewUpdateTrafficBodyItem0UpdateTrafficBodyItem(v1.UpdateTrafficBodyItem0{
 				IsLatestVersion: isLatestVersion,
 				Percent:         latestPercent,
 			}),
-			v1.NewPutTrafficsBodyItem1PutTrafficsBodyItem(v1.PutTrafficsBodyItem1{
+			v1.NewUpdateTrafficBodyItem1UpdateTrafficBodyItem(v1.UpdateTrafficBodyItem1{
 				VersionName: previousVersionName,
 				Percent:     previousVersionPercent,
 			}),
