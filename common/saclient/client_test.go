@@ -513,9 +513,8 @@ func (s *ClientTestSuite) TestDynamic() {
 }
 
 // #nosec G404 -- This is only a test
-// #nosec G115 -- Overflow never happens
 func (s *ClientTestSuite) TestWithAPIRequestRateLimit() {
-	limit := v2.IntN(100) + 32
+	limit := v2.IntN(100) + 32 // #nosec G115 -- Overflow never happens
 	api, err := s.subject.DupWith(WithAPIRequestRateLimit(uint16(limit)))
 	s.NoError(err)
 	err = api.Populate()
@@ -523,6 +522,14 @@ func (s *ClientTestSuite) TestWithAPIRequestRateLimit() {
 	subject := api.(*Client)
 	j := subject.JSON()
 	s.Equal(int64(limit), j["APIRequestRateLimit"])
+
+	api, err = s.subject.DupWith(WithoutAPIRequestRateLimit())
+	s.NoError(err)
+	err = api.Populate()
+	s.NoError(err)
+	subject = api.(*Client)
+	j = subject.JSON()
+	s.NotContains(j, "APIRequestRateLimit")
 }
 
 // #nosec G101 -- This is only a test

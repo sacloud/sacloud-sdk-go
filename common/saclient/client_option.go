@@ -202,16 +202,16 @@ func WithDefaultTimeout(t time.Duration) clientOption {
 }
 
 func WithAPIRequestRateLimit(rate uint16) clientOption {
-	return withAPIRequestRateLimit(int(rate))
+	return withAPIRequestRateLimit(int64(rate))
 }
 
 func WithoutAPIRequestRateLimit() clientOption {
-	return withAPIRequestRateLimit(-1)
+	return withAPIRequestRateLimit(rateLimitWhiteOut)
 }
 
-func withAPIRequestRateLimit(rate int) clientOption {
+func withAPIRequestRateLimit(rate int64) clientOption {
 	return func(c *Client) error {
-		c.params.dynamic.apiRequestRateLimit.initialize(int64(rate))
+		c.params.dynamic.apiRequestRateLimit.initialize(rate)
 		return nil
 	}
 }

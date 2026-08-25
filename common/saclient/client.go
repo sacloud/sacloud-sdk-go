@@ -480,7 +480,16 @@ func isJSONMarshalable(v any) bool {
 	enc := json.NewEncoder(io.Discard)
 	err := enc.Encode(v)
 
-	return err == nil
+	if err != nil {
+		return false
+	} else {
+		switch v.(type) {
+		default:
+			return true
+		case int64:
+			return v.(int64) != rateLimitWhiteOut
+		}
+	}
 }
 
 var _ ClientAPI = (*Client)(nil)
