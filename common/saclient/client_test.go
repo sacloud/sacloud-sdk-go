@@ -512,6 +512,8 @@ func (s *ClientTestSuite) TestDynamic() {
 	s.Equal("is1c", cfg.Zone)
 }
 
+// #nosec G404 -- This is only a test
+// #nosec G115 -- Overflow never happens
 func (s *ClientTestSuite) TestWithAPIRequestRateLimit() {
 	limit := v2.IntN(100) + 32
 	api, err := s.subject.DupWith(WithAPIRequestRateLimit(uint16(limit)))
