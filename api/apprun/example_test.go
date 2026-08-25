@@ -17,7 +17,6 @@ package apprun_test
 import (
 	"context"
 	"fmt"
-	"os"
 
 	apprun "github.com/sacloud/sacloud-sdk-go/api/apprun"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
@@ -74,10 +73,13 @@ func Example_applicationAPI() {
 				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
-							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
-							Username: v1.NewOptNilString("test-user"),
-							Password: v1.NewOptNilString(os.Getenv("SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")),
+							Image: "ghcr.io/nginx/nginx-gateway-fabric/nginx:2.6.2",
+							/* さくらのコンテナレジストリを利用する場合は以下のように指定してください
+							Image:    "your-registry.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("your-registry.sakuracr.jp"),
+							Username: v1.NewOptNilString("your-username"),
+							Password: v1.NewOptNilString("your-password"),
+							*/
 						},
 					),
 				},
@@ -142,10 +144,13 @@ func Example_versionAPI() {
 				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
-							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
-							Username: v1.NewOptNilString("test-user"),
-							Password: v1.NewOptNilString(os.Getenv("SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")),
+							Image: "ghcr.io/nginx/nginx-gateway-fabric/nginx:2.6.2",
+							/* さくらのコンテナレジストリを利用する場合は以下のように指定してください
+							Image:    "your-registry.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("your-registry.sakuracr.jp"),
+							Username: v1.NewOptNilString("your-username"),
+							Password: v1.NewOptNilString("your-password"),
+							*/
 						},
 					),
 				},
@@ -233,10 +238,13 @@ func Example_trafficAPI() {
 				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
 					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
 						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
-							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
-							Username: v1.NewOptNilString("test-user"),
-							Password: v1.NewOptNilString(os.Getenv("SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")),
+							Image: "ghcr.io/nginx/nginx-gateway-fabric/nginx:2.6.2",
+							/* さくらのコンテナレジストリを利用する場合は以下のように指定してください
+							Image:    "your-registry.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("your-registry.sakuracr.jp"),
+							Username: v1.NewOptNilString("your-username"),
+							Password: v1.NewOptNilString("your-password"),
+							*/
 						},
 					),
 				},

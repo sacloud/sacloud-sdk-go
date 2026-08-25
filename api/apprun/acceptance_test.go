@@ -67,6 +67,7 @@ func TestUserAPI(t *testing.T) {
 //   - アプリケーションを削除
 func TestApplicationAPI(t *testing.T) {
 	skipIfNoRequiredKeys(t)
+	skipIfNoEnv(t, "SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -229,6 +230,7 @@ func TestApplicationAPIWithExternalRegistry(t *testing.T) {
 //   - アプリケーションを削除
 func TestPacketFilterAPI(t *testing.T) {
 	skipIfNoRequiredKeys(t)
+	skipIfNoEnv(t, "SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -316,6 +318,7 @@ func TestPacketFilterAPI(t *testing.T) {
 //   - アプリケーションを削除
 func TestVersionAPI(t *testing.T) {
 	skipIfNoRequiredKeys(t)
+	skipIfNoEnv(t, "SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
