@@ -16,6 +16,7 @@ package saclient
 
 import (
 	"iter"
+	"math"
 	"net/http"
 	"net/http/httptest"
 	"slices"
@@ -102,10 +103,15 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		return nil, err
 	}
 
-	if ok {
-		d.rateLimiter = ratelimit.New(int(v))
-	} else {
+	switch {
+	case !ok:
 		d.rateLimiter = ratelimit.NewUnlimited()
+	case v < 0:
+		d.rateLimiter = ratelimit.NewUnlimited()
+	case v > int64(math.MaxInt):
+		return nil, NewErrorf("APIRequestRateLimit out of range of `int`: %d", v)
+	default:
+		d.rateLimiter = ratelimit.New(int(v))
 	}
 
 	// basic middlewares

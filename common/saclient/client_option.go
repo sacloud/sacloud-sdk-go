@@ -201,6 +201,21 @@ func WithDefaultTimeout(t time.Duration) clientOption {
 	}
 }
 
+func WithAPIRequestRateLimit(rate uint16) clientOption {
+	return withAPIRequestRateLimit(int(rate))
+}
+
+func WithoutAPIRequestRateLimit() clientOption {
+	return withAPIRequestRateLimit(-1)
+}
+
+func withAPIRequestRateLimit(rate int) clientOption {
+	return func(c *Client) error {
+		c.params.dynamic.apiRequestRateLimit.initialize(int64(rate))
+		return nil
+	}
+}
+
 func withSettingHeader(key, value string) clientOption {
 	return WithMiddleware(func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 		req.Header.Set(key, value)

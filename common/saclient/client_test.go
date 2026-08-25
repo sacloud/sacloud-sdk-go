@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"io"
 	"maps"
+	v2 "math/rand/v2"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -509,6 +510,17 @@ func (s *ClientTestSuite) TestDynamic() {
 	cfg, err := api.EndpointConfig()
 	s.NoError(err)
 	s.Equal("is1c", cfg.Zone)
+}
+
+func (s *ClientTestSuite) TestWithAPIRequestRateLimit() {
+	limit := v2.IntN(100) + 32
+	api, err := s.subject.DupWith(WithAPIRequestRateLimit(uint16(limit)))
+	s.NoError(err)
+	err = api.Populate()
+	s.NoError(err)
+	subject := api.(*Client)
+	j := subject.JSON()
+	s.Equal(int64(limit), j["APIRequestRateLimit"])
 }
 
 // #nosec G101 -- This is only a test
