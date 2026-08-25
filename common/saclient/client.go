@@ -482,13 +482,10 @@ func isJSONMarshalable(v any) bool {
 
 	if err != nil {
 		return false
+	} else if v, ok := v.(int64); ok {
+		return v != rateLimitWhiteOut
 	} else {
-		switch v.(type) {
-		default:
-			return true
-		case int64:
-			return v.(int64) != rateLimitWhiteOut
-		}
+		return true
 	}
 }
 
