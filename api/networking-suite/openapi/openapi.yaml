@@ -1,0 +1,1114 @@
+openapi: 3.1.0
+info:
+  title: ネットワークスイート (CR) API
+  version: 0.2.1
+  contact:
+    name: SAKURA internet Inc.
+    url: https://www.sakura.ad.jp/
+  license:
+    name: Copyright(C) SAKURA internet Inc. all rights reserved.
+  description: |-
+    ネットワークスイート (CR) APIは、さくらのクラウドのネットワークスイート機能 (Networking Suite) を提供するAPIです。
+    # 基本的な使い方
+    ## APIキーの発行
+    APIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。
+    APIキーは「ユーザID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。
+    |   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |
+    |------------|------------------------------|--------------------------------------|
+    | ユーザID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |
+    | パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |
+    <div class="warning">
+      <b>操作マニュアル</b><br />
+      <ul><li><a href="https://manual.sakura.ad.jp/cloud/api/apikey.html">APIキー | さくらのクラウド ドキュメント</a></li></ul>
+    </div>
+
+
+    ## 入力パラメータ
+    APIの入力には送信先URLに対して、いくつかのヘッダーとAPIキーを送信します。
+
+    - 認証方式はHTTP Basic認証です。APIキーのアクセストークンをユーザーID、アクセストークンシークレットをパスワードとして指定します。
+
+    ```
+    # 入力サンプル
+    curl \
+      -u '01234567-89ab-cdef-0123-456789abcdef:SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM' \
+      -X GET \
+      'https://secure.sakura.ad.jp/cloud/zone/is1c/api/cloud/1.1/networking-suite/subnet-groups'
+    ```
+
+    ## APIエンドポイント
+    ネットワークスイートでは、作成するリソースのスコープに応じてAPIエンドポイントのゾーンを指定します。
+
+    - リージョン単位のリソースを操作する場合は、リージョンに対応するゾーンを指定します。
+      - 例: `is1` リージョンの場合、`is1c` ゾーンを指定します。
+    - ゾーン単位のリソースを操作する場合は、対象のリソースが属するゾーンを指定します。
+      - 例: `is1c` ゾーンにサブネットを作成する場合、`is1c` ゾーンを指定します。
+
+    ### リソースのスコープ
+
+    | リソース種 | リソース種識別子 | スコープ |
+    |------|------|------|
+    | サブネットグループ | sakura.networking-suite.subnet-group | リージョン |
+    | サブネット | sakura.networking-suite.subnet | ゾーン |
+    | インターフェースコネクション | sakura.networking-suite.interface-connection | ゾーン |
+    | サブネットアドレス | sakura.networking-suite.address | ゾーン |
+    | NIC (インターフェース) | sakura.iaas.interface | ゾーン |
+
+    リソース種識別子についての詳細は「さくらのリソース名 (Sakura resource name, SRN)」の項目をご参照ください。
+
+    ## 「さくらのリソース名 (Sakura resource name, SRN)」について
+    さくらのリソース名 (Sakura resource name, SRN) は、さくらのクラウドのリソースを一意に識別するための文字列です。SRNは、リソースのスコープや種類、IDなどを含む構造化された文字列であり、リソースを特定するために使用されます。
+    ネットワークスイート (CR) APIでは、SRNを使用してサブネットグループやサブネットなどのリソースを識別します。SRNは、リソースの種類やIDを含むため、API呼び出し時にリソースを指定する際に便利です。
+
+    SRNは以下の構造を持ちます。
+    ```
+    srnv1:{{ロケーション識別子}}:{{リソース種識別子}}:{{ID}}
+    ```
+
+    | 項目 | 概要 | 形式例 |
+    |------|------|------|
+    | ロケーション識別子 | リソースの所在を示す識別子です。 | `sakura-is1c` (石狩第3ゾーン), `sakura-is1` (石狩リージョン) |
+    | リソース種識別子 | リソースの種類を示す識別子です。 | `sakura.networking-suite.subnet-group` (サブネットグループ), `sakura.iaas.interface` (インターフェース) |
+    | ID | リソースのIDです。 | (形式はリソースによって異なります) |
+
+    例1: 石狩リージョンにあるサブネットグループのSRNは以下のような形式です。
+    ```
+    srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+    ```
+
+    例2: 石狩第3ゾーンにあるNIC (インターフェース)のSRNは以下のような形式です。
+    ```
+    srnv1:sakura-is1c:sakura.iaas.interface:2345678901
+    ```
+
+    具体的なSRNの値や指定方法については、各APIごとのドキュメントをご参照ください。
+
+    ## ドキュメント上に記載のないフィールドについて
+    ネットワークスイート (CR) APIのレスポンスには、ドキュメント上に記載のないフィールドが含まれる場合があります。これらのフィールドは、将来的な拡張あるいは後方互換性のために予告無く追加・削除されることがあります。ドキュメント上に記載のないフィールドは、アプリケーションでの利用は行わないようにしてください。
+servers:
+  - url: https://secure.sakura.ad.jp/cloud/zone/is1c/api/cloud/1.1
+    description: さくらのクラウド 石狩第3ゾーン APIエンドポイント
+    variables: {}
+tags:
+  - name: サブネットグループ操作
+    description: サブネットグループの作成、取得、更新、削除を行います。
+  - name: サブネット操作
+    description: サブネットの作成、取得、更新、削除を行います。
+  - name: インターフェース操作
+    description: NIC (インターフェース) をサブネットに接続するためのインターフェースコネクションの作成、削除を行います。
+  - name: アドレス操作
+    description: サブネットで割り当て済みのIPアドレスの取得を行います。
+paths:
+  /networking-suite/addresses:
+    get:
+      operationId: listAddresses
+      summary: アドレス一覧の取得
+      description: 割り当て済みのIPアドレスの一覧を取得します。
+      parameters:
+        - name: subnetSRN
+          in: query
+          required: true
+          description: |-
+            サブネットのSRN
+
+            指定されたサブネットで割り当て済みのIPアドレスの一覧のみを取得します。
+          schema:
+            type: string
+          explode: false
+          examples:
+            サブネットとインターフェースコネクションを指定してアドレス取得:
+              summary: サブネットとインターフェースコネクションを指定してアドレス取得
+              value: subnetSRN=srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+        - name: interfaceConnectionSRN
+          in: query
+          required: false
+          description: |-
+            インターフェースコネクションのSRN
+
+            指定されたインターフェースコネクションに割り当て済みのIPアドレスのみを取得します。
+
+            インターフェースコネクションのSRNは以下のいずれかの方法で取得できます:
+            - NIC (インターフェース) をサブネットへ接続する際 (`POST /networking-suite/interface-connections`) のレスポンスに含まれる `InterfaceConnection.SRN` を参照します
+            - NICを接続しているサーバーの詳細情報 (`GET /server/{serverid}`; [詳細](https://manual.sakura.ad.jp/cloud-api/1.1/server/index.html)) のレスポンスに含まれる `Server.Interfaces[].NetworkingSuiteInterfaceConnection.ID` を用いてSRNを組み立てます
+                - 例: `Server.Interfaces[].NetworkingSuiteInterfaceConnection.ID` が `4567890123` の場合、SRNは `srnv1:<ロケーション識別子>:sakura.networking-suite.interface-connection:4567890123` となります
+          schema:
+            type: string
+          explode: false
+          examples:
+            サブネットとインターフェースコネクションを指定してアドレス取得:
+              summary: サブネットとインターフェースコネクションを指定してアドレス取得
+              value: interfaceConnectionSRN=srnv1:sakura-is1c:sakura.networking-suite.interface-connection:4567890123
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressListResponse'
+      tags:
+        - アドレス操作
+  /networking-suite/addresses/{addressid}:
+    get:
+      operationId: readAddress
+      summary: アドレス詳細の取得
+      description: 割り当て済みのIPアドレスの詳細情報を取得します。
+      parameters:
+        - name: addressid
+          in: path
+          required: true
+          description: |-
+            アドレスのID
+
+            アドレスのSRNの末尾、ID部分の値を指定します。
+            例: `srnv1:sakura-is1c:sakura.networking-suite.address:5678901234` の場合は `5678901234` を指定します。
+          schema:
+            type: string
+          example: '5678901234'
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AddressResponse'
+              example:
+                Address:
+                  SRN: srnv1:sakura-is1c:sakura.networking-suite.address:5678901234
+                  AddressType: EPHEMERAL_ADDRESS
+                  IPVersion: IPv4
+                  IPAddress: 10.0.0.10
+                  Subnet:
+                    SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - アドレス操作
+  /networking-suite/interface-connections:
+    post:
+      operationId: createInterfaceConnection
+      summary: NIC (インターフェース) をサブネットに接続
+      description: |-
+        NIC (インターフェース) をサブネットに接続するために、インターフェースコネクションを作成します。
+
+        ネットワークスイートでは、NICとサブネットの接続関係をインターフェースコネクションというリソースで管理します。
+        また、NICをサブネットに接続する際に、エフェメラルIPアドレスを確保のうえ、インターフェースコネクションと紐付けて管理します。エフェメラルIPアドレスはサブネット内で一時的に割り当てられるIPアドレスであり、NICがサブネットから切断されると自動的に解放されます。
+
+        NICのSRNは、以下の手順で取得できます。
+        1. NICを接続しているサーバーの詳細情報 (`GET /server/{serverid}`; [詳細](https://manual.sakura.ad.jp/cloud-api/1.1/server/index.html)) のレスポンスに含まれる `Server.Interfaces[].ID` を取得します
+        2. 取得した `Server.Interfaces[].ID` を用いて、NICのSRNを組み立てます
+            - 例: `Server.Interfaces[].ID` が `3456789012` の場合、SRNは `srnv1:<ロケーション識別子>:sakura.iaas.interface:3456789012` となります
+
+        接続するNICとサブネットは同一ゾーンに存在する必要があります。異なるゾーンのNICとサブネットを接続することはできません。
+      parameters: []
+      responses:
+        '201':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedInterfaceConnectionResponse'
+              examples:
+                NICをサブネットに接続 (IPアドレス自動割当):
+                  summary: NICをサブネットに接続 (IPアドレス自動割当)
+                  description: NICをサブネットに接続する際、`EphemeralIPv4Address` フィールドを省略することで、空いている未使用のエフェメラルIPアドレスを自動的に割り当てます。
+                  value:
+                    InterfaceConnection:
+                      SRN: srnv1:sakura-is1c:sakura.networking-suite.interface-connection:4567890123
+                      EphemeralIPv4Address: 10.0.0.10
+                NICをサブネットに接続 (IPアドレス手動指定):
+                  summary: NICをサブネットに接続 (IPアドレス手動指定)
+                  description: |-
+                    NICをサブネットに接続する際、`EphemeralIPv4Address` フィールドに空いている未使用のエフェメラルIPアドレスを指定することで、手動で割り当てることができます。
+
+                    [マニュアル](https://manual.sakura.ad.jp/cloud/network/networking-suite/index.html)内「仕様」に記載の条件を満たすIPアドレスを指定する必要があります。IPアドレスはサブネットのIPアドレス範囲に含まれ、かつ、同一サブネット内で他のNICに割り当て済みのIPアドレスやシステムが予約済みのIPアドレスと重複しない必要があります。
+                  value:
+                    InterfaceConnection:
+                      SRN: srnv1:sakura-is1c:sakura.networking-suite.interface-connection:4567890123
+                      EphemeralIPv4Address: 10.0.0.10
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - インターフェース操作
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateInterfaceConnection'
+            examples:
+              NICをサブネットに接続 (IPアドレス自動割当):
+                summary: NICをサブネットに接続 (IPアドレス自動割当)
+                description: NICをサブネットに接続する際、`EphemeralIPv4Address` フィールドを省略することで、空いている未使用のエフェメラルIPアドレスを自動的に割り当てます。
+                value:
+                  Interface:
+                    SRN: srnv1:sakura-is1c:sakura.iaas.interface:3456789012
+                  Subnet:
+                    SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+              NICをサブネットに接続 (IPアドレス手動指定):
+                summary: NICをサブネットに接続 (IPアドレス手動指定)
+                description: |-
+                  NICをサブネットに接続する際、`EphemeralIPv4Address` フィールドに空いている未使用のエフェメラルIPアドレスを指定することで、手動で割り当てることができます。
+
+                  [マニュアル](https://manual.sakura.ad.jp/cloud/network/networking-suite/index.html)内「仕様」に記載の条件を満たすIPアドレスを指定する必要があります。IPアドレスはサブネットのIPアドレス範囲に含まれ、かつ、同一サブネット内で他のNICに割り当て済みのIPアドレスやシステムが予約済みのIPアドレスと重複しない必要があります。
+                value:
+                  Interface:
+                    SRN: srnv1:sakura-is1c:sakura.iaas.interface:3456789012
+                  Subnet:
+                    SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+                  EphemeralIPv4Address: 10.0.0.10
+  /networking-suite/interface-connections/{interfaceconnectionid}:
+    delete:
+      operationId: deleteInterfaceConnection
+      summary: NIC (インターフェース) をサブネットから切断
+      description: |-
+        インターフェースコネクションを削除することで、NIC (インターフェース) をサブネットから切断します。
+
+        NICをサブネットから切断すると、NICに割り当てられていたエフェメラルIPアドレスは自動的に解放されます。
+
+        インターフェースコネクションを削除してNICをサブネットから切断するには、NICが接続されたサーバーが停止している必要があります。サーバーが起動中の場合、インターフェースコネクションを削除することはできません。
+      parameters:
+        - name: interfaceconnectionid
+          in: path
+          required: true
+          description: |-
+            インターフェースコネクションのID
+
+            インターフェースコネクションのSRNの末尾、ID部分の値を指定します。
+
+            インターフェースコネクションのIDは、以下のいずれかの方法で取得できます:
+            - NIC (インターフェース) をサブネットへ接続する際 (`POST /networking-suite/interface-connections`) のレスポンスに含まれる `InterfaceConnection.SRN` を参照します
+                - 例: `InterfaceConnection.SRN` が `srnv1:sakura-is1c:sakura.networking-suite.interface-connection:4567890123` の場合、IDは `4567890123` となります
+            - NICを接続しているサーバーの詳細情報 (`GET /server/{serverid}`; [詳細](https://manual.sakura.ad.jp/cloud-api/1.1/server/index.html)) のレスポンスに含まれる `Server.Interfaces[].NetworkingSuiteInterfaceConnection.ID` を参照します
+          schema:
+            type: string
+          examples:
+            インターフェースコネクションを削除してNICをサブネットから切断:
+              summary: インターフェースコネクションを削除してNICをサブネットから切断
+              value: '4567890123'
+      responses:
+        '204':
+          description: 成功時のレスポンス (内容なし)
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - インターフェース操作
+  /networking-suite/subnet-groups:
+    post:
+      operationId: createSubnetGroup
+      summary: サブネットグループの作成
+      description: サブネットグループを作成します。
+      parameters: []
+      responses:
+        '201':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedSubnetGroupResponse'
+              examples:
+                サブネットグループ作成:
+                  summary: サブネットグループ作成
+                  value:
+                    SubnetGroup:
+                      Name: サブネットグループ名
+                      Description: サブネットグループの説明
+                      IPv4AddressRangeCIDR: 10.0.0.0/20
+                      Region:
+                        Code: is1
+                      SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - サブネットグループ操作
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubnetGroup'
+            examples:
+              サブネットグループ作成:
+                summary: サブネットグループ作成
+                value:
+                  Name: サブネットグループ名
+                  Description: サブネットグループの説明
+                  IPv4AddressRangeCIDR: 10.0.0.0/20
+                  Region:
+                    Code: is1
+    get:
+      operationId: listSubnetGroups
+      summary: サブネットグループ一覧の取得
+      description: サブネットグループの一覧を取得します。
+      parameters: []
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubnetGroupListResponse'
+              examples:
+                サブネットグループ一覧の取得:
+                  summary: サブネットグループ一覧の取得
+                  value:
+                    Count: 1
+                    From: 0
+                    SubnetGroups:
+                      - Name: サブネットグループ名
+                        Description: サブネットグループの説明
+                        IPv4AddressRangeCIDR: 10.0.0.0/20
+                        Region:
+                          Code: is1
+                        SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+                    Total: 1
+      tags:
+        - サブネットグループ操作
+  /networking-suite/subnet-groups/{subnetgroupid}:
+    get:
+      operationId: readSubnetGroup
+      summary: サブネットグループ詳細の取得
+      description: サブネットグループの詳細を取得します。
+      parameters:
+        - name: subnetgroupid
+          in: path
+          required: true
+          description: |-
+            サブネットグループのID
+
+            サブネットグループのSRNの末尾、ID部分の値を指定します。
+            例: `srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890` の場合は `1234567890` を指定します。
+          schema:
+            type: string
+          examples:
+            サブネットグループ詳細の取得:
+              summary: サブネットグループ詳細の取得
+              value: '1234567890'
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubnetGroupResponse'
+              examples:
+                サブネットグループ詳細の取得:
+                  summary: サブネットグループ詳細の取得
+                  value:
+                    SubnetGroup:
+                      Name: サブネットグループ名
+                      Description: サブネットグループの説明
+                      IPv4AddressRangeCIDR: 10.0.0.0/20
+                      Region:
+                        Code: is1
+                      SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - サブネットグループ操作
+    put:
+      operationId: updateSubnetGroup
+      summary: サブネットグループ詳細の更新
+      description: |-
+        サブネットグループの詳細を更新します。
+
+        名前 (`Name`) と説明 (`Description`) のみ更新可能です。
+      parameters:
+        - name: subnetgroupid
+          in: path
+          required: true
+          description: |-
+            サブネットグループのID
+
+            サブネットグループのSRNの末尾、ID部分の値を指定します。
+            例: `srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890` の場合は `1234567890` を指定します。
+          schema:
+            type: string
+          examples:
+            サブネットグループ更新:
+              summary: サブネットグループ更新
+              value: '1234567890'
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubnetGroupResponse'
+              examples:
+                サブネットグループ更新:
+                  summary: サブネットグループ更新
+                  value:
+                    SubnetGroup:
+                      Name: 新しいサブネットグループ名
+                      Description: 新しいサブネットグループの説明
+                      IPv4AddressRangeCIDR: 10.0.0.0/20
+                      Region:
+                        Code: is1
+                      SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - サブネットグループ操作
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSubnetGroup'
+            examples:
+              サブネットグループ更新:
+                summary: サブネットグループ更新
+                value:
+                  Name: 新しいサブネットグループ名
+                  Description: 新しいサブネットグループの説明
+    delete:
+      operationId: deleteSubnetGroup
+      summary: サブネットグループの削除
+      description: |-
+        サブネットグループを削除します。
+
+        サブネットグループを削除するには、サブネットグループに属するサブネットがすべて削除されている必要があります。
+      parameters:
+        - name: subnetgroupid
+          in: path
+          required: true
+          description: |-
+            サブネットグループのID
+
+            サブネットグループのSRNの末尾、ID部分の値を指定します。
+            例: `srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890` の場合は `1234567890` を指定します。
+          schema:
+            type: string
+          examples:
+            サブネットグループの削除:
+              summary: サブネットグループの削除
+              value: '1234567890'
+      responses:
+        '204':
+          description: 成功時のレスポンス (内容なし)
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - サブネットグループ操作
+  /networking-suite/subnets:
+    post:
+      operationId: createSubnet
+      summary: サブネットの作成
+      description: サブネットグループにサブネットを作成します。
+      parameters: []
+      responses:
+        '201':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedSubnetResponse'
+              examples:
+                サブネット作成:
+                  summary: サブネット作成
+                  value:
+                    Subnet:
+                      Name: サブネット名
+                      Description: サブネットの説明
+                      IPv4AddressRangeCIDR: 10.0.0.0/26
+                      Zone:
+                        Code: is1c
+                      SubnetGroup:
+                        SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+                      SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - サブネット操作
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubnet'
+            examples:
+              サブネット作成:
+                summary: サブネット作成
+                value:
+                  Name: サブネット名
+                  Description: サブネットの説明
+                  IPv4AddressRangeCIDR: 10.0.0.0/26
+                  Zone:
+                    Code: is1c
+                  SubnetGroup:
+                    SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+    get:
+      operationId: listSubnets
+      summary: サブネット一覧の取得
+      description: サブネットの一覧を取得します。
+      parameters:
+        - name: subnetGroupSRN
+          in: query
+          required: true
+          description: |-
+            サブネットグループのSRN
+
+            指定されたサブネットグループに属するサブネットの一覧のみを取得します。
+          schema:
+            type: string
+          explode: false
+          examples:
+            指定したサブネットグループに属するサブネットの一覧を取得:
+              summary: 指定したサブネットグループに属するサブネットの一覧を取得
+              value: subnetGroupSRN=srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubnetListResponse'
+              examples:
+                指定したサブネットグループに属するサブネットの一覧を取得:
+                  summary: 指定したサブネットグループに属するサブネットの一覧を取得
+                  value:
+                    Count: 1
+                    From: 0
+                    Subnets:
+                      - Name: サブネット名
+                        Description: サブネットの説明
+                        IPv4AddressRangeCIDR: 10.0.0.0/26
+                        Zone:
+                          Code: is1c
+                        SubnetGroup:
+                          SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+                        SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+                    Total: 1
+      tags:
+        - サブネット操作
+  /networking-suite/subnets/{subnetid}:
+    get:
+      operationId: readSubnet
+      summary: サブネット詳細の取得
+      description: サブネットの詳細を取得します。
+      parameters:
+        - name: subnetid
+          in: path
+          required: true
+          description: |-
+            サブネットのID
+
+            サブネットのSRNの末尾、ID部分の値を指定します。
+            例: `srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901` の場合は `2345678901` を指定します。
+          schema:
+            type: string
+          examples:
+            サブネット詳細を取得:
+              summary: サブネット詳細を取得
+              value: '2345678901'
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubnetResponse'
+              examples:
+                サブネット詳細を取得:
+                  summary: サブネット詳細を取得
+                  value:
+                    Subnet:
+                      Name: サブネット名
+                      Description: サブネットの説明
+                      IPv4AddressRangeCIDR: 10.0.0.0/26
+                      Zone:
+                        Code: is1c
+                      SubnetGroup:
+                        SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+                      SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - サブネット操作
+    put:
+      operationId: updateSubnet
+      summary: サブネット詳細の更新
+      description: |-
+        サブネットの詳細を更新します。
+
+        名前 (`Name`) と説明 (`Description`) のみ更新可能です。
+      parameters:
+        - name: subnetid
+          in: path
+          required: true
+          description: |-
+            サブネットのID
+
+            サブネットのSRNの末尾、ID部分の値を指定します。
+            例: `srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901` の場合は `2345678901` を指定します。
+          schema:
+            type: string
+          examples:
+            サブネット詳細の更新:
+              summary: サブネット詳細の更新
+              value: '2345678901'
+      responses:
+        '200':
+          description: 成功時のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubnetResponse'
+              examples:
+                サブネット詳細の更新:
+                  summary: サブネット詳細の更新
+                  value:
+                    Subnet:
+                      Name: 新しいサブネット名
+                      Description: 新しいサブネットの説明
+                      IPv4AddressRangeCIDR: 10.0.0.0/26
+                      Zone:
+                        Code: is1c
+                      SubnetGroup:
+                        SRN: srnv1:sakura-is1:sakura.networking-suite.subnet-group:1234567890
+                      SRN: srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - サブネット操作
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSubnet'
+            examples:
+              サブネット詳細の更新:
+                summary: サブネット詳細の更新
+                value:
+                  Name: 新しいサブネット名
+                  Description: 新しいサブネットの説明
+    delete:
+      operationId: deleteSubnet
+      summary: サブネットの削除
+      description: |-
+        サブネットを削除します。
+
+        サブネットを削除するには、サブネットに接続されているNICがすべて切断されている必要があります。インターフェースコネクションを削除することで、NICをサブネットから切断します。
+      parameters:
+        - name: subnetid
+          in: path
+          required: true
+          description: |-
+            サブネットのID
+
+            サブネットのSRNの末尾、ID部分の値を指定します。
+            例: `srnv1:sakura-is1c:sakura.networking-suite.subnet:2345678901` の場合は `2345678901` を指定します。
+          schema:
+            type: string
+          examples:
+            サブネット削除:
+              summary: サブネット削除
+              value: '2345678901'
+      responses:
+        '204':
+          description: 成功時のレスポンス (内容なし)
+        default:
+          description: An unexpected error response.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+      tags:
+        - サブネット操作
+components:
+  schemas:
+    AddressListResponse:
+      type: object
+      required:
+        - Total
+        - From
+        - Count
+        - Addresses
+      properties:
+        Total:
+          type: integer
+          format: int32
+          description: 対象リソースの総件数
+        From:
+          type: integer
+          format: int32
+          description: 現在のページ番号
+        Count:
+          type: integer
+          format: int32
+          description: 現在のページの件数
+        Addresses:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReadAddress'
+          description: アドレス一覧
+      description: 成功時のレスポンス
+    AddressResponse:
+      type: object
+      required:
+        - Address
+      properties:
+        Address:
+          $ref: '#/components/schemas/ReadAddress'
+          description: アドレス
+      description: 成功時のレスポンス
+    ApiError:
+      type: object
+      properties:
+        serial:
+          type: string
+        error_code:
+          type: string
+        error_msg:
+          type: string
+      description: 失敗時のレスポンス
+      examples:
+        - serial: 4f464bf7db102d5e8e2092876506bc77
+          error_code: forbidden
+          error_msg: 要求された操作は許可されていません。権限エラー。
+    CreateInterfaceConnection:
+      type: object
+      required:
+        - Interface
+        - Subnet
+      properties:
+        EphemeralIPv4Address:
+          type: string
+          description: IPv4アドレス
+        Interface:
+          $ref: '#/components/schemas/SakuraResourceNameRef'
+          description: サーバーNIC (インターフェース)
+        Subnet:
+          $ref: '#/components/schemas/SakuraResourceNameRef'
+          description: サブネット
+    CreateSubnet:
+      type: object
+      required:
+        - Name
+        - Description
+        - IPv4AddressRangeCIDR
+        - Zone
+        - SubnetGroup
+      properties:
+        Name:
+          type: string
+          description: 名前
+        Description:
+          type: string
+          description: 説明
+        IPv4AddressRangeCIDR:
+          type: string
+          description: |-
+            IPv4アドレス範囲 (CIDR形式)
+
+            [マニュアル](https://manual.sakura.ad.jp/cloud/network/networking-suite/index.html)内「仕様」に記載の条件を満たすIPアドレス範囲をCIDR形式で表現します。
+            IPv4アドレス範囲は、親サブネットグループのIPv4アドレス範囲に含まれ、かつ、同一親サブネットグループ下の他サブネットと重複しない範囲である必要があります。
+        Zone:
+          $ref: '#/components/schemas/Zone'
+          description: ゾーン
+        SubnetGroup:
+          $ref: '#/components/schemas/SakuraResourceNameRef'
+          description: 親サブネットグループ
+    CreateSubnetGroup:
+      type: object
+      required:
+        - Name
+        - Description
+        - IPv4AddressRangeCIDR
+        - Region
+      properties:
+        Name:
+          type: string
+          description: 名前
+        Description:
+          type: string
+          description: 説明
+        IPv4AddressRangeCIDR:
+          type: string
+          description: |-
+            IPv4アドレス範囲 (CIDR形式)
+
+            [マニュアル](https://manual.sakura.ad.jp/cloud/network/networking-suite/index.html)内「仕様」に記載の条件を満たすIPアドレス範囲をCIDR形式で表現します。
+        Region:
+          $ref: '#/components/schemas/Region'
+          description: リージョン
+    CreatedInterfaceConnectionResponse:
+      type: object
+      required:
+        - InterfaceConnection
+      properties:
+        InterfaceConnection:
+          $ref: '#/components/schemas/ReadInterfaceConnection'
+          description: インターフェースコネクション
+      description: 成功時のレスポンス
+    CreatedSubnetGroupResponse:
+      type: object
+      required:
+        - SubnetGroup
+      properties:
+        SubnetGroup:
+          $ref: '#/components/schemas/ReadSubnetGroup'
+          description: サブネットグループ
+      description: 成功時のレスポンス
+    CreatedSubnetResponse:
+      type: object
+      required:
+        - Subnet
+      properties:
+        Subnet:
+          $ref: '#/components/schemas/ReadSubnet'
+          description: サブネット
+      description: 成功時のレスポンス
+    ReadAddress:
+      type: object
+      required:
+        - SRN
+        - AddressType
+        - IPVersion
+        - IPAddress
+        - Subnet
+      properties:
+        SRN:
+          type: string
+          description: さくらのリソース名 (SRN)
+        AddressType:
+          type: string
+          description: アドレス種別; `EPHEMERAL_ADDRESS` 固定
+        IPVersion:
+          type: string
+          description: アドレスバージョン; `IPv4` 固定
+        IPAddress:
+          type: string
+          description: IPアドレス
+        Subnet:
+          $ref: '#/components/schemas/SakuraResourceNameRef'
+          description: アドレスが属するサブネット
+    ReadInterfaceConnection:
+      type: object
+      required:
+        - SRN
+      properties:
+        SRN:
+          type: string
+          description: さくらのリソース名 (SRN)
+        EphemeralIPv4Address:
+          type: string
+          description: IPv4アドレス
+    ReadSubnet:
+      type: object
+      required:
+        - SRN
+        - Name
+        - Description
+        - IPv4AddressRangeCIDR
+        - Zone
+        - SubnetGroup
+      properties:
+        SRN:
+          type: string
+          description: さくらのリソース名 (SRN)
+        Name:
+          type: string
+          description: 名前
+        Description:
+          type: string
+          description: 説明
+        IPv4AddressRangeCIDR:
+          type: string
+          description: |-
+            IPv4アドレス範囲 (CIDR形式)
+
+            [マニュアル](https://manual.sakura.ad.jp/cloud/network/networking-suite/index.html)内「仕様」に記載の条件を満たすIPアドレス範囲をCIDR形式で表現します。
+            IPv4アドレス範囲は、親サブネットグループのIPv4アドレス範囲に含まれ、かつ、同一親サブネットグループ下の他サブネットと重複しない範囲である必要があります。
+        Zone:
+          $ref: '#/components/schemas/Zone'
+          description: ゾーン
+        SubnetGroup:
+          $ref: '#/components/schemas/SakuraResourceNameRef'
+          description: 親サブネットグループ
+    ReadSubnetGroup:
+      type: object
+      required:
+        - SRN
+        - Name
+        - Description
+        - IPv4AddressRangeCIDR
+        - Region
+      properties:
+        SRN:
+          type: string
+          description: さくらのリソース名 (SRN)
+        Name:
+          type: string
+          description: 名前
+        Description:
+          type: string
+          description: 説明
+        IPv4AddressRangeCIDR:
+          type: string
+          description: |-
+            IPv4アドレス範囲 (CIDR形式)
+
+            [マニュアル](https://manual.sakura.ad.jp/cloud/network/networking-suite/index.html)内「仕様」に記載の条件を満たすIPアドレス範囲をCIDR形式で表現します。
+        Region:
+          $ref: '#/components/schemas/Region'
+          description: リージョン
+    Region:
+      type: object
+      required:
+        - Code
+      properties:
+        Code:
+          type: string
+          description: リージョンコード ("is1")
+    SakuraResourceNameRef:
+      type: object
+      required:
+        - SRN
+      properties:
+        SRN:
+          type: string
+          description: さくらのリソース名 (SRN)
+    SubnetGroupListResponse:
+      type: object
+      required:
+        - Total
+        - From
+        - Count
+        - SubnetGroups
+      properties:
+        Total:
+          type: integer
+          format: int32
+          description: 対象リソースの総件数
+        From:
+          type: integer
+          format: int32
+          description: 現在のページ番号
+        Count:
+          type: integer
+          format: int32
+          description: 現在のページの件数
+        SubnetGroups:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReadSubnetGroup'
+          description: サブネットグループ一覧
+      description: 成功時のレスポンス
+    SubnetGroupResponse:
+      type: object
+      required:
+        - SubnetGroup
+      properties:
+        SubnetGroup:
+          $ref: '#/components/schemas/ReadSubnetGroup'
+          description: サブネットグループ
+      description: 成功時のレスポンス
+    SubnetListResponse:
+      type: object
+      required:
+        - Total
+        - From
+        - Count
+        - Subnets
+      properties:
+        Total:
+          type: integer
+          format: int32
+          description: 対象リソースの総件数
+        From:
+          type: integer
+          format: int32
+          description: 現在のページ番号
+        Count:
+          type: integer
+          format: int32
+          description: 現在のページの件数
+        Subnets:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReadSubnet'
+          description: サブネット一覧
+      description: 成功時のレスポンス
+    SubnetResponse:
+      type: object
+      required:
+        - Subnet
+      properties:
+        Subnet:
+          $ref: '#/components/schemas/ReadSubnet'
+          description: サブネット
+      description: 成功時のレスポンス
+    UpdateSubnet:
+      type: object
+      required:
+        - Name
+        - Description
+      properties:
+        Name:
+          type: string
+          description: 名前
+        Description:
+          type: string
+          description: 説明
+    UpdateSubnetGroup:
+      type: object
+      required:
+        - Name
+        - Description
+      properties:
+        Name:
+          type: string
+          description: 名前
+        Description:
+          type: string
+          description: 説明
+    Zone:
+      type: object
+      required:
+        - Code
+      properties:
+        Code:
+          type: string
+          description: ゾーンコード ("is1c")
