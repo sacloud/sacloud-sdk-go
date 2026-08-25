@@ -109,7 +109,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	case !ok:
 		d.rateLimiter = ratelimit.NewUnlimited()
 	case v < 0:
-		return nil, NewErrorf("negative APIRequestRateLimit does't make any sense at all: %d", v)
+		return nil, NewErrorf("negative APIRequestRateLimit doesn't make any sense at all: %d", v)
 	case v == 0:
 		return nil, NewErrorf("APIRequestRateLimit can't be zero")
 	case v == rateLimitWhiteOut:
