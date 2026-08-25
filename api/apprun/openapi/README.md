@@ -4,7 +4,6 @@ https://manual.sakura.ad.jp/api/cloud/portal/?api=apprun-shared-api
 
 現在はv1.5.0を利用しています。api/apprunではいくつかの変更をOpenAPIや生成したコードに施しています。
 
-
 - OpenAPIにtypeが足りない
 
 ```
@@ -38,7 +37,7 @@ index e75eb20d..2a1b7645 100644
                - from_ip_prefix_length
 ```
 
-- jsonのでコードでnullがうまく扱えない
+- jsonのデコードでnullがうまく扱えない
 
 ```
 diff --git a/api/apprun/apis/v1/oas_json_gen.go b/api/apprun/apis/v1/oas_json_gen.go
