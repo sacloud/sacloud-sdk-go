@@ -25,7 +25,7 @@ import (
 func TestStaticType_TypeImplements(t *testing.T) {
 	expects := []struct {
 		caseName                 string
-		instance                 interface{}
+		instance                 any
 		goType                   string
 		goPkg                    string
 		goImportPath             string
@@ -81,7 +81,7 @@ func TestStaticType_TypeImplements(t *testing.T) {
 		},
 		{
 			caseName:                 "map",
-			instance:                 map[string]interface{}{},
+			instance:                 map[string]any{},
 			goType:                   "map[string]interface {}",
 			goPkg:                    "",
 			goImportPath:             "",

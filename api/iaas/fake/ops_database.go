@@ -59,7 +59,7 @@ func (o *DatabaseOp) Create(ctx context.Context, zone string, param *iaas.Databa
 	putDatabase(zone, result)
 
 	id := result.ID
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 	return result, nil
@@ -132,7 +132,7 @@ func (o *DatabaseOp) Boot(ctx context.Context, zone string, id types.ID) error {
 		return newErrorConflict(o.key, id, "Boot is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -149,7 +149,7 @@ func (o *DatabaseOp) Shutdown(ctx context.Context, zone string, id types.ID, shu
 		return newErrorConflict(o.key, id, "Shutdown is failed")
 	}
 
-	startPowerOff(o.key, zone, func() (interface{}, error) {
+	startPowerOff(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -166,7 +166,7 @@ func (o *DatabaseOp) Reset(ctx context.Context, zone string, id types.ID) error 
 		return newErrorConflict(o.key, id, "Reset is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -187,7 +187,7 @@ func (o *DatabaseOp) MonitorCPU(ctx context.Context, zone string, id types.ID, c
 	}
 
 	res := &iaas.CPUTimeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorCPUTimeValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			CPUTime: float64(random(1000)),
@@ -211,7 +211,7 @@ func (o *DatabaseOp) MonitorDisk(ctx context.Context, zone string, id types.ID, 
 	}
 
 	res := &iaas.DiskActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorDiskValue{
 			Time:  now.Add(time.Duration(i*-5) * time.Minute),
 			Read:  float64(random(1000)),
@@ -236,7 +236,7 @@ func (o *DatabaseOp) MonitorInterface(ctx context.Context, zone string, id types
 	}
 
 	res := &iaas.InterfaceActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorInterfaceValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			Receive: float64(random(1000)),
@@ -261,7 +261,7 @@ func (o *DatabaseOp) MonitorDatabase(ctx context.Context, zone string, id types.
 	}
 
 	res := &iaas.DatabaseActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorDatabaseValue{
 			Time:              now.Add(time.Duration(i*-5) * time.Minute),
 			TotalMemorySize:   float64(random(1000)),
@@ -304,10 +304,10 @@ func (o *DatabaseOp) GetParameter(ctx context.Context, zone string, id types.ID)
 		return nil, err
 	}
 
-	var settings map[string]interface{}
+	var settings map[string]any
 	raw := ds().Get(ResourceDatabase+"Parameter", zone, id)
 	if raw != nil {
-		settings = raw.(map[string]interface{})
+		settings = raw.(map[string]any)
 	}
 
 	meta := fakeDatabaseParameterMetaForMariaDB
@@ -371,18 +371,18 @@ var (
 	}
 )
 
-func (o *DatabaseOp) SetParameter(ctx context.Context, zone string, id types.ID, param map[string]interface{}) error {
+func (o *DatabaseOp) SetParameter(ctx context.Context, zone string, id types.ID, param map[string]any) error {
 	_, err := o.Read(ctx, zone, id)
 	if err != nil {
 		return err
 	}
 
-	var settings map[string]interface{}
+	var settings map[string]any
 	raw := ds().Get(ResourceDatabase+"Parameter", zone, id)
 	if raw != nil {
-		settings = raw.(map[string]interface{})
+		settings = raw.(map[string]any)
 	} else {
-		settings = make(map[string]interface{})
+		settings = make(map[string]any)
 	}
 	for k, v := range param {
 		if v == nil {

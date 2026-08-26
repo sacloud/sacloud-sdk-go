@@ -74,10 +74,7 @@ func (engine *Engine) ListVersions(appId string, param v1.ListApplicationVersion
 		return nil, nil
 	}
 
-	end := start + pageSize
-	if end > versionsLen {
-		end = versionsLen
-	}
+	end := min(start+pageSize, versionsLen)
 
 	var data []v1.HandlerListVersionsDataItem
 	for _, v := range versions[start:end] {

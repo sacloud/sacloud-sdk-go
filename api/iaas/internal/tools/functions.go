@@ -28,7 +28,7 @@ import (
 type TemplateConfig struct {
 	OutputPath         string
 	Template           string
-	Parameter          interface{}
+	Parameter          any
 	PreventOverwriting bool
 }
 

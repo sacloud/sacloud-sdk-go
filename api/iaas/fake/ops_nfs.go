@@ -53,7 +53,7 @@ func (o *NFSOp) Create(ctx context.Context, zone string, param *iaas.NFSCreateRe
 	putNFS(zone, result)
 
 	id := result.ID
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 	return result, nil
@@ -108,7 +108,7 @@ func (o *NFSOp) Boot(ctx context.Context, zone string, id types.ID) error {
 		return newErrorConflict(o.key, id, "Boot is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -125,7 +125,7 @@ func (o *NFSOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdown
 		return newErrorConflict(o.key, id, "Shutdown is failed")
 	}
 
-	startPowerOff(o.key, zone, func() (interface{}, error) {
+	startPowerOff(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -142,7 +142,7 @@ func (o *NFSOp) Reset(ctx context.Context, zone string, id types.ID) error {
 		return newErrorConflict(o.key, id, "Reset is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -163,7 +163,7 @@ func (o *NFSOp) MonitorFreeDiskSize(ctx context.Context, zone string, id types.I
 	}
 
 	res := &iaas.FreeDiskSizeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorFreeDiskSizeValue{
 			Time:         now.Add(time.Duration(i*-5) * time.Minute),
 			FreeDiskSize: float64(random(1000)),
@@ -187,7 +187,7 @@ func (o *NFSOp) MonitorInterface(ctx context.Context, zone string, id types.ID, 
 	}
 
 	res := &iaas.InterfaceActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorInterfaceValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			Send:    float64(random(1000)),
@@ -212,7 +212,7 @@ func (o *NFSOp) MonitorCPU(ctx context.Context, zone string, id types.ID, condit
 	}
 
 	res := &iaas.CPUTimeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorCPUTimeValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			CPUTime: float64(random(1000)),

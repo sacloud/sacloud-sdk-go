@@ -46,7 +46,7 @@ func TestRetryableSetup(t *testing.T) {
 		},
 
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				nfsOp := iaas.NewNFSOp(caller)
 				nfsSetup := &RetryableSetup{
 					Create: func(ctx context.Context, zone string) (accessor.ID, error) {
@@ -63,7 +63,7 @@ func TestRetryableSetup(t *testing.T) {
 							DefaultRoute:   "192.168.0.1",
 						})
 					},
-					Read: func(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+					Read: func(ctx context.Context, zone string, id types.ID) (any, error) {
 						return nfsOp.Read(ctx, zone, id)
 					},
 					Delete: func(ctx context.Context, zone string, id types.ID) error {
@@ -85,11 +85,11 @@ func TestRetryableSetup(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				nfsOp := iaas.NewNFSOp(caller)
 				return nfsOp.Read(ctx, testZone, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 				nfs := i.(*iaas.NFS)
 				return testutil.DoAsserts(
 					testutil.AssertEqualFunc(t, types.Availabilities.Available, nfs.Availability, "NFS.Availability"),

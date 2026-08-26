@@ -38,7 +38,7 @@ func TestLogsStorageOp_List(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := t.Context()
 	params := LogsStoragesListParams{
-		IsSystem:             ref(false),
+		IsSystem:             new(false),
 		BucketClassification: ref(v1.LogsStoragesListBucketClassificationShared),
 		Status:               ref(v1.LogsStoragesListStatusAssigned),
 	}
@@ -107,7 +107,7 @@ func TestLogsStorageOp_Create(t *testing.T) {
 
 	createReq := LogStorageCreateParams{
 		Name:        "created-table",
-		Description: ref("Created log table"),
+		Description: new("Created log table"),
 		IsSystem:    false,
 	}
 	actual, err := api.Create(ctx, createReq)
@@ -145,7 +145,7 @@ func TestLogsStorageOp_Update(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := t.Context()
 
-	updateReq := LogStorageUpdateParams{Name: ref("new name")}
+	updateReq := LogStorageUpdateParams{Name: new("new name")}
 	actual, err := api.Update(ctx, "54321", updateReq)
 	require.NoError(t, err)
 	require.NotNil(t, actual)
@@ -309,7 +309,7 @@ func TestLogsStorageOp_CreateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := t.Context()
 
-	key, err := api.CreateKey(ctx, "12345", ref("new key"))
+	key, err := api.CreateKey(ctx, "12345", new("new key"))
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -357,7 +357,7 @@ func TestLogsStorageOp_UpdateKey(t *testing.T) {
 	api := NewLogsStorageOp(client)
 	ctx := t.Context()
 
-	key, err := api.UpdateKey(ctx, "12345", uuid.New(), ref("updated key"))
+	key, err := api.UpdateKey(ctx, "12345", uuid.New(), new("updated key"))
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedAccessKey.GetID(), key.GetID())
@@ -413,7 +413,7 @@ func TestLogStorageIntegrated(t *testing.T) {
 
 	// List
 	params := LogsStoragesListParams{
-		IsSystem:             ref(false),
+		IsSystem:             new(false),
 		BucketClassification: ref(v1.LogsStoragesListBucketClassificationShared),
 		Status:               ref(v1.LogsStoragesListStatusAssigned),
 	}
@@ -431,7 +431,7 @@ func TestLogStorageIntegrated(t *testing.T) {
 	require.Equal(t, desc, updated.GetName().Or("failure"))
 
 	// CreateKey
-	ckey, err := api.CreateKey(ctx, lid, ref("integrated-test-key"))
+	ckey, err := api.CreateKey(ctx, lid, new("integrated-test-key"))
 	require.NoError(t, err)
 	require.NotNil(t, ckey)
 	kid := ckey.GetUID()

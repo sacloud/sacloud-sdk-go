@@ -21,7 +21,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 )
 
 func TestNoteService_CRUD(t *testing.T) {
@@ -56,7 +55,7 @@ func TestNoteService_CRUD(t *testing.T) {
 			func(ctx context.Context, caller iaas.APICaller) error {
 				updated, err := svc.Update(&UpdateRequest{
 					ID:   note.ID,
-					Name: pointer.NewString(name + "-upd"),
+					Name: new(name + "-upd"),
 					Tags: &types.Tags{"tag1-upd", "tag2-upd"},
 				})
 				if err != nil {

@@ -45,8 +45,7 @@ func (o *DestinationOp) List(ctx context.Context) (*v1.ListCommonServiceItemsRes
 	ctx = setContextProviderClass(ctx, v1.CommonServiceItemProviderClassSaknoticedestination)
 	res, err := o.client.ListCommonServiceItems(ctx)
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -61,8 +60,7 @@ func (o *DestinationOp) Create(ctx context.Context, request v1.PostCommonService
 	request.CommonServiceItem.Settings.Type = v1.DestinationSettingsCommonServiceItemSettings
 	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -74,8 +72,7 @@ func (o *DestinationOp) Read(ctx context.Context, id string) (*v1.GetCommonServi
 	const methodName = "Destination.Read"
 	res, err := o.client.GetCommonServiceItem(ctx, v1.GetCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -88,8 +85,7 @@ func (o *DestinationOp) Update(ctx context.Context, id string, request v1.PutCom
 	request.CommonServiceItem.Settings.Value.Type = v1.DestinationSettingsCommonServiceItemSettings
 	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -101,8 +97,7 @@ func (o *DestinationOp) Delete(ctx context.Context, id string) error {
 	const methodName = "Destination.Delete"
 	_, err := o.client.DeleteCommonServiceItem(ctx, v1.DeleteCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return NewAPIError(methodName, e.StatusCode, err)
 		}
 		return NewError(methodName, err)
@@ -114,8 +109,7 @@ func (o *DestinationOp) ReadStatus(ctx context.Context, id string) (*v1.GetCommo
 	const methodName = "Destination.ReadStatus"
 	res, err := o.client.GetCommonServiceItemStatus(ctx, v1.GetCommonServiceItemStatusParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)

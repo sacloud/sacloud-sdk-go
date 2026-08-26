@@ -67,7 +67,7 @@ func TestServerOp_CRUD(t *testing.T) {
 			},
 			// Insert CDROM
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					cdOp := iaas.NewCDROMOp(caller)
 					serverOp := iaas.NewServerOp(caller)
 
@@ -90,7 +90,7 @@ func TestServerOp_CRUD(t *testing.T) {
 					}
 					return serverOp.Read(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					server := v.(*iaas.Server)
 					return testutil.AssertFalse(t, server.CDROMID.IsEmpty(), "Server.CDROMID")
 				},
@@ -98,7 +98,7 @@ func TestServerOp_CRUD(t *testing.T) {
 			},
 			// Eject CDROM
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					serverOp := iaas.NewServerOp(caller)
 					cdromID := ctx.Values["server/cdrom"].(types.ID)
 
@@ -107,7 +107,7 @@ func TestServerOp_CRUD(t *testing.T) {
 					}
 					return serverOp.Read(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					server := v.(*iaas.Server)
 					return testutil.AssertTrue(t, server.CDROMID.IsEmpty(), "Server.CDROMID")
 				},
@@ -115,11 +115,11 @@ func TestServerOp_CRUD(t *testing.T) {
 			},
 			// VNC Info
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					serverOp := iaas.NewServerOp(caller)
 					return serverOp.GetVNCProxy(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					vnc := v.(*iaas.VNCProxyInfo)
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, vnc, "VNCProxyInfo"),
@@ -226,7 +226,7 @@ var (
 	}
 )
 
-func testServerCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testServerCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewServerOp(caller)
 	server, err := client.Create(ctx, testZone, createServerParam)
 	if err != nil {
@@ -238,17 +238,17 @@ func testServerCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (int
 	return server, nil
 }
 
-func testServerRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testServerRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewServerOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testServerUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testServerUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewServerOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateServerParam)
 }
 
-func testServerUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testServerUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewServerOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateServerToMinParam)
 }
@@ -265,7 +265,7 @@ func TestServerOp_ChangePlan(t *testing.T) {
 		SetupAPICallerFunc: singletonAPICaller,
 		IgnoreStartupWait:  true,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				return client.Create(ctx, testZone, &iaas.ServerCreateRequest{
 					CPU:      1,
 					MemoryMB: 1 * size.GiB,
@@ -281,7 +281,7 @@ func TestServerOp_ChangePlan(t *testing.T) {
 					WaitDiskMigration: false,
 				})
 			},
-			CheckFunc: func(t testutil.TestT, _ *testutil.CRUDTestContext, v interface{}) error {
+			CheckFunc: func(t testutil.TestT, _ *testutil.CRUDTestContext, v any) error {
 				server := v.(*iaas.Server)
 
 				if !assert.Equal(t, server.CPU, 1) {
@@ -299,13 +299,13 @@ func TestServerOp_ChangePlan(t *testing.T) {
 		Updates: []*testutil.CRUDTestFunc{
 			// change plan
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					return client.ChangePlan(ctx, testZone, ctx.ID, &iaas.ServerChangePlanRequest{
 						CPU:      2,
 						MemoryMB: 4 * size.GiB,
 					})
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					newServer := v.(*iaas.Server)
 					if !assert.Equal(t, newServer.CPU, 2) {
 						return errors.New("unexpected state: Server.CPU")
@@ -335,7 +335,7 @@ func TestServerOp_Interfaces(t *testing.T) {
 		IgnoreStartupWait:  true,
 
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				// create server with interfaces[ disconnected, disconnected, switch ]
 				switchOp := iaas.NewSwitchOp(caller)
 				sw, err := switchOp.Create(ctx, testZone, &iaas.SwitchCreateRequest{Name: "libsacloud-switch-for-server"})
@@ -363,7 +363,7 @@ func TestServerOp_Interfaces(t *testing.T) {
 
 				return server, err
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 				server := v.(*iaas.Server)
 				return testutil.DoAsserts(
 					testutil.AssertLenFunc(t, server.Interfaces, 3, "Server.Interfaces"),
@@ -385,7 +385,7 @@ func TestServerOp_Interfaces(t *testing.T) {
 					if err := serverOp.Shutdown(ctx, testZone, server.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return err
 					}
-					_, err := iaas.WaiterForDown(func() (interface{}, error) {
+					_, err := iaas.WaiterForDown(func() (any, error) {
 						return serverOp.Read(ctx, testZone, server.ID)
 					}).WaitForState(ctx)
 					if err != nil {

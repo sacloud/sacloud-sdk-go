@@ -53,8 +53,7 @@ func NewAPIError(method string, code int, err error) *Error {
 // kmsのOpenAPI定義でエラーケースが定義されていないので、現状はogenのエラーから状態を取り出す
 // NewAPIErrorは他のクライアントとインターフェイスを揃えるために維持し、別で生成関数を用意
 func createAPIError(method string, err error) error {
-	var unexpected *ogen.UnexpectedStatusCodeError
-	if errors.As(err, &unexpected) {
+	if unexpected, ok := errors.AsType[*ogen.UnexpectedStatusCodeError](err); ok {
 		return NewAPIError(method, unexpected.StatusCode, err)
 	}
 

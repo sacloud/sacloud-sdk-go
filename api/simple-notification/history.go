@@ -40,8 +40,7 @@ func (o *HistoryOp) List(ctx context.Context) (*v1.ListSimpleNotificationHistori
 	const methodName = "History.List"
 	res, err := o.client.ListNotificationHistories(ctx)
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -53,8 +52,7 @@ func (o *HistoryOp) Read(ctx context.Context, id string) (*v1.GetSimpleNotificat
 	const methodName = "History.Read"
 	res, err := o.client.GetNotificationHistory(ctx, v1.GetNotificationHistoryParams{RequestID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)

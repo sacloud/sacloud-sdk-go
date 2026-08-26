@@ -44,7 +44,7 @@ func TestNewParameter(t *testing.T) {
 func TestValidateParameter(t *testing.T) {
 	tests := []struct {
 		name      string
-		parameter interface{}
+		parameter any
 		wantErr   bool
 	}{
 		{

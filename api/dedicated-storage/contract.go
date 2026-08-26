@@ -50,8 +50,7 @@ func (op *contractOp) Create(ctx context.Context, req v1.CreateDedicatedStorageC
 
 	res, err := op.client.DedicatedStorageContractsCreate(ctx, &req)
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -65,8 +64,7 @@ func (op *contractOp) List(ctx context.Context) (*v1.DedicatedStorageContractsLi
 
 	res, err := op.client.DedicatedStorageContractsList(ctx)
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -80,8 +78,7 @@ func (op *contractOp) Read(ctx context.Context, id int64) (*v1.DedicatedStorageC
 
 	res, err := op.client.DedicatedStorageContractsGet(ctx, v1.DedicatedStorageContractsGetParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -95,8 +92,7 @@ func (op *contractOp) Update(ctx context.Context, id int64, request v1.UpdateDed
 
 	res, err := op.client.DedicatedStorageContractsUpdate(ctx, &request, v1.DedicatedStorageContractsUpdateParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -110,8 +106,7 @@ func (op *contractOp) Delete(ctx context.Context, id int64) error {
 
 	err := op.client.DedicatedStorageContractsDelete(ctx, v1.DedicatedStorageContractsDeleteParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return NewAPIError(methodName, 0, err)
@@ -125,8 +120,7 @@ func (op *contractOp) PoolUsage(ctx context.Context, id int64) (*v1.PoolUsageRes
 
 	res, err := op.client.DedicatedStorageContractsPoolUsage(ctx, v1.DedicatedStorageContractsPoolUsageParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -141,8 +135,7 @@ func (op *contractOp) ListDiskSnapshots(ctx context.Context, id int64) (*v1.Disk
 
 	res, err := op.client.DedicatedStorageContractsListSnapshotsByContract(ctx, v1.DedicatedStorageContractsListSnapshotsByContractParams{ContractId: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -156,8 +149,7 @@ func (op *contractOp) ListPlans(ctx context.Context) (*v1.DedicatedStorageContra
 
 	res, err := op.client.ProductPlansListPlans(ctx)
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -170,8 +162,7 @@ func (op *contractOp) ReadPlan(ctx context.Context, planID int64) (*v1.Dedicated
 
 	res, err := op.client.ProductPlansGetPlans(ctx, v1.ProductPlansGetPlansParams{ID: planID})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)

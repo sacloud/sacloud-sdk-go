@@ -133,7 +133,7 @@ func (p *valuePool) nextSubnet(maskLen int) *assignedSubnet {
 	var defaultGateway, networkAddr string
 
 	var addresses []string
-	for i := uint64(0); i < count; i++ {
+	for i := range count {
 		// [0]: ネットワークアドレス
 		// [1:3]: ルータ自身が利用
 		// [len]: ブロードキャスト
@@ -173,7 +173,7 @@ func (p *valuePool) nextSubnetFull(maskLen int, defaultRoute string) *assignedSu
 	var networkAddr string
 
 	var addresses []string
-	for i := uint64(0); i < count; i++ {
+	for range count {
 		addresses = append(addresses, current.String())
 		current = cidr.Inc(current)
 	}

@@ -239,27 +239,27 @@ var (
 	}
 )
 
-func testSimpleMonitorCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleMonitorCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleMonitorOp(caller)
 	return client.Create(ctx, createSimpleMonitorParam)
 }
 
-func testSimpleMonitorRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleMonitorRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleMonitorOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testSimpleMonitorUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleMonitorUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleMonitorOp(caller)
 	return client.Update(ctx, ctx.ID, updateSimpleMonitorParam)
 }
 
-func testSimpleMonitorUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleMonitorUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleMonitorOp(caller)
 	return client.UpdateSettings(ctx, ctx.ID, updateSimpleMonitorSettingsParam)
 }
 
-func testSimpleMonitorUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleMonitorUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleMonitorOp(caller)
 	return client.Update(ctx, ctx.ID, updateSimpleMonitorToMinParam)
 }
@@ -277,7 +277,7 @@ func TestSimpleMonitorOp_StatusAndHealth(t *testing.T) {
 		SetupAPICallerFunc: singletonAPICaller,
 
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				sm, err := client.Create(ctx, simpleMonitorStatusAndHealthTargetParam)
 				if err != nil {
 					return nil, err
@@ -295,10 +295,10 @@ func TestSimpleMonitorOp_StatusAndHealth(t *testing.T) {
 
 		Updates: []*testutil.CRUDTestFunc{
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					return client.HealthStatus(ctx, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					healthStatus := v.(*iaas.SimpleMonitorHealthStatus)
 					if !assert.NotNil(t, healthStatus) {
 						return errors.New("unexpected state: SimpleMonitorHealthStatus")
@@ -312,10 +312,10 @@ func TestSimpleMonitorOp_StatusAndHealth(t *testing.T) {
 				},
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					return client.MonitorResponseTime(ctx, ctx.ID, &iaas.MonitorCondition{})
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					monitor := v.(*iaas.ResponseTimeSecActivity)
 					if !assert.NotNil(t, monitor) {
 						return errors.New("unexpected state: ResponseTimeSecActivity")

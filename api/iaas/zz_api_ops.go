@@ -26,7 +26,7 @@ import (
 var apiLocker = mutexkv.NewMutexKV()
 
 func init() {
-	SetClientFactoryFunc("Archive", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Archive", func(caller APICaller) any {
 		return &ArchiveOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -34,7 +34,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("AuthStatus", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("AuthStatus", func(caller APICaller) any {
 		return &AuthStatusOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -42,7 +42,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("AutoBackup", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("AutoBackup", func(caller APICaller) any {
 		return &AutoBackupOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -50,7 +50,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("AutoScale", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("AutoScale", func(caller APICaller) any {
 		return &AutoScaleOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -58,7 +58,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Bill", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Bill", func(caller APICaller) any {
 		return &BillOp{
 			Client:     caller,
 			PathSuffix: "api/system/1.0",
@@ -66,7 +66,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Bridge", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Bridge", func(caller APICaller) any {
 		return &BridgeOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -74,7 +74,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("CDROM", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("CDROM", func(caller APICaller) any {
 		return &CDROMOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -82,7 +82,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("CertificateAuthority", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("CertificateAuthority", func(caller APICaller) any {
 		return &CertificateAuthorityOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -90,7 +90,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("ContainerRegistry", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("ContainerRegistry", func(caller APICaller) any {
 		return &ContainerRegistryOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -98,7 +98,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Coupon", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Coupon", func(caller APICaller) any {
 		return &CouponOp{
 			Client:     caller,
 			PathSuffix: "api/system/1.0",
@@ -106,7 +106,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Database", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Database", func(caller APICaller) any {
 		return &DatabaseOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -114,7 +114,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Disk", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Disk", func(caller APICaller) any {
 		return &DiskOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -122,7 +122,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("DiskPlan", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("DiskPlan", func(caller APICaller) any {
 		return &DiskPlanOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -130,7 +130,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("DNS", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("DNS", func(caller APICaller) any {
 		return &DNSOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -138,7 +138,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("EnhancedDB", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("EnhancedDB", func(caller APICaller) any {
 		return &EnhancedDBOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -146,7 +146,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("ESME", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("ESME", func(caller APICaller) any {
 		return &ESMEOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -154,7 +154,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("GSLB", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("GSLB", func(caller APICaller) any {
 		return &GSLBOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -162,7 +162,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Icon", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Icon", func(caller APICaller) any {
 		return &IconOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -170,7 +170,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Interface", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Interface", func(caller APICaller) any {
 		return &InterfaceOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -178,7 +178,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Internet", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Internet", func(caller APICaller) any {
 		return &InternetOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -186,7 +186,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("InternetPlan", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("InternetPlan", func(caller APICaller) any {
 		return &InternetPlanOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -194,7 +194,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("IPAddress", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("IPAddress", func(caller APICaller) any {
 		return &IPAddressOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -202,7 +202,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("IPv6Net", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("IPv6Net", func(caller APICaller) any {
 		return &IPv6NetOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -210,7 +210,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("IPv6Addr", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("IPv6Addr", func(caller APICaller) any {
 		return &IPv6AddrOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -218,7 +218,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("License", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("License", func(caller APICaller) any {
 		return &LicenseOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -226,7 +226,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("LicenseInfo", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("LicenseInfo", func(caller APICaller) any {
 		return &LicenseInfoOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -234,7 +234,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("LoadBalancer", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("LoadBalancer", func(caller APICaller) any {
 		return &LoadBalancerOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -242,7 +242,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("LocalRouter", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("LocalRouter", func(caller APICaller) any {
 		return &LocalRouterOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -250,7 +250,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("MobileGateway", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("MobileGateway", func(caller APICaller) any {
 		return &MobileGatewayOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -258,7 +258,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("NFS", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("NFS", func(caller APICaller) any {
 		return &NFSOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -266,7 +266,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Note", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Note", func(caller APICaller) any {
 		return &NoteOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -274,7 +274,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("PacketFilter", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("PacketFilter", func(caller APICaller) any {
 		return &PacketFilterOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -282,7 +282,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("PrivateHost", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("PrivateHost", func(caller APICaller) any {
 		return &PrivateHostOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -290,7 +290,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("PrivateHostPlan", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("PrivateHostPlan", func(caller APICaller) any {
 		return &PrivateHostPlanOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -298,7 +298,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("ProxyLB", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("ProxyLB", func(caller APICaller) any {
 		return &ProxyLBOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -306,7 +306,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Region", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Region", func(caller APICaller) any {
 		return &RegionOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -314,7 +314,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Server", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Server", func(caller APICaller) any {
 		return &ServerOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -322,7 +322,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("ServerPlan", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("ServerPlan", func(caller APICaller) any {
 		return &ServerPlanOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -330,7 +330,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("ServiceClass", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("ServiceClass", func(caller APICaller) any {
 		return &ServiceClassOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -338,7 +338,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("SIM", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("SIM", func(caller APICaller) any {
 		return &SIMOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -346,7 +346,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("SimpleMonitor", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("SimpleMonitor", func(caller APICaller) any {
 		return &SimpleMonitorOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -354,7 +354,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("SimpleNotificationDestination", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("SimpleNotificationDestination", func(caller APICaller) any {
 		return &SimpleNotificationDestinationOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -362,7 +362,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("SimpleNotificationGroup", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("SimpleNotificationGroup", func(caller APICaller) any {
 		return &SimpleNotificationGroupOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -370,7 +370,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("SSHKey", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("SSHKey", func(caller APICaller) any {
 		return &SSHKeyOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -378,7 +378,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Subnet", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Subnet", func(caller APICaller) any {
 		return &SubnetOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -386,7 +386,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Switch", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Switch", func(caller APICaller) any {
 		return &SwitchOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -394,7 +394,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("VPCRouter", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("VPCRouter", func(caller APICaller) any {
 		return &VPCRouterOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -402,7 +402,7 @@ func init() {
 		}
 	})
 
-	SetClientFactoryFunc("Zone", func(caller APICaller) interface{} {
+	SetClientFactoryFunc("Zone", func(caller APICaller) any {
 		return &ZoneOp{
 			Client:     caller,
 			PathSuffix: "api/cloud/1.1",
@@ -433,7 +433,7 @@ func NewArchiveOp(caller APICaller) ArchiveAPI {
 // Find is API call
 func (o *ArchiveOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*ArchiveFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -446,7 +446,7 @@ func (o *ArchiveOp) Find(ctx context.Context, zone string, conditions *FindCondi
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -470,7 +470,7 @@ func (o *ArchiveOp) Find(ctx context.Context, zone string, conditions *FindCondi
 // Create is API call
 func (o *ArchiveOp) Create(ctx context.Context, zone string, param *ArchiveCreateRequest) (*Archive, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -483,7 +483,7 @@ func (o *ArchiveOp) Create(ctx context.Context, zone string, param *ArchiveCreat
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -507,7 +507,7 @@ func (o *ArchiveOp) Create(ctx context.Context, zone string, param *ArchiveCreat
 // CreateBlank is API call
 func (o *ArchiveOp) CreateBlank(ctx context.Context, zone string, param *ArchiveCreateBlankRequest) (*Archive, *FTPServer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -520,7 +520,7 @@ func (o *ArchiveOp) CreateBlank(ctx context.Context, zone string, param *Archive
 		return nil, nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateBlankArgs(param)
 	if err != nil {
 		return nil, nil, err
@@ -544,7 +544,7 @@ func (o *ArchiveOp) CreateBlank(ctx context.Context, zone string, param *Archive
 // Read is API call
 func (o *ArchiveOp) Read(ctx context.Context, zone string, id types.ID) (*Archive, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -557,7 +557,7 @@ func (o *ArchiveOp) Read(ctx context.Context, zone string, id types.ID) (*Archiv
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -576,7 +576,7 @@ func (o *ArchiveOp) Read(ctx context.Context, zone string, id types.ID) (*Archiv
 // Update is API call
 func (o *ArchiveOp) Update(ctx context.Context, zone string, id types.ID, param *ArchiveUpdateRequest) (*Archive, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -590,7 +590,7 @@ func (o *ArchiveOp) Update(ctx context.Context, zone string, id types.ID, param 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -614,7 +614,7 @@ func (o *ArchiveOp) Update(ctx context.Context, zone string, id types.ID, param 
 // Delete is API call
 func (o *ArchiveOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -627,7 +627,7 @@ func (o *ArchiveOp) Delete(ctx context.Context, zone string, id types.ID) error 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -643,7 +643,7 @@ func (o *ArchiveOp) Delete(ctx context.Context, zone string, id types.ID) error 
 // OpenFTP is API call
 func (o *ArchiveOp) OpenFTP(ctx context.Context, zone string, id types.ID, openOption *OpenFTPRequest) (*FTPServer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -657,7 +657,7 @@ func (o *ArchiveOp) OpenFTP(ctx context.Context, zone string, id types.ID, openO
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformOpenFTPArgs(id, openOption)
 	if err != nil {
 		return nil, err
@@ -681,7 +681,7 @@ func (o *ArchiveOp) OpenFTP(ctx context.Context, zone string, id types.ID, openO
 // CloseFTP is API call
 func (o *ArchiveOp) CloseFTP(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -694,7 +694,7 @@ func (o *ArchiveOp) CloseFTP(ctx context.Context, zone string, id types.ID) erro
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -710,7 +710,7 @@ func (o *ArchiveOp) CloseFTP(ctx context.Context, zone string, id types.ID) erro
 // Share is API call
 func (o *ArchiveOp) Share(ctx context.Context, zone string, id types.ID) (*ArchiveShareInfo, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -723,7 +723,7 @@ func (o *ArchiveOp) Share(ctx context.Context, zone string, id types.ID) (*Archi
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformShareArgs(id)
 	if err != nil {
 		return nil, err
@@ -747,7 +747,7 @@ func (o *ArchiveOp) Share(ctx context.Context, zone string, id types.ID) (*Archi
 // CreateFromShared is API call
 func (o *ArchiveOp) CreateFromShared(ctx context.Context, zone string, sourceArchiveID types.ID, destZoneID types.ID, param *ArchiveCreateRequestFromShared) (*Archive, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":         SakuraCloudAPIRoot,
 		"pathSuffix":      o.PathSuffix,
 		"pathName":        o.PathName,
@@ -762,7 +762,7 @@ func (o *ArchiveOp) CreateFromShared(ctx context.Context, zone string, sourceArc
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateFromSharedArgs(sourceArchiveID, destZoneID, param)
 	if err != nil {
 		return nil, err
@@ -786,7 +786,7 @@ func (o *ArchiveOp) CreateFromShared(ctx context.Context, zone string, sourceArc
 // Transfer is API call
 func (o *ArchiveOp) Transfer(ctx context.Context, zone string, sourceArchiveID types.ID, destZoneID types.ID, param *ArchiveTransferRequest) (*Archive, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":         SakuraCloudAPIRoot,
 		"pathSuffix":      o.PathSuffix,
 		"pathName":        o.PathName,
@@ -801,7 +801,7 @@ func (o *ArchiveOp) Transfer(ctx context.Context, zone string, sourceArchiveID t
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformTransferArgs(sourceArchiveID, destZoneID, param)
 	if err != nil {
 		return nil, err
@@ -844,7 +844,7 @@ func NewAuthStatusOp(caller APICaller) AuthStatusAPI {
 // Read is API call
 func (o *AuthStatusOp) Read(ctx context.Context) (*AuthStatus, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -856,7 +856,7 @@ func (o *AuthStatusOp) Read(ctx context.Context) (*AuthStatus, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -894,7 +894,7 @@ func NewAutoBackupOp(caller APICaller) AutoBackupAPI {
 // Find is API call
 func (o *AutoBackupOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*AutoBackupFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -907,7 +907,7 @@ func (o *AutoBackupOp) Find(ctx context.Context, zone string, conditions *FindCo
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -931,7 +931,7 @@ func (o *AutoBackupOp) Find(ctx context.Context, zone string, conditions *FindCo
 // Create is API call
 func (o *AutoBackupOp) Create(ctx context.Context, zone string, param *AutoBackupCreateRequest) (*AutoBackup, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -944,7 +944,7 @@ func (o *AutoBackupOp) Create(ctx context.Context, zone string, param *AutoBacku
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -968,7 +968,7 @@ func (o *AutoBackupOp) Create(ctx context.Context, zone string, param *AutoBacku
 // Read is API call
 func (o *AutoBackupOp) Read(ctx context.Context, zone string, id types.ID) (*AutoBackup, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -981,7 +981,7 @@ func (o *AutoBackupOp) Read(ctx context.Context, zone string, id types.ID) (*Aut
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1000,7 +1000,7 @@ func (o *AutoBackupOp) Read(ctx context.Context, zone string, id types.ID) (*Aut
 // Update is API call
 func (o *AutoBackupOp) Update(ctx context.Context, zone string, id types.ID, param *AutoBackupUpdateRequest) (*AutoBackup, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1014,7 +1014,7 @@ func (o *AutoBackupOp) Update(ctx context.Context, zone string, id types.ID, par
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -1038,7 +1038,7 @@ func (o *AutoBackupOp) Update(ctx context.Context, zone string, id types.ID, par
 // UpdateSettings is API call
 func (o *AutoBackupOp) UpdateSettings(ctx context.Context, zone string, id types.ID, param *AutoBackupUpdateSettingsRequest) (*AutoBackup, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1052,7 +1052,7 @@ func (o *AutoBackupOp) UpdateSettings(ctx context.Context, zone string, id types
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -1076,7 +1076,7 @@ func (o *AutoBackupOp) UpdateSettings(ctx context.Context, zone string, id types
 // Delete is API call
 func (o *AutoBackupOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1089,7 +1089,7 @@ func (o *AutoBackupOp) Delete(ctx context.Context, zone string, id types.ID) err
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -1124,7 +1124,7 @@ func NewAutoScaleOp(caller APICaller) AutoScaleAPI {
 // Find is API call
 func (o *AutoScaleOp) Find(ctx context.Context, conditions *FindCondition) (*AutoScaleFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1137,7 +1137,7 @@ func (o *AutoScaleOp) Find(ctx context.Context, conditions *FindCondition) (*Aut
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -1161,7 +1161,7 @@ func (o *AutoScaleOp) Find(ctx context.Context, conditions *FindCondition) (*Aut
 // Create is API call
 func (o *AutoScaleOp) Create(ctx context.Context, param *AutoScaleCreateRequest) (*AutoScale, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1174,7 +1174,7 @@ func (o *AutoScaleOp) Create(ctx context.Context, param *AutoScaleCreateRequest)
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -1198,7 +1198,7 @@ func (o *AutoScaleOp) Create(ctx context.Context, param *AutoScaleCreateRequest)
 // Read is API call
 func (o *AutoScaleOp) Read(ctx context.Context, id types.ID) (*AutoScale, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1211,7 +1211,7 @@ func (o *AutoScaleOp) Read(ctx context.Context, id types.ID) (*AutoScale, error)
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1230,7 +1230,7 @@ func (o *AutoScaleOp) Read(ctx context.Context, id types.ID) (*AutoScale, error)
 // Update is API call
 func (o *AutoScaleOp) Update(ctx context.Context, id types.ID, param *AutoScaleUpdateRequest) (*AutoScale, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1244,7 +1244,7 @@ func (o *AutoScaleOp) Update(ctx context.Context, id types.ID, param *AutoScaleU
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -1268,7 +1268,7 @@ func (o *AutoScaleOp) Update(ctx context.Context, id types.ID, param *AutoScaleU
 // UpdateSettings is API call
 func (o *AutoScaleOp) UpdateSettings(ctx context.Context, id types.ID, param *AutoScaleUpdateSettingsRequest) (*AutoScale, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1282,7 +1282,7 @@ func (o *AutoScaleOp) UpdateSettings(ctx context.Context, id types.ID, param *Au
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -1306,7 +1306,7 @@ func (o *AutoScaleOp) UpdateSettings(ctx context.Context, id types.ID, param *Au
 // Delete is API call
 func (o *AutoScaleOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1319,7 +1319,7 @@ func (o *AutoScaleOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -1335,7 +1335,7 @@ func (o *AutoScaleOp) Delete(ctx context.Context, id types.ID) error {
 // Status is API call
 func (o *AutoScaleOp) Status(ctx context.Context, id types.ID) (*AutoScaleStatus, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1348,7 +1348,7 @@ func (o *AutoScaleOp) Status(ctx context.Context, id types.ID) (*AutoScaleStatus
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1367,7 +1367,7 @@ func (o *AutoScaleOp) Status(ctx context.Context, id types.ID) (*AutoScaleStatus
 // ScaleUp is API call
 func (o *AutoScaleOp) ScaleUp(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1380,7 +1380,7 @@ func (o *AutoScaleOp) ScaleUp(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -1396,7 +1396,7 @@ func (o *AutoScaleOp) ScaleUp(ctx context.Context, id types.ID) error {
 // ScaleDown is API call
 func (o *AutoScaleOp) ScaleDown(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1409,7 +1409,7 @@ func (o *AutoScaleOp) ScaleDown(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -1444,7 +1444,7 @@ func NewBillOp(caller APICaller) BillAPI {
 // ByContract is API call
 func (o *BillOp) ByContract(ctx context.Context, accountID types.ID) (*BillByContractResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1457,7 +1457,7 @@ func (o *BillOp) ByContract(ctx context.Context, accountID types.ID) (*BillByCon
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1476,7 +1476,7 @@ func (o *BillOp) ByContract(ctx context.Context, accountID types.ID) (*BillByCon
 // ByContractYear is API call
 func (o *BillOp) ByContractYear(ctx context.Context, accountID types.ID, year int) (*BillByContractYearResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1490,7 +1490,7 @@ func (o *BillOp) ByContractYear(ctx context.Context, accountID types.ID, year in
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1509,7 +1509,7 @@ func (o *BillOp) ByContractYear(ctx context.Context, accountID types.ID, year in
 // ByContractYearMonth is API call
 func (o *BillOp) ByContractYearMonth(ctx context.Context, accountID types.ID, year int, month int) (*BillByContractYearMonthResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1524,7 +1524,7 @@ func (o *BillOp) ByContractYearMonth(ctx context.Context, accountID types.ID, ye
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1543,7 +1543,7 @@ func (o *BillOp) ByContractYearMonth(ctx context.Context, accountID types.ID, ye
 // Read is API call
 func (o *BillOp) Read(ctx context.Context, id types.ID) (*BillReadResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1556,7 +1556,7 @@ func (o *BillOp) Read(ctx context.Context, id types.ID) (*BillReadResult, error)
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1575,7 +1575,7 @@ func (o *BillOp) Read(ctx context.Context, id types.ID) (*BillReadResult, error)
 // Details is API call
 func (o *BillOp) Details(ctx context.Context, MemberCode string, id types.ID) (*BillDetailsResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1589,7 +1589,7 @@ func (o *BillOp) Details(ctx context.Context, MemberCode string, id types.ID) (*
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1608,7 +1608,7 @@ func (o *BillOp) Details(ctx context.Context, MemberCode string, id types.ID) (*
 // DetailsCSV is API call
 func (o *BillOp) DetailsCSV(ctx context.Context, MemberCode string, id types.ID) (*BillDetailCSV, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1622,7 +1622,7 @@ func (o *BillOp) DetailsCSV(ctx context.Context, MemberCode string, id types.ID)
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1660,7 +1660,7 @@ func NewBridgeOp(caller APICaller) BridgeAPI {
 // Find is API call
 func (o *BridgeOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*BridgeFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1673,7 +1673,7 @@ func (o *BridgeOp) Find(ctx context.Context, zone string, conditions *FindCondit
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -1697,7 +1697,7 @@ func (o *BridgeOp) Find(ctx context.Context, zone string, conditions *FindCondit
 // Create is API call
 func (o *BridgeOp) Create(ctx context.Context, zone string, param *BridgeCreateRequest) (*Bridge, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1710,7 +1710,7 @@ func (o *BridgeOp) Create(ctx context.Context, zone string, param *BridgeCreateR
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -1734,7 +1734,7 @@ func (o *BridgeOp) Create(ctx context.Context, zone string, param *BridgeCreateR
 // Read is API call
 func (o *BridgeOp) Read(ctx context.Context, zone string, id types.ID) (*Bridge, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1747,7 +1747,7 @@ func (o *BridgeOp) Read(ctx context.Context, zone string, id types.ID) (*Bridge,
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1766,7 +1766,7 @@ func (o *BridgeOp) Read(ctx context.Context, zone string, id types.ID) (*Bridge,
 // Update is API call
 func (o *BridgeOp) Update(ctx context.Context, zone string, id types.ID, param *BridgeUpdateRequest) (*Bridge, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1780,7 +1780,7 @@ func (o *BridgeOp) Update(ctx context.Context, zone string, id types.ID, param *
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -1804,7 +1804,7 @@ func (o *BridgeOp) Update(ctx context.Context, zone string, id types.ID, param *
 // Delete is API call
 func (o *BridgeOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1817,7 +1817,7 @@ func (o *BridgeOp) Delete(ctx context.Context, zone string, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -1852,7 +1852,7 @@ func NewCDROMOp(caller APICaller) CDROMAPI {
 // Find is API call
 func (o *CDROMOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*CDROMFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1865,7 +1865,7 @@ func (o *CDROMOp) Find(ctx context.Context, zone string, conditions *FindConditi
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -1889,7 +1889,7 @@ func (o *CDROMOp) Find(ctx context.Context, zone string, conditions *FindConditi
 // Create is API call
 func (o *CDROMOp) Create(ctx context.Context, zone string, param *CDROMCreateRequest) (*CDROM, *FTPServer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1902,7 +1902,7 @@ func (o *CDROMOp) Create(ctx context.Context, zone string, param *CDROMCreateReq
 		return nil, nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, nil, err
@@ -1926,7 +1926,7 @@ func (o *CDROMOp) Create(ctx context.Context, zone string, param *CDROMCreateReq
 // Read is API call
 func (o *CDROMOp) Read(ctx context.Context, zone string, id types.ID) (*CDROM, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1939,7 +1939,7 @@ func (o *CDROMOp) Read(ctx context.Context, zone string, id types.ID) (*CDROM, e
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -1958,7 +1958,7 @@ func (o *CDROMOp) Read(ctx context.Context, zone string, id types.ID) (*CDROM, e
 // Update is API call
 func (o *CDROMOp) Update(ctx context.Context, zone string, id types.ID, param *CDROMUpdateRequest) (*CDROM, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -1972,7 +1972,7 @@ func (o *CDROMOp) Update(ctx context.Context, zone string, id types.ID, param *C
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -1996,7 +1996,7 @@ func (o *CDROMOp) Update(ctx context.Context, zone string, id types.ID, param *C
 // Delete is API call
 func (o *CDROMOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2009,7 +2009,7 @@ func (o *CDROMOp) Delete(ctx context.Context, zone string, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -2025,7 +2025,7 @@ func (o *CDROMOp) Delete(ctx context.Context, zone string, id types.ID) error {
 // OpenFTP is API call
 func (o *CDROMOp) OpenFTP(ctx context.Context, zone string, id types.ID, openOption *OpenFTPRequest) (*FTPServer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2039,7 +2039,7 @@ func (o *CDROMOp) OpenFTP(ctx context.Context, zone string, id types.ID, openOpt
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformOpenFTPArgs(id, openOption)
 	if err != nil {
 		return nil, err
@@ -2063,7 +2063,7 @@ func (o *CDROMOp) OpenFTP(ctx context.Context, zone string, id types.ID, openOpt
 // CloseFTP is API call
 func (o *CDROMOp) CloseFTP(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2076,7 +2076,7 @@ func (o *CDROMOp) CloseFTP(ctx context.Context, zone string, id types.ID) error 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -2111,7 +2111,7 @@ func NewCertificateAuthorityOp(caller APICaller) CertificateAuthorityAPI {
 // Find is API call
 func (o *CertificateAuthorityOp) Find(ctx context.Context, conditions *FindCondition) (*CertificateAuthorityFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2124,7 +2124,7 @@ func (o *CertificateAuthorityOp) Find(ctx context.Context, conditions *FindCondi
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -2148,7 +2148,7 @@ func (o *CertificateAuthorityOp) Find(ctx context.Context, conditions *FindCondi
 // Create is API call
 func (o *CertificateAuthorityOp) Create(ctx context.Context, param *CertificateAuthorityCreateRequest) (*CertificateAuthority, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2161,7 +2161,7 @@ func (o *CertificateAuthorityOp) Create(ctx context.Context, param *CertificateA
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -2185,7 +2185,7 @@ func (o *CertificateAuthorityOp) Create(ctx context.Context, param *CertificateA
 // Read is API call
 func (o *CertificateAuthorityOp) Read(ctx context.Context, id types.ID) (*CertificateAuthority, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2198,7 +2198,7 @@ func (o *CertificateAuthorityOp) Read(ctx context.Context, id types.ID) (*Certif
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -2217,7 +2217,7 @@ func (o *CertificateAuthorityOp) Read(ctx context.Context, id types.ID) (*Certif
 // Update is API call
 func (o *CertificateAuthorityOp) Update(ctx context.Context, id types.ID, param *CertificateAuthorityUpdateRequest) (*CertificateAuthority, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2231,7 +2231,7 @@ func (o *CertificateAuthorityOp) Update(ctx context.Context, id types.ID, param 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -2255,7 +2255,7 @@ func (o *CertificateAuthorityOp) Update(ctx context.Context, id types.ID, param 
 // Delete is API call
 func (o *CertificateAuthorityOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2268,7 +2268,7 @@ func (o *CertificateAuthorityOp) Delete(ctx context.Context, id types.ID) error 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -2284,7 +2284,7 @@ func (o *CertificateAuthorityOp) Delete(ctx context.Context, id types.ID) error 
 // Detail is API call
 func (o *CertificateAuthorityOp) Detail(ctx context.Context, id types.ID) (*CertificateAuthorityDetail, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2297,7 +2297,7 @@ func (o *CertificateAuthorityOp) Detail(ctx context.Context, id types.ID) (*Cert
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -2316,7 +2316,7 @@ func (o *CertificateAuthorityOp) Detail(ctx context.Context, id types.ID) (*Cert
 // AddClient is API call
 func (o *CertificateAuthorityOp) AddClient(ctx context.Context, id types.ID, param *CertificateAuthorityAddClientParam) (*CertificateAuthorityAddClientOrServerResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2330,7 +2330,7 @@ func (o *CertificateAuthorityOp) AddClient(ctx context.Context, id types.ID, par
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformAddClientArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -2354,7 +2354,7 @@ func (o *CertificateAuthorityOp) AddClient(ctx context.Context, id types.ID, par
 // ListClients is API call
 func (o *CertificateAuthorityOp) ListClients(ctx context.Context, id types.ID) (*CertificateAuthorityListClientsResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2367,7 +2367,7 @@ func (o *CertificateAuthorityOp) ListClients(ctx context.Context, id types.ID) (
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -2386,7 +2386,7 @@ func (o *CertificateAuthorityOp) ListClients(ctx context.Context, id types.ID) (
 // ReadClient is API call
 func (o *CertificateAuthorityOp) ReadClient(ctx context.Context, id types.ID, clientID string) (*CertificateAuthorityClient, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2400,7 +2400,7 @@ func (o *CertificateAuthorityOp) ReadClient(ctx context.Context, id types.ID, cl
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -2419,7 +2419,7 @@ func (o *CertificateAuthorityOp) ReadClient(ctx context.Context, id types.ID, cl
 // RevokeClient is API call
 func (o *CertificateAuthorityOp) RevokeClient(ctx context.Context, id types.ID, clientID string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2433,7 +2433,7 @@ func (o *CertificateAuthorityOp) RevokeClient(ctx context.Context, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -2449,7 +2449,7 @@ func (o *CertificateAuthorityOp) RevokeClient(ctx context.Context, id types.ID, 
 // HoldClient is API call
 func (o *CertificateAuthorityOp) HoldClient(ctx context.Context, id types.ID, clientID string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2463,7 +2463,7 @@ func (o *CertificateAuthorityOp) HoldClient(ctx context.Context, id types.ID, cl
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -2479,7 +2479,7 @@ func (o *CertificateAuthorityOp) HoldClient(ctx context.Context, id types.ID, cl
 // ResumeClient is API call
 func (o *CertificateAuthorityOp) ResumeClient(ctx context.Context, id types.ID, clientID string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2493,7 +2493,7 @@ func (o *CertificateAuthorityOp) ResumeClient(ctx context.Context, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -2509,7 +2509,7 @@ func (o *CertificateAuthorityOp) ResumeClient(ctx context.Context, id types.ID, 
 // DenyClient is API call
 func (o *CertificateAuthorityOp) DenyClient(ctx context.Context, id types.ID, clientID string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2523,7 +2523,7 @@ func (o *CertificateAuthorityOp) DenyClient(ctx context.Context, id types.ID, cl
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -2539,7 +2539,7 @@ func (o *CertificateAuthorityOp) DenyClient(ctx context.Context, id types.ID, cl
 // AddServer is API call
 func (o *CertificateAuthorityOp) AddServer(ctx context.Context, id types.ID, param *CertificateAuthorityAddServerParam) (*CertificateAuthorityAddClientOrServerResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2553,7 +2553,7 @@ func (o *CertificateAuthorityOp) AddServer(ctx context.Context, id types.ID, par
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformAddServerArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -2577,7 +2577,7 @@ func (o *CertificateAuthorityOp) AddServer(ctx context.Context, id types.ID, par
 // ListServers is API call
 func (o *CertificateAuthorityOp) ListServers(ctx context.Context, id types.ID) (*CertificateAuthorityListServersResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2590,7 +2590,7 @@ func (o *CertificateAuthorityOp) ListServers(ctx context.Context, id types.ID) (
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -2609,7 +2609,7 @@ func (o *CertificateAuthorityOp) ListServers(ctx context.Context, id types.ID) (
 // ReadServer is API call
 func (o *CertificateAuthorityOp) ReadServer(ctx context.Context, id types.ID, serverID string) (*CertificateAuthorityServer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2623,7 +2623,7 @@ func (o *CertificateAuthorityOp) ReadServer(ctx context.Context, id types.ID, se
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -2642,7 +2642,7 @@ func (o *CertificateAuthorityOp) ReadServer(ctx context.Context, id types.ID, se
 // RevokeServer is API call
 func (o *CertificateAuthorityOp) RevokeServer(ctx context.Context, id types.ID, serverID string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2656,7 +2656,7 @@ func (o *CertificateAuthorityOp) RevokeServer(ctx context.Context, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -2672,7 +2672,7 @@ func (o *CertificateAuthorityOp) RevokeServer(ctx context.Context, id types.ID, 
 // HoldServer is API call
 func (o *CertificateAuthorityOp) HoldServer(ctx context.Context, id types.ID, serverID string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2686,7 +2686,7 @@ func (o *CertificateAuthorityOp) HoldServer(ctx context.Context, id types.ID, se
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -2702,7 +2702,7 @@ func (o *CertificateAuthorityOp) HoldServer(ctx context.Context, id types.ID, se
 // ResumeServer is API call
 func (o *CertificateAuthorityOp) ResumeServer(ctx context.Context, id types.ID, serverID string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2716,7 +2716,7 @@ func (o *CertificateAuthorityOp) ResumeServer(ctx context.Context, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -2751,7 +2751,7 @@ func NewContainerRegistryOp(caller APICaller) ContainerRegistryAPI {
 // Find is API call
 func (o *ContainerRegistryOp) Find(ctx context.Context, conditions *FindCondition) (*ContainerRegistryFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2764,7 +2764,7 @@ func (o *ContainerRegistryOp) Find(ctx context.Context, conditions *FindConditio
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -2788,7 +2788,7 @@ func (o *ContainerRegistryOp) Find(ctx context.Context, conditions *FindConditio
 // Create is API call
 func (o *ContainerRegistryOp) Create(ctx context.Context, param *ContainerRegistryCreateRequest) (*ContainerRegistry, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2801,7 +2801,7 @@ func (o *ContainerRegistryOp) Create(ctx context.Context, param *ContainerRegist
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -2825,7 +2825,7 @@ func (o *ContainerRegistryOp) Create(ctx context.Context, param *ContainerRegist
 // Read is API call
 func (o *ContainerRegistryOp) Read(ctx context.Context, id types.ID) (*ContainerRegistry, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2838,7 +2838,7 @@ func (o *ContainerRegistryOp) Read(ctx context.Context, id types.ID) (*Container
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -2857,7 +2857,7 @@ func (o *ContainerRegistryOp) Read(ctx context.Context, id types.ID) (*Container
 // Update is API call
 func (o *ContainerRegistryOp) Update(ctx context.Context, id types.ID, param *ContainerRegistryUpdateRequest) (*ContainerRegistry, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2871,7 +2871,7 @@ func (o *ContainerRegistryOp) Update(ctx context.Context, id types.ID, param *Co
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -2895,7 +2895,7 @@ func (o *ContainerRegistryOp) Update(ctx context.Context, id types.ID, param *Co
 // UpdateSettings is API call
 func (o *ContainerRegistryOp) UpdateSettings(ctx context.Context, id types.ID, param *ContainerRegistryUpdateSettingsRequest) (*ContainerRegistry, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2909,7 +2909,7 @@ func (o *ContainerRegistryOp) UpdateSettings(ctx context.Context, id types.ID, p
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -2933,7 +2933,7 @@ func (o *ContainerRegistryOp) UpdateSettings(ctx context.Context, id types.ID, p
 // Delete is API call
 func (o *ContainerRegistryOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2946,7 +2946,7 @@ func (o *ContainerRegistryOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -2962,7 +2962,7 @@ func (o *ContainerRegistryOp) Delete(ctx context.Context, id types.ID) error {
 // ListUsers is API call
 func (o *ContainerRegistryOp) ListUsers(ctx context.Context, id types.ID) (*ContainerRegistryUsers, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -2975,7 +2975,7 @@ func (o *ContainerRegistryOp) ListUsers(ctx context.Context, id types.ID) (*Cont
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -2994,7 +2994,7 @@ func (o *ContainerRegistryOp) ListUsers(ctx context.Context, id types.ID) (*Cont
 // AddUser is API call
 func (o *ContainerRegistryOp) AddUser(ctx context.Context, id types.ID, param *ContainerRegistryUserCreateRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3008,7 +3008,7 @@ func (o *ContainerRegistryOp) AddUser(ctx context.Context, id types.ID, param *C
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformAddUserArgs(id, param)
 	if err != nil {
 		return err
@@ -3029,7 +3029,7 @@ func (o *ContainerRegistryOp) AddUser(ctx context.Context, id types.ID, param *C
 // UpdateUser is API call
 func (o *ContainerRegistryOp) UpdateUser(ctx context.Context, id types.ID, username string, param *ContainerRegistryUserUpdateRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3044,7 +3044,7 @@ func (o *ContainerRegistryOp) UpdateUser(ctx context.Context, id types.ID, usern
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateUserArgs(id, username, param)
 	if err != nil {
 		return err
@@ -3065,7 +3065,7 @@ func (o *ContainerRegistryOp) UpdateUser(ctx context.Context, id types.ID, usern
 // DeleteUser is API call
 func (o *ContainerRegistryOp) DeleteUser(ctx context.Context, id types.ID, username string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3079,7 +3079,7 @@ func (o *ContainerRegistryOp) DeleteUser(ctx context.Context, id types.ID, usern
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -3114,7 +3114,7 @@ func NewCouponOp(caller APICaller) CouponAPI {
 // Find is API call
 func (o *CouponOp) Find(ctx context.Context, accountID types.ID) (*CouponFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3127,7 +3127,7 @@ func (o *CouponOp) Find(ctx context.Context, accountID types.ID) (*CouponFindRes
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -3165,7 +3165,7 @@ func NewDatabaseOp(caller APICaller) DatabaseAPI {
 // Find is API call
 func (o *DatabaseOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*DatabaseFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3178,7 +3178,7 @@ func (o *DatabaseOp) Find(ctx context.Context, zone string, conditions *FindCond
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -3202,7 +3202,7 @@ func (o *DatabaseOp) Find(ctx context.Context, zone string, conditions *FindCond
 // Create is API call
 func (o *DatabaseOp) Create(ctx context.Context, zone string, param *DatabaseCreateRequest) (*Database, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3215,7 +3215,7 @@ func (o *DatabaseOp) Create(ctx context.Context, zone string, param *DatabaseCre
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -3239,7 +3239,7 @@ func (o *DatabaseOp) Create(ctx context.Context, zone string, param *DatabaseCre
 // Read is API call
 func (o *DatabaseOp) Read(ctx context.Context, zone string, id types.ID) (*Database, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3252,7 +3252,7 @@ func (o *DatabaseOp) Read(ctx context.Context, zone string, id types.ID) (*Datab
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -3271,7 +3271,7 @@ func (o *DatabaseOp) Read(ctx context.Context, zone string, id types.ID) (*Datab
 // Update is API call
 func (o *DatabaseOp) Update(ctx context.Context, zone string, id types.ID, param *DatabaseUpdateRequest) (*Database, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3285,7 +3285,7 @@ func (o *DatabaseOp) Update(ctx context.Context, zone string, id types.ID, param
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -3309,7 +3309,7 @@ func (o *DatabaseOp) Update(ctx context.Context, zone string, id types.ID, param
 // UpdateSettings is API call
 func (o *DatabaseOp) UpdateSettings(ctx context.Context, zone string, id types.ID, param *DatabaseUpdateSettingsRequest) (*Database, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3323,7 +3323,7 @@ func (o *DatabaseOp) UpdateSettings(ctx context.Context, zone string, id types.I
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -3347,7 +3347,7 @@ func (o *DatabaseOp) UpdateSettings(ctx context.Context, zone string, id types.I
 // Delete is API call
 func (o *DatabaseOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3360,7 +3360,7 @@ func (o *DatabaseOp) Delete(ctx context.Context, zone string, id types.ID) error
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -3376,7 +3376,7 @@ func (o *DatabaseOp) Delete(ctx context.Context, zone string, id types.ID) error
 // Config is API call
 func (o *DatabaseOp) Config(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3389,7 +3389,7 @@ func (o *DatabaseOp) Config(ctx context.Context, zone string, id types.ID) error
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -3405,7 +3405,7 @@ func (o *DatabaseOp) Config(ctx context.Context, zone string, id types.ID) error
 // Boot is API call
 func (o *DatabaseOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3424,7 +3424,7 @@ func (o *DatabaseOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -3440,7 +3440,7 @@ func (o *DatabaseOp) Boot(ctx context.Context, zone string, id types.ID) error {
 // Shutdown is API call
 func (o *DatabaseOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdownOption *ShutdownOption) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":        SakuraCloudAPIRoot,
 		"pathSuffix":     o.PathSuffix,
 		"pathName":       o.PathName,
@@ -3460,7 +3460,7 @@ func (o *DatabaseOp) Shutdown(ctx context.Context, zone string, id types.ID, shu
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformShutdownArgs(id, shutdownOption)
 	if err != nil {
 		return err
@@ -3481,7 +3481,7 @@ func (o *DatabaseOp) Shutdown(ctx context.Context, zone string, id types.ID, shu
 // Reset is API call
 func (o *DatabaseOp) Reset(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3500,7 +3500,7 @@ func (o *DatabaseOp) Reset(ctx context.Context, zone string, id types.ID) error 
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -3516,7 +3516,7 @@ func (o *DatabaseOp) Reset(ctx context.Context, zone string, id types.ID) error 
 // MonitorCPU is API call
 func (o *DatabaseOp) MonitorCPU(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*CPUTimeActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3530,7 +3530,7 @@ func (o *DatabaseOp) MonitorCPU(ctx context.Context, zone string, id types.ID, c
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorCPUArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -3554,7 +3554,7 @@ func (o *DatabaseOp) MonitorCPU(ctx context.Context, zone string, id types.ID, c
 // MonitorDisk is API call
 func (o *DatabaseOp) MonitorDisk(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*DiskActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3568,7 +3568,7 @@ func (o *DatabaseOp) MonitorDisk(ctx context.Context, zone string, id types.ID, 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorDiskArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -3592,7 +3592,7 @@ func (o *DatabaseOp) MonitorDisk(ctx context.Context, zone string, id types.ID, 
 // MonitorInterface is API call
 func (o *DatabaseOp) MonitorInterface(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*InterfaceActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3606,7 +3606,7 @@ func (o *DatabaseOp) MonitorInterface(ctx context.Context, zone string, id types
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorInterfaceArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -3630,7 +3630,7 @@ func (o *DatabaseOp) MonitorInterface(ctx context.Context, zone string, id types
 // MonitorDatabase is API call
 func (o *DatabaseOp) MonitorDatabase(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*DatabaseActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3644,7 +3644,7 @@ func (o *DatabaseOp) MonitorDatabase(ctx context.Context, zone string, id types.
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorDatabaseArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -3668,7 +3668,7 @@ func (o *DatabaseOp) MonitorDatabase(ctx context.Context, zone string, id types.
 // Status is API call
 func (o *DatabaseOp) Status(ctx context.Context, zone string, id types.ID) (*DatabaseStatus, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3681,7 +3681,7 @@ func (o *DatabaseOp) Status(ctx context.Context, zone string, id types.ID) (*Dat
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -3700,7 +3700,7 @@ func (o *DatabaseOp) Status(ctx context.Context, zone string, id types.ID) (*Dat
 // GetParameter is API call
 func (o *DatabaseOp) GetParameter(ctx context.Context, zone string, id types.ID) (*DatabaseParameter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3713,7 +3713,7 @@ func (o *DatabaseOp) GetParameter(ctx context.Context, zone string, id types.ID)
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -3730,9 +3730,9 @@ func (o *DatabaseOp) GetParameter(ctx context.Context, zone string, id types.ID)
 }
 
 // SetParameter is API call
-func (o *DatabaseOp) SetParameter(ctx context.Context, zone string, id types.ID, param map[string]interface{}) error {
+func (o *DatabaseOp) SetParameter(ctx context.Context, zone string, id types.ID, param map[string]any) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3746,7 +3746,7 @@ func (o *DatabaseOp) SetParameter(ctx context.Context, zone string, id types.ID,
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSetParameterArgs(id, param)
 	if err != nil {
 		return err
@@ -3786,7 +3786,7 @@ func NewDiskOp(caller APICaller) DiskAPI {
 // Find is API call
 func (o *DiskOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*DiskFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3799,7 +3799,7 @@ func (o *DiskOp) Find(ctx context.Context, zone string, conditions *FindConditio
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -3823,7 +3823,7 @@ func (o *DiskOp) Find(ctx context.Context, zone string, conditions *FindConditio
 // Create is API call
 func (o *DiskOp) Create(ctx context.Context, zone string, createParam *DiskCreateRequest, distantFrom []types.ID, kmeKeyID types.ID) (*Disk, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":     SakuraCloudAPIRoot,
 		"pathSuffix":  o.PathSuffix,
 		"pathName":    o.PathName,
@@ -3838,7 +3838,7 @@ func (o *DiskOp) Create(ctx context.Context, zone string, createParam *DiskCreat
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(createParam, distantFrom, kmeKeyID)
 	if err != nil {
 		return nil, err
@@ -3862,7 +3862,7 @@ func (o *DiskOp) Create(ctx context.Context, zone string, createParam *DiskCreat
 // CreateOnDedicatedStorage is API call
 func (o *DiskOp) CreateOnDedicatedStorage(ctx context.Context, zone string, createParam *DiskCreateRequest, distantFrom []types.ID, kmeKeyID types.ID, dedicatedStorageContractID types.ID) (*Disk, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":                    SakuraCloudAPIRoot,
 		"pathSuffix":                 o.PathSuffix,
 		"pathName":                   o.PathName,
@@ -3878,7 +3878,7 @@ func (o *DiskOp) CreateOnDedicatedStorage(ctx context.Context, zone string, crea
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateOnDedicatedStorageArgs(createParam, distantFrom, kmeKeyID, dedicatedStorageContractID)
 	if err != nil {
 		return nil, err
@@ -3902,7 +3902,7 @@ func (o *DiskOp) CreateOnDedicatedStorage(ctx context.Context, zone string, crea
 // Config is API call
 func (o *DiskOp) Config(ctx context.Context, zone string, id types.ID, edit *DiskEditRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -3916,7 +3916,7 @@ func (o *DiskOp) Config(ctx context.Context, zone string, id types.ID, edit *Dis
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformConfigArgs(id, edit)
 	if err != nil {
 		return err
@@ -3937,7 +3937,7 @@ func (o *DiskOp) Config(ctx context.Context, zone string, id types.ID, edit *Dis
 // CreateWithConfig is API call
 func (o *DiskOp) CreateWithConfig(ctx context.Context, zone string, createParam *DiskCreateRequest, editParam *DiskEditRequest, bootAtAvailable bool, distantFrom []types.ID, kmeKeyID types.ID) (*Disk, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":         SakuraCloudAPIRoot,
 		"pathSuffix":      o.PathSuffix,
 		"pathName":        o.PathName,
@@ -3954,7 +3954,7 @@ func (o *DiskOp) CreateWithConfig(ctx context.Context, zone string, createParam 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateWithConfigArgs(createParam, editParam, bootAtAvailable, distantFrom, kmeKeyID)
 	if err != nil {
 		return nil, err
@@ -3978,7 +3978,7 @@ func (o *DiskOp) CreateWithConfig(ctx context.Context, zone string, createParam 
 // CreateOnDedicatedStorageWithConfig is API call
 func (o *DiskOp) CreateOnDedicatedStorageWithConfig(ctx context.Context, zone string, createParam *DiskCreateRequest, editParam *DiskEditRequest, bootAtAvailable bool, distantFrom []types.ID, kmeKeyID types.ID, dedicatedStorageContractID types.ID) (*Disk, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":                    SakuraCloudAPIRoot,
 		"pathSuffix":                 o.PathSuffix,
 		"pathName":                   o.PathName,
@@ -3996,7 +3996,7 @@ func (o *DiskOp) CreateOnDedicatedStorageWithConfig(ctx context.Context, zone st
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateOnDedicatedStorageWithConfigArgs(createParam, editParam, bootAtAvailable, distantFrom, kmeKeyID, dedicatedStorageContractID)
 	if err != nil {
 		return nil, err
@@ -4020,7 +4020,7 @@ func (o *DiskOp) CreateOnDedicatedStorageWithConfig(ctx context.Context, zone st
 // ResizePartition is API call
 func (o *DiskOp) ResizePartition(ctx context.Context, zone string, id types.ID, param *DiskResizePartitionRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4034,7 +4034,7 @@ func (o *DiskOp) ResizePartition(ctx context.Context, zone string, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformResizePartitionArgs(id, param)
 	if err != nil {
 		return err
@@ -4055,7 +4055,7 @@ func (o *DiskOp) ResizePartition(ctx context.Context, zone string, id types.ID, 
 // ConnectToServer is API call
 func (o *DiskOp) ConnectToServer(ctx context.Context, zone string, id types.ID, serverID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4069,7 +4069,7 @@ func (o *DiskOp) ConnectToServer(ctx context.Context, zone string, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -4085,7 +4085,7 @@ func (o *DiskOp) ConnectToServer(ctx context.Context, zone string, id types.ID, 
 // DisconnectFromServer is API call
 func (o *DiskOp) DisconnectFromServer(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4098,7 +4098,7 @@ func (o *DiskOp) DisconnectFromServer(ctx context.Context, zone string, id types
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -4114,7 +4114,7 @@ func (o *DiskOp) DisconnectFromServer(ctx context.Context, zone string, id types
 // Read is API call
 func (o *DiskOp) Read(ctx context.Context, zone string, id types.ID) (*Disk, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4127,7 +4127,7 @@ func (o *DiskOp) Read(ctx context.Context, zone string, id types.ID) (*Disk, err
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -4146,7 +4146,7 @@ func (o *DiskOp) Read(ctx context.Context, zone string, id types.ID) (*Disk, err
 // Update is API call
 func (o *DiskOp) Update(ctx context.Context, zone string, id types.ID, param *DiskUpdateRequest) (*Disk, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4160,7 +4160,7 @@ func (o *DiskOp) Update(ctx context.Context, zone string, id types.ID, param *Di
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -4184,7 +4184,7 @@ func (o *DiskOp) Update(ctx context.Context, zone string, id types.ID, param *Di
 // Delete is API call
 func (o *DiskOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4197,7 +4197,7 @@ func (o *DiskOp) Delete(ctx context.Context, zone string, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -4213,7 +4213,7 @@ func (o *DiskOp) Delete(ctx context.Context, zone string, id types.ID) error {
 // Monitor is API call
 func (o *DiskOp) Monitor(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*DiskActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4227,7 +4227,7 @@ func (o *DiskOp) Monitor(ctx context.Context, zone string, id types.ID, conditio
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -4251,7 +4251,7 @@ func (o *DiskOp) Monitor(ctx context.Context, zone string, id types.ID, conditio
 // MonitorDisk is API call
 func (o *DiskOp) MonitorDisk(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*DiskActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4265,7 +4265,7 @@ func (o *DiskOp) MonitorDisk(ctx context.Context, zone string, id types.ID, cond
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorDiskArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -4308,7 +4308,7 @@ func NewDiskPlanOp(caller APICaller) DiskPlanAPI {
 // Find is API call
 func (o *DiskPlanOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*DiskPlanFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4321,7 +4321,7 @@ func (o *DiskPlanOp) Find(ctx context.Context, zone string, conditions *FindCond
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -4345,7 +4345,7 @@ func (o *DiskPlanOp) Find(ctx context.Context, zone string, conditions *FindCond
 // Read is API call
 func (o *DiskPlanOp) Read(ctx context.Context, zone string, id types.ID) (*DiskPlan, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4358,7 +4358,7 @@ func (o *DiskPlanOp) Read(ctx context.Context, zone string, id types.ID) (*DiskP
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -4396,7 +4396,7 @@ func NewDNSOp(caller APICaller) DNSAPI {
 // Find is API call
 func (o *DNSOp) Find(ctx context.Context, conditions *FindCondition) (*DNSFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4409,7 +4409,7 @@ func (o *DNSOp) Find(ctx context.Context, conditions *FindCondition) (*DNSFindRe
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -4433,7 +4433,7 @@ func (o *DNSOp) Find(ctx context.Context, conditions *FindCondition) (*DNSFindRe
 // Create is API call
 func (o *DNSOp) Create(ctx context.Context, param *DNSCreateRequest) (*DNS, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4446,7 +4446,7 @@ func (o *DNSOp) Create(ctx context.Context, param *DNSCreateRequest) (*DNS, erro
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -4470,7 +4470,7 @@ func (o *DNSOp) Create(ctx context.Context, param *DNSCreateRequest) (*DNS, erro
 // Read is API call
 func (o *DNSOp) Read(ctx context.Context, id types.ID) (*DNS, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4483,7 +4483,7 @@ func (o *DNSOp) Read(ctx context.Context, id types.ID) (*DNS, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -4502,7 +4502,7 @@ func (o *DNSOp) Read(ctx context.Context, id types.ID) (*DNS, error) {
 // Update is API call
 func (o *DNSOp) Update(ctx context.Context, id types.ID, param *DNSUpdateRequest) (*DNS, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4516,7 +4516,7 @@ func (o *DNSOp) Update(ctx context.Context, id types.ID, param *DNSUpdateRequest
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -4540,7 +4540,7 @@ func (o *DNSOp) Update(ctx context.Context, id types.ID, param *DNSUpdateRequest
 // UpdateSettings is API call
 func (o *DNSOp) UpdateSettings(ctx context.Context, id types.ID, param *DNSUpdateSettingsRequest) (*DNS, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4554,7 +4554,7 @@ func (o *DNSOp) UpdateSettings(ctx context.Context, id types.ID, param *DNSUpdat
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -4578,7 +4578,7 @@ func (o *DNSOp) UpdateSettings(ctx context.Context, id types.ID, param *DNSUpdat
 // Delete is API call
 func (o *DNSOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4591,7 +4591,7 @@ func (o *DNSOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -4626,7 +4626,7 @@ func NewEnhancedDBOp(caller APICaller) EnhancedDBAPI {
 // Find is API call
 func (o *EnhancedDBOp) Find(ctx context.Context, conditions *FindCondition) (*EnhancedDBFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4639,7 +4639,7 @@ func (o *EnhancedDBOp) Find(ctx context.Context, conditions *FindCondition) (*En
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -4663,7 +4663,7 @@ func (o *EnhancedDBOp) Find(ctx context.Context, conditions *FindCondition) (*En
 // Create is API call
 func (o *EnhancedDBOp) Create(ctx context.Context, param *EnhancedDBCreateRequest) (*EnhancedDB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4676,7 +4676,7 @@ func (o *EnhancedDBOp) Create(ctx context.Context, param *EnhancedDBCreateReques
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -4700,7 +4700,7 @@ func (o *EnhancedDBOp) Create(ctx context.Context, param *EnhancedDBCreateReques
 // Read is API call
 func (o *EnhancedDBOp) Read(ctx context.Context, id types.ID) (*EnhancedDB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4713,7 +4713,7 @@ func (o *EnhancedDBOp) Read(ctx context.Context, id types.ID) (*EnhancedDB, erro
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -4732,7 +4732,7 @@ func (o *EnhancedDBOp) Read(ctx context.Context, id types.ID) (*EnhancedDB, erro
 // Update is API call
 func (o *EnhancedDBOp) Update(ctx context.Context, id types.ID, param *EnhancedDBUpdateRequest) (*EnhancedDB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4746,7 +4746,7 @@ func (o *EnhancedDBOp) Update(ctx context.Context, id types.ID, param *EnhancedD
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -4770,7 +4770,7 @@ func (o *EnhancedDBOp) Update(ctx context.Context, id types.ID, param *EnhancedD
 // Delete is API call
 func (o *EnhancedDBOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4783,7 +4783,7 @@ func (o *EnhancedDBOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -4799,7 +4799,7 @@ func (o *EnhancedDBOp) Delete(ctx context.Context, id types.ID) error {
 // SetPassword is API call
 func (o *EnhancedDBOp) SetPassword(ctx context.Context, id types.ID, param *EnhancedDBSetPasswordRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4813,7 +4813,7 @@ func (o *EnhancedDBOp) SetPassword(ctx context.Context, id types.ID, param *Enha
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSetPasswordArgs(id, param)
 	if err != nil {
 		return err
@@ -4834,7 +4834,7 @@ func (o *EnhancedDBOp) SetPassword(ctx context.Context, id types.ID, param *Enha
 // GetConfig is API call
 func (o *EnhancedDBOp) GetConfig(ctx context.Context, id types.ID) (*EnhancedDBConfig, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4847,7 +4847,7 @@ func (o *EnhancedDBOp) GetConfig(ctx context.Context, id types.ID) (*EnhancedDBC
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -4866,7 +4866,7 @@ func (o *EnhancedDBOp) GetConfig(ctx context.Context, id types.ID) (*EnhancedDBC
 // SetConfig is API call
 func (o *EnhancedDBOp) SetConfig(ctx context.Context, id types.ID, param *EnhancedDBSetConfigRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4880,7 +4880,7 @@ func (o *EnhancedDBOp) SetConfig(ctx context.Context, id types.ID, param *Enhanc
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSetConfigArgs(id, param)
 	if err != nil {
 		return err
@@ -4920,7 +4920,7 @@ func NewESMEOp(caller APICaller) ESMEAPI {
 // Find is API call
 func (o *ESMEOp) Find(ctx context.Context, conditions *FindCondition) (*ESMEFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4933,7 +4933,7 @@ func (o *ESMEOp) Find(ctx context.Context, conditions *FindCondition) (*ESMEFind
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -4957,7 +4957,7 @@ func (o *ESMEOp) Find(ctx context.Context, conditions *FindCondition) (*ESMEFind
 // Create is API call
 func (o *ESMEOp) Create(ctx context.Context, param *ESMECreateRequest) (*ESME, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -4970,7 +4970,7 @@ func (o *ESMEOp) Create(ctx context.Context, param *ESMECreateRequest) (*ESME, e
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -4994,7 +4994,7 @@ func (o *ESMEOp) Create(ctx context.Context, param *ESMECreateRequest) (*ESME, e
 // Read is API call
 func (o *ESMEOp) Read(ctx context.Context, id types.ID) (*ESME, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5007,7 +5007,7 @@ func (o *ESMEOp) Read(ctx context.Context, id types.ID) (*ESME, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -5026,7 +5026,7 @@ func (o *ESMEOp) Read(ctx context.Context, id types.ID) (*ESME, error) {
 // Update is API call
 func (o *ESMEOp) Update(ctx context.Context, id types.ID, param *ESMEUpdateRequest) (*ESME, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5040,7 +5040,7 @@ func (o *ESMEOp) Update(ctx context.Context, id types.ID, param *ESMEUpdateReque
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -5064,7 +5064,7 @@ func (o *ESMEOp) Update(ctx context.Context, id types.ID, param *ESMEUpdateReque
 // Delete is API call
 func (o *ESMEOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5077,7 +5077,7 @@ func (o *ESMEOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -5093,7 +5093,7 @@ func (o *ESMEOp) Delete(ctx context.Context, id types.ID) error {
 // SendMessageWithGeneratedOTP is API call
 func (o *ESMEOp) SendMessageWithGeneratedOTP(ctx context.Context, id types.ID, param *ESMESendMessageWithGeneratedOTPRequest) (*ESMESendMessageResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5107,7 +5107,7 @@ func (o *ESMEOp) SendMessageWithGeneratedOTP(ctx context.Context, id types.ID, p
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSendMessageWithGeneratedOTPArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -5131,7 +5131,7 @@ func (o *ESMEOp) SendMessageWithGeneratedOTP(ctx context.Context, id types.ID, p
 // SendMessageWithInputtedOTP is API call
 func (o *ESMEOp) SendMessageWithInputtedOTP(ctx context.Context, id types.ID, param *ESMESendMessageWithInputtedOTPRequest) (*ESMESendMessageResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5145,7 +5145,7 @@ func (o *ESMEOp) SendMessageWithInputtedOTP(ctx context.Context, id types.ID, pa
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSendMessageWithInputtedOTPArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -5169,7 +5169,7 @@ func (o *ESMEOp) SendMessageWithInputtedOTP(ctx context.Context, id types.ID, pa
 // Logs is API call
 func (o *ESMEOp) Logs(ctx context.Context, id types.ID) ([]*ESMELogs, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5182,7 +5182,7 @@ func (o *ESMEOp) Logs(ctx context.Context, id types.ID) ([]*ESMELogs, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -5220,7 +5220,7 @@ func NewGSLBOp(caller APICaller) GSLBAPI {
 // Find is API call
 func (o *GSLBOp) Find(ctx context.Context, conditions *FindCondition) (*GSLBFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5233,7 +5233,7 @@ func (o *GSLBOp) Find(ctx context.Context, conditions *FindCondition) (*GSLBFind
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -5257,7 +5257,7 @@ func (o *GSLBOp) Find(ctx context.Context, conditions *FindCondition) (*GSLBFind
 // Create is API call
 func (o *GSLBOp) Create(ctx context.Context, param *GSLBCreateRequest) (*GSLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5270,7 +5270,7 @@ func (o *GSLBOp) Create(ctx context.Context, param *GSLBCreateRequest) (*GSLB, e
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -5294,7 +5294,7 @@ func (o *GSLBOp) Create(ctx context.Context, param *GSLBCreateRequest) (*GSLB, e
 // Read is API call
 func (o *GSLBOp) Read(ctx context.Context, id types.ID) (*GSLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5307,7 +5307,7 @@ func (o *GSLBOp) Read(ctx context.Context, id types.ID) (*GSLB, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -5326,7 +5326,7 @@ func (o *GSLBOp) Read(ctx context.Context, id types.ID) (*GSLB, error) {
 // Update is API call
 func (o *GSLBOp) Update(ctx context.Context, id types.ID, param *GSLBUpdateRequest) (*GSLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5340,7 +5340,7 @@ func (o *GSLBOp) Update(ctx context.Context, id types.ID, param *GSLBUpdateReque
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -5364,7 +5364,7 @@ func (o *GSLBOp) Update(ctx context.Context, id types.ID, param *GSLBUpdateReque
 // UpdateSettings is API call
 func (o *GSLBOp) UpdateSettings(ctx context.Context, id types.ID, param *GSLBUpdateSettingsRequest) (*GSLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5378,7 +5378,7 @@ func (o *GSLBOp) UpdateSettings(ctx context.Context, id types.ID, param *GSLBUpd
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -5402,7 +5402,7 @@ func (o *GSLBOp) UpdateSettings(ctx context.Context, id types.ID, param *GSLBUpd
 // Delete is API call
 func (o *GSLBOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5415,7 +5415,7 @@ func (o *GSLBOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -5450,7 +5450,7 @@ func NewIconOp(caller APICaller) IconAPI {
 // Find is API call
 func (o *IconOp) Find(ctx context.Context, conditions *FindCondition) (*IconFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5463,7 +5463,7 @@ func (o *IconOp) Find(ctx context.Context, conditions *FindCondition) (*IconFind
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -5487,7 +5487,7 @@ func (o *IconOp) Find(ctx context.Context, conditions *FindCondition) (*IconFind
 // Create is API call
 func (o *IconOp) Create(ctx context.Context, param *IconCreateRequest) (*Icon, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5500,7 +5500,7 @@ func (o *IconOp) Create(ctx context.Context, param *IconCreateRequest) (*Icon, e
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -5524,7 +5524,7 @@ func (o *IconOp) Create(ctx context.Context, param *IconCreateRequest) (*Icon, e
 // Read is API call
 func (o *IconOp) Read(ctx context.Context, id types.ID) (*Icon, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5537,7 +5537,7 @@ func (o *IconOp) Read(ctx context.Context, id types.ID) (*Icon, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -5556,7 +5556,7 @@ func (o *IconOp) Read(ctx context.Context, id types.ID) (*Icon, error) {
 // Update is API call
 func (o *IconOp) Update(ctx context.Context, id types.ID, param *IconUpdateRequest) (*Icon, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5570,7 +5570,7 @@ func (o *IconOp) Update(ctx context.Context, id types.ID, param *IconUpdateReque
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -5594,7 +5594,7 @@ func (o *IconOp) Update(ctx context.Context, id types.ID, param *IconUpdateReque
 // Delete is API call
 func (o *IconOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5607,7 +5607,7 @@ func (o *IconOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -5642,7 +5642,7 @@ func NewInterfaceOp(caller APICaller) InterfaceAPI {
 // Find is API call
 func (o *InterfaceOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*InterfaceFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5655,7 +5655,7 @@ func (o *InterfaceOp) Find(ctx context.Context, zone string, conditions *FindCon
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -5679,7 +5679,7 @@ func (o *InterfaceOp) Find(ctx context.Context, zone string, conditions *FindCon
 // Create is API call
 func (o *InterfaceOp) Create(ctx context.Context, zone string, param *InterfaceCreateRequest) (*Interface, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5692,7 +5692,7 @@ func (o *InterfaceOp) Create(ctx context.Context, zone string, param *InterfaceC
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -5716,7 +5716,7 @@ func (o *InterfaceOp) Create(ctx context.Context, zone string, param *InterfaceC
 // Read is API call
 func (o *InterfaceOp) Read(ctx context.Context, zone string, id types.ID) (*Interface, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5729,7 +5729,7 @@ func (o *InterfaceOp) Read(ctx context.Context, zone string, id types.ID) (*Inte
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -5748,7 +5748,7 @@ func (o *InterfaceOp) Read(ctx context.Context, zone string, id types.ID) (*Inte
 // Update is API call
 func (o *InterfaceOp) Update(ctx context.Context, zone string, id types.ID, param *InterfaceUpdateRequest) (*Interface, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5762,7 +5762,7 @@ func (o *InterfaceOp) Update(ctx context.Context, zone string, id types.ID, para
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -5786,7 +5786,7 @@ func (o *InterfaceOp) Update(ctx context.Context, zone string, id types.ID, para
 // Delete is API call
 func (o *InterfaceOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5799,7 +5799,7 @@ func (o *InterfaceOp) Delete(ctx context.Context, zone string, id types.ID) erro
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -5815,7 +5815,7 @@ func (o *InterfaceOp) Delete(ctx context.Context, zone string, id types.ID) erro
 // Monitor is API call
 func (o *InterfaceOp) Monitor(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*InterfaceActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5829,7 +5829,7 @@ func (o *InterfaceOp) Monitor(ctx context.Context, zone string, id types.ID, con
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -5853,7 +5853,7 @@ func (o *InterfaceOp) Monitor(ctx context.Context, zone string, id types.ID, con
 // ConnectToSharedSegment is API call
 func (o *InterfaceOp) ConnectToSharedSegment(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5866,7 +5866,7 @@ func (o *InterfaceOp) ConnectToSharedSegment(ctx context.Context, zone string, i
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -5882,7 +5882,7 @@ func (o *InterfaceOp) ConnectToSharedSegment(ctx context.Context, zone string, i
 // ConnectToSwitch is API call
 func (o *InterfaceOp) ConnectToSwitch(ctx context.Context, zone string, id types.ID, switchID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5896,7 +5896,7 @@ func (o *InterfaceOp) ConnectToSwitch(ctx context.Context, zone string, id types
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -5912,7 +5912,7 @@ func (o *InterfaceOp) ConnectToSwitch(ctx context.Context, zone string, id types
 // DisconnectFromSwitch is API call
 func (o *InterfaceOp) DisconnectFromSwitch(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5925,7 +5925,7 @@ func (o *InterfaceOp) DisconnectFromSwitch(ctx context.Context, zone string, id 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -5941,7 +5941,7 @@ func (o *InterfaceOp) DisconnectFromSwitch(ctx context.Context, zone string, id 
 // ConnectToPacketFilter is API call
 func (o *InterfaceOp) ConnectToPacketFilter(ctx context.Context, zone string, id types.ID, packetFilterID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":        SakuraCloudAPIRoot,
 		"pathSuffix":     o.PathSuffix,
 		"pathName":       o.PathName,
@@ -5955,7 +5955,7 @@ func (o *InterfaceOp) ConnectToPacketFilter(ctx context.Context, zone string, id
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -5971,7 +5971,7 @@ func (o *InterfaceOp) ConnectToPacketFilter(ctx context.Context, zone string, id
 // DisconnectFromPacketFilter is API call
 func (o *InterfaceOp) DisconnectFromPacketFilter(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -5984,7 +5984,7 @@ func (o *InterfaceOp) DisconnectFromPacketFilter(ctx context.Context, zone strin
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -6019,7 +6019,7 @@ func NewInternetOp(caller APICaller) InternetAPI {
 // Find is API call
 func (o *InternetOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*InternetFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6032,7 +6032,7 @@ func (o *InternetOp) Find(ctx context.Context, zone string, conditions *FindCond
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -6056,7 +6056,7 @@ func (o *InternetOp) Find(ctx context.Context, zone string, conditions *FindCond
 // Create is API call
 func (o *InternetOp) Create(ctx context.Context, zone string, param *InternetCreateRequest) (*Internet, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6069,7 +6069,7 @@ func (o *InternetOp) Create(ctx context.Context, zone string, param *InternetCre
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -6093,7 +6093,7 @@ func (o *InternetOp) Create(ctx context.Context, zone string, param *InternetCre
 // Read is API call
 func (o *InternetOp) Read(ctx context.Context, zone string, id types.ID) (*Internet, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6106,7 +6106,7 @@ func (o *InternetOp) Read(ctx context.Context, zone string, id types.ID) (*Inter
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -6125,7 +6125,7 @@ func (o *InternetOp) Read(ctx context.Context, zone string, id types.ID) (*Inter
 // Update is API call
 func (o *InternetOp) Update(ctx context.Context, zone string, id types.ID, param *InternetUpdateRequest) (*Internet, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6139,7 +6139,7 @@ func (o *InternetOp) Update(ctx context.Context, zone string, id types.ID, param
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -6163,7 +6163,7 @@ func (o *InternetOp) Update(ctx context.Context, zone string, id types.ID, param
 // Delete is API call
 func (o *InternetOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6176,7 +6176,7 @@ func (o *InternetOp) Delete(ctx context.Context, zone string, id types.ID) error
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -6192,7 +6192,7 @@ func (o *InternetOp) Delete(ctx context.Context, zone string, id types.ID) error
 // UpdateBandWidth is API call
 func (o *InternetOp) UpdateBandWidth(ctx context.Context, zone string, id types.ID, param *InternetUpdateBandWidthRequest) (*Internet, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6206,7 +6206,7 @@ func (o *InternetOp) UpdateBandWidth(ctx context.Context, zone string, id types.
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateBandWidthArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -6230,7 +6230,7 @@ func (o *InternetOp) UpdateBandWidth(ctx context.Context, zone string, id types.
 // AddSubnet is API call
 func (o *InternetOp) AddSubnet(ctx context.Context, zone string, id types.ID, param *InternetAddSubnetRequest) (*InternetSubnetOperationResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6244,7 +6244,7 @@ func (o *InternetOp) AddSubnet(ctx context.Context, zone string, id types.ID, pa
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformAddSubnetArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -6268,7 +6268,7 @@ func (o *InternetOp) AddSubnet(ctx context.Context, zone string, id types.ID, pa
 // UpdateSubnet is API call
 func (o *InternetOp) UpdateSubnet(ctx context.Context, zone string, id types.ID, subnetID types.ID, param *InternetUpdateSubnetRequest) (*InternetSubnetOperationResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6283,7 +6283,7 @@ func (o *InternetOp) UpdateSubnet(ctx context.Context, zone string, id types.ID,
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSubnetArgs(id, subnetID, param)
 	if err != nil {
 		return nil, err
@@ -6307,7 +6307,7 @@ func (o *InternetOp) UpdateSubnet(ctx context.Context, zone string, id types.ID,
 // DeleteSubnet is API call
 func (o *InternetOp) DeleteSubnet(ctx context.Context, zone string, id types.ID, subnetID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6321,7 +6321,7 @@ func (o *InternetOp) DeleteSubnet(ctx context.Context, zone string, id types.ID,
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -6337,7 +6337,7 @@ func (o *InternetOp) DeleteSubnet(ctx context.Context, zone string, id types.ID,
 // Monitor is API call
 func (o *InternetOp) Monitor(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*RouterActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6351,7 +6351,7 @@ func (o *InternetOp) Monitor(ctx context.Context, zone string, id types.ID, cond
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -6375,7 +6375,7 @@ func (o *InternetOp) Monitor(ctx context.Context, zone string, id types.ID, cond
 // MonitorRouter is API call
 func (o *InternetOp) MonitorRouter(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*RouterActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6389,7 +6389,7 @@ func (o *InternetOp) MonitorRouter(ctx context.Context, zone string, id types.ID
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorRouterArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -6413,7 +6413,7 @@ func (o *InternetOp) MonitorRouter(ctx context.Context, zone string, id types.ID
 // EnableIPv6 is API call
 func (o *InternetOp) EnableIPv6(ctx context.Context, zone string, id types.ID) (*IPv6NetInfo, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6426,7 +6426,7 @@ func (o *InternetOp) EnableIPv6(ctx context.Context, zone string, id types.ID) (
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "POST", url, body)
@@ -6445,7 +6445,7 @@ func (o *InternetOp) EnableIPv6(ctx context.Context, zone string, id types.ID) (
 // DisableIPv6 is API call
 func (o *InternetOp) DisableIPv6(ctx context.Context, zone string, id types.ID, ipv6netID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6459,7 +6459,7 @@ func (o *InternetOp) DisableIPv6(ctx context.Context, zone string, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -6494,7 +6494,7 @@ func NewInternetPlanOp(caller APICaller) InternetPlanAPI {
 // Find is API call
 func (o *InternetPlanOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*InternetPlanFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6507,7 +6507,7 @@ func (o *InternetPlanOp) Find(ctx context.Context, zone string, conditions *Find
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -6531,7 +6531,7 @@ func (o *InternetPlanOp) Find(ctx context.Context, zone string, conditions *Find
 // Read is API call
 func (o *InternetPlanOp) Read(ctx context.Context, zone string, id types.ID) (*InternetPlan, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6544,7 +6544,7 @@ func (o *InternetPlanOp) Read(ctx context.Context, zone string, id types.ID) (*I
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -6582,7 +6582,7 @@ func NewIPAddressOp(caller APICaller) IPAddressAPI {
 // List is API call
 func (o *IPAddressOp) List(ctx context.Context, zone string) (*IPAddressListResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6594,7 +6594,7 @@ func (o *IPAddressOp) List(ctx context.Context, zone string) (*IPAddressListResu
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -6613,7 +6613,7 @@ func (o *IPAddressOp) List(ctx context.Context, zone string) (*IPAddressListResu
 // Read is API call
 func (o *IPAddressOp) Read(ctx context.Context, zone string, ipAddress string) (*IPAddress, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6626,7 +6626,7 @@ func (o *IPAddressOp) Read(ctx context.Context, zone string, ipAddress string) (
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -6645,7 +6645,7 @@ func (o *IPAddressOp) Read(ctx context.Context, zone string, ipAddress string) (
 // UpdateHostName is API call
 func (o *IPAddressOp) UpdateHostName(ctx context.Context, zone string, ipAddress string, hostName string) (*IPAddress, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6659,7 +6659,7 @@ func (o *IPAddressOp) UpdateHostName(ctx context.Context, zone string, ipAddress
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateHostNameArgs(ipAddress, hostName)
 	if err != nil {
 		return nil, err
@@ -6702,7 +6702,7 @@ func NewIPv6NetOp(caller APICaller) IPv6NetAPI {
 // List is API call
 func (o *IPv6NetOp) List(ctx context.Context, zone string) (*IPv6NetListResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6714,7 +6714,7 @@ func (o *IPv6NetOp) List(ctx context.Context, zone string) (*IPv6NetListResult, 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -6733,7 +6733,7 @@ func (o *IPv6NetOp) List(ctx context.Context, zone string) (*IPv6NetListResult, 
 // Find is API call
 func (o *IPv6NetOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*IPv6NetFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6746,7 +6746,7 @@ func (o *IPv6NetOp) Find(ctx context.Context, zone string, conditions *FindCondi
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -6770,7 +6770,7 @@ func (o *IPv6NetOp) Find(ctx context.Context, zone string, conditions *FindCondi
 // Read is API call
 func (o *IPv6NetOp) Read(ctx context.Context, zone string, id types.ID) (*IPv6Net, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6783,7 +6783,7 @@ func (o *IPv6NetOp) Read(ctx context.Context, zone string, id types.ID) (*IPv6Ne
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -6821,7 +6821,7 @@ func NewIPv6AddrOp(caller APICaller) IPv6AddrAPI {
 // Find is API call
 func (o *IPv6AddrOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*IPv6AddrFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6834,7 +6834,7 @@ func (o *IPv6AddrOp) Find(ctx context.Context, zone string, conditions *FindCond
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -6858,7 +6858,7 @@ func (o *IPv6AddrOp) Find(ctx context.Context, zone string, conditions *FindCond
 // Create is API call
 func (o *IPv6AddrOp) Create(ctx context.Context, zone string, param *IPv6AddrCreateRequest) (*IPv6Addr, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6871,7 +6871,7 @@ func (o *IPv6AddrOp) Create(ctx context.Context, zone string, param *IPv6AddrCre
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -6895,7 +6895,7 @@ func (o *IPv6AddrOp) Create(ctx context.Context, zone string, param *IPv6AddrCre
 // Read is API call
 func (o *IPv6AddrOp) Read(ctx context.Context, zone string, ipv6addr string) (*IPv6Addr, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6908,7 +6908,7 @@ func (o *IPv6AddrOp) Read(ctx context.Context, zone string, ipv6addr string) (*I
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -6927,7 +6927,7 @@ func (o *IPv6AddrOp) Read(ctx context.Context, zone string, ipv6addr string) (*I
 // Update is API call
 func (o *IPv6AddrOp) Update(ctx context.Context, zone string, ipv6addr string, param *IPv6AddrUpdateRequest) (*IPv6Addr, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6941,7 +6941,7 @@ func (o *IPv6AddrOp) Update(ctx context.Context, zone string, ipv6addr string, p
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(ipv6addr, param)
 	if err != nil {
 		return nil, err
@@ -6965,7 +6965,7 @@ func (o *IPv6AddrOp) Update(ctx context.Context, zone string, ipv6addr string, p
 // Delete is API call
 func (o *IPv6AddrOp) Delete(ctx context.Context, zone string, ipv6addr string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -6978,7 +6978,7 @@ func (o *IPv6AddrOp) Delete(ctx context.Context, zone string, ipv6addr string) e
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -7013,7 +7013,7 @@ func NewLicenseOp(caller APICaller) LicenseAPI {
 // Find is API call
 func (o *LicenseOp) Find(ctx context.Context, conditions *FindCondition) (*LicenseFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7026,7 +7026,7 @@ func (o *LicenseOp) Find(ctx context.Context, conditions *FindCondition) (*Licen
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -7050,7 +7050,7 @@ func (o *LicenseOp) Find(ctx context.Context, conditions *FindCondition) (*Licen
 // Create is API call
 func (o *LicenseOp) Create(ctx context.Context, param *LicenseCreateRequest) (*License, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7063,7 +7063,7 @@ func (o *LicenseOp) Create(ctx context.Context, param *LicenseCreateRequest) (*L
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -7087,7 +7087,7 @@ func (o *LicenseOp) Create(ctx context.Context, param *LicenseCreateRequest) (*L
 // Read is API call
 func (o *LicenseOp) Read(ctx context.Context, id types.ID) (*License, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7100,7 +7100,7 @@ func (o *LicenseOp) Read(ctx context.Context, id types.ID) (*License, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -7119,7 +7119,7 @@ func (o *LicenseOp) Read(ctx context.Context, id types.ID) (*License, error) {
 // Update is API call
 func (o *LicenseOp) Update(ctx context.Context, id types.ID, param *LicenseUpdateRequest) (*License, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7133,7 +7133,7 @@ func (o *LicenseOp) Update(ctx context.Context, id types.ID, param *LicenseUpdat
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -7157,7 +7157,7 @@ func (o *LicenseOp) Update(ctx context.Context, id types.ID, param *LicenseUpdat
 // Delete is API call
 func (o *LicenseOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7170,7 +7170,7 @@ func (o *LicenseOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -7205,7 +7205,7 @@ func NewLicenseInfoOp(caller APICaller) LicenseInfoAPI {
 // Find is API call
 func (o *LicenseInfoOp) Find(ctx context.Context, conditions *FindCondition) (*LicenseInfoFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7218,7 +7218,7 @@ func (o *LicenseInfoOp) Find(ctx context.Context, conditions *FindCondition) (*L
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -7242,7 +7242,7 @@ func (o *LicenseInfoOp) Find(ctx context.Context, conditions *FindCondition) (*L
 // Read is API call
 func (o *LicenseInfoOp) Read(ctx context.Context, id types.ID) (*LicenseInfo, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7255,7 +7255,7 @@ func (o *LicenseInfoOp) Read(ctx context.Context, id types.ID) (*LicenseInfo, er
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -7293,7 +7293,7 @@ func NewLoadBalancerOp(caller APICaller) LoadBalancerAPI {
 // Find is API call
 func (o *LoadBalancerOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*LoadBalancerFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7306,7 +7306,7 @@ func (o *LoadBalancerOp) Find(ctx context.Context, zone string, conditions *Find
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -7330,7 +7330,7 @@ func (o *LoadBalancerOp) Find(ctx context.Context, zone string, conditions *Find
 // Create is API call
 func (o *LoadBalancerOp) Create(ctx context.Context, zone string, param *LoadBalancerCreateRequest) (*LoadBalancer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7343,7 +7343,7 @@ func (o *LoadBalancerOp) Create(ctx context.Context, zone string, param *LoadBal
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -7367,7 +7367,7 @@ func (o *LoadBalancerOp) Create(ctx context.Context, zone string, param *LoadBal
 // Read is API call
 func (o *LoadBalancerOp) Read(ctx context.Context, zone string, id types.ID) (*LoadBalancer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7380,7 +7380,7 @@ func (o *LoadBalancerOp) Read(ctx context.Context, zone string, id types.ID) (*L
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -7399,7 +7399,7 @@ func (o *LoadBalancerOp) Read(ctx context.Context, zone string, id types.ID) (*L
 // Update is API call
 func (o *LoadBalancerOp) Update(ctx context.Context, zone string, id types.ID, param *LoadBalancerUpdateRequest) (*LoadBalancer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7413,7 +7413,7 @@ func (o *LoadBalancerOp) Update(ctx context.Context, zone string, id types.ID, p
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -7437,7 +7437,7 @@ func (o *LoadBalancerOp) Update(ctx context.Context, zone string, id types.ID, p
 // UpdateSettings is API call
 func (o *LoadBalancerOp) UpdateSettings(ctx context.Context, zone string, id types.ID, param *LoadBalancerUpdateSettingsRequest) (*LoadBalancer, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7451,7 +7451,7 @@ func (o *LoadBalancerOp) UpdateSettings(ctx context.Context, zone string, id typ
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -7475,7 +7475,7 @@ func (o *LoadBalancerOp) UpdateSettings(ctx context.Context, zone string, id typ
 // Delete is API call
 func (o *LoadBalancerOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7488,7 +7488,7 @@ func (o *LoadBalancerOp) Delete(ctx context.Context, zone string, id types.ID) e
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -7504,7 +7504,7 @@ func (o *LoadBalancerOp) Delete(ctx context.Context, zone string, id types.ID) e
 // Config is API call
 func (o *LoadBalancerOp) Config(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7517,7 +7517,7 @@ func (o *LoadBalancerOp) Config(ctx context.Context, zone string, id types.ID) e
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -7533,7 +7533,7 @@ func (o *LoadBalancerOp) Config(ctx context.Context, zone string, id types.ID) e
 // Boot is API call
 func (o *LoadBalancerOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7552,7 +7552,7 @@ func (o *LoadBalancerOp) Boot(ctx context.Context, zone string, id types.ID) err
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -7568,7 +7568,7 @@ func (o *LoadBalancerOp) Boot(ctx context.Context, zone string, id types.ID) err
 // Shutdown is API call
 func (o *LoadBalancerOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdownOption *ShutdownOption) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":        SakuraCloudAPIRoot,
 		"pathSuffix":     o.PathSuffix,
 		"pathName":       o.PathName,
@@ -7588,7 +7588,7 @@ func (o *LoadBalancerOp) Shutdown(ctx context.Context, zone string, id types.ID,
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformShutdownArgs(id, shutdownOption)
 	if err != nil {
 		return err
@@ -7609,7 +7609,7 @@ func (o *LoadBalancerOp) Shutdown(ctx context.Context, zone string, id types.ID,
 // Reset is API call
 func (o *LoadBalancerOp) Reset(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7628,7 +7628,7 @@ func (o *LoadBalancerOp) Reset(ctx context.Context, zone string, id types.ID) er
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -7644,7 +7644,7 @@ func (o *LoadBalancerOp) Reset(ctx context.Context, zone string, id types.ID) er
 // MonitorCPU is API call
 func (o *LoadBalancerOp) MonitorCPU(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*CPUTimeActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7658,7 +7658,7 @@ func (o *LoadBalancerOp) MonitorCPU(ctx context.Context, zone string, id types.I
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorCPUArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -7682,7 +7682,7 @@ func (o *LoadBalancerOp) MonitorCPU(ctx context.Context, zone string, id types.I
 // MonitorInterface is API call
 func (o *LoadBalancerOp) MonitorInterface(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*InterfaceActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7696,7 +7696,7 @@ func (o *LoadBalancerOp) MonitorInterface(ctx context.Context, zone string, id t
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorInterfaceArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -7720,7 +7720,7 @@ func (o *LoadBalancerOp) MonitorInterface(ctx context.Context, zone string, id t
 // Status is API call
 func (o *LoadBalancerOp) Status(ctx context.Context, zone string, id types.ID) (*LoadBalancerStatusResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7733,7 +7733,7 @@ func (o *LoadBalancerOp) Status(ctx context.Context, zone string, id types.ID) (
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -7771,7 +7771,7 @@ func NewLocalRouterOp(caller APICaller) LocalRouterAPI {
 // Find is API call
 func (o *LocalRouterOp) Find(ctx context.Context, conditions *FindCondition) (*LocalRouterFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7784,7 +7784,7 @@ func (o *LocalRouterOp) Find(ctx context.Context, conditions *FindCondition) (*L
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -7808,7 +7808,7 @@ func (o *LocalRouterOp) Find(ctx context.Context, conditions *FindCondition) (*L
 // Create is API call
 func (o *LocalRouterOp) Create(ctx context.Context, param *LocalRouterCreateRequest) (*LocalRouter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7821,7 +7821,7 @@ func (o *LocalRouterOp) Create(ctx context.Context, param *LocalRouterCreateRequ
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -7845,7 +7845,7 @@ func (o *LocalRouterOp) Create(ctx context.Context, param *LocalRouterCreateRequ
 // Read is API call
 func (o *LocalRouterOp) Read(ctx context.Context, id types.ID) (*LocalRouter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7858,7 +7858,7 @@ func (o *LocalRouterOp) Read(ctx context.Context, id types.ID) (*LocalRouter, er
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -7877,7 +7877,7 @@ func (o *LocalRouterOp) Read(ctx context.Context, id types.ID) (*LocalRouter, er
 // Update is API call
 func (o *LocalRouterOp) Update(ctx context.Context, id types.ID, param *LocalRouterUpdateRequest) (*LocalRouter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7891,7 +7891,7 @@ func (o *LocalRouterOp) Update(ctx context.Context, id types.ID, param *LocalRou
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -7915,7 +7915,7 @@ func (o *LocalRouterOp) Update(ctx context.Context, id types.ID, param *LocalRou
 // UpdateSettings is API call
 func (o *LocalRouterOp) UpdateSettings(ctx context.Context, id types.ID, param *LocalRouterUpdateSettingsRequest) (*LocalRouter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7929,7 +7929,7 @@ func (o *LocalRouterOp) UpdateSettings(ctx context.Context, id types.ID, param *
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -7953,7 +7953,7 @@ func (o *LocalRouterOp) UpdateSettings(ctx context.Context, id types.ID, param *
 // Delete is API call
 func (o *LocalRouterOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7966,7 +7966,7 @@ func (o *LocalRouterOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -7982,7 +7982,7 @@ func (o *LocalRouterOp) Delete(ctx context.Context, id types.ID) error {
 // HealthStatus is API call
 func (o *LocalRouterOp) HealthStatus(ctx context.Context, id types.ID) (*LocalRouterHealth, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -7995,7 +7995,7 @@ func (o *LocalRouterOp) HealthStatus(ctx context.Context, id types.ID) (*LocalRo
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -8014,7 +8014,7 @@ func (o *LocalRouterOp) HealthStatus(ctx context.Context, id types.ID) (*LocalRo
 // MonitorLocalRouter is API call
 func (o *LocalRouterOp) MonitorLocalRouter(ctx context.Context, id types.ID, condition *MonitorCondition) (*LocalRouterActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8028,7 +8028,7 @@ func (o *LocalRouterOp) MonitorLocalRouter(ctx context.Context, id types.ID, con
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorLocalRouterArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -8071,7 +8071,7 @@ func NewMobileGatewayOp(caller APICaller) MobileGatewayAPI {
 // Find is API call
 func (o *MobileGatewayOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*MobileGatewayFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8084,7 +8084,7 @@ func (o *MobileGatewayOp) Find(ctx context.Context, zone string, conditions *Fin
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -8108,7 +8108,7 @@ func (o *MobileGatewayOp) Find(ctx context.Context, zone string, conditions *Fin
 // Create is API call
 func (o *MobileGatewayOp) Create(ctx context.Context, zone string, param *MobileGatewayCreateRequest) (*MobileGateway, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8121,7 +8121,7 @@ func (o *MobileGatewayOp) Create(ctx context.Context, zone string, param *Mobile
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -8145,7 +8145,7 @@ func (o *MobileGatewayOp) Create(ctx context.Context, zone string, param *Mobile
 // Read is API call
 func (o *MobileGatewayOp) Read(ctx context.Context, zone string, id types.ID) (*MobileGateway, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8158,7 +8158,7 @@ func (o *MobileGatewayOp) Read(ctx context.Context, zone string, id types.ID) (*
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -8177,7 +8177,7 @@ func (o *MobileGatewayOp) Read(ctx context.Context, zone string, id types.ID) (*
 // Update is API call
 func (o *MobileGatewayOp) Update(ctx context.Context, zone string, id types.ID, param *MobileGatewayUpdateRequest) (*MobileGateway, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8191,7 +8191,7 @@ func (o *MobileGatewayOp) Update(ctx context.Context, zone string, id types.ID, 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -8215,7 +8215,7 @@ func (o *MobileGatewayOp) Update(ctx context.Context, zone string, id types.ID, 
 // UpdateSettings is API call
 func (o *MobileGatewayOp) UpdateSettings(ctx context.Context, zone string, id types.ID, param *MobileGatewayUpdateSettingsRequest) (*MobileGateway, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8229,7 +8229,7 @@ func (o *MobileGatewayOp) UpdateSettings(ctx context.Context, zone string, id ty
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -8253,7 +8253,7 @@ func (o *MobileGatewayOp) UpdateSettings(ctx context.Context, zone string, id ty
 // Delete is API call
 func (o *MobileGatewayOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8266,7 +8266,7 @@ func (o *MobileGatewayOp) Delete(ctx context.Context, zone string, id types.ID) 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -8282,7 +8282,7 @@ func (o *MobileGatewayOp) Delete(ctx context.Context, zone string, id types.ID) 
 // Config is API call
 func (o *MobileGatewayOp) Config(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8295,7 +8295,7 @@ func (o *MobileGatewayOp) Config(ctx context.Context, zone string, id types.ID) 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -8311,7 +8311,7 @@ func (o *MobileGatewayOp) Config(ctx context.Context, zone string, id types.ID) 
 // Boot is API call
 func (o *MobileGatewayOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8330,7 +8330,7 @@ func (o *MobileGatewayOp) Boot(ctx context.Context, zone string, id types.ID) er
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -8346,7 +8346,7 @@ func (o *MobileGatewayOp) Boot(ctx context.Context, zone string, id types.ID) er
 // Shutdown is API call
 func (o *MobileGatewayOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdownOption *ShutdownOption) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":        SakuraCloudAPIRoot,
 		"pathSuffix":     o.PathSuffix,
 		"pathName":       o.PathName,
@@ -8366,7 +8366,7 @@ func (o *MobileGatewayOp) Shutdown(ctx context.Context, zone string, id types.ID
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformShutdownArgs(id, shutdownOption)
 	if err != nil {
 		return err
@@ -8387,7 +8387,7 @@ func (o *MobileGatewayOp) Shutdown(ctx context.Context, zone string, id types.ID
 // Reset is API call
 func (o *MobileGatewayOp) Reset(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8406,7 +8406,7 @@ func (o *MobileGatewayOp) Reset(ctx context.Context, zone string, id types.ID) e
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -8422,7 +8422,7 @@ func (o *MobileGatewayOp) Reset(ctx context.Context, zone string, id types.ID) e
 // ConnectToSwitch is API call
 func (o *MobileGatewayOp) ConnectToSwitch(ctx context.Context, zone string, id types.ID, switchID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8436,7 +8436,7 @@ func (o *MobileGatewayOp) ConnectToSwitch(ctx context.Context, zone string, id t
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -8452,7 +8452,7 @@ func (o *MobileGatewayOp) ConnectToSwitch(ctx context.Context, zone string, id t
 // DisconnectFromSwitch is API call
 func (o *MobileGatewayOp) DisconnectFromSwitch(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8465,7 +8465,7 @@ func (o *MobileGatewayOp) DisconnectFromSwitch(ctx context.Context, zone string,
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -8481,7 +8481,7 @@ func (o *MobileGatewayOp) DisconnectFromSwitch(ctx context.Context, zone string,
 // GetDNS is API call
 func (o *MobileGatewayOp) GetDNS(ctx context.Context, zone string, id types.ID) (*MobileGatewayDNSSetting, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8494,7 +8494,7 @@ func (o *MobileGatewayOp) GetDNS(ctx context.Context, zone string, id types.ID) 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -8513,7 +8513,7 @@ func (o *MobileGatewayOp) GetDNS(ctx context.Context, zone string, id types.ID) 
 // SetDNS is API call
 func (o *MobileGatewayOp) SetDNS(ctx context.Context, zone string, id types.ID, param *MobileGatewayDNSSetting) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8527,7 +8527,7 @@ func (o *MobileGatewayOp) SetDNS(ctx context.Context, zone string, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSetDNSArgs(id, param)
 	if err != nil {
 		return err
@@ -8548,7 +8548,7 @@ func (o *MobileGatewayOp) SetDNS(ctx context.Context, zone string, id types.ID, 
 // GetSIMRoutes is API call
 func (o *MobileGatewayOp) GetSIMRoutes(ctx context.Context, zone string, id types.ID) (MobileGatewaySIMRoutes, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8561,7 +8561,7 @@ func (o *MobileGatewayOp) GetSIMRoutes(ctx context.Context, zone string, id type
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -8580,7 +8580,7 @@ func (o *MobileGatewayOp) GetSIMRoutes(ctx context.Context, zone string, id type
 // SetSIMRoutes is API call
 func (o *MobileGatewayOp) SetSIMRoutes(ctx context.Context, zone string, id types.ID, param []*MobileGatewaySIMRouteParam) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8594,7 +8594,7 @@ func (o *MobileGatewayOp) SetSIMRoutes(ctx context.Context, zone string, id type
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSetSIMRoutesArgs(id, param)
 	if err != nil {
 		return err
@@ -8615,7 +8615,7 @@ func (o *MobileGatewayOp) SetSIMRoutes(ctx context.Context, zone string, id type
 // ListSIM is API call
 func (o *MobileGatewayOp) ListSIM(ctx context.Context, zone string, id types.ID) (MobileGatewaySIMs, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8628,7 +8628,7 @@ func (o *MobileGatewayOp) ListSIM(ctx context.Context, zone string, id types.ID)
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -8647,7 +8647,7 @@ func (o *MobileGatewayOp) ListSIM(ctx context.Context, zone string, id types.ID)
 // AddSIM is API call
 func (o *MobileGatewayOp) AddSIM(ctx context.Context, zone string, id types.ID, param *MobileGatewayAddSIMRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8661,7 +8661,7 @@ func (o *MobileGatewayOp) AddSIM(ctx context.Context, zone string, id types.ID, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformAddSIMArgs(id, param)
 	if err != nil {
 		return err
@@ -8682,7 +8682,7 @@ func (o *MobileGatewayOp) AddSIM(ctx context.Context, zone string, id types.ID, 
 // DeleteSIM is API call
 func (o *MobileGatewayOp) DeleteSIM(ctx context.Context, zone string, id types.ID, simID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8696,7 +8696,7 @@ func (o *MobileGatewayOp) DeleteSIM(ctx context.Context, zone string, id types.I
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -8712,7 +8712,7 @@ func (o *MobileGatewayOp) DeleteSIM(ctx context.Context, zone string, id types.I
 // Logs is API call
 func (o *MobileGatewayOp) Logs(ctx context.Context, zone string, id types.ID) ([]*MobileGatewaySIMLogs, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8725,7 +8725,7 @@ func (o *MobileGatewayOp) Logs(ctx context.Context, zone string, id types.ID) ([
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -8744,7 +8744,7 @@ func (o *MobileGatewayOp) Logs(ctx context.Context, zone string, id types.ID) ([
 // GetTrafficConfig is API call
 func (o *MobileGatewayOp) GetTrafficConfig(ctx context.Context, zone string, id types.ID) (*MobileGatewayTrafficControl, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8757,7 +8757,7 @@ func (o *MobileGatewayOp) GetTrafficConfig(ctx context.Context, zone string, id 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -8776,7 +8776,7 @@ func (o *MobileGatewayOp) GetTrafficConfig(ctx context.Context, zone string, id 
 // SetTrafficConfig is API call
 func (o *MobileGatewayOp) SetTrafficConfig(ctx context.Context, zone string, id types.ID, param *MobileGatewayTrafficControl) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8790,7 +8790,7 @@ func (o *MobileGatewayOp) SetTrafficConfig(ctx context.Context, zone string, id 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSetTrafficConfigArgs(id, param)
 	if err != nil {
 		return err
@@ -8811,7 +8811,7 @@ func (o *MobileGatewayOp) SetTrafficConfig(ctx context.Context, zone string, id 
 // DeleteTrafficConfig is API call
 func (o *MobileGatewayOp) DeleteTrafficConfig(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8824,7 +8824,7 @@ func (o *MobileGatewayOp) DeleteTrafficConfig(ctx context.Context, zone string, 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -8840,7 +8840,7 @@ func (o *MobileGatewayOp) DeleteTrafficConfig(ctx context.Context, zone string, 
 // TrafficStatus is API call
 func (o *MobileGatewayOp) TrafficStatus(ctx context.Context, zone string, id types.ID) (*MobileGatewayTrafficStatus, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8853,7 +8853,7 @@ func (o *MobileGatewayOp) TrafficStatus(ctx context.Context, zone string, id typ
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -8872,7 +8872,7 @@ func (o *MobileGatewayOp) TrafficStatus(ctx context.Context, zone string, id typ
 // MonitorInterface is API call
 func (o *MobileGatewayOp) MonitorInterface(ctx context.Context, zone string, id types.ID, index int, condition *MonitorCondition) (*InterfaceActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8887,7 +8887,7 @@ func (o *MobileGatewayOp) MonitorInterface(ctx context.Context, zone string, id 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorInterfaceArgs(id, index, condition)
 	if err != nil {
 		return nil, err
@@ -8930,7 +8930,7 @@ func NewNFSOp(caller APICaller) NFSAPI {
 // Find is API call
 func (o *NFSOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*NFSFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8943,7 +8943,7 @@ func (o *NFSOp) Find(ctx context.Context, zone string, conditions *FindCondition
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -8967,7 +8967,7 @@ func (o *NFSOp) Find(ctx context.Context, zone string, conditions *FindCondition
 // Create is API call
 func (o *NFSOp) Create(ctx context.Context, zone string, param *NFSCreateRequest) (*NFS, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -8980,7 +8980,7 @@ func (o *NFSOp) Create(ctx context.Context, zone string, param *NFSCreateRequest
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -9004,7 +9004,7 @@ func (o *NFSOp) Create(ctx context.Context, zone string, param *NFSCreateRequest
 // Read is API call
 func (o *NFSOp) Read(ctx context.Context, zone string, id types.ID) (*NFS, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9017,7 +9017,7 @@ func (o *NFSOp) Read(ctx context.Context, zone string, id types.ID) (*NFS, error
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -9036,7 +9036,7 @@ func (o *NFSOp) Read(ctx context.Context, zone string, id types.ID) (*NFS, error
 // Update is API call
 func (o *NFSOp) Update(ctx context.Context, zone string, id types.ID, param *NFSUpdateRequest) (*NFS, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9050,7 +9050,7 @@ func (o *NFSOp) Update(ctx context.Context, zone string, id types.ID, param *NFS
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -9074,7 +9074,7 @@ func (o *NFSOp) Update(ctx context.Context, zone string, id types.ID, param *NFS
 // Delete is API call
 func (o *NFSOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9087,7 +9087,7 @@ func (o *NFSOp) Delete(ctx context.Context, zone string, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -9103,7 +9103,7 @@ func (o *NFSOp) Delete(ctx context.Context, zone string, id types.ID) error {
 // Boot is API call
 func (o *NFSOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9122,7 +9122,7 @@ func (o *NFSOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -9138,7 +9138,7 @@ func (o *NFSOp) Boot(ctx context.Context, zone string, id types.ID) error {
 // Shutdown is API call
 func (o *NFSOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdownOption *ShutdownOption) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":        SakuraCloudAPIRoot,
 		"pathSuffix":     o.PathSuffix,
 		"pathName":       o.PathName,
@@ -9158,7 +9158,7 @@ func (o *NFSOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdown
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformShutdownArgs(id, shutdownOption)
 	if err != nil {
 		return err
@@ -9179,7 +9179,7 @@ func (o *NFSOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdown
 // Reset is API call
 func (o *NFSOp) Reset(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9198,7 +9198,7 @@ func (o *NFSOp) Reset(ctx context.Context, zone string, id types.ID) error {
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -9214,7 +9214,7 @@ func (o *NFSOp) Reset(ctx context.Context, zone string, id types.ID) error {
 // MonitorCPU is API call
 func (o *NFSOp) MonitorCPU(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*CPUTimeActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9228,7 +9228,7 @@ func (o *NFSOp) MonitorCPU(ctx context.Context, zone string, id types.ID, condit
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorCPUArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -9252,7 +9252,7 @@ func (o *NFSOp) MonitorCPU(ctx context.Context, zone string, id types.ID, condit
 // MonitorFreeDiskSize is API call
 func (o *NFSOp) MonitorFreeDiskSize(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*FreeDiskSizeActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9266,7 +9266,7 @@ func (o *NFSOp) MonitorFreeDiskSize(ctx context.Context, zone string, id types.I
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorFreeDiskSizeArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -9290,7 +9290,7 @@ func (o *NFSOp) MonitorFreeDiskSize(ctx context.Context, zone string, id types.I
 // MonitorInterface is API call
 func (o *NFSOp) MonitorInterface(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*InterfaceActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9304,7 +9304,7 @@ func (o *NFSOp) MonitorInterface(ctx context.Context, zone string, id types.ID, 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorInterfaceArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -9347,7 +9347,7 @@ func NewNoteOp(caller APICaller) NoteAPI {
 // Find is API call
 func (o *NoteOp) Find(ctx context.Context, conditions *FindCondition) (*NoteFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9360,7 +9360,7 @@ func (o *NoteOp) Find(ctx context.Context, conditions *FindCondition) (*NoteFind
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -9384,7 +9384,7 @@ func (o *NoteOp) Find(ctx context.Context, conditions *FindCondition) (*NoteFind
 // Create is API call
 func (o *NoteOp) Create(ctx context.Context, param *NoteCreateRequest) (*Note, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9397,7 +9397,7 @@ func (o *NoteOp) Create(ctx context.Context, param *NoteCreateRequest) (*Note, e
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -9421,7 +9421,7 @@ func (o *NoteOp) Create(ctx context.Context, param *NoteCreateRequest) (*Note, e
 // Read is API call
 func (o *NoteOp) Read(ctx context.Context, id types.ID) (*Note, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9434,7 +9434,7 @@ func (o *NoteOp) Read(ctx context.Context, id types.ID) (*Note, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -9453,7 +9453,7 @@ func (o *NoteOp) Read(ctx context.Context, id types.ID) (*Note, error) {
 // Update is API call
 func (o *NoteOp) Update(ctx context.Context, id types.ID, param *NoteUpdateRequest) (*Note, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9467,7 +9467,7 @@ func (o *NoteOp) Update(ctx context.Context, id types.ID, param *NoteUpdateReque
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -9491,7 +9491,7 @@ func (o *NoteOp) Update(ctx context.Context, id types.ID, param *NoteUpdateReque
 // Delete is API call
 func (o *NoteOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9504,7 +9504,7 @@ func (o *NoteOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -9539,7 +9539,7 @@ func NewPacketFilterOp(caller APICaller) PacketFilterAPI {
 // Find is API call
 func (o *PacketFilterOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*PacketFilterFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9552,7 +9552,7 @@ func (o *PacketFilterOp) Find(ctx context.Context, zone string, conditions *Find
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -9576,7 +9576,7 @@ func (o *PacketFilterOp) Find(ctx context.Context, zone string, conditions *Find
 // Create is API call
 func (o *PacketFilterOp) Create(ctx context.Context, zone string, param *PacketFilterCreateRequest) (*PacketFilter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9589,7 +9589,7 @@ func (o *PacketFilterOp) Create(ctx context.Context, zone string, param *PacketF
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -9613,7 +9613,7 @@ func (o *PacketFilterOp) Create(ctx context.Context, zone string, param *PacketF
 // Read is API call
 func (o *PacketFilterOp) Read(ctx context.Context, zone string, id types.ID) (*PacketFilter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9626,7 +9626,7 @@ func (o *PacketFilterOp) Read(ctx context.Context, zone string, id types.ID) (*P
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -9645,7 +9645,7 @@ func (o *PacketFilterOp) Read(ctx context.Context, zone string, id types.ID) (*P
 // Update is API call
 func (o *PacketFilterOp) Update(ctx context.Context, zone string, id types.ID, updateParam *PacketFilterUpdateRequest, originalExpressionHash string) (*PacketFilter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":                SakuraCloudAPIRoot,
 		"pathSuffix":             o.PathSuffix,
 		"pathName":               o.PathName,
@@ -9660,7 +9660,7 @@ func (o *PacketFilterOp) Update(ctx context.Context, zone string, id types.ID, u
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, updateParam, originalExpressionHash)
 	if err != nil {
 		return nil, err
@@ -9684,7 +9684,7 @@ func (o *PacketFilterOp) Update(ctx context.Context, zone string, id types.ID, u
 // Delete is API call
 func (o *PacketFilterOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9697,7 +9697,7 @@ func (o *PacketFilterOp) Delete(ctx context.Context, zone string, id types.ID) e
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -9732,7 +9732,7 @@ func NewPrivateHostOp(caller APICaller) PrivateHostAPI {
 // Find is API call
 func (o *PrivateHostOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*PrivateHostFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9745,7 +9745,7 @@ func (o *PrivateHostOp) Find(ctx context.Context, zone string, conditions *FindC
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -9769,7 +9769,7 @@ func (o *PrivateHostOp) Find(ctx context.Context, zone string, conditions *FindC
 // Create is API call
 func (o *PrivateHostOp) Create(ctx context.Context, zone string, param *PrivateHostCreateRequest) (*PrivateHost, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9782,7 +9782,7 @@ func (o *PrivateHostOp) Create(ctx context.Context, zone string, param *PrivateH
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -9806,7 +9806,7 @@ func (o *PrivateHostOp) Create(ctx context.Context, zone string, param *PrivateH
 // CreateWithDedicatedStorage is API call
 func (o *PrivateHostOp) CreateWithDedicatedStorage(ctx context.Context, zone string, createParam *PrivateHostCreateRequest, dedicatedStorageContractID types.ID) (*PrivateHost, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":                    SakuraCloudAPIRoot,
 		"pathSuffix":                 o.PathSuffix,
 		"pathName":                   o.PathName,
@@ -9820,7 +9820,7 @@ func (o *PrivateHostOp) CreateWithDedicatedStorage(ctx context.Context, zone str
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateWithDedicatedStorageArgs(createParam, dedicatedStorageContractID)
 	if err != nil {
 		return nil, err
@@ -9844,7 +9844,7 @@ func (o *PrivateHostOp) CreateWithDedicatedStorage(ctx context.Context, zone str
 // Read is API call
 func (o *PrivateHostOp) Read(ctx context.Context, zone string, id types.ID) (*PrivateHost, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9857,7 +9857,7 @@ func (o *PrivateHostOp) Read(ctx context.Context, zone string, id types.ID) (*Pr
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -9876,7 +9876,7 @@ func (o *PrivateHostOp) Read(ctx context.Context, zone string, id types.ID) (*Pr
 // Update is API call
 func (o *PrivateHostOp) Update(ctx context.Context, zone string, id types.ID, param *PrivateHostUpdateRequest) (*PrivateHost, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9890,7 +9890,7 @@ func (o *PrivateHostOp) Update(ctx context.Context, zone string, id types.ID, pa
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -9914,7 +9914,7 @@ func (o *PrivateHostOp) Update(ctx context.Context, zone string, id types.ID, pa
 // Delete is API call
 func (o *PrivateHostOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9927,7 +9927,7 @@ func (o *PrivateHostOp) Delete(ctx context.Context, zone string, id types.ID) er
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -9962,7 +9962,7 @@ func NewPrivateHostPlanOp(caller APICaller) PrivateHostPlanAPI {
 // Find is API call
 func (o *PrivateHostPlanOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*PrivateHostPlanFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -9975,7 +9975,7 @@ func (o *PrivateHostPlanOp) Find(ctx context.Context, zone string, conditions *F
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -9999,7 +9999,7 @@ func (o *PrivateHostPlanOp) Find(ctx context.Context, zone string, conditions *F
 // Read is API call
 func (o *PrivateHostPlanOp) Read(ctx context.Context, zone string, id types.ID) (*PrivateHostPlan, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10012,7 +10012,7 @@ func (o *PrivateHostPlanOp) Read(ctx context.Context, zone string, id types.ID) 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -10050,7 +10050,7 @@ func NewProxyLBOp(caller APICaller) ProxyLBAPI {
 // Find is API call
 func (o *ProxyLBOp) Find(ctx context.Context, conditions *FindCondition) (*ProxyLBFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10063,7 +10063,7 @@ func (o *ProxyLBOp) Find(ctx context.Context, conditions *FindCondition) (*Proxy
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -10087,7 +10087,7 @@ func (o *ProxyLBOp) Find(ctx context.Context, conditions *FindCondition) (*Proxy
 // Create is API call
 func (o *ProxyLBOp) Create(ctx context.Context, param *ProxyLBCreateRequest) (*ProxyLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10100,7 +10100,7 @@ func (o *ProxyLBOp) Create(ctx context.Context, param *ProxyLBCreateRequest) (*P
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -10124,7 +10124,7 @@ func (o *ProxyLBOp) Create(ctx context.Context, param *ProxyLBCreateRequest) (*P
 // Read is API call
 func (o *ProxyLBOp) Read(ctx context.Context, id types.ID) (*ProxyLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10137,7 +10137,7 @@ func (o *ProxyLBOp) Read(ctx context.Context, id types.ID) (*ProxyLB, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -10156,7 +10156,7 @@ func (o *ProxyLBOp) Read(ctx context.Context, id types.ID) (*ProxyLB, error) {
 // Update is API call
 func (o *ProxyLBOp) Update(ctx context.Context, id types.ID, param *ProxyLBUpdateRequest) (*ProxyLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10170,7 +10170,7 @@ func (o *ProxyLBOp) Update(ctx context.Context, id types.ID, param *ProxyLBUpdat
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -10194,7 +10194,7 @@ func (o *ProxyLBOp) Update(ctx context.Context, id types.ID, param *ProxyLBUpdat
 // UpdateSettings is API call
 func (o *ProxyLBOp) UpdateSettings(ctx context.Context, id types.ID, param *ProxyLBUpdateSettingsRequest) (*ProxyLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10208,7 +10208,7 @@ func (o *ProxyLBOp) UpdateSettings(ctx context.Context, id types.ID, param *Prox
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -10232,7 +10232,7 @@ func (o *ProxyLBOp) UpdateSettings(ctx context.Context, id types.ID, param *Prox
 // Delete is API call
 func (o *ProxyLBOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10245,7 +10245,7 @@ func (o *ProxyLBOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -10261,7 +10261,7 @@ func (o *ProxyLBOp) Delete(ctx context.Context, id types.ID) error {
 // ChangePlan is API call
 func (o *ProxyLBOp) ChangePlan(ctx context.Context, id types.ID, param *ProxyLBChangePlanRequest) (*ProxyLB, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10275,7 +10275,7 @@ func (o *ProxyLBOp) ChangePlan(ctx context.Context, id types.ID, param *ProxyLBC
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformChangePlanArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -10299,7 +10299,7 @@ func (o *ProxyLBOp) ChangePlan(ctx context.Context, id types.ID, param *ProxyLBC
 // GetCertificates is API call
 func (o *ProxyLBOp) GetCertificates(ctx context.Context, id types.ID) (*ProxyLBCertificates, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10312,7 +10312,7 @@ func (o *ProxyLBOp) GetCertificates(ctx context.Context, id types.ID) (*ProxyLBC
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -10331,7 +10331,7 @@ func (o *ProxyLBOp) GetCertificates(ctx context.Context, id types.ID) (*ProxyLBC
 // SetCertificates is API call
 func (o *ProxyLBOp) SetCertificates(ctx context.Context, id types.ID, param *ProxyLBSetCertificatesRequest) (*ProxyLBCertificates, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10345,7 +10345,7 @@ func (o *ProxyLBOp) SetCertificates(ctx context.Context, id types.ID, param *Pro
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSetCertificatesArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -10369,7 +10369,7 @@ func (o *ProxyLBOp) SetCertificates(ctx context.Context, id types.ID, param *Pro
 // DeleteCertificates is API call
 func (o *ProxyLBOp) DeleteCertificates(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10382,7 +10382,7 @@ func (o *ProxyLBOp) DeleteCertificates(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -10398,7 +10398,7 @@ func (o *ProxyLBOp) DeleteCertificates(ctx context.Context, id types.ID) error {
 // RenewLetsEncryptCert is API call
 func (o *ProxyLBOp) RenewLetsEncryptCert(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10411,7 +10411,7 @@ func (o *ProxyLBOp) RenewLetsEncryptCert(ctx context.Context, id types.ID) error
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -10427,7 +10427,7 @@ func (o *ProxyLBOp) RenewLetsEncryptCert(ctx context.Context, id types.ID) error
 // HealthStatus is API call
 func (o *ProxyLBOp) HealthStatus(ctx context.Context, id types.ID) (*ProxyLBHealth, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10440,7 +10440,7 @@ func (o *ProxyLBOp) HealthStatus(ctx context.Context, id types.ID) (*ProxyLBHeal
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -10459,7 +10459,7 @@ func (o *ProxyLBOp) HealthStatus(ctx context.Context, id types.ID) (*ProxyLBHeal
 // MonitorConnection is API call
 func (o *ProxyLBOp) MonitorConnection(ctx context.Context, id types.ID, condition *MonitorCondition) (*ConnectionActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10473,7 +10473,7 @@ func (o *ProxyLBOp) MonitorConnection(ctx context.Context, id types.ID, conditio
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorConnectionArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -10516,7 +10516,7 @@ func NewRegionOp(caller APICaller) RegionAPI {
 // Find is API call
 func (o *RegionOp) Find(ctx context.Context, conditions *FindCondition) (*RegionFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10529,7 +10529,7 @@ func (o *RegionOp) Find(ctx context.Context, conditions *FindCondition) (*Region
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -10553,7 +10553,7 @@ func (o *RegionOp) Find(ctx context.Context, conditions *FindCondition) (*Region
 // Read is API call
 func (o *RegionOp) Read(ctx context.Context, id types.ID) (*Region, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10566,7 +10566,7 @@ func (o *RegionOp) Read(ctx context.Context, id types.ID) (*Region, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -10604,7 +10604,7 @@ func NewServerOp(caller APICaller) ServerAPI {
 // Find is API call
 func (o *ServerOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*ServerFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10617,7 +10617,7 @@ func (o *ServerOp) Find(ctx context.Context, zone string, conditions *FindCondit
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -10641,7 +10641,7 @@ func (o *ServerOp) Find(ctx context.Context, zone string, conditions *FindCondit
 // Create is API call
 func (o *ServerOp) Create(ctx context.Context, zone string, param *ServerCreateRequest) (*Server, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10654,7 +10654,7 @@ func (o *ServerOp) Create(ctx context.Context, zone string, param *ServerCreateR
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -10678,7 +10678,7 @@ func (o *ServerOp) Create(ctx context.Context, zone string, param *ServerCreateR
 // Read is API call
 func (o *ServerOp) Read(ctx context.Context, zone string, id types.ID) (*Server, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10691,7 +10691,7 @@ func (o *ServerOp) Read(ctx context.Context, zone string, id types.ID) (*Server,
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -10710,7 +10710,7 @@ func (o *ServerOp) Read(ctx context.Context, zone string, id types.ID) (*Server,
 // Update is API call
 func (o *ServerOp) Update(ctx context.Context, zone string, id types.ID, param *ServerUpdateRequest) (*Server, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10724,7 +10724,7 @@ func (o *ServerOp) Update(ctx context.Context, zone string, id types.ID, param *
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -10748,7 +10748,7 @@ func (o *ServerOp) Update(ctx context.Context, zone string, id types.ID, param *
 // Delete is API call
 func (o *ServerOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10761,7 +10761,7 @@ func (o *ServerOp) Delete(ctx context.Context, zone string, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -10777,7 +10777,7 @@ func (o *ServerOp) Delete(ctx context.Context, zone string, id types.ID) error {
 // DeleteWithDisks is API call
 func (o *ServerOp) DeleteWithDisks(ctx context.Context, zone string, id types.ID, disks *ServerDeleteWithDisksRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10791,7 +10791,7 @@ func (o *ServerOp) DeleteWithDisks(ctx context.Context, zone string, id types.ID
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformDeleteWithDisksArgs(id, disks)
 	if err != nil {
 		return err
@@ -10812,7 +10812,7 @@ func (o *ServerOp) DeleteWithDisks(ctx context.Context, zone string, id types.ID
 // ChangePlan is API call
 func (o *ServerOp) ChangePlan(ctx context.Context, zone string, id types.ID, plan *ServerChangePlanRequest) (*Server, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10826,7 +10826,7 @@ func (o *ServerOp) ChangePlan(ctx context.Context, zone string, id types.ID, pla
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformChangePlanArgs(id, plan)
 	if err != nil {
 		return nil, err
@@ -10850,7 +10850,7 @@ func (o *ServerOp) ChangePlan(ctx context.Context, zone string, id types.ID, pla
 // InsertCDROM is API call
 func (o *ServerOp) InsertCDROM(ctx context.Context, zone string, id types.ID, insertParam *InsertCDROMRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":     SakuraCloudAPIRoot,
 		"pathSuffix":  o.PathSuffix,
 		"pathName":    o.PathName,
@@ -10864,7 +10864,7 @@ func (o *ServerOp) InsertCDROM(ctx context.Context, zone string, id types.ID, in
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformInsertCDROMArgs(id, insertParam)
 	if err != nil {
 		return err
@@ -10885,7 +10885,7 @@ func (o *ServerOp) InsertCDROM(ctx context.Context, zone string, id types.ID, in
 // EjectCDROM is API call
 func (o *ServerOp) EjectCDROM(ctx context.Context, zone string, id types.ID, ejectParam *EjectCDROMRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10899,7 +10899,7 @@ func (o *ServerOp) EjectCDROM(ctx context.Context, zone string, id types.ID, eje
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformEjectCDROMArgs(id, ejectParam)
 	if err != nil {
 		return err
@@ -10920,7 +10920,7 @@ func (o *ServerOp) EjectCDROM(ctx context.Context, zone string, id types.ID, eje
 // Boot is API call
 func (o *ServerOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -10939,7 +10939,7 @@ func (o *ServerOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -10955,7 +10955,7 @@ func (o *ServerOp) Boot(ctx context.Context, zone string, id types.ID) error {
 // Shutdown is API call
 func (o *ServerOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdownOption *ShutdownOption) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":        SakuraCloudAPIRoot,
 		"pathSuffix":     o.PathSuffix,
 		"pathName":       o.PathName,
@@ -10975,7 +10975,7 @@ func (o *ServerOp) Shutdown(ctx context.Context, zone string, id types.ID, shutd
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformShutdownArgs(id, shutdownOption)
 	if err != nil {
 		return err
@@ -10996,7 +10996,7 @@ func (o *ServerOp) Shutdown(ctx context.Context, zone string, id types.ID, shutd
 // Reset is API call
 func (o *ServerOp) Reset(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11015,7 +11015,7 @@ func (o *ServerOp) Reset(ctx context.Context, zone string, id types.ID) error {
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -11031,7 +11031,7 @@ func (o *ServerOp) Reset(ctx context.Context, zone string, id types.ID) error {
 // BootWithVariables is API call
 func (o *ServerOp) BootWithVariables(ctx context.Context, zone string, id types.ID, param *ServerBootVariables) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11051,7 +11051,7 @@ func (o *ServerOp) BootWithVariables(ctx context.Context, zone string, id types.
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformBootWithVariablesArgs(id, param)
 	if err != nil {
 		return err
@@ -11072,7 +11072,7 @@ func (o *ServerOp) BootWithVariables(ctx context.Context, zone string, id types.
 // SendKey is API call
 func (o *ServerOp) SendKey(ctx context.Context, zone string, id types.ID, keyboardParam *SendKeyRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":       SakuraCloudAPIRoot,
 		"pathSuffix":    o.PathSuffix,
 		"pathName":      o.PathName,
@@ -11086,7 +11086,7 @@ func (o *ServerOp) SendKey(ctx context.Context, zone string, id types.ID, keyboa
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSendKeyArgs(id, keyboardParam)
 	if err != nil {
 		return err
@@ -11107,7 +11107,7 @@ func (o *ServerOp) SendKey(ctx context.Context, zone string, id types.ID, keyboa
 // SendNMI is API call
 func (o *ServerOp) SendNMI(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11120,7 +11120,7 @@ func (o *ServerOp) SendNMI(ctx context.Context, zone string, id types.ID) error 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -11136,7 +11136,7 @@ func (o *ServerOp) SendNMI(ctx context.Context, zone string, id types.ID) error 
 // GetVNCProxy is API call
 func (o *ServerOp) GetVNCProxy(ctx context.Context, zone string, id types.ID) (*VNCProxyInfo, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11149,7 +11149,7 @@ func (o *ServerOp) GetVNCProxy(ctx context.Context, zone string, id types.ID) (*
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -11168,7 +11168,7 @@ func (o *ServerOp) GetVNCProxy(ctx context.Context, zone string, id types.ID) (*
 // Monitor is API call
 func (o *ServerOp) Monitor(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*CPUTimeActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11182,7 +11182,7 @@ func (o *ServerOp) Monitor(ctx context.Context, zone string, id types.ID, condit
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -11206,7 +11206,7 @@ func (o *ServerOp) Monitor(ctx context.Context, zone string, id types.ID, condit
 // MonitorCPU is API call
 func (o *ServerOp) MonitorCPU(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*CPUTimeActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11220,7 +11220,7 @@ func (o *ServerOp) MonitorCPU(ctx context.Context, zone string, id types.ID, con
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorCPUArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -11263,7 +11263,7 @@ func NewServerPlanOp(caller APICaller) ServerPlanAPI {
 // Find is API call
 func (o *ServerPlanOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*ServerPlanFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11276,7 +11276,7 @@ func (o *ServerPlanOp) Find(ctx context.Context, zone string, conditions *FindCo
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -11300,7 +11300,7 @@ func (o *ServerPlanOp) Find(ctx context.Context, zone string, conditions *FindCo
 // Read is API call
 func (o *ServerPlanOp) Read(ctx context.Context, zone string, id types.ID) (*ServerPlan, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11313,7 +11313,7 @@ func (o *ServerPlanOp) Read(ctx context.Context, zone string, id types.ID) (*Ser
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -11351,7 +11351,7 @@ func NewServiceClassOp(caller APICaller) ServiceClassAPI {
 // Find is API call
 func (o *ServiceClassOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*ServiceClassFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11364,7 +11364,7 @@ func (o *ServiceClassOp) Find(ctx context.Context, zone string, conditions *Find
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -11407,7 +11407,7 @@ func NewSIMOp(caller APICaller) SIMAPI {
 // Find is API call
 func (o *SIMOp) Find(ctx context.Context, conditions *FindCondition) (*SIMFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11420,7 +11420,7 @@ func (o *SIMOp) Find(ctx context.Context, conditions *FindCondition) (*SIMFindRe
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -11444,7 +11444,7 @@ func (o *SIMOp) Find(ctx context.Context, conditions *FindCondition) (*SIMFindRe
 // Create is API call
 func (o *SIMOp) Create(ctx context.Context, param *SIMCreateRequest) (*SIM, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11457,7 +11457,7 @@ func (o *SIMOp) Create(ctx context.Context, param *SIMCreateRequest) (*SIM, erro
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -11481,7 +11481,7 @@ func (o *SIMOp) Create(ctx context.Context, param *SIMCreateRequest) (*SIM, erro
 // Read is API call
 func (o *SIMOp) Read(ctx context.Context, id types.ID) (*SIM, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11494,7 +11494,7 @@ func (o *SIMOp) Read(ctx context.Context, id types.ID) (*SIM, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -11513,7 +11513,7 @@ func (o *SIMOp) Read(ctx context.Context, id types.ID) (*SIM, error) {
 // Update is API call
 func (o *SIMOp) Update(ctx context.Context, id types.ID, param *SIMUpdateRequest) (*SIM, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11527,7 +11527,7 @@ func (o *SIMOp) Update(ctx context.Context, id types.ID, param *SIMUpdateRequest
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -11551,7 +11551,7 @@ func (o *SIMOp) Update(ctx context.Context, id types.ID, param *SIMUpdateRequest
 // Delete is API call
 func (o *SIMOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11564,7 +11564,7 @@ func (o *SIMOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -11580,7 +11580,7 @@ func (o *SIMOp) Delete(ctx context.Context, id types.ID) error {
 // Activate is API call
 func (o *SIMOp) Activate(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11593,7 +11593,7 @@ func (o *SIMOp) Activate(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -11609,7 +11609,7 @@ func (o *SIMOp) Activate(ctx context.Context, id types.ID) error {
 // Deactivate is API call
 func (o *SIMOp) Deactivate(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11622,7 +11622,7 @@ func (o *SIMOp) Deactivate(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -11638,7 +11638,7 @@ func (o *SIMOp) Deactivate(ctx context.Context, id types.ID) error {
 // AssignIP is API call
 func (o *SIMOp) AssignIP(ctx context.Context, id types.ID, param *SIMAssignIPRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11652,7 +11652,7 @@ func (o *SIMOp) AssignIP(ctx context.Context, id types.ID, param *SIMAssignIPReq
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformAssignIPArgs(id, param)
 	if err != nil {
 		return err
@@ -11673,7 +11673,7 @@ func (o *SIMOp) AssignIP(ctx context.Context, id types.ID, param *SIMAssignIPReq
 // ClearIP is API call
 func (o *SIMOp) ClearIP(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11686,7 +11686,7 @@ func (o *SIMOp) ClearIP(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -11702,7 +11702,7 @@ func (o *SIMOp) ClearIP(ctx context.Context, id types.ID) error {
 // IMEILock is API call
 func (o *SIMOp) IMEILock(ctx context.Context, id types.ID, param *SIMIMEILockRequest) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11716,7 +11716,7 @@ func (o *SIMOp) IMEILock(ctx context.Context, id types.ID, param *SIMIMEILockReq
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformIMEILockArgs(id, param)
 	if err != nil {
 		return err
@@ -11737,7 +11737,7 @@ func (o *SIMOp) IMEILock(ctx context.Context, id types.ID, param *SIMIMEILockReq
 // IMEIUnlock is API call
 func (o *SIMOp) IMEIUnlock(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11750,7 +11750,7 @@ func (o *SIMOp) IMEIUnlock(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -11766,7 +11766,7 @@ func (o *SIMOp) IMEIUnlock(ctx context.Context, id types.ID) error {
 // Logs is API call
 func (o *SIMOp) Logs(ctx context.Context, id types.ID) (*SIMLogsResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11779,7 +11779,7 @@ func (o *SIMOp) Logs(ctx context.Context, id types.ID) (*SIMLogsResult, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -11798,7 +11798,7 @@ func (o *SIMOp) Logs(ctx context.Context, id types.ID) (*SIMLogsResult, error) {
 // GetNetworkOperator is API call
 func (o *SIMOp) GetNetworkOperator(ctx context.Context, id types.ID) ([]*SIMNetworkOperatorConfig, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11811,7 +11811,7 @@ func (o *SIMOp) GetNetworkOperator(ctx context.Context, id types.ID) ([]*SIMNetw
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -11830,7 +11830,7 @@ func (o *SIMOp) GetNetworkOperator(ctx context.Context, id types.ID) ([]*SIMNetw
 // SetNetworkOperator is API call
 func (o *SIMOp) SetNetworkOperator(ctx context.Context, id types.ID, configs []*SIMNetworkOperatorConfig) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11844,7 +11844,7 @@ func (o *SIMOp) SetNetworkOperator(ctx context.Context, id types.ID, configs []*
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformSetNetworkOperatorArgs(id, configs)
 	if err != nil {
 		return err
@@ -11865,7 +11865,7 @@ func (o *SIMOp) SetNetworkOperator(ctx context.Context, id types.ID, configs []*
 // MonitorSIM is API call
 func (o *SIMOp) MonitorSIM(ctx context.Context, id types.ID, condition *MonitorCondition) (*LinkActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11879,7 +11879,7 @@ func (o *SIMOp) MonitorSIM(ctx context.Context, id types.ID, condition *MonitorC
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorSIMArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -11903,7 +11903,7 @@ func (o *SIMOp) MonitorSIM(ctx context.Context, id types.ID, condition *MonitorC
 // Status is API call
 func (o *SIMOp) Status(ctx context.Context, id types.ID) (*SIMInfo, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11916,7 +11916,7 @@ func (o *SIMOp) Status(ctx context.Context, id types.ID) (*SIMInfo, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -11954,7 +11954,7 @@ func NewSimpleMonitorOp(caller APICaller) SimpleMonitorAPI {
 // Find is API call
 func (o *SimpleMonitorOp) Find(ctx context.Context, conditions *FindCondition) (*SimpleMonitorFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -11967,7 +11967,7 @@ func (o *SimpleMonitorOp) Find(ctx context.Context, conditions *FindCondition) (
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -11991,7 +11991,7 @@ func (o *SimpleMonitorOp) Find(ctx context.Context, conditions *FindCondition) (
 // Create is API call
 func (o *SimpleMonitorOp) Create(ctx context.Context, param *SimpleMonitorCreateRequest) (*SimpleMonitor, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12004,7 +12004,7 @@ func (o *SimpleMonitorOp) Create(ctx context.Context, param *SimpleMonitorCreate
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -12028,7 +12028,7 @@ func (o *SimpleMonitorOp) Create(ctx context.Context, param *SimpleMonitorCreate
 // Read is API call
 func (o *SimpleMonitorOp) Read(ctx context.Context, id types.ID) (*SimpleMonitor, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12041,7 +12041,7 @@ func (o *SimpleMonitorOp) Read(ctx context.Context, id types.ID) (*SimpleMonitor
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -12060,7 +12060,7 @@ func (o *SimpleMonitorOp) Read(ctx context.Context, id types.ID) (*SimpleMonitor
 // Update is API call
 func (o *SimpleMonitorOp) Update(ctx context.Context, id types.ID, param *SimpleMonitorUpdateRequest) (*SimpleMonitor, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12074,7 +12074,7 @@ func (o *SimpleMonitorOp) Update(ctx context.Context, id types.ID, param *Simple
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -12098,7 +12098,7 @@ func (o *SimpleMonitorOp) Update(ctx context.Context, id types.ID, param *Simple
 // UpdateSettings is API call
 func (o *SimpleMonitorOp) UpdateSettings(ctx context.Context, id types.ID, param *SimpleMonitorUpdateSettingsRequest) (*SimpleMonitor, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12112,7 +12112,7 @@ func (o *SimpleMonitorOp) UpdateSettings(ctx context.Context, id types.ID, param
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -12136,7 +12136,7 @@ func (o *SimpleMonitorOp) UpdateSettings(ctx context.Context, id types.ID, param
 // Delete is API call
 func (o *SimpleMonitorOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12149,7 +12149,7 @@ func (o *SimpleMonitorOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -12165,7 +12165,7 @@ func (o *SimpleMonitorOp) Delete(ctx context.Context, id types.ID) error {
 // MonitorResponseTime is API call
 func (o *SimpleMonitorOp) MonitorResponseTime(ctx context.Context, id types.ID, condition *MonitorCondition) (*ResponseTimeSecActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12179,7 +12179,7 @@ func (o *SimpleMonitorOp) MonitorResponseTime(ctx context.Context, id types.ID, 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorResponseTimeArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -12203,7 +12203,7 @@ func (o *SimpleMonitorOp) MonitorResponseTime(ctx context.Context, id types.ID, 
 // HealthStatus is API call
 func (o *SimpleMonitorOp) HealthStatus(ctx context.Context, id types.ID) (*SimpleMonitorHealthStatus, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12216,7 +12216,7 @@ func (o *SimpleMonitorOp) HealthStatus(ctx context.Context, id types.ID) (*Simpl
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -12254,7 +12254,7 @@ func NewSimpleNotificationDestinationOp(caller APICaller) SimpleNotificationDest
 // Find is API call
 func (o *SimpleNotificationDestinationOp) Find(ctx context.Context, conditions *FindCondition) (*SimpleNotificationDestinationFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12267,7 +12267,7 @@ func (o *SimpleNotificationDestinationOp) Find(ctx context.Context, conditions *
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -12291,7 +12291,7 @@ func (o *SimpleNotificationDestinationOp) Find(ctx context.Context, conditions *
 // Create is API call
 func (o *SimpleNotificationDestinationOp) Create(ctx context.Context, param *SimpleNotificationDestinationCreateRequest) (*SimpleNotificationDestination, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12304,7 +12304,7 @@ func (o *SimpleNotificationDestinationOp) Create(ctx context.Context, param *Sim
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -12328,7 +12328,7 @@ func (o *SimpleNotificationDestinationOp) Create(ctx context.Context, param *Sim
 // Read is API call
 func (o *SimpleNotificationDestinationOp) Read(ctx context.Context, id types.ID) (*SimpleNotificationDestination, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12341,7 +12341,7 @@ func (o *SimpleNotificationDestinationOp) Read(ctx context.Context, id types.ID)
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -12360,7 +12360,7 @@ func (o *SimpleNotificationDestinationOp) Read(ctx context.Context, id types.ID)
 // Update is API call
 func (o *SimpleNotificationDestinationOp) Update(ctx context.Context, id types.ID, param *SimpleNotificationDestinationUpdateRequest) (*SimpleNotificationDestination, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12374,7 +12374,7 @@ func (o *SimpleNotificationDestinationOp) Update(ctx context.Context, id types.I
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -12398,7 +12398,7 @@ func (o *SimpleNotificationDestinationOp) Update(ctx context.Context, id types.I
 // UpdateSettings is API call
 func (o *SimpleNotificationDestinationOp) UpdateSettings(ctx context.Context, id types.ID, param *SimpleNotificationDestinationUpdateSettingsRequest) (*SimpleNotificationDestination, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12412,7 +12412,7 @@ func (o *SimpleNotificationDestinationOp) UpdateSettings(ctx context.Context, id
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -12436,7 +12436,7 @@ func (o *SimpleNotificationDestinationOp) UpdateSettings(ctx context.Context, id
 // Delete is API call
 func (o *SimpleNotificationDestinationOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12449,7 +12449,7 @@ func (o *SimpleNotificationDestinationOp) Delete(ctx context.Context, id types.I
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -12465,7 +12465,7 @@ func (o *SimpleNotificationDestinationOp) Delete(ctx context.Context, id types.I
 // Status is API call
 func (o *SimpleNotificationDestinationOp) Status(ctx context.Context, id types.ID) (*SimpleNotificationDestinationStatus, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12478,7 +12478,7 @@ func (o *SimpleNotificationDestinationOp) Status(ctx context.Context, id types.I
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -12516,7 +12516,7 @@ func NewSimpleNotificationGroupOp(caller APICaller) SimpleNotificationGroupAPI {
 // Find is API call
 func (o *SimpleNotificationGroupOp) Find(ctx context.Context, conditions *FindCondition) (*SimpleNotificationGroupFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12529,7 +12529,7 @@ func (o *SimpleNotificationGroupOp) Find(ctx context.Context, conditions *FindCo
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -12553,7 +12553,7 @@ func (o *SimpleNotificationGroupOp) Find(ctx context.Context, conditions *FindCo
 // Create is API call
 func (o *SimpleNotificationGroupOp) Create(ctx context.Context, param *SimpleNotificationGroupCreateRequest) (*SimpleNotificationGroup, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12566,7 +12566,7 @@ func (o *SimpleNotificationGroupOp) Create(ctx context.Context, param *SimpleNot
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -12590,7 +12590,7 @@ func (o *SimpleNotificationGroupOp) Create(ctx context.Context, param *SimpleNot
 // Read is API call
 func (o *SimpleNotificationGroupOp) Read(ctx context.Context, id types.ID) (*SimpleNotificationGroup, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12603,7 +12603,7 @@ func (o *SimpleNotificationGroupOp) Read(ctx context.Context, id types.ID) (*Sim
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -12622,7 +12622,7 @@ func (o *SimpleNotificationGroupOp) Read(ctx context.Context, id types.ID) (*Sim
 // Update is API call
 func (o *SimpleNotificationGroupOp) Update(ctx context.Context, id types.ID, param *SimpleNotificationGroupUpdateRequest) (*SimpleNotificationGroup, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12636,7 +12636,7 @@ func (o *SimpleNotificationGroupOp) Update(ctx context.Context, id types.ID, par
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -12660,7 +12660,7 @@ func (o *SimpleNotificationGroupOp) Update(ctx context.Context, id types.ID, par
 // UpdateSettings is API call
 func (o *SimpleNotificationGroupOp) UpdateSettings(ctx context.Context, id types.ID, param *SimpleNotificationGroupUpdateSettingsRequest) (*SimpleNotificationGroup, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12674,7 +12674,7 @@ func (o *SimpleNotificationGroupOp) UpdateSettings(ctx context.Context, id types
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -12698,7 +12698,7 @@ func (o *SimpleNotificationGroupOp) UpdateSettings(ctx context.Context, id types
 // Delete is API call
 func (o *SimpleNotificationGroupOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12711,7 +12711,7 @@ func (o *SimpleNotificationGroupOp) Delete(ctx context.Context, id types.ID) err
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -12727,7 +12727,7 @@ func (o *SimpleNotificationGroupOp) Delete(ctx context.Context, id types.ID) err
 // PostMessage is API call
 func (o *SimpleNotificationGroupOp) PostMessage(ctx context.Context, id types.ID, message string) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12741,7 +12741,7 @@ func (o *SimpleNotificationGroupOp) PostMessage(ctx context.Context, id types.ID
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformPostMessageArgs(id, message)
 	if err != nil {
 		return err
@@ -12762,7 +12762,7 @@ func (o *SimpleNotificationGroupOp) PostMessage(ctx context.Context, id types.ID
 // History is API call
 func (o *SimpleNotificationGroupOp) History(ctx context.Context) (*SimpleNotificationHistories, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12774,7 +12774,7 @@ func (o *SimpleNotificationGroupOp) History(ctx context.Context) (*SimpleNotific
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -12812,7 +12812,7 @@ func NewSSHKeyOp(caller APICaller) SSHKeyAPI {
 // Find is API call
 func (o *SSHKeyOp) Find(ctx context.Context, conditions *FindCondition) (*SSHKeyFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12825,7 +12825,7 @@ func (o *SSHKeyOp) Find(ctx context.Context, conditions *FindCondition) (*SSHKey
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -12849,7 +12849,7 @@ func (o *SSHKeyOp) Find(ctx context.Context, conditions *FindCondition) (*SSHKey
 // Create is API call
 func (o *SSHKeyOp) Create(ctx context.Context, param *SSHKeyCreateRequest) (*SSHKey, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12862,7 +12862,7 @@ func (o *SSHKeyOp) Create(ctx context.Context, param *SSHKeyCreateRequest) (*SSH
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -12886,7 +12886,7 @@ func (o *SSHKeyOp) Create(ctx context.Context, param *SSHKeyCreateRequest) (*SSH
 // Read is API call
 func (o *SSHKeyOp) Read(ctx context.Context, id types.ID) (*SSHKey, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12899,7 +12899,7 @@ func (o *SSHKeyOp) Read(ctx context.Context, id types.ID) (*SSHKey, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -12918,7 +12918,7 @@ func (o *SSHKeyOp) Read(ctx context.Context, id types.ID) (*SSHKey, error) {
 // Update is API call
 func (o *SSHKeyOp) Update(ctx context.Context, id types.ID, param *SSHKeyUpdateRequest) (*SSHKey, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12932,7 +12932,7 @@ func (o *SSHKeyOp) Update(ctx context.Context, id types.ID, param *SSHKeyUpdateR
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -12956,7 +12956,7 @@ func (o *SSHKeyOp) Update(ctx context.Context, id types.ID, param *SSHKeyUpdateR
 // Delete is API call
 func (o *SSHKeyOp) Delete(ctx context.Context, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -12969,7 +12969,7 @@ func (o *SSHKeyOp) Delete(ctx context.Context, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -13004,7 +13004,7 @@ func NewSubnetOp(caller APICaller) SubnetAPI {
 // Find is API call
 func (o *SubnetOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*SubnetFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13017,7 +13017,7 @@ func (o *SubnetOp) Find(ctx context.Context, zone string, conditions *FindCondit
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -13041,7 +13041,7 @@ func (o *SubnetOp) Find(ctx context.Context, zone string, conditions *FindCondit
 // Read is API call
 func (o *SubnetOp) Read(ctx context.Context, zone string, id types.ID) (*Subnet, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13054,7 +13054,7 @@ func (o *SubnetOp) Read(ctx context.Context, zone string, id types.ID) (*Subnet,
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -13092,7 +13092,7 @@ func NewSwitchOp(caller APICaller) SwitchAPI {
 // Find is API call
 func (o *SwitchOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*SwitchFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13105,7 +13105,7 @@ func (o *SwitchOp) Find(ctx context.Context, zone string, conditions *FindCondit
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -13129,7 +13129,7 @@ func (o *SwitchOp) Find(ctx context.Context, zone string, conditions *FindCondit
 // Create is API call
 func (o *SwitchOp) Create(ctx context.Context, zone string, param *SwitchCreateRequest) (*Switch, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13142,7 +13142,7 @@ func (o *SwitchOp) Create(ctx context.Context, zone string, param *SwitchCreateR
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -13166,7 +13166,7 @@ func (o *SwitchOp) Create(ctx context.Context, zone string, param *SwitchCreateR
 // Read is API call
 func (o *SwitchOp) Read(ctx context.Context, zone string, id types.ID) (*Switch, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13179,7 +13179,7 @@ func (o *SwitchOp) Read(ctx context.Context, zone string, id types.ID) (*Switch,
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -13198,7 +13198,7 @@ func (o *SwitchOp) Read(ctx context.Context, zone string, id types.ID) (*Switch,
 // Update is API call
 func (o *SwitchOp) Update(ctx context.Context, zone string, id types.ID, param *SwitchUpdateRequest) (*Switch, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13212,7 +13212,7 @@ func (o *SwitchOp) Update(ctx context.Context, zone string, id types.ID, param *
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -13236,7 +13236,7 @@ func (o *SwitchOp) Update(ctx context.Context, zone string, id types.ID, param *
 // Delete is API call
 func (o *SwitchOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13249,7 +13249,7 @@ func (o *SwitchOp) Delete(ctx context.Context, zone string, id types.ID) error {
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -13265,7 +13265,7 @@ func (o *SwitchOp) Delete(ctx context.Context, zone string, id types.ID) error {
 // ConnectToBridge is API call
 func (o *SwitchOp) ConnectToBridge(ctx context.Context, zone string, id types.ID, bridgeID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13279,7 +13279,7 @@ func (o *SwitchOp) ConnectToBridge(ctx context.Context, zone string, id types.ID
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -13295,7 +13295,7 @@ func (o *SwitchOp) ConnectToBridge(ctx context.Context, zone string, id types.ID
 // DisconnectFromBridge is API call
 func (o *SwitchOp) DisconnectFromBridge(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13308,7 +13308,7 @@ func (o *SwitchOp) DisconnectFromBridge(ctx context.Context, zone string, id typ
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -13324,7 +13324,7 @@ func (o *SwitchOp) DisconnectFromBridge(ctx context.Context, zone string, id typ
 // GetServers is API call
 func (o *SwitchOp) GetServers(ctx context.Context, zone string, id types.ID) (*SwitchGetServersResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13337,7 +13337,7 @@ func (o *SwitchOp) GetServers(ctx context.Context, zone string, id types.ID) (*S
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -13375,7 +13375,7 @@ func NewVPCRouterOp(caller APICaller) VPCRouterAPI {
 // Find is API call
 func (o *VPCRouterOp) Find(ctx context.Context, zone string, conditions *FindCondition) (*VPCRouterFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13388,7 +13388,7 @@ func (o *VPCRouterOp) Find(ctx context.Context, zone string, conditions *FindCon
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -13412,7 +13412,7 @@ func (o *VPCRouterOp) Find(ctx context.Context, zone string, conditions *FindCon
 // Create is API call
 func (o *VPCRouterOp) Create(ctx context.Context, zone string, param *VPCRouterCreateRequest) (*VPCRouter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13425,7 +13425,7 @@ func (o *VPCRouterOp) Create(ctx context.Context, zone string, param *VPCRouterC
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformCreateArgs(param)
 	if err != nil {
 		return nil, err
@@ -13449,7 +13449,7 @@ func (o *VPCRouterOp) Create(ctx context.Context, zone string, param *VPCRouterC
 // Read is API call
 func (o *VPCRouterOp) Read(ctx context.Context, zone string, id types.ID) (*VPCRouter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13462,7 +13462,7 @@ func (o *VPCRouterOp) Read(ctx context.Context, zone string, id types.ID) (*VPCR
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -13481,7 +13481,7 @@ func (o *VPCRouterOp) Read(ctx context.Context, zone string, id types.ID) (*VPCR
 // Update is API call
 func (o *VPCRouterOp) Update(ctx context.Context, zone string, id types.ID, param *VPCRouterUpdateRequest) (*VPCRouter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13495,7 +13495,7 @@ func (o *VPCRouterOp) Update(ctx context.Context, zone string, id types.ID, para
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -13519,7 +13519,7 @@ func (o *VPCRouterOp) Update(ctx context.Context, zone string, id types.ID, para
 // UpdateSettings is API call
 func (o *VPCRouterOp) UpdateSettings(ctx context.Context, zone string, id types.ID, param *VPCRouterUpdateSettingsRequest) (*VPCRouter, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13533,7 +13533,7 @@ func (o *VPCRouterOp) UpdateSettings(ctx context.Context, zone string, id types.
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformUpdateSettingsArgs(id, param)
 	if err != nil {
 		return nil, err
@@ -13557,7 +13557,7 @@ func (o *VPCRouterOp) UpdateSettings(ctx context.Context, zone string, id types.
 // Delete is API call
 func (o *VPCRouterOp) Delete(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13570,7 +13570,7 @@ func (o *VPCRouterOp) Delete(ctx context.Context, zone string, id types.ID) erro
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -13586,7 +13586,7 @@ func (o *VPCRouterOp) Delete(ctx context.Context, zone string, id types.ID) erro
 // Config is API call
 func (o *VPCRouterOp) Config(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13599,7 +13599,7 @@ func (o *VPCRouterOp) Config(ctx context.Context, zone string, id types.ID) erro
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -13615,7 +13615,7 @@ func (o *VPCRouterOp) Config(ctx context.Context, zone string, id types.ID) erro
 // Boot is API call
 func (o *VPCRouterOp) Boot(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13634,7 +13634,7 @@ func (o *VPCRouterOp) Boot(ctx context.Context, zone string, id types.ID) error 
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -13650,7 +13650,7 @@ func (o *VPCRouterOp) Boot(ctx context.Context, zone string, id types.ID) error 
 // Shutdown is API call
 func (o *VPCRouterOp) Shutdown(ctx context.Context, zone string, id types.ID, shutdownOption *ShutdownOption) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":        SakuraCloudAPIRoot,
 		"pathSuffix":     o.PathSuffix,
 		"pathName":       o.PathName,
@@ -13670,7 +13670,7 @@ func (o *VPCRouterOp) Shutdown(ctx context.Context, zone string, id types.ID, sh
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformShutdownArgs(id, shutdownOption)
 	if err != nil {
 		return err
@@ -13691,7 +13691,7 @@ func (o *VPCRouterOp) Shutdown(ctx context.Context, zone string, id types.ID, sh
 // Reset is API call
 func (o *VPCRouterOp) Reset(ctx context.Context, zone string, id types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13710,7 +13710,7 @@ func (o *VPCRouterOp) Reset(ctx context.Context, zone string, id types.ID) error
 	apiLocker.Lock(lockKey)
 	defer apiLocker.Unlock(lockKey)
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -13726,7 +13726,7 @@ func (o *VPCRouterOp) Reset(ctx context.Context, zone string, id types.ID) error
 // ConnectToSwitch is API call
 func (o *VPCRouterOp) ConnectToSwitch(ctx context.Context, zone string, id types.ID, nicIndex int, switchID types.ID) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13741,7 +13741,7 @@ func (o *VPCRouterOp) ConnectToSwitch(ctx context.Context, zone string, id types
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "PUT", url, body)
@@ -13757,7 +13757,7 @@ func (o *VPCRouterOp) ConnectToSwitch(ctx context.Context, zone string, id types
 // DisconnectFromSwitch is API call
 func (o *VPCRouterOp) DisconnectFromSwitch(ctx context.Context, zone string, id types.ID, nicIndex int) error {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13771,7 +13771,7 @@ func (o *VPCRouterOp) DisconnectFromSwitch(ctx context.Context, zone string, id 
 		return err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err = o.Client.Do(ctx, "DELETE", url, body)
@@ -13787,7 +13787,7 @@ func (o *VPCRouterOp) DisconnectFromSwitch(ctx context.Context, zone string, id 
 // MonitorCPU is API call
 func (o *VPCRouterOp) MonitorCPU(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*CPUTimeActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13801,7 +13801,7 @@ func (o *VPCRouterOp) MonitorCPU(ctx context.Context, zone string, id types.ID, 
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorCPUArgs(id, condition)
 	if err != nil {
 		return nil, err
@@ -13825,7 +13825,7 @@ func (o *VPCRouterOp) MonitorCPU(ctx context.Context, zone string, id types.ID, 
 // MonitorInterface is API call
 func (o *VPCRouterOp) MonitorInterface(ctx context.Context, zone string, id types.ID, index int, condition *MonitorCondition) (*InterfaceActivity, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13840,7 +13840,7 @@ func (o *VPCRouterOp) MonitorInterface(ctx context.Context, zone string, id type
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformMonitorInterfaceArgs(id, index, condition)
 	if err != nil {
 		return nil, err
@@ -13864,7 +13864,7 @@ func (o *VPCRouterOp) MonitorInterface(ctx context.Context, zone string, id type
 // Status is API call
 func (o *VPCRouterOp) Status(ctx context.Context, zone string, id types.ID) (*VPCRouterStatus, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13877,7 +13877,7 @@ func (o *VPCRouterOp) Status(ctx context.Context, zone string, id types.ID) (*VP
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -13896,7 +13896,7 @@ func (o *VPCRouterOp) Status(ctx context.Context, zone string, id types.ID) (*VP
 // Logs is API call
 func (o *VPCRouterOp) Logs(ctx context.Context, zone string, id types.ID) (*VPCRouterLog, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13909,7 +13909,7 @@ func (o *VPCRouterOp) Logs(ctx context.Context, zone string, id types.ID) (*VPCR
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -13928,7 +13928,7 @@ func (o *VPCRouterOp) Logs(ctx context.Context, zone string, id types.ID) (*VPCR
 // Ping is API call
 func (o *VPCRouterOp) Ping(ctx context.Context, zone string, id types.ID, destination string) (*VPCRouterPingResults, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":     SakuraCloudAPIRoot,
 		"pathSuffix":  o.PathSuffix,
 		"pathName":    o.PathName,
@@ -13942,7 +13942,7 @@ func (o *VPCRouterOp) Ping(ctx context.Context, zone string, id types.ID, destin
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "POST", url, body)
@@ -13980,7 +13980,7 @@ func NewZoneOp(caller APICaller) ZoneAPI {
 // Find is API call
 func (o *ZoneOp) Find(ctx context.Context, conditions *FindCondition) (*ZoneFindResult, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -13993,7 +13993,7 @@ func (o *ZoneOp) Find(ctx context.Context, conditions *FindCondition) (*ZoneFind
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 	v, err := o.transformFindArgs(conditions)
 	if err != nil {
 		return nil, err
@@ -14017,7 +14017,7 @@ func (o *ZoneOp) Find(ctx context.Context, conditions *FindCondition) (*ZoneFind
 // Read is API call
 func (o *ZoneOp) Read(ctx context.Context, id types.ID) (*Zone, error) {
 	// build request URL
-	pathBuildParameter := map[string]interface{}{
+	pathBuildParameter := map[string]any{
 		"rootURL":    SakuraCloudAPIRoot,
 		"pathSuffix": o.PathSuffix,
 		"pathName":   o.PathName,
@@ -14030,7 +14030,7 @@ func (o *ZoneOp) Read(ctx context.Context, id types.ID) (*Zone, error) {
 		return nil, err
 	}
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)

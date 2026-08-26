@@ -101,22 +101,22 @@ var (
 	}
 )
 
-func testIconCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testIconCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewIconOp(caller)
 	return client.Create(ctx, createIconParam)
 }
 
-func testIconRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testIconRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewIconOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testIconUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testIconUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewIconOp(caller)
 	return client.Update(ctx, ctx.ID, updateIconParam)
 }
 
-func testIconUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testIconUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewIconOp(caller)
 	return client.Update(ctx, ctx.ID, updateIconToMinParam)
 }

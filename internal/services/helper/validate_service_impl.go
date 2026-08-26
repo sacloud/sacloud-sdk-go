@@ -141,7 +141,7 @@ func validateOperation(svc services.Service, op services.SupportedOperation, err
 		}
 
 		// 最後の戻り値はerror型
-		if m.Type.NumOut() > 0 && !m.Type.Out(m.Type.NumOut()-1).Implements(reflect.TypeOf((*error)(nil)).Elem()) {
+		if m.Type.NumOut() > 0 && !m.Type.Out(m.Type.NumOut()-1).Implements(reflect.TypeFor[error]()) {
 			appendErrors(errors, fmt.Errorf("func %s(): return-values[%d]: required error type", m.Name, m.Type.NumOut()-1))
 		}
 	}

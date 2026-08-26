@@ -131,7 +131,7 @@ func ExampleClient_Do_direct() {
 		log.Fatal(err)
 	}
 
-	var zones map[string]interface{}
+	var zones map[string]any
 	err = json.Unmarshal(data, &zones)
 	if err != nil {
 		log.Fatal(err)

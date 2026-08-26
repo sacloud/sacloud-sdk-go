@@ -249,7 +249,7 @@ func (o *SIMOp) MonitorSIM(ctx context.Context, id types.ID, condition *iaas.Mon
 	}
 
 	res := &iaas.LinkActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorLinkValue{
 			Time:        now.Add(time.Duration(i*-5) * time.Minute),
 			UplinkBPS:   float64(random(1000)),

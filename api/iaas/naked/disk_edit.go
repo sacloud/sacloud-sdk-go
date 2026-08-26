@@ -39,9 +39,9 @@ type DiskEditSSHKey struct {
 
 // DiskEditNote ディスクの修正で指定するスタートアップスクリプト
 type DiskEditNote struct {
-	ID        types.ID               `json:",omitempty" yaml:",omitempty" structs:",omitempty"`
-	APIKey    *APIKey                `json:",omitempty" yaml:"api_key,omitempty" structs:",omitempty"`
-	Variables map[string]interface{} `json:",omitempty" yaml:",omitempty" structs:",omitempty"`
+	ID        types.ID       `json:",omitempty" yaml:",omitempty" structs:",omitempty"`
+	APIKey    *APIKey        `json:",omitempty" yaml:"api_key,omitempty" structs:",omitempty"`
+	Variables map[string]any `json:",omitempty" yaml:",omitempty" structs:",omitempty"`
 }
 
 type APIKey struct {

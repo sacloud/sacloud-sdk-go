@@ -61,7 +61,7 @@ type nestedSquash struct {
 
 func TestParser_Parse(t *testing.T) {
 	cases := []struct {
-		in        interface{}
+		in        any
 		expect    []StructField
 		errString string
 	}{
@@ -85,7 +85,7 @@ func TestParser_Parse(t *testing.T) {
 			in: simple{},
 			expect: []StructField{
 				{
-					StructField: reflect.TypeOf(simple{}).Field(0),
+					StructField: reflect.TypeFor[simple]().Field(0),
 					Tag: Tag{
 						FieldName: "Field1",
 						FlagName:  "example-field1",
@@ -97,7 +97,7 @@ func TestParser_Parse(t *testing.T) {
 			in: &simple{}, // with pointer
 			expect: []StructField{
 				{
-					StructField: reflect.TypeOf(simple{}).Field(0),
+					StructField: reflect.TypeFor[simple]().Field(0),
 					Tag: Tag{
 						FieldName: "Field1",
 						FlagName:  "example-field1",
@@ -113,7 +113,7 @@ func TestParser_Parse(t *testing.T) {
 			in: &noTag{},
 			expect: []StructField{
 				{
-					StructField: reflect.TypeOf(noTag{}).Field(0),
+					StructField: reflect.TypeFor[noTag]().Field(0),
 					Tag: Tag{
 						FieldName: "NoTag",
 						FlagName:  "no-tag",
@@ -129,7 +129,7 @@ func TestParser_Parse(t *testing.T) {
 			in: &recursive{},
 			expect: []StructField{
 				{
-					StructField: reflect.TypeOf(nested1{}).Field(0),
+					StructField: reflect.TypeFor[nested1]().Field(0),
 					Tag: Tag{
 						FieldName: "Nested1.Field1",
 						FlagName:  "nested1-field1",
@@ -137,7 +137,7 @@ func TestParser_Parse(t *testing.T) {
 					},
 				},
 				{
-					StructField: reflect.TypeOf(nested2{}).Field(0),
+					StructField: reflect.TypeFor[nested2]().Field(0),
 					Tag: Tag{
 						FieldName: "Nested1.Field2.Field1",
 						FlagName:  "nested1-field2-field1",
@@ -150,7 +150,7 @@ func TestParser_Parse(t *testing.T) {
 			in: &squash{},
 			expect: []StructField{
 				{
-					StructField: reflect.TypeOf(nested1{}).Field(0),
+					StructField: reflect.TypeFor[nested1]().Field(0),
 					Tag: Tag{
 						FieldName: "Nested1.Field1",
 						FlagName:  "field1",
@@ -158,7 +158,7 @@ func TestParser_Parse(t *testing.T) {
 					},
 				},
 				{
-					StructField: reflect.TypeOf(nested2{}).Field(0),
+					StructField: reflect.TypeFor[nested2]().Field(0),
 					Tag: Tag{
 						FieldName: "Nested1.Field2.Field1",
 						FlagName:  "field2-field1",
@@ -166,14 +166,14 @@ func TestParser_Parse(t *testing.T) {
 					},
 				},
 				{
-					StructField: reflect.TypeOf(nested1{}).Field(0),
+					StructField: reflect.TypeFor[nested1]().Field(0),
 					Tag: Tag{
 						FieldName: "Nested2.Nested1.Field1",
 						FlagName:  "nested2-field1",
 					},
 				},
 				{
-					StructField: reflect.TypeOf(nested2{}).Field(0),
+					StructField: reflect.TypeFor[nested2]().Field(0),
 					Tag: Tag{
 						FieldName: "Nested2.Nested1.Field2.Field1",
 						FlagName:  "nested2-field2-field1",

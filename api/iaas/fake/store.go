@@ -20,8 +20,8 @@ import "github.com/sacloud/sacloud-sdk-go/api/iaas/types"
 type Store interface {
 	Init() error
 	NeedInitData() bool
-	Put(resourceKey, zone string, id types.ID, value interface{})
-	Get(resourceKey, zone string, id types.ID) interface{}
-	List(resourceKey, zone string) []interface{}
+	Put(resourceKey, zone string, id types.ID, value any)
+	Get(resourceKey, zone string, id types.ID) any
+	List(resourceKey, zone string) []any
 	Delete(resourceKey, zone string, id types.ID)
 }

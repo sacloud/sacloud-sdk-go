@@ -22,7 +22,6 @@ import (
 	"time"
 
 	"github.com/sacloud/sacloud-sdk-go/api/webaccel"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 	"github.com/stretchr/testify/require"
@@ -57,7 +56,7 @@ func TestScenario_Op_Create_Enable_Disable_Delete(t *testing.T) {
 		Origin:          "docs.usacloud.jp",
 		OriginProtocol:  webaccel.OriginProtocolsHttps,
 		VarySupport:     webaccel.VarySupportEnabled,
-		DefaultCacheTTL: pointer.NewInt(3600),
+		DefaultCacheTTL: new(3600),
 		NormalizeAE:     webaccel.NormalizeAEBrGz,
 	})
 
@@ -130,7 +129,7 @@ func TestOp_Update(t *testing.T) {
 		VarySupport:       webaccel.VarySupportDisabled,
 		CORSRules:         &[]*webaccel.CORSRule{},
 		OnetimeURLSecrets: &[]string{},
-		DefaultCacheTTL:   pointer.NewInt(0),
+		DefaultCacheTTL:   new(0),
 		NormalizeAE:       webaccel.NormalizeAEGz,
 	})
 

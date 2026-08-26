@@ -89,7 +89,7 @@ func (d *dummyPowerHandler) shutdown(force bool) error {
 	return nil
 }
 
-func (d *dummyPowerHandler) read() (interface{}, error) {
+func (d *dummyPowerHandler) read() (any, error) {
 	return d, nil
 }
 

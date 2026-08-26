@@ -56,7 +56,7 @@ type Archive struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Archive) setDefaults() interface{} {
+func (o *Archive) setDefaults() any {
 	return &struct {
 		ID                        types.ID
 		Name                      string
@@ -405,7 +405,7 @@ type BundleInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *BundleInfo) setDefaults() interface{} {
+func (o *BundleInfo) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		HostClass    string `json:",omitempty" mapconv:",omitempty"`
@@ -481,7 +481,7 @@ type Storage struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Storage) setDefaults() interface{} {
+func (o *Storage) setDefaults() any {
 	return &struct {
 		ID                         types.ID
 		Name                       string
@@ -580,7 +580,7 @@ type SourceArchiveInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SourceArchiveInfo) setDefaults() interface{} {
+func (o *SourceArchiveInfo) setDefaults() any {
 	return &struct {
 		ID        types.ID `mapconv:"ArchiveUnderZone.ID"`
 		AccountID types.ID `mapconv:"ArchiveUnderZone.Account.ID"`
@@ -649,7 +649,7 @@ type FindCondition struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *FindCondition) setDefaults() interface{} {
+func (o *FindCondition) setDefaults() any {
 	return &struct {
 		Count   int             `mapconv:",omitempty"`
 		From    int             `mapconv:",omitempty"`
@@ -747,7 +747,7 @@ type ArchiveCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ArchiveCreateRequest) setDefaults() interface{} {
+func (o *ArchiveCreateRequest) setDefaults() any {
 	return &struct {
 		SourceDiskID    types.ID `mapconv:"SourceDisk.ID,omitempty"`
 		SourceArchiveID types.ID `mapconv:"SourceArchive.ID,omitempty"`
@@ -858,7 +858,7 @@ type FTPServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *FTPServer) setDefaults() interface{} {
+func (o *FTPServer) setDefaults() any {
 	return &struct {
 		HostName  string
 		IPAddress string
@@ -926,7 +926,7 @@ type ArchiveCreateBlankRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ArchiveCreateBlankRequest) setDefaults() interface{} {
+func (o *ArchiveCreateBlankRequest) setDefaults() any {
 	return &struct {
 		SizeMB      int
 		Name        string
@@ -1035,7 +1035,7 @@ type ArchiveUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ArchiveUpdateRequest) setDefaults() interface{} {
+func (o *ArchiveUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -1119,7 +1119,7 @@ type OpenFTPRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *OpenFTPRequest) setDefaults() interface{} {
+func (o *OpenFTPRequest) setDefaults() any {
 	return &struct {
 		ChangePassword bool
 	}{
@@ -1147,7 +1147,7 @@ type ArchiveShareInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ArchiveShareInfo) setDefaults() interface{} {
+func (o *ArchiveShareInfo) setDefaults() any {
 	return &struct {
 		SharedKey types.ArchiveShareKey
 	}{
@@ -1179,7 +1179,7 @@ type ArchiveCreateRequestFromShared struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ArchiveCreateRequestFromShared) setDefaults() interface{} {
+func (o *ArchiveCreateRequestFromShared) setDefaults() any {
 	return &struct {
 		Name            string
 		Description     string
@@ -1279,7 +1279,7 @@ type ArchiveTransferRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ArchiveTransferRequest) setDefaults() interface{} {
+func (o *ArchiveTransferRequest) setDefaults() any {
 	return &struct {
 		SizeMB      int
 		Name        string
@@ -1396,7 +1396,7 @@ type AuthStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AuthStatus) setDefaults() interface{} {
+func (o *AuthStatus) setDefaults() any {
 	return &struct {
 		AccountID          types.ID `mapconv:"Account.ID"`
 		AccountName        string   `mapconv:"Account.Name"`
@@ -1570,7 +1570,7 @@ type AutoBackup struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoBackup) setDefaults() interface{} {
+func (o *AutoBackup) setDefaults() any {
 	return &struct {
 		ID                      types.ID
 		Name                    string
@@ -1812,7 +1812,7 @@ type AutoBackupCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoBackupCreateRequest) setDefaults() interface{} {
+func (o *AutoBackupCreateRequest) setDefaults() any {
 	return &struct {
 		DiskID                  types.ID              `mapconv:"Status.DiskID"`
 		BackupSpanWeekdays      []types.EDayOfTheWeek `mapconv:"Settings.Autobackup.BackupSpanWeekdays"`
@@ -1942,7 +1942,7 @@ type AutoBackupUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoBackupUpdateRequest) setDefaults() interface{} {
+func (o *AutoBackupUpdateRequest) setDefaults() any {
 	return &struct {
 		Name                    string
 		Description             string
@@ -2066,7 +2066,7 @@ type AutoBackupUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoBackupUpdateSettingsRequest) setDefaults() interface{} {
+func (o *AutoBackupUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		BackupSpanWeekdays      []types.EDayOfTheWeek `mapconv:"Settings.Autobackup.BackupSpanWeekdays"`
 		MaximumNumberOfArchives int                   `mapconv:"Settings.Autobackup.MaximumNumberOfArchives"`
@@ -2136,7 +2136,7 @@ type AutoScale struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoScale) setDefaults() interface{} {
+func (o *AutoScale) setDefaults() any {
 	return &struct {
 		ID                     types.ID
 		Name                   string
@@ -2398,7 +2398,7 @@ type AutoScaleCPUThresholdScaling struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoScaleCPUThresholdScaling) setDefaults() interface{} {
+func (o *AutoScaleCPUThresholdScaling) setDefaults() any {
 	return &struct {
 		ServerPrefix string
 		Up           int
@@ -2452,7 +2452,7 @@ type AutoScaleRouterThresholdScaling struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoScaleRouterThresholdScaling) setDefaults() interface{} {
+func (o *AutoScaleRouterThresholdScaling) setDefaults() any {
 	return &struct {
 		RouterPrefix string
 		Direction    string
@@ -2507,7 +2507,7 @@ type AutoScaleScheduleScaling struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoScaleScheduleScaling) setDefaults() interface{} {
+func (o *AutoScaleScheduleScaling) setDefaults() any {
 	return &struct {
 		Action    types.EAutoScaleAction
 		Hour      int
@@ -2582,7 +2582,7 @@ type AutoScaleCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoScaleCreateRequest) setDefaults() interface{} {
+func (o *AutoScaleCreateRequest) setDefaults() any {
 	return &struct {
 		Name                   string
 		Description            string
@@ -2777,7 +2777,7 @@ type AutoScaleUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoScaleUpdateRequest) setDefaults() interface{} {
+func (o *AutoScaleUpdateRequest) setDefaults() any {
 	return &struct {
 		Name                   string
 		Description            string
@@ -2964,7 +2964,7 @@ type AutoScaleUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoScaleUpdateSettingsRequest) setDefaults() interface{} {
+func (o *AutoScaleUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		Disabled               bool                             `mapconv:"Settings.Disabled"`
 		Zones                  []string                         `mapconv:"Settings.Zones"`
@@ -3077,7 +3077,7 @@ type AutoScaleStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *AutoScaleStatus) setDefaults() interface{} {
+func (o *AutoScaleStatus) setDefaults() any {
 	return &struct {
 		LatestLogs    []string
 		ResourcesText string
@@ -3123,7 +3123,7 @@ type Bill struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Bill) setDefaults() interface{} {
+func (o *Bill) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		Amount         int64
@@ -3252,7 +3252,7 @@ type BillDetail struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *BillDetail) setDefaults() interface{} {
+func (o *BillDetail) setDefaults() any {
 	return &struct {
 		ID               types.ID
 		Amount           int64
@@ -3413,7 +3413,7 @@ type BillDetailCSV struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *BillDetailCSV) setDefaults() interface{} {
+func (o *BillDetailCSV) setDefaults() any {
 	return &struct {
 		Count       int
 		ResponsedAt time.Time
@@ -3507,7 +3507,7 @@ type Bridge struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Bridge) setDefaults() interface{} {
+func (o *Bridge) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -3630,7 +3630,7 @@ type Region struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Region) setDefaults() interface{} {
+func (o *Region) setDefaults() any {
 	return &struct {
 		ID          types.ID
 		Name        string
@@ -3717,7 +3717,7 @@ type BridgeInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *BridgeInfo) setDefaults() interface{} {
+func (o *BridgeInfo) setDefaults() any {
 	return &struct {
 		ID       types.ID
 		Name     string
@@ -3805,7 +3805,7 @@ type BridgeSwitchInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *BridgeSwitchInfo) setDefaults() interface{} {
+func (o *BridgeSwitchInfo) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		Name           string
@@ -3902,7 +3902,7 @@ type BridgeCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *BridgeCreateRequest) setDefaults() interface{} {
+func (o *BridgeCreateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -3943,7 +3943,7 @@ type BridgeUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *BridgeUpdateRequest) setDefaults() interface{} {
+func (o *BridgeUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -3994,7 +3994,7 @@ type CDROM struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CDROM) setDefaults() interface{} {
+func (o *CDROM) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -4208,7 +4208,7 @@ type CDROMCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CDROMCreateRequest) setDefaults() interface{} {
+func (o *CDROMCreateRequest) setDefaults() any {
 	return &struct {
 		SizeMB      int
 		Name        string
@@ -4317,7 +4317,7 @@ type CDROMUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CDROMUpdateRequest) setDefaults() interface{} {
+func (o *CDROMUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -4414,7 +4414,7 @@ type CertificateAuthority struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthority) setDefaults() interface{} {
+func (o *CertificateAuthority) setDefaults() any {
 	return &struct {
 		ID               types.ID
 		Name             string
@@ -4646,7 +4646,7 @@ type CertificateAuthorityCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthorityCreateRequest) setDefaults() interface{} {
+func (o *CertificateAuthorityCreateRequest) setDefaults() any {
 	return &struct {
 		Name             string
 		Description      string
@@ -4795,7 +4795,7 @@ type CertificateAuthorityUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthorityUpdateRequest) setDefaults() interface{} {
+func (o *CertificateAuthorityUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -4880,7 +4880,7 @@ type CertificateAuthorityDetail struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthorityDetail) setDefaults() interface{} {
+func (o *CertificateAuthorityDetail) setDefaults() any {
 	return &struct {
 		Subject         string
 		CertificateData *CertificateData `mapconv:",recursive"`
@@ -4924,7 +4924,7 @@ type CertificateData struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateData) setDefaults() interface{} {
+func (o *CertificateData) setDefaults() any {
 	return &struct {
 		CertificatePEM string
 		Subject        string
@@ -5000,7 +5000,7 @@ type CertificateAuthorityAddClientOrServerResult struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthorityAddClientOrServerResult) setDefaults() interface{} {
+func (o *CertificateAuthorityAddClientOrServerResult) setDefaults() any {
 	return &struct {
 		ID string
 	}{
@@ -5036,7 +5036,7 @@ type CertificateAuthorityAddClientParam struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthorityAddClientParam) setDefaults() interface{} {
+func (o *CertificateAuthorityAddClientParam) setDefaults() any {
 	return &struct {
 		Country                   string
 		Organization              string
@@ -5166,7 +5166,7 @@ type CertificateAuthorityClient struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthorityClient) setDefaults() interface{} {
+func (o *CertificateAuthorityClient) setDefaults() any {
 	return &struct {
 		ID              string
 		Subject         string
@@ -5273,7 +5273,7 @@ type CertificateAuthorityAddServerParam struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthorityAddServerParam) setDefaults() interface{} {
+func (o *CertificateAuthorityAddServerParam) setDefaults() any {
 	return &struct {
 		Country                   string
 		Organization              string
@@ -5390,7 +5390,7 @@ type CertificateAuthorityServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CertificateAuthorityServer) setDefaults() interface{} {
+func (o *CertificateAuthorityServer) setDefaults() any {
 	return &struct {
 		ID              string
 		Subject         string
@@ -5490,7 +5490,7 @@ type ContainerRegistry struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ContainerRegistry) setDefaults() interface{} {
+func (o *ContainerRegistry) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		Name           string
@@ -5708,7 +5708,7 @@ type ContainerRegistryCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ContainerRegistryCreateRequest) setDefaults() interface{} {
+func (o *ContainerRegistryCreateRequest) setDefaults() any {
 	return &struct {
 		Name           string
 		Description    string
@@ -5836,7 +5836,7 @@ type ContainerRegistryUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ContainerRegistryUpdateRequest) setDefaults() interface{} {
+func (o *ContainerRegistryUpdateRequest) setDefaults() any {
 	return &struct {
 		Name          string
 		Description   string
@@ -5958,7 +5958,7 @@ type ContainerRegistryUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ContainerRegistryUpdateSettingsRequest) setDefaults() interface{} {
+func (o *ContainerRegistryUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		AccessLevel   types.EContainerRegistryAccessLevel `mapconv:"Settings.ContainerRegistry.Public"`
 		VirtualDomain string                              `mapconv:"Settings.ContainerRegistry.VirtualDomain"`
@@ -6010,7 +6010,7 @@ type ContainerRegistryUsers struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ContainerRegistryUsers) setDefaults() interface{} {
+func (o *ContainerRegistryUsers) setDefaults() any {
 	return &struct {
 		Users []*ContainerRegistryUser
 	}{
@@ -6039,7 +6039,7 @@ type ContainerRegistryUser struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ContainerRegistryUser) setDefaults() interface{} {
+func (o *ContainerRegistryUser) setDefaults() any {
 	return &struct {
 		UserName   string
 		Permission types.EContainerRegistryPermission
@@ -6081,7 +6081,7 @@ type ContainerRegistryUserCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ContainerRegistryUserCreateRequest) setDefaults() interface{} {
+func (o *ContainerRegistryUserCreateRequest) setDefaults() any {
 	return &struct {
 		UserName   string
 		Password   string
@@ -6134,7 +6134,7 @@ type ContainerRegistryUserUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ContainerRegistryUserUpdateRequest) setDefaults() interface{} {
+func (o *ContainerRegistryUserUpdateRequest) setDefaults() any {
 	return &struct {
 		Password   string
 		Permission types.EContainerRegistryPermission
@@ -6180,7 +6180,7 @@ type Coupon struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Coupon) setDefaults() interface{} {
+func (o *Coupon) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		MemberID       string
@@ -6328,7 +6328,7 @@ type Database struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Database) setDefaults() interface{} {
+func (o *Database) setDefaults() any {
 	return &struct {
 		ID                      types.ID
 		Class                   string
@@ -6738,7 +6738,7 @@ type DatabaseSettingCommon struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseSettingCommon) setDefaults() interface{} {
+func (o *DatabaseSettingCommon) setDefaults() any {
 	return &struct {
 		WebUI           types.WebUI
 		ServicePort     int
@@ -6841,7 +6841,7 @@ type DatabaseSettingBackup struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseSettingBackup) setDefaults() interface{} {
+func (o *DatabaseSettingBackup) setDefaults() any {
 	return &struct {
 		Rotate    int
 		Time      string
@@ -6909,7 +6909,7 @@ type DatabaseSettingBackupv2View struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseSettingBackupv2View) setDefaults() interface{} {
+func (o *DatabaseSettingBackupv2View) setDefaults() any {
 	return &struct {
 		Rotate         int
 		Time           string
@@ -6990,7 +6990,7 @@ type DatabaseReplicationSetting struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseReplicationSetting) setDefaults() interface{} {
+func (o *DatabaseReplicationSetting) setDefaults() any {
 	return &struct {
 		Model       types.EDatabaseReplicationModel
 		IPAddress   string
@@ -7079,7 +7079,7 @@ type DatabaseSettingsInterface struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseSettingsInterface) setDefaults() interface{} {
+func (o *DatabaseSettingsInterface) setDefaults() any {
 	return &struct {
 		VirtualIPAddress string
 		Index            int
@@ -7119,7 +7119,7 @@ type MonitoringSuite struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitoringSuite) setDefaults() interface{} {
+func (o *MonitoringSuite) setDefaults() any {
 	return &struct {
 		Enabled bool
 	}{
@@ -7151,7 +7151,7 @@ type DatabaseRemarkDBConfCommon struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseRemarkDBConfCommon) setDefaults() interface{} {
+func (o *DatabaseRemarkDBConfCommon) setDefaults() any {
 	return &struct {
 		DatabaseName     string
 		DatabaseVersion  string
@@ -7244,7 +7244,7 @@ type InterfaceView struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InterfaceView) setDefaults() interface{} {
+func (o *InterfaceView) setDefaults() any {
 	return &struct {
 		ID                              types.ID
 		MACAddress                      string
@@ -7497,7 +7497,7 @@ type DatabaseDisk struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseDisk) setDefaults() interface{} {
+func (o *DatabaseDisk) setDefaults() any {
 	return &struct {
 		EncryptionAlgorithm types.EDiskEncryptionAlgorithm
 		EncryptionKeyID     types.ID `mapconv:"EncryptionKey.KMSKeyID"`
@@ -7554,7 +7554,7 @@ type DatabaseCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseCreateRequest) setDefaults() interface{} {
+func (o *DatabaseCreateRequest) setDefaults() any {
 	return &struct {
 		PlanID             types.ID                     `mapconv:"Remark.Plan.ID/Plan.ID"`
 		SwitchID           types.ID                     `mapconv:"Remark.Switch.ID"`
@@ -7811,7 +7811,7 @@ type DatabaseSettingBackupv2 struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseSettingBackupv2) setDefaults() interface{} {
+func (o *DatabaseSettingBackupv2) setDefaults() any {
 	return &struct {
 		Rotate    int
 		Time      string
@@ -7885,7 +7885,7 @@ type DatabaseUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseUpdateRequest) setDefaults() interface{} {
+func (o *DatabaseUpdateRequest) setDefaults() any {
 	return &struct {
 		Name               string
 		Description        string
@@ -8059,7 +8059,7 @@ type DatabaseUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseUpdateSettingsRequest) setDefaults() interface{} {
+func (o *DatabaseUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		CommonSetting      *DatabaseSettingCommon       `mapconv:"Settings.DBConf.Common,recursive"`
 		BackupSetting      *DatabaseSettingBackup       `mapconv:"Settings.DBConf.Backup,recursive"`
@@ -8159,7 +8159,7 @@ type ShutdownOption struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ShutdownOption) setDefaults() interface{} {
+func (o *ShutdownOption) setDefaults() any {
 	return &struct {
 		Force bool
 	}{
@@ -8187,7 +8187,7 @@ type CPUTimeActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *CPUTimeActivity) setDefaults() interface{} {
+func (o *CPUTimeActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorCPUTimeValue `mapconv:"[]CPU"`
 	}{
@@ -8216,7 +8216,7 @@ type MonitorCPUTimeValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorCPUTimeValue) setDefaults() interface{} {
+func (o *MonitorCPUTimeValue) setDefaults() any {
 	return &struct {
 		Time    time.Time `mapconv:",omitempty"`
 		CPUTime float64   `mapconv:",omitempty"`
@@ -8257,7 +8257,7 @@ type MonitorCondition struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorCondition) setDefaults() interface{} {
+func (o *MonitorCondition) setDefaults() any {
 	return &struct {
 		Start time.Time `json:",omitempty"`
 		End   time.Time `json:",omitempty"`
@@ -8303,7 +8303,7 @@ type DiskActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskActivity) setDefaults() interface{} {
+func (o *DiskActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorDiskValue `mapconv:"[]Disk"`
 	}{
@@ -8333,7 +8333,7 @@ type MonitorDiskValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorDiskValue) setDefaults() interface{} {
+func (o *MonitorDiskValue) setDefaults() any {
 	return &struct {
 		Time  time.Time `mapconv:",omitempty"`
 		Read  float64   `mapconv:",omitempty"`
@@ -8385,7 +8385,7 @@ type InterfaceActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InterfaceActivity) setDefaults() interface{} {
+func (o *InterfaceActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorInterfaceValue `mapconv:"[]Interface"`
 	}{
@@ -8415,7 +8415,7 @@ type MonitorInterfaceValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorInterfaceValue) setDefaults() interface{} {
+func (o *MonitorInterfaceValue) setDefaults() any {
 	return &struct {
 		Time    time.Time `mapconv:",omitempty"`
 		Receive float64   `mapconv:",omitempty"`
@@ -8467,7 +8467,7 @@ type DatabaseActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseActivity) setDefaults() interface{} {
+func (o *DatabaseActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorDatabaseValue `mapconv:"[]Database"`
 	}{
@@ -8503,7 +8503,7 @@ type MonitorDatabaseValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorDatabaseValue) setDefaults() interface{} {
+func (o *MonitorDatabaseValue) setDefaults() any {
 	return &struct {
 		Time              time.Time `mapconv:",omitempty"`
 		TotalMemorySize   float64   `mapconv:",omitempty"`
@@ -8633,7 +8633,7 @@ type DatabaseStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseStatus) setDefaults() interface{} {
+func (o *DatabaseStatus) setDefaults() any {
 	return &struct {
 		Status         types.EServerInstanceStatus `mapconv:"SettingsResponse.Status"`
 		MariaDBStatus  string                      `mapconv:"SettingsResponse.DBConf.MariaDB.Status"`
@@ -8737,7 +8737,7 @@ type DatabaseVersionInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseVersionInfo) setDefaults() interface{} {
+func (o *DatabaseVersionInfo) setDefaults() any {
 	return &struct {
 		LastModified string
 		CommitHash   string
@@ -8815,7 +8815,7 @@ type DatabaseLog struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseLog) setDefaults() interface{} {
+func (o *DatabaseLog) setDefaults() any {
 	return &struct {
 		Name string
 		Data string
@@ -8870,7 +8870,7 @@ type DatabaseBackupHistory struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseBackupHistory) setDefaults() interface{} {
+func (o *DatabaseBackupHistory) setDefaults() any {
 	return &struct {
 		CreatedAt    time.Time
 		Availability string
@@ -8930,14 +8930,14 @@ func (o *DatabaseBackupHistory) SetSize(v int64) {
 
 // DatabaseParameter represents API parameter/response structure
 type DatabaseParameter struct {
-	Settings map[string]interface{}   `mapconv:"Parameter.Attr"`
+	Settings map[string]any           `mapconv:"Parameter.Attr"`
 	MetaInfo []*DatabaseParameterMeta `mapconv:"Remark.[]Form,recursive"`
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseParameter) setDefaults() interface{} {
+func (o *DatabaseParameter) setDefaults() any {
 	return &struct {
-		Settings map[string]interface{}   `mapconv:"Parameter.Attr"`
+		Settings map[string]any           `mapconv:"Parameter.Attr"`
 		MetaInfo []*DatabaseParameterMeta `mapconv:"Remark.[]Form,recursive"`
 	}{
 		Settings: o.GetSettings(),
@@ -8946,12 +8946,12 @@ func (o *DatabaseParameter) setDefaults() interface{} {
 }
 
 // GetSettings returns value of Settings
-func (o *DatabaseParameter) GetSettings() map[string]interface{} {
+func (o *DatabaseParameter) GetSettings() map[string]any {
 	return o.Settings
 }
 
 // SetSettings sets value to Settings
-func (o *DatabaseParameter) SetSettings(v map[string]interface{}) {
+func (o *DatabaseParameter) SetSettings(v map[string]any) {
 	o.Settings = v
 }
 
@@ -8983,7 +8983,7 @@ type DatabaseParameterMeta struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DatabaseParameterMeta) setDefaults() interface{} {
+func (o *DatabaseParameterMeta) setDefaults() any {
 	return &struct {
 		Type    string `mapconv:"Options.Type"`
 		Name    string
@@ -9133,7 +9133,7 @@ type Disk struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Disk) setDefaults() interface{} {
+func (o *Disk) setDefaults() any {
 	return &struct {
 		ID                        types.ID
 		Name                      string
@@ -9529,7 +9529,7 @@ type JobStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *JobStatus) setDefaults() interface{} {
+func (o *JobStatus) setDefaults() any {
 	return &struct {
 		Status      string
 		ConfigError *JobConfigError
@@ -9571,7 +9571,7 @@ type JobConfigError struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *JobConfigError) setDefaults() interface{} {
+func (o *JobConfigError) setDefaults() any {
 	return &struct {
 		ErrorCode string
 		ErrorMsg  string
@@ -9633,7 +9633,7 @@ type DiskCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskCreateRequest) setDefaults() interface{} {
+func (o *DiskCreateRequest) setDefaults() any {
 	return &struct {
 		DiskPlanID          types.ID                       `mapconv:"Plan.ID"`
 		Connection          types.EDiskConnection          `json:",omitempty" mapconv:",omitempty"`
@@ -9821,7 +9821,7 @@ type DiskEditRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskEditRequest) setDefaults() interface{} {
+func (o *DiskEditRequest) setDefaults() any {
 	return &struct {
 		Background          bool                `json:",omitempty" mapconv:",omitempty"`
 		Password            string              `json:",omitempty" mapconv:",omitempty"`
@@ -9970,7 +9970,7 @@ type DiskEditSSHKey struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskEditSSHKey) setDefaults() interface{} {
+func (o *DiskEditSSHKey) setDefaults() any {
 	return &struct {
 		ID        types.ID `json:",omitempty" mapconv:",omitempty"`
 		PublicKey string   `json:",omitempty" mapconv:",omitempty"`
@@ -10006,17 +10006,17 @@ func (o *DiskEditSSHKey) SetPublicKey(v string) {
 
 // DiskEditNote represents API parameter/response structure
 type DiskEditNote struct {
-	ID        types.ID               `json:",omitempty" mapconv:",omitempty"`
-	APIKeyID  types.ID               `json:",omitempty" mapconv:"APIKey.ID,omitempty"`
-	Variables map[string]interface{} `json:",omitempty" mapconv:",omitempty"`
+	ID        types.ID       `json:",omitempty" mapconv:",omitempty"`
+	APIKeyID  types.ID       `json:",omitempty" mapconv:"APIKey.ID,omitempty"`
+	Variables map[string]any `json:",omitempty" mapconv:",omitempty"`
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskEditNote) setDefaults() interface{} {
+func (o *DiskEditNote) setDefaults() any {
 	return &struct {
-		ID        types.ID               `json:",omitempty" mapconv:",omitempty"`
-		APIKeyID  types.ID               `json:",omitempty" mapconv:"APIKey.ID,omitempty"`
-		Variables map[string]interface{} `json:",omitempty" mapconv:",omitempty"`
+		ID        types.ID       `json:",omitempty" mapconv:",omitempty"`
+		APIKeyID  types.ID       `json:",omitempty" mapconv:"APIKey.ID,omitempty"`
+		Variables map[string]any `json:",omitempty" mapconv:",omitempty"`
 	}{
 		ID:        o.GetID(),
 		APIKeyID:  o.GetAPIKeyID(),
@@ -10045,12 +10045,12 @@ func (o *DiskEditNote) SetAPIKeyID(v types.ID) {
 }
 
 // GetVariables returns value of Variables
-func (o *DiskEditNote) GetVariables() map[string]interface{} {
+func (o *DiskEditNote) GetVariables() map[string]any {
 	return o.Variables
 }
 
 // SetVariables sets value to Variables
-func (o *DiskEditNote) SetVariables(v map[string]interface{}) {
+func (o *DiskEditNote) SetVariables(v map[string]any) {
 	o.Variables = v
 }
 
@@ -10065,7 +10065,7 @@ type DiskEditUserSubnet struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskEditUserSubnet) setDefaults() interface{} {
+func (o *DiskEditUserSubnet) setDefaults() any {
 	return &struct {
 		DefaultRoute   string `json:",omitempty" mapconv:",omitempty"`
 		NetworkMaskLen int    `json:",omitempty" mapconv:",omitempty"`
@@ -10105,7 +10105,7 @@ type DiskResizePartitionRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskResizePartitionRequest) setDefaults() interface{} {
+func (o *DiskResizePartitionRequest) setDefaults() any {
 	return &struct {
 		Background bool
 	}{
@@ -10137,7 +10137,7 @@ type DiskUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskUpdateRequest) setDefaults() interface{} {
+func (o *DiskUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -10237,7 +10237,7 @@ type DiskPlan struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskPlan) setDefaults() interface{} {
+func (o *DiskPlan) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -10336,7 +10336,7 @@ type DiskPlanSizeInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DiskPlanSizeInfo) setDefaults() interface{} {
+func (o *DiskPlanSizeInfo) setDefaults() any {
 	return &struct {
 		Availability  types.EAvailability
 		DisplaySize   int
@@ -10422,7 +10422,7 @@ type DNS struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DNS) setDefaults() interface{} {
+func (o *DNS) setDefaults() any {
 	return &struct {
 		ID                 types.ID
 		Name               string
@@ -10637,7 +10637,7 @@ type DNSRecord struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DNSRecord) setDefaults() interface{} {
+func (o *DNSRecord) setDefaults() any {
 	return &struct {
 		Name  string
 		Type  types.EDNSRecordType
@@ -10701,7 +10701,7 @@ type MonitoringSuiteLog struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitoringSuiteLog) setDefaults() interface{} {
+func (o *MonitoringSuiteLog) setDefaults() any {
 	return &struct {
 		Enabled bool
 	}{
@@ -10734,7 +10734,7 @@ type DNSCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DNSCreateRequest) setDefaults() interface{} {
+func (o *DNSCreateRequest) setDefaults() any {
 	return &struct {
 		Name               string              `mapconv:"Name/Status.Zone"`
 		Records            DNSRecords          `mapconv:"Settings.DNS.[]ResourceRecordSets,recursive"`
@@ -10849,7 +10849,7 @@ type DNSUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DNSUpdateRequest) setDefaults() interface{} {
+func (o *DNSUpdateRequest) setDefaults() any {
 	return &struct {
 		Description        string
 		Tags               types.Tags
@@ -10959,7 +10959,7 @@ type DNSUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *DNSUpdateSettingsRequest) setDefaults() interface{} {
+func (o *DNSUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		Records            DNSRecords          `mapconv:"Settings.DNS.[]ResourceRecordSets,recursive"`
 		MonitoringSuiteLog *MonitoringSuiteLog `mapconv:"Settings.DNS.MonitoringSuiteLog,recursive"`
@@ -11024,7 +11024,7 @@ type EnhancedDB struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *EnhancedDB) setDefaults() interface{} {
+func (o *EnhancedDB) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -11254,7 +11254,7 @@ type EnhancedDBCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *EnhancedDBCreateRequest) setDefaults() interface{} {
+func (o *EnhancedDBCreateRequest) setDefaults() any {
 	return &struct {
 		Name            string
 		Description     string
@@ -11384,7 +11384,7 @@ type EnhancedDBUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *EnhancedDBUpdateRequest) setDefaults() interface{} {
+func (o *EnhancedDBUpdateRequest) setDefaults() any {
 	return &struct {
 		Name         string
 		Description  string
@@ -11480,7 +11480,7 @@ type EnhancedDBSetPasswordRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *EnhancedDBSetPasswordRequest) setDefaults() interface{} {
+func (o *EnhancedDBSetPasswordRequest) setDefaults() any {
 	return &struct {
 		Password string `mapconv:"EnhancedDB.Password"`
 	}{
@@ -11509,7 +11509,7 @@ type EnhancedDBConfig struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *EnhancedDBConfig) setDefaults() interface{} {
+func (o *EnhancedDBConfig) setDefaults() any {
 	return &struct {
 		MaxConnections  int
 		AllowedNetworks []string
@@ -11549,7 +11549,7 @@ type EnhancedDBSetConfigRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *EnhancedDBSetConfigRequest) setDefaults() interface{} {
+func (o *EnhancedDBSetConfigRequest) setDefaults() any {
 	return &struct {
 		AllowedNetworks []string `mapconv:"EnhancedDB.AllowedNetworks"`
 		MaxConnections  int      `mapconv:"EnhancedDB.MaxConnections"`
@@ -11586,7 +11586,7 @@ type ESME struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ESME) setDefaults() interface{} {
+func (o *ESME) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -11741,7 +11741,7 @@ type ESMECreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ESMECreateRequest) setDefaults() interface{} {
+func (o *ESMECreateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -11830,7 +11830,7 @@ type ESMEUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ESMEUpdateRequest) setDefaults() interface{} {
+func (o *ESMEUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -11916,7 +11916,7 @@ type ESMESendMessageResult struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ESMESendMessageResult) setDefaults() interface{} {
+func (o *ESMESendMessageResult) setDefaults() any {
 	return &struct {
 		MessageID string
 		Status    string
@@ -11970,7 +11970,7 @@ type ESMESendMessageWithGeneratedOTPRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ESMESendMessageWithGeneratedOTPRequest) setDefaults() interface{} {
+func (o *ESMESendMessageWithGeneratedOTPRequest) setDefaults() any {
 	return &struct {
 		Destination  string
 		Sender       string
@@ -12027,7 +12027,7 @@ type ESMESendMessageWithInputtedOTPRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ESMESendMessageWithInputtedOTPRequest) setDefaults() interface{} {
+func (o *ESMESendMessageWithInputtedOTPRequest) setDefaults() any {
 	return &struct {
 		Destination  string
 		Sender       string
@@ -12099,7 +12099,7 @@ type ESMELogs struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ESMELogs) setDefaults() interface{} {
+func (o *ESMELogs) setDefaults() any {
 	return &struct {
 		MessageID   string
 		Status      string
@@ -12214,7 +12214,7 @@ type GSLB struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *GSLB) setDefaults() interface{} {
+func (o *GSLB) setDefaults() any {
 	return &struct {
 		ID                 types.ID
 		Name               string
@@ -12469,7 +12469,7 @@ type GSLBHealthCheck struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *GSLBHealthCheck) setDefaults() interface{} {
+func (o *GSLBHealthCheck) setDefaults() any {
 	return &struct {
 		Protocol     types.EGSLBHealthCheckProtocol
 		HostHeader   string             `mapconv:"Host"`
@@ -12547,7 +12547,7 @@ type GSLBServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *GSLBServer) setDefaults() interface{} {
+func (o *GSLBServer) setDefaults() any {
 	return &struct {
 		IPAddress string
 		Enabled   types.StringFlag
@@ -12608,7 +12608,7 @@ type GSLBCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *GSLBCreateRequest) setDefaults() interface{} {
+func (o *GSLBCreateRequest) setDefaults() any {
 	return &struct {
 		HealthCheck        *GSLBHealthCheck    `mapconv:"Settings.GSLB.HealthCheck,recursive"`
 		DelayLoop          int                 `mapconv:"Settings.GSLB.DelayLoop"`
@@ -12779,7 +12779,7 @@ type GSLBUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *GSLBUpdateRequest) setDefaults() interface{} {
+func (o *GSLBUpdateRequest) setDefaults() any {
 	return &struct {
 		Name               string
 		Description        string
@@ -12956,7 +12956,7 @@ type GSLBUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *GSLBUpdateSettingsRequest) setDefaults() interface{} {
+func (o *GSLBUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		HealthCheck        *GSLBHealthCheck    `mapconv:"Settings.GSLB.HealthCheck,recursive"`
 		DelayLoop          int                 `mapconv:"Settings.GSLB.DelayLoop"`
@@ -13066,7 +13066,7 @@ type Icon struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Icon) setDefaults() interface{} {
+func (o *Icon) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -13220,7 +13220,7 @@ type IconCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *IconCreateRequest) setDefaults() interface{} {
+func (o *IconCreateRequest) setDefaults() any {
 	return &struct {
 		Name  string
 		Tags  types.Tags
@@ -13293,7 +13293,7 @@ type IconUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *IconUpdateRequest) setDefaults() interface{} {
+func (o *IconUpdateRequest) setDefaults() any {
 	return &struct {
 		Name string
 		Tags types.Tags
@@ -13362,7 +13362,7 @@ type Interface struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Interface) setDefaults() interface{} {
+func (o *Interface) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		MACAddress     string
@@ -13518,7 +13518,7 @@ type InterfaceCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InterfaceCreateRequest) setDefaults() interface{} {
+func (o *InterfaceCreateRequest) setDefaults() any {
 	return &struct {
 		ServerID types.ID `mapconv:"Server.ID,omitempty"`
 	}{
@@ -13546,7 +13546,7 @@ type InterfaceUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InterfaceUpdateRequest) setDefaults() interface{} {
+func (o *InterfaceUpdateRequest) setDefaults() any {
 	return &struct {
 		UserIPAddress string
 	}{
@@ -13582,7 +13582,7 @@ type Internet struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Internet) setDefaults() interface{} {
+func (o *Internet) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		Name           string
@@ -13752,7 +13752,7 @@ type SwitchInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SwitchInfo) setDefaults() interface{} {
+func (o *SwitchInfo) setDefaults() any {
 	return &struct {
 		ID          types.ID
 		Name        string
@@ -13897,7 +13897,7 @@ type InternetSubnet struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InternetSubnet) setDefaults() interface{} {
+func (o *InternetSubnet) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		DefaultRoute   string
@@ -14007,7 +14007,7 @@ type IPv6NetInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *IPv6NetInfo) setDefaults() interface{} {
+func (o *IPv6NetInfo) setDefaults() any {
 	return &struct {
 		ID            types.ID
 		IPv6Prefix    string
@@ -14084,7 +14084,7 @@ type InternetCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InternetCreateRequest) setDefaults() interface{} {
+func (o *InternetCreateRequest) setDefaults() any {
 	return &struct {
 		Name           string
 		Description    string
@@ -14195,7 +14195,7 @@ type InternetUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InternetUpdateRequest) setDefaults() interface{} {
+func (o *InternetUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -14279,7 +14279,7 @@ type InternetUpdateBandWidthRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InternetUpdateBandWidthRequest) setDefaults() interface{} {
+func (o *InternetUpdateBandWidthRequest) setDefaults() any {
 	return &struct {
 		BandWidthMbps int
 	}{
@@ -14313,7 +14313,7 @@ type InternetSubnetOperationResult struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InternetSubnetOperationResult) setDefaults() interface{} {
+func (o *InternetSubnetOperationResult) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		DefaultRoute   string
@@ -14434,7 +14434,7 @@ type InternetAddSubnetRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InternetAddSubnetRequest) setDefaults() interface{} {
+func (o *InternetAddSubnetRequest) setDefaults() any {
 	return &struct {
 		NetworkMaskLen int
 		NextHop        string
@@ -14474,7 +14474,7 @@ type InternetUpdateSubnetRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InternetUpdateSubnetRequest) setDefaults() interface{} {
+func (o *InternetUpdateSubnetRequest) setDefaults() any {
 	return &struct {
 		NextHop string
 	}{
@@ -14502,7 +14502,7 @@ type RouterActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *RouterActivity) setDefaults() interface{} {
+func (o *RouterActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorRouterValue `mapconv:"[]Router"`
 	}{
@@ -14532,7 +14532,7 @@ type MonitorRouterValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorRouterValue) setDefaults() interface{} {
+func (o *MonitorRouterValue) setDefaults() any {
 	return &struct {
 		Time time.Time `mapconv:",omitempty"`
 		In   float64   `mapconv:",omitempty"`
@@ -14587,7 +14587,7 @@ type InternetPlan struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InternetPlan) setDefaults() interface{} {
+func (o *InternetPlan) setDefaults() any {
 	return &struct {
 		ID            types.ID
 		Name          string
@@ -14674,7 +14674,7 @@ type IPAddress struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *IPAddress) setDefaults() interface{} {
+func (o *IPAddress) setDefaults() any {
 	return &struct {
 		HostName    string
 		IPAddress   string
@@ -14747,7 +14747,7 @@ type IPv6Net struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *IPv6Net) setDefaults() interface{} {
+func (o *IPv6Net) setDefaults() any {
 	return &struct {
 		ID                 types.ID
 		ServiceID          types.ID
@@ -14907,7 +14907,7 @@ type IPv6Addr struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *IPv6Addr) setDefaults() interface{} {
+func (o *IPv6Addr) setDefaults() any {
 	return &struct {
 		IPv6Addr    string
 		HostName    string
@@ -14984,7 +14984,7 @@ type IPv6AddrCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *IPv6AddrCreateRequest) setDefaults() interface{} {
+func (o *IPv6AddrCreateRequest) setDefaults() any {
 	return &struct {
 		IPv6Addr string
 		HostName string
@@ -15024,7 +15024,7 @@ type IPv6AddrUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *IPv6AddrUpdateRequest) setDefaults() interface{} {
+func (o *IPv6AddrUpdateRequest) setDefaults() any {
 	return &struct {
 		HostName string
 	}{
@@ -15057,7 +15057,7 @@ type License struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *License) setDefaults() interface{} {
+func (o *License) setDefaults() any {
 	return &struct {
 		ID              types.ID
 		Name            string
@@ -15166,7 +15166,7 @@ type LicenseCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LicenseCreateRequest) setDefaults() interface{} {
+func (o *LicenseCreateRequest) setDefaults() any {
 	return &struct {
 		Name          string
 		LicenseInfoID types.ID `mapconv:"LicenseInfo.ID"`
@@ -15206,7 +15206,7 @@ type LicenseUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LicenseUpdateRequest) setDefaults() interface{} {
+func (o *LicenseUpdateRequest) setDefaults() any {
 	return &struct {
 		Name string
 	}{
@@ -15238,7 +15238,7 @@ type LicenseInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LicenseInfo) setDefaults() interface{} {
+func (o *LicenseInfo) setDefaults() any {
 	return &struct {
 		ID         types.ID
 		Name       string
@@ -15356,7 +15356,7 @@ type LoadBalancer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancer) setDefaults() interface{} {
+func (o *LoadBalancer) setDefaults() any {
 	return &struct {
 		ID                      types.ID
 		Name                    string
@@ -15693,7 +15693,7 @@ type LoadBalancerVirtualIPAddress struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancerVirtualIPAddress) setDefaults() interface{} {
+func (o *LoadBalancerVirtualIPAddress) setDefaults() any {
 	return &struct {
 		VirtualIPAddress string
 		Port             types.StringNumber
@@ -15787,7 +15787,7 @@ type LoadBalancerServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancerServer) setDefaults() interface{} {
+func (o *LoadBalancerServer) setDefaults() any {
 	return &struct {
 		IPAddress   string
 		Port        types.StringNumber
@@ -15855,7 +15855,7 @@ type LoadBalancerServerHealthCheck struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancerServerHealthCheck) setDefaults() interface{} {
+func (o *LoadBalancerServerHealthCheck) setDefaults() any {
 	return &struct {
 		Protocol       types.ELoadBalancerHealthCheckProtocol
 		Path           string
@@ -15941,7 +15941,7 @@ type LoadBalancerCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancerCreateRequest) setDefaults() interface{} {
+func (o *LoadBalancerCreateRequest) setDefaults() any {
 	return &struct {
 		SwitchID           types.ID `mapconv:"Remark.Switch.ID"`
 		PlanID             types.ID `mapconv:"Remark.Plan.ID/Plan.ID"`
@@ -16116,7 +16116,7 @@ type LoadBalancerUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancerUpdateRequest) setDefaults() interface{} {
+func (o *LoadBalancerUpdateRequest) setDefaults() any {
 	return &struct {
 		Name               string
 		Description        string
@@ -16225,7 +16225,7 @@ type LoadBalancerUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancerUpdateSettingsRequest) setDefaults() interface{} {
+func (o *LoadBalancerUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		VirtualIPAddresses LoadBalancerVirtualIPAddresses `mapconv:"Settings.[]LoadBalancer,recursive"`
 		SettingsHash       string                         `json:",omitempty" mapconv:",omitempty"`
@@ -16268,7 +16268,7 @@ type LoadBalancerStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancerStatus) setDefaults() interface{} {
+func (o *LoadBalancerStatus) setDefaults() any {
 	return &struct {
 		VirtualIPAddress string
 		Port             types.StringNumber
@@ -16336,7 +16336,7 @@ type LoadBalancerServerStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LoadBalancerServerStatus) setDefaults() interface{} {
+func (o *LoadBalancerServerStatus) setDefaults() any {
 	return &struct {
 		ActiveConn types.StringNumber
 		Status     types.EServerInstanceStatus
@@ -16425,7 +16425,7 @@ type LocalRouter struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouter) setDefaults() interface{} {
+func (o *LocalRouter) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -16651,7 +16651,7 @@ type LocalRouterSwitch struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterSwitch) setDefaults() interface{} {
+func (o *LocalRouterSwitch) setDefaults() any {
 	return &struct {
 		Code     string
 		Category string
@@ -16706,7 +16706,7 @@ type LocalRouterInterface struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterInterface) setDefaults() interface{} {
+func (o *LocalRouterInterface) setDefaults() any {
 	return &struct {
 		VirtualIPAddress string
 		IPAddress        []string
@@ -16773,7 +16773,7 @@ type LocalRouterPeer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterPeer) setDefaults() interface{} {
+func (o *LocalRouterPeer) setDefaults() any {
 	return &struct {
 		ID          types.ID
 		SecretKey   string
@@ -16838,7 +16838,7 @@ type LocalRouterStaticRoute struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterStaticRoute) setDefaults() interface{} {
+func (o *LocalRouterStaticRoute) setDefaults() any {
 	return &struct {
 		Prefix  string
 		NextHop string
@@ -16881,7 +16881,7 @@ type LocalRouterCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterCreateRequest) setDefaults() interface{} {
+func (o *LocalRouterCreateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -16975,7 +16975,7 @@ type LocalRouterUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterUpdateRequest) setDefaults() interface{} {
+func (o *LocalRouterUpdateRequest) setDefaults() any {
 	return &struct {
 		Switch       *LocalRouterSwitch        `mapconv:"Settings.LocalRouter.Switch,recursive"`
 		Interface    *LocalRouterInterface     `mapconv:"Settings.LocalRouter.Interface,recursive"`
@@ -17123,7 +17123,7 @@ type LocalRouterUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterUpdateSettingsRequest) setDefaults() interface{} {
+func (o *LocalRouterUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		Switch       *LocalRouterSwitch        `mapconv:"Settings.LocalRouter.Switch,recursive"`
 		Interface    *LocalRouterInterface     `mapconv:"Settings.LocalRouter.Interface,recursive"`
@@ -17199,7 +17199,7 @@ type LocalRouterHealth struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterHealth) setDefaults() interface{} {
+func (o *LocalRouterHealth) setDefaults() any {
 	return &struct {
 		Peers []*LocalRouterHealthPeer `mapconv:"[]Peers,recursive"`
 	}{
@@ -17229,7 +17229,7 @@ type LocalRouterHealthPeer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterHealthPeer) setDefaults() interface{} {
+func (o *LocalRouterHealthPeer) setDefaults() any {
 	return &struct {
 		ID     types.ID
 		Status types.EServerInstanceStatus
@@ -17281,7 +17281,7 @@ type LocalRouterActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LocalRouterActivity) setDefaults() interface{} {
+func (o *LocalRouterActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorLocalRouterValue `mapconv:"[]LocalRouter"`
 	}{
@@ -17311,7 +17311,7 @@ type MonitorLocalRouterValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorLocalRouterValue) setDefaults() interface{} {
+func (o *MonitorLocalRouterValue) setDefaults() any {
 	return &struct {
 		Time               time.Time `mapconv:",omitempty"`
 		ReceiveBytesPerSec float64   `mapconv:",omitempty"`
@@ -17382,7 +17382,7 @@ type MobileGateway struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGateway) setDefaults() interface{} {
+func (o *MobileGateway) setDefaults() any {
 	return &struct {
 		ID                              types.ID
 		Name                            string
@@ -17696,7 +17696,7 @@ type MobileGatewayInterface struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayInterface) setDefaults() interface{} {
+func (o *MobileGatewayInterface) setDefaults() any {
 	return &struct {
 		ID                              types.ID
 		MACAddress                      string
@@ -17962,7 +17962,7 @@ type MobileGatewayInterfaceSetting struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayInterfaceSetting) setDefaults() interface{} {
+func (o *MobileGatewayInterfaceSetting) setDefaults() any {
 	return &struct {
 		IPAddress      []string
 		NetworkMaskLen int
@@ -18015,7 +18015,7 @@ type MobileGatewayStaticRoute struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayStaticRoute) setDefaults() interface{} {
+func (o *MobileGatewayStaticRoute) setDefaults() any {
 	return &struct {
 		Prefix  string
 		NextHop string
@@ -18061,7 +18061,7 @@ type MobileGatewayCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayCreateRequest) setDefaults() interface{} {
+func (o *MobileGatewayCreateRequest) setDefaults() any {
 	return &struct {
 		Name                            string
 		Description                     string
@@ -18195,7 +18195,7 @@ type MobileGatewayUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayUpdateRequest) setDefaults() interface{} {
+func (o *MobileGatewayUpdateRequest) setDefaults() any {
 	return &struct {
 		Name                            string
 		Description                     string
@@ -18343,7 +18343,7 @@ type MobileGatewayUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayUpdateSettingsRequest) setDefaults() interface{} {
+func (o *MobileGatewayUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		InterfaceSettings               []*MobileGatewayInterfaceSetting `mapconv:"Settings.MobileGateway.[]Interfaces,recursive"`
 		StaticRoutes                    []*MobileGatewayStaticRoute      `mapconv:"Settings.MobileGateway.[]StaticRoutes,recursive"`
@@ -18420,7 +18420,7 @@ type MobileGatewayDNSSetting struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayDNSSetting) setDefaults() interface{} {
+func (o *MobileGatewayDNSSetting) setDefaults() any {
 	return &struct {
 		DNS1 string
 		DNS2 string
@@ -18462,7 +18462,7 @@ type MobileGatewaySIMRoute struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewaySIMRoute) setDefaults() interface{} {
+func (o *MobileGatewaySIMRoute) setDefaults() any {
 	return &struct {
 		ResourceID string
 		Prefix     string
@@ -18515,7 +18515,7 @@ type MobileGatewaySIMRouteParam struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewaySIMRouteParam) setDefaults() interface{} {
+func (o *MobileGatewaySIMRouteParam) setDefaults() any {
 	return &struct {
 		ResourceID string
 		Prefix     string
@@ -18569,7 +18569,7 @@ type MobileGatewaySIMInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewaySIMInfo) setDefaults() interface{} {
+func (o *MobileGatewaySIMInfo) setDefaults() any {
 	return &struct {
 		ICCID                      string
 		IMSI                       []string
@@ -18766,7 +18766,7 @@ type SIMTrafficBytes struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIMTrafficBytes) setDefaults() interface{} {
+func (o *SIMTrafficBytes) setDefaults() any {
 	return &struct {
 		UplinkBytes   int64
 		DownlinkBytes int64
@@ -18806,7 +18806,7 @@ type MobileGatewayAddSIMRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayAddSIMRequest) setDefaults() interface{} {
+func (o *MobileGatewayAddSIMRequest) setDefaults() any {
 	return &struct {
 		SIMID string `json:"resource_id" mapconv:"ResourceID"`
 	}{
@@ -18838,7 +18838,7 @@ type MobileGatewaySIMLogs struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewaySIMLogs) setDefaults() interface{} {
+func (o *MobileGatewaySIMLogs) setDefaults() any {
 	return &struct {
 		Date          time.Time
 		SessionStatus string
@@ -18919,7 +18919,7 @@ type MobileGatewayTrafficControl struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayTrafficControl) setDefaults() interface{} {
+func (o *MobileGatewayTrafficControl) setDefaults() any {
 	return &struct {
 		TrafficQuotaInMB       int
 		BandWidthLimitInKbps   int
@@ -19009,7 +19009,7 @@ type MobileGatewayTrafficStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MobileGatewayTrafficStatus) setDefaults() interface{} {
+func (o *MobileGatewayTrafficStatus) setDefaults() any {
 	return &struct {
 		UplinkBytes    types.StringNumber
 		DownlinkBytes  types.StringNumber
@@ -19081,7 +19081,7 @@ type NFS struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *NFS) setDefaults() interface{} {
+func (o *NFS) setDefaults() any {
 	return &struct {
 		ID                      types.ID
 		Name                    string
@@ -19397,7 +19397,7 @@ type NFSCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *NFSCreateRequest) setDefaults() interface{} {
+func (o *NFSCreateRequest) setDefaults() any {
 	return &struct {
 		SwitchID       types.ID `mapconv:"Remark.Switch.ID"`
 		PlanID         types.ID `mapconv:"Remark.Plan.ID/Plan.ID"`
@@ -19546,7 +19546,7 @@ type NFSUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *NFSUpdateRequest) setDefaults() interface{} {
+func (o *NFSUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -19630,7 +19630,7 @@ type FreeDiskSizeActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *FreeDiskSizeActivity) setDefaults() interface{} {
+func (o *FreeDiskSizeActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorFreeDiskSizeValue `mapconv:"[]FreeDiskSize"`
 	}{
@@ -19659,7 +19659,7 @@ type MonitorFreeDiskSizeValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorFreeDiskSizeValue) setDefaults() interface{} {
+func (o *MonitorFreeDiskSizeValue) setDefaults() any {
 	return &struct {
 		Time         time.Time `mapconv:",omitempty"`
 		FreeDiskSize float64   `mapconv:",omitempty"`
@@ -19709,7 +19709,7 @@ type Note struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Note) setDefaults() interface{} {
+func (o *Note) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -19901,7 +19901,7 @@ type NoteCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *NoteCreateRequest) setDefaults() interface{} {
+func (o *NoteCreateRequest) setDefaults() any {
 	return &struct {
 		Name    string
 		Tags    types.Tags
@@ -20001,7 +20001,7 @@ type NoteUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *NoteUpdateRequest) setDefaults() interface{} {
+func (o *NoteUpdateRequest) setDefaults() any {
 	return &struct {
 		Name    string
 		Tags    types.Tags
@@ -20103,7 +20103,7 @@ type PacketFilter struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *PacketFilter) setDefaults() interface{} {
+func (o *PacketFilter) setDefaults() any {
 	return &struct {
 		ID                  types.ID
 		Name                string
@@ -20228,7 +20228,7 @@ type PacketFilterExpression struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *PacketFilterExpression) setDefaults() interface{} {
+func (o *PacketFilterExpression) setDefaults() any {
 	return &struct {
 		Protocol        types.Protocol
 		SourceNetwork   types.PacketFilterNetwork
@@ -20318,7 +20318,7 @@ type PacketFilterCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *PacketFilterCreateRequest) setDefaults() interface{} {
+func (o *PacketFilterCreateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -20372,7 +20372,7 @@ type PacketFilterUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *PacketFilterUpdateRequest) setDefaults() interface{} {
+func (o *PacketFilterUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -20439,7 +20439,7 @@ type PrivateHost struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *PrivateHost) setDefaults() interface{} {
+func (o *PrivateHost) setDefaults() any {
 	return &struct {
 		ID               types.ID
 		Name             string
@@ -20711,7 +20711,7 @@ type PrivateHostCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *PrivateHostCreateRequest) setDefaults() interface{} {
+func (o *PrivateHostCreateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -20810,7 +20810,7 @@ type PrivateHostUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *PrivateHostUpdateRequest) setDefaults() interface{} {
+func (o *PrivateHostUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -20901,7 +20901,7 @@ type PrivateHostPlan struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *PrivateHostPlan) setDefaults() interface{} {
+func (o *PrivateHostPlan) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -21072,7 +21072,7 @@ type ProxyLB struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLB) setDefaults() interface{} {
+func (o *ProxyLB) setDefaults() any {
 	return &struct {
 		ID                   types.ID
 		Name                 string
@@ -21491,7 +21491,7 @@ type ProxyLBHealthCheck struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBHealthCheck) setDefaults() interface{} {
+func (o *ProxyLBHealthCheck) setDefaults() any {
 	return &struct {
 		Protocol  types.EProxyLBHealthCheckProtocol
 		Path      string
@@ -21556,7 +21556,7 @@ type ProxyLBSorryServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBSorryServer) setDefaults() interface{} {
+func (o *ProxyLBSorryServer) setDefaults() any {
 	return &struct {
 		IPAddress string
 		Port      int `mapconv:",omitempty"`
@@ -21601,7 +21601,7 @@ type ProxyLBBindPort struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBBindPort) setDefaults() interface{} {
+func (o *ProxyLBBindPort) setDefaults() any {
 	return &struct {
 		ProxyMode         types.EProxyLBProxyMode
 		Port              int
@@ -21690,7 +21690,7 @@ type ProxyLBResponseHeader struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBResponseHeader) setDefaults() interface{} {
+func (o *ProxyLBResponseHeader) setDefaults() any {
 	return &struct {
 		Header string
 		Value  string
@@ -21734,7 +21734,7 @@ type ProxyLBServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBServer) setDefaults() interface{} {
+func (o *ProxyLBServer) setDefaults() any {
 	return &struct {
 		IPAddress   string
 		Port        int
@@ -21823,7 +21823,7 @@ type ProxyLBRule struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBRule) setDefaults() interface{} {
+func (o *ProxyLBRule) setDefaults() any {
 	return &struct {
 		Host                         string
 		Path                         string
@@ -22009,7 +22009,7 @@ type ProxyLBACMESetting struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBACMESetting) setDefaults() interface{} {
+func (o *ProxyLBACMESetting) setDefaults() any {
 	return &struct {
 		CommonName      string
 		Enabled         bool
@@ -22062,7 +22062,7 @@ type ProxyLBStickySession struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBStickySession) setDefaults() interface{} {
+func (o *ProxyLBStickySession) setDefaults() any {
 	return &struct {
 		Method  string
 		Enabled bool
@@ -22102,7 +22102,7 @@ type ProxyLBGzip struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBGzip) setDefaults() interface{} {
+func (o *ProxyLBGzip) setDefaults() any {
 	return &struct {
 		Enabled bool
 	}{
@@ -22130,7 +22130,7 @@ type ProxyLBBackendHttpKeepAlive struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBBackendHttpKeepAlive) setDefaults() interface{} {
+func (o *ProxyLBBackendHttpKeepAlive) setDefaults() any {
 	return &struct {
 		Mode types.EProxyLBBackendHttpKeepAlive
 	}{
@@ -22158,7 +22158,7 @@ type ProxyLBProxyProtocol struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBProxyProtocol) setDefaults() interface{} {
+func (o *ProxyLBProxyProtocol) setDefaults() any {
 	return &struct {
 		Enabled bool
 	}{
@@ -22187,7 +22187,7 @@ type ProxyLBSyslog struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBSyslog) setDefaults() interface{} {
+func (o *ProxyLBSyslog) setDefaults() any {
 	return &struct {
 		Server string
 		Port   int
@@ -22230,7 +22230,7 @@ type ProxyLBOriginGuard struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBOriginGuard) setDefaults() interface{} {
+func (o *ProxyLBOriginGuard) setDefaults() any {
 	return &struct {
 		Token string
 	}{
@@ -22258,7 +22258,7 @@ type ProxyLBStrictRule struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBStrictRule) setDefaults() interface{} {
+func (o *ProxyLBStrictRule) setDefaults() any {
 	return &struct {
 		Enabled bool
 	}{
@@ -22286,7 +22286,7 @@ type ProxyLBTimeout struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBTimeout) setDefaults() interface{} {
+func (o *ProxyLBTimeout) setDefaults() any {
 	return &struct {
 		InactiveSec int
 	}{
@@ -22338,7 +22338,7 @@ type ProxyLBCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBCreateRequest) setDefaults() interface{} {
+func (o *ProxyLBCreateRequest) setDefaults() any {
 	return &struct {
 		Plan                 types.EProxyLBPlan
 		HealthCheck          *ProxyLBHealthCheck          `mapconv:"Settings.ProxyLB.HealthCheck,recursive"`
@@ -22659,7 +22659,7 @@ type ProxyLBUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBUpdateRequest) setDefaults() interface{} {
+func (o *ProxyLBUpdateRequest) setDefaults() any {
 	return &struct {
 		HealthCheck          *ProxyLBHealthCheck          `mapconv:"Settings.ProxyLB.HealthCheck,recursive"`
 		SorryServer          *ProxyLBSorryServer          `mapconv:"Settings.ProxyLB.SorryServer,recursive"`
@@ -22950,7 +22950,7 @@ type ProxyLBUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBUpdateSettingsRequest) setDefaults() interface{} {
+func (o *ProxyLBUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		HealthCheck          *ProxyLBHealthCheck          `mapconv:"Settings.ProxyLB.HealthCheck,recursive"`
 		SorryServer          *ProxyLBSorryServer          `mapconv:"Settings.ProxyLB.SorryServer,recursive"`
@@ -23158,7 +23158,7 @@ type ProxyLBChangePlanRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBChangePlanRequest) setDefaults() interface{} {
+func (o *ProxyLBChangePlanRequest) setDefaults() any {
 	return &struct {
 		ServiceClass string
 	}{
@@ -23187,7 +23187,7 @@ type ProxyLBCertificates struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBCertificates) setDefaults() interface{} {
+func (o *ProxyLBCertificates) setDefaults() any {
 	return &struct {
 		PrimaryCert     *ProxyLBPrimaryCert
 		AdditionalCerts []*ProxyLBAdditionalCert `mapconv:"[]AdditionalCerts, recursive"`
@@ -23232,7 +23232,7 @@ type ProxyLBPrimaryCert struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBPrimaryCert) setDefaults() interface{} {
+func (o *ProxyLBPrimaryCert) setDefaults() any {
 	return &struct {
 		ServerCertificate       string
 		IntermediateCertificate string
@@ -23325,7 +23325,7 @@ type ProxyLBAdditionalCert struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBAdditionalCert) setDefaults() interface{} {
+func (o *ProxyLBAdditionalCert) setDefaults() any {
 	return &struct {
 		ServerCertificate       string
 		IntermediateCertificate string
@@ -23414,7 +23414,7 @@ type ProxyLBSetCertificatesRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBSetCertificatesRequest) setDefaults() interface{} {
+func (o *ProxyLBSetCertificatesRequest) setDefaults() any {
 	return &struct {
 		PrimaryCerts    *ProxyLBPrimaryCert      `mapconv:"PrimaryCert"`
 		AdditionalCerts []*ProxyLBAdditionalCert `mapconv:"[]AdditionalCerts, recursive"`
@@ -23457,7 +23457,7 @@ type ProxyLBHealth struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ProxyLBHealth) setDefaults() interface{} {
+func (o *ProxyLBHealth) setDefaults() any {
 	return &struct {
 		ActiveConn int
 		CPS        float64
@@ -23521,7 +23521,7 @@ type ConnectionActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ConnectionActivity) setDefaults() interface{} {
+func (o *ConnectionActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorConnectionValue `mapconv:"[]Connection"`
 	}{
@@ -23551,7 +23551,7 @@ type MonitorConnectionValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorConnectionValue) setDefaults() interface{} {
+func (o *MonitorConnectionValue) setDefaults() any {
 	return &struct {
 		Time              time.Time `mapconv:",omitempty"`
 		ActiveConnections float64   `mapconv:",omitempty"`
@@ -23636,7 +23636,7 @@ type Server struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Server) setDefaults() interface{} {
+func (o *Server) setDefaults() any {
 	return &struct {
 		ID                      types.ID
 		Name                    string
@@ -24117,7 +24117,7 @@ type ZoneInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ZoneInfo) setDefaults() interface{} {
+func (o *ZoneInfo) setDefaults() any {
 	return &struct {
 		ID          types.ID
 		Name        string
@@ -24238,7 +24238,7 @@ type VNCProxy struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VNCProxy) setDefaults() interface{} {
+func (o *VNCProxy) setDefaults() any {
 	return &struct {
 		HostName  string `json:",omitempty" mapconv:",omitempty"`
 		IPAddress string `json:",omitempty" mapconv:",omitempty"`
@@ -24279,7 +24279,7 @@ type FTPServerInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *FTPServerInfo) setDefaults() interface{} {
+func (o *FTPServerInfo) setDefaults() any {
 	return &struct {
 		HostName  string
 		IPAddress string
@@ -24328,7 +24328,7 @@ type ServerConnectedDisk struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ServerConnectedDisk) setDefaults() interface{} {
+func (o *ServerConnectedDisk) setDefaults() any {
 	return &struct {
 		ID                  types.ID
 		Name                string
@@ -24509,7 +24509,7 @@ type ServerCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ServerCreateRequest) setDefaults() interface{} {
+func (o *ServerCreateRequest) setDefaults() any {
 	return &struct {
 		CPU               int                   `mapconv:"ServerPlan.CPU"`
 		MemoryMB          int                   `mapconv:"ServerPlan.MemoryMB"`
@@ -24749,7 +24749,7 @@ type ConnectedSwitch struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ConnectedSwitch) setDefaults() interface{} {
+func (o *ConnectedSwitch) setDefaults() any {
 	return &struct {
 		ID    types.ID
 		Scope types.EScope
@@ -24814,7 +24814,7 @@ type ServerUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ServerUpdateRequest) setDefaults() interface{} {
+func (o *ServerUpdateRequest) setDefaults() any {
 	return &struct {
 		Name            string
 		Description     string
@@ -24925,7 +24925,7 @@ type ServerDeleteWithDisksRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ServerDeleteWithDisksRequest) setDefaults() interface{} {
+func (o *ServerDeleteWithDisksRequest) setDefaults() any {
 	return &struct {
 		IDs []types.ID `mapconv:"WithDisk"`
 	}{
@@ -24959,7 +24959,7 @@ type ServerChangePlanRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ServerChangePlanRequest) setDefaults() interface{} {
+func (o *ServerChangePlanRequest) setDefaults() any {
 	return &struct {
 		CPU        int
 		MemoryMB   int
@@ -25072,7 +25072,7 @@ type InsertCDROMRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *InsertCDROMRequest) setDefaults() interface{} {
+func (o *InsertCDROMRequest) setDefaults() any {
 	return &struct {
 		ID types.ID
 	}{
@@ -25120,7 +25120,7 @@ type EjectCDROMRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *EjectCDROMRequest) setDefaults() interface{} {
+func (o *EjectCDROMRequest) setDefaults() any {
 	return &struct {
 		ID types.ID
 	}{
@@ -25168,7 +25168,7 @@ type ServerBootVariables struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ServerBootVariables) setDefaults() interface{} {
+func (o *ServerBootVariables) setDefaults() any {
 	return &struct {
 		UserData string `json:",omitempty" mapconv:"CloudInit.UserData,omitempty"`
 	}{
@@ -25197,7 +25197,7 @@ type SendKeyRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SendKeyRequest) setDefaults() interface{} {
+func (o *SendKeyRequest) setDefaults() any {
 	return &struct {
 		Key  string
 		Keys []string
@@ -25242,7 +25242,7 @@ type VNCProxyInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VNCProxyInfo) setDefaults() interface{} {
+func (o *VNCProxyInfo) setDefaults() any {
 	return &struct {
 		Status       string
 		Host         string
@@ -25340,7 +25340,7 @@ type ServerPlan struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ServerPlan) setDefaults() interface{} {
+func (o *ServerPlan) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		Name           string
@@ -25523,7 +25523,7 @@ type ServiceClass struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ServiceClass) setDefaults() interface{} {
+func (o *ServiceClass) setDefaults() any {
 	return &struct {
 		ID               types.ID
 		ServiceClassName string
@@ -25642,7 +25642,7 @@ type Price struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Price) setDefaults() interface{} {
+func (o *Price) setDefaults() any {
 	return &struct {
 		Base          int
 		Daily         int
@@ -25812,7 +25812,7 @@ type SIM struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIM) setDefaults() interface{} {
+func (o *SIM) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -26014,7 +26014,7 @@ type SIMInfo struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIMInfo) setDefaults() interface{} {
+func (o *SIMInfo) setDefaults() any {
 	return &struct {
 		ICCID                      string
 		IMSI                       []string
@@ -26215,7 +26215,7 @@ type SIMCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIMCreateRequest) setDefaults() interface{} {
+func (o *SIMCreateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -26328,7 +26328,7 @@ type SIMUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIMUpdateRequest) setDefaults() interface{} {
+func (o *SIMUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -26412,7 +26412,7 @@ type SIMAssignIPRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIMAssignIPRequest) setDefaults() interface{} {
+func (o *SIMAssignIPRequest) setDefaults() any {
 	return &struct {
 		IP string
 	}{
@@ -26440,7 +26440,7 @@ type SIMIMEILockRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIMIMEILockRequest) setDefaults() interface{} {
+func (o *SIMIMEILockRequest) setDefaults() any {
 	return &struct {
 		IMEI string
 	}{
@@ -26472,7 +26472,7 @@ type SIMLog struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIMLog) setDefaults() interface{} {
+func (o *SIMLog) setDefaults() any {
 	return &struct {
 		Date          time.Time
 		SessionStatus string
@@ -26550,7 +26550,7 @@ type SIMNetworkOperatorConfig struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SIMNetworkOperatorConfig) setDefaults() interface{} {
+func (o *SIMNetworkOperatorConfig) setDefaults() any {
 	return &struct {
 		Allow       bool
 		CountryCode string
@@ -26602,7 +26602,7 @@ type LinkActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *LinkActivity) setDefaults() interface{} {
+func (o *LinkActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorLinkValue `mapconv:"[]Link"`
 	}{
@@ -26632,7 +26632,7 @@ type MonitorLinkValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorLinkValue) setDefaults() interface{} {
+func (o *MonitorLinkValue) setDefaults() any {
 	return &struct {
 		Time        time.Time `mapconv:",omitempty"`
 		UplinkBPS   float64   `mapconv:",omitempty"`
@@ -26706,7 +26706,7 @@ type SimpleMonitor struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleMonitor) setDefaults() interface{} {
+func (o *SimpleMonitor) setDefaults() any {
 	return &struct {
 		ID                 types.ID
 		Name               string
@@ -27067,7 +27067,7 @@ type SimpleMonitorHealthCheck struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleMonitorHealthCheck) setDefaults() interface{} {
+func (o *SimpleMonitorHealthCheck) setDefaults() any {
 	return &struct {
 		Protocol          types.ESimpleMonitorProtocol
 		Port              types.StringNumber
@@ -27314,7 +27314,7 @@ type SimpleMonitorCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleMonitorCreateRequest) setDefaults() interface{} {
+func (o *SimpleMonitorCreateRequest) setDefaults() any {
 	return &struct {
 		Target             string                    `mapconv:"Name/Status.Target"`
 		MaxCheckAttempts   int                       `mapconv:"Settings.SimpleMonitor.MaxCheckAttempts"`
@@ -27571,7 +27571,7 @@ type SimpleMonitorUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleMonitorUpdateRequest) setDefaults() interface{} {
+func (o *SimpleMonitorUpdateRequest) setDefaults() any {
 	return &struct {
 		Description        string
 		Tags               types.Tags
@@ -27823,7 +27823,7 @@ type SimpleMonitorUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleMonitorUpdateSettingsRequest) setDefaults() interface{} {
+func (o *SimpleMonitorUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		MaxCheckAttempts   int                       `mapconv:"Settings.SimpleMonitor.MaxCheckAttempts"`
 		RetryInterval      int                       `mapconv:"Settings.SimpleMonitor.RetryInterval"`
@@ -28007,7 +28007,7 @@ type ResponseTimeSecActivity struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ResponseTimeSecActivity) setDefaults() interface{} {
+func (o *ResponseTimeSecActivity) setDefaults() any {
 	return &struct {
 		Values []*MonitorResponseTimeSecValue `mapconv:"[]ResponseTimeSec"`
 	}{
@@ -28036,7 +28036,7 @@ type MonitorResponseTimeSecValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *MonitorResponseTimeSecValue) setDefaults() interface{} {
+func (o *MonitorResponseTimeSecValue) setDefaults() any {
 	return &struct {
 		Time            time.Time `mapconv:",omitempty"`
 		ResponseTimeSec float64   `mapconv:",omitempty"`
@@ -28079,7 +28079,7 @@ type SimpleMonitorHealthStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleMonitorHealthStatus) setDefaults() interface{} {
+func (o *SimpleMonitorHealthStatus) setDefaults() any {
 	return &struct {
 		LastCheckedAt       time.Time
 		LastHealthChangedAt time.Time
@@ -28154,7 +28154,7 @@ type SimpleNotificationDestination struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationDestination) setDefaults() interface{} {
+func (o *SimpleNotificationDestination) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -28360,7 +28360,7 @@ type SimpleNotificationDestinationCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationDestinationCreateRequest) setDefaults() interface{} {
+func (o *SimpleNotificationDestinationCreateRequest) setDefaults() any {
 	return &struct {
 		Name         string
 		Description  string
@@ -28489,7 +28489,7 @@ type SimpleNotificationDestinationUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationDestinationUpdateRequest) setDefaults() interface{} {
+func (o *SimpleNotificationDestinationUpdateRequest) setDefaults() any {
 	return &struct {
 		Name         string
 		Description  string
@@ -28598,7 +28598,7 @@ type SimpleNotificationDestinationUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationDestinationUpdateSettingsRequest) setDefaults() interface{} {
+func (o *SimpleNotificationDestinationUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		Disabled     bool   `mapconv:"Settings.Disabled"`
 		SettingsHash string `json:",omitempty" mapconv:",omitempty"`
@@ -28639,7 +28639,7 @@ type SimpleNotificationDestinationStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationDestinationStatus) setDefaults() interface{} {
+func (o *SimpleNotificationDestinationStatus) setDefaults() any {
 	return &struct {
 		Disabled   bool
 		ModifiedAt time.Time
@@ -28690,7 +28690,7 @@ type SimpleNotificationGroup struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationGroup) setDefaults() interface{} {
+func (o *SimpleNotificationGroup) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string
@@ -28896,7 +28896,7 @@ type SimpleNotificationGroupCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationGroupCreateRequest) setDefaults() interface{} {
+func (o *SimpleNotificationGroupCreateRequest) setDefaults() any {
 	return &struct {
 		Name         string
 		Description  string
@@ -29027,7 +29027,7 @@ type SimpleNotificationGroupUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationGroupUpdateRequest) setDefaults() interface{} {
+func (o *SimpleNotificationGroupUpdateRequest) setDefaults() any {
 	return &struct {
 		Name         string
 		Description  string
@@ -29160,7 +29160,7 @@ type SimpleNotificationGroupUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationGroupUpdateSettingsRequest) setDefaults() interface{} {
+func (o *SimpleNotificationGroupUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		Disabled     bool   `mapconv:"Settings.Disabled"`
 		SettingsHash string `json:",omitempty" mapconv:",omitempty"`
@@ -29200,7 +29200,7 @@ type SimpleNotificationHistories struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationHistories) setDefaults() interface{} {
+func (o *SimpleNotificationHistories) setDefaults() any {
 	return &struct {
 		NotificationHistories []*SimpleNotificationHistory
 	}{
@@ -29232,7 +29232,7 @@ type SimpleNotificationHistory struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationHistory) setDefaults() interface{} {
+func (o *SimpleNotificationHistory) setDefaults() any {
 	return &struct {
 		RequestID  string
 		SourceID   string
@@ -29313,7 +29313,7 @@ type SimpleNotificationHistoryMessage struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationHistoryMessage) setDefaults() interface{} {
+func (o *SimpleNotificationHistoryMessage) setDefaults() any {
 	return &struct {
 		Body      string
 		Color     string
@@ -29407,7 +29407,7 @@ type SimpleNotificationHistoryStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SimpleNotificationHistoryStatus) setDefaults() interface{} {
+func (o *SimpleNotificationHistoryStatus) setDefaults() any {
 	return &struct {
 		ID                    string
 		Status                int
@@ -29512,7 +29512,7 @@ type SSHKey struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SSHKey) setDefaults() interface{} {
+func (o *SSHKey) setDefaults() any {
 	return &struct {
 		ID          types.ID
 		Name        string
@@ -29622,7 +29622,7 @@ type SSHKeyCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SSHKeyCreateRequest) setDefaults() interface{} {
+func (o *SSHKeyCreateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -29675,7 +29675,7 @@ type SSHKeyUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SSHKeyUpdateRequest) setDefaults() interface{} {
+func (o *SSHKeyUpdateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -29723,7 +29723,7 @@ type Subnet struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Subnet) setDefaults() interface{} {
+func (o *Subnet) setDefaults() any {
 	return &struct {
 		ID             types.ID
 		SwitchID       types.ID `mapconv:"Switch.ID,omitempty"`
@@ -29868,7 +29868,7 @@ type SubnetIPAddress struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SubnetIPAddress) setDefaults() interface{} {
+func (o *SubnetIPAddress) setDefaults() any {
 	return &struct {
 		HostName  string
 		IPAddress string
@@ -29921,7 +29921,7 @@ type Switch struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Switch) setDefaults() interface{} {
+func (o *Switch) setDefaults() any {
 	return &struct {
 		ID                 types.ID
 		Name               string
@@ -30153,7 +30153,7 @@ type SwitchSubnet struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SwitchSubnet) setDefaults() interface{} {
+func (o *SwitchSubnet) setDefaults() any {
 	return &struct {
 		ID                   types.ID
 		DefaultRoute         string
@@ -30307,7 +30307,7 @@ type SwitchCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SwitchCreateRequest) setDefaults() interface{} {
+func (o *SwitchCreateRequest) setDefaults() any {
 	return &struct {
 		Name           string
 		NetworkMaskLen int    `mapconv:"UserSubnet.NetworkMaskLen"`
@@ -30420,7 +30420,7 @@ type SwitchUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *SwitchUpdateRequest) setDefaults() interface{} {
+func (o *SwitchUpdateRequest) setDefaults() any {
 	return &struct {
 		Name           string
 		NetworkMaskLen int    `mapconv:"UserSubnet.NetworkMaskLen"`
@@ -30545,7 +30545,7 @@ type VPCRouter struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouter) setDefaults() interface{} {
+func (o *VPCRouter) setDefaults() any {
 	return &struct {
 		ID                      types.ID
 		Name                    string
@@ -30840,7 +30840,7 @@ type VPCRouterSetting struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterSetting) setDefaults() interface{} {
+func (o *VPCRouterSetting) setDefaults() any {
 	return &struct {
 		VRID                      int                            `json:",omitempty" mapconv:"Router.VRID"`
 		InternetConnectionEnabled types.StringFlag               `mapconv:"Router.InternetConnection.Enabled"`
@@ -31112,7 +31112,7 @@ type VPCRouterInterfaceSetting struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterInterfaceSetting) setDefaults() interface{} {
+func (o *VPCRouterInterfaceSetting) setDefaults() any {
 	return &struct {
 		IPAddress        []string
 		VirtualIPAddress string
@@ -31190,7 +31190,7 @@ type VPCRouterStaticNAT struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterStaticNAT) setDefaults() interface{} {
+func (o *VPCRouterStaticNAT) setDefaults() any {
 	return &struct {
 		GlobalAddress  string `mapconv:"GlobalAddress"`
 		PrivateAddress string `mapconv:"PrivateAddress"`
@@ -31246,7 +31246,7 @@ type VPCRouterPortForwarding struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterPortForwarding) setDefaults() interface{} {
+func (o *VPCRouterPortForwarding) setDefaults() any {
 	return &struct {
 		Protocol       types.EVPCRouterPortForwardingProtocol
 		GlobalPort     types.StringNumber
@@ -31324,7 +31324,7 @@ type VPCRouterFirewall struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterFirewall) setDefaults() interface{} {
+func (o *VPCRouterFirewall) setDefaults() any {
 	return &struct {
 		Send    []*VPCRouterFirewallRule
 		Receive []*VPCRouterFirewallRule
@@ -31383,7 +31383,7 @@ type VPCRouterFirewallRule struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterFirewallRule) setDefaults() interface{} {
+func (o *VPCRouterFirewallRule) setDefaults() any {
 	return &struct {
 		Protocol           types.Protocol
 		SourceNetwork      types.VPCFirewallNetwork
@@ -31498,7 +31498,7 @@ type VPCRouterDHCPServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterDHCPServer) setDefaults() interface{} {
+func (o *VPCRouterDHCPServer) setDefaults() any {
 	return &struct {
 		Interface  string
 		RangeStart string
@@ -31563,7 +31563,7 @@ type VPCRouterDHCPStaticMapping struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterDHCPStaticMapping) setDefaults() interface{} {
+func (o *VPCRouterDHCPStaticMapping) setDefaults() any {
 	return &struct {
 		MACAddress string
 		IPAddress  string
@@ -31604,7 +31604,7 @@ type VPCRouterDNSForwarding struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterDNSForwarding) setDefaults() interface{} {
+func (o *VPCRouterDNSForwarding) setDefaults() any {
 	return &struct {
 		Interface  string
 		DNSServers []string
@@ -31645,7 +31645,7 @@ type VPCRouterPPTPServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterPPTPServer) setDefaults() interface{} {
+func (o *VPCRouterPPTPServer) setDefaults() any {
 	return &struct {
 		RangeStart string
 		RangeStop  string
@@ -31687,7 +31687,7 @@ type VPCRouterL2TPIPsecServer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterL2TPIPsecServer) setDefaults() interface{} {
+func (o *VPCRouterL2TPIPsecServer) setDefaults() any {
 	return &struct {
 		RangeStart      string
 		RangeStop       string
@@ -31740,7 +31740,7 @@ type VPCRouterWireGuard struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterWireGuard) setDefaults() interface{} {
+func (o *VPCRouterWireGuard) setDefaults() any {
 	return &struct {
 		IPAddress string
 		Peers     []*VPCRouterWireGuardPeer `mapconv:"[]Peers,omitempty,recursive"`
@@ -31782,7 +31782,7 @@ type VPCRouterWireGuardPeer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterWireGuardPeer) setDefaults() interface{} {
+func (o *VPCRouterWireGuardPeer) setDefaults() any {
 	return &struct {
 		Name      string
 		IPAddress string
@@ -31835,7 +31835,7 @@ type VPCRouterRemoteAccessUser struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterRemoteAccessUser) setDefaults() interface{} {
+func (o *VPCRouterRemoteAccessUser) setDefaults() any {
 	return &struct {
 		UserName string
 		Password string
@@ -31880,7 +31880,7 @@ type VPCRouterSiteToSiteIPsecVPN struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterSiteToSiteIPsecVPN) setDefaults() interface{} {
+func (o *VPCRouterSiteToSiteIPsecVPN) setDefaults() any {
 	return &struct {
 		Config         []*VPCRouterSiteToSiteIPsecVPNConfig `mapconv:"[]Config,omitempty,recursive"`
 		IKE            *VPCRouterSiteToSiteIPsecVPNIKE      `mapconv:",omitempty,recursive"`
@@ -31972,7 +31972,7 @@ type VPCRouterSiteToSiteIPsecVPNConfig struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterSiteToSiteIPsecVPNConfig) setDefaults() interface{} {
+func (o *VPCRouterSiteToSiteIPsecVPNConfig) setDefaults() any {
 	return &struct {
 		Peer            string
 		PreSharedSecret string
@@ -32049,7 +32049,7 @@ type VPCRouterSiteToSiteIPsecVPNIKE struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterSiteToSiteIPsecVPNIKE) setDefaults() interface{} {
+func (o *VPCRouterSiteToSiteIPsecVPNIKE) setDefaults() any {
 	return &struct {
 		Lifetime int
 		DPD      *VPCRouterSiteToSiteIPsecVPNIKEDPD `mapconv:",omitempty,recursive"`
@@ -32090,7 +32090,7 @@ type VPCRouterSiteToSiteIPsecVPNIKEDPD struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterSiteToSiteIPsecVPNIKEDPD) setDefaults() interface{} {
+func (o *VPCRouterSiteToSiteIPsecVPNIKEDPD) setDefaults() any {
 	return &struct {
 		Interval int
 		Timeout  int
@@ -32130,7 +32130,7 @@ type VPCRouterSiteToSiteIPsecVPNESP struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterSiteToSiteIPsecVPNESP) setDefaults() interface{} {
+func (o *VPCRouterSiteToSiteIPsecVPNESP) setDefaults() any {
 	return &struct {
 		Lifetime int
 	}{
@@ -32159,7 +32159,7 @@ type VPCRouterStaticRoute struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterStaticRoute) setDefaults() interface{} {
+func (o *VPCRouterStaticRoute) setDefaults() any {
 	return &struct {
 		Prefix  string
 		NextHop string
@@ -32200,7 +32200,7 @@ type VPCRouterScheduledMaintenance struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterScheduledMaintenance) setDefaults() interface{} {
+func (o *VPCRouterScheduledMaintenance) setDefaults() any {
 	return &struct {
 		DayOfWeek int
 		Hour      int
@@ -32258,7 +32258,7 @@ type VPCRouterInterface struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterInterface) setDefaults() interface{} {
+func (o *VPCRouterInterface) setDefaults() any {
 	return &struct {
 		ID                              types.ID
 		MACAddress                      string
@@ -32530,7 +32530,7 @@ type VPCRouterCreateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterCreateRequest) setDefaults() interface{} {
+func (o *VPCRouterCreateRequest) setDefaults() any {
 	return &struct {
 		Name        string
 		Description string
@@ -32680,7 +32680,7 @@ type ApplianceConnectedSwitch struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *ApplianceConnectedSwitch) setDefaults() interface{} {
+func (o *ApplianceConnectedSwitch) setDefaults() any {
 	return &struct {
 		ID    types.ID
 		Scope types.EScope
@@ -32745,7 +32745,7 @@ type VPCRouterUpdateRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterUpdateRequest) setDefaults() interface{} {
+func (o *VPCRouterUpdateRequest) setDefaults() any {
 	return &struct {
 		Name         string
 		Description  string
@@ -32854,7 +32854,7 @@ type VPCRouterUpdateSettingsRequest struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterUpdateSettingsRequest) setDefaults() interface{} {
+func (o *VPCRouterUpdateSettingsRequest) setDefaults() any {
 	return &struct {
 		Settings     *VPCRouterSetting `mapconv:",omitempty,recursive"`
 		SettingsHash string            `json:",omitempty" mapconv:",omitempty"`
@@ -32904,7 +32904,7 @@ type VPCRouterStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterStatus) setDefaults() interface{} {
+func (o *VPCRouterStatus) setDefaults() any {
 	return &struct {
 		FirewallReceiveLogs     []string
 		FirewallSendLogs        []string
@@ -33052,7 +33052,7 @@ type WireGuardStatus struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *WireGuardStatus) setDefaults() interface{} {
+func (o *WireGuardStatus) setDefaults() any {
 	return &struct {
 		PublicKey string
 	}{
@@ -33081,7 +33081,7 @@ type VPCRouterDHCPServerLease struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterDHCPServerLease) setDefaults() interface{} {
+func (o *VPCRouterDHCPServerLease) setDefaults() any {
 	return &struct {
 		IPAddress  string
 		MACAddress string
@@ -33123,7 +33123,7 @@ type VPCRouterL2TPIPsecServerSession struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterL2TPIPsecServerSession) setDefaults() interface{} {
+func (o *VPCRouterL2TPIPsecServerSession) setDefaults() any {
 	return &struct {
 		User      string
 		IPAddress string
@@ -33177,7 +33177,7 @@ type VPCRouterPPTPServerSession struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterPPTPServerSession) setDefaults() interface{} {
+func (o *VPCRouterPPTPServerSession) setDefaults() any {
 	return &struct {
 		User      string
 		IPAddress string
@@ -33230,7 +33230,7 @@ type VPCRouterSiteToSiteIPsecVPNPeer struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterSiteToSiteIPsecVPNPeer) setDefaults() interface{} {
+func (o *VPCRouterSiteToSiteIPsecVPNPeer) setDefaults() any {
 	return &struct {
 		Status string
 		Peer   string
@@ -33273,7 +33273,7 @@ type VPCRouterSessionAnalysis struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterSessionAnalysis) setDefaults() interface{} {
+func (o *VPCRouterSessionAnalysis) setDefaults() any {
 	return &struct {
 		SourceAndDestination []*VPCRouterStatisticsValue
 		DestinationAddress   []*VPCRouterStatisticsValue
@@ -33338,7 +33338,7 @@ type VPCRouterStatisticsValue struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterStatisticsValue) setDefaults() interface{} {
+func (o *VPCRouterStatisticsValue) setDefaults() any {
 	return &struct {
 		Name  string
 		Count int
@@ -33378,7 +33378,7 @@ type VPCRouterLog struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterLog) setDefaults() interface{} {
+func (o *VPCRouterLog) setDefaults() any {
 	return &struct {
 		Log string
 	}{
@@ -33406,7 +33406,7 @@ type VPCRouterPingResults struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *VPCRouterPingResults) setDefaults() interface{} {
+func (o *VPCRouterPingResults) setDefaults() any {
 	return &struct {
 		Result []string
 	}{
@@ -33441,7 +33441,7 @@ type Zone struct {
 }
 
 // setDefaults implements iaas.argumentDefaulter
-func (o *Zone) setDefaults() interface{} {
+func (o *Zone) setDefaults() any {
 	return &struct {
 		ID           types.ID
 		Name         string

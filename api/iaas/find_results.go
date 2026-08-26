@@ -16,5 +16,5 @@ package iaas
 
 // FindResultsValuer 検索結果を保持するstructが実装するインターフェイス
 type FindResultsValuer interface {
-	Values() []interface{}
+	Values() []any
 }

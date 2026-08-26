@@ -27,7 +27,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func newTestCloudHSMClient(resp interface{}, status ...int) *v1.Client {
+func newTestCloudHSMClient(resp any, status ...int) *v1.Client {
 	return newTestClient(resp, status...)
 }
 
@@ -82,7 +82,7 @@ func TestCloudHSMOp_Create(t *testing.T) {
 
 	res, err := api.Create(ctx, CloudHSMCreateParams{
 		Name:        "Test HSM",
-		Description: ref("This is a test HSM"),
+		Description: new("This is a test HSM"),
 		Tags: []string{
 			"tag1",
 			"tag2",
@@ -113,7 +113,7 @@ func TestCloudHSMOp_Update(t *testing.T) {
 	ctx := context.Background()
 
 	res, err := api.Update(ctx, "12345", CloudHSMUpdateParams{
-		Description: ref("Updated Description"),
+		Description: new("Updated Description"),
 		Name:        "Updated Name",
 		Tags: []string{
 			"tag1",
@@ -170,7 +170,7 @@ func TestCloudHSMIntegrated(t *testing.T) {
 	// Create
 	created, err := api.Create(ctx, CloudHSMCreateParams{
 		Name:        testutil.RandomName("test-cloudhsm-", 16, testutil.CharSetAlphaNum),
-		Description: ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+		Description: new(testutil.Random(128, testutil.CharSetAlphaNum)),
 		// This IP address is arbitrary, but recommended to be in the private range.
 		Ipv4NetworkAddress: fmt.Sprintf("172.%d.%d.0", rand.Uint32N(31), rand.Uint32N(255)),
 		Ipv4PrefixLength:   28,
@@ -200,7 +200,7 @@ func TestCloudHSMIntegrated(t *testing.T) {
 	// Update
 	newDesc := "updated integration test CloudHSM"
 	updateReq := CloudHSMUpdateParams{
-		Description:        ref(newDesc),
+		Description:        new(newDesc),
 		Name:               read.GetName(),
 		Ipv4NetworkAddress: read.Ipv4NetworkAddress,
 		Ipv4PrefixLength:   read.Ipv4PrefixLength,

@@ -78,10 +78,7 @@ func (engine *Engine) ListApplications(param v1.ListApplicationsParams) (*v1.Han
 		return nil, nil
 	}
 
-	end := start + pageSize
-	if end > appsLen {
-		end = appsLen
-	}
+	end := min(start+pageSize, appsLen)
 
 	var data []v1.HandlerListApplicationsDataItem
 	for _, app := range apps[start:end] {
@@ -296,7 +293,7 @@ func toHandlerPatchApplication(app *v1.HandlerReadApplication, updatedAt time.Ti
 	}
 
 	// HandlerPatchApplicationはupdated_atをrequiredフィールドとして持つため、payloadからcreated_atを削除し、updated_atを追加する
-	tempJson := make(map[string]interface{})
+	tempJson := make(map[string]any)
 	if err := json.Unmarshal(payload, &tempJson); err != nil {
 		return nil
 	}

@@ -343,7 +343,7 @@ func (c *Client) ProfileName() (dir, name *string) {
 	}
 
 	if err == nil {
-		dir = Ptr(op.Dir())
+		dir = new(op.Dir())
 	}
 
 	return

@@ -199,7 +199,7 @@ type DatabaseAPI interface {
 	MonitorDatabase(ctx context.Context, zone string, id types.ID, condition *MonitorCondition) (*DatabaseActivity, error)
 	Status(ctx context.Context, zone string, id types.ID) (*DatabaseStatus, error)
 	GetParameter(ctx context.Context, zone string, id types.ID) (*DatabaseParameter, error)
-	SetParameter(ctx context.Context, zone string, id types.ID, param map[string]interface{}) error
+	SetParameter(ctx context.Context, zone string, id types.ID, param map[string]any) error
 }
 
 /*************************************************

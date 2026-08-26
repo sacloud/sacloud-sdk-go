@@ -15,19 +15,31 @@
 package pointer
 
 // NewStringSlice returns a pointer to the given tags value
-func NewStringSlice(v []string) *[]string { return &v }
+//
+//go:fix inline
+func NewStringSlice(v []string) *[]string { return new(v) }
 
 // NewIntSlice returns a pointer to the given tags value
-func NewIntSlice(v []int) *[]int { return &v }
+//
+//go:fix inline
+func NewIntSlice(v []int) *[]int { return new(v) }
 
 // NewInt64Slice returns a pointer to the given tags value
-func NewInt64Slice(v []int64) *[]int64 { return &v }
+//
+//go:fix inline
+func NewInt64Slice(v []int64) *[]int64 { return new(v) }
 
 // NewUintSlice returns a pointer to the given tags value
-func NewUintSlice(v []uint) *[]uint { return &v }
+//
+//go:fix inline
+func NewUintSlice(v []uint) *[]uint { return new(v) }
 
 // NewUint64Slice returns a pointer to the given tags value
-func NewUint64Slice(v []uint64) *[]uint64 { return &v }
+//
+//go:fix inline
+func NewUint64Slice(v []uint64) *[]uint64 { return new(v) }
 
 // NewByteSlice returns a pointer to the given tags value
-func NewByteSlice(v []byte) *[]byte { return &v }
+//
+//go:fix inline
+func NewByteSlice(v []byte) *[]byte { return new(v) }

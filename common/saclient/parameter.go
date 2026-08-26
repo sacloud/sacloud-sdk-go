@@ -122,8 +122,8 @@ func (p *parameter) setEnviron(env []string) error {
 		// SAKURA_ENDPOINTS_* variables
 		endpoints := make(map[string]string)
 		for k, v := range e {
-			if strings.HasPrefix(k, "SAKURA_ENDPOINTS_") {
-				serviceKey := strings.TrimPrefix(k, "SAKURA_ENDPOINTS_")
+			if after, ok := strings.CutPrefix(k, "SAKURA_ENDPOINTS_"); ok {
+				serviceKey := after
 				endpoints[serviceKey] = v
 			}
 		}

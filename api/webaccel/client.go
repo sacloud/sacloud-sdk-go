@@ -143,7 +143,7 @@ func (c *Client) init() error {
 }
 
 // Do APIコール実施
-func (c *Client) Do(ctx context.Context, method, uri string, body interface{}) ([]byte, error) {
+func (c *Client) Do(ctx context.Context, method, uri string, body any) ([]byte, error) {
 	if err := c.init(); err != nil {
 		return nil, err
 	}
@@ -177,7 +177,7 @@ func (c *Client) Do(ctx context.Context, method, uri string, body interface{}) (
 	return data, nil
 }
 
-func (c *Client) newRequest(ctx context.Context, method, uri string, body interface{}) (*http.Request, error) {
+func (c *Client) newRequest(ctx context.Context, method, uri string, body any) (*http.Request, error) {
 	// setup url and body
 	var url = uri
 	var bodyReader io.ReadSeeker
