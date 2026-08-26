@@ -23,6 +23,7 @@ import (
 	"fmt"
 	"io"
 	"maps"
+	v2 "math/rand/v2"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -509,6 +510,37 @@ func (s *ClientTestSuite) TestDynamic() {
 	cfg, err := api.EndpointConfig()
 	s.NoError(err)
 	s.Equal("is1c", cfg.Zone)
+}
+
+func (s *ClientTestSuite) TestWithAPIRequestRateLimit() {
+	s.Run("set", func() {
+		limit := v2.IntN(100) + 32                                            // #nosec G404 -- This is only a test
+		api, err := s.subject.DupWith(WithAPIRequestRateLimit(uint16(limit))) // #nosec G115 -- Overflow never happens
+		s.NoError(err)
+		err = api.Populate()
+		s.NoError(err)
+		subject := api.(*Client)
+		j := subject.JSON()
+		s.Equal(int64(limit), j["APIRequestRateLimit"])
+	})
+
+	s.Run("without", func() {
+		api, err := s.subject.DupWith(WithoutAPIRequestRateLimit())
+		s.NoError(err)
+		err = api.Populate()
+		s.NoError(err)
+		subject := api.(*Client)
+		j := subject.JSON()
+		s.NotContains(j, "APIRequestRateLimit")
+	})
+
+	s.Run("zero is rejected", func() {
+		api, err := s.subject.DupWith(WithAPIRequestRateLimit(0))
+		s.NoError(err)
+		err = api.Populate()
+		s.Error(err)
+		s.Contains(err.Error(), "can't be zero")
+	})
 }
 
 // #nosec G101 -- This is only a test
