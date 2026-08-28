@@ -52,14 +52,6 @@ func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.
 	); err != nil {
 		return nil, err
 	} else {
-		// Use lower retry settings until stable API release
-		if err := augmented.SetEnviron([]string{
-			"SAKURA_RETRY_MAX=3",
-			"SAKURA_RETRY_WAIT_MAX=7",
-			"SAKURA_RETRY_WAIT_MIN=3",
-		}); err != nil {
-			return nil, NewError("failed to set retry settings", err)
-		}
 		if err := augmented.Populate(); err != nil {
 			return nil, NewError("failed to populate client", err)
 		}

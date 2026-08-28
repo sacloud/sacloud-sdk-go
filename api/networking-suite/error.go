@@ -4,8 +4,10 @@
 package networkingsuite
 
 import (
+	"errors"
 	"strings"
 
+	v1 "github.com/sacloud/sacloud-sdk-go/api/networking-suite/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
@@ -36,4 +38,13 @@ func (e *Error) Error() string {
 func NewError(msg string, err error) *Error { return &Error{msg: msg, err: err} }
 func NewAPIError(method string, code int, err error) *Error {
 	return NewError(method, saclient.NewError(code, "", err))
+}
+
+func newGeneratedAPIError(methodName string, errRes *v1.ApiErrorStatusCode) error {
+	msg := errRes.Response.ErrorMsg.Or("unknown error")
+	if code := errRes.Response.ErrorCode.Or(""); code != "" {
+		msg = code + ": " + msg
+	}
+
+	return NewAPIError(methodName, errRes.StatusCode, errors.New(msg))
 }
