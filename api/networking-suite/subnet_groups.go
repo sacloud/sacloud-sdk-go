@@ -114,12 +114,3 @@ func (op *subnetGroupsOp) Delete(ctx context.Context, s srn.SRN) error {
 		return NewAPIError(methodName, 0, errors.New("unknown error"))
 	}
 }
-
-func newGeneratedAPIError(methodName string, errRes *v1.ApiErrorStatusCode) error {
-	msg := errRes.Response.ErrorMsg.Or("unknown error")
-	if code := errRes.Response.ErrorCode.Or(""); code != "" {
-		msg = code + ": " + msg
-	}
-
-	return NewAPIError(methodName, errRes.StatusCode, errors.New(msg))
-}
