@@ -49,7 +49,7 @@ func Parse(str string) (SRN, error) {
 func MustParse(str string) SRN {
 	srn, err := Parse(str)
 	if err != nil {
-		panic(fmt.Sprintf("failed to parse SRN: %v", err))
+		panic(fmt.Sprintf("failed to parse SRN %q: %v", str, err))
 	}
 	return srn
 }

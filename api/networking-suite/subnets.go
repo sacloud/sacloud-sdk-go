@@ -21,7 +21,7 @@ type SubnetsAPI interface {
 
 type InterfaceConnectionAPI interface {
 	Create(ctx context.Context, params CreateInterfaceConnectionParams) (*v1.ReadInterfaceConnection, error)
-	Delete(ctx context.Context, srn srn.SRN) error
+	Delete(ctx context.Context, s srn.SRN) error
 }
 
 var _ SubnetsAPI = (*subnetsOp)(nil)
@@ -135,15 +135,15 @@ func (op *subnetsOp) Delete(ctx context.Context, s srn.SRN) error {
 type CreateInterfaceConnectionParams struct {
 	InterfaceSRN srn.SRN
 	SubnetSRN    srn.SRN
-	IpAddress    *string
+	IPAddress    *string
 }
 
 func (op *interfaceConnectionOp) Create(ctx context.Context, params CreateInterfaceConnectionParams) (*v1.ReadInterfaceConnection, error) {
 	const methodName = "InterfaceConnection.Create"
 
 	var ia v1.OptString
-	if params.IpAddress != nil {
-		ia.SetTo(*params.IpAddress)
+	if params.IPAddress != nil {
+		ia.SetTo(*params.IPAddress)
 	}
 	res, err := op.client.CreateInterfaceConnection(ctx, &v1.CreateInterfaceConnection{
 		EphemeralIPv4Address: ia,

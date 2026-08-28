@@ -137,7 +137,7 @@ func TestInterfaceConnectionAPI(t *testing.T) {
 	ic, err := icOp.Create(ctx, networkingsuite.CreateInterfaceConnectionParams{
 		InterfaceSRN: srn.MustParse(os.Getenv("SAKURA_NETWORKING_SUITE_INTERFACE_SRN")),
 		SubnetSRN:    srn.MustParse(subnet.SRN),
-		IpAddress:    &ip,
+		IPAddress:    &ip,
 	})
 	require.NoError(t, err)
 	defer func() {
@@ -152,6 +152,7 @@ func TestInterfaceConnectionAPI(t *testing.T) {
 		SubnetSRN: srn.MustParse(subnet.SRN),
 	})
 	require.NoError(t, err)
+	require.Len(t, listRes, 1)
 
 	addr := listRes[0]
 	assert.True(t, srn.IsSRN(addr.SRN))
