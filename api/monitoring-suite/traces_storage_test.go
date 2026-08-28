@@ -97,7 +97,7 @@ func TestTracesStorageOp_Create(t *testing.T) {
 
 	createReq := TracesStorageCreateParams{
 		Name:        "created-tank",
-		Description: ref("Created traces tank"),
+		Description: new("Created traces tank"),
 	}
 	actual, err := api.Create(ctx, createReq)
 	require.NoError(t, err)
@@ -291,7 +291,7 @@ func TestTracesStorageOp_CreateKey(t *testing.T) {
 	api := NewTracesStorageOp(client)
 	ctx := t.Context()
 
-	key, err := api.CreateKey(ctx, "12345", ref("new key"))
+	key, err := api.CreateKey(ctx, "12345", new("new key"))
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedTraceStorageAccessKey.GetUID(), key.GetUID())
@@ -339,7 +339,7 @@ func TestTracesStorageOp_UpdateKey(t *testing.T) {
 	api := NewTracesStorageOp(client)
 	ctx := t.Context()
 
-	key, err := api.UpdateKey(ctx, "12345", uuid.New(), ref("updated key"))
+	key, err := api.UpdateKey(ctx, "12345", uuid.New(), new("updated key"))
 	require.NoError(t, err)
 	require.NotNil(t, key)
 	require.Equal(t, TemplateWrappedTraceStorageAccessKey.GetUID(), key.GetUID())

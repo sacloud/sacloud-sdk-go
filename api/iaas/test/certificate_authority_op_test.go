@@ -110,17 +110,17 @@ var (
 	}
 )
 
-func testCertificateAuthorityCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testCertificateAuthorityCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewCertificateAuthorityOp(caller)
 	return client.Create(ctx, createCertificateAuthorityParam)
 }
 
-func testCertificateAuthorityRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testCertificateAuthorityRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewCertificateAuthorityOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testCertificateAuthorityUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testCertificateAuthorityUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewCertificateAuthorityOp(caller)
 	return client.Update(ctx, ctx.ID, updateCertificateAuthorityParam)
 }

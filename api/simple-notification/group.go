@@ -47,8 +47,7 @@ func (o *GroupOp) List(ctx context.Context) (*v1.ListCommonServiceItemsResponse,
 	ctx = setContextProviderClass(ctx, v1.CommonServiceItemProviderClassSaknoticegroup)
 	res, err := o.client.ListCommonServiceItems(ctx)
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -65,8 +64,7 @@ func (o *GroupOp) Create(ctx context.Context, request v1.PostCommonServiceItemRe
 
 	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -78,8 +76,7 @@ func (o *GroupOp) Read(ctx context.Context, id string) (*v1.GetCommonServiceItem
 	const methodName = "Group.Read"
 	res, err := o.client.GetCommonServiceItem(ctx, v1.GetCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -92,8 +89,7 @@ func (o *GroupOp) Update(ctx context.Context, id string, request v1.PutCommonSer
 	request.CommonServiceItem.Settings.Value.Type = v1.GroupSettingsCommonServiceItemSettings
 	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -105,8 +101,7 @@ func (o *GroupOp) Delete(ctx context.Context, id string) error {
 	const methodName = "Group.Delete"
 	_, err := o.client.DeleteCommonServiceItem(ctx, v1.DeleteCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return NewAPIError(methodName, e.StatusCode, err)
 		}
 		return NewError(methodName, err)
@@ -118,8 +113,7 @@ func (o *GroupOp) SendMessage(ctx context.Context, id string, request v1.SendNot
 	const methodName = "Group.SendMessage"
 	res, err := o.client.SendNotificationMessage(ctx, v1.NewOptSendNotificationMessageRequest(request), v1.SendNotificationMessageParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)

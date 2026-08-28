@@ -157,22 +157,22 @@ var (
 	}
 )
 
-func testNFSCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testNFSCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewNFSOp(caller)
 	return client.Create(ctx, testZone, createNFSParam)
 }
 
-func testNFSRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testNFSRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewNFSOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testNFSUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testNFSUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewNFSOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateNFSParam)
 }
 
-func testNFSUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testNFSUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewNFSOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateNFSToMinParam)
 }

@@ -64,7 +64,7 @@ const (
 
 // APICaller API呼び出し時に利用するトランスポートのインターフェース iaas.Clientなどで実装される
 type APICaller interface {
-	Do(ctx context.Context, method, uri string, body interface{}) ([]byte, error)
+	Do(ctx context.Context, method, uri string, body any) ([]byte, error)
 }
 
 // Client APIクライアント、APICallerインターフェースを実装する
@@ -112,7 +112,7 @@ func NewClientWithOptions(opts *client.Options) *Client {
 }
 
 // Do APIコール実施
-func (c *Client) Do(ctx context.Context, method, uri string, body interface{}) ([]byte, error) {
+func (c *Client) Do(ctx context.Context, method, uri string, body any) ([]byte, error) {
 	req, err := c.newRequest(ctx, method, uri, body)
 	if err != nil {
 		return nil, err
@@ -142,7 +142,7 @@ func (c *Client) Do(ctx context.Context, method, uri string, body interface{}) (
 	return data, nil
 }
 
-func (c *Client) newRequest(ctx context.Context, method, uri string, body interface{}) (*http.Request, error) {
+func (c *Client) newRequest(ctx context.Context, method, uri string, body any) (*http.Request, error) {
 	// setup url and body
 	var url = uri
 	var bodyReader io.ReadSeeker

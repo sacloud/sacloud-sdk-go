@@ -119,15 +119,15 @@ var (
 	}
 )
 
-func testVPCRouterCreate(createParam *iaas.VPCRouterCreateRequest) func(*testutil.CRUDTestContext, iaas.APICaller) (interface{}, error) {
-	return func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testVPCRouterCreate(createParam *iaas.VPCRouterCreateRequest) func(*testutil.CRUDTestContext, iaas.APICaller) (any, error) {
+	return func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 		client := iaas.NewVPCRouterOp(caller)
 		vpcRouter, err := client.Create(ctx, testZone, createParam)
 		if err != nil {
 			return nil, err
 		}
 
-		n, err := iaas.WaiterForReady(func() (interface{}, error) {
+		n, err := iaas.WaiterForReady(func() (any, error) {
 			return client.Read(ctx, testZone, vpcRouter.ID)
 		}).WaitForState(ctx)
 		if err != nil {
@@ -142,13 +142,13 @@ func testVPCRouterCreate(createParam *iaas.VPCRouterCreateRequest) func(*testuti
 	}
 }
 
-func testVPCRouterRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testVPCRouterRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewVPCRouterOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testVPCRouterUpdate(updateParam *iaas.VPCRouterUpdateRequest) func(*testutil.CRUDTestContext, iaas.APICaller) (interface{}, error) {
-	return func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testVPCRouterUpdate(updateParam *iaas.VPCRouterUpdateRequest) func(*testutil.CRUDTestContext, iaas.APICaller) (any, error) {
+	return func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 		client := iaas.NewVPCRouterOp(caller)
 		return client.Update(ctx, testZone, ctx.ID, updateParam)
 	}
@@ -238,7 +238,7 @@ func TestVPCRouterOp_WithRouterCRUD(t *testing.T) {
 
 		Updates: []*testutil.CRUDTestFunc{
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					if isAccTest() {
 						// 起動直後だとシャットダウンできない場合があるため20秒ほど待つ
 						time.Sleep(20 * time.Second)
@@ -249,7 +249,7 @@ func TestVPCRouterOp_WithRouterCRUD(t *testing.T) {
 					if err := vpcOp.Shutdown(ctx, testZone, ctx.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return nil, err
 					}
-					_, err := iaas.WaiterForDown(func() (interface{}, error) {
+					_, err := iaas.WaiterForDown(func() (any, error) {
 						return vpcOp.Read(ctx, testZone, ctx.ID)
 					}).WaitForState(ctx)
 					if err != nil {
@@ -390,7 +390,7 @@ func TestVPCRouterOp_WithRouterCRUD(t *testing.T) {
 				}),
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					// setup update param
 					p := withRouterUpdateVPCRouterToMinParam
 					p.Settings = &iaas.VPCRouterSetting{

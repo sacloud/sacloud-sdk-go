@@ -143,7 +143,7 @@ func (o *SimpleMonitorOp) MonitorResponseTime(ctx context.Context, id types.ID, 
 	}
 
 	res := &iaas.ResponseTimeSecActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorResponseTimeSecValue{
 			Time:            now.Add(time.Duration(i*-5) * time.Minute),
 			ResponseTimeSec: float64(random(1000)),

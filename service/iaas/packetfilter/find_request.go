@@ -38,7 +38,7 @@ func (req *FindRequest) Validate() error {
 
 func (req *FindRequest) ToRequestParameter() (*iaas.FindCondition, error) {
 	condition := &iaas.FindCondition{
-		Filter: map[search.FilterKey]interface{}{},
+		Filter: map[search.FilterKey]any{},
 	}
 	if err := serviceutil.RequestConvertTo(req, condition); err != nil {
 		return nil, err

@@ -7,13 +7,12 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/require"
-
 	sm "github.com/sacloud/sacloud-sdk-go/api/secretmanager"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 var theClient saclient.Client
@@ -43,7 +42,7 @@ func TestSecretAPI(t *testing.T) {
 
 	secOp := sm.NewSecretOp(client, vault.ID)
 
-	for i := 0; i < 2; i++ {
+	for i := range 2 {
 		resCreate, err := secOp.Create(ctx, v1.CreateSecret{
 			Name:  "Sec1",
 			Value: "SecretValue" + strconv.Itoa(i),
@@ -68,7 +67,7 @@ func TestSecretAPI(t *testing.T) {
 	assert.Equal(t, "Sec2", resList[1].Name)
 	assert.Equal(t, 1, resList[1].LatestVersion)
 
-	for i := 0; i < 2; i++ {
+	for i := range 2 {
 		resUn, err := secOp.Unveil(ctx, v1.Unveil{
 			Name:    "Sec1",
 			Version: v1.NewOptNilInt(i + 1),

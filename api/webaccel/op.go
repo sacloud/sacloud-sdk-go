@@ -22,7 +22,7 @@ import (
 )
 
 type APICaller interface {
-	Do(ctx context.Context, method, uri string, body interface{}) ([]byte, error)
+	Do(ctx context.Context, method, uri string, body any) ([]byte, error)
 	RootURL() string
 }
 
@@ -72,7 +72,7 @@ func (o *Op) List(ctx context.Context) (*ListSitesResult, error) {
 	url := o.Client.RootURL() + "site"
 
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -93,7 +93,7 @@ func (o *Op) Read(ctx context.Context, id string) (*Site, error) {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s", id)
 
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -171,7 +171,7 @@ func (o *Op) ReadACL(ctx context.Context, id string) (*ACLResult, error) {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/acl", id)
 
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -216,7 +216,7 @@ func (o *Op) DeleteACL(ctx context.Context, id string) error {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/acl", id)
 
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err := o.Client.Do(ctx, "DELETE", url, body)
@@ -228,7 +228,7 @@ func (o *Op) ReadCertificate(ctx context.Context, id string) (*Certificates, err
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/certificate", id)
 
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -324,7 +324,7 @@ func (o *Op) DeleteAutoCertUpdate(ctx context.Context, id string) error {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/auto-cert-update", id)
 
 	// build request body
-	var body interface{}
+	var body any
 	_, err := o.Client.Do(ctx, "DELETE", url, body)
 	return err
 }
@@ -333,7 +333,7 @@ func (o *Op) DeleteAutoCertUpdate(ctx context.Context, id string) error {
 func (o *Op) CreateOriginGuardToken(ctx context.Context, id string) (*OriginGuardTokenResponse, error) {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/origin-guard-token", id)
 
-	var body interface{}
+	var body any
 	// do request
 	data, err := o.Client.Do(ctx, "POST", url, body)
 	if err != nil {
@@ -351,7 +351,7 @@ func (o *Op) CreateOriginGuardToken(ctx context.Context, id string) (*OriginGuar
 func (o *Op) CreateNextOriginGuardToken(ctx context.Context, id string) (*OriginGuardTokenResponse, error) {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/origin-guard-token/next", id)
 
-	var body interface{}
+	var body any
 	// do request
 	data, err := o.Client.Do(ctx, "POST", url, body)
 	if err != nil {
@@ -369,7 +369,7 @@ func (o *Op) CreateNextOriginGuardToken(ctx context.Context, id string) (*Origin
 func (o *Op) DeleteOriginGuardToken(ctx context.Context, id string) error {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/origin-guard-token", id)
 
-	var body interface{}
+	var body any
 	// do request
 	_, err := o.Client.Do(ctx, "DELETE", url, body)
 	if err != nil {
@@ -382,7 +382,7 @@ func (o *Op) DeleteOriginGuardToken(ctx context.Context, id string) error {
 func (o *Op) DeleteNextOriginGuardToken(ctx context.Context, id string) error {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/origin-guard-token/next", id)
 
-	var body interface{}
+	var body any
 	// do request
 	_, err := o.Client.Do(ctx, "DELETE", url, body)
 	if err != nil {
@@ -396,7 +396,7 @@ func (o *Op) DeleteCertificate(ctx context.Context, id string) error {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/certificate", id)
 
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	_, err := o.Client.Do(ctx, "DELETE", url, body)
@@ -469,7 +469,7 @@ func (o *Op) Delete(ctx context.Context, id string) (*Site, error) {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s", id)
 
 	// build request body
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "DELETE", url, body)
@@ -517,7 +517,7 @@ func (o *Op) ApplyLogUploadConfig(ctx context.Context, id string, param *LogUplo
 func (o *Op) ReadLogUploadConfig(ctx context.Context, id string) (*LogUploadConfig, error) {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/log-upload-config", id)
 
-	var body interface{}
+	var body any
 
 	// do request
 	data, err := o.Client.Do(ctx, "GET", url, body)
@@ -541,7 +541,7 @@ func (o *Op) ReadLogUploadConfig(ctx context.Context, id string) (*LogUploadConf
 func (o *Op) DeleteLogUploadConfig(ctx context.Context, id string) error {
 	url := o.Client.RootURL() + fmt.Sprintf("site/%s/log-upload-config", id)
 
-	var body interface{}
+	var body any
 
 	// do request
 	_, err := o.Client.Do(ctx, "DELETE", url, body)

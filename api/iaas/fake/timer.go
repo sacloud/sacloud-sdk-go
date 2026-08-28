@@ -31,7 +31,7 @@ var (
 	PowerOffDuration = 10 * time.Millisecond
 )
 
-func startDiskCopy(resourceKey, zone string, readFunc func() (interface{}, error)) {
+func startDiskCopy(resourceKey, zone string, readFunc func() (any, error)) {
 	counter := 0
 	ticker := time.NewTicker(DiskCopyDuration)
 	go func() {
@@ -67,7 +67,7 @@ func startDiskCopy(resourceKey, zone string, readFunc func() (interface{}, error
 	}()
 }
 
-func startMigration(resourceKey, zone string, readFunc func() (interface{}, error)) {
+func startMigration(resourceKey, zone string, readFunc func() (any, error)) {
 	counter := 0
 	ticker := time.NewTicker(DiskCopyDuration)
 	go func() {
@@ -97,7 +97,7 @@ func startMigration(resourceKey, zone string, readFunc func() (interface{}, erro
 	}()
 }
 
-func startPowerOn(resourceKey, zone string, readFunc func() (interface{}, error)) {
+func startPowerOn(resourceKey, zone string, readFunc func() (any, error)) {
 	counter := 0
 	ticker := time.NewTicker(PowerOnDuration)
 	go func() {
@@ -135,7 +135,7 @@ func startPowerOn(resourceKey, zone string, readFunc func() (interface{}, error)
 	}()
 }
 
-func startPowerOff(resourceKey, zone string, readFunc func() (interface{}, error)) {
+func startPowerOff(resourceKey, zone string, readFunc func() (any, error)) {
 	counter := 0
 	ticker := time.NewTicker(PowerOffDuration)
 	go func() {

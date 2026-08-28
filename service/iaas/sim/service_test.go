@@ -21,7 +21,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 )
 
 func TestSIMService_CRUD(t *testing.T) {
@@ -38,7 +37,7 @@ func TestSIMService_CRUD(t *testing.T) {
 		Setup:              nil,
 		IgnoreStartupWait:  true,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 				return svc.Create(&CreateRequest{
 					Name:     name,
 					ICCID:    iccid,
@@ -48,7 +47,7 @@ func TestSIMService_CRUD(t *testing.T) {
 					},
 				})
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 				sim := v.(*iaas.SIM)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, sim.Info, "SIM.Info"),
@@ -56,10 +55,10 @@ func TestSIMService_CRUD(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 				return svc.Read(&ReadRequest{ID: ctx.ID})
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 				sim := v.(*iaas.SIM)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, sim.Info, "SIM.Info"),
@@ -68,10 +67,10 @@ func TestSIMService_CRUD(t *testing.T) {
 		},
 		Updates: []*testutil.CRUDTestFunc{
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					return svc.Find(&FindRequest{Names: []string{name}})
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					values := v.([]*iaas.SIM)
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, values, 1, "SIMs"),
@@ -81,13 +80,13 @@ func TestSIMService_CRUD(t *testing.T) {
 				SkipExtractID: true,
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 					return svc.Update(&UpdateRequest{
 						ID:   ctx.ID,
-						Name: pointer.NewString(name + "-upd"),
+						Name: new(name + "-upd"),
 					})
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					sim := v.(*iaas.SIM)
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, sim.Info, "SIM.Info"),

@@ -8,7 +8,6 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
-	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type VersionAPI interface {
@@ -52,7 +51,7 @@ func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.Applic
 
 func (op *VersionOp) Create(ctx context.Context, params CreateParams) (ver *v1.ReadApplicationVersionSummary, err error) {
 	res, err := common.ErrorFromDecodedResponse("Version.Create", func() (*v1.CreateApplicationVersionResponse, error) {
-		return op.client.CreateApplicationVersion(ctx, saclient.Ptr(params.into()), v1.CreateApplicationVersionParams{
+		return op.client.CreateApplicationVersion(ctx, new(params.into()), v1.CreateApplicationVersionParams{
 			ApplicationID: op.applicationID,
 		})
 	})

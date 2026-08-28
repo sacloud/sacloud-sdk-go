@@ -47,8 +47,7 @@ func (op *diskOp) CreateSnapshot(ctx context.Context, diskID int64, request *v1.
 
 	res, err := op.client.DisksCreateSnapshot(ctx, request, v1.DisksCreateSnapshotParams{DiskId: diskID})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -62,8 +61,7 @@ func (op *diskOp) ListSnapshots(ctx context.Context, diskID int64) (*v1.DiskSnap
 
 	res, err := op.client.DisksListSnapshots(ctx, v1.DisksListSnapshotsParams{DiskId: diskID})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -77,8 +75,7 @@ func (op *diskOp) UpdateSnapshot(ctx context.Context, diskID, snapshotID int64, 
 
 	res, err := op.client.DisksUpdateSnapshot(ctx, request, v1.DisksUpdateSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return nil, NewAPIError(methodName, 0, err)
@@ -92,8 +89,7 @@ func (op *diskOp) DeleteSnapshot(ctx context.Context, diskID, snapshotID int64) 
 
 	err := op.client.DisksDeleteSnapshot(ctx, v1.DisksDeleteSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return NewAPIError(methodName, 0, err)
@@ -106,8 +102,7 @@ func (op *diskOp) RestoreFromSnapshot(ctx context.Context, diskID, snapshotID in
 
 	err := op.client.DisksRestoreSnapshot(ctx, v1.DisksRestoreSnapshotParams{DiskId: diskID, SnapshotId: snapshotID})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return NewAPIError(methodName, 0, err)
@@ -120,8 +115,7 @@ func (op *diskOp) Expand(ctx context.Context, diskID int64, request *v1.ExpandDi
 
 	err := op.client.DisksExpand(ctx, request, v1.DisksExpandParams{ID: diskID})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return NewAPIError(methodName, e.StatusCode, errors.New(e.Response.ErrorMsg.Value))
 		}
 		return NewAPIError(methodName, 0, err)

@@ -25,12 +25,12 @@ import (
 func TestDispatch(t *testing.T) {
 	type args struct {
 		arguments []string
-		parameter interface{}
+		parameter any
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    interface{}
+		want    any
 		wantErr bool
 	}{
 		{
@@ -45,7 +45,7 @@ func TestDispatch(t *testing.T) {
 			name: "operation not found",
 			args: args{
 				arguments: []string{"dummy", "dummy", "not-found"},
-				parameter: map[string]interface{}{
+				parameter: map[string]any{
 					"Field1": "required",
 				},
 			},
@@ -55,7 +55,7 @@ func TestDispatch(t *testing.T) {
 			name: "with results operation",
 			args: args{
 				arguments: []string{"dummy", "dummy", "find"},
-				parameter: map[string]interface{}{
+				parameter: map[string]any{
 					"Field1": "required",
 				},
 			},
@@ -70,7 +70,7 @@ func TestDispatch(t *testing.T) {
 			name: "with result operation",
 			args: args{
 				arguments: []string{"dummy", "dummy", "read"},
-				parameter: map[string]interface{}{},
+				parameter: map[string]any{},
 			},
 			want:    &dummy.ReadResult{Dummy: "result"},
 			wantErr: false,
@@ -79,7 +79,7 @@ func TestDispatch(t *testing.T) {
 			name: "with error from operation",
 			args: args{
 				arguments: []string{"dummy", "dummy", "error-read"},
-				parameter: map[string]interface{}{},
+				parameter: map[string]any{},
 			},
 			want:    nil,
 			wantErr: true,
@@ -88,7 +88,7 @@ func TestDispatch(t *testing.T) {
 			name: "action without error",
 			args: args{
 				arguments: []string{"dummy", "dummy", "action"},
-				parameter: map[string]interface{}{},
+				parameter: map[string]any{},
 			},
 			want:    nil,
 			wantErr: false,
@@ -97,7 +97,7 @@ func TestDispatch(t *testing.T) {
 			name: "action with error",
 			args: args{
 				arguments: []string{"dummy", "dummy", "error-action"},
-				parameter: map[string]interface{}{},
+				parameter: map[string]any{},
 			},
 			want:    nil,
 			wantErr: true,
@@ -106,7 +106,7 @@ func TestDispatch(t *testing.T) {
 			name: "parameter",
 			args: args{
 				arguments: []string{"dummy", "dummy", "echo"},
-				parameter: map[string]interface{}{
+				parameter: map[string]any{
 					"Field1": "value1",
 					"Field2": "value2",
 				},

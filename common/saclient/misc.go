@@ -28,4 +28,6 @@ package saclient
 //	}
 //
 // ```
-func Ptr[T any](t T) *T { return &t }
+//
+//go:fix inline
+func Ptr[T any](t T) *T { return new(t) }

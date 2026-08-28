@@ -23,7 +23,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/cleanup"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	internetService "github.com/sacloud/sacloud-sdk-go/service/iaas/internet"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 	vpcRouterBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/vpcrouter/builder"
@@ -128,7 +127,7 @@ func TestVPCRouterService_convertUpdateRequest(t *testing.T) {
 			in: &UpdateRequest{
 				ID:     vpcRouter.ID,
 				Zone:   zone,
-				Name:   pointer.NewString(name + "-upd"),
+				Name:   new(name + "-upd"),
 				NoWait: true,
 
 				NICSetting: &PremiumNICSettingUpdate{
@@ -140,8 +139,8 @@ func TestVPCRouterService_convertUpdateRequest(t *testing.T) {
 					{
 						SwitchID:         &additionalSwitch.ID,
 						IPAddresses:      &[]string{"192.168.0.101", "192.168.0.102"},
-						VirtualIPAddress: pointer.NewString("192.168.0.11"),
-						NetworkMaskLen:   pointer.NewInt(24),
+						VirtualIPAddress: new("192.168.0.11"),
+						NetworkMaskLen:   new(24),
 						Index:            2,
 					},
 				},

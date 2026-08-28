@@ -24,7 +24,7 @@ import (
 // EqualExpression Equalで比較する際の条件
 type EqualExpression struct {
 	Op         LogicalOperator
-	Conditions []interface{}
+	Conditions []any
 }
 
 // PartialMatch 部分一致(Partial Match)かつAND条件を示すEqualFilterを作成
@@ -38,7 +38,7 @@ func PartialMatch(conditions ...string) *EqualExpression {
 //
 // OrEqualのエイリアス
 func ExactMatch(conditions ...string) *EqualExpression {
-	var values []interface{}
+	var values []any
 	for _, p := range conditions {
 		values = append(values, p)
 	}
@@ -47,7 +47,7 @@ func ExactMatch(conditions ...string) *EqualExpression {
 
 // AndEqual 部分一致(Partial Match)かつAND条件を示すEqualFilterを作成
 func AndEqual(conditions ...string) *EqualExpression {
-	var values []interface{}
+	var values []any
 	for _, p := range conditions {
 		values = append(values, p)
 	}
@@ -59,7 +59,7 @@ func AndEqual(conditions ...string) *EqualExpression {
 }
 
 // OrEqual 完全一致(Exact Match)かつOR条件を示すEqualFilterを作成
-func OrEqual(conditions ...interface{}) *EqualExpression {
+func OrEqual(conditions ...any) *EqualExpression {
 	return &EqualExpression{
 		Op:         OpOr,
 		Conditions: conditions,
@@ -73,9 +73,9 @@ func TagsAndEqual(tags ...string) *EqualExpression {
 
 // MarshalJSON .
 func (eq *EqualExpression) MarshalJSON() ([]byte, error) {
-	var conditions []interface{}
+	var conditions []any
 	for _, cond := range eq.Conditions {
-		var c interface{}
+		var c any
 		switch v := cond.(type) {
 		case time.Time:
 			c = v.Format(time.RFC3339)
@@ -93,7 +93,7 @@ func (eq *EqualExpression) MarshalJSON() ([]byte, error) {
 		}
 	}
 
-	var value interface{}
+	var value any
 	switch eq.Op {
 	case OpOr:
 		value = conditions

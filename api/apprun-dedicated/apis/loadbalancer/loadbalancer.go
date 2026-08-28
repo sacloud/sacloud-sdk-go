@@ -8,7 +8,6 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
-	"github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
 
 type LoadBalancerAPI interface {
@@ -60,7 +59,7 @@ func (op *LoadBalancerOp) List(ctx context.Context, maxItems int64, cursor *v1.L
 
 func (op *LoadBalancerOp) Create(ctx context.Context, params CreateParams) (lb *v1.CreatedLoadBalancer, err error) {
 	res, err := common.ErrorFromDecodedResponse("LoadBalancer.Create", func() (*v1.CreateLoadBalancerResponse, error) {
-		return op.client.CreateLoadBalancer(ctx, saclient.Ptr(params.into()), v1.CreateLoadBalancerParams{
+		return op.client.CreateLoadBalancer(ctx, new(params.into()), v1.CreateLoadBalancerParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
 		})
@@ -232,13 +231,13 @@ func (l *LoadBalancerDetail) from(res *v1.ReadLoadBalancerDetail) {
 }
 
 type LoadBalancerNodeDetail struct {
-	LoadBalancerNodeID v1.LoadBalancerNodeID `json:"loadBalancerNodeID"`
-	ResourceID         *string               `json:"resourceID"`
-	Interfaces         []NodeInterface       `json:"interfaces"`
+	LoadBalancerNodeID v1.LoadBalancerNodeID     `json:"loadBalancerNodeID"`
+	ResourceID         *string                   `json:"resourceID"`
+	Interfaces         []NodeInterface           `json:"interfaces"`
 	Status             v1.LoadBalancerNodeStatus `json:"status"`
-	ArchiveVersion     *string               `json:"archiveVersion"`
-	CreateErrorMessage *string               `json:"createErrorMessage"`
-	Created            int                   `json:"created"`
+	ArchiveVersion     *string                   `json:"archiveVersion"`
+	CreateErrorMessage *string                   `json:"createErrorMessage"`
+	Created            int                       `json:"created"`
 }
 
 func (l *LoadBalancerNodeDetail) from(res *v1.ReadLoadBalancerNode) {

@@ -24,21 +24,21 @@ import (
 func TestMap_Set(t *testing.T) {
 	expects := []struct {
 		caseName string
-		source   map[string]interface{}
-		dest     map[string]interface{}
+		source   map[string]any
+		dest     map[string]any
 	}{
 		{
 			caseName: "minimum",
-			source: map[string]interface{}{
+			source: map[string]any{
 				"test": "test",
 			},
-			dest: map[string]interface{}{
+			dest: map[string]any{
 				"test": "test",
 			},
 		},
 		{
 			caseName: "nested",
-			source: map[string]interface{}{
+			source: map[string]any{
 				"test.A":    "A",
 				"test.B":    "B",
 				"test.C.C1": "C1",
@@ -47,11 +47,11 @@ func TestMap_Set(t *testing.T) {
 				"int":       1,
 				"float":     1.1,
 			},
-			dest: map[string]interface{}{
-				"test": map[string]interface{}{
+			dest: map[string]any{
+				"test": map[string]any{
 					"A": "A",
 					"B": "B",
-					"C": map[string]interface{}{
+					"C": map[string]any{
 						"C1": "C1",
 						"C2": "C2",
 					},
@@ -63,24 +63,24 @@ func TestMap_Set(t *testing.T) {
 		},
 		{
 			caseName: "slice",
-			source: map[string]interface{}{
-				"slice.slice.value": []interface{}{"value4", "value5"},
+			source: map[string]any{
+				"slice.slice.value": []any{"value4", "value5"},
 			},
-			dest: map[string]interface{}{
-				"slice": map[string]interface{}{
-					"slice": map[string]interface{}{
-						"value": []interface{}{"value4", "value5"},
+			dest: map[string]any{
+				"slice": map[string]any{
+					"slice": map[string]any{
+						"value": []any{"value4", "value5"},
 					},
 				},
 			},
 		},
 		{
 			caseName: "expanded slice",
-			source: map[string]interface{}{
-				"[]slice.value": []interface{}{"value1", "value2"},
+			source: map[string]any{
+				"[]slice.value": []any{"value1", "value2"},
 			},
-			dest: map[string]interface{}{
-				"slice": []map[string]interface{}{
+			dest: map[string]any{
+				"slice": []map[string]any{
 					{"value": "value1"},
 					{"value": "value2"},
 				},
@@ -88,18 +88,18 @@ func TestMap_Set(t *testing.T) {
 		},
 		{
 			caseName: "expanded nested slice",
-			source: map[string]interface{}{
-				"[]slice.slice.value": []interface{}{"value4", "value5"},
+			source: map[string]any{
+				"[]slice.slice.value": []any{"value4", "value5"},
 			},
-			dest: map[string]interface{}{
-				"slice": []map[string]interface{}{
+			dest: map[string]any{
+				"slice": []map[string]any{
 					{
-						"slice": map[string]interface{}{
+						"slice": map[string]any{
 							"value": "value4",
 						},
 					},
 					{
-						"slice": map[string]interface{}{
+						"slice": map[string]any{
 							"value": "value5",
 						},
 					},
@@ -108,12 +108,12 @@ func TestMap_Set(t *testing.T) {
 		},
 		{
 			caseName: "expanded nested slice with middle slice",
-			source: map[string]interface{}{
-				"slice.[]slice.value": []interface{}{"value4", "value5"},
+			source: map[string]any{
+				"slice.[]slice.value": []any{"value4", "value5"},
 			},
-			dest: map[string]interface{}{
-				"slice": map[string]interface{}{
-					"slice": []map[string]interface{}{
+			dest: map[string]any{
+				"slice": map[string]any{
+					"slice": []map[string]any{
 						{"value": "value4"},
 						{"value": "value5"},
 					},
@@ -122,31 +122,31 @@ func TestMap_Set(t *testing.T) {
 		},
 		{
 			caseName: "expanded nested slice with last slice",
-			source: map[string]interface{}{
-				"slice.slice.[]value": []interface{}{"value4", "value5"},
+			source: map[string]any{
+				"slice.slice.[]value": []any{"value4", "value5"},
 			},
-			dest: map[string]interface{}{
-				"slice": map[string]interface{}{
-					"slice": map[string]interface{}{
-						"value": []interface{}{"value4", "value5"},
+			dest: map[string]any{
+				"slice": map[string]any{
+					"slice": map[string]any{
+						"value": []any{"value4", "value5"},
 					},
 				},
 			},
 		},
 		{
 			caseName: "expanded deep nested slice",
-			source: map[string]interface{}{
-				"[]slice.[]slice.value": []interface{}{"value4", "value5"},
+			source: map[string]any{
+				"[]slice.[]slice.value": []any{"value4", "value5"},
 			},
-			dest: map[string]interface{}{
-				"slice": []map[string]interface{}{
+			dest: map[string]any{
+				"slice": []map[string]any{
 					{
-						"slice": []map[string]interface{}{
+						"slice": []map[string]any{
 							{"value": "value4"},
 						},
 					},
 					{
-						"slice": []map[string]interface{}{
+						"slice": []map[string]any{
 							{"value": "value5"},
 						},
 					},
@@ -157,7 +157,7 @@ func TestMap_Set(t *testing.T) {
 
 	for _, expect := range expects {
 		t.Run(expect.caseName, func(t *testing.T) {
-			m := Map(make(map[string]interface{}))
+			m := Map(make(map[string]any))
 			for k, v := range expect.source {
 				m.Set(k, v)
 			}
@@ -169,22 +169,22 @@ func TestMap_Set(t *testing.T) {
 func TestMap_Get(t *testing.T) {
 	expects := []struct {
 		caseName  string
-		keyValues map[string]interface{}
-		source    map[string]interface{}
+		keyValues map[string]any
+		source    map[string]any
 		err       error
 	}{
 		{
 			caseName: "minimum",
-			keyValues: map[string]interface{}{
+			keyValues: map[string]any{
 				"test": "test",
 			},
-			source: map[string]interface{}{
+			source: map[string]any{
 				"test": "test",
 			},
 		},
 		{
 			caseName: "nested",
-			keyValues: map[string]interface{}{
+			keyValues: map[string]any{
 				"test.A":    "A",
 				"test.B":    "B",
 				"test.C.C1": "C1",
@@ -193,11 +193,11 @@ func TestMap_Get(t *testing.T) {
 				"int":       1,
 				"float":     1.1,
 			},
-			source: map[string]interface{}{
-				"test": map[string]interface{}{
+			source: map[string]any{
+				"test": map[string]any{
 					"A": "A",
 					"B": "B",
-					"C": map[string]interface{}{
+					"C": map[string]any{
 						"C1": "C1",
 						"C2": "C2",
 					},
@@ -209,11 +209,11 @@ func TestMap_Get(t *testing.T) {
 		},
 		{
 			caseName: "slice",
-			keyValues: map[string]interface{}{
-				"slice.value": []interface{}{"value1", "value2"},
+			keyValues: map[string]any{
+				"slice.value": []any{"value1", "value2"},
 			},
-			source: map[string]interface{}{
-				"slice": []map[string]interface{}{
+			source: map[string]any{
+				"slice": []map[string]any{
 					{"value": "value1"},
 					{"value": "value2"},
 				},
@@ -221,16 +221,16 @@ func TestMap_Get(t *testing.T) {
 		},
 		{
 			caseName: "nested slice",
-			keyValues: map[string]interface{}{
-				"slice.slice.value": []interface{}{"value4", "value5"},
+			keyValues: map[string]any{
+				"slice.slice.value": []any{"value4", "value5"},
 			},
-			source: map[string]interface{}{
-				"slice": []map[string]interface{}{
+			source: map[string]any{
+				"slice": []map[string]any{
 					{"value": "value1"},
 					{"value": "value2"},
 					{
 						"value": "value3",
-						"slice": []map[string]interface{}{
+						"slice": []map[string]any{
 							{"value": "value4"},
 							{"value": "value5"},
 						},
@@ -240,11 +240,11 @@ func TestMap_Get(t *testing.T) {
 		},
 		{
 			caseName: "with invalid key",
-			keyValues: map[string]interface{}{
+			keyValues: map[string]any{
 				"test.A.B": nil,
 			},
-			source: map[string]interface{}{
-				"test": map[string]interface{}{
+			source: map[string]any{
+				"test": map[string]any{
 					"A": "test",
 				},
 			},
@@ -274,13 +274,13 @@ type B struct {
 }
 
 type C struct {
-	Baz interface{} `structs:",omitempty"`
+	Baz any `structs:",omitempty"`
 }
 
 func TestMap_GetWithEmptyStruct(t *testing.T) {
 	cases := []struct {
-		in     interface{}
-		expect interface{}
+		in     any
+		expect any
 	}{
 		{in: &A{Foo: &B{Bar: &C{Baz: "FooBarBaz"}}}, expect: "FooBarBaz"},
 		{in: &A{Foo: &B{Bar: &C{}}}, expect: nil},

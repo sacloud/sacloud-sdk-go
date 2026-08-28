@@ -77,7 +77,7 @@ func (s *Service) Config() *services.Config {
 	}
 }
 
-func (s *Service) Validate(p interface{}) error {
+func (s *Service) Validate(p any) error {
 	return validate.New(s).Struct(p)
 }
 

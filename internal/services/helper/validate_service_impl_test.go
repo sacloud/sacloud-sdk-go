@@ -139,25 +139,25 @@ func (s *FakeService) Config() *services.Config {
 	return s.config
 }
 
-func (s *FakeService) Find(req *FakeRequest) ([]interface{}, error) {
+func (s *FakeService) Find(req *FakeRequest) ([]any, error) {
 	return s.FindWithContext(context.Background(), req)
 }
 
-func (s *FakeService) FindWithContext(ctx context.Context, req *FakeRequest) ([]interface{}, error) {
+func (s *FakeService) FindWithContext(ctx context.Context, req *FakeRequest) ([]any, error) {
 	return nil, nil
 }
 
 type FakeRequest struct {
 }
 
-func (s *FakeService) Dummy(req *FakeRequest) ([]interface{}, error) {
+func (s *FakeService) Dummy(req *FakeRequest) ([]any, error) {
 	return nil, nil
 }
 
-func (s *FakeService) InvalidReturnValues(req *FakeRequest) []interface{} {
+func (s *FakeService) InvalidReturnValues(req *FakeRequest) []any {
 	return s.InvalidReturnValuesWithContext(context.Background(), req)
 }
 
-func (s *FakeService) InvalidReturnValuesWithContext(ctx context.Context, req *FakeRequest) []interface{} {
+func (s *FakeService) InvalidReturnValuesWithContext(ctx context.Context, req *FakeRequest) []any {
 	return nil
 }

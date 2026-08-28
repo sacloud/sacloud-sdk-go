@@ -13,7 +13,6 @@
 // limitations under the License.
 
 //go:build !windows
-// +build !windows
 
 package profile
 
@@ -464,7 +463,7 @@ func Test_Save(t *testing.T) {
 		data, err := os.ReadFile(filepath.Clean(targetFile))
 		require.NoError(t, err)
 
-		var mapData map[string]interface{}
+		var mapData map[string]any
 		err = json.Unmarshal(data, &mapData)
 		require.NoError(t, err)
 

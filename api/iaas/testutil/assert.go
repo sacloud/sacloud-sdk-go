@@ -22,8 +22,8 @@ import (
 )
 
 // AssertEqualWithExpected 項目ごとに除外設定のできる期待値との比較
-func AssertEqualWithExpected(testExpect *CRUDTestExpect) func(TestT, *CRUDTestContext, interface{}) error {
-	return func(t TestT, testContext *CRUDTestContext, v interface{}) error {
+func AssertEqualWithExpected(testExpect *CRUDTestExpect) func(TestT, *CRUDTestContext, any) error {
+	return func(t TestT, testContext *CRUDTestContext, v any) error {
 		expect, actual := testExpect.Prepare(v)
 		if !assert.Equal(t, expect, actual) {
 			return errors.New("assert.Equal is failed")
@@ -33,7 +33,7 @@ func AssertEqualWithExpected(testExpect *CRUDTestExpect) func(TestT, *CRUDTestCo
 }
 
 // AssertEqual 値の比較
-func AssertEqual(t TestT, expected interface{}, actual interface{}, targetName string) error {
+func AssertEqual(t TestT, expected any, actual any, targetName string) error {
 	if !assert.Equal(t, expected, actual) {
 		return fmt.Errorf("assert.Equal is failed: %s", targetName)
 	}
@@ -41,7 +41,7 @@ func AssertEqual(t TestT, expected interface{}, actual interface{}, targetName s
 }
 
 // AssertLen lengthのチェック
-func AssertLen(t TestT, object interface{}, length int, targetName string) error {
+func AssertLen(t TestT, object any, length int, targetName string) error {
 	if !assert.Len(t, object, length) {
 		return fmt.Errorf("assert.Len is failed: %s", targetName)
 	}
@@ -49,7 +49,7 @@ func AssertLen(t TestT, object interface{}, length int, targetName string) error
 }
 
 // AssertNil nilチェック
-func AssertNil(t TestT, object interface{}, targetName string) error {
+func AssertNil(t TestT, object any, targetName string) error {
 	if !assert.Nil(t, object) {
 		return fmt.Errorf("assert.Nil is failed: %s", targetName)
 	}
@@ -57,7 +57,7 @@ func AssertNil(t TestT, object interface{}, targetName string) error {
 }
 
 // AssertNotNil not nilチェック
-func AssertNotNil(t TestT, object interface{}, targetName string) error {
+func AssertNotNil(t TestT, object any, targetName string) error {
 	if !assert.NotNil(t, object) {
 		return fmt.Errorf("assert.NotNil is failed: %s", targetName)
 	}
@@ -81,7 +81,7 @@ func AssertFalse(t TestT, value bool, targetName string) error {
 }
 
 // AssertEmpty emptyチェック
-func AssertEmpty(t TestT, object interface{}, targetName string) error {
+func AssertEmpty(t TestT, object any, targetName string) error {
 	if !assert.Empty(t, object) {
 		return fmt.Errorf("assert.Empty is failed: %s", targetName)
 	}
@@ -89,7 +89,7 @@ func AssertEmpty(t TestT, object interface{}, targetName string) error {
 }
 
 // AssertNotEmpty not emptyチェック
-func AssertNotEmpty(t TestT, object interface{}, targetName string) error {
+func AssertNotEmpty(t TestT, object any, targetName string) error {
 	if !assert.NotEmpty(t, object) {
 		return fmt.Errorf("assert.NotEmpty is failed: %s", targetName)
 	}
@@ -107,28 +107,28 @@ func DoAsserts(funcs ...func() error) error {
 }
 
 // AssertEqualFunc 値の比較
-func AssertEqualFunc(t TestT, expected interface{}, actual interface{}, targetName string) func() error {
+func AssertEqualFunc(t TestT, expected any, actual any, targetName string) func() error {
 	return func() error {
 		return AssertEqual(t, expected, actual, targetName)
 	}
 }
 
 // AssertLenFunc lengthのチェック
-func AssertLenFunc(t TestT, object interface{}, length int, targetName string) func() error {
+func AssertLenFunc(t TestT, object any, length int, targetName string) func() error {
 	return func() error {
 		return AssertLen(t, object, length, targetName)
 	}
 }
 
 // AssertNilFunc nilチェック
-func AssertNilFunc(t TestT, object interface{}, targetName string) func() error {
+func AssertNilFunc(t TestT, object any, targetName string) func() error {
 	return func() error {
 		return AssertNil(t, object, targetName)
 	}
 }
 
 // AssertNotNilFunc not nilチェック
-func AssertNotNilFunc(t TestT, object interface{}, targetName string) func() error {
+func AssertNotNilFunc(t TestT, object any, targetName string) func() error {
 	return func() error {
 		return AssertNotNil(t, object, targetName)
 	}
@@ -149,14 +149,14 @@ func AssertFalseFunc(t TestT, value bool, targetName string) func() error {
 }
 
 // AssertEmptyFunc emptyチェック
-func AssertEmptyFunc(t TestT, object interface{}, targetName string) func() error {
+func AssertEmptyFunc(t TestT, object any, targetName string) func() error {
 	return func() error {
 		return AssertEmpty(t, object, targetName)
 	}
 }
 
 // AssertNotEmptyFunc not emptyチェック
-func AssertNotEmptyFunc(t TestT, object interface{}, targetName string) func() error {
+func AssertNotEmptyFunc(t TestT, object any, targetName string) func() error {
 	return func() error {
 		return AssertNotEmpty(t, object, targetName)
 	}

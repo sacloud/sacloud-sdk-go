@@ -104,17 +104,17 @@ var (
 	}
 )
 
-func testSimpleNotificationDestinationCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleNotificationDestinationCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleNotificationDestinationOp(caller)
 	return client.Create(ctx, createSimpleNotificationDestinationParam)
 }
 
-func testSimpleNotificationDestinationRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleNotificationDestinationRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleNotificationDestinationOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testSimpleNotificationDestinationUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleNotificationDestinationUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleNotificationDestinationOp(caller)
 	return client.Update(ctx, ctx.ID, updateSimpleNotificationDestinationParam)
 }

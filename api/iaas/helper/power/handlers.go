@@ -50,7 +50,7 @@ func (h *serverHandler) shutdown(force bool) error {
 	return h.client.Shutdown(h.ctx, h.zone, h.id, &iaas.ShutdownOption{Force: force})
 }
 
-func (h *serverHandler) read() (interface{}, error) {
+func (h *serverHandler) read() (any, error) {
 	return h.client.Read(h.ctx, h.zone, h.id)
 }
 
@@ -76,7 +76,7 @@ func (h *loadBalancerHandler) shutdown(force bool) error {
 	return h.client.Shutdown(h.ctx, h.zone, h.id, &iaas.ShutdownOption{Force: force})
 }
 
-func (h *loadBalancerHandler) read() (interface{}, error) {
+func (h *loadBalancerHandler) read() (any, error) {
 	return h.client.Read(h.ctx, h.zone, h.id)
 }
 
@@ -102,7 +102,7 @@ func (h *databaseHandler) shutdown(force bool) error {
 	return h.client.Shutdown(h.ctx, h.zone, h.id, &iaas.ShutdownOption{Force: force})
 }
 
-func (h *databaseHandler) read() (interface{}, error) {
+func (h *databaseHandler) read() (any, error) {
 	return h.client.Read(h.ctx, h.zone, h.id)
 }
 
@@ -128,7 +128,7 @@ func (h *vpcRouterHandler) shutdown(force bool) error {
 	return h.client.Shutdown(h.ctx, h.zone, h.id, &iaas.ShutdownOption{Force: force})
 }
 
-func (h *vpcRouterHandler) read() (interface{}, error) {
+func (h *vpcRouterHandler) read() (any, error) {
 	return h.client.Read(h.ctx, h.zone, h.id)
 }
 
@@ -154,7 +154,7 @@ func (h *nfsHandler) shutdown(force bool) error {
 	return h.client.Shutdown(h.ctx, h.zone, h.id, &iaas.ShutdownOption{Force: force})
 }
 
-func (h *nfsHandler) read() (interface{}, error) {
+func (h *nfsHandler) read() (any, error) {
 	return h.client.Read(h.ctx, h.zone, h.id)
 }
 
@@ -180,6 +180,6 @@ func (h *mobileGatewayHandler) shutdown(force bool) error {
 	return h.client.Shutdown(h.ctx, h.zone, h.id, &iaas.ShutdownOption{Force: force})
 }
 
-func (h *mobileGatewayHandler) read() (interface{}, error) {
+func (h *mobileGatewayHandler) read() (any, error) {
 	return h.client.Read(h.ctx, h.zone, h.id)
 }

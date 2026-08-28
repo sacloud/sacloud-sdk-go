@@ -16,6 +16,7 @@ package saclient
 
 import (
 	"iter"
+	"math"
 	"net/http"
 	"net/http/httptest"
 	"slices"
@@ -43,6 +44,8 @@ type doer struct {
 }
 
 var _ HttpRequestDoer = (*doer)(nil)
+
+const rateLimitWhiteOut = int64(math.MaxInt64) // special value to indicate "no rate limit"
 
 func (d *doer) Do(req *http.Request) (*http.Response, error) {
 	pull, stop := iter.Pull(slices.Values(d.middlewares))
@@ -102,10 +105,19 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 		return nil, err
 	}
 
-	if ok {
-		d.rateLimiter = ratelimit.New(int(v))
-	} else {
+	switch {
+	case !ok:
 		d.rateLimiter = ratelimit.NewUnlimited()
+	case v < 0:
+		return nil, NewErrorf("negative APIRequestRateLimit doesn't make any sense at all: %d", v)
+	case v == 0:
+		return nil, NewErrorf("APIRequestRateLimit can't be zero")
+	case v == rateLimitWhiteOut:
+		d.rateLimiter = ratelimit.NewUnlimited()
+	case v > int64(math.MaxInt):
+		return nil, NewErrorf("APIRequestRateLimit out of range of `int`: %d", v)
+	default:
+		d.rateLimiter = ratelimit.New(int(v))
 	}
 
 	// basic middlewares

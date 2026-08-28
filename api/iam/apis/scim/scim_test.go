@@ -41,8 +41,9 @@ func TestNewScimOp(t *testing.T) {
 	assert.NotNil(api)
 }
 
+//go:fix inline
 func intPtr(i int) *int {
-	return &i
+	return new(i)
 }
 
 func TestList(t *testing.T) {
@@ -53,8 +54,8 @@ func TestList(t *testing.T) {
 	assert, api := setup(t, &expected, 200)
 
 	params := ListParams{
-		Page:    intPtr(1),
-		PerPage: intPtr(10),
+		Page:    new(1),
+		PerPage: new(10),
 	}
 	actual, err := api.List(t.Context(), params)
 	assert.NoError(err)
@@ -71,8 +72,8 @@ func TestList_Fail(t *testing.T) {
 	assert, api := setup(t, &res, res.Status)
 
 	params := ListParams{
-		Page:    intPtr(1),
-		PerPage: intPtr(10),
+		Page:    new(1),
+		PerPage: new(10),
 	}
 	actual, err := api.List(t.Context(), params)
 	assert.Error(err)

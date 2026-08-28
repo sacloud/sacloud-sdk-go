@@ -52,10 +52,10 @@ func TestClient(t *testing.T) {
 
 	data, _ := io.ReadAll(resp.Body)
 
-	var responseData map[string]interface{}
+	var responseData map[string]any
 	json.Unmarshal(data, &responseData)
 
-	zoneInfo := responseData["Zone"].(map[string]interface{})
+	zoneInfo := responseData["Zone"].(map[string]any)
 
 	require.EqualValues(t, "is1a", zoneInfo["Name"])
 }
@@ -80,10 +80,10 @@ func TestNewClient(t *testing.T) {
 
 	data, _ := io.ReadAll(resp.Body)
 
-	var responseData map[string]interface{}
+	var responseData map[string]any
 	json.Unmarshal(data, &responseData)
 
-	zoneInfo := responseData["Zone"].(map[string]interface{})
+	zoneInfo := responseData["Zone"].(map[string]any)
 	require.EqualValues(t, "is1a", zoneInfo["Name"])
 }
 
@@ -133,10 +133,10 @@ func TestNewClientWithHTTPClient(t *testing.T) {
 
 	data, err := io.ReadAll(resp.Body)
 	require.NoError(t, err)
-	var responseData map[string]interface{}
+	var responseData map[string]any
 	err = json.Unmarshal(data, &responseData)
 	require.NoError(t, err)
-	zoneInfo, ok := responseData["Zone"].(map[string]interface{})
+	zoneInfo, ok := responseData["Zone"].(map[string]any)
 	require.True(t, ok, "Zone key should exist in response")
 	require.EqualValues(t, "testzone", zoneInfo["Name"])
 }

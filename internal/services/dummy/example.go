@@ -41,7 +41,7 @@ func init() {
 	optionDefs = append(optionDefs, exampleOptions)
 }
 
-func (req *ExampleRequest) Examples() interface{} {
+func (req *ExampleRequest) Examples() any {
 	return &ExampleRequest{
 		Field1:  examples.Id,
 		Field2:  examples.Description,

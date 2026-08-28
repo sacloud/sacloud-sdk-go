@@ -18,6 +18,6 @@ import "github.com/sacloud/sacloud-sdk-go/api/iaas"
 
 type Parameter struct {
 	Key   string
-	Value interface{}
+	Value any
 	Meta  *iaas.DatabaseParameterMeta
 }

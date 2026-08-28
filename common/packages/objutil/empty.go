@@ -19,7 +19,7 @@ import (
 )
 
 // IsEmpty is copied from github.com/stretchr/testify/assert/assertions.go
-func IsEmpty(object interface{}) bool {
+func IsEmpty(object any) bool {
 	// get nil case out of the way
 	if object == nil {
 		return true
@@ -32,7 +32,7 @@ func IsEmpty(object interface{}) bool {
 	case reflect.Array, reflect.Chan, reflect.Map, reflect.Slice:
 		return objValue.Len() == 0
 	// pointers are empty if nil or if the value they point to is empty
-	case reflect.Ptr:
+	case reflect.Pointer:
 		if objValue.IsNil() {
 			return true
 		}

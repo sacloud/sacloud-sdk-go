@@ -311,7 +311,7 @@ func (o *ServerOp) Boot(ctx context.Context, zone string, id types.ID) error {
 		return newErrorConflict(o.key, id, "Boot is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -333,7 +333,7 @@ func (o *ServerOp) Shutdown(ctx context.Context, zone string, id types.ID, shutd
 		return newErrorConflict(o.key, id, "Shutdown is failed")
 	}
 
-	startPowerOff(o.key, zone, func() (interface{}, error) {
+	startPowerOff(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -350,7 +350,7 @@ func (o *ServerOp) Reset(ctx context.Context, zone string, id types.ID) error {
 		return newErrorConflict(o.key, id, "Reset is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -410,7 +410,7 @@ func (o *ServerOp) Monitor(ctx context.Context, zone string, id types.ID, condit
 	}
 
 	res := &iaas.CPUTimeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorCPUTimeValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			CPUTime: float64(random(value.CPU * 1000)),

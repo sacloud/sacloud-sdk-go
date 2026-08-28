@@ -24,11 +24,11 @@ import (
 )
 
 type dummyState struct {
-	state interface{}
+	state any
 	err   error
 }
 
-func testStateCheckFunc(target interface{}) (bool, error) {
+func testStateCheckFunc(target any) (bool, error) {
 	state, ok := target.(*dummyState)
 	if !ok {
 		return false, fmt.Errorf("got invalid state type: %+v", target)
@@ -39,7 +39,7 @@ func testStateCheckFunc(target interface{}) (bool, error) {
 func TestStatePollingWaiter_withStateCheckFunc(t *testing.T) {
 	t.Run("timeout", func(t *testing.T) {
 		waiter := &PollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				return &dummyState{}, nil
 			},
 			StateCheckFunc: testStateCheckFunc,
@@ -54,7 +54,7 @@ func TestStatePollingWaiter_withStateCheckFunc(t *testing.T) {
 
 	t.Run("parent context was canceled", func(t *testing.T) {
 		waiter := &PollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				return &dummyState{}, nil
 			},
 			StateCheckFunc: testStateCheckFunc,

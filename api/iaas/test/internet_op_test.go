@@ -109,22 +109,22 @@ var (
 	}
 )
 
-func testInternetCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testInternetCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewInternetOp(caller)
 	return client.Create(ctx, testZone, createInternetParam)
 }
 
-func testInternetRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testInternetRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewInternetOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testInternetUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testInternetUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewInternetOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateInternetParam)
 }
 
-func testInternetUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testInternetUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewInternetOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateInternetToMinParam)
 }
@@ -144,13 +144,13 @@ func TestInternetOp_Subnet(t *testing.T) {
 		IgnoreStartupWait:  true,
 		SetupAPICallerFunc: singletonAPICaller,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				var internet *iaas.Internet
 				internet, err := client.Create(ctx, testZone, createInternetParam)
 				if err != nil {
 					return nil, err
 				}
-				waiter := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+				waiter := iaas.WaiterForApplianceUp(func() (any, error) {
 					return client.Read(ctx, testZone, internet.ID)
 				}, 100)
 				if _, err := waiter.WaitForState(ctx); err != nil {
@@ -180,7 +180,7 @@ func TestInternetOp_Subnet(t *testing.T) {
 		Updates: []*testutil.CRUDTestFunc{
 			// add subnet
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					// add subnet
 					subnet, err := client.AddSubnet(ctx, testZone, ctx.ID, &iaas.InternetAddSubnetRequest{
 						NetworkMaskLen: 28,
@@ -203,7 +203,7 @@ func TestInternetOp_Subnet(t *testing.T) {
 			},
 			// update subnet
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					subnet, err := client.UpdateSubnet(ctx, testZone, ctx.ID, subnetID, &iaas.InternetUpdateSubnetRequest{
 						NextHop: maxIP,
 					})
@@ -223,7 +223,7 @@ func TestInternetOp_Subnet(t *testing.T) {
 			},
 			// delete subnet
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					return nil, client.DeleteSubnet(ctx, testZone, ctx.ID, subnetID)
 				},
 				SkipExtractID: true,

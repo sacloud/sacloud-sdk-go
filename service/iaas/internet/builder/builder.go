@@ -89,7 +89,7 @@ func (b *Builder) Build(ctx context.Context, zone string) (*iaas.Internet, error
 	}
 
 	// [HACK] ルータ作成直後は GET /internet/:id が404を返すことへの対応
-	waiter := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+	waiter := iaas.WaiterForApplianceUp(func() (any, error) {
 		return b.Client.Internet.Read(ctx, zone, internet.ID)
 	}, b.NotFoundRetry)
 	if _, err := waiter.WaitForState(ctx); err != nil {

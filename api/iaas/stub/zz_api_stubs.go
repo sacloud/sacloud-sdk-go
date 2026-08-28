@@ -1515,7 +1515,7 @@ func (s *DatabaseStub) GetParameter(ctx context.Context, zone string, id types.I
 }
 
 // SetParameter is API call with trace log
-func (s *DatabaseStub) SetParameter(ctx context.Context, zone string, id types.ID, param map[string]interface{}) error {
+func (s *DatabaseStub) SetParameter(ctx context.Context, zone string, id types.ID, param map[string]any) error {
 	if s.SetParameterStubResult == nil {
 		log.Fatal("DatabaseStub.SetParameterStubResult is not set")
 	}

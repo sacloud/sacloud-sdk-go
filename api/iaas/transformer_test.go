@@ -189,7 +189,7 @@ func TestTransformer_transformDatabaseGetParameterResult(t *testing.T) {
 		t.Fatal(err)
 	}
 	v := results.DatabaseParameter
-	require.EqualValues(t, map[string]interface{}{
+	require.EqualValues(t, map[string]any{
 		"MariaDB/server.cnf/mysqld/event_scheduler": float64(100),
 	}, v.Settings)
 	require.Len(t, v.MetaInfo, 1)
@@ -268,7 +268,7 @@ const (
 
 func TestTransformer_transformDatabaseSetParameterArgs(t *testing.T) {
 	op := &DatabaseOp{}
-	result, err := op.transformSetParameterArgs(types.ID(0), map[string]interface{}{
+	result, err := op.transformSetParameterArgs(types.ID(0), map[string]any{
 		"foo": "bar",
 	})
 	if err != nil {

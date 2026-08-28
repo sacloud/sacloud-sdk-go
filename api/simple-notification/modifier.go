@@ -86,7 +86,7 @@ func responseModifier(req *http.Request, resp *http.Response) error {
 		return err
 	}
 	// JSON decode
-	var data map[string]interface{}
+	var data map[string]any
 	if err := json.Unmarshal(bodyBytes, &data); err != nil {
 		// Unmarshal errro, restore body and return
 		resp.Body = io.NopCloser(bytes.NewReader(bodyBytes))
@@ -124,19 +124,19 @@ func setJSONOnlyQuery(req *http.Request, providerClass v1.CommonServiceItemProvi
 	return nil
 }
 
-func replaceIconNullWithCommonServiceItem(items map[string]interface{}) map[string]interface{} {
+func replaceIconNullWithCommonServiceItem(items map[string]any) map[string]any {
 	//  if Icon value is null , replace with empty object
-	replaceIcon := func(data map[string]interface{}) {
+	replaceIcon := func(data map[string]any) {
 		if v, ok := data[commonServiceItemIconKey]; ok && v == nil {
-			data[commonServiceItemIconKey] = map[string]interface{}{}
-			data[commonServiceItemIconKey].(map[string]interface{})[commonServiceItemIconIDKey] = ""
+			data[commonServiceItemIconKey] = map[string]any{}
+			data[commonServiceItemIconKey].(map[string]any)[commonServiceItemIconIDKey] = ""
 		}
 	}
 
 	// case : List
-	if itemsList, ok := items[commonServiceItemListKey].([]interface{}); ok {
+	if itemsList, ok := items[commonServiceItemListKey].([]any); ok {
 		for i, item := range itemsList {
-			if data, ok := item.(map[string]interface{}); ok {
+			if data, ok := item.(map[string]any); ok {
 				replaceIcon(data)
 				itemsList[i] = data
 			}
@@ -146,7 +146,7 @@ func replaceIconNullWithCommonServiceItem(items map[string]interface{}) map[stri
 	}
 
 	// case : default
-	if data, ok := items[commonServiceItemKey].(map[string]interface{}); ok {
+	if data, ok := items[commonServiceItemKey].(map[string]any); ok {
 		replaceIcon(data)
 		items[commonServiceItemKey] = data
 		return items

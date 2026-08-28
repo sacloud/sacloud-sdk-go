@@ -71,19 +71,19 @@ type Parser struct {
 var DefaultParser = &Parser{Config: &ParserConfig{TagName: DefaultTagName}}
 
 // Parse デフォルトのParser(タグ名:meta)でmeta-tagをパースする
-func Parse(v interface{}) ([]StructField, error) {
+func Parse(v any) ([]StructField, error) {
 	return DefaultParser.Parse(v)
 }
 
 // Parse meta-tagをパースする
-func (p *Parser) Parse(v interface{}) ([]StructField, error) {
+func (p *Parser) Parse(v any) ([]StructField, error) {
 	if v == nil {
 		return nil, errors.New("value required")
 	}
 
 	rv := reflect.ValueOf(v)
 	switch rv.Kind() {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		return p.Parse(rv.Elem().Interface()) // dereference pointer
 	case reflect.Struct:
 		return p.ParseFields(StructField{}, reflect.TypeOf(v))
@@ -94,8 +94,7 @@ func (p *Parser) Parse(v interface{}) ([]StructField, error) {
 
 func (p *Parser) ParseFields(parent StructField, tp reflect.Type) ([]StructField, error) {
 	var fields []StructField
-	for i := 0; i < tp.NumField(); i++ {
-		f := tp.Field(i)
+	for f := range tp.Fields() {
 		if f.PkgPath == "" { // exported?
 			parsed, err := p.ParseField(parent, f)
 			if err != nil {
@@ -147,7 +146,7 @@ func (p *Parser) ParseField(parent StructField, f reflect.StructField) ([]Struct
 
 	kind := f.Type.Kind()
 	switch kind {
-	case reflect.Ptr:
+	case reflect.Pointer:
 		if f.Type.Elem().Kind() == reflect.Struct {
 			return p.ParseFields(parent, f.Type.Elem())
 		}
