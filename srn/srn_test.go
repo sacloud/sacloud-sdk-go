@@ -41,6 +41,7 @@ func TestParseSRN(t *testing.T) {
 			assert.Equal(tt.want, actual)
 			assert.Equal(tt.in, actual.String())
 			assert.True(IsSRN(tt.in))
+			assert.Equal(tt.want, MustParse(tt.in))
 		})
 	}
 }

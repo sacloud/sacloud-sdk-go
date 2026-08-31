@@ -46,6 +46,14 @@ func Parse(str string) (SRN, error) {
 	return srn, nil
 }
 
+func MustParse(str string) SRN {
+	srn, err := Parse(str)
+	if err != nil {
+		panic(fmt.Sprintf("failed to parse SRN %q: %v", str, err))
+	}
+	return srn
+}
+
 // IsSRN returns whether the given value is an SRN or not.
 func IsSRN(str string) bool {
 	_, err := Parse(str)
