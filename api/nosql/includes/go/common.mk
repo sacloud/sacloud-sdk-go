@@ -15,7 +15,7 @@
 #
 
 AUTHOR                  ?= The sacloud/makefile Authors
-COPYRIGHT_YEAR          ?= 2025
+COPYRIGHT_YEAR          ?= 2026
 COPYRIGHT_FILES         ?= $$(find . -name "*.go" -print | grep -v "/vendor/")
 GO                      ?= go
 DEFAULT_GOALS           ?= fmt set-license go-licenses-check goimports lint vulncheck test

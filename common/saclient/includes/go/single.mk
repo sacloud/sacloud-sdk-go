@@ -1,5 +1,5 @@
 #
-# Copyright 2022-2023 The sacloud/makefile Authors
+# Copyright 2022-2025 The sacloud/makefile Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,8 +15,8 @@
 #
 
 GO             ?= go
-BIN            ?= bin/example.exe
-GO_ENTRY_FILE  ?= example/main.go
+BIN            ?= TODO_PLEASE_SET_BIN_VARIABLE
+GO_ENTRY_FILE  ?= main.go
 GO_FILES       ?= $(shell find . -name '*.go')
 BUILD_LDFLAGS  ?=
 

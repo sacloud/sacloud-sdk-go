@@ -1,5 +1,5 @@
 #
-# Copyright 2022-2023 The sacloud/makefile Authors
+# Copyright 2022-2025 The sacloud/makefile Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #
 
 AUTHOR                  ?= The sacloud/makefile Authors
-COPYRIGHT_YEAR          ?= 2023
+COPYRIGHT_YEAR          ?= 2026
 COPYRIGHT_FILES         ?= $$(find . -name "*.go" -print | grep -v "/vendor/")
 GO                      ?= go
 DEFAULT_GOALS           ?= fmt set-license go-licenses-check goimports lint vulncheck test
@@ -27,17 +27,12 @@ TEXTLINT_ACTION_VERSION ?= v0.1.0
 .PHONY: test
 test:
 	@echo "running 'go test'..."
-	TESTACC= $(GO) test ./... $(TESTARGS) -run Test -v -timeout=120m -parallel=8 -race;
+	TESTACC= $(GO) test ./... $(TESTARGS) -v -timeout=120m -parallel=8 -race;
 
 .PHONY: testacc
 testacc:
 	@echo "running 'go test' with TESTACC=1..."
 	TESTACC=1 $(GO) test ./... $(TESTARGS) --tags=acctest -v -timeout=120m -parallel=8 ;
-
-.PHONY: test-example
-test-example:
-	@echo "running 'go test' with -tags=example..."
-	$(GO) test ./... $(TESTARGS) --tags=example -v -timeout=120m -parallel=8 ;
 
 .PHONY: dev-tools
 dev-tools:
