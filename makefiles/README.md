@@ -1,52 +1,33 @@
-# makefile
+# makefiles
 
-sacloudプロダクトで共通利用するMakefile
+このリポジトリ内で共通利用するMakefileです。
 
-- `go/`: Go言語向け
+- `go/common.mk`: Goモジュール向けの共通ゴール
+- `go/single.mk`: 単一バイナリをビルドするモジュール向けの追加ゴール
 
 ## Usage
 
-利用するプロジェクト側で以下のように利用します。
-
-#### リモートリポジトリの追加(初回のみ)
-
-```bash
-git remote add makefile https://github.com/sacloud/makefile.git
-```
-
-#### 追加(初回のみ)
-
-```bash
-git subtree add --prefix=includes --squash makefile v0.0.8
-```
-
-利用する側のプロジェクトではMakefileを以下のように記述します。
+各モジュールのMakefileから、リポジトリルートを基準にインクルードします。
+`SACLOUD_SDK_GO_ROOT` の相対パスは、モジュールの階層に応じて調整してください。
 
 ```makefile
 # 必要に応じて変数定義
 AUTHOR         ?= The sacloud/example Authors
-COPYRIGHT_YEAR ?= 2022
+COPYRIGHT_YEAR ?= 2026
 BIN            ?= example
 DEFAULT_GOALS  ?= fmt set-license go-licenses-check goimports lint test build
 
-# 必要なファイルをインクルード
-include includes/go/common.mk
-include includes/go/simple.mk
+SACLOUD_SDK_GO_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/common.mk
+include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/single.mk
 
 # ゴールを追加
 default: $(DEFAULT_GOALS)
 tools: dev-tools # toolsゴールはsacloudプロダクト向け日次CIを行うプロジェクトでは必須
 ```
 
-#### 更新
-
-```bash
-git subtree pull --prefix=includes --squash makefile v0.0.8
-```
-
 ## License
 
-`sacloud/makefile` Copyright (C) 2022-2025 The sacloud/makefile Authors.
+`sacloud/makefile` Copyright (C) 2022-2026 The sacloud/makefile Authors.
 
 This project is published under [Apache 2.0 License](LICENSE).
-
