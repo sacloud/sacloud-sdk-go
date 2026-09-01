@@ -1,5 +1,5 @@
 #
-# Copyright 2022-2023 The sacloud/makefile Authors
+# Copyright 2022-2026 The sacloud/makefile Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
 #
 
 AUTHOR                  ?= The sacloud/makefile Authors
-COPYRIGHT_YEAR          ?= 2023
+COPYRIGHT_YEAR          ?= 2026
 COPYRIGHT_FILES         ?= $$(find . -name "*.go" -print | grep -v "/vendor/")
 GO                      ?= go
 DEFAULT_GOALS           ?= fmt set-license go-licenses-check goimports lint vulncheck test
@@ -90,4 +90,4 @@ go-licenses-check:
 .PHONY: vulncheck
 vulncheck:
 	@echo "running govulncheck..."
-	@govulncheck -version ./...
+	@govulncheck ./...

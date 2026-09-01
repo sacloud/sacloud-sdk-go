@@ -1,5 +1,5 @@
 #
-# Copyright 2022-2023 The sacloud/makefile Authors
+# Copyright 2022-2026 The sacloud/makefile Authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,7 +30,7 @@ build: $(BIN)
 
 $(BIN): $(GO_FILES) go.mod go.sum
 	@echo "running 'go build'..."
-	GOOS=$${OS:-"`$(GO) env GOOS`"} GOARCH=$${ARCH:-"`$(GO) env GOARCH`"} CGO_ENABLED=0 $(GO) build -ldflags=$(BUILD_LDFLAGS) -o $(BIN) $(GO_ENTRY_FILE)
+	@GOOS=$${OS:-"`$(GO) env GOOS`"} GOARCH=$${ARCH:-"`$(GO) env GOARCH`"} CGO_ENABLED=0 $(GO) build -ldflags=$(BUILD_LDFLAGS) -o $(BIN) $(GO_ENTRY_FILE)
 
 .PHONY: clean
 clean:

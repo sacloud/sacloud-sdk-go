@@ -19,7 +19,7 @@ COPYRIGHT_YEAR          ?= 2026
 COPYRIGHT_FILES         ?= $$(find . -name "*.go" -print | grep -v "/vendor/")
 GO                      ?= go
 DEFAULT_GOALS           ?= fmt set-license go-licenses-check goimports lint vulncheck test
-GOLANG_CI_LINT_VERSION  ?= v2.11.3
+GOLANG_CI_LINT_VERSION  ?= v2.12.2
 TEXTLINT_ACTION_VERSION ?= v0.1.0
 
 .DEFAULT_GOAL = default
@@ -38,12 +38,12 @@ testacc:
 dev-tools:
 	$(GO) install github.com/rinchsan/gosimports/cmd/gosimports@latest
 	$(GO) install golang.org/x/tools/cmd/stringer@latest
-	$(GO) install github.com/google/addlicense@latest
+	$(GO) install github.com/sacloud/addlicense@latest
 	$(GO) install github.com/client9/misspell/cmd/misspell@latest
 	$(GO) install github.com/google/go-licenses@v1.0.0
 	$(GO) install github.com/rhysd/actionlint/cmd/actionlint@latest
 	$(GO) install golang.org/x/vuln/cmd/govulncheck@latest
-	curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $$(go env GOPATH)/bin $(GOLANG_CI_LINT_VERSION)
+	curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $$(go env GOPATH)/bin $(GOLANG_CI_LINT_VERSION)
 
 .PHONY: goimports
 goimports: fmt
@@ -80,7 +80,7 @@ lint-action:
 
 .PHONY: set-license
 set-license:
-	@addlicense -v -s=only -c "$(AUTHOR)" -y "$(COPYRIGHT_YEAR)" $(COPYRIGHT_FILES)
+	@addlicense -c "$(AUTHOR)" -y "$(COPYRIGHT_YEAR)" $(COPYRIGHT_FILES)
 
 .PHONY: go-licenses-check
 go-licenses-check:
@@ -90,4 +90,4 @@ go-licenses-check:
 .PHONY: vulncheck
 vulncheck:
 	@echo "running govulncheck..."
-	@govulncheck -version ./...
+	@govulncheck ./...
