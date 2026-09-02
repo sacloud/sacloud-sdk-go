@@ -60,7 +60,7 @@ func (o *ServerOp) Create(ctx context.Context, zone string, param *iaas.ServerCr
 	result.ServerPlanName = fmt.Sprintf("世代:%03d メモリ:%03d CPU:%03d", result.Generation, result.GetMemoryGB(), result.CPU)
 
 	// NIC操作のためにあらかじめ登録しておく
-	putServer(zone, result)
+	putServer(zone, cloneServer(result))
 
 	for _, cs := range param.ConnectedSwitches {
 		ifOp := NewInterfaceOp()
@@ -146,6 +146,12 @@ func (o *ServerOp) Create(ctx context.Context, zone string, param *iaas.ServerCr
 	result.Availability = types.Availabilities.Available
 	putServer(zone, result)
 	return result, nil
+}
+
+func cloneServer(source *iaas.Server) *iaas.Server {
+	dest := &iaas.Server{}
+	copySameNameField(source, dest)
+	return dest
 }
 
 // Read is fake implementation
