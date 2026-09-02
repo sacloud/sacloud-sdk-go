@@ -15,7 +15,7 @@
 AUTHOR         ?= The sacloud/example Authors
 COPYRIGHT_YEAR ?= 2026
 BIN            ?= example
-DEFAULT_GOALS  ?= fmt set-license go-licenses-check goimports lint test build
+DEFAULT_GOALS  ?= fmt set-license go-licenses-check goimports lint vulncheck test build
 
 SACLOUD_SDK_GO_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
 include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/common.mk
