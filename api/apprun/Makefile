@@ -6,8 +6,9 @@ BIN            ?= dist/sacloud-apprun-fake-server
 GO_ENTRY_FILE  ?= cmd/sacloud-apprun-fake-server/*.go
 BUILD_LDFLAGS  ?=
 
-include includes/go/common.mk
-include includes/go/single.mk
+SACLOUD_SDK_GO_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/common.mk
+include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/single.mk
 #====================
 
 default: gen $(DEFAULT_GOALS)
