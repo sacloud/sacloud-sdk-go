@@ -222,6 +222,7 @@ done
 | `make lint` | Go / 文章のlint |
 | `make set-license` | ライセンスヘッダーを追加・更新 |
 | `make go-licenses-check` | 依存ライブラリのライセンスをチェック |
+| `make vulncheck` | `govulncheck` で既知の脆弱性をチェック |
 
 ## ライセンス
 

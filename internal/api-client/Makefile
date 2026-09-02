@@ -18,7 +18,8 @@
 AUTHOR         ?= The sacloud/api-client-go Authors
 COPYRIGHT_YEAR ?= 2022-2025
 
-include includes/go/common.mk
+SACLOUD_SDK_GO_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/common.mk
 #====================
 
 default: $(DEFAULT_GOALS)

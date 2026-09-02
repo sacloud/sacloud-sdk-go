@@ -1,72 +1,10 @@
 # Copyright 2026- The sacloud/sacloud-sdk-go Authors
 # SPDX-License-Identifier: Apache-2.0
 
-AUTHOR                  ?= The sacloud/sacloud-sdk-go Authors
-COPYRIGHT_YEAR          ?= 2026
-COPYRIGHT_FILES         ?= $$(find . -name "*.go" -print | grep -v "/vendor/")
-GO                      ?= go
-DEFAULT_GOALS           ?= fmt set-license go-licenses-check goimports lint test
-GOLANG_CI_LINT_VERSION  ?= v2.12.2
-TEXTLINT_ACTION_VERSION ?= v0.1.0
+AUTHOR ?= The sacloud/sacloud-sdk-go Authors
+SACLOUD_SDK_GO_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/..)
+include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/common.mk
 
-.DEFAULT_GOAL = default
-
-.PHONY: test
-test:
-	@echo "running 'go test'..."
-	TESTACC= $(GO) test ./... $(TESTARGS) -v -timeout=120m -parallel=8 -race;
-
-.PHONY: dev-tools
-dev-tools:
-	$(GO) install github.com/rinchsan/gosimports/cmd/gosimports@latest
-	$(GO) install golang.org/x/tools/cmd/stringer@latest
-	$(GO) install github.com/sacloud/addlicense@latest
-	$(GO) install github.com/client9/misspell/cmd/misspell@latest
-	$(GO) install github.com/google/go-licenses@v1.0.0
-	$(GO) install github.com/rhysd/actionlint/cmd/actionlint@latest
-	curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $$(go env GOPATH)/bin $(GOLANG_CI_LINT_VERSION)
-
-.PHONY: goimports
-goimports: fmt
-	@echo "running gosimports..."
-	@gosimports -l -w .
-
-.PHONY: fmt
-fmt:
-	@echo "running gofmt..."
-	@find . -name '*.go' | grep -v vendor | xargs gofmt -s -w
-
-.PHONY: godoc
-godoc:
-	godoc -http=localhost:6060
-
-.PHONY: lint
-lint: lint-go lint-text lint-action
-
-.PHONY: lint-go
-lint-go:
-	@echo "running golanci-lint..."
-	@golangci-lint run --fix ./...
-
-.PHONY: textlint lint-text
-textlint: lint-text
-lint-text:
-	@echo "running textlint..."
-#	@docker run -t --rm -v $$PWD:/work -w /work ghcr.io/sacloud/textlint-action:$(TEXTLINT_ACTION_VERSION) .
-
-.PHONY: lint-action
-lint-action:
-	@echo "running rhysd/actionlint..."
-	@actionlint
-
-.PHONY: set-license
-set-license:
-	@addlicense -c "$(AUTHOR)" -y "$(COPYRIGHT_YEAR)" $(COPYRIGHT_FILES)
-
-.PHONY: go-licenses-check
-go-licenses-check:
-	@echo "running go-licenses..."
-	@go-licenses check .
-
+.PHONY: default tools
 default: $(DEFAULT_GOALS)
 tools: dev-tools
