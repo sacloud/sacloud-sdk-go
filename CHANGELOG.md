@@ -1,5 +1,30 @@
 # Changelog
 
+## [v0.2.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.1.0...v0.2.0) - 2026-09-07
+
+### 🚀 New Features
+- toolchain go1.27.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/234
+### 📦 Dependency Updates
+- go: bump github.com/stretchr/testify from 1.11.1 to 1.12.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/227
+- go: bump github.com/stretchr/testify from 1.11.1 to 1.12.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/226
+- go: bump golang.org/x/crypto from 0.54.0 to 0.55.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/231
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.0.1 to 0.1.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/245
+- go: bump google.golang.org/grpc from 1.83.0 to 1.83.1 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/250
+- ci: bump github/codeql-action/upload-sarif from 4.37.6 to 4.37.9 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/251
+- go: bump github.com/minio/minio-go/v7 from 7.2.1 to 7.3.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/236
+- ci: bump Songmu/tagpr from 1.20.1 to 1.20.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/248
+- go: bump github.com/ogen-go/ogen from 1.23.0 to 1.24.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/230
+- go: bump github.com/hashicorp/terraform-exec from 0.25.2 to 0.25.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/243
+- go: bump github.com/jlaffaye/ftp from 0.2.2 to 0.2.4 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/244
+### Other Changes
+- common/saclient: allow 1 min time window by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/233
+- apprun: Update OpenAPI to v1.5.0 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/238
+- common/saclient: add `WithAPIRequestRateLimit` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/240
+- Add Networking Suite API by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/241
+- chore: standardize includes/go/common.mk and includes/go/single.mk across all modules by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/246
+- chore: centralize Makefile recipes by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/247
+- fix: avoid sharing partially built fake servers by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/249
+
 ## [v0.1.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.0.1...v0.1.0) - 2026-08-20
 
 ### 🚀 New Features
