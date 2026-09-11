@@ -876,6 +876,8 @@ func (s ModelsSettingsEnabledServiceType) Validate() error {
 		return nil
 	case "AIEngine":
 		return nil
+	case "SimpleAI":
+		return nil
 	case "AppRunDedicatedControlPlane":
 		return nil
 	default:
