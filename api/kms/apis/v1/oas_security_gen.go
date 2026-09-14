@@ -18,16 +18,16 @@ type SecuritySource interface {
 
 // operationRolesBasicAuth is a private map storing roles per operation.
 var operationRolesBasicAuth = map[string][]string{
-	KmsKeysCreateOperation:              []string{},
-	KmsKeysDecryptOperation:             []string{},
-	KmsKeysDestroyOperation:             []string{},
-	KmsKeysEncryptOperation:             []string{},
-	KmsKeysListOperation:                []string{},
-	KmsKeysRetrieveOperation:            []string{},
-	KmsKeysRotateOperation:              []string{},
-	KmsKeysScheduleDestructionOperation: []string{},
-	KmsKeysStatusOperation:              []string{},
-	KmsKeysUpdateOperation:              []string{},
+	ChangeKeyStatusOperation:        []string{},
+	CreateKeyOperation:              []string{},
+	DecryptDataWithKeyOperation:     []string{},
+	DeleteKeyOperation:              []string{},
+	EncryptDataWithKeyOperation:     []string{},
+	ListKeysOperation:               []string{},
+	ReadKeyOperation:                []string{},
+	RotateKeyOperation:              []string{},
+	ScheduleKeyDestructionOperation: []string{},
+	UpdateKeyOperation:              []string{},
 }
 
 // GetRolesForBasicAuth returns the required roles for the given operation.

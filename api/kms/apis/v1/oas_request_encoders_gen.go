@@ -10,8 +10,8 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeKmsKeysCreateRequest(
-	req *WrappedCreateKey,
+func encodeChangeKeyStatusRequest(
+	req *WrappedChangeKeyStateRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -24,8 +24,8 @@ func encodeKmsKeysCreateRequest(
 	return nil
 }
 
-func encodeKmsKeysDecryptRequest(
-	req *WrappedKeyCipher,
+func encodeCreateKeyRequest(
+	req *WrappedCreateKeyRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -38,8 +38,8 @@ func encodeKmsKeysDecryptRequest(
 	return nil
 }
 
-func encodeKmsKeysEncryptRequest(
-	req *WrappedKeyPlain,
+func encodeDecryptDataWithKeyRequest(
+	req *WrappedDecryptionRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -52,8 +52,8 @@ func encodeKmsKeysEncryptRequest(
 	return nil
 }
 
-func encodeKmsKeysScheduleDestructionRequest(
-	req *WrappedScheduleDestructionKey,
+func encodeEncryptDataWithKeyRequest(
+	req *WrappedEncryptionRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -66,8 +66,8 @@ func encodeKmsKeysScheduleDestructionRequest(
 	return nil
 }
 
-func encodeKmsKeysStatusRequest(
-	req *WrappedChangeKeyStatus,
+func encodeScheduleKeyDestructionRequest(
+	req *WrappedScheduleDestructionKeyRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -80,8 +80,8 @@ func encodeKmsKeysStatusRequest(
 	return nil
 }
 
-func encodeKmsKeysUpdateRequest(
-	req *WrappedKey,
+func encodeUpdateKeyRequest(
+	req *WrappedKeyRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
