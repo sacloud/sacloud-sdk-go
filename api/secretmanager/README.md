@@ -34,19 +34,23 @@ func main() {
 	keyId := os.Getenv("SAKURA_KMS_KEY_ID") // コンパネやkms-api-goなどで取得
 	vaultOp := sm.NewVaultOp(client)
 
-	vault, err := vaultOp.Create(ctx, v1.CreateVault{
+	vault, err := vaultOp.Create(ctx, v1.CreateVaultRequest{
 		Name:        "app1_vault",
 		Description: v1.NewOptString("vault for app1"),
 		KmsKeyID:    keyId,
-		Tags:        []string{"app1"},
+		Tags:        v1.NewOptNilStringArray([]string{"app1"}),
 	})
 	if err != nil {
 		panic(err)
 	}
 
-	secOp := sm.NewSecretOp(client, vault.ID)
+	vaultID, ok := vault.ID.Get()
+	if !ok {
+		panic("created vault response did not contain an ID")
+	}
+	secOp := sm.NewSecretOp(client, vaultID)
 
-	resCreate, err := secOp.Create(ctx, v1.CreateSecret{
+	resCreate, err := secOp.Create(ctx, v1.CreateSecretRequest{
 		Name:  "secret1",
 		Value: "Secret Value 1",
 	})
@@ -64,7 +68,7 @@ func main() {
 		fmt.Println("name: " + sec.Name + ", version: " + strconv.Itoa(sec.LatestVersion))
 	}
 
-	resUn, err := secOp.Unveil(ctx, v1.Unveil{
+	resUn, err := secOp.Unveil(ctx, v1.UnveilRequest{
 		Name: "secret1",
 		//Version: v1.NewOptNilInt(1), // Versionを指定して取得も可能
 	})
