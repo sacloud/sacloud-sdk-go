@@ -30,18 +30,17 @@ func main() {
 	ctx := context.Background()
 	keyOp := kms.NewKeyOp(client)
 	// 自動生成のケース
-	res, err := keyOp.Create(ctx, v1.CreateKey{
+	res, err := keyOp.Create(ctx, v1.CreateKeyRequest{
 		Name:        "App key",
 		Description: v1.NewOptString("key gen from go client"),
-		KeyOrigin:   v1.KeyOriginEnumGenerated,
-		Tags:        []string{"App1", "Key1"},
+		Tags: v1.NewOptNilStringArray([]string{"App1", "Key1"}),
 	})
 	if err != nil {
 		panic(err)
 	}
 	fmt.Println(res.Name)
 
-	cipher, err := keyOp.Encrypt(ctx, res.ID, []byte("hello world!"), v1.KeyEncryptAlgoEnumAes256Gcm)
+	cipher, err := keyOp.Encrypt(ctx, res.ID, []byte("hello world!"), v1.EncryptionRequestAlgoAes256Gcm)
 	plain, err := keyOp.Decrypt(ctx, res.ID, cipher)
 	// plain is "hello world!"
 
