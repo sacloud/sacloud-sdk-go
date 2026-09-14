@@ -18,6 +18,7 @@ import (
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type ServicePrincipalAPI interface {
@@ -54,10 +55,10 @@ type ListParams struct {
 func (s *servicePrincipalOp) List(ctx context.Context, params ListParams) (*v1.ServicePrincipalsGetOK, error) {
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipalsGetOK]("ServicePrincipal.List", func() (any, error) {
 		return s.client.ServicePrincipalsGet(ctx, v1.ServicePrincipalsGetParams{
-			Page:      common.IntoOpt[v1.OptInt](params.Page),
-			PerPage:   common.IntoOpt[v1.OptInt](params.PerPage),
-			ProjectID: common.IntoOpt[v1.OptInt](params.ProjectID),
-			Ordering:  common.IntoOpt[v1.OptServicePrincipalsGetOrdering](params.Ordering),
+			Page:      into.Opt[v1.OptInt](params.Page),
+			PerPage:   into.Opt[v1.OptInt](params.PerPage),
+			ProjectID: into.Opt[v1.OptInt](params.ProjectID),
+			Ordering:  into.Opt[v1.OptServicePrincipalsGetOrdering](params.Ordering),
 		})
 	})
 }
@@ -101,9 +102,9 @@ func (s *servicePrincipalOp) ListKeys(ctx context.Context, id int, params ListKe
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipalsServicePrincipalIDKeysGetOK]("ServicePrincipal.ListKeys", func() (any, error) {
 		return s.client.ServicePrincipalsServicePrincipalIDKeysGet(ctx, v1.ServicePrincipalsServicePrincipalIDKeysGetParams{
 			ServicePrincipalID: id,
-			Page:               common.IntoOpt[v1.OptInt](params.Page),
-			PerPage:            common.IntoOpt[v1.OptInt](params.PerPage),
-			Ordering:           common.IntoOpt[v1.OptServicePrincipalsServicePrincipalIDKeysGetOrdering](params.Ordering),
+			Page:               into.Opt[v1.OptInt](params.Page),
+			PerPage:            into.Opt[v1.OptInt](params.PerPage),
+			Ordering:           into.Opt[v1.OptServicePrincipalsServicePrincipalIDKeysGetOrdering](params.Ordering),
 		})
 	})
 }

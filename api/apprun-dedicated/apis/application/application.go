@@ -8,6 +8,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type ApplicationAPI interface {
@@ -29,7 +30,7 @@ func NewApplicationOp(client *v1.Client) *ApplicationOp { return &ApplicationOp{
 func (op *ApplicationOp) List(ctx context.Context, maxItems int64, cursor *string) (list []v1.ReadApplicationDetail, nextCursor *string, err error) {
 	res, err := common.ErrorFromDecodedResponse("Application.List", func() (*v1.ListApplicationResponse, error) {
 		return op.Client.ListApplications(ctx, v1.ListApplicationsParams{
-			Cursor:   common.IntoOpt[v1.OptString](cursor),
+			Cursor:   into.Opt[v1.OptString](cursor),
 			MaxItems: maxItems,
 		})
 	})

@@ -8,6 +8,7 @@ import (
 	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/networking-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 	"github.com/sacloud/sacloud-sdk-go/srn"
 )
 
@@ -141,12 +142,8 @@ type CreateInterfaceConnectionParams struct {
 func (op *interfaceConnectionOp) Create(ctx context.Context, params CreateInterfaceConnectionParams) (*v1.ReadInterfaceConnection, error) {
 	const methodName = "InterfaceConnection.Create"
 
-	var ia v1.OptString
-	if params.IPAddress != nil {
-		ia.SetTo(*params.IPAddress)
-	}
 	res, err := op.client.CreateInterfaceConnection(ctx, &v1.CreateInterfaceConnection{
-		EphemeralIPv4Address: ia,
+		EphemeralIPv4Address: into.Opt[v1.OptString](params.IPAddress),
 		Interface:            v1.SakuraResourceNameRef{SRN: params.InterfaceSRN.String()},
 		Subnet:               v1.SakuraResourceNameRef{SRN: params.SubnetSRN.String()},
 	})

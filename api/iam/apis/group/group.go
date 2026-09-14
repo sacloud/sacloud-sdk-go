@@ -20,6 +20,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 // GroupAPI is the interface for group operations.
@@ -56,10 +57,10 @@ func (g *groupOp) List(ctx context.Context, params ListParams) (*v1.GroupsGetOK,
 		}
 
 		return g.client.GroupsGet(ctx, v1.GroupsGetParams{
-			Page:         common.IntoOpt[v1.OptInt](params.Page),
-			PerPage:      common.IntoOpt[v1.OptInt](params.PerPage),
-			Ordering:     common.IntoOpt[v1.OptGroupsGetOrdering](params.Ordering),
-			CompatUserID: common.IntoOpt[v1.OptInt](userID),
+			Page:         into.Opt[v1.OptInt](params.Page),
+			PerPage:      into.Opt[v1.OptInt](params.PerPage),
+			Ordering:     into.Opt[v1.OptGroupsGetOrdering](params.Ordering),
+			CompatUserID: into.Opt[v1.OptInt](userID),
 		})
 	})
 }

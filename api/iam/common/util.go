@@ -14,32 +14,22 @@
 
 package common
 
-// generic-ish type cast helper function
+import "github.com/sacloud/sacloud-sdk-go/common/packages/into"
+
+//go:fix inline
 func IntoOpt[T, U any, P interface {
 	*T
 	Reset()
 	SetTo(u U)
 }](v *U) T {
-	var opt T
-	if v == nil {
-		P(&opt).Reset()
-	} else {
-		P(&opt).SetTo(*v)
-	}
-	return opt
+	return into.Opt[T, U, P](v)
 }
 
-// generic-ish type cast helper function
+//go:fix inline
 func IntoNullable[T, U any, P interface {
 	*T
 	SetToNull()
 	SetTo(u U)
 }](v *U) T {
-	var nullable T
-	if v == nil {
-		P(&nullable).SetToNull()
-	} else {
-		P(&nullable).SetTo(*v)
-	}
-	return nullable
+	return into.Nil[T, U, P](v)
 }

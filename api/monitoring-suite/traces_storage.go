@@ -21,6 +21,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type TracesStorageAPI interface {
@@ -61,16 +62,16 @@ type TracesStorageListParams struct {
 
 func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListParams) (ret []v1.TraceStorage, err error) {
 	res, err := errorFromDecodedResponse("TracesStorage.List", func() (*v1.PaginatedTraceStorageList, error) {
-		resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID)
+		resourceId, err := into.FromStringPtr[v1.OptInt64, int64](params.ResourceID)
 		if err != nil {
 			return nil, err
 		}
 		return op.client.TracesStoragesList(ctx, v1.TracesStoragesListParams{
-			Count:                          intoOpt[v1.OptInt](params.Count),
-			From:                           intoOpt[v1.OptInt](params.From),
-			AccountID:                      intoOpt[v1.OptString](params.AccountID),
+			Count:                          into.Opt[v1.OptInt](params.Count),
+			From:                           into.Opt[v1.OptInt](params.From),
+			AccountID:                      into.Opt[v1.OptString](params.AccountID),
 			ResourceID:                     resourceId,
-			LogStorageBucketClassification: intoOpt[v1.OptTracesStoragesListLogStorageBucketClassification](params.BucketClassification),
+			LogStorageBucketClassification: into.Opt[v1.OptTracesStoragesListLogStorageBucketClassification](params.BucketClassification),
 		})
 	})
 	if err == nil {
@@ -100,8 +101,8 @@ func (op *tracesStorageOp) Create(ctx context.Context, params TracesStorageCreat
 	res, err := errorFromDecodedResponse("TracesStorage.Create", func() (*v1.TraceStorage, error) {
 		req := v1.TraceStorageCreateRequest{
 			Name:           params.Name,
-			Description:    intoOpt[v1.OptString](params.Description),
-			Classification: intoOpt[v1.OptTraceStorageCreateRequestClassification](params.Classification),
+			Description:    into.Opt[v1.OptString](params.Description),
+			Classification: into.Opt[v1.OptTraceStorageCreateRequestClassification](params.Classification),
 		}
 		return op.client.TracesStoragesCreate(ctx, &req)
 	})
@@ -120,8 +121,8 @@ func (op *tracesStorageOp) Update(ctx context.Context, id string, p TracesStorag
 			return nil, err
 		}
 		return op.client.TracesStoragesPartialUpdate(ctx, v1.NewOptPatchedTraceStorageRequest(v1.PatchedTraceStorageRequest{
-			Name:        intoOpt[v1.OptString](p.Name),
-			Description: intoOpt[v1.OptString](p.Description),
+			Name:        into.Opt[v1.OptString](p.Name),
+			Description: into.Opt[v1.OptString](p.Description),
 		}), v1.TracesStoragesPartialUpdateParams{ResourceID: rid})
 	})
 	return unwrapE[*v1.TraceStorage](res, err)
@@ -160,8 +161,8 @@ func (op *tracesStorageOp) ReadDailyStats(ctx context.Context, resourceID string
 		}
 		return op.client.TracesStoragesStatsDailyRetrieve(ctx, v1.TracesStoragesStatsDailyRetrieveParams{
 			ResourceID: rid,
-			StartDate:  intoOpt[v1.OptDate](startDate),
-			EndDate:    intoOpt[v1.OptDate](endDate),
+			StartDate:  into.Opt[v1.OptDate](startDate),
+			EndDate:    into.Opt[v1.OptDate](endDate),
 		})
 	})
 	if err == nil {
@@ -195,8 +196,8 @@ func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string
 		}
 		return op.client.TracesStoragesKeysList(ctx, v1.TracesStoragesKeysListParams{
 			TraceResourceID: rid,
-			Count:           intoOpt[v1.OptInt](count),
-			From:            intoOpt[v1.OptInt](from),
+			Count:           into.Opt[v1.OptInt](count),
+			From:            into.Opt[v1.OptInt](from),
 		})
 	})
 	if err == nil {
@@ -212,7 +213,7 @@ func (op *tracesStorageOp) CreateKey(ctx context.Context, tracesResourceId strin
 			return nil, err
 		}
 		return op.client.TracesStoragesKeysCreate(ctx, v1.NewOptTraceStorageAccessKeyRequest(v1.TraceStorageAccessKeyRequest{
-			Description: intoOpt[v1.OptString](description),
+			Description: into.Opt[v1.OptString](description),
 		}), v1.TracesStoragesKeysCreateParams{TraceResourceID: rid})
 	})
 	return unwrapE[*v1.TraceStorageAccessKey](res, err)
@@ -239,7 +240,7 @@ func (op *tracesStorageOp) UpdateKey(ctx context.Context, tracesResourceId strin
 			return nil, err
 		}
 		return op.client.TracesStoragesKeysUpdate(ctx, v1.NewOptTraceStorageAccessKeyRequest(v1.TraceStorageAccessKeyRequest{
-			Description: intoOpt[v1.OptString](description),
+			Description: into.Opt[v1.OptString](description),
 		}), v1.TracesStoragesKeysUpdateParams{
 			TraceResourceID: rid,
 			UID:             id,

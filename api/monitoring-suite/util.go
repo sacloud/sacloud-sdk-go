@@ -15,48 +15,38 @@
 package monitoringsuite
 
 import (
-	"strconv"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
-// generic-ish type cast helper function
+//go:fix inline
 func intoOpt[T, U any, P interface {
 	*T
 	Reset()
 	SetTo(u U)
-}](v *U) (opt T) {
-	if v == nil {
-		P(&opt).Reset()
-		return
-	}
-	P(&opt).SetTo(*v)
-	return opt
+}](v *U) T {
+	return into.Opt[T, U, P](v)
 }
 
-// generic-ish type cast helper function
+//go:fix inline
 func intoNil[T, U any, P interface {
 	*T
 	SetTo(u U)
 	SetToNull()
-}](v *U) (opt T) {
-	if v == nil {
-		P(&opt).SetToNull()
-		return
-	}
-	P(&opt).SetTo(*v)
-	return
+}](v *U) T {
+	return into.Nil[T, U, P](v)
 }
 
-// generic-ish type cast helper function
+//go:fix inline
 func intoOptNil[T, U any, P interface {
 	*T
 	SetTo(u U)
 	SetToNull()
 	Reset()
 }](v *U) T {
-	return intoOpt[T, U, P](v)
+	return into.OptNil[T, U, P](v)
 }
 
-// string parser
+//go:fix inline
 func fromStringPtr[
 	T any,
 	U ~int | ~int8 | ~int16 | ~int32 | ~int64,
@@ -65,33 +55,6 @@ func fromStringPtr[
 		Reset()
 		SetTo(u U)
 	},
-](v *string) (opt T, err error) {
-	var zero U
-	var n int
-	switch any(&zero).(type) {
-	case *int8:
-		n = 8
-	case *int16:
-		n = 16
-	case *int32:
-		n = 32
-	case *int64:
-		n = 64
-	case *int:
-		n = 64 // or ... ?
-	default:
-		panic("unreachable")
-	}
-
-	if v == nil {
-		P(&opt).Reset()
-		return
-	}
-	val, err := strconv.ParseInt(*v, 10, n)
-	if err != nil {
-		P(&opt).Reset()
-		return
-	}
-	P(&opt).SetTo(U(val))
-	return
+](v *string) (T, error) {
+	return into.FromStringPtr[T, U, P](v)
 }

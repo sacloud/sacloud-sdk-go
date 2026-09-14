@@ -19,6 +19,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type IDRoleAPI interface {
@@ -35,8 +36,8 @@ func NewIdRoleOp(client *v1.Client) IDRoleAPI { return &idRoleOp{client: client}
 func (i *idRoleOp) List(ctx context.Context, page, perPage *int) (*v1.IDRolesGetOK, error) {
 	return common.ErrorFromDecodedResponse[v1.IDRolesGetOK]("IdRole.List", func() (any, error) {
 		return i.client.IDRolesGet(ctx, v1.IDRolesGetParams{
-			Page:    common.IntoOpt[v1.OptInt](page),
-			PerPage: common.IntoOpt[v1.OptInt](perPage),
+			Page:    into.Opt[v1.OptInt](page),
+			PerPage: into.Opt[v1.OptInt](perPage),
 		})
 	})
 }

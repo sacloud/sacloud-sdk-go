@@ -21,6 +21,7 @@ import (
 	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/cloudhsm/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type LicenseAPI interface {
@@ -65,7 +66,7 @@ func (op *LicenseOp) Create(ctx context.Context, p CloudHSMSoftwareLicenseCreate
 			License: v1.NewOptCreateCloudHSMSoftwareLicense(v1.CreateCloudHSMSoftwareLicense{
 				ServiceClass: v1.CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7,
 				Name:         p.Name,
-				Description:  intoOpt[v1.OptString](p.Description),
+				Description:  into.Opt[v1.OptString](p.Description),
 				Tags:         p.Tags,
 			}),
 		},

@@ -21,6 +21,7 @@ import (
 	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/cloudhsm/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type CloudHSMAPI interface {
@@ -66,7 +67,7 @@ func (op *CloudHSMOp) Create(ctx context.Context, p CloudHSMCreateParams) (*v1.C
 		&v1.WrappedCreateCloudHSM{
 			CloudHSM: v1.CreateCloudHSM{
 				Name:               p.Name,
-				Description:        intoOpt[v1.OptString](p.Description),
+				Description:        into.Opt[v1.OptString](p.Description),
 				Tags:               p.Tags,
 				Availability:       v1.AvailabilityEnumAvailable,
 				ServiceClass:       v1.ServiceClassEnumCloudCloudhsmPartition,
@@ -128,7 +129,7 @@ func (op *CloudHSMOp) Update(ctx context.Context, id string, p CloudHSMUpdatePar
 				ServiceClass:       v1.ServiceClassEnumCloudCloudhsmPartition,
 				Availability:       v1.AvailabilityEnumAvailable,
 				Name:               p.Name,
-				Description:        intoOpt[v1.OptString](p.Description),
+				Description:        into.Opt[v1.OptString](p.Description),
 				Tags:               p.Tags,
 				Ipv4NetworkAddress: p.Ipv4NetworkAddress,
 				Ipv4PrefixLength:   p.Ipv4PrefixLength,

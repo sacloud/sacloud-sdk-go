@@ -3,7 +3,9 @@
 
 package common
 
-// generic-ish type cast helper function
+import "github.com/sacloud/sacloud-sdk-go/common/packages/into"
+
+//go:fix inline
 func IntoOpt[
 	T, U any,
 	P interface {
@@ -11,14 +13,8 @@ func IntoOpt[
 		Reset()
 		SetTo(u U)
 	},
-](v *U) (ret T) {
-	if v == nil {
-		P(&ret).Reset()
-	} else {
-		P(&ret).SetTo(*v)
-	}
-
-	return
+](v *U) T {
+	return into.Opt[T, U, P](v)
 }
 
 // generic-ish type cast helper function
@@ -30,7 +26,7 @@ func FromOpt[T any, P interface{ Get() (T, bool) }](v P) (ret *T) {
 	return
 }
 
-// generic-ish type cast helper function
+//go:fix inline
 func IntoNullable[
 	T, U any,
 	P interface {
@@ -38,14 +34,8 @@ func IntoNullable[
 		SetToNull()
 		SetTo(u U)
 	},
-](v *U) (ret T) {
-	if v == nil {
-		P(&ret).SetToNull()
-	} else {
-		P(&ret).SetTo(*v)
-	}
-
-	return
+](v *U) T {
+	return into.Nil[T, U, P](v)
 }
 
 func MapSlice[T, U any](src []T, f func(T) U) (ret []U) {

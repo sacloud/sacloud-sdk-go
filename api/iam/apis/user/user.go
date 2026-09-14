@@ -20,6 +20,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 // UserAPI is the interface for user operations.
@@ -51,9 +52,9 @@ type ListParams struct {
 func (u *userOp) List(ctx context.Context, params ListParams) (*v1.CompatUsersGetOK, error) {
 	return common.ErrorFromDecodedResponse[v1.CompatUsersGetOK]("User.List", func() (any, error) {
 		return u.client.CompatUsersGet(ctx, v1.CompatUsersGetParams{
-			Page:     common.IntoOpt[v1.OptInt](params.Page),
-			PerPage:  common.IntoOpt[v1.OptInt](params.PerPage),
-			Ordering: common.IntoOpt[v1.OptCompatUsersGetOrdering](params.Ordering),
+			Page:     into.Opt[v1.OptInt](params.Page),
+			PerPage:  into.Opt[v1.OptInt](params.PerPage),
+			Ordering: into.Opt[v1.OptCompatUsersGetOrdering](params.Ordering),
 		})
 	})
 }
@@ -73,7 +74,7 @@ func (u *userOp) Create(ctx context.Context, params CreateParams) (*v1.User, err
 			Password:    params.Password,
 			Code:        params.Code,
 			Description: params.Description,
-			Email:       common.IntoOpt[v1.OptString](params.Email),
+			Email:       into.Opt[v1.OptString](params.Email),
 		})
 	})
 }
@@ -94,7 +95,7 @@ func (u *userOp) Update(ctx context.Context, id int, params UpdateParams) (*v1.U
 	return common.ErrorFromDecodedResponse[v1.User]("User.Update", func() (any, error) {
 		req := v1.CompatUsersUserIDPutReq{
 			Name:        params.Name,
-			Password:    common.IntoOpt[v1.OptString](params.Password),
+			Password:    into.Opt[v1.OptString](params.Password),
 			Description: params.Description,
 		}
 		p := v1.CompatUsersUserIDPutParams{

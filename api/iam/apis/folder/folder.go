@@ -19,6 +19,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type FolderAPI interface {
@@ -50,10 +51,10 @@ type ListParams struct {
 func (f *folderOp) List(ctx context.Context, params ListParams) (*v1.FoldersGetOK, error) {
 	return common.ErrorFromDecodedResponse[v1.FoldersGetOK]("Folder.List", func() (any, error) {
 		return f.client.FoldersGet(ctx, v1.FoldersGetParams{
-			Page:       common.IntoOpt[v1.OptInt](params.Page),
-			PerPage:    common.IntoOpt[v1.OptInt](params.PerPage),
-			FolderName: common.IntoOpt[v1.OptString](params.Name),
-			ParentID:   common.IntoOpt[v1.OptInt](params.ParentID),
+			Page:       into.Opt[v1.OptInt](params.Page),
+			PerPage:    into.Opt[v1.OptInt](params.PerPage),
+			FolderName: into.Opt[v1.OptString](params.Name),
+			ParentID:   into.Opt[v1.OptInt](params.ParentID),
 		})
 	})
 }
@@ -68,8 +69,8 @@ func (f *folderOp) Create(ctx context.Context, params CreateParams) (*v1.Folder,
 	return common.ErrorFromDecodedResponse[v1.Folder]("Folder.Create", func() (any, error) {
 		return f.client.FoldersPost(ctx, &v1.FoldersPostReq{
 			Name:        params.Name,
-			Description: common.IntoOpt[v1.OptString](params.Description),
-			ParentID:    common.IntoOpt[v1.OptNilInt](params.ParentID),
+			Description: into.Opt[v1.OptString](params.Description),
+			ParentID:    into.Opt[v1.OptNilInt](params.ParentID),
 		})
 	})
 }
@@ -87,7 +88,7 @@ func (f *folderOp) Update(ctx context.Context, id int, name string, description 
 		}
 		request := v1.FoldersFolderIDPutReq{
 			Name:        name,
-			Description: common.IntoOpt[v1.OptString](description),
+			Description: into.Opt[v1.OptString](description),
 		}
 		return f.client.FoldersFolderIDPut(ctx, &request, params)
 	})

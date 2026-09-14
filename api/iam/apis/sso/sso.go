@@ -17,6 +17,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type SSOAPI interface {
@@ -39,8 +40,8 @@ func NewSSOOp(client *v1.Client) SSOAPI { return &ssoOp{client: client} }
 func (s *ssoOp) List(ctx context.Context, page, perPage *int) (*v1.SSOProfilesGetOK, error) {
 	return common.ErrorFromDecodedResponse[v1.SSOProfilesGetOK]("SSO.List", func() (any, error) {
 		return s.client.SSOProfilesGet(ctx, v1.SSOProfilesGetParams{
-			Page:    common.IntoOpt[v1.OptInt](page),
-			PerPage: common.IntoOpt[v1.OptInt](perPage),
+			Page:    into.Opt[v1.OptInt](page),
+			PerPage: into.Opt[v1.OptInt](perPage),
 		})
 	})
 }

@@ -19,6 +19,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type IAMRoleAPI interface {
@@ -35,8 +36,8 @@ func NewIAMRoleOp(client *v1.Client) IAMRoleAPI { return &iamRoleOp{client: clie
 func (i *iamRoleOp) List(ctx context.Context, page, perPage *int) (*v1.IamRolesGetOK, error) {
 	return common.ErrorFromDecodedResponse[v1.IamRolesGetOK]("IAMRole.List", func() (any, error) {
 		return i.client.IamRolesGet(ctx, v1.IamRolesGetParams{
-			Page:    common.IntoOpt[v1.OptInt](page),
-			PerPage: common.IntoOpt[v1.OptInt](perPage),
+			Page:    into.Opt[v1.OptInt](page),
+			PerPage: into.Opt[v1.OptInt](perPage),
 		})
 	})
 }

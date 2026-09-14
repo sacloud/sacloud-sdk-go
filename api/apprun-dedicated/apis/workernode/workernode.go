@@ -8,6 +8,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type WorkerNodeAPI interface {
@@ -38,7 +39,7 @@ func (op *WorkerNodeOp) List(ctx context.Context, maxItems int64, cursor *v1.Wor
 		return op.client.ListWorkerNodes(ctx, v1.ListWorkerNodesParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
-			Cursor:             common.IntoOpt[v1.OptWorkerNodeID](cursor),
+			Cursor:             into.Opt[v1.OptWorkerNodeID](cursor),
 			MaxItems:           maxItems,
 		})
 	})

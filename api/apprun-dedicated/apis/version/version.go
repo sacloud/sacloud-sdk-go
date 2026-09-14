@@ -8,6 +8,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type VersionAPI interface {
@@ -36,7 +37,7 @@ func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.Applic
 	res, err := common.ErrorFromDecodedResponse("Version.List", func() (*v1.ListApplicationVersionResponse, error) {
 		return op.client.ListApplicationVersions(ctx, v1.ListApplicationVersionsParams{
 			ApplicationID: op.applicationID,
-			Cursor:        common.IntoOpt[v1.OptApplicationVersionNumber](cursor),
+			Cursor:        into.Opt[v1.OptApplicationVersionNumber](cursor),
 			MaxItems:      maxItems,
 		})
 	})
@@ -125,7 +126,7 @@ type EnvironmentVariable struct {
 
 func (e EnvironmentVariable) into() (ret v1.CreateEnvironmentVariable) {
 	ret.SetKey(e.Key)
-	ret.SetValue(common.IntoOpt[v1.OptString](e.Value))
+	ret.SetValue(into.Opt[v1.OptString](e.Value))
 	ret.SetSecret(e.Secret)
 
 	return
@@ -159,15 +160,15 @@ func (c *CreateParams) into() (ret v1.CreateApplicationVersion) {
 	ret.SetCPU(c.CPU)
 	ret.SetMemory(c.Memory)
 	ret.SetScalingMode(c.ScalingMode)
-	ret.SetFixedScale(common.IntoOpt[v1.OptInt32](c.FixedScale))
-	ret.SetMinScale(common.IntoOpt[v1.OptInt32](c.MinScale))
-	ret.SetMaxScale(common.IntoOpt[v1.OptInt32](c.MaxScale))
-	ret.SetScaleInThreshold(common.IntoOpt[v1.OptInt32](c.ScaleInThreshold))
-	ret.SetScaleOutThreshold(common.IntoOpt[v1.OptInt32](c.ScaleOutThreshold))
+	ret.SetFixedScale(into.Opt[v1.OptInt32](c.FixedScale))
+	ret.SetMinScale(into.Opt[v1.OptInt32](c.MinScale))
+	ret.SetMaxScale(into.Opt[v1.OptInt32](c.MaxScale))
+	ret.SetScaleInThreshold(into.Opt[v1.OptInt32](c.ScaleInThreshold))
+	ret.SetScaleOutThreshold(into.Opt[v1.OptInt32](c.ScaleOutThreshold))
 	ret.SetImage(c.Image)
 	ret.SetCmd(c.Cmd)
-	ret.SetRegistryUsername(common.IntoNullable[v1.NilString](c.RegistryUsername))
-	ret.SetRegistryPassword(common.IntoNullable[v1.NilString](c.RegistryPassword))
+	ret.SetRegistryUsername(into.Nil[v1.NilString](c.RegistryUsername))
+	ret.SetRegistryPassword(into.Nil[v1.NilString](c.RegistryPassword))
 	ret.SetRegistryPasswordAction(c.RegistryPasswordAction)
 	ret.SetExposedPorts(common.MapSlice(c.ExposedPorts, ExposedPort.into))
 	ret.SetEnv(common.MapSlice(c.EnvVars, EnvironmentVariable.into))

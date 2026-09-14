@@ -18,6 +18,7 @@ import (
 	"context"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type PublisherAPI interface {
@@ -38,8 +39,8 @@ func NewPublisherOp(client *v1.Client) PublisherAPI {
 func (p *publisherOp) List(ctx context.Context, count *int, from *int) (ret []v1.Publisher, err error) {
 	res, err := errorFromDecodedResponse("Publisher.List", func() (*v1.PaginatedPublisherList, error) {
 		return p.client.PublishersList(ctx, v1.PublishersListParams{
-			Count: intoOpt[v1.OptInt](count),
-			From:  intoOpt[v1.OptInt](from),
+			Count: into.Opt[v1.OptInt](count),
+			From:  into.Opt[v1.OptInt](from),
 		})
 	})
 	if err == nil {

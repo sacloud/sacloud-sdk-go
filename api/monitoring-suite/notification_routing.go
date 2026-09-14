@@ -19,6 +19,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type NotificationRoutingAPI interface {
@@ -49,8 +50,8 @@ func (op *notificationRoutingOp) List(ctx context.Context, projectId string, cou
 		}
 		return op.client.AlertsProjectsNotificationRoutingsList(ctx, v1.AlertsProjectsNotificationRoutingsListParams{
 			ProjectResourceID: id,
-			Count:             intoOpt[v1.OptInt](count),
-			From:              intoOpt[v1.OptInt](from),
+			Count:             into.Opt[v1.OptInt](count),
+			From:              into.Opt[v1.OptInt](from),
 		})
 	})
 	if err == nil {
@@ -84,7 +85,7 @@ func (op *notificationRoutingOp) Create(ctx context.Context, projectId string, p
 				}
 				return ret
 			}(),
-			ResendIntervalMinutes: intoOpt[v1.OptInt](params.ResendIntervalMinutes),
+			ResendIntervalMinutes: into.Opt[v1.OptInt](params.ResendIntervalMinutes),
 		}
 		return op.client.AlertsProjectsNotificationRoutingsCreate(ctx, &req, v1.AlertsProjectsNotificationRoutingsCreateParams{ProjectResourceID: id})
 	})
@@ -105,7 +106,7 @@ func (op *notificationRoutingOp) Update(ctx context.Context, projectId string, u
 			return nil, err
 		}
 		return op.client.AlertsProjectsNotificationRoutingsPartialUpdate(ctx, v1.NewOptPatchedNotificationRoutingRequest(v1.PatchedNotificationRoutingRequest{
-			NotificationTargetUID: intoOpt[v1.OptUUID](params.NotificationTargetUID),
+			NotificationTargetUID: into.Opt[v1.OptUUID](params.NotificationTargetUID),
 			MatchLabels: func() []v1.MatchLabelsItemRequest {
 				ret := make([]v1.MatchLabelsItemRequest, len(params.MatchLabels))
 				for i, item := range params.MatchLabels {
@@ -116,7 +117,7 @@ func (op *notificationRoutingOp) Update(ctx context.Context, projectId string, u
 				}
 				return ret
 			}(),
-			ResendIntervalMinutes: intoOpt[v1.OptInt](params.ResendIntervalMinutes),
+			ResendIntervalMinutes: into.Opt[v1.OptInt](params.ResendIntervalMinutes),
 		}), v1.AlertsProjectsNotificationRoutingsPartialUpdateParams{
 			ProjectResourceID: id,
 			UID:               uid,

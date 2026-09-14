@@ -20,6 +20,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type NotificationTargetAPI interface {
@@ -53,8 +54,8 @@ func (op *notificationTargetOp) List(ctx context.Context, projectId string, p No
 		}
 		return op.client.AlertsProjectsNotificationTargetsList(ctx, v1.AlertsProjectsNotificationTargetsListParams{
 			ProjectResourceID: id,
-			Count:             intoOpt[v1.OptInt](p.Count),
-			From:              intoOpt[v1.OptInt](p.From),
+			Count:             into.Opt[v1.OptInt](p.Count),
+			From:              into.Opt[v1.OptInt](p.From),
 		})
 	})
 	if err == nil {
@@ -97,8 +98,8 @@ func (op *notificationTargetOp) Create(ctx context.Context, projectId string, pa
 		}
 		return op.client.AlertsProjectsNotificationTargetsCreate(ctx, &v1.NotificationTargetRequest{
 			ServiceType: v1.NotificationTargetRequestServiceType(params.ServiceType),
-			URL:         intoOpt[v1.OptString](params.urlstr()),
-			Description: intoOpt[v1.OptString](params.Description),
+			URL:         into.Opt[v1.OptString](params.urlstr()),
+			Description: into.Opt[v1.OptString](params.Description),
 		}, v1.AlertsProjectsNotificationTargetsCreateParams{ProjectResourceID: pid})
 	})
 }
@@ -116,9 +117,9 @@ func (op *notificationTargetOp) Update(ctx context.Context, projectId string, ui
 			return nil, err
 		}
 		return op.client.AlertsProjectsNotificationTargetsPartialUpdate(ctx, v1.NewOptPatchedNotificationTargetRequest(v1.PatchedNotificationTargetRequest{
-			ServiceType: intoOpt[v1.OptPatchedNotificationTargetRequestServiceType](params.ServiceType),
-			URL:         intoOpt[v1.OptString](params.URL),
-			Description: intoOpt[v1.OptString](params.Description),
+			ServiceType: into.Opt[v1.OptPatchedNotificationTargetRequestServiceType](params.ServiceType),
+			URL:         into.Opt[v1.OptString](params.URL),
+			Description: into.Opt[v1.OptString](params.Description),
 		}), v1.AlertsProjectsNotificationTargetsPartialUpdateParams{
 			ProjectResourceID: pid,
 			UID:               uid,
