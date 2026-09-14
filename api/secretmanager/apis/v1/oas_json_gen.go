@@ -8,19 +8,18 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/validate"
 )
 
 // Encode implements json.Marshaler.
-func (s *CreateSecret) Encode(e *jx.Encoder) {
+func (s *CreateSecretRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *CreateSecret) encodeFields(e *jx.Encoder) {
+func (s *CreateSecretRequest) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Name")
 		e.Str(s.Name)
@@ -29,22 +28,17 @@ func (s *CreateSecret) encodeFields(e *jx.Encoder) {
 		e.FieldStart("Value")
 		e.Str(s.Value)
 	}
-	{
-		e.FieldStart("LatestVersion")
-		e.Int(s.LatestVersion)
-	}
 }
 
-var jsonFieldsNameOfCreateSecret = [3]string{
+var jsonFieldsNameOfCreateSecretRequest = [2]string{
 	0: "Name",
 	1: "Value",
-	2: "LatestVersion",
 }
 
-// Decode decodes CreateSecret from json.
-func (s *CreateSecret) Decode(d *jx.Decoder) error {
+// Decode decodes CreateSecretRequest from json.
+func (s *CreateSecretRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode CreateSecret to nil")
+		return errors.New("invalid: unable to decode CreateSecretRequest to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -74,29 +68,17 @@ func (s *CreateSecret) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Value\"")
 			}
-		case "LatestVersion":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Int()
-				s.LatestVersion = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"LatestVersion\"")
-			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode CreateSecret")
+		return errors.Wrap(err, "decode CreateSecretRequest")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000111,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -108,8 +90,8 @@ func (s *CreateSecret) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfCreateSecret) {
-					name = jsonFieldsNameOfCreateSecret[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfCreateSecretRequest) {
+					name = jsonFieldsNameOfCreateSecretRequest[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -130,14 +112,127 @@ func (s *CreateSecret) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *CreateSecret) MarshalJSON() ([]byte, error) {
+func (s *CreateSecretRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *CreateSecret) UnmarshalJSON(data []byte) error {
+func (s *CreateSecretRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateSecretResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateSecretResponse) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Name")
+		e.Str(s.Name)
+	}
+	{
+		e.FieldStart("LatestVersion")
+		e.Int(s.LatestVersion)
+	}
+}
+
+var jsonFieldsNameOfCreateSecretResponse = [2]string{
+	0: "Name",
+	1: "LatestVersion",
+}
+
+// Decode decodes CreateSecretResponse from json.
+func (s *CreateSecretResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateSecretResponse to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Name":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Name\"")
+			}
+		case "LatestVersion":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Int()
+				s.LatestVersion = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"LatestVersion\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateSecretResponse")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateSecretResponse) {
+					name = jsonFieldsNameOfCreateSecretResponse[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateSecretResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateSecretResponse) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -152,16 +247,22 @@ func (s *CreateVault) Encode(e *jx.Encoder) {
 // encodeFields encodes fields.
 func (s *CreateVault) encodeFields(e *jx.Encoder) {
 	{
-		e.FieldStart("ID")
-		e.Str(s.ID)
+		if s.ID.Set {
+			e.FieldStart("ID")
+			s.ID.Encode(e)
+		}
 	}
 	{
-		e.FieldStart("CreatedAt")
-		s.CreatedAt.Encode(e)
+		if s.CreatedAt.Set {
+			e.FieldStart("CreatedAt")
+			s.CreatedAt.Encode(e)
+		}
 	}
 	{
-		e.FieldStart("ModifiedAt")
-		s.ModifiedAt.Encode(e)
+		if s.ModifiedAt.Set {
+			e.FieldStart("ModifiedAt")
+			s.ModifiedAt.Encode(e)
+		}
 	}
 	{
 		e.FieldStart("Name")
@@ -178,13 +279,9 @@ func (s *CreateVault) encodeFields(e *jx.Encoder) {
 		e.Str(s.KmsKeyID)
 	}
 	{
-		if s.Tags != nil {
+		if s.Tags.Set {
 			e.FieldStart("Tags")
-			e.ArrStart()
-			for _, elem := range s.Tags {
-				e.Str(elem)
-			}
-			e.ArrEnd()
+			s.Tags.Encode(e)
 		}
 	}
 }
@@ -209,11 +306,9 @@ func (s *CreateVault) Decode(d *jx.Decoder) error {
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
 		case "ID":
-			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.ID = string(v)
-				if err != nil {
+				s.ID.Reset()
+				if err := s.ID.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -221,8 +316,8 @@ func (s *CreateVault) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"ID\"")
 			}
 		case "CreatedAt":
-			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
+				s.CreatedAt.Reset()
 				if err := s.CreatedAt.Decode(d); err != nil {
 					return err
 				}
@@ -231,8 +326,8 @@ func (s *CreateVault) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"CreatedAt\"")
 			}
 		case "ModifiedAt":
-			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
+				s.ModifiedAt.Reset()
 				if err := s.ModifiedAt.Decode(d); err != nil {
 					return err
 				}
@@ -276,17 +371,8 @@ func (s *CreateVault) Decode(d *jx.Decoder) error {
 			}
 		case "Tags":
 			if err := func() error {
-				s.Tags = make([]string, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem string
-					v, err := d.Str()
-					elem = string(v)
-					if err != nil {
-						return err
-					}
-					s.Tags = append(s.Tags, elem)
-					return nil
-				}); err != nil {
+				s.Tags.Reset()
+				if err := s.Tags.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -303,7 +389,7 @@ func (s *CreateVault) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00101111,
+		0b00101000,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -349,6 +435,153 @@ func (s *CreateVault) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode implements json.Marshaler.
+func (s *CreateVaultRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateVaultRequest) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Name")
+		e.Str(s.Name)
+	}
+	{
+		if s.Description.Set {
+			e.FieldStart("Description")
+			s.Description.Encode(e)
+		}
+	}
+	{
+		e.FieldStart("KmsKeyID")
+		e.Str(s.KmsKeyID)
+	}
+	{
+		if s.Tags.Set {
+			e.FieldStart("Tags")
+			s.Tags.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateVaultRequest = [4]string{
+	0: "Name",
+	1: "Description",
+	2: "KmsKeyID",
+	3: "Tags",
+}
+
+// Decode decodes CreateVaultRequest from json.
+func (s *CreateVaultRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateVaultRequest to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Name":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Name\"")
+			}
+		case "Description":
+			if err := func() error {
+				s.Description.Reset()
+				if err := s.Description.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Description\"")
+			}
+		case "KmsKeyID":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				v, err := d.Str()
+				s.KmsKeyID = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"KmsKeyID\"")
+			}
+		case "Tags":
+			if err := func() error {
+				s.Tags.Reset()
+				if err := s.Tags.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Tags\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateVaultRequest")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000101,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateVaultRequest) {
+					name = jsonFieldsNameOfCreateVaultRequest[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateVaultRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateVaultRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes DateTime as json.
 func (s DateTime) Encode(e *jx.Encoder) {
 	unwrapped := string(s)
@@ -389,133 +622,35 @@ func (s *DateTime) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode implements json.Marshaler.
-func (s *DeleteSecret) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *DeleteSecret) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("Name")
-		e.Str(s.Name)
-	}
-}
-
-var jsonFieldsNameOfDeleteSecret = [1]string{
-	0: "Name",
-}
-
-// Decode decodes DeleteSecret from json.
-func (s *DeleteSecret) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DeleteSecret to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "Name":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Name\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode DeleteSecret")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000001,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfDeleteSecret) {
-					name = jsonFieldsNameOfDeleteSecret[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DeleteSecret) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DeleteSecret) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes int as json.
-func (o OptInt) Encode(e *jx.Encoder) {
+// Encode encodes DateTime as json.
+func (o OptDateTime) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
-	e.Int(int(o.Value))
+	o.Value.Encode(e)
 }
 
-// Decode decodes int from json.
-func (o *OptInt) Decode(d *jx.Decoder) error {
+// Decode decodes DateTime from json.
+func (o *OptDateTime) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptInt to nil")
+		return errors.New("invalid: unable to decode OptDateTime to nil")
 	}
 	o.Set = true
-	v, err := d.Int()
-	if err != nil {
+	if err := o.Value.Decode(d); err != nil {
 		return err
 	}
-	o.Value = int(v)
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptInt) MarshalJSON() ([]byte, error) {
+func (s OptDateTime) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptInt) UnmarshalJSON(data []byte) error {
+func (s *OptDateTime) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -571,6 +706,69 @@ func (s *OptNilInt) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes []string as json.
+func (o OptNilStringArray) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	if o.Null {
+		e.Null()
+		return
+	}
+	e.ArrStart()
+	for _, elem := range o.Value {
+		e.Str(elem)
+	}
+	e.ArrEnd()
+}
+
+// Decode decodes []string from json.
+func (o *OptNilStringArray) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptNilStringArray to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v []string
+		o.Value = v
+		o.Set = true
+		o.Null = true
+		return nil
+	}
+	o.Set = true
+	o.Null = false
+	o.Value = make([]string, 0)
+	if err := d.Arr(func(d *jx.Decoder) error {
+		var elem string
+		v, err := d.Str()
+		elem = string(v)
+		if err != nil {
+			return err
+		}
+		o.Value = append(o.Value, elem)
+		return nil
+	}); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptNilStringArray) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptNilStringArray) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes string as json.
 func (o OptString) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -607,29 +805,25 @@ func (s *OptString) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *PaginatedSecretList) Encode(e *jx.Encoder) {
+func (s *PaginatedSecretResponseList) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *PaginatedSecretList) encodeFields(e *jx.Encoder) {
+func (s *PaginatedSecretResponseList) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Count")
 		e.Int(s.Count)
 	}
 	{
-		if s.From.Set {
-			e.FieldStart("From")
-			s.From.Encode(e)
-		}
+		e.FieldStart("From")
+		e.Int(s.From)
 	}
 	{
-		if s.Total.Set {
-			e.FieldStart("Total")
-			s.Total.Encode(e)
-		}
+		e.FieldStart("Total")
+		e.Int(s.Total)
 	}
 	{
 		e.FieldStart("Secrets")
@@ -639,19 +833,24 @@ func (s *PaginatedSecretList) encodeFields(e *jx.Encoder) {
 		}
 		e.ArrEnd()
 	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
 }
 
-var jsonFieldsNameOfPaginatedSecretList = [4]string{
+var jsonFieldsNameOfPaginatedSecretResponseList = [5]string{
 	0: "Count",
 	1: "From",
 	2: "Total",
 	3: "Secrets",
+	4: "is_ok",
 }
 
-// Decode decodes PaginatedSecretList from json.
-func (s *PaginatedSecretList) Decode(d *jx.Decoder) error {
+// Decode decodes PaginatedSecretResponseList from json.
+func (s *PaginatedSecretResponseList) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PaginatedSecretList to nil")
+		return errors.New("invalid: unable to decode PaginatedSecretResponseList to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -670,9 +869,11 @@ func (s *PaginatedSecretList) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Count\"")
 			}
 		case "From":
+			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				s.From.Reset()
-				if err := s.From.Decode(d); err != nil {
+				v, err := d.Int()
+				s.From = int(v)
+				if err != nil {
 					return err
 				}
 				return nil
@@ -680,9 +881,11 @@ func (s *PaginatedSecretList) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"From\"")
 			}
 		case "Total":
+			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				s.Total.Reset()
-				if err := s.Total.Decode(d); err != nil {
+				v, err := d.Int()
+				s.Total = int(v)
+				if err != nil {
 					return err
 				}
 				return nil
@@ -692,9 +895,9 @@ func (s *PaginatedSecretList) Decode(d *jx.Decoder) error {
 		case "Secrets":
 			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				s.Secrets = make([]Secret, 0)
+				s.Secrets = make([]SecretResponse, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem Secret
+					var elem SecretResponse
 					if err := elem.Decode(d); err != nil {
 						return err
 					}
@@ -707,17 +910,29 @@ func (s *PaginatedSecretList) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Secrets\"")
 			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 4
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode PaginatedSecretList")
+		return errors.Wrap(err, "decode PaginatedSecretResponseList")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00001001,
+		0b00011111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -729,8 +944,8 @@ func (s *PaginatedSecretList) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfPaginatedSecretList) {
-					name = jsonFieldsNameOfPaginatedSecretList[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfPaginatedSecretResponseList) {
+					name = jsonFieldsNameOfPaginatedSecretResponseList[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -751,14 +966,14 @@ func (s *PaginatedSecretList) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *PaginatedSecretList) MarshalJSON() ([]byte, error) {
+func (s *PaginatedSecretResponseList) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PaginatedSecretList) UnmarshalJSON(data []byte) error {
+func (s *PaginatedSecretResponseList) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -777,16 +992,12 @@ func (s *PaginatedVaultList) encodeFields(e *jx.Encoder) {
 		e.Int(s.Count)
 	}
 	{
-		if s.From.Set {
-			e.FieldStart("From")
-			s.From.Encode(e)
-		}
+		e.FieldStart("From")
+		e.Int(s.From)
 	}
 	{
-		if s.Total.Set {
-			e.FieldStart("Total")
-			s.Total.Encode(e)
-		}
+		e.FieldStart("Total")
+		e.Int(s.Total)
 	}
 	{
 		e.FieldStart("Vaults")
@@ -796,13 +1007,18 @@ func (s *PaginatedVaultList) encodeFields(e *jx.Encoder) {
 		}
 		e.ArrEnd()
 	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
 }
 
-var jsonFieldsNameOfPaginatedVaultList = [4]string{
+var jsonFieldsNameOfPaginatedVaultList = [5]string{
 	0: "Count",
 	1: "From",
 	2: "Total",
 	3: "Vaults",
+	4: "is_ok",
 }
 
 // Decode decodes PaginatedVaultList from json.
@@ -827,9 +1043,11 @@ func (s *PaginatedVaultList) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Count\"")
 			}
 		case "From":
+			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				s.From.Reset()
-				if err := s.From.Decode(d); err != nil {
+				v, err := d.Int()
+				s.From = int(v)
+				if err != nil {
 					return err
 				}
 				return nil
@@ -837,9 +1055,11 @@ func (s *PaginatedVaultList) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"From\"")
 			}
 		case "Total":
+			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				s.Total.Reset()
-				if err := s.Total.Decode(d); err != nil {
+				v, err := d.Int()
+				s.Total = int(v)
+				if err != nil {
 					return err
 				}
 				return nil
@@ -864,6 +1084,18 @@ func (s *PaginatedVaultList) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Vaults\"")
 			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 4
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
 		default:
 			return d.Skip()
 		}
@@ -874,7 +1106,7 @@ func (s *PaginatedVaultList) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00001001,
+		0b00011111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -921,14 +1153,14 @@ func (s *PaginatedVaultList) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *Secret) Encode(e *jx.Encoder) {
+func (s *SecretResponse) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *Secret) encodeFields(e *jx.Encoder) {
+func (s *SecretResponse) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Name")
 		e.Str(s.Name)
@@ -939,15 +1171,15 @@ func (s *Secret) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfSecret = [2]string{
+var jsonFieldsNameOfSecretResponse = [2]string{
 	0: "Name",
 	1: "LatestVersion",
 }
 
-// Decode decodes Secret from json.
-func (s *Secret) Decode(d *jx.Decoder) error {
+// Decode decodes SecretResponse from json.
+func (s *SecretResponse) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode Secret to nil")
+		return errors.New("invalid: unable to decode SecretResponse to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -982,7 +1214,7 @@ func (s *Secret) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode Secret")
+		return errors.Wrap(err, "decode SecretResponse")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -999,8 +1231,8 @@ func (s *Secret) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfSecret) {
-					name = jsonFieldsNameOfSecret[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfSecretResponse) {
+					name = jsonFieldsNameOfSecretResponse[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -1021,27 +1253,27 @@ func (s *Secret) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *Secret) MarshalJSON() ([]byte, error) {
+func (s *SecretResponse) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Secret) UnmarshalJSON(data []byte) error {
+func (s *SecretResponse) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *Unveil) Encode(e *jx.Encoder) {
+func (s *UnveilRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *Unveil) encodeFields(e *jx.Encoder) {
+func (s *UnveilRequest) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Name")
 		e.Str(s.Name)
@@ -1052,22 +1284,17 @@ func (s *Unveil) encodeFields(e *jx.Encoder) {
 			s.Version.Encode(e)
 		}
 	}
-	{
-		e.FieldStart("Value")
-		e.Str(s.Value)
-	}
 }
 
-var jsonFieldsNameOfUnveil = [3]string{
+var jsonFieldsNameOfUnveilRequest = [2]string{
 	0: "Name",
 	1: "Version",
-	2: "Value",
 }
 
-// Decode decodes Unveil from json.
-func (s *Unveil) Decode(d *jx.Decoder) error {
+// Decode decodes UnveilRequest from json.
+func (s *UnveilRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode Unveil to nil")
+		return errors.New("invalid: unable to decode UnveilRequest to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -1095,29 +1322,17 @@ func (s *Unveil) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Version\"")
 			}
-		case "Value":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Str()
-				s.Value = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Value\"")
-			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode Unveil")
+		return errors.Wrap(err, "decode UnveilRequest")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000101,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1129,8 +1344,8 @@ func (s *Unveil) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfUnveil) {
-					name = jsonFieldsNameOfUnveil[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfUnveilRequest) {
+					name = jsonFieldsNameOfUnveilRequest[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -1151,14 +1366,144 @@ func (s *Unveil) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *Unveil) MarshalJSON() ([]byte, error) {
+func (s *UnveilRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Unveil) UnmarshalJSON(data []byte) error {
+func (s *UnveilRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *UnveilResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *UnveilResponse) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Name")
+		e.Str(s.Name)
+	}
+	{
+		e.FieldStart("Version")
+		e.Int(s.Version)
+	}
+	{
+		e.FieldStart("Value")
+		e.Str(s.Value)
+	}
+}
+
+var jsonFieldsNameOfUnveilResponse = [3]string{
+	0: "Name",
+	1: "Version",
+	2: "Value",
+}
+
+// Decode decodes UnveilResponse from json.
+func (s *UnveilResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode UnveilResponse to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Name":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Name\"")
+			}
+		case "Version":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Int()
+				s.Version = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Version\"")
+			}
+		case "Value":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				v, err := d.Str()
+				s.Value = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Value\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode UnveilResponse")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000111,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfUnveilResponse) {
+					name = jsonFieldsNameOfUnveilResponse[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *UnveilResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *UnveilResponse) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1189,18 +1534,18 @@ func (s *Vault) encodeFields(e *jx.Encoder) {
 		e.Str(s.Name)
 	}
 	{
-		if s.Description.Set {
-			e.FieldStart("Description")
-			s.Description.Encode(e)
-		}
+		e.FieldStart("Description")
+		e.Str(s.Description)
 	}
 	{
 		e.FieldStart("KmsKeyID")
 		e.Str(s.KmsKeyID)
 	}
 	{
-		if s.Tags != nil {
-			e.FieldStart("Tags")
+		e.FieldStart("Tags")
+		if s.Tags == nil {
+			e.Null()
+		} else {
 			e.ArrStart()
 			for _, elem := range s.Tags {
 				e.Str(elem)
@@ -1274,9 +1619,11 @@ func (s *Vault) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"Name\"")
 			}
 		case "Description":
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
-				s.Description.Reset()
-				if err := s.Description.Decode(d); err != nil {
+				v, err := d.Str()
+				s.Description = string(v)
+				if err != nil {
 					return err
 				}
 				return nil
@@ -1296,19 +1643,27 @@ func (s *Vault) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"KmsKeyID\"")
 			}
 		case "Tags":
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
-				s.Tags = make([]string, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem string
-					v, err := d.Str()
-					elem = string(v)
-					if err != nil {
+				switch tt := d.Next(); tt {
+				case jx.Null:
+					if err := d.Skip(); err != nil {
 						return err
 					}
-					s.Tags = append(s.Tags, elem)
-					return nil
-				}); err != nil {
-					return err
+				default:
+					s.Tags = make([]string, 0)
+					if err := d.Arr(func(d *jx.Decoder) error {
+						var elem string
+						v, err := d.Str()
+						elem = string(v)
+						if err != nil {
+							return err
+						}
+						s.Tags = append(s.Tags, elem)
+						return nil
+					}); err != nil {
+						return err
+					}
 				}
 				return nil
 			}(); err != nil {
@@ -1324,7 +1679,7 @@ func (s *Vault) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00101111,
+		0b01111111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1371,49 +1726,85 @@ func (s *Vault) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *WrappedCreateSecret) Encode(e *jx.Encoder) {
+func (s *VaultRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *WrappedCreateSecret) encodeFields(e *jx.Encoder) {
+func (s *VaultRequest) encodeFields(e *jx.Encoder) {
 	{
-		e.FieldStart("Secret")
-		s.Secret.Encode(e)
+		e.FieldStart("Name")
+		e.Str(s.Name)
+	}
+	{
+		if s.Description.Set {
+			e.FieldStart("Description")
+			s.Description.Encode(e)
+		}
+	}
+	{
+		if s.Tags.Set {
+			e.FieldStart("Tags")
+			s.Tags.Encode(e)
+		}
 	}
 }
 
-var jsonFieldsNameOfWrappedCreateSecret = [1]string{
-	0: "Secret",
+var jsonFieldsNameOfVaultRequest = [3]string{
+	0: "Name",
+	1: "Description",
+	2: "Tags",
 }
 
-// Decode decodes WrappedCreateSecret from json.
-func (s *WrappedCreateSecret) Decode(d *jx.Decoder) error {
+// Decode decodes VaultRequest from json.
+func (s *VaultRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode WrappedCreateSecret to nil")
+		return errors.New("invalid: unable to decode VaultRequest to nil")
 	}
 	var requiredBitSet [1]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "Secret":
+		case "Name":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				if err := s.Secret.Decode(d); err != nil {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Secret\"")
+				return errors.Wrap(err, "decode field \"Name\"")
+			}
+		case "Description":
+			if err := func() error {
+				s.Description.Reset()
+				if err := s.Description.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Description\"")
+			}
+		case "Tags":
+			if err := func() error {
+				s.Tags.Reset()
+				if err := s.Tags.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Tags\"")
 			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode WrappedCreateSecret")
+		return errors.Wrap(err, "decode VaultRequest")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -1430,8 +1821,8 @@ func (s *WrappedCreateSecret) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfWrappedCreateSecret) {
-					name = jsonFieldsNameOfWrappedCreateSecret[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfVaultRequest) {
+					name = jsonFieldsNameOfVaultRequest[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -1452,14 +1843,219 @@ func (s *WrappedCreateSecret) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *WrappedCreateSecret) MarshalJSON() ([]byte, error) {
+func (s *VaultRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *WrappedCreateSecret) UnmarshalJSON(data []byte) error {
+func (s *VaultRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *WrappedCreateSecretRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *WrappedCreateSecretRequest) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Secret")
+		s.Secret.Encode(e)
+	}
+}
+
+var jsonFieldsNameOfWrappedCreateSecretRequest = [1]string{
+	0: "Secret",
+}
+
+// Decode decodes WrappedCreateSecretRequest from json.
+func (s *WrappedCreateSecretRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode WrappedCreateSecretRequest to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Secret":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Secret\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode WrappedCreateSecretRequest")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfWrappedCreateSecretRequest) {
+					name = jsonFieldsNameOfWrappedCreateSecretRequest[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *WrappedCreateSecretRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *WrappedCreateSecretRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *WrappedCreateSecretResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *WrappedCreateSecretResponse) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Secret")
+		s.Secret.Encode(e)
+	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+}
+
+var jsonFieldsNameOfWrappedCreateSecretResponse = [2]string{
+	0: "Secret",
+	1: "is_ok",
+}
+
+// Decode decodes WrappedCreateSecretResponse from json.
+func (s *WrappedCreateSecretResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode WrappedCreateSecretResponse to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Secret":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Secret\"")
+			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode WrappedCreateSecretResponse")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfWrappedCreateSecretResponse) {
+					name = jsonFieldsNameOfWrappedCreateSecretResponse[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *WrappedCreateSecretResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *WrappedCreateSecretResponse) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1477,10 +2073,15 @@ func (s *WrappedCreateVault) encodeFields(e *jx.Encoder) {
 		e.FieldStart("Vault")
 		s.Vault.Encode(e)
 	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
 }
 
-var jsonFieldsNameOfWrappedCreateVault = [1]string{
+var jsonFieldsNameOfWrappedCreateVault = [2]string{
 	0: "Vault",
+	1: "is_ok",
 }
 
 // Decode decodes WrappedCreateVault from json.
@@ -1502,6 +2103,18 @@ func (s *WrappedCreateVault) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Vault\"")
 			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
 		default:
 			return d.Skip()
 		}
@@ -1512,7 +2125,7 @@ func (s *WrappedCreateVault) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000001,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1559,49 +2172,49 @@ func (s *WrappedCreateVault) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *WrappedDeleteSecret) Encode(e *jx.Encoder) {
+func (s *WrappedCreateVaultRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *WrappedDeleteSecret) encodeFields(e *jx.Encoder) {
+func (s *WrappedCreateVaultRequest) encodeFields(e *jx.Encoder) {
 	{
-		e.FieldStart("Secret")
-		s.Secret.Encode(e)
+		e.FieldStart("Vault")
+		s.Vault.Encode(e)
 	}
 }
 
-var jsonFieldsNameOfWrappedDeleteSecret = [1]string{
-	0: "Secret",
+var jsonFieldsNameOfWrappedCreateVaultRequest = [1]string{
+	0: "Vault",
 }
 
-// Decode decodes WrappedDeleteSecret from json.
-func (s *WrappedDeleteSecret) Decode(d *jx.Decoder) error {
+// Decode decodes WrappedCreateVaultRequest from json.
+func (s *WrappedCreateVaultRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode WrappedDeleteSecret to nil")
+		return errors.New("invalid: unable to decode WrappedCreateVaultRequest to nil")
 	}
 	var requiredBitSet [1]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "Secret":
+		case "Vault":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				if err := s.Secret.Decode(d); err != nil {
+				if err := s.Vault.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Secret\"")
+				return errors.Wrap(err, "decode field \"Vault\"")
 			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode WrappedDeleteSecret")
+		return errors.Wrap(err, "decode WrappedCreateVaultRequest")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -1618,8 +2231,8 @@ func (s *WrappedDeleteSecret) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfWrappedDeleteSecret) {
-					name = jsonFieldsNameOfWrappedDeleteSecret[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfWrappedCreateVaultRequest) {
+					name = jsonFieldsNameOfWrappedCreateVaultRequest[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -1640,41 +2253,41 @@ func (s *WrappedDeleteSecret) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *WrappedDeleteSecret) MarshalJSON() ([]byte, error) {
+func (s *WrappedCreateVaultRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *WrappedDeleteSecret) UnmarshalJSON(data []byte) error {
+func (s *WrappedCreateVaultRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *WrappedSecret) Encode(e *jx.Encoder) {
+func (s *WrappedDeleteSecretRequest) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *WrappedSecret) encodeFields(e *jx.Encoder) {
+func (s *WrappedDeleteSecretRequest) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("Secret")
 		s.Secret.Encode(e)
 	}
 }
 
-var jsonFieldsNameOfWrappedSecret = [1]string{
+var jsonFieldsNameOfWrappedDeleteSecretRequest = [1]string{
 	0: "Secret",
 }
 
-// Decode decodes WrappedSecret from json.
-func (s *WrappedSecret) Decode(d *jx.Decoder) error {
+// Decode decodes WrappedDeleteSecretRequest from json.
+func (s *WrappedDeleteSecretRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode WrappedSecret to nil")
+		return errors.New("invalid: unable to decode WrappedDeleteSecretRequest to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -1695,7 +2308,7 @@ func (s *WrappedSecret) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode WrappedSecret")
+		return errors.Wrap(err, "decode WrappedDeleteSecretRequest")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -1712,8 +2325,8 @@ func (s *WrappedSecret) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfWrappedSecret) {
-					name = jsonFieldsNameOfWrappedSecret[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfWrappedDeleteSecretRequest) {
+					name = jsonFieldsNameOfWrappedDeleteSecretRequest[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -1734,62 +2347,64 @@ func (s *WrappedSecret) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *WrappedSecret) MarshalJSON() ([]byte, error) {
+func (s *WrappedDeleteSecretRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *WrappedSecret) UnmarshalJSON(data []byte) error {
+func (s *WrappedDeleteSecretRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *WrappedUnveil) Encode(e *jx.Encoder) {
+func (s *WrappedDeleteSecretRequestSecret) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *WrappedUnveil) encodeFields(e *jx.Encoder) {
+func (s *WrappedDeleteSecretRequestSecret) encodeFields(e *jx.Encoder) {
 	{
-		e.FieldStart("Secret")
-		s.Secret.Encode(e)
+		e.FieldStart("Name")
+		e.Str(s.Name)
 	}
 }
 
-var jsonFieldsNameOfWrappedUnveil = [1]string{
-	0: "Secret",
+var jsonFieldsNameOfWrappedDeleteSecretRequestSecret = [1]string{
+	0: "Name",
 }
 
-// Decode decodes WrappedUnveil from json.
-func (s *WrappedUnveil) Decode(d *jx.Decoder) error {
+// Decode decodes WrappedDeleteSecretRequestSecret from json.
+func (s *WrappedDeleteSecretRequestSecret) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode WrappedUnveil to nil")
+		return errors.New("invalid: unable to decode WrappedDeleteSecretRequestSecret to nil")
 	}
 	var requiredBitSet [1]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "Secret":
+		case "Name":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				if err := s.Secret.Decode(d); err != nil {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"Secret\"")
+				return errors.Wrap(err, "decode field \"Name\"")
 			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode WrappedUnveil")
+		return errors.Wrap(err, "decode WrappedDeleteSecretRequestSecret")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -1806,8 +2421,8 @@ func (s *WrappedUnveil) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfWrappedUnveil) {
-					name = jsonFieldsNameOfWrappedUnveil[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfWrappedDeleteSecretRequestSecret) {
+					name = jsonFieldsNameOfWrappedDeleteSecretRequestSecret[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -1828,14 +2443,219 @@ func (s *WrappedUnveil) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *WrappedUnveil) MarshalJSON() ([]byte, error) {
+func (s *WrappedDeleteSecretRequestSecret) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *WrappedUnveil) UnmarshalJSON(data []byte) error {
+func (s *WrappedDeleteSecretRequestSecret) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *WrappedUnveilRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *WrappedUnveilRequest) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Secret")
+		s.Secret.Encode(e)
+	}
+}
+
+var jsonFieldsNameOfWrappedUnveilRequest = [1]string{
+	0: "Secret",
+}
+
+// Decode decodes WrappedUnveilRequest from json.
+func (s *WrappedUnveilRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode WrappedUnveilRequest to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Secret":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Secret\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode WrappedUnveilRequest")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfWrappedUnveilRequest) {
+					name = jsonFieldsNameOfWrappedUnveilRequest[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *WrappedUnveilRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *WrappedUnveilRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *WrappedUnveilResponse) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *WrappedUnveilResponse) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Secret")
+		s.Secret.Encode(e)
+	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
+}
+
+var jsonFieldsNameOfWrappedUnveilResponse = [2]string{
+	0: "Secret",
+	1: "is_ok",
+}
+
+// Decode decodes WrappedUnveilResponse from json.
+func (s *WrappedUnveilResponse) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode WrappedUnveilResponse to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Secret":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Secret\"")
+			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode WrappedUnveilResponse")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfWrappedUnveilResponse) {
+					name = jsonFieldsNameOfWrappedUnveilResponse[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *WrappedUnveilResponse) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *WrappedUnveilResponse) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1853,10 +2673,15 @@ func (s *WrappedVault) encodeFields(e *jx.Encoder) {
 		e.FieldStart("Vault")
 		s.Vault.Encode(e)
 	}
+	{
+		e.FieldStart("is_ok")
+		e.Bool(s.IsOk)
+	}
 }
 
-var jsonFieldsNameOfWrappedVault = [1]string{
+var jsonFieldsNameOfWrappedVault = [2]string{
 	0: "Vault",
+	1: "is_ok",
 }
 
 // Decode decodes WrappedVault from json.
@@ -1878,6 +2703,18 @@ func (s *WrappedVault) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"Vault\"")
 			}
+		case "is_ok":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsOk = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_ok\"")
+			}
 		default:
 			return d.Skip()
 		}
@@ -1888,7 +2725,7 @@ func (s *WrappedVault) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000001,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -1930,6 +2767,100 @@ func (s *WrappedVault) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *WrappedVault) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *WrappedVaultRequest) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *WrappedVaultRequest) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("Vault")
+		s.Vault.Encode(e)
+	}
+}
+
+var jsonFieldsNameOfWrappedVaultRequest = [1]string{
+	0: "Vault",
+}
+
+// Decode decodes WrappedVaultRequest from json.
+func (s *WrappedVaultRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode WrappedVaultRequest to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "Vault":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Vault.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"Vault\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode WrappedVaultRequest")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfWrappedVaultRequest) {
+					name = jsonFieldsNameOfWrappedVaultRequest[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *WrappedVaultRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *WrappedVaultRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
