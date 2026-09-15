@@ -82,11 +82,12 @@ func OptNilArray[T, U any, P interface {
 	SetToNull()
 	Reset()
 }](v *[]U) (opt T) {
-	if v == nil {
+	switch {
+	case v == nil:
 		P(&opt).Reset()
-	} else if *v == nil {
+	case *v == nil:
 		P(&opt).SetToNull()
-	} else {
+	default:
 		P(&opt).SetTo(*v)
 	}
 	return
