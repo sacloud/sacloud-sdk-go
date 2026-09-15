@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.2.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.2.0...v0.2.1) - 2026-09-15
+
+### Other Changes
+- seg: Update OpenAPI to support SimpleAI by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/258
+- [chore] refactor hoist out utility functions by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/260
+
 ## [v0.2.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.1.0...v0.2.0) - 2026-09-07
 
 ### 🚀 New Features
