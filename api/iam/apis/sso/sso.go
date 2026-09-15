@@ -21,7 +21,7 @@ import (
 )
 
 type SSOAPI interface {
-	List(ctx context.Context, page, perPage *int) (*v1.SSOProfilesGetOK, error)
+	List(ctx context.Context, page, perPage *int) (*v1.ListSsoProfilesOK, error)
 	Create(ctx context.Context, params CreateParams) (*v1.SSOProfile, error)
 	Read(ctx context.Context, id int) (*v1.SSOProfile, error)
 	Update(ctx context.Context, id int, params UpdateParams) (*v1.SSOProfile, error)
@@ -37,52 +37,52 @@ type ssoOp struct {
 
 func NewSSOOp(client *v1.Client) SSOAPI { return &ssoOp{client: client} }
 
-func (s *ssoOp) List(ctx context.Context, page, perPage *int) (*v1.SSOProfilesGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.SSOProfilesGetOK]("SSO.List", func() (any, error) {
-		return s.client.SSOProfilesGet(ctx, v1.SSOProfilesGetParams{
+func (s *ssoOp) List(ctx context.Context, page, perPage *int) (*v1.ListSsoProfilesOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListSsoProfilesOK]("SSO.List", func() (any, error) {
+		return s.client.ListSsoProfiles(ctx, v1.ListSsoProfilesParams{
 			Page:    into.Opt[v1.OptInt](page),
 			PerPage: into.Opt[v1.OptInt](perPage),
 		})
 	})
 }
 
-type CreateParams = v1.SSOProfilesPostReq
+type CreateParams = v1.CreateSsoProfileReq
 
 func (s *ssoOp) Create(ctx context.Context, params CreateParams) (*v1.SSOProfile, error) {
 	return common.ErrorFromDecodedResponse[v1.SSOProfile]("SSO.Create", func() (any, error) {
-		return s.client.SSOProfilesPost(ctx, &params)
+		return s.client.CreateSsoProfile(ctx, &params)
 	})
 }
 
 func (s *ssoOp) Read(ctx context.Context, id int) (*v1.SSOProfile, error) {
 	return common.ErrorFromDecodedResponse[v1.SSOProfile]("SSO.Read", func() (any, error) {
-		return s.client.SSOProfilesSSOProfileIDGet(ctx, v1.SSOProfilesSSOProfileIDGetParams{SSOProfileID: id})
+		return s.client.ReadSsoProfile(ctx, v1.ReadSsoProfileParams{SSOProfileID: id})
 	})
 }
 
-type UpdateParams = v1.SSOProfilesSSOProfileIDPutReq
+type UpdateParams = v1.UpdateSsoProfileReq
 
 func (s *ssoOp) Update(ctx context.Context, id int, params UpdateParams) (*v1.SSOProfile, error) {
 	return common.ErrorFromDecodedResponse[v1.SSOProfile]("SSO.Update", func() (any, error) {
-		return s.client.SSOProfilesSSOProfileIDPut(ctx, &params, v1.SSOProfilesSSOProfileIDPutParams{SSOProfileID: id})
+		return s.client.UpdateSsoProfile(ctx, &params, v1.UpdateSsoProfileParams{SSOProfileID: id})
 	})
 }
 
 func (s *ssoOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.SSOProfilesSSOProfileIDDeleteNoContent]("SSO.Delete", func() (any, error) {
-		return s.client.SSOProfilesSSOProfileIDDelete(ctx, v1.SSOProfilesSSOProfileIDDeleteParams{SSOProfileID: id})
+	_, err := common.ErrorFromDecodedResponse[v1.DeleteSsoProfileNoContent]("SSO.Delete", func() (any, error) {
+		return s.client.DeleteSsoProfile(ctx, v1.DeleteSsoProfileParams{SSOProfileID: id})
 	})
 	return err
 }
 
 func (s *ssoOp) Link(ctx context.Context, id int) (*v1.SSOProfile, error) {
 	return common.ErrorFromDecodedResponse[v1.SSOProfile]("SSO.Link", func() (any, error) {
-		return s.client.SSOProfilesSSOProfileIDAssignPost(ctx, v1.SSOProfilesSSOProfileIDAssignPostParams{SSOProfileID: id})
+		return s.client.AssignSsoProfile(ctx, v1.AssignSsoProfileParams{SSOProfileID: id})
 	})
 }
 
 func (s *ssoOp) Unlink(ctx context.Context, id int) (*v1.SSOProfile, error) {
 	return common.ErrorFromDecodedResponse[v1.SSOProfile]("SSO.Unlink", func() (any, error) {
-		return s.client.SSOProfilesSSOProfileIDUnassignPost(ctx, v1.SSOProfilesSSOProfileIDUnassignPostParams{SSOProfileID: id})
+		return s.client.UnassignSsoProfile(ctx, v1.UnassignSsoProfileParams{SSOProfileID: id})
 	})
 }

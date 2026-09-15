@@ -35,7 +35,7 @@ func setup(t *testing.T, v any, s ...int) (*require.Assertions, SSOAPI) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.SSOProfilesGetOK
+	var expected v1.ListSsoProfilesOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.SSOProfile, 1))
 	expected.Items[0].SetFake()
@@ -63,7 +63,7 @@ func TestList_Fail(t *testing.T) {
 func TestCreate(t *testing.T) {
 	var expected v1.SSOProfile
 	expected.SetFake()
-	var req v1.SSOProfilesPostReq
+	var req v1.CreateSsoProfileReq
 	req.SetFake()
 	assert, api := setup(t, &expected, http.StatusCreated)
 
@@ -78,7 +78,7 @@ func TestCreate_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusBadRequest)
 	res.SetDetail("bad request")
-	var req v1.SSOProfilesPostReq
+	var req v1.CreateSsoProfileReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 
@@ -115,7 +115,7 @@ func TestGet_Fail(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	var expected v1.SSOProfile
 	expected.SetFake()
-	var req v1.SSOProfilesSSOProfileIDPutReq
+	var req v1.UpdateSsoProfileReq
 	req.SetFake()
 	assert, api := setup(t, &expected)
 
@@ -130,7 +130,7 @@ func TestUpdate_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusForbidden)
 	res.SetDetail("forbidden")
-	var req v1.SSOProfilesSSOProfileIDPutReq
+	var req v1.UpdateSsoProfileReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 
@@ -141,7 +141,7 @@ func TestUpdate_Fail(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	assert, api := setup(t, &v1.SSOProfilesSSOProfileIDDeleteNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.DeleteSsoProfileNoContent{}, http.StatusNoContent)
 
 	err := api.Delete(t.Context(), 123)
 	assert.NoError(err)
@@ -208,7 +208,7 @@ func TestIntegrated(t *testing.T) {
 	api := NewSSOOp(client)
 
 	// Create
-	var createParam v1.SSOProfilesPostReq
+	var createParam v1.CreateSsoProfileReq
 	createParam.IdpLoginURL = "https://example.com/sso/login"
 	createParam.IdpLogoutURL = "https://example.com/sso/logout"
 	createParam.IdpEntityID = "https://example.com/sso/issuer"

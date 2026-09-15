@@ -41,7 +41,7 @@ func TestNewGroupOp(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.GroupsGetOK
+	var expected v1.ListGroupsOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.Group, 2))
 	expected.Items[0].SetFake()
@@ -152,7 +152,7 @@ func TestUpdate_Fail(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	assert, api := setup(t, &v1.GroupsGroupIDDeleteNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.DeleteGroupNoContent{}, http.StatusNoContent)
 
 	err := api.Delete(t.Context(), 123)
 	assert.NoError(err)

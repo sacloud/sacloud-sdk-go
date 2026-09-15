@@ -22,13 +22,13 @@ import (
 )
 
 type ServicePrincipalAPI interface {
-	List(ctx context.Context, params ListParams) (*v1.ServicePrincipalsGetOK, error)
+	List(ctx context.Context, params ListParams) (*v1.ListServicePrincipalsOK, error)
 	Create(ctx context.Context, params CreateParams) (*v1.ServicePrincipal, error)
 	Read(ctx context.Context, id int) (*v1.ServicePrincipal, error)
 	Update(ctx context.Context, id int, params UpdateParams) (*v1.ServicePrincipal, error)
 	Delete(ctx context.Context, id int) error
 
-	ListKeys(ctx context.Context, id int, params ListKeysParams) (*v1.ServicePrincipalsServicePrincipalIDKeysGetOK, error)
+	ListKeys(ctx context.Context, id int, params ListKeysParams) (*v1.ListServicePrincipalKeysOK, error)
 	UploadKey(ctx context.Context, id int, publicKey v1.ServiceprincipalKeyPublicKey) (*v1.ServicePrincipalKey, error)
 	EnableKey(ctx context.Context, id int, keyID uuid.UUID) (*v1.ServicePrincipalKey, error)
 	DisableKey(ctx context.Context, id int, keyID uuid.UUID) (*v1.ServicePrincipalKey, error)
@@ -49,45 +49,45 @@ type ListParams struct {
 	Page      *int
 	PerPage   *int
 	ProjectID *int
-	Ordering  *v1.ServicePrincipalsGetOrdering
+	Ordering  *v1.ListServicePrincipalsOrdering
 }
 
-func (s *servicePrincipalOp) List(ctx context.Context, params ListParams) (*v1.ServicePrincipalsGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.ServicePrincipalsGetOK]("ServicePrincipal.List", func() (any, error) {
-		return s.client.ServicePrincipalsGet(ctx, v1.ServicePrincipalsGetParams{
+func (s *servicePrincipalOp) List(ctx context.Context, params ListParams) (*v1.ListServicePrincipalsOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListServicePrincipalsOK]("ServicePrincipal.List", func() (any, error) {
+		return s.client.ListServicePrincipals(ctx, v1.ListServicePrincipalsParams{
 			Page:      into.Opt[v1.OptInt](params.Page),
 			PerPage:   into.Opt[v1.OptInt](params.PerPage),
 			ProjectID: into.Opt[v1.OptInt](params.ProjectID),
-			Ordering:  into.Opt[v1.OptServicePrincipalsGetOrdering](params.Ordering),
+			Ordering:  into.Opt[v1.OptListServicePrincipalsOrdering](params.Ordering),
 		})
 	})
 }
 
-type CreateParams = v1.ServicePrincipalsPostReq
+type CreateParams = v1.CreateServicePrincipalReq
 
 func (s *servicePrincipalOp) Create(ctx context.Context, params CreateParams) (*v1.ServicePrincipal, error) {
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipal]("ServicePrincipal.Create", func() (any, error) {
-		return s.client.ServicePrincipalsPost(ctx, &params)
+		return s.client.CreateServicePrincipal(ctx, &params)
 	})
 }
 
 func (s *servicePrincipalOp) Read(ctx context.Context, id int) (*v1.ServicePrincipal, error) {
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipal]("ServicePrincipal.Read", func() (any, error) {
-		return s.client.ServicePrincipalsServicePrincipalIDGet(ctx, v1.ServicePrincipalsServicePrincipalIDGetParams{ServicePrincipalID: id})
+		return s.client.ReadServicePrincipal(ctx, v1.ReadServicePrincipalParams{ServicePrincipalID: id})
 	})
 }
 
-type UpdateParams = v1.ServicePrincipalsServicePrincipalIDPutReq
+type UpdateParams = v1.UpdateServicePrincipalReq
 
 func (s *servicePrincipalOp) Update(ctx context.Context, id int, params UpdateParams) (*v1.ServicePrincipal, error) {
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipal]("ServicePrincipal.Update", func() (any, error) {
-		return s.client.ServicePrincipalsServicePrincipalIDPut(ctx, &params, v1.ServicePrincipalsServicePrincipalIDPutParams{ServicePrincipalID: id})
+		return s.client.UpdateServicePrincipal(ctx, &params, v1.UpdateServicePrincipalParams{ServicePrincipalID: id})
 	})
 }
 
 func (s *servicePrincipalOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.ServicePrincipalsServicePrincipalIDDeleteNoContent]("ServicePrincipal.Delete", func() (any, error) {
-		return s.client.ServicePrincipalsServicePrincipalIDDelete(ctx, v1.ServicePrincipalsServicePrincipalIDDeleteParams{ServicePrincipalID: id})
+	_, err := common.ErrorFromDecodedResponse[v1.DeleteServicePrincipalNoContent]("ServicePrincipal.Delete", func() (any, error) {
+		return s.client.DeleteServicePrincipal(ctx, v1.DeleteServicePrincipalParams{ServicePrincipalID: id})
 	})
 	return err
 }
@@ -95,31 +95,30 @@ func (s *servicePrincipalOp) Delete(ctx context.Context, id int) error {
 type ListKeysParams struct {
 	Page     *int
 	PerPage  *int
-	Ordering *v1.ServicePrincipalsServicePrincipalIDKeysGetOrdering
+	Ordering *v1.ListServicePrincipalKeysOrdering
 }
 
-func (s *servicePrincipalOp) ListKeys(ctx context.Context, id int, params ListKeysParams) (*v1.ServicePrincipalsServicePrincipalIDKeysGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.ServicePrincipalsServicePrincipalIDKeysGetOK]("ServicePrincipal.ListKeys", func() (any, error) {
-		return s.client.ServicePrincipalsServicePrincipalIDKeysGet(ctx, v1.ServicePrincipalsServicePrincipalIDKeysGetParams{
+func (s *servicePrincipalOp) ListKeys(ctx context.Context, id int, params ListKeysParams) (*v1.ListServicePrincipalKeysOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListServicePrincipalKeysOK]("ServicePrincipal.ListKeys", func() (any, error) {
+		return s.client.ListServicePrincipalKeys(ctx, v1.ListServicePrincipalKeysParams{
 			ServicePrincipalID: id,
 			Page:               into.Opt[v1.OptInt](params.Page),
 			PerPage:            into.Opt[v1.OptInt](params.PerPage),
-			Ordering:           into.Opt[v1.OptServicePrincipalsServicePrincipalIDKeysGetOrdering](params.Ordering),
+			Ordering:           into.Opt[v1.OptListServicePrincipalKeysOrdering](params.Ordering),
 		})
 	})
 }
 
 func (s *servicePrincipalOp) UploadKey(ctx context.Context, id int, publicKey v1.ServiceprincipalKeyPublicKey) (*v1.ServicePrincipalKey, error) {
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipalKey]("ServicePrincipal.UploadKey", func() (any, error) {
-		request := v1.NewOptServicePrincipalsServicePrincipalIDUploadKeyPostReq(v1.ServicePrincipalsServicePrincipalIDUploadKeyPostReq{PublicKey: publicKey})
-		params := v1.ServicePrincipalsServicePrincipalIDUploadKeyPostParams{ServicePrincipalID: id}
-		return s.client.ServicePrincipalsServicePrincipalIDUploadKeyPost(ctx, request, params)
+		request := v1.NewOptUploadServicePrincipalKeyReq(v1.UploadServicePrincipalKeyReq{PublicKey: publicKey})
+		return s.client.UploadServicePrincipalKey(ctx, request, v1.UploadServicePrincipalKeyParams{ServicePrincipalID: id})
 	})
 }
 
 func (s *servicePrincipalOp) EnableKey(ctx context.Context, id int, keyID uuid.UUID) (*v1.ServicePrincipalKey, error) {
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipalKey]("ServicePrincipal.EnableKey", func() (any, error) {
-		return s.client.ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePost(ctx, v1.ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostParams{
+		return s.client.EnableServicePrincipalKey(ctx, v1.EnableServicePrincipalKeyParams{
 			ServicePrincipalID:    id,
 			ServicePrincipalKeyID: keyID,
 		})
@@ -128,7 +127,7 @@ func (s *servicePrincipalOp) EnableKey(ctx context.Context, id int, keyID uuid.U
 
 func (s *servicePrincipalOp) DisableKey(ctx context.Context, id int, keyID uuid.UUID) (*v1.ServicePrincipalKey, error) {
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipalKey]("ServicePrincipal.DisableKey", func() (any, error) {
-		return s.client.ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePost(ctx, v1.ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostParams{
+		return s.client.DisableServicePrincipalKey(ctx, v1.DisableServicePrincipalKeyParams{
 			ServicePrincipalID:    id,
 			ServicePrincipalKeyID: keyID,
 		})
@@ -136,8 +135,8 @@ func (s *servicePrincipalOp) DisableKey(ctx context.Context, id int, keyID uuid.
 }
 
 func (s *servicePrincipalOp) DeleteKey(ctx context.Context, id int, keyID uuid.UUID) error {
-	_, err := common.ErrorFromDecodedResponse[v1.ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteNoContent]("ServicePrincipal.DeleteKey", func() (any, error) {
-		return s.client.ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDelete(ctx, v1.ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteParams{
+	_, err := common.ErrorFromDecodedResponse[v1.DeleteServicePrincipalKeyNoContent]("ServicePrincipal.DeleteKey", func() (any, error) {
+		return s.client.DeleteServicePrincipalKey(ctx, v1.DeleteServicePrincipalKeyParams{
 			ServicePrincipalID:    id,
 			ServicePrincipalKeyID: keyID,
 		})
@@ -147,7 +146,7 @@ func (s *servicePrincipalOp) DeleteKey(ctx context.Context, id int, keyID uuid.U
 
 func (s *servicePrincipalOp) IssueToken(ctx context.Context, assertion string) (*v1.ServicePrincipalOAuth2AccessToken, error) {
 	return common.ErrorFromDecodedResponse[v1.ServicePrincipalOAuth2AccessToken]("ServicePrincipal.IssueToken", func() (any, error) {
-		return s.client.ServicePrincipalsOAuth2TokenPost(ctx, &v1.ServicePrincipalJWTGrantRequest{
+		return s.client.IssueServicePrincipalToken(ctx, &v1.ServicePrincipalJWTGrantRequest{
 			GrantType: v1.ServicePrincipalJWTGrantRequestGrantTypeUrnIetfParamsOAuthGrantTypeJwtBearer,
 			Assertion: assertion,
 		})

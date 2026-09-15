@@ -26,7 +26,7 @@ import (
 // ScimAPI SCIM API
 type ScimAPI interface {
 	// List ユーザープロビジョニング一覧を取得する
-	List(ctx context.Context, params ListParams) (*v1.ScimConfigurationsGetOK, error)
+	List(ctx context.Context, params ListParams) (*v1.ListScimConfigurationsOK, error)
 	// Create ユーザープロビジョニングを作成する
 	Create(ctx context.Context, params CreateParams) (*v1.ScimConfiguration, error)
 	// Read ユーザープロビジョニングを取得する
@@ -36,7 +36,7 @@ type ScimAPI interface {
 	// Delete ユーザープロビジョニングを削除する
 	Delete(ctx context.Context, id string) error
 	// RegenerateToken ユーザープロビジョニングのシークレットトークンを再発行する
-	RegenerateToken(ctx context.Context, id string) (*v1.ScimConfigurationsIDRegenerateTokenPostOK, error)
+	RegenerateToken(ctx context.Context, id string) (*v1.RegenerateScimConfigurationTokenOK, error)
 }
 
 // scimOp SCIM APIの実装
@@ -66,9 +66,9 @@ type UpdateParams struct {
 }
 
 // List ユーザープロビジョニング一覧を取得する
-func (s *scimOp) List(ctx context.Context, params ListParams) (*v1.ScimConfigurationsGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.ScimConfigurationsGetOK]("Scim.List", func() (any, error) {
-		return s.client.ScimConfigurationsGet(ctx, v1.ScimConfigurationsGetParams{
+func (s *scimOp) List(ctx context.Context, params ListParams) (*v1.ListScimConfigurationsOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListScimConfigurationsOK]("Scim.List", func() (any, error) {
+		return s.client.ListScimConfigurations(ctx, v1.ListScimConfigurationsParams{
 			Page:    into.Opt[v1.OptInt](params.Page),
 			PerPage: into.Opt[v1.OptInt](params.PerPage),
 		})
@@ -78,7 +78,7 @@ func (s *scimOp) List(ctx context.Context, params ListParams) (*v1.ScimConfigura
 // Create ユーザープロビジョニングを作成する
 func (s *scimOp) Create(ctx context.Context, params CreateParams) (*v1.ScimConfiguration, error) {
 	return common.ErrorFromDecodedResponse[v1.ScimConfiguration]("Scim.Create", func() (any, error) {
-		return s.client.ScimConfigurationsPost(ctx, &v1.ScimConfigurationsPostReq{
+		return s.client.CreateScimConfiguration(ctx, &v1.CreateScimConfigurationReq{
 			Name: params.Name,
 		})
 	})
@@ -91,7 +91,7 @@ func (s *scimOp) Read(ctx context.Context, id string) (*v1.ScimConfigurationBase
 		return nil, err
 	}
 	return common.ErrorFromDecodedResponse[v1.ScimConfigurationBase]("Scim.Read", func() (any, error) {
-		return s.client.ScimConfigurationsIDGet(ctx, v1.ScimConfigurationsIDGetParams{
+		return s.client.ReadScimConfiguration(ctx, v1.ReadScimConfigurationParams{
 			ID: uuid,
 		})
 	})
@@ -104,9 +104,9 @@ func (s *scimOp) Update(ctx context.Context, id string, params UpdateParams) (*v
 		return nil, err
 	}
 	return common.ErrorFromDecodedResponse[v1.ScimConfigurationBase]("Scim.Update", func() (any, error) {
-		return s.client.ScimConfigurationsIDPut(ctx, &v1.ScimConfigurationsIDPutReq{
+		return s.client.UpdateScimConfiguration(ctx, &v1.UpdateScimConfigurationReq{
 			Name: params.Name,
-		}, v1.ScimConfigurationsIDPutParams{
+		}, v1.UpdateScimConfigurationParams{
 			ID: uuid,
 		})
 	})
@@ -118,8 +118,8 @@ func (s *scimOp) Delete(ctx context.Context, id string) error {
 	if err != nil {
 		return err
 	}
-	_, err = common.ErrorFromDecodedResponse[v1.ScimConfigurationsIDDeleteNoContent]("Scim.Delete", func() (any, error) {
-		return s.client.ScimConfigurationsIDDelete(ctx, v1.ScimConfigurationsIDDeleteParams{
+	_, err = common.ErrorFromDecodedResponse[v1.DeleteScimConfigurationNoContent]("Scim.Delete", func() (any, error) {
+		return s.client.DeleteScimConfiguration(ctx, v1.DeleteScimConfigurationParams{
 			ID: uuid,
 		})
 	})
@@ -127,13 +127,13 @@ func (s *scimOp) Delete(ctx context.Context, id string) error {
 }
 
 // RegenerateToken ユーザープロビジョニングのシークレットトークンを再発行する
-func (s *scimOp) RegenerateToken(ctx context.Context, id string) (*v1.ScimConfigurationsIDRegenerateTokenPostOK, error) {
+func (s *scimOp) RegenerateToken(ctx context.Context, id string) (*v1.RegenerateScimConfigurationTokenOK, error) {
 	uuid, err := uuid.Parse(id)
 	if err != nil {
 		return nil, err
 	}
-	return common.ErrorFromDecodedResponse[v1.ScimConfigurationsIDRegenerateTokenPostOK]("Scim.RegenerateToken", func() (any, error) {
-		return s.client.ScimConfigurationsIDRegenerateTokenPost(ctx, v1.ScimConfigurationsIDRegenerateTokenPostParams{
+	return common.ErrorFromDecodedResponse[v1.RegenerateScimConfigurationTokenOK]("Scim.RegenerateToken", func() (any, error) {
+		return s.client.RegenerateScimConfigurationToken(ctx, v1.RegenerateScimConfigurationTokenParams{
 			ID: uuid,
 		})
 	})
