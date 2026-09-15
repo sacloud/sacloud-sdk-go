@@ -21,6 +21,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type MetricsRoutingAPI interface {
@@ -52,11 +53,11 @@ type MetricsRoutingsListParams struct {
 func (op *metricsRoutingOp) List(ctx context.Context, p MetricsRoutingsListParams) (ret []v1.MetricsRouting, err error) {
 	res, err := errorFromDecodedResponse("MetricsRouting.List", func() (*v1.PaginatedMetricsRoutingList, error) {
 		return op.client.MetricsRoutingsList(ctx, v1.MetricsRoutingsListParams{
-			Count:         intoOpt[v1.OptInt](p.Count),
-			From:          intoOpt[v1.OptInt](p.From),
-			PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
-			ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
-			Variant:       intoOpt[v1.OptString](p.Variant),
+			Count:         into.Opt[v1.OptInt](p.Count),
+			From:          into.Opt[v1.OptInt](p.From),
+			PublisherCode: into.Opt[v1.OptString](p.PublisherCode),
+			ResourceID:    into.Opt[v1.OptInt64](p.ResourceID),
+			Variant:       into.Opt[v1.OptString](p.Variant),
 		})
 	})
 	if err == nil {
@@ -74,7 +75,7 @@ type MetricsRoutingCreateParams struct {
 
 func (op *metricsRoutingOp) Create(ctx context.Context, params MetricsRoutingCreateParams) (*v1.MetricsRouting, error) {
 	res, err := errorFromDecodedResponse("MetricsRouting.Create", func() (*v1.WrappedMetricsRouting, error) {
-		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		rid, err := into.FromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
 		if err != nil {
 			return nil, fmt.Errorf("MetricsRoutingCreateParams.ResourceID: %w", err)
 		}
@@ -110,18 +111,18 @@ type MetricsRoutingUpdateParams struct {
 
 func (op *metricsRoutingOp) Update(ctx context.Context, id uuid.UUID, params MetricsRoutingUpdateParams) (*v1.MetricsRouting, error) {
 	res, err := errorFromDecodedResponse("MetricsRouting.Update", func() (*v1.WrappedMetricsRouting, error) {
-		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		rid, err := into.FromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
 		if err != nil {
 			return nil, fmt.Errorf("MetricsRoutingUpdateParams.ResourceID: %w", err)
 		}
-		mid, err := fromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID)
+		mid, err := into.FromStringPtr[v1.OptNilInt64, int64](params.MetricsStorageID)
 		if err != nil {
 			return nil, fmt.Errorf("MetricsRoutingUpdateParams.MetricsStorageID: %w", err)
 		}
 		return op.client.MetricsRoutingsPartialUpdate(ctx, v1.NewOptPatchedMetricsRoutingRequest(v1.PatchedMetricsRoutingRequest{
-			PublisherCode:    intoOpt[v1.OptString](params.PublisherCode),
+			PublisherCode:    into.Opt[v1.OptString](params.PublisherCode),
 			ResourceID:       rid,
-			Variant:          intoOpt[v1.OptString](params.Variant),
+			Variant:          into.Opt[v1.OptString](params.Variant),
 			MetricsStorageID: mid,
 		}), v1.MetricsRoutingsPartialUpdateParams{UID: id})
 	})

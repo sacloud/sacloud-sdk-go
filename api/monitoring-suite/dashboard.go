@@ -19,6 +19,7 @@ import (
 	"strconv"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type DashboardProjectAPI interface {
@@ -42,8 +43,8 @@ func NewDashboardOp(client *v1.Client) DashboardProjectAPI {
 func (op *dashboardProjectOp) List(ctx context.Context, count *int, from *int) (ret []v1.DashboardProject, err error) {
 	res, err := errorFromDecodedResponse("DashboardProject.List", func() (*v1.PaginatedDashboardProjectList, error) {
 		return op.client.DashboardsProjectsList(ctx, v1.DashboardsProjectsListParams{
-			Count: intoOpt[v1.OptInt](count),
-			From:  intoOpt[v1.OptInt](from),
+			Count: into.Opt[v1.OptInt](count),
+			From:  into.Opt[v1.OptInt](from),
 		})
 	})
 	if err == nil {
@@ -61,7 +62,7 @@ func (op *dashboardProjectOp) Create(ctx context.Context, p DashboardProjectCrea
 	return errorFromDecodedResponse("DashboardProject.Create", func() (*v1.DashboardProject, error) {
 		return op.client.DashboardsProjectsCreate(ctx, &v1.DashboardProjectCreateRequest{
 			Name:        p.Name,
-			Description: intoOpt[v1.OptString](p.Description),
+			Description: into.Opt[v1.OptString](p.Description),
 		})
 	})
 }
@@ -89,8 +90,8 @@ func (op *dashboardProjectOp) Update(ctx context.Context, id string, params Dash
 			return nil, err
 		}
 		return op.client.DashboardsProjectsPartialUpdate(ctx, v1.NewOptPatchedDashboardProjectRequest(v1.PatchedDashboardProjectRequest{
-			Name:        intoOpt[v1.OptString](params.Name),
-			Description: intoOpt[v1.OptString](params.Description),
+			Name:        into.Opt[v1.OptString](params.Name),
+			Description: into.Opt[v1.OptString](params.Description),
 		}), v1.DashboardsProjectsPartialUpdateParams{ResourceID: intId})
 	})
 	return unwrapE[*v1.DashboardProject](res, err)

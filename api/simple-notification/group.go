@@ -59,7 +59,7 @@ func (o *GroupOp) Create(ctx context.Context, request v1.PostCommonServiceItemRe
 	const methodName = "Group.Create"
 	request.CommonServiceItem.ServiceClass = v1.CommonServiceItemServiceClassCloudSaknoticegroup2
 	request.CommonServiceItem.Provider.Class = v1.CommonServiceItemProviderClassSaknoticegroup
-	request.CommonServiceItem.Provider.ServiceClass = v1.OptString{Value: "cloud/saknotice", Set: true}
+	request.CommonServiceItem.Provider.ServiceClass = v1.NewOptString("cloud/saknotice")
 	request.CommonServiceItem.Settings.Type = v1.GroupSettingsCommonServiceItemSettings
 
 	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))

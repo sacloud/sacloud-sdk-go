@@ -19,6 +19,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type OrganizationAPI interface {
@@ -60,11 +61,11 @@ type GetServicePolicyParams struct {
 func (o *organizationOp) ReadServicePolicy(ctx context.Context, params GetServicePolicyParams) ([]v1.RuleResponse, error) {
 	if ret, err := common.ErrorFromDecodedResponse[v1.OrganizationServicePolicyGetOK]("Organization.ReadServicePolicy", func() (any, error) {
 		return o.client.OrganizationServicePolicyGet(ctx, v1.OrganizationServicePolicyGetParams{
-			IsActive: common.IntoOpt[v1.OptBool](params.IsActive),
-			IsDryRun: common.IntoOpt[v1.OptBool](params.IsDryRun),
-			Name:     common.IntoOpt[v1.OptString](params.Name),
-			Code:     common.IntoOpt[v1.OptString](params.Code),
-			Type:     common.IntoOpt[v1.OptOrganizationServicePolicyGetType](params.Type),
+			IsActive: into.Opt[v1.OptBool](params.IsActive),
+			IsDryRun: into.Opt[v1.OptBool](params.IsDryRun),
+			Name:     into.Opt[v1.OptString](params.Name),
+			Code:     into.Opt[v1.OptString](params.Code),
+			Type:     into.Opt[v1.OptOrganizationServicePolicyGetType](params.Type),
 		})
 	}); err != nil {
 		return nil, err

@@ -90,11 +90,6 @@ func newIntegratedClient(t *testing.T) *v1.Client {
 	return ret
 }
 
-//go:fix inline
-func ref[T any](v T) *T {
-	return new(v)
-}
-
 var TemplateDateTime = func() v1.DateTime {
 	var ret v1.DateTime
 	ret.SetFake()

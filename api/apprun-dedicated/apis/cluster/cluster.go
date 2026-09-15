@@ -8,6 +8,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type ClusterAPI interface {
@@ -28,7 +29,7 @@ func NewClusterOp(client *v1.Client) *ClusterOp { return &ClusterOp{Client: clie
 func (op *ClusterOp) List(ctx context.Context, maxItems int64, cursor *v1.ClusterID) (clusters []ClusterDetail, nextCursor *v1.ClusterID, err error) {
 	res, err := common.ErrorFromDecodedResponse("Cluster.List", func() (*v1.ListClusterResponse, error) {
 		return op.Client.ListClusters(ctx, v1.ListClustersParams{
-			Cursor:   common.IntoOpt[v1.OptClusterID](cursor),
+			Cursor:   into.Opt[v1.OptClusterID](cursor),
 			MaxItems: maxItems,
 		})
 	})
@@ -94,7 +95,7 @@ type CreateParams struct {
 
 func (c CreateParams) into() (ret v1.CreateCluster) {
 	ret.SetName(c.Name)
-	ret.SetLetsEncryptEmail(common.IntoOpt[v1.OptString](c.LetsEncryptEmail))
+	ret.SetLetsEncryptEmail(into.Opt[v1.OptString](c.LetsEncryptEmail))
 	ret.SetPorts(c.Ports)
 	ret.SetServicePrincipalID(c.ServicePrincipalID)
 
@@ -107,7 +108,7 @@ type UpdateParams struct {
 }
 
 func (u UpdateParams) into() (ret v1.UpdateCluster) {
-	ret.SetLetsEncryptEmail(common.IntoOpt[v1.OptString](u.LetsEncryptEmail))
+	ret.SetLetsEncryptEmail(into.Opt[v1.OptString](u.LetsEncryptEmail))
 	ret.SetServicePrincipalID(u.ServicePrincipalID)
 
 	return

@@ -20,6 +20,7 @@ import (
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 // ScimAPI SCIM API
@@ -68,8 +69,8 @@ type UpdateParams struct {
 func (s *scimOp) List(ctx context.Context, params ListParams) (*v1.ScimConfigurationsGetOK, error) {
 	return common.ErrorFromDecodedResponse[v1.ScimConfigurationsGetOK]("Scim.List", func() (any, error) {
 		return s.client.ScimConfigurationsGet(ctx, v1.ScimConfigurationsGetParams{
-			Page:    common.IntoOpt[v1.OptInt](params.Page),
-			PerPage: common.IntoOpt[v1.OptInt](params.PerPage),
+			Page:    into.Opt[v1.OptInt](params.Page),
+			PerPage: into.Opt[v1.OptInt](params.PerPage),
 		})
 	})
 }

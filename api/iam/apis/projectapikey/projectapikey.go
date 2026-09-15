@@ -19,6 +19,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type ProjectAPIKeyAPI interface {
@@ -46,9 +47,9 @@ type ListParams struct {
 func (p *projectApiKeyOp) List(ctx context.Context, params ListParams) (*v1.CompatAPIKeysGetOK, error) {
 	return common.ErrorFromDecodedResponse[v1.CompatAPIKeysGetOK]("ProjectAPIKey.List", func() (any, error) {
 		return p.client.CompatAPIKeysGet(ctx, v1.CompatAPIKeysGetParams{
-			Page:     common.IntoOpt[v1.OptInt](params.Page),
-			PerPage:  common.IntoOpt[v1.OptInt](params.PerPage),
-			Ordering: common.IntoOpt[v1.OptCompatAPIKeysGetOrdering](params.Ordering),
+			Page:     into.Opt[v1.OptInt](params.Page),
+			PerPage:  into.Opt[v1.OptInt](params.PerPage),
+			Ordering: into.Opt[v1.OptCompatAPIKeysGetOrdering](params.Ordering),
 		})
 	})
 }
@@ -68,9 +69,9 @@ func (p *projectApiKeyOp) Create(ctx context.Context, params CreateParams) (*v1.
 			ProjectID:        params.ProjectID,
 			Name:             params.Name,
 			Description:      params.Description,
-			ServerResourceID: common.IntoOpt[v1.OptString](params.ServerResourceID),
+			ServerResourceID: into.Opt[v1.OptString](params.ServerResourceID),
 			IamRoles:         params.IamRoles,
-			ZoneID:           common.IntoOpt[v1.OptString](params.Zone),
+			ZoneID:           into.Opt[v1.OptString](params.Zone),
 		})
 	})
 }
@@ -94,9 +95,9 @@ func (p *projectApiKeyOp) Update(ctx context.Context, id int, params UpdateParam
 		req := v1.CompatAPIKeysApikeyIDPutReq{
 			Name:             params.Name,
 			Description:      params.Description,
-			ServerResourceID: common.IntoOpt[v1.OptString](params.ServerResourceID),
+			ServerResourceID: into.Opt[v1.OptString](params.ServerResourceID),
 			IamRoles:         params.IamRoles,
-			ZoneID:           common.IntoOpt[v1.OptString](params.Zone),
+			ZoneID:           into.Opt[v1.OptString](params.Zone),
 		}
 		param := v1.CompatAPIKeysApikeyIDPutParams{
 			ApikeyID: id,

@@ -21,6 +21,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type AlertProjectAPI interface {
@@ -47,8 +48,8 @@ func NewAlertProjectOp(client *v1.Client) AlertProjectAPI {
 func (op *alertProjectOp) List(ctx context.Context, count *int, from *int) (ret []v1.AlertProject, err error) {
 	res, err := errorFromDecodedResponse("AlertProject.List", func() (*v1.PaginatedAlertProjectList, error) {
 		return op.client.AlertsProjectsList(ctx, v1.AlertsProjectsListParams{
-			Count: intoOpt[v1.OptInt](count),
-			From:  intoOpt[v1.OptInt](from),
+			Count: into.Opt[v1.OptInt](count),
+			From:  into.Opt[v1.OptInt](from),
 		})
 	})
 	if err == nil {
@@ -78,7 +79,7 @@ func (op *alertProjectOp) Create(ctx context.Context, params AlertProjectCreateP
 	return errorFromDecodedResponse("AlertProject.Create", func() (*v1.AlertProject, error) {
 		return op.client.AlertsProjectsCreate(ctx, &v1.AlertProjectCreateRequest{
 			Name:        params.Name,
-			Description: intoOpt[v1.OptString](params.Description),
+			Description: into.Opt[v1.OptString](params.Description),
 		})
 	})
 }
@@ -97,8 +98,8 @@ func (op *alertProjectOp) Update(ctx context.Context, id string, params AlertPro
 		return op.client.AlertsProjectsPartialUpdate(
 			ctx,
 			v1.NewOptPatchedAlertProjectRequest(v1.PatchedAlertProjectRequest{
-				Name:        intoOpt[v1.OptString](params.Name),
-				Description: intoOpt[v1.OptString](params.Description),
+				Name:        into.Opt[v1.OptString](params.Name),
+				Description: into.Opt[v1.OptString](params.Description),
 			}),
 			v1.AlertsProjectsPartialUpdateParams{ResourceID: intId},
 		)
@@ -134,11 +135,11 @@ func (op *alertProjectOp) ListHistories(ctx context.Context, params AlertsProjec
 		}
 		return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
 			ProjectResourceID: intProjectId,
-			Count:             intoOpt[v1.OptInt](params.Count),
-			From:              intoOpt[v1.OptInt](params.From),
-			Open:              intoOpt[v1.OptBool](params.Open),
-			Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
-			StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
+			Count:             into.Opt[v1.OptInt](params.Count),
+			From:              into.Opt[v1.OptInt](params.From),
+			Open:              into.Opt[v1.OptBool](params.Open),
+			Severity:          into.Opt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
+			StartsAt:          into.Opt[v1.OptDateTime](params.StartsAt),
 		})
 	})
 	if err == nil {

@@ -21,12 +21,12 @@ import (
 	"net/url"
 	"os"
 	"slices"
-	"strconv"
 	"strings"
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun/fake"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type Server struct {
@@ -211,21 +211,18 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 	http.NotFound(w, r)
 }
 
-func listApplicationsParamsFromQuery(q url.Values) (v1.ListApplicationsParams, error) {
-	params := v1.ListApplicationsParams{}
+func listApplicationsParamsFromQuery(q url.Values) (params v1.ListApplicationsParams, err error) {
 	if v := q.Get("page_num"); v != "" {
-		parsed, err := strconv.Atoi(v)
+		params.PageNum, err = into.FromStringPtr[v1.OptInt, int](new(v))
 		if err != nil {
 			return params, err
 		}
-		params.PageNum = v1.NewOptInt(parsed)
 	}
 	if v := q.Get("page_size"); v != "" {
-		parsed, err := strconv.Atoi(v)
+		params.PageSize, err = into.FromStringPtr[v1.OptInt, int](new(v))
 		if err != nil {
 			return params, err
 		}
-		params.PageSize = v1.NewOptInt(parsed)
 	}
 	if v := q.Get("sort_field"); v != "" {
 		params.SortField = v1.NewOptString(v)
@@ -243,21 +240,18 @@ func listApplicationsParamsFromQuery(q url.Values) (v1.ListApplicationsParams, e
 	return params, nil
 }
 
-func listApplicationVersionsParamsFromQuery(q url.Values) (v1.ListApplicationVersionsParams, error) {
-	params := v1.ListApplicationVersionsParams{}
+func listApplicationVersionsParamsFromQuery(q url.Values) (params v1.ListApplicationVersionsParams, err error) {
 	if v := q.Get("page_num"); v != "" {
-		parsed, err := strconv.Atoi(v)
+		params.PageNum, err = into.FromStringPtr[v1.OptInt, int](new(v))
 		if err != nil {
 			return params, err
 		}
-		params.PageNum = v1.NewOptInt(parsed)
 	}
 	if v := q.Get("page_size"); v != "" {
-		parsed, err := strconv.Atoi(v)
+		params.PageSize, err = into.FromStringPtr[v1.OptInt, int](new(v))
 		if err != nil {
 			return params, err
 		}
-		params.PageSize = v1.NewOptInt(parsed)
 	}
 	if v := q.Get("sort_field"); v != "" {
 		params.SortField = v1.NewOptString(v)
