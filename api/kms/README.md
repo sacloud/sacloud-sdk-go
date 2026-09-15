@@ -30,10 +30,10 @@ func main() {
 	ctx := context.Background()
 	keyOp := kms.NewKeyOp(client)
 	// 自動生成のケース
-	res, err := keyOp.Create(ctx, v1.CreateKeyRequest{
+	res, err := keyOp.Create(ctx, kms.CreateKeyParams{
 		Name:        "App key",
-		Description: v1.NewOptString("key gen from go client"),
-		Tags: v1.NewOptNilStringArray([]string{"App1", "Key1"}),
+		Description: new("key gen from go client"),
+		Tags:        []string{"App1", "Key1"},
 	})
 	if err != nil {
 		panic(err)
