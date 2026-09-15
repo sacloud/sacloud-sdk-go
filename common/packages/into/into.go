@@ -67,6 +67,32 @@ func OptNil[T, U any, P interface {
 	return Opt[T, U, P](v)
 }
 
+// Generic-ish type cast helper function
+//
+// This function helps conversion from a pointer of X array into an OptNilXArray.
+//
+// ```golang
+//
+//	opt := into.OptNilArray[OptNilIntArray]([]int{1, 2, 3, 4})
+//
+// ```
+func OptNilArray[T, U any, P interface {
+	*T
+	SetTo(u []U)
+	SetToNull()
+	Reset()
+}](v *[]U) (opt T) {
+	switch {
+	case v == nil:
+		P(&opt).Reset()
+	case *v == nil:
+		P(&opt).SetToNull()
+	default:
+		P(&opt).SetTo(*v)
+	}
+	return
+}
+
 // string parser
 //
 // ```golang

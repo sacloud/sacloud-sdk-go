@@ -3,7 +3,7 @@
 package v1
 
 // SetFake set fake values.
-func (s *ChangeKeyStatus) SetFake() {
+func (s *ChangeKeyState) SetFake() {
 	{
 		{
 			s.Status.SetFake()
@@ -12,12 +12,50 @@ func (s *ChangeKeyStatus) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ChangeKeyStatusStatus) SetFake() {
-	*s = ChangeKeyStatusStatusActive
+func (s *ChangeKeyStateRequest) SetFake() {
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *CreateKey) SetFake() {
+func (s *ChangeKeyStateRequestStatus) SetFake() {
+	*s = ChangeKeyStateRequestStatusActive
+}
+
+// SetFake set fake values.
+func (s *ChangeKeyStateStatus) SetFake() {
+	*s = ChangeKeyStateStatusActive
+}
+
+// SetFake set fake values.
+func (s *CreateKeyRequest) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
+		}
+	}
+	{
+		{
+			s.PlainKey.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateKeyResponse) SetFake() {
 	{
 		{
 			s.ID = "string"
@@ -35,17 +73,37 @@ func (s *CreateKey) SetFake() {
 	}
 	{
 		{
+			s.ServiceClass.SetFake()
+		}
+	}
+	{
+		{
 			s.Name = "string"
 		}
 	}
 	{
 		{
-			s.Description.SetFake()
+			s.Description = "string"
 		}
 	}
 	{
 		{
 			s.KeyOrigin.SetFake()
+		}
+	}
+	{
+		{
+			s.LatestVersion = int(0)
+		}
+	}
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.DeletionScheduledAfter.SetFake()
 		}
 	}
 	{
@@ -60,11 +118,21 @@ func (s *CreateKey) SetFake() {
 			}
 		}
 	}
-	{
-		{
-			s.PlainKey.SetFake()
-		}
-	}
+}
+
+// SetFake set fake values.
+func (s *CreateKeyResponseKeyOrigin) SetFake() {
+	*s = CreateKeyResponseKeyOriginGenerated
+}
+
+// SetFake set fake values.
+func (s *CreateKeyResponseServiceClass) SetFake() {
+	*s = CreateKeyResponseServiceClassCloudKmsKey
+}
+
+// SetFake set fake values.
+func (s *CreateKeyResponseStatus) SetFake() {
+	*s = CreateKeyResponseStatusActive
 }
 
 // SetFake set fake values.
@@ -74,6 +142,34 @@ func (s *DateTime) SetFake() {
 		unwrapped = "string"
 	}
 	*s = DateTime(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *DecryptionRequest) SetFake() {
+	{
+		{
+			s.Cipher = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *EncryptionRequest) SetFake() {
+	{
+		{
+			s.Plain = "string"
+		}
+	}
+	{
+		{
+			s.Algo.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *EncryptionRequestAlgo) SetFake() {
+	*s = EncryptionRequestAlgoAes256Gcm
 }
 
 // SetFake set fake values.
@@ -115,12 +211,17 @@ func (s *Key) SetFake() {
 	}
 	{
 		{
-			s.LatestVersion.SetFake()
+			s.LatestVersion = int(0)
 		}
 	}
 	{
 		{
 			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.DeletionScheduledAfter.SetFake()
 		}
 	}
 	{
@@ -147,13 +248,8 @@ func (s *KeyCipher) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *KeyEncryptAlgoEnum) SetFake() {
-	*s = KeyEncryptAlgoEnumAes256Gcm
-}
-
-// SetFake set fake values.
-func (s *KeyOriginEnum) SetFake() {
-	*s = KeyOriginEnumGenerated
+func (s *KeyKeyOrigin) SetFake() {
+	*s = KeyKeyOriginGenerated
 }
 
 // SetFake set fake values.
@@ -163,26 +259,64 @@ func (s *KeyPlain) SetFake() {
 			s.Plain = "string"
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *KeyRequest) SetFake() {
 	{
 		{
-			s.Algo.SetFake()
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *KeyServiceClassEnum) SetFake() {
-	*s = KeyServiceClassEnumCloudKmsKey
+func (s *KeyScheduledDestruction) SetFake() {
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.DeletionScheduledAfter.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *KeyStatusEnum) SetFake() {
-	*s = KeyStatusEnumActive
+func (s *KeyScheduledDestructionStatus) SetFake() {
+	*s = KeyScheduledDestructionStatusActive
 }
 
 // SetFake set fake values.
-func (s *OptChangeKeyStatusStatus) SetFake() {
-	var elem ChangeKeyStatusStatus
+func (s *KeyServiceClass) SetFake() {
+	*s = KeyServiceClassCloudKmsKey
+}
+
+// SetFake set fake values.
+func (s *KeyStatus) SetFake() {
+	*s = KeyStatusActive
+}
+
+// SetFake set fake values.
+func (s *NilDateTime) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
+func (s *OptEncryptionRequestAlgo) SetFake() {
+	var elem EncryptionRequestAlgo
 	{
 		elem.SetFake()
 	}
@@ -199,21 +333,15 @@ func (s *OptInt) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptKeyEncryptAlgoEnum) SetFake() {
-	var elem KeyEncryptAlgoEnum
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
+func (s *OptNilDateTime) SetFake() {
+	s.Null = true
+	s.Set = true
 }
 
 // SetFake set fake values.
-func (s *OptKeyServiceClassEnum) SetFake() {
-	var elem KeyServiceClassEnum
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
+func (s *OptNilStringArray) SetFake() {
+	s.Null = true
+	s.Set = true
 }
 
 // SetFake set fake values.
@@ -234,12 +362,12 @@ func (s *PaginatedKeyList) SetFake() {
 	}
 	{
 		{
-			s.From.SetFake()
+			s.From = int(0)
 		}
 	}
 	{
 		{
-			s.Total.SetFake()
+			s.Total = int(0)
 		}
 	}
 	{
@@ -254,19 +382,38 @@ func (s *PaginatedKeyList) SetFake() {
 			}
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *ScheduleDestructionKey) SetFake() {
 	{
 		{
-			s.PendingDays = int(0)
+			s.IsOk = true
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *WrappedChangeKeyStatus) SetFake() {
+func (s *ScheduleDestructionKeyRequest) SetFake() {
+	{
+		{
+			s.PendingDays.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedChangeKeyState) SetFake() {
+	{
+		{
+			s.Key.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedChangeKeyStateRequest) SetFake() {
 	{
 		{
 			s.Key.SetFake()
@@ -275,7 +422,39 @@ func (s *WrappedChangeKeyStatus) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *WrappedCreateKey) SetFake() {
+func (s *WrappedCreateKeyRequest) SetFake() {
+	{
+		{
+			s.Key.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCreateKeyResponse) SetFake() {
+	{
+		{
+			s.Key.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedDecryptionRequest) SetFake() {
+	{
+		{
+			s.Key.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedEncryptionRequest) SetFake() {
 	{
 		{
 			s.Key.SetFake()
@@ -290,6 +469,11 @@ func (s *WrappedKey) SetFake() {
 			s.Key.SetFake()
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -297,6 +481,11 @@ func (s *WrappedKeyCipher) SetFake() {
 	{
 		{
 			s.Key.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
 		}
 	}
 }
@@ -308,10 +497,38 @@ func (s *WrappedKeyPlain) SetFake() {
 			s.Key.SetFake()
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *WrappedScheduleDestructionKey) SetFake() {
+func (s *WrappedKeyRequest) SetFake() {
+	{
+		{
+			s.Key.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedKeyScheduledDestruction) SetFake() {
+	{
+		{
+			s.Key.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedScheduleDestructionKeyRequest) SetFake() {
 	{
 		{
 			s.Key.SetFake()

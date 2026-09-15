@@ -18,14 +18,15 @@ import (
 	"context"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 // VaultAPIはVaultの操作をCRUD+Lで行うためのインターフェース
 type VaultAPI interface {
-	List(ctx context.Context) ([]v1.Vault, error)
+	List(ctx context.Context, count, from *int) ([]v1.Vault, error)
 	Read(ctx context.Context, id string) (*v1.Vault, error)
-	Create(ctx context.Context, request v1.CreateVault) (*v1.CreateVault, error)
-	Update(ctx context.Context, id string, request v1.Vault) (*v1.Vault, error)
+	Create(ctx context.Context, request CreateVaultParams) (*v1.CreateVault, error)
+	Update(ctx context.Context, id string, request UpdateVaultParams) (*v1.Vault, error)
 	Delete(ctx context.Context, id string) error
 }
 
@@ -39,8 +40,11 @@ func NewVaultOp(client *v1.Client) VaultAPI {
 	return &vaultOp{client: client}
 }
 
-func (op *vaultOp) List(ctx context.Context) ([]v1.Vault, error) {
-	res, err := op.client.SecretmanagerVaultsList(ctx)
+func (op *vaultOp) List(ctx context.Context, count, from *int) ([]v1.Vault, error) {
+	res, err := op.client.ListVaults(ctx, v1.ListVaultsParams{
+		Count: into.Opt[v1.OptInt](count),
+		From:  into.Opt[v1.OptInt](from),
+	})
 	if err != nil {
 		return nil, createAPIError("List", err)
 	}
@@ -49,7 +53,7 @@ func (op *vaultOp) List(ctx context.Context) ([]v1.Vault, error) {
 }
 
 func (op *vaultOp) Read(ctx context.Context, id string) (*v1.Vault, error) {
-	res, err := op.client.SecretmanagerVaultsRetrieve(ctx, v1.SecretmanagerVaultsRetrieveParams{ResourceID: id})
+	res, err := op.client.ReadVault(ctx, v1.ReadVaultParams{ResourceID: id})
 	if err != nil {
 		return nil, createAPIError("Read", err)
 	}
@@ -57,9 +61,21 @@ func (op *vaultOp) Read(ctx context.Context, id string) (*v1.Vault, error) {
 	return &res.Vault, nil
 }
 
-func (op *vaultOp) Create(ctx context.Context, request v1.CreateVault) (*v1.CreateVault, error) {
-	res, err := op.client.SecretmanagerVaultsCreate(ctx, &v1.WrappedCreateVault{
-		Vault: request,
+type CreateVaultParams struct {
+	Name        string
+	Description *string
+	KmsKeyID    string
+	Tags        []string
+}
+
+func (op *vaultOp) Create(ctx context.Context, request CreateVaultParams) (*v1.CreateVault, error) {
+	res, err := op.client.CreateVault(ctx, &v1.WrappedCreateVaultRequest{
+		Vault: v1.CreateVaultRequest{
+			Name:        request.Name,
+			Description: into.Opt[v1.OptString](request.Description),
+			KmsKeyID:    request.KmsKeyID,
+			Tags:        into.OptNilArray[v1.OptNilStringArray](&request.Tags),
+		},
 	})
 	if err != nil {
 		return nil, createAPIError("Create", err)
@@ -68,10 +84,20 @@ func (op *vaultOp) Create(ctx context.Context, request v1.CreateVault) (*v1.Crea
 	return &res.Vault, nil
 }
 
-func (op *vaultOp) Update(ctx context.Context, id string, request v1.Vault) (*v1.Vault, error) {
-	res, err := op.client.SecretmanagerVaultsUpdate(ctx, &v1.WrappedVault{
-		Vault: request,
-	}, v1.SecretmanagerVaultsUpdateParams{ResourceID: id})
+type UpdateVaultParams struct {
+	Name        string
+	Description *string
+	Tags        []string
+}
+
+func (op *vaultOp) Update(ctx context.Context, id string, request UpdateVaultParams) (*v1.Vault, error) {
+	res, err := op.client.UpdateVault(ctx, &v1.WrappedVaultRequest{
+		Vault: v1.VaultRequest{
+			Name:        request.Name,
+			Description: into.Opt[v1.OptString](request.Description),
+			Tags:        into.OptNilArray[v1.OptNilStringArray](&request.Tags),
+		},
+	}, v1.UpdateVaultParams{ResourceID: id})
 	if err != nil {
 		return nil, createAPIError("Update", err)
 	}
@@ -80,7 +106,7 @@ func (op *vaultOp) Update(ctx context.Context, id string, request v1.Vault) (*v1
 }
 
 func (op *vaultOp) Delete(ctx context.Context, id string) error {
-	err := op.client.SecretmanagerVaultsDestroy(ctx, v1.SecretmanagerVaultsDestroyParams{ResourceID: id})
+	err := op.client.DeleteVault(ctx, v1.DeleteVaultParams{ResourceID: id})
 	if err != nil {
 		return createAPIError("Delete", err)
 	}

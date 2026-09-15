@@ -9,12 +9,11 @@ import (
 
 	"github.com/go-faster/errors"
 	"github.com/go-faster/jx"
-
 	"github.com/ogen-go/ogen/ogenerrors"
 	"github.com/ogen-go/ogen/validate"
 )
 
-func decodeSecretmanagerVaultsCreateResponse(resp *http.Response) (res *WrappedCreateVault, _ error) {
+func decodeCreateVaultResponse(resp *http.Response) (res *WrappedCreateVault, _ error) {
 	switch resp.StatusCode {
 	case 201:
 		// Code 201.
@@ -61,19 +60,128 @@ func decodeSecretmanagerVaultsCreateResponse(resp *http.Response) (res *WrappedC
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeSecretmanagerVaultsDestroyResponse(resp *http.Response) (res *SecretmanagerVaultsDestroyNoContent, _ error) {
+func decodeCreateVaultSecretResponse(resp *http.Response) (res *WrappedCreateSecretResponse, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response WrappedCreateSecretResponse
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeDeleteVaultResponse(resp *http.Response) (res *DeleteVaultNoContent, _ error) {
 	switch resp.StatusCode {
 	case 204:
 		// Code 204.
-		return &SecretmanagerVaultsDestroyNoContent{}, nil
+		return &DeleteVaultNoContent{}, nil
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeSecretmanagerVaultsListResponse(resp *http.Response) (res *PaginatedVaultList, _ error) {
+func decodeDeleteVaultSecretResponse(resp *http.Response) (res *DeleteVaultSecretNoContent, _ error) {
+	switch resp.StatusCode {
+	case 204:
+		// Code 204.
+		return &DeleteVaultSecretNoContent{}, nil
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeListVaultSecretsResponse(resp *http.Response) (res *PaginatedSecretResponseList, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response PaginatedSecretResponseList
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeListVaultsResponse(resp *http.Response) (res *PaginatedVaultList, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -120,10 +228,10 @@ func decodeSecretmanagerVaultsListResponse(resp *http.Response) (res *PaginatedV
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeSecretmanagerVaultsRetrieveResponse(resp *http.Response) (res *WrappedVault, _ error) {
+func decodeReadVaultResponse(resp *http.Response) (res *WrappedVault, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -170,69 +278,10 @@ func decodeSecretmanagerVaultsRetrieveResponse(resp *http.Response) (res *Wrappe
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeSecretmanagerVaultsSecretsCreateResponse(resp *http.Response) (res *WrappedSecret, _ error) {
-	switch resp.StatusCode {
-	case 201:
-		// Code 201.
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response WrappedSecret
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			// Validate response.
-			if err := func() error {
-				if err := response.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return res, errors.Wrap(err, "validate")
-			}
-			return &response, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
-}
-
-func decodeSecretmanagerVaultsSecretsDestroyResponse(resp *http.Response) (res *SecretmanagerVaultsSecretsDestroyNoContent, _ error) {
-	switch resp.StatusCode {
-	case 204:
-		// Code 204.
-		return &SecretmanagerVaultsSecretsDestroyNoContent{}, nil
-	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
-}
-
-func decodeSecretmanagerVaultsSecretsListResponse(resp *http.Response) (res *PaginatedSecretList, _ error) {
+func decodeUnveilSecretResponse(resp *http.Response) (res *WrappedUnveilResponse, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -248,57 +297,7 @@ func decodeSecretmanagerVaultsSecretsListResponse(resp *http.Response) (res *Pag
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response PaginatedSecretList
-			if err := func() error {
-				if err := response.Decode(d); err != nil {
-					return err
-				}
-				if err := d.Skip(); err != io.EOF {
-					return errors.New("unexpected trailing data")
-				}
-				return nil
-			}(); err != nil {
-				err = &ogenerrors.DecodeBodyError{
-					ContentType: ct,
-					Body:        buf,
-					Err:         err,
-				}
-				return res, err
-			}
-			// Validate response.
-			if err := func() error {
-				if err := response.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return res, errors.Wrap(err, "validate")
-			}
-			return &response, nil
-		default:
-			return res, validate.InvalidContentType(ct)
-		}
-	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
-}
-
-func decodeSecretmanagerVaultsSecretsUnveilResponse(resp *http.Response) (res *WrappedUnveil, _ error) {
-	switch resp.StatusCode {
-	case 200:
-		// Code 200.
-		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
-		if err != nil {
-			return res, errors.Wrap(err, "parse media type")
-		}
-		switch {
-		case ct == "application/json":
-			buf, err := io.ReadAll(resp.Body)
-			if err != nil {
-				return res, err
-			}
-			d := jx.DecodeBytes(buf)
-
-			var response WrappedUnveil
+			var response WrappedUnveilResponse
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -320,10 +319,10 @@ func decodeSecretmanagerVaultsSecretsUnveilResponse(resp *http.Response) (res *W
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeSecretmanagerVaultsUpdateResponse(resp *http.Response) (res *WrappedVault, _ error) {
+func decodeUpdateVaultResponse(resp *http.Response) (res *WrappedVault, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -370,5 +369,5 @@ func decodeSecretmanagerVaultsUpdateResponse(resp *http.Response) (res *WrappedV
 			return res, validate.InvalidContentType(ct)
 		}
 	}
-	return res, validate.UnexpectedStatusCode(resp.StatusCode)
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }

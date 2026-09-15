@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestCreateSecret_EncodeDecode(t *testing.T) {
-	var typ CreateSecret
+func TestCreateSecretRequest_EncodeDecode(t *testing.T) {
+	var typ CreateSecretRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -20,7 +20,19 @@ func TestCreateSecret_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateSecret
+	var typ2 CreateSecretRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateSecretResponse_EncodeDecode(t *testing.T) {
+	var typ CreateSecretResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateSecretResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateVault_EncodeDecode(t *testing.T) {
@@ -35,6 +47,18 @@ func TestCreateVault_EncodeDecode(t *testing.T) {
 	var typ2 CreateVault
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestCreateVaultRequest_EncodeDecode(t *testing.T) {
+	var typ CreateVaultRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateVaultRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestDateTime_EncodeDecode(t *testing.T) {
 	var typ DateTime
 	typ.SetFake()
@@ -47,8 +71,8 @@ func TestDateTime_EncodeDecode(t *testing.T) {
 	var typ2 DateTime
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestDeleteSecret_EncodeDecode(t *testing.T) {
-	var typ DeleteSecret
+func TestPaginatedSecretResponseList_EncodeDecode(t *testing.T) {
+	var typ PaginatedSecretResponseList
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -56,19 +80,7 @@ func TestDeleteSecret_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 DeleteSecret
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPaginatedSecretList_EncodeDecode(t *testing.T) {
-	var typ PaginatedSecretList
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PaginatedSecretList
+	var typ2 PaginatedSecretResponseList
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestPaginatedVaultList_EncodeDecode(t *testing.T) {
@@ -83,8 +95,8 @@ func TestPaginatedVaultList_EncodeDecode(t *testing.T) {
 	var typ2 PaginatedVaultList
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestSecret_EncodeDecode(t *testing.T) {
-	var typ Secret
+func TestSecretResponse_EncodeDecode(t *testing.T) {
+	var typ SecretResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -92,11 +104,11 @@ func TestSecret_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 Secret
+	var typ2 SecretResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUnveil_EncodeDecode(t *testing.T) {
-	var typ Unveil
+func TestUnveilRequest_EncodeDecode(t *testing.T) {
+	var typ UnveilRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -104,7 +116,19 @@ func TestUnveil_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 Unveil
+	var typ2 UnveilRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUnveilResponse_EncodeDecode(t *testing.T) {
+	var typ UnveilResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UnveilResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestVault_EncodeDecode(t *testing.T) {
@@ -119,8 +143,8 @@ func TestVault_EncodeDecode(t *testing.T) {
 	var typ2 Vault
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestWrappedCreateSecret_EncodeDecode(t *testing.T) {
-	var typ WrappedCreateSecret
+func TestVaultRequest_EncodeDecode(t *testing.T) {
+	var typ VaultRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -128,7 +152,31 @@ func TestWrappedCreateSecret_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 WrappedCreateSecret
+	var typ2 VaultRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCreateSecretRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCreateSecretRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCreateSecretRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCreateSecretResponse_EncodeDecode(t *testing.T) {
+	var typ WrappedCreateSecretResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCreateSecretResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestWrappedCreateVault_EncodeDecode(t *testing.T) {
@@ -143,8 +191,8 @@ func TestWrappedCreateVault_EncodeDecode(t *testing.T) {
 	var typ2 WrappedCreateVault
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestWrappedDeleteSecret_EncodeDecode(t *testing.T) {
-	var typ WrappedDeleteSecret
+func TestWrappedCreateVaultRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCreateVaultRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -152,11 +200,11 @@ func TestWrappedDeleteSecret_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 WrappedDeleteSecret
+	var typ2 WrappedCreateVaultRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestWrappedSecret_EncodeDecode(t *testing.T) {
-	var typ WrappedSecret
+func TestWrappedDeleteSecretRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedDeleteSecretRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -164,11 +212,11 @@ func TestWrappedSecret_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 WrappedSecret
+	var typ2 WrappedDeleteSecretRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestWrappedUnveil_EncodeDecode(t *testing.T) {
-	var typ WrappedUnveil
+func TestWrappedDeleteSecretRequestSecret_EncodeDecode(t *testing.T) {
+	var typ WrappedDeleteSecretRequestSecret
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -176,7 +224,31 @@ func TestWrappedUnveil_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 WrappedUnveil
+	var typ2 WrappedDeleteSecretRequestSecret
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedUnveilRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedUnveilRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedUnveilRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedUnveilResponse_EncodeDecode(t *testing.T) {
+	var typ WrappedUnveilResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedUnveilResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestWrappedVault_EncodeDecode(t *testing.T) {
@@ -189,5 +261,17 @@ func TestWrappedVault_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 WrappedVault
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedVaultRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedVaultRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedVaultRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }

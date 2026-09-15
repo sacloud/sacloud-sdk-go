@@ -96,12 +96,12 @@ var TemplateDateTime = func() v1.DateTime {
 	return ret
 }
 
-var TemplateTags = []string{"tag1", "tag2"}
+var TemplateTags = v1.NewOptNilStringArray([]string{"tag1", "tag2"})
 
 var TemplateLicense = func() v1.CloudHSMSoftwareLicense {
 	var ret v1.CloudHSMSoftwareLicense
 	ret.SetFake()
-	ret.SetTags(TemplateTags)
+	ret.SetTags(TemplateTags.Value)
 
 	return ret
 }()
@@ -116,14 +116,14 @@ var TemplateCreateLicense = func() v1.CreateCloudHSMSoftwareLicense {
 
 var TemplateWrappedCreateLicense = func() v1.WrappedCreateCloudHSMSoftwareLicense {
 	var ret v1.WrappedCreateCloudHSMSoftwareLicense
-	ret.SetLicense(v1.NewOptCreateCloudHSMSoftwareLicense(TemplateCreateLicense))
+	ret.SetLicense(TemplateCreateLicense)
 
 	return ret
 }()
 
 var TemplateWrappedLicense = func() v1.WrappedCloudHSMSoftwareLicense {
 	var ret v1.WrappedCloudHSMSoftwareLicense
-	ret.SetLicense(v1.NewOptCloudHSMSoftwareLicense(TemplateLicense))
+	ret.SetLicense(TemplateLicense)
 
 	return ret
 }()
@@ -131,8 +131,8 @@ var TemplateWrappedLicense = func() v1.WrappedCloudHSMSoftwareLicense {
 var TemplateCloudHSM = func() v1.CloudHSM {
 	var ret v1.CloudHSM
 	ret.SetFake()
-	ret.SetTags(TemplateTags)
-	ret.SetAvailability(v1.AvailabilityEnumAvailable)
+	ret.SetTags(TemplateTags.Value)
+	ret.SetAvailability(v1.CloudHSMAvailabilityAvailable)
 
 	return ret
 }()
@@ -166,16 +166,16 @@ var TemplateCloudHSMPeer = func() v1.CloudHSMPeer {
 	return ret
 }()
 
-var TemplateCreateCloudHSMPeer = func() v1.CreateCloudHSMPeer {
-	var ret v1.CreateCloudHSMPeer
+var TemplatePeerRequest = func() v1.PeerRequest {
+	var ret v1.PeerRequest
 	ret.SetFake()
 
 	return ret
 }()
 
-var TemplateWrappedCreateCloudHSMPeer = func() v1.WrappedCreateCloudHSMPeer {
-	var ret v1.WrappedCreateCloudHSMPeer
-	ret.SetPeer(TemplateCreateCloudHSMPeer)
+var TemplateWrappedPeerRequest = func() v1.WrappedPeerRequest {
+	var ret v1.WrappedPeerRequest
+	ret.SetPeer(TemplatePeerRequest)
 
 	return ret
 }()
@@ -183,7 +183,7 @@ var TemplateWrappedCreateCloudHSMPeer = func() v1.WrappedCreateCloudHSMPeer {
 var TemplateCloudHSMClient = func() v1.CloudHSMClient {
 	var ret v1.CloudHSMClient
 	ret.SetFake()
-	ret.SetAvailability(v1.AvailabilityEnumAvailable)
+	ret.SetAvailability(v1.CloudHSMClientAvailabilityAvailable)
 	return ret
 }()
 
@@ -192,12 +192,12 @@ var TemplateWrappedCloudHSMClient = func() v1.WrappedCloudHSMClient {
 	ret.SetClient(TemplateCloudHSMClient)
 
 	return ret
-}
+}()
 
 var TemplateCreateCloudHSMClient = func() v1.CreateCloudHSMClient {
 	var ret v1.CreateCloudHSMClient
 	ret.SetFake()
-	ret.SetAvailability(v1.AvailabilityEnumAvailable)
+	ret.SetAvailability(v1.NewOptCreateCloudHSMClientAvailability(v1.CreateCloudHSMClientAvailabilityAvailable))
 
 	return ret
 }()
@@ -205,6 +205,13 @@ var TemplateCreateCloudHSMClient = func() v1.CreateCloudHSMClient {
 var TemplateWrappedCreateCloudHSMClient = func() v1.WrappedCreateCloudHSMClient {
 	var ret v1.WrappedCreateCloudHSMClient
 	ret.SetClient(TemplateCreateCloudHSMClient)
+
+	return ret
+}()
+
+var TemplateDocument = func() v1.CloudHSMDocument {
+	var ret v1.CloudHSMDocument
+	ret.SetFake()
 
 	return ret
 }()

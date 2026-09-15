@@ -7,7 +7,6 @@ import (
 	"testing"
 
 	sm "github.com/sacloud/sacloud-sdk-go/api/secretmanager"
-	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -24,41 +23,42 @@ func TestVaultAPI(t *testing.T) {
 	keyId := os.Getenv("SAKURA_KMS_KEY_ID")
 	vaultOp := sm.NewVaultOp(client)
 
-	resCreate, err := vaultOp.Create(ctx, v1.CreateVault{
+	resCreate, err := vaultOp.Create(ctx, sm.CreateVaultParams{
 		Name:        "vault from go",
-		Description: v1.NewOptString("vault from go client"),
+		Description: new("vault from go client"),
 		KmsKeyID:    keyId,
 		Tags:        []string{"App", "Vault"},
 	})
 	require.NoError(t, err)
 	assert.Equal(t, "vault from go", resCreate.Name)
+	vaultID, ok := resCreate.ID.Get()
+	require.True(t, ok)
 
-	resList, err := vaultOp.List(ctx)
+	resList, err := vaultOp.List(ctx, new(10), new(0))
 	assert.NoError(t, err)
 
 	sort.Slice(resList, func(i, j int) bool { return resList[i].ID < resList[j].ID })
 	found := false
 	for _, vault := range resList {
-		if vault.ID == resCreate.ID {
-			require.Equal(t, "vault from go client", vault.Description.Value)
+		if vault.ID == vaultID {
+			require.Equal(t, "vault from go client", vault.Description)
 			found = true
 		}
 	}
 	assert.True(t, found, "created vault not found in list")
 
-	_, err = vaultOp.Update(ctx, resCreate.ID, v1.Vault{
+	_, err = vaultOp.Update(ctx, vaultID, sm.UpdateVaultParams{
 		Name:        "vault from go 2",
-		Description: v1.NewOptString("vault from go client 2"),
-		KmsKeyID:    keyId,
+		Description: new("vault from go client 2"),
 		Tags:        []string{"Test"},
 	})
 	assert.NoError(t, err)
 
-	resRead, err := vaultOp.Read(ctx, resCreate.ID)
+	resRead, err := vaultOp.Read(ctx, vaultID)
 	assert.NoError(t, err)
 	assert.Equal(t, "vault from go 2", resRead.Name)
-	assert.Equal(t, "vault from go client 2", resRead.Description.Value)
+	assert.Equal(t, "vault from go client 2", resRead.Description)
 
-	err = vaultOp.Delete(ctx, resCreate.ID)
+	err = vaultOp.Delete(ctx, vaultID)
 	require.NoError(t, err)
 }
