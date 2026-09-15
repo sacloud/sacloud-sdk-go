@@ -85,6 +85,7 @@ func FromStringPtr[
 ](v *string) (opt T, err error) {
 	var zero U
 	var n int
+	var val int64
 	switch any(&zero).(type) {
 	case *int8:
 		n = 8
@@ -102,7 +103,7 @@ func FromStringPtr[
 
 	if v == nil {
 		P(&opt).Reset()
-	} else if val, err := strconv.ParseInt(*v, 10, n); err != nil {
+	} else if val, err = strconv.ParseInt(*v, 10, n); err != nil {
 		P(&opt).Reset()
 	} else {
 		P(&opt).SetTo(U(val))
