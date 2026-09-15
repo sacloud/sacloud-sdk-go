@@ -102,10 +102,10 @@ type ExposedPort struct {
 
 func (p ExposedPort) into() (ret v1.ExposedPort) {
 	ret.SetTargetPort(p.TargetPort)
-	ret.SetLoadBalancerPort(common.IntoNullable[v1.NilPort](p.LoadBalancerPort))
+	ret.SetLoadBalancerPort(into.Nil[v1.NilPort](p.LoadBalancerPort))
 	ret.SetUseLetsEncrypt(p.UseLetsEncrypt)
 	ret.SetHost(p.Host)
-	ret.SetHealthCheck(common.IntoNullable[v1.NilHealthCheck](p.HealthCheck))
+	ret.SetHealthCheck(into.Nil[v1.NilHealthCheck](p.HealthCheck))
 
 	return
 }

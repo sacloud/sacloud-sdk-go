@@ -115,7 +115,7 @@ func (p *projectOp) Move(ctx context.Context, ids []int, parentFolderID *int) er
 	_, err := common.ErrorFromDecodedResponse[v1.MoveProjectsPostNoContent]("Project.Move", func() (any, error) {
 		return p.client.MoveProjectsPost(ctx, &v1.MoveProjects{
 			ProjectIds:     ids,
-			ParentFolderID: common.IntoNullable[v1.NilInt](parentFolderID),
+			ParentFolderID: into.Nil[v1.NilInt](parentFolderID),
 		})
 	})
 

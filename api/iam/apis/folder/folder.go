@@ -106,7 +106,7 @@ func (f *folderOp) Move(ctx context.Context, ids []int, parent *int) error {
 	_, err := common.ErrorFromDecodedResponse[v1.MoveFoldersPostNoContent]("Folder.Move", func() (any, error) {
 		return f.client.MoveFoldersPost(ctx, &v1.MoveFolders{
 			FolderIds: ids,
-			ParentID:  common.IntoNullable[v1.NilInt](parent),
+			ParentID:  into.Nil[v1.NilInt](parent),
 		})
 	})
 

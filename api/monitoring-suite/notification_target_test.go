@@ -123,7 +123,7 @@ func TestNotificationTargetService_Update(t *testing.T) {
 	ctx := t.Context()
 
 	updateParams := NotificationTargetUpdateParams{
-		ServiceType: ref(v1.PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE),
+		ServiceType: new(v1.PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE),
 		URL:         new("https://example.com/notify"),
 		Description: new("description"),
 	}

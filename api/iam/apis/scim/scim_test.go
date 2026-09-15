@@ -41,11 +41,6 @@ func TestNewScimOp(t *testing.T) {
 	assert.NotNil(api)
 }
 
-//go:fix inline
-func intPtr(i int) *int {
-	return new(i)
-}
-
 func TestList(t *testing.T) {
 	var expected v1.ScimConfigurationsGetOK
 	expected.SetFake()

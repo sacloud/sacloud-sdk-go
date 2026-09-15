@@ -101,7 +101,7 @@ func (op *ApplicationOp) Delete(ctx context.Context, id v1.ApplicationID) error 
 
 func (op *ApplicationOp) Update(ctx context.Context, id v1.ApplicationID, toVersion *int32) error {
 	return common.ErrorFromDecodedResponseE("Application.Update", func() error {
-		req := v1.UpdateApplication{ActiveVersion: common.IntoNullable[v1.NilInt32](toVersion)}
+		req := v1.UpdateApplication{ActiveVersion: into.Nil[v1.NilInt32](toVersion)}
 		params := v1.UpdateApplicationParams{ApplicationID: id}
 
 		return op.Client.UpdateApplication(ctx, &req, params)
