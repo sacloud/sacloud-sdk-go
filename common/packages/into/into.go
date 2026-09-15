@@ -95,7 +95,7 @@ func FromStringPtr[
 	case *int64:
 		n = 64
 	case *int:
-		n = 64 // or ... ?
+		n = strconv.IntSize
 	default:
 		panic("unreachable")
 	}
