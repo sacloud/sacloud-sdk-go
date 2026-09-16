@@ -42,7 +42,7 @@ func TestNewScimOp(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.ScimConfigurationsGetOK
+	var expected v1.ListScimConfigurationsOK
 	expected.SetFake()
 	// Itemsフィールドは空のスライスになるように調整
 	expected.Items = []v1.ScimConfigurationBase{}
@@ -193,7 +193,7 @@ func TestDelete_Fail(t *testing.T) {
 }
 
 func TestRegenerateToken(t *testing.T) {
-	var expected v1.ScimConfigurationsIDRegenerateTokenPostOK
+	var expected v1.RegenerateScimConfigurationTokenOK
 	expected.SetFake()
 	assert, api := setup(t, &expected, 200)
 

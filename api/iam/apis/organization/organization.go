@@ -40,13 +40,13 @@ func NewOrganizationOp(client *v1.Client) OrganizationAPI { return &organization
 
 func (o *organizationOp) Read(ctx context.Context) (*v1.Organization, error) {
 	return common.ErrorFromDecodedResponse[v1.Organization]("Organization.Read", func() (any, error) {
-		return o.client.OrganizationGet(ctx)
+		return o.client.ReadOrganization(ctx)
 	})
 }
 
 func (o *organizationOp) Update(ctx context.Context, name string) (*v1.Organization, error) {
 	return common.ErrorFromDecodedResponse[v1.Organization]("Organization.Update", func() (any, error) {
-		return o.client.OrganizationPut(ctx, &v1.OrganizationPutReq{Name: name})
+		return o.client.UpdateOrganization(ctx, &v1.UpdateOrganizationReq{Name: name})
 	})
 }
 
@@ -55,17 +55,17 @@ type GetServicePolicyParams struct {
 	IsDryRun *bool
 	Name     *string
 	Code     *string
-	Type     *v1.OrganizationServicePolicyGetType
+	Type     *v1.ReadOrganizationServicePolicyType
 }
 
 func (o *organizationOp) ReadServicePolicy(ctx context.Context, params GetServicePolicyParams) ([]v1.RuleResponse, error) {
-	if ret, err := common.ErrorFromDecodedResponse[v1.OrganizationServicePolicyGetOK]("Organization.ReadServicePolicy", func() (any, error) {
-		return o.client.OrganizationServicePolicyGet(ctx, v1.OrganizationServicePolicyGetParams{
+	if ret, err := common.ErrorFromDecodedResponse[v1.ReadOrganizationServicePolicyOK]("Organization.ReadServicePolicy", func() (any, error) {
+		return o.client.ReadOrganizationServicePolicy(ctx, v1.ReadOrganizationServicePolicyParams{
 			IsActive: into.Opt[v1.OptBool](params.IsActive),
 			IsDryRun: into.Opt[v1.OptBool](params.IsDryRun),
 			Name:     into.Opt[v1.OptString](params.Name),
 			Code:     into.Opt[v1.OptString](params.Code),
-			Type:     into.Opt[v1.OptOrganizationServicePolicyGetType](params.Type),
+			Type:     into.Opt[v1.OptReadOrganizationServicePolicyType](params.Type),
 		})
 	}); err != nil {
 		return nil, err
@@ -75,8 +75,8 @@ func (o *organizationOp) ReadServicePolicy(ctx context.Context, params GetServic
 }
 
 func (o *organizationOp) UpdateServicePolicy(ctx context.Context, rules []v1.Rule) ([]v1.RuleResponse, error) {
-	if ret, err := common.ErrorFromDecodedResponse[v1.OrganizationServicePolicyPutOK]("Organization.UpdateServicePolicy", func() (any, error) {
-		return o.client.OrganizationServicePolicyPut(ctx, &v1.OrganizationServicePolicyPutReq{Rules: rules})
+	if ret, err := common.ErrorFromDecodedResponse[v1.UpdateOrganizationServicePolicyOK]("Organization.UpdateServicePolicy", func() (any, error) {
+		return o.client.UpdateOrganizationServicePolicy(ctx, &v1.UpdateOrganizationServicePolicyReq{Rules: rules})
 	}); err != nil {
 		return nil, err
 	} else {

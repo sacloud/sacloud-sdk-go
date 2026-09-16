@@ -23,7 +23,7 @@ import (
 )
 
 type IDRoleAPI interface {
-	List(ctx context.Context, page, perPage *int) (*v1.IDRolesGetOK, error)
+	List(ctx context.Context, page, perPage *int) (*v1.ListIdRolesOK, error)
 	Read(ctx context.Context, id string) (*v1.IdRole, error)
 }
 
@@ -33,9 +33,9 @@ type idRoleOp struct {
 
 func NewIdRoleOp(client *v1.Client) IDRoleAPI { return &idRoleOp{client: client} }
 
-func (i *idRoleOp) List(ctx context.Context, page, perPage *int) (*v1.IDRolesGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.IDRolesGetOK]("IdRole.List", func() (any, error) {
-		return i.client.IDRolesGet(ctx, v1.IDRolesGetParams{
+func (i *idRoleOp) List(ctx context.Context, page, perPage *int) (*v1.ListIdRolesOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListIdRolesOK]("IdRole.List", func() (any, error) {
+		return i.client.ListIdRoles(ctx, v1.ListIdRolesParams{
 			Page:    into.Opt[v1.OptInt](page),
 			PerPage: into.Opt[v1.OptInt](perPage),
 		})
@@ -44,6 +44,6 @@ func (i *idRoleOp) List(ctx context.Context, page, perPage *int) (*v1.IDRolesGet
 
 func (i *idRoleOp) Read(ctx context.Context, id string) (*v1.IdRole, error) {
 	return common.ErrorFromDecodedResponse[v1.IdRole]("IdRole.Read", func() (any, error) {
-		return i.client.IDRolesIDRoleIDGet(ctx, v1.IDRolesIDRoleIDGetParams{IDRoleID: id})
+		return i.client.ReadIdRole(ctx, v1.ReadIdRoleParams{IDRoleID: id})
 	})
 }

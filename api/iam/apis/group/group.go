@@ -25,7 +25,7 @@ import (
 
 // GroupAPI is the interface for group operations.
 type GroupAPI interface {
-	List(ctx context.Context, params ListParams) (*v1.GroupsGetOK, error)
+	List(ctx context.Context, params ListParams) (*v1.ListGroupsOK, error)
 	Create(ctx context.Context, name string, description string) (*v1.Group, error)
 	Read(ctx context.Context, id int) (*v1.Group, error)
 	Update(ctx context.Context, id int, name string, description string) (*v1.Group, error)
@@ -44,22 +44,22 @@ func NewGroupOp(client *v1.Client) GroupAPI { return &groupOp{client: client} }
 type ListParams struct {
 	Page     *int
 	PerPage  *int
-	Ordering *v1.GroupsGetOrdering
+	Ordering *v1.ListGroupsOrdering
 	User     *v1.User
 }
 
-func (g *groupOp) List(ctx context.Context, params ListParams) (*v1.GroupsGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.GroupsGetOK]("Group.List", func() (any, error) {
+func (g *groupOp) List(ctx context.Context, params ListParams) (*v1.ListGroupsOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListGroupsOK]("Group.List", func() (any, error) {
 		var userID *int = nil
 		if params.User != nil {
 			uid := params.User.GetID()
 			userID = &uid
 		}
 
-		return g.client.GroupsGet(ctx, v1.GroupsGetParams{
+		return g.client.ListGroups(ctx, v1.ListGroupsParams{
 			Page:         into.Opt[v1.OptInt](params.Page),
 			PerPage:      into.Opt[v1.OptInt](params.PerPage),
-			Ordering:     into.Opt[v1.OptGroupsGetOrdering](params.Ordering),
+			Ordering:     into.Opt[v1.OptListGroupsOrdering](params.Ordering),
 			CompatUserID: into.Opt[v1.OptInt](userID),
 		})
 	})
@@ -67,7 +67,7 @@ func (g *groupOp) List(ctx context.Context, params ListParams) (*v1.GroupsGetOK,
 
 func (g *groupOp) Create(ctx context.Context, name string, description string) (*v1.Group, error) {
 	return common.ErrorFromDecodedResponse[v1.Group]("Group.Create", func() (any, error) {
-		return g.client.GroupsPost(ctx, &v1.GroupsPostReq{
+		return g.client.CreateGroup(ctx, &v1.CreateGroupReq{
 			Name:        name,
 			Description: description,
 		})
@@ -76,26 +76,26 @@ func (g *groupOp) Create(ctx context.Context, name string, description string) (
 
 func (g *groupOp) Read(ctx context.Context, id int) (*v1.Group, error) {
 	return common.ErrorFromDecodedResponse[v1.Group]("Group.Read", func() (any, error) {
-		return g.client.GroupsGroupIDGet(ctx, v1.GroupsGroupIDGetParams{GroupID: id})
+		return g.client.ReadGroup(ctx, v1.ReadGroupParams{GroupID: id})
 	})
 }
 
 func (g *groupOp) Update(ctx context.Context, id int, name string, description string) (*v1.Group, error) {
 	return common.ErrorFromDecodedResponse[v1.Group]("Group.Update", func() (any, error) {
-		req := v1.GroupsGroupIDPutReq{
+		req := v1.UpdateGroupReq{
 			Name:        name,
 			Description: description,
 		}
-		p := v1.GroupsGroupIDPutParams{
+		p := v1.UpdateGroupParams{
 			GroupID: id,
 		}
-		return g.client.GroupsGroupIDPut(ctx, &req, p)
+		return g.client.UpdateGroup(ctx, &req, p)
 	})
 }
 
 func (g *groupOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.GroupsGroupIDDeleteNoContent]("Group.Delete", func() (any, error) {
-		return g.client.GroupsGroupIDDelete(ctx, v1.GroupsGroupIDDeleteParams{GroupID: id})
+	_, err := common.ErrorFromDecodedResponse[v1.DeleteGroupNoContent]("Group.Delete", func() (any, error) {
+		return g.client.DeleteGroup(ctx, v1.DeleteGroupParams{GroupID: id})
 	})
 
 	return err
@@ -103,7 +103,7 @@ func (g *groupOp) Delete(ctx context.Context, id int) error {
 
 func (g *groupOp) ReadMemberships(ctx context.Context, id int) ([]v1.GroupMembershipsCompatUsersItem, error) {
 	if ret, err := common.ErrorFromDecodedResponse[v1.GroupMemberships]("Group.ReadMemberships", func() (any, error) {
-		return g.client.GroupsGroupIDMembershipsGet(ctx, v1.GroupsGroupIDMembershipsGetParams{GroupID: id})
+		return g.client.ListMemberships(ctx, v1.ListMembershipsParams{GroupID: id})
 	}); err != nil {
 		return nil, err
 	} else {
@@ -113,13 +113,13 @@ func (g *groupOp) ReadMemberships(ctx context.Context, id int) ([]v1.GroupMember
 
 func (g *groupOp) UpdateMemberships(ctx context.Context, groupID int, userIDs []int) ([]v1.GroupMembershipsCompatUsersItem, error) {
 	if ret, err := common.ErrorFromDecodedResponse[v1.GroupMemberships]("Group.UpdateMemberships", func() (any, error) {
-		compatUsers := make([]v1.GroupsGroupIDMembershipsPutReqCompatUsersItem, len(userIDs))
+		compatUsers := make([]v1.UpdateMembershipsReqCompatUsersItem, len(userIDs))
 		for i, j := range userIDs {
 			compatUsers[i].ID = j
 		}
-		req := v1.GroupsGroupIDMembershipsPutReq{CompatUsers: compatUsers}
-		p := v1.GroupsGroupIDMembershipsPutParams{GroupID: groupID}
-		return g.client.GroupsGroupIDMembershipsPut(ctx, &req, p)
+		req := v1.UpdateMembershipsReq{CompatUsers: compatUsers}
+		p := v1.UpdateMembershipsParams{GroupID: groupID}
+		return g.client.UpdateMemberships(ctx, &req, p)
 	}); err != nil {
 		return nil, err
 	} else {

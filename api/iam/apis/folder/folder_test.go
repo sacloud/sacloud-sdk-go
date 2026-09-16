@@ -64,7 +64,7 @@ func TestCreate_Fail(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.FoldersGetOK
+	var expected v1.ListFoldersOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.Folder, 1))
 	expected.Items[0].SetFake()

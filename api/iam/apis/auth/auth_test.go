@@ -144,7 +144,7 @@ func TestPutAuthConditions_Fail(t *testing.T) {
 }
 
 func TestReadAuthContext(t *testing.T) {
-	var expected v1.GetAuthContextOK
+	var expected v1.ReadAuthContextOK
 	expected.SetFake()
 	assert, api := setup(t, &expected)
 

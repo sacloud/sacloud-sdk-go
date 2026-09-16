@@ -25,7 +25,7 @@ import (
 
 // UserAPI is the interface for user operations.
 type UserAPI interface {
-	List(ctx context.Context, params ListParams) (*v1.CompatUsersGetOK, error)
+	List(ctx context.Context, params ListParams) (*v1.ListUsersOK, error)
 	Create(ctx context.Context, params CreateParams) (*v1.User, error)
 	Read(ctx context.Context, id int) (*v1.User, error)
 	Update(ctx context.Context, id int, params UpdateParams) (*v1.User, error)
@@ -46,15 +46,15 @@ func NewUserOp(client *v1.Client) UserAPI {
 type ListParams struct {
 	Page     *int
 	PerPage  *int
-	Ordering *v1.CompatUsersGetOrdering
+	Ordering *v1.ListUsersOrdering
 }
 
-func (u *userOp) List(ctx context.Context, params ListParams) (*v1.CompatUsersGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.CompatUsersGetOK]("User.List", func() (any, error) {
-		return u.client.CompatUsersGet(ctx, v1.CompatUsersGetParams{
+func (u *userOp) List(ctx context.Context, params ListParams) (*v1.ListUsersOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListUsersOK]("User.List", func() (any, error) {
+		return u.client.ListUsers(ctx, v1.ListUsersParams{
 			Page:     into.Opt[v1.OptInt](params.Page),
 			PerPage:  into.Opt[v1.OptInt](params.PerPage),
-			Ordering: into.Opt[v1.OptCompatUsersGetOrdering](params.Ordering),
+			Ordering: into.Opt[v1.OptListUsersOrdering](params.Ordering),
 		})
 	})
 }
@@ -69,7 +69,7 @@ type CreateParams struct {
 
 func (u *userOp) Create(ctx context.Context, params CreateParams) (*v1.User, error) {
 	return common.ErrorFromDecodedResponse[v1.User]("User.Create", func() (any, error) {
-		return u.client.CompatUsersPost(ctx, &v1.CompatUsersPostReq{
+		return u.client.CreateUser(ctx, &v1.CreateUserReq{
 			Name:        params.Name,
 			Password:    params.Password,
 			Code:        params.Code,
@@ -81,7 +81,7 @@ func (u *userOp) Create(ctx context.Context, params CreateParams) (*v1.User, err
 
 func (u *userOp) Read(ctx context.Context, id int) (*v1.User, error) {
 	return common.ErrorFromDecodedResponse[v1.User]("User.Read", func() (any, error) {
-		return u.client.CompatUsersUserIDGet(ctx, v1.CompatUsersUserIDGetParams{UserID: id})
+		return u.client.ReadUser(ctx, v1.ReadUserParams{UserID: id})
 	})
 }
 
@@ -93,38 +93,38 @@ type UpdateParams struct {
 
 func (u *userOp) Update(ctx context.Context, id int, params UpdateParams) (*v1.User, error) {
 	return common.ErrorFromDecodedResponse[v1.User]("User.Update", func() (any, error) {
-		req := v1.CompatUsersUserIDPutReq{
+		req := v1.UpdateUserReq{
 			Name:        params.Name,
 			Password:    into.Opt[v1.OptString](params.Password),
 			Description: params.Description,
 		}
-		p := v1.CompatUsersUserIDPutParams{
+		p := v1.UpdateUserParams{
 			UserID: id,
 		}
-		return u.client.CompatUsersUserIDPut(ctx, &req, p)
+		return u.client.UpdateUser(ctx, &req, p)
 	})
 }
 
 func (u *userOp) Delete(ctx context.Context, id int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.CompatUsersUserIDDeleteNoContent]("User.Delete", func() (any, error) {
-		return u.client.CompatUsersUserIDDelete(ctx, v1.CompatUsersUserIDDeleteParams{UserID: id})
+	_, err := common.ErrorFromDecodedResponse[v1.DeleteUserNoContent]("User.Delete", func() (any, error) {
+		return u.client.DeleteUser(ctx, v1.DeleteUserParams{UserID: id})
 	})
 
 	return err
 }
 
 func (u *userOp) RegisterEmail(ctx context.Context, userID int, email string) error {
-	_, err := common.ErrorFromDecodedResponse[v1.CompatUsersUserIDRegisterEmailPostNoContent]("User.RegisterEmail", func() (any, error) {
-		req := v1.CompatUsersUserIDRegisterEmailPostReq{Email: email}
-		p := v1.CompatUsersUserIDRegisterEmailPostParams{UserID: userID}
-		return u.client.CompatUsersUserIDRegisterEmailPost(ctx, &req, p)
+	_, err := common.ErrorFromDecodedResponse[v1.RegisterEmailNoContent]("User.RegisterEmail", func() (any, error) {
+		req := v1.RegisterEmailReq{Email: email}
+		p := v1.RegisterEmailParams{UserID: userID}
+		return u.client.RegisterEmail(ctx, &req, p)
 	})
 	return err
 }
 
 func (u *userOp) UnregisterEmail(ctx context.Context, userID int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.CompatUsersUserIDUnregisterEmailPostNoContent]("User.UnregisterEmail", func() (any, error) {
-		return u.client.CompatUsersUserIDUnregisterEmailPost(ctx, v1.CompatUsersUserIDUnregisterEmailPostParams{
+	_, err := common.ErrorFromDecodedResponse[v1.UnregisterEmailNoContent]("User.UnregisterEmail", func() (any, error) {
+		return u.client.UnregisterEmail(ctx, v1.UnregisterEmailParams{
 			UserID: userID,
 		})
 	})
