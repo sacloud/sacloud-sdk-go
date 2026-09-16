@@ -4,6 +4,7 @@ package queue
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
@@ -27,15 +28,9 @@ type Invoker interface {
 	//
 	// DELETE /commonserviceitem/{id}/simplemq/messages
 	ClearQueue(ctx context.Context, params ClearQueueParams) (ClearQueueRes, error)
-	// ConfigQueue invokes configQueue operation.
-	//
-	// キュー名の変更は不可.
-	//
-	// PUT /commonserviceitem/{id}
-	ConfigQueue(ctx context.Context, request *ConfigQueueRequest, params ConfigQueueParams) (ConfigQueueRes, error)
 	// CreateQueue invokes createQueue operation.
 	//
-	// キューの作成.
+	// キューを利用するためには、キュー作成後にAPIキーの発行が必要になります。.
 	//
 	// POST /commonserviceitem
 	CreateQueue(ctx context.Context, request *CreateQueueRequest) (CreateQueueRes, error)
@@ -45,31 +40,37 @@ type Invoker interface {
 	//
 	// DELETE /commonserviceitem/{id}
 	DeleteQueue(ctx context.Context, params DeleteQueueParams) (DeleteQueueRes, error)
-	// GetMessageCount invokes getMessageCount operation.
-	//
-	// メッセージ数の取得.
-	//
-	// GET /commonserviceitem/{id}/simplemq/message-count
-	GetMessageCount(ctx context.Context, params GetMessageCountParams) (GetMessageCountRes, error)
-	// GetQueue invokes getQueue operation.
-	//
-	// キューの取得.
-	//
-	// GET /commonserviceitem/{id}
-	GetQueue(ctx context.Context, params GetQueueParams) (GetQueueRes, error)
-	// GetQueues invokes getQueues operation.
+	// ListQueues invokes listQueues operation.
 	//
 	// クエリパラメータに下記のようにフィルタを設定することでシンプルMQのリソースのみを取得できます
 	// `/commonserviceitem?{"Filter":{"Provider.Class":"simplemq"}}`.
 	//
 	// GET /commonserviceitem
-	GetQueues(ctx context.Context) (GetQueuesRes, error)
+	ListQueues(ctx context.Context) (ListQueuesRes, error)
+	// ReadMessageCount invokes readMessageCount operation.
+	//
+	// メッセージ数の取得.
+	//
+	// GET /commonserviceitem/{id}/simplemq/message-count
+	ReadMessageCount(ctx context.Context, params ReadMessageCountParams) (ReadMessageCountRes, error)
+	// ReadQueue invokes readQueue operation.
+	//
+	// キューの取得.
+	//
+	// GET /commonserviceitem/{id}
+	ReadQueue(ctx context.Context, params ReadQueueParams) (ReadQueueRes, error)
 	// RotateAPIKey invokes rotateAPIKey operation.
 	//
-	// APIキーの発行.
+	// 発行済みのAPIキーを無効化し、新たにAPIキーを発行します。.
 	//
 	// PUT /commonserviceitem/{id}/simplemq/rotate-apikey
 	RotateAPIKey(ctx context.Context, params RotateAPIKeyParams) (RotateAPIKeyRes, error)
+	// UpdateQueue invokes updateQueue operation.
+	//
+	// キュー名の変更は不可.
+	//
+	// PUT /commonserviceitem/{id}
+	UpdateQueue(ctx context.Context, request *ConfigQueueRequest, params UpdateQueueParams) (UpdateQueueRes, error)
 }
 
 // Client implements OAS client.
@@ -191,7 +192,14 @@ func (c *Client) sendClearQueue(ctx context.Context, params ClearQueueParams) (r
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeClearQueueResponse(resp)
 	if err != nil {
@@ -201,108 +209,9 @@ func (c *Client) sendClearQueue(ctx context.Context, params ClearQueueParams) (r
 	return result, nil
 }
 
-// ConfigQueue invokes configQueue operation.
-//
-// キュー名の変更は不可.
-//
-// PUT /commonserviceitem/{id}
-func (c *Client) ConfigQueue(ctx context.Context, request *ConfigQueueRequest, params ConfigQueueParams) (ConfigQueueRes, error) {
-	res, err := c.sendConfigQueue(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendConfigQueue(ctx context.Context, request *ConfigQueueRequest, params ConfigQueueParams) (res ConfigQueueRes, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/commonserviceitem/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeConfigQueueRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, ConfigQueueOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeConfigQueueResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // CreateQueue invokes createQueue operation.
 //
-// キューの作成.
+// キューを利用するためには、キュー作成後にAPIキーの発行が必要になります。.
 //
 // POST /commonserviceitem
 func (c *Client) CreateQueue(ctx context.Context, request *CreateQueueRequest) (CreateQueueRes, error) {
@@ -371,7 +280,14 @@ func (c *Client) sendCreateQueue(ctx context.Context, request *CreateQueueReques
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeCreateQueueResponse(resp)
 	if err != nil {
@@ -458,7 +374,14 @@ func (c *Client) sendDeleteQueue(ctx context.Context, params DeleteQueueParams) 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteQueueResponse(resp)
 	if err != nil {
@@ -468,17 +391,95 @@ func (c *Client) sendDeleteQueue(ctx context.Context, params DeleteQueueParams) 
 	return result, nil
 }
 
-// GetMessageCount invokes getMessageCount operation.
+// ListQueues invokes listQueues operation.
+//
+// クエリパラメータに下記のようにフィルタを設定することでシンプルMQのリソースのみを取得できます
+// `/commonserviceitem?{"Filter":{"Provider.Class":"simplemq"}}`.
+//
+// GET /commonserviceitem
+func (c *Client) ListQueues(ctx context.Context) (ListQueuesRes, error) {
+	res, err := c.sendListQueues(ctx)
+	return res, err
+}
+
+func (c *Client) sendListQueues(ctx context.Context) (res ListQueuesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/commonserviceitem"
+	uri.AddPathParts(u, pathParts[:]...)
+	u.RawQuery = url.QueryEscape(`{"Filter":{"Provider.Class":"simplemq"}}`) // NOTE: ここだけOpenAPIで表現できず手動で書き加えている
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ListQueuesOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListQueuesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadMessageCount invokes readMessageCount operation.
 //
 // メッセージ数の取得.
 //
 // GET /commonserviceitem/{id}/simplemq/message-count
-func (c *Client) GetMessageCount(ctx context.Context, params GetMessageCountParams) (GetMessageCountRes, error) {
-	res, err := c.sendGetMessageCount(ctx, params)
+func (c *Client) ReadMessageCount(ctx context.Context, params ReadMessageCountParams) (ReadMessageCountRes, error) {
+	res, err := c.sendReadMessageCount(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetMessageCount(ctx context.Context, params GetMessageCountParams) (res GetMessageCountRes, err error) {
+func (c *Client) sendReadMessageCount(ctx context.Context, params ReadMessageCountParams) (res ReadMessageCountRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -514,7 +515,7 @@ func (c *Client) sendGetMessageCount(ctx context.Context, params GetMessageCount
 		var satisfied bitset
 		{
 
-			switch err := c.securityApiKeyAuth(ctx, GetMessageCountOperation, r); {
+			switch err := c.securityApiKeyAuth(ctx, ReadMessageCountOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -546,9 +547,16 @@ func (c *Client) sendGetMessageCount(ctx context.Context, params GetMessageCount
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeGetMessageCountResponse(resp)
+	result, err := decodeReadMessageCountResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -556,17 +564,17 @@ func (c *Client) sendGetMessageCount(ctx context.Context, params GetMessageCount
 	return result, nil
 }
 
-// GetQueue invokes getQueue operation.
+// ReadQueue invokes readQueue operation.
 //
 // キューの取得.
 //
 // GET /commonserviceitem/{id}
-func (c *Client) GetQueue(ctx context.Context, params GetQueueParams) (GetQueueRes, error) {
-	res, err := c.sendGetQueue(ctx, params)
+func (c *Client) ReadQueue(ctx context.Context, params ReadQueueParams) (ReadQueueRes, error) {
+	res, err := c.sendReadQueue(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetQueue(ctx context.Context, params GetQueueParams) (res GetQueueRes, err error) {
+func (c *Client) sendReadQueue(ctx context.Context, params ReadQueueParams) (res ReadQueueRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -601,7 +609,7 @@ func (c *Client) sendGetQueue(ctx context.Context, params GetQueueParams) (res G
 		var satisfied bitset
 		{
 
-			switch err := c.securityApiKeyAuth(ctx, GetQueueOperation, r); {
+			switch err := c.securityApiKeyAuth(ctx, ReadQueueOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -633,80 +641,16 @@ func (c *Client) sendGetQueue(ctx context.Context, params GetQueueParams) (res G
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeGetQueueResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetQueues invokes getQueues operation.
-//
-// クエリパラメータに下記のようにフィルタを設定することでシンプルMQのリソースのみを取得できます
-// `/commonserviceitem?{"Filter":{"Provider.Class":"simplemq"}}`.
-//
-// GET /commonserviceitem
-func (c *Client) GetQueues(ctx context.Context) (GetQueuesRes, error) {
-	res, err := c.sendGetQueues(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetQueues(ctx context.Context) (res GetQueuesRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/commonserviceitem"
-	uri.AddPathParts(u, pathParts[:]...)
-	u.RawQuery = url.QueryEscape(`{"Filter":{"Provider.Class":"simplemq"}}`) // NOTE: ここだけOpenAPIで表現できず手動で書き加えている
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, GetQueuesOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetQueuesResponse(resp)
+	result, err := decodeReadQueueResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -716,7 +660,7 @@ func (c *Client) sendGetQueues(ctx context.Context) (res GetQueuesRes, err error
 
 // RotateAPIKey invokes rotateAPIKey operation.
 //
-// APIキーの発行.
+// 発行済みのAPIキーを無効化し、新たにAPIキーを発行します。.
 //
 // PUT /commonserviceitem/{id}/simplemq/rotate-apikey
 func (c *Client) RotateAPIKey(ctx context.Context, params RotateAPIKeyParams) (RotateAPIKeyRes, error) {
@@ -792,9 +736,122 @@ func (c *Client) sendRotateAPIKey(ctx context.Context, params RotateAPIKeyParams
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeRotateAPIKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateQueue invokes updateQueue operation.
+//
+// キュー名の変更は不可.
+//
+// PUT /commonserviceitem/{id}
+func (c *Client) UpdateQueue(ctx context.Context, request *ConfigQueueRequest, params UpdateQueueParams) (UpdateQueueRes, error) {
+	res, err := c.sendUpdateQueue(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateQueue(ctx context.Context, request *ConfigQueueRequest, params UpdateQueueParams) (res UpdateQueueRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/commonserviceitem/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateQueueRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, UpdateQueueOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateQueueResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

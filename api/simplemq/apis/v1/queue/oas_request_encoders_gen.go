@@ -10,8 +10,8 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeConfigQueueRequest(
-	req *ConfigQueueRequest,
+func encodeCreateQueueRequest(
+	req *CreateQueueRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -24,8 +24,8 @@ func encodeConfigQueueRequest(
 	return nil
 }
 
-func encodeCreateQueueRequest(
-	req *CreateQueueRequest,
+func encodeUpdateQueueRequest(
+	req *ConfigQueueRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

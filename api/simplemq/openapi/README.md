@@ -1,9 +1,11 @@
 # OpenAPI定義
 
-シンプルMQのOpenAPI定義は下記にて公開されています。
+シンプルMQのOpenAPI定義は [さくらのクラウド API ポータル](https://manual.sakura.ad.jp/api/cloud/portal/) にて公開されています。
 
-- キュー管理API: https://manual.sakura.ad.jp/api/cloud/simplemq/sacloud/
-- メッセージ送受信API: https://manual.sakura.ad.jp/api/cloud/simplemq/
+- キュー管理API: https://manual.sakura.ad.jp/api/cloud/portal/openapis/simplemq-sacloud-api.yaml
+- メッセージ送受信API: https://manual.sakura.ad.jp/api/cloud/portal/openapis/simplemq-api.yaml
+
+取得した定義はそれぞれ `queue.yaml`、`message.yaml` として配置し、`make gen` でクライアントを再生成する。
 
 ## ogenによる生成コードの修正
 
