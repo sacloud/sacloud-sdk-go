@@ -4,6 +4,7 @@ package message
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
@@ -35,13 +36,13 @@ type Invoker interface {
 	ExtendMessageTimeout(ctx context.Context, params ExtendMessageTimeoutParams) (ExtendMessageTimeoutRes, error)
 	// ReceiveMessage invokes receiveMessage operation.
 	//
-	// キューに対するメッセージのreceive (dequeue).
+	// キューからのメッセージの受信 (dequeue).
 	//
 	// GET /v1/queues/{queueName}/messages
 	ReceiveMessage(ctx context.Context, params ReceiveMessageParams) (ReceiveMessageRes, error)
 	// SendMessage invokes sendMessage operation.
 	//
-	// キューに対するメッセージのsend (enqueue).
+	// キューに対するメッセージの送信 (enqueue).
 	//
 	// POST /v1/queues/{queueName}/messages
 	SendMessage(ctx context.Context, request *SendRequest, params SendMessageParams) (SendMessageRes, error)
@@ -190,7 +191,14 @@ func (c *Client) sendDeleteMessage(ctx context.Context, params DeleteMessagePara
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeDeleteMessageResponse(resp)
 	if err != nil {
@@ -302,7 +310,14 @@ func (c *Client) sendExtendMessageTimeout(ctx context.Context, params ExtendMess
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeExtendMessageTimeoutResponse(resp)
 	if err != nil {
@@ -314,7 +329,7 @@ func (c *Client) sendExtendMessageTimeout(ctx context.Context, params ExtendMess
 
 // ReceiveMessage invokes receiveMessage operation.
 //
-// キューに対するメッセージのreceive (dequeue).
+// キューからのメッセージの受信 (dequeue).
 //
 // GET /v1/queues/{queueName}/messages
 func (c *Client) ReceiveMessage(ctx context.Context, params ReceiveMessageParams) (ReceiveMessageRes, error) {
@@ -393,7 +408,14 @@ func (c *Client) sendReceiveMessage(ctx context.Context, params ReceiveMessagePa
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeReceiveMessageResponse(resp)
 	if err != nil {
@@ -405,7 +427,7 @@ func (c *Client) sendReceiveMessage(ctx context.Context, params ReceiveMessagePa
 
 // SendMessage invokes sendMessage operation.
 //
-// キューに対するメッセージのsend (enqueue).
+// キューに対するメッセージの送信 (enqueue).
 //
 // POST /v1/queues/{queueName}/messages
 func (c *Client) SendMessage(ctx context.Context, request *SendRequest, params SendMessageParams) (SendMessageRes, error) {
@@ -496,7 +518,14 @@ func (c *Client) sendSendMessage(ctx context.Context, request *SendRequest, para
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
 	result, err := decodeSendMessageResponse(resp)
 	if err != nil {

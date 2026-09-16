@@ -198,52 +198,6 @@ func (s *CommonServiceItemIconID) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ConfigQueueBadRequest) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = ConfigQueueBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ConfigQueueInternalServerError) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = ConfigQueueInternalServerError(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ConfigQueueNotFound) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = ConfigQueueNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ConfigQueueOK) SetFake() {
-	{
-		{
-			s.CommonServiceItem.SetFake()
-		}
-	}
-	{
-		{
-			s.Success.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *ConfigQueueRequest) SetFake() {
 	{
 		{
@@ -327,15 +281,6 @@ func (s *ConfigQueueRequestCommonServiceItemIconID) SetFake() {
 		variant = "string"
 	}
 	s.SetString(variant)
-}
-
-// SetFake set fake values.
-func (s *ConfigQueueUnauthorized) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = ConfigQueueUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
@@ -592,139 +537,25 @@ func (s *ExpireSeconds) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetMessageCountBadRequest) SetFake() {
+func (s *ListQueuesBadRequest) SetFake() {
 	var unwrapped Error
 	{
 		unwrapped.SetFake()
 	}
-	*s = GetMessageCountBadRequest(unwrapped)
+	*s = ListQueuesBadRequest(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *GetMessageCountInternalServerError) SetFake() {
+func (s *ListQueuesInternalServerError) SetFake() {
 	var unwrapped Error
 	{
 		unwrapped.SetFake()
 	}
-	*s = GetMessageCountInternalServerError(unwrapped)
+	*s = ListQueuesInternalServerError(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *GetMessageCountNotFound) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetMessageCountNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetMessageCountOK) SetFake() {
-	{
-		{
-			s.SimpleMQ.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetMessageCountOKSimpleMQ) SetFake() {
-	{
-		{
-			s.Result.SetFake()
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetMessageCountUnauthorized) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetMessageCountUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetQueueBadRequest) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetQueueBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetQueueInternalServerError) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetQueueInternalServerError(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetQueueNotFound) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetQueueNotFound(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetQueueOK) SetFake() {
-	{
-		{
-			s.CommonServiceItem.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetQueueUnauthorized) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetQueueUnauthorized(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetQueuesBadRequest) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetQueuesBadRequest(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetQueuesInternalServerError) SetFake() {
-	var unwrapped Error
-	{
-		unwrapped.SetFake()
-	}
-	*s = GetQueuesInternalServerError(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *GetQueuesOK) SetFake() {
+func (s *ListQueuesOK) SetFake() {
 	{
 		{
 			s.From.SetFake()
@@ -760,12 +591,12 @@ func (s *GetQueuesOK) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetQueuesUnauthorized) SetFake() {
+func (s *ListQueuesUnauthorized) SetFake() {
 	var unwrapped Error
 	{
 		unwrapped.SetFake()
 	}
-	*s = GetQueuesUnauthorized(unwrapped)
+	*s = ListQueuesUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.
@@ -894,6 +725,120 @@ func (s *QueueName) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *ReadMessageCountBadRequest) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadMessageCountBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadMessageCountInternalServerError) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadMessageCountInternalServerError(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadMessageCountNotFound) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadMessageCountNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadMessageCountOK) SetFake() {
+	{
+		{
+			s.SimpleMQ.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadMessageCountOKSimpleMQ) SetFake() {
+	{
+		{
+			s.Result.SetFake()
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadMessageCountUnauthorized) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadMessageCountUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadQueueBadRequest) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadQueueBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadQueueInternalServerError) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadQueueInternalServerError(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadQueueNotFound) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadQueueNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ReadQueueOK) SetFake() {
+	{
+		{
+			s.CommonServiceItem.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadQueueUnauthorized) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = ReadQueueUnauthorized(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *RotateAPIKeyBadRequest) SetFake() {
 	var unwrapped Error
 	{
@@ -978,6 +923,61 @@ func (s *Status) SetFake() {
 			s.QueueName = "string"
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *UpdateQueueBadRequest) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateQueueBadRequest(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateQueueInternalServerError) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateQueueInternalServerError(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateQueueNotFound) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateQueueNotFound(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateQueueOK) SetFake() {
+	{
+		{
+			s.CommonServiceItem.SetFake()
+		}
+	}
+	{
+		{
+			s.Success.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateQueueUnauthorized) SetFake() {
+	var unwrapped Error
+	{
+		unwrapped.SetFake()
+	}
+	*s = UpdateQueueUnauthorized(unwrapped)
 }
 
 // SetFake set fake values.

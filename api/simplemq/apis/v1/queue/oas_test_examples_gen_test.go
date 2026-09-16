@@ -135,54 +135,6 @@ func TestCommonServiceItemIconID_EncodeDecode(t *testing.T) {
 	var typ2 CommonServiceItemIconID
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestConfigQueueBadRequest_EncodeDecode(t *testing.T) {
-	var typ ConfigQueueBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ConfigQueueBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestConfigQueueInternalServerError_EncodeDecode(t *testing.T) {
-	var typ ConfigQueueInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ConfigQueueInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestConfigQueueNotFound_EncodeDecode(t *testing.T) {
-	var typ ConfigQueueNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ConfigQueueNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestConfigQueueOK_EncodeDecode(t *testing.T) {
-	var typ ConfigQueueOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ConfigQueueOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestConfigQueueRequest_EncodeDecode(t *testing.T) {
 	var typ ConfigQueueRequest
 	typ.SetFake()
@@ -229,18 +181,6 @@ func TestConfigQueueRequestCommonServiceItemIconID_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ConfigQueueRequestCommonServiceItemIconID
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestConfigQueueUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ConfigQueueUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ConfigQueueUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateQueueBadRequest_EncodeDecode(t *testing.T) {
@@ -491,8 +431,8 @@ func TestExpireSeconds_EncodeDecode(t *testing.T) {
 	var typ2 ExpireSeconds
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetMessageCountBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetMessageCountBadRequest
+func TestListQueuesBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListQueuesBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -500,11 +440,11 @@ func TestGetMessageCountBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetMessageCountBadRequest
+	var typ2 ListQueuesBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetMessageCountInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetMessageCountInternalServerError
+func TestListQueuesInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ListQueuesInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -512,11 +452,11 @@ func TestGetMessageCountInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetMessageCountInternalServerError
+	var typ2 ListQueuesInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetMessageCountNotFound_EncodeDecode(t *testing.T) {
-	var typ GetMessageCountNotFound
+func TestListQueuesOK_EncodeDecode(t *testing.T) {
+	var typ ListQueuesOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -524,11 +464,11 @@ func TestGetMessageCountNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetMessageCountNotFound
+	var typ2 ListQueuesOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetMessageCountOK_EncodeDecode(t *testing.T) {
-	var typ GetMessageCountOK
+func TestListQueuesUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListQueuesUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -536,139 +476,7 @@ func TestGetMessageCountOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetMessageCountOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetMessageCountOKSimpleMQ_EncodeDecode(t *testing.T) {
-	var typ GetMessageCountOKSimpleMQ
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetMessageCountOKSimpleMQ
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetMessageCountUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetMessageCountUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetMessageCountUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueueBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetQueueBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueueBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueueInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetQueueInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueueInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueueNotFound_EncodeDecode(t *testing.T) {
-	var typ GetQueueNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueueNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueueOK_EncodeDecode(t *testing.T) {
-	var typ GetQueueOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueueOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueueUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetQueueUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueueUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueuesBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetQueuesBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueuesBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueuesInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetQueuesInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueuesInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueuesOK_EncodeDecode(t *testing.T) {
-	var typ GetQueuesOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueuesOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetQueuesUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetQueuesUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetQueuesUnauthorized
+	var typ2 ListQueuesUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestProvider_EncodeDecode(t *testing.T) {
@@ -705,6 +513,138 @@ func TestQueueName_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 QueueName
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadMessageCountBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadMessageCountBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadMessageCountBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadMessageCountInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadMessageCountInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadMessageCountInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadMessageCountNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadMessageCountNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadMessageCountNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadMessageCountOK_EncodeDecode(t *testing.T) {
+	var typ ReadMessageCountOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadMessageCountOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadMessageCountOKSimpleMQ_EncodeDecode(t *testing.T) {
+	var typ ReadMessageCountOKSimpleMQ
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadMessageCountOKSimpleMQ
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadMessageCountUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadMessageCountUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadMessageCountUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadQueueBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadQueueBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadQueueBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadQueueInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadQueueInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadQueueInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadQueueNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadQueueNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadQueueNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadQueueOK_EncodeDecode(t *testing.T) {
+	var typ ReadQueueOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadQueueOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadQueueUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadQueueUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadQueueUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestRotateAPIKeyBadRequest_EncodeDecode(t *testing.T) {
@@ -801,6 +741,66 @@ func TestStatus_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Status
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateQueueBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateQueueBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateQueueBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateQueueInternalServerError_EncodeDecode(t *testing.T) {
+	var typ UpdateQueueInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateQueueInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateQueueNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateQueueNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateQueueNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateQueueOK_EncodeDecode(t *testing.T) {
+	var typ UpdateQueueOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateQueueOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateQueueUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateQueueUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateQueueUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestVisibilityTimeoutSeconds_EncodeDecode(t *testing.T) {
