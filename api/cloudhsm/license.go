@@ -25,7 +25,7 @@ import (
 )
 
 type LicenseAPI interface {
-	List(ctx context.Context) ([]v1.CloudHSMSoftwareLicense, error)
+	List(ctx context.Context, count, from *int) ([]v1.CloudHSMSoftwareLicense, error)
 	Create(ctx context.Context, request CloudHSMSoftwareLicenseCreateParams) (*v1.CreateCloudHSMSoftwareLicense, error)
 	Read(ctx context.Context, id string) (*v1.CloudHSMSoftwareLicense, error)
 	Update(ctx context.Context, id string, params CloudHSMSoftwareLicenseUpdateParams) (*v1.CloudHSMSoftwareLicense, error)
@@ -42,8 +42,14 @@ func NewLicenseOp(client *v1.Client) LicenseAPI {
 	return &LicenseOp{client: client}
 }
 
-func (op *LicenseOp) List(ctx context.Context) ([]v1.CloudHSMSoftwareLicense, error) {
-	resp, err := op.client.CloudhsmLicensesList(ctx)
+func (op *LicenseOp) List(ctx context.Context, count, from *int) ([]v1.CloudHSMSoftwareLicense, error) {
+	resp, err := op.client.ListCloudHSMLicenses(
+		ctx,
+		v1.ListCloudHSMLicensesParams{
+			Count: into.Opt[v1.OptInt](count),
+			From:  into.Opt[v1.OptInt](from),
+		},
+	)
 	if err != nil {
 		return nil, NewAPIError("License.List", 0, err)
 	}
@@ -57,26 +63,20 @@ type CloudHSMSoftwareLicenseCreateParams struct {
 }
 
 func (op *LicenseOp) Create(ctx context.Context, p CloudHSMSoftwareLicenseCreateParams) (*v1.CreateCloudHSMSoftwareLicense, error) {
-	if p.Tags == nil {
-		p.Tags = []string{}
-	}
-	resp, err := op.client.CloudhsmLicensesCreate(
+	resp, err := op.client.CreateCloudHSMLicense(
 		ctx,
-		&v1.WrappedCreateCloudHSMSoftwareLicense{
-			License: v1.NewOptCreateCloudHSMSoftwareLicense(v1.CreateCloudHSMSoftwareLicense{
-				ServiceClass: v1.CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7,
+		&v1.WrappedCreateCloudHSMSoftwareLicenseRequest{
+			License: v1.CreateCloudHSMSoftwareLicenseRequest{
+				ServiceClass: v1.CreateCloudHSMSoftwareLicenseRequestServiceClassCloudCloudhsmLicenseL7,
 				Name:         p.Name,
 				Description:  into.Opt[v1.OptString](p.Description),
-				Tags:         p.Tags,
-			}),
+				Tags:         into.OptNilArray[v1.OptNilStringArray](&p.Tags),
+			},
 		},
 	)
 
 	if err == nil {
-		ret, ok := resp.GetLicense().Get()
-		if !ok {
-			return nil, nil
-		}
+		ret := resp.GetLicense()
 		return &ret, nil
 	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
 		return nil, NewAPIError("License.Create", 0, err)
@@ -88,18 +88,15 @@ func (op *LicenseOp) Create(ctx context.Context, p CloudHSMSoftwareLicenseCreate
 }
 
 func (op *LicenseOp) Read(ctx context.Context, id string) (*v1.CloudHSMSoftwareLicense, error) {
-	resp, err := op.client.CloudhsmLicensesRetrieve(
+	resp, err := op.client.ReadCloudHSMLicense(
 		ctx,
-		v1.CloudhsmLicensesRetrieveParams{
+		v1.ReadCloudHSMLicenseParams{
 			ResourceID: id,
 		},
 	)
 
 	if err == nil {
-		ret, ok := resp.GetLicense().Get()
-		if !ok {
-			return nil, nil
-		}
+		ret := resp.GetLicense()
 		return &ret, nil
 	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
 		return nil, NewAPIError("License.Read", 0, err)
@@ -112,35 +109,27 @@ func (op *LicenseOp) Read(ctx context.Context, id string) (*v1.CloudHSMSoftwareL
 
 type CloudHSMSoftwareLicenseUpdateParams struct {
 	Name        string
-	Description string
+	Description *string
 	Tags        []string
 }
 
 func (op *LicenseOp) Update(ctx context.Context, id string, p CloudHSMSoftwareLicenseUpdateParams) (*v1.CloudHSMSoftwareLicense, error) {
-	if p.Tags == nil {
-		p.Tags = []string{}
-	}
-
-	resp, err := op.client.CloudhsmLicensesUpdate(
+	resp, err := op.client.UpdateCloudHSMLicense(
 		ctx,
-		&v1.WrappedCloudHSMSoftwareLicense{
-			License: v1.NewOptCloudHSMSoftwareLicense(v1.CloudHSMSoftwareLicense{
-				ServiceClass: v1.CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7,
-				Name:         p.Name,
-				Description:  p.Description,
-				Tags:         p.Tags,
-			}),
+		&v1.WrappedCloudHSMSoftwareLicenseRequest{
+			License: v1.CloudHSMSoftwareLicenseRequest{
+				Name:        p.Name,
+				Description: into.Opt[v1.OptString](p.Description),
+				Tags:        into.OptNilArray[v1.OptNilStringArray](&p.Tags),
+			},
 		},
-		v1.CloudhsmLicensesUpdateParams{
+		v1.UpdateCloudHSMLicenseParams{
 			ResourceID: id,
 		},
 	)
 
 	if err == nil {
-		ret, ok := resp.GetLicense().Get()
-		if !ok {
-			return nil, nil
-		}
+		ret := resp.GetLicense()
 		return &ret, nil
 	} else if e, ok := errors.Into[*ogen.UnexpectedStatusCodeError](err); !ok {
 		return nil, NewAPIError("License.Update", 0, err)
@@ -152,9 +141,9 @@ func (op *LicenseOp) Update(ctx context.Context, id string, p CloudHSMSoftwareLi
 }
 
 func (op *LicenseOp) Delete(ctx context.Context, id string) error {
-	err := op.client.CloudhsmLicensesDestroy(
+	err := op.client.DeleteCloudHSMLicense(
 		ctx,
-		v1.CloudhsmLicensesDestroyParams{
+		v1.DeleteCloudHSMLicenseParams{
 			ResourceID: id,
 		},
 	)

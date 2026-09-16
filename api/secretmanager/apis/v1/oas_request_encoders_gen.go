@@ -7,12 +7,11 @@ import (
 	"net/http"
 
 	"github.com/go-faster/jx"
-
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeSecretmanagerVaultsCreateRequest(
-	req *WrappedCreateVault,
+func encodeCreateVaultRequest(
+	req *WrappedCreateVaultRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -25,8 +24,8 @@ func encodeSecretmanagerVaultsCreateRequest(
 	return nil
 }
 
-func encodeSecretmanagerVaultsSecretsCreateRequest(
-	req *WrappedCreateSecret,
+func encodeCreateVaultSecretRequest(
+	req *WrappedCreateSecretRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -39,8 +38,8 @@ func encodeSecretmanagerVaultsSecretsCreateRequest(
 	return nil
 }
 
-func encodeSecretmanagerVaultsSecretsDestroyRequest(
-	req *WrappedDeleteSecret,
+func encodeDeleteVaultSecretRequest(
+	req *WrappedDeleteSecretRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -53,8 +52,8 @@ func encodeSecretmanagerVaultsSecretsDestroyRequest(
 	return nil
 }
 
-func encodeSecretmanagerVaultsSecretsUnveilRequest(
-	req *WrappedUnveil,
+func encodeUnveilSecretRequest(
+	req *WrappedUnveilRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -67,8 +66,8 @@ func encodeSecretmanagerVaultsSecretsUnveilRequest(
 	return nil
 }
 
-func encodeSecretmanagerVaultsUpdateRequest(
-	req *WrappedVault,
+func encodeUpdateVaultRequest(
+	req *WrappedVaultRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

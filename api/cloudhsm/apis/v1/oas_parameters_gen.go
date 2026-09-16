@@ -2,79 +2,115 @@
 
 package v1
 
-// CloudhsmCloudhsmsClientsCreateParams is parameters of cloudhsm_cloudhsms_clients_create operation.
-type CloudhsmCloudhsmsClientsCreateParams struct {
+// CreateCloudHSMClientParams is parameters of createCloudHSMClient operation.
+type CreateCloudHSMClientParams struct {
 	CloudhsmResourceID string
 }
 
-// CloudhsmCloudhsmsClientsDestroyParams is parameters of cloudhsm_cloudhsms_clients_destroy operation.
-type CloudhsmCloudhsmsClientsDestroyParams struct {
-	CloudhsmResourceID string
-	// A unique value identifying this CloudHSMクライアント.
-	ID string
-}
-
-// CloudhsmCloudhsmsClientsListParams is parameters of cloudhsm_cloudhsms_clients_list operation.
-type CloudhsmCloudhsmsClientsListParams struct {
-	CloudhsmResourceID string
-}
-
-// CloudhsmCloudhsmsClientsRetrieveParams is parameters of cloudhsm_cloudhsms_clients_retrieve operation.
-type CloudhsmCloudhsmsClientsRetrieveParams struct {
-	CloudhsmResourceID string
-	// A unique value identifying this CloudHSMクライアント.
-	ID string
-}
-
-// CloudhsmCloudhsmsClientsUpdateParams is parameters of cloudhsm_cloudhsms_clients_update operation.
-type CloudhsmCloudhsmsClientsUpdateParams struct {
-	CloudhsmResourceID string
-	// A unique value identifying this CloudHSMクライアント.
-	ID string
-}
-
-// CloudhsmCloudhsmsDestroyParams is parameters of cloudhsm_cloudhsms_destroy operation.
-type CloudhsmCloudhsmsDestroyParams struct {
+// CreateCloudHSMPeerParams is parameters of createCloudHSMPeer operation.
+type CreateCloudHSMPeerParams struct {
 	ResourceID string
 }
 
-// CloudhsmCloudhsmsPeersCreateParams is parameters of cloudhsm_cloudhsms_peers_create operation.
-type CloudhsmCloudhsmsPeersCreateParams struct {
+// DeleteCloudHSMParams is parameters of deleteCloudHSM operation.
+type DeleteCloudHSMParams struct {
 	ResourceID string
 }
 
-// CloudhsmCloudhsmsPeersDestroyParams is parameters of cloudhsm_cloudhsms_peers_destroy operation.
-type CloudhsmCloudhsmsPeersDestroyParams struct {
+// DeleteCloudHSMClientParams is parameters of deleteCloudHSMClient operation.
+type DeleteCloudHSMClientParams struct {
+	CloudhsmResourceID string
+	// A unique value identifying this CloudHSMクライアント.
+	ID string
+}
+
+// DeleteCloudHSMLicenseParams is parameters of deleteCloudHSMLicense operation.
+type DeleteCloudHSMLicenseParams struct {
+	ResourceID string
+}
+
+// DeleteCloudHSMPeerParams is parameters of deleteCloudHSMPeer operation.
+type DeleteCloudHSMPeerParams struct {
 	PeerID     string
 	ResourceID string
 }
 
-// CloudhsmCloudhsmsPeersRetrieveParams is parameters of cloudhsm_cloudhsms_peers_retrieve operation.
-type CloudhsmCloudhsmsPeersRetrieveParams struct {
+// DownloadCloudHSMDocumentParams is parameters of downloadCloudHSMDocument operation.
+type DownloadCloudHSMDocumentParams struct {
+	// A unique value identifying this CloudHSMドキュメント.
+	ID                string
+	LicenseResourceID string
+}
+
+// ListCloudHSMClientsParams is parameters of listCloudHSMClients operation.
+type ListCloudHSMClientsParams struct {
+	// Number of results to return per page.
+	Count OptInt `json:",omitempty,omitzero"`
+	// The initial index from which to return the results.
+	From               OptInt `json:",omitempty,omitzero"`
+	CloudhsmResourceID string
+}
+
+// ListCloudHSMDocumentsParams is parameters of listCloudHSMDocuments operation.
+type ListCloudHSMDocumentsParams struct {
+	// Number of results to return per page.
+	Count OptInt `json:",omitempty,omitzero"`
+	// The initial index from which to return the results.
+	From              OptInt `json:",omitempty,omitzero"`
+	LicenseResourceID string
+}
+
+// ListCloudHSMLicensesParams is parameters of listCloudHSMLicenses operation.
+type ListCloudHSMLicensesParams struct {
+	// Number of results to return per page.
+	Count OptInt `json:",omitempty,omitzero"`
+	// The initial index from which to return the results.
+	From OptInt `json:",omitempty,omitzero"`
+}
+
+// ListCloudHSMPeersParams is parameters of listCloudHSMPeers operation.
+type ListCloudHSMPeersParams struct {
 	ResourceID string
 }
 
-// CloudhsmCloudhsmsRetrieveParams is parameters of cloudhsm_cloudhsms_retrieve operation.
-type CloudhsmCloudhsmsRetrieveParams struct {
+// ListCloudHSMsParams is parameters of listCloudHSMs operation.
+type ListCloudHSMsParams struct {
+	// Number of results to return per page.
+	Count OptInt `json:",omitempty,omitzero"`
+	// The initial index from which to return the results.
+	From OptInt `json:",omitempty,omitzero"`
+}
+
+// ReadCloudHSMParams is parameters of readCloudHSM operation.
+type ReadCloudHSMParams struct {
 	ResourceID string
 }
 
-// CloudhsmCloudhsmsUpdateParams is parameters of cloudhsm_cloudhsms_update operation.
-type CloudhsmCloudhsmsUpdateParams struct {
+// ReadCloudHSMClientParams is parameters of readCloudHSMClient operation.
+type ReadCloudHSMClientParams struct {
+	CloudhsmResourceID string
+	// A unique value identifying this CloudHSMクライアント.
+	ID string
+}
+
+// ReadCloudHSMLicenseParams is parameters of readCloudHSMLicense operation.
+type ReadCloudHSMLicenseParams struct {
 	ResourceID string
 }
 
-// CloudhsmLicensesDestroyParams is parameters of cloudhsm_licenses_destroy operation.
-type CloudhsmLicensesDestroyParams struct {
+// UpdateCloudHSMParams is parameters of updateCloudHSM operation.
+type UpdateCloudHSMParams struct {
 	ResourceID string
 }
 
-// CloudhsmLicensesRetrieveParams is parameters of cloudhsm_licenses_retrieve operation.
-type CloudhsmLicensesRetrieveParams struct {
-	ResourceID string
+// UpdateCloudHSMClientParams is parameters of updateCloudHSMClient operation.
+type UpdateCloudHSMClientParams struct {
+	CloudhsmResourceID string
+	// A unique value identifying this CloudHSMクライアント.
+	ID string
 }
 
-// CloudhsmLicensesUpdateParams is parameters of cloudhsm_licenses_update operation.
-type CloudhsmLicensesUpdateParams struct {
+// UpdateCloudHSMLicenseParams is parameters of updateCloudHSMLicense operation.
+type UpdateCloudHSMLicenseParams struct {
 	ResourceID string
 }

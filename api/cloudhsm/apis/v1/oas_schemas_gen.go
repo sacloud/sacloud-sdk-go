@@ -3,61 +3,10 @@
 package v1
 
 import (
+	"net/url"
+
 	"github.com/go-faster/errors"
 )
-
-//   - `precreate` - 準備中
-//   - `available` - 利用可能
-//   - `discontinued` - 廃止
-//
-// Ref: #/components/schemas/AvailabilityEnum
-type AvailabilityEnum string
-
-const (
-	AvailabilityEnumPrecreate    AvailabilityEnum = "precreate"
-	AvailabilityEnumAvailable    AvailabilityEnum = "available"
-	AvailabilityEnumDiscontinued AvailabilityEnum = "discontinued"
-)
-
-// AllValues returns all AvailabilityEnum values.
-func (AvailabilityEnum) AllValues() []AvailabilityEnum {
-	return []AvailabilityEnum{
-		AvailabilityEnumPrecreate,
-		AvailabilityEnumAvailable,
-		AvailabilityEnumDiscontinued,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s AvailabilityEnum) MarshalText() ([]byte, error) {
-	switch s {
-	case AvailabilityEnumPrecreate:
-		return []byte(s), nil
-	case AvailabilityEnumAvailable:
-		return []byte(s), nil
-	case AvailabilityEnumDiscontinued:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *AvailabilityEnum) UnmarshalText(data []byte) error {
-	switch AvailabilityEnum(data) {
-	case AvailabilityEnumPrecreate:
-		*s = AvailabilityEnumPrecreate
-		return nil
-	case AvailabilityEnumAvailable:
-		*s = AvailabilityEnumAvailable
-		return nil
-	case AvailabilityEnumDiscontinued:
-		*s = AvailabilityEnumDiscontinued
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
 
 type BasicAuth struct {
 	Username string
@@ -97,18 +46,23 @@ func (s *BasicAuth) SetRoles(val []string) {
 
 // Ref: #/components/schemas/CloudHSM
 type CloudHSM struct {
-	ID                 string                 `json:"ID"`
-	CreatedAt          DateTime               `json:"CreatedAt"`
-	ModifiedAt         DateTime               `json:"ModifiedAt"`
-	ServiceClass       ServiceClassEnum       `json:"ServiceClass"`
-	Availability       AvailabilityEnum       `json:"Availability"`
+	ID         string   `json:"ID"`
+	CreatedAt  DateTime `json:"CreatedAt"`
+	ModifiedAt DateTime `json:"ModifiedAt"`
+	//  - `cloud/cloudhsm/partition` - Type-L7
+	ServiceClass CloudHSMServiceClass `json:"ServiceClass"`
+	//  - `precreate` - 準備中
+	//  - `available` - 利用可能
+	//  - `discontinued` - 廃止
+	Availability       CloudHSMAvailability   `json:"Availability"`
 	Name               string                 `json:"Name"`
-	Description        OptString              `json:"Description"`
+	Description        string                 `json:"Description"`
 	Tags               []string               `json:"Tags"`
-	Ipv4NetworkAddress string                 `json:"Ipv4NetworkAddress"`
-	Ipv4PrefixLength   int                    `json:"Ipv4PrefixLength"`
-	Ipv4Address        string                 `json:"Ipv4Address"`
-	LocalRouter        NilCloudHSMLocalRouter `json:"LocalRouter"`
+	IPv4NetworkAddress string                 `json:"IPv4NetworkAddress"`
+	IPv4PrefixLength   int                    `json:"IPv4PrefixLength"`
+	IPv4Address        string                 `json:"IPv4Address"`
+	LocalRouter        NilLocalRouter         `json:"LocalRouter"`
+	InitialData        NilCloudHSMInitialData `json:"InitialData"`
 }
 
 // GetID returns the value of ID.
@@ -127,12 +81,12 @@ func (s *CloudHSM) GetModifiedAt() DateTime {
 }
 
 // GetServiceClass returns the value of ServiceClass.
-func (s *CloudHSM) GetServiceClass() ServiceClassEnum {
+func (s *CloudHSM) GetServiceClass() CloudHSMServiceClass {
 	return s.ServiceClass
 }
 
 // GetAvailability returns the value of Availability.
-func (s *CloudHSM) GetAvailability() AvailabilityEnum {
+func (s *CloudHSM) GetAvailability() CloudHSMAvailability {
 	return s.Availability
 }
 
@@ -142,7 +96,7 @@ func (s *CloudHSM) GetName() string {
 }
 
 // GetDescription returns the value of Description.
-func (s *CloudHSM) GetDescription() OptString {
+func (s *CloudHSM) GetDescription() string {
 	return s.Description
 }
 
@@ -151,24 +105,29 @@ func (s *CloudHSM) GetTags() []string {
 	return s.Tags
 }
 
-// GetIpv4NetworkAddress returns the value of Ipv4NetworkAddress.
-func (s *CloudHSM) GetIpv4NetworkAddress() string {
-	return s.Ipv4NetworkAddress
+// GetIPv4NetworkAddress returns the value of IPv4NetworkAddress.
+func (s *CloudHSM) GetIPv4NetworkAddress() string {
+	return s.IPv4NetworkAddress
 }
 
-// GetIpv4PrefixLength returns the value of Ipv4PrefixLength.
-func (s *CloudHSM) GetIpv4PrefixLength() int {
-	return s.Ipv4PrefixLength
+// GetIPv4PrefixLength returns the value of IPv4PrefixLength.
+func (s *CloudHSM) GetIPv4PrefixLength() int {
+	return s.IPv4PrefixLength
 }
 
-// GetIpv4Address returns the value of Ipv4Address.
-func (s *CloudHSM) GetIpv4Address() string {
-	return s.Ipv4Address
+// GetIPv4Address returns the value of IPv4Address.
+func (s *CloudHSM) GetIPv4Address() string {
+	return s.IPv4Address
 }
 
 // GetLocalRouter returns the value of LocalRouter.
-func (s *CloudHSM) GetLocalRouter() NilCloudHSMLocalRouter {
+func (s *CloudHSM) GetLocalRouter() NilLocalRouter {
 	return s.LocalRouter
+}
+
+// GetInitialData returns the value of InitialData.
+func (s *CloudHSM) GetInitialData() NilCloudHSMInitialData {
+	return s.InitialData
 }
 
 // SetID sets the value of ID.
@@ -187,12 +146,12 @@ func (s *CloudHSM) SetModifiedAt(val DateTime) {
 }
 
 // SetServiceClass sets the value of ServiceClass.
-func (s *CloudHSM) SetServiceClass(val ServiceClassEnum) {
+func (s *CloudHSM) SetServiceClass(val CloudHSMServiceClass) {
 	s.ServiceClass = val
 }
 
 // SetAvailability sets the value of Availability.
-func (s *CloudHSM) SetAvailability(val AvailabilityEnum) {
+func (s *CloudHSM) SetAvailability(val CloudHSMAvailability) {
 	s.Availability = val
 }
 
@@ -202,7 +161,7 @@ func (s *CloudHSM) SetName(val string) {
 }
 
 // SetDescription sets the value of Description.
-func (s *CloudHSM) SetDescription(val OptString) {
+func (s *CloudHSM) SetDescription(val string) {
 	s.Description = val
 }
 
@@ -211,34 +170,93 @@ func (s *CloudHSM) SetTags(val []string) {
 	s.Tags = val
 }
 
-// SetIpv4NetworkAddress sets the value of Ipv4NetworkAddress.
-func (s *CloudHSM) SetIpv4NetworkAddress(val string) {
-	s.Ipv4NetworkAddress = val
+// SetIPv4NetworkAddress sets the value of IPv4NetworkAddress.
+func (s *CloudHSM) SetIPv4NetworkAddress(val string) {
+	s.IPv4NetworkAddress = val
 }
 
-// SetIpv4PrefixLength sets the value of Ipv4PrefixLength.
-func (s *CloudHSM) SetIpv4PrefixLength(val int) {
-	s.Ipv4PrefixLength = val
+// SetIPv4PrefixLength sets the value of IPv4PrefixLength.
+func (s *CloudHSM) SetIPv4PrefixLength(val int) {
+	s.IPv4PrefixLength = val
 }
 
-// SetIpv4Address sets the value of Ipv4Address.
-func (s *CloudHSM) SetIpv4Address(val string) {
-	s.Ipv4Address = val
+// SetIPv4Address sets the value of IPv4Address.
+func (s *CloudHSM) SetIPv4Address(val string) {
+	s.IPv4Address = val
 }
 
 // SetLocalRouter sets the value of LocalRouter.
-func (s *CloudHSM) SetLocalRouter(val NilCloudHSMLocalRouter) {
+func (s *CloudHSM) SetLocalRouter(val NilLocalRouter) {
 	s.LocalRouter = val
+}
+
+// SetInitialData sets the value of InitialData.
+func (s *CloudHSM) SetInitialData(val NilCloudHSMInitialData) {
+	s.InitialData = val
+}
+
+// - `precreate` - 準備中
+// - `available` - 利用可能
+// - `discontinued` - 廃止
+type CloudHSMAvailability string
+
+const (
+	CloudHSMAvailabilityPrecreate    CloudHSMAvailability = "precreate"
+	CloudHSMAvailabilityAvailable    CloudHSMAvailability = "available"
+	CloudHSMAvailabilityDiscontinued CloudHSMAvailability = "discontinued"
+)
+
+// AllValues returns all CloudHSMAvailability values.
+func (CloudHSMAvailability) AllValues() []CloudHSMAvailability {
+	return []CloudHSMAvailability{
+		CloudHSMAvailabilityPrecreate,
+		CloudHSMAvailabilityAvailable,
+		CloudHSMAvailabilityDiscontinued,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CloudHSMAvailability) MarshalText() ([]byte, error) {
+	switch s {
+	case CloudHSMAvailabilityPrecreate:
+		return []byte(s), nil
+	case CloudHSMAvailabilityAvailable:
+		return []byte(s), nil
+	case CloudHSMAvailabilityDiscontinued:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CloudHSMAvailability) UnmarshalText(data []byte) error {
+	switch CloudHSMAvailability(data) {
+	case CloudHSMAvailabilityPrecreate:
+		*s = CloudHSMAvailabilityPrecreate
+		return nil
+	case CloudHSMAvailabilityAvailable:
+		*s = CloudHSMAvailabilityAvailable
+		return nil
+	case CloudHSMAvailabilityDiscontinued:
+		*s = CloudHSMAvailabilityDiscontinued
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/CloudHSMClient
 type CloudHSMClient struct {
-	ID           string           `json:"ID"`
-	CreatedAt    DateTime         `json:"CreatedAt"`
-	ModifiedAt   DateTime         `json:"ModifiedAt"`
-	Availability AvailabilityEnum `json:"Availability"`
-	Name         string           `json:"Name"`
-	Certificate  string           `json:"Certificate"`
+	ID         string   `json:"ID"`
+	CreatedAt  DateTime `json:"CreatedAt"`
+	ModifiedAt DateTime `json:"ModifiedAt"`
+	//  - `precreate` - 準備中
+	//  - `available` - 利用可能
+	//  - `discontinued` - 廃止
+	Availability CloudHSMClientAvailability `json:"Availability"`
+	Name         string                     `json:"Name"`
+	Certificate  string                     `json:"Certificate"`
 }
 
 // GetID returns the value of ID.
@@ -257,7 +275,7 @@ func (s *CloudHSMClient) GetModifiedAt() DateTime {
 }
 
 // GetAvailability returns the value of Availability.
-func (s *CloudHSMClient) GetAvailability() AvailabilityEnum {
+func (s *CloudHSMClient) GetAvailability() CloudHSMClientAvailability {
 	return s.Availability
 }
 
@@ -287,7 +305,7 @@ func (s *CloudHSMClient) SetModifiedAt(val DateTime) {
 }
 
 // SetAvailability sets the value of Availability.
-func (s *CloudHSMClient) SetAvailability(val AvailabilityEnum) {
+func (s *CloudHSMClient) SetAvailability(val CloudHSMClientAvailability) {
 	s.Availability = val
 }
 
@@ -301,124 +319,34 @@ func (s *CloudHSMClient) SetCertificate(val string) {
 	s.Certificate = val
 }
 
-// Ref: #/components/schemas/CloudHSMLocalRouter
-type CloudHSMLocalRouter struct {
-	ResourceID OptString `json:"ResourceID"`
-	SecretKey  OptString `json:"SecretKey"`
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *CloudHSMLocalRouter) GetResourceID() OptString {
-	return s.ResourceID
-}
-
-// GetSecretKey returns the value of SecretKey.
-func (s *CloudHSMLocalRouter) GetSecretKey() OptString {
-	return s.SecretKey
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *CloudHSMLocalRouter) SetResourceID(val OptString) {
-	s.ResourceID = val
-}
-
-// SetSecretKey sets the value of SecretKey.
-func (s *CloudHSMLocalRouter) SetSecretKey(val OptString) {
-	s.SecretKey = val
-}
-
-// Ref: #/components/schemas/CloudHSMPeer
-type CloudHSMPeer struct {
-	ID     string                `json:"ID"`
-	Index  OptInt                `json:"Index"`
-	Status OptCloudHSMPeerStatus `json:"Status"`
-	Routes []string              `json:"Routes"`
-}
-
-// GetID returns the value of ID.
-func (s *CloudHSMPeer) GetID() string {
-	return s.ID
-}
-
-// GetIndex returns the value of Index.
-func (s *CloudHSMPeer) GetIndex() OptInt {
-	return s.Index
-}
-
-// GetStatus returns the value of Status.
-func (s *CloudHSMPeer) GetStatus() OptCloudHSMPeerStatus {
-	return s.Status
-}
-
-// GetRoutes returns the value of Routes.
-func (s *CloudHSMPeer) GetRoutes() []string {
-	return s.Routes
-}
-
-// SetID sets the value of ID.
-func (s *CloudHSMPeer) SetID(val string) {
-	s.ID = val
-}
-
-// SetIndex sets the value of Index.
-func (s *CloudHSMPeer) SetIndex(val OptInt) {
-	s.Index = val
-}
-
-// SetStatus sets the value of Status.
-func (s *CloudHSMPeer) SetStatus(val OptCloudHSMPeerStatus) {
-	s.Status = val
-}
-
-// SetRoutes sets the value of Routes.
-func (s *CloudHSMPeer) SetRoutes(val []string) {
-	s.Routes = val
-}
-
-// Ref: #/components/schemas/CloudHSMPeerList
-type CloudHSMPeerList struct {
-	Peers []CloudHSMPeer `json:"Peers"`
-}
-
-// GetPeers returns the value of Peers.
-func (s *CloudHSMPeerList) GetPeers() []CloudHSMPeer {
-	return s.Peers
-}
-
-// SetPeers sets the value of Peers.
-func (s *CloudHSMPeerList) SetPeers(val []CloudHSMPeer) {
-	s.Peers = val
-}
-
-type CloudHSMPeerStatus string
+// - `precreate` - 準備中
+// - `available` - 利用可能
+// - `discontinued` - 廃止
+type CloudHSMClientAvailability string
 
 const (
-	CloudHSMPeerStatusDOWN     CloudHSMPeerStatus = "DOWN"
-	CloudHSMPeerStatusUP       CloudHSMPeerStatus = "UP"
-	CloudHSMPeerStatusCLEANING CloudHSMPeerStatus = "CLEANING"
-	CloudHSMPeerStatusEmpty    CloudHSMPeerStatus = ""
+	CloudHSMClientAvailabilityPrecreate    CloudHSMClientAvailability = "precreate"
+	CloudHSMClientAvailabilityAvailable    CloudHSMClientAvailability = "available"
+	CloudHSMClientAvailabilityDiscontinued CloudHSMClientAvailability = "discontinued"
 )
 
-// AllValues returns all CloudHSMPeerStatus values.
-func (CloudHSMPeerStatus) AllValues() []CloudHSMPeerStatus {
-	return []CloudHSMPeerStatus{
-		CloudHSMPeerStatusDOWN,
-		CloudHSMPeerStatusUP,
-		CloudHSMPeerStatusCLEANING,
-		CloudHSMPeerStatusEmpty,
+// AllValues returns all CloudHSMClientAvailability values.
+func (CloudHSMClientAvailability) AllValues() []CloudHSMClientAvailability {
+	return []CloudHSMClientAvailability{
+		CloudHSMClientAvailabilityPrecreate,
+		CloudHSMClientAvailabilityAvailable,
+		CloudHSMClientAvailabilityDiscontinued,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s CloudHSMPeerStatus) MarshalText() ([]byte, error) {
+func (s CloudHSMClientAvailability) MarshalText() ([]byte, error) {
 	switch s {
-	case CloudHSMPeerStatusDOWN:
+	case CloudHSMClientAvailabilityPrecreate:
 		return []byte(s), nil
-	case CloudHSMPeerStatusUP:
+	case CloudHSMClientAvailabilityAvailable:
 		return []byte(s), nil
-	case CloudHSMPeerStatusCLEANING:
-		return []byte(s), nil
-	case CloudHSMPeerStatusEmpty:
+	case CloudHSMClientAvailabilityDiscontinued:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -426,19 +354,273 @@ func (s CloudHSMPeerStatus) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CloudHSMPeerStatus) UnmarshalText(data []byte) error {
-	switch CloudHSMPeerStatus(data) {
-	case CloudHSMPeerStatusDOWN:
-		*s = CloudHSMPeerStatusDOWN
+func (s *CloudHSMClientAvailability) UnmarshalText(data []byte) error {
+	switch CloudHSMClientAvailability(data) {
+	case CloudHSMClientAvailabilityPrecreate:
+		*s = CloudHSMClientAvailabilityPrecreate
 		return nil
-	case CloudHSMPeerStatusUP:
-		*s = CloudHSMPeerStatusUP
+	case CloudHSMClientAvailabilityAvailable:
+		*s = CloudHSMClientAvailabilityAvailable
 		return nil
-	case CloudHSMPeerStatusCLEANING:
-		*s = CloudHSMPeerStatusCLEANING
+	case CloudHSMClientAvailabilityDiscontinued:
+		*s = CloudHSMClientAvailabilityDiscontinued
 		return nil
-	case CloudHSMPeerStatusEmpty:
-		*s = CloudHSMPeerStatusEmpty
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CloudHSMClientRequest
+type CloudHSMClientRequest struct {
+	Name string `json:"Name"`
+}
+
+// GetName returns the value of Name.
+func (s *CloudHSMClientRequest) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *CloudHSMClientRequest) SetName(val string) {
+	s.Name = val
+}
+
+// Ref: #/components/schemas/CloudHSMDocument
+type CloudHSMDocument struct {
+	ID         string   `json:"ID"`
+	CreatedAt  DateTime `json:"CreatedAt"`
+	ModifiedAt DateTime `json:"ModifiedAt"`
+	Name       string   `json:"Name"`
+}
+
+// GetID returns the value of ID.
+func (s *CloudHSMDocument) GetID() string {
+	return s.ID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CloudHSMDocument) GetCreatedAt() DateTime {
+	return s.CreatedAt
+}
+
+// GetModifiedAt returns the value of ModifiedAt.
+func (s *CloudHSMDocument) GetModifiedAt() DateTime {
+	return s.ModifiedAt
+}
+
+// GetName returns the value of Name.
+func (s *CloudHSMDocument) GetName() string {
+	return s.Name
+}
+
+// SetID sets the value of ID.
+func (s *CloudHSMDocument) SetID(val string) {
+	s.ID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CloudHSMDocument) SetCreatedAt(val DateTime) {
+	s.CreatedAt = val
+}
+
+// SetModifiedAt sets the value of ModifiedAt.
+func (s *CloudHSMDocument) SetModifiedAt(val DateTime) {
+	s.ModifiedAt = val
+}
+
+// SetName sets the value of Name.
+func (s *CloudHSMDocument) SetName(val string) {
+	s.Name = val
+}
+
+// Ref: #/components/schemas/CloudHSMDocumentDownload
+type CloudHSMDocumentDownload struct {
+	URL url.URL `json:"URL"`
+}
+
+// GetURL returns the value of URL.
+func (s *CloudHSMDocumentDownload) GetURL() url.URL {
+	return s.URL
+}
+
+// SetURL sets the value of URL.
+func (s *CloudHSMDocumentDownload) SetURL(val url.URL) {
+	s.URL = val
+}
+
+// Ref: #/components/schemas/CloudHSMInitialData
+type CloudHSMInitialData struct {
+	PartitionName string `json:"PartitionName"`
+	Certificate   string `json:"Certificate"`
+	PartitionID   string `json:"PartitionID"`
+}
+
+// GetPartitionName returns the value of PartitionName.
+func (s *CloudHSMInitialData) GetPartitionName() string {
+	return s.PartitionName
+}
+
+// GetCertificate returns the value of Certificate.
+func (s *CloudHSMInitialData) GetCertificate() string {
+	return s.Certificate
+}
+
+// GetPartitionID returns the value of PartitionID.
+func (s *CloudHSMInitialData) GetPartitionID() string {
+	return s.PartitionID
+}
+
+// SetPartitionName sets the value of PartitionName.
+func (s *CloudHSMInitialData) SetPartitionName(val string) {
+	s.PartitionName = val
+}
+
+// SetCertificate sets the value of Certificate.
+func (s *CloudHSMInitialData) SetCertificate(val string) {
+	s.Certificate = val
+}
+
+// SetPartitionID sets the value of PartitionID.
+func (s *CloudHSMInitialData) SetPartitionID(val string) {
+	s.PartitionID = val
+}
+
+// Ref: #/components/schemas/CloudHSMPeer
+type CloudHSMPeer struct {
+	ID          string    `json:"ID"`
+	SecretKey   string    `json:"SecretKey"`
+	Enabled     OptBool   `json:"Enabled"`
+	Description OptString `json:"Description"`
+}
+
+// GetID returns the value of ID.
+func (s *CloudHSMPeer) GetID() string {
+	return s.ID
+}
+
+// GetSecretKey returns the value of SecretKey.
+func (s *CloudHSMPeer) GetSecretKey() string {
+	return s.SecretKey
+}
+
+// GetEnabled returns the value of Enabled.
+func (s *CloudHSMPeer) GetEnabled() OptBool {
+	return s.Enabled
+}
+
+// GetDescription returns the value of Description.
+func (s *CloudHSMPeer) GetDescription() OptString {
+	return s.Description
+}
+
+// SetID sets the value of ID.
+func (s *CloudHSMPeer) SetID(val string) {
+	s.ID = val
+}
+
+// SetSecretKey sets the value of SecretKey.
+func (s *CloudHSMPeer) SetSecretKey(val string) {
+	s.SecretKey = val
+}
+
+// SetEnabled sets the value of Enabled.
+func (s *CloudHSMPeer) SetEnabled(val OptBool) {
+	s.Enabled = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CloudHSMPeer) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// Ref: #/components/schemas/CloudHSMRequest
+type CloudHSMRequest struct {
+	Name               string            `json:"Name"`
+	Description        OptString         `json:"Description"`
+	Tags               OptNilStringArray `json:"Tags"`
+	IPv4NetworkAddress string            `json:"IPv4NetworkAddress"`
+	IPv4PrefixLength   int               `json:"IPv4PrefixLength"`
+}
+
+// GetName returns the value of Name.
+func (s *CloudHSMRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CloudHSMRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *CloudHSMRequest) GetTags() OptNilStringArray {
+	return s.Tags
+}
+
+// GetIPv4NetworkAddress returns the value of IPv4NetworkAddress.
+func (s *CloudHSMRequest) GetIPv4NetworkAddress() string {
+	return s.IPv4NetworkAddress
+}
+
+// GetIPv4PrefixLength returns the value of IPv4PrefixLength.
+func (s *CloudHSMRequest) GetIPv4PrefixLength() int {
+	return s.IPv4PrefixLength
+}
+
+// SetName sets the value of Name.
+func (s *CloudHSMRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CloudHSMRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *CloudHSMRequest) SetTags(val OptNilStringArray) {
+	s.Tags = val
+}
+
+// SetIPv4NetworkAddress sets the value of IPv4NetworkAddress.
+func (s *CloudHSMRequest) SetIPv4NetworkAddress(val string) {
+	s.IPv4NetworkAddress = val
+}
+
+// SetIPv4PrefixLength sets the value of IPv4PrefixLength.
+func (s *CloudHSMRequest) SetIPv4PrefixLength(val int) {
+	s.IPv4PrefixLength = val
+}
+
+// - `cloud/cloudhsm/partition` - Type-L7
+type CloudHSMServiceClass string
+
+const (
+	CloudHSMServiceClassCloudCloudhsmPartition CloudHSMServiceClass = "cloud/cloudhsm/partition"
+)
+
+// AllValues returns all CloudHSMServiceClass values.
+func (CloudHSMServiceClass) AllValues() []CloudHSMServiceClass {
+	return []CloudHSMServiceClass{
+		CloudHSMServiceClassCloudCloudhsmPartition,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CloudHSMServiceClass) MarshalText() ([]byte, error) {
+	switch s {
+	case CloudHSMServiceClassCloudCloudhsmPartition:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CloudHSMServiceClass) UnmarshalText(data []byte) error {
+	switch CloudHSMServiceClass(data) {
+	case CloudHSMServiceClassCloudCloudhsmPartition:
+		*s = CloudHSMServiceClassCloudCloudhsmPartition
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -447,13 +629,14 @@ func (s *CloudHSMPeerStatus) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/CloudHSMSoftwareLicense
 type CloudHSMSoftwareLicense struct {
-	ID           string                                  `json:"ID"`
-	CreatedAt    DateTime                                `json:"CreatedAt"`
-	ModifiedAt   DateTime                                `json:"ModifiedAt"`
-	ServiceClass CloudHSMSoftwareLicenseServiceClassEnum `json:"ServiceClass"`
-	Name         string                                  `json:"Name"`
-	Description  string                                  `json:"Description"`
-	Tags         []string                                `json:"Tags"`
+	ID         string   `json:"ID"`
+	CreatedAt  DateTime `json:"CreatedAt"`
+	ModifiedAt DateTime `json:"ModifiedAt"`
+	//  - `cloud/cloudhsm/license/l7` - Type-L7
+	ServiceClass CloudHSMSoftwareLicenseServiceClass `json:"ServiceClass"`
+	Name         string                              `json:"Name"`
+	Description  string                              `json:"Description"`
+	Tags         []string                            `json:"Tags"`
 }
 
 // GetID returns the value of ID.
@@ -472,7 +655,7 @@ func (s *CloudHSMSoftwareLicense) GetModifiedAt() DateTime {
 }
 
 // GetServiceClass returns the value of ServiceClass.
-func (s *CloudHSMSoftwareLicense) GetServiceClass() CloudHSMSoftwareLicenseServiceClassEnum {
+func (s *CloudHSMSoftwareLicense) GetServiceClass() CloudHSMSoftwareLicenseServiceClass {
 	return s.ServiceClass
 }
 
@@ -507,7 +690,7 @@ func (s *CloudHSMSoftwareLicense) SetModifiedAt(val DateTime) {
 }
 
 // SetServiceClass sets the value of ServiceClass.
-func (s *CloudHSMSoftwareLicense) SetServiceClass(val CloudHSMSoftwareLicenseServiceClassEnum) {
+func (s *CloudHSMSoftwareLicense) SetServiceClass(val CloudHSMSoftwareLicenseServiceClass) {
 	s.ServiceClass = val
 }
 
@@ -526,26 +709,61 @@ func (s *CloudHSMSoftwareLicense) SetTags(val []string) {
 	s.Tags = val
 }
 
-//   - `cloud/cloudhsm/license/l7` - for Type-L7 Client
-//
-// Ref: #/components/schemas/CloudHSMSoftwareLicenseServiceClassEnum
-type CloudHSMSoftwareLicenseServiceClassEnum string
+// Ref: #/components/schemas/CloudHSMSoftwareLicenseRequest
+type CloudHSMSoftwareLicenseRequest struct {
+	Name        string            `json:"Name"`
+	Description OptString         `json:"Description"`
+	Tags        OptNilStringArray `json:"Tags"`
+}
+
+// GetName returns the value of Name.
+func (s *CloudHSMSoftwareLicenseRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CloudHSMSoftwareLicenseRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *CloudHSMSoftwareLicenseRequest) GetTags() OptNilStringArray {
+	return s.Tags
+}
+
+// SetName sets the value of Name.
+func (s *CloudHSMSoftwareLicenseRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CloudHSMSoftwareLicenseRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *CloudHSMSoftwareLicenseRequest) SetTags(val OptNilStringArray) {
+	s.Tags = val
+}
+
+// - `cloud/cloudhsm/license/l7` - Type-L7
+type CloudHSMSoftwareLicenseServiceClass string
 
 const (
-	CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7 CloudHSMSoftwareLicenseServiceClassEnum = "cloud/cloudhsm/license/l7"
+	CloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7 CloudHSMSoftwareLicenseServiceClass = "cloud/cloudhsm/license/l7"
 )
 
-// AllValues returns all CloudHSMSoftwareLicenseServiceClassEnum values.
-func (CloudHSMSoftwareLicenseServiceClassEnum) AllValues() []CloudHSMSoftwareLicenseServiceClassEnum {
-	return []CloudHSMSoftwareLicenseServiceClassEnum{
-		CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7,
+// AllValues returns all CloudHSMSoftwareLicenseServiceClass values.
+func (CloudHSMSoftwareLicenseServiceClass) AllValues() []CloudHSMSoftwareLicenseServiceClass {
+	return []CloudHSMSoftwareLicenseServiceClass{
+		CloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s CloudHSMSoftwareLicenseServiceClassEnum) MarshalText() ([]byte, error) {
+func (s CloudHSMSoftwareLicenseServiceClass) MarshalText() ([]byte, error) {
 	switch s {
-	case CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7:
+	case CloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -553,68 +771,57 @@ func (s CloudHSMSoftwareLicenseServiceClassEnum) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CloudHSMSoftwareLicenseServiceClassEnum) UnmarshalText(data []byte) error {
-	switch CloudHSMSoftwareLicenseServiceClassEnum(data) {
-	case CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7:
-		*s = CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7
+func (s *CloudHSMSoftwareLicenseServiceClass) UnmarshalText(data []byte) error {
+	switch CloudHSMSoftwareLicenseServiceClass(data) {
+	case CloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7:
+		*s = CloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// CloudhsmCloudhsmsClientsDestroyNoContent is response for CloudhsmCloudhsmsClientsDestroy operation.
-type CloudhsmCloudhsmsClientsDestroyNoContent struct{}
-
-// CloudhsmCloudhsmsDestroyNoContent is response for CloudhsmCloudhsmsDestroy operation.
-type CloudhsmCloudhsmsDestroyNoContent struct{}
-
-// CloudhsmCloudhsmsPeersCreateNoContent is response for CloudhsmCloudhsmsPeersCreate operation.
-type CloudhsmCloudhsmsPeersCreateNoContent struct{}
-
-// CloudhsmCloudhsmsPeersDestroyNoContent is response for CloudhsmCloudhsmsPeersDestroy operation.
-type CloudhsmCloudhsmsPeersDestroyNoContent struct{}
-
-// CloudhsmLicensesDestroyNoContent is response for CloudhsmLicensesDestroy operation.
-type CloudhsmLicensesDestroyNoContent struct{}
-
 // Ref: #/components/schemas/CreateCloudHSM
 type CreateCloudHSM struct {
-	ID                 string           `json:"ID"`
-	CreatedAt          DateTime         `json:"CreatedAt"`
-	ModifiedAt         DateTime         `json:"ModifiedAt"`
-	ServiceClass       ServiceClassEnum `json:"ServiceClass"`
-	Availability       AvailabilityEnum `json:"Availability"`
-	Name               string           `json:"Name"`
-	Description        OptString        `json:"Description"`
-	Tags               []string         `json:"Tags"`
-	Ipv4NetworkAddress string           `json:"Ipv4NetworkAddress"`
-	Ipv4PrefixLength   int              `json:"Ipv4PrefixLength"`
-	Ipv4Address        string           `json:"Ipv4Address"`
+	ID         OptString   `json:"ID"`
+	CreatedAt  OptDateTime `json:"CreatedAt"`
+	ModifiedAt OptDateTime `json:"ModifiedAt"`
+	//  - `cloud/cloudhsm/partition` - Type-L7
+	ServiceClass OptCreateCloudHSMServiceClass `json:"ServiceClass"`
+	//  - `precreate` - 準備中
+	//  - `available` - 利用可能
+	//  - `discontinued` - 廃止
+	Availability       OptCreateCloudHSMAvailability `json:"Availability"`
+	Name               string                        `json:"Name"`
+	Description        OptString                     `json:"Description"`
+	Tags               OptNilStringArray             `json:"Tags"`
+	IPv4NetworkAddress string                        `json:"IPv4NetworkAddress"`
+	IPv4PrefixLength   int                           `json:"IPv4PrefixLength"`
+	IPv4Address        OptString                     `json:"IPv4Address"`
 }
 
 // GetID returns the value of ID.
-func (s *CreateCloudHSM) GetID() string {
+func (s *CreateCloudHSM) GetID() OptString {
 	return s.ID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *CreateCloudHSM) GetCreatedAt() DateTime {
+func (s *CreateCloudHSM) GetCreatedAt() OptDateTime {
 	return s.CreatedAt
 }
 
 // GetModifiedAt returns the value of ModifiedAt.
-func (s *CreateCloudHSM) GetModifiedAt() DateTime {
+func (s *CreateCloudHSM) GetModifiedAt() OptDateTime {
 	return s.ModifiedAt
 }
 
 // GetServiceClass returns the value of ServiceClass.
-func (s *CreateCloudHSM) GetServiceClass() ServiceClassEnum {
+func (s *CreateCloudHSM) GetServiceClass() OptCreateCloudHSMServiceClass {
 	return s.ServiceClass
 }
 
 // GetAvailability returns the value of Availability.
-func (s *CreateCloudHSM) GetAvailability() AvailabilityEnum {
+func (s *CreateCloudHSM) GetAvailability() OptCreateCloudHSMAvailability {
 	return s.Availability
 }
 
@@ -629,47 +836,47 @@ func (s *CreateCloudHSM) GetDescription() OptString {
 }
 
 // GetTags returns the value of Tags.
-func (s *CreateCloudHSM) GetTags() []string {
+func (s *CreateCloudHSM) GetTags() OptNilStringArray {
 	return s.Tags
 }
 
-// GetIpv4NetworkAddress returns the value of Ipv4NetworkAddress.
-func (s *CreateCloudHSM) GetIpv4NetworkAddress() string {
-	return s.Ipv4NetworkAddress
+// GetIPv4NetworkAddress returns the value of IPv4NetworkAddress.
+func (s *CreateCloudHSM) GetIPv4NetworkAddress() string {
+	return s.IPv4NetworkAddress
 }
 
-// GetIpv4PrefixLength returns the value of Ipv4PrefixLength.
-func (s *CreateCloudHSM) GetIpv4PrefixLength() int {
-	return s.Ipv4PrefixLength
+// GetIPv4PrefixLength returns the value of IPv4PrefixLength.
+func (s *CreateCloudHSM) GetIPv4PrefixLength() int {
+	return s.IPv4PrefixLength
 }
 
-// GetIpv4Address returns the value of Ipv4Address.
-func (s *CreateCloudHSM) GetIpv4Address() string {
-	return s.Ipv4Address
+// GetIPv4Address returns the value of IPv4Address.
+func (s *CreateCloudHSM) GetIPv4Address() OptString {
+	return s.IPv4Address
 }
 
 // SetID sets the value of ID.
-func (s *CreateCloudHSM) SetID(val string) {
+func (s *CreateCloudHSM) SetID(val OptString) {
 	s.ID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *CreateCloudHSM) SetCreatedAt(val DateTime) {
+func (s *CreateCloudHSM) SetCreatedAt(val OptDateTime) {
 	s.CreatedAt = val
 }
 
 // SetModifiedAt sets the value of ModifiedAt.
-func (s *CreateCloudHSM) SetModifiedAt(val DateTime) {
+func (s *CreateCloudHSM) SetModifiedAt(val OptDateTime) {
 	s.ModifiedAt = val
 }
 
 // SetServiceClass sets the value of ServiceClass.
-func (s *CreateCloudHSM) SetServiceClass(val ServiceClassEnum) {
+func (s *CreateCloudHSM) SetServiceClass(val OptCreateCloudHSMServiceClass) {
 	s.ServiceClass = val
 }
 
 // SetAvailability sets the value of Availability.
-func (s *CreateCloudHSM) SetAvailability(val AvailabilityEnum) {
+func (s *CreateCloudHSM) SetAvailability(val OptCreateCloudHSMAvailability) {
 	s.Availability = val
 }
 
@@ -684,52 +891,106 @@ func (s *CreateCloudHSM) SetDescription(val OptString) {
 }
 
 // SetTags sets the value of Tags.
-func (s *CreateCloudHSM) SetTags(val []string) {
+func (s *CreateCloudHSM) SetTags(val OptNilStringArray) {
 	s.Tags = val
 }
 
-// SetIpv4NetworkAddress sets the value of Ipv4NetworkAddress.
-func (s *CreateCloudHSM) SetIpv4NetworkAddress(val string) {
-	s.Ipv4NetworkAddress = val
+// SetIPv4NetworkAddress sets the value of IPv4NetworkAddress.
+func (s *CreateCloudHSM) SetIPv4NetworkAddress(val string) {
+	s.IPv4NetworkAddress = val
 }
 
-// SetIpv4PrefixLength sets the value of Ipv4PrefixLength.
-func (s *CreateCloudHSM) SetIpv4PrefixLength(val int) {
-	s.Ipv4PrefixLength = val
+// SetIPv4PrefixLength sets the value of IPv4PrefixLength.
+func (s *CreateCloudHSM) SetIPv4PrefixLength(val int) {
+	s.IPv4PrefixLength = val
 }
 
-// SetIpv4Address sets the value of Ipv4Address.
-func (s *CreateCloudHSM) SetIpv4Address(val string) {
-	s.Ipv4Address = val
+// SetIPv4Address sets the value of IPv4Address.
+func (s *CreateCloudHSM) SetIPv4Address(val OptString) {
+	s.IPv4Address = val
+}
+
+// - `precreate` - 準備中
+// - `available` - 利用可能
+// - `discontinued` - 廃止
+type CreateCloudHSMAvailability string
+
+const (
+	CreateCloudHSMAvailabilityPrecreate    CreateCloudHSMAvailability = "precreate"
+	CreateCloudHSMAvailabilityAvailable    CreateCloudHSMAvailability = "available"
+	CreateCloudHSMAvailabilityDiscontinued CreateCloudHSMAvailability = "discontinued"
+)
+
+// AllValues returns all CreateCloudHSMAvailability values.
+func (CreateCloudHSMAvailability) AllValues() []CreateCloudHSMAvailability {
+	return []CreateCloudHSMAvailability{
+		CreateCloudHSMAvailabilityPrecreate,
+		CreateCloudHSMAvailabilityAvailable,
+		CreateCloudHSMAvailabilityDiscontinued,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateCloudHSMAvailability) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateCloudHSMAvailabilityPrecreate:
+		return []byte(s), nil
+	case CreateCloudHSMAvailabilityAvailable:
+		return []byte(s), nil
+	case CreateCloudHSMAvailabilityDiscontinued:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateCloudHSMAvailability) UnmarshalText(data []byte) error {
+	switch CreateCloudHSMAvailability(data) {
+	case CreateCloudHSMAvailabilityPrecreate:
+		*s = CreateCloudHSMAvailabilityPrecreate
+		return nil
+	case CreateCloudHSMAvailabilityAvailable:
+		*s = CreateCloudHSMAvailabilityAvailable
+		return nil
+	case CreateCloudHSMAvailabilityDiscontinued:
+		*s = CreateCloudHSMAvailabilityDiscontinued
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/CreateCloudHSMClient
 type CreateCloudHSMClient struct {
-	ID           string           `json:"ID"`
-	CreatedAt    DateTime         `json:"CreatedAt"`
-	ModifiedAt   DateTime         `json:"ModifiedAt"`
-	Availability AvailabilityEnum `json:"Availability"`
-	Name         string           `json:"Name"`
-	Certificate  string           `json:"Certificate"`
+	ID         OptString   `json:"ID"`
+	CreatedAt  OptDateTime `json:"CreatedAt"`
+	ModifiedAt OptDateTime `json:"ModifiedAt"`
+	//  - `precreate` - 準備中
+	//  - `available` - 利用可能
+	//  - `discontinued` - 廃止
+	Availability OptCreateCloudHSMClientAvailability `json:"Availability"`
+	Name         string                              `json:"Name"`
+	Certificate  string                              `json:"Certificate"`
 }
 
 // GetID returns the value of ID.
-func (s *CreateCloudHSMClient) GetID() string {
+func (s *CreateCloudHSMClient) GetID() OptString {
 	return s.ID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *CreateCloudHSMClient) GetCreatedAt() DateTime {
+func (s *CreateCloudHSMClient) GetCreatedAt() OptDateTime {
 	return s.CreatedAt
 }
 
 // GetModifiedAt returns the value of ModifiedAt.
-func (s *CreateCloudHSMClient) GetModifiedAt() DateTime {
+func (s *CreateCloudHSMClient) GetModifiedAt() OptDateTime {
 	return s.ModifiedAt
 }
 
 // GetAvailability returns the value of Availability.
-func (s *CreateCloudHSMClient) GetAvailability() AvailabilityEnum {
+func (s *CreateCloudHSMClient) GetAvailability() OptCreateCloudHSMClientAvailability {
 	return s.Availability
 }
 
@@ -744,22 +1005,22 @@ func (s *CreateCloudHSMClient) GetCertificate() string {
 }
 
 // SetID sets the value of ID.
-func (s *CreateCloudHSMClient) SetID(val string) {
+func (s *CreateCloudHSMClient) SetID(val OptString) {
 	s.ID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *CreateCloudHSMClient) SetCreatedAt(val DateTime) {
+func (s *CreateCloudHSMClient) SetCreatedAt(val OptDateTime) {
 	s.CreatedAt = val
 }
 
 // SetModifiedAt sets the value of ModifiedAt.
-func (s *CreateCloudHSMClient) SetModifiedAt(val DateTime) {
+func (s *CreateCloudHSMClient) SetModifiedAt(val OptDateTime) {
 	s.ModifiedAt = val
 }
 
 // SetAvailability sets the value of Availability.
-func (s *CreateCloudHSMClient) SetAvailability(val AvailabilityEnum) {
+func (s *CreateCloudHSMClient) SetAvailability(val OptCreateCloudHSMClientAvailability) {
 	s.Availability = val
 }
 
@@ -773,60 +1034,209 @@ func (s *CreateCloudHSMClient) SetCertificate(val string) {
 	s.Certificate = val
 }
 
-// Ref: #/components/schemas/CreateCloudHSMPeer
-type CreateCloudHSMPeer struct {
-	ID        string `json:"ID"`
-	SecretKey string `json:"SecretKey"`
+// - `precreate` - 準備中
+// - `available` - 利用可能
+// - `discontinued` - 廃止
+type CreateCloudHSMClientAvailability string
+
+const (
+	CreateCloudHSMClientAvailabilityPrecreate    CreateCloudHSMClientAvailability = "precreate"
+	CreateCloudHSMClientAvailabilityAvailable    CreateCloudHSMClientAvailability = "available"
+	CreateCloudHSMClientAvailabilityDiscontinued CreateCloudHSMClientAvailability = "discontinued"
+)
+
+// AllValues returns all CreateCloudHSMClientAvailability values.
+func (CreateCloudHSMClientAvailability) AllValues() []CreateCloudHSMClientAvailability {
+	return []CreateCloudHSMClientAvailability{
+		CreateCloudHSMClientAvailabilityPrecreate,
+		CreateCloudHSMClientAvailabilityAvailable,
+		CreateCloudHSMClientAvailabilityDiscontinued,
+	}
 }
 
-// GetID returns the value of ID.
-func (s *CreateCloudHSMPeer) GetID() string {
-	return s.ID
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateCloudHSMClientAvailability) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateCloudHSMClientAvailabilityPrecreate:
+		return []byte(s), nil
+	case CreateCloudHSMClientAvailabilityAvailable:
+		return []byte(s), nil
+	case CreateCloudHSMClientAvailabilityDiscontinued:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
 }
 
-// GetSecretKey returns the value of SecretKey.
-func (s *CreateCloudHSMPeer) GetSecretKey() string {
-	return s.SecretKey
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateCloudHSMClientAvailability) UnmarshalText(data []byte) error {
+	switch CreateCloudHSMClientAvailability(data) {
+	case CreateCloudHSMClientAvailabilityPrecreate:
+		*s = CreateCloudHSMClientAvailabilityPrecreate
+		return nil
+	case CreateCloudHSMClientAvailabilityAvailable:
+		*s = CreateCloudHSMClientAvailabilityAvailable
+		return nil
+	case CreateCloudHSMClientAvailabilityDiscontinued:
+		*s = CreateCloudHSMClientAvailabilityDiscontinued
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
-// SetID sets the value of ID.
-func (s *CreateCloudHSMPeer) SetID(val string) {
-	s.ID = val
+// Ref: #/components/schemas/CreateCloudHSMClientRequest
+type CreateCloudHSMClientRequest struct {
+	Name        string `json:"Name"`
+	Certificate string `json:"Certificate"`
 }
 
-// SetSecretKey sets the value of SecretKey.
-func (s *CreateCloudHSMPeer) SetSecretKey(val string) {
-	s.SecretKey = val
+// GetName returns the value of Name.
+func (s *CreateCloudHSMClientRequest) GetName() string {
+	return s.Name
+}
+
+// GetCertificate returns the value of Certificate.
+func (s *CreateCloudHSMClientRequest) GetCertificate() string {
+	return s.Certificate
+}
+
+// SetName sets the value of Name.
+func (s *CreateCloudHSMClientRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetCertificate sets the value of Certificate.
+func (s *CreateCloudHSMClientRequest) SetCertificate(val string) {
+	s.Certificate = val
+}
+
+// CreateCloudHSMPeerNoContent is response for CreateCloudHSMPeer operation.
+type CreateCloudHSMPeerNoContent struct{}
+
+// Ref: #/components/schemas/CreateCloudHSMRequest
+type CreateCloudHSMRequest struct {
+	Name               string            `json:"Name"`
+	Description        OptString         `json:"Description"`
+	Tags               OptNilStringArray `json:"Tags"`
+	IPv4NetworkAddress string            `json:"IPv4NetworkAddress"`
+	IPv4PrefixLength   int               `json:"IPv4PrefixLength"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateCloudHSMRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CreateCloudHSMRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *CreateCloudHSMRequest) GetTags() OptNilStringArray {
+	return s.Tags
+}
+
+// GetIPv4NetworkAddress returns the value of IPv4NetworkAddress.
+func (s *CreateCloudHSMRequest) GetIPv4NetworkAddress() string {
+	return s.IPv4NetworkAddress
+}
+
+// GetIPv4PrefixLength returns the value of IPv4PrefixLength.
+func (s *CreateCloudHSMRequest) GetIPv4PrefixLength() int {
+	return s.IPv4PrefixLength
+}
+
+// SetName sets the value of Name.
+func (s *CreateCloudHSMRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CreateCloudHSMRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *CreateCloudHSMRequest) SetTags(val OptNilStringArray) {
+	s.Tags = val
+}
+
+// SetIPv4NetworkAddress sets the value of IPv4NetworkAddress.
+func (s *CreateCloudHSMRequest) SetIPv4NetworkAddress(val string) {
+	s.IPv4NetworkAddress = val
+}
+
+// SetIPv4PrefixLength sets the value of IPv4PrefixLength.
+func (s *CreateCloudHSMRequest) SetIPv4PrefixLength(val int) {
+	s.IPv4PrefixLength = val
+}
+
+// - `cloud/cloudhsm/partition` - Type-L7
+type CreateCloudHSMServiceClass string
+
+const (
+	CreateCloudHSMServiceClassCloudCloudhsmPartition CreateCloudHSMServiceClass = "cloud/cloudhsm/partition"
+)
+
+// AllValues returns all CreateCloudHSMServiceClass values.
+func (CreateCloudHSMServiceClass) AllValues() []CreateCloudHSMServiceClass {
+	return []CreateCloudHSMServiceClass{
+		CreateCloudHSMServiceClassCloudCloudhsmPartition,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateCloudHSMServiceClass) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateCloudHSMServiceClassCloudCloudhsmPartition:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateCloudHSMServiceClass) UnmarshalText(data []byte) error {
+	switch CreateCloudHSMServiceClass(data) {
+	case CreateCloudHSMServiceClassCloudCloudhsmPartition:
+		*s = CreateCloudHSMServiceClassCloudCloudhsmPartition
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/CreateCloudHSMSoftwareLicense
 type CreateCloudHSMSoftwareLicense struct {
-	ID           string                                  `json:"ID"`
-	CreatedAt    DateTime                                `json:"CreatedAt"`
-	ModifiedAt   DateTime                                `json:"ModifiedAt"`
-	ServiceClass CloudHSMSoftwareLicenseServiceClassEnum `json:"ServiceClass"`
-	Name         string                                  `json:"Name"`
-	Description  OptString                               `json:"Description"`
-	Tags         []string                                `json:"Tags"`
+	ID         OptString   `json:"ID"`
+	CreatedAt  OptDateTime `json:"CreatedAt"`
+	ModifiedAt OptDateTime `json:"ModifiedAt"`
+	//  - `cloud/cloudhsm/license/l7` - Type-L7
+	ServiceClass CreateCloudHSMSoftwareLicenseServiceClass `json:"ServiceClass"`
+	Name         string                                    `json:"Name"`
+	Description  OptString                                 `json:"Description"`
+	Tags         OptNilStringArray                         `json:"Tags"`
 }
 
 // GetID returns the value of ID.
-func (s *CreateCloudHSMSoftwareLicense) GetID() string {
+func (s *CreateCloudHSMSoftwareLicense) GetID() OptString {
 	return s.ID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *CreateCloudHSMSoftwareLicense) GetCreatedAt() DateTime {
+func (s *CreateCloudHSMSoftwareLicense) GetCreatedAt() OptDateTime {
 	return s.CreatedAt
 }
 
 // GetModifiedAt returns the value of ModifiedAt.
-func (s *CreateCloudHSMSoftwareLicense) GetModifiedAt() DateTime {
+func (s *CreateCloudHSMSoftwareLicense) GetModifiedAt() OptDateTime {
 	return s.ModifiedAt
 }
 
 // GetServiceClass returns the value of ServiceClass.
-func (s *CreateCloudHSMSoftwareLicense) GetServiceClass() CloudHSMSoftwareLicenseServiceClassEnum {
+func (s *CreateCloudHSMSoftwareLicense) GetServiceClass() CreateCloudHSMSoftwareLicenseServiceClass {
 	return s.ServiceClass
 }
 
@@ -841,27 +1251,27 @@ func (s *CreateCloudHSMSoftwareLicense) GetDescription() OptString {
 }
 
 // GetTags returns the value of Tags.
-func (s *CreateCloudHSMSoftwareLicense) GetTags() []string {
+func (s *CreateCloudHSMSoftwareLicense) GetTags() OptNilStringArray {
 	return s.Tags
 }
 
 // SetID sets the value of ID.
-func (s *CreateCloudHSMSoftwareLicense) SetID(val string) {
+func (s *CreateCloudHSMSoftwareLicense) SetID(val OptString) {
 	s.ID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *CreateCloudHSMSoftwareLicense) SetCreatedAt(val DateTime) {
+func (s *CreateCloudHSMSoftwareLicense) SetCreatedAt(val OptDateTime) {
 	s.CreatedAt = val
 }
 
 // SetModifiedAt sets the value of ModifiedAt.
-func (s *CreateCloudHSMSoftwareLicense) SetModifiedAt(val DateTime) {
+func (s *CreateCloudHSMSoftwareLicense) SetModifiedAt(val OptDateTime) {
 	s.ModifiedAt = val
 }
 
 // SetServiceClass sets the value of ServiceClass.
-func (s *CreateCloudHSMSoftwareLicense) SetServiceClass(val CloudHSMSoftwareLicenseServiceClassEnum) {
+func (s *CreateCloudHSMSoftwareLicense) SetServiceClass(val CreateCloudHSMSoftwareLicenseServiceClass) {
 	s.ServiceClass = val
 }
 
@@ -876,43 +1286,200 @@ func (s *CreateCloudHSMSoftwareLicense) SetDescription(val OptString) {
 }
 
 // SetTags sets the value of Tags.
-func (s *CreateCloudHSMSoftwareLicense) SetTags(val []string) {
+func (s *CreateCloudHSMSoftwareLicense) SetTags(val OptNilStringArray) {
 	s.Tags = val
+}
+
+// Ref: #/components/schemas/CreateCloudHSMSoftwareLicenseRequest
+type CreateCloudHSMSoftwareLicenseRequest struct {
+	//  - `cloud/cloudhsm/license/l7` - Type-L7
+	ServiceClass CreateCloudHSMSoftwareLicenseRequestServiceClass `json:"ServiceClass"`
+	Name         string                                           `json:"Name"`
+	Description  OptString                                        `json:"Description"`
+	Tags         OptNilStringArray                                `json:"Tags"`
+}
+
+// GetServiceClass returns the value of ServiceClass.
+func (s *CreateCloudHSMSoftwareLicenseRequest) GetServiceClass() CreateCloudHSMSoftwareLicenseRequestServiceClass {
+	return s.ServiceClass
+}
+
+// GetName returns the value of Name.
+func (s *CreateCloudHSMSoftwareLicenseRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CreateCloudHSMSoftwareLicenseRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *CreateCloudHSMSoftwareLicenseRequest) GetTags() OptNilStringArray {
+	return s.Tags
+}
+
+// SetServiceClass sets the value of ServiceClass.
+func (s *CreateCloudHSMSoftwareLicenseRequest) SetServiceClass(val CreateCloudHSMSoftwareLicenseRequestServiceClass) {
+	s.ServiceClass = val
+}
+
+// SetName sets the value of Name.
+func (s *CreateCloudHSMSoftwareLicenseRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CreateCloudHSMSoftwareLicenseRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *CreateCloudHSMSoftwareLicenseRequest) SetTags(val OptNilStringArray) {
+	s.Tags = val
+}
+
+// - `cloud/cloudhsm/license/l7` - Type-L7
+type CreateCloudHSMSoftwareLicenseRequestServiceClass string
+
+const (
+	CreateCloudHSMSoftwareLicenseRequestServiceClassCloudCloudhsmLicenseL7 CreateCloudHSMSoftwareLicenseRequestServiceClass = "cloud/cloudhsm/license/l7"
+)
+
+// AllValues returns all CreateCloudHSMSoftwareLicenseRequestServiceClass values.
+func (CreateCloudHSMSoftwareLicenseRequestServiceClass) AllValues() []CreateCloudHSMSoftwareLicenseRequestServiceClass {
+	return []CreateCloudHSMSoftwareLicenseRequestServiceClass{
+		CreateCloudHSMSoftwareLicenseRequestServiceClassCloudCloudhsmLicenseL7,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateCloudHSMSoftwareLicenseRequestServiceClass) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateCloudHSMSoftwareLicenseRequestServiceClassCloudCloudhsmLicenseL7:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateCloudHSMSoftwareLicenseRequestServiceClass) UnmarshalText(data []byte) error {
+	switch CreateCloudHSMSoftwareLicenseRequestServiceClass(data) {
+	case CreateCloudHSMSoftwareLicenseRequestServiceClassCloudCloudhsmLicenseL7:
+		*s = CreateCloudHSMSoftwareLicenseRequestServiceClassCloudCloudhsmLicenseL7
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// - `cloud/cloudhsm/license/l7` - Type-L7
+type CreateCloudHSMSoftwareLicenseServiceClass string
+
+const (
+	CreateCloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7 CreateCloudHSMSoftwareLicenseServiceClass = "cloud/cloudhsm/license/l7"
+)
+
+// AllValues returns all CreateCloudHSMSoftwareLicenseServiceClass values.
+func (CreateCloudHSMSoftwareLicenseServiceClass) AllValues() []CreateCloudHSMSoftwareLicenseServiceClass {
+	return []CreateCloudHSMSoftwareLicenseServiceClass{
+		CreateCloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateCloudHSMSoftwareLicenseServiceClass) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateCloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateCloudHSMSoftwareLicenseServiceClass) UnmarshalText(data []byte) error {
+	switch CreateCloudHSMSoftwareLicenseServiceClass(data) {
+	case CreateCloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7:
+		*s = CreateCloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type DateTime string
 
-// NewNilCloudHSMLocalRouter returns new NilCloudHSMLocalRouter with value set to v.
-func NewNilCloudHSMLocalRouter(v CloudHSMLocalRouter) NilCloudHSMLocalRouter {
-	return NilCloudHSMLocalRouter{
+// DeleteCloudHSMClientNoContent is response for DeleteCloudHSMClient operation.
+type DeleteCloudHSMClientNoContent struct{}
+
+// DeleteCloudHSMLicenseNoContent is response for DeleteCloudHSMLicense operation.
+type DeleteCloudHSMLicenseNoContent struct{}
+
+// DeleteCloudHSMNoContent is response for DeleteCloudHSM operation.
+type DeleteCloudHSMNoContent struct{}
+
+// DeleteCloudHSMPeerNoContent is response for DeleteCloudHSMPeer operation.
+type DeleteCloudHSMPeerNoContent struct{}
+
+// Ref: #/components/schemas/LocalRouter
+type LocalRouter struct {
+	ResourceID OptString `json:"ResourceID"`
+	SecretKey  OptString `json:"SecretKey"`
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *LocalRouter) GetResourceID() OptString {
+	return s.ResourceID
+}
+
+// GetSecretKey returns the value of SecretKey.
+func (s *LocalRouter) GetSecretKey() OptString {
+	return s.SecretKey
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *LocalRouter) SetResourceID(val OptString) {
+	s.ResourceID = val
+}
+
+// SetSecretKey sets the value of SecretKey.
+func (s *LocalRouter) SetSecretKey(val OptString) {
+	s.SecretKey = val
+}
+
+// NewNilCloudHSMInitialData returns new NilCloudHSMInitialData with value set to v.
+func NewNilCloudHSMInitialData(v CloudHSMInitialData) NilCloudHSMInitialData {
+	return NilCloudHSMInitialData{
 		Value: v,
 	}
 }
 
-// NilCloudHSMLocalRouter is nullable CloudHSMLocalRouter.
-type NilCloudHSMLocalRouter struct {
-	Value CloudHSMLocalRouter
+// NilCloudHSMInitialData is nullable CloudHSMInitialData.
+type NilCloudHSMInitialData struct {
+	Value CloudHSMInitialData
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilCloudHSMLocalRouter) SetTo(v CloudHSMLocalRouter) {
+func (o *NilCloudHSMInitialData) SetTo(v CloudHSMInitialData) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o NilCloudHSMLocalRouter) IsNull() bool { return o.Null }
+func (o NilCloudHSMInitialData) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *NilCloudHSMLocalRouter) SetToNull() {
+func (o *NilCloudHSMInitialData) SetToNull() {
 	o.Null = true
-	var v CloudHSMLocalRouter
+	var v CloudHSMInitialData
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilCloudHSMLocalRouter) Get() (v CloudHSMLocalRouter, ok bool) {
+func (o NilCloudHSMInitialData) Get() (v CloudHSMInitialData, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -920,45 +1487,90 @@ func (o NilCloudHSMLocalRouter) Get() (v CloudHSMLocalRouter, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilCloudHSMLocalRouter) Or(d CloudHSMLocalRouter) CloudHSMLocalRouter {
+func (o NilCloudHSMInitialData) Or(d CloudHSMInitialData) CloudHSMInitialData {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptCloudHSMPeerStatus returns new OptCloudHSMPeerStatus with value set to v.
-func NewOptCloudHSMPeerStatus(v CloudHSMPeerStatus) OptCloudHSMPeerStatus {
-	return OptCloudHSMPeerStatus{
+// NewNilLocalRouter returns new NilLocalRouter with value set to v.
+func NewNilLocalRouter(v LocalRouter) NilLocalRouter {
+	return NilLocalRouter{
+		Value: v,
+	}
+}
+
+// NilLocalRouter is nullable LocalRouter.
+type NilLocalRouter struct {
+	Value LocalRouter
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilLocalRouter) SetTo(v LocalRouter) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilLocalRouter) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilLocalRouter) SetToNull() {
+	o.Null = true
+	var v LocalRouter
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilLocalRouter) Get() (v LocalRouter, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilLocalRouter) Or(d LocalRouter) LocalRouter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptBool returns new OptBool with value set to v.
+func NewOptBool(v bool) OptBool {
+	return OptBool{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptCloudHSMPeerStatus is optional CloudHSMPeerStatus.
-type OptCloudHSMPeerStatus struct {
-	Value CloudHSMPeerStatus
+// OptBool is optional bool.
+type OptBool struct {
+	Value bool
 	Set   bool
 }
 
-// IsSet returns true if OptCloudHSMPeerStatus was set.
-func (o OptCloudHSMPeerStatus) IsSet() bool { return o.Set }
+// IsSet returns true if OptBool was set.
+func (o OptBool) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptCloudHSMPeerStatus) Reset() {
-	var v CloudHSMPeerStatus
+func (o *OptBool) Reset() {
+	var v bool
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptCloudHSMPeerStatus) SetTo(v CloudHSMPeerStatus) {
+func (o *OptBool) SetTo(v bool) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptCloudHSMPeerStatus) Get() (v CloudHSMPeerStatus, ok bool) {
+func (o OptBool) Get() (v bool, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -966,45 +1578,45 @@ func (o OptCloudHSMPeerStatus) Get() (v CloudHSMPeerStatus, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptCloudHSMPeerStatus) Or(d CloudHSMPeerStatus) CloudHSMPeerStatus {
+func (o OptBool) Or(d bool) bool {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptCloudHSMSoftwareLicense returns new OptCloudHSMSoftwareLicense with value set to v.
-func NewOptCloudHSMSoftwareLicense(v CloudHSMSoftwareLicense) OptCloudHSMSoftwareLicense {
-	return OptCloudHSMSoftwareLicense{
+// NewOptCreateCloudHSMAvailability returns new OptCreateCloudHSMAvailability with value set to v.
+func NewOptCreateCloudHSMAvailability(v CreateCloudHSMAvailability) OptCreateCloudHSMAvailability {
+	return OptCreateCloudHSMAvailability{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptCloudHSMSoftwareLicense is optional CloudHSMSoftwareLicense.
-type OptCloudHSMSoftwareLicense struct {
-	Value CloudHSMSoftwareLicense
+// OptCreateCloudHSMAvailability is optional CreateCloudHSMAvailability.
+type OptCreateCloudHSMAvailability struct {
+	Value CreateCloudHSMAvailability
 	Set   bool
 }
 
-// IsSet returns true if OptCloudHSMSoftwareLicense was set.
-func (o OptCloudHSMSoftwareLicense) IsSet() bool { return o.Set }
+// IsSet returns true if OptCreateCloudHSMAvailability was set.
+func (o OptCreateCloudHSMAvailability) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptCloudHSMSoftwareLicense) Reset() {
-	var v CloudHSMSoftwareLicense
+func (o *OptCreateCloudHSMAvailability) Reset() {
+	var v CreateCloudHSMAvailability
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptCloudHSMSoftwareLicense) SetTo(v CloudHSMSoftwareLicense) {
+func (o *OptCreateCloudHSMAvailability) SetTo(v CreateCloudHSMAvailability) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptCloudHSMSoftwareLicense) Get() (v CloudHSMSoftwareLicense, ok bool) {
+func (o OptCreateCloudHSMAvailability) Get() (v CreateCloudHSMAvailability, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -1012,45 +1624,45 @@ func (o OptCloudHSMSoftwareLicense) Get() (v CloudHSMSoftwareLicense, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptCloudHSMSoftwareLicense) Or(d CloudHSMSoftwareLicense) CloudHSMSoftwareLicense {
+func (o OptCreateCloudHSMAvailability) Or(d CreateCloudHSMAvailability) CreateCloudHSMAvailability {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptCreateCloudHSMSoftwareLicense returns new OptCreateCloudHSMSoftwareLicense with value set to v.
-func NewOptCreateCloudHSMSoftwareLicense(v CreateCloudHSMSoftwareLicense) OptCreateCloudHSMSoftwareLicense {
-	return OptCreateCloudHSMSoftwareLicense{
+// NewOptCreateCloudHSMClientAvailability returns new OptCreateCloudHSMClientAvailability with value set to v.
+func NewOptCreateCloudHSMClientAvailability(v CreateCloudHSMClientAvailability) OptCreateCloudHSMClientAvailability {
+	return OptCreateCloudHSMClientAvailability{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptCreateCloudHSMSoftwareLicense is optional CreateCloudHSMSoftwareLicense.
-type OptCreateCloudHSMSoftwareLicense struct {
-	Value CreateCloudHSMSoftwareLicense
+// OptCreateCloudHSMClientAvailability is optional CreateCloudHSMClientAvailability.
+type OptCreateCloudHSMClientAvailability struct {
+	Value CreateCloudHSMClientAvailability
 	Set   bool
 }
 
-// IsSet returns true if OptCreateCloudHSMSoftwareLicense was set.
-func (o OptCreateCloudHSMSoftwareLicense) IsSet() bool { return o.Set }
+// IsSet returns true if OptCreateCloudHSMClientAvailability was set.
+func (o OptCreateCloudHSMClientAvailability) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptCreateCloudHSMSoftwareLicense) Reset() {
-	var v CreateCloudHSMSoftwareLicense
+func (o *OptCreateCloudHSMClientAvailability) Reset() {
+	var v CreateCloudHSMClientAvailability
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptCreateCloudHSMSoftwareLicense) SetTo(v CreateCloudHSMSoftwareLicense) {
+func (o *OptCreateCloudHSMClientAvailability) SetTo(v CreateCloudHSMClientAvailability) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptCreateCloudHSMSoftwareLicense) Get() (v CreateCloudHSMSoftwareLicense, ok bool) {
+func (o OptCreateCloudHSMClientAvailability) Get() (v CreateCloudHSMClientAvailability, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -1058,7 +1670,99 @@ func (o OptCreateCloudHSMSoftwareLicense) Get() (v CreateCloudHSMSoftwareLicense
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptCreateCloudHSMSoftwareLicense) Or(d CreateCloudHSMSoftwareLicense) CreateCloudHSMSoftwareLicense {
+func (o OptCreateCloudHSMClientAvailability) Or(d CreateCloudHSMClientAvailability) CreateCloudHSMClientAvailability {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateCloudHSMServiceClass returns new OptCreateCloudHSMServiceClass with value set to v.
+func NewOptCreateCloudHSMServiceClass(v CreateCloudHSMServiceClass) OptCreateCloudHSMServiceClass {
+	return OptCreateCloudHSMServiceClass{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateCloudHSMServiceClass is optional CreateCloudHSMServiceClass.
+type OptCreateCloudHSMServiceClass struct {
+	Value CreateCloudHSMServiceClass
+	Set   bool
+}
+
+// IsSet returns true if OptCreateCloudHSMServiceClass was set.
+func (o OptCreateCloudHSMServiceClass) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateCloudHSMServiceClass) Reset() {
+	var v CreateCloudHSMServiceClass
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateCloudHSMServiceClass) SetTo(v CreateCloudHSMServiceClass) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateCloudHSMServiceClass) Get() (v CreateCloudHSMServiceClass, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateCloudHSMServiceClass) Or(d CreateCloudHSMServiceClass) CreateCloudHSMServiceClass {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDateTime returns new OptDateTime with value set to v.
+func NewOptDateTime(v DateTime) OptDateTime {
+	return OptDateTime{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDateTime is optional DateTime.
+type OptDateTime struct {
+	Value DateTime
+	Set   bool
+}
+
+// IsSet returns true if OptDateTime was set.
+func (o OptDateTime) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDateTime) Reset() {
+	var v DateTime
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDateTime) SetTo(v DateTime) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDateTime) Get() (v DateTime, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDateTime) Or(d DateTime) DateTime {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1105,6 +1809,74 @@ func (o OptInt) Get() (v int, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptInt) Or(d int) int {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStringArray returns new OptNilStringArray with value set to v.
+func NewOptNilStringArray(v []string) OptNilStringArray {
+	return OptNilStringArray{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStringArray is optional nullable []string.
+type OptNilStringArray struct {
+	Value []string
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStringArray was set.
+func (o OptNilStringArray) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStringArray) Reset() {
+	var v []string
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStringArray) SetTo(v []string) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilStringArray) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilStringArray) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v []string
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringArray) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStringArray) Get() (v []string, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStringArray) Or(d []string) []string {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1160,9 +1932,10 @@ func (o OptString) Or(d string) string {
 // Ref: #/components/schemas/PaginatedCloudHSMClientList
 type PaginatedCloudHSMClientList struct {
 	Count   int              `json:"Count"`
-	From    OptInt           `json:"From"`
-	Total   OptInt           `json:"Total"`
+	From    int              `json:"From"`
+	Total   int              `json:"Total"`
 	Clients []CloudHSMClient `json:"Clients"`
+	IsOk    bool             `json:"is_ok"`
 }
 
 // GetCount returns the value of Count.
@@ -1171,12 +1944,12 @@ func (s *PaginatedCloudHSMClientList) GetCount() int {
 }
 
 // GetFrom returns the value of From.
-func (s *PaginatedCloudHSMClientList) GetFrom() OptInt {
+func (s *PaginatedCloudHSMClientList) GetFrom() int {
 	return s.From
 }
 
 // GetTotal returns the value of Total.
-func (s *PaginatedCloudHSMClientList) GetTotal() OptInt {
+func (s *PaginatedCloudHSMClientList) GetTotal() int {
 	return s.Total
 }
 
@@ -1185,18 +1958,23 @@ func (s *PaginatedCloudHSMClientList) GetClients() []CloudHSMClient {
 	return s.Clients
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedCloudHSMClientList) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetCount sets the value of Count.
 func (s *PaginatedCloudHSMClientList) SetCount(val int) {
 	s.Count = val
 }
 
 // SetFrom sets the value of From.
-func (s *PaginatedCloudHSMClientList) SetFrom(val OptInt) {
+func (s *PaginatedCloudHSMClientList) SetFrom(val int) {
 	s.From = val
 }
 
 // SetTotal sets the value of Total.
-func (s *PaginatedCloudHSMClientList) SetTotal(val OptInt) {
+func (s *PaginatedCloudHSMClientList) SetTotal(val int) {
 	s.Total = val
 }
 
@@ -1205,12 +1983,77 @@ func (s *PaginatedCloudHSMClientList) SetClients(val []CloudHSMClient) {
 	s.Clients = val
 }
 
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedCloudHSMClientList) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/PaginatedCloudHSMDocumentList
+type PaginatedCloudHSMDocumentList struct {
+	Count             int                `json:"Count"`
+	From              int                `json:"From"`
+	Total             int                `json:"Total"`
+	CloudHSMDocuments []CloudHSMDocument `json:"CloudHSMDocuments"`
+	IsOk              bool               `json:"is_ok"`
+}
+
+// GetCount returns the value of Count.
+func (s *PaginatedCloudHSMDocumentList) GetCount() int {
+	return s.Count
+}
+
+// GetFrom returns the value of From.
+func (s *PaginatedCloudHSMDocumentList) GetFrom() int {
+	return s.From
+}
+
+// GetTotal returns the value of Total.
+func (s *PaginatedCloudHSMDocumentList) GetTotal() int {
+	return s.Total
+}
+
+// GetCloudHSMDocuments returns the value of CloudHSMDocuments.
+func (s *PaginatedCloudHSMDocumentList) GetCloudHSMDocuments() []CloudHSMDocument {
+	return s.CloudHSMDocuments
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedCloudHSMDocumentList) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetCount sets the value of Count.
+func (s *PaginatedCloudHSMDocumentList) SetCount(val int) {
+	s.Count = val
+}
+
+// SetFrom sets the value of From.
+func (s *PaginatedCloudHSMDocumentList) SetFrom(val int) {
+	s.From = val
+}
+
+// SetTotal sets the value of Total.
+func (s *PaginatedCloudHSMDocumentList) SetTotal(val int) {
+	s.Total = val
+}
+
+// SetCloudHSMDocuments sets the value of CloudHSMDocuments.
+func (s *PaginatedCloudHSMDocumentList) SetCloudHSMDocuments(val []CloudHSMDocument) {
+	s.CloudHSMDocuments = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedCloudHSMDocumentList) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
 // Ref: #/components/schemas/PaginatedCloudHSMList
 type PaginatedCloudHSMList struct {
 	Count     int        `json:"Count"`
-	From      OptInt     `json:"From"`
-	Total     OptInt     `json:"Total"`
+	From      int        `json:"From"`
+	Total     int        `json:"Total"`
 	CloudHSMs []CloudHSM `json:"CloudHSMs"`
+	IsOk      bool       `json:"is_ok"`
 }
 
 // GetCount returns the value of Count.
@@ -1219,12 +2062,12 @@ func (s *PaginatedCloudHSMList) GetCount() int {
 }
 
 // GetFrom returns the value of From.
-func (s *PaginatedCloudHSMList) GetFrom() OptInt {
+func (s *PaginatedCloudHSMList) GetFrom() int {
 	return s.From
 }
 
 // GetTotal returns the value of Total.
-func (s *PaginatedCloudHSMList) GetTotal() OptInt {
+func (s *PaginatedCloudHSMList) GetTotal() int {
 	return s.Total
 }
 
@@ -1233,18 +2076,23 @@ func (s *PaginatedCloudHSMList) GetCloudHSMs() []CloudHSM {
 	return s.CloudHSMs
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedCloudHSMList) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetCount sets the value of Count.
 func (s *PaginatedCloudHSMList) SetCount(val int) {
 	s.Count = val
 }
 
 // SetFrom sets the value of From.
-func (s *PaginatedCloudHSMList) SetFrom(val OptInt) {
+func (s *PaginatedCloudHSMList) SetFrom(val int) {
 	s.From = val
 }
 
 // SetTotal sets the value of Total.
-func (s *PaginatedCloudHSMList) SetTotal(val OptInt) {
+func (s *PaginatedCloudHSMList) SetTotal(val int) {
 	s.Total = val
 }
 
@@ -1253,12 +2101,18 @@ func (s *PaginatedCloudHSMList) SetCloudHSMs(val []CloudHSM) {
 	s.CloudHSMs = val
 }
 
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedCloudHSMList) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
 // Ref: #/components/schemas/PaginatedCloudHSMSoftwareLicenseList
 type PaginatedCloudHSMSoftwareLicenseList struct {
 	Count    int                       `json:"Count"`
-	From     OptInt                    `json:"From"`
-	Total    OptInt                    `json:"Total"`
+	From     int                       `json:"From"`
+	Total    int                       `json:"Total"`
 	Licenses []CloudHSMSoftwareLicense `json:"Licenses"`
+	IsOk     bool                      `json:"is_ok"`
 }
 
 // GetCount returns the value of Count.
@@ -1267,12 +2121,12 @@ func (s *PaginatedCloudHSMSoftwareLicenseList) GetCount() int {
 }
 
 // GetFrom returns the value of From.
-func (s *PaginatedCloudHSMSoftwareLicenseList) GetFrom() OptInt {
+func (s *PaginatedCloudHSMSoftwareLicenseList) GetFrom() int {
 	return s.From
 }
 
 // GetTotal returns the value of Total.
-func (s *PaginatedCloudHSMSoftwareLicenseList) GetTotal() OptInt {
+func (s *PaginatedCloudHSMSoftwareLicenseList) GetTotal() int {
 	return s.Total
 }
 
@@ -1281,18 +2135,23 @@ func (s *PaginatedCloudHSMSoftwareLicenseList) GetLicenses() []CloudHSMSoftwareL
 	return s.Licenses
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedCloudHSMSoftwareLicenseList) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetCount sets the value of Count.
 func (s *PaginatedCloudHSMSoftwareLicenseList) SetCount(val int) {
 	s.Count = val
 }
 
 // SetFrom sets the value of From.
-func (s *PaginatedCloudHSMSoftwareLicenseList) SetFrom(val OptInt) {
+func (s *PaginatedCloudHSMSoftwareLicenseList) SetFrom(val int) {
 	s.From = val
 }
 
 // SetTotal sets the value of Total.
-func (s *PaginatedCloudHSMSoftwareLicenseList) SetTotal(val OptInt) {
+func (s *PaginatedCloudHSMSoftwareLicenseList) SetTotal(val int) {
 	s.Total = val
 }
 
@@ -1301,46 +2160,41 @@ func (s *PaginatedCloudHSMSoftwareLicenseList) SetLicenses(val []CloudHSMSoftwar
 	s.Licenses = val
 }
 
-//   - `cloud/cloudhsm/partition` - Type-L7
-//
-// Ref: #/components/schemas/ServiceClassEnum
-type ServiceClassEnum string
-
-const (
-	ServiceClassEnumCloudCloudhsmPartition ServiceClassEnum = "cloud/cloudhsm/partition"
-)
-
-// AllValues returns all ServiceClassEnum values.
-func (ServiceClassEnum) AllValues() []ServiceClassEnum {
-	return []ServiceClassEnum{
-		ServiceClassEnumCloudCloudhsmPartition,
-	}
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedCloudHSMSoftwareLicenseList) SetIsOk(val bool) {
+	s.IsOk = val
 }
 
-// MarshalText implements encoding.TextMarshaler.
-func (s ServiceClassEnum) MarshalText() ([]byte, error) {
-	switch s {
-	case ServiceClassEnumCloudCloudhsmPartition:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
+// Ref: #/components/schemas/PeerRequest
+type PeerRequest struct {
+	ID        string `json:"ID"`
+	SecretKey string `json:"SecretKey"`
 }
 
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ServiceClassEnum) UnmarshalText(data []byte) error {
-	switch ServiceClassEnum(data) {
-	case ServiceClassEnumCloudCloudhsmPartition:
-		*s = ServiceClassEnumCloudCloudhsmPartition
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
+// GetID returns the value of ID.
+func (s *PeerRequest) GetID() string {
+	return s.ID
+}
+
+// GetSecretKey returns the value of SecretKey.
+func (s *PeerRequest) GetSecretKey() string {
+	return s.SecretKey
+}
+
+// SetID sets the value of ID.
+func (s *PeerRequest) SetID(val string) {
+	s.ID = val
+}
+
+// SetSecretKey sets the value of SecretKey.
+func (s *PeerRequest) SetSecretKey(val string) {
+	s.SecretKey = val
 }
 
 // Ref: #/components/schemas/WrappedCloudHSM
 type WrappedCloudHSM struct {
 	CloudHSM CloudHSM `json:"CloudHSM"`
+	IsOk     bool     `json:"is_ok"`
 }
 
 // GetCloudHSM returns the value of CloudHSM.
@@ -1348,14 +2202,25 @@ func (s *WrappedCloudHSM) GetCloudHSM() CloudHSM {
 	return s.CloudHSM
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCloudHSM) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetCloudHSM sets the value of CloudHSM.
 func (s *WrappedCloudHSM) SetCloudHSM(val CloudHSM) {
 	s.CloudHSM = val
 }
 
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCloudHSM) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
 // Ref: #/components/schemas/WrappedCloudHSMClient
 type WrappedCloudHSMClient struct {
 	Client CloudHSMClient `json:"Client"`
+	IsOk   bool           `json:"is_ok"`
 }
 
 // GetClient returns the value of Client.
@@ -1363,29 +2228,122 @@ func (s *WrappedCloudHSMClient) GetClient() CloudHSMClient {
 	return s.Client
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCloudHSMClient) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetClient sets the value of Client.
 func (s *WrappedCloudHSMClient) SetClient(val CloudHSMClient) {
 	s.Client = val
 }
 
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCloudHSMClient) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedCloudHSMClientRequest
+type WrappedCloudHSMClientRequest struct {
+	Client CloudHSMClientRequest `json:"Client"`
+}
+
+// GetClient returns the value of Client.
+func (s *WrappedCloudHSMClientRequest) GetClient() CloudHSMClientRequest {
+	return s.Client
+}
+
+// SetClient sets the value of Client.
+func (s *WrappedCloudHSMClientRequest) SetClient(val CloudHSMClientRequest) {
+	s.Client = val
+}
+
+// Ref: #/components/schemas/WrappedCloudHSMDocumentDownload
+type WrappedCloudHSMDocumentDownload struct {
+	Document CloudHSMDocumentDownload `json:"Document"`
+	IsOk     bool                     `json:"is_ok"`
+}
+
+// GetDocument returns the value of Document.
+func (s *WrappedCloudHSMDocumentDownload) GetDocument() CloudHSMDocumentDownload {
+	return s.Document
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCloudHSMDocumentDownload) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetDocument sets the value of Document.
+func (s *WrappedCloudHSMDocumentDownload) SetDocument(val CloudHSMDocumentDownload) {
+	s.Document = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCloudHSMDocumentDownload) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedCloudHSMRequest
+type WrappedCloudHSMRequest struct {
+	CloudHSM CloudHSMRequest `json:"CloudHSM"`
+}
+
+// GetCloudHSM returns the value of CloudHSM.
+func (s *WrappedCloudHSMRequest) GetCloudHSM() CloudHSMRequest {
+	return s.CloudHSM
+}
+
+// SetCloudHSM sets the value of CloudHSM.
+func (s *WrappedCloudHSMRequest) SetCloudHSM(val CloudHSMRequest) {
+	s.CloudHSM = val
+}
+
 // Ref: #/components/schemas/WrappedCloudHSMSoftwareLicense
 type WrappedCloudHSMSoftwareLicense struct {
-	License OptCloudHSMSoftwareLicense `json:"License"`
+	License CloudHSMSoftwareLicense `json:"License"`
+	IsOk    bool                    `json:"is_ok"`
 }
 
 // GetLicense returns the value of License.
-func (s *WrappedCloudHSMSoftwareLicense) GetLicense() OptCloudHSMSoftwareLicense {
+func (s *WrappedCloudHSMSoftwareLicense) GetLicense() CloudHSMSoftwareLicense {
+	return s.License
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCloudHSMSoftwareLicense) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetLicense sets the value of License.
+func (s *WrappedCloudHSMSoftwareLicense) SetLicense(val CloudHSMSoftwareLicense) {
+	s.License = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCloudHSMSoftwareLicense) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedCloudHSMSoftwareLicenseRequest
+type WrappedCloudHSMSoftwareLicenseRequest struct {
+	License CloudHSMSoftwareLicenseRequest `json:"License"`
+}
+
+// GetLicense returns the value of License.
+func (s *WrappedCloudHSMSoftwareLicenseRequest) GetLicense() CloudHSMSoftwareLicenseRequest {
 	return s.License
 }
 
 // SetLicense sets the value of License.
-func (s *WrappedCloudHSMSoftwareLicense) SetLicense(val OptCloudHSMSoftwareLicense) {
+func (s *WrappedCloudHSMSoftwareLicenseRequest) SetLicense(val CloudHSMSoftwareLicenseRequest) {
 	s.License = val
 }
 
 // Ref: #/components/schemas/WrappedCreateCloudHSM
 type WrappedCreateCloudHSM struct {
 	CloudHSM CreateCloudHSM `json:"CloudHSM"`
+	IsOk     bool           `json:"is_ok"`
 }
 
 // GetCloudHSM returns the value of CloudHSM.
@@ -1393,14 +2351,25 @@ func (s *WrappedCreateCloudHSM) GetCloudHSM() CreateCloudHSM {
 	return s.CloudHSM
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCreateCloudHSM) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetCloudHSM sets the value of CloudHSM.
 func (s *WrappedCreateCloudHSM) SetCloudHSM(val CreateCloudHSM) {
 	s.CloudHSM = val
 }
 
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCreateCloudHSM) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
 // Ref: #/components/schemas/WrappedCreateCloudHSMClient
 type WrappedCreateCloudHSMClient struct {
 	Client CreateCloudHSMClient `json:"Client"`
+	IsOk   bool                 `json:"is_ok"`
 }
 
 // GetClient returns the value of Client.
@@ -1408,37 +2377,129 @@ func (s *WrappedCreateCloudHSMClient) GetClient() CreateCloudHSMClient {
 	return s.Client
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCreateCloudHSMClient) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetClient sets the value of Client.
 func (s *WrappedCreateCloudHSMClient) SetClient(val CreateCloudHSMClient) {
 	s.Client = val
 }
 
-// Ref: #/components/schemas/WrappedCreateCloudHSMPeer
-type WrappedCreateCloudHSMPeer struct {
-	Peer CreateCloudHSMPeer `json:"Peer"`
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCreateCloudHSMClient) SetIsOk(val bool) {
+	s.IsOk = val
 }
 
-// GetPeer returns the value of Peer.
-func (s *WrappedCreateCloudHSMPeer) GetPeer() CreateCloudHSMPeer {
-	return s.Peer
+// Ref: #/components/schemas/WrappedCreateCloudHSMClientRequest
+type WrappedCreateCloudHSMClientRequest struct {
+	Client CreateCloudHSMClientRequest `json:"Client"`
 }
 
-// SetPeer sets the value of Peer.
-func (s *WrappedCreateCloudHSMPeer) SetPeer(val CreateCloudHSMPeer) {
-	s.Peer = val
+// GetClient returns the value of Client.
+func (s *WrappedCreateCloudHSMClientRequest) GetClient() CreateCloudHSMClientRequest {
+	return s.Client
+}
+
+// SetClient sets the value of Client.
+func (s *WrappedCreateCloudHSMClientRequest) SetClient(val CreateCloudHSMClientRequest) {
+	s.Client = val
+}
+
+// Ref: #/components/schemas/WrappedCreateCloudHSMRequest
+type WrappedCreateCloudHSMRequest struct {
+	CloudHSM CreateCloudHSMRequest `json:"CloudHSM"`
+}
+
+// GetCloudHSM returns the value of CloudHSM.
+func (s *WrappedCreateCloudHSMRequest) GetCloudHSM() CreateCloudHSMRequest {
+	return s.CloudHSM
+}
+
+// SetCloudHSM sets the value of CloudHSM.
+func (s *WrappedCreateCloudHSMRequest) SetCloudHSM(val CreateCloudHSMRequest) {
+	s.CloudHSM = val
 }
 
 // Ref: #/components/schemas/WrappedCreateCloudHSMSoftwareLicense
 type WrappedCreateCloudHSMSoftwareLicense struct {
-	License OptCreateCloudHSMSoftwareLicense `json:"License"`
+	License CreateCloudHSMSoftwareLicense `json:"License"`
+	IsOk    bool                          `json:"is_ok"`
 }
 
 // GetLicense returns the value of License.
-func (s *WrappedCreateCloudHSMSoftwareLicense) GetLicense() OptCreateCloudHSMSoftwareLicense {
+func (s *WrappedCreateCloudHSMSoftwareLicense) GetLicense() CreateCloudHSMSoftwareLicense {
+	return s.License
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCreateCloudHSMSoftwareLicense) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetLicense sets the value of License.
+func (s *WrappedCreateCloudHSMSoftwareLicense) SetLicense(val CreateCloudHSMSoftwareLicense) {
+	s.License = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCreateCloudHSMSoftwareLicense) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedCreateCloudHSMSoftwareLicenseRequest
+type WrappedCreateCloudHSMSoftwareLicenseRequest struct {
+	License CreateCloudHSMSoftwareLicenseRequest `json:"License"`
+}
+
+// GetLicense returns the value of License.
+func (s *WrappedCreateCloudHSMSoftwareLicenseRequest) GetLicense() CreateCloudHSMSoftwareLicenseRequest {
 	return s.License
 }
 
 // SetLicense sets the value of License.
-func (s *WrappedCreateCloudHSMSoftwareLicense) SetLicense(val OptCreateCloudHSMSoftwareLicense) {
+func (s *WrappedCreateCloudHSMSoftwareLicenseRequest) SetLicense(val CreateCloudHSMSoftwareLicenseRequest) {
 	s.License = val
+}
+
+// Ref: #/components/schemas/WrappedPeerList
+type WrappedPeerList struct {
+	Peers []CloudHSMPeer `json:"Peers"`
+	IsOk  bool           `json:"is_ok"`
+}
+
+// GetPeers returns the value of Peers.
+func (s *WrappedPeerList) GetPeers() []CloudHSMPeer {
+	return s.Peers
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedPeerList) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetPeers sets the value of Peers.
+func (s *WrappedPeerList) SetPeers(val []CloudHSMPeer) {
+	s.Peers = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedPeerList) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedPeerRequest
+type WrappedPeerRequest struct {
+	Peer PeerRequest `json:"Peer"`
+}
+
+// GetPeer returns the value of Peer.
+func (s *WrappedPeerRequest) GetPeer() PeerRequest {
+	return s.Peer
+}
+
+// SetPeer sets the value of Peer.
+func (s *WrappedPeerRequest) SetPeer(val PeerRequest) {
+	s.Peer = val
 }
