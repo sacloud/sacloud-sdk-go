@@ -23,7 +23,7 @@ import (
 )
 
 type ProjectAPI interface {
-	List(ctx context.Context, params ListParams) (*v1.ProjectsGetOK, error)
+	List(ctx context.Context, params ListParams) (*v1.ListProjectsOK, error)
 
 	Create(ctx context.Context, params CreateParams) (*v1.Project, error)
 	Read(ctx context.Context, id int) (*v1.Project, error)
@@ -44,17 +44,17 @@ func NewProjectOp(client *v1.Client) ProjectAPI { return &projectOp{client} }
 type ListParams struct {
 	Page           *int
 	PerPage        *int
-	Ordering       *v1.ProjectsGetOrdering
+	Ordering       *v1.ListProjectsOrdering
 	IamRole        *string
 	ParentFolderID *int
 }
 
-func (p *projectOp) List(ctx context.Context, params ListParams) (*v1.ProjectsGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.ProjectsGetOK]("Project.List", func() (any, error) {
-		return p.client.ProjectsGet(ctx, v1.ProjectsGetParams{
+func (p *projectOp) List(ctx context.Context, params ListParams) (*v1.ListProjectsOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListProjectsOK]("Project.List", func() (any, error) {
+		return p.client.ListProjects(ctx, v1.ListProjectsParams{
 			Page:           into.Opt[v1.OptInt](params.Page),
 			PerPage:        into.Opt[v1.OptInt](params.PerPage),
-			Ordering:       into.Opt[v1.OptProjectsGetOrdering](params.Ordering),
+			Ordering:       into.Opt[v1.OptListProjectsOrdering](params.Ordering),
 			IamRole:        into.Opt[v1.OptString](params.IamRole),
 			ParentFolderID: into.Opt[v1.OptInt](params.ParentFolderID),
 		})
@@ -70,7 +70,7 @@ type CreateParams struct {
 
 func (p *projectOp) Create(ctx context.Context, params CreateParams) (*v1.Project, error) {
 	return common.ErrorFromDecodedResponse[v1.Project]("Project.Create", func() (any, error) {
-		return p.client.ProjectsPost(ctx, &v1.ProjectsPostReq{
+		return p.client.CreateProject(ctx, &v1.CreateProjectReq{
 			Code:           params.Code,
 			Name:           params.Name,
 			Description:    params.Description,
@@ -81,26 +81,26 @@ func (p *projectOp) Create(ctx context.Context, params CreateParams) (*v1.Projec
 
 func (p *projectOp) Read(ctx context.Context, id int) (*v1.Project, error) {
 	return common.ErrorFromDecodedResponse[v1.Project]("Project.Read", func() (any, error) {
-		return p.client.ProjectsProjectIDGet(ctx, v1.ProjectsProjectIDGetParams{ProjectID: id})
+		return p.client.ReadProject(ctx, v1.ReadProjectParams{ProjectID: id})
 	})
 }
 
 func (p *projectOp) Update(ctx context.Context, id int, name string, description string) (*v1.Project, error) {
 	return common.ErrorFromDecodedResponse[v1.Project]("Project.Update", func() (any, error) {
-		params := v1.ProjectsProjectIDPutParams{
+		params := v1.UpdateProjectParams{
 			ProjectID: id,
 		}
-		request := v1.ProjectsProjectIDPutReq{
+		request := v1.UpdateProjectReq{
 			Name:        name,
 			Description: description,
 		}
-		return p.client.ProjectsProjectIDPut(ctx, &request, params)
+		return p.client.UpdateProject(ctx, &request, params)
 	})
 }
 
 func (p *projectOp) Delete(ctx context.Context, projectID int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.ProjectsProjectIDDeleteNoContent]("Project.Delete", func() (any, error) {
-		return p.client.ProjectsProjectIDDelete(ctx, v1.ProjectsProjectIDDeleteParams{ProjectID: projectID})
+	_, err := common.ErrorFromDecodedResponse[v1.DeleteProjectNoContent]("Project.Delete", func() (any, error) {
+		return p.client.DeleteProject(ctx, v1.DeleteProjectParams{ProjectID: projectID})
 	})
 
 	return err
@@ -112,8 +112,8 @@ type MoveProjectsParams struct {
 }
 
 func (p *projectOp) Move(ctx context.Context, ids []int, parentFolderID *int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.MoveProjectsPostNoContent]("Project.Move", func() (any, error) {
-		return p.client.MoveProjectsPost(ctx, &v1.MoveProjects{
+	_, err := common.ErrorFromDecodedResponse[v1.MoveProjectsNoContent]("Project.Move", func() (any, error) {
+		return p.client.MoveProjects(ctx, &v1.MoveProjects{
 			ProjectIds:     ids,
 			ParentFolderID: into.Nil[v1.NilInt](parentFolderID),
 		})

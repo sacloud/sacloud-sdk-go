@@ -3,14 +3,14 @@
 package v1
 
 // setDefaults set default value of fields.
-func (s *Folder) setDefaults() {
+func (s *CreateFolderReq) setDefaults() {
 	{
 		s.ParentID.Null = true
 	}
 }
 
 // setDefaults set default value of fields.
-func (s *FoldersPostReq) setDefaults() {
+func (s *Folder) setDefaults() {
 	{
 		s.ParentID.Null = true
 	}

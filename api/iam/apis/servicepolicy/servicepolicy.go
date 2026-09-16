@@ -26,7 +26,7 @@ type ServicePolicyAPI interface {
 	Enable(ctx context.Context) error
 	Disable(ctx context.Context) error
 	IsEnabled(ctx context.Context) (bool, error)
-	ListRuleTemplates(ctx context.Context, params ListRuleTemplatesParams) (*v1.ServicePolicyRuleTemplatesGetOK, error)
+	ListRuleTemplates(ctx context.Context, params ListRuleTemplatesParams) (*v1.ListServicePolicyRuleTemplatesOK, error)
 }
 
 type servicePolicyOp struct {
@@ -38,22 +38,22 @@ var _ ServicePolicyAPI = (*servicePolicyOp)(nil)
 func NewServicePolicyOp(client *v1.Client) ServicePolicyAPI { return &servicePolicyOp{client} }
 
 func (s *servicePolicyOp) Enable(ctx context.Context) error {
-	_, err := common.ErrorFromDecodedResponse[v1.EnableServicePolicyPostNoContent]("ServicePolicy.Enable", func() (any, error) {
-		return s.client.EnableServicePolicyPost(ctx)
+	_, err := common.ErrorFromDecodedResponse[v1.EnableServicePolicyNoContent]("ServicePolicy.Enable", func() (any, error) {
+		return s.client.EnableServicePolicy(ctx)
 	})
 	return err
 }
 
 func (s *servicePolicyOp) Disable(ctx context.Context) error {
-	_, err := common.ErrorFromDecodedResponse[v1.DisableServicePolicyPostNoContent]("ServicePolicy.Disable", func() (any, error) {
-		return s.client.DisableServicePolicyPost(ctx)
+	_, err := common.ErrorFromDecodedResponse[v1.DisableServicePolicyNoContent]("ServicePolicy.Disable", func() (any, error) {
+		return s.client.DisableServicePolicy(ctx)
 	})
 	return err
 }
 
 func (s *servicePolicyOp) IsEnabled(ctx context.Context) (bool, error) {
-	if ret, err := common.ErrorFromDecodedResponse[v1.ServicePolicyStatusGetOK]("ServicePolicy.IsEnabled", func() (any, error) {
-		return s.client.ServicePolicyStatusGet(ctx)
+	if ret, err := common.ErrorFromDecodedResponse[v1.CheckServicePolicyStatusOK]("ServicePolicy.IsEnabled", func() (any, error) {
+		return s.client.CheckServicePolicyStatus(ctx)
 	}); err != nil {
 		return false, err
 	} else {
@@ -66,17 +66,17 @@ type ListRuleTemplatesParams struct {
 	PerPage *int
 	Name    *string
 	Code    *string
-	Type    *v1.ServicePolicyRuleTemplatesGetType
+	Type    *v1.ListServicePolicyRuleTemplatesType
 }
 
-func (s *servicePolicyOp) ListRuleTemplates(ctx context.Context, params ListRuleTemplatesParams) (*v1.ServicePolicyRuleTemplatesGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.ServicePolicyRuleTemplatesGetOK]("ServicePolicy.ListRuleTemplates", func() (any, error) {
-		return s.client.ServicePolicyRuleTemplatesGet(ctx, v1.ServicePolicyRuleTemplatesGetParams{
+func (s *servicePolicyOp) ListRuleTemplates(ctx context.Context, params ListRuleTemplatesParams) (*v1.ListServicePolicyRuleTemplatesOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListServicePolicyRuleTemplatesOK]("ServicePolicy.ListRuleTemplates", func() (any, error) {
+		return s.client.ListServicePolicyRuleTemplates(ctx, v1.ListServicePolicyRuleTemplatesParams{
 			Page:    into.Opt[v1.OptInt](params.Page),
 			PerPage: into.Opt[v1.OptInt](params.PerPage),
 			Name:    into.Opt[v1.OptString](params.Name),
 			Code:    into.Opt[v1.OptString](params.Code),
-			Type:    into.Opt[v1.OptServicePolicyRuleTemplatesGetType](params.Type),
+			Type:    into.Opt[v1.OptListServicePolicyRuleTemplatesType](params.Type),
 		})
 	})
 }

@@ -39,7 +39,7 @@ func TestNewUserOp(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.CompatUsersGetOK
+	var expected v1.ListUsersOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.User, 2))
 	expected.Items[0].SetFake()
@@ -178,7 +178,7 @@ func TestUpdate_Fail(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	assert, api := setup(t, &v1.CompatUsersUserIDDeleteNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.DeleteUserNoContent{}, http.StatusNoContent)
 
 	userID := 1
 	err := api.Delete(t.Context(), userID)
@@ -200,7 +200,7 @@ func TestDelete_Fail(t *testing.T) {
 }
 
 func TestRegisterEmail(t *testing.T) {
-	assert, api := setup(t, &v1.CompatUsersUserIDRegisterEmailPostNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.RegisterEmailNoContent{}, http.StatusNoContent)
 
 	userID := 1
 	email := testutil.RandomName("name-", 12, testutil.CharSetAlphaNum) + "@example.com"
@@ -224,7 +224,7 @@ func TestRegisterEmail_Fail(t *testing.T) {
 }
 
 func TestUnregisterEmail(t *testing.T) {
-	assert, api := setup(t, &v1.CompatUsersUserIDUnregisterEmailPostNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.UnregisterEmailNoContent{}, http.StatusNoContent)
 
 	userID := 1
 	err := api.UnregisterEmail(t.Context(), userID)

@@ -37,7 +37,7 @@ func TestNewIAMRoleOp(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.IamRolesGetOK
+	var expected v1.ListIamRolesOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.IamRole, 1))
 	expected.Items[0].SetFake()
