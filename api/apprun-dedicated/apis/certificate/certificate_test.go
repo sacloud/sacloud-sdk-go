@@ -219,7 +219,7 @@ func TestIntegrated(t *testing.T) {
 			actual, err := api.Read(t.Context(), certID)
 			assert.NoError(err)
 			assert.NotNil(actual)
-			assert.Equal(certID, actual.GetCertificateID())
+			assert.Equal(uuid.UUID(certID), actual.GetCertificateID())
 			assert.Equal(certName, actual.GetName())
 		})
 
