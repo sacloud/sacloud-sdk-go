@@ -102,7 +102,7 @@ type Profile struct {
 		TraceMode            option[string]   `yaml:"trace_mode,omitempty"`
 		Zone                 option[string]   `yaml:"zone,omitempty"`
 		Zones                option[[]string] `yaml:"zones,omitempty"`
-	} `yaml:"go,omitempty"`
+	} `yaml:"sacloud-sdk-go,omitempty"`
 
 	// Profile contents V0
 	//
@@ -176,21 +176,21 @@ var profileV0ToV1SectionMap = map[string]v0ProfileField{
 	"DefaultQueryDriver":     {section: "cli", key: "default_query_driver"},
 	"NoColor":                {section: "cli", key: "no_color"},
 	"ProcessTimeoutSec":      {section: "cli", key: "process_timeout_sec"},
-	"APIRootURL":             {section: "go", key: "api_root_url"},
-	"AcceptLanguage":         {section: "go", key: "accept_language"},
-	"DefaultZone":            {section: "go", key: "default_zone"},
-	"FakeMode":               {section: "go", key: "fake_mode"},
-	"FakeStorePath":          {section: "go", key: "fake_store_path"},
-	"HTTPRequestRateLimit":   {section: "go", key: "http_request_rate_limit"},
-	"HTTPRequestTimeout":     {section: "go", key: "http_request_timeout"},
-	"RetryMax":               {section: "go", key: "retry_max"},
-	"RetryWaitMax":           {section: "go", key: "retry_wait_max"},
-	"RetryWaitMin":           {section: "go", key: "retry_wait_min"},
-	"StatePollingInterval":   {section: "go", key: "state_polling_interval"},
-	"StatePollingTimeout":    {section: "go", key: "state_polling_timeout"},
-	"TraceMode":              {section: "go", key: "trace_mode"},
-	"Zone":                   {section: "go", key: "zone"},
-	"Zones":                  {section: "go", key: "zones"},
+	"APIRootURL":             {section: "sacloud-sdk-go", key: "api_root_url"},
+	"AcceptLanguage":         {section: "sacloud-sdk-go", key: "accept_language"},
+	"DefaultZone":            {section: "sacloud-sdk-go", key: "default_zone"},
+	"FakeMode":               {section: "sacloud-sdk-go", key: "fake_mode"},
+	"FakeStorePath":          {section: "sacloud-sdk-go", key: "fake_store_path"},
+	"HTTPRequestRateLimit":   {section: "sacloud-sdk-go", key: "http_request_rate_limit"},
+	"HTTPRequestTimeout":     {section: "sacloud-sdk-go", key: "http_request_timeout"},
+	"RetryMax":               {section: "sacloud-sdk-go", key: "retry_max"},
+	"RetryWaitMax":           {section: "sacloud-sdk-go", key: "retry_wait_max"},
+	"RetryWaitMin":           {section: "sacloud-sdk-go", key: "retry_wait_min"},
+	"StatePollingInterval":   {section: "sacloud-sdk-go", key: "state_polling_interval"},
+	"StatePollingTimeout":    {section: "sacloud-sdk-go", key: "state_polling_timeout"},
+	"TraceMode":              {section: "sacloud-sdk-go", key: "trace_mode"},
+	"Zone":                   {section: "sacloud-sdk-go", key: "zone"},
+	"Zones":                  {section: "sacloud-sdk-go", key: "zones"},
 }
 
 type v0ProfileField struct {
@@ -204,7 +204,7 @@ type profileV1Document struct {
 	Credentials map[string]any `yaml:"credentials,omitempty"`
 	Endpoints   map[string]any `yaml:"endpoints,omitempty"`
 	Cli         map[string]any `yaml:"cli,omitempty"`
-	Go          map[string]any `yaml:"go,omitempty"`
+	Go          map[string]any `yaml:"sacloud-sdk-go,omitempty"`
 	Extra       map[string]any `yaml:",inline,omitempty"`
 }
 
@@ -877,11 +877,14 @@ func lookupProfileDir(envp []string) (string, error) {
 	} else if v, ok := lookupEnv(envp, "USACLOUD_PROFILE_DIR"); ok {
 		return filepath.Clean(v), nil // backward compat
 	} else if v, ok := lookupEnv(envp, "XDG_CONFIG_HOME"); ok {
-		// if, and only if `~/.config/usacloud` exists, take it.
-		ret := filepath.Join(v, "usacloud")
-		if stat, err := os.Stat(ret); err == nil && stat.IsDir() { // #nosec G703 -- this is in fact secure
-			return filepath.Clean(ret), nil
+		for _, name := range []string{"sakura", "usacloud"} {
+			path := filepath.Join(v, name)
+			if stat, err := os.Stat(path); err == nil && stat.IsDir() { // #nosec G703 -- this is in fact secure
+				return filepath.Clean(path), nil
+			}
 		}
+
+		return filepath.Join(v, "sakura"), nil
 	}
 
 	// fallback to '~/.usacloud'
@@ -898,7 +901,17 @@ func lookupProfileDir(envp []string) (string, error) {
 		return "", NewErrorf("unable to determine home directory")
 	}
 
-	return filepath.Join(home, ".usacloud"), nil
+	configDir := filepath.Join(home, ".config", "sakura")
+	if stat, err := os.Stat(configDir); err == nil && stat.IsDir() { // #nosec G703 -- this is in fact secure
+		return filepath.Clean(configDir), nil
+	}
+
+	legacyDir := filepath.Join(home, ".usacloud")
+	if stat, err := os.Stat(legacyDir); err == nil && stat.IsDir() { // #nosec G703 -- this is in fact secure
+		return filepath.Clean(legacyDir), nil
+	}
+
+	return configDir, nil
 }
 
 // lookupEnv searches for an environment variable in the provided slice

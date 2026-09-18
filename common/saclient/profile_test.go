@@ -125,7 +125,7 @@ func (s *ProfileTestSuite) TearDownSubTest() {
 
 func (s *ProfileTestSuite) TestProfileOp_usacloud() {
 	var err error
-	s.op, err = NewProfileOp(os.Environ())
+	s.op, err = NewProfileOp([]string{"USACLOUD_PROFILE_DIR=" + s.dir + "/.usacloud"})
 	s.NoError(err)
 	s.NotNil(s.op)
 	op := s.op
@@ -343,6 +343,26 @@ func (s *ProfileTestSuite) TestProfileOp_XDG() {
 	})
 }
 
+func (s *ProfileTestSuite) TestProfileOp_ProfileDirectoryPriority() {
+	dir := s.T().TempDir()
+	configHome := filepath.Join(dir, "config")
+	s.Require().NoError(os.MkdirAll(filepath.Join(configHome, "usacloud"), 0o700))
+
+	op, err := NewProfileOp([]string{"XDG_CONFIG_HOME=" + configHome})
+	s.Require().NoError(err)
+	s.Equal(filepath.Join(configHome, "usacloud"), op.Dir())
+
+	s.Require().NoError(os.MkdirAll(filepath.Join(configHome, "sakura"), 0o700))
+	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + configHome})
+	s.Require().NoError(err)
+	s.Equal(filepath.Join(configHome, "sakura"), op.Dir())
+
+	emptyConfigHome := filepath.Join(dir, "empty-config")
+	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + emptyConfigHome})
+	s.Require().NoError(err)
+	s.Equal(filepath.Join(emptyConfigHome, "sakura"), op.Dir())
+}
+
 func (s *ProfileTestSuite) TestProfileOp_V1YAML() {
 	dir := s.T().TempDir()
 
@@ -355,7 +375,7 @@ credentials:
   access_token_secret: v1-secret
   service_principal_id: spid
   service_principal_key_kid: kid
-go:
+sacloud-sdk-go:
   zone: is1a
   zones:
     - is1a
@@ -554,7 +574,7 @@ cli:
   default_query_driver: jq
   no_color: true
   process_timeout_sec: 7200
-go:
+sacloud-sdk-go:
   api_root_url: https://secure.sakura.ad.jp/cloud/zone
   accept_language: en-US,en;q=0.9
   default_zone: is1a
@@ -756,7 +776,7 @@ func (s *ProfileTestSuite) TestProfileOp_UnsetHOME() {
 }
 
 func (s *ProfileTestSuite) TestProfile_GetCacheFilePath() {
-	op, err := NewProfileOp(os.Environ())
+	op, err := NewProfileOp([]string{"USACLOUD_PROFILE_DIR=" + s.dir + "/.usacloud"})
 	s.NoError(err)
 	s.NotNil(op)
 
