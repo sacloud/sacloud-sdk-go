@@ -20,7 +20,7 @@ require (
 	github.com/hashicorp/hc-install v0.9.5
 	github.com/hashicorp/terraform-exec v0.25.3
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
-	github.com/huandu/xstrings v1.5.0
+	github.com/huandu/xstrings v1.6.0
 	github.com/jlaffaye/ftp v0.2.4
 	github.com/minio/minio-go/v7 v7.3.0
 	github.com/mitchellh/go-homedir v1.1.0
