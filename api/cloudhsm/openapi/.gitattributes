@@ -1,0 +1,4 @@
+# Copyright 2026- The sacloud/sacloud-sdk-go authors
+# SPDX-License-Identifier: Apache-2.0
+
+openapi.json text -binary eol=lf diff=json linguist-vendored 
