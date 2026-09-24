@@ -1,5 +1,19 @@
 # Changelog
 
+## [v0.3.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.2.0...v0.3.0) - 2026-09-24
+
+### 🚀 New Features
+- api/simplemq: update OpenAPI definitions by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/264
+- iam: openapi.json 2.1.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/263
+### 📦 Dependency Updates
+- go: bump google.golang.org/grpc from 1.83.1 to 1.83.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/255
+- go: bump google.golang.org/grpc from 1.83.1 to 1.83.2 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/254
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.1.0 to 0.2.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/268
+### Other Changes
+- seg: Update OpenAPI to support SimpleAI by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/258
+- [chore] refactor hoist out utility functions by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/260
+- apis/apprun-dedicated: fix add missing cast by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/269
+
 ## [v0.2.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.1.0...v0.2.0) - 2026-09-07
 
 ### 🚀 New Features
