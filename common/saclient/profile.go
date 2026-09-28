@@ -283,9 +283,12 @@ func (this *ProfileOp) Read(name string) (*Profile, error) {
 }
 
 func (this *ProfileOp) Create(p *Profile) error {
+	if err := validateProfileVersion(p.Version); err != nil {
+		return err
+	}
+
 	if _, err := this.Read(p.Name); err == nil {
-		path := filepath.Join(p.Name, profileConfigNameV1YAML)
-		return Wrapf(&os.PathError{Op: "open", Path: path, Err: os.ErrExist}, "failed to open %+v", path)
+		return Wrapf(&os.PathError{Op: "open", Path: p.Name, Err: os.ErrExist}, "failed to open %+v profile", p.Name)
 	} else if !errors.Is(err, os.ErrNotExist) {
 		return err
 	}
@@ -306,6 +309,10 @@ func (this *ProfileOp) Create(p *Profile) error {
 }
 
 func (this *ProfileOp) Update(p *Profile) (*Profile, error) {
+	if err := validateProfileVersion(p.Version); err != nil {
+		return nil, err
+	}
+
 	var current map[string]any
 	version := int32(-1)
 
@@ -420,6 +427,7 @@ func (this *Profile) Pathname() string {
 	}
 }
 
+// deprecated: This method is only working with version 0 profile. Use direct access to typed fields for version 1 profile.
 func (this *Profile) Get(k string) (any, bool) {
 	if this == nil {
 		return nil, false
@@ -429,6 +437,7 @@ func (this *Profile) Get(k string) (any, bool) {
 	}
 }
 
+// deprecated: This method is only working with version 0 profile. Use direct access to typed fields for version 1 profile.
 func (this *Profile) Set(k string, v any) {
 	if this == nil {
 		return
@@ -543,7 +552,7 @@ func openFileAt[
 
 	file, err := root.OpenFile(n, mode, 0o600)
 	if err != nil {
-		return zero, Wrapf(&os.PathError{Op: "open", Path: n, Err: err}, "failed to open %+v", n)
+		return zero, Wrapf(err, "failed to open %+v", n)
 	}
 	defer func() { _ = file.Close() }()
 
@@ -582,6 +591,10 @@ func decodeProfile(fp *os.File) (*Profile, error) {
 }
 
 func encodeProfile(w io.Writer, p *Profile) error {
+	if err := validateProfileVersion(p.Version); err != nil {
+		return err
+	}
+
 	if p.Version == 0 {
 		return json.NewEncoder(w).Encode(p.Attributes)
 	}
@@ -844,12 +857,14 @@ func profileStringsOption(attrs map[string]any, key string) option[[]string] {
 }
 
 func isJSONProfile(trimmed []byte, pathname string) bool {
-	ext := strings.ToLower(filepath.Ext(pathname))
-	if ext == ".json" {
+	switch strings.ToLower(filepath.Ext(pathname)) {
+	case ".json":
 		return true
+	case ".yaml", ".yml":
+		return false
+	default:
+		return len(trimmed) > 0 && (trimmed[0] == '{' || trimmed[0] == '[')
 	}
-
-	return len(trimmed) > 0 && (trimmed[0] == '{' || trimmed[0] == '[')
 }
 
 func mergeMappedSection(section map[string]any, keymap map[string]string, dst map[string]any) {
@@ -867,6 +882,14 @@ func merge(dst, src map[string]any) map[string]any {
 	maps.Copy(ret, dst)
 	maps.Copy(ret, src)
 	return ret
+}
+
+func validateProfileVersion(version int32) error {
+	if version < 0 || version > 1 {
+		return NewErrorf("unsupported profile version: %+v", version)
+	}
+
+	return nil
 }
 
 func lookupProfileDir(envp []string) (string, error) {

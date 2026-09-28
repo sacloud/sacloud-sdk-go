@@ -474,6 +474,19 @@ dotnet: {foobar: preserved}
 		s.Equal("created-v0-token", profile.Credentials.AccessToken.MustGet())
 	})
 
+	s.Run("rejects unsupported version", func() {
+		err := op.Create(&Profile{Name: "unsupported", Version: 2})
+		s.Error(err)
+		s.NotContains(err.Error(), "failed to open")
+
+		profile, err := op.Update(&Profile{Name: "default", Version: 2})
+		s.Nil(profile)
+		s.Error(err)
+
+		_, err = os.Stat(filepath.Join(dir, "unsupported"))
+		s.ErrorIs(err, os.ErrNotExist)
+	})
+
 	s.Run("update preserves source format", func() {
 		profile, err := op.Update(&Profile{
 			Name:       "default",

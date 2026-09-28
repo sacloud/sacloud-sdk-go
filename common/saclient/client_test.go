@@ -166,7 +166,7 @@ func (s *ClientTestSuite) SetupSuite() {
 	}
 	dir, _ := os.MkdirTemp(os.TempDir(), "profile_test")
 	os.Setenv("XDG_CONFIG_HOME", dir)
-	os.Unsetenv("SAKURACLOUD_PROFILE_DIR")
+	os.Setenv("SAKURACLOUD_PROFILE_DIR", filepath.Join(dir, "usacloud"))
 
 	// create sample profiles
 	os.MkdirAll(dir+"/usacloud/usacloud", 0o700)
@@ -647,6 +647,10 @@ func (s *ClientTestSuite) TestProfileName() {
 func (s *ClientTestSuite) TestProfileWithNullValue() {
 	var subject *Client = s.subject.Dup().(*Client)
 	e := subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
+	s.NoError(e)
+	e = subject.SetEnviron([]string{
+		"SAKURA_PROFILE_DIR=" + filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "usacloud"),
+	})
 	s.NoError(e)
 
 	e = subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=withNull"})
