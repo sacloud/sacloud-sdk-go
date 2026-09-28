@@ -11,18 +11,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestAvailabilityEnum_EncodeDecode(t *testing.T) {
-	var typ AvailabilityEnum
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 AvailabilityEnum
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestCloudHSM_EncodeDecode(t *testing.T) {
 	var typ CloudHSM
 	typ.SetFake()
@@ -33,6 +21,18 @@ func TestCloudHSM_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 CloudHSM
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCloudHSMAvailability_EncodeDecode(t *testing.T) {
+	var typ CloudHSMAvailability
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CloudHSMAvailability
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCloudHSMClient_EncodeDecode(t *testing.T) {
@@ -47,8 +47,8 @@ func TestCloudHSMClient_EncodeDecode(t *testing.T) {
 	var typ2 CloudHSMClient
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCloudHSMLocalRouter_EncodeDecode(t *testing.T) {
-	var typ CloudHSMLocalRouter
+func TestCloudHSMClientAvailability_EncodeDecode(t *testing.T) {
+	var typ CloudHSMClientAvailability
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -56,7 +56,55 @@ func TestCloudHSMLocalRouter_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CloudHSMLocalRouter
+	var typ2 CloudHSMClientAvailability
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCloudHSMClientRequest_EncodeDecode(t *testing.T) {
+	var typ CloudHSMClientRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CloudHSMClientRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCloudHSMDocument_EncodeDecode(t *testing.T) {
+	var typ CloudHSMDocument
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CloudHSMDocument
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCloudHSMDocumentDownload_EncodeDecode(t *testing.T) {
+	var typ CloudHSMDocumentDownload
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CloudHSMDocumentDownload
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCloudHSMInitialData_EncodeDecode(t *testing.T) {
+	var typ CloudHSMInitialData
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CloudHSMInitialData
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCloudHSMPeer_EncodeDecode(t *testing.T) {
@@ -71,8 +119,8 @@ func TestCloudHSMPeer_EncodeDecode(t *testing.T) {
 	var typ2 CloudHSMPeer
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCloudHSMPeerList_EncodeDecode(t *testing.T) {
-	var typ CloudHSMPeerList
+func TestCloudHSMRequest_EncodeDecode(t *testing.T) {
+	var typ CloudHSMRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -80,11 +128,11 @@ func TestCloudHSMPeerList_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CloudHSMPeerList
+	var typ2 CloudHSMRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCloudHSMPeerStatus_EncodeDecode(t *testing.T) {
-	var typ CloudHSMPeerStatus
+func TestCloudHSMServiceClass_EncodeDecode(t *testing.T) {
+	var typ CloudHSMServiceClass
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -92,7 +140,7 @@ func TestCloudHSMPeerStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CloudHSMPeerStatus
+	var typ2 CloudHSMServiceClass
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCloudHSMSoftwareLicense_EncodeDecode(t *testing.T) {
@@ -107,8 +155,8 @@ func TestCloudHSMSoftwareLicense_EncodeDecode(t *testing.T) {
 	var typ2 CloudHSMSoftwareLicense
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCloudHSMSoftwareLicenseServiceClassEnum_EncodeDecode(t *testing.T) {
-	var typ CloudHSMSoftwareLicenseServiceClassEnum
+func TestCloudHSMSoftwareLicenseRequest_EncodeDecode(t *testing.T) {
+	var typ CloudHSMSoftwareLicenseRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -116,7 +164,19 @@ func TestCloudHSMSoftwareLicenseServiceClassEnum_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CloudHSMSoftwareLicenseServiceClassEnum
+	var typ2 CloudHSMSoftwareLicenseRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCloudHSMSoftwareLicenseServiceClass_EncodeDecode(t *testing.T) {
+	var typ CloudHSMSoftwareLicenseServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CloudHSMSoftwareLicenseServiceClass
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateCloudHSM_EncodeDecode(t *testing.T) {
@@ -131,6 +191,18 @@ func TestCreateCloudHSM_EncodeDecode(t *testing.T) {
 	var typ2 CreateCloudHSM
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestCreateCloudHSMAvailability_EncodeDecode(t *testing.T) {
+	var typ CreateCloudHSMAvailability
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateCloudHSMAvailability
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestCreateCloudHSMClient_EncodeDecode(t *testing.T) {
 	var typ CreateCloudHSMClient
 	typ.SetFake()
@@ -143,8 +215,8 @@ func TestCreateCloudHSMClient_EncodeDecode(t *testing.T) {
 	var typ2 CreateCloudHSMClient
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateCloudHSMPeer_EncodeDecode(t *testing.T) {
-	var typ CreateCloudHSMPeer
+func TestCreateCloudHSMClientAvailability_EncodeDecode(t *testing.T) {
+	var typ CreateCloudHSMClientAvailability
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -152,7 +224,43 @@ func TestCreateCloudHSMPeer_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateCloudHSMPeer
+	var typ2 CreateCloudHSMClientAvailability
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateCloudHSMClientRequest_EncodeDecode(t *testing.T) {
+	var typ CreateCloudHSMClientRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateCloudHSMClientRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateCloudHSMRequest_EncodeDecode(t *testing.T) {
+	var typ CreateCloudHSMRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateCloudHSMRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateCloudHSMServiceClass_EncodeDecode(t *testing.T) {
+	var typ CreateCloudHSMServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateCloudHSMServiceClass
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateCloudHSMSoftwareLicense_EncodeDecode(t *testing.T) {
@@ -167,6 +275,42 @@ func TestCreateCloudHSMSoftwareLicense_EncodeDecode(t *testing.T) {
 	var typ2 CreateCloudHSMSoftwareLicense
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestCreateCloudHSMSoftwareLicenseRequest_EncodeDecode(t *testing.T) {
+	var typ CreateCloudHSMSoftwareLicenseRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateCloudHSMSoftwareLicenseRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateCloudHSMSoftwareLicenseRequestServiceClass_EncodeDecode(t *testing.T) {
+	var typ CreateCloudHSMSoftwareLicenseRequestServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateCloudHSMSoftwareLicenseRequestServiceClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateCloudHSMSoftwareLicenseServiceClass_EncodeDecode(t *testing.T) {
+	var typ CreateCloudHSMSoftwareLicenseServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateCloudHSMSoftwareLicenseServiceClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestDateTime_EncodeDecode(t *testing.T) {
 	var typ DateTime
 	typ.SetFake()
@@ -179,6 +323,18 @@ func TestDateTime_EncodeDecode(t *testing.T) {
 	var typ2 DateTime
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestLocalRouter_EncodeDecode(t *testing.T) {
+	var typ LocalRouter
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LocalRouter
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestPaginatedCloudHSMClientList_EncodeDecode(t *testing.T) {
 	var typ PaginatedCloudHSMClientList
 	typ.SetFake()
@@ -189,6 +345,18 @@ func TestPaginatedCloudHSMClientList_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 PaginatedCloudHSMClientList
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPaginatedCloudHSMDocumentList_EncodeDecode(t *testing.T) {
+	var typ PaginatedCloudHSMDocumentList
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PaginatedCloudHSMDocumentList
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestPaginatedCloudHSMList_EncodeDecode(t *testing.T) {
@@ -215,8 +383,8 @@ func TestPaginatedCloudHSMSoftwareLicenseList_EncodeDecode(t *testing.T) {
 	var typ2 PaginatedCloudHSMSoftwareLicenseList
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestServiceClassEnum_EncodeDecode(t *testing.T) {
-	var typ ServiceClassEnum
+func TestPeerRequest_EncodeDecode(t *testing.T) {
+	var typ PeerRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -224,7 +392,7 @@ func TestServiceClassEnum_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ServiceClassEnum
+	var typ2 PeerRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestWrappedCloudHSM_EncodeDecode(t *testing.T) {
@@ -251,6 +419,42 @@ func TestWrappedCloudHSMClient_EncodeDecode(t *testing.T) {
 	var typ2 WrappedCloudHSMClient
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestWrappedCloudHSMClientRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCloudHSMClientRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCloudHSMClientRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCloudHSMDocumentDownload_EncodeDecode(t *testing.T) {
+	var typ WrappedCloudHSMDocumentDownload
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCloudHSMDocumentDownload
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCloudHSMRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCloudHSMRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCloudHSMRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestWrappedCloudHSMSoftwareLicense_EncodeDecode(t *testing.T) {
 	var typ WrappedCloudHSMSoftwareLicense
 	typ.SetFake()
@@ -261,6 +465,18 @@ func TestWrappedCloudHSMSoftwareLicense_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 WrappedCloudHSMSoftwareLicense
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCloudHSMSoftwareLicenseRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCloudHSMSoftwareLicenseRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCloudHSMSoftwareLicenseRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestWrappedCreateCloudHSM_EncodeDecode(t *testing.T) {
@@ -287,8 +503,8 @@ func TestWrappedCreateCloudHSMClient_EncodeDecode(t *testing.T) {
 	var typ2 WrappedCreateCloudHSMClient
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestWrappedCreateCloudHSMPeer_EncodeDecode(t *testing.T) {
-	var typ WrappedCreateCloudHSMPeer
+func TestWrappedCreateCloudHSMClientRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCreateCloudHSMClientRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -296,7 +512,19 @@ func TestWrappedCreateCloudHSMPeer_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 WrappedCreateCloudHSMPeer
+	var typ2 WrappedCreateCloudHSMClientRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCreateCloudHSMRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCreateCloudHSMRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCreateCloudHSMRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestWrappedCreateCloudHSMSoftwareLicense_EncodeDecode(t *testing.T) {
@@ -309,5 +537,41 @@ func TestWrappedCreateCloudHSMSoftwareLicense_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 WrappedCreateCloudHSMSoftwareLicense
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCreateCloudHSMSoftwareLicenseRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCreateCloudHSMSoftwareLicenseRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCreateCloudHSMSoftwareLicenseRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedPeerList_EncodeDecode(t *testing.T) {
+	var typ WrappedPeerList
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedPeerList
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedPeerRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedPeerRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedPeerRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }

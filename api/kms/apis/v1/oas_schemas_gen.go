@@ -3,6 +3,8 @@
 package v1
 
 import (
+	"time"
+
 	"github.com/go-faster/errors"
 )
 
@@ -42,46 +44,72 @@ func (s *BasicAuth) SetRoles(val []string) {
 	s.Roles = val
 }
 
-// Ref: #/components/schemas/ChangeKeyStatus
-type ChangeKeyStatus struct {
-	Status OptChangeKeyStatusStatus `json:"Status"`
+// 鍵の状態変更.
+// Ref: #/components/schemas/ChangeKeyState
+type ChangeKeyState struct {
+	//  - `active` - 有効
+	//  - `restricted` - 制限付き
+	//  - `suspended` - 一時停止
+	Status ChangeKeyStateStatus `json:"Status"`
 }
 
 // GetStatus returns the value of Status.
-func (s *ChangeKeyStatus) GetStatus() OptChangeKeyStatusStatus {
+func (s *ChangeKeyState) GetStatus() ChangeKeyStateStatus {
 	return s.Status
 }
 
 // SetStatus sets the value of Status.
-func (s *ChangeKeyStatus) SetStatus(val OptChangeKeyStatusStatus) {
+func (s *ChangeKeyState) SetStatus(val ChangeKeyStateStatus) {
 	s.Status = val
 }
 
-type ChangeKeyStatusStatus string
+// 鍵の状態変更.
+// Ref: #/components/schemas/ChangeKeyStateRequest
+type ChangeKeyStateRequest struct {
+	//  - `active` - 有効
+	//  - `restricted` - 制限付き
+	//  - `suspended` - 一時停止
+	Status ChangeKeyStateRequestStatus `json:"Status"`
+}
+
+// GetStatus returns the value of Status.
+func (s *ChangeKeyStateRequest) GetStatus() ChangeKeyStateRequestStatus {
+	return s.Status
+}
+
+// SetStatus sets the value of Status.
+func (s *ChangeKeyStateRequest) SetStatus(val ChangeKeyStateRequestStatus) {
+	s.Status = val
+}
+
+// - `active` - 有効
+// - `restricted` - 制限付き
+// - `suspended` - 一時停止
+type ChangeKeyStateRequestStatus string
 
 const (
-	ChangeKeyStatusStatusActive     ChangeKeyStatusStatus = "active"
-	ChangeKeyStatusStatusRestricted ChangeKeyStatusStatus = "restricted"
-	ChangeKeyStatusStatusSuspended  ChangeKeyStatusStatus = "suspended"
+	ChangeKeyStateRequestStatusActive     ChangeKeyStateRequestStatus = "active"
+	ChangeKeyStateRequestStatusRestricted ChangeKeyStateRequestStatus = "restricted"
+	ChangeKeyStateRequestStatusSuspended  ChangeKeyStateRequestStatus = "suspended"
 )
 
-// AllValues returns all ChangeKeyStatusStatus values.
-func (ChangeKeyStatusStatus) AllValues() []ChangeKeyStatusStatus {
-	return []ChangeKeyStatusStatus{
-		ChangeKeyStatusStatusActive,
-		ChangeKeyStatusStatusRestricted,
-		ChangeKeyStatusStatusSuspended,
+// AllValues returns all ChangeKeyStateRequestStatus values.
+func (ChangeKeyStateRequestStatus) AllValues() []ChangeKeyStateRequestStatus {
+	return []ChangeKeyStateRequestStatus{
+		ChangeKeyStateRequestStatusActive,
+		ChangeKeyStateRequestStatusRestricted,
+		ChangeKeyStateRequestStatusSuspended,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ChangeKeyStatusStatus) MarshalText() ([]byte, error) {
+func (s ChangeKeyStateRequestStatus) MarshalText() ([]byte, error) {
 	switch s {
-	case ChangeKeyStatusStatusActive:
+	case ChangeKeyStateRequestStatusActive:
 		return []byte(s), nil
-	case ChangeKeyStatusStatusRestricted:
+	case ChangeKeyStateRequestStatusRestricted:
 		return []byte(s), nil
-	case ChangeKeyStatusStatusSuspended:
+	case ChangeKeyStateRequestStatusSuspended:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -89,128 +117,539 @@ func (s ChangeKeyStatusStatus) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ChangeKeyStatusStatus) UnmarshalText(data []byte) error {
-	switch ChangeKeyStatusStatus(data) {
-	case ChangeKeyStatusStatusActive:
-		*s = ChangeKeyStatusStatusActive
+func (s *ChangeKeyStateRequestStatus) UnmarshalText(data []byte) error {
+	switch ChangeKeyStateRequestStatus(data) {
+	case ChangeKeyStateRequestStatusActive:
+		*s = ChangeKeyStateRequestStatusActive
 		return nil
-	case ChangeKeyStatusStatusRestricted:
-		*s = ChangeKeyStatusStatusRestricted
+	case ChangeKeyStateRequestStatusRestricted:
+		*s = ChangeKeyStateRequestStatusRestricted
 		return nil
-	case ChangeKeyStatusStatusSuspended:
-		*s = ChangeKeyStatusStatusSuspended
+	case ChangeKeyStateRequestStatusSuspended:
+		*s = ChangeKeyStateRequestStatusSuspended
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// Ref: #/components/schemas/CreateKey
-type CreateKey struct {
-	ID          string        `json:"ID"`
-	CreatedAt   DateTime      `json:"CreatedAt"`
-	ModifiedAt  DateTime      `json:"ModifiedAt"`
-	Name        string        `json:"Name"`
-	Description OptString     `json:"Description"`
-	KeyOrigin   KeyOriginEnum `json:"KeyOrigin"`
-	Tags        []string      `json:"Tags"`
-	PlainKey    OptString     `json:"PlainKey"`
+// - `active` - 有効
+// - `restricted` - 制限付き
+// - `suspended` - 一時停止
+type ChangeKeyStateStatus string
+
+const (
+	ChangeKeyStateStatusActive     ChangeKeyStateStatus = "active"
+	ChangeKeyStateStatusRestricted ChangeKeyStateStatus = "restricted"
+	ChangeKeyStateStatusSuspended  ChangeKeyStateStatus = "suspended"
+)
+
+// AllValues returns all ChangeKeyStateStatus values.
+func (ChangeKeyStateStatus) AllValues() []ChangeKeyStateStatus {
+	return []ChangeKeyStateStatus{
+		ChangeKeyStateStatusActive,
+		ChangeKeyStateStatusRestricted,
+		ChangeKeyStateStatusSuspended,
+	}
 }
 
-// GetID returns the value of ID.
-func (s *CreateKey) GetID() string {
-	return s.ID
+// MarshalText implements encoding.TextMarshaler.
+func (s ChangeKeyStateStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ChangeKeyStateStatusActive:
+		return []byte(s), nil
+	case ChangeKeyStateStatusRestricted:
+		return []byte(s), nil
+	case ChangeKeyStateStatusSuspended:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
 }
 
-// GetCreatedAt returns the value of CreatedAt.
-func (s *CreateKey) GetCreatedAt() DateTime {
-	return s.CreatedAt
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ChangeKeyStateStatus) UnmarshalText(data []byte) error {
+	switch ChangeKeyStateStatus(data) {
+	case ChangeKeyStateStatusActive:
+		*s = ChangeKeyStateStatusActive
+		return nil
+	case ChangeKeyStateStatusRestricted:
+		*s = ChangeKeyStateStatusRestricted
+		return nil
+	case ChangeKeyStateStatusSuspended:
+		*s = ChangeKeyStateStatusSuspended
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
-// GetModifiedAt returns the value of ModifiedAt.
-func (s *CreateKey) GetModifiedAt() DateTime {
-	return s.ModifiedAt
+// Ref: #/components/schemas/CreateKeyRequest
+type CreateKeyRequest struct {
+	Name        string            `json:"Name"`
+	Description OptString         `json:"Description"`
+	Tags        OptNilStringArray `json:"Tags"`
+	PlainKey    OptString         `json:"PlainKey"`
 }
 
 // GetName returns the value of Name.
-func (s *CreateKey) GetName() string {
+func (s *CreateKeyRequest) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *CreateKey) GetDescription() OptString {
+func (s *CreateKeyRequest) GetDescription() OptString {
 	return s.Description
 }
 
-// GetKeyOrigin returns the value of KeyOrigin.
-func (s *CreateKey) GetKeyOrigin() KeyOriginEnum {
-	return s.KeyOrigin
-}
-
 // GetTags returns the value of Tags.
-func (s *CreateKey) GetTags() []string {
+func (s *CreateKeyRequest) GetTags() OptNilStringArray {
 	return s.Tags
 }
 
 // GetPlainKey returns the value of PlainKey.
-func (s *CreateKey) GetPlainKey() OptString {
+func (s *CreateKeyRequest) GetPlainKey() OptString {
 	return s.PlainKey
 }
 
-// SetID sets the value of ID.
-func (s *CreateKey) SetID(val string) {
-	s.ID = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *CreateKey) SetCreatedAt(val DateTime) {
-	s.CreatedAt = val
-}
-
-// SetModifiedAt sets the value of ModifiedAt.
-func (s *CreateKey) SetModifiedAt(val DateTime) {
-	s.ModifiedAt = val
-}
-
 // SetName sets the value of Name.
-func (s *CreateKey) SetName(val string) {
+func (s *CreateKeyRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *CreateKey) SetDescription(val OptString) {
+func (s *CreateKeyRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// SetKeyOrigin sets the value of KeyOrigin.
-func (s *CreateKey) SetKeyOrigin(val KeyOriginEnum) {
-	s.KeyOrigin = val
-}
-
 // SetTags sets the value of Tags.
-func (s *CreateKey) SetTags(val []string) {
+func (s *CreateKeyRequest) SetTags(val OptNilStringArray) {
 	s.Tags = val
 }
 
 // SetPlainKey sets the value of PlainKey.
-func (s *CreateKey) SetPlainKey(val OptString) {
+func (s *CreateKeyRequest) SetPlainKey(val OptString) {
 	s.PlainKey = val
+}
+
+// 鍵の作成結果.
+// Ref: #/components/schemas/CreateKeyResponse
+type CreateKeyResponse struct {
+	ID         string   `json:"ID"`
+	CreatedAt  DateTime `json:"CreatedAt"`
+	ModifiedAt DateTime `json:"ModifiedAt"`
+	//  - `cloud/kms/key` - 通常
+	//  - `cloud/kms/key/legacy` - レガシー
+	ServiceClass CreateKeyResponseServiceClass `json:"ServiceClass"`
+	Name         string                        `json:"Name"`
+	Description  string                        `json:"Description"`
+	//  - `generated` - 生成
+	//  - `imported` - インポート
+	KeyOrigin     CreateKeyResponseKeyOrigin `json:"KeyOrigin"`
+	LatestVersion int                        `json:"LatestVersion"`
+	//  - `active` - 有効
+	//  - `restricted` - 制限付き
+	//  - `suspended` - 一時停止
+	//  - `pending_destruction` - 削除保留
+	//  - `destroyed` - 削除済み
+	Status CreateKeyResponseStatus `json:"Status"`
+	// この日時以降に削除される予定です.
+	DeletionScheduledAfter OptNilDateTime `json:"DeletionScheduledAfter"`
+	Tags                   []string       `json:"Tags"`
+}
+
+// GetID returns the value of ID.
+func (s *CreateKeyResponse) GetID() string {
+	return s.ID
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CreateKeyResponse) GetCreatedAt() DateTime {
+	return s.CreatedAt
+}
+
+// GetModifiedAt returns the value of ModifiedAt.
+func (s *CreateKeyResponse) GetModifiedAt() DateTime {
+	return s.ModifiedAt
+}
+
+// GetServiceClass returns the value of ServiceClass.
+func (s *CreateKeyResponse) GetServiceClass() CreateKeyResponseServiceClass {
+	return s.ServiceClass
+}
+
+// GetName returns the value of Name.
+func (s *CreateKeyResponse) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CreateKeyResponse) GetDescription() string {
+	return s.Description
+}
+
+// GetKeyOrigin returns the value of KeyOrigin.
+func (s *CreateKeyResponse) GetKeyOrigin() CreateKeyResponseKeyOrigin {
+	return s.KeyOrigin
+}
+
+// GetLatestVersion returns the value of LatestVersion.
+func (s *CreateKeyResponse) GetLatestVersion() int {
+	return s.LatestVersion
+}
+
+// GetStatus returns the value of Status.
+func (s *CreateKeyResponse) GetStatus() CreateKeyResponseStatus {
+	return s.Status
+}
+
+// GetDeletionScheduledAfter returns the value of DeletionScheduledAfter.
+func (s *CreateKeyResponse) GetDeletionScheduledAfter() OptNilDateTime {
+	return s.DeletionScheduledAfter
+}
+
+// GetTags returns the value of Tags.
+func (s *CreateKeyResponse) GetTags() []string {
+	return s.Tags
+}
+
+// SetID sets the value of ID.
+func (s *CreateKeyResponse) SetID(val string) {
+	s.ID = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CreateKeyResponse) SetCreatedAt(val DateTime) {
+	s.CreatedAt = val
+}
+
+// SetModifiedAt sets the value of ModifiedAt.
+func (s *CreateKeyResponse) SetModifiedAt(val DateTime) {
+	s.ModifiedAt = val
+}
+
+// SetServiceClass sets the value of ServiceClass.
+func (s *CreateKeyResponse) SetServiceClass(val CreateKeyResponseServiceClass) {
+	s.ServiceClass = val
+}
+
+// SetName sets the value of Name.
+func (s *CreateKeyResponse) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CreateKeyResponse) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetKeyOrigin sets the value of KeyOrigin.
+func (s *CreateKeyResponse) SetKeyOrigin(val CreateKeyResponseKeyOrigin) {
+	s.KeyOrigin = val
+}
+
+// SetLatestVersion sets the value of LatestVersion.
+func (s *CreateKeyResponse) SetLatestVersion(val int) {
+	s.LatestVersion = val
+}
+
+// SetStatus sets the value of Status.
+func (s *CreateKeyResponse) SetStatus(val CreateKeyResponseStatus) {
+	s.Status = val
+}
+
+// SetDeletionScheduledAfter sets the value of DeletionScheduledAfter.
+func (s *CreateKeyResponse) SetDeletionScheduledAfter(val OptNilDateTime) {
+	s.DeletionScheduledAfter = val
+}
+
+// SetTags sets the value of Tags.
+func (s *CreateKeyResponse) SetTags(val []string) {
+	s.Tags = val
+}
+
+// - `generated` - 生成
+// - `imported` - インポート
+type CreateKeyResponseKeyOrigin string
+
+const (
+	CreateKeyResponseKeyOriginGenerated CreateKeyResponseKeyOrigin = "generated"
+	CreateKeyResponseKeyOriginImported  CreateKeyResponseKeyOrigin = "imported"
+)
+
+// AllValues returns all CreateKeyResponseKeyOrigin values.
+func (CreateKeyResponseKeyOrigin) AllValues() []CreateKeyResponseKeyOrigin {
+	return []CreateKeyResponseKeyOrigin{
+		CreateKeyResponseKeyOriginGenerated,
+		CreateKeyResponseKeyOriginImported,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateKeyResponseKeyOrigin) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateKeyResponseKeyOriginGenerated:
+		return []byte(s), nil
+	case CreateKeyResponseKeyOriginImported:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateKeyResponseKeyOrigin) UnmarshalText(data []byte) error {
+	switch CreateKeyResponseKeyOrigin(data) {
+	case CreateKeyResponseKeyOriginGenerated:
+		*s = CreateKeyResponseKeyOriginGenerated
+		return nil
+	case CreateKeyResponseKeyOriginImported:
+		*s = CreateKeyResponseKeyOriginImported
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// - `cloud/kms/key` - 通常
+// - `cloud/kms/key/legacy` - レガシー
+type CreateKeyResponseServiceClass string
+
+const (
+	CreateKeyResponseServiceClassCloudKmsKey       CreateKeyResponseServiceClass = "cloud/kms/key"
+	CreateKeyResponseServiceClassCloudKmsKeyLegacy CreateKeyResponseServiceClass = "cloud/kms/key/legacy"
+)
+
+// AllValues returns all CreateKeyResponseServiceClass values.
+func (CreateKeyResponseServiceClass) AllValues() []CreateKeyResponseServiceClass {
+	return []CreateKeyResponseServiceClass{
+		CreateKeyResponseServiceClassCloudKmsKey,
+		CreateKeyResponseServiceClassCloudKmsKeyLegacy,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateKeyResponseServiceClass) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateKeyResponseServiceClassCloudKmsKey:
+		return []byte(s), nil
+	case CreateKeyResponseServiceClassCloudKmsKeyLegacy:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateKeyResponseServiceClass) UnmarshalText(data []byte) error {
+	switch CreateKeyResponseServiceClass(data) {
+	case CreateKeyResponseServiceClassCloudKmsKey:
+		*s = CreateKeyResponseServiceClassCloudKmsKey
+		return nil
+	case CreateKeyResponseServiceClassCloudKmsKeyLegacy:
+		*s = CreateKeyResponseServiceClassCloudKmsKeyLegacy
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// - `active` - 有効
+// - `restricted` - 制限付き
+// - `suspended` - 一時停止
+// - `pending_destruction` - 削除保留
+// - `destroyed` - 削除済み
+type CreateKeyResponseStatus string
+
+const (
+	CreateKeyResponseStatusActive             CreateKeyResponseStatus = "active"
+	CreateKeyResponseStatusRestricted         CreateKeyResponseStatus = "restricted"
+	CreateKeyResponseStatusSuspended          CreateKeyResponseStatus = "suspended"
+	CreateKeyResponseStatusPendingDestruction CreateKeyResponseStatus = "pending_destruction"
+	CreateKeyResponseStatusDestroyed          CreateKeyResponseStatus = "destroyed"
+)
+
+// AllValues returns all CreateKeyResponseStatus values.
+func (CreateKeyResponseStatus) AllValues() []CreateKeyResponseStatus {
+	return []CreateKeyResponseStatus{
+		CreateKeyResponseStatusActive,
+		CreateKeyResponseStatusRestricted,
+		CreateKeyResponseStatusSuspended,
+		CreateKeyResponseStatusPendingDestruction,
+		CreateKeyResponseStatusDestroyed,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateKeyResponseStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateKeyResponseStatusActive:
+		return []byte(s), nil
+	case CreateKeyResponseStatusRestricted:
+		return []byte(s), nil
+	case CreateKeyResponseStatusSuspended:
+		return []byte(s), nil
+	case CreateKeyResponseStatusPendingDestruction:
+		return []byte(s), nil
+	case CreateKeyResponseStatusDestroyed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateKeyResponseStatus) UnmarshalText(data []byte) error {
+	switch CreateKeyResponseStatus(data) {
+	case CreateKeyResponseStatusActive:
+		*s = CreateKeyResponseStatusActive
+		return nil
+	case CreateKeyResponseStatusRestricted:
+		*s = CreateKeyResponseStatusRestricted
+		return nil
+	case CreateKeyResponseStatusSuspended:
+		*s = CreateKeyResponseStatusSuspended
+		return nil
+	case CreateKeyResponseStatusPendingDestruction:
+		*s = CreateKeyResponseStatusPendingDestruction
+		return nil
+	case CreateKeyResponseStatusDestroyed:
+		*s = CreateKeyResponseStatusDestroyed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type DateTime string
 
+// Ref: #/components/schemas/DecryptionRequest
+type DecryptionRequest struct {
+	// Base64 エンコードされた暗号文.
+	Cipher string `json:"Cipher"`
+}
+
+// GetCipher returns the value of Cipher.
+func (s *DecryptionRequest) GetCipher() string {
+	return s.Cipher
+}
+
+// SetCipher sets the value of Cipher.
+func (s *DecryptionRequest) SetCipher(val string) {
+	s.Cipher = val
+}
+
+// DeleteKeyNoContent is response for DeleteKey operation.
+type DeleteKeyNoContent struct{}
+
+// Ref: #/components/schemas/EncryptionRequest
+type EncryptionRequest struct {
+	// Base64 エンコードされた平文.
+	Plain string `json:"Plain"`
+	// 暗号化アルゴリズム
+	//
+	//  - `aes-256-gcm` - AES256-GCM（default）
+	//  - `aes-256-cbc` - AES256-CBC
+	//  - `aes-256-kw` - AES256-KW
+	Algo OptEncryptionRequestAlgo `json:"Algo"`
+}
+
+// GetPlain returns the value of Plain.
+func (s *EncryptionRequest) GetPlain() string {
+	return s.Plain
+}
+
+// GetAlgo returns the value of Algo.
+func (s *EncryptionRequest) GetAlgo() OptEncryptionRequestAlgo {
+	return s.Algo
+}
+
+// SetPlain sets the value of Plain.
+func (s *EncryptionRequest) SetPlain(val string) {
+	s.Plain = val
+}
+
+// SetAlgo sets the value of Algo.
+func (s *EncryptionRequest) SetAlgo(val OptEncryptionRequestAlgo) {
+	s.Algo = val
+}
+
+// 暗号化アルゴリズム
+//
+//   - `aes-256-gcm` - AES256-GCM（default）
+//   - `aes-256-cbc` - AES256-CBC
+//   - `aes-256-kw` - AES256-KW
+type EncryptionRequestAlgo string
+
+const (
+	EncryptionRequestAlgoAes256Gcm EncryptionRequestAlgo = "aes-256-gcm"
+	EncryptionRequestAlgoAes256Cbc EncryptionRequestAlgo = "aes-256-cbc"
+	EncryptionRequestAlgoAes256Kw  EncryptionRequestAlgo = "aes-256-kw"
+)
+
+// AllValues returns all EncryptionRequestAlgo values.
+func (EncryptionRequestAlgo) AllValues() []EncryptionRequestAlgo {
+	return []EncryptionRequestAlgo{
+		EncryptionRequestAlgoAes256Gcm,
+		EncryptionRequestAlgoAes256Cbc,
+		EncryptionRequestAlgoAes256Kw,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EncryptionRequestAlgo) MarshalText() ([]byte, error) {
+	switch s {
+	case EncryptionRequestAlgoAes256Gcm:
+		return []byte(s), nil
+	case EncryptionRequestAlgoAes256Cbc:
+		return []byte(s), nil
+	case EncryptionRequestAlgoAes256Kw:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EncryptionRequestAlgo) UnmarshalText(data []byte) error {
+	switch EncryptionRequestAlgo(data) {
+	case EncryptionRequestAlgoAes256Gcm:
+		*s = EncryptionRequestAlgoAes256Gcm
+		return nil
+	case EncryptionRequestAlgoAes256Cbc:
+		*s = EncryptionRequestAlgoAes256Cbc
+		return nil
+	case EncryptionRequestAlgoAes256Kw:
+		*s = EncryptionRequestAlgoAes256Kw
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/Key
 type Key struct {
-	ID            string                 `json:"ID"`
-	CreatedAt     DateTime               `json:"CreatedAt"`
-	ModifiedAt    DateTime               `json:"ModifiedAt"`
-	ServiceClass  OptKeyServiceClassEnum `json:"ServiceClass"`
-	Name          string                 `json:"Name"`
-	Description   string                 `json:"Description"`
-	KeyOrigin     KeyOriginEnum          `json:"KeyOrigin"`
-	LatestVersion OptInt                 `json:"LatestVersion"`
-	Status        KeyStatusEnum          `json:"Status"`
-	Tags          []string               `json:"Tags"`
+	ID         string   `json:"ID"`
+	CreatedAt  DateTime `json:"CreatedAt"`
+	ModifiedAt DateTime `json:"ModifiedAt"`
+	//  - `cloud/kms/key` - 通常
+	//  - `cloud/kms/key/legacy` - レガシー
+	ServiceClass KeyServiceClass `json:"ServiceClass"`
+	Name         string          `json:"Name"`
+	Description  string          `json:"Description"`
+	//  - `generated` - 生成
+	//  - `imported` - インポート
+	KeyOrigin     KeyKeyOrigin `json:"KeyOrigin"`
+	LatestVersion int          `json:"LatestVersion"`
+	//  - `active` - 有効
+	//  - `restricted` - 制限付き
+	//  - `suspended` - 一時停止
+	//  - `pending_destruction` - 削除保留
+	//  - `destroyed` - 削除済み
+	Status KeyStatus `json:"Status"`
+	// この日時以降に削除される予定です.
+	DeletionScheduledAfter OptNilDateTime `json:"DeletionScheduledAfter"`
+	Tags                   []string       `json:"Tags"`
 }
 
 // GetID returns the value of ID.
@@ -229,7 +668,7 @@ func (s *Key) GetModifiedAt() DateTime {
 }
 
 // GetServiceClass returns the value of ServiceClass.
-func (s *Key) GetServiceClass() OptKeyServiceClassEnum {
+func (s *Key) GetServiceClass() KeyServiceClass {
 	return s.ServiceClass
 }
 
@@ -244,18 +683,23 @@ func (s *Key) GetDescription() string {
 }
 
 // GetKeyOrigin returns the value of KeyOrigin.
-func (s *Key) GetKeyOrigin() KeyOriginEnum {
+func (s *Key) GetKeyOrigin() KeyKeyOrigin {
 	return s.KeyOrigin
 }
 
 // GetLatestVersion returns the value of LatestVersion.
-func (s *Key) GetLatestVersion() OptInt {
+func (s *Key) GetLatestVersion() int {
 	return s.LatestVersion
 }
 
 // GetStatus returns the value of Status.
-func (s *Key) GetStatus() KeyStatusEnum {
+func (s *Key) GetStatus() KeyStatus {
 	return s.Status
+}
+
+// GetDeletionScheduledAfter returns the value of DeletionScheduledAfter.
+func (s *Key) GetDeletionScheduledAfter() OptNilDateTime {
+	return s.DeletionScheduledAfter
 }
 
 // GetTags returns the value of Tags.
@@ -279,7 +723,7 @@ func (s *Key) SetModifiedAt(val DateTime) {
 }
 
 // SetServiceClass sets the value of ServiceClass.
-func (s *Key) SetServiceClass(val OptKeyServiceClassEnum) {
+func (s *Key) SetServiceClass(val KeyServiceClass) {
 	s.ServiceClass = val
 }
 
@@ -294,18 +738,23 @@ func (s *Key) SetDescription(val string) {
 }
 
 // SetKeyOrigin sets the value of KeyOrigin.
-func (s *Key) SetKeyOrigin(val KeyOriginEnum) {
+func (s *Key) SetKeyOrigin(val KeyKeyOrigin) {
 	s.KeyOrigin = val
 }
 
 // SetLatestVersion sets the value of LatestVersion.
-func (s *Key) SetLatestVersion(val OptInt) {
+func (s *Key) SetLatestVersion(val int) {
 	s.LatestVersion = val
 }
 
 // SetStatus sets the value of Status.
-func (s *Key) SetStatus(val KeyStatusEnum) {
+func (s *Key) SetStatus(val KeyStatus) {
 	s.Status = val
+}
+
+// SetDeletionScheduledAfter sets the value of DeletionScheduledAfter.
+func (s *Key) SetDeletionScheduledAfter(val OptNilDateTime) {
+	s.DeletionScheduledAfter = val
 }
 
 // SetTags sets the value of Tags.
@@ -315,7 +764,7 @@ func (s *Key) SetTags(val []string) {
 
 // Ref: #/components/schemas/KeyCipher
 type KeyCipher struct {
-	// 暗号化エンドポイントのレスポンス.
+	// Base64 エンコードされた暗号文.
 	Cipher string `json:"Cipher"`
 }
 
@@ -329,36 +778,29 @@ func (s *KeyCipher) SetCipher(val string) {
 	s.Cipher = val
 }
 
-//   - `aes-256-gcm` - AES256-GCMモードでの暗号化(default)
-//   - `aes-256-cbc` - AES256-CBCモードでの暗号化
-//   - `aes-256-kw` - AES256-KWモードでの暗号化
-//
-// Ref: #/components/schemas/KeyEncryptAlgoEnum
-type KeyEncryptAlgoEnum string
+// - `generated` - 生成
+// - `imported` - インポート
+type KeyKeyOrigin string
 
 const (
-	KeyEncryptAlgoEnumAes256Gcm KeyEncryptAlgoEnum = "aes-256-gcm"
-	KeyEncryptAlgoEnumAes256Cbc KeyEncryptAlgoEnum = "aes-256-cbc"
-	KeyEncryptAlgoEnumAes256Kw  KeyEncryptAlgoEnum = "aes-256-kw"
+	KeyKeyOriginGenerated KeyKeyOrigin = "generated"
+	KeyKeyOriginImported  KeyKeyOrigin = "imported"
 )
 
-// AllValues returns all KeyEncryptAlgoEnum values.
-func (KeyEncryptAlgoEnum) AllValues() []KeyEncryptAlgoEnum {
-	return []KeyEncryptAlgoEnum{
-		KeyEncryptAlgoEnumAes256Gcm,
-		KeyEncryptAlgoEnumAes256Cbc,
-		KeyEncryptAlgoEnumAes256Kw,
+// AllValues returns all KeyKeyOrigin values.
+func (KeyKeyOrigin) AllValues() []KeyKeyOrigin {
+	return []KeyKeyOrigin{
+		KeyKeyOriginGenerated,
+		KeyKeyOriginImported,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s KeyEncryptAlgoEnum) MarshalText() ([]byte, error) {
+func (s KeyKeyOrigin) MarshalText() ([]byte, error) {
 	switch s {
-	case KeyEncryptAlgoEnumAes256Gcm:
+	case KeyKeyOriginGenerated:
 		return []byte(s), nil
-	case KeyEncryptAlgoEnumAes256Cbc:
-		return []byte(s), nil
-	case KeyEncryptAlgoEnumAes256Kw:
+	case KeyKeyOriginImported:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -366,61 +808,13 @@ func (s KeyEncryptAlgoEnum) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *KeyEncryptAlgoEnum) UnmarshalText(data []byte) error {
-	switch KeyEncryptAlgoEnum(data) {
-	case KeyEncryptAlgoEnumAes256Gcm:
-		*s = KeyEncryptAlgoEnumAes256Gcm
+func (s *KeyKeyOrigin) UnmarshalText(data []byte) error {
+	switch KeyKeyOrigin(data) {
+	case KeyKeyOriginGenerated:
+		*s = KeyKeyOriginGenerated
 		return nil
-	case KeyEncryptAlgoEnumAes256Cbc:
-		*s = KeyEncryptAlgoEnumAes256Cbc
-		return nil
-	case KeyEncryptAlgoEnumAes256Kw:
-		*s = KeyEncryptAlgoEnumAes256Kw
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-//   - `generated` - 生成
-//   - `imported` - インポート
-//
-// Ref: #/components/schemas/KeyOriginEnum
-type KeyOriginEnum string
-
-const (
-	KeyOriginEnumGenerated KeyOriginEnum = "generated"
-	KeyOriginEnumImported  KeyOriginEnum = "imported"
-)
-
-// AllValues returns all KeyOriginEnum values.
-func (KeyOriginEnum) AllValues() []KeyOriginEnum {
-	return []KeyOriginEnum{
-		KeyOriginEnumGenerated,
-		KeyOriginEnumImported,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s KeyOriginEnum) MarshalText() ([]byte, error) {
-	switch s {
-	case KeyOriginEnumGenerated:
-		return []byte(s), nil
-	case KeyOriginEnumImported:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *KeyOriginEnum) UnmarshalText(data []byte) error {
-	switch KeyOriginEnum(data) {
-	case KeyOriginEnumGenerated:
-		*s = KeyOriginEnumGenerated
-		return nil
-	case KeyOriginEnumImported:
-		*s = KeyOriginEnumImported
+	case KeyKeyOriginImported:
+		*s = KeyKeyOriginImported
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -429,9 +823,8 @@ func (s *KeyOriginEnum) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/KeyPlain
 type KeyPlain struct {
-	// Base64でエンコードされた平文.
-	Plain string                `json:"Plain"`
-	Algo  OptKeyEncryptAlgoEnum `json:"Algo"`
+	// Base64 エンコードされた平文.
+	Plain string `json:"Plain"`
 }
 
 // GetPlain returns the value of Plain.
@@ -439,43 +832,117 @@ func (s *KeyPlain) GetPlain() string {
 	return s.Plain
 }
 
-// GetAlgo returns the value of Algo.
-func (s *KeyPlain) GetAlgo() OptKeyEncryptAlgoEnum {
-	return s.Algo
-}
-
 // SetPlain sets the value of Plain.
 func (s *KeyPlain) SetPlain(val string) {
 	s.Plain = val
 }
 
-// SetAlgo sets the value of Algo.
-func (s *KeyPlain) SetAlgo(val OptKeyEncryptAlgoEnum) {
-	s.Algo = val
+// Ref: #/components/schemas/KeyRequest
+type KeyRequest struct {
+	Name        string            `json:"Name"`
+	Description OptString         `json:"Description"`
+	Tags        OptNilStringArray `json:"Tags"`
 }
 
-// Ref: #/components/schemas/KeyServiceClassEnum
-type KeyServiceClassEnum string
+// GetName returns the value of Name.
+func (s *KeyRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *KeyRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *KeyRequest) GetTags() OptNilStringArray {
+	return s.Tags
+}
+
+// SetName sets the value of Name.
+func (s *KeyRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *KeyRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *KeyRequest) SetTags(val OptNilStringArray) {
+	s.Tags = val
+}
+
+// Ref: #/components/schemas/KeyScheduledDestruction
+type KeyScheduledDestruction struct {
+	//  - `active` - 有効
+	//  - `restricted` - 制限付き
+	//  - `suspended` - 一時停止
+	//  - `pending_destruction` - 削除保留
+	//  - `destroyed` - 削除済み
+	Status                 KeyScheduledDestructionStatus `json:"Status"`
+	DeletionScheduledAfter NilDateTime                   `json:"DeletionScheduledAfter"`
+}
+
+// GetStatus returns the value of Status.
+func (s *KeyScheduledDestruction) GetStatus() KeyScheduledDestructionStatus {
+	return s.Status
+}
+
+// GetDeletionScheduledAfter returns the value of DeletionScheduledAfter.
+func (s *KeyScheduledDestruction) GetDeletionScheduledAfter() NilDateTime {
+	return s.DeletionScheduledAfter
+}
+
+// SetStatus sets the value of Status.
+func (s *KeyScheduledDestruction) SetStatus(val KeyScheduledDestructionStatus) {
+	s.Status = val
+}
+
+// SetDeletionScheduledAfter sets the value of DeletionScheduledAfter.
+func (s *KeyScheduledDestruction) SetDeletionScheduledAfter(val NilDateTime) {
+	s.DeletionScheduledAfter = val
+}
+
+// - `active` - 有効
+// - `restricted` - 制限付き
+// - `suspended` - 一時停止
+// - `pending_destruction` - 削除保留
+// - `destroyed` - 削除済み
+type KeyScheduledDestructionStatus string
 
 const (
-	KeyServiceClassEnumCloudKmsKey       KeyServiceClassEnum = "cloud/kms/key"
-	KeyServiceClassEnumCloudKmsKeyLegacy KeyServiceClassEnum = "cloud/kms/key/legacy"
+	KeyScheduledDestructionStatusActive             KeyScheduledDestructionStatus = "active"
+	KeyScheduledDestructionStatusRestricted         KeyScheduledDestructionStatus = "restricted"
+	KeyScheduledDestructionStatusSuspended          KeyScheduledDestructionStatus = "suspended"
+	KeyScheduledDestructionStatusPendingDestruction KeyScheduledDestructionStatus = "pending_destruction"
+	KeyScheduledDestructionStatusDestroyed          KeyScheduledDestructionStatus = "destroyed"
 )
 
-// AllValues returns all KeyServiceClassEnum values.
-func (KeyServiceClassEnum) AllValues() []KeyServiceClassEnum {
-	return []KeyServiceClassEnum{
-		KeyServiceClassEnumCloudKmsKey,
-		KeyServiceClassEnumCloudKmsKeyLegacy,
+// AllValues returns all KeyScheduledDestructionStatus values.
+func (KeyScheduledDestructionStatus) AllValues() []KeyScheduledDestructionStatus {
+	return []KeyScheduledDestructionStatus{
+		KeyScheduledDestructionStatusActive,
+		KeyScheduledDestructionStatusRestricted,
+		KeyScheduledDestructionStatusSuspended,
+		KeyScheduledDestructionStatusPendingDestruction,
+		KeyScheduledDestructionStatusDestroyed,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s KeyServiceClassEnum) MarshalText() ([]byte, error) {
+func (s KeyScheduledDestructionStatus) MarshalText() ([]byte, error) {
 	switch s {
-	case KeyServiceClassEnumCloudKmsKey:
+	case KeyScheduledDestructionStatusActive:
 		return []byte(s), nil
-	case KeyServiceClassEnumCloudKmsKeyLegacy:
+	case KeyScheduledDestructionStatusRestricted:
+		return []byte(s), nil
+	case KeyScheduledDestructionStatusSuspended:
+		return []byte(s), nil
+	case KeyScheduledDestructionStatusPendingDestruction:
+		return []byte(s), nil
+	case KeyScheduledDestructionStatusDestroyed:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -483,54 +950,51 @@ func (s KeyServiceClassEnum) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *KeyServiceClassEnum) UnmarshalText(data []byte) error {
-	switch KeyServiceClassEnum(data) {
-	case KeyServiceClassEnumCloudKmsKey:
-		*s = KeyServiceClassEnumCloudKmsKey
+func (s *KeyScheduledDestructionStatus) UnmarshalText(data []byte) error {
+	switch KeyScheduledDestructionStatus(data) {
+	case KeyScheduledDestructionStatusActive:
+		*s = KeyScheduledDestructionStatusActive
 		return nil
-	case KeyServiceClassEnumCloudKmsKeyLegacy:
-		*s = KeyServiceClassEnumCloudKmsKeyLegacy
+	case KeyScheduledDestructionStatusRestricted:
+		*s = KeyScheduledDestructionStatusRestricted
+		return nil
+	case KeyScheduledDestructionStatusSuspended:
+		*s = KeyScheduledDestructionStatusSuspended
+		return nil
+	case KeyScheduledDestructionStatusPendingDestruction:
+		*s = KeyScheduledDestructionStatusPendingDestruction
+		return nil
+	case KeyScheduledDestructionStatusDestroyed:
+		*s = KeyScheduledDestructionStatusDestroyed
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-//   - `active` - 有効
-//   - `restricted` - 復号と署名検証にのみ利用可能
-//   - `suspended` - 利用不可
-//   - `pending_destruction` - 削除猶予
-//
-// Ref: #/components/schemas/KeyStatusEnum
-type KeyStatusEnum string
+// - `cloud/kms/key` - 通常
+// - `cloud/kms/key/legacy` - レガシー
+type KeyServiceClass string
 
 const (
-	KeyStatusEnumActive             KeyStatusEnum = "active"
-	KeyStatusEnumRestricted         KeyStatusEnum = "restricted"
-	KeyStatusEnumSuspended          KeyStatusEnum = "suspended"
-	KeyStatusEnumPendingDestruction KeyStatusEnum = "pending_destruction"
+	KeyServiceClassCloudKmsKey       KeyServiceClass = "cloud/kms/key"
+	KeyServiceClassCloudKmsKeyLegacy KeyServiceClass = "cloud/kms/key/legacy"
 )
 
-// AllValues returns all KeyStatusEnum values.
-func (KeyStatusEnum) AllValues() []KeyStatusEnum {
-	return []KeyStatusEnum{
-		KeyStatusEnumActive,
-		KeyStatusEnumRestricted,
-		KeyStatusEnumSuspended,
-		KeyStatusEnumPendingDestruction,
+// AllValues returns all KeyServiceClass values.
+func (KeyServiceClass) AllValues() []KeyServiceClass {
+	return []KeyServiceClass{
+		KeyServiceClassCloudKmsKey,
+		KeyServiceClassCloudKmsKeyLegacy,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s KeyStatusEnum) MarshalText() ([]byte, error) {
+func (s KeyServiceClass) MarshalText() ([]byte, error) {
 	switch s {
-	case KeyStatusEnumActive:
+	case KeyServiceClassCloudKmsKey:
 		return []byte(s), nil
-	case KeyStatusEnumRestricted:
-		return []byte(s), nil
-	case KeyStatusEnumSuspended:
-		return []byte(s), nil
-	case KeyStatusEnumPendingDestruction:
+	case KeyServiceClassCloudKmsKeyLegacy:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -538,71 +1002,163 @@ func (s KeyStatusEnum) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *KeyStatusEnum) UnmarshalText(data []byte) error {
-	switch KeyStatusEnum(data) {
-	case KeyStatusEnumActive:
-		*s = KeyStatusEnumActive
+func (s *KeyServiceClass) UnmarshalText(data []byte) error {
+	switch KeyServiceClass(data) {
+	case KeyServiceClassCloudKmsKey:
+		*s = KeyServiceClassCloudKmsKey
 		return nil
-	case KeyStatusEnumRestricted:
-		*s = KeyStatusEnumRestricted
-		return nil
-	case KeyStatusEnumSuspended:
-		*s = KeyStatusEnumSuspended
-		return nil
-	case KeyStatusEnumPendingDestruction:
-		*s = KeyStatusEnumPendingDestruction
+	case KeyServiceClassCloudKmsKeyLegacy:
+		*s = KeyServiceClassCloudKmsKeyLegacy
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// KmsKeysDestroyNoContent is response for KmsKeysDestroy operation.
-type KmsKeysDestroyNoContent struct{}
+// - `active` - 有効
+// - `restricted` - 制限付き
+// - `suspended` - 一時停止
+// - `pending_destruction` - 削除保留
+// - `destroyed` - 削除済み
+type KeyStatus string
 
-// KmsKeysRotateForbidden is response for KmsKeysRotate operation.
-type KmsKeysRotateForbidden struct{}
+const (
+	KeyStatusActive             KeyStatus = "active"
+	KeyStatusRestricted         KeyStatus = "restricted"
+	KeyStatusSuspended          KeyStatus = "suspended"
+	KeyStatusPendingDestruction KeyStatus = "pending_destruction"
+	KeyStatusDestroyed          KeyStatus = "destroyed"
+)
 
-func (*KmsKeysRotateForbidden) kmsKeysRotateRes() {}
+// AllValues returns all KeyStatus values.
+func (KeyStatus) AllValues() []KeyStatus {
+	return []KeyStatus{
+		KeyStatusActive,
+		KeyStatusRestricted,
+		KeyStatusSuspended,
+		KeyStatusPendingDestruction,
+		KeyStatusDestroyed,
+	}
+}
 
-// KmsKeysScheduleDestructionOK is response for KmsKeysScheduleDestruction operation.
-type KmsKeysScheduleDestructionOK struct{}
+// MarshalText implements encoding.TextMarshaler.
+func (s KeyStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case KeyStatusActive:
+		return []byte(s), nil
+	case KeyStatusRestricted:
+		return []byte(s), nil
+	case KeyStatusSuspended:
+		return []byte(s), nil
+	case KeyStatusPendingDestruction:
+		return []byte(s), nil
+	case KeyStatusDestroyed:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
 
-// KmsKeysStatusOK is response for KmsKeysStatus operation.
-type KmsKeysStatusOK struct{}
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *KeyStatus) UnmarshalText(data []byte) error {
+	switch KeyStatus(data) {
+	case KeyStatusActive:
+		*s = KeyStatusActive
+		return nil
+	case KeyStatusRestricted:
+		*s = KeyStatusRestricted
+		return nil
+	case KeyStatusSuspended:
+		*s = KeyStatusSuspended
+		return nil
+	case KeyStatusPendingDestruction:
+		*s = KeyStatusPendingDestruction
+		return nil
+	case KeyStatusDestroyed:
+		*s = KeyStatusDestroyed
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
-// NewOptChangeKeyStatusStatus returns new OptChangeKeyStatusStatus with value set to v.
-func NewOptChangeKeyStatusStatus(v ChangeKeyStatusStatus) OptChangeKeyStatusStatus {
-	return OptChangeKeyStatusStatus{
+// NewNilDateTime returns new NilDateTime with value set to v.
+func NewNilDateTime(v time.Time) NilDateTime {
+	return NilDateTime{
+		Value: v,
+	}
+}
+
+// NilDateTime is nullable time.Time.
+type NilDateTime struct {
+	Value time.Time
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilDateTime) SetTo(v time.Time) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilDateTime) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilDateTime) SetToNull() {
+	o.Null = true
+	var v time.Time
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilDateTime) Get() (v time.Time, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilDateTime) Or(d time.Time) time.Time {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEncryptionRequestAlgo returns new OptEncryptionRequestAlgo with value set to v.
+func NewOptEncryptionRequestAlgo(v EncryptionRequestAlgo) OptEncryptionRequestAlgo {
+	return OptEncryptionRequestAlgo{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptChangeKeyStatusStatus is optional ChangeKeyStatusStatus.
-type OptChangeKeyStatusStatus struct {
-	Value ChangeKeyStatusStatus
+// OptEncryptionRequestAlgo is optional EncryptionRequestAlgo.
+type OptEncryptionRequestAlgo struct {
+	Value EncryptionRequestAlgo
 	Set   bool
 }
 
-// IsSet returns true if OptChangeKeyStatusStatus was set.
-func (o OptChangeKeyStatusStatus) IsSet() bool { return o.Set }
+// IsSet returns true if OptEncryptionRequestAlgo was set.
+func (o OptEncryptionRequestAlgo) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptChangeKeyStatusStatus) Reset() {
-	var v ChangeKeyStatusStatus
+func (o *OptEncryptionRequestAlgo) Reset() {
+	var v EncryptionRequestAlgo
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptChangeKeyStatusStatus) SetTo(v ChangeKeyStatusStatus) {
+func (o *OptEncryptionRequestAlgo) SetTo(v EncryptionRequestAlgo) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptChangeKeyStatusStatus) Get() (v ChangeKeyStatusStatus, ok bool) {
+func (o OptEncryptionRequestAlgo) Get() (v EncryptionRequestAlgo, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -610,7 +1166,7 @@ func (o OptChangeKeyStatusStatus) Get() (v ChangeKeyStatusStatus, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptChangeKeyStatusStatus) Or(d ChangeKeyStatusStatus) ChangeKeyStatusStatus {
+func (o OptEncryptionRequestAlgo) Or(d EncryptionRequestAlgo) EncryptionRequestAlgo {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -663,38 +1219,60 @@ func (o OptInt) Or(d int) int {
 	return d
 }
 
-// NewOptKeyEncryptAlgoEnum returns new OptKeyEncryptAlgoEnum with value set to v.
-func NewOptKeyEncryptAlgoEnum(v KeyEncryptAlgoEnum) OptKeyEncryptAlgoEnum {
-	return OptKeyEncryptAlgoEnum{
+// NewOptNilDateTime returns new OptNilDateTime with value set to v.
+func NewOptNilDateTime(v time.Time) OptNilDateTime {
+	return OptNilDateTime{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptKeyEncryptAlgoEnum is optional KeyEncryptAlgoEnum.
-type OptKeyEncryptAlgoEnum struct {
-	Value KeyEncryptAlgoEnum
+// OptNilDateTime is optional nullable time.Time.
+type OptNilDateTime struct {
+	Value time.Time
 	Set   bool
+	Null  bool
 }
 
-// IsSet returns true if OptKeyEncryptAlgoEnum was set.
-func (o OptKeyEncryptAlgoEnum) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilDateTime was set.
+func (o OptNilDateTime) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptKeyEncryptAlgoEnum) Reset() {
-	var v KeyEncryptAlgoEnum
+func (o *OptNilDateTime) Reset() {
+	var v time.Time
 	o.Value = v
 	o.Set = false
+	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptKeyEncryptAlgoEnum) SetTo(v KeyEncryptAlgoEnum) {
+func (o *OptNilDateTime) SetTo(v time.Time) {
 	o.Set = true
+	o.Null = false
 	o.Value = v
 }
 
+// IsNull returns true if value is Null.
+func (o OptNilDateTime) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilDateTime) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v time.Time
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilDateTime) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
-func (o OptKeyEncryptAlgoEnum) Get() (v KeyEncryptAlgoEnum, ok bool) {
+func (o OptNilDateTime) Get() (v time.Time, ok bool) {
+	if o.Null {
+		return v, false
+	}
 	if !o.Set {
 		return v, false
 	}
@@ -702,45 +1280,67 @@ func (o OptKeyEncryptAlgoEnum) Get() (v KeyEncryptAlgoEnum, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptKeyEncryptAlgoEnum) Or(d KeyEncryptAlgoEnum) KeyEncryptAlgoEnum {
+func (o OptNilDateTime) Or(d time.Time) time.Time {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptKeyServiceClassEnum returns new OptKeyServiceClassEnum with value set to v.
-func NewOptKeyServiceClassEnum(v KeyServiceClassEnum) OptKeyServiceClassEnum {
-	return OptKeyServiceClassEnum{
+// NewOptNilStringArray returns new OptNilStringArray with value set to v.
+func NewOptNilStringArray(v []string) OptNilStringArray {
+	return OptNilStringArray{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptKeyServiceClassEnum is optional KeyServiceClassEnum.
-type OptKeyServiceClassEnum struct {
-	Value KeyServiceClassEnum
+// OptNilStringArray is optional nullable []string.
+type OptNilStringArray struct {
+	Value []string
 	Set   bool
+	Null  bool
 }
 
-// IsSet returns true if OptKeyServiceClassEnum was set.
-func (o OptKeyServiceClassEnum) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilStringArray was set.
+func (o OptNilStringArray) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptKeyServiceClassEnum) Reset() {
-	var v KeyServiceClassEnum
+func (o *OptNilStringArray) Reset() {
+	var v []string
 	o.Value = v
 	o.Set = false
+	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptKeyServiceClassEnum) SetTo(v KeyServiceClassEnum) {
+func (o *OptNilStringArray) SetTo(v []string) {
 	o.Set = true
+	o.Null = false
 	o.Value = v
 }
 
+// IsNull returns true if value is Null.
+func (o OptNilStringArray) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilStringArray) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v []string
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringArray) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
-func (o OptKeyServiceClassEnum) Get() (v KeyServiceClassEnum, ok bool) {
+func (o OptNilStringArray) Get() (v []string, ok bool) {
+	if o.Null {
+		return v, false
+	}
 	if !o.Set {
 		return v, false
 	}
@@ -748,7 +1348,7 @@ func (o OptKeyServiceClassEnum) Get() (v KeyServiceClassEnum, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptKeyServiceClassEnum) Or(d KeyServiceClassEnum) KeyServiceClassEnum {
+func (o OptNilStringArray) Or(d []string) []string {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -803,10 +1403,11 @@ func (o OptString) Or(d string) string {
 
 // Ref: #/components/schemas/PaginatedKeyList
 type PaginatedKeyList struct {
-	Count int    `json:"Count"`
-	From  OptInt `json:"From"`
-	Total OptInt `json:"Total"`
-	Keys  []Key  `json:"Keys"`
+	Count int   `json:"Count"`
+	From  int   `json:"From"`
+	Total int   `json:"Total"`
+	Keys  []Key `json:"Keys"`
+	IsOk  bool  `json:"is_ok"`
 }
 
 // GetCount returns the value of Count.
@@ -815,12 +1416,12 @@ func (s *PaginatedKeyList) GetCount() int {
 }
 
 // GetFrom returns the value of From.
-func (s *PaginatedKeyList) GetFrom() OptInt {
+func (s *PaginatedKeyList) GetFrom() int {
 	return s.From
 }
 
 // GetTotal returns the value of Total.
-func (s *PaginatedKeyList) GetTotal() OptInt {
+func (s *PaginatedKeyList) GetTotal() int {
 	return s.Total
 }
 
@@ -829,18 +1430,23 @@ func (s *PaginatedKeyList) GetKeys() []Key {
 	return s.Keys
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedKeyList) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetCount sets the value of Count.
 func (s *PaginatedKeyList) SetCount(val int) {
 	s.Count = val
 }
 
 // SetFrom sets the value of From.
-func (s *PaginatedKeyList) SetFrom(val OptInt) {
+func (s *PaginatedKeyList) SetFrom(val int) {
 	s.From = val
 }
 
 // SetTotal sets the value of Total.
-func (s *PaginatedKeyList) SetTotal(val OptInt) {
+func (s *PaginatedKeyList) SetTotal(val int) {
 	s.Total = val
 }
 
@@ -849,56 +1455,144 @@ func (s *PaginatedKeyList) SetKeys(val []Key) {
 	s.Keys = val
 }
 
-// Ref: #/components/schemas/ScheduleDestructionKey
-type ScheduleDestructionKey struct {
-	// 鍵を削除するまでの猶予期間を日数で指定します。
-	// 7日から14日を指定できます。実際に削除されるのはこの予定時刻よりも後ろになります。.
-	PendingDays int `json:"PendingDays"`
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedKeyList) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// 鍵の削除スケジュール設定.
+// Ref: #/components/schemas/ScheduleDestructionKeyRequest
+type ScheduleDestructionKeyRequest struct {
+	// 削除をスケジュールする日数.
+	PendingDays OptInt `json:"PendingDays"`
 }
 
 // GetPendingDays returns the value of PendingDays.
-func (s *ScheduleDestructionKey) GetPendingDays() int {
+func (s *ScheduleDestructionKeyRequest) GetPendingDays() OptInt {
 	return s.PendingDays
 }
 
 // SetPendingDays sets the value of PendingDays.
-func (s *ScheduleDestructionKey) SetPendingDays(val int) {
+func (s *ScheduleDestructionKeyRequest) SetPendingDays(val OptInt) {
 	s.PendingDays = val
 }
 
-// Ref: #/components/schemas/WrappedChangeKeyStatus
-type WrappedChangeKeyStatus struct {
-	Key ChangeKeyStatus `json:"Key"`
+// Ref: #/components/schemas/WrappedChangeKeyState
+type WrappedChangeKeyState struct {
+	Key  ChangeKeyState `json:"Key"`
+	IsOk bool           `json:"is_ok"`
 }
 
 // GetKey returns the value of Key.
-func (s *WrappedChangeKeyStatus) GetKey() ChangeKeyStatus {
+func (s *WrappedChangeKeyState) GetKey() ChangeKeyState {
 	return s.Key
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedChangeKeyState) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetKey sets the value of Key.
-func (s *WrappedChangeKeyStatus) SetKey(val ChangeKeyStatus) {
+func (s *WrappedChangeKeyState) SetKey(val ChangeKeyState) {
 	s.Key = val
 }
 
-// Ref: #/components/schemas/WrappedCreateKey
-type WrappedCreateKey struct {
-	Key CreateKey `json:"Key"`
+// SetIsOk sets the value of IsOk.
+func (s *WrappedChangeKeyState) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedChangeKeyStateRequest
+type WrappedChangeKeyStateRequest struct {
+	Key ChangeKeyStateRequest `json:"Key"`
 }
 
 // GetKey returns the value of Key.
-func (s *WrappedCreateKey) GetKey() CreateKey {
+func (s *WrappedChangeKeyStateRequest) GetKey() ChangeKeyStateRequest {
 	return s.Key
 }
 
 // SetKey sets the value of Key.
-func (s *WrappedCreateKey) SetKey(val CreateKey) {
+func (s *WrappedChangeKeyStateRequest) SetKey(val ChangeKeyStateRequest) {
+	s.Key = val
+}
+
+// Ref: #/components/schemas/WrappedCreateKeyRequest
+type WrappedCreateKeyRequest struct {
+	Key CreateKeyRequest `json:"Key"`
+}
+
+// GetKey returns the value of Key.
+func (s *WrappedCreateKeyRequest) GetKey() CreateKeyRequest {
+	return s.Key
+}
+
+// SetKey sets the value of Key.
+func (s *WrappedCreateKeyRequest) SetKey(val CreateKeyRequest) {
+	s.Key = val
+}
+
+// Ref: #/components/schemas/WrappedCreateKeyResponse
+type WrappedCreateKeyResponse struct {
+	Key  CreateKeyResponse `json:"Key"`
+	IsOk bool              `json:"is_ok"`
+}
+
+// GetKey returns the value of Key.
+func (s *WrappedCreateKeyResponse) GetKey() CreateKeyResponse {
+	return s.Key
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCreateKeyResponse) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetKey sets the value of Key.
+func (s *WrappedCreateKeyResponse) SetKey(val CreateKeyResponse) {
+	s.Key = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCreateKeyResponse) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedDecryptionRequest
+type WrappedDecryptionRequest struct {
+	Key DecryptionRequest `json:"Key"`
+}
+
+// GetKey returns the value of Key.
+func (s *WrappedDecryptionRequest) GetKey() DecryptionRequest {
+	return s.Key
+}
+
+// SetKey sets the value of Key.
+func (s *WrappedDecryptionRequest) SetKey(val DecryptionRequest) {
+	s.Key = val
+}
+
+// Ref: #/components/schemas/WrappedEncryptionRequest
+type WrappedEncryptionRequest struct {
+	Key EncryptionRequest `json:"Key"`
+}
+
+// GetKey returns the value of Key.
+func (s *WrappedEncryptionRequest) GetKey() EncryptionRequest {
+	return s.Key
+}
+
+// SetKey sets the value of Key.
+func (s *WrappedEncryptionRequest) SetKey(val EncryptionRequest) {
 	s.Key = val
 }
 
 // Ref: #/components/schemas/WrappedKey
 type WrappedKey struct {
-	Key Key `json:"Key"`
+	Key  Key  `json:"Key"`
+	IsOk bool `json:"is_ok"`
 }
 
 // GetKey returns the value of Key.
@@ -906,16 +1600,25 @@ func (s *WrappedKey) GetKey() Key {
 	return s.Key
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedKey) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetKey sets the value of Key.
 func (s *WrappedKey) SetKey(val Key) {
 	s.Key = val
 }
 
-func (*WrappedKey) kmsKeysRotateRes() {}
+// SetIsOk sets the value of IsOk.
+func (s *WrappedKey) SetIsOk(val bool) {
+	s.IsOk = val
+}
 
 // Ref: #/components/schemas/WrappedKeyCipher
 type WrappedKeyCipher struct {
-	Key KeyCipher `json:"Key"`
+	Key  KeyCipher `json:"Key"`
+	IsOk bool      `json:"is_ok"`
 }
 
 // GetKey returns the value of Key.
@@ -923,14 +1626,25 @@ func (s *WrappedKeyCipher) GetKey() KeyCipher {
 	return s.Key
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedKeyCipher) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetKey sets the value of Key.
 func (s *WrappedKeyCipher) SetKey(val KeyCipher) {
 	s.Key = val
 }
 
+// SetIsOk sets the value of IsOk.
+func (s *WrappedKeyCipher) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
 // Ref: #/components/schemas/WrappedKeyPlain
 type WrappedKeyPlain struct {
-	Key KeyPlain `json:"Key"`
+	Key  KeyPlain `json:"Key"`
+	IsOk bool     `json:"is_ok"`
 }
 
 // GetKey returns the value of Key.
@@ -938,22 +1652,73 @@ func (s *WrappedKeyPlain) GetKey() KeyPlain {
 	return s.Key
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedKeyPlain) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetKey sets the value of Key.
 func (s *WrappedKeyPlain) SetKey(val KeyPlain) {
 	s.Key = val
 }
 
-// Ref: #/components/schemas/WrappedScheduleDestructionKey
-type WrappedScheduleDestructionKey struct {
-	Key ScheduleDestructionKey `json:"Key"`
+// SetIsOk sets the value of IsOk.
+func (s *WrappedKeyPlain) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedKeyRequest
+type WrappedKeyRequest struct {
+	Key KeyRequest `json:"Key"`
 }
 
 // GetKey returns the value of Key.
-func (s *WrappedScheduleDestructionKey) GetKey() ScheduleDestructionKey {
+func (s *WrappedKeyRequest) GetKey() KeyRequest {
 	return s.Key
 }
 
 // SetKey sets the value of Key.
-func (s *WrappedScheduleDestructionKey) SetKey(val ScheduleDestructionKey) {
+func (s *WrappedKeyRequest) SetKey(val KeyRequest) {
+	s.Key = val
+}
+
+// Ref: #/components/schemas/WrappedKeyScheduledDestruction
+type WrappedKeyScheduledDestruction struct {
+	Key  KeyScheduledDestruction `json:"Key"`
+	IsOk bool                    `json:"is_ok"`
+}
+
+// GetKey returns the value of Key.
+func (s *WrappedKeyScheduledDestruction) GetKey() KeyScheduledDestruction {
+	return s.Key
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedKeyScheduledDestruction) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetKey sets the value of Key.
+func (s *WrappedKeyScheduledDestruction) SetKey(val KeyScheduledDestruction) {
+	s.Key = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedKeyScheduledDestruction) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedScheduleDestructionKeyRequest
+type WrappedScheduleDestructionKeyRequest struct {
+	Key ScheduleDestructionKeyRequest `json:"Key"`
+}
+
+// GetKey returns the value of Key.
+func (s *WrappedScheduleDestructionKeyRequest) GetKey() ScheduleDestructionKeyRequest {
+	return s.Key
+}
+
+// SetKey sets the value of Key.
+func (s *WrappedScheduleDestructionKeyRequest) SetKey(val ScheduleDestructionKeyRequest) {
 	s.Key = val
 }

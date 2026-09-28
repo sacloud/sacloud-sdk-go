@@ -2,37 +2,49 @@
 
 package v1
 
-// SecretmanagerVaultsDestroyParams is parameters of secretmanager_vaults_destroy operation.
-type SecretmanagerVaultsDestroyParams struct {
+// CreateVaultSecretParams is parameters of createVaultSecret operation.
+type CreateVaultSecretParams struct {
+	VaultResourceID string
+}
+
+// DeleteVaultParams is parameters of deleteVault operation.
+type DeleteVaultParams struct {
 	ResourceID string
 }
 
-// SecretmanagerVaultsRetrieveParams is parameters of secretmanager_vaults_retrieve operation.
-type SecretmanagerVaultsRetrieveParams struct {
+// DeleteVaultSecretParams is parameters of deleteVaultSecret operation.
+type DeleteVaultSecretParams struct {
+	VaultResourceID string
+}
+
+// ListVaultSecretsParams is parameters of listVaultSecrets operation.
+type ListVaultSecretsParams struct {
+	// Number of results to return per page.
+	Count OptInt `json:",omitempty,omitzero"`
+	// The initial index from which to return the results.
+	From            OptInt `json:",omitempty,omitzero"`
+	VaultResourceID string
+}
+
+// ListVaultsParams is parameters of listVaults operation.
+type ListVaultsParams struct {
+	// Number of results to return per page.
+	Count OptInt `json:",omitempty,omitzero"`
+	// The initial index from which to return the results.
+	From OptInt `json:",omitempty,omitzero"`
+}
+
+// ReadVaultParams is parameters of readVault operation.
+type ReadVaultParams struct {
 	ResourceID string
 }
 
-// SecretmanagerVaultsSecretsCreateParams is parameters of secretmanager_vaults_secrets_create operation.
-type SecretmanagerVaultsSecretsCreateParams struct {
+// UnveilSecretParams is parameters of unveilSecret operation.
+type UnveilSecretParams struct {
 	VaultResourceID string
 }
 
-// SecretmanagerVaultsSecretsDestroyParams is parameters of secretmanager_vaults_secrets_destroy operation.
-type SecretmanagerVaultsSecretsDestroyParams struct {
-	VaultResourceID string
-}
-
-// SecretmanagerVaultsSecretsListParams is parameters of secretmanager_vaults_secrets_list operation.
-type SecretmanagerVaultsSecretsListParams struct {
-	VaultResourceID string
-}
-
-// SecretmanagerVaultsSecretsUnveilParams is parameters of secretmanager_vaults_secrets_unveil operation.
-type SecretmanagerVaultsSecretsUnveilParams struct {
-	VaultResourceID string
-}
-
-// SecretmanagerVaultsUpdateParams is parameters of secretmanager_vaults_update operation.
-type SecretmanagerVaultsUpdateParams struct {
+// UpdateVaultParams is parameters of updateVault operation.
+type UpdateVaultParams struct {
 	ResourceID string
 }

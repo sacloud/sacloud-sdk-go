@@ -6,13 +6,13 @@ package v1
 type OperationName = string
 
 const (
-	SecretmanagerVaultsCreateOperation         OperationName = "SecretmanagerVaultsCreate"
-	SecretmanagerVaultsDestroyOperation        OperationName = "SecretmanagerVaultsDestroy"
-	SecretmanagerVaultsListOperation           OperationName = "SecretmanagerVaultsList"
-	SecretmanagerVaultsRetrieveOperation       OperationName = "SecretmanagerVaultsRetrieve"
-	SecretmanagerVaultsSecretsCreateOperation  OperationName = "SecretmanagerVaultsSecretsCreate"
-	SecretmanagerVaultsSecretsDestroyOperation OperationName = "SecretmanagerVaultsSecretsDestroy"
-	SecretmanagerVaultsSecretsListOperation    OperationName = "SecretmanagerVaultsSecretsList"
-	SecretmanagerVaultsSecretsUnveilOperation  OperationName = "SecretmanagerVaultsSecretsUnveil"
-	SecretmanagerVaultsUpdateOperation         OperationName = "SecretmanagerVaultsUpdate"
+	CreateVaultOperation       OperationName = "CreateVault"
+	CreateVaultSecretOperation OperationName = "CreateVaultSecret"
+	DeleteVaultOperation       OperationName = "DeleteVault"
+	DeleteVaultSecretOperation OperationName = "DeleteVaultSecret"
+	ListVaultSecretsOperation  OperationName = "ListVaultSecrets"
+	ListVaultsOperation        OperationName = "ListVaults"
+	ReadVaultOperation         OperationName = "ReadVault"
+	UnveilSecretOperation      OperationName = "UnveilSecret"
+	UpdateVaultOperation       OperationName = "UpdateVault"
 )

@@ -6,14 +6,14 @@ package v1
 type OperationName = string
 
 const (
-	KmsKeysCreateOperation              OperationName = "KmsKeysCreate"
-	KmsKeysDecryptOperation             OperationName = "KmsKeysDecrypt"
-	KmsKeysDestroyOperation             OperationName = "KmsKeysDestroy"
-	KmsKeysEncryptOperation             OperationName = "KmsKeysEncrypt"
-	KmsKeysListOperation                OperationName = "KmsKeysList"
-	KmsKeysRetrieveOperation            OperationName = "KmsKeysRetrieve"
-	KmsKeysRotateOperation              OperationName = "KmsKeysRotate"
-	KmsKeysScheduleDestructionOperation OperationName = "KmsKeysScheduleDestruction"
-	KmsKeysStatusOperation              OperationName = "KmsKeysStatus"
-	KmsKeysUpdateOperation              OperationName = "KmsKeysUpdate"
+	ChangeKeyStatusOperation        OperationName = "ChangeKeyStatus"
+	CreateKeyOperation              OperationName = "CreateKey"
+	DecryptDataWithKeyOperation     OperationName = "DecryptDataWithKey"
+	DeleteKeyOperation              OperationName = "DeleteKey"
+	EncryptDataWithKeyOperation     OperationName = "EncryptDataWithKey"
+	ListKeysOperation               OperationName = "ListKeys"
+	ReadKeyOperation                OperationName = "ReadKey"
+	RotateKeyOperation              OperationName = "RotateKey"
+	ScheduleKeyDestructionOperation OperationName = "ScheduleKeyDestruction"
+	UpdateKeyOperation              OperationName = "UpdateKey"
 )

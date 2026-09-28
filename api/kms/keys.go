@@ -20,20 +20,21 @@ import (
 	"errors"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/kms/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type KeyAPI interface {
-	List(ctx context.Context) ([]v1.Key, error)
+	List(ctx context.Context, count, from *int) ([]v1.Key, error)
 	Read(ctx context.Context, id string) (*v1.Key, error)
-	Create(ctx context.Context, request v1.CreateKey) (*v1.CreateKey, error)
-	Update(ctx context.Context, id string, request v1.Key) (*v1.Key, error)
+	Create(ctx context.Context, request CreateParams) (*v1.CreateKeyResponse, error)
+	Update(ctx context.Context, id string, request UpdateParams) (*v1.Key, error)
 	Delete(ctx context.Context, id string) error
 
 	Rotate(ctx context.Context, id string) (*v1.Key, error)
-	ChangeStatus(ctx context.Context, id string, status v1.ChangeKeyStatusStatus) error
-	ScheduleDestruction(ctx context.Context, id string, pendingDays int) error
+	ChangeStatus(ctx context.Context, id string, status v1.ChangeKeyStateRequestStatus) (v1.ChangeKeyStateStatus, error)
+	ScheduleDestruction(ctx context.Context, id string, pendingDays int) (v1.KeyScheduledDestruction, error)
 
-	Encrypt(ctx context.Context, id string, plain []byte, algo v1.KeyEncryptAlgoEnum) (string, error)
+	Encrypt(ctx context.Context, id string, plain []byte, algo v1.EncryptionRequestAlgo) (string, error)
 	Decrypt(ctx context.Context, id, cipher string) ([]byte, error)
 }
 
@@ -47,8 +48,11 @@ func NewKeyOp(client *v1.Client) KeyAPI {
 	return &keyOp{client: client}
 }
 
-func (op *keyOp) List(ctx context.Context) ([]v1.Key, error) {
-	res, err := op.client.KmsKeysList(ctx)
+func (op *keyOp) List(ctx context.Context, count, from *int) ([]v1.Key, error) {
+	res, err := op.client.ListKeys(ctx, v1.ListKeysParams{
+		Count: into.Opt[v1.OptInt](count),
+		From:  into.Opt[v1.OptInt](from),
+	})
 	if err != nil {
 		return nil, createAPIError("Key.List", err)
 	}
@@ -56,27 +60,45 @@ func (op *keyOp) List(ctx context.Context) ([]v1.Key, error) {
 }
 
 func (op *keyOp) Read(ctx context.Context, id string) (*v1.Key, error) {
-	res, err := op.client.KmsKeysRetrieve(ctx, v1.KmsKeysRetrieveParams{ResourceID: id})
+	res, err := op.client.ReadKey(ctx, v1.ReadKeyParams{ResourceID: id})
 	if err != nil {
 		return nil, createAPIError("Key.Read", err)
 	}
 	return &res.Key, nil
 }
 
-func (op *keyOp) Create(ctx context.Context, request v1.CreateKey) (*v1.CreateKey, error) {
-	res, err := op.client.KmsKeysCreate(ctx, &v1.WrappedCreateKey{
-		Key: request,
-	})
+type CreateParams struct {
+	Name        string
+	Description *string
+	Tags        []string
+	PlainKey    *string
+}
+
+func (op *keyOp) Create(ctx context.Context, request CreateParams) (*v1.CreateKeyResponse, error) {
+	res, err := op.client.CreateKey(ctx, &v1.WrappedCreateKeyRequest{Key: v1.CreateKeyRequest{
+		Name:        request.Name,
+		Description: into.Opt[v1.OptString](request.Description),
+		Tags:        into.OptNilArray[v1.OptNilStringArray](&request.Tags),
+		PlainKey:    into.Opt[v1.OptString](request.PlainKey),
+	}})
 	if err != nil {
 		return nil, createAPIError("Key.Create", err)
 	}
 	return &res.Key, nil
 }
 
-func (op *keyOp) Update(ctx context.Context, id string, request v1.Key) (*v1.Key, error) {
-	res, err := op.client.KmsKeysUpdate(ctx, &v1.WrappedKey{
-		Key: request,
-	}, v1.KmsKeysUpdateParams{ResourceID: id})
+type UpdateParams struct {
+	Name        string
+	Description *string
+	Tags        []string
+}
+
+func (op *keyOp) Update(ctx context.Context, id string, request UpdateParams) (*v1.Key, error) {
+	res, err := op.client.UpdateKey(ctx, &v1.WrappedKeyRequest{Key: v1.KeyRequest{
+		Name:        request.Name,
+		Description: into.Opt[v1.OptString](request.Description),
+		Tags:        into.OptNilArray[v1.OptNilStringArray](&request.Tags),
+	}}, v1.UpdateKeyParams{ResourceID: id})
 	if err != nil {
 		return nil, createAPIError("Key.Update", err)
 	}
@@ -84,7 +106,7 @@ func (op *keyOp) Update(ctx context.Context, id string, request v1.Key) (*v1.Key
 }
 
 func (op *keyOp) Delete(ctx context.Context, id string) error {
-	err := op.client.KmsKeysDestroy(ctx, v1.KmsKeysDestroyParams{ResourceID: id})
+	err := op.client.DeleteKey(ctx, v1.DeleteKeyParams{ResourceID: id})
 	if err != nil {
 		return createAPIError("Key.Delete", err)
 	}
@@ -92,50 +114,48 @@ func (op *keyOp) Delete(ctx context.Context, id string) error {
 }
 
 func (op *keyOp) Rotate(ctx context.Context, id string) (*v1.Key, error) {
-	res, err := op.client.KmsKeysRotate(ctx, v1.KmsKeysRotateParams{ResourceID: id})
+	res, err := op.client.RotateKey(ctx, v1.RotateKeyParams{ResourceID: id})
 	if err != nil {
 		return nil, createAPIError("Key.Rotate", err)
 	}
 
-	switch p := res.(type) {
+	switch p := any(res).(type) {
 	case *v1.WrappedKey:
 		return &p.Key, nil
-	case *v1.KmsKeysRotateForbidden:
-		return nil, NewAPIError("Key.Rotate", 403, errors.New("forbidden - Key is not available for rotation"))
 	default:
 		return nil, NewAPIError("Key.Rotate", 0, nil)
 	}
 }
 
-func (op *keyOp) ChangeStatus(ctx context.Context, id string, status v1.ChangeKeyStatusStatus) error {
-	err := op.client.KmsKeysStatus(ctx, &v1.WrappedChangeKeyStatus{
-		Key: v1.ChangeKeyStatus{Status: v1.NewOptChangeKeyStatusStatus(status)},
-	}, v1.KmsKeysStatusParams{ResourceID: id})
+func (op *keyOp) ChangeStatus(ctx context.Context, id string, status v1.ChangeKeyStateRequestStatus) (v1.ChangeKeyStateStatus, error) {
+	state, err := op.client.ChangeKeyStatus(ctx, &v1.WrappedChangeKeyStateRequest{Key: v1.ChangeKeyStateRequest{Status: status}}, v1.ChangeKeyStatusParams{ResourceID: id})
 	if err != nil {
-		return createAPIError("Key.ChangeStatus", err)
+		return "", createAPIError("Key.ChangeStatus", err)
 	}
-	return nil
+	return state.GetKey().Status, nil
 }
 
-func (op *keyOp) ScheduleDestruction(ctx context.Context, id string, pendingDays int) error {
+func (op *keyOp) ScheduleDestruction(ctx context.Context, id string, pendingDays int) (v1.KeyScheduledDestruction, error) {
+	var zero v1.KeyScheduledDestruction
+
 	if pendingDays < 7 || pendingDays > 90 {
-		return NewError("Key.ScheduleDestruction", errors.New("pending days must be between 7 and 90 days"))
+		return zero, NewError("Key.ScheduleDestruction", errors.New("pending days must be between 7 and 90 days"))
 	}
 
-	err := op.client.KmsKeysScheduleDestruction(ctx, &v1.WrappedScheduleDestructionKey{
-		Key: v1.ScheduleDestructionKey{PendingDays: pendingDays},
-	}, v1.KmsKeysScheduleDestructionParams{ResourceID: id})
+	status, err := op.client.ScheduleKeyDestruction(ctx, &v1.WrappedScheduleDestructionKeyRequest{
+		Key: v1.ScheduleDestructionKeyRequest{PendingDays: v1.NewOptInt(pendingDays)},
+	}, v1.ScheduleKeyDestructionParams{ResourceID: id})
 	if err != nil {
-		return createAPIError("Key.ScheduleDestruction", err)
+		return zero, createAPIError("Key.ScheduleDestruction", err)
 	}
-	return nil
+	return status.GetKey(), nil
 }
 
-func (op *keyOp) Encrypt(ctx context.Context, id string, plain []byte, algo v1.KeyEncryptAlgoEnum) (string, error) {
+func (op *keyOp) Encrypt(ctx context.Context, id string, plain []byte, algo v1.EncryptionRequestAlgo) (string, error) {
 	// APIドキュメントではAlgoはRequiredになっていないが、実際にはwriteOnlyの必須フィールドとなっている
-	res, err := op.client.KmsKeysEncrypt(ctx, &v1.WrappedKeyPlain{
-		Key: v1.KeyPlain{Plain: base64.StdEncoding.EncodeToString(plain), Algo: v1.NewOptKeyEncryptAlgoEnum(algo)},
-	}, v1.KmsKeysEncryptParams{ResourceID: id})
+	res, err := op.client.EncryptDataWithKey(ctx, &v1.WrappedEncryptionRequest{
+		Key: v1.EncryptionRequest{Plain: base64.StdEncoding.EncodeToString(plain), Algo: v1.NewOptEncryptionRequestAlgo(algo)},
+	}, v1.EncryptDataWithKeyParams{ResourceID: id})
 	if err != nil {
 		return "", createAPIError("Key.Encrypt", err)
 	}
@@ -143,7 +163,7 @@ func (op *keyOp) Encrypt(ctx context.Context, id string, plain []byte, algo v1.K
 }
 
 func (op *keyOp) Decrypt(ctx context.Context, id, cipher string) ([]byte, error) {
-	res, err := op.client.KmsKeysDecrypt(ctx, &v1.WrappedKeyCipher{Key: v1.KeyCipher{Cipher: cipher}}, v1.KmsKeysDecryptParams{ResourceID: id})
+	res, err := op.client.DecryptDataWithKey(ctx, &v1.WrappedDecryptionRequest{Key: v1.DecryptionRequest{Cipher: cipher}}, v1.DecryptDataWithKeyParams{ResourceID: id})
 	if err != nil {
 		return nil, createAPIError("Key.Decrypt", err)
 	}

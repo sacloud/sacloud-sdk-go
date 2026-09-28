@@ -17,17 +17,19 @@ package cloudhsm
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/go-faster/errors"
 	ogen "github.com/ogen-go/ogen/validate"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/cloudhsm/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type ClientAPI interface {
-	List(ctx context.Context) ([]v1.CloudHSMClient, error)
+	List(ctx context.Context, count, from *int) ([]v1.CloudHSMClient, error)
 	Create(ctx context.Context, request CloudHSMClientCreateParams) (*v1.CloudHSMClient, error)
 	Read(ctx context.Context, id string) (*v1.CloudHSMClient, error)
-	Update(ctx context.Context, id string, params CloudHSMClientUpdateParams) (*v1.CloudHSMClient, error)
+	Update(ctx context.Context, id string, name string) (*v1.CloudHSMClient, error)
 	Delete(ctx context.Context, id string) error
 }
 
@@ -39,7 +41,7 @@ type ClientOp struct {
 }
 
 func NewClientOp(client *v1.Client, hsm *v1.CloudHSM) (ClientAPI, error) {
-	if hsm.GetAvailability() == v1.AvailabilityEnumAvailable {
+	if hsm.GetAvailability() == v1.CloudHSMAvailabilityAvailable {
 		return &ClientOp{
 			client: client,
 			hsm:    hsm,
@@ -48,11 +50,13 @@ func NewClientOp(client *v1.Client, hsm *v1.CloudHSM) (ClientAPI, error) {
 	return nil, errors.New("CloudHSM unavailable")
 }
 
-func (op *ClientOp) List(ctx context.Context) ([]v1.CloudHSMClient, error) {
-	resp, err := op.client.CloudhsmCloudhsmsClientsList(
+func (op *ClientOp) List(ctx context.Context, count, from *int) ([]v1.CloudHSMClient, error) {
+	resp, err := op.client.ListCloudHSMClients(
 		ctx,
-		v1.CloudhsmCloudhsmsClientsListParams{
+		v1.ListCloudHSMClientsParams{
 			CloudhsmResourceID: op.hsm.GetID(),
+			Count:              into.Opt[v1.OptInt](count),
+			From:               into.Opt[v1.OptInt](from),
 		},
 	)
 
@@ -70,17 +74,18 @@ type CloudHSMClientCreateParams struct {
 	Certificate string
 }
 
+var epoc = v1.DateTime(time.Unix(0, 0).Format(time.RFC3339))
+
 func (op *ClientOp) Create(ctx context.Context, p CloudHSMClientCreateParams) (*v1.CloudHSMClient, error) {
-	resp, err := op.client.CloudhsmCloudhsmsClientsCreate(
+	resp, err := op.client.CreateCloudHSMClient(
 		ctx,
-		&v1.WrappedCreateCloudHSMClient{
-			Client: v1.CreateCloudHSMClient{
-				Name:         p.Name,
-				Certificate:  p.Certificate,
-				Availability: v1.AvailabilityEnumPrecreate,
+		&v1.WrappedCreateCloudHSMClientRequest{
+			Client: v1.CreateCloudHSMClientRequest{
+				Name:        p.Name,
+				Certificate: p.Certificate,
 			},
 		},
-		v1.CloudhsmCloudhsmsClientsCreateParams{
+		v1.CreateCloudHSMClientParams{
 			CloudhsmResourceID: op.hsm.GetID(),
 		},
 	)
@@ -89,10 +94,10 @@ func (op *ClientOp) Create(ctx context.Context, p CloudHSMClientCreateParams) (*
 		c := resp.GetClient()
 		// Convert v1.CreateCloudHSMClient to v1.CloudHSMClient
 		client := v1.CloudHSMClient{
-			ID:           c.ID,
-			CreatedAt:    c.CreatedAt,
-			ModifiedAt:   c.ModifiedAt,
-			Availability: c.Availability,
+			ID:           c.GetID().Or(""),
+			CreatedAt:    c.GetCreatedAt().Or(epoc),
+			ModifiedAt:   c.GetModifiedAt().Or(epoc),
+			Availability: v1.CloudHSMClientAvailability(c.GetAvailability().Or(v1.CreateCloudHSMClientAvailabilityPrecreate)),
 			Name:         c.Name,
 			Certificate:  c.Certificate,
 		}
@@ -107,9 +112,9 @@ func (op *ClientOp) Create(ctx context.Context, p CloudHSMClientCreateParams) (*
 }
 
 func (op *ClientOp) Read(ctx context.Context, id string) (*v1.CloudHSMClient, error) {
-	resp, err := op.client.CloudhsmCloudhsmsClientsRetrieve(
+	resp, err := op.client.ReadCloudHSMClient(
 		ctx,
-		v1.CloudhsmCloudhsmsClientsRetrieveParams{
+		v1.ReadCloudHSMClientParams{
 			CloudhsmResourceID: op.hsm.GetID(),
 			ID:                 id,
 		},
@@ -127,22 +132,15 @@ func (op *ClientOp) Read(ctx context.Context, id string) (*v1.CloudHSMClient, er
 	}
 }
 
-type CloudHSMClientUpdateParams struct {
-	Name string
-}
-
-func (op *ClientOp) Update(ctx context.Context, id string, p CloudHSMClientUpdateParams) (*v1.CloudHSMClient, error) {
-	resp, err := op.client.CloudhsmCloudhsmsClientsUpdate(
+func (op *ClientOp) Update(ctx context.Context, id string, p string) (*v1.CloudHSMClient, error) {
+	resp, err := op.client.UpdateCloudHSMClient(
 		ctx,
-		&v1.WrappedCloudHSMClient{
-			Client: v1.CloudHSMClient{
-				Name: p.Name,
-
-				// This cannot be updated but zero is invalid...
-				Availability: v1.AvailabilityEnumAvailable,
+		&v1.WrappedCloudHSMClientRequest{
+			Client: v1.CloudHSMClientRequest{
+				Name: p,
 			},
 		},
-		v1.CloudhsmCloudhsmsClientsUpdateParams{
+		v1.UpdateCloudHSMClientParams{
 			CloudhsmResourceID: op.hsm.GetID(),
 			ID:                 id,
 		},
@@ -161,9 +159,9 @@ func (op *ClientOp) Update(ctx context.Context, id string, p CloudHSMClientUpdat
 }
 
 func (op *ClientOp) Delete(ctx context.Context, id string) error {
-	err := op.client.CloudhsmCloudhsmsClientsDestroy(
+	err := op.client.DeleteCloudHSMClient(
 		ctx,
-		v1.CloudhsmCloudhsmsClientsDestroyParams{
+		v1.DeleteCloudHSMClientParams{
 			CloudhsmResourceID: op.hsm.GetID(),
 			ID:                 id,
 		},

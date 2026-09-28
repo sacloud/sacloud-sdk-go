@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestChangeKeyStatus_EncodeDecode(t *testing.T) {
-	var typ ChangeKeyStatus
+func TestChangeKeyState_EncodeDecode(t *testing.T) {
+	var typ ChangeKeyState
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -20,11 +20,11 @@ func TestChangeKeyStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ChangeKeyStatus
+	var typ2 ChangeKeyState
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestChangeKeyStatusStatus_EncodeDecode(t *testing.T) {
-	var typ ChangeKeyStatusStatus
+func TestChangeKeyStateRequest_EncodeDecode(t *testing.T) {
+	var typ ChangeKeyStateRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -32,11 +32,11 @@ func TestChangeKeyStatusStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ChangeKeyStatusStatus
+	var typ2 ChangeKeyStateRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateKey_EncodeDecode(t *testing.T) {
-	var typ CreateKey
+func TestChangeKeyStateRequestStatus_EncodeDecode(t *testing.T) {
+	var typ ChangeKeyStateRequestStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -44,7 +44,79 @@ func TestCreateKey_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateKey
+	var typ2 ChangeKeyStateRequestStatus
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestChangeKeyStateStatus_EncodeDecode(t *testing.T) {
+	var typ ChangeKeyStateStatus
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ChangeKeyStateStatus
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateKeyRequest_EncodeDecode(t *testing.T) {
+	var typ CreateKeyRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateKeyRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateKeyResponse_EncodeDecode(t *testing.T) {
+	var typ CreateKeyResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateKeyResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateKeyResponseKeyOrigin_EncodeDecode(t *testing.T) {
+	var typ CreateKeyResponseKeyOrigin
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateKeyResponseKeyOrigin
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateKeyResponseServiceClass_EncodeDecode(t *testing.T) {
+	var typ CreateKeyResponseServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateKeyResponseServiceClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateKeyResponseStatus_EncodeDecode(t *testing.T) {
+	var typ CreateKeyResponseStatus
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateKeyResponseStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestDateTime_EncodeDecode(t *testing.T) {
@@ -57,6 +129,42 @@ func TestDateTime_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 DateTime
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestDecryptionRequest_EncodeDecode(t *testing.T) {
+	var typ DecryptionRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 DecryptionRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestEncryptionRequest_EncodeDecode(t *testing.T) {
+	var typ EncryptionRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 EncryptionRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestEncryptionRequestAlgo_EncodeDecode(t *testing.T) {
+	var typ EncryptionRequestAlgo
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 EncryptionRequestAlgo
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestKey_EncodeDecode(t *testing.T) {
@@ -83,8 +191,8 @@ func TestKeyCipher_EncodeDecode(t *testing.T) {
 	var typ2 KeyCipher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestKeyEncryptAlgoEnum_EncodeDecode(t *testing.T) {
-	var typ KeyEncryptAlgoEnum
+func TestKeyKeyOrigin_EncodeDecode(t *testing.T) {
+	var typ KeyKeyOrigin
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -92,19 +200,7 @@ func TestKeyEncryptAlgoEnum_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 KeyEncryptAlgoEnum
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestKeyOriginEnum_EncodeDecode(t *testing.T) {
-	var typ KeyOriginEnum
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 KeyOriginEnum
+	var typ2 KeyKeyOrigin
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestKeyPlain_EncodeDecode(t *testing.T) {
@@ -119,8 +215,8 @@ func TestKeyPlain_EncodeDecode(t *testing.T) {
 	var typ2 KeyPlain
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestKeyServiceClassEnum_EncodeDecode(t *testing.T) {
-	var typ KeyServiceClassEnum
+func TestKeyRequest_EncodeDecode(t *testing.T) {
+	var typ KeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -128,11 +224,11 @@ func TestKeyServiceClassEnum_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 KeyServiceClassEnum
+	var typ2 KeyRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestKeyStatusEnum_EncodeDecode(t *testing.T) {
-	var typ KeyStatusEnum
+func TestKeyScheduledDestruction_EncodeDecode(t *testing.T) {
+	var typ KeyScheduledDestruction
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -140,7 +236,43 @@ func TestKeyStatusEnum_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 KeyStatusEnum
+	var typ2 KeyScheduledDestruction
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestKeyScheduledDestructionStatus_EncodeDecode(t *testing.T) {
+	var typ KeyScheduledDestructionStatus
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 KeyScheduledDestructionStatus
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestKeyServiceClass_EncodeDecode(t *testing.T) {
+	var typ KeyServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 KeyServiceClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestKeyStatus_EncodeDecode(t *testing.T) {
+	var typ KeyStatus
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 KeyStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestPaginatedKeyList_EncodeDecode(t *testing.T) {
@@ -155,8 +287,8 @@ func TestPaginatedKeyList_EncodeDecode(t *testing.T) {
 	var typ2 PaginatedKeyList
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestScheduleDestructionKey_EncodeDecode(t *testing.T) {
-	var typ ScheduleDestructionKey
+func TestScheduleDestructionKeyRequest_EncodeDecode(t *testing.T) {
+	var typ ScheduleDestructionKeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -164,11 +296,11 @@ func TestScheduleDestructionKey_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ScheduleDestructionKey
+	var typ2 ScheduleDestructionKeyRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestWrappedChangeKeyStatus_EncodeDecode(t *testing.T) {
-	var typ WrappedChangeKeyStatus
+func TestWrappedChangeKeyState_EncodeDecode(t *testing.T) {
+	var typ WrappedChangeKeyState
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -176,11 +308,11 @@ func TestWrappedChangeKeyStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 WrappedChangeKeyStatus
+	var typ2 WrappedChangeKeyState
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestWrappedCreateKey_EncodeDecode(t *testing.T) {
-	var typ WrappedCreateKey
+func TestWrappedChangeKeyStateRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedChangeKeyStateRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -188,7 +320,55 @@ func TestWrappedCreateKey_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 WrappedCreateKey
+	var typ2 WrappedChangeKeyStateRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCreateKeyRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedCreateKeyRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCreateKeyRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedCreateKeyResponse_EncodeDecode(t *testing.T) {
+	var typ WrappedCreateKeyResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedCreateKeyResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedDecryptionRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedDecryptionRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedDecryptionRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedEncryptionRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedEncryptionRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedEncryptionRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestWrappedKey_EncodeDecode(t *testing.T) {
@@ -227,8 +407,8 @@ func TestWrappedKeyPlain_EncodeDecode(t *testing.T) {
 	var typ2 WrappedKeyPlain
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestWrappedScheduleDestructionKey_EncodeDecode(t *testing.T) {
-	var typ WrappedScheduleDestructionKey
+func TestWrappedKeyRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedKeyRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -236,6 +416,30 @@ func TestWrappedScheduleDestructionKey_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 WrappedScheduleDestructionKey
+	var typ2 WrappedKeyRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedKeyScheduledDestruction_EncodeDecode(t *testing.T) {
+	var typ WrappedKeyScheduledDestruction
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedKeyScheduledDestruction
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWrappedScheduleDestructionKeyRequest_EncodeDecode(t *testing.T) {
+	var typ WrappedScheduleDestructionKeyRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WrappedScheduleDestructionKeyRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }

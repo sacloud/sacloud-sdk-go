@@ -37,15 +37,15 @@ func TestCloudHSMClientOp_List(t *testing.T) {
 	assert := require.New(t)
 	expected := v1.PaginatedCloudHSMClientList{
 		Count:   1,
-		From:    v1.NewOptInt(0),
-		Total:   v1.NewOptInt(1),
+		From:    0,
+		Total:   1,
 		Clients: []v1.CloudHSMClient{TemplateCloudHSMClient},
 	}
 	client := newTestClient(expected)
 	api, err := NewClientOp(client, &TemplateCloudHSM)
 	assert.NoError(err)
 	ctx := context.Background()
-	clients, err := api.List(ctx)
+	clients, err := api.List(ctx, nil, nil)
 
 	assert.NoError(err)
 	assert.NotNil(clients)
@@ -121,9 +121,7 @@ func TestCloudHSMClientOp_Update(t *testing.T) {
 	assert.NoError(err)
 	ctx := context.Background()
 
-	res, err := api.Update(ctx, "client-1", CloudHSMClientUpdateParams{
-		Name: "updated-name",
-	})
+	res, err := api.Update(ctx, "client-1", "updated-name")
 	assert.NoError(err)
 	assert.NotNil(res)
 	assert.Equal("updated-name", res.Name)
@@ -138,7 +136,7 @@ func TestCloudHSMClientOp_Update_422(t *testing.T) {
 	assert.NoError(err)
 	ctx := context.Background()
 
-	res, err := api.Update(ctx, "client-1", CloudHSMClientUpdateParams{})
+	res, err := api.Update(ctx, "client-1", "")
 	assert.Nil(res)
 	assert.Error(err)
 	assert.ErrorContains(err, "invalid")
@@ -178,7 +176,7 @@ func TestCloudHSMClientIntegrated(t *testing.T) {
 	hsm, err := NewCloudHSMOp(client).Read(ctx, os.Getenv("SAKURA_CLOUDHSM_ID"))
 	assert.NoError(err)
 	assert.NotNil(hsm)
-	assert.Equal(v1.AvailabilityEnumAvailable, hsm.GetAvailability())
+	assert.Equal(v1.CloudHSMAvailabilityAvailable, hsm.GetAvailability())
 	api, err := NewClientOp(client, hsm)
 	assert.NoError(err)
 
@@ -201,7 +199,7 @@ func TestCloudHSMClientIntegrated(t *testing.T) {
 	})
 
 	// List
-	clients, err := api.List(ctx)
+	clients, err := api.List(ctx, new(10), new(0))
 	assert.NoError(err)
 	assert.NotNil(clients)
 	assert.NotEmpty(clients)

@@ -55,8 +55,6 @@ func main() {
 
 ```golang
 import (
-    "os"
-
     "github.com/sacloud/sacloud-sdk-go/api/cloudhsm"
     "github.com/sacloud/sacloud-sdk-go/common/saclient"
 )
@@ -91,7 +89,7 @@ import (
 
 func Logic(ctx context.Context, client *v1.Client) {
     // 例: ライセンス一覧取得
-    licenses, err := cloudhsm.NewLicenseOp(client).List(ctx)
+    licenses, err := cloudhsm.NewLicenseOp(client).List(ctx, nil, nil)
     if err != nil {
         // エラーハンドリング
     }

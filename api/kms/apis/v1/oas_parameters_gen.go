@@ -2,42 +2,50 @@
 
 package v1
 
-// KmsKeysDecryptParams is parameters of kms_keys_decrypt operation.
-type KmsKeysDecryptParams struct {
+// ChangeKeyStatusParams is parameters of changeKeyStatus operation.
+type ChangeKeyStatusParams struct {
 	ResourceID string
 }
 
-// KmsKeysDestroyParams is parameters of kms_keys_destroy operation.
-type KmsKeysDestroyParams struct {
+// DecryptDataWithKeyParams is parameters of decryptDataWithKey operation.
+type DecryptDataWithKeyParams struct {
 	ResourceID string
 }
 
-// KmsKeysEncryptParams is parameters of kms_keys_encrypt operation.
-type KmsKeysEncryptParams struct {
+// DeleteKeyParams is parameters of deleteKey operation.
+type DeleteKeyParams struct {
 	ResourceID string
 }
 
-// KmsKeysRetrieveParams is parameters of kms_keys_retrieve operation.
-type KmsKeysRetrieveParams struct {
+// EncryptDataWithKeyParams is parameters of encryptDataWithKey operation.
+type EncryptDataWithKeyParams struct {
 	ResourceID string
 }
 
-// KmsKeysRotateParams is parameters of kms_keys_rotate operation.
-type KmsKeysRotateParams struct {
+// ListKeysParams is parameters of listKeys operation.
+type ListKeysParams struct {
+	// Number of results to return per page.
+	Count OptInt `json:",omitempty,omitzero"`
+	// The initial index from which to return the results.
+	From OptInt `json:",omitempty,omitzero"`
+}
+
+// ReadKeyParams is parameters of readKey operation.
+type ReadKeyParams struct {
 	ResourceID string
 }
 
-// KmsKeysScheduleDestructionParams is parameters of kms_keys_schedule_destruction operation.
-type KmsKeysScheduleDestructionParams struct {
+// RotateKeyParams is parameters of rotateKey operation.
+type RotateKeyParams struct {
 	ResourceID string
 }
 
-// KmsKeysStatusParams is parameters of kms_keys_status operation.
-type KmsKeysStatusParams struct {
+// ScheduleKeyDestructionParams is parameters of scheduleKeyDestruction operation.
+type ScheduleKeyDestructionParams struct {
 	ResourceID string
 }
 
-// KmsKeysUpdateParams is parameters of kms_keys_update operation.
-type KmsKeysUpdateParams struct {
+// UpdateKeyParams is parameters of updateKey operation.
+type UpdateKeyParams struct {
 	ResourceID string
 }

@@ -4,11 +4,11 @@ package v1
 
 import (
 	"context"
+	"io"
 	"net/url"
 	"strings"
 
 	"github.com/go-faster/errors"
-
 	"github.com/ogen-go/ogen/conv"
 	ht "github.com/ogen-go/ogen/http"
 	"github.com/ogen-go/ogen/ogenerrors"
@@ -22,42 +22,46 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// SecretmanagerVaultsCreate invokes secretmanager_vaults_create operation.
+	// CreateVault invokes createVault operation.
 	//
 	// POST /secretmanager/vaults
-	SecretmanagerVaultsCreate(ctx context.Context, request *WrappedCreateVault) (*WrappedCreateVault, error)
-	// SecretmanagerVaultsDestroy invokes secretmanager_vaults_destroy operation.
+	CreateVault(ctx context.Context, request *WrappedCreateVaultRequest) (*WrappedCreateVault, error)
+	// CreateVaultSecret invokes createVaultSecret operation.
 	//
-	// DELETE /secretmanager/vaults/{resource_id}
-	SecretmanagerVaultsDestroy(ctx context.Context, params SecretmanagerVaultsDestroyParams) error
-	// SecretmanagerVaultsList invokes secretmanager_vaults_list operation.
-	//
-	// GET /secretmanager/vaults
-	SecretmanagerVaultsList(ctx context.Context) (*PaginatedVaultList, error)
-	// SecretmanagerVaultsRetrieve invokes secretmanager_vaults_retrieve operation.
-	//
-	// GET /secretmanager/vaults/{resource_id}
-	SecretmanagerVaultsRetrieve(ctx context.Context, params SecretmanagerVaultsRetrieveParams) (*WrappedVault, error)
-	// SecretmanagerVaultsSecretsCreate invokes secretmanager_vaults_secrets_create operation.
+	// 新しいバージョンを作成します。シークレット値は最新を含む50世代まで保持され、より古い世代は削除されます。.
 	//
 	// POST /secretmanager/vaults/{vault_resource_id}/secrets
-	SecretmanagerVaultsSecretsCreate(ctx context.Context, request *WrappedCreateSecret, params SecretmanagerVaultsSecretsCreateParams) (*WrappedSecret, error)
-	// SecretmanagerVaultsSecretsDestroy invokes secretmanager_vaults_secrets_destroy operation.
+	CreateVaultSecret(ctx context.Context, request *WrappedCreateSecretRequest, params CreateVaultSecretParams) (*WrappedCreateSecretResponse, error)
+	// DeleteVault invokes deleteVault operation.
+	//
+	// DELETE /secretmanager/vaults/{resource_id}
+	DeleteVault(ctx context.Context, params DeleteVaultParams) error
+	// DeleteVaultSecret invokes deleteVaultSecret operation.
 	//
 	// DELETE /secretmanager/vaults/{vault_resource_id}/secrets
-	SecretmanagerVaultsSecretsDestroy(ctx context.Context, request *WrappedDeleteSecret, params SecretmanagerVaultsSecretsDestroyParams) error
-	// SecretmanagerVaultsSecretsList invokes secretmanager_vaults_secrets_list operation.
+	DeleteVaultSecret(ctx context.Context, request *WrappedDeleteSecretRequest, params DeleteVaultSecretParams) error
+	// ListVaultSecrets invokes listVaultSecrets operation.
 	//
 	// GET /secretmanager/vaults/{vault_resource_id}/secrets
-	SecretmanagerVaultsSecretsList(ctx context.Context, params SecretmanagerVaultsSecretsListParams) (*PaginatedSecretList, error)
-	// SecretmanagerVaultsSecretsUnveil invokes secretmanager_vaults_secrets_unveil operation.
+	ListVaultSecrets(ctx context.Context, params ListVaultSecretsParams) (*PaginatedSecretResponseList, error)
+	// ListVaults invokes listVaults operation.
+	//
+	// GET /secretmanager/vaults
+	ListVaults(ctx context.Context, params ListVaultsParams) (*PaginatedVaultList, error)
+	// ReadVault invokes readVault operation.
+	//
+	// GET /secretmanager/vaults/{resource_id}
+	ReadVault(ctx context.Context, params ReadVaultParams) (*WrappedVault, error)
+	// UnveilSecret invokes unveilSecret operation.
+	//
+	// シークレット値を取得します。取得できるのは最新を含む50世代までです。.
 	//
 	// POST /secretmanager/vaults/{vault_resource_id}/secrets/unveil
-	SecretmanagerVaultsSecretsUnveil(ctx context.Context, request *WrappedUnveil, params SecretmanagerVaultsSecretsUnveilParams) (*WrappedUnveil, error)
-	// SecretmanagerVaultsUpdate invokes secretmanager_vaults_update operation.
+	UnveilSecret(ctx context.Context, request *WrappedUnveilRequest, params UnveilSecretParams) (*WrappedUnveilResponse, error)
+	// UpdateVault invokes updateVault operation.
 	//
 	// PUT /secretmanager/vaults/{resource_id}
-	SecretmanagerVaultsUpdate(ctx context.Context, request *WrappedVault, params SecretmanagerVaultsUpdateParams) (*WrappedVault, error)
+	UpdateVault(ctx context.Context, request *WrappedVaultRequest, params UpdateVaultParams) (*WrappedVault, error)
 }
 
 // Client implements OAS client.
@@ -101,15 +105,15 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// SecretmanagerVaultsCreate invokes secretmanager_vaults_create operation.
+// CreateVault invokes createVault operation.
 //
 // POST /secretmanager/vaults
-func (c *Client) SecretmanagerVaultsCreate(ctx context.Context, request *WrappedCreateVault) (*WrappedCreateVault, error) {
-	res, err := c.sendSecretmanagerVaultsCreate(ctx, request)
+func (c *Client) CreateVault(ctx context.Context, request *WrappedCreateVaultRequest) (*WrappedCreateVault, error) {
+	res, err := c.sendCreateVault(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendSecretmanagerVaultsCreate(ctx context.Context, request *WrappedCreateVault) (res *WrappedCreateVault, err error) {
+func (c *Client) sendCreateVault(ctx context.Context, request *WrappedCreateVaultRequest) (res *WrappedCreateVault, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -129,7 +133,7 @@ func (c *Client) sendSecretmanagerVaultsCreate(ctx context.Context, request *Wra
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSecretmanagerVaultsCreateRequest(request, r); err != nil {
+	if err := encodeCreateVaultRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -138,7 +142,7 @@ func (c *Client) sendSecretmanagerVaultsCreate(ctx context.Context, request *Wra
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsCreateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, CreateVaultOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -170,9 +174,16 @@ func (c *Client) sendSecretmanagerVaultsCreate(ctx context.Context, request *Wra
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeSecretmanagerVaultsCreateResponse(resp)
+	result, err := decodeCreateVaultResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -180,252 +191,17 @@ func (c *Client) sendSecretmanagerVaultsCreate(ctx context.Context, request *Wra
 	return result, nil
 }
 
-// SecretmanagerVaultsDestroy invokes secretmanager_vaults_destroy operation.
+// CreateVaultSecret invokes createVaultSecret operation.
 //
-// DELETE /secretmanager/vaults/{resource_id}
-func (c *Client) SecretmanagerVaultsDestroy(ctx context.Context, params SecretmanagerVaultsDestroyParams) error {
-	_, err := c.sendSecretmanagerVaultsDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendSecretmanagerVaultsDestroy(ctx context.Context, params SecretmanagerVaultsDestroyParams) (res *SecretmanagerVaultsDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/secretmanager/vaults/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsDestroyOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeSecretmanagerVaultsDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// SecretmanagerVaultsList invokes secretmanager_vaults_list operation.
-//
-// GET /secretmanager/vaults
-func (c *Client) SecretmanagerVaultsList(ctx context.Context) (*PaginatedVaultList, error) {
-	res, err := c.sendSecretmanagerVaultsList(ctx)
-	return res, err
-}
-
-func (c *Client) sendSecretmanagerVaultsList(ctx context.Context) (res *PaginatedVaultList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/secretmanager/vaults"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsListOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeSecretmanagerVaultsListResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// SecretmanagerVaultsRetrieve invokes secretmanager_vaults_retrieve operation.
-//
-// GET /secretmanager/vaults/{resource_id}
-func (c *Client) SecretmanagerVaultsRetrieve(ctx context.Context, params SecretmanagerVaultsRetrieveParams) (*WrappedVault, error) {
-	res, err := c.sendSecretmanagerVaultsRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendSecretmanagerVaultsRetrieve(ctx context.Context, params SecretmanagerVaultsRetrieveParams) (res *WrappedVault, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/secretmanager/vaults/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsRetrieveOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeSecretmanagerVaultsRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// SecretmanagerVaultsSecretsCreate invokes secretmanager_vaults_secrets_create operation.
+// 新しいバージョンを作成します。シークレット値は最新を含む50世代まで保持され、より古い世代は削除されます。.
 //
 // POST /secretmanager/vaults/{vault_resource_id}/secrets
-func (c *Client) SecretmanagerVaultsSecretsCreate(ctx context.Context, request *WrappedCreateSecret, params SecretmanagerVaultsSecretsCreateParams) (*WrappedSecret, error) {
-	res, err := c.sendSecretmanagerVaultsSecretsCreate(ctx, request, params)
+func (c *Client) CreateVaultSecret(ctx context.Context, request *WrappedCreateSecretRequest, params CreateVaultSecretParams) (*WrappedCreateSecretResponse, error) {
+	res, err := c.sendCreateVaultSecret(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendSecretmanagerVaultsSecretsCreate(ctx context.Context, request *WrappedCreateSecret, params SecretmanagerVaultsSecretsCreateParams) (res *WrappedSecret, err error) {
+func (c *Client) sendCreateVaultSecret(ctx context.Context, request *WrappedCreateSecretRequest, params CreateVaultSecretParams) (res *WrappedCreateSecretResponse, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -464,7 +240,7 @@ func (c *Client) sendSecretmanagerVaultsSecretsCreate(ctx context.Context, reque
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSecretmanagerVaultsSecretsCreateRequest(request, r); err != nil {
+	if err := encodeCreateVaultSecretRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -473,7 +249,7 @@ func (c *Client) sendSecretmanagerVaultsSecretsCreate(ctx context.Context, reque
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsSecretsCreateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, CreateVaultSecretOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -505,9 +281,16 @@ func (c *Client) sendSecretmanagerVaultsSecretsCreate(ctx context.Context, reque
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeSecretmanagerVaultsSecretsCreateResponse(resp)
+	result, err := decodeCreateVaultSecretResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -515,24 +298,107 @@ func (c *Client) sendSecretmanagerVaultsSecretsCreate(ctx context.Context, reque
 	return result, nil
 }
 
-// SecretmanagerVaultsSecretsDestroy invokes secretmanager_vaults_secrets_destroy operation.
+// DeleteVault invokes deleteVault operation.
 //
-// DELETE /secretmanager/vaults/{vault_resource_id}/secrets
-func (c *Client) SecretmanagerVaultsSecretsDestroy(ctx context.Context, request *WrappedDeleteSecret, params SecretmanagerVaultsSecretsDestroyParams) error {
-	_, err := c.sendSecretmanagerVaultsSecretsDestroy(ctx, request, params)
+// DELETE /secretmanager/vaults/{resource_id}
+func (c *Client) DeleteVault(ctx context.Context, params DeleteVaultParams) error {
+	_, err := c.sendDeleteVault(ctx, params)
 	return err
 }
 
-func (c *Client) sendSecretmanagerVaultsSecretsDestroy(ctx context.Context, request *WrappedDeleteSecret, params SecretmanagerVaultsSecretsDestroyParams) (res *SecretmanagerVaultsSecretsDestroyNoContent, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
+func (c *Client) sendDeleteVault(ctx context.Context, params DeleteVaultParams) (res *DeleteVaultNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/secretmanager/vaults/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
 		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
 	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, DeleteVaultOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteVaultResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteVaultSecret invokes deleteVaultSecret operation.
+//
+// DELETE /secretmanager/vaults/{vault_resource_id}/secrets
+func (c *Client) DeleteVaultSecret(ctx context.Context, request *WrappedDeleteSecretRequest, params DeleteVaultSecretParams) error {
+	_, err := c.sendDeleteVaultSecret(ctx, request, params)
+	return err
+}
+
+func (c *Client) sendDeleteVaultSecret(ctx context.Context, request *WrappedDeleteSecretRequest, params DeleteVaultSecretParams) (res *DeleteVaultSecretNoContent, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -562,7 +428,7 @@ func (c *Client) sendSecretmanagerVaultsSecretsDestroy(ctx context.Context, requ
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSecretmanagerVaultsSecretsDestroyRequest(request, r); err != nil {
+	if err := encodeDeleteVaultSecretRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -571,7 +437,7 @@ func (c *Client) sendSecretmanagerVaultsSecretsDestroy(ctx context.Context, requ
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsSecretsDestroyOperation, r); {
+			switch err := c.securityBasicAuth(ctx, DeleteVaultSecretOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -603,9 +469,16 @@ func (c *Client) sendSecretmanagerVaultsSecretsDestroy(ctx context.Context, requ
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeSecretmanagerVaultsSecretsDestroyResponse(resp)
+	result, err := decodeDeleteVaultSecretResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -613,15 +486,15 @@ func (c *Client) sendSecretmanagerVaultsSecretsDestroy(ctx context.Context, requ
 	return result, nil
 }
 
-// SecretmanagerVaultsSecretsList invokes secretmanager_vaults_secrets_list operation.
+// ListVaultSecrets invokes listVaultSecrets operation.
 //
 // GET /secretmanager/vaults/{vault_resource_id}/secrets
-func (c *Client) SecretmanagerVaultsSecretsList(ctx context.Context, params SecretmanagerVaultsSecretsListParams) (*PaginatedSecretList, error) {
-	res, err := c.sendSecretmanagerVaultsSecretsList(ctx, params)
+func (c *Client) ListVaultSecrets(ctx context.Context, params ListVaultSecretsParams) (*PaginatedSecretResponseList, error) {
+	res, err := c.sendListVaultSecrets(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendSecretmanagerVaultsSecretsList(ctx context.Context, params SecretmanagerVaultsSecretsListParams) (res *PaginatedSecretList, err error) {
+func (c *Client) sendListVaultSecrets(ctx context.Context, params ListVaultSecretsParams) (res *PaginatedSecretResponseList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -647,6 +520,43 @@ func (c *Client) sendSecretmanagerVaultsSecretsList(ctx context.Context, params 
 	pathParts[2] = "/secrets"
 	uri.AddPathParts(u, pathParts[:]...)
 
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "From" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "From",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
@@ -657,7 +567,7 @@ func (c *Client) sendSecretmanagerVaultsSecretsList(ctx context.Context, params 
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsSecretsListOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListVaultSecretsOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -689,9 +599,16 @@ func (c *Client) sendSecretmanagerVaultsSecretsList(ctx context.Context, params 
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeSecretmanagerVaultsSecretsListResponse(resp)
+	result, err := decodeListVaultSecretsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -699,15 +616,229 @@ func (c *Client) sendSecretmanagerVaultsSecretsList(ctx context.Context, params 
 	return result, nil
 }
 
-// SecretmanagerVaultsSecretsUnveil invokes secretmanager_vaults_secrets_unveil operation.
+// ListVaults invokes listVaults operation.
 //
-// POST /secretmanager/vaults/{vault_resource_id}/secrets/unveil
-func (c *Client) SecretmanagerVaultsSecretsUnveil(ctx context.Context, request *WrappedUnveil, params SecretmanagerVaultsSecretsUnveilParams) (*WrappedUnveil, error) {
-	res, err := c.sendSecretmanagerVaultsSecretsUnveil(ctx, request, params)
+// GET /secretmanager/vaults
+func (c *Client) ListVaults(ctx context.Context, params ListVaultsParams) (*PaginatedVaultList, error) {
+	res, err := c.sendListVaults(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendSecretmanagerVaultsSecretsUnveil(ctx context.Context, request *WrappedUnveil, params SecretmanagerVaultsSecretsUnveilParams) (res *WrappedUnveil, err error) {
+func (c *Client) sendListVaults(ctx context.Context, params ListVaultsParams) (res *PaginatedVaultList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/secretmanager/vaults"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "From" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "From",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListVaultsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListVaultsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadVault invokes readVault operation.
+//
+// GET /secretmanager/vaults/{resource_id}
+func (c *Client) ReadVault(ctx context.Context, params ReadVaultParams) (*WrappedVault, error) {
+	res, err := c.sendReadVault(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadVault(ctx context.Context, params ReadVaultParams) (res *WrappedVault, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/secretmanager/vaults/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadVaultOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadVaultResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UnveilSecret invokes unveilSecret operation.
+//
+// シークレット値を取得します。取得できるのは最新を含む50世代までです。.
+//
+// POST /secretmanager/vaults/{vault_resource_id}/secrets/unveil
+func (c *Client) UnveilSecret(ctx context.Context, request *WrappedUnveilRequest, params UnveilSecretParams) (*WrappedUnveilResponse, error) {
+	res, err := c.sendUnveilSecret(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUnveilSecret(ctx context.Context, request *WrappedUnveilRequest, params UnveilSecretParams) (res *WrappedUnveilResponse, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -737,7 +868,7 @@ func (c *Client) sendSecretmanagerVaultsSecretsUnveil(ctx context.Context, reque
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSecretmanagerVaultsSecretsUnveilRequest(request, r); err != nil {
+	if err := encodeUnveilSecretRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -746,7 +877,7 @@ func (c *Client) sendSecretmanagerVaultsSecretsUnveil(ctx context.Context, reque
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsSecretsUnveilOperation, r); {
+			switch err := c.securityBasicAuth(ctx, UnveilSecretOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -778,9 +909,16 @@ func (c *Client) sendSecretmanagerVaultsSecretsUnveil(ctx context.Context, reque
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeSecretmanagerVaultsSecretsUnveilResponse(resp)
+	result, err := decodeUnveilSecretResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -788,15 +926,15 @@ func (c *Client) sendSecretmanagerVaultsSecretsUnveil(ctx context.Context, reque
 	return result, nil
 }
 
-// SecretmanagerVaultsUpdate invokes secretmanager_vaults_update operation.
+// UpdateVault invokes updateVault operation.
 //
 // PUT /secretmanager/vaults/{resource_id}
-func (c *Client) SecretmanagerVaultsUpdate(ctx context.Context, request *WrappedVault, params SecretmanagerVaultsUpdateParams) (*WrappedVault, error) {
-	res, err := c.sendSecretmanagerVaultsUpdate(ctx, request, params)
+func (c *Client) UpdateVault(ctx context.Context, request *WrappedVaultRequest, params UpdateVaultParams) (*WrappedVault, error) {
+	res, err := c.sendUpdateVault(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendSecretmanagerVaultsUpdate(ctx context.Context, request *WrappedVault, params SecretmanagerVaultsUpdateParams) (res *WrappedVault, err error) {
+func (c *Client) sendUpdateVault(ctx context.Context, request *WrappedVaultRequest, params UpdateVaultParams) (res *WrappedVault, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -834,7 +972,7 @@ func (c *Client) sendSecretmanagerVaultsUpdate(ctx context.Context, request *Wra
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSecretmanagerVaultsUpdateRequest(request, r); err != nil {
+	if err := encodeUpdateVaultRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -843,7 +981,7 @@ func (c *Client) sendSecretmanagerVaultsUpdate(ctx context.Context, request *Wra
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, SecretmanagerVaultsUpdateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, UpdateVaultOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -875,9 +1013,16 @@ func (c *Client) sendSecretmanagerVaultsUpdate(ctx context.Context, request *Wra
 	if err != nil {
 		return res, errors.Wrap(err, "do request")
 	}
-	defer resp.Body.Close()
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
 
-	result, err := decodeSecretmanagerVaultsUpdateResponse(resp)
+	result, err := decodeUpdateVaultResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

@@ -22,10 +22,9 @@ func TestKeyAPI(t *testing.T) {
 	ctx := context.Background()
 	keyOp := kms.NewKeyOp(client)
 
-	resCreate, err := keyOp.Create(ctx, v1.CreateKey{
+	resCreate, err := keyOp.Create(ctx, kms.CreateParams{
 		Name:        "key gen from go",
-		Description: v1.NewOptString("key gen from go client"),
-		KeyOrigin:   v1.KeyOriginEnumGenerated,
+		Description: new("key gen from go client"),
 		Tags:        []string{"tag1", "tag2"},
 	})
 	require.NoError(t, err, "failed to create key")
@@ -36,7 +35,7 @@ func TestKeyAPI(t *testing.T) {
 		require.NoError(t, err, "failed to delete key")
 	}()
 
-	resList, err := keyOp.List(ctx)
+	resList, err := keyOp.List(ctx, nil, nil)
 	assert.NoError(t, err, "failed to list keys")
 
 	found := false
@@ -48,21 +47,20 @@ func TestKeyAPI(t *testing.T) {
 	}
 	assert.True(t, found, "created key not found in list")
 
-	updated, err := keyOp.Update(ctx, resCreate.ID, v1.Key{
+	updated, err := keyOp.Update(ctx, resCreate.ID, kms.UpdateParams{
 		Name:        "key gen from go 2",
-		Description: "key gen from go client 2",
-		KeyOrigin:   v1.KeyOriginEnumGenerated,
+		Description: new("key gen from go client 2"),
 		Tags:        []string{"Test"},
 	})
 	assert.NoError(t, err, "failed to update key")
 	assert.Equal(t, "key gen from go 2", updated.Name)
 	assert.Equal(t, "key gen from go client 2", updated.Description)
 	assert.Equal(t, []string{"Test"}, updated.Tags)
-	assert.Equal(t, v1.KeyStatusEnumActive, updated.Status)
-	assert.Equal(t, 0, updated.LatestVersion.Value)
+	assert.Equal(t, v1.KeyStatusActive, updated.Status)
+	assert.Equal(t, 0, updated.LatestVersion)
 
 	plain := []byte("hello world!")
-	cipher, err := keyOp.Encrypt(ctx, resCreate.ID, plain, v1.KeyEncryptAlgoEnumAes256Gcm)
+	cipher, err := keyOp.Encrypt(ctx, resCreate.ID, plain, v1.EncryptionRequestAlgoAes256Gcm)
 	assert.NoError(t, err, "failed to encrypt data")
 
 	decrypted, err := keyOp.Decrypt(ctx, resCreate.ID, cipher)
@@ -71,23 +69,23 @@ func TestKeyAPI(t *testing.T) {
 
 	rotated, err := keyOp.Rotate(ctx, resCreate.ID)
 	assert.NoError(t, err, "failed to rotate key")
-	assert.Equal(t, 1, rotated.LatestVersion.Value)
+	assert.Equal(t, 1, rotated.LatestVersion)
 
-	err = keyOp.ChangeStatus(ctx, resCreate.ID, v1.ChangeKeyStatusStatusSuspended)
+	_, err = keyOp.ChangeStatus(ctx, resCreate.ID, v1.ChangeKeyStateRequestStatusSuspended)
 	assert.NoError(t, err, "failed to change key status")
 
 	read, err := keyOp.Read(ctx, resCreate.ID)
 	assert.NoError(t, err, "failed to read key for Rotate / ChangeStatus")
-	assert.Equal(t, v1.KeyStatusEnumSuspended, read.Status)
-	assert.Equal(t, 1, read.LatestVersion.Value)
+	assert.Equal(t, v1.KeyStatusSuspended, read.Status)
+	assert.Equal(t, 1, read.LatestVersion)
 
-	err = keyOp.ScheduleDestruction(ctx, resCreate.ID, 100)
+	_, err = keyOp.ScheduleDestruction(ctx, resCreate.ID, 100)
 	assert.Error(t, err, "schedule destruction: longer pending days must be an error")
 
-	err = keyOp.ScheduleDestruction(ctx, resCreate.ID, 10)
+	_, err = keyOp.ScheduleDestruction(ctx, resCreate.ID, 10)
 	assert.NoError(t, err, "failed to schedule destruction")
 
 	read, err = keyOp.Read(ctx, resCreate.ID)
 	assert.NoError(t, err, "failed to read key for ScheduleDestruction")
-	assert.Equal(t, v1.KeyStatusEnumPendingDestruction, read.Status)
+	assert.Equal(t, v1.KeyStatusPendingDestruction, read.Status)
 }

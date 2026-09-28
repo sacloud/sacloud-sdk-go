@@ -25,7 +25,7 @@ import (
 )
 
 type CloudHSMAPI interface {
-	List(ctx context.Context) ([]v1.CloudHSM, error)
+	List(ctx context.Context, count, from *int) ([]v1.CloudHSM, error)
 	Create(ctx context.Context, request CloudHSMCreateParams) (*v1.CreateCloudHSM, error)
 	Read(ctx context.Context, id string) (*v1.CloudHSM, error)
 	Update(ctx context.Context, id string, params CloudHSMUpdateParams) (*v1.CloudHSM, error)
@@ -42,37 +42,38 @@ func NewCloudHSMOp(client *v1.Client) CloudHSMAPI {
 	return &CloudHSMOp{client: client}
 }
 
-func (op *CloudHSMOp) List(ctx context.Context) ([]v1.CloudHSM, error) {
-	resp, err := op.client.CloudhsmCloudhsmsList(ctx)
+func (op *CloudHSMOp) List(ctx context.Context, count, from *int) ([]v1.CloudHSM, error) {
+	resp, err := op.client.ListCloudHSMs(
+		ctx,
+		v1.ListCloudHSMsParams{
+			Count: into.Opt[v1.OptInt](count),
+			From:  into.Opt[v1.OptInt](from),
+		},
+	)
 	if err != nil {
 		return nil, NewAPIError("CloudHSM.List", 0, err)
 	}
-	return resp.CloudHSMs, nil
+	return resp.GetCloudHSMs(), nil
 }
 
 type CloudHSMCreateParams struct {
 	Name               string
 	Description        *string
 	Tags               []string
-	Ipv4NetworkAddress string
-	Ipv4PrefixLength   int
+	IPv4NetworkAddress string
+	IPv4PrefixLength   int
 }
 
 func (op *CloudHSMOp) Create(ctx context.Context, p CloudHSMCreateParams) (*v1.CreateCloudHSM, error) {
-	if p.Tags == nil {
-		p.Tags = []string{}
-	}
-	resp, err := op.client.CloudhsmCloudhsmsCreate(
+	resp, err := op.client.CreateCloudHSM(
 		ctx,
-		&v1.WrappedCreateCloudHSM{
-			CloudHSM: v1.CreateCloudHSM{
+		&v1.WrappedCreateCloudHSMRequest{
+			CloudHSM: v1.CreateCloudHSMRequest{
 				Name:               p.Name,
 				Description:        into.Opt[v1.OptString](p.Description),
-				Tags:               p.Tags,
-				Availability:       v1.AvailabilityEnumAvailable,
-				ServiceClass:       v1.ServiceClassEnumCloudCloudhsmPartition,
-				Ipv4NetworkAddress: p.Ipv4NetworkAddress,
-				Ipv4PrefixLength:   p.Ipv4PrefixLength,
+				Tags:               into.OptNilArray[v1.OptNilStringArray](&p.Tags),
+				IPv4NetworkAddress: p.IPv4NetworkAddress,
+				IPv4PrefixLength:   p.IPv4PrefixLength,
 			},
 		},
 	)
@@ -90,9 +91,9 @@ func (op *CloudHSMOp) Create(ctx context.Context, p CloudHSMCreateParams) (*v1.C
 }
 
 func (op *CloudHSMOp) Read(ctx context.Context, id string) (*v1.CloudHSM, error) {
-	resp, err := op.client.CloudhsmCloudhsmsRetrieve(
+	resp, err := op.client.ReadCloudHSM(
 		ctx,
-		v1.CloudhsmCloudhsmsRetrieveParams{
+		v1.ReadCloudHSMParams{
 			ResourceID: id,
 		},
 	)
@@ -113,29 +114,23 @@ type CloudHSMUpdateParams struct {
 	Name               string
 	Description        *string
 	Tags               []string
-	Ipv4NetworkAddress string
-	Ipv4PrefixLength   int
+	IPv4NetworkAddress string
+	IPv4PrefixLength   int
 }
 
 func (op *CloudHSMOp) Update(ctx context.Context, id string, p CloudHSMUpdateParams) (*v1.CloudHSM, error) {
-	if p.Tags == nil {
-		p.Tags = []string{}
-	}
-
-	resp, err := op.client.CloudhsmCloudhsmsUpdate(
+	resp, err := op.client.UpdateCloudHSM(
 		ctx,
-		&v1.WrappedCloudHSM{
-			CloudHSM: v1.CloudHSM{
-				ServiceClass:       v1.ServiceClassEnumCloudCloudhsmPartition,
-				Availability:       v1.AvailabilityEnumAvailable,
+		&v1.WrappedCloudHSMRequest{
+			CloudHSM: v1.CloudHSMRequest{
 				Name:               p.Name,
 				Description:        into.Opt[v1.OptString](p.Description),
-				Tags:               p.Tags,
-				Ipv4NetworkAddress: p.Ipv4NetworkAddress,
-				Ipv4PrefixLength:   p.Ipv4PrefixLength,
+				Tags:               into.OptNilArray[v1.OptNilStringArray](&p.Tags),
+				IPv4NetworkAddress: p.IPv4NetworkAddress,
+				IPv4PrefixLength:   p.IPv4PrefixLength,
 			},
 		},
-		v1.CloudhsmCloudhsmsUpdateParams{
+		v1.UpdateCloudHSMParams{
 			ResourceID: id,
 		},
 	)
@@ -153,9 +148,9 @@ func (op *CloudHSMOp) Update(ctx context.Context, id string, p CloudHSMUpdatePar
 }
 
 func (op *CloudHSMOp) Delete(ctx context.Context, id string) error {
-	err := op.client.CloudhsmCloudhsmsDestroy(
+	err := op.client.DeleteCloudHSM(
 		ctx,
-		v1.CloudhsmCloudhsmsDestroyParams{
+		v1.DeleteCloudHSMParams{
 			ResourceID: id,
 		},
 	)

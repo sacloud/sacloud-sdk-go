@@ -3,7 +3,7 @@
 package v1
 
 // SetFake set fake values.
-func (s *CreateSecret) SetFake() {
+func (s *CreateSecretRequest) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -12,6 +12,15 @@ func (s *CreateSecret) SetFake() {
 	{
 		{
 			s.Value = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateSecretResponse) SetFake() {
+	{
+		{
+			s.Name = "string"
 		}
 	}
 	{
@@ -25,7 +34,7 @@ func (s *CreateSecret) SetFake() {
 func (s *CreateVault) SetFake() {
 	{
 		{
-			s.ID = "string"
+			s.ID.SetFake()
 		}
 	}
 	{
@@ -55,14 +64,31 @@ func (s *CreateVault) SetFake() {
 	}
 	{
 		{
-			s.Tags = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.Tags = append(s.Tags, elem)
-			}
+			s.Tags.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateVaultRequest) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.KmsKeyID = "string"
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
 		}
 	}
 }
@@ -77,25 +103,22 @@ func (s *DateTime) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *DeleteSecret) SetFake() {
+func (s *OptDateTime) SetFake() {
+	var elem DateTime
 	{
-		{
-			s.Name = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OptInt) SetFake() {
-	var elem int
-	{
-		elem = int(0)
+		elem.SetFake()
 	}
 	s.SetTo(elem)
 }
 
 // SetFake set fake values.
 func (s *OptNilInt) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilStringArray) SetFake() {
 	s.Null = true
 	s.Set = true
 }
@@ -110,7 +133,7 @@ func (s *OptString) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PaginatedSecretList) SetFake() {
+func (s *PaginatedSecretResponseList) SetFake() {
 	{
 		{
 			s.Count = int(0)
@@ -118,24 +141,29 @@ func (s *PaginatedSecretList) SetFake() {
 	}
 	{
 		{
-			s.From.SetFake()
+			s.From = int(0)
 		}
 	}
 	{
 		{
-			s.Total.SetFake()
+			s.Total = int(0)
 		}
 	}
 	{
 		{
 			s.Secrets = nil
 			for i := 0; i < 0; i++ {
-				var elem Secret
+				var elem SecretResponse
 				{
 					elem.SetFake()
 				}
 				s.Secrets = append(s.Secrets, elem)
 			}
+		}
+	}
+	{
+		{
+			s.IsOk = true
 		}
 	}
 }
@@ -149,12 +177,12 @@ func (s *PaginatedVaultList) SetFake() {
 	}
 	{
 		{
-			s.From.SetFake()
+			s.From = int(0)
 		}
 	}
 	{
 		{
-			s.Total.SetFake()
+			s.Total = int(0)
 		}
 	}
 	{
@@ -169,10 +197,15 @@ func (s *PaginatedVaultList) SetFake() {
 			}
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *Secret) SetFake() {
+func (s *SecretResponse) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -186,7 +219,7 @@ func (s *Secret) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *Unveil) SetFake() {
+func (s *UnveilRequest) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -195,6 +228,20 @@ func (s *Unveil) SetFake() {
 	{
 		{
 			s.Version.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UnveilResponse) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Version = int(0)
 		}
 	}
 	{
@@ -228,7 +275,7 @@ func (s *Vault) SetFake() {
 	}
 	{
 		{
-			s.Description.SetFake()
+			s.Description = "string"
 		}
 	}
 	{
@@ -251,10 +298,43 @@ func (s *Vault) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *WrappedCreateSecret) SetFake() {
+func (s *VaultRequest) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCreateSecretRequest) SetFake() {
 	{
 		{
 			s.Secret.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCreateSecretResponse) SetFake() {
+	{
+		{
+			s.Secret.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
 		}
 	}
 }
@@ -266,10 +346,24 @@ func (s *WrappedCreateVault) SetFake() {
 			s.Vault.SetFake()
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *WrappedDeleteSecret) SetFake() {
+func (s *WrappedCreateVaultRequest) SetFake() {
+	{
+		{
+			s.Vault.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedDeleteSecretRequest) SetFake() {
 	{
 		{
 			s.Secret.SetFake()
@@ -278,7 +372,16 @@ func (s *WrappedDeleteSecret) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *WrappedSecret) SetFake() {
+func (s *WrappedDeleteSecretRequestSecret) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedUnveilRequest) SetFake() {
 	{
 		{
 			s.Secret.SetFake()
@@ -287,16 +390,35 @@ func (s *WrappedSecret) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *WrappedUnveil) SetFake() {
+func (s *WrappedUnveilResponse) SetFake() {
 	{
 		{
 			s.Secret.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
 		}
 	}
 }
 
 // SetFake set fake values.
 func (s *WrappedVault) SetFake() {
+	{
+		{
+			s.Vault.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedVaultRequest) SetFake() {
 	{
 		{
 			s.Vault.SetFake()

@@ -2,10 +2,9 @@
 
 package v1
 
-// SetFake set fake values.
-func (s *AvailabilityEnum) SetFake() {
-	*s = AvailabilityEnumPrecreate
-}
+import (
+	"net/url"
+)
 
 // SetFake set fake values.
 func (s *CloudHSM) SetFake() {
@@ -41,7 +40,7 @@ func (s *CloudHSM) SetFake() {
 	}
 	{
 		{
-			s.Description.SetFake()
+			s.Description = "string"
 		}
 	}
 	{
@@ -58,17 +57,17 @@ func (s *CloudHSM) SetFake() {
 	}
 	{
 		{
-			s.Ipv4NetworkAddress = "string"
+			s.IPv4NetworkAddress = "string"
 		}
 	}
 	{
 		{
-			s.Ipv4PrefixLength = int(0)
+			s.IPv4PrefixLength = int(0)
 		}
 	}
 	{
 		{
-			s.Ipv4Address = "string"
+			s.IPv4Address = "string"
 		}
 	}
 	{
@@ -76,6 +75,16 @@ func (s *CloudHSM) SetFake() {
 			s.LocalRouter.SetFake()
 		}
 	}
+	{
+		{
+			s.InitialData.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CloudHSMAvailability) SetFake() {
+	*s = CloudHSMAvailabilityPrecreate
 }
 
 // SetFake set fake values.
@@ -113,15 +122,67 @@ func (s *CloudHSMClient) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CloudHSMLocalRouter) SetFake() {
+func (s *CloudHSMClientAvailability) SetFake() {
+	*s = CloudHSMClientAvailabilityPrecreate
+}
+
+// SetFake set fake values.
+func (s *CloudHSMClientRequest) SetFake() {
 	{
 		{
-			s.ResourceID.SetFake()
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CloudHSMDocument) SetFake() {
+	{
+		{
+			s.ID = "string"
 		}
 	}
 	{
 		{
-			s.SecretKey.SetFake()
+			s.CreatedAt.SetFake()
+		}
+	}
+	{
+		{
+			s.ModifiedAt.SetFake()
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CloudHSMDocumentDownload) SetFake() {
+	{
+		{
+			s.URL = url.URL{Scheme: "https", Host: "github.com", Path: "/ogen-go/ogen"}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CloudHSMInitialData) SetFake() {
+	{
+		{
+			s.PartitionName = "string"
+		}
+	}
+	{
+		{
+			s.Certificate = "string"
+		}
+	}
+	{
+		{
+			s.PartitionID = "string"
 		}
 	}
 }
@@ -135,47 +196,53 @@ func (s *CloudHSMPeer) SetFake() {
 	}
 	{
 		{
-			s.Index.SetFake()
+			s.SecretKey = "string"
 		}
 	}
 	{
 		{
-			s.Status.SetFake()
+			s.Enabled.SetFake()
 		}
 	}
 	{
 		{
-			s.Routes = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.Routes = append(s.Routes, elem)
-			}
+			s.Description.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *CloudHSMPeerList) SetFake() {
+func (s *CloudHSMRequest) SetFake() {
 	{
 		{
-			s.Peers = nil
-			for i := 0; i < 0; i++ {
-				var elem CloudHSMPeer
-				{
-					elem.SetFake()
-				}
-				s.Peers = append(s.Peers, elem)
-			}
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
+		}
+	}
+	{
+		{
+			s.IPv4NetworkAddress = "string"
+		}
+	}
+	{
+		{
+			s.IPv4PrefixLength = int(0)
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *CloudHSMPeerStatus) SetFake() {
-	*s = CloudHSMPeerStatusDOWN
+func (s *CloudHSMServiceClass) SetFake() {
+	*s = CloudHSMServiceClassCloudCloudhsmPartition
 }
 
 // SetFake set fake values.
@@ -225,15 +292,34 @@ func (s *CloudHSMSoftwareLicense) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CloudHSMSoftwareLicenseServiceClassEnum) SetFake() {
-	*s = CloudHSMSoftwareLicenseServiceClassEnumCloudCloudhsmLicenseL7
+func (s *CloudHSMSoftwareLicenseRequest) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CloudHSMSoftwareLicenseServiceClass) SetFake() {
+	*s = CloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7
 }
 
 // SetFake set fake values.
 func (s *CreateCloudHSM) SetFake() {
 	{
 		{
-			s.ID = "string"
+			s.ID.SetFake()
 		}
 	}
 	{
@@ -268,38 +354,36 @@ func (s *CreateCloudHSM) SetFake() {
 	}
 	{
 		{
-			s.Tags = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.Tags = append(s.Tags, elem)
-			}
+			s.Tags.SetFake()
 		}
 	}
 	{
 		{
-			s.Ipv4NetworkAddress = "string"
+			s.IPv4NetworkAddress = "string"
 		}
 	}
 	{
 		{
-			s.Ipv4PrefixLength = int(0)
+			s.IPv4PrefixLength = int(0)
 		}
 	}
 	{
 		{
-			s.Ipv4Address = "string"
+			s.IPv4Address.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *CreateCloudHSMAvailability) SetFake() {
+	*s = CreateCloudHSMAvailabilityPrecreate
 }
 
 // SetFake set fake values.
 func (s *CreateCloudHSMClient) SetFake() {
 	{
 		{
-			s.ID = "string"
+			s.ID.SetFake()
 		}
 	}
 	{
@@ -330,24 +414,63 @@ func (s *CreateCloudHSMClient) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CreateCloudHSMPeer) SetFake() {
+func (s *CreateCloudHSMClientAvailability) SetFake() {
+	*s = CreateCloudHSMClientAvailabilityPrecreate
+}
+
+// SetFake set fake values.
+func (s *CreateCloudHSMClientRequest) SetFake() {
 	{
 		{
-			s.ID = "string"
+			s.Name = "string"
 		}
 	}
 	{
 		{
-			s.SecretKey = "string"
+			s.Certificate = "string"
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *CreateCloudHSMRequest) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
+		}
+	}
+	{
+		{
+			s.IPv4NetworkAddress = "string"
+		}
+	}
+	{
+		{
+			s.IPv4PrefixLength = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateCloudHSMServiceClass) SetFake() {
+	*s = CreateCloudHSMServiceClassCloudCloudhsmPartition
 }
 
 // SetFake set fake values.
 func (s *CreateCloudHSMSoftwareLicense) SetFake() {
 	{
 		{
-			s.ID = "string"
+			s.ID.SetFake()
 		}
 	}
 	{
@@ -377,16 +500,43 @@ func (s *CreateCloudHSMSoftwareLicense) SetFake() {
 	}
 	{
 		{
-			s.Tags = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.Tags = append(s.Tags, elem)
-			}
+			s.Tags.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *CreateCloudHSMSoftwareLicenseRequest) SetFake() {
+	{
+		{
+			s.ServiceClass.SetFake()
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateCloudHSMSoftwareLicenseRequestServiceClass) SetFake() {
+	*s = CreateCloudHSMSoftwareLicenseRequestServiceClassCloudCloudhsmLicenseL7
+}
+
+// SetFake set fake values.
+func (s *CreateCloudHSMSoftwareLicenseServiceClass) SetFake() {
+	*s = CreateCloudHSMSoftwareLicenseServiceClassCloudCloudhsmLicenseL7
 }
 
 // SetFake set fake values.
@@ -399,13 +549,41 @@ func (s *DateTime) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NilCloudHSMLocalRouter) SetFake() {
+func (s *LocalRouter) SetFake() {
+	{
+		{
+			s.ResourceID.SetFake()
+		}
+	}
+	{
+		{
+			s.SecretKey.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NilCloudHSMInitialData) SetFake() {
 	s.Null = true
 }
 
 // SetFake set fake values.
-func (s *OptCloudHSMPeerStatus) SetFake() {
-	var elem CloudHSMPeerStatus
+func (s *NilLocalRouter) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
+func (s *OptBool) SetFake() {
+	var elem bool
+	{
+		elem = true
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptCreateCloudHSMAvailability) SetFake() {
+	var elem CreateCloudHSMAvailability
 	{
 		elem.SetFake()
 	}
@@ -413,8 +591,8 @@ func (s *OptCloudHSMPeerStatus) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptCloudHSMSoftwareLicense) SetFake() {
-	var elem CloudHSMSoftwareLicense
+func (s *OptCreateCloudHSMClientAvailability) SetFake() {
+	var elem CreateCloudHSMClientAvailability
 	{
 		elem.SetFake()
 	}
@@ -422,8 +600,8 @@ func (s *OptCloudHSMSoftwareLicense) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptCreateCloudHSMSoftwareLicense) SetFake() {
-	var elem CreateCloudHSMSoftwareLicense
+func (s *OptCreateCloudHSMServiceClass) SetFake() {
+	var elem CreateCloudHSMServiceClass
 	{
 		elem.SetFake()
 	}
@@ -431,12 +609,18 @@ func (s *OptCreateCloudHSMSoftwareLicense) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptInt) SetFake() {
-	var elem int
+func (s *OptDateTime) SetFake() {
+	var elem DateTime
 	{
-		elem = int(0)
+		elem.SetFake()
 	}
 	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNilStringArray) SetFake() {
+	s.Null = true
+	s.Set = true
 }
 
 // SetFake set fake values.
@@ -457,12 +641,12 @@ func (s *PaginatedCloudHSMClientList) SetFake() {
 	}
 	{
 		{
-			s.From.SetFake()
+			s.From = int(0)
 		}
 	}
 	{
 		{
-			s.Total.SetFake()
+			s.Total = int(0)
 		}
 	}
 	{
@@ -477,6 +661,47 @@ func (s *PaginatedCloudHSMClientList) SetFake() {
 			}
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *PaginatedCloudHSMDocumentList) SetFake() {
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.From = int(0)
+		}
+	}
+	{
+		{
+			s.Total = int(0)
+		}
+	}
+	{
+		{
+			s.CloudHSMDocuments = nil
+			for i := 0; i < 0; i++ {
+				var elem CloudHSMDocument
+				{
+					elem.SetFake()
+				}
+				s.CloudHSMDocuments = append(s.CloudHSMDocuments, elem)
+			}
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -488,12 +713,12 @@ func (s *PaginatedCloudHSMList) SetFake() {
 	}
 	{
 		{
-			s.From.SetFake()
+			s.From = int(0)
 		}
 	}
 	{
 		{
-			s.Total.SetFake()
+			s.Total = int(0)
 		}
 	}
 	{
@@ -508,6 +733,11 @@ func (s *PaginatedCloudHSMList) SetFake() {
 			}
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -519,12 +749,12 @@ func (s *PaginatedCloudHSMSoftwareLicenseList) SetFake() {
 	}
 	{
 		{
-			s.From.SetFake()
+			s.From = int(0)
 		}
 	}
 	{
 		{
-			s.Total.SetFake()
+			s.Total = int(0)
 		}
 	}
 	{
@@ -539,11 +769,25 @@ func (s *PaginatedCloudHSMSoftwareLicenseList) SetFake() {
 			}
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *ServiceClassEnum) SetFake() {
-	*s = ServiceClassEnumCloudCloudhsmPartition
+func (s *PeerRequest) SetFake() {
+	{
+		{
+			s.ID = "string"
+		}
+	}
+	{
+		{
+			s.SecretKey = "string"
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -551,6 +795,11 @@ func (s *WrappedCloudHSM) SetFake() {
 	{
 		{
 			s.CloudHSM.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
 		}
 	}
 }
@@ -562,10 +811,61 @@ func (s *WrappedCloudHSMClient) SetFake() {
 			s.Client.SetFake()
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCloudHSMClientRequest) SetFake() {
+	{
+		{
+			s.Client.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCloudHSMDocumentDownload) SetFake() {
+	{
+		{
+			s.Document.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCloudHSMRequest) SetFake() {
+	{
+		{
+			s.CloudHSM.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
 func (s *WrappedCloudHSMSoftwareLicense) SetFake() {
+	{
+		{
+			s.License.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCloudHSMSoftwareLicenseRequest) SetFake() {
 	{
 		{
 			s.License.SetFake()
@@ -580,6 +880,11 @@ func (s *WrappedCreateCloudHSM) SetFake() {
 			s.CloudHSM.SetFake()
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -589,13 +894,27 @@ func (s *WrappedCreateCloudHSMClient) SetFake() {
 			s.Client.SetFake()
 		}
 	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *WrappedCreateCloudHSMPeer) SetFake() {
+func (s *WrappedCreateCloudHSMClientRequest) SetFake() {
 	{
 		{
-			s.Peer.SetFake()
+			s.Client.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCreateCloudHSMRequest) SetFake() {
+	{
+		{
+			s.CloudHSM.SetFake()
 		}
 	}
 }
@@ -605,6 +924,50 @@ func (s *WrappedCreateCloudHSMSoftwareLicense) SetFake() {
 	{
 		{
 			s.License.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedCreateCloudHSMSoftwareLicenseRequest) SetFake() {
+	{
+		{
+			s.License.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedPeerList) SetFake() {
+	{
+		{
+			s.Peers = nil
+			for i := 0; i < 0; i++ {
+				var elem CloudHSMPeer
+				{
+					elem.SetFake()
+				}
+				s.Peers = append(s.Peers, elem)
+			}
+		}
+	}
+	{
+		{
+			s.IsOk = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WrappedPeerRequest) SetFake() {
+	{
+		{
+			s.Peer.SetFake()
 		}
 	}
 }

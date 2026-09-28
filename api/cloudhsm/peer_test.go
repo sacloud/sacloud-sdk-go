@@ -33,8 +33,9 @@ func newTestCloudHSMPeerClient(resp any, status ...int) *v1.Client {
 
 func TestCloudHSMPeerOp_List(t *testing.T) {
 	assert := require.New(t)
-	expected := v1.CloudHSMPeerList{
+	expected := v1.WrappedPeerList{
 		Peers: []v1.CloudHSMPeer{TemplateCloudHSMPeer},
+		IsOk:  true,
 	}
 	client := newTestCloudHSMPeerClient(expected)
 	api, err := NewPeerOp(client, &TemplateCloudHSM)
@@ -108,7 +109,7 @@ func TestCloudHSMPeerIntegrated(t *testing.T) {
 	hsm, err := NewCloudHSMOp(client).Read(ctx, os.Getenv("SAKURA_CLOUDHSM_ID"))
 	assert.NoError(err)
 	assert.NotNil(hsm)
-	assert.Equal(v1.AvailabilityEnumAvailable, hsm.GetAvailability())
+	assert.Equal(v1.CloudHSMAvailabilityAvailable, hsm.GetAvailability())
 	api, err := NewPeerOp(client, hsm)
 	assert.NoError(err)
 

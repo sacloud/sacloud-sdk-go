@@ -38,66 +38,82 @@ func (s *BasicAuth) SetRoles(val []string) {
 	s.Roles = val
 }
 
-// Ref: #/components/schemas/CreateSecret
-type CreateSecret struct {
-	Name          string `json:"Name"`
-	Value         string `json:"Value"`
-	LatestVersion int    `json:"LatestVersion"`
+// Ref: #/components/schemas/CreateSecretRequest
+type CreateSecretRequest struct {
+	Name  string `json:"Name"`
+	Value string `json:"Value"`
 }
 
 // GetName returns the value of Name.
-func (s *CreateSecret) GetName() string {
+func (s *CreateSecretRequest) GetName() string {
 	return s.Name
 }
 
 // GetValue returns the value of Value.
-func (s *CreateSecret) GetValue() string {
+func (s *CreateSecretRequest) GetValue() string {
 	return s.Value
 }
 
-// GetLatestVersion returns the value of LatestVersion.
-func (s *CreateSecret) GetLatestVersion() int {
-	return s.LatestVersion
-}
-
 // SetName sets the value of Name.
-func (s *CreateSecret) SetName(val string) {
+func (s *CreateSecretRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetValue sets the value of Value.
-func (s *CreateSecret) SetValue(val string) {
+func (s *CreateSecretRequest) SetValue(val string) {
 	s.Value = val
 }
 
+// Ref: #/components/schemas/CreateSecretResponse
+type CreateSecretResponse struct {
+	Name string `json:"Name"`
+	// 最新のバージョン番号（1以上）.
+	LatestVersion int `json:"LatestVersion"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateSecretResponse) GetName() string {
+	return s.Name
+}
+
+// GetLatestVersion returns the value of LatestVersion.
+func (s *CreateSecretResponse) GetLatestVersion() int {
+	return s.LatestVersion
+}
+
+// SetName sets the value of Name.
+func (s *CreateSecretResponse) SetName(val string) {
+	s.Name = val
+}
+
 // SetLatestVersion sets the value of LatestVersion.
-func (s *CreateSecret) SetLatestVersion(val int) {
+func (s *CreateSecretResponse) SetLatestVersion(val int) {
 	s.LatestVersion = val
 }
 
 // Ref: #/components/schemas/CreateVault
 type CreateVault struct {
-	ID          string    `json:"ID"`
-	CreatedAt   DateTime  `json:"CreatedAt"`
-	ModifiedAt  DateTime  `json:"ModifiedAt"`
-	Name        string    `json:"Name"`
-	Description OptString `json:"Description"`
-	KmsKeyID    string    `json:"KmsKeyID"`
-	Tags        []string  `json:"Tags"`
+	ID          OptString         `json:"ID"`
+	CreatedAt   OptDateTime       `json:"CreatedAt"`
+	ModifiedAt  OptDateTime       `json:"ModifiedAt"`
+	Name        string            `json:"Name"`
+	Description OptString         `json:"Description"`
+	KmsKeyID    string            `json:"KmsKeyID"`
+	Tags        OptNilStringArray `json:"Tags"`
 }
 
 // GetID returns the value of ID.
-func (s *CreateVault) GetID() string {
+func (s *CreateVault) GetID() OptString {
 	return s.ID
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *CreateVault) GetCreatedAt() DateTime {
+func (s *CreateVault) GetCreatedAt() OptDateTime {
 	return s.CreatedAt
 }
 
 // GetModifiedAt returns the value of ModifiedAt.
-func (s *CreateVault) GetModifiedAt() DateTime {
+func (s *CreateVault) GetModifiedAt() OptDateTime {
 	return s.ModifiedAt
 }
 
@@ -117,22 +133,22 @@ func (s *CreateVault) GetKmsKeyID() string {
 }
 
 // GetTags returns the value of Tags.
-func (s *CreateVault) GetTags() []string {
+func (s *CreateVault) GetTags() OptNilStringArray {
 	return s.Tags
 }
 
 // SetID sets the value of ID.
-func (s *CreateVault) SetID(val string) {
+func (s *CreateVault) SetID(val OptString) {
 	s.ID = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *CreateVault) SetCreatedAt(val DateTime) {
+func (s *CreateVault) SetCreatedAt(val OptDateTime) {
 	s.CreatedAt = val
 }
 
 // SetModifiedAt sets the value of ModifiedAt.
-func (s *CreateVault) SetModifiedAt(val DateTime) {
+func (s *CreateVault) SetModifiedAt(val OptDateTime) {
 	s.ModifiedAt = val
 }
 
@@ -152,25 +168,110 @@ func (s *CreateVault) SetKmsKeyID(val string) {
 }
 
 // SetTags sets the value of Tags.
-func (s *CreateVault) SetTags(val []string) {
+func (s *CreateVault) SetTags(val OptNilStringArray) {
+	s.Tags = val
+}
+
+// Ref: #/components/schemas/CreateVaultRequest
+type CreateVaultRequest struct {
+	Name        string            `json:"Name"`
+	Description OptString         `json:"Description"`
+	KmsKeyID    string            `json:"KmsKeyID"`
+	Tags        OptNilStringArray `json:"Tags"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateVaultRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CreateVaultRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetKmsKeyID returns the value of KmsKeyID.
+func (s *CreateVaultRequest) GetKmsKeyID() string {
+	return s.KmsKeyID
+}
+
+// GetTags returns the value of Tags.
+func (s *CreateVaultRequest) GetTags() OptNilStringArray {
+	return s.Tags
+}
+
+// SetName sets the value of Name.
+func (s *CreateVaultRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CreateVaultRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetKmsKeyID sets the value of KmsKeyID.
+func (s *CreateVaultRequest) SetKmsKeyID(val string) {
+	s.KmsKeyID = val
+}
+
+// SetTags sets the value of Tags.
+func (s *CreateVaultRequest) SetTags(val OptNilStringArray) {
 	s.Tags = val
 }
 
 type DateTime string
 
-// Ref: #/components/schemas/DeleteSecret
-type DeleteSecret struct {
-	Name string `json:"Name"`
+// DeleteVaultNoContent is response for DeleteVault operation.
+type DeleteVaultNoContent struct{}
+
+// DeleteVaultSecretNoContent is response for DeleteVaultSecret operation.
+type DeleteVaultSecretNoContent struct{}
+
+// NewOptDateTime returns new OptDateTime with value set to v.
+func NewOptDateTime(v DateTime) OptDateTime {
+	return OptDateTime{
+		Value: v,
+		Set:   true,
+	}
 }
 
-// GetName returns the value of Name.
-func (s *DeleteSecret) GetName() string {
-	return s.Name
+// OptDateTime is optional DateTime.
+type OptDateTime struct {
+	Value DateTime
+	Set   bool
 }
 
-// SetName sets the value of Name.
-func (s *DeleteSecret) SetName(val string) {
-	s.Name = val
+// IsSet returns true if OptDateTime was set.
+func (o OptDateTime) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDateTime) Reset() {
+	var v DateTime
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDateTime) SetTo(v DateTime) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDateTime) Get() (v DateTime, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDateTime) Or(d DateTime) DateTime {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
 }
 
 // NewOptInt returns new OptInt with value set to v.
@@ -263,6 +364,11 @@ func (o *OptNilInt) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilInt) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilInt) Get() (v int, ok bool) {
 	if o.Null {
@@ -276,6 +382,74 @@ func (o OptNilInt) Get() (v int, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilInt) Or(d int) int {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStringArray returns new OptNilStringArray with value set to v.
+func NewOptNilStringArray(v []string) OptNilStringArray {
+	return OptNilStringArray{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStringArray is optional nullable []string.
+type OptNilStringArray struct {
+	Value []string
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStringArray was set.
+func (o OptNilStringArray) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStringArray) Reset() {
+	var v []string
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStringArray) SetTo(v []string) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilStringArray) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilStringArray) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v []string
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilStringArray) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStringArray) Get() (v []string, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStringArray) Or(d []string) []string {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -328,60 +502,72 @@ func (o OptString) Or(d string) string {
 	return d
 }
 
-// Ref: #/components/schemas/PaginatedSecretList
-type PaginatedSecretList struct {
-	Count   int      `json:"Count"`
-	From    OptInt   `json:"From"`
-	Total   OptInt   `json:"Total"`
-	Secrets []Secret `json:"Secrets"`
+// Ref: #/components/schemas/PaginatedSecretResponseList
+type PaginatedSecretResponseList struct {
+	Count   int              `json:"Count"`
+	From    int              `json:"From"`
+	Total   int              `json:"Total"`
+	Secrets []SecretResponse `json:"Secrets"`
+	IsOk    bool             `json:"is_ok"`
 }
 
 // GetCount returns the value of Count.
-func (s *PaginatedSecretList) GetCount() int {
+func (s *PaginatedSecretResponseList) GetCount() int {
 	return s.Count
 }
 
 // GetFrom returns the value of From.
-func (s *PaginatedSecretList) GetFrom() OptInt {
+func (s *PaginatedSecretResponseList) GetFrom() int {
 	return s.From
 }
 
 // GetTotal returns the value of Total.
-func (s *PaginatedSecretList) GetTotal() OptInt {
+func (s *PaginatedSecretResponseList) GetTotal() int {
 	return s.Total
 }
 
 // GetSecrets returns the value of Secrets.
-func (s *PaginatedSecretList) GetSecrets() []Secret {
+func (s *PaginatedSecretResponseList) GetSecrets() []SecretResponse {
 	return s.Secrets
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedSecretResponseList) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetCount sets the value of Count.
-func (s *PaginatedSecretList) SetCount(val int) {
+func (s *PaginatedSecretResponseList) SetCount(val int) {
 	s.Count = val
 }
 
 // SetFrom sets the value of From.
-func (s *PaginatedSecretList) SetFrom(val OptInt) {
+func (s *PaginatedSecretResponseList) SetFrom(val int) {
 	s.From = val
 }
 
 // SetTotal sets the value of Total.
-func (s *PaginatedSecretList) SetTotal(val OptInt) {
+func (s *PaginatedSecretResponseList) SetTotal(val int) {
 	s.Total = val
 }
 
 // SetSecrets sets the value of Secrets.
-func (s *PaginatedSecretList) SetSecrets(val []Secret) {
+func (s *PaginatedSecretResponseList) SetSecrets(val []SecretResponse) {
 	s.Secrets = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedSecretResponseList) SetIsOk(val bool) {
+	s.IsOk = val
 }
 
 // Ref: #/components/schemas/PaginatedVaultList
 type PaginatedVaultList struct {
 	Count  int     `json:"Count"`
-	From   OptInt  `json:"From"`
-	Total  OptInt  `json:"Total"`
+	From   int     `json:"From"`
+	Total  int     `json:"Total"`
 	Vaults []Vault `json:"Vaults"`
+	IsOk   bool    `json:"is_ok"`
 }
 
 // GetCount returns the value of Count.
@@ -390,12 +576,12 @@ func (s *PaginatedVaultList) GetCount() int {
 }
 
 // GetFrom returns the value of From.
-func (s *PaginatedVaultList) GetFrom() OptInt {
+func (s *PaginatedVaultList) GetFrom() int {
 	return s.From
 }
 
 // GetTotal returns the value of Total.
-func (s *PaginatedVaultList) GetTotal() OptInt {
+func (s *PaginatedVaultList) GetTotal() int {
 	return s.Total
 }
 
@@ -404,18 +590,23 @@ func (s *PaginatedVaultList) GetVaults() []Vault {
 	return s.Vaults
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *PaginatedVaultList) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetCount sets the value of Count.
 func (s *PaginatedVaultList) SetCount(val int) {
 	s.Count = val
 }
 
 // SetFrom sets the value of From.
-func (s *PaginatedVaultList) SetFrom(val OptInt) {
+func (s *PaginatedVaultList) SetFrom(val int) {
 	s.From = val
 }
 
 // SetTotal sets the value of Total.
-func (s *PaginatedVaultList) SetTotal(val OptInt) {
+func (s *PaginatedVaultList) SetTotal(val int) {
 	s.Total = val
 }
 
@@ -424,84 +615,109 @@ func (s *PaginatedVaultList) SetVaults(val []Vault) {
 	s.Vaults = val
 }
 
-// Ref: #/components/schemas/Secret
-type Secret struct {
+// SetIsOk sets the value of IsOk.
+func (s *PaginatedVaultList) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/SecretResponse
+type SecretResponse struct {
 	Name          string `json:"Name"`
 	LatestVersion int    `json:"LatestVersion"`
 }
 
 // GetName returns the value of Name.
-func (s *Secret) GetName() string {
+func (s *SecretResponse) GetName() string {
 	return s.Name
 }
 
 // GetLatestVersion returns the value of LatestVersion.
-func (s *Secret) GetLatestVersion() int {
+func (s *SecretResponse) GetLatestVersion() int {
 	return s.LatestVersion
 }
 
 // SetName sets the value of Name.
-func (s *Secret) SetName(val string) {
+func (s *SecretResponse) SetName(val string) {
 	s.Name = val
 }
 
 // SetLatestVersion sets the value of LatestVersion.
-func (s *Secret) SetLatestVersion(val int) {
+func (s *SecretResponse) SetLatestVersion(val int) {
 	s.LatestVersion = val
 }
 
-// SecretmanagerVaultsDestroyNoContent is response for SecretmanagerVaultsDestroy operation.
-type SecretmanagerVaultsDestroyNoContent struct{}
-
-// SecretmanagerVaultsSecretsDestroyNoContent is response for SecretmanagerVaultsSecretsDestroy operation.
-type SecretmanagerVaultsSecretsDestroyNoContent struct{}
-
-// Ref: #/components/schemas/Unveil
-type Unveil struct {
+// Ref: #/components/schemas/UnveilRequest
+type UnveilRequest struct {
 	Name    string    `json:"Name"`
 	Version OptNilInt `json:"Version"`
-	Value   string    `json:"Value"`
 }
 
 // GetName returns the value of Name.
-func (s *Unveil) GetName() string {
+func (s *UnveilRequest) GetName() string {
 	return s.Name
 }
 
 // GetVersion returns the value of Version.
-func (s *Unveil) GetVersion() OptNilInt {
+func (s *UnveilRequest) GetVersion() OptNilInt {
 	return s.Version
 }
 
-// GetValue returns the value of Value.
-func (s *Unveil) GetValue() string {
-	return s.Value
-}
-
 // SetName sets the value of Name.
-func (s *Unveil) SetName(val string) {
+func (s *UnveilRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetVersion sets the value of Version.
-func (s *Unveil) SetVersion(val OptNilInt) {
+func (s *UnveilRequest) SetVersion(val OptNilInt) {
+	s.Version = val
+}
+
+// Ref: #/components/schemas/UnveilResponse
+type UnveilResponse struct {
+	Name    string `json:"Name"`
+	Version int    `json:"Version"`
+	Value   string `json:"Value"`
+}
+
+// GetName returns the value of Name.
+func (s *UnveilResponse) GetName() string {
+	return s.Name
+}
+
+// GetVersion returns the value of Version.
+func (s *UnveilResponse) GetVersion() int {
+	return s.Version
+}
+
+// GetValue returns the value of Value.
+func (s *UnveilResponse) GetValue() string {
+	return s.Value
+}
+
+// SetName sets the value of Name.
+func (s *UnveilResponse) SetName(val string) {
+	s.Name = val
+}
+
+// SetVersion sets the value of Version.
+func (s *UnveilResponse) SetVersion(val int) {
 	s.Version = val
 }
 
 // SetValue sets the value of Value.
-func (s *Unveil) SetValue(val string) {
+func (s *UnveilResponse) SetValue(val string) {
 	s.Value = val
 }
 
 // Ref: #/components/schemas/Vault
 type Vault struct {
-	ID          string    `json:"ID"`
-	CreatedAt   DateTime  `json:"CreatedAt"`
-	ModifiedAt  DateTime  `json:"ModifiedAt"`
-	Name        string    `json:"Name"`
-	Description OptString `json:"Description"`
-	KmsKeyID    string    `json:"KmsKeyID"`
-	Tags        []string  `json:"Tags"`
+	ID          string   `json:"ID"`
+	CreatedAt   DateTime `json:"CreatedAt"`
+	ModifiedAt  DateTime `json:"ModifiedAt"`
+	Name        string   `json:"Name"`
+	Description string   `json:"Description"`
+	KmsKeyID    string   `json:"KmsKeyID"`
+	Tags        []string `json:"Tags"`
 }
 
 // GetID returns the value of ID.
@@ -525,7 +741,7 @@ func (s *Vault) GetName() string {
 }
 
 // GetDescription returns the value of Description.
-func (s *Vault) GetDescription() OptString {
+func (s *Vault) GetDescription() string {
 	return s.Description
 }
 
@@ -560,7 +776,7 @@ func (s *Vault) SetName(val string) {
 }
 
 // SetDescription sets the value of Description.
-func (s *Vault) SetDescription(val OptString) {
+func (s *Vault) SetDescription(val string) {
 	s.Description = val
 }
 
@@ -574,24 +790,88 @@ func (s *Vault) SetTags(val []string) {
 	s.Tags = val
 }
 
-// Ref: #/components/schemas/WrappedCreateSecret
-type WrappedCreateSecret struct {
-	Secret CreateSecret `json:"Secret"`
+// Ref: #/components/schemas/VaultRequest
+type VaultRequest struct {
+	Name        string            `json:"Name"`
+	Description OptString         `json:"Description"`
+	Tags        OptNilStringArray `json:"Tags"`
+}
+
+// GetName returns the value of Name.
+func (s *VaultRequest) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *VaultRequest) GetDescription() OptString {
+	return s.Description
+}
+
+// GetTags returns the value of Tags.
+func (s *VaultRequest) GetTags() OptNilStringArray {
+	return s.Tags
+}
+
+// SetName sets the value of Name.
+func (s *VaultRequest) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *VaultRequest) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetTags sets the value of Tags.
+func (s *VaultRequest) SetTags(val OptNilStringArray) {
+	s.Tags = val
+}
+
+// Ref: #/components/schemas/WrappedCreateSecretRequest
+type WrappedCreateSecretRequest struct {
+	Secret CreateSecretRequest `json:"Secret"`
 }
 
 // GetSecret returns the value of Secret.
-func (s *WrappedCreateSecret) GetSecret() CreateSecret {
+func (s *WrappedCreateSecretRequest) GetSecret() CreateSecretRequest {
 	return s.Secret
 }
 
 // SetSecret sets the value of Secret.
-func (s *WrappedCreateSecret) SetSecret(val CreateSecret) {
+func (s *WrappedCreateSecretRequest) SetSecret(val CreateSecretRequest) {
 	s.Secret = val
+}
+
+// Ref: #/components/schemas/WrappedCreateSecretResponse
+type WrappedCreateSecretResponse struct {
+	Secret CreateSecretResponse `json:"Secret"`
+	IsOk   bool                 `json:"is_ok"`
+}
+
+// GetSecret returns the value of Secret.
+func (s *WrappedCreateSecretResponse) GetSecret() CreateSecretResponse {
+	return s.Secret
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCreateSecretResponse) GetIsOk() bool {
+	return s.IsOk
+}
+
+// SetSecret sets the value of Secret.
+func (s *WrappedCreateSecretResponse) SetSecret(val CreateSecretResponse) {
+	s.Secret = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCreateSecretResponse) SetIsOk(val bool) {
+	s.IsOk = val
 }
 
 // Ref: #/components/schemas/WrappedCreateVault
 type WrappedCreateVault struct {
 	Vault CreateVault `json:"Vault"`
+	IsOk  bool        `json:"is_ok"`
 }
 
 // GetVault returns the value of Vault.
@@ -599,59 +879,110 @@ func (s *WrappedCreateVault) GetVault() CreateVault {
 	return s.Vault
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedCreateVault) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetVault sets the value of Vault.
 func (s *WrappedCreateVault) SetVault(val CreateVault) {
 	s.Vault = val
 }
 
-// Ref: #/components/schemas/WrappedDeleteSecret
-type WrappedDeleteSecret struct {
-	Secret DeleteSecret `json:"Secret"`
+// SetIsOk sets the value of IsOk.
+func (s *WrappedCreateVault) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedCreateVaultRequest
+type WrappedCreateVaultRequest struct {
+	Vault CreateVaultRequest `json:"Vault"`
+}
+
+// GetVault returns the value of Vault.
+func (s *WrappedCreateVaultRequest) GetVault() CreateVaultRequest {
+	return s.Vault
+}
+
+// SetVault sets the value of Vault.
+func (s *WrappedCreateVaultRequest) SetVault(val CreateVaultRequest) {
+	s.Vault = val
+}
+
+// Ref: #/components/schemas/WrappedDeleteSecretRequest
+type WrappedDeleteSecretRequest struct {
+	Secret WrappedDeleteSecretRequestSecret `json:"Secret"`
 }
 
 // GetSecret returns the value of Secret.
-func (s *WrappedDeleteSecret) GetSecret() DeleteSecret {
+func (s *WrappedDeleteSecretRequest) GetSecret() WrappedDeleteSecretRequestSecret {
 	return s.Secret
 }
 
 // SetSecret sets the value of Secret.
-func (s *WrappedDeleteSecret) SetSecret(val DeleteSecret) {
+func (s *WrappedDeleteSecretRequest) SetSecret(val WrappedDeleteSecretRequestSecret) {
 	s.Secret = val
 }
 
-// Ref: #/components/schemas/WrappedSecret
-type WrappedSecret struct {
-	Secret Secret `json:"Secret"`
+type WrappedDeleteSecretRequestSecret struct {
+	Name string `json:"Name"`
+}
+
+// GetName returns the value of Name.
+func (s *WrappedDeleteSecretRequestSecret) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *WrappedDeleteSecretRequestSecret) SetName(val string) {
+	s.Name = val
+}
+
+// Ref: #/components/schemas/WrappedUnveilRequest
+type WrappedUnveilRequest struct {
+	Secret UnveilRequest `json:"Secret"`
 }
 
 // GetSecret returns the value of Secret.
-func (s *WrappedSecret) GetSecret() Secret {
+func (s *WrappedUnveilRequest) GetSecret() UnveilRequest {
 	return s.Secret
 }
 
 // SetSecret sets the value of Secret.
-func (s *WrappedSecret) SetSecret(val Secret) {
+func (s *WrappedUnveilRequest) SetSecret(val UnveilRequest) {
 	s.Secret = val
 }
 
-// Ref: #/components/schemas/WrappedUnveil
-type WrappedUnveil struct {
-	Secret Unveil `json:"Secret"`
+// Ref: #/components/schemas/WrappedUnveilResponse
+type WrappedUnveilResponse struct {
+	Secret UnveilResponse `json:"Secret"`
+	IsOk   bool           `json:"is_ok"`
 }
 
 // GetSecret returns the value of Secret.
-func (s *WrappedUnveil) GetSecret() Unveil {
+func (s *WrappedUnveilResponse) GetSecret() UnveilResponse {
 	return s.Secret
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedUnveilResponse) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetSecret sets the value of Secret.
-func (s *WrappedUnveil) SetSecret(val Unveil) {
+func (s *WrappedUnveilResponse) SetSecret(val UnveilResponse) {
 	s.Secret = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedUnveilResponse) SetIsOk(val bool) {
+	s.IsOk = val
 }
 
 // Ref: #/components/schemas/WrappedVault
 type WrappedVault struct {
 	Vault Vault `json:"Vault"`
+	IsOk  bool  `json:"is_ok"`
 }
 
 // GetVault returns the value of Vault.
@@ -659,7 +990,32 @@ func (s *WrappedVault) GetVault() Vault {
 	return s.Vault
 }
 
+// GetIsOk returns the value of IsOk.
+func (s *WrappedVault) GetIsOk() bool {
+	return s.IsOk
+}
+
 // SetVault sets the value of Vault.
 func (s *WrappedVault) SetVault(val Vault) {
+	s.Vault = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *WrappedVault) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/WrappedVaultRequest
+type WrappedVaultRequest struct {
+	Vault VaultRequest `json:"Vault"`
+}
+
+// GetVault returns the value of Vault.
+func (s *WrappedVaultRequest) GetVault() VaultRequest {
+	return s.Vault
+}
+
+// SetVault sets the value of Vault.
+func (s *WrappedVaultRequest) SetVault(val VaultRequest) {
 	s.Vault = val
 }

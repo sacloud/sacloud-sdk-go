@@ -28,36 +28,39 @@ func TestSecretAPI(t *testing.T) {
 	keyId := os.Getenv("SAKURA_KMS_KEY_ID")
 	vaultOp := sm.NewVaultOp(client)
 
-	vault, err := vaultOp.Create(ctx, v1.CreateVault{
+	vault, err := vaultOp.Create(ctx, sm.CreateVaultParams{
 		Name:        "vault for secret test",
-		Description: v1.NewOptString("vault for secret test"),
+		Description: new("vault for secret test"),
 		KmsKeyID:    keyId,
 		Tags:        []string{"Test"},
 	})
 	require.NoError(t, err)
 
+	vaultID, ok := vault.ID.Get()
+	require.True(t, ok)
+
 	defer func() {
-		_ = vaultOp.Delete(ctx, vault.ID)
+		_ = vaultOp.Delete(ctx, vaultID)
 	}()
 
-	secOp := sm.NewSecretOp(client, vault.ID)
+	secOp := sm.NewSecretOp(client, vaultID)
 
 	for i := range 2 {
-		resCreate, err := secOp.Create(ctx, v1.CreateSecret{
+		resCreate, err := secOp.Create(ctx, v1.CreateSecretRequest{
 			Name:  "Sec1",
 			Value: "SecretValue" + strconv.Itoa(i),
 		})
 		require.NoError(t, err)
 		require.Equal(t, i+1, resCreate.LatestVersion)
 	}
-	resCreate, err := secOp.Create(ctx, v1.CreateSecret{
+	resCreate, err := secOp.Create(ctx, v1.CreateSecretRequest{
 		Name:  "Sec2",
 		Value: "SV22",
 	})
 	require.NoError(t, err)
 	assert.Equal(t, 1, resCreate.LatestVersion)
 
-	resList, err := secOp.List(ctx)
+	resList, err := secOp.List(ctx, new(10), new(0))
 	assert.NoError(t, err)
 
 	sort.Slice(resList, func(i, j int) bool { return resList[i].Name < resList[j].Name })
@@ -68,16 +71,16 @@ func TestSecretAPI(t *testing.T) {
 	assert.Equal(t, 1, resList[1].LatestVersion)
 
 	for i := range 2 {
-		resUn, err := secOp.Unveil(ctx, v1.Unveil{
+		resUn, err := secOp.Unveil(ctx, sm.UnveilParams{
 			Name:    "Sec1",
-			Version: v1.NewOptNilInt(i + 1),
+			Version: new(i + 1),
 		})
 		assert.NoError(t, err)
 		assert.Equal(t, "SecretValue"+strconv.Itoa(i), resUn.Value)
 	}
 
-	err = secOp.Delete(ctx, v1.DeleteSecret{Name: "Sec1"})
+	err = secOp.Delete(ctx, "Sec1")
 	require.NoError(t, err)
-	err = secOp.Delete(ctx, v1.DeleteSecret{Name: "Sec2"})
+	err = secOp.Delete(ctx, "Sec2")
 	require.NoError(t, err)
 }
