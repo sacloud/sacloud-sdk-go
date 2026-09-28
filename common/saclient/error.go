@@ -156,10 +156,10 @@ func classifyRequestError(err error) string {
 		return "unexpected EOF before response"
 	} else if errors.Is(err, io.EOF) {
 		return "EOF before response"
-	} else if _, ok := errors.AsType[*url.Error](err); ok {
-		return "URL error"
 	} else if errors.Is(err, context.Canceled) {
 		return "runtime context canceled"
+	} else if _, ok := errors.AsType[*url.Error](err); ok {
+		return "URL error"
 	} else {
 		return "transport failure"
 	}
