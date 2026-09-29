@@ -16,6 +16,7 @@ package ipaddress
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -58,6 +59,9 @@ func (s *Service) UpdateHostNameWithContext(ctx context.Context, req *UpdateHost
 		if _, err = client.UpdateHostName(ctx, req.Zone, req.IPAddress, req.HostName); err == nil {
 			success = true
 			break
+		}
+		if e, ok := errors.AsType[iaas.APIError](err); ok && e.ResponseCode() != 429 && e.ResponseCode() < 500 {
+			return fmt.Errorf("updating the HostName for %s failed: %s", req.IPAddress, e)
 		}
 		time.Sleep(time.Duration(req.RetryInterval) * time.Second)
 		i++
