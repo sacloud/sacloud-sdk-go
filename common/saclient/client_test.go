@@ -217,6 +217,19 @@ euIJBGkmzNop
 		}`),
 		0o600,
 	)
+
+	os.MkdirAll(dir+"/usacloud/v1", 0o700)
+	os.WriteFile(dir+"/usacloud/v1/config.yaml", []byte(`version: 1
+credentials:
+  service_principal_id: service-principal-id
+  service_principal_key_kid: service-principal-key-kid
+  private_key: inline-private-key
+sacloud-sdk-go:
+  api_request_rate_limit: 9
+  api_request_timeout: 42
+  retry_max: 3
+  zone: is1a
+`), 0o600)
 }
 
 //nolint:errcheck,gosec
@@ -662,6 +675,26 @@ func (s *ClientTestSuite) TestProfileWithNullValue() {
 	actual := subject.JSON()
 	s.NotContains(actual, "Zone")
 	s.NotContains(actual, "Zones")
+}
+
+func (s *ClientTestSuite) TestProfileV1EffectiveSettings() {
+	var subject Client
+	s.Require().NoError(subject.SetEnviron([]string{
+		"SAKURA_PROFILE_DIR=" + filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "usacloud"),
+		"SAKURA_PROFILE=v1",
+	}))
+	s.Require().NoError(subject.Populate())
+
+	actual := subject.JSON()
+	fmt.Printf("foo %+v\n", actual)
+	s.Equal("service-principal-id", actual["ServicePrincipalID"])
+	s.Equal("service-principal-key-kid", actual["ServicePrincipalKeyID"])
+	s.Equal("inline-private-key", actual["PrivateKey"])
+	s.Equal(int64(9), actual["APIRequestRateLimit"])
+	s.Equal(42*time.Second, actual["APIRequestTimeout"])
+	s.Equal(int64(3), actual["RetryMax"])
+	s.Equal("is1a", actual["Zone"])
+	s.Equal("bearer", actual["AuthPreference"])
 }
 
 func (s *ClientTestSuite) TestWithoutProfile() {

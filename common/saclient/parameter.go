@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"log"
 	"maps"
+	"math"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -983,6 +984,12 @@ func obtainFromProfile[
 		return
 	}
 
+	switch k {
+	case "APIRequestRateLimit":
+		k = "HTTPRequestRateLimit"
+	case "APIRequestTimeout":
+		k = "HTTPRequestTimeout"
+	}
 	v, ok := p.Get(k)
 
 	if !ok {
@@ -998,13 +1005,22 @@ func obtainFromProfile[
 	w, ok := v.(T)
 
 	if !ok {
-		// float64 -> int64 conversion special case
+		// Numeric conversions to int64 for JSON and YAML profile values.
 		if _, isInt64 := any((*new(T))).(int64); isInt64 {
-			if w, isFloat64 := v.(float64); isFloat64 {
-				if (float64(int64(w))) == w {
-					result = resultOptionSome(any(int64(w)).(T))
+			switch value := v.(type) {
+			case float64:
+				if float64(int64(value)) == value {
+					result = resultOptionSome(any(int64(value)).(T))
 					return
 				}
+			case uint64:
+				if value <= uint64(math.MaxInt64) {
+					result = resultOptionSome(any(int64(value)).(T))
+					return
+				}
+			case int:
+				result = resultOptionSome(any(int64(value)).(T))
+				return
 			}
 		}
 		result = resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
@@ -1095,6 +1111,12 @@ func (s *storage) get(k string) (any, bool) {
 		return s.apiRequestTimeout.Get()
 
 	case "APIRequestRateLimit":
+		return s.apiRequestRateLimit.Get()
+
+	case "HTTPRequestTimeout":
+		return s.apiRequestTimeout.Get()
+
+	case "HTTPRequestRateLimit":
 		return s.apiRequestRateLimit.Get()
 
 	case "TraceMode":

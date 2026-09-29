@@ -346,21 +346,62 @@ func (s *ProfileTestSuite) TestProfileOp_XDG() {
 func (s *ProfileTestSuite) TestProfileOp_ProfileDirectoryPriority() {
 	dir := s.T().TempDir()
 	configHome := filepath.Join(dir, "config")
-	s.Require().NoError(os.MkdirAll(filepath.Join(configHome, "usacloud"), 0o700))
+	s.NoError(os.MkdirAll(filepath.Join(configHome, "usacloud"), 0o700))
 
 	op, err := NewProfileOp([]string{"XDG_CONFIG_HOME=" + configHome})
-	s.Require().NoError(err)
+	s.NoError(err)
 	s.Equal(filepath.Join(configHome, "usacloud"), op.Dir())
 
-	s.Require().NoError(os.MkdirAll(filepath.Join(configHome, "sakura"), 0o700))
+	s.NoError(os.MkdirAll(filepath.Join(configHome, "sakura"), 0o700))
 	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + configHome})
-	s.Require().NoError(err)
+	s.NoError(err)
 	s.Equal(filepath.Join(configHome, "sakura"), op.Dir())
 
 	emptyConfigHome := filepath.Join(dir, "empty-config")
 	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + emptyConfigHome})
-	s.Require().NoError(err)
+	s.NoError(err)
 	s.Equal(filepath.Join(emptyConfigHome, "sakura"), op.Dir())
+}
+
+func (s *ProfileTestSuite) TestProfileOp_HomeDirectoryPriority() {
+	home := s.T().TempDir()
+	homeEnv := "HOME"
+	if runtime.GOOS == "windows" {
+		homeEnv = "USERPROFILE"
+	}
+	s.T().Setenv(homeEnv, home)
+
+	op, err := NewProfileOp(nil)
+	s.Require().NoError(err)
+	s.Equal(filepath.Join(home, ".config", "sakura"), op.Dir())
+
+	legacyDir := filepath.Join(home, ".usacloud")
+	s.Require().NoError(os.MkdirAll(legacyDir, 0o700))
+	op, err = NewProfileOp(nil)
+	s.Require().NoError(err)
+	s.Equal(legacyDir, op.Dir())
+
+	configDir := filepath.Join(home, ".config", "sakura")
+	s.Require().NoError(os.MkdirAll(configDir, 0o700))
+	op, err = NewProfileOp(nil)
+	s.Require().NoError(err)
+	s.Equal(configDir, op.Dir())
+}
+
+func (s *ProfileTestSuite) TestProfileOp_FullV1Sample() {
+	sample, err := os.ReadFile("full-profile-v1.yaml")
+	s.Require().NoError(err)
+
+	dir := s.T().TempDir()
+	s.Require().NoError(os.MkdirAll(filepath.Join(dir, "sample"), 0o700))
+	s.Require().NoError(os.WriteFile(filepath.Join(dir, "sample", "config.yaml"), sample, 0o600))
+
+	op, err := NewProfileOp([]string{"SAKURA_PROFILE_DIR=" + dir})
+	s.Require().NoError(err)
+	profile, err := op.Read("sample")
+	s.Require().NoError(err)
+	s.EqualValues(1, profile.Version)
+	s.Equal("is1a", profile.Go.Zone.MustGet())
 }
 
 func (s *ProfileTestSuite) TestProfileOp_V1YAML() {
@@ -382,7 +423,8 @@ sacloud-sdk-go:
     - tk1a
 endpoints:
   iam: https://example.invalid/iam
-dotnet: {foobar: preserved}
+sacloud-sdk-dotnet:
+  foobar: preserved
 `
 
 	v0 := `{"AccessToken":"legacy-token","Zone":"tk1a"}`
@@ -498,7 +540,7 @@ dotnet: {foobar: preserved}
 
 		contents, err := os.ReadFile(filepath.Clean(dir + "/default/config.yaml"))
 		s.NoError(err)
-		s.Contains(string(contents), "dotnet:")
+		s.Contains(string(contents), "sacloud-sdk-dotnet:")
 		s.Contains(string(contents), "foobar: preserved")
 
 		profile, err = op.Update(&Profile{
@@ -526,7 +568,7 @@ dotnet: {foobar: preserved}
 
 		contents, err := os.ReadFile(filepath.Clean(dir + "/default/config.yaml"))
 		s.NoError(err)
-		s.Contains(string(contents), "dotnet:")
+		s.Contains(string(contents), "sacloud-sdk-dotnet:")
 		s.Contains(string(contents), "access_token_secret: v1-secret")
 
 		profile, err = op.Read("default")
@@ -589,12 +631,12 @@ cli:
   process_timeout_sec: 7200
 sacloud-sdk-go:
   api_root_url: https://secure.sakura.ad.jp/cloud/zone
-  accept_language: en-US,en;q=0.9
+  accept_language: "en-US,en;q=0.9"
   default_zone: is1a
   fake_mode: false
   fake_store_path: ~/.usacloud/fake_store.json
-  http_request_rate_limit: 5
-  http_request_timeout: 300
+  api_request_rate_limit: 5
+  api_request_timeout: 300
   retry_max: 0
   retry_wait_max: 64
   retry_wait_min: 1
@@ -608,7 +650,7 @@ sacloud-sdk-go:
     - tk1a
     - tk1b
     - tk1v
-dotnet:
+sacloud-sdk-dotnet:
   str_field: foobar
   num_field: 123
   bool_field: true
@@ -636,8 +678,8 @@ dotnet:
 		s.Equal("is1a", profile.Go.DefaultZone.MustGet())
 		s.False(profile.Go.FakeMode.MustGet())
 		s.Equal("~/.usacloud/fake_store.json", profile.Go.FakeStorePath.MustGet())
-		s.Equal(int64(5), profile.Go.HTTPRequestRateLimit.MustGet())
-		s.Equal(int64(300), profile.Go.HTTPRequestTimeout.MustGet())
+		s.Equal(int64(5), profile.Go.APIRequestRateLimit.MustGet())
+		s.Equal(int64(300), profile.Go.APIRequestTimeout.MustGet())
 		s.Equal(int64(0), profile.Go.RetryMax.MustGet())
 		s.Equal(int64(64), profile.Go.RetryWaitMax.MustGet())
 		s.Equal(int64(1), profile.Go.RetryWaitMin.MustGet())
@@ -692,8 +734,8 @@ dotnet:
 		s.Equal("is1a", profile.Go.DefaultZone.MustGet())
 		s.False(profile.Go.FakeMode.MustGet())
 		s.Equal("~/.usacloud/fake_store.json", profile.Go.FakeStorePath.MustGet())
-		s.Equal(int64(5), profile.Go.HTTPRequestRateLimit.MustGet())
-		s.Equal(int64(300), profile.Go.HTTPRequestTimeout.MustGet())
+		s.Equal(int64(5), profile.Go.APIRequestRateLimit.MustGet())
+		s.Equal(int64(300), profile.Go.APIRequestTimeout.MustGet())
 		s.Equal(int64(0), profile.Go.RetryMax.MustGet())
 		s.Equal(int64(64), profile.Go.RetryWaitMax.MustGet())
 		s.Equal(int64(1), profile.Go.RetryWaitMin.MustGet())
@@ -724,7 +766,7 @@ dotnet:
 		s.Equal(uint64(1), profile.Attributes["RetryWaitMin"])
 		s.Equal("HTTP", profile.Attributes["TraceMode"])
 
-		dotnet, ok := profile.Attributes["dotnet"].(map[string]any)
+		dotnet, ok := profile.Attributes["sacloud-sdk-dotnet"].(map[string]any)
 		s.True(ok)
 		s.Equal("foobar", dotnet["str_field"])
 		s.Equal(uint64(123), dotnet["num_field"])
@@ -749,7 +791,7 @@ dotnet:
 		s.Equal("tk1a", profile.Attributes["Zone"])
 		s.Equal("<your-access-token-secret>", profile.Attributes["AccessTokenSecret"])
 
-		dotnet, ok := profile.Attributes["dotnet"].(map[string]any)
+		dotnet, ok := profile.Attributes["sacloud-sdk-dotnet"].(map[string]any)
 		s.True(ok)
 		s.Equal("foobar", dotnet["str_field"])
 	})

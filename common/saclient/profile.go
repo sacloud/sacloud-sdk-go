@@ -28,6 +28,7 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
+	"time"
 
 	"github.com/goccy/go-yaml"
 	"github.com/golang-jwt/jwt/v5"
@@ -92,8 +93,8 @@ type Profile struct {
 		DefaultZone          option[string]   `yaml:"default_zone,omitempty"`
 		FakeMode             option[bool]     `yaml:"fake_mode,omitempty"`
 		FakeStorePath        option[string]   `yaml:"fake_store_path,omitempty"`
-		HTTPRequestRateLimit option[int64]    `yaml:"http_request_rate_limit,omitempty"`
-		HTTPRequestTimeout   option[int64]    `yaml:"http_request_timeout,omitempty"`
+		APIRequestRateLimit  option[int64]    `yaml:"api_request_rate_limit,omitempty"`
+		APIRequestTimeout    option[int64]    `yaml:"api_request_timeout,omitempty"`
 		RetryMax             option[int64]    `yaml:"retry_max,omitempty"`
 		RetryWaitMax         option[int64]    `yaml:"retry_wait_max,omitempty"`
 		RetryWaitMin         option[int64]    `yaml:"retry_wait_min,omitempty"`
@@ -146,21 +147,21 @@ var profileV1CLIKeyMap = map[string]string{
 }
 
 var profileV1GoKeyMap = map[string]string{
-	"api_root_url":            "APIRootURL",
-	"accept_language":         "AcceptLanguage",
-	"default_zone":            "DefaultZone",
-	"fake_mode":               "FakeMode",
-	"fake_store_path":         "FakeStorePath",
-	"http_request_rate_limit": "HTTPRequestRateLimit",
-	"http_request_timeout":    "HTTPRequestTimeout",
-	"retry_max":               "RetryMax",
-	"retry_wait_max":          "RetryWaitMax",
-	"retry_wait_min":          "RetryWaitMin",
-	"state_polling_interval":  "StatePollingInterval",
-	"state_polling_timeout":   "StatePollingTimeout",
-	"trace_mode":              "TraceMode",
-	"zone":                    "Zone",
-	"zones":                   "Zones",
+	"api_root_url":           "APIRootURL",
+	"accept_language":        "AcceptLanguage",
+	"default_zone":           "DefaultZone",
+	"fake_mode":              "FakeMode",
+	"fake_store_path":        "FakeStorePath",
+	"api_request_rate_limit": "HTTPRequestRateLimit",
+	"api_request_timeout":    "HTTPRequestTimeout",
+	"retry_max":              "RetryMax",
+	"retry_wait_max":         "RetryWaitMax",
+	"retry_wait_min":         "RetryWaitMin",
+	"state_polling_interval": "StatePollingInterval",
+	"state_polling_timeout":  "StatePollingTimeout",
+	"trace_mode":             "TraceMode",
+	"zone":                   "Zone",
+	"zones":                  "Zones",
 }
 
 var profileV0ToV1SectionMap = map[string]v0ProfileField{
@@ -181,8 +182,8 @@ var profileV0ToV1SectionMap = map[string]v0ProfileField{
 	"DefaultZone":            {section: "sacloud-sdk-go", key: "default_zone"},
 	"FakeMode":               {section: "sacloud-sdk-go", key: "fake_mode"},
 	"FakeStorePath":          {section: "sacloud-sdk-go", key: "fake_store_path"},
-	"HTTPRequestRateLimit":   {section: "sacloud-sdk-go", key: "http_request_rate_limit"},
-	"HTTPRequestTimeout":     {section: "sacloud-sdk-go", key: "http_request_timeout"},
+	"HTTPRequestRateLimit":   {section: "sacloud-sdk-go", key: "api_request_rate_limit"},
+	"HTTPRequestTimeout":     {section: "sacloud-sdk-go", key: "api_request_timeout"},
 	"RetryMax":               {section: "sacloud-sdk-go", key: "retry_max"},
 	"RetryWaitMax":           {section: "sacloud-sdk-go", key: "retry_wait_max"},
 	"RetryWaitMin":           {section: "sacloud-sdk-go", key: "retry_wait_min"},
@@ -630,6 +631,14 @@ func importProfileV1(doc profileV1Document) *Profile {
 	mergeMappedSection(doc.Credentials, profileV1CredentialsKeyMap, p.Attributes)
 	mergeMappedSection(doc.Cli, profileV1CLIKeyMap, p.Attributes)
 	mergeMappedSection(doc.Go, profileV1GoKeyMap, p.Attributes)
+	keyIDOption := profileStringOption(doc.Credentials, "service_principal_key_kid")
+	if keyID, ok := keyIDOption.Get(); ok {
+		p.Attributes["ServicePrincipalKeyID"] = keyID
+	}
+	timeoutOption := profileInt64Option(doc.Go, "api_request_timeout")
+	if timeout, ok := timeoutOption.Get(); ok {
+		p.Attributes["HTTPRequestTimeout"] = time.Duration(timeout) * time.Second
+	}
 	if len(doc.Endpoints) > 0 {
 		p.Attributes["Endpoints"] = maps.Clone(doc.Endpoints)
 	}
@@ -661,8 +670,8 @@ func importProfileV1(doc profileV1Document) *Profile {
 	p.Go.DefaultZone = profileStringOption(doc.Go, "default_zone")
 	p.Go.FakeMode = profileBoolOption(doc.Go, "fake_mode")
 	p.Go.FakeStorePath = profileStringOption(doc.Go, "fake_store_path")
-	p.Go.HTTPRequestRateLimit = profileInt64Option(doc.Go, "http_request_rate_limit")
-	p.Go.HTTPRequestTimeout = profileInt64Option(doc.Go, "http_request_timeout")
+	p.Go.APIRequestRateLimit = profileInt64Option(doc.Go, "api_request_rate_limit")
+	p.Go.APIRequestTimeout = profileInt64Option(doc.Go, "api_request_timeout")
 	p.Go.RetryMax = profileInt64Option(doc.Go, "retry_max")
 	p.Go.RetryWaitMax = profileInt64Option(doc.Go, "retry_wait_max")
 	p.Go.RetryWaitMin = profileInt64Option(doc.Go, "retry_wait_min")
@@ -715,8 +724,8 @@ func exportProfileV1(p *Profile) profileV1Document {
 	setProfileOption(g, "default_zone", p.Go.DefaultZone)
 	setProfileOption(g, "fake_mode", p.Go.FakeMode)
 	setProfileOption(g, "fake_store_path", p.Go.FakeStorePath)
-	setProfileOption(g, "http_request_rate_limit", p.Go.HTTPRequestRateLimit)
-	setProfileOption(g, "http_request_timeout", p.Go.HTTPRequestTimeout)
+	setProfileOption(g, "api_request_rate_limit", p.Go.APIRequestRateLimit)
+	setProfileOption(g, "api_request_timeout", p.Go.APIRequestTimeout)
 	setProfileOption(g, "retry_max", p.Go.RetryMax)
 	setProfileOption(g, "retry_wait_max", p.Go.RetryWaitMax)
 	setProfileOption(g, "retry_wait_min", p.Go.RetryWaitMin)
@@ -788,8 +797,8 @@ func (this *Profile) populateV1Fields() {
 	this.Go.DefaultZone = profileStringOption(this.Attributes, "DefaultZone")
 	this.Go.FakeMode = profileBoolOption(this.Attributes, "FakeMode")
 	this.Go.FakeStorePath = profileStringOption(this.Attributes, "FakeStorePath")
-	this.Go.HTTPRequestRateLimit = profileInt64Option(this.Attributes, "HTTPRequestRateLimit")
-	this.Go.HTTPRequestTimeout = profileInt64Option(this.Attributes, "HTTPRequestTimeout")
+	this.Go.APIRequestRateLimit = profileInt64Option(this.Attributes, "HTTPRequestRateLimit")
+	this.Go.APIRequestTimeout = profileInt64Option(this.Attributes, "HTTPRequestTimeout")
 	this.Go.RetryMax = profileInt64Option(this.Attributes, "RetryMax")
 	this.Go.RetryWaitMax = profileInt64Option(this.Attributes, "RetryWaitMax")
 	this.Go.RetryWaitMin = profileInt64Option(this.Attributes, "RetryWaitMin")
