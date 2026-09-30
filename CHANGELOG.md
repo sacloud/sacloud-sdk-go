@@ -1,5 +1,27 @@
 # Changelog
 
+## [v0.3.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.2.0...v0.3.0) - 2026-09-30
+
+### 🚀 New Features
+- api/simplemq: update OpenAPI definitions by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/264
+- iam: openapi.json 2.1.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/263
+- kms/secretmanager/cloudhsm: openapi.json 1.2.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/261
+### 📦 Dependency Updates
+- go: bump google.golang.org/grpc from 1.83.1 to 1.83.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/255
+- go: bump google.golang.org/grpc from 1.83.1 to 1.83.2 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/254
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.1.0 to 0.2.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/268
+- go: bump github.com/gofrs/flock from 0.13.0 to 0.13.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/253
+- ci: bump Songmu/tagpr from 1.20.2 to 1.20.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/257
+- go: bump the otel group across 2 directories with 7 updates by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/252
+- go: bump golang.org/x/crypto from 0.55.0 to 0.57.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/266
+- ci: bump github/codeql-action/upload-sarif from 4.37.9 to 4.38.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/271
+- go: bump github.com/go-playground/validator/v10 from 10.30.3 to 10.30.5 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/273
+### Other Changes
+- seg: Update OpenAPI to support SimpleAI by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/258
+- [chore] refactor hoist out utility functions by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/260
+- apis/apprun-dedicated: fix add missing cast by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/269
+- service/iaas: skip fqdn validation by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/275
+
 ## [v0.2.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.1.0...v0.2.0) - 2026-09-07
 
 ### 🚀 New Features
