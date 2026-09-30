@@ -28,7 +28,6 @@ import (
 	"path/filepath"
 	"slices"
 	"strings"
-	"time"
 
 	"github.com/goccy/go-yaml"
 	"github.com/golang-jwt/jwt/v5"
@@ -631,10 +630,6 @@ func importProfileV1(doc profileV1Document) *Profile {
 	mergeMappedSection(doc.Credentials, profileV1CredentialsKeyMap, p.Attributes)
 	mergeMappedSection(doc.Cli, profileV1CLIKeyMap, p.Attributes)
 	mergeMappedSection(doc.Go, profileV1GoKeyMap, p.Attributes)
-	timeoutOption := profileInt64Option(doc.Go, "api_request_timeout")
-	if timeout, ok := timeoutOption.Get(); ok {
-		p.Attributes["APIRequestTimeout"] = time.Duration(timeout) * time.Second
-	}
 	if len(doc.Endpoints) > 0 {
 		p.Attributes["Endpoints"] = maps.Clone(doc.Endpoints)
 	}

@@ -1016,6 +1016,34 @@ func obtainFromProfile[
 	w, ok := v.(T)
 
 	if !ok {
+		if _, isDuration := any((*new(T))).(time.Duration); isDuration {
+			var seconds int64
+			converted := true
+			switch value := v.(type) {
+			case float64:
+				if float64(int64(value)) != value {
+					converted = false
+				} else {
+					seconds = int64(value)
+				}
+			case uint64:
+				if value > uint64(math.MaxInt64) {
+					converted = false
+				} else {
+					seconds = int64(value)
+				}
+			case int:
+				seconds = int64(value)
+			case int64:
+				seconds = value
+			default:
+				converted = false
+			}
+			if converted {
+				result = resultOptionSome(any(time.Duration(seconds) * time.Second).(T))
+				return
+			}
+		}
 		// Numeric conversions to int64 for JSON and YAML profile values.
 		if _, isInt64 := any((*new(T))).(int64); isInt64 {
 			switch value := v.(type) {
