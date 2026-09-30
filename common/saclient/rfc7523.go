@@ -61,7 +61,7 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 	// these fields are checked beforehand
 	aud := obtainFromConfig[string](cfg, "TokenEndpoint").unwrap()
 	sub := obtainFromConfig[string](cfg, "ServicePrincipalID").unwrap()
-	kid := obtainFromConfig[string](cfg, "ServicePrincipalKeyID").unwrap()
+	kid := obtainFromConfig[string](cfg, "ServicePrincipalKeyKID").unwrap()
 
 	if key := obtainFromConfig[string](cfg, "PrivateKey").asPtr(); key != nil {
 		buf = []byte(*key)

@@ -97,14 +97,14 @@ func (d *doer) middlewareAuthorization(c *config) Middleware {
 				return nil, NewErrorf("ServicePrincipalID is absent")
 			}
 
-			_, ok, err = obtainFromConfig[string](c, "ServicePrincipalKeyID").decompose()
+			_, ok, err = obtainFromConfig[string](c, "ServicePrincipalKeyKID").decompose()
 
 			if err != nil {
 				return nil, err
 			}
 
 			if !ok {
-				return nil, NewErrorf("ServicePrincipalKeyID is absent")
+				return nil, NewErrorf("ServicePrincipalKeyKID is absent")
 			}
 
 			_, path, err := obtainFromConfig[string](c, "PrivateKeyPEMPath").decompose()

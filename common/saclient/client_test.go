@@ -71,7 +71,7 @@ func (p *providerModel) LookupClientConfigServicePrincipalID() (string, bool) {
 	return "", false
 }
 
-func (p *providerModel) LookupClientConfigServicePrincipalKeyID() (string, bool) {
+func (p *providerModel) LookupClientConfigServicePrincipalKeyKID() (string, bool) {
 	// Not supported in this test model
 	return "", false
 }
@@ -441,6 +441,20 @@ func (s *ClientTestSuite) TestEnviron() {
 			},
 		}, subject.JSON())
 	})
+
+	for _, prefix := range []string{"SAKURA", "SAKURACLOUD"} {
+		s.Run(prefix+"_SERVICE_PRINCIPAL_KEY_KID wins", func() {
+			subject := s.subject.Dup().(*Client)
+			e := subject.SetEnviron([]string{
+				prefix + "_SERVICE_PRINCIPAL_KEY_ID=legacy-kid",
+				prefix + "_SERVICE_PRINCIPAL_KEY_KID=canonical-kid",
+			})
+			s.Require().NoError(e)
+			s.Require().NoError(subject.Populate())
+			s.Equal("canonical-kid", subject.JSON()["ServicePrincipalKeyKID"])
+			s.NotContains(subject.JSON(), "ServicePrincipalKeyID")
+		})
+	}
 }
 
 // #nosec G101 -- This is only a test
@@ -485,6 +499,19 @@ func (s *ClientTestSuite) TestTerraform() {
 			", bar",
 		},
 	}, s.subject.JSON())
+}
+
+func (s *ClientTestSuite) TestServicePrincipalKeyKIDFlagWinsLegacyAlias() {
+	for _, args := range [][]string{
+		{"--service-principal-key-id=legacy-kid", "--service-principal-key-kid=canonical-kid"},
+		{"--service-principal-key-kid=canonical-kid", "--service-principal-key-id=legacy-kid"},
+	} {
+		subject := s.subject.Dup().(*Client)
+		s.Require().NoError(subject.FlagSet(flag.PanicOnError).Parse(args))
+		s.Require().NoError(subject.Populate())
+		s.Equal("canonical-kid", subject.JSON()["ServicePrincipalKeyKID"])
+		s.NotContains(subject.JSON(), "ServicePrincipalKeyID")
+	}
 }
 
 func (s *ClientTestSuite) TestNoProfile() {
@@ -686,9 +713,8 @@ func (s *ClientTestSuite) TestProfileV1EffectiveSettings() {
 	s.Require().NoError(subject.Populate())
 
 	actual := subject.JSON()
-	fmt.Printf("foo %+v\n", actual)
 	s.Equal("service-principal-id", actual["ServicePrincipalID"])
-	s.Equal("service-principal-key-kid", actual["ServicePrincipalKeyID"])
+	s.Equal("service-principal-key-kid", actual["ServicePrincipalKeyKID"])
 	s.Equal("inline-private-key", actual["PrivateKey"])
 	s.Equal(int64(9), actual["APIRequestRateLimit"])
 	s.Equal(42*time.Second, actual["APIRequestTimeout"])

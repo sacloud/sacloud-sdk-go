@@ -36,31 +36,31 @@ import (
 )
 
 type storage struct {
-	profileName           option[string]
-	privateKeyPath        option[string]
-	privateKey            option[string]
-	servicePrincipalKeyID option[string]
-	servicePrincipalID    option[string]
-	tokenEndpoint         option[string]
-	accessToken           option[string]
-	accessTokenSecret     option[string]
-	zone                  option[string]
-	defaultZone           option[string]
-	zones                 option[[]string]
-	retryMax              option[int64]
-	retryWaitMax          option[int64]
-	retryWaitMin          option[int64]
-	apiRootURL            option[string]
-	apiRequestTimeout     option[time.Duration]
-	apiRequestRateLimit   option[int64]
-	traceMode             option[string]
-	mockServer            option[*httptest.Server]
-	userAgent             option[string]
-	acceptLanguage        option[string]
-	authPreference        option[string]
-	middlewares           option[[]Middleware]
-	checkRetryFunc        option[retryablehttp.CheckRetry]
-	endpoints             option[map[string]string]
+	profileName            option[string]
+	privateKeyPath         option[string]
+	privateKey             option[string]
+	servicePrincipalKeyKID option[string]
+	servicePrincipalID     option[string]
+	tokenEndpoint          option[string]
+	accessToken            option[string]
+	accessTokenSecret      option[string]
+	zone                   option[string]
+	defaultZone            option[string]
+	zones                  option[[]string]
+	retryMax               option[int64]
+	retryWaitMax           option[int64]
+	retryWaitMin           option[int64]
+	apiRootURL             option[string]
+	apiRequestTimeout      option[time.Duration]
+	apiRequestRateLimit    option[int64]
+	traceMode              option[string]
+	mockServer             option[*httptest.Server]
+	userAgent              option[string]
+	acceptLanguage         option[string]
+	authPreference         option[string]
+	middlewares            option[[]Middleware]
+	checkRetryFunc         option[retryablehttp.CheckRetry]
+	endpoints              option[map[string]string]
 
 	// Deprecated: this is to migrate from old client.
 	requestCustomizers option[[]saht.RequestCustomizer]
@@ -90,7 +90,7 @@ func (p *parameter) setEnviron(env []string) error {
 		return NewErrorf("nil parameter")
 	} else {
 		p.env = slices.Clone(env)
-		r := make([]error, 0, 43) // <- 43 is the # of `append` calls below
+		r := make([]error, 0, 44) // <- 44 is the # of `append` calls below
 		e := intoEnvmap(env)
 		s := &p.envp
 
@@ -103,8 +103,8 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY", s.privateKey.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
-		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
-		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_KID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_KID", s.servicePrincipalKeyKID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyKID.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN", s.accessToken.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
@@ -137,7 +137,8 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY", s.privateKey.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
-		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_KEY_KID", s.servicePrincipalKeyKID.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyKID.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_ACCESS_TOKEN", s.accessToken.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
@@ -192,7 +193,7 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.apiRequestRateLimit.from(config.LookupClientConfigAPIRequestRateLimit)
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
 	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
-	p.hcl.servicePrincipalKeyID.from(config.LookupClientConfigServicePrincipalKeyID)
+	p.hcl.servicePrincipalKeyKID.from(config.LookupClientConfigServicePrincipalKeyKID)
 }
 
 func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
@@ -205,7 +206,13 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 		fs.Var(&p.argv.profileName, "profile", "the name of saved credentials")
 		fs.Var(&p.argv.privateKeyPath, "private-key-path", "path to an RSA 2048 bit private key PEM format")
 		fs.Var(&p.argv.servicePrincipalID, "service-principal-id", "the ID of the service principal")
-		fs.Var(&p.argv.servicePrincipalKeyID, "service-principal-key-id", "the `kid` of the service principal")
+		fs.Func("service-principal-key-kid", "the `kid` of the service principal", p.argv.servicePrincipalKeyKID.Set)
+		fs.Func("service-principal-key-id", "deprecated alias of --service-principal-key-kid", func(value string) error {
+			if _, ok := p.argv.servicePrincipalKeyKID.Get(); ok {
+				return nil
+			}
+			return p.argv.servicePrincipalKeyKID.Set(value)
+		})
 		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.zones, "zones", "permitted zone names")
@@ -373,7 +380,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateProfile(c))
 	ret = append(ret, p.populatePrivateKeyPath(c))
 	ret = append(ret, p.populatePrivateKey(c))
-	ret = append(ret, p.populateServicePrincipalKeyID(c))
+	ret = append(ret, p.populateServicePrincipalKeyKID(c))
 	ret = append(ret, p.populateServicePrincipalID(c))
 	ret = append(ret, p.populateTokenEndpoint(c))
 	ret = append(ret, p.populateAccessToken(c))
@@ -522,8 +529,8 @@ func (p *parameter) populateServicePrincipalID(c *config) error {
 	return p.populateString(c, "ServicePrincipalID")
 }
 
-func (p *parameter) populateServicePrincipalKeyID(c *config) error {
-	return p.populateString(c, "ServicePrincipalKeyID")
+func (p *parameter) populateServicePrincipalKeyKID(c *config) error {
+	return p.populateString(c, "ServicePrincipalKeyKID")
 }
 
 func (p *parameter) populateTokenEndpoint(c *config) error {
@@ -667,7 +674,7 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		key2auth := [][2]string{
 			{"PrivateKeyPEMPath", "bearer"},
 			{"ServicePrincipalID", "bearer"},
-			{"ServicePrincipalKeyID", "bearer"},
+			{"ServicePrincipalKeyKID", "bearer"},
 			{"AccessToken", "basic"},
 			{"AccessTokenSecret", "basic"},
 		}
@@ -984,13 +991,17 @@ func obtainFromProfile[
 		return
 	}
 
+	legacyKey := ""
 	switch k {
 	case "APIRequestRateLimit":
-		k = "HTTPRequestRateLimit"
+		legacyKey = "HTTPRequestRateLimit"
 	case "APIRequestTimeout":
-		k = "HTTPRequestTimeout"
+		legacyKey = "HTTPRequestTimeout"
 	}
 	v, ok := p.Get(k)
+	if !ok && legacyKey != "" {
+		v, ok = p.Get(legacyKey)
+	}
 
 	if !ok {
 		// profile does not have this key; ok unspecified
@@ -1074,8 +1085,8 @@ func (s *storage) get(k string) (any, bool) {
 	case "ServicePrincipalID":
 		return s.servicePrincipalID.Get()
 
-	case "ServicePrincipalKeyID":
-		return s.servicePrincipalKeyID.Get()
+	case "ServicePrincipalKeyKID":
+		return s.servicePrincipalKeyKID.Get()
 
 	case "TokenEndpoint":
 		return s.tokenEndpoint.Get()

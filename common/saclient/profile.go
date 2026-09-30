@@ -631,13 +631,9 @@ func importProfileV1(doc profileV1Document) *Profile {
 	mergeMappedSection(doc.Credentials, profileV1CredentialsKeyMap, p.Attributes)
 	mergeMappedSection(doc.Cli, profileV1CLIKeyMap, p.Attributes)
 	mergeMappedSection(doc.Go, profileV1GoKeyMap, p.Attributes)
-	keyIDOption := profileStringOption(doc.Credentials, "service_principal_key_kid")
-	if keyID, ok := keyIDOption.Get(); ok {
-		p.Attributes["ServicePrincipalKeyID"] = keyID
-	}
 	timeoutOption := profileInt64Option(doc.Go, "api_request_timeout")
 	if timeout, ok := timeoutOption.Get(); ok {
-		p.Attributes["HTTPRequestTimeout"] = time.Duration(timeout) * time.Second
+		p.Attributes["APIRequestTimeout"] = time.Duration(timeout) * time.Second
 	}
 	if len(doc.Endpoints) > 0 {
 		p.Attributes["Endpoints"] = maps.Clone(doc.Endpoints)
@@ -774,6 +770,12 @@ func (this *Profile) populateV1Fields() {
 	this.Credentials.AccessTokenSecret = profileStringOption(this.Attributes, "AccessTokenSecret")
 	this.Credentials.ServicePrincipalID = profileStringOption(this.Attributes, "ServicePrincipalID")
 	this.Credentials.ServicePrincipalKeyKID = profileStringOption(this.Attributes, "ServicePrincipalKeyKID")
+	if _, ok := this.Credentials.ServicePrincipalKeyKID.Get(); !ok {
+		this.Credentials.ServicePrincipalKeyKID = profileStringOption(this.Attributes, "ServicePrincipalKeyID")
+		if kid, ok := this.Credentials.ServicePrincipalKeyKID.Get(); ok {
+			this.Attributes["ServicePrincipalKeyKID"] = kid
+		}
+	}
 	this.Credentials.PrivateKey = profileStringOption(this.Attributes, "PrivateKey")
 	this.Credentials.PrivateKeyPEMPath = profileStringOption(this.Attributes, "PrivateKeyPEMPath")
 
