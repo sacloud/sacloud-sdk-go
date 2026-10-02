@@ -427,17 +427,29 @@ func (this *Profile) Pathname() string {
 	}
 }
 
-// deprecated: This method is only working with version 0 profile. Use direct access to typed fields for version 1 profile.
 func (this *Profile) Get(k string) (any, bool) {
 	if this == nil {
 		return nil, false
-	} else {
-		v, ok := this.Attributes[k]
-		return v, ok
 	}
+	if strings.HasPrefix(k, "endpoints.") {
+		value, ok := this.Endpoints[strings.TrimPrefix(k, "endpoints.")]
+		if ok {
+			return value, true
+		}
+	}
+	if v0Key, field, ok := profileFieldForKey(k); ok {
+		// 将来的にはv1にのみフィールドが増える可能性があるのでv1を優先して取得する
+		if value, found := profileV1FieldValue(this, field); found {
+			return value, true
+		}
+		if value, found := this.Attributes[v0Key]; found {
+			return value, true
+		}
+	}
+	value, ok := this.Attributes[k]
+	return value, ok
 }
 
-// deprecated: This method is only working with version 0 profile. Use direct access to typed fields for version 1 profile.
 func (this *Profile) Set(k string, v any) {
 	if this == nil {
 		return
@@ -445,7 +457,148 @@ func (this *Profile) Set(k string, v any) {
 	if this.Attributes == nil {
 		this.Attributes = map[string]any{}
 	}
+	if strings.HasPrefix(k, "endpoints.") {
+		if endpoint, ok := v.(string); ok {
+			if this.Endpoints == nil {
+				this.Endpoints = map[string]string{}
+			}
+			name := strings.TrimPrefix(k, "endpoints.")
+			this.Endpoints[name] = endpoint
+			endpoints := make(map[string]any, len(this.Endpoints))
+			for key, value := range this.Endpoints {
+				endpoints[key] = value
+			}
+			this.Attributes["Endpoints"] = endpoints
+		}
+		return
+	}
+	if v0Key, field, ok := profileFieldForKey(k); ok {
+		this.Attributes[v0Key] = v
+		setProfileV1Field(this, field, v)
+		return
+	}
 	this.Attributes[k] = v
+}
+
+func profileFieldForKey(key string) (string, v0ProfileField, bool) {
+	if field, ok := profileV0ToV1SectionMap[key]; ok {
+		return key, field, true
+	}
+
+	section, fieldName, ok := strings.Cut(key, ".")
+	if !ok {
+		return "", v0ProfileField{}, false
+	}
+	// TODO: v1にのみフィールドが増えた場合の処理を追加する
+
+	var v0Key string
+	switch section {
+	case "credentials":
+		v0Key = profileV1CredentialsKeyMap[fieldName]
+	case "cli":
+		v0Key = profileV1CLIKeyMap[fieldName]
+	case "sacloud-sdk-go":
+		v0Key = profileV1GoKeyMap[fieldName]
+	default:
+		return "", v0ProfileField{}, false
+	}
+	field, ok := profileV0ToV1SectionMap[v0Key]
+	return v0Key, field, ok
+}
+
+func profileV1FieldValue(profile *Profile, field v0ProfileField) (any, bool) {
+	doc := exportProfileV1(profile)
+	var section map[string]any
+	switch field.section {
+	case "credentials":
+		section = doc.Credentials
+	case "cli":
+		section = doc.Cli
+	case "sacloud-sdk-go":
+		section = doc.Go
+	default:
+		return nil, false
+	}
+	value, ok := section[field.key]
+	return value, ok
+}
+
+func setProfileV1Field(profile *Profile, field v0ProfileField, value any) {
+	switch field.section + "." + field.key {
+	case "credentials.access_token":
+		setProfileOptionValue(&profile.Credentials.AccessToken, value)
+	case "credentials.access_token_secret":
+		setProfileOptionValue(&profile.Credentials.AccessTokenSecret, value)
+	case "credentials.service_principal_id":
+		setProfileOptionValue(&profile.Credentials.ServicePrincipalID, value)
+	case "credentials.service_principal_key_kid":
+		setProfileOptionValue(&profile.Credentials.ServicePrincipalKeyKID, value)
+	case "credentials.private_key":
+		setProfileOptionValue(&profile.Credentials.PrivateKey, value)
+	case "credentials.private_key_path":
+		setProfileOptionValue(&profile.Credentials.PrivateKeyPEMPath, value)
+	case "cli.argument_match_mode":
+		setProfileOptionValue(&profile.Cli.ArgumentMatchMode, value)
+	case "cli.default_output_type":
+		setProfileOptionValue(&profile.Cli.DefaultOutputType, value)
+	case "cli.default_query_driver":
+		setProfileOptionValue(&profile.Cli.DefaultQueryDriver, value)
+	case "cli.no_color":
+		setProfileOptionValue(&profile.Cli.NoColor, value)
+	case "cli.process_timeout_sec":
+		setProfileOptionValue(&profile.Cli.ProcessTimeoutSec, value)
+	case "sacloud-sdk-go.api_root_url":
+		setProfileOptionValue(&profile.Go.APIRootURL, value)
+	case "sacloud-sdk-go.accept_language":
+		setProfileOptionValue(&profile.Go.AcceptLanguage, value)
+	case "sacloud-sdk-go.default_zone":
+		setProfileOptionValue(&profile.Go.DefaultZone, value)
+	case "sacloud-sdk-go.fake_mode":
+		setProfileOptionValue(&profile.Go.FakeMode, value)
+	case "sacloud-sdk-go.fake_store_path":
+		setProfileOptionValue(&profile.Go.FakeStorePath, value)
+	case "sacloud-sdk-go.api_request_rate_limit":
+		setProfileOptionValue(&profile.Go.APIRequestRateLimit, value)
+	case "sacloud-sdk-go.api_request_timeout":
+		setProfileOptionValue(&profile.Go.APIRequestTimeout, value)
+	case "sacloud-sdk-go.retry_max":
+		setProfileOptionValue(&profile.Go.RetryMax, value)
+	case "sacloud-sdk-go.retry_wait_max":
+		setProfileOptionValue(&profile.Go.RetryWaitMax, value)
+	case "sacloud-sdk-go.retry_wait_min":
+		setProfileOptionValue(&profile.Go.RetryWaitMin, value)
+	case "sacloud-sdk-go.state_polling_interval":
+		setProfileOptionValue(&profile.Go.StatePollingInterval, value)
+	case "sacloud-sdk-go.state_polling_timeout":
+		setProfileOptionValue(&profile.Go.StatePollingTimeout, value)
+	case "sacloud-sdk-go.trace_mode":
+		setProfileOptionValue(&profile.Go.TraceMode, value)
+	case "sacloud-sdk-go.zone":
+		setProfileOptionValue(&profile.Go.Zone, value)
+	case "sacloud-sdk-go.zones":
+		setProfileOptionValue(&profile.Go.Zones, value)
+	}
+}
+
+func setProfileOptionValue[T any](dst *option[T], value any) {
+	if typedValue, ok := value.(T); ok {
+		dst.SetTo(typedValue)
+		return
+	}
+	if _, isInt64 := any((*new(T))).(int64); isInt64 {
+		var converted int64
+		switch value := value.(type) {
+		case int:
+			converted = int64(value)
+		case uint64:
+			converted = int64(value) //nolint:gosec
+		case float64:
+			converted = int64(value)
+		default:
+			return
+		}
+		dst.SetTo(any(converted).(T))
+	}
 }
 
 func (this *Profile) Keys() iter.Seq[string] {
@@ -743,8 +896,8 @@ func exportProfileV1(p *Profile) profileV1Document {
 }
 
 func setProfileOption[T any](dst map[string]any, key string, value option[T]) {
-	if value, ok := value.Get(); ok {
-		dst[key] = value
+	if v, ok := value.Get(); ok {
+		dst[key] = v
 	}
 }
 

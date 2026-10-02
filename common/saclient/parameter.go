@@ -991,16 +991,16 @@ func obtainFromProfile[
 		return
 	}
 
-	legacyKey := ""
+	v0Key := ""
 	switch k {
 	case "APIRequestRateLimit":
-		legacyKey = "HTTPRequestRateLimit"
+		v0Key = "HTTPRequestRateLimit"
 	case "APIRequestTimeout":
-		legacyKey = "HTTPRequestTimeout"
+		v0Key = "HTTPRequestTimeout"
 	}
 	v, ok := p.Get(k)
-	if !ok && legacyKey != "" {
-		v, ok = p.Get(legacyKey)
+	if !ok && v0Key != "" {
+		v, ok = p.Get(v0Key)
 	}
 
 	if !ok {

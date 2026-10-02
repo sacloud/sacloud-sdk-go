@@ -449,8 +449,8 @@ func (s *ClientTestSuite) TestEnviron() {
 				prefix + "_SERVICE_PRINCIPAL_KEY_ID=legacy-kid",
 				prefix + "_SERVICE_PRINCIPAL_KEY_KID=canonical-kid",
 			})
-			s.Require().NoError(e)
-			s.Require().NoError(subject.Populate())
+			s.NoError(e)
+			s.NoError(subject.Populate())
 			s.Equal("canonical-kid", subject.JSON()["ServicePrincipalKeyKID"])
 			s.NotContains(subject.JSON(), "ServicePrincipalKeyID")
 		})
@@ -507,8 +507,8 @@ func (s *ClientTestSuite) TestServicePrincipalKeyKIDFlagWinsLegacyAlias() {
 		{"--service-principal-key-kid=canonical-kid", "--service-principal-key-id=legacy-kid"},
 	} {
 		subject := s.subject.Dup().(*Client)
-		s.Require().NoError(subject.FlagSet(flag.PanicOnError).Parse(args))
-		s.Require().NoError(subject.Populate())
+		s.NoError(subject.FlagSet(flag.PanicOnError).Parse(args))
+		s.NoError(subject.Populate())
 		s.Equal("canonical-kid", subject.JSON()["ServicePrincipalKeyKID"])
 		s.NotContains(subject.JSON(), "ServicePrincipalKeyID")
 	}
@@ -706,11 +706,11 @@ func (s *ClientTestSuite) TestProfileWithNullValue() {
 
 func (s *ClientTestSuite) TestProfileV1EffectiveSettings() {
 	var subject Client
-	s.Require().NoError(subject.SetEnviron([]string{
+	s.NoError(subject.SetEnviron([]string{
 		"SAKURA_PROFILE_DIR=" + filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "usacloud"),
 		"SAKURA_PROFILE=v1",
 	}))
-	s.Require().NoError(subject.Populate())
+	s.NoError(subject.Populate())
 
 	actual := subject.JSON()
 	s.Equal("service-principal-id", actual["ServicePrincipalID"])
