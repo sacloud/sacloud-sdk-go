@@ -81,10 +81,13 @@ func (m *option[T]) Set(s string) error {
 
 	switch m := any(m).(type) {
 	case *option[bool]:
-		if v, err := strconv.ParseBool(s); err != nil {
-			return err
-		} else {
-			m.initialize(v)
+		switch s {
+		case "true":
+			m.initialize(true)
+		case "false":
+			m.initialize(false)
+		default:
+			return fmt.Errorf("invalid boolean value %q: expected true or false", s)
 		}
 
 	case *option[string]:
