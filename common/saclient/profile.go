@@ -242,13 +242,7 @@ func (this *ProfileOp) List() ([]string, error) {
 			}
 		}
 
-		ret := make([]string, 0, len(seen))
-		for name := range seen {
-			ret = append(ret, name)
-		}
-
-		slices.Sort(ret)
-		return ret, nil
+		return slices.Sorted(maps.Keys(seen)), nil
 	}
 }
 

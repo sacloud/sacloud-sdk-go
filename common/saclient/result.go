@@ -128,6 +128,10 @@ func (m *option[T]) Set(s string) error {
 }
 
 func (m *option[T]) SetTo(v T) {
+	if m == nil {
+		// should not happen, but just return to avoid nil dereference
+		return
+	}
 	m.initialize(v)
 }
 

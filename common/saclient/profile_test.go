@@ -445,6 +445,57 @@ func (s *ProfileTestSuite) TestProfileOp_FullV1Sample() {
 	s.Equal("is1a", profile.Go.Zone.MustGet())
 }
 
+func (s *ProfileTestSuite) TestProfileOp_UpdateV0ToV1() {
+	dir := s.T().TempDir()
+	profileDir := filepath.Join(dir, "legacy")
+	s.NoError(os.MkdirAll(profileDir, 0o700))
+	s.NoError(os.WriteFile(filepath.Join(profileDir, "config.json"), []byte(`{
+  "AccessToken": "legacy-token",
+  "AccessTokenSecret": "legacy-secret",
+  "NoColor": true,
+  "FakeMode": false,
+  "Zone": "is1a"
+}`), 0o600))
+
+	op, err := NewProfileOp([]string{"SAKURA_PROFILE_DIR=" + dir})
+	if !s.NoError(err) {
+		return
+	}
+
+	profile, err := op.Read("legacy")
+	if !s.NoError(err) {
+		return
+	}
+	s.EqualValues(0, profile.Version)
+
+	profile.Version = 1
+	profile.Set("sacloud-sdk-go.api_request_rate_limit", 10)
+	updated, err := op.Update(profile)
+	if !s.NoError(err) {
+		return
+	}
+	s.Same(profile, updated)
+	s.EqualValues(1, updated.Version)
+
+	yamlPath := filepath.Join(profileDir, "config.yaml")
+	_, err = os.Stat(yamlPath)
+	if !s.NoError(err) {
+		return
+	}
+
+	profile, err = op.Read("legacy")
+	if !s.NoError(err) {
+		return
+	}
+	s.EqualValues(1, profile.Version)
+	s.Equal("legacy-token", profile.Credentials.AccessToken.MustGet())
+	s.Equal("legacy-secret", profile.Credentials.AccessTokenSecret.MustGet())
+	s.EqualValues(10, profile.Go.APIRequestRateLimit.MustGet())
+	s.True(profile.Cli.NoColor.MustGet())
+	s.False(profile.Go.FakeMode.MustGet())
+	s.Equal("is1a", profile.Go.Zone.MustGet())
+}
+
 func (s *ProfileTestSuite) TestProfileOp_V1YAML() {
 	dir := s.T().TempDir()
 
