@@ -8,6 +8,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type CertificateAPI interface {
@@ -37,7 +38,7 @@ func (op *CertificateOp) List(ctx context.Context, maxItems int64, cursor *v1.Ce
 	res, err := common.ErrorFromDecodedResponse("Certificate.List", func() (*v1.ListCertificateResponse, error) {
 		return op.client.ListCertificate(ctx, v1.ListCertificateParams{
 			ClusterID: op.clusterID,
-			Cursor:    common.IntoOpt[v1.OptCertificateID](cursor),
+			Cursor:    into.Opt[v1.OptCertificateID](cursor),
 			MaxItems:  maxItems,
 		})
 	})
@@ -63,7 +64,7 @@ func (op *CertificateOp) Create(ctx context.Context, req CreateParams) (ret *v1.
 			Name:                       req.Name,
 			CertificatePem:             req.CertificatePEM,
 			PrivatekeyPem:              req.PrivateKeyPEM,
-			IntermediateCertificatePem: common.IntoOpt[v1.OptString](req.IntermediateCertificatePEM),
+			IntermediateCertificatePem: into.Opt[v1.OptString](req.IntermediateCertificatePEM),
 		}
 
 		return op.client.CreateCertificate(ctx, &request, v1.CreateCertificateParams{ClusterID: op.clusterID})
@@ -98,7 +99,7 @@ func (op *CertificateOp) Update(ctx context.Context, id v1.CertificateID, reques
 			Name:                       request.Name,
 			CertificatePem:             request.CertificatePEM,
 			PrivatekeyPem:              request.PrivateKeyPEM,
-			IntermediateCertificatePem: common.IntoOpt[v1.OptString](request.IntermediateCertificatePEM),
+			IntermediateCertificatePem: into.Opt[v1.OptString](request.IntermediateCertificatePEM),
 		}
 		p := v1.UpdateCertificateParams{
 			ClusterID:     op.clusterID,

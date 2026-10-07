@@ -22,7 +22,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/cleanup"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/internet/builder"
 	"github.com/stretchr/testify/require"
 )
@@ -62,10 +61,10 @@ func TestInternetService_convertUpdateRequest(t *testing.T) {
 			in: &UpdateRequest{
 				Zone:          zone,
 				ID:            internet.ID,
-				Name:          pointer.NewString(name + "-upd"),
-				Description:   pointer.NewString("description-upd"),
-				BandWidthMbps: pointer.NewInt(250),
-				EnableIPv6:    pointer.NewBool(false),
+				Name:          new(name + "-upd"),
+				Description:   new("description-upd"),
+				BandWidthMbps: new(250),
+				EnableIPv6:    new(false),
 			},
 			expect: &builder2.Builder{
 				Name:           name + "-upd",

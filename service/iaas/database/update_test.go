@@ -23,7 +23,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/wait"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	builder2 "github.com/sacloud/sacloud-sdk-go/service/iaas/database/builder"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 	"github.com/stretchr/testify/require"
@@ -75,7 +74,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 		Tags:         types.Tags{"tag1", "tag2"},
 		SettingsHash: "",
 		NoWait:       false,
-		Parameters: map[string]interface{}{
+		Parameters: map[string]any{
 			"max_connections": float64(100),
 		},
 		SetupOptions: &setup.Options{
@@ -112,7 +111,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 			in: &UpdateRequest{
 				Zone:   zone,
 				ID:     db.ID,
-				Name:   pointer.NewString(db.Name + "-upd"),
+				Name:   new(db.Name + "-upd"),
 				NoWait: true,
 			},
 			expect: &ApplyRequest{
@@ -138,7 +137,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 				BackupWeekdays:        []types.EDayOfTheWeek{types.DaysOfTheWeek.Monday},
 				BackupStartTimeHour:   10,
 				BackupStartTimeMinute: 0,
-				Parameters: map[string]interface{}{
+				Parameters: map[string]any{
 					"max_connections": float64(100),
 				},
 				NoWait: true,
@@ -148,9 +147,9 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 			in: &UpdateRequest{
 				Zone:              zone,
 				ID:                db.ID,
-				EnableReplication: pointer.NewBool(false),
-				EnableBackup:      pointer.NewBool(false),
-				Parameters: &map[string]interface{}{
+				EnableReplication: new(false),
+				EnableBackup:      new(false),
+				Parameters: &map[string]any{
 					"work_mem": float64(4096),
 				},
 				NoWait: true,
@@ -178,7 +177,7 @@ func TestDatabaseService_convertUpdateRequest(t *testing.T) {
 				BackupWeekdays:        []types.EDayOfTheWeek{types.DaysOfTheWeek.Monday},
 				BackupStartTimeHour:   10,
 				BackupStartTimeMinute: 0,
-				Parameters: map[string]interface{}{
+				Parameters: map[string]any{
 					"max_connections": float64(100),
 					"work_mem":        float64(4096),
 				},

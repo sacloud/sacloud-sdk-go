@@ -207,7 +207,7 @@ func (b *Builder) create(ctx context.Context, zone string) (*iaas.MobileGateway,
 				InterDeviceCommunicationEnabled: types.StringFlag(b.InterDeviceCommunicationEnabled),
 			})
 		},
-		ProvisionBeforeUp: func(ctx context.Context, zone string, id types.ID, target interface{}) error {
+		ProvisionBeforeUp: func(ctx context.Context, zone string, id types.ID, target any) error {
 			if b.NoWait {
 				return nil
 			}
@@ -299,7 +299,7 @@ func (b *Builder) create(ctx context.Context, zone string) (*iaas.MobileGateway,
 		Delete: func(ctx context.Context, zone string, id types.ID) error {
 			return b.Client.MobileGateway.Delete(ctx, zone, id)
 		},
-		Read: func(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+		Read: func(ctx context.Context, zone string, id types.ID) (any, error) {
 			return b.Client.MobileGateway.Read(ctx, zone, id)
 		},
 		IsWaitForCopy: !b.NoWait,

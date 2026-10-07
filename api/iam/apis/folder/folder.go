@@ -19,10 +19,11 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/iam/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/iam/common"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type FolderAPI interface {
-	List(ctx context.Context, params ListParams) (*v1.FoldersGetOK, error)
+	List(ctx context.Context, params ListParams) (*v1.ListFoldersOK, error)
 
 	Create(ctx context.Context, params CreateParams) (*v1.Folder, error)
 	Read(ctx context.Context, id int) (*v1.Folder, error)
@@ -47,13 +48,13 @@ type ListParams struct {
 	ParentID *int
 }
 
-func (f *folderOp) List(ctx context.Context, params ListParams) (*v1.FoldersGetOK, error) {
-	return common.ErrorFromDecodedResponse[v1.FoldersGetOK]("Folder.List", func() (any, error) {
-		return f.client.FoldersGet(ctx, v1.FoldersGetParams{
-			Page:       common.IntoOpt[v1.OptInt](params.Page),
-			PerPage:    common.IntoOpt[v1.OptInt](params.PerPage),
-			FolderName: common.IntoOpt[v1.OptString](params.Name),
-			ParentID:   common.IntoOpt[v1.OptInt](params.ParentID),
+func (f *folderOp) List(ctx context.Context, params ListParams) (*v1.ListFoldersOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ListFoldersOK]("Folder.List", func() (any, error) {
+		return f.client.ListFolders(ctx, v1.ListFoldersParams{
+			Page:       into.Opt[v1.OptInt](params.Page),
+			PerPage:    into.Opt[v1.OptInt](params.PerPage),
+			FolderName: into.Opt[v1.OptString](params.Name),
+			ParentID:   into.Opt[v1.OptInt](params.ParentID),
 		})
 	})
 }
@@ -66,46 +67,46 @@ type CreateParams struct {
 
 func (f *folderOp) Create(ctx context.Context, params CreateParams) (*v1.Folder, error) {
 	return common.ErrorFromDecodedResponse[v1.Folder]("Folder.Create", func() (any, error) {
-		return f.client.FoldersPost(ctx, &v1.FoldersPostReq{
+		return f.client.CreateFolder(ctx, &v1.CreateFolderReq{
 			Name:        params.Name,
-			Description: common.IntoOpt[v1.OptString](params.Description),
-			ParentID:    common.IntoOpt[v1.OptNilInt](params.ParentID),
+			Description: into.Opt[v1.OptString](params.Description),
+			ParentID:    into.Opt[v1.OptNilInt](params.ParentID),
 		})
 	})
 }
 
 func (f *folderOp) Read(ctx context.Context, id int) (*v1.Folder, error) {
 	return common.ErrorFromDecodedResponse[v1.Folder]("Folder.Read", func() (any, error) {
-		return f.client.FoldersFolderIDGet(ctx, v1.FoldersFolderIDGetParams{FolderID: id})
+		return f.client.ReadFolder(ctx, v1.ReadFolderParams{FolderID: id})
 	})
 }
 
 func (f *folderOp) Update(ctx context.Context, id int, name string, description *string) (*v1.Folder, error) {
 	return common.ErrorFromDecodedResponse[v1.Folder]("Folder.Update", func() (any, error) {
-		params := v1.FoldersFolderIDPutParams{
+		params := v1.UpdateFolderParams{
 			FolderID: id,
 		}
-		request := v1.FoldersFolderIDPutReq{
+		request := v1.UpdateFolderReq{
 			Name:        name,
-			Description: common.IntoOpt[v1.OptString](description),
+			Description: into.Opt[v1.OptString](description),
 		}
-		return f.client.FoldersFolderIDPut(ctx, &request, params)
+		return f.client.UpdateFolder(ctx, &request, params)
 	})
 }
 
 func (f *folderOp) Delete(ctx context.Context, folderID int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.FoldersFolderIDDeleteNoContent]("Folder.Delete", func() (any, error) {
-		return f.client.FoldersFolderIDDelete(ctx, v1.FoldersFolderIDDeleteParams{FolderID: folderID})
+	_, err := common.ErrorFromDecodedResponse[v1.DeleteFolderNoContent]("Folder.Delete", func() (any, error) {
+		return f.client.DeleteFolder(ctx, v1.DeleteFolderParams{FolderID: folderID})
 	})
 
 	return err
 }
 
 func (f *folderOp) Move(ctx context.Context, ids []int, parent *int) error {
-	_, err := common.ErrorFromDecodedResponse[v1.MoveFoldersPostNoContent]("Folder.Move", func() (any, error) {
-		return f.client.MoveFoldersPost(ctx, &v1.MoveFolders{
+	_, err := common.ErrorFromDecodedResponse[v1.MoveFoldersNoContent]("Folder.Move", func() (any, error) {
+		return f.client.MoveFolders(ctx, &v1.MoveFolders{
 			FolderIds: ids,
-			ParentID:  common.IntoNullable[v1.NilInt](parent),
+			ParentID:  into.Nil[v1.NilInt](parent),
 		})
 	})
 

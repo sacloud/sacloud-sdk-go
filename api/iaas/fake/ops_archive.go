@@ -71,7 +71,7 @@ func (o *ArchiveOp) Create(ctx context.Context, zone string, param *iaas.Archive
 	putArchive(zone, result)
 
 	id := result.ID
-	startDiskCopy(o.key, zone, func() (interface{}, error) {
+	startDiskCopy(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -199,7 +199,7 @@ func (o *ArchiveOp) CreateFromShared(ctx context.Context, zone string, sourceArc
 	putArchive(destZone, result)
 
 	id := result.ID
-	startDiskCopy(o.key, destZone, func() (interface{}, error) {
+	startDiskCopy(o.key, destZone, func() (any, error) {
 		return o.Read(context.Background(), destZone, id)
 	})
 
@@ -230,7 +230,7 @@ func (o *ArchiveOp) Transfer(ctx context.Context, zone string, sourceArchiveID t
 	putArchive(destZone, result)
 
 	id := result.ID
-	startDiskCopy(o.key, destZone, func() (interface{}, error) {
+	startDiskCopy(o.key, destZone, func() (any, error) {
 		return o.Read(context.Background(), destZone, id)
 	})
 

@@ -13,7 +13,6 @@
 // limitations under the License.
 
 //go:build !wasm
-// +build !wasm
 
 package fake
 

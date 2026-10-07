@@ -17,6 +17,7 @@ package client
 import (
 	"context"
 	"net/http"
+	"slices"
 	"sync"
 	"time"
 
@@ -119,10 +120,8 @@ func (f *Factory) checkRetryFn() func(ctx context.Context, resp *http.Response, 
 			if resp.StatusCode == 0 {
 				return true, nil
 			}
-			for _, status := range f.options.CheckRetryStatusCodes {
-				if resp.StatusCode == status {
-					return true, nil
-				}
+			if slices.Contains(f.options.CheckRetryStatusCodes, resp.StatusCode) {
+				return true, nil
 			}
 			return false, nil
 		}

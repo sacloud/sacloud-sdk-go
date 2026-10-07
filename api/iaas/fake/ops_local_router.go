@@ -199,7 +199,7 @@ func (o *LocalRouterOp) MonitorLocalRouter(ctx context.Context, id types.ID, con
 	}
 
 	res := &iaas.LocalRouterActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorLocalRouterValue{
 			Time:               now.Add(time.Duration(i*-5) * time.Minute),
 			ReceiveBytesPerSec: float64(random(1000)),

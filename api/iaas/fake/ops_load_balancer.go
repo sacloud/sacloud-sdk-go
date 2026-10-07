@@ -58,7 +58,7 @@ func (o *LoadBalancerOp) Create(ctx context.Context, zone string, param *iaas.Lo
 	putLoadBalancer(zone, result)
 
 	id := result.ID
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 	return result, nil
@@ -138,7 +138,7 @@ func (o *LoadBalancerOp) Boot(ctx context.Context, zone string, id types.ID) err
 		return newErrorConflict(o.key, id, "Boot is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -155,7 +155,7 @@ func (o *LoadBalancerOp) Shutdown(ctx context.Context, zone string, id types.ID,
 		return newErrorConflict(o.key, id, "Shutdown is failed")
 	}
 
-	startPowerOff(o.key, zone, func() (interface{}, error) {
+	startPowerOff(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -172,7 +172,7 @@ func (o *LoadBalancerOp) Reset(ctx context.Context, zone string, id types.ID) er
 		return newErrorConflict(o.key, id, "Reset is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -193,7 +193,7 @@ func (o *LoadBalancerOp) MonitorInterface(ctx context.Context, zone string, id t
 	}
 
 	res := &iaas.InterfaceActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorInterfaceValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			Send:    float64(random(1000)),
@@ -252,7 +252,7 @@ func (o *LoadBalancerOp) MonitorCPU(ctx context.Context, zone string, id types.I
 	}
 
 	res := &iaas.CPUTimeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorCPUTimeValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			CPUTime: float64(random(1000)),

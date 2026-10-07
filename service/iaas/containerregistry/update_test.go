@@ -21,7 +21,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/containerregistry/builder"
 	"github.com/stretchr/testify/require"
 )
@@ -63,9 +62,9 @@ func TestContainerRegistryService_convertUpdateRequest(t *testing.T) {
 		{
 			in: &UpdateRequest{
 				ID:            current.ID,
-				Name:          pointer.NewString(current.Name + "-upd"),
+				Name:          new(current.Name + "-upd"),
 				AccessLevel:   &types.ContainerRegistryAccessLevels.ReadOnly,
-				VirtualDomain: pointer.NewString("updated.container-registry.test.libsacloud.com"),
+				VirtualDomain: new("updated.container-registry.test.libsacloud.com"),
 				Users:         nil,
 				SettingsHash:  "aaaaa",
 			},

@@ -18,6 +18,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"slices"
 	"time"
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/accessor"
@@ -104,7 +105,7 @@ type StatePollingWaiter struct {
 }
 
 // WaitForState リソースが指定の状態になるまで待つ
-func (w *StatePollingWaiter) WaitForState(ctx context.Context) (interface{}, error) {
+func (w *StatePollingWaiter) WaitForState(ctx context.Context) (any, error) {
 	c, p, e := w.WaitForStateAsync(ctx)
 	for {
 		select {
@@ -121,7 +122,7 @@ func (w *StatePollingWaiter) WaitForState(ctx context.Context) (interface{}, err
 }
 
 // WaitForStateAsync リソースが指定の状態になるまで待つ
-func (w *StatePollingWaiter) WaitForStateAsync(ctx context.Context) (<-chan interface{}, <-chan interface{}, <-chan error) {
+func (w *StatePollingWaiter) WaitForStateAsync(ctx context.Context) (<-chan any, <-chan any, <-chan error) {
 	w.validateFields()
 	if w.Timeout == time.Duration(0) {
 		w.Timeout = defaults.DefaultStatePollingTimeout
@@ -140,9 +141,9 @@ func (w *StatePollingWaiter) WaitForStateAsync(ctx context.Context) (<-chan inte
 	return waiter.WaitForStateAsync(ctx)
 }
 
-func (w *StatePollingWaiter) readFunc() func() (interface{}, error) {
+func (w *StatePollingWaiter) readFunc() func() (any, error) {
 	notFoundCounter := w.NotFoundRetry
-	return func() (interface{}, error) {
+	return func() (any, error) {
 		read, err := w.ReadFunc()
 		if err != nil {
 			if IsNotFoundError(err) {
@@ -171,7 +172,7 @@ func (w *StatePollingWaiter) validateFields() {
 	}
 }
 
-func (w *StatePollingWaiter) stateCheckFunc(state interface{}) (bool, error) {
+func (w *StatePollingWaiter) stateCheckFunc(state any) (bool, error) {
 	if w.StateCheckFunc != nil {
 		return w.StateCheckFunc(state)
 	}
@@ -241,19 +242,9 @@ func (w *StatePollingWaiter) handleInstanceState(state accessor.InstanceStatus) 
 }
 
 func (w *StatePollingWaiter) isInAvailability(v types.EAvailability, conditions []types.EAvailability) bool {
-	for _, cond := range conditions {
-		if v == cond {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(conditions, v)
 }
 
 func (w *StatePollingWaiter) isInInstanceStatus(v types.EServerInstanceStatus, conditions []types.EServerInstanceStatus) bool {
-	for _, cond := range conditions {
-		if v == cond {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(conditions, v)
 }

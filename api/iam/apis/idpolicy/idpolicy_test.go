@@ -38,7 +38,7 @@ func TestNewIdPolicyOp(t *testing.T) {
 }
 
 func TestGetOrganizationIdPolicy(t *testing.T) {
-	var expected v1.OrganizationIDPolicyGetOK
+	var expected v1.ReadOrganizationIdPolicyOK
 	expected.SetFake()
 	expected.SetBindings(make([]v1.IdPolicy, 1))
 	expected.Bindings[0].SetFake()
@@ -65,7 +65,7 @@ func TestGetOrganizationIdPolicy_Fail(t *testing.T) {
 }
 
 func TestUpdateOrganizationIdPolicy(t *testing.T) {
-	var expected v1.OrganizationIDPolicyGetOK
+	var expected v1.ReadOrganizationIdPolicyOK
 	expected.SetFake()
 	expected.SetBindings(make([]v1.IdPolicy, 1))
 	expected.Bindings[0].SetFake()

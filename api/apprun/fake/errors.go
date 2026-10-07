@@ -44,11 +44,11 @@ func (e ErrorType) String() string {
 type Error struct {
 	Type          ErrorType
 	Resource      string
-	Id            interface{}
-	msgFmtAndVars []interface{}
+	Id            any
+	msgFmtAndVars []any
 }
 
-func newError(errorType ErrorType, resource string, id interface{}, msgFmtAndVars ...interface{}) *Error {
+func newError(errorType ErrorType, resource string, id any, msgFmtAndVars ...any) *Error {
 	return &Error{
 		Type:          errorType,
 		Resource:      resource,

@@ -152,22 +152,22 @@ var (
 	}
 )
 
-func testArchiveCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testArchiveCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewArchiveOp(caller)
 	return client.Create(ctx, testZone, createArchiveParam)
 }
 
-func testArchiveRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testArchiveRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewArchiveOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testArchiveUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testArchiveUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewArchiveOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateArchiveParam)
 }
 
-func testArchiveUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testArchiveUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewArchiveOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateArchiveToMinParam)
 }
@@ -183,7 +183,7 @@ func TestArchiveOp_CreateBlank(t *testing.T) {
 		IgnoreStartupWait:  true,
 		SetupAPICallerFunc: singletonAPICaller,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				client := iaas.NewArchiveOp(singletonAPICaller())
 				archive, ftpServer, err := client.CreateBlank(ctx, testZone, &iaas.ArchiveCreateBlankRequest{
 					SizeMB: 20 * size.GiB,

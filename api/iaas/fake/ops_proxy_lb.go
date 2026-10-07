@@ -275,7 +275,7 @@ func (o *ProxyLBOp) MonitorConnection(ctx context.Context, id types.ID, conditio
 	}
 
 	res := &iaas.ConnectionActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorConnectionValue{
 			Time:              now.Add(time.Duration(i*-5) * time.Minute),
 			ConnectionsPerSec: float64(random(1000)),

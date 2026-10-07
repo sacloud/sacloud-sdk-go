@@ -85,19 +85,19 @@ func (op *queueOp) Create(ctx context.Context, req queue.CreateQueueRequest) (*q
 }
 
 func (op *queueOp) List(ctx context.Context) ([]queue.CommonServiceItem, error) {
-	res, err := op.client.GetQueues(ctx)
+	res, err := op.client.ListQueues(ctx)
 	if err != nil {
 		return nil, NewAPIError("Queue.List", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *queue.GetQueuesOK:
+	case *queue.ListQueuesOK:
 		return r.CommonServiceItems, nil
-	case *queue.GetQueuesUnauthorized:
+	case *queue.ListQueuesUnauthorized:
 		return nil, NewAPIError("Queue.List", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.GetQueuesBadRequest:
+	case *queue.ListQueuesBadRequest:
 		return nil, NewAPIError("Queue.List", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.GetQueuesInternalServerError:
+	case *queue.ListQueuesInternalServerError:
 		return nil, NewAPIError("Queue.List", 500, errors.New(r.ErrorMsg.Value))
 	default:
 		return nil, NewAPIError("Queue.List", 0, nil)
@@ -105,21 +105,21 @@ func (op *queueOp) List(ctx context.Context) ([]queue.CommonServiceItem, error) 
 }
 
 func (op *queueOp) Read(ctx context.Context, id string) (*queue.CommonServiceItem, error) {
-	res, err := op.client.GetQueue(ctx, queue.GetQueueParams{ID: id})
+	res, err := op.client.ReadQueue(ctx, queue.ReadQueueParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError("Queue.Read", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *queue.GetQueueOK:
+	case *queue.ReadQueueOK:
 		return &r.CommonServiceItem, nil
-	case *queue.GetQueueUnauthorized:
+	case *queue.ReadQueueUnauthorized:
 		return nil, NewAPIError("Queue.Read", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.GetQueueBadRequest:
+	case *queue.ReadQueueBadRequest:
 		return nil, NewAPIError("Queue.Read", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.GetQueueNotFound:
+	case *queue.ReadQueueNotFound:
 		return nil, NewAPIError("Queue.Read", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.GetQueueInternalServerError:
+	case *queue.ReadQueueInternalServerError:
 		return nil, NewAPIError("Queue.Read", 500, errors.New(r.ErrorMsg.Value))
 	default:
 		return nil, NewAPIError("Queue.Read", 0, nil)
@@ -127,21 +127,21 @@ func (op *queueOp) Read(ctx context.Context, id string) (*queue.CommonServiceIte
 }
 
 func (op *queueOp) Config(ctx context.Context, id string, req queue.ConfigQueueRequest) (*queue.CommonServiceItem, error) {
-	res, err := op.client.ConfigQueue(ctx, &req, queue.ConfigQueueParams{ID: id})
+	res, err := op.client.UpdateQueue(ctx, &req, queue.UpdateQueueParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError("Queue.Config", 0, err)
 	}
 
 	switch r := res.(type) {
-	case *queue.ConfigQueueOK:
+	case *queue.UpdateQueueOK:
 		return &r.CommonServiceItem, nil
-	case *queue.ConfigQueueUnauthorized:
+	case *queue.UpdateQueueUnauthorized:
 		return nil, NewAPIError("Queue.Config", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.ConfigQueueBadRequest:
+	case *queue.UpdateQueueBadRequest:
 		return nil, NewAPIError("Queue.Config", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.ConfigQueueNotFound:
+	case *queue.UpdateQueueNotFound:
 		return nil, NewAPIError("Queue.Config", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.ConfigQueueInternalServerError:
+	case *queue.UpdateQueueInternalServerError:
 		return nil, NewAPIError("Queue.Config", 500, errors.New(r.ErrorMsg.Value))
 	default:
 		return nil, NewAPIError("Queue.Config", 0, nil)
@@ -173,21 +173,21 @@ func (op *queueOp) Delete(ctx context.Context, id string) error {
 }
 
 func (op *queueOp) CountMessages(ctx context.Context, id string) (int, error) {
-	res, err := op.client.GetMessageCount(ctx, queue.GetMessageCountParams{ID: id})
+	res, err := op.client.ReadMessageCount(ctx, queue.ReadMessageCountParams{ID: id})
 	if err != nil {
 		return 0, NewError("CountMessages", err)
 	}
 
 	switch r := res.(type) {
-	case *queue.GetMessageCountOK:
+	case *queue.ReadMessageCountOK:
 		return r.SimpleMQ.GetCount(), nil
-	case *queue.GetMessageCountUnauthorized:
+	case *queue.ReadMessageCountUnauthorized:
 		return 0, NewAPIError("Queue.CountMessages", 401, errors.New(r.ErrorMsg.Value))
-	case *queue.GetMessageCountBadRequest:
+	case *queue.ReadMessageCountBadRequest:
 		return 0, NewAPIError("Queue.CountMessages", 400, errors.New(r.ErrorMsg.Value))
-	case *queue.GetMessageCountNotFound:
+	case *queue.ReadMessageCountNotFound:
 		return 0, NewAPIError("Queue.CountMessages", 404, errors.New(r.ErrorMsg.Value))
-	case *queue.GetMessageCountInternalServerError:
+	case *queue.ReadMessageCountInternalServerError:
 		return 0, NewAPIError("Queue.CountMessages", 500, errors.New(r.ErrorMsg.Value))
 	default:
 		return 0, NewAPIError("Queue.CountMessages", 0, nil)

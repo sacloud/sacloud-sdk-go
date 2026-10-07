@@ -19,6 +19,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"slices"
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/search"
@@ -130,11 +131,8 @@ func findNFSPlans(ctx context.Context, finder NoteFinder, zone string) (*nfsPlan
 	// find note for the specified zone
 	var note *iaas.Note
 	for _, n := range searched.Notes {
-		for _, tag := range n.Tags {
-			if tag == "@zone="+zone {
-				note = n
-				break
-			}
+		if slices.Contains(n.Tags, "@zone="+zone) {
+			note = n
 		}
 		if note != nil {
 			break

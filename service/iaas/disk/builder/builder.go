@@ -524,7 +524,7 @@ func (d *ConnectedDiskBuilder) Build(ctx context.Context, zone string, serverID 
 		if err := d.Client.Disk.Config(ctx, zone, d.ID, req); err != nil {
 			return nil, err
 		}
-		waiter := iaas.WaiterForReady(func() (interface{}, error) {
+		waiter := iaas.WaiterForReady(func() (any, error) {
 			return d.Client.Disk.Read(ctx, zone, d.ID)
 		})
 		if _, err := waiter.WaitForState(ctx); err != nil {
@@ -549,7 +549,7 @@ func (d *ConnectedDiskBuilder) Update(ctx context.Context, zone string) (*Update
 		if err := d.Client.Disk.Config(ctx, zone, d.ID, req); err != nil {
 			return nil, err
 		}
-		waiter := iaas.WaiterForReady(func() (interface{}, error) {
+		waiter := iaas.WaiterForReady(func() (any, error) {
 			return d.Client.Disk.Read(ctx, zone, d.ID)
 		})
 		if _, err := waiter.WaitForState(ctx); err != nil {
@@ -644,7 +644,7 @@ func build(ctx context.Context, client *APIClient, zone string, serverID types.I
 		return &BuildResult{DiskID: disk.ID}, nil
 	}
 
-	waiter := iaas.WaiterForReady(func() (interface{}, error) {
+	waiter := iaas.WaiterForReady(func() (any, error) {
 		return client.Disk.Read(ctx, zone, disk.ID)
 	})
 	lastState, err := waiter.WaitForState(ctx)
@@ -696,7 +696,7 @@ func update(ctx context.Context, client *APIClient, zone string, builder diskBui
 		return &UpdateResult{Disk: disk}, nil
 	}
 
-	waiter := iaas.WaiterForReady(func() (interface{}, error) {
+	waiter := iaas.WaiterForReady(func() (any, error) {
 		return client.Disk.Read(ctx, zone, disk.ID)
 	})
 	lastState, err := waiter.WaitForState(ctx)

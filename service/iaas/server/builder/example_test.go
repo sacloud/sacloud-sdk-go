@@ -80,9 +80,9 @@ func Example_builder() {
 					ChangePartitionUUID: true,                 // UUIDの変更
 					EnableDHCP:          false,                // DHCPの有効化
 
-					//IPAddress:                 "192.168.11.11",                    // IPアドレス(スイッチ or スイッチ+ルータに接続する場合)
-					//NetworkMaskLen:            24,                                 // ネットワークマスク長(スイッチ or スイッチ+ルータに接続する場合)
-					//DefaultRoute:              "192.168.11.1",                     // デフォルトルート(スイッチ or スイッチ+ルータに接続する場合)
+					//IPAddress:                 "192.168.11.11",                    // IPアドレス(スイッチ or ルータ+スイッチに接続する場合)
+					//NetworkMaskLen:            24,                                 // ネットワークマスク長(スイッチ or ルータ+スイッチに接続する場合)
+					//DefaultRoute:              "192.168.11.1",                     // デフォルトルート(スイッチ or ルータ+スイッチに接続する場合)
 					//SSHKeys:                   []string{sshKey1, sshKey2},         // 公開鍵(文字列で指定)
 					//SSHKeyIDs:                 []types.ID{types.ID(123456789012)}, // 公開鍵(IDで指定)
 					//IsSSHKeysEphemeral:        false,                              // 公開鍵をさくらのクラウド側で生成した場合にサーバ作成後に該当鍵の削除を行うか

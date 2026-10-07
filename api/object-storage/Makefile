@@ -18,7 +18,8 @@
 AUTHOR         ?= The sacloud/object-storage-api-go authors
 COPYRIGHT_YEAR ?= 2022-2026
 
-include includes/go/common.mk
+SACLOUD_SDK_GO_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/common.mk
 #====================
 
 default: gen $(DEFAULT_GOALS)

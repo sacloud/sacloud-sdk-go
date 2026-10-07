@@ -17,6 +17,7 @@ package profile
 import (
 	"encoding/json"
 	"fmt"
+	"maps"
 	"os"
 	"path/filepath"
 	"strings"
@@ -210,7 +211,7 @@ func EnableAPITrace(strTraceMode string) bool {
 }
 
 // Save プロファイルコンフィグを保存
-func Save(profileName string, val interface{}) error {
+func Save(profileName string, val any) error {
 	if val == nil {
 		return fmt.Errorf("config is required")
 	}
@@ -240,20 +241,18 @@ func Save(profileName string, val interface{}) error {
 		if err != nil {
 			return fmt.Errorf("reading current config %q failed: %s", path, err)
 		}
-		var currentDataMap map[string]interface{}
+		var currentDataMap map[string]any
 		if err := json.Unmarshal(currentData, &currentDataMap); err != nil {
 			return fmt.Errorf("unmarshaling current config %q failed: %s", path, err)
 		}
 
-		var newDataMap map[string]interface{}
+		var newDataMap map[string]any
 		if err := json.Unmarshal(rawBody, &newDataMap); err != nil {
 			return fmt.Errorf("unmarshaling new config %q failed: %s", path, err)
 		}
 
 		// merge
-		for k, v := range newDataMap {
-			currentDataMap[k] = v
-		}
+		maps.Copy(currentDataMap, newDataMap)
 
 		rawBody, err = json.MarshalIndent(currentDataMap, "", "  ")
 		if err != nil {
@@ -275,7 +274,7 @@ func Save(profileName string, val interface{}) error {
 //
 // 指定したプロファイル名に対応するコンフィグファイルが存在しない場合はエラーを返す
 // ただしデフォルトのプロファイル名の場合はファイルが存在しなくてもエラーにしない
-func Load(profileName string, configValue interface{}) error {
+func Load(profileName string, configValue any) error {
 	filePath, err := ConfigFilePath(profileName)
 	if err != nil {
 		return err

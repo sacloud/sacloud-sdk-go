@@ -48,8 +48,8 @@ func (s *AuthConditions) SetDatetimeRestriction(val AuthConditionsDatetimeRestri
 	s.DatetimeRestriction = val
 }
 
-func (*AuthConditions) organizationAuthConditionsGetRes() {}
-func (*AuthConditions) organizationAuthConditionsPutRes() {}
+func (*AuthConditions) readOrganizationAuthConditionsRes()   {}
+func (*AuthConditions) updateOrganizationAuthConditionsRes() {}
 
 type AuthConditionsDatetimeRestriction struct {
 	// 日時がこの時間より後であることを要求 (ISO 8601形式; デフォルトは未設定
@@ -291,169 +291,29 @@ func (s *AuthConditionsRequireTwoFactorAuth) SetEnabled(val bool) {
 	s.Enabled = val
 }
 
-// CompatAPIKeysApikeyIDDeleteNoContent is response for CompatAPIKeysApikeyIDDelete operation.
-type CompatAPIKeysApikeyIDDeleteNoContent struct{}
-
-func (*CompatAPIKeysApikeyIDDeleteNoContent) compatAPIKeysApikeyIDDeleteRes() {}
-
-type CompatAPIKeysApikeyIDPutReq struct {
-	// APIキー名.
-	Name string `json:"name"`
-	// APIキーの説明.
-	Description string `json:"description"`
-	// APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能.
-	ServerResourceID OptString `json:"server_resource_id"`
-	// IAMのロール。.
-	IamRoles []string `json:"iam_roles"`
-	// ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能.
-	ZoneID OptString `json:"zone_id"`
+type CheckServicePolicyStatusOK struct {
+	// 有効かどうか.
+	Enabled bool `json:"enabled"`
 }
 
-// GetName returns the value of Name.
-func (s *CompatAPIKeysApikeyIDPutReq) GetName() string {
-	return s.Name
+// GetEnabled returns the value of Enabled.
+func (s *CheckServicePolicyStatusOK) GetEnabled() bool {
+	return s.Enabled
 }
 
-// GetDescription returns the value of Description.
-func (s *CompatAPIKeysApikeyIDPutReq) GetDescription() string {
-	return s.Description
+// SetEnabled sets the value of Enabled.
+func (s *CheckServicePolicyStatusOK) SetEnabled(val bool) {
+	s.Enabled = val
 }
 
-// GetServerResourceID returns the value of ServerResourceID.
-func (s *CompatAPIKeysApikeyIDPutReq) GetServerResourceID() OptString {
-	return s.ServerResourceID
-}
+func (*CheckServicePolicyStatusOK) checkServicePolicyStatusRes() {}
 
-// GetIamRoles returns the value of IamRoles.
-func (s *CompatAPIKeysApikeyIDPutReq) GetIamRoles() []string {
-	return s.IamRoles
-}
+// ClearTrustedDevicesNoContent is response for ClearTrustedDevices operation.
+type ClearTrustedDevicesNoContent struct{}
 
-// GetZoneID returns the value of ZoneID.
-func (s *CompatAPIKeysApikeyIDPutReq) GetZoneID() OptString {
-	return s.ZoneID
-}
+func (*ClearTrustedDevicesNoContent) clearTrustedDevicesRes() {}
 
-// SetName sets the value of Name.
-func (s *CompatAPIKeysApikeyIDPutReq) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *CompatAPIKeysApikeyIDPutReq) SetDescription(val string) {
-	s.Description = val
-}
-
-// SetServerResourceID sets the value of ServerResourceID.
-func (s *CompatAPIKeysApikeyIDPutReq) SetServerResourceID(val OptString) {
-	s.ServerResourceID = val
-}
-
-// SetIamRoles sets the value of IamRoles.
-func (s *CompatAPIKeysApikeyIDPutReq) SetIamRoles(val []string) {
-	s.IamRoles = val
-}
-
-// SetZoneID sets the value of ZoneID.
-func (s *CompatAPIKeysApikeyIDPutReq) SetZoneID(val OptString) {
-	s.ZoneID = val
-}
-
-// Merged schema.
-type CompatAPIKeysGetOK struct {
-	Items []ProjectApiKey `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *CompatAPIKeysGetOK) GetItems() []ProjectApiKey {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *CompatAPIKeysGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *CompatAPIKeysGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *CompatAPIKeysGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *CompatAPIKeysGetOK) SetItems(val []ProjectApiKey) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *CompatAPIKeysGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *CompatAPIKeysGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *CompatAPIKeysGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*CompatAPIKeysGetOK) compatAPIKeysGetRes() {}
-
-type CompatAPIKeysGetOrdering string
-
-const (
-	CompatAPIKeysGetOrderingName      CompatAPIKeysGetOrdering = "name"
-	CompatAPIKeysGetOrderingMinusName CompatAPIKeysGetOrdering = "-name"
-)
-
-// AllValues returns all CompatAPIKeysGetOrdering values.
-func (CompatAPIKeysGetOrdering) AllValues() []CompatAPIKeysGetOrdering {
-	return []CompatAPIKeysGetOrdering{
-		CompatAPIKeysGetOrderingName,
-		CompatAPIKeysGetOrderingMinusName,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s CompatAPIKeysGetOrdering) MarshalText() ([]byte, error) {
-	switch s {
-	case CompatAPIKeysGetOrderingName:
-		return []byte(s), nil
-	case CompatAPIKeysGetOrderingMinusName:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CompatAPIKeysGetOrdering) UnmarshalText(data []byte) error {
-	switch CompatAPIKeysGetOrdering(data) {
-	case CompatAPIKeysGetOrderingName:
-		*s = CompatAPIKeysGetOrderingName
-		return nil
-	case CompatAPIKeysGetOrderingMinusName:
-		*s = CompatAPIKeysGetOrderingMinusName
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type CompatAPIKeysPostReq struct {
+type CreateApiKeyReq struct {
 	// プロジェクトID.
 	ProjectID int `json:"project_id"`
 	// APIキー名.
@@ -469,160 +329,311 @@ type CompatAPIKeysPostReq struct {
 }
 
 // GetProjectID returns the value of ProjectID.
-func (s *CompatAPIKeysPostReq) GetProjectID() int {
+func (s *CreateApiKeyReq) GetProjectID() int {
 	return s.ProjectID
 }
 
 // GetName returns the value of Name.
-func (s *CompatAPIKeysPostReq) GetName() string {
+func (s *CreateApiKeyReq) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *CompatAPIKeysPostReq) GetDescription() string {
+func (s *CreateApiKeyReq) GetDescription() string {
 	return s.Description
 }
 
 // GetServerResourceID returns the value of ServerResourceID.
-func (s *CompatAPIKeysPostReq) GetServerResourceID() OptString {
+func (s *CreateApiKeyReq) GetServerResourceID() OptString {
 	return s.ServerResourceID
 }
 
 // GetIamRoles returns the value of IamRoles.
-func (s *CompatAPIKeysPostReq) GetIamRoles() []string {
+func (s *CreateApiKeyReq) GetIamRoles() []string {
 	return s.IamRoles
 }
 
 // GetZoneID returns the value of ZoneID.
-func (s *CompatAPIKeysPostReq) GetZoneID() OptString {
+func (s *CreateApiKeyReq) GetZoneID() OptString {
 	return s.ZoneID
 }
 
 // SetProjectID sets the value of ProjectID.
-func (s *CompatAPIKeysPostReq) SetProjectID(val int) {
+func (s *CreateApiKeyReq) SetProjectID(val int) {
 	s.ProjectID = val
 }
 
 // SetName sets the value of Name.
-func (s *CompatAPIKeysPostReq) SetName(val string) {
+func (s *CreateApiKeyReq) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *CompatAPIKeysPostReq) SetDescription(val string) {
+func (s *CreateApiKeyReq) SetDescription(val string) {
 	s.Description = val
 }
 
 // SetServerResourceID sets the value of ServerResourceID.
-func (s *CompatAPIKeysPostReq) SetServerResourceID(val OptString) {
+func (s *CreateApiKeyReq) SetServerResourceID(val OptString) {
 	s.ServerResourceID = val
 }
 
 // SetIamRoles sets the value of IamRoles.
-func (s *CompatAPIKeysPostReq) SetIamRoles(val []string) {
+func (s *CreateApiKeyReq) SetIamRoles(val []string) {
 	s.IamRoles = val
 }
 
 // SetZoneID sets the value of ZoneID.
-func (s *CompatAPIKeysPostReq) SetZoneID(val OptString) {
+func (s *CreateApiKeyReq) SetZoneID(val OptString) {
 	s.ZoneID = val
 }
 
-// Merged schema.
-type CompatUsersGetOK struct {
-	Items []User `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
+type CreateFolderReq struct {
+	// フォルダ名.
+	Name string `json:"name"`
+	// フォルダの説明.
+	Description OptString `json:"description"`
+	// 親フォルダID.
+	ParentID OptNilInt `json:"parent_id"`
 }
 
-// GetItems returns the value of Items.
-func (s *CompatUsersGetOK) GetItems() []User {
-	return s.Items
+// GetName returns the value of Name.
+func (s *CreateFolderReq) GetName() string {
+	return s.Name
 }
 
-// GetCount returns the value of Count.
-func (s *CompatUsersGetOK) GetCount() int {
-	return s.Count
+// GetDescription returns the value of Description.
+func (s *CreateFolderReq) GetDescription() OptString {
+	return s.Description
 }
 
-// GetNext returns the value of Next.
-func (s *CompatUsersGetOK) GetNext() NilURI {
-	return s.Next
+// GetParentID returns the value of ParentID.
+func (s *CreateFolderReq) GetParentID() OptNilInt {
+	return s.ParentID
 }
 
-// GetPrevious returns the value of Previous.
-func (s *CompatUsersGetOK) GetPrevious() NilURI {
-	return s.Previous
+// SetName sets the value of Name.
+func (s *CreateFolderReq) SetName(val string) {
+	s.Name = val
 }
 
-// SetItems sets the value of Items.
-func (s *CompatUsersGetOK) SetItems(val []User) {
-	s.Items = val
+// SetDescription sets the value of Description.
+func (s *CreateFolderReq) SetDescription(val OptString) {
+	s.Description = val
 }
 
-// SetCount sets the value of Count.
-func (s *CompatUsersGetOK) SetCount(val int) {
-	s.Count = val
+// SetParentID sets the value of ParentID.
+func (s *CreateFolderReq) SetParentID(val OptNilInt) {
+	s.ParentID = val
 }
 
-// SetNext sets the value of Next.
-func (s *CompatUsersGetOK) SetNext(val NilURI) {
-	s.Next = val
+type CreateGroupReq struct {
+	// グループの名前.
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
-// SetPrevious sets the value of Previous.
-func (s *CompatUsersGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
+// GetName returns the value of Name.
+func (s *CreateGroupReq) GetName() string {
+	return s.Name
 }
 
-func (*CompatUsersGetOK) compatUsersGetRes() {}
-
-type CompatUsersGetOrdering string
-
-const (
-	CompatUsersGetOrderingCode      CompatUsersGetOrdering = "code"
-	CompatUsersGetOrderingMinusCode CompatUsersGetOrdering = "-code"
-)
-
-// AllValues returns all CompatUsersGetOrdering values.
-func (CompatUsersGetOrdering) AllValues() []CompatUsersGetOrdering {
-	return []CompatUsersGetOrdering{
-		CompatUsersGetOrderingCode,
-		CompatUsersGetOrderingMinusCode,
-	}
+// GetDescription returns the value of Description.
+func (s *CreateGroupReq) GetDescription() string {
+	return s.Description
 }
 
-// MarshalText implements encoding.TextMarshaler.
-func (s CompatUsersGetOrdering) MarshalText() ([]byte, error) {
-	switch s {
-	case CompatUsersGetOrderingCode:
-		return []byte(s), nil
-	case CompatUsersGetOrderingMinusCode:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
+// SetName sets the value of Name.
+func (s *CreateGroupReq) SetName(val string) {
+	s.Name = val
 }
 
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CompatUsersGetOrdering) UnmarshalText(data []byte) error {
-	switch CompatUsersGetOrdering(data) {
-	case CompatUsersGetOrderingCode:
-		*s = CompatUsersGetOrderingCode
-		return nil
-	case CompatUsersGetOrderingMinusCode:
-		*s = CompatUsersGetOrderingMinusCode
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
+// SetDescription sets the value of Description.
+func (s *CreateGroupReq) SetDescription(val string) {
+	s.Description = val
 }
 
-type CompatUsersPostReq struct {
+type CreateProjectReq struct {
+	// プロジェクトコード.
+	Code string `json:"code"`
+	// プロジェクトのフォルダID.
+	ParentFolderID OptInt `json:"parent_folder_id"`
+	// プロジェクトの名前.
+	Name string `json:"name"`
+	// プロジェクトの説明.
+	Description string `json:"description"`
+}
+
+// GetCode returns the value of Code.
+func (s *CreateProjectReq) GetCode() string {
+	return s.Code
+}
+
+// GetParentFolderID returns the value of ParentFolderID.
+func (s *CreateProjectReq) GetParentFolderID() OptInt {
+	return s.ParentFolderID
+}
+
+// GetName returns the value of Name.
+func (s *CreateProjectReq) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CreateProjectReq) GetDescription() string {
+	return s.Description
+}
+
+// SetCode sets the value of Code.
+func (s *CreateProjectReq) SetCode(val string) {
+	s.Code = val
+}
+
+// SetParentFolderID sets the value of ParentFolderID.
+func (s *CreateProjectReq) SetParentFolderID(val OptInt) {
+	s.ParentFolderID = val
+}
+
+// SetName sets the value of Name.
+func (s *CreateProjectReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CreateProjectReq) SetDescription(val string) {
+	s.Description = val
+}
+
+type CreateScimConfigurationReq struct {
+	// ユーザープロビジョニング名.
+	Name string `json:"name"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateScimConfigurationReq) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *CreateScimConfigurationReq) SetName(val string) {
+	s.Name = val
+}
+
+type CreateServicePrincipalReq struct {
+	// プロジェクトID.
+	ProjectID int `json:"project_id"`
+	// サービスプリンシパル名.
+	Name string `json:"name"`
+	// サービスプリンシパルの説明.
+	Description string `json:"description"`
+}
+
+// GetProjectID returns the value of ProjectID.
+func (s *CreateServicePrincipalReq) GetProjectID() int {
+	return s.ProjectID
+}
+
+// GetName returns the value of Name.
+func (s *CreateServicePrincipalReq) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CreateServicePrincipalReq) GetDescription() string {
+	return s.Description
+}
+
+// SetProjectID sets the value of ProjectID.
+func (s *CreateServicePrincipalReq) SetProjectID(val int) {
+	s.ProjectID = val
+}
+
+// SetName sets the value of Name.
+func (s *CreateServicePrincipalReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CreateServicePrincipalReq) SetDescription(val string) {
+	s.Description = val
+}
+
+type CreateSsoProfileReq struct {
+	// SSOプロファイル名.
+	Name string `json:"name"`
+	// SSOプロファイルの説明.
+	Description string `json:"description"`
+	// IdPのエンティティID.
+	IdpEntityID string `json:"idp_entity_id"`
+	// IdPのログインURL.
+	IdpLoginURL string `json:"idp_login_url"`
+	// IdPのログアウトURL.
+	IdpLogoutURL string `json:"idp_logout_url"`
+	// IdPのX.509証明書.
+	IdpCertificate string `json:"idp_certificate"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateSsoProfileReq) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *CreateSsoProfileReq) GetDescription() string {
+	return s.Description
+}
+
+// GetIdpEntityID returns the value of IdpEntityID.
+func (s *CreateSsoProfileReq) GetIdpEntityID() string {
+	return s.IdpEntityID
+}
+
+// GetIdpLoginURL returns the value of IdpLoginURL.
+func (s *CreateSsoProfileReq) GetIdpLoginURL() string {
+	return s.IdpLoginURL
+}
+
+// GetIdpLogoutURL returns the value of IdpLogoutURL.
+func (s *CreateSsoProfileReq) GetIdpLogoutURL() string {
+	return s.IdpLogoutURL
+}
+
+// GetIdpCertificate returns the value of IdpCertificate.
+func (s *CreateSsoProfileReq) GetIdpCertificate() string {
+	return s.IdpCertificate
+}
+
+// SetName sets the value of Name.
+func (s *CreateSsoProfileReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *CreateSsoProfileReq) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetIdpEntityID sets the value of IdpEntityID.
+func (s *CreateSsoProfileReq) SetIdpEntityID(val string) {
+	s.IdpEntityID = val
+}
+
+// SetIdpLoginURL sets the value of IdpLoginURL.
+func (s *CreateSsoProfileReq) SetIdpLoginURL(val string) {
+	s.IdpLoginURL = val
+}
+
+// SetIdpLogoutURL sets the value of IdpLogoutURL.
+func (s *CreateSsoProfileReq) SetIdpLogoutURL(val string) {
+	s.IdpLogoutURL = val
+}
+
+// SetIdpCertificate sets the value of IdpCertificate.
+func (s *CreateSsoProfileReq) SetIdpCertificate(val string) {
+	s.IdpCertificate = val
+}
+
+type CreateUserReq struct {
 	// ユーザの名前.
 	Name string `json:"name"`
 	// ユーザのパスワード 英数字とASCII標準文字における記号
@@ -637,274 +648,124 @@ type CompatUsersPostReq struct {
 }
 
 // GetName returns the value of Name.
-func (s *CompatUsersPostReq) GetName() string {
+func (s *CreateUserReq) GetName() string {
 	return s.Name
 }
 
 // GetPassword returns the value of Password.
-func (s *CompatUsersPostReq) GetPassword() string {
+func (s *CreateUserReq) GetPassword() string {
 	return s.Password
 }
 
 // GetCode returns the value of Code.
-func (s *CompatUsersPostReq) GetCode() string {
+func (s *CreateUserReq) GetCode() string {
 	return s.Code
 }
 
 // GetDescription returns the value of Description.
-func (s *CompatUsersPostReq) GetDescription() string {
+func (s *CreateUserReq) GetDescription() string {
 	return s.Description
 }
 
 // GetEmail returns the value of Email.
-func (s *CompatUsersPostReq) GetEmail() OptString {
+func (s *CreateUserReq) GetEmail() OptString {
 	return s.Email
 }
 
 // SetName sets the value of Name.
-func (s *CompatUsersPostReq) SetName(val string) {
+func (s *CreateUserReq) SetName(val string) {
 	s.Name = val
 }
 
 // SetPassword sets the value of Password.
-func (s *CompatUsersPostReq) SetPassword(val string) {
+func (s *CreateUserReq) SetPassword(val string) {
 	s.Password = val
 }
 
 // SetCode sets the value of Code.
-func (s *CompatUsersPostReq) SetCode(val string) {
+func (s *CreateUserReq) SetCode(val string) {
 	s.Code = val
 }
 
 // SetDescription sets the value of Description.
-func (s *CompatUsersPostReq) SetDescription(val string) {
+func (s *CreateUserReq) SetDescription(val string) {
 	s.Description = val
 }
 
 // SetEmail sets the value of Email.
-func (s *CompatUsersPostReq) SetEmail(val OptString) {
+func (s *CreateUserReq) SetEmail(val OptString) {
 	s.Email = val
 }
 
-// CompatUsersUserIDClearTrustedDevicesPostNoContent is response for CompatUsersUserIDClearTrustedDevicesPost operation.
-type CompatUsersUserIDClearTrustedDevicesPostNoContent struct{}
+// DeactivateOtpNoContent is response for DeactivateOtp operation.
+type DeactivateOtpNoContent struct{}
 
-func (*CompatUsersUserIDClearTrustedDevicesPostNoContent) compatUsersUserIDClearTrustedDevicesPostRes() {
-}
+func (*DeactivateOtpNoContent) deactivateOtpRes() {}
 
-// CompatUsersUserIDDeactivateOtpPostNoContent is response for CompatUsersUserIDDeactivateOtpPost operation.
-type CompatUsersUserIDDeactivateOtpPostNoContent struct{}
+// DeleteApiKeyNoContent is response for DeleteApiKey operation.
+type DeleteApiKeyNoContent struct{}
 
-func (*CompatUsersUserIDDeactivateOtpPostNoContent) compatUsersUserIDDeactivateOtpPostRes() {}
+func (*DeleteApiKeyNoContent) deleteApiKeyRes() {}
 
-// CompatUsersUserIDDeleteNoContent is response for CompatUsersUserIDDelete operation.
-type CompatUsersUserIDDeleteNoContent struct{}
+// DeleteFolderNoContent is response for DeleteFolder operation.
+type DeleteFolderNoContent struct{}
 
-func (*CompatUsersUserIDDeleteNoContent) compatUsersUserIDDeleteRes() {}
+func (*DeleteFolderNoContent) deleteFolderRes() {}
 
-type CompatUsersUserIDPutReq struct {
-	Name        string    `json:"name"`
-	Password    OptString `json:"password"`
-	Description string    `json:"description"`
-}
+// DeleteGroupNoContent is response for DeleteGroup operation.
+type DeleteGroupNoContent struct{}
 
-// GetName returns the value of Name.
-func (s *CompatUsersUserIDPutReq) GetName() string {
-	return s.Name
-}
+func (*DeleteGroupNoContent) deleteGroupRes() {}
 
-// GetPassword returns the value of Password.
-func (s *CompatUsersUserIDPutReq) GetPassword() OptString {
-	return s.Password
-}
+// DeleteProjectNoContent is response for DeleteProject operation.
+type DeleteProjectNoContent struct{}
 
-// GetDescription returns the value of Description.
-func (s *CompatUsersUserIDPutReq) GetDescription() string {
-	return s.Description
-}
+func (*DeleteProjectNoContent) deleteProjectRes() {}
 
-// SetName sets the value of Name.
-func (s *CompatUsersUserIDPutReq) SetName(val string) {
-	s.Name = val
-}
+// DeleteScimConfigurationNoContent is response for DeleteScimConfiguration operation.
+type DeleteScimConfigurationNoContent struct{}
 
-// SetPassword sets the value of Password.
-func (s *CompatUsersUserIDPutReq) SetPassword(val OptString) {
-	s.Password = val
-}
+func (*DeleteScimConfigurationNoContent) deleteScimConfigurationRes() {}
 
-// SetDescription sets the value of Description.
-func (s *CompatUsersUserIDPutReq) SetDescription(val string) {
-	s.Description = val
-}
+// DeleteSecurityKeyNoContent is response for DeleteSecurityKey operation.
+type DeleteSecurityKeyNoContent struct{}
 
-// CompatUsersUserIDRegisterEmailPostNoContent is response for CompatUsersUserIDRegisterEmailPost operation.
-type CompatUsersUserIDRegisterEmailPostNoContent struct{}
+func (*DeleteSecurityKeyNoContent) deleteSecurityKeyRes() {}
 
-func (*CompatUsersUserIDRegisterEmailPostNoContent) compatUsersUserIDRegisterEmailPostRes() {}
+// DeleteServicePrincipalKeyNoContent is response for DeleteServicePrincipalKey operation.
+type DeleteServicePrincipalKeyNoContent struct{}
 
-type CompatUsersUserIDRegisterEmailPostReq struct {
-	// メールアドレス.
-	Email string `json:"email"`
-}
+func (*DeleteServicePrincipalKeyNoContent) deleteServicePrincipalKeyRes() {}
 
-// GetEmail returns the value of Email.
-func (s *CompatUsersUserIDRegisterEmailPostReq) GetEmail() string {
-	return s.Email
-}
+// DeleteServicePrincipalNoContent is response for DeleteServicePrincipal operation.
+type DeleteServicePrincipalNoContent struct{}
 
-// SetEmail sets the value of Email.
-func (s *CompatUsersUserIDRegisterEmailPostReq) SetEmail(val string) {
-	s.Email = val
-}
+func (*DeleteServicePrincipalNoContent) deleteServicePrincipalRes() {}
 
-// Merged schema.
-type CompatUsersUserIDSecurityKeysGetOK struct {
-	Items []UserSecurityKey `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
+// DeleteSsoProfileNoContent is response for DeleteSsoProfile operation.
+type DeleteSsoProfileNoContent struct{}
 
-// GetItems returns the value of Items.
-func (s *CompatUsersUserIDSecurityKeysGetOK) GetItems() []UserSecurityKey {
-	return s.Items
-}
+func (*DeleteSsoProfileNoContent) deleteSsoProfileRes() {}
 
-// GetCount returns the value of Count.
-func (s *CompatUsersUserIDSecurityKeysGetOK) GetCount() int {
-	return s.Count
-}
+// DeleteTrustedDeviceNoContent is response for DeleteTrustedDevice operation.
+type DeleteTrustedDeviceNoContent struct{}
 
-// GetNext returns the value of Next.
-func (s *CompatUsersUserIDSecurityKeysGetOK) GetNext() NilURI {
-	return s.Next
-}
+func (*DeleteTrustedDeviceNoContent) deleteTrustedDeviceRes() {}
 
-// GetPrevious returns the value of Previous.
-func (s *CompatUsersUserIDSecurityKeysGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
+// DeleteUserNoContent is response for DeleteUser operation.
+type DeleteUserNoContent struct{}
 
-// SetItems sets the value of Items.
-func (s *CompatUsersUserIDSecurityKeysGetOK) SetItems(val []UserSecurityKey) {
-	s.Items = val
-}
+func (*DeleteUserNoContent) deleteUserRes() {}
 
-// SetCount sets the value of Count.
-func (s *CompatUsersUserIDSecurityKeysGetOK) SetCount(val int) {
-	s.Count = val
-}
+// DisableServicePolicyNoContent is response for DisableServicePolicy operation.
+type DisableServicePolicyNoContent struct{}
 
-// SetNext sets the value of Next.
-func (s *CompatUsersUserIDSecurityKeysGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
+func (*DisableServicePolicyNoContent) disableServicePolicyRes() {}
 
-// SetPrevious sets the value of Previous.
-func (s *CompatUsersUserIDSecurityKeysGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
+// EnableServicePolicyNoContent is response for EnableServicePolicy operation.
+type EnableServicePolicyNoContent struct{}
 
-func (*CompatUsersUserIDSecurityKeysGetOK) compatUsersUserIDSecurityKeysGetRes() {}
-
-// CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteNoContent is response for CompatUsersUserIDSecurityKeysSecurityKeyIDDelete operation.
-type CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteNoContent struct{}
-
-func (*CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteNoContent) compatUsersUserIDSecurityKeysSecurityKeyIDDeleteRes() {
-}
-
-type CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq struct {
-	// セキュリティキー名.
-	Name string `json:"name"`
-}
-
-// GetName returns the value of Name.
-func (s *CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) GetName() string {
-	return s.Name
-}
-
-// SetName sets the value of Name.
-func (s *CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) SetName(val string) {
-	s.Name = val
-}
-
-// Merged schema.
-type CompatUsersUserIDTrustedDevicesGetOK struct {
-	Items []UserTrustedDevice `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) GetItems() []UserTrustedDevice {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) SetItems(val []UserTrustedDevice) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*CompatUsersUserIDTrustedDevicesGetOK) compatUsersUserIDTrustedDevicesGetRes() {}
-
-// CompatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteNoContent is response for CompatUsersUserIDTrustedDevicesTrustedDeviceIDDelete operation.
-type CompatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteNoContent struct{}
-
-func (*CompatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteNoContent) compatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteRes() {
-}
-
-// CompatUsersUserIDUnregisterEmailPostNoContent is response for CompatUsersUserIDUnregisterEmailPost operation.
-type CompatUsersUserIDUnregisterEmailPostNoContent struct{}
-
-func (*CompatUsersUserIDUnregisterEmailPostNoContent) compatUsersUserIDUnregisterEmailPostRes() {}
-
-// DisableServicePolicyPostNoContent is response for DisableServicePolicyPost operation.
-type DisableServicePolicyPostNoContent struct{}
-
-func (*DisableServicePolicyPostNoContent) disableServicePolicyPostRes() {}
-
-// EnableServicePolicyPostNoContent is response for EnableServicePolicyPost operation.
-type EnableServicePolicyPostNoContent struct{}
-
-func (*EnableServicePolicyPostNoContent) enableServicePolicyPostRes() {}
+func (*EnableServicePolicyNoContent) enableServicePolicyRes() {}
 
 // Ref: #/components/schemas/Folder
 type Folder struct {
@@ -982,262 +843,9 @@ func (s *Folder) SetUpdatedAt(val string) {
 	s.UpdatedAt = val
 }
 
-func (*Folder) foldersFolderIDGetRes() {}
-func (*Folder) foldersFolderIDPutRes() {}
-func (*Folder) foldersPostRes()        {}
-
-// FoldersFolderIDDeleteNoContent is response for FoldersFolderIDDelete operation.
-type FoldersFolderIDDeleteNoContent struct{}
-
-func (*FoldersFolderIDDeleteNoContent) foldersFolderIDDeleteRes() {}
-
-type FoldersFolderIDIamPolicyGetOK struct {
-	Bindings []IamPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *FoldersFolderIDIamPolicyGetOK) GetBindings() []IamPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *FoldersFolderIDIamPolicyGetOK) SetBindings(val []IamPolicy) {
-	s.Bindings = val
-}
-
-func (*FoldersFolderIDIamPolicyGetOK) foldersFolderIDIamPolicyGetRes() {}
-
-type FoldersFolderIDIamPolicyPutOK struct {
-	Bindings []IamPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *FoldersFolderIDIamPolicyPutOK) GetBindings() []IamPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *FoldersFolderIDIamPolicyPutOK) SetBindings(val []IamPolicy) {
-	s.Bindings = val
-}
-
-func (*FoldersFolderIDIamPolicyPutOK) foldersFolderIDIamPolicyPutRes() {}
-
-type FoldersFolderIDIamPolicyPutReq struct {
-	Bindings []IamPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *FoldersFolderIDIamPolicyPutReq) GetBindings() []IamPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *FoldersFolderIDIamPolicyPutReq) SetBindings(val []IamPolicy) {
-	s.Bindings = val
-}
-
-type FoldersFolderIDPutReq struct {
-	// フォルダ名.
-	Name string `json:"name"`
-	// フォルダの説明.
-	Description OptString `json:"description"`
-}
-
-// GetName returns the value of Name.
-func (s *FoldersFolderIDPutReq) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *FoldersFolderIDPutReq) GetDescription() OptString {
-	return s.Description
-}
-
-// SetName sets the value of Name.
-func (s *FoldersFolderIDPutReq) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *FoldersFolderIDPutReq) SetDescription(val OptString) {
-	s.Description = val
-}
-
-// Merged schema.
-type FoldersGetOK struct {
-	Items []Folder `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *FoldersGetOK) GetItems() []Folder {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *FoldersGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *FoldersGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *FoldersGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *FoldersGetOK) SetItems(val []Folder) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *FoldersGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *FoldersGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *FoldersGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*FoldersGetOK) foldersGetRes() {}
-
-type FoldersPostReq struct {
-	// フォルダ名.
-	Name string `json:"name"`
-	// フォルダの説明.
-	Description OptString `json:"description"`
-	// 親フォルダID.
-	ParentID OptNilInt `json:"parent_id"`
-}
-
-// GetName returns the value of Name.
-func (s *FoldersPostReq) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *FoldersPostReq) GetDescription() OptString {
-	return s.Description
-}
-
-// GetParentID returns the value of ParentID.
-func (s *FoldersPostReq) GetParentID() OptNilInt {
-	return s.ParentID
-}
-
-// SetName sets the value of Name.
-func (s *FoldersPostReq) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *FoldersPostReq) SetDescription(val OptString) {
-	s.Description = val
-}
-
-// SetParentID sets the value of ParentID.
-func (s *FoldersPostReq) SetParentID(val OptNilInt) {
-	s.ParentID = val
-}
-
-type GetAuthContextOK struct {
-	// APIキーのIDまたはサービスプリンシパルのID.
-	ResourceID int64 `json:"resource_id"`
-	// 認証種別。APIキーまたはサービスプリンシパル。.
-	AuthType GetAuthContextOKAuthType `json:"auth_type"`
-	// 操作可能なプロジェクトのID。現状、APIキー・サービスプリンシパルが属するプロジェクトのIDが設定されるが、将来的に操作可能なプロジェクトの制限が撤廃された場合にはnullが設定される可能性がある。.
-	LimitedToProjectID NilInt `json:"limited_to_project_id"`
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *GetAuthContextOK) GetResourceID() int64 {
-	return s.ResourceID
-}
-
-// GetAuthType returns the value of AuthType.
-func (s *GetAuthContextOK) GetAuthType() GetAuthContextOKAuthType {
-	return s.AuthType
-}
-
-// GetLimitedToProjectID returns the value of LimitedToProjectID.
-func (s *GetAuthContextOK) GetLimitedToProjectID() NilInt {
-	return s.LimitedToProjectID
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *GetAuthContextOK) SetResourceID(val int64) {
-	s.ResourceID = val
-}
-
-// SetAuthType sets the value of AuthType.
-func (s *GetAuthContextOK) SetAuthType(val GetAuthContextOKAuthType) {
-	s.AuthType = val
-}
-
-// SetLimitedToProjectID sets the value of LimitedToProjectID.
-func (s *GetAuthContextOK) SetLimitedToProjectID(val NilInt) {
-	s.LimitedToProjectID = val
-}
-
-func (*GetAuthContextOK) getAuthContextRes() {}
-
-// 認証種別。APIキーまたはサービスプリンシパル。.
-type GetAuthContextOKAuthType string
-
-const (
-	GetAuthContextOKAuthTypeApikey           GetAuthContextOKAuthType = "apikey"
-	GetAuthContextOKAuthTypeServicePrincipal GetAuthContextOKAuthType = "service_principal"
-)
-
-// AllValues returns all GetAuthContextOKAuthType values.
-func (GetAuthContextOKAuthType) AllValues() []GetAuthContextOKAuthType {
-	return []GetAuthContextOKAuthType{
-		GetAuthContextOKAuthTypeApikey,
-		GetAuthContextOKAuthTypeServicePrincipal,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s GetAuthContextOKAuthType) MarshalText() ([]byte, error) {
-	switch s {
-	case GetAuthContextOKAuthTypeApikey:
-		return []byte(s), nil
-	case GetAuthContextOKAuthTypeServicePrincipal:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *GetAuthContextOKAuthType) UnmarshalText(data []byte) error {
-	switch GetAuthContextOKAuthType(data) {
-	case GetAuthContextOKAuthTypeApikey:
-		*s = GetAuthContextOKAuthTypeApikey
-		return nil
-	case GetAuthContextOKAuthTypeServicePrincipal:
-		*s = GetAuthContextOKAuthTypeServicePrincipal
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
+func (*Folder) createFolderRes() {}
+func (*Folder) readFolderRes()   {}
+func (*Folder) updateFolderRes() {}
 
 // Ref: #/components/schemas/Group
 type Group struct {
@@ -1303,9 +911,9 @@ func (s *Group) SetUpdatedAt(val string) {
 	s.UpdatedAt = val
 }
 
-func (*Group) groupsGroupIDGetRes() {}
-func (*Group) groupsGroupIDPutRes() {}
-func (*Group) groupsPostRes()       {}
+func (*Group) createGroupRes() {}
+func (*Group) readGroupRes()   {}
+func (*Group) updateGroupRes() {}
 
 // Ref: #/components/schemas/GroupMemberships
 type GroupMemberships struct {
@@ -1322,8 +930,8 @@ func (s *GroupMemberships) SetCompatUsers(val []GroupMembershipsCompatUsersItem)
 	s.CompatUsers = val
 }
 
-func (*GroupMemberships) groupsGroupIDMembershipsGetRes() {}
-func (*GroupMemberships) groupsGroupIDMembershipsPutRes() {}
+func (*GroupMemberships) listMembershipsRes()   {}
+func (*GroupMemberships) updateMembershipsRes() {}
 
 type GroupMembershipsCompatUsersItem struct {
 	// ユーザID.
@@ -1338,185 +946,6 @@ func (s *GroupMembershipsCompatUsersItem) GetID() int {
 // SetID sets the value of ID.
 func (s *GroupMembershipsCompatUsersItem) SetID(val int) {
 	s.ID = val
-}
-
-// Merged schema.
-type GroupsGetOK struct {
-	Items []Group `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *GroupsGetOK) GetItems() []Group {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *GroupsGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *GroupsGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *GroupsGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *GroupsGetOK) SetItems(val []Group) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *GroupsGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *GroupsGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *GroupsGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*GroupsGetOK) groupsGetRes() {}
-
-type GroupsGetOrdering string
-
-const (
-	GroupsGetOrderingName      GroupsGetOrdering = "name"
-	GroupsGetOrderingMinusName GroupsGetOrdering = "-name"
-)
-
-// AllValues returns all GroupsGetOrdering values.
-func (GroupsGetOrdering) AllValues() []GroupsGetOrdering {
-	return []GroupsGetOrdering{
-		GroupsGetOrderingName,
-		GroupsGetOrderingMinusName,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s GroupsGetOrdering) MarshalText() ([]byte, error) {
-	switch s {
-	case GroupsGetOrderingName:
-		return []byte(s), nil
-	case GroupsGetOrderingMinusName:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *GroupsGetOrdering) UnmarshalText(data []byte) error {
-	switch GroupsGetOrdering(data) {
-	case GroupsGetOrderingName:
-		*s = GroupsGetOrderingName
-		return nil
-	case GroupsGetOrderingMinusName:
-		*s = GroupsGetOrderingMinusName
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// GroupsGroupIDDeleteNoContent is response for GroupsGroupIDDelete operation.
-type GroupsGroupIDDeleteNoContent struct{}
-
-func (*GroupsGroupIDDeleteNoContent) groupsGroupIDDeleteRes() {}
-
-type GroupsGroupIDMembershipsPutReq struct {
-	CompatUsers []GroupsGroupIDMembershipsPutReqCompatUsersItem `json:"compat_users"`
-}
-
-// GetCompatUsers returns the value of CompatUsers.
-func (s *GroupsGroupIDMembershipsPutReq) GetCompatUsers() []GroupsGroupIDMembershipsPutReqCompatUsersItem {
-	return s.CompatUsers
-}
-
-// SetCompatUsers sets the value of CompatUsers.
-func (s *GroupsGroupIDMembershipsPutReq) SetCompatUsers(val []GroupsGroupIDMembershipsPutReqCompatUsersItem) {
-	s.CompatUsers = val
-}
-
-type GroupsGroupIDMembershipsPutReqCompatUsersItem struct {
-	// ユーザID.
-	ID int `json:"id"`
-}
-
-// GetID returns the value of ID.
-func (s *GroupsGroupIDMembershipsPutReqCompatUsersItem) GetID() int {
-	return s.ID
-}
-
-// SetID sets the value of ID.
-func (s *GroupsGroupIDMembershipsPutReqCompatUsersItem) SetID(val int) {
-	s.ID = val
-}
-
-type GroupsGroupIDPutReq struct {
-	Name        string `json:"name"`
-	Description string `json:"description"`
-}
-
-// GetName returns the value of Name.
-func (s *GroupsGroupIDPutReq) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *GroupsGroupIDPutReq) GetDescription() string {
-	return s.Description
-}
-
-// SetName sets the value of Name.
-func (s *GroupsGroupIDPutReq) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *GroupsGroupIDPutReq) SetDescription(val string) {
-	s.Description = val
-}
-
-type GroupsPostReq struct {
-	// グループの名前.
-	Name        string `json:"name"`
-	Description string `json:"description"`
-}
-
-// GetName returns the value of Name.
-func (s *GroupsPostReq) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *GroupsPostReq) GetDescription() string {
-	return s.Description
-}
-
-// SetName sets the value of Name.
-func (s *GroupsPostReq) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *GroupsPostReq) SetDescription(val string) {
-	s.Description = val
 }
 
 // Ref: #/components/schemas/Http400BadRequest
@@ -1582,35 +1011,35 @@ func (s *Http400BadRequest) SetErrors(val Http400BadRequestErrors) {
 	s.Errors = val
 }
 
-func (*Http400BadRequest) compatAPIKeysApikeyIDPutRes()                         {}
-func (*Http400BadRequest) compatAPIKeysPostRes()                                {}
-func (*Http400BadRequest) compatUsersPostRes()                                  {}
-func (*Http400BadRequest) compatUsersUserIDPutRes()                             {}
-func (*Http400BadRequest) foldersFolderIDDeleteRes()                            {}
-func (*Http400BadRequest) foldersFolderIDIamPolicyPutRes()                      {}
-func (*Http400BadRequest) foldersFolderIDPutRes()                               {}
-func (*Http400BadRequest) foldersPostRes()                                      {}
-func (*Http400BadRequest) groupsGroupIDMembershipsPutRes()                      {}
-func (*Http400BadRequest) groupsGroupIDPutRes()                                 {}
-func (*Http400BadRequest) groupsPostRes()                                       {}
-func (*Http400BadRequest) moveFoldersPostRes()                                  {}
-func (*Http400BadRequest) moveProjectsPostRes()                                 {}
-func (*Http400BadRequest) organizationIDPolicyPutRes()                          {}
-func (*Http400BadRequest) organizationIamPolicyPutRes()                         {}
-func (*Http400BadRequest) organizationPasswordPolicyPutRes()                    {}
-func (*Http400BadRequest) organizationPutRes()                                  {}
-func (*Http400BadRequest) organizationServicePolicyPutRes()                     {}
-func (*Http400BadRequest) projectsPostRes()                                     {}
-func (*Http400BadRequest) projectsProjectIDIamPolicyPutRes()                    {}
-func (*Http400BadRequest) projectsProjectIDPutRes()                             {}
-func (*Http400BadRequest) sSOProfilesPostRes()                                  {}
-func (*Http400BadRequest) sSOProfilesSSOProfileIDPutRes()                       {}
-func (*Http400BadRequest) scimConfigurationsIDPutRes()                          {}
-func (*Http400BadRequest) scimConfigurationsPostRes()                           {}
-func (*Http400BadRequest) servicePrincipalsOAuth2TokenPostRes()                 {}
-func (*Http400BadRequest) servicePrincipalsPostRes()                            {}
-func (*Http400BadRequest) servicePrincipalsServicePrincipalIDPutRes()           {}
-func (*Http400BadRequest) servicePrincipalsServicePrincipalIDUploadKeyPostRes() {}
+func (*Http400BadRequest) createApiKeyRes()                     {}
+func (*Http400BadRequest) createFolderRes()                     {}
+func (*Http400BadRequest) createGroupRes()                      {}
+func (*Http400BadRequest) createProjectRes()                    {}
+func (*Http400BadRequest) createScimConfigurationRes()          {}
+func (*Http400BadRequest) createServicePrincipalRes()           {}
+func (*Http400BadRequest) createSsoProfileRes()                 {}
+func (*Http400BadRequest) createUserRes()                       {}
+func (*Http400BadRequest) deleteFolderRes()                     {}
+func (*Http400BadRequest) issueServicePrincipalTokenRes()       {}
+func (*Http400BadRequest) moveFoldersRes()                      {}
+func (*Http400BadRequest) moveProjectsRes()                     {}
+func (*Http400BadRequest) updateApiKeyRes()                     {}
+func (*Http400BadRequest) updateFolderIamPolicyRes()            {}
+func (*Http400BadRequest) updateFolderRes()                     {}
+func (*Http400BadRequest) updateGroupRes()                      {}
+func (*Http400BadRequest) updateMembershipsRes()                {}
+func (*Http400BadRequest) updateOrganizationIamPolicyRes()      {}
+func (*Http400BadRequest) updateOrganizationIdPolicyRes()       {}
+func (*Http400BadRequest) updateOrganizationPasswordPolicyRes() {}
+func (*Http400BadRequest) updateOrganizationRes()               {}
+func (*Http400BadRequest) updateOrganizationServicePolicyRes()  {}
+func (*Http400BadRequest) updateProjectIamPolicyRes()           {}
+func (*Http400BadRequest) updateProjectRes()                    {}
+func (*Http400BadRequest) updateScimConfigurationRes()          {}
+func (*Http400BadRequest) updateServicePrincipalRes()           {}
+func (*Http400BadRequest) updateSsoProfileRes()                 {}
+func (*Http400BadRequest) updateUserRes()                       {}
+func (*Http400BadRequest) uploadServicePrincipalKeyRes()        {}
 
 type Http400BadRequestErrors struct {
 	// リクエストボディの特定キーに関係しないエラー.
@@ -1755,96 +1184,93 @@ func (s *Http401Unauthorized) SetDetail(val string) {
 	s.Detail = val
 }
 
-func (*Http401Unauthorized) compatAPIKeysApikeyIDDeleteRes()                                        {}
-func (*Http401Unauthorized) compatAPIKeysApikeyIDGetRes()                                           {}
-func (*Http401Unauthorized) compatAPIKeysApikeyIDPutRes()                                           {}
-func (*Http401Unauthorized) compatAPIKeysGetRes()                                                   {}
-func (*Http401Unauthorized) compatAPIKeysPostRes()                                                  {}
-func (*Http401Unauthorized) compatUsersGetRes()                                                     {}
-func (*Http401Unauthorized) compatUsersPostRes()                                                    {}
-func (*Http401Unauthorized) compatUsersUserIDClearTrustedDevicesPostRes()                           {}
-func (*Http401Unauthorized) compatUsersUserIDDeactivateOtpPostRes()                                 {}
-func (*Http401Unauthorized) compatUsersUserIDDeleteRes()                                            {}
-func (*Http401Unauthorized) compatUsersUserIDGetRes()                                               {}
-func (*Http401Unauthorized) compatUsersUserIDPutRes()                                               {}
-func (*Http401Unauthorized) compatUsersUserIDRegisterEmailPostRes()                                 {}
-func (*Http401Unauthorized) compatUsersUserIDSecurityKeysGetRes()                                   {}
-func (*Http401Unauthorized) compatUsersUserIDSecurityKeysSecurityKeyIDDeleteRes()                   {}
-func (*Http401Unauthorized) compatUsersUserIDSecurityKeysSecurityKeyIDGetRes()                      {}
-func (*Http401Unauthorized) compatUsersUserIDSecurityKeysSecurityKeyIDPutRes()                      {}
-func (*Http401Unauthorized) compatUsersUserIDTrustedDevicesGetRes()                                 {}
-func (*Http401Unauthorized) compatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteRes()               {}
-func (*Http401Unauthorized) compatUsersUserIDUnregisterEmailPostRes()                               {}
-func (*Http401Unauthorized) disableServicePolicyPostRes()                                           {}
-func (*Http401Unauthorized) enableServicePolicyPostRes()                                            {}
-func (*Http401Unauthorized) foldersFolderIDDeleteRes()                                              {}
-func (*Http401Unauthorized) foldersFolderIDGetRes()                                                 {}
-func (*Http401Unauthorized) foldersFolderIDIamPolicyGetRes()                                        {}
-func (*Http401Unauthorized) foldersFolderIDIamPolicyPutRes()                                        {}
-func (*Http401Unauthorized) foldersFolderIDPutRes()                                                 {}
-func (*Http401Unauthorized) foldersGetRes()                                                         {}
-func (*Http401Unauthorized) foldersPostRes()                                                        {}
-func (*Http401Unauthorized) getAuthContextRes()                                                     {}
-func (*Http401Unauthorized) groupsGetRes()                                                          {}
-func (*Http401Unauthorized) groupsGroupIDDeleteRes()                                                {}
-func (*Http401Unauthorized) groupsGroupIDGetRes()                                                   {}
-func (*Http401Unauthorized) groupsGroupIDMembershipsGetRes()                                        {}
-func (*Http401Unauthorized) groupsGroupIDMembershipsPutRes()                                        {}
-func (*Http401Unauthorized) groupsGroupIDPutRes()                                                   {}
-func (*Http401Unauthorized) groupsPostRes()                                                         {}
-func (*Http401Unauthorized) iDRolesGetRes()                                                         {}
-func (*Http401Unauthorized) iDRolesIDRoleIDGetRes()                                                 {}
-func (*Http401Unauthorized) iamRolesGetRes()                                                        {}
-func (*Http401Unauthorized) iamRolesIamRoleIDGetRes()                                               {}
-func (*Http401Unauthorized) moveFoldersPostRes()                                                    {}
-func (*Http401Unauthorized) moveProjectsPostRes()                                                   {}
-func (*Http401Unauthorized) organizationAuthConditionsGetRes()                                      {}
-func (*Http401Unauthorized) organizationAuthConditionsPutRes()                                      {}
-func (*Http401Unauthorized) organizationGetRes()                                                    {}
-func (*Http401Unauthorized) organizationIDPolicyGetRes()                                            {}
-func (*Http401Unauthorized) organizationIDPolicyPutRes()                                            {}
-func (*Http401Unauthorized) organizationIamPolicyGetRes()                                           {}
-func (*Http401Unauthorized) organizationIamPolicyPutRes()                                           {}
-func (*Http401Unauthorized) organizationPasswordPolicyGetRes()                                      {}
-func (*Http401Unauthorized) organizationPasswordPolicyPutRes()                                      {}
-func (*Http401Unauthorized) organizationPutRes()                                                    {}
-func (*Http401Unauthorized) organizationServicePolicyGetRes()                                       {}
-func (*Http401Unauthorized) organizationServicePolicyPutRes()                                       {}
-func (*Http401Unauthorized) projectsGetRes()                                                        {}
-func (*Http401Unauthorized) projectsPostRes()                                                       {}
-func (*Http401Unauthorized) projectsProjectIDDeleteRes()                                            {}
-func (*Http401Unauthorized) projectsProjectIDGetRes()                                               {}
-func (*Http401Unauthorized) projectsProjectIDIamPolicyGetRes()                                      {}
-func (*Http401Unauthorized) projectsProjectIDIamPolicyPutRes()                                      {}
-func (*Http401Unauthorized) projectsProjectIDPutRes()                                               {}
-func (*Http401Unauthorized) sSOProfilesGetRes()                                                     {}
-func (*Http401Unauthorized) sSOProfilesPostRes()                                                    {}
-func (*Http401Unauthorized) sSOProfilesSSOProfileIDAssignPostRes()                                  {}
-func (*Http401Unauthorized) sSOProfilesSSOProfileIDDeleteRes()                                      {}
-func (*Http401Unauthorized) sSOProfilesSSOProfileIDGetRes()                                         {}
-func (*Http401Unauthorized) sSOProfilesSSOProfileIDPutRes()                                         {}
-func (*Http401Unauthorized) sSOProfilesSSOProfileIDUnassignPostRes()                                {}
-func (*Http401Unauthorized) scimConfigurationsGetRes()                                              {}
-func (*Http401Unauthorized) scimConfigurationsIDDeleteRes()                                         {}
-func (*Http401Unauthorized) scimConfigurationsIDGetRes()                                            {}
-func (*Http401Unauthorized) scimConfigurationsIDPutRes()                                            {}
-func (*Http401Unauthorized) scimConfigurationsIDRegenerateTokenPostRes()                            {}
-func (*Http401Unauthorized) scimConfigurationsPostRes()                                             {}
-func (*Http401Unauthorized) servicePolicyRuleTemplatesGetRes()                                      {}
-func (*Http401Unauthorized) servicePolicyStatusGetRes()                                             {}
-func (*Http401Unauthorized) servicePrincipalsGetRes()                                               {}
-func (*Http401Unauthorized) servicePrincipalsOAuth2TokenPostRes()                                   {}
-func (*Http401Unauthorized) servicePrincipalsPostRes()                                              {}
-func (*Http401Unauthorized) servicePrincipalsServicePrincipalIDDeleteRes()                          {}
-func (*Http401Unauthorized) servicePrincipalsServicePrincipalIDGetRes()                             {}
-func (*Http401Unauthorized) servicePrincipalsServicePrincipalIDKeysGetRes()                         {}
-func (*Http401Unauthorized) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteRes() {}
-func (*Http401Unauthorized) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostRes() {
-}
-func (*Http401Unauthorized) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostRes() {
-}
-func (*Http401Unauthorized) servicePrincipalsServicePrincipalIDPutRes()           {}
-func (*Http401Unauthorized) servicePrincipalsServicePrincipalIDUploadKeyPostRes() {}
+func (*Http401Unauthorized) assignSsoProfileRes()                 {}
+func (*Http401Unauthorized) checkServicePolicyStatusRes()         {}
+func (*Http401Unauthorized) clearTrustedDevicesRes()              {}
+func (*Http401Unauthorized) createApiKeyRes()                     {}
+func (*Http401Unauthorized) createFolderRes()                     {}
+func (*Http401Unauthorized) createGroupRes()                      {}
+func (*Http401Unauthorized) createProjectRes()                    {}
+func (*Http401Unauthorized) createScimConfigurationRes()          {}
+func (*Http401Unauthorized) createServicePrincipalRes()           {}
+func (*Http401Unauthorized) createSsoProfileRes()                 {}
+func (*Http401Unauthorized) createUserRes()                       {}
+func (*Http401Unauthorized) deactivateOtpRes()                    {}
+func (*Http401Unauthorized) deleteApiKeyRes()                     {}
+func (*Http401Unauthorized) deleteFolderRes()                     {}
+func (*Http401Unauthorized) deleteGroupRes()                      {}
+func (*Http401Unauthorized) deleteProjectRes()                    {}
+func (*Http401Unauthorized) deleteScimConfigurationRes()          {}
+func (*Http401Unauthorized) deleteSecurityKeyRes()                {}
+func (*Http401Unauthorized) deleteServicePrincipalKeyRes()        {}
+func (*Http401Unauthorized) deleteServicePrincipalRes()           {}
+func (*Http401Unauthorized) deleteSsoProfileRes()                 {}
+func (*Http401Unauthorized) deleteTrustedDeviceRes()              {}
+func (*Http401Unauthorized) deleteUserRes()                       {}
+func (*Http401Unauthorized) disableServicePolicyRes()             {}
+func (*Http401Unauthorized) disableServicePrincipalKeyRes()       {}
+func (*Http401Unauthorized) enableServicePolicyRes()              {}
+func (*Http401Unauthorized) enableServicePrincipalKeyRes()        {}
+func (*Http401Unauthorized) issueServicePrincipalTokenRes()       {}
+func (*Http401Unauthorized) listApiKeysRes()                      {}
+func (*Http401Unauthorized) listFoldersRes()                      {}
+func (*Http401Unauthorized) listGroupsRes()                       {}
+func (*Http401Unauthorized) listIamRolesRes()                     {}
+func (*Http401Unauthorized) listIdRolesRes()                      {}
+func (*Http401Unauthorized) listMembershipsRes()                  {}
+func (*Http401Unauthorized) listProjectsRes()                     {}
+func (*Http401Unauthorized) listScimConfigurationsRes()           {}
+func (*Http401Unauthorized) listSecurityKeysRes()                 {}
+func (*Http401Unauthorized) listServicePolicyRuleTemplatesRes()   {}
+func (*Http401Unauthorized) listServicePrincipalKeysRes()         {}
+func (*Http401Unauthorized) listServicePrincipalsRes()            {}
+func (*Http401Unauthorized) listSsoProfilesRes()                  {}
+func (*Http401Unauthorized) listTrustedDevicesRes()               {}
+func (*Http401Unauthorized) listUsersRes()                        {}
+func (*Http401Unauthorized) moveFoldersRes()                      {}
+func (*Http401Unauthorized) moveProjectsRes()                     {}
+func (*Http401Unauthorized) readApiKeyRes()                       {}
+func (*Http401Unauthorized) readAuthContextRes()                  {}
+func (*Http401Unauthorized) readFolderIamPolicyRes()              {}
+func (*Http401Unauthorized) readFolderRes()                       {}
+func (*Http401Unauthorized) readGroupRes()                        {}
+func (*Http401Unauthorized) readIamRoleRes()                      {}
+func (*Http401Unauthorized) readIdRoleRes()                       {}
+func (*Http401Unauthorized) readOrganizationAuthConditionsRes()   {}
+func (*Http401Unauthorized) readOrganizationIamPolicyRes()        {}
+func (*Http401Unauthorized) readOrganizationIdPolicyRes()         {}
+func (*Http401Unauthorized) readOrganizationPasswordPolicyRes()   {}
+func (*Http401Unauthorized) readOrganizationRes()                 {}
+func (*Http401Unauthorized) readOrganizationServicePolicyRes()    {}
+func (*Http401Unauthorized) readProjectIamPolicyRes()             {}
+func (*Http401Unauthorized) readProjectRes()                      {}
+func (*Http401Unauthorized) readScimConfigurationRes()            {}
+func (*Http401Unauthorized) readSecurityKeyRes()                  {}
+func (*Http401Unauthorized) readServicePrincipalRes()             {}
+func (*Http401Unauthorized) readSsoProfileRes()                   {}
+func (*Http401Unauthorized) readUserRes()                         {}
+func (*Http401Unauthorized) regenerateScimConfigurationTokenRes() {}
+func (*Http401Unauthorized) registerEmailRes()                    {}
+func (*Http401Unauthorized) unassignSsoProfileRes()               {}
+func (*Http401Unauthorized) unregisterEmailRes()                  {}
+func (*Http401Unauthorized) updateApiKeyRes()                     {}
+func (*Http401Unauthorized) updateFolderIamPolicyRes()            {}
+func (*Http401Unauthorized) updateFolderRes()                     {}
+func (*Http401Unauthorized) updateGroupRes()                      {}
+func (*Http401Unauthorized) updateMembershipsRes()                {}
+func (*Http401Unauthorized) updateOrganizationAuthConditionsRes() {}
+func (*Http401Unauthorized) updateOrganizationIamPolicyRes()      {}
+func (*Http401Unauthorized) updateOrganizationIdPolicyRes()       {}
+func (*Http401Unauthorized) updateOrganizationPasswordPolicyRes() {}
+func (*Http401Unauthorized) updateOrganizationRes()               {}
+func (*Http401Unauthorized) updateOrganizationServicePolicyRes()  {}
+func (*Http401Unauthorized) updateProjectIamPolicyRes()           {}
+func (*Http401Unauthorized) updateProjectRes()                    {}
+func (*Http401Unauthorized) updateScimConfigurationRes()          {}
+func (*Http401Unauthorized) updateServicePrincipalRes()           {}
+func (*Http401Unauthorized) updateSsoProfileRes()                 {}
+func (*Http401Unauthorized) updateUserRes()                       {}
+func (*Http401Unauthorized) uploadServicePrincipalKeyRes()        {}
 
 // Ref: #/components/schemas/Http403Forbidden
 type Http403Forbidden struct {
@@ -1898,94 +1324,91 @@ func (s *Http403Forbidden) SetDetail(val string) {
 	s.Detail = val
 }
 
-func (*Http403Forbidden) compatAPIKeysApikeyIDDeleteRes()                                        {}
-func (*Http403Forbidden) compatAPIKeysApikeyIDGetRes()                                           {}
-func (*Http403Forbidden) compatAPIKeysApikeyIDPutRes()                                           {}
-func (*Http403Forbidden) compatAPIKeysGetRes()                                                   {}
-func (*Http403Forbidden) compatAPIKeysPostRes()                                                  {}
-func (*Http403Forbidden) compatUsersGetRes()                                                     {}
-func (*Http403Forbidden) compatUsersPostRes()                                                    {}
-func (*Http403Forbidden) compatUsersUserIDClearTrustedDevicesPostRes()                           {}
-func (*Http403Forbidden) compatUsersUserIDDeactivateOtpPostRes()                                 {}
-func (*Http403Forbidden) compatUsersUserIDDeleteRes()                                            {}
-func (*Http403Forbidden) compatUsersUserIDGetRes()                                               {}
-func (*Http403Forbidden) compatUsersUserIDPutRes()                                               {}
-func (*Http403Forbidden) compatUsersUserIDRegisterEmailPostRes()                                 {}
-func (*Http403Forbidden) compatUsersUserIDSecurityKeysGetRes()                                   {}
-func (*Http403Forbidden) compatUsersUserIDSecurityKeysSecurityKeyIDDeleteRes()                   {}
-func (*Http403Forbidden) compatUsersUserIDSecurityKeysSecurityKeyIDGetRes()                      {}
-func (*Http403Forbidden) compatUsersUserIDSecurityKeysSecurityKeyIDPutRes()                      {}
-func (*Http403Forbidden) compatUsersUserIDTrustedDevicesGetRes()                                 {}
-func (*Http403Forbidden) compatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteRes()               {}
-func (*Http403Forbidden) compatUsersUserIDUnregisterEmailPostRes()                               {}
-func (*Http403Forbidden) disableServicePolicyPostRes()                                           {}
-func (*Http403Forbidden) enableServicePolicyPostRes()                                            {}
-func (*Http403Forbidden) foldersFolderIDDeleteRes()                                              {}
-func (*Http403Forbidden) foldersFolderIDGetRes()                                                 {}
-func (*Http403Forbidden) foldersFolderIDIamPolicyGetRes()                                        {}
-func (*Http403Forbidden) foldersFolderIDIamPolicyPutRes()                                        {}
-func (*Http403Forbidden) foldersFolderIDPutRes()                                                 {}
-func (*Http403Forbidden) foldersGetRes()                                                         {}
-func (*Http403Forbidden) foldersPostRes()                                                        {}
-func (*Http403Forbidden) groupsGetRes()                                                          {}
-func (*Http403Forbidden) groupsGroupIDDeleteRes()                                                {}
-func (*Http403Forbidden) groupsGroupIDGetRes()                                                   {}
-func (*Http403Forbidden) groupsGroupIDMembershipsGetRes()                                        {}
-func (*Http403Forbidden) groupsGroupIDMembershipsPutRes()                                        {}
-func (*Http403Forbidden) groupsGroupIDPutRes()                                                   {}
-func (*Http403Forbidden) groupsPostRes()                                                         {}
-func (*Http403Forbidden) iDRolesGetRes()                                                         {}
-func (*Http403Forbidden) iDRolesIDRoleIDGetRes()                                                 {}
-func (*Http403Forbidden) iamRolesGetRes()                                                        {}
-func (*Http403Forbidden) iamRolesIamRoleIDGetRes()                                               {}
-func (*Http403Forbidden) moveFoldersPostRes()                                                    {}
-func (*Http403Forbidden) moveProjectsPostRes()                                                   {}
-func (*Http403Forbidden) organizationAuthConditionsGetRes()                                      {}
-func (*Http403Forbidden) organizationAuthConditionsPutRes()                                      {}
-func (*Http403Forbidden) organizationGetRes()                                                    {}
-func (*Http403Forbidden) organizationIDPolicyGetRes()                                            {}
-func (*Http403Forbidden) organizationIDPolicyPutRes()                                            {}
-func (*Http403Forbidden) organizationIamPolicyGetRes()                                           {}
-func (*Http403Forbidden) organizationIamPolicyPutRes()                                           {}
-func (*Http403Forbidden) organizationPasswordPolicyGetRes()                                      {}
-func (*Http403Forbidden) organizationPasswordPolicyPutRes()                                      {}
-func (*Http403Forbidden) organizationPutRes()                                                    {}
-func (*Http403Forbidden) organizationServicePolicyGetRes()                                       {}
-func (*Http403Forbidden) organizationServicePolicyPutRes()                                       {}
-func (*Http403Forbidden) projectsGetRes()                                                        {}
-func (*Http403Forbidden) projectsPostRes()                                                       {}
-func (*Http403Forbidden) projectsProjectIDDeleteRes()                                            {}
-func (*Http403Forbidden) projectsProjectIDGetRes()                                               {}
-func (*Http403Forbidden) projectsProjectIDIamPolicyGetRes()                                      {}
-func (*Http403Forbidden) projectsProjectIDIamPolicyPutRes()                                      {}
-func (*Http403Forbidden) projectsProjectIDPutRes()                                               {}
-func (*Http403Forbidden) sSOProfilesGetRes()                                                     {}
-func (*Http403Forbidden) sSOProfilesPostRes()                                                    {}
-func (*Http403Forbidden) sSOProfilesSSOProfileIDAssignPostRes()                                  {}
-func (*Http403Forbidden) sSOProfilesSSOProfileIDDeleteRes()                                      {}
-func (*Http403Forbidden) sSOProfilesSSOProfileIDGetRes()                                         {}
-func (*Http403Forbidden) sSOProfilesSSOProfileIDPutRes()                                         {}
-func (*Http403Forbidden) sSOProfilesSSOProfileIDUnassignPostRes()                                {}
-func (*Http403Forbidden) scimConfigurationsGetRes()                                              {}
-func (*Http403Forbidden) scimConfigurationsIDDeleteRes()                                         {}
-func (*Http403Forbidden) scimConfigurationsIDGetRes()                                            {}
-func (*Http403Forbidden) scimConfigurationsIDPutRes()                                            {}
-func (*Http403Forbidden) scimConfigurationsIDRegenerateTokenPostRes()                            {}
-func (*Http403Forbidden) scimConfigurationsPostRes()                                             {}
-func (*Http403Forbidden) servicePolicyRuleTemplatesGetRes()                                      {}
-func (*Http403Forbidden) servicePolicyStatusGetRes()                                             {}
-func (*Http403Forbidden) servicePrincipalsGetRes()                                               {}
-func (*Http403Forbidden) servicePrincipalsPostRes()                                              {}
-func (*Http403Forbidden) servicePrincipalsServicePrincipalIDDeleteRes()                          {}
-func (*Http403Forbidden) servicePrincipalsServicePrincipalIDGetRes()                             {}
-func (*Http403Forbidden) servicePrincipalsServicePrincipalIDKeysGetRes()                         {}
-func (*Http403Forbidden) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteRes() {}
-func (*Http403Forbidden) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostRes() {
-}
-func (*Http403Forbidden) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostRes() {
-}
-func (*Http403Forbidden) servicePrincipalsServicePrincipalIDPutRes()           {}
-func (*Http403Forbidden) servicePrincipalsServicePrincipalIDUploadKeyPostRes() {}
+func (*Http403Forbidden) assignSsoProfileRes()                 {}
+func (*Http403Forbidden) checkServicePolicyStatusRes()         {}
+func (*Http403Forbidden) clearTrustedDevicesRes()              {}
+func (*Http403Forbidden) createApiKeyRes()                     {}
+func (*Http403Forbidden) createFolderRes()                     {}
+func (*Http403Forbidden) createGroupRes()                      {}
+func (*Http403Forbidden) createProjectRes()                    {}
+func (*Http403Forbidden) createScimConfigurationRes()          {}
+func (*Http403Forbidden) createServicePrincipalRes()           {}
+func (*Http403Forbidden) createSsoProfileRes()                 {}
+func (*Http403Forbidden) createUserRes()                       {}
+func (*Http403Forbidden) deactivateOtpRes()                    {}
+func (*Http403Forbidden) deleteApiKeyRes()                     {}
+func (*Http403Forbidden) deleteFolderRes()                     {}
+func (*Http403Forbidden) deleteGroupRes()                      {}
+func (*Http403Forbidden) deleteProjectRes()                    {}
+func (*Http403Forbidden) deleteScimConfigurationRes()          {}
+func (*Http403Forbidden) deleteSecurityKeyRes()                {}
+func (*Http403Forbidden) deleteServicePrincipalKeyRes()        {}
+func (*Http403Forbidden) deleteServicePrincipalRes()           {}
+func (*Http403Forbidden) deleteSsoProfileRes()                 {}
+func (*Http403Forbidden) deleteTrustedDeviceRes()              {}
+func (*Http403Forbidden) deleteUserRes()                       {}
+func (*Http403Forbidden) disableServicePolicyRes()             {}
+func (*Http403Forbidden) disableServicePrincipalKeyRes()       {}
+func (*Http403Forbidden) enableServicePolicyRes()              {}
+func (*Http403Forbidden) enableServicePrincipalKeyRes()        {}
+func (*Http403Forbidden) listApiKeysRes()                      {}
+func (*Http403Forbidden) listFoldersRes()                      {}
+func (*Http403Forbidden) listGroupsRes()                       {}
+func (*Http403Forbidden) listIamRolesRes()                     {}
+func (*Http403Forbidden) listIdRolesRes()                      {}
+func (*Http403Forbidden) listMembershipsRes()                  {}
+func (*Http403Forbidden) listProjectsRes()                     {}
+func (*Http403Forbidden) listScimConfigurationsRes()           {}
+func (*Http403Forbidden) listSecurityKeysRes()                 {}
+func (*Http403Forbidden) listServicePolicyRuleTemplatesRes()   {}
+func (*Http403Forbidden) listServicePrincipalKeysRes()         {}
+func (*Http403Forbidden) listServicePrincipalsRes()            {}
+func (*Http403Forbidden) listSsoProfilesRes()                  {}
+func (*Http403Forbidden) listTrustedDevicesRes()               {}
+func (*Http403Forbidden) listUsersRes()                        {}
+func (*Http403Forbidden) moveFoldersRes()                      {}
+func (*Http403Forbidden) moveProjectsRes()                     {}
+func (*Http403Forbidden) readApiKeyRes()                       {}
+func (*Http403Forbidden) readFolderIamPolicyRes()              {}
+func (*Http403Forbidden) readFolderRes()                       {}
+func (*Http403Forbidden) readGroupRes()                        {}
+func (*Http403Forbidden) readIamRoleRes()                      {}
+func (*Http403Forbidden) readIdRoleRes()                       {}
+func (*Http403Forbidden) readOrganizationAuthConditionsRes()   {}
+func (*Http403Forbidden) readOrganizationIamPolicyRes()        {}
+func (*Http403Forbidden) readOrganizationIdPolicyRes()         {}
+func (*Http403Forbidden) readOrganizationPasswordPolicyRes()   {}
+func (*Http403Forbidden) readOrganizationRes()                 {}
+func (*Http403Forbidden) readOrganizationServicePolicyRes()    {}
+func (*Http403Forbidden) readProjectIamPolicyRes()             {}
+func (*Http403Forbidden) readProjectRes()                      {}
+func (*Http403Forbidden) readScimConfigurationRes()            {}
+func (*Http403Forbidden) readSecurityKeyRes()                  {}
+func (*Http403Forbidden) readServicePrincipalRes()             {}
+func (*Http403Forbidden) readSsoProfileRes()                   {}
+func (*Http403Forbidden) readUserRes()                         {}
+func (*Http403Forbidden) regenerateScimConfigurationTokenRes() {}
+func (*Http403Forbidden) registerEmailRes()                    {}
+func (*Http403Forbidden) unassignSsoProfileRes()               {}
+func (*Http403Forbidden) unregisterEmailRes()                  {}
+func (*Http403Forbidden) updateApiKeyRes()                     {}
+func (*Http403Forbidden) updateFolderIamPolicyRes()            {}
+func (*Http403Forbidden) updateFolderRes()                     {}
+func (*Http403Forbidden) updateGroupRes()                      {}
+func (*Http403Forbidden) updateMembershipsRes()                {}
+func (*Http403Forbidden) updateOrganizationAuthConditionsRes() {}
+func (*Http403Forbidden) updateOrganizationIamPolicyRes()      {}
+func (*Http403Forbidden) updateOrganizationIdPolicyRes()       {}
+func (*Http403Forbidden) updateOrganizationPasswordPolicyRes() {}
+func (*Http403Forbidden) updateOrganizationRes()               {}
+func (*Http403Forbidden) updateOrganizationServicePolicyRes()  {}
+func (*Http403Forbidden) updateProjectIamPolicyRes()           {}
+func (*Http403Forbidden) updateProjectRes()                    {}
+func (*Http403Forbidden) updateScimConfigurationRes()          {}
+func (*Http403Forbidden) updateServicePrincipalRes()           {}
+func (*Http403Forbidden) updateSsoProfileRes()                 {}
+func (*Http403Forbidden) updateUserRes()                       {}
+func (*Http403Forbidden) uploadServicePrincipalKeyRes()        {}
 
 // Ref: #/components/schemas/Http404NotFound
 type Http404NotFound struct {
@@ -2039,57 +1462,55 @@ func (s *Http404NotFound) SetDetail(val string) {
 	s.Detail = val
 }
 
-func (*Http404NotFound) compatAPIKeysApikeyIDDeleteRes()                                        {}
-func (*Http404NotFound) compatAPIKeysApikeyIDGetRes()                                           {}
-func (*Http404NotFound) compatAPIKeysApikeyIDPutRes()                                           {}
-func (*Http404NotFound) compatUsersUserIDClearTrustedDevicesPostRes()                           {}
-func (*Http404NotFound) compatUsersUserIDDeactivateOtpPostRes()                                 {}
-func (*Http404NotFound) compatUsersUserIDDeleteRes()                                            {}
-func (*Http404NotFound) compatUsersUserIDGetRes()                                               {}
-func (*Http404NotFound) compatUsersUserIDPutRes()                                               {}
-func (*Http404NotFound) compatUsersUserIDRegisterEmailPostRes()                                 {}
-func (*Http404NotFound) compatUsersUserIDSecurityKeysGetRes()                                   {}
-func (*Http404NotFound) compatUsersUserIDSecurityKeysSecurityKeyIDDeleteRes()                   {}
-func (*Http404NotFound) compatUsersUserIDSecurityKeysSecurityKeyIDGetRes()                      {}
-func (*Http404NotFound) compatUsersUserIDSecurityKeysSecurityKeyIDPutRes()                      {}
-func (*Http404NotFound) compatUsersUserIDTrustedDevicesGetRes()                                 {}
-func (*Http404NotFound) compatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteRes()               {}
-func (*Http404NotFound) compatUsersUserIDUnregisterEmailPostRes()                               {}
-func (*Http404NotFound) foldersFolderIDDeleteRes()                                              {}
-func (*Http404NotFound) foldersFolderIDIamPolicyGetRes()                                        {}
-func (*Http404NotFound) foldersFolderIDIamPolicyPutRes()                                        {}
-func (*Http404NotFound) foldersFolderIDPutRes()                                                 {}
-func (*Http404NotFound) groupsGroupIDDeleteRes()                                                {}
-func (*Http404NotFound) groupsGroupIDGetRes()                                                   {}
-func (*Http404NotFound) groupsGroupIDMembershipsGetRes()                                        {}
-func (*Http404NotFound) groupsGroupIDMembershipsPutRes()                                        {}
-func (*Http404NotFound) groupsGroupIDPutRes()                                                   {}
-func (*Http404NotFound) iDRolesIDRoleIDGetRes()                                                 {}
-func (*Http404NotFound) iamRolesIamRoleIDGetRes()                                               {}
-func (*Http404NotFound) moveFoldersPostRes()                                                    {}
-func (*Http404NotFound) moveProjectsPostRes()                                                   {}
-func (*Http404NotFound) organizationGetRes()                                                    {}
-func (*Http404NotFound) projectsProjectIDDeleteRes()                                            {}
-func (*Http404NotFound) projectsProjectIDGetRes()                                               {}
-func (*Http404NotFound) projectsProjectIDIamPolicyGetRes()                                      {}
-func (*Http404NotFound) projectsProjectIDIamPolicyPutRes()                                      {}
-func (*Http404NotFound) projectsProjectIDPutRes()                                               {}
-func (*Http404NotFound) sSOProfilesSSOProfileIDAssignPostRes()                                  {}
-func (*Http404NotFound) sSOProfilesSSOProfileIDDeleteRes()                                      {}
-func (*Http404NotFound) sSOProfilesSSOProfileIDGetRes()                                         {}
-func (*Http404NotFound) sSOProfilesSSOProfileIDPutRes()                                         {}
-func (*Http404NotFound) sSOProfilesSSOProfileIDUnassignPostRes()                                {}
-func (*Http404NotFound) scimConfigurationsIDDeleteRes()                                         {}
-func (*Http404NotFound) scimConfigurationsIDGetRes()                                            {}
-func (*Http404NotFound) scimConfigurationsIDPutRes()                                            {}
-func (*Http404NotFound) scimConfigurationsIDRegenerateTokenPostRes()                            {}
-func (*Http404NotFound) servicePrincipalsServicePrincipalIDDeleteRes()                          {}
-func (*Http404NotFound) servicePrincipalsServicePrincipalIDGetRes()                             {}
-func (*Http404NotFound) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteRes() {}
-func (*Http404NotFound) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostRes() {
-}
-func (*Http404NotFound) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostRes() {}
-func (*Http404NotFound) servicePrincipalsServicePrincipalIDPutRes()                                 {}
+func (*Http404NotFound) assignSsoProfileRes()                 {}
+func (*Http404NotFound) clearTrustedDevicesRes()              {}
+func (*Http404NotFound) deactivateOtpRes()                    {}
+func (*Http404NotFound) deleteApiKeyRes()                     {}
+func (*Http404NotFound) deleteFolderRes()                     {}
+func (*Http404NotFound) deleteGroupRes()                      {}
+func (*Http404NotFound) deleteProjectRes()                    {}
+func (*Http404NotFound) deleteScimConfigurationRes()          {}
+func (*Http404NotFound) deleteSecurityKeyRes()                {}
+func (*Http404NotFound) deleteServicePrincipalKeyRes()        {}
+func (*Http404NotFound) deleteServicePrincipalRes()           {}
+func (*Http404NotFound) deleteSsoProfileRes()                 {}
+func (*Http404NotFound) deleteTrustedDeviceRes()              {}
+func (*Http404NotFound) deleteUserRes()                       {}
+func (*Http404NotFound) disableServicePrincipalKeyRes()       {}
+func (*Http404NotFound) enableServicePrincipalKeyRes()        {}
+func (*Http404NotFound) listMembershipsRes()                  {}
+func (*Http404NotFound) listSecurityKeysRes()                 {}
+func (*Http404NotFound) listTrustedDevicesRes()               {}
+func (*Http404NotFound) moveFoldersRes()                      {}
+func (*Http404NotFound) moveProjectsRes()                     {}
+func (*Http404NotFound) readApiKeyRes()                       {}
+func (*Http404NotFound) readFolderIamPolicyRes()              {}
+func (*Http404NotFound) readGroupRes()                        {}
+func (*Http404NotFound) readIamRoleRes()                      {}
+func (*Http404NotFound) readIdRoleRes()                       {}
+func (*Http404NotFound) readOrganizationRes()                 {}
+func (*Http404NotFound) readProjectIamPolicyRes()             {}
+func (*Http404NotFound) readProjectRes()                      {}
+func (*Http404NotFound) readScimConfigurationRes()            {}
+func (*Http404NotFound) readSecurityKeyRes()                  {}
+func (*Http404NotFound) readServicePrincipalRes()             {}
+func (*Http404NotFound) readSsoProfileRes()                   {}
+func (*Http404NotFound) readUserRes()                         {}
+func (*Http404NotFound) regenerateScimConfigurationTokenRes() {}
+func (*Http404NotFound) registerEmailRes()                    {}
+func (*Http404NotFound) unassignSsoProfileRes()               {}
+func (*Http404NotFound) unregisterEmailRes()                  {}
+func (*Http404NotFound) updateApiKeyRes()                     {}
+func (*Http404NotFound) updateFolderIamPolicyRes()            {}
+func (*Http404NotFound) updateFolderRes()                     {}
+func (*Http404NotFound) updateGroupRes()                      {}
+func (*Http404NotFound) updateMembershipsRes()                {}
+func (*Http404NotFound) updateProjectIamPolicyRes()           {}
+func (*Http404NotFound) updateProjectRes()                    {}
+func (*Http404NotFound) updateScimConfigurationRes()          {}
+func (*Http404NotFound) updateServicePrincipalRes()           {}
+func (*Http404NotFound) updateSsoProfileRes()                 {}
+func (*Http404NotFound) updateUserRes()                       {}
 
 // Ref: #/components/schemas/Http409Conflict
 type Http409Conflict struct {
@@ -2143,22 +1564,22 @@ func (s *Http409Conflict) SetDetail(val string) {
 	s.Detail = val
 }
 
-func (*Http409Conflict) compatUsersPostRes()                                  {}
-func (*Http409Conflict) compatUsersUserIDRegisterEmailPostRes()               {}
-func (*Http409Conflict) disableServicePolicyPostRes()                         {}
-func (*Http409Conflict) enableServicePolicyPostRes()                          {}
-func (*Http409Conflict) groupsPostRes()                                       {}
-func (*Http409Conflict) organizationServicePolicyPutRes()                     {}
-func (*Http409Conflict) projectsPostRes()                                     {}
-func (*Http409Conflict) projectsProjectIDDeleteRes()                          {}
-func (*Http409Conflict) sSOProfilesPostRes()                                  {}
-func (*Http409Conflict) sSOProfilesSSOProfileIDAssignPostRes()                {}
-func (*Http409Conflict) sSOProfilesSSOProfileIDDeleteRes()                    {}
-func (*Http409Conflict) scimConfigurationsIDDeleteRes()                       {}
-func (*Http409Conflict) scimConfigurationsPostRes()                           {}
-func (*Http409Conflict) servicePrincipalsPostRes()                            {}
-func (*Http409Conflict) servicePrincipalsServicePrincipalIDDeleteRes()        {}
-func (*Http409Conflict) servicePrincipalsServicePrincipalIDUploadKeyPostRes() {}
+func (*Http409Conflict) assignSsoProfileRes()                {}
+func (*Http409Conflict) createGroupRes()                     {}
+func (*Http409Conflict) createProjectRes()                   {}
+func (*Http409Conflict) createScimConfigurationRes()         {}
+func (*Http409Conflict) createServicePrincipalRes()          {}
+func (*Http409Conflict) createSsoProfileRes()                {}
+func (*Http409Conflict) createUserRes()                      {}
+func (*Http409Conflict) deleteProjectRes()                   {}
+func (*Http409Conflict) deleteScimConfigurationRes()         {}
+func (*Http409Conflict) deleteServicePrincipalRes()          {}
+func (*Http409Conflict) deleteSsoProfileRes()                {}
+func (*Http409Conflict) disableServicePolicyRes()            {}
+func (*Http409Conflict) enableServicePolicyRes()             {}
+func (*Http409Conflict) registerEmailRes()                   {}
+func (*Http409Conflict) updateOrganizationServicePolicyRes() {}
+func (*Http409Conflict) uploadServicePrincipalKeyRes()       {}
 
 // Ref: #/components/schemas/Http429TooManyRequests
 type Http429TooManyRequests struct {
@@ -2212,96 +1633,92 @@ func (s *Http429TooManyRequests) SetDetail(val string) {
 	s.Detail = val
 }
 
-func (*Http429TooManyRequests) compatAPIKeysApikeyIDDeleteRes()                          {}
-func (*Http429TooManyRequests) compatAPIKeysApikeyIDGetRes()                             {}
-func (*Http429TooManyRequests) compatAPIKeysApikeyIDPutRes()                             {}
-func (*Http429TooManyRequests) compatAPIKeysGetRes()                                     {}
-func (*Http429TooManyRequests) compatAPIKeysPostRes()                                    {}
-func (*Http429TooManyRequests) compatUsersGetRes()                                       {}
-func (*Http429TooManyRequests) compatUsersPostRes()                                      {}
-func (*Http429TooManyRequests) compatUsersUserIDClearTrustedDevicesPostRes()             {}
-func (*Http429TooManyRequests) compatUsersUserIDDeactivateOtpPostRes()                   {}
-func (*Http429TooManyRequests) compatUsersUserIDDeleteRes()                              {}
-func (*Http429TooManyRequests) compatUsersUserIDGetRes()                                 {}
-func (*Http429TooManyRequests) compatUsersUserIDPutRes()                                 {}
-func (*Http429TooManyRequests) compatUsersUserIDRegisterEmailPostRes()                   {}
-func (*Http429TooManyRequests) compatUsersUserIDSecurityKeysGetRes()                     {}
-func (*Http429TooManyRequests) compatUsersUserIDSecurityKeysSecurityKeyIDDeleteRes()     {}
-func (*Http429TooManyRequests) compatUsersUserIDSecurityKeysSecurityKeyIDGetRes()        {}
-func (*Http429TooManyRequests) compatUsersUserIDSecurityKeysSecurityKeyIDPutRes()        {}
-func (*Http429TooManyRequests) compatUsersUserIDTrustedDevicesGetRes()                   {}
-func (*Http429TooManyRequests) compatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteRes() {}
-func (*Http429TooManyRequests) compatUsersUserIDUnregisterEmailPostRes()                 {}
-func (*Http429TooManyRequests) disableServicePolicyPostRes()                             {}
-func (*Http429TooManyRequests) enableServicePolicyPostRes()                              {}
-func (*Http429TooManyRequests) foldersFolderIDDeleteRes()                                {}
-func (*Http429TooManyRequests) foldersFolderIDGetRes()                                   {}
-func (*Http429TooManyRequests) foldersFolderIDIamPolicyGetRes()                          {}
-func (*Http429TooManyRequests) foldersFolderIDIamPolicyPutRes()                          {}
-func (*Http429TooManyRequests) foldersFolderIDPutRes()                                   {}
-func (*Http429TooManyRequests) foldersGetRes()                                           {}
-func (*Http429TooManyRequests) foldersPostRes()                                          {}
-func (*Http429TooManyRequests) groupsGetRes()                                            {}
-func (*Http429TooManyRequests) groupsGroupIDDeleteRes()                                  {}
-func (*Http429TooManyRequests) groupsGroupIDGetRes()                                     {}
-func (*Http429TooManyRequests) groupsGroupIDMembershipsGetRes()                          {}
-func (*Http429TooManyRequests) groupsGroupIDMembershipsPutRes()                          {}
-func (*Http429TooManyRequests) groupsGroupIDPutRes()                                     {}
-func (*Http429TooManyRequests) groupsPostRes()                                           {}
-func (*Http429TooManyRequests) iDRolesGetRes()                                           {}
-func (*Http429TooManyRequests) iDRolesIDRoleIDGetRes()                                   {}
-func (*Http429TooManyRequests) iamRolesGetRes()                                          {}
-func (*Http429TooManyRequests) iamRolesIamRoleIDGetRes()                                 {}
-func (*Http429TooManyRequests) moveFoldersPostRes()                                      {}
-func (*Http429TooManyRequests) moveProjectsPostRes()                                     {}
-func (*Http429TooManyRequests) organizationAuthConditionsGetRes()                        {}
-func (*Http429TooManyRequests) organizationAuthConditionsPutRes()                        {}
-func (*Http429TooManyRequests) organizationGetRes()                                      {}
-func (*Http429TooManyRequests) organizationIDPolicyGetRes()                              {}
-func (*Http429TooManyRequests) organizationIDPolicyPutRes()                              {}
-func (*Http429TooManyRequests) organizationIamPolicyGetRes()                             {}
-func (*Http429TooManyRequests) organizationIamPolicyPutRes()                             {}
-func (*Http429TooManyRequests) organizationPasswordPolicyGetRes()                        {}
-func (*Http429TooManyRequests) organizationPasswordPolicyPutRes()                        {}
-func (*Http429TooManyRequests) organizationPutRes()                                      {}
-func (*Http429TooManyRequests) organizationServicePolicyGetRes()                         {}
-func (*Http429TooManyRequests) organizationServicePolicyPutRes()                         {}
-func (*Http429TooManyRequests) projectsGetRes()                                          {}
-func (*Http429TooManyRequests) projectsPostRes()                                         {}
-func (*Http429TooManyRequests) projectsProjectIDDeleteRes()                              {}
-func (*Http429TooManyRequests) projectsProjectIDGetRes()                                 {}
-func (*Http429TooManyRequests) projectsProjectIDIamPolicyGetRes()                        {}
-func (*Http429TooManyRequests) projectsProjectIDIamPolicyPutRes()                        {}
-func (*Http429TooManyRequests) projectsProjectIDPutRes()                                 {}
-func (*Http429TooManyRequests) sSOProfilesGetRes()                                       {}
-func (*Http429TooManyRequests) sSOProfilesPostRes()                                      {}
-func (*Http429TooManyRequests) sSOProfilesSSOProfileIDAssignPostRes()                    {}
-func (*Http429TooManyRequests) sSOProfilesSSOProfileIDDeleteRes()                        {}
-func (*Http429TooManyRequests) sSOProfilesSSOProfileIDGetRes()                           {}
-func (*Http429TooManyRequests) sSOProfilesSSOProfileIDPutRes()                           {}
-func (*Http429TooManyRequests) sSOProfilesSSOProfileIDUnassignPostRes()                  {}
-func (*Http429TooManyRequests) scimConfigurationsGetRes()                                {}
-func (*Http429TooManyRequests) scimConfigurationsIDDeleteRes()                           {}
-func (*Http429TooManyRequests) scimConfigurationsIDGetRes()                              {}
-func (*Http429TooManyRequests) scimConfigurationsIDPutRes()                              {}
-func (*Http429TooManyRequests) scimConfigurationsIDRegenerateTokenPostRes()              {}
-func (*Http429TooManyRequests) scimConfigurationsPostRes()                               {}
-func (*Http429TooManyRequests) servicePolicyRuleTemplatesGetRes()                        {}
-func (*Http429TooManyRequests) servicePolicyStatusGetRes()                               {}
-func (*Http429TooManyRequests) servicePrincipalsGetRes()                                 {}
-func (*Http429TooManyRequests) servicePrincipalsOAuth2TokenPostRes()                     {}
-func (*Http429TooManyRequests) servicePrincipalsPostRes()                                {}
-func (*Http429TooManyRequests) servicePrincipalsServicePrincipalIDDeleteRes()            {}
-func (*Http429TooManyRequests) servicePrincipalsServicePrincipalIDGetRes()               {}
-func (*Http429TooManyRequests) servicePrincipalsServicePrincipalIDKeysGetRes()           {}
-func (*Http429TooManyRequests) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteRes() {
-}
-func (*Http429TooManyRequests) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostRes() {
-}
-func (*Http429TooManyRequests) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostRes() {
-}
-func (*Http429TooManyRequests) servicePrincipalsServicePrincipalIDPutRes()           {}
-func (*Http429TooManyRequests) servicePrincipalsServicePrincipalIDUploadKeyPostRes() {}
+func (*Http429TooManyRequests) assignSsoProfileRes()                 {}
+func (*Http429TooManyRequests) checkServicePolicyStatusRes()         {}
+func (*Http429TooManyRequests) clearTrustedDevicesRes()              {}
+func (*Http429TooManyRequests) createApiKeyRes()                     {}
+func (*Http429TooManyRequests) createFolderRes()                     {}
+func (*Http429TooManyRequests) createGroupRes()                      {}
+func (*Http429TooManyRequests) createProjectRes()                    {}
+func (*Http429TooManyRequests) createScimConfigurationRes()          {}
+func (*Http429TooManyRequests) createServicePrincipalRes()           {}
+func (*Http429TooManyRequests) createSsoProfileRes()                 {}
+func (*Http429TooManyRequests) createUserRes()                       {}
+func (*Http429TooManyRequests) deactivateOtpRes()                    {}
+func (*Http429TooManyRequests) deleteApiKeyRes()                     {}
+func (*Http429TooManyRequests) deleteFolderRes()                     {}
+func (*Http429TooManyRequests) deleteGroupRes()                      {}
+func (*Http429TooManyRequests) deleteProjectRes()                    {}
+func (*Http429TooManyRequests) deleteScimConfigurationRes()          {}
+func (*Http429TooManyRequests) deleteSecurityKeyRes()                {}
+func (*Http429TooManyRequests) deleteServicePrincipalKeyRes()        {}
+func (*Http429TooManyRequests) deleteServicePrincipalRes()           {}
+func (*Http429TooManyRequests) deleteSsoProfileRes()                 {}
+func (*Http429TooManyRequests) deleteTrustedDeviceRes()              {}
+func (*Http429TooManyRequests) deleteUserRes()                       {}
+func (*Http429TooManyRequests) disableServicePolicyRes()             {}
+func (*Http429TooManyRequests) disableServicePrincipalKeyRes()       {}
+func (*Http429TooManyRequests) enableServicePolicyRes()              {}
+func (*Http429TooManyRequests) enableServicePrincipalKeyRes()        {}
+func (*Http429TooManyRequests) issueServicePrincipalTokenRes()       {}
+func (*Http429TooManyRequests) listApiKeysRes()                      {}
+func (*Http429TooManyRequests) listFoldersRes()                      {}
+func (*Http429TooManyRequests) listGroupsRes()                       {}
+func (*Http429TooManyRequests) listIamRolesRes()                     {}
+func (*Http429TooManyRequests) listIdRolesRes()                      {}
+func (*Http429TooManyRequests) listMembershipsRes()                  {}
+func (*Http429TooManyRequests) listProjectsRes()                     {}
+func (*Http429TooManyRequests) listScimConfigurationsRes()           {}
+func (*Http429TooManyRequests) listSecurityKeysRes()                 {}
+func (*Http429TooManyRequests) listServicePolicyRuleTemplatesRes()   {}
+func (*Http429TooManyRequests) listServicePrincipalKeysRes()         {}
+func (*Http429TooManyRequests) listServicePrincipalsRes()            {}
+func (*Http429TooManyRequests) listSsoProfilesRes()                  {}
+func (*Http429TooManyRequests) listTrustedDevicesRes()               {}
+func (*Http429TooManyRequests) listUsersRes()                        {}
+func (*Http429TooManyRequests) moveFoldersRes()                      {}
+func (*Http429TooManyRequests) moveProjectsRes()                     {}
+func (*Http429TooManyRequests) readApiKeyRes()                       {}
+func (*Http429TooManyRequests) readFolderIamPolicyRes()              {}
+func (*Http429TooManyRequests) readFolderRes()                       {}
+func (*Http429TooManyRequests) readGroupRes()                        {}
+func (*Http429TooManyRequests) readIamRoleRes()                      {}
+func (*Http429TooManyRequests) readIdRoleRes()                       {}
+func (*Http429TooManyRequests) readOrganizationAuthConditionsRes()   {}
+func (*Http429TooManyRequests) readOrganizationIamPolicyRes()        {}
+func (*Http429TooManyRequests) readOrganizationIdPolicyRes()         {}
+func (*Http429TooManyRequests) readOrganizationPasswordPolicyRes()   {}
+func (*Http429TooManyRequests) readOrganizationRes()                 {}
+func (*Http429TooManyRequests) readOrganizationServicePolicyRes()    {}
+func (*Http429TooManyRequests) readProjectIamPolicyRes()             {}
+func (*Http429TooManyRequests) readProjectRes()                      {}
+func (*Http429TooManyRequests) readScimConfigurationRes()            {}
+func (*Http429TooManyRequests) readSecurityKeyRes()                  {}
+func (*Http429TooManyRequests) readServicePrincipalRes()             {}
+func (*Http429TooManyRequests) readSsoProfileRes()                   {}
+func (*Http429TooManyRequests) readUserRes()                         {}
+func (*Http429TooManyRequests) regenerateScimConfigurationTokenRes() {}
+func (*Http429TooManyRequests) registerEmailRes()                    {}
+func (*Http429TooManyRequests) unassignSsoProfileRes()               {}
+func (*Http429TooManyRequests) unregisterEmailRes()                  {}
+func (*Http429TooManyRequests) updateApiKeyRes()                     {}
+func (*Http429TooManyRequests) updateFolderIamPolicyRes()            {}
+func (*Http429TooManyRequests) updateFolderRes()                     {}
+func (*Http429TooManyRequests) updateGroupRes()                      {}
+func (*Http429TooManyRequests) updateMembershipsRes()                {}
+func (*Http429TooManyRequests) updateOrganizationAuthConditionsRes() {}
+func (*Http429TooManyRequests) updateOrganizationIamPolicyRes()      {}
+func (*Http429TooManyRequests) updateOrganizationIdPolicyRes()       {}
+func (*Http429TooManyRequests) updateOrganizationPasswordPolicyRes() {}
+func (*Http429TooManyRequests) updateOrganizationRes()               {}
+func (*Http429TooManyRequests) updateOrganizationServicePolicyRes()  {}
+func (*Http429TooManyRequests) updateProjectIamPolicyRes()           {}
+func (*Http429TooManyRequests) updateProjectRes()                    {}
+func (*Http429TooManyRequests) updateScimConfigurationRes()          {}
+func (*Http429TooManyRequests) updateServicePrincipalRes()           {}
+func (*Http429TooManyRequests) updateSsoProfileRes()                 {}
+func (*Http429TooManyRequests) updateUserRes()                       {}
+func (*Http429TooManyRequests) uploadServicePrincipalKeyRes()        {}
 
 // Ref: #/components/schemas/Http503ServiceUnavailable
 type Http503ServiceUnavailable struct {
@@ -2355,80 +1772,27 @@ func (s *Http503ServiceUnavailable) SetDetail(val string) {
 	s.Detail = val
 }
 
-func (*Http503ServiceUnavailable) compatAPIKeysApikeyIDDeleteRes()   {}
-func (*Http503ServiceUnavailable) compatAPIKeysApikeyIDPutRes()      {}
-func (*Http503ServiceUnavailable) compatAPIKeysPostRes()             {}
-func (*Http503ServiceUnavailable) compatUsersPostRes()               {}
-func (*Http503ServiceUnavailable) compatUsersUserIDDeleteRes()       {}
-func (*Http503ServiceUnavailable) compatUsersUserIDPutRes()          {}
-func (*Http503ServiceUnavailable) disableServicePolicyPostRes()      {}
-func (*Http503ServiceUnavailable) enableServicePolicyPostRes()       {}
-func (*Http503ServiceUnavailable) foldersFolderIDDeleteRes()         {}
-func (*Http503ServiceUnavailable) foldersFolderIDIamPolicyPutRes()   {}
-func (*Http503ServiceUnavailable) groupsGroupIDDeleteRes()           {}
-func (*Http503ServiceUnavailable) groupsGroupIDMembershipsPutRes()   {}
-func (*Http503ServiceUnavailable) groupsGroupIDPutRes()              {}
-func (*Http503ServiceUnavailable) groupsPostRes()                    {}
-func (*Http503ServiceUnavailable) organizationIDPolicyPutRes()       {}
-func (*Http503ServiceUnavailable) organizationIamPolicyPutRes()      {}
-func (*Http503ServiceUnavailable) projectsPostRes()                  {}
-func (*Http503ServiceUnavailable) projectsProjectIDDeleteRes()       {}
-func (*Http503ServiceUnavailable) projectsProjectIDIamPolicyPutRes() {}
-func (*Http503ServiceUnavailable) projectsProjectIDPutRes()          {}
-func (*Http503ServiceUnavailable) servicePolicyStatusGetRes()        {}
-
-// Merged schema.
-type IDRolesGetOK struct {
-	Items []IdRole `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *IDRolesGetOK) GetItems() []IdRole {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *IDRolesGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *IDRolesGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *IDRolesGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *IDRolesGetOK) SetItems(val []IdRole) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *IDRolesGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *IDRolesGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *IDRolesGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*IDRolesGetOK) iDRolesGetRes() {}
+func (*Http503ServiceUnavailable) checkServicePolicyStatusRes()    {}
+func (*Http503ServiceUnavailable) createApiKeyRes()                {}
+func (*Http503ServiceUnavailable) createGroupRes()                 {}
+func (*Http503ServiceUnavailable) createProjectRes()               {}
+func (*Http503ServiceUnavailable) createUserRes()                  {}
+func (*Http503ServiceUnavailable) deleteApiKeyRes()                {}
+func (*Http503ServiceUnavailable) deleteFolderRes()                {}
+func (*Http503ServiceUnavailable) deleteGroupRes()                 {}
+func (*Http503ServiceUnavailable) deleteProjectRes()               {}
+func (*Http503ServiceUnavailable) deleteUserRes()                  {}
+func (*Http503ServiceUnavailable) disableServicePolicyRes()        {}
+func (*Http503ServiceUnavailable) enableServicePolicyRes()         {}
+func (*Http503ServiceUnavailable) updateApiKeyRes()                {}
+func (*Http503ServiceUnavailable) updateFolderIamPolicyRes()       {}
+func (*Http503ServiceUnavailable) updateGroupRes()                 {}
+func (*Http503ServiceUnavailable) updateMembershipsRes()           {}
+func (*Http503ServiceUnavailable) updateOrganizationIamPolicyRes() {}
+func (*Http503ServiceUnavailable) updateOrganizationIdPolicyRes()  {}
+func (*Http503ServiceUnavailable) updateProjectIamPolicyRes()      {}
+func (*Http503ServiceUnavailable) updateProjectRes()               {}
+func (*Http503ServiceUnavailable) updateUserRes()                  {}
 
 // Ref: #/components/schemas/IamPolicy
 type IamPolicy struct {
@@ -2584,7 +1948,7 @@ func (s *IamRole) SetLowestGrantableResource(val IamRoleLowestGrantableResource)
 	s.LowestGrantableResource = val
 }
 
-func (*IamRole) iamRolesIamRoleIDGetRes() {}
+func (*IamRole) readIamRoleRes() {}
 
 // このIAMロールを付与可能な最低階層。
 //
@@ -2638,59 +2002,6 @@ func (s *IamRoleLowestGrantableResource) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
-
-// Merged schema.
-type IamRolesGetOK struct {
-	Items []IamRole `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *IamRolesGetOK) GetItems() []IamRole {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *IamRolesGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *IamRolesGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *IamRolesGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *IamRolesGetOK) SetItems(val []IamRole) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *IamRolesGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *IamRolesGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *IamRolesGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*IamRolesGetOK) iamRolesGetRes() {}
 
 // Ref: #/components/schemas/IdPolicy
 type IdPolicy struct {
@@ -2818,7 +2129,1050 @@ func (s *IdRole) SetDescription(val string) {
 	s.Description = val
 }
 
-func (*IdRole) iDRolesIDRoleIDGetRes() {}
+func (*IdRole) readIdRoleRes() {}
+
+// Merged schema.
+type ListApiKeysOK struct {
+	Items []ProjectApiKey `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListApiKeysOK) GetItems() []ProjectApiKey {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListApiKeysOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListApiKeysOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListApiKeysOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListApiKeysOK) SetItems(val []ProjectApiKey) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListApiKeysOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListApiKeysOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListApiKeysOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListApiKeysOK) listApiKeysRes() {}
+
+type ListApiKeysOrdering string
+
+const (
+	ListApiKeysOrderingName      ListApiKeysOrdering = "name"
+	ListApiKeysOrderingMinusName ListApiKeysOrdering = "-name"
+)
+
+// AllValues returns all ListApiKeysOrdering values.
+func (ListApiKeysOrdering) AllValues() []ListApiKeysOrdering {
+	return []ListApiKeysOrdering{
+		ListApiKeysOrderingName,
+		ListApiKeysOrderingMinusName,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListApiKeysOrdering) MarshalText() ([]byte, error) {
+	switch s {
+	case ListApiKeysOrderingName:
+		return []byte(s), nil
+	case ListApiKeysOrderingMinusName:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListApiKeysOrdering) UnmarshalText(data []byte) error {
+	switch ListApiKeysOrdering(data) {
+	case ListApiKeysOrderingName:
+		*s = ListApiKeysOrderingName
+		return nil
+	case ListApiKeysOrderingMinusName:
+		*s = ListApiKeysOrderingMinusName
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type ListFoldersOK struct {
+	Items []Folder `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListFoldersOK) GetItems() []Folder {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListFoldersOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListFoldersOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListFoldersOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListFoldersOK) SetItems(val []Folder) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListFoldersOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListFoldersOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListFoldersOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListFoldersOK) listFoldersRes() {}
+
+// Merged schema.
+type ListGroupsOK struct {
+	Items []Group `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListGroupsOK) GetItems() []Group {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListGroupsOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListGroupsOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListGroupsOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListGroupsOK) SetItems(val []Group) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListGroupsOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListGroupsOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListGroupsOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListGroupsOK) listGroupsRes() {}
+
+type ListGroupsOrdering string
+
+const (
+	ListGroupsOrderingName      ListGroupsOrdering = "name"
+	ListGroupsOrderingMinusName ListGroupsOrdering = "-name"
+)
+
+// AllValues returns all ListGroupsOrdering values.
+func (ListGroupsOrdering) AllValues() []ListGroupsOrdering {
+	return []ListGroupsOrdering{
+		ListGroupsOrderingName,
+		ListGroupsOrderingMinusName,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListGroupsOrdering) MarshalText() ([]byte, error) {
+	switch s {
+	case ListGroupsOrderingName:
+		return []byte(s), nil
+	case ListGroupsOrderingMinusName:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListGroupsOrdering) UnmarshalText(data []byte) error {
+	switch ListGroupsOrdering(data) {
+	case ListGroupsOrderingName:
+		*s = ListGroupsOrderingName
+		return nil
+	case ListGroupsOrderingMinusName:
+		*s = ListGroupsOrderingMinusName
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type ListIamRolesOK struct {
+	Items []IamRole `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListIamRolesOK) GetItems() []IamRole {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListIamRolesOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListIamRolesOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListIamRolesOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListIamRolesOK) SetItems(val []IamRole) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListIamRolesOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListIamRolesOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListIamRolesOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListIamRolesOK) listIamRolesRes() {}
+
+// Merged schema.
+type ListIdRolesOK struct {
+	Items []IdRole `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListIdRolesOK) GetItems() []IdRole {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListIdRolesOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListIdRolesOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListIdRolesOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListIdRolesOK) SetItems(val []IdRole) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListIdRolesOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListIdRolesOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListIdRolesOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListIdRolesOK) listIdRolesRes() {}
+
+// Merged schema.
+type ListProjectsOK struct {
+	Items []Project `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListProjectsOK) GetItems() []Project {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListProjectsOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListProjectsOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListProjectsOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListProjectsOK) SetItems(val []Project) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListProjectsOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListProjectsOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListProjectsOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListProjectsOK) listProjectsRes() {}
+
+type ListProjectsOrdering string
+
+const (
+	ListProjectsOrderingCode      ListProjectsOrdering = "code"
+	ListProjectsOrderingMinusCode ListProjectsOrdering = "-code"
+)
+
+// AllValues returns all ListProjectsOrdering values.
+func (ListProjectsOrdering) AllValues() []ListProjectsOrdering {
+	return []ListProjectsOrdering{
+		ListProjectsOrderingCode,
+		ListProjectsOrderingMinusCode,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListProjectsOrdering) MarshalText() ([]byte, error) {
+	switch s {
+	case ListProjectsOrderingCode:
+		return []byte(s), nil
+	case ListProjectsOrderingMinusCode:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListProjectsOrdering) UnmarshalText(data []byte) error {
+	switch ListProjectsOrdering(data) {
+	case ListProjectsOrderingCode:
+		*s = ListProjectsOrderingCode
+		return nil
+	case ListProjectsOrderingMinusCode:
+		*s = ListProjectsOrderingMinusCode
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type ListScimConfigurationsOK struct {
+	Items []ScimConfigurationBase `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListScimConfigurationsOK) GetItems() []ScimConfigurationBase {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListScimConfigurationsOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListScimConfigurationsOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListScimConfigurationsOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListScimConfigurationsOK) SetItems(val []ScimConfigurationBase) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListScimConfigurationsOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListScimConfigurationsOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListScimConfigurationsOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListScimConfigurationsOK) listScimConfigurationsRes() {}
+
+// Merged schema.
+type ListSecurityKeysOK struct {
+	Items []UserSecurityKey `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListSecurityKeysOK) GetItems() []UserSecurityKey {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListSecurityKeysOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListSecurityKeysOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListSecurityKeysOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListSecurityKeysOK) SetItems(val []UserSecurityKey) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListSecurityKeysOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListSecurityKeysOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListSecurityKeysOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListSecurityKeysOK) listSecurityKeysRes() {}
+
+// Merged schema.
+type ListServicePolicyRuleTemplatesOK struct {
+	Items []RuleTemplate `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListServicePolicyRuleTemplatesOK) GetItems() []RuleTemplate {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListServicePolicyRuleTemplatesOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListServicePolicyRuleTemplatesOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListServicePolicyRuleTemplatesOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListServicePolicyRuleTemplatesOK) SetItems(val []RuleTemplate) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListServicePolicyRuleTemplatesOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListServicePolicyRuleTemplatesOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListServicePolicyRuleTemplatesOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListServicePolicyRuleTemplatesOK) listServicePolicyRuleTemplatesRes() {}
+
+type ListServicePolicyRuleTemplatesType string
+
+const (
+	ListServicePolicyRuleTemplatesTypeBoolean ListServicePolicyRuleTemplatesType = "boolean"
+	ListServicePolicyRuleTemplatesTypeList    ListServicePolicyRuleTemplatesType = "list"
+)
+
+// AllValues returns all ListServicePolicyRuleTemplatesType values.
+func (ListServicePolicyRuleTemplatesType) AllValues() []ListServicePolicyRuleTemplatesType {
+	return []ListServicePolicyRuleTemplatesType{
+		ListServicePolicyRuleTemplatesTypeBoolean,
+		ListServicePolicyRuleTemplatesTypeList,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListServicePolicyRuleTemplatesType) MarshalText() ([]byte, error) {
+	switch s {
+	case ListServicePolicyRuleTemplatesTypeBoolean:
+		return []byte(s), nil
+	case ListServicePolicyRuleTemplatesTypeList:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListServicePolicyRuleTemplatesType) UnmarshalText(data []byte) error {
+	switch ListServicePolicyRuleTemplatesType(data) {
+	case ListServicePolicyRuleTemplatesTypeBoolean:
+		*s = ListServicePolicyRuleTemplatesTypeBoolean
+		return nil
+	case ListServicePolicyRuleTemplatesTypeList:
+		*s = ListServicePolicyRuleTemplatesTypeList
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type ListServicePrincipalKeysOK struct {
+	Items []ServicePrincipalKey `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListServicePrincipalKeysOK) GetItems() []ServicePrincipalKey {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListServicePrincipalKeysOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListServicePrincipalKeysOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListServicePrincipalKeysOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListServicePrincipalKeysOK) SetItems(val []ServicePrincipalKey) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListServicePrincipalKeysOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListServicePrincipalKeysOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListServicePrincipalKeysOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListServicePrincipalKeysOK) listServicePrincipalKeysRes() {}
+
+type ListServicePrincipalKeysOrdering string
+
+const (
+	ListServicePrincipalKeysOrderingCreatedAt         ListServicePrincipalKeysOrdering = "created_at"
+	ListServicePrincipalKeysOrderingMinusCreatedAt    ListServicePrincipalKeysOrdering = "-created_at"
+	ListServicePrincipalKeysOrderingKeyExpiresAt      ListServicePrincipalKeysOrdering = "key_expires_at"
+	ListServicePrincipalKeysOrderingMinusKeyExpiresAt ListServicePrincipalKeysOrdering = "-key_expires_at"
+)
+
+// AllValues returns all ListServicePrincipalKeysOrdering values.
+func (ListServicePrincipalKeysOrdering) AllValues() []ListServicePrincipalKeysOrdering {
+	return []ListServicePrincipalKeysOrdering{
+		ListServicePrincipalKeysOrderingCreatedAt,
+		ListServicePrincipalKeysOrderingMinusCreatedAt,
+		ListServicePrincipalKeysOrderingKeyExpiresAt,
+		ListServicePrincipalKeysOrderingMinusKeyExpiresAt,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListServicePrincipalKeysOrdering) MarshalText() ([]byte, error) {
+	switch s {
+	case ListServicePrincipalKeysOrderingCreatedAt:
+		return []byte(s), nil
+	case ListServicePrincipalKeysOrderingMinusCreatedAt:
+		return []byte(s), nil
+	case ListServicePrincipalKeysOrderingKeyExpiresAt:
+		return []byte(s), nil
+	case ListServicePrincipalKeysOrderingMinusKeyExpiresAt:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListServicePrincipalKeysOrdering) UnmarshalText(data []byte) error {
+	switch ListServicePrincipalKeysOrdering(data) {
+	case ListServicePrincipalKeysOrderingCreatedAt:
+		*s = ListServicePrincipalKeysOrderingCreatedAt
+		return nil
+	case ListServicePrincipalKeysOrderingMinusCreatedAt:
+		*s = ListServicePrincipalKeysOrderingMinusCreatedAt
+		return nil
+	case ListServicePrincipalKeysOrderingKeyExpiresAt:
+		*s = ListServicePrincipalKeysOrderingKeyExpiresAt
+		return nil
+	case ListServicePrincipalKeysOrderingMinusKeyExpiresAt:
+		*s = ListServicePrincipalKeysOrderingMinusKeyExpiresAt
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type ListServicePrincipalsOK struct {
+	Items []ServicePrincipal `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListServicePrincipalsOK) GetItems() []ServicePrincipal {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListServicePrincipalsOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListServicePrincipalsOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListServicePrincipalsOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListServicePrincipalsOK) SetItems(val []ServicePrincipal) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListServicePrincipalsOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListServicePrincipalsOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListServicePrincipalsOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListServicePrincipalsOK) listServicePrincipalsRes() {}
+
+type ListServicePrincipalsOrdering string
+
+const (
+	ListServicePrincipalsOrderingName      ListServicePrincipalsOrdering = "name"
+	ListServicePrincipalsOrderingMinusName ListServicePrincipalsOrdering = "-name"
+)
+
+// AllValues returns all ListServicePrincipalsOrdering values.
+func (ListServicePrincipalsOrdering) AllValues() []ListServicePrincipalsOrdering {
+	return []ListServicePrincipalsOrdering{
+		ListServicePrincipalsOrderingName,
+		ListServicePrincipalsOrderingMinusName,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListServicePrincipalsOrdering) MarshalText() ([]byte, error) {
+	switch s {
+	case ListServicePrincipalsOrderingName:
+		return []byte(s), nil
+	case ListServicePrincipalsOrderingMinusName:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListServicePrincipalsOrdering) UnmarshalText(data []byte) error {
+	switch ListServicePrincipalsOrdering(data) {
+	case ListServicePrincipalsOrderingName:
+		*s = ListServicePrincipalsOrderingName
+		return nil
+	case ListServicePrincipalsOrderingMinusName:
+		*s = ListServicePrincipalsOrderingMinusName
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type ListSsoProfilesOK struct {
+	Items []SSOProfile `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListSsoProfilesOK) GetItems() []SSOProfile {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListSsoProfilesOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListSsoProfilesOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListSsoProfilesOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListSsoProfilesOK) SetItems(val []SSOProfile) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListSsoProfilesOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListSsoProfilesOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListSsoProfilesOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListSsoProfilesOK) listSsoProfilesRes() {}
+
+// Merged schema.
+type ListTrustedDevicesOK struct {
+	Items []UserTrustedDevice `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListTrustedDevicesOK) GetItems() []UserTrustedDevice {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListTrustedDevicesOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListTrustedDevicesOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListTrustedDevicesOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListTrustedDevicesOK) SetItems(val []UserTrustedDevice) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListTrustedDevicesOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListTrustedDevicesOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListTrustedDevicesOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListTrustedDevicesOK) listTrustedDevicesRes() {}
+
+// Merged schema.
+type ListUsersOK struct {
+	Items []User `json:"items"`
+	// データ総数.
+	Count int `json:"count"`
+	// 次のページへのURL.
+	Next NilURI `json:"next"`
+	// 前のページへのURL.
+	Previous NilURI `json:"previous"`
+}
+
+// GetItems returns the value of Items.
+func (s *ListUsersOK) GetItems() []User {
+	return s.Items
+}
+
+// GetCount returns the value of Count.
+func (s *ListUsersOK) GetCount() int {
+	return s.Count
+}
+
+// GetNext returns the value of Next.
+func (s *ListUsersOK) GetNext() NilURI {
+	return s.Next
+}
+
+// GetPrevious returns the value of Previous.
+func (s *ListUsersOK) GetPrevious() NilURI {
+	return s.Previous
+}
+
+// SetItems sets the value of Items.
+func (s *ListUsersOK) SetItems(val []User) {
+	s.Items = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListUsersOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetNext sets the value of Next.
+func (s *ListUsersOK) SetNext(val NilURI) {
+	s.Next = val
+}
+
+// SetPrevious sets the value of Previous.
+func (s *ListUsersOK) SetPrevious(val NilURI) {
+	s.Previous = val
+}
+
+func (*ListUsersOK) listUsersRes() {}
+
+type ListUsersOrdering string
+
+const (
+	ListUsersOrderingCode      ListUsersOrdering = "code"
+	ListUsersOrderingMinusCode ListUsersOrdering = "-code"
+)
+
+// AllValues returns all ListUsersOrdering values.
+func (ListUsersOrdering) AllValues() []ListUsersOrdering {
+	return []ListUsersOrdering{
+		ListUsersOrderingCode,
+		ListUsersOrderingMinusCode,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListUsersOrdering) MarshalText() ([]byte, error) {
+	switch s {
+	case ListUsersOrderingCode:
+		return []byte(s), nil
+	case ListUsersOrderingMinusCode:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListUsersOrdering) UnmarshalText(data []byte) error {
+	switch ListUsersOrdering(data) {
+	case ListUsersOrderingCode:
+		*s = ListUsersOrderingCode
+		return nil
+	case ListUsersOrderingMinusCode:
+		*s = ListUsersOrderingMinusCode
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 // Ref: #/components/schemas/MoveFolders
 type MoveFolders struct {
@@ -2848,10 +3202,10 @@ func (s *MoveFolders) SetParentID(val NilInt) {
 	s.ParentID = val
 }
 
-// MoveFoldersPostNoContent is response for MoveFoldersPost operation.
-type MoveFoldersPostNoContent struct{}
+// MoveFoldersNoContent is response for MoveFolders operation.
+type MoveFoldersNoContent struct{}
 
-func (*MoveFoldersPostNoContent) moveFoldersPostRes() {}
+func (*MoveFoldersNoContent) moveFoldersRes() {}
 
 // Ref: #/components/schemas/MoveProjects
 type MoveProjects struct {
@@ -2881,10 +3235,10 @@ func (s *MoveProjects) SetParentFolderID(val NilInt) {
 	s.ParentFolderID = val
 }
 
-// MoveProjectsPostNoContent is response for MoveProjectsPost operation.
-type MoveProjectsPostNoContent struct{}
+// MoveProjectsNoContent is response for MoveProjects operation.
+type MoveProjectsNoContent struct{}
 
-func (*MoveProjectsPostNoContent) moveProjectsPostRes() {}
+func (*MoveProjectsNoContent) moveProjectsRes() {}
 
 // NewNilDateTime returns new NilDateTime with value set to v.
 func NewNilDateTime(v time.Time) NilDateTime {
@@ -3159,190 +3513,6 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
-// NewOptCompatAPIKeysGetOrdering returns new OptCompatAPIKeysGetOrdering with value set to v.
-func NewOptCompatAPIKeysGetOrdering(v CompatAPIKeysGetOrdering) OptCompatAPIKeysGetOrdering {
-	return OptCompatAPIKeysGetOrdering{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCompatAPIKeysGetOrdering is optional CompatAPIKeysGetOrdering.
-type OptCompatAPIKeysGetOrdering struct {
-	Value CompatAPIKeysGetOrdering
-	Set   bool
-}
-
-// IsSet returns true if OptCompatAPIKeysGetOrdering was set.
-func (o OptCompatAPIKeysGetOrdering) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCompatAPIKeysGetOrdering) Reset() {
-	var v CompatAPIKeysGetOrdering
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCompatAPIKeysGetOrdering) SetTo(v CompatAPIKeysGetOrdering) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCompatAPIKeysGetOrdering) Get() (v CompatAPIKeysGetOrdering, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCompatAPIKeysGetOrdering) Or(d CompatAPIKeysGetOrdering) CompatAPIKeysGetOrdering {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCompatUsersGetOrdering returns new OptCompatUsersGetOrdering with value set to v.
-func NewOptCompatUsersGetOrdering(v CompatUsersGetOrdering) OptCompatUsersGetOrdering {
-	return OptCompatUsersGetOrdering{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCompatUsersGetOrdering is optional CompatUsersGetOrdering.
-type OptCompatUsersGetOrdering struct {
-	Value CompatUsersGetOrdering
-	Set   bool
-}
-
-// IsSet returns true if OptCompatUsersGetOrdering was set.
-func (o OptCompatUsersGetOrdering) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCompatUsersGetOrdering) Reset() {
-	var v CompatUsersGetOrdering
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCompatUsersGetOrdering) SetTo(v CompatUsersGetOrdering) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCompatUsersGetOrdering) Get() (v CompatUsersGetOrdering, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCompatUsersGetOrdering) Or(d CompatUsersGetOrdering) CompatUsersGetOrdering {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq returns new OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq with value set to v.
-func NewOptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq(v CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq {
-	return OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq is optional CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq.
-type OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq struct {
-	Value CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq
-	Set   bool
-}
-
-// IsSet returns true if OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq was set.
-func (o OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) Reset() {
-	var v CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) SetTo(v CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) Get() (v CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) Or(d CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGroupsGetOrdering returns new OptGroupsGetOrdering with value set to v.
-func NewOptGroupsGetOrdering(v GroupsGetOrdering) OptGroupsGetOrdering {
-	return OptGroupsGetOrdering{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGroupsGetOrdering is optional GroupsGetOrdering.
-type OptGroupsGetOrdering struct {
-	Value GroupsGetOrdering
-	Set   bool
-}
-
-// IsSet returns true if OptGroupsGetOrdering was set.
-func (o OptGroupsGetOrdering) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGroupsGetOrdering) Reset() {
-	var v GroupsGetOrdering
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGroupsGetOrdering) SetTo(v GroupsGetOrdering) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGroupsGetOrdering) Get() (v GroupsGetOrdering, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGroupsGetOrdering) Or(d GroupsGetOrdering) GroupsGetOrdering {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptIamPolicyRole returns new OptIamPolicyRole with value set to v.
 func NewOptIamPolicyRole(v IamPolicyRole) OptIamPolicyRole {
 	return OptIamPolicyRole{
@@ -3573,6 +3743,328 @@ func (o OptInt) Or(d int) int {
 	return d
 }
 
+// NewOptListApiKeysOrdering returns new OptListApiKeysOrdering with value set to v.
+func NewOptListApiKeysOrdering(v ListApiKeysOrdering) OptListApiKeysOrdering {
+	return OptListApiKeysOrdering{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListApiKeysOrdering is optional ListApiKeysOrdering.
+type OptListApiKeysOrdering struct {
+	Value ListApiKeysOrdering
+	Set   bool
+}
+
+// IsSet returns true if OptListApiKeysOrdering was set.
+func (o OptListApiKeysOrdering) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListApiKeysOrdering) Reset() {
+	var v ListApiKeysOrdering
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListApiKeysOrdering) SetTo(v ListApiKeysOrdering) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListApiKeysOrdering) Get() (v ListApiKeysOrdering, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListApiKeysOrdering) Or(d ListApiKeysOrdering) ListApiKeysOrdering {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListGroupsOrdering returns new OptListGroupsOrdering with value set to v.
+func NewOptListGroupsOrdering(v ListGroupsOrdering) OptListGroupsOrdering {
+	return OptListGroupsOrdering{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListGroupsOrdering is optional ListGroupsOrdering.
+type OptListGroupsOrdering struct {
+	Value ListGroupsOrdering
+	Set   bool
+}
+
+// IsSet returns true if OptListGroupsOrdering was set.
+func (o OptListGroupsOrdering) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListGroupsOrdering) Reset() {
+	var v ListGroupsOrdering
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListGroupsOrdering) SetTo(v ListGroupsOrdering) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListGroupsOrdering) Get() (v ListGroupsOrdering, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListGroupsOrdering) Or(d ListGroupsOrdering) ListGroupsOrdering {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListProjectsOrdering returns new OptListProjectsOrdering with value set to v.
+func NewOptListProjectsOrdering(v ListProjectsOrdering) OptListProjectsOrdering {
+	return OptListProjectsOrdering{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListProjectsOrdering is optional ListProjectsOrdering.
+type OptListProjectsOrdering struct {
+	Value ListProjectsOrdering
+	Set   bool
+}
+
+// IsSet returns true if OptListProjectsOrdering was set.
+func (o OptListProjectsOrdering) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListProjectsOrdering) Reset() {
+	var v ListProjectsOrdering
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListProjectsOrdering) SetTo(v ListProjectsOrdering) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListProjectsOrdering) Get() (v ListProjectsOrdering, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListProjectsOrdering) Or(d ListProjectsOrdering) ListProjectsOrdering {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListServicePolicyRuleTemplatesType returns new OptListServicePolicyRuleTemplatesType with value set to v.
+func NewOptListServicePolicyRuleTemplatesType(v ListServicePolicyRuleTemplatesType) OptListServicePolicyRuleTemplatesType {
+	return OptListServicePolicyRuleTemplatesType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListServicePolicyRuleTemplatesType is optional ListServicePolicyRuleTemplatesType.
+type OptListServicePolicyRuleTemplatesType struct {
+	Value ListServicePolicyRuleTemplatesType
+	Set   bool
+}
+
+// IsSet returns true if OptListServicePolicyRuleTemplatesType was set.
+func (o OptListServicePolicyRuleTemplatesType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListServicePolicyRuleTemplatesType) Reset() {
+	var v ListServicePolicyRuleTemplatesType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListServicePolicyRuleTemplatesType) SetTo(v ListServicePolicyRuleTemplatesType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListServicePolicyRuleTemplatesType) Get() (v ListServicePolicyRuleTemplatesType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListServicePolicyRuleTemplatesType) Or(d ListServicePolicyRuleTemplatesType) ListServicePolicyRuleTemplatesType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListServicePrincipalKeysOrdering returns new OptListServicePrincipalKeysOrdering with value set to v.
+func NewOptListServicePrincipalKeysOrdering(v ListServicePrincipalKeysOrdering) OptListServicePrincipalKeysOrdering {
+	return OptListServicePrincipalKeysOrdering{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListServicePrincipalKeysOrdering is optional ListServicePrincipalKeysOrdering.
+type OptListServicePrincipalKeysOrdering struct {
+	Value ListServicePrincipalKeysOrdering
+	Set   bool
+}
+
+// IsSet returns true if OptListServicePrincipalKeysOrdering was set.
+func (o OptListServicePrincipalKeysOrdering) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListServicePrincipalKeysOrdering) Reset() {
+	var v ListServicePrincipalKeysOrdering
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListServicePrincipalKeysOrdering) SetTo(v ListServicePrincipalKeysOrdering) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListServicePrincipalKeysOrdering) Get() (v ListServicePrincipalKeysOrdering, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListServicePrincipalKeysOrdering) Or(d ListServicePrincipalKeysOrdering) ListServicePrincipalKeysOrdering {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListServicePrincipalsOrdering returns new OptListServicePrincipalsOrdering with value set to v.
+func NewOptListServicePrincipalsOrdering(v ListServicePrincipalsOrdering) OptListServicePrincipalsOrdering {
+	return OptListServicePrincipalsOrdering{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListServicePrincipalsOrdering is optional ListServicePrincipalsOrdering.
+type OptListServicePrincipalsOrdering struct {
+	Value ListServicePrincipalsOrdering
+	Set   bool
+}
+
+// IsSet returns true if OptListServicePrincipalsOrdering was set.
+func (o OptListServicePrincipalsOrdering) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListServicePrincipalsOrdering) Reset() {
+	var v ListServicePrincipalsOrdering
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListServicePrincipalsOrdering) SetTo(v ListServicePrincipalsOrdering) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListServicePrincipalsOrdering) Get() (v ListServicePrincipalsOrdering, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListServicePrincipalsOrdering) Or(d ListServicePrincipalsOrdering) ListServicePrincipalsOrdering {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListUsersOrdering returns new OptListUsersOrdering with value set to v.
+func NewOptListUsersOrdering(v ListUsersOrdering) OptListUsersOrdering {
+	return OptListUsersOrdering{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListUsersOrdering is optional ListUsersOrdering.
+type OptListUsersOrdering struct {
+	Value ListUsersOrdering
+	Set   bool
+}
+
+// IsSet returns true if OptListUsersOrdering was set.
+func (o OptListUsersOrdering) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListUsersOrdering) Reset() {
+	var v ListUsersOrdering
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListUsersOrdering) SetTo(v ListUsersOrdering) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListUsersOrdering) Get() (v ListUsersOrdering, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListUsersOrdering) Or(d ListUsersOrdering) ListUsersOrdering {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilInt returns new OptNilInt with value set to v.
 func NewOptNilInt(v int) OptNilInt {
 	return OptNilInt{
@@ -3709,38 +4201,38 @@ func (o OptNilString) Or(d string) string {
 	return d
 }
 
-// NewOptOrganizationServicePolicyGetType returns new OptOrganizationServicePolicyGetType with value set to v.
-func NewOptOrganizationServicePolicyGetType(v OrganizationServicePolicyGetType) OptOrganizationServicePolicyGetType {
-	return OptOrganizationServicePolicyGetType{
+// NewOptReadOrganizationServicePolicyType returns new OptReadOrganizationServicePolicyType with value set to v.
+func NewOptReadOrganizationServicePolicyType(v ReadOrganizationServicePolicyType) OptReadOrganizationServicePolicyType {
+	return OptReadOrganizationServicePolicyType{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptOrganizationServicePolicyGetType is optional OrganizationServicePolicyGetType.
-type OptOrganizationServicePolicyGetType struct {
-	Value OrganizationServicePolicyGetType
+// OptReadOrganizationServicePolicyType is optional ReadOrganizationServicePolicyType.
+type OptReadOrganizationServicePolicyType struct {
+	Value ReadOrganizationServicePolicyType
 	Set   bool
 }
 
-// IsSet returns true if OptOrganizationServicePolicyGetType was set.
-func (o OptOrganizationServicePolicyGetType) IsSet() bool { return o.Set }
+// IsSet returns true if OptReadOrganizationServicePolicyType was set.
+func (o OptReadOrganizationServicePolicyType) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptOrganizationServicePolicyGetType) Reset() {
-	var v OrganizationServicePolicyGetType
+func (o *OptReadOrganizationServicePolicyType) Reset() {
+	var v ReadOrganizationServicePolicyType
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptOrganizationServicePolicyGetType) SetTo(v OrganizationServicePolicyGetType) {
+func (o *OptReadOrganizationServicePolicyType) SetTo(v ReadOrganizationServicePolicyType) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptOrganizationServicePolicyGetType) Get() (v OrganizationServicePolicyGetType, ok bool) {
+func (o OptReadOrganizationServicePolicyType) Get() (v ReadOrganizationServicePolicyType, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -3748,53 +4240,7 @@ func (o OptOrganizationServicePolicyGetType) Get() (v OrganizationServicePolicyG
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptOrganizationServicePolicyGetType) Or(d OrganizationServicePolicyGetType) OrganizationServicePolicyGetType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptProjectsGetOrdering returns new OptProjectsGetOrdering with value set to v.
-func NewOptProjectsGetOrdering(v ProjectsGetOrdering) OptProjectsGetOrdering {
-	return OptProjectsGetOrdering{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptProjectsGetOrdering is optional ProjectsGetOrdering.
-type OptProjectsGetOrdering struct {
-	Value ProjectsGetOrdering
-	Set   bool
-}
-
-// IsSet returns true if OptProjectsGetOrdering was set.
-func (o OptProjectsGetOrdering) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptProjectsGetOrdering) Reset() {
-	var v ProjectsGetOrdering
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptProjectsGetOrdering) SetTo(v ProjectsGetOrdering) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptProjectsGetOrdering) Get() (v ProjectsGetOrdering, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptProjectsGetOrdering) Or(d ProjectsGetOrdering) ProjectsGetOrdering {
+func (o OptReadOrganizationServicePolicyType) Or(d ReadOrganizationServicePolicyType) ReadOrganizationServicePolicyType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -3893,190 +4339,6 @@ func (o OptRuleSpec) Or(d RuleSpec) RuleSpec {
 	return d
 }
 
-// NewOptServicePolicyRuleTemplatesGetType returns new OptServicePolicyRuleTemplatesGetType with value set to v.
-func NewOptServicePolicyRuleTemplatesGetType(v ServicePolicyRuleTemplatesGetType) OptServicePolicyRuleTemplatesGetType {
-	return OptServicePolicyRuleTemplatesGetType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptServicePolicyRuleTemplatesGetType is optional ServicePolicyRuleTemplatesGetType.
-type OptServicePolicyRuleTemplatesGetType struct {
-	Value ServicePolicyRuleTemplatesGetType
-	Set   bool
-}
-
-// IsSet returns true if OptServicePolicyRuleTemplatesGetType was set.
-func (o OptServicePolicyRuleTemplatesGetType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptServicePolicyRuleTemplatesGetType) Reset() {
-	var v ServicePolicyRuleTemplatesGetType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptServicePolicyRuleTemplatesGetType) SetTo(v ServicePolicyRuleTemplatesGetType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptServicePolicyRuleTemplatesGetType) Get() (v ServicePolicyRuleTemplatesGetType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptServicePolicyRuleTemplatesGetType) Or(d ServicePolicyRuleTemplatesGetType) ServicePolicyRuleTemplatesGetType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptServicePrincipalsGetOrdering returns new OptServicePrincipalsGetOrdering with value set to v.
-func NewOptServicePrincipalsGetOrdering(v ServicePrincipalsGetOrdering) OptServicePrincipalsGetOrdering {
-	return OptServicePrincipalsGetOrdering{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptServicePrincipalsGetOrdering is optional ServicePrincipalsGetOrdering.
-type OptServicePrincipalsGetOrdering struct {
-	Value ServicePrincipalsGetOrdering
-	Set   bool
-}
-
-// IsSet returns true if OptServicePrincipalsGetOrdering was set.
-func (o OptServicePrincipalsGetOrdering) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptServicePrincipalsGetOrdering) Reset() {
-	var v ServicePrincipalsGetOrdering
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptServicePrincipalsGetOrdering) SetTo(v ServicePrincipalsGetOrdering) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptServicePrincipalsGetOrdering) Get() (v ServicePrincipalsGetOrdering, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptServicePrincipalsGetOrdering) Or(d ServicePrincipalsGetOrdering) ServicePrincipalsGetOrdering {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptServicePrincipalsServicePrincipalIDKeysGetOrdering returns new OptServicePrincipalsServicePrincipalIDKeysGetOrdering with value set to v.
-func NewOptServicePrincipalsServicePrincipalIDKeysGetOrdering(v ServicePrincipalsServicePrincipalIDKeysGetOrdering) OptServicePrincipalsServicePrincipalIDKeysGetOrdering {
-	return OptServicePrincipalsServicePrincipalIDKeysGetOrdering{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptServicePrincipalsServicePrincipalIDKeysGetOrdering is optional ServicePrincipalsServicePrincipalIDKeysGetOrdering.
-type OptServicePrincipalsServicePrincipalIDKeysGetOrdering struct {
-	Value ServicePrincipalsServicePrincipalIDKeysGetOrdering
-	Set   bool
-}
-
-// IsSet returns true if OptServicePrincipalsServicePrincipalIDKeysGetOrdering was set.
-func (o OptServicePrincipalsServicePrincipalIDKeysGetOrdering) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptServicePrincipalsServicePrincipalIDKeysGetOrdering) Reset() {
-	var v ServicePrincipalsServicePrincipalIDKeysGetOrdering
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptServicePrincipalsServicePrincipalIDKeysGetOrdering) SetTo(v ServicePrincipalsServicePrincipalIDKeysGetOrdering) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptServicePrincipalsServicePrincipalIDKeysGetOrdering) Get() (v ServicePrincipalsServicePrincipalIDKeysGetOrdering, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptServicePrincipalsServicePrincipalIDKeysGetOrdering) Or(d ServicePrincipalsServicePrincipalIDKeysGetOrdering) ServicePrincipalsServicePrincipalIDKeysGetOrdering {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptServicePrincipalsServicePrincipalIDUploadKeyPostReq returns new OptServicePrincipalsServicePrincipalIDUploadKeyPostReq with value set to v.
-func NewOptServicePrincipalsServicePrincipalIDUploadKeyPostReq(v ServicePrincipalsServicePrincipalIDUploadKeyPostReq) OptServicePrincipalsServicePrincipalIDUploadKeyPostReq {
-	return OptServicePrincipalsServicePrincipalIDUploadKeyPostReq{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptServicePrincipalsServicePrincipalIDUploadKeyPostReq is optional ServicePrincipalsServicePrincipalIDUploadKeyPostReq.
-type OptServicePrincipalsServicePrincipalIDUploadKeyPostReq struct {
-	Value ServicePrincipalsServicePrincipalIDUploadKeyPostReq
-	Set   bool
-}
-
-// IsSet returns true if OptServicePrincipalsServicePrincipalIDUploadKeyPostReq was set.
-func (o OptServicePrincipalsServicePrincipalIDUploadKeyPostReq) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptServicePrincipalsServicePrincipalIDUploadKeyPostReq) Reset() {
-	var v ServicePrincipalsServicePrincipalIDUploadKeyPostReq
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptServicePrincipalsServicePrincipalIDUploadKeyPostReq) SetTo(v ServicePrincipalsServicePrincipalIDUploadKeyPostReq) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptServicePrincipalsServicePrincipalIDUploadKeyPostReq) Get() (v ServicePrincipalsServicePrincipalIDUploadKeyPostReq, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptServicePrincipalsServicePrincipalIDUploadKeyPostReq) Or(d ServicePrincipalsServicePrincipalIDUploadKeyPostReq) ServicePrincipalsServicePrincipalIDUploadKeyPostReq {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptString returns new OptString with value set to v.
 func NewOptString(v string) OptString {
 	return OptString{
@@ -4123,6 +4385,52 @@ func (o OptString) Or(d string) string {
 	return d
 }
 
+// NewOptUploadServicePrincipalKeyReq returns new OptUploadServicePrincipalKeyReq with value set to v.
+func NewOptUploadServicePrincipalKeyReq(v UploadServicePrincipalKeyReq) OptUploadServicePrincipalKeyReq {
+	return OptUploadServicePrincipalKeyReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUploadServicePrincipalKeyReq is optional UploadServicePrincipalKeyReq.
+type OptUploadServicePrincipalKeyReq struct {
+	Value UploadServicePrincipalKeyReq
+	Set   bool
+}
+
+// IsSet returns true if OptUploadServicePrincipalKeyReq was set.
+func (o OptUploadServicePrincipalKeyReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUploadServicePrincipalKeyReq) Reset() {
+	var v UploadServicePrincipalKeyReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUploadServicePrincipalKeyReq) SetTo(v UploadServicePrincipalKeyReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUploadServicePrincipalKeyReq) Get() (v UploadServicePrincipalKeyReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUploadServicePrincipalKeyReq) Or(d UploadServicePrincipalKeyReq) UploadServicePrincipalKeyReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // Ref: #/components/schemas/Organization
 type Organization struct {
 	// 組織のリソースID.
@@ -4151,202 +4459,8 @@ func (s *Organization) SetName(val string) {
 	s.Name = val
 }
 
-func (*Organization) organizationGetRes() {}
-func (*Organization) organizationPutRes() {}
-
-type OrganizationIDPolicyGetOK struct {
-	Bindings []IdPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *OrganizationIDPolicyGetOK) GetBindings() []IdPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *OrganizationIDPolicyGetOK) SetBindings(val []IdPolicy) {
-	s.Bindings = val
-}
-
-func (*OrganizationIDPolicyGetOK) organizationIDPolicyGetRes() {}
-
-type OrganizationIDPolicyPutOK struct {
-	Bindings []IdPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *OrganizationIDPolicyPutOK) GetBindings() []IdPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *OrganizationIDPolicyPutOK) SetBindings(val []IdPolicy) {
-	s.Bindings = val
-}
-
-func (*OrganizationIDPolicyPutOK) organizationIDPolicyPutRes() {}
-
-type OrganizationIDPolicyPutReq struct {
-	Bindings []IdPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *OrganizationIDPolicyPutReq) GetBindings() []IdPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *OrganizationIDPolicyPutReq) SetBindings(val []IdPolicy) {
-	s.Bindings = val
-}
-
-type OrganizationIamPolicyGetOK struct {
-	Bindings []IamPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *OrganizationIamPolicyGetOK) GetBindings() []IamPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *OrganizationIamPolicyGetOK) SetBindings(val []IamPolicy) {
-	s.Bindings = val
-}
-
-func (*OrganizationIamPolicyGetOK) organizationIamPolicyGetRes() {}
-
-type OrganizationIamPolicyPutOK struct {
-	Bindings []IamPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *OrganizationIamPolicyPutOK) GetBindings() []IamPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *OrganizationIamPolicyPutOK) SetBindings(val []IamPolicy) {
-	s.Bindings = val
-}
-
-func (*OrganizationIamPolicyPutOK) organizationIamPolicyPutRes() {}
-
-type OrganizationIamPolicyPutReq struct {
-	Bindings []IamPolicy `json:"bindings"`
-}
-
-// GetBindings returns the value of Bindings.
-func (s *OrganizationIamPolicyPutReq) GetBindings() []IamPolicy {
-	return s.Bindings
-}
-
-// SetBindings sets the value of Bindings.
-func (s *OrganizationIamPolicyPutReq) SetBindings(val []IamPolicy) {
-	s.Bindings = val
-}
-
-type OrganizationPutReq struct {
-	// 組織名.
-	Name string `json:"name"`
-}
-
-// GetName returns the value of Name.
-func (s *OrganizationPutReq) GetName() string {
-	return s.Name
-}
-
-// SetName sets the value of Name.
-func (s *OrganizationPutReq) SetName(val string) {
-	s.Name = val
-}
-
-type OrganizationServicePolicyGetOK struct {
-	Rules []RuleResponse `json:"rules"`
-}
-
-// GetRules returns the value of Rules.
-func (s *OrganizationServicePolicyGetOK) GetRules() []RuleResponse {
-	return s.Rules
-}
-
-// SetRules sets the value of Rules.
-func (s *OrganizationServicePolicyGetOK) SetRules(val []RuleResponse) {
-	s.Rules = val
-}
-
-func (*OrganizationServicePolicyGetOK) organizationServicePolicyGetRes() {}
-
-type OrganizationServicePolicyGetType string
-
-const (
-	OrganizationServicePolicyGetTypeBool OrganizationServicePolicyGetType = "bool"
-	OrganizationServicePolicyGetTypeList OrganizationServicePolicyGetType = "list"
-)
-
-// AllValues returns all OrganizationServicePolicyGetType values.
-func (OrganizationServicePolicyGetType) AllValues() []OrganizationServicePolicyGetType {
-	return []OrganizationServicePolicyGetType{
-		OrganizationServicePolicyGetTypeBool,
-		OrganizationServicePolicyGetTypeList,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s OrganizationServicePolicyGetType) MarshalText() ([]byte, error) {
-	switch s {
-	case OrganizationServicePolicyGetTypeBool:
-		return []byte(s), nil
-	case OrganizationServicePolicyGetTypeList:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *OrganizationServicePolicyGetType) UnmarshalText(data []byte) error {
-	switch OrganizationServicePolicyGetType(data) {
-	case OrganizationServicePolicyGetTypeBool:
-		*s = OrganizationServicePolicyGetTypeBool
-		return nil
-	case OrganizationServicePolicyGetTypeList:
-		*s = OrganizationServicePolicyGetTypeList
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type OrganizationServicePolicyPutOK struct {
-	Rules []RuleResponse `json:"rules"`
-}
-
-// GetRules returns the value of Rules.
-func (s *OrganizationServicePolicyPutOK) GetRules() []RuleResponse {
-	return s.Rules
-}
-
-// SetRules sets the value of Rules.
-func (s *OrganizationServicePolicyPutOK) SetRules(val []RuleResponse) {
-	s.Rules = val
-}
-
-func (*OrganizationServicePolicyPutOK) organizationServicePolicyPutRes() {}
-
-type OrganizationServicePolicyPutReq struct {
-	Rules []Rule `json:"rules"`
-}
-
-// GetRules returns the value of Rules.
-func (s *OrganizationServicePolicyPutReq) GetRules() []Rule {
-	return s.Rules
-}
-
-// SetRules sets the value of Rules.
-func (s *OrganizationServicePolicyPutReq) SetRules(val []Rule) {
-	s.Rules = val
-}
+func (*Organization) readOrganizationRes()   {}
+func (*Organization) updateOrganizationRes() {}
 
 // Ref: #/components/schemas/PasswordPolicy
 type PasswordPolicy struct {
@@ -4402,8 +4516,8 @@ func (s *PasswordPolicy) SetRequireSymbols(val bool) {
 	s.RequireSymbols = val
 }
 
-func (*PasswordPolicy) organizationPasswordPolicyGetRes() {}
-func (*PasswordPolicy) organizationPasswordPolicyPutRes() {}
+func (*PasswordPolicy) readOrganizationPasswordPolicyRes()   {}
+func (*PasswordPolicy) updateOrganizationPasswordPolicyRes() {}
 
 // Ref: #/components/schemas/Principal
 type Principal struct {
@@ -4533,9 +4647,9 @@ func (s *Project) SetUpdatedAt(val string) {
 	s.UpdatedAt = val
 }
 
-func (*Project) projectsPostRes()         {}
-func (*Project) projectsProjectIDGetRes() {}
-func (*Project) projectsProjectIDPutRes() {}
+func (*Project) createProjectRes() {}
+func (*Project) readProjectRes()   {}
+func (*Project) updateProjectRes() {}
 
 // Ref: #/components/schemas/ProjectApiKey
 type ProjectApiKey struct {
@@ -4661,8 +4775,8 @@ func (s *ProjectApiKey) SetUpdatedAt(val OptString) {
 	s.UpdatedAt = val
 }
 
-func (*ProjectApiKey) compatAPIKeysApikeyIDGetRes() {}
-func (*ProjectApiKey) compatAPIKeysApikeyIDPutRes() {}
+func (*ProjectApiKey) readApiKeyRes()   {}
+func (*ProjectApiKey) updateApiKeyRes() {}
 
 type ProjectApiKeyAuth struct {
 	Username string
@@ -4837,7 +4951,7 @@ func (s *ProjectApiKeyWithSecret) SetAccessTokenSecret(val string) {
 	s.AccessTokenSecret = val
 }
 
-func (*ProjectApiKeyWithSecret) compatAPIKeysPostRes() {}
+func (*ProjectApiKeyWithSecret) createApiKeyRes() {}
 
 // プロジェクトのステータス.
 type ProjectStatus string
@@ -4874,80 +4988,81 @@ func (s *ProjectStatus) UnmarshalText(data []byte) error {
 	}
 }
 
-// Merged schema.
-type ProjectsGetOK struct {
-	Items []Project `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
+type ReadAuthContextOK struct {
+	// APIキーのIDまたはサービスプリンシパルのID.
+	ResourceID int64 `json:"resource_id"`
+	// 認証種別。APIキーまたはサービスプリンシパル。.
+	AuthType ReadAuthContextOKAuthType `json:"auth_type"`
+	// 操作可能なプロジェクトのID。現状、APIキー・サービスプリンシパルが属するプロジェクトのIDが設定されるが、将来的に操作可能なプロジェクトの制限が撤廃された場合にはnullが設定される可能性がある。.
+	LimitedToProjectID NilInt `json:"limited_to_project_id"`
+	// APIキー・サービスプリンシパルに紐づく会員IDを取得する.
+	MemberCode string `json:"member_code"`
 }
 
-// GetItems returns the value of Items.
-func (s *ProjectsGetOK) GetItems() []Project {
-	return s.Items
+// GetResourceID returns the value of ResourceID.
+func (s *ReadAuthContextOK) GetResourceID() int64 {
+	return s.ResourceID
 }
 
-// GetCount returns the value of Count.
-func (s *ProjectsGetOK) GetCount() int {
-	return s.Count
+// GetAuthType returns the value of AuthType.
+func (s *ReadAuthContextOK) GetAuthType() ReadAuthContextOKAuthType {
+	return s.AuthType
 }
 
-// GetNext returns the value of Next.
-func (s *ProjectsGetOK) GetNext() NilURI {
-	return s.Next
+// GetLimitedToProjectID returns the value of LimitedToProjectID.
+func (s *ReadAuthContextOK) GetLimitedToProjectID() NilInt {
+	return s.LimitedToProjectID
 }
 
-// GetPrevious returns the value of Previous.
-func (s *ProjectsGetOK) GetPrevious() NilURI {
-	return s.Previous
+// GetMemberCode returns the value of MemberCode.
+func (s *ReadAuthContextOK) GetMemberCode() string {
+	return s.MemberCode
 }
 
-// SetItems sets the value of Items.
-func (s *ProjectsGetOK) SetItems(val []Project) {
-	s.Items = val
+// SetResourceID sets the value of ResourceID.
+func (s *ReadAuthContextOK) SetResourceID(val int64) {
+	s.ResourceID = val
 }
 
-// SetCount sets the value of Count.
-func (s *ProjectsGetOK) SetCount(val int) {
-	s.Count = val
+// SetAuthType sets the value of AuthType.
+func (s *ReadAuthContextOK) SetAuthType(val ReadAuthContextOKAuthType) {
+	s.AuthType = val
 }
 
-// SetNext sets the value of Next.
-func (s *ProjectsGetOK) SetNext(val NilURI) {
-	s.Next = val
+// SetLimitedToProjectID sets the value of LimitedToProjectID.
+func (s *ReadAuthContextOK) SetLimitedToProjectID(val NilInt) {
+	s.LimitedToProjectID = val
 }
 
-// SetPrevious sets the value of Previous.
-func (s *ProjectsGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
+// SetMemberCode sets the value of MemberCode.
+func (s *ReadAuthContextOK) SetMemberCode(val string) {
+	s.MemberCode = val
 }
 
-func (*ProjectsGetOK) projectsGetRes() {}
+func (*ReadAuthContextOK) readAuthContextRes() {}
 
-type ProjectsGetOrdering string
+// 認証種別。APIキーまたはサービスプリンシパル。.
+type ReadAuthContextOKAuthType string
 
 const (
-	ProjectsGetOrderingCode      ProjectsGetOrdering = "code"
-	ProjectsGetOrderingMinusCode ProjectsGetOrdering = "-code"
+	ReadAuthContextOKAuthTypeApikey           ReadAuthContextOKAuthType = "apikey"
+	ReadAuthContextOKAuthTypeServicePrincipal ReadAuthContextOKAuthType = "service_principal"
 )
 
-// AllValues returns all ProjectsGetOrdering values.
-func (ProjectsGetOrdering) AllValues() []ProjectsGetOrdering {
-	return []ProjectsGetOrdering{
-		ProjectsGetOrderingCode,
-		ProjectsGetOrderingMinusCode,
+// AllValues returns all ReadAuthContextOKAuthType values.
+func (ReadAuthContextOKAuthType) AllValues() []ReadAuthContextOKAuthType {
+	return []ReadAuthContextOKAuthType{
+		ReadAuthContextOKAuthTypeApikey,
+		ReadAuthContextOKAuthTypeServicePrincipal,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ProjectsGetOrdering) MarshalText() ([]byte, error) {
+func (s ReadAuthContextOKAuthType) MarshalText() ([]byte, error) {
 	switch s {
-	case ProjectsGetOrderingCode:
+	case ReadAuthContextOKAuthTypeApikey:
 		return []byte(s), nil
-	case ProjectsGetOrderingMinusCode:
+	case ReadAuthContextOKAuthTypeServicePrincipal:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -4955,146 +5070,175 @@ func (s ProjectsGetOrdering) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ProjectsGetOrdering) UnmarshalText(data []byte) error {
-	switch ProjectsGetOrdering(data) {
-	case ProjectsGetOrderingCode:
-		*s = ProjectsGetOrderingCode
+func (s *ReadAuthContextOKAuthType) UnmarshalText(data []byte) error {
+	switch ReadAuthContextOKAuthType(data) {
+	case ReadAuthContextOKAuthTypeApikey:
+		*s = ReadAuthContextOKAuthTypeApikey
 		return nil
-	case ProjectsGetOrderingMinusCode:
-		*s = ProjectsGetOrderingMinusCode
+	case ReadAuthContextOKAuthTypeServicePrincipal:
+		*s = ReadAuthContextOKAuthTypeServicePrincipal
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ProjectsPostReq struct {
-	// プロジェクトコード.
-	Code string `json:"code"`
-	// プロジェクトのフォルダID.
-	ParentFolderID OptInt `json:"parent_folder_id"`
-	// プロジェクトの名前.
-	Name string `json:"name"`
-	// プロジェクトの説明.
-	Description string `json:"description"`
-}
-
-// GetCode returns the value of Code.
-func (s *ProjectsPostReq) GetCode() string {
-	return s.Code
-}
-
-// GetParentFolderID returns the value of ParentFolderID.
-func (s *ProjectsPostReq) GetParentFolderID() OptInt {
-	return s.ParentFolderID
-}
-
-// GetName returns the value of Name.
-func (s *ProjectsPostReq) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *ProjectsPostReq) GetDescription() string {
-	return s.Description
-}
-
-// SetCode sets the value of Code.
-func (s *ProjectsPostReq) SetCode(val string) {
-	s.Code = val
-}
-
-// SetParentFolderID sets the value of ParentFolderID.
-func (s *ProjectsPostReq) SetParentFolderID(val OptInt) {
-	s.ParentFolderID = val
-}
-
-// SetName sets the value of Name.
-func (s *ProjectsPostReq) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *ProjectsPostReq) SetDescription(val string) {
-	s.Description = val
-}
-
-// ProjectsProjectIDDeleteNoContent is response for ProjectsProjectIDDelete operation.
-type ProjectsProjectIDDeleteNoContent struct{}
-
-func (*ProjectsProjectIDDeleteNoContent) projectsProjectIDDeleteRes() {}
-
-type ProjectsProjectIDIamPolicyGetOK struct {
+type ReadFolderIamPolicyOK struct {
 	Bindings []IamPolicy `json:"bindings"`
 }
 
 // GetBindings returns the value of Bindings.
-func (s *ProjectsProjectIDIamPolicyGetOK) GetBindings() []IamPolicy {
+func (s *ReadFolderIamPolicyOK) GetBindings() []IamPolicy {
 	return s.Bindings
 }
 
 // SetBindings sets the value of Bindings.
-func (s *ProjectsProjectIDIamPolicyGetOK) SetBindings(val []IamPolicy) {
+func (s *ReadFolderIamPolicyOK) SetBindings(val []IamPolicy) {
 	s.Bindings = val
 }
 
-func (*ProjectsProjectIDIamPolicyGetOK) projectsProjectIDIamPolicyGetRes() {}
+func (*ReadFolderIamPolicyOK) readFolderIamPolicyRes() {}
 
-type ProjectsProjectIDIamPolicyPutOK struct {
+type ReadOrganizationIamPolicyOK struct {
 	Bindings []IamPolicy `json:"bindings"`
 }
 
 // GetBindings returns the value of Bindings.
-func (s *ProjectsProjectIDIamPolicyPutOK) GetBindings() []IamPolicy {
+func (s *ReadOrganizationIamPolicyOK) GetBindings() []IamPolicy {
 	return s.Bindings
 }
 
 // SetBindings sets the value of Bindings.
-func (s *ProjectsProjectIDIamPolicyPutOK) SetBindings(val []IamPolicy) {
+func (s *ReadOrganizationIamPolicyOK) SetBindings(val []IamPolicy) {
 	s.Bindings = val
 }
 
-func (*ProjectsProjectIDIamPolicyPutOK) projectsProjectIDIamPolicyPutRes() {}
+func (*ReadOrganizationIamPolicyOK) readOrganizationIamPolicyRes() {}
 
-type ProjectsProjectIDIamPolicyPutReq struct {
+type ReadOrganizationIdPolicyOK struct {
+	Bindings []IdPolicy `json:"bindings"`
+}
+
+// GetBindings returns the value of Bindings.
+func (s *ReadOrganizationIdPolicyOK) GetBindings() []IdPolicy {
+	return s.Bindings
+}
+
+// SetBindings sets the value of Bindings.
+func (s *ReadOrganizationIdPolicyOK) SetBindings(val []IdPolicy) {
+	s.Bindings = val
+}
+
+func (*ReadOrganizationIdPolicyOK) readOrganizationIdPolicyRes() {}
+
+type ReadOrganizationServicePolicyOK struct {
+	Rules []RuleResponse `json:"rules"`
+}
+
+// GetRules returns the value of Rules.
+func (s *ReadOrganizationServicePolicyOK) GetRules() []RuleResponse {
+	return s.Rules
+}
+
+// SetRules sets the value of Rules.
+func (s *ReadOrganizationServicePolicyOK) SetRules(val []RuleResponse) {
+	s.Rules = val
+}
+
+func (*ReadOrganizationServicePolicyOK) readOrganizationServicePolicyRes() {}
+
+type ReadOrganizationServicePolicyType string
+
+const (
+	ReadOrganizationServicePolicyTypeBool ReadOrganizationServicePolicyType = "bool"
+	ReadOrganizationServicePolicyTypeList ReadOrganizationServicePolicyType = "list"
+)
+
+// AllValues returns all ReadOrganizationServicePolicyType values.
+func (ReadOrganizationServicePolicyType) AllValues() []ReadOrganizationServicePolicyType {
+	return []ReadOrganizationServicePolicyType{
+		ReadOrganizationServicePolicyTypeBool,
+		ReadOrganizationServicePolicyTypeList,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReadOrganizationServicePolicyType) MarshalText() ([]byte, error) {
+	switch s {
+	case ReadOrganizationServicePolicyTypeBool:
+		return []byte(s), nil
+	case ReadOrganizationServicePolicyTypeList:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReadOrganizationServicePolicyType) UnmarshalText(data []byte) error {
+	switch ReadOrganizationServicePolicyType(data) {
+	case ReadOrganizationServicePolicyTypeBool:
+		*s = ReadOrganizationServicePolicyTypeBool
+		return nil
+	case ReadOrganizationServicePolicyTypeList:
+		*s = ReadOrganizationServicePolicyTypeList
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ReadProjectIamPolicyOK struct {
 	Bindings []IamPolicy `json:"bindings"`
 }
 
 // GetBindings returns the value of Bindings.
-func (s *ProjectsProjectIDIamPolicyPutReq) GetBindings() []IamPolicy {
+func (s *ReadProjectIamPolicyOK) GetBindings() []IamPolicy {
 	return s.Bindings
 }
 
 // SetBindings sets the value of Bindings.
-func (s *ProjectsProjectIDIamPolicyPutReq) SetBindings(val []IamPolicy) {
+func (s *ReadProjectIamPolicyOK) SetBindings(val []IamPolicy) {
 	s.Bindings = val
 }
 
-type ProjectsProjectIDPutReq struct {
-	// プロジェクトの名前.
-	Name string `json:"name"`
-	// プロジェクトの説明.
-	Description string `json:"description"`
+func (*ReadProjectIamPolicyOK) readProjectIamPolicyRes() {}
+
+type RegenerateScimConfigurationTokenOK struct {
+	// 再発行されたユーザープロビジョニングのシークレットトークン.
+	SecretToken OptString `json:"secret_token"`
 }
 
-// GetName returns the value of Name.
-func (s *ProjectsProjectIDPutReq) GetName() string {
-	return s.Name
+// GetSecretToken returns the value of SecretToken.
+func (s *RegenerateScimConfigurationTokenOK) GetSecretToken() OptString {
+	return s.SecretToken
 }
 
-// GetDescription returns the value of Description.
-func (s *ProjectsProjectIDPutReq) GetDescription() string {
-	return s.Description
+// SetSecretToken sets the value of SecretToken.
+func (s *RegenerateScimConfigurationTokenOK) SetSecretToken(val OptString) {
+	s.SecretToken = val
 }
 
-// SetName sets the value of Name.
-func (s *ProjectsProjectIDPutReq) SetName(val string) {
-	s.Name = val
+func (*RegenerateScimConfigurationTokenOK) regenerateScimConfigurationTokenRes() {}
+
+// RegisterEmailNoContent is response for RegisterEmail operation.
+type RegisterEmailNoContent struct{}
+
+func (*RegisterEmailNoContent) registerEmailRes() {}
+
+type RegisterEmailReq struct {
+	// メールアドレス.
+	Email string `json:"email"`
 }
 
-// SetDescription sets the value of Description.
-func (s *ProjectsProjectIDPutReq) SetDescription(val string) {
-	s.Description = val
+// GetEmail returns the value of Email.
+func (s *RegisterEmailReq) GetEmail() string {
+	return s.Email
+}
+
+// SetEmail sets the value of Email.
+func (s *RegisterEmailReq) SetEmail(val string) {
+	s.Email = val
 }
 
 // Merged schema.
@@ -5553,219 +5697,11 @@ func (s *SSOProfile) SetUpdatedAt(val string) {
 	s.UpdatedAt = val
 }
 
-func (*SSOProfile) sSOProfilesPostRes()                     {}
-func (*SSOProfile) sSOProfilesSSOProfileIDAssignPostRes()   {}
-func (*SSOProfile) sSOProfilesSSOProfileIDGetRes()          {}
-func (*SSOProfile) sSOProfilesSSOProfileIDPutRes()          {}
-func (*SSOProfile) sSOProfilesSSOProfileIDUnassignPostRes() {}
-
-// Merged schema.
-type SSOProfilesGetOK struct {
-	Items []SSOProfile `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *SSOProfilesGetOK) GetItems() []SSOProfile {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *SSOProfilesGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *SSOProfilesGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *SSOProfilesGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *SSOProfilesGetOK) SetItems(val []SSOProfile) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *SSOProfilesGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *SSOProfilesGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *SSOProfilesGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*SSOProfilesGetOK) sSOProfilesGetRes() {}
-
-type SSOProfilesPostReq struct {
-	// SSOプロファイル名.
-	Name string `json:"name"`
-	// SSOプロファイルの説明.
-	Description string `json:"description"`
-	// IdPのエンティティID.
-	IdpEntityID string `json:"idp_entity_id"`
-	// IdPのログインURL.
-	IdpLoginURL string `json:"idp_login_url"`
-	// IdPのログアウトURL.
-	IdpLogoutURL string `json:"idp_logout_url"`
-	// IdPのX.509証明書.
-	IdpCertificate string `json:"idp_certificate"`
-}
-
-// GetName returns the value of Name.
-func (s *SSOProfilesPostReq) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *SSOProfilesPostReq) GetDescription() string {
-	return s.Description
-}
-
-// GetIdpEntityID returns the value of IdpEntityID.
-func (s *SSOProfilesPostReq) GetIdpEntityID() string {
-	return s.IdpEntityID
-}
-
-// GetIdpLoginURL returns the value of IdpLoginURL.
-func (s *SSOProfilesPostReq) GetIdpLoginURL() string {
-	return s.IdpLoginURL
-}
-
-// GetIdpLogoutURL returns the value of IdpLogoutURL.
-func (s *SSOProfilesPostReq) GetIdpLogoutURL() string {
-	return s.IdpLogoutURL
-}
-
-// GetIdpCertificate returns the value of IdpCertificate.
-func (s *SSOProfilesPostReq) GetIdpCertificate() string {
-	return s.IdpCertificate
-}
-
-// SetName sets the value of Name.
-func (s *SSOProfilesPostReq) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *SSOProfilesPostReq) SetDescription(val string) {
-	s.Description = val
-}
-
-// SetIdpEntityID sets the value of IdpEntityID.
-func (s *SSOProfilesPostReq) SetIdpEntityID(val string) {
-	s.IdpEntityID = val
-}
-
-// SetIdpLoginURL sets the value of IdpLoginURL.
-func (s *SSOProfilesPostReq) SetIdpLoginURL(val string) {
-	s.IdpLoginURL = val
-}
-
-// SetIdpLogoutURL sets the value of IdpLogoutURL.
-func (s *SSOProfilesPostReq) SetIdpLogoutURL(val string) {
-	s.IdpLogoutURL = val
-}
-
-// SetIdpCertificate sets the value of IdpCertificate.
-func (s *SSOProfilesPostReq) SetIdpCertificate(val string) {
-	s.IdpCertificate = val
-}
-
-// SSOProfilesSSOProfileIDDeleteNoContent is response for SSOProfilesSSOProfileIDDelete operation.
-type SSOProfilesSSOProfileIDDeleteNoContent struct{}
-
-func (*SSOProfilesSSOProfileIDDeleteNoContent) sSOProfilesSSOProfileIDDeleteRes() {}
-
-type SSOProfilesSSOProfileIDPutReq struct {
-	// SSOプロファイル名.
-	Name string `json:"name"`
-	// SSOプロファイルの説明.
-	Description string `json:"description"`
-	// IdPのエンティティID.
-	IdpEntityID string `json:"idp_entity_id"`
-	// IdPのログインURL.
-	IdpLoginURL string `json:"idp_login_url"`
-	// IdPのログアウトURL.
-	IdpLogoutURL string `json:"idp_logout_url"`
-	// IdPのX.509証明書.
-	IdpCertificate string `json:"idp_certificate"`
-}
-
-// GetName returns the value of Name.
-func (s *SSOProfilesSSOProfileIDPutReq) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *SSOProfilesSSOProfileIDPutReq) GetDescription() string {
-	return s.Description
-}
-
-// GetIdpEntityID returns the value of IdpEntityID.
-func (s *SSOProfilesSSOProfileIDPutReq) GetIdpEntityID() string {
-	return s.IdpEntityID
-}
-
-// GetIdpLoginURL returns the value of IdpLoginURL.
-func (s *SSOProfilesSSOProfileIDPutReq) GetIdpLoginURL() string {
-	return s.IdpLoginURL
-}
-
-// GetIdpLogoutURL returns the value of IdpLogoutURL.
-func (s *SSOProfilesSSOProfileIDPutReq) GetIdpLogoutURL() string {
-	return s.IdpLogoutURL
-}
-
-// GetIdpCertificate returns the value of IdpCertificate.
-func (s *SSOProfilesSSOProfileIDPutReq) GetIdpCertificate() string {
-	return s.IdpCertificate
-}
-
-// SetName sets the value of Name.
-func (s *SSOProfilesSSOProfileIDPutReq) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *SSOProfilesSSOProfileIDPutReq) SetDescription(val string) {
-	s.Description = val
-}
-
-// SetIdpEntityID sets the value of IdpEntityID.
-func (s *SSOProfilesSSOProfileIDPutReq) SetIdpEntityID(val string) {
-	s.IdpEntityID = val
-}
-
-// SetIdpLoginURL sets the value of IdpLoginURL.
-func (s *SSOProfilesSSOProfileIDPutReq) SetIdpLoginURL(val string) {
-	s.IdpLoginURL = val
-}
-
-// SetIdpLogoutURL sets the value of IdpLogoutURL.
-func (s *SSOProfilesSSOProfileIDPutReq) SetIdpLogoutURL(val string) {
-	s.IdpLogoutURL = val
-}
-
-// SetIdpCertificate sets the value of IdpCertificate.
-func (s *SSOProfilesSSOProfileIDPutReq) SetIdpCertificate(val string) {
-	s.IdpCertificate = val
-}
+func (*SSOProfile) assignSsoProfileRes()   {}
+func (*SSOProfile) createSsoProfileRes()   {}
+func (*SSOProfile) readSsoProfileRes()     {}
+func (*SSOProfile) unassignSsoProfileRes() {}
+func (*SSOProfile) updateSsoProfileRes()   {}
 
 // Merged schema.
 // Ref: #/components/schemas/ScimConfiguration
@@ -5844,7 +5780,7 @@ func (s *ScimConfiguration) SetSecretToken(val string) {
 	s.SecretToken = val
 }
 
-func (*ScimConfiguration) scimConfigurationsPostRes() {}
+func (*ScimConfiguration) createScimConfigurationRes() {}
 
 // Ref: #/components/schemas/ScimConfigurationBase
 type ScimConfigurationBase struct {
@@ -5910,224 +5846,8 @@ func (s *ScimConfigurationBase) SetUpdatedAt(val string) {
 	s.UpdatedAt = val
 }
 
-func (*ScimConfigurationBase) scimConfigurationsIDGetRes() {}
-func (*ScimConfigurationBase) scimConfigurationsIDPutRes() {}
-
-// Merged schema.
-type ScimConfigurationsGetOK struct {
-	Items []ScimConfigurationBase `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *ScimConfigurationsGetOK) GetItems() []ScimConfigurationBase {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *ScimConfigurationsGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *ScimConfigurationsGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *ScimConfigurationsGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *ScimConfigurationsGetOK) SetItems(val []ScimConfigurationBase) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *ScimConfigurationsGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *ScimConfigurationsGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *ScimConfigurationsGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*ScimConfigurationsGetOK) scimConfigurationsGetRes() {}
-
-// ScimConfigurationsIDDeleteNoContent is response for ScimConfigurationsIDDelete operation.
-type ScimConfigurationsIDDeleteNoContent struct{}
-
-func (*ScimConfigurationsIDDeleteNoContent) scimConfigurationsIDDeleteRes() {}
-
-type ScimConfigurationsIDPutReq struct {
-	// ユーザープロビジョニング名.
-	Name string `json:"name"`
-}
-
-// GetName returns the value of Name.
-func (s *ScimConfigurationsIDPutReq) GetName() string {
-	return s.Name
-}
-
-// SetName sets the value of Name.
-func (s *ScimConfigurationsIDPutReq) SetName(val string) {
-	s.Name = val
-}
-
-type ScimConfigurationsIDRegenerateTokenPostOK struct {
-	// 再発行されたユーザープロビジョニングのシークレットトークン.
-	SecretToken OptString `json:"secret_token"`
-}
-
-// GetSecretToken returns the value of SecretToken.
-func (s *ScimConfigurationsIDRegenerateTokenPostOK) GetSecretToken() OptString {
-	return s.SecretToken
-}
-
-// SetSecretToken sets the value of SecretToken.
-func (s *ScimConfigurationsIDRegenerateTokenPostOK) SetSecretToken(val OptString) {
-	s.SecretToken = val
-}
-
-func (*ScimConfigurationsIDRegenerateTokenPostOK) scimConfigurationsIDRegenerateTokenPostRes() {}
-
-type ScimConfigurationsPostReq struct {
-	// ユーザープロビジョニング名.
-	Name string `json:"name"`
-}
-
-// GetName returns the value of Name.
-func (s *ScimConfigurationsPostReq) GetName() string {
-	return s.Name
-}
-
-// SetName sets the value of Name.
-func (s *ScimConfigurationsPostReq) SetName(val string) {
-	s.Name = val
-}
-
-// Merged schema.
-type ServicePolicyRuleTemplatesGetOK struct {
-	Items []RuleTemplate `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
-
-// GetItems returns the value of Items.
-func (s *ServicePolicyRuleTemplatesGetOK) GetItems() []RuleTemplate {
-	return s.Items
-}
-
-// GetCount returns the value of Count.
-func (s *ServicePolicyRuleTemplatesGetOK) GetCount() int {
-	return s.Count
-}
-
-// GetNext returns the value of Next.
-func (s *ServicePolicyRuleTemplatesGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *ServicePolicyRuleTemplatesGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *ServicePolicyRuleTemplatesGetOK) SetItems(val []RuleTemplate) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *ServicePolicyRuleTemplatesGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *ServicePolicyRuleTemplatesGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *ServicePolicyRuleTemplatesGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*ServicePolicyRuleTemplatesGetOK) servicePolicyRuleTemplatesGetRes() {}
-
-type ServicePolicyRuleTemplatesGetType string
-
-const (
-	ServicePolicyRuleTemplatesGetTypeBoolean ServicePolicyRuleTemplatesGetType = "boolean"
-	ServicePolicyRuleTemplatesGetTypeList    ServicePolicyRuleTemplatesGetType = "list"
-)
-
-// AllValues returns all ServicePolicyRuleTemplatesGetType values.
-func (ServicePolicyRuleTemplatesGetType) AllValues() []ServicePolicyRuleTemplatesGetType {
-	return []ServicePolicyRuleTemplatesGetType{
-		ServicePolicyRuleTemplatesGetTypeBoolean,
-		ServicePolicyRuleTemplatesGetTypeList,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ServicePolicyRuleTemplatesGetType) MarshalText() ([]byte, error) {
-	switch s {
-	case ServicePolicyRuleTemplatesGetTypeBoolean:
-		return []byte(s), nil
-	case ServicePolicyRuleTemplatesGetTypeList:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ServicePolicyRuleTemplatesGetType) UnmarshalText(data []byte) error {
-	switch ServicePolicyRuleTemplatesGetType(data) {
-	case ServicePolicyRuleTemplatesGetTypeBoolean:
-		*s = ServicePolicyRuleTemplatesGetTypeBoolean
-		return nil
-	case ServicePolicyRuleTemplatesGetTypeList:
-		*s = ServicePolicyRuleTemplatesGetTypeList
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type ServicePolicyStatusGetOK struct {
-	// 有効かどうか.
-	Enabled bool `json:"enabled"`
-}
-
-// GetEnabled returns the value of Enabled.
-func (s *ServicePolicyStatusGetOK) GetEnabled() bool {
-	return s.Enabled
-}
-
-// SetEnabled sets the value of Enabled.
-func (s *ServicePolicyStatusGetOK) SetEnabled(val bool) {
-	s.Enabled = val
-}
-
-func (*ServicePolicyStatusGetOK) servicePolicyStatusGetRes() {}
+func (*ScimConfigurationBase) readScimConfigurationRes()   {}
+func (*ScimConfigurationBase) updateScimConfigurationRes() {}
 
 // Ref: #/components/schemas/ServicePrincipal
 type ServicePrincipal struct {
@@ -6205,9 +5925,9 @@ func (s *ServicePrincipal) SetUpdatedAt(val OptString) {
 	s.UpdatedAt = val
 }
 
-func (*ServicePrincipal) servicePrincipalsPostRes()                  {}
-func (*ServicePrincipal) servicePrincipalsServicePrincipalIDGetRes() {}
-func (*ServicePrincipal) servicePrincipalsServicePrincipalIDPutRes() {}
+func (*ServicePrincipal) createServicePrincipalRes() {}
+func (*ServicePrincipal) readServicePrincipalRes()   {}
+func (*ServicePrincipal) updateServicePrincipalRes() {}
 
 type ServicePrincipalAuth struct {
 	Token string
@@ -6387,11 +6107,9 @@ func (s *ServicePrincipalKey) SetKeyExpiresAt(val OptNilString) {
 	s.KeyExpiresAt = val
 }
 
-func (*ServicePrincipalKey) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostRes() {
-}
-func (*ServicePrincipalKey) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostRes() {
-}
-func (*ServicePrincipalKey) servicePrincipalsServicePrincipalIDUploadKeyPostRes() {}
+func (*ServicePrincipalKey) disableServicePrincipalKeyRes() {}
+func (*ServicePrincipalKey) enableServicePrincipalKeyRes()  {}
+func (*ServicePrincipalKey) uploadServicePrincipalKeyRes()  {}
 
 // 鍵の生成元.
 type ServicePrincipalKeyKeyOrigin string
@@ -6525,263 +6243,367 @@ func (s *ServicePrincipalOAuth2AccessToken) SetExpiresIn(val OptInt) {
 	s.ExpiresIn = val
 }
 
-func (*ServicePrincipalOAuth2AccessToken) servicePrincipalsOAuth2TokenPostRes() {}
+func (*ServicePrincipalOAuth2AccessToken) issueServicePrincipalTokenRes() {}
 
-// Merged schema.
-type ServicePrincipalsGetOK struct {
-	Items []ServicePrincipal `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
-}
+type ServiceprincipalKeyPublicKey string
 
-// GetItems returns the value of Items.
-func (s *ServicePrincipalsGetOK) GetItems() []ServicePrincipal {
-	return s.Items
-}
+// UnregisterEmailNoContent is response for UnregisterEmail operation.
+type UnregisterEmailNoContent struct{}
 
-// GetCount returns the value of Count.
-func (s *ServicePrincipalsGetOK) GetCount() int {
-	return s.Count
-}
+func (*UnregisterEmailNoContent) unregisterEmailRes() {}
 
-// GetNext returns the value of Next.
-func (s *ServicePrincipalsGetOK) GetNext() NilURI {
-	return s.Next
-}
-
-// GetPrevious returns the value of Previous.
-func (s *ServicePrincipalsGetOK) GetPrevious() NilURI {
-	return s.Previous
-}
-
-// SetItems sets the value of Items.
-func (s *ServicePrincipalsGetOK) SetItems(val []ServicePrincipal) {
-	s.Items = val
-}
-
-// SetCount sets the value of Count.
-func (s *ServicePrincipalsGetOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetNext sets the value of Next.
-func (s *ServicePrincipalsGetOK) SetNext(val NilURI) {
-	s.Next = val
-}
-
-// SetPrevious sets the value of Previous.
-func (s *ServicePrincipalsGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
-}
-
-func (*ServicePrincipalsGetOK) servicePrincipalsGetRes() {}
-
-type ServicePrincipalsGetOrdering string
-
-const (
-	ServicePrincipalsGetOrderingName      ServicePrincipalsGetOrdering = "name"
-	ServicePrincipalsGetOrderingMinusName ServicePrincipalsGetOrdering = "-name"
-)
-
-// AllValues returns all ServicePrincipalsGetOrdering values.
-func (ServicePrincipalsGetOrdering) AllValues() []ServicePrincipalsGetOrdering {
-	return []ServicePrincipalsGetOrdering{
-		ServicePrincipalsGetOrderingName,
-		ServicePrincipalsGetOrderingMinusName,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ServicePrincipalsGetOrdering) MarshalText() ([]byte, error) {
-	switch s {
-	case ServicePrincipalsGetOrderingName:
-		return []byte(s), nil
-	case ServicePrincipalsGetOrderingMinusName:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ServicePrincipalsGetOrdering) UnmarshalText(data []byte) error {
-	switch ServicePrincipalsGetOrdering(data) {
-	case ServicePrincipalsGetOrderingName:
-		*s = ServicePrincipalsGetOrderingName
-		return nil
-	case ServicePrincipalsGetOrderingMinusName:
-		*s = ServicePrincipalsGetOrderingMinusName
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type ServicePrincipalsPostReq struct {
-	// プロジェクトID.
-	ProjectID int `json:"project_id"`
-	// サービスプリンシパル名.
+type UpdateApiKeyReq struct {
+	// APIキー名.
 	Name string `json:"name"`
-	// サービスプリンシパルの説明.
+	// APIキーの説明.
 	Description string `json:"description"`
-}
-
-// GetProjectID returns the value of ProjectID.
-func (s *ServicePrincipalsPostReq) GetProjectID() int {
-	return s.ProjectID
+	// APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能.
+	ServerResourceID OptString `json:"server_resource_id"`
+	// IAMのロール。.
+	IamRoles []string `json:"iam_roles"`
+	// ゾーンを指定。APIキーがシングルサーバコントロールパネルで利用される場合のみ変更可能.
+	ZoneID OptString `json:"zone_id"`
 }
 
 // GetName returns the value of Name.
-func (s *ServicePrincipalsPostReq) GetName() string {
+func (s *UpdateApiKeyReq) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *ServicePrincipalsPostReq) GetDescription() string {
+func (s *UpdateApiKeyReq) GetDescription() string {
 	return s.Description
 }
 
-// SetProjectID sets the value of ProjectID.
-func (s *ServicePrincipalsPostReq) SetProjectID(val int) {
-	s.ProjectID = val
+// GetServerResourceID returns the value of ServerResourceID.
+func (s *UpdateApiKeyReq) GetServerResourceID() OptString {
+	return s.ServerResourceID
+}
+
+// GetIamRoles returns the value of IamRoles.
+func (s *UpdateApiKeyReq) GetIamRoles() []string {
+	return s.IamRoles
+}
+
+// GetZoneID returns the value of ZoneID.
+func (s *UpdateApiKeyReq) GetZoneID() OptString {
+	return s.ZoneID
 }
 
 // SetName sets the value of Name.
-func (s *ServicePrincipalsPostReq) SetName(val string) {
+func (s *UpdateApiKeyReq) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *ServicePrincipalsPostReq) SetDescription(val string) {
+func (s *UpdateApiKeyReq) SetDescription(val string) {
 	s.Description = val
 }
 
-// ServicePrincipalsServicePrincipalIDDeleteNoContent is response for ServicePrincipalsServicePrincipalIDDelete operation.
-type ServicePrincipalsServicePrincipalIDDeleteNoContent struct{}
-
-func (*ServicePrincipalsServicePrincipalIDDeleteNoContent) servicePrincipalsServicePrincipalIDDeleteRes() {
+// SetServerResourceID sets the value of ServerResourceID.
+func (s *UpdateApiKeyReq) SetServerResourceID(val OptString) {
+	s.ServerResourceID = val
 }
 
-// Merged schema.
-type ServicePrincipalsServicePrincipalIDKeysGetOK struct {
-	Items []ServicePrincipalKey `json:"items"`
-	// データ総数.
-	Count int `json:"count"`
-	// 次のページへのURL.
-	Next NilURI `json:"next"`
-	// 前のページへのURL.
-	Previous NilURI `json:"previous"`
+// SetIamRoles sets the value of IamRoles.
+func (s *UpdateApiKeyReq) SetIamRoles(val []string) {
+	s.IamRoles = val
 }
 
-// GetItems returns the value of Items.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) GetItems() []ServicePrincipalKey {
-	return s.Items
+// SetZoneID sets the value of ZoneID.
+func (s *UpdateApiKeyReq) SetZoneID(val OptString) {
+	s.ZoneID = val
 }
 
-// GetCount returns the value of Count.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) GetCount() int {
-	return s.Count
+type UpdateFolderIamPolicyOK struct {
+	Bindings []IamPolicy `json:"bindings"`
 }
 
-// GetNext returns the value of Next.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) GetNext() NilURI {
-	return s.Next
+// GetBindings returns the value of Bindings.
+func (s *UpdateFolderIamPolicyOK) GetBindings() []IamPolicy {
+	return s.Bindings
 }
 
-// GetPrevious returns the value of Previous.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) GetPrevious() NilURI {
-	return s.Previous
+// SetBindings sets the value of Bindings.
+func (s *UpdateFolderIamPolicyOK) SetBindings(val []IamPolicy) {
+	s.Bindings = val
 }
 
-// SetItems sets the value of Items.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) SetItems(val []ServicePrincipalKey) {
-	s.Items = val
+func (*UpdateFolderIamPolicyOK) updateFolderIamPolicyRes() {}
+
+type UpdateFolderIamPolicyReq struct {
+	Bindings []IamPolicy `json:"bindings"`
 }
 
-// SetCount sets the value of Count.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) SetCount(val int) {
-	s.Count = val
+// GetBindings returns the value of Bindings.
+func (s *UpdateFolderIamPolicyReq) GetBindings() []IamPolicy {
+	return s.Bindings
 }
 
-// SetNext sets the value of Next.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) SetNext(val NilURI) {
-	s.Next = val
+// SetBindings sets the value of Bindings.
+func (s *UpdateFolderIamPolicyReq) SetBindings(val []IamPolicy) {
+	s.Bindings = val
 }
 
-// SetPrevious sets the value of Previous.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) SetPrevious(val NilURI) {
-	s.Previous = val
+type UpdateFolderReq struct {
+	// フォルダ名.
+	Name string `json:"name"`
+	// フォルダの説明.
+	Description OptString `json:"description"`
 }
 
-func (*ServicePrincipalsServicePrincipalIDKeysGetOK) servicePrincipalsServicePrincipalIDKeysGetRes() {
+// GetName returns the value of Name.
+func (s *UpdateFolderReq) GetName() string {
+	return s.Name
 }
 
-type ServicePrincipalsServicePrincipalIDKeysGetOrdering string
-
-const (
-	ServicePrincipalsServicePrincipalIDKeysGetOrderingCreatedAt         ServicePrincipalsServicePrincipalIDKeysGetOrdering = "created_at"
-	ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusCreatedAt    ServicePrincipalsServicePrincipalIDKeysGetOrdering = "-created_at"
-	ServicePrincipalsServicePrincipalIDKeysGetOrderingKeyExpiresAt      ServicePrincipalsServicePrincipalIDKeysGetOrdering = "key_expires_at"
-	ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusKeyExpiresAt ServicePrincipalsServicePrincipalIDKeysGetOrdering = "-key_expires_at"
-)
-
-// AllValues returns all ServicePrincipalsServicePrincipalIDKeysGetOrdering values.
-func (ServicePrincipalsServicePrincipalIDKeysGetOrdering) AllValues() []ServicePrincipalsServicePrincipalIDKeysGetOrdering {
-	return []ServicePrincipalsServicePrincipalIDKeysGetOrdering{
-		ServicePrincipalsServicePrincipalIDKeysGetOrderingCreatedAt,
-		ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusCreatedAt,
-		ServicePrincipalsServicePrincipalIDKeysGetOrderingKeyExpiresAt,
-		ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusKeyExpiresAt,
-	}
+// GetDescription returns the value of Description.
+func (s *UpdateFolderReq) GetDescription() OptString {
+	return s.Description
 }
 
-// MarshalText implements encoding.TextMarshaler.
-func (s ServicePrincipalsServicePrincipalIDKeysGetOrdering) MarshalText() ([]byte, error) {
-	switch s {
-	case ServicePrincipalsServicePrincipalIDKeysGetOrderingCreatedAt:
-		return []byte(s), nil
-	case ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusCreatedAt:
-		return []byte(s), nil
-	case ServicePrincipalsServicePrincipalIDKeysGetOrderingKeyExpiresAt:
-		return []byte(s), nil
-	case ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusKeyExpiresAt:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
+// SetName sets the value of Name.
+func (s *UpdateFolderReq) SetName(val string) {
+	s.Name = val
 }
 
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOrdering) UnmarshalText(data []byte) error {
-	switch ServicePrincipalsServicePrincipalIDKeysGetOrdering(data) {
-	case ServicePrincipalsServicePrincipalIDKeysGetOrderingCreatedAt:
-		*s = ServicePrincipalsServicePrincipalIDKeysGetOrderingCreatedAt
-		return nil
-	case ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusCreatedAt:
-		*s = ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusCreatedAt
-		return nil
-	case ServicePrincipalsServicePrincipalIDKeysGetOrderingKeyExpiresAt:
-		*s = ServicePrincipalsServicePrincipalIDKeysGetOrderingKeyExpiresAt
-		return nil
-	case ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusKeyExpiresAt:
-		*s = ServicePrincipalsServicePrincipalIDKeysGetOrderingMinusKeyExpiresAt
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
+// SetDescription sets the value of Description.
+func (s *UpdateFolderReq) SetDescription(val OptString) {
+	s.Description = val
 }
 
-// ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteNoContent is response for ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDelete operation.
-type ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteNoContent struct{}
-
-func (*ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteNoContent) servicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteRes() {
+type UpdateGroupReq struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
 }
 
-type ServicePrincipalsServicePrincipalIDPutReq struct {
+// GetName returns the value of Name.
+func (s *UpdateGroupReq) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *UpdateGroupReq) GetDescription() string {
+	return s.Description
+}
+
+// SetName sets the value of Name.
+func (s *UpdateGroupReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *UpdateGroupReq) SetDescription(val string) {
+	s.Description = val
+}
+
+type UpdateMembershipsReq struct {
+	CompatUsers []UpdateMembershipsReqCompatUsersItem `json:"compat_users"`
+}
+
+// GetCompatUsers returns the value of CompatUsers.
+func (s *UpdateMembershipsReq) GetCompatUsers() []UpdateMembershipsReqCompatUsersItem {
+	return s.CompatUsers
+}
+
+// SetCompatUsers sets the value of CompatUsers.
+func (s *UpdateMembershipsReq) SetCompatUsers(val []UpdateMembershipsReqCompatUsersItem) {
+	s.CompatUsers = val
+}
+
+type UpdateMembershipsReqCompatUsersItem struct {
+	// ユーザID.
+	ID int `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *UpdateMembershipsReqCompatUsersItem) GetID() int {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *UpdateMembershipsReqCompatUsersItem) SetID(val int) {
+	s.ID = val
+}
+
+type UpdateOrganizationIamPolicyOK struct {
+	Bindings []IamPolicy `json:"bindings"`
+}
+
+// GetBindings returns the value of Bindings.
+func (s *UpdateOrganizationIamPolicyOK) GetBindings() []IamPolicy {
+	return s.Bindings
+}
+
+// SetBindings sets the value of Bindings.
+func (s *UpdateOrganizationIamPolicyOK) SetBindings(val []IamPolicy) {
+	s.Bindings = val
+}
+
+func (*UpdateOrganizationIamPolicyOK) updateOrganizationIamPolicyRes() {}
+
+type UpdateOrganizationIamPolicyReq struct {
+	Bindings []IamPolicy `json:"bindings"`
+}
+
+// GetBindings returns the value of Bindings.
+func (s *UpdateOrganizationIamPolicyReq) GetBindings() []IamPolicy {
+	return s.Bindings
+}
+
+// SetBindings sets the value of Bindings.
+func (s *UpdateOrganizationIamPolicyReq) SetBindings(val []IamPolicy) {
+	s.Bindings = val
+}
+
+type UpdateOrganizationIdPolicyOK struct {
+	Bindings []IdPolicy `json:"bindings"`
+}
+
+// GetBindings returns the value of Bindings.
+func (s *UpdateOrganizationIdPolicyOK) GetBindings() []IdPolicy {
+	return s.Bindings
+}
+
+// SetBindings sets the value of Bindings.
+func (s *UpdateOrganizationIdPolicyOK) SetBindings(val []IdPolicy) {
+	s.Bindings = val
+}
+
+func (*UpdateOrganizationIdPolicyOK) updateOrganizationIdPolicyRes() {}
+
+type UpdateOrganizationIdPolicyReq struct {
+	Bindings []IdPolicy `json:"bindings"`
+}
+
+// GetBindings returns the value of Bindings.
+func (s *UpdateOrganizationIdPolicyReq) GetBindings() []IdPolicy {
+	return s.Bindings
+}
+
+// SetBindings sets the value of Bindings.
+func (s *UpdateOrganizationIdPolicyReq) SetBindings(val []IdPolicy) {
+	s.Bindings = val
+}
+
+type UpdateOrganizationReq struct {
+	// 組織名.
+	Name string `json:"name"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateOrganizationReq) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *UpdateOrganizationReq) SetName(val string) {
+	s.Name = val
+}
+
+type UpdateOrganizationServicePolicyOK struct {
+	Rules []RuleResponse `json:"rules"`
+}
+
+// GetRules returns the value of Rules.
+func (s *UpdateOrganizationServicePolicyOK) GetRules() []RuleResponse {
+	return s.Rules
+}
+
+// SetRules sets the value of Rules.
+func (s *UpdateOrganizationServicePolicyOK) SetRules(val []RuleResponse) {
+	s.Rules = val
+}
+
+func (*UpdateOrganizationServicePolicyOK) updateOrganizationServicePolicyRes() {}
+
+type UpdateOrganizationServicePolicyReq struct {
+	Rules []Rule `json:"rules"`
+}
+
+// GetRules returns the value of Rules.
+func (s *UpdateOrganizationServicePolicyReq) GetRules() []Rule {
+	return s.Rules
+}
+
+// SetRules sets the value of Rules.
+func (s *UpdateOrganizationServicePolicyReq) SetRules(val []Rule) {
+	s.Rules = val
+}
+
+type UpdateProjectIamPolicyOK struct {
+	Bindings []IamPolicy `json:"bindings"`
+}
+
+// GetBindings returns the value of Bindings.
+func (s *UpdateProjectIamPolicyOK) GetBindings() []IamPolicy {
+	return s.Bindings
+}
+
+// SetBindings sets the value of Bindings.
+func (s *UpdateProjectIamPolicyOK) SetBindings(val []IamPolicy) {
+	s.Bindings = val
+}
+
+func (*UpdateProjectIamPolicyOK) updateProjectIamPolicyRes() {}
+
+type UpdateProjectIamPolicyReq struct {
+	Bindings []IamPolicy `json:"bindings"`
+}
+
+// GetBindings returns the value of Bindings.
+func (s *UpdateProjectIamPolicyReq) GetBindings() []IamPolicy {
+	return s.Bindings
+}
+
+// SetBindings sets the value of Bindings.
+func (s *UpdateProjectIamPolicyReq) SetBindings(val []IamPolicy) {
+	s.Bindings = val
+}
+
+type UpdateProjectReq struct {
+	// プロジェクトの名前.
+	Name string `json:"name"`
+	// プロジェクトの説明.
+	Description string `json:"description"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateProjectReq) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *UpdateProjectReq) GetDescription() string {
+	return s.Description
+}
+
+// SetName sets the value of Name.
+func (s *UpdateProjectReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *UpdateProjectReq) SetDescription(val string) {
+	s.Description = val
+}
+
+type UpdateScimConfigurationReq struct {
+	// ユーザープロビジョニング名.
+	Name string `json:"name"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateScimConfigurationReq) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *UpdateScimConfigurationReq) SetName(val string) {
+	s.Name = val
+}
+
+type UpdateServicePrincipalReq struct {
 	// サービスプリンシパル名.
 	Name string `json:"name"`
 	// サービスプリンシパルの説明.
@@ -6789,40 +6611,149 @@ type ServicePrincipalsServicePrincipalIDPutReq struct {
 }
 
 // GetName returns the value of Name.
-func (s *ServicePrincipalsServicePrincipalIDPutReq) GetName() string {
+func (s *UpdateServicePrincipalReq) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *ServicePrincipalsServicePrincipalIDPutReq) GetDescription() OptString {
+func (s *UpdateServicePrincipalReq) GetDescription() OptString {
 	return s.Description
 }
 
 // SetName sets the value of Name.
-func (s *ServicePrincipalsServicePrincipalIDPutReq) SetName(val string) {
+func (s *UpdateServicePrincipalReq) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *ServicePrincipalsServicePrincipalIDPutReq) SetDescription(val OptString) {
+func (s *UpdateServicePrincipalReq) SetDescription(val OptString) {
 	s.Description = val
 }
 
-type ServicePrincipalsServicePrincipalIDUploadKeyPostReq struct {
+type UpdateSsoProfileReq struct {
+	// SSOプロファイル名.
+	Name string `json:"name"`
+	// SSOプロファイルの説明.
+	Description string `json:"description"`
+	// IdPのエンティティID.
+	IdpEntityID string `json:"idp_entity_id"`
+	// IdPのログインURL.
+	IdpLoginURL string `json:"idp_login_url"`
+	// IdPのログアウトURL.
+	IdpLogoutURL string `json:"idp_logout_url"`
+	// IdPのX.509証明書.
+	IdpCertificate string `json:"idp_certificate"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateSsoProfileReq) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *UpdateSsoProfileReq) GetDescription() string {
+	return s.Description
+}
+
+// GetIdpEntityID returns the value of IdpEntityID.
+func (s *UpdateSsoProfileReq) GetIdpEntityID() string {
+	return s.IdpEntityID
+}
+
+// GetIdpLoginURL returns the value of IdpLoginURL.
+func (s *UpdateSsoProfileReq) GetIdpLoginURL() string {
+	return s.IdpLoginURL
+}
+
+// GetIdpLogoutURL returns the value of IdpLogoutURL.
+func (s *UpdateSsoProfileReq) GetIdpLogoutURL() string {
+	return s.IdpLogoutURL
+}
+
+// GetIdpCertificate returns the value of IdpCertificate.
+func (s *UpdateSsoProfileReq) GetIdpCertificate() string {
+	return s.IdpCertificate
+}
+
+// SetName sets the value of Name.
+func (s *UpdateSsoProfileReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *UpdateSsoProfileReq) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetIdpEntityID sets the value of IdpEntityID.
+func (s *UpdateSsoProfileReq) SetIdpEntityID(val string) {
+	s.IdpEntityID = val
+}
+
+// SetIdpLoginURL sets the value of IdpLoginURL.
+func (s *UpdateSsoProfileReq) SetIdpLoginURL(val string) {
+	s.IdpLoginURL = val
+}
+
+// SetIdpLogoutURL sets the value of IdpLogoutURL.
+func (s *UpdateSsoProfileReq) SetIdpLogoutURL(val string) {
+	s.IdpLogoutURL = val
+}
+
+// SetIdpCertificate sets the value of IdpCertificate.
+func (s *UpdateSsoProfileReq) SetIdpCertificate(val string) {
+	s.IdpCertificate = val
+}
+
+type UpdateUserReq struct {
+	Name        string    `json:"name"`
+	Password    OptString `json:"password"`
+	Description string    `json:"description"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateUserReq) GetName() string {
+	return s.Name
+}
+
+// GetPassword returns the value of Password.
+func (s *UpdateUserReq) GetPassword() OptString {
+	return s.Password
+}
+
+// GetDescription returns the value of Description.
+func (s *UpdateUserReq) GetDescription() string {
+	return s.Description
+}
+
+// SetName sets the value of Name.
+func (s *UpdateUserReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetPassword sets the value of Password.
+func (s *UpdateUserReq) SetPassword(val OptString) {
+	s.Password = val
+}
+
+// SetDescription sets the value of Description.
+func (s *UpdateUserReq) SetDescription(val string) {
+	s.Description = val
+}
+
+type UploadServicePrincipalKeyReq struct {
 	PublicKey ServiceprincipalKeyPublicKey `json:"public_key"`
 }
 
 // GetPublicKey returns the value of PublicKey.
-func (s *ServicePrincipalsServicePrincipalIDUploadKeyPostReq) GetPublicKey() ServiceprincipalKeyPublicKey {
+func (s *UploadServicePrincipalKeyReq) GetPublicKey() ServiceprincipalKeyPublicKey {
 	return s.PublicKey
 }
 
 // SetPublicKey sets the value of PublicKey.
-func (s *ServicePrincipalsServicePrincipalIDUploadKeyPostReq) SetPublicKey(val ServiceprincipalKeyPublicKey) {
+func (s *UploadServicePrincipalKeyReq) SetPublicKey(val ServiceprincipalKeyPublicKey) {
 	s.PublicKey = val
 }
-
-type ServiceprincipalKeyPublicKey string
 
 // Ref: #/components/schemas/User
 type User struct {
@@ -6970,9 +6901,9 @@ func (s *User) SetUpdatedAt(val string) {
 	s.UpdatedAt = val
 }
 
-func (*User) compatUsersPostRes()      {}
-func (*User) compatUsersUserIDGetRes() {}
-func (*User) compatUsersUserIDPutRes() {}
+func (*User) createUserRes() {}
+func (*User) readUserRes()   {}
+func (*User) updateUserRes() {}
 
 type UserMember struct {
 	// 会員のID.
@@ -7161,8 +7092,7 @@ func (s *UserSecurityKey) SetLastUsedAt(val NilDateTime) {
 	s.LastUsedAt = val
 }
 
-func (*UserSecurityKey) compatUsersUserIDSecurityKeysSecurityKeyIDGetRes() {}
-func (*UserSecurityKey) compatUsersUserIDSecurityKeysSecurityKeyIDPutRes() {}
+func (*UserSecurityKey) readSecurityKeyRes() {}
 
 // ユーザのステータス.
 type UserStatus string

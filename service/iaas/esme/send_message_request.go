@@ -33,7 +33,7 @@ func (req *SendMessageRequest) Validate() error {
 	return validate.New().Struct(req)
 }
 
-func (req *SendMessageRequest) ToRequestParameter() interface{} {
+func (req *SendMessageRequest) ToRequestParameter() any {
 	if req.OTP == "" {
 		return &iaas.ESMESendMessageWithGeneratedOTPRequest{
 			Destination: req.Destination,

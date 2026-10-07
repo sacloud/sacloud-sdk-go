@@ -58,7 +58,7 @@ func TestDatabaseBuilder_Build(t *testing.T) {
 			return nil
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &Builder{
 					Zone:           testZone,
 					PlanID:         types.DatabasePlans.DB10GB,
@@ -83,7 +83,7 @@ func TestDatabaseBuilder_Build(t *testing.T) {
 						DayOfWeek: []types.EDayOfTheWeek{types.DaysOfTheWeek.Monday},
 					},
 					ReplicationSetting: &iaas.DatabaseReplicationSetting{},
-					Parameters: map[string]interface{}{
+					Parameters: map[string]any{
 						"max_connections": 50,
 					},
 					Name:         testutil.ResourceName("database-builder"),
@@ -96,11 +96,11 @@ func TestDatabaseBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				dbOp := iaas.NewDatabaseOp(caller)
 				return dbOp.Read(ctx, testZone, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				db := value.(*iaas.Database)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, db, "Database"),

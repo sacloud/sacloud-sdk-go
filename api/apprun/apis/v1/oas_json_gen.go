@@ -52,6 +52,2430 @@ func (s *ContainerRegistryAction) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes CreateApplicationBadRequest as json.
+func (s CreateApplicationBadRequest) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationBadRequest:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateApplicationBadRequest:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateApplicationBadRequest) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationBadRequest:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateApplicationBadRequest:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateApplicationBadRequest from json.
+func (s *CreateApplicationBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBadRequest to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateApplicationBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationBadRequest:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateApplicationBadRequest:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateApplicationBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBadRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateApplicationBody) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateApplicationBody) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("name")
+		e.Str(s.Name)
+	}
+	{
+		e.FieldStart("timeout_seconds")
+		e.Int(s.TimeoutSeconds)
+	}
+	{
+		e.FieldStart("port")
+		e.Int(s.Port)
+	}
+	{
+		e.FieldStart("min_scale")
+		e.Int(s.MinScale)
+	}
+	{
+		e.FieldStart("max_scale")
+		e.Int(s.MaxScale)
+	}
+	{
+		if s.ScaleTargetConcurrency.Set {
+			e.FieldStart("scale_target_concurrency")
+			s.ScaleTargetConcurrency.Encode(e)
+		}
+	}
+	{
+		e.FieldStart("components")
+		e.ArrStart()
+		for _, elem := range s.Components {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+}
+
+var jsonFieldsNameOfCreateApplicationBody = [7]string{
+	0: "name",
+	1: "timeout_seconds",
+	2: "port",
+	3: "min_scale",
+	4: "max_scale",
+	5: "scale_target_concurrency",
+	6: "components",
+}
+
+// Decode decodes CreateApplicationBody from json.
+func (s *CreateApplicationBody) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBody to nil")
+	}
+	var requiredBitSet [1]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "name":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "timeout_seconds":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Int()
+				s.TimeoutSeconds = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"timeout_seconds\"")
+			}
+		case "port":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				v, err := d.Int()
+				s.Port = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"port\"")
+			}
+		case "min_scale":
+			requiredBitSet[0] |= 1 << 3
+			if err := func() error {
+				v, err := d.Int()
+				s.MinScale = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"min_scale\"")
+			}
+		case "max_scale":
+			requiredBitSet[0] |= 1 << 4
+			if err := func() error {
+				v, err := d.Int()
+				s.MaxScale = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"max_scale\"")
+			}
+		case "scale_target_concurrency":
+			if err := func() error {
+				s.ScaleTargetConcurrency.Reset()
+				if err := s.ScaleTargetConcurrency.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"scale_target_concurrency\"")
+			}
+		case "components":
+			requiredBitSet[0] |= 1 << 6
+			if err := func() error {
+				s.Components = make([]CreateApplicationBodyComponentsItem, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem CreateApplicationBodyComponentsItem
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Components = append(s.Components, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"components\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateApplicationBody")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b01011111,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateApplicationBody) {
+					name = jsonFieldsNameOfCreateApplicationBody[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateApplicationBody) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBody) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateApplicationBodyComponentsItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateApplicationBodyComponentsItem) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("name")
+		e.Str(s.Name)
+	}
+	{
+		e.FieldStart("max_cpu")
+		s.MaxCPU.Encode(e)
+	}
+	{
+		e.FieldStart("max_memory")
+		s.MaxMemory.Encode(e)
+	}
+	{
+		e.FieldStart("deploy_source")
+		s.DeploySource.Encode(e)
+	}
+	{
+		if s.Env.Set {
+			e.FieldStart("env")
+			s.Env.Encode(e)
+		}
+	}
+	{
+		if s.Secret.Set {
+			e.FieldStart("secret")
+			s.Secret.Encode(e)
+		}
+	}
+	{
+		if s.Probe.Set {
+			e.FieldStart("probe")
+			s.Probe.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateApplicationBodyComponentsItem = [7]string{
+	0: "name",
+	1: "max_cpu",
+	2: "max_memory",
+	3: "deploy_source",
+	4: "env",
+	5: "secret",
+	6: "probe",
+}
+
+// Decode decodes CreateApplicationBodyComponentsItem from json.
+func (s *CreateApplicationBodyComponentsItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItem to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "name":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "max_cpu":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				if err := s.MaxCPU.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"max_cpu\"")
+			}
+		case "max_memory":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				if err := s.MaxMemory.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"max_memory\"")
+			}
+		case "deploy_source":
+			requiredBitSet[0] |= 1 << 3
+			if err := func() error {
+				if err := s.DeploySource.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"deploy_source\"")
+			}
+		case "env":
+			if err := func() error {
+				s.Env.Reset()
+				if err := s.Env.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"env\"")
+			}
+		case "secret":
+			if err := func() error {
+				s.Secret.Reset()
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"secret\"")
+			}
+		case "probe":
+			if err := func() error {
+				s.Probe.Reset()
+				if err := s.Probe.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"probe\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateApplicationBodyComponentsItem")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00001111,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateApplicationBodyComponentsItem) {
+					name = jsonFieldsNameOfCreateApplicationBodyComponentsItem[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateApplicationBodyComponentsItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateApplicationBodyComponentsItemDeploySource) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateApplicationBodyComponentsItemDeploySource) encodeFields(e *jx.Encoder) {
+	{
+		if s.ContainerRegistry.Set {
+			e.FieldStart("container_registry")
+			s.ContainerRegistry.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateApplicationBodyComponentsItemDeploySource = [1]string{
+	0: "container_registry",
+}
+
+// Decode decodes CreateApplicationBodyComponentsItemDeploySource from json.
+func (s *CreateApplicationBodyComponentsItemDeploySource) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItemDeploySource to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "container_registry":
+			if err := func() error {
+				s.ContainerRegistry.Reset()
+				if err := s.ContainerRegistry.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"container_registry\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateApplicationBodyComponentsItemDeploySource")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateApplicationBodyComponentsItemDeploySource) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItemDeploySource) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("image")
+		e.Str(s.Image)
+	}
+	{
+		if s.Server.Set {
+			e.FieldStart("server")
+			s.Server.Encode(e)
+		}
+	}
+	{
+		if s.Username.Set {
+			e.FieldStart("username")
+			s.Username.Encode(e)
+		}
+	}
+	{
+		if s.Password.Set {
+			e.FieldStart("password")
+			s.Password.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateApplicationBodyComponentsItemDeploySourceContainerRegistry = [4]string{
+	0: "image",
+	1: "server",
+	2: "username",
+	3: "password",
+}
+
+// Decode decodes CreateApplicationBodyComponentsItemDeploySourceContainerRegistry from json.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItemDeploySourceContainerRegistry to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "image":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Image = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"image\"")
+			}
+		case "server":
+			if err := func() error {
+				s.Server.Reset()
+				if err := s.Server.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"server\"")
+			}
+		case "username":
+			if err := func() error {
+				s.Username.Reset()
+				if err := s.Username.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"username\"")
+			}
+		case "password":
+			if err := func() error {
+				s.Password.Reset()
+				if err := s.Password.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"password\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateApplicationBodyComponentsItemDeploySourceContainerRegistry")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) {
+					name = jsonFieldsNameOfCreateApplicationBodyComponentsItemDeploySourceContainerRegistry[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateApplicationBodyComponentsItemMaxCPU as json.
+func (s CreateApplicationBodyComponentsItemMaxCPU) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CreateApplicationBodyComponentsItemMaxCPU from json.
+func (s *CreateApplicationBodyComponentsItemMaxCPU) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItemMaxCPU to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CreateApplicationBodyComponentsItemMaxCPU(v) {
+	case CreateApplicationBodyComponentsItemMaxCPU05:
+		*s = CreateApplicationBodyComponentsItemMaxCPU05
+	case CreateApplicationBodyComponentsItemMaxCPU1:
+		*s = CreateApplicationBodyComponentsItemMaxCPU1
+	case CreateApplicationBodyComponentsItemMaxCPU2:
+		*s = CreateApplicationBodyComponentsItemMaxCPU2
+	default:
+		*s = CreateApplicationBodyComponentsItemMaxCPU(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateApplicationBodyComponentsItemMaxCPU) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItemMaxCPU) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateApplicationBodyComponentsItemMaxMemory as json.
+func (s CreateApplicationBodyComponentsItemMaxMemory) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes CreateApplicationBodyComponentsItemMaxMemory from json.
+func (s *CreateApplicationBodyComponentsItemMaxMemory) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItemMaxMemory to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch CreateApplicationBodyComponentsItemMaxMemory(v) {
+	case CreateApplicationBodyComponentsItemMaxMemory1Gi:
+		*s = CreateApplicationBodyComponentsItemMaxMemory1Gi
+	case CreateApplicationBodyComponentsItemMaxMemory2Gi:
+		*s = CreateApplicationBodyComponentsItemMaxMemory2Gi
+	case CreateApplicationBodyComponentsItemMaxMemory4Gi:
+		*s = CreateApplicationBodyComponentsItemMaxMemory4Gi
+	default:
+		*s = CreateApplicationBodyComponentsItemMaxMemory(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateApplicationBodyComponentsItemMaxMemory) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItemMaxMemory) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateApplicationBodyComponentsItemProbe) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateApplicationBodyComponentsItemProbe) encodeFields(e *jx.Encoder) {
+	{
+		if s.HTTPGet.Set {
+			e.FieldStart("http_get")
+			s.HTTPGet.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateApplicationBodyComponentsItemProbe = [1]string{
+	0: "http_get",
+}
+
+// Decode decodes CreateApplicationBodyComponentsItemProbe from json.
+func (s *CreateApplicationBodyComponentsItemProbe) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItemProbe to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "http_get":
+			if err := func() error {
+				s.HTTPGet.Reset()
+				if err := s.HTTPGet.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"http_get\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateApplicationBodyComponentsItemProbe")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateApplicationBodyComponentsItemProbe) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItemProbe) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("path")
+		e.Str(s.Path)
+	}
+	{
+		e.FieldStart("port")
+		e.Int(s.Port)
+	}
+	{
+		if s.Headers != nil {
+			e.FieldStart("headers")
+			e.ArrStart()
+			for _, elem := range s.Headers {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateApplicationBodyComponentsItemProbeHTTPGet = [3]string{
+	0: "path",
+	1: "port",
+	2: "headers",
+}
+
+// Decode decodes CreateApplicationBodyComponentsItemProbeHTTPGet from json.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItemProbeHTTPGet to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "path":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Path = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"path\"")
+			}
+		case "port":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Int()
+				s.Port = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"port\"")
+			}
+		case "headers":
+			if err := func() error {
+				s.Headers = make([]CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Headers = append(s.Headers, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"headers\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateApplicationBodyComponentsItemProbeHTTPGet")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateApplicationBodyComponentsItemProbeHTTPGet) {
+					name = jsonFieldsNameOfCreateApplicationBodyComponentsItemProbeHTTPGet[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) encodeFields(e *jx.Encoder) {
+	{
+		if s.Name.Set {
+			e.FieldStart("name")
+			s.Name.Encode(e)
+		}
+	}
+	{
+		if s.Value.Set {
+			e.FieldStart("value")
+			s.Value.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem = [2]string{
+	0: "name",
+	1: "value",
+}
+
+// Decode decodes CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem from json.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "name":
+			if err := func() error {
+				s.Name.Reset()
+				if err := s.Name.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "value":
+			if err := func() error {
+				s.Value.Reset()
+				if err := s.Value.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"value\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CreateApplicationBodyComponentsItemSecretItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CreateApplicationBodyComponentsItemSecretItem) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("key")
+		e.Str(s.Key)
+	}
+	{
+		e.FieldStart("value")
+		e.Str(s.Value)
+	}
+}
+
+var jsonFieldsNameOfCreateApplicationBodyComponentsItemSecretItem = [2]string{
+	0: "key",
+	1: "value",
+}
+
+// Decode decodes CreateApplicationBodyComponentsItemSecretItem from json.
+func (s *CreateApplicationBodyComponentsItemSecretItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationBodyComponentsItemSecretItem to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "key":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Key = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"key\"")
+			}
+		case "value":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Value = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"value\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CreateApplicationBodyComponentsItemSecretItem")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCreateApplicationBodyComponentsItemSecretItem) {
+					name = jsonFieldsNameOfCreateApplicationBodyComponentsItemSecretItem[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CreateApplicationBodyComponentsItemSecretItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationBodyComponentsItemSecretItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateApplicationConflict as json.
+func (s CreateApplicationConflict) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationConflict:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateApplicationConflict:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateApplicationConflict) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationConflict:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateApplicationConflict:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateApplicationConflict from json.
+func (s *CreateApplicationConflict) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationConflict to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateApplicationConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationConflict:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateApplicationConflict:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateApplicationConflict) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationConflict) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateApplicationForbidden as json.
+func (s CreateApplicationForbidden) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationForbidden:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateApplicationForbidden:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateApplicationForbidden) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationForbidden:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateApplicationForbidden:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateApplicationForbidden from json.
+func (s *CreateApplicationForbidden) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationForbidden to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateApplicationForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationForbidden:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateApplicationForbidden:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateApplicationForbidden) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateApplicationInternalServerError as json.
+func (s CreateApplicationInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateApplicationInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateApplicationInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateApplicationInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateApplicationInternalServerError from json.
+func (s *CreateApplicationInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateApplicationInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateApplicationInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateApplicationUnauthorized as json.
+func (s CreateApplicationUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateApplicationUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateApplicationUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateApplicationUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateApplicationUnauthorized from json.
+func (s *CreateApplicationUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateApplicationUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateApplicationUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateApplicationUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateApplicationUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateUserConflict as json.
+func (s CreateUserConflict) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserConflict:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateUserConflict:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateUserConflict) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserConflict:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateUserConflict:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateUserConflict from json.
+func (s *CreateUserConflict) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateUserConflict to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateUserConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserConflict
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateUserConflict:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateUserConflict:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateUserConflict) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateUserConflict) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateUserForbidden as json.
+func (s CreateUserForbidden) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserForbidden:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateUserForbidden:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateUserForbidden) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserForbidden:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateUserForbidden:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateUserForbidden from json.
+func (s *CreateUserForbidden) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateUserForbidden to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateUserForbidden:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateUserForbidden:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateUserForbidden) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateUserForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateUserInternalServerError as json.
+func (s CreateUserInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateUserInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateUserInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateUserInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateUserInternalServerError from json.
+func (s *CreateUserInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateUserInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateUserInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateUserInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateUserInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateUserInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CreateUserUnauthorized as json.
+func (s CreateUserUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorCreateUserUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s CreateUserUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorCreateUserUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes CreateUserUnauthorized from json.
+func (s *CreateUserUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CreateUserUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorCreateUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorCreateUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorCreateUserUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorCreateUserUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s CreateUserUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CreateUserUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes DeleteApplicationBadRequest as json.
 func (s DeleteApplicationBadRequest) Encode(e *jx.Encoder) {
 	switch s.Type {
@@ -1532,4307 +3956,15 @@ func (s *DeleteApplicationVersionUnauthorized) UnmarshalJSON(data []byte) error 
 	return s.Decode(d)
 }
 
-// Encode encodes GetApplicationBadRequest as json.
-func (s GetApplicationBadRequest) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationBadRequest:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationBadRequest:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationBadRequest) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationBadRequest:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationBadRequest:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationBadRequest from json.
-func (s *GetApplicationBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationBadRequest to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationBadRequest:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationBadRequest:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationForbidden as json.
-func (s GetApplicationForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationForbidden from json.
-func (s *GetApplicationForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationInternalServerError as json.
-func (s GetApplicationInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationInternalServerError from json.
-func (s *GetApplicationInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationNotFound as json.
-func (s GetApplicationNotFound) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationNotFound:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationNotFound:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationNotFound) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationNotFound:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationNotFound:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationNotFound from json.
-func (s *GetApplicationNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationNotFound to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationNotFound:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationNotFound:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationStatusBadRequest as json.
-func (s GetApplicationStatusBadRequest) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusBadRequest:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationStatusBadRequest:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationStatusBadRequest) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusBadRequest:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationStatusBadRequest:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationStatusBadRequest from json.
-func (s *GetApplicationStatusBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationStatusBadRequest to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusBadRequest:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationStatusBadRequest:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationStatusBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationStatusBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationStatusForbidden as json.
-func (s GetApplicationStatusForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationStatusForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationStatusForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationStatusForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationStatusForbidden from json.
-func (s *GetApplicationStatusForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationStatusForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationStatusForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationStatusForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationStatusForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationStatusInternalServerError as json.
-func (s GetApplicationStatusInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationStatusInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationStatusInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationStatusInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationStatusInternalServerError from json.
-func (s *GetApplicationStatusInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationStatusInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationStatusInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationStatusInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationStatusInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationStatusNotFound as json.
-func (s GetApplicationStatusNotFound) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusNotFound:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationStatusNotFound:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationStatusNotFound) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusNotFound:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationStatusNotFound:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationStatusNotFound from json.
-func (s *GetApplicationStatusNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationStatusNotFound to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusNotFound:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationStatusNotFound:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationStatusNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationStatusNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationStatusUnauthorized as json.
-func (s GetApplicationStatusUnauthorized) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusUnauthorized:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationStatusUnauthorized:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationStatusUnauthorized) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusUnauthorized:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationStatusUnauthorized:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationStatusUnauthorized from json.
-func (s *GetApplicationStatusUnauthorized) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationStatusUnauthorized to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusUnauthorized:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationStatusUnauthorized:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationStatusUnauthorized) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationStatusUnauthorized) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationUnauthorized as json.
-func (s GetApplicationUnauthorized) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationUnauthorized:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationUnauthorized:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationUnauthorized) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationUnauthorized:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationUnauthorized:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationUnauthorized from json.
-func (s *GetApplicationUnauthorized) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationUnauthorized to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationUnauthorized:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationUnauthorized:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationUnauthorized) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationUnauthorized) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionBadRequest as json.
-func (s GetApplicationVersionBadRequest) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionBadRequest:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionBadRequest:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionBadRequest) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionBadRequest:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionBadRequest:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionBadRequest from json.
-func (s *GetApplicationVersionBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionBadRequest to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionBadRequest:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionBadRequest:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionForbidden as json.
-func (s GetApplicationVersionForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionForbidden from json.
-func (s *GetApplicationVersionForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionInternalServerError as json.
-func (s GetApplicationVersionInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionInternalServerError from json.
-func (s *GetApplicationVersionInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionNotFound as json.
-func (s GetApplicationVersionNotFound) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionNotFound:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionNotFound:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionNotFound) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionNotFound:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionNotFound:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionNotFound from json.
-func (s *GetApplicationVersionNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionNotFound to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionNotFound:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionNotFound:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionStatusBadRequest as json.
-func (s GetApplicationVersionStatusBadRequest) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusBadRequest:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusBadRequest:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionStatusBadRequest) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusBadRequest:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusBadRequest:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionStatusBadRequest from json.
-func (s *GetApplicationVersionStatusBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionStatusBadRequest to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusBadRequest:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionStatusBadRequest:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionStatusBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionStatusBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionStatusForbidden as json.
-func (s GetApplicationVersionStatusForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionStatusForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionStatusForbidden from json.
-func (s *GetApplicationVersionStatusForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionStatusForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionStatusForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionStatusForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionStatusForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionStatusInternalServerError as json.
-func (s GetApplicationVersionStatusInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionStatusInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionStatusInternalServerError from json.
-func (s *GetApplicationVersionStatusInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionStatusInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionStatusInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionStatusInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionStatusNotFound as json.
-func (s GetApplicationVersionStatusNotFound) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusNotFound:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusNotFound:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionStatusNotFound) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusNotFound:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusNotFound:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionStatusNotFound from json.
-func (s *GetApplicationVersionStatusNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionStatusNotFound to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusNotFound:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionStatusNotFound:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionStatusNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionStatusNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionStatusUnauthorized as json.
-func (s GetApplicationVersionStatusUnauthorized) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusUnauthorized:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionStatusUnauthorized) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusUnauthorized:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionStatusUnauthorized from json.
-func (s *GetApplicationVersionStatusUnauthorized) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionStatusUnauthorized to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusUnauthorized:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionStatusUnauthorized) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionStatusUnauthorized) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetApplicationVersionUnauthorized as json.
-func (s GetApplicationVersionUnauthorized) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionUnauthorized:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetApplicationVersionUnauthorized:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetApplicationVersionUnauthorized) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionUnauthorized:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetApplicationVersionUnauthorized:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetApplicationVersionUnauthorized from json.
-func (s *GetApplicationVersionUnauthorized) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetApplicationVersionUnauthorized to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetApplicationVersionUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetApplicationVersionUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionUnauthorized:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetApplicationVersionUnauthorized:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetApplicationVersionUnauthorized) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetApplicationVersionUnauthorized) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetPacketFilterBadRequest as json.
-func (s GetPacketFilterBadRequest) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterBadRequest:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetPacketFilterBadRequest:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetPacketFilterBadRequest) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterBadRequest:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetPacketFilterBadRequest:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetPacketFilterBadRequest from json.
-func (s *GetPacketFilterBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetPacketFilterBadRequest to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterBadRequest:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetPacketFilterBadRequest:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetPacketFilterBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetPacketFilterBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetPacketFilterForbidden as json.
-func (s GetPacketFilterForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetPacketFilterForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetPacketFilterForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetPacketFilterForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetPacketFilterForbidden from json.
-func (s *GetPacketFilterForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetPacketFilterForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetPacketFilterForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetPacketFilterForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetPacketFilterForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetPacketFilterInternalServerError as json.
-func (s GetPacketFilterInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetPacketFilterInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetPacketFilterInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetPacketFilterInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetPacketFilterInternalServerError from json.
-func (s *GetPacketFilterInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetPacketFilterInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetPacketFilterInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetPacketFilterInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetPacketFilterInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetPacketFilterNotFound as json.
-func (s GetPacketFilterNotFound) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterNotFound:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetPacketFilterNotFound:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetPacketFilterNotFound) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterNotFound:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetPacketFilterNotFound:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetPacketFilterNotFound from json.
-func (s *GetPacketFilterNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetPacketFilterNotFound to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterNotFound:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetPacketFilterNotFound:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetPacketFilterNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetPacketFilterNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetPacketFilterUnauthorized as json.
-func (s GetPacketFilterUnauthorized) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterUnauthorized:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetPacketFilterUnauthorized:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetPacketFilterUnauthorized) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterUnauthorized:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetPacketFilterUnauthorized:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetPacketFilterUnauthorized from json.
-func (s *GetPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetPacketFilterUnauthorized to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetPacketFilterUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetPacketFilterUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterUnauthorized:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetPacketFilterUnauthorized:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetPacketFilterUnauthorized) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetPacketFilterUnauthorized) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetUserForbidden as json.
-func (s GetUserForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetUserForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetUserForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetUserForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetUserForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetUserForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetUserForbidden from json.
-func (s *GetUserForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetUserForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetUserForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetUserForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetUserForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetUserForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetUserInternalServerError as json.
-func (s GetUserInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetUserInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetUserInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetUserInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetUserInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetUserInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetUserInternalServerError from json.
-func (s *GetUserInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetUserInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetUserInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetUserInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetUserInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetUserInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetUserNotFound as json.
-func (s GetUserNotFound) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetUserNotFound:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetUserNotFound:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetUserNotFound) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetUserNotFound:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetUserNotFound:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetUserNotFound from json.
-func (s *GetUserNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetUserNotFound to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetUserNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetUserNotFound:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetUserNotFound:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetUserNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetUserNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes GetUserUnauthorized as json.
-func (s GetUserUnauthorized) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetUserUnauthorized:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorGetUserUnauthorized:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s GetUserUnauthorized) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorGetUserUnauthorized:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorGetUserUnauthorized:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes GetUserUnauthorized from json.
-func (s *GetUserUnauthorized) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode GetUserUnauthorized to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorGetUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorGetUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorGetUserUnauthorized:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorGetUserUnauthorized:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s GetUserUnauthorized) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *GetUserUnauthorized) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode implements json.Marshaler.
-func (s *HandlerGetApplication) Encode(e *jx.Encoder) {
+func (s *HandlerCreateApplication) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetApplication) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateApplication) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("id")
 		e.Str(s.ID)
@@ -5889,7 +4021,7 @@ func (s *HandlerGetApplication) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerGetApplication = [12]string{
+var jsonFieldsNameOfHandlerCreateApplication = [12]string{
 	0:  "id",
 	1:  "name",
 	2:  "timeout_seconds",
@@ -5904,10 +4036,10 @@ var jsonFieldsNameOfHandlerGetApplication = [12]string{
 	11: "created_at",
 }
 
-// Decode decodes HandlerGetApplication from json.
-func (s *HandlerGetApplication) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplication from json.
+func (s *HandlerCreateApplication) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplication to nil")
+		return errors.New("invalid: unable to decode HandlerCreateApplication to nil")
 	}
 	var requiredBitSet [2]uint8
 	s.setDefaults()
@@ -5999,9 +4131,9 @@ func (s *HandlerGetApplication) Decode(d *jx.Decoder) error {
 		case "components":
 			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
-				s.Components = make([]HandlerGetApplicationComponentsItem, 0)
+				s.Components = make([]HandlerCreateApplicationComponentsItem, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerGetApplicationComponentsItem
+					var elem HandlerCreateApplicationComponentsItem
 					if err := elem.Decode(d); err != nil {
 						return err
 					}
@@ -6065,7 +4197,7 @@ func (s *HandlerGetApplication) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplication")
+		return errors.Wrap(err, "decode HandlerCreateApplication")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -6083,8 +4215,8 @@ func (s *HandlerGetApplication) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetApplication) {
-					name = jsonFieldsNameOfHandlerGetApplication[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerCreateApplication) {
+					name = jsonFieldsNameOfHandlerCreateApplication[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -6105,27 +4237,27 @@ func (s *HandlerGetApplication) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplication) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateApplication) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplication) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateApplication) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerGetApplicationComponentsItem) Encode(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetApplicationComponentsItem) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItem) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("name")
 		e.Str(s.Name)
@@ -6145,11 +4277,13 @@ func (s *HandlerGetApplicationComponentsItem) encodeFields(e *jx.Encoder) {
 	{
 		if s.Env != nil {
 			e.FieldStart("env")
-			e.ArrStart()
-			for _, elem := range s.Env {
-				elem.Encode(e)
-			}
-			e.ArrEnd()
+			s.Env.Encode(e)
+		}
+	}
+	{
+		if s.Secret != nil {
+			e.FieldStart("secret")
+			s.Secret.Encode(e)
 		}
 	}
 	{
@@ -6160,19 +4294,20 @@ func (s *HandlerGetApplicationComponentsItem) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerGetApplicationComponentsItem = [6]string{
+var jsonFieldsNameOfHandlerCreateApplicationComponentsItem = [7]string{
 	0: "name",
 	1: "max_cpu",
 	2: "max_memory",
 	3: "deploy_source",
 	4: "env",
-	5: "probe",
+	5: "secret",
+	6: "probe",
 }
 
-// Decode decodes HandlerGetApplicationComponentsItem from json.
-func (s *HandlerGetApplicationComponentsItem) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationComponentsItem from json.
+func (s *HandlerCreateApplicationComponentsItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationComponentsItem to nil")
+		return errors.New("invalid: unable to decode HandlerCreateApplicationComponentsItem to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -6226,20 +4361,21 @@ func (s *HandlerGetApplicationComponentsItem) Decode(d *jx.Decoder) error {
 			}
 		case "env":
 			if err := func() error {
-				s.Env = make([]HandlerGetApplicationComponentsItemEnvItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerGetApplicationComponentsItemEnvItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Env = append(s.Env, elem)
-					return nil
-				}); err != nil {
+				if err := s.Env.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"env\"")
+			}
+		case "secret":
+			if err := func() error {
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"secret\"")
 			}
 		case "probe":
 			if err := func() error {
@@ -6256,7 +4392,7 @@ func (s *HandlerGetApplicationComponentsItem) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationComponentsItem")
+		return errors.Wrap(err, "decode HandlerCreateApplicationComponentsItem")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -6273,8 +4409,8 @@ func (s *HandlerGetApplicationComponentsItem) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetApplicationComponentsItem) {
-					name = jsonFieldsNameOfHandlerGetApplicationComponentsItem[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerCreateApplicationComponentsItem) {
+					name = jsonFieldsNameOfHandlerCreateApplicationComponentsItem[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -6295,27 +4431,27 @@ func (s *HandlerGetApplicationComponentsItem) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationComponentsItem) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateApplicationComponentsItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationComponentsItem) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateApplicationComponentsItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerGetApplicationComponentsItemDeploySource) Encode(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemDeploySource) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetApplicationComponentsItemDeploySource) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemDeploySource) encodeFields(e *jx.Encoder) {
 	{
 		if s.ContainerRegistry.Set {
 			e.FieldStart("container_registry")
@@ -6324,14 +4460,14 @@ func (s *HandlerGetApplicationComponentsItemDeploySource) encodeFields(e *jx.Enc
 	}
 }
 
-var jsonFieldsNameOfHandlerGetApplicationComponentsItemDeploySource = [1]string{
+var jsonFieldsNameOfHandlerCreateApplicationComponentsItemDeploySource = [1]string{
 	0: "container_registry",
 }
 
-// Decode decodes HandlerGetApplicationComponentsItemDeploySource from json.
-func (s *HandlerGetApplicationComponentsItemDeploySource) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationComponentsItemDeploySource from json.
+func (s *HandlerCreateApplicationComponentsItemDeploySource) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationComponentsItemDeploySource to nil")
+		return errors.New("invalid: unable to decode HandlerCreateApplicationComponentsItemDeploySource to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -6351,34 +4487,34 @@ func (s *HandlerGetApplicationComponentsItemDeploySource) Decode(d *jx.Decoder) 
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationComponentsItemDeploySource")
+		return errors.Wrap(err, "decode HandlerCreateApplicationComponentsItemDeploySource")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationComponentsItemDeploySource) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateApplicationComponentsItemDeploySource) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationComponentsItemDeploySource) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateApplicationComponentsItemDeploySource) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("image")
 		e.Str(s.Image)
@@ -6397,16 +4533,16 @@ func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) encod
 	}
 }
 
-var jsonFieldsNameOfHandlerGetApplicationComponentsItemDeploySourceContainerRegistry = [3]string{
+var jsonFieldsNameOfHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry = [3]string{
 	0: "image",
 	1: "server",
 	2: "username",
 }
 
-// Decode decodes HandlerGetApplicationComponentsItemDeploySourceContainerRegistry from json.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry from json.
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationComponentsItemDeploySourceContainerRegistry to nil")
+		return errors.New("invalid: unable to decode HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -6449,7 +4585,7 @@ func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Decod
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationComponentsItemDeploySourceContainerRegistry")
+		return errors.Wrap(err, "decode HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -6466,8 +4602,8 @@ func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Decod
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) {
-					name = jsonFieldsNameOfHandlerGetApplicationComponentsItemDeploySourceContainerRegistry[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) {
+					name = jsonFieldsNameOfHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -6488,107 +4624,27 @@ func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Decod
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerGetApplicationComponentsItemEnvItem) Encode(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetApplicationComponentsItemEnvItem) encodeFields(e *jx.Encoder) {
-	{
-		if s.Key.Set {
-			e.FieldStart("key")
-			s.Key.Encode(e)
-		}
-	}
-	{
-		if s.Value.Set {
-			e.FieldStart("value")
-			s.Value.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerGetApplicationComponentsItemEnvItem = [2]string{
-	0: "key",
-	1: "value",
-}
-
-// Decode decodes HandlerGetApplicationComponentsItemEnvItem from json.
-func (s *HandlerGetApplicationComponentsItemEnvItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationComponentsItemEnvItem to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "key":
-			if err := func() error {
-				s.Key.Reset()
-				if err := s.Key.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"key\"")
-			}
-		case "value":
-			if err := func() error {
-				s.Value.Reset()
-				if err := s.Value.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"value\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationComponentsItemEnvItem")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationComponentsItemEnvItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationComponentsItemEnvItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetApplicationComponentsItemProbe) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemProbe) encodeFields(e *jx.Encoder) {
 	{
 		if s.HTTPGet.Set {
 			e.FieldStart("http_get")
@@ -6597,14 +4653,14 @@ func (s *HandlerGetApplicationComponentsItemProbe) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerGetApplicationComponentsItemProbe = [1]string{
+var jsonFieldsNameOfHandlerCreateApplicationComponentsItemProbe = [1]string{
 	0: "http_get",
 }
 
-// Decode decodes HandlerGetApplicationComponentsItemProbe from json.
-func (s *HandlerGetApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationComponentsItemProbe from json.
+func (s *HandlerCreateApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationComponentsItemProbe to nil")
+		return errors.New("invalid: unable to decode HandlerCreateApplicationComponentsItemProbe to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -6624,34 +4680,34 @@ func (s *HandlerGetApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationComponentsItemProbe")
+		return errors.Wrap(err, "decode HandlerCreateApplicationComponentsItemProbe")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationComponentsItemProbe) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateApplicationComponentsItemProbe) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationComponentsItemProbe) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateApplicationComponentsItemProbe) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("path")
 		e.Str(s.Path)
@@ -6672,16 +4728,16 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) encodeFields(e *jx.Enc
 	}
 }
 
-var jsonFieldsNameOfHandlerGetApplicationComponentsItemProbeHTTPGet = [3]string{
+var jsonFieldsNameOfHandlerCreateApplicationComponentsItemProbeHTTPGet = [3]string{
 	0: "path",
 	1: "port",
 	2: "headers",
 }
 
-// Decode decodes HandlerGetApplicationComponentsItemProbeHTTPGet from json.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationComponentsItemProbeHTTPGet from json.
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationComponentsItemProbeHTTPGet to nil")
+		return errors.New("invalid: unable to decode HandlerCreateApplicationComponentsItemProbeHTTPGet to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -6713,9 +4769,9 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) 
 			}
 		case "headers":
 			if err := func() error {
-				s.Headers = make([]HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem, 0)
+				s.Headers = make([]HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem
+					var elem HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem
 					if err := elem.Decode(d); err != nil {
 						return err
 					}
@@ -6733,7 +4789,7 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) 
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationComponentsItemProbeHTTPGet")
+		return errors.Wrap(err, "decode HandlerCreateApplicationComponentsItemProbeHTTPGet")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -6750,8 +4806,8 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) 
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetApplicationComponentsItemProbeHTTPGet) {
-					name = jsonFieldsNameOfHandlerGetApplicationComponentsItemProbeHTTPGet[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerCreateApplicationComponentsItemProbeHTTPGet) {
+					name = jsonFieldsNameOfHandlerCreateApplicationComponentsItemProbeHTTPGet[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -6772,27 +4828,27 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) 
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) Encode(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) encodeFields(e *jx.Encoder) {
 	{
 		if s.Name.Set {
 			e.FieldStart("name")
@@ -6807,15 +4863,15 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) encodeField
 	}
 }
 
-var jsonFieldsNameOfHandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem = [2]string{
+var jsonFieldsNameOfHandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem = [2]string{
 	0: "name",
 	1: "value",
 }
 
-// Decode decodes HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem from json.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem from json.
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem to nil")
+		return errors.New("invalid: unable to decode HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -6845,632 +4901,90 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) Decode(d *j
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem")
+		return errors.Wrap(err, "decode HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode implements json.Marshaler.
-func (s *HandlerGetApplicationOnlyStatus) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetApplicationOnlyStatus) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("status")
-		s.Status.Encode(e)
-	}
-	{
-		e.FieldStart("message")
-		e.Str(s.Message)
-	}
-}
-
-var jsonFieldsNameOfHandlerGetApplicationOnlyStatus = [2]string{
-	0: "status",
-	1: "message",
-}
-
-// Decode decodes HandlerGetApplicationOnlyStatus from json.
-func (s *HandlerGetApplicationOnlyStatus) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationOnlyStatus to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "status":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Status.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"status\"")
-			}
-		case "message":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.Message = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"message\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationOnlyStatus")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetApplicationOnlyStatus) {
-					name = jsonFieldsNameOfHandlerGetApplicationOnlyStatus[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationOnlyStatus) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationOnlyStatus) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes HandlerGetApplicationOnlyStatusStatus as json.
-func (s HandlerGetApplicationOnlyStatusStatus) Encode(e *jx.Encoder) {
+// Encode encodes HandlerCreateApplicationStatus as json.
+func (s HandlerCreateApplicationStatus) Encode(e *jx.Encoder) {
 	e.Str(string(s))
 }
 
-// Decode decodes HandlerGetApplicationOnlyStatusStatus from json.
-func (s *HandlerGetApplicationOnlyStatusStatus) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationStatus from json.
+func (s *HandlerCreateApplicationStatus) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationOnlyStatusStatus to nil")
+		return errors.New("invalid: unable to decode HandlerCreateApplicationStatus to nil")
 	}
 	v, err := d.StrBytes()
 	if err != nil {
 		return err
 	}
 	// Try to use constant string.
-	switch HandlerGetApplicationOnlyStatusStatus(v) {
-	case HandlerGetApplicationOnlyStatusStatusHealthy:
-		*s = HandlerGetApplicationOnlyStatusStatusHealthy
-	case HandlerGetApplicationOnlyStatusStatusUnHealthy:
-		*s = HandlerGetApplicationOnlyStatusStatusUnHealthy
-	case HandlerGetApplicationOnlyStatusStatusDeploying:
-		*s = HandlerGetApplicationOnlyStatusStatusDeploying
+	switch HandlerCreateApplicationStatus(v) {
+	case HandlerCreateApplicationStatusHealthy:
+		*s = HandlerCreateApplicationStatusHealthy
+	case HandlerCreateApplicationStatusUnHealthy:
+		*s = HandlerCreateApplicationStatusUnHealthy
+	case HandlerCreateApplicationStatusDeploying:
+		*s = HandlerCreateApplicationStatusDeploying
 	default:
-		*s = HandlerGetApplicationOnlyStatusStatus(v)
+		*s = HandlerCreateApplicationStatus(v)
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s HandlerGetApplicationOnlyStatusStatus) MarshalJSON() ([]byte, error) {
+func (s HandlerCreateApplicationStatus) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationOnlyStatusStatus) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes HandlerGetApplicationStatus as json.
-func (s HandlerGetApplicationStatus) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes HandlerGetApplicationStatus from json.
-func (s *HandlerGetApplicationStatus) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationStatus to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch HandlerGetApplicationStatus(v) {
-	case HandlerGetApplicationStatusHealthy:
-		*s = HandlerGetApplicationStatusHealthy
-	case HandlerGetApplicationStatusUnHealthy:
-		*s = HandlerGetApplicationStatusUnHealthy
-	case HandlerGetApplicationStatusDeploying:
-		*s = HandlerGetApplicationStatusDeploying
-	default:
-		*s = HandlerGetApplicationStatus(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s HandlerGetApplicationStatus) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationStatus) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateApplicationStatus) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerGetApplicationVersionOnlyStatus) Encode(e *jx.Encoder) {
+func (s *HandlerCreateUser) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetApplicationVersionOnlyStatus) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("status")
-		s.Status.Encode(e)
-	}
-	{
-		e.FieldStart("message")
-		e.Str(s.Message)
-	}
-}
-
-var jsonFieldsNameOfHandlerGetApplicationVersionOnlyStatus = [2]string{
-	0: "status",
-	1: "message",
-}
-
-// Decode decodes HandlerGetApplicationVersionOnlyStatus from json.
-func (s *HandlerGetApplicationVersionOnlyStatus) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationVersionOnlyStatus to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "status":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.Status.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"status\"")
-			}
-		case "message":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.Message = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"message\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetApplicationVersionOnlyStatus")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetApplicationVersionOnlyStatus) {
-					name = jsonFieldsNameOfHandlerGetApplicationVersionOnlyStatus[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetApplicationVersionOnlyStatus) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationVersionOnlyStatus) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes HandlerGetApplicationVersionOnlyStatusStatus as json.
-func (s HandlerGetApplicationVersionOnlyStatusStatus) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes HandlerGetApplicationVersionOnlyStatusStatus from json.
-func (s *HandlerGetApplicationVersionOnlyStatusStatus) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetApplicationVersionOnlyStatusStatus to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch HandlerGetApplicationVersionOnlyStatusStatus(v) {
-	case HandlerGetApplicationVersionOnlyStatusStatusHealthy:
-		*s = HandlerGetApplicationVersionOnlyStatusStatusHealthy
-	case HandlerGetApplicationVersionOnlyStatusStatusUnHealthy:
-		*s = HandlerGetApplicationVersionOnlyStatusStatusUnHealthy
-	case HandlerGetApplicationVersionOnlyStatusStatusDeploying:
-		*s = HandlerGetApplicationVersionOnlyStatusStatusDeploying
-	default:
-		*s = HandlerGetApplicationVersionOnlyStatusStatus(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s HandlerGetApplicationVersionOnlyStatusStatus) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetApplicationVersionOnlyStatusStatus) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetPacketFilter) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetPacketFilter) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("is_enabled")
-		e.Bool(s.IsEnabled)
-	}
-	{
-		e.FieldStart("settings")
-		e.ArrStart()
-		for _, elem := range s.Settings {
-			elem.Encode(e)
-		}
-		e.ArrEnd()
-	}
-}
-
-var jsonFieldsNameOfHandlerGetPacketFilter = [2]string{
-	0: "is_enabled",
-	1: "settings",
-}
-
-// Decode decodes HandlerGetPacketFilter from json.
-func (s *HandlerGetPacketFilter) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetPacketFilter to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "is_enabled":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Bool()
-				s.IsEnabled = bool(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"is_enabled\"")
-			}
-		case "settings":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				s.Settings = make([]HandlerGetPacketFilterSettingsItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerGetPacketFilterSettingsItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Settings = append(s.Settings, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"settings\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetPacketFilter")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetPacketFilter) {
-					name = jsonFieldsNameOfHandlerGetPacketFilter[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetPacketFilter) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetPacketFilter) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetPacketFilterSettingsItem) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetPacketFilterSettingsItem) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("from_ip")
-		e.Str(s.FromIP)
-	}
-	{
-		e.FieldStart("from_ip_prefix_length")
-		e.Int(s.FromIPPrefixLength)
-	}
-}
-
-var jsonFieldsNameOfHandlerGetPacketFilterSettingsItem = [2]string{
-	0: "from_ip",
-	1: "from_ip_prefix_length",
-}
-
-// Decode decodes HandlerGetPacketFilterSettingsItem from json.
-func (s *HandlerGetPacketFilterSettingsItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetPacketFilterSettingsItem to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "from_ip":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.FromIP = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"from_ip\"")
-			}
-		case "from_ip_prefix_length":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Int()
-				s.FromIPPrefixLength = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"from_ip_prefix_length\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetPacketFilterSettingsItem")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetPacketFilterSettingsItem) {
-					name = jsonFieldsNameOfHandlerGetPacketFilterSettingsItem[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetPacketFilterSettingsItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetPacketFilterSettingsItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetUser) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetUser) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateUser) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("limit")
 		s.Limit.Encode(e)
 	}
 }
 
-var jsonFieldsNameOfHandlerGetUser = [1]string{
+var jsonFieldsNameOfHandlerCreateUser = [1]string{
 	0: "limit",
 }
 
-// Decode decodes HandlerGetUser from json.
-func (s *HandlerGetUser) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateUser from json.
+func (s *HandlerCreateUser) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetUser to nil")
+		return errors.New("invalid: unable to decode HandlerCreateUser to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -7491,7 +5005,7 @@ func (s *HandlerGetUser) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetUser")
+		return errors.Wrap(err, "decode HandlerCreateUser")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -7508,8 +5022,8 @@ func (s *HandlerGetUser) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetUser) {
-					name = jsonFieldsNameOfHandlerGetUser[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerCreateUser) {
+					name = jsonFieldsNameOfHandlerCreateUser[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -7530,41 +5044,41 @@ func (s *HandlerGetUser) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetUser) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateUser) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetUser) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateUser) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerGetUserLimit) Encode(e *jx.Encoder) {
+func (s *HandlerCreateUserLimit) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerGetUserLimit) encodeFields(e *jx.Encoder) {
+func (s *HandlerCreateUserLimit) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("application_count")
 		e.Int(s.ApplicationCount)
 	}
 }
 
-var jsonFieldsNameOfHandlerGetUserLimit = [1]string{
+var jsonFieldsNameOfHandlerCreateUserLimit = [1]string{
 	0: "application_count",
 }
 
-// Decode decodes HandlerGetUserLimit from json.
-func (s *HandlerGetUserLimit) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateUserLimit from json.
+func (s *HandlerCreateUserLimit) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetUserLimit to nil")
+		return errors.New("invalid: unable to decode HandlerCreateUserLimit to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -7587,7 +5101,7 @@ func (s *HandlerGetUserLimit) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetUserLimit")
+		return errors.Wrap(err, "decode HandlerCreateUserLimit")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -7604,8 +5118,8 @@ func (s *HandlerGetUserLimit) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetUserLimit) {
-					name = jsonFieldsNameOfHandlerGetUserLimit[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerCreateUserLimit) {
+					name = jsonFieldsNameOfHandlerCreateUserLimit[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -7626,1062 +5140,14 @@ func (s *HandlerGetUserLimit) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetUserLimit) MarshalJSON() ([]byte, error) {
+func (s *HandlerCreateUserLimit) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetUserLimit) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetVersion) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetVersion) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("id")
-		e.Str(s.ID)
-	}
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("status")
-		s.Status.Encode(e)
-	}
-	{
-		e.FieldStart("timeout_seconds")
-		e.Int(s.TimeoutSeconds)
-	}
-	{
-		e.FieldStart("port")
-		e.Int(s.Port)
-	}
-	{
-		e.FieldStart("min_scale")
-		e.Int(s.MinScale)
-	}
-	{
-		e.FieldStart("max_scale")
-		e.Int(s.MaxScale)
-	}
-	{
-		if s.ScaleTargetConcurrency.Set {
-			e.FieldStart("scale_target_concurrency")
-			s.ScaleTargetConcurrency.Encode(e)
-		}
-	}
-	{
-		e.FieldStart("components")
-		e.ArrStart()
-		for _, elem := range s.Components {
-			elem.Encode(e)
-		}
-		e.ArrEnd()
-	}
-	{
-		e.FieldStart("created_at")
-		json.EncodeDateTime(e, s.CreatedAt)
-	}
-}
-
-var jsonFieldsNameOfHandlerGetVersion = [10]string{
-	0: "id",
-	1: "name",
-	2: "status",
-	3: "timeout_seconds",
-	4: "port",
-	5: "min_scale",
-	6: "max_scale",
-	7: "scale_target_concurrency",
-	8: "components",
-	9: "created_at",
-}
-
-// Decode decodes HandlerGetVersion from json.
-func (s *HandlerGetVersion) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersion to nil")
-	}
-	var requiredBitSet [2]uint8
-	s.setDefaults()
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "id":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.ID = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "name":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "status":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.Status.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"status\"")
-			}
-		case "timeout_seconds":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				v, err := d.Int()
-				s.TimeoutSeconds = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"timeout_seconds\"")
-			}
-		case "port":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Int()
-				s.Port = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"port\"")
-			}
-		case "min_scale":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				v, err := d.Int()
-				s.MinScale = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"min_scale\"")
-			}
-		case "max_scale":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				v, err := d.Int()
-				s.MaxScale = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"max_scale\"")
-			}
-		case "scale_target_concurrency":
-			if err := func() error {
-				s.ScaleTargetConcurrency.Reset()
-				if err := s.ScaleTargetConcurrency.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"scale_target_concurrency\"")
-			}
-		case "components":
-			requiredBitSet[1] |= 1 << 0
-			if err := func() error {
-				s.Components = make([]HandlerGetVersionComponentsItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerGetVersionComponentsItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Components = append(s.Components, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"components\"")
-			}
-		case "created_at":
-			requiredBitSet[1] |= 1 << 1
-			if err := func() error {
-				v, err := json.DecodeDateTime(d)
-				s.CreatedAt = v
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"created_at\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetVersion")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [2]uint8{
-		0b01111111,
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetVersion) {
-					name = jsonFieldsNameOfHandlerGetVersion[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetVersion) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersion) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetVersionComponentsItem) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetVersionComponentsItem) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("max_cpu")
-		e.Str(s.MaxCPU)
-	}
-	{
-		e.FieldStart("max_memory")
-		e.Str(s.MaxMemory)
-	}
-	{
-		e.FieldStart("deploy_source")
-		s.DeploySource.Encode(e)
-	}
-	{
-		if s.Env != nil {
-			e.FieldStart("env")
-			e.ArrStart()
-			for _, elem := range s.Env {
-				elem.Encode(e)
-			}
-			e.ArrEnd()
-		}
-	}
-	{
-		if s.Probe.Set {
-			e.FieldStart("probe")
-			s.Probe.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerGetVersionComponentsItem = [6]string{
-	0: "name",
-	1: "max_cpu",
-	2: "max_memory",
-	3: "deploy_source",
-	4: "env",
-	5: "probe",
-}
-
-// Decode decodes HandlerGetVersionComponentsItem from json.
-func (s *HandlerGetVersionComponentsItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersionComponentsItem to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "name":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Name = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "max_cpu":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.MaxCPU = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"max_cpu\"")
-			}
-		case "max_memory":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Str()
-				s.MaxMemory = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"max_memory\"")
-			}
-		case "deploy_source":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				if err := s.DeploySource.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"deploy_source\"")
-			}
-		case "env":
-			if err := func() error {
-				s.Env = make([]HandlerGetVersionComponentsItemEnvItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerGetVersionComponentsItemEnvItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Env = append(s.Env, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"env\"")
-			}
-		case "probe":
-			if err := func() error {
-				s.Probe.Reset()
-				if err := s.Probe.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"probe\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetVersionComponentsItem")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00001111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetVersionComponentsItem) {
-					name = jsonFieldsNameOfHandlerGetVersionComponentsItem[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetVersionComponentsItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersionComponentsItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetVersionComponentsItemDeploySource) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetVersionComponentsItemDeploySource) encodeFields(e *jx.Encoder) {
-	{
-		if s.ContainerRegistry.Set {
-			e.FieldStart("container_registry")
-			s.ContainerRegistry.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerGetVersionComponentsItemDeploySource = [1]string{
-	0: "container_registry",
-}
-
-// Decode decodes HandlerGetVersionComponentsItemDeploySource from json.
-func (s *HandlerGetVersionComponentsItemDeploySource) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersionComponentsItemDeploySource to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "container_registry":
-			if err := func() error {
-				s.ContainerRegistry.Reset()
-				if err := s.ContainerRegistry.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"container_registry\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetVersionComponentsItemDeploySource")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetVersionComponentsItemDeploySource) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersionComponentsItemDeploySource) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("image")
-		e.Str(s.Image)
-	}
-	{
-		if s.Server.Set {
-			e.FieldStart("server")
-			s.Server.Encode(e)
-		}
-	}
-	{
-		if s.Username.Set {
-			e.FieldStart("username")
-			s.Username.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerGetVersionComponentsItemDeploySourceContainerRegistry = [3]string{
-	0: "image",
-	1: "server",
-	2: "username",
-}
-
-// Decode decodes HandlerGetVersionComponentsItemDeploySourceContainerRegistry from json.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersionComponentsItemDeploySourceContainerRegistry to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "image":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Image = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"image\"")
-			}
-		case "server":
-			if err := func() error {
-				s.Server.Reset()
-				if err := s.Server.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"server\"")
-			}
-		case "username":
-			if err := func() error {
-				s.Username.Reset()
-				if err := s.Username.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"username\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetVersionComponentsItemDeploySourceContainerRegistry")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000001,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetVersionComponentsItemDeploySourceContainerRegistry) {
-					name = jsonFieldsNameOfHandlerGetVersionComponentsItemDeploySourceContainerRegistry[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetVersionComponentsItemEnvItem) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetVersionComponentsItemEnvItem) encodeFields(e *jx.Encoder) {
-	{
-		if s.Key.Set {
-			e.FieldStart("key")
-			s.Key.Encode(e)
-		}
-	}
-	{
-		if s.Value.Set {
-			e.FieldStart("value")
-			s.Value.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerGetVersionComponentsItemEnvItem = [2]string{
-	0: "key",
-	1: "value",
-}
-
-// Decode decodes HandlerGetVersionComponentsItemEnvItem from json.
-func (s *HandlerGetVersionComponentsItemEnvItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersionComponentsItemEnvItem to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "key":
-			if err := func() error {
-				s.Key.Reset()
-				if err := s.Key.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"key\"")
-			}
-		case "value":
-			if err := func() error {
-				s.Value.Reset()
-				if err := s.Value.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"value\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetVersionComponentsItemEnvItem")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetVersionComponentsItemEnvItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersionComponentsItemEnvItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetVersionComponentsItemProbe) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetVersionComponentsItemProbe) encodeFields(e *jx.Encoder) {
-	{
-		if s.HTTPGet.Set {
-			e.FieldStart("http_get")
-			s.HTTPGet.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerGetVersionComponentsItemProbe = [1]string{
-	0: "http_get",
-}
-
-// Decode decodes HandlerGetVersionComponentsItemProbe from json.
-func (s *HandlerGetVersionComponentsItemProbe) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersionComponentsItemProbe to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "http_get":
-			if err := func() error {
-				s.HTTPGet.Reset()
-				if err := s.HTTPGet.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"http_get\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetVersionComponentsItemProbe")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetVersionComponentsItemProbe) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersionComponentsItemProbe) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("path")
-		e.Str(s.Path)
-	}
-	{
-		e.FieldStart("port")
-		e.Int(s.Port)
-	}
-	{
-		if s.Headers != nil {
-			e.FieldStart("headers")
-			e.ArrStart()
-			for _, elem := range s.Headers {
-				elem.Encode(e)
-			}
-			e.ArrEnd()
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerGetVersionComponentsItemProbeHTTPGet = [3]string{
-	0: "path",
-	1: "port",
-	2: "headers",
-}
-
-// Decode decodes HandlerGetVersionComponentsItemProbeHTTPGet from json.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersionComponentsItemProbeHTTPGet to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "path":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Path = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"path\"")
-			}
-		case "port":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Int()
-				s.Port = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"port\"")
-			}
-		case "headers":
-			if err := func() error {
-				s.Headers = make([]HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Headers = append(s.Headers, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"headers\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetVersionComponentsItemProbeHTTPGet")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerGetVersionComponentsItemProbeHTTPGet) {
-					name = jsonFieldsNameOfHandlerGetVersionComponentsItemProbeHTTPGet[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) encodeFields(e *jx.Encoder) {
-	{
-		if s.Name.Set {
-			e.FieldStart("name")
-			s.Name.Encode(e)
-		}
-	}
-	{
-		if s.Value.Set {
-			e.FieldStart("value")
-			s.Value.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerGetVersionComponentsItemProbeHTTPGetHeadersItem = [2]string{
-	0: "name",
-	1: "value",
-}
-
-// Decode decodes HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem from json.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "name":
-			if err := func() error {
-				s.Name.Reset()
-				if err := s.Name.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "value":
-			if err := func() error {
-				s.Value.Reset()
-				if err := s.Value.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"value\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes HandlerGetVersionStatus as json.
-func (s HandlerGetVersionStatus) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes HandlerGetVersionStatus from json.
-func (s *HandlerGetVersionStatus) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerGetVersionStatus to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch HandlerGetVersionStatus(v) {
-	case HandlerGetVersionStatusHealthy:
-		*s = HandlerGetVersionStatusHealthy
-	case HandlerGetVersionStatusUnHealthy:
-		*s = HandlerGetVersionStatusUnHealthy
-	case HandlerGetVersionStatusDeploying:
-		*s = HandlerGetVersionStatusDeploying
-	default:
-		*s = HandlerGetVersionStatus(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s HandlerGetVersionStatus) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerGetVersionStatus) UnmarshalJSON(data []byte) error {
+func (s *HandlerCreateUserLimit) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -9214,14 +5680,14 @@ func (s *HandlerListApplicationsMetaSortOrder) UnmarshalJSON(data []byte) error 
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerListTraffics) Encode(e *jx.Encoder) {
+func (s *HandlerListTraffic) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerListTraffics) encodeFields(e *jx.Encoder) {
+func (s *HandlerListTraffic) encodeFields(e *jx.Encoder) {
 	{
 		if s.Meta.Set {
 			e.FieldStart("meta")
@@ -9238,15 +5704,15 @@ func (s *HandlerListTraffics) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerListTraffics = [2]string{
+var jsonFieldsNameOfHandlerListTraffic = [2]string{
 	0: "meta",
 	1: "data",
 }
 
-// Decode decodes HandlerListTraffics from json.
-func (s *HandlerListTraffics) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerListTraffic from json.
+func (s *HandlerListTraffic) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerListTraffics to nil")
+		return errors.New("invalid: unable to decode HandlerListTraffic to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -9265,9 +5731,9 @@ func (s *HandlerListTraffics) Decode(d *jx.Decoder) error {
 		case "data":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				s.Data = make([]HandlerListTrafficsDataItem, 0)
+				s.Data = make([]HandlerListTrafficDataItem, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerListTrafficsDataItem
+					var elem HandlerListTrafficDataItem
 					if err := elem.Decode(d); err != nil {
 						return err
 					}
@@ -9285,7 +5751,7 @@ func (s *HandlerListTraffics) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerListTraffics")
+		return errors.Wrap(err, "decode HandlerListTraffic")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -9302,8 +5768,8 @@ func (s *HandlerListTraffics) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerListTraffics) {
-					name = jsonFieldsNameOfHandlerListTraffics[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerListTraffic) {
+					name = jsonFieldsNameOfHandlerListTraffic[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -9324,27 +5790,27 @@ func (s *HandlerListTraffics) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerListTraffics) MarshalJSON() ([]byte, error) {
+func (s *HandlerListTraffic) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerListTraffics) UnmarshalJSON(data []byte) error {
+func (s *HandlerListTraffic) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerListTrafficsDataItem) Encode(e *jx.Encoder) {
+func (s *HandlerListTrafficDataItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerListTrafficsDataItem) encodeFields(e *jx.Encoder) {
+func (s *HandlerListTrafficDataItem) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("version_name")
 		e.Str(s.VersionName)
@@ -9359,16 +5825,16 @@ func (s *HandlerListTrafficsDataItem) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerListTrafficsDataItem = [3]string{
+var jsonFieldsNameOfHandlerListTrafficDataItem = [3]string{
 	0: "version_name",
 	1: "is_latest_version",
 	2: "percent",
 }
 
-// Decode decodes HandlerListTrafficsDataItem from json.
-func (s *HandlerListTrafficsDataItem) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerListTrafficDataItem from json.
+func (s *HandlerListTrafficDataItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerListTrafficsDataItem to nil")
+		return errors.New("invalid: unable to decode HandlerListTrafficDataItem to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -9415,7 +5881,7 @@ func (s *HandlerListTrafficsDataItem) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerListTrafficsDataItem")
+		return errors.Wrap(err, "decode HandlerListTrafficDataItem")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -9432,8 +5898,8 @@ func (s *HandlerListTrafficsDataItem) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerListTrafficsDataItem) {
-					name = jsonFieldsNameOfHandlerListTrafficsDataItem[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerListTrafficDataItem) {
+					name = jsonFieldsNameOfHandlerListTrafficDataItem[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -9454,35 +5920,35 @@ func (s *HandlerListTrafficsDataItem) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerListTrafficsDataItem) MarshalJSON() ([]byte, error) {
+func (s *HandlerListTrafficDataItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerListTrafficsDataItem) UnmarshalJSON(data []byte) error {
+func (s *HandlerListTrafficDataItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerListTrafficsMeta) Encode(e *jx.Encoder) {
+func (s *HandlerListTrafficMeta) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerListTrafficsMeta) encodeFields(e *jx.Encoder) {
+func (s *HandlerListTrafficMeta) encodeFields(e *jx.Encoder) {
 }
 
-var jsonFieldsNameOfHandlerListTrafficsMeta = [0]string{}
+var jsonFieldsNameOfHandlerListTrafficMeta = [0]string{}
 
-// Decode decodes HandlerListTrafficsMeta from json.
-func (s *HandlerListTrafficsMeta) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerListTrafficMeta from json.
+func (s *HandlerListTrafficMeta) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerListTrafficsMeta to nil")
+		return errors.New("invalid: unable to decode HandlerListTrafficMeta to nil")
 	}
 
 	// OpenAPI上ではnullableだがogenがそれを正しく処理できずにいるため、nullを許容するための特別な処理を追加。
@@ -9497,21 +5963,21 @@ func (s *HandlerListTrafficsMeta) Decode(d *jx.Decoder) error {
 			return d.Skip()
 		}
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerListTrafficsMeta")
+		return errors.Wrap(err, "decode HandlerListTrafficMeta")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerListTrafficsMeta) MarshalJSON() ([]byte, error) {
+func (s *HandlerListTrafficMeta) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerListTrafficsMeta) UnmarshalJSON(data []byte) error {
+func (s *HandlerListTrafficMeta) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -10346,11 +6812,13 @@ func (s *HandlerPatchApplicationComponentsItem) encodeFields(e *jx.Encoder) {
 	{
 		if s.Env != nil {
 			e.FieldStart("env")
-			e.ArrStart()
-			for _, elem := range s.Env {
-				elem.Encode(e)
-			}
-			e.ArrEnd()
+			s.Env.Encode(e)
+		}
+	}
+	{
+		if s.Secret != nil {
+			e.FieldStart("secret")
+			s.Secret.Encode(e)
 		}
 	}
 	{
@@ -10361,13 +6829,14 @@ func (s *HandlerPatchApplicationComponentsItem) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerPatchApplicationComponentsItem = [6]string{
+var jsonFieldsNameOfHandlerPatchApplicationComponentsItem = [7]string{
 	0: "name",
 	1: "max_cpu",
 	2: "max_memory",
 	3: "deploy_source",
 	4: "env",
-	5: "probe",
+	5: "secret",
+	6: "probe",
 }
 
 // Decode decodes HandlerPatchApplicationComponentsItem from json.
@@ -10427,20 +6896,21 @@ func (s *HandlerPatchApplicationComponentsItem) Decode(d *jx.Decoder) error {
 			}
 		case "env":
 			if err := func() error {
-				s.Env = make([]HandlerPatchApplicationComponentsItemEnvItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerPatchApplicationComponentsItemEnvItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Env = append(s.Env, elem)
-					return nil
-				}); err != nil {
+				if err := s.Env.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"env\"")
+			}
+		case "secret":
+			if err := func() error {
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"secret\"")
 			}
 		case "probe":
 			if err := func() error {
@@ -10697,86 +7167,6 @@ func (s *HandlerPatchApplicationComponentsItemDeploySourceContainerRegistry) Mar
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *HandlerPatchApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) encodeFields(e *jx.Encoder) {
-	{
-		if s.Key.Set {
-			e.FieldStart("key")
-			s.Key.Encode(e)
-		}
-	}
-	{
-		if s.Value.Set {
-			e.FieldStart("value")
-			s.Value.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerPatchApplicationComponentsItemEnvItem = [2]string{
-	0: "key",
-	1: "value",
-}
-
-// Decode decodes HandlerPatchApplicationComponentsItemEnvItem from json.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPatchApplicationComponentsItemEnvItem to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "key":
-			if err := func() error {
-				s.Key.Reset()
-				if err := s.Key.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"key\"")
-			}
-		case "value":
-			if err := func() error {
-				s.Value.Reset()
-				if err := s.Value.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"value\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPatchApplicationComponentsItemEnvItem")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -11344,14 +7734,14 @@ func (s *HandlerPatchPacketFilterSettingsItem) UnmarshalJSON(data []byte) error 
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostApplication) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplication) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostApplication) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplication) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("id")
 		e.Str(s.ID)
@@ -11408,7 +7798,7 @@ func (s *HandlerPostApplication) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerPostApplication = [12]string{
+var jsonFieldsNameOfHandlerReadApplication = [12]string{
 	0:  "id",
 	1:  "name",
 	2:  "timeout_seconds",
@@ -11423,10 +7813,10 @@ var jsonFieldsNameOfHandlerPostApplication = [12]string{
 	11: "created_at",
 }
 
-// Decode decodes HandlerPostApplication from json.
-func (s *HandlerPostApplication) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplication from json.
+func (s *HandlerReadApplication) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplication to nil")
+		return errors.New("invalid: unable to decode HandlerReadApplication to nil")
 	}
 	var requiredBitSet [2]uint8
 	s.setDefaults()
@@ -11518,9 +7908,9 @@ func (s *HandlerPostApplication) Decode(d *jx.Decoder) error {
 		case "components":
 			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
-				s.Components = make([]HandlerPostApplicationComponentsItem, 0)
+				s.Components = make([]HandlerReadApplicationComponentsItem, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerPostApplicationComponentsItem
+					var elem HandlerReadApplicationComponentsItem
 					if err := elem.Decode(d); err != nil {
 						return err
 					}
@@ -11584,7 +7974,7 @@ func (s *HandlerPostApplication) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostApplication")
+		return errors.Wrap(err, "decode HandlerReadApplication")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -11602,8 +7992,8 @@ func (s *HandlerPostApplication) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerPostApplication) {
-					name = jsonFieldsNameOfHandlerPostApplication[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadApplication) {
+					name = jsonFieldsNameOfHandlerReadApplication[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -11624,27 +8014,27 @@ func (s *HandlerPostApplication) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostApplication) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadApplication) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplication) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadApplication) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostApplicationComponentsItem) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostApplicationComponentsItem) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItem) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("name")
 		e.Str(s.Name)
@@ -11664,11 +8054,13 @@ func (s *HandlerPostApplicationComponentsItem) encodeFields(e *jx.Encoder) {
 	{
 		if s.Env != nil {
 			e.FieldStart("env")
-			e.ArrStart()
-			for _, elem := range s.Env {
-				elem.Encode(e)
-			}
-			e.ArrEnd()
+			s.Env.Encode(e)
+		}
+	}
+	{
+		if s.Secret != nil {
+			e.FieldStart("secret")
+			s.Secret.Encode(e)
 		}
 	}
 	{
@@ -11679,19 +8071,20 @@ func (s *HandlerPostApplicationComponentsItem) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerPostApplicationComponentsItem = [6]string{
+var jsonFieldsNameOfHandlerReadApplicationComponentsItem = [7]string{
 	0: "name",
 	1: "max_cpu",
 	2: "max_memory",
 	3: "deploy_source",
 	4: "env",
-	5: "probe",
+	5: "secret",
+	6: "probe",
 }
 
-// Decode decodes HandlerPostApplicationComponentsItem from json.
-func (s *HandlerPostApplicationComponentsItem) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItem from json.
+func (s *HandlerReadApplicationComponentsItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplicationComponentsItem to nil")
+		return errors.New("invalid: unable to decode HandlerReadApplicationComponentsItem to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -11745,20 +8138,21 @@ func (s *HandlerPostApplicationComponentsItem) Decode(d *jx.Decoder) error {
 			}
 		case "env":
 			if err := func() error {
-				s.Env = make([]HandlerPostApplicationComponentsItemEnvItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerPostApplicationComponentsItemEnvItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Env = append(s.Env, elem)
-					return nil
-				}); err != nil {
+				if err := s.Env.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"env\"")
+			}
+		case "secret":
+			if err := func() error {
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"secret\"")
 			}
 		case "probe":
 			if err := func() error {
@@ -11775,7 +8169,7 @@ func (s *HandlerPostApplicationComponentsItem) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostApplicationComponentsItem")
+		return errors.Wrap(err, "decode HandlerReadApplicationComponentsItem")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -11792,8 +8186,8 @@ func (s *HandlerPostApplicationComponentsItem) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerPostApplicationComponentsItem) {
-					name = jsonFieldsNameOfHandlerPostApplicationComponentsItem[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadApplicationComponentsItem) {
+					name = jsonFieldsNameOfHandlerReadApplicationComponentsItem[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -11814,27 +8208,27 @@ func (s *HandlerPostApplicationComponentsItem) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostApplicationComponentsItem) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadApplicationComponentsItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplicationComponentsItem) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadApplicationComponentsItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostApplicationComponentsItemDeploySource) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemDeploySource) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostApplicationComponentsItemDeploySource) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemDeploySource) encodeFields(e *jx.Encoder) {
 	{
 		if s.ContainerRegistry.Set {
 			e.FieldStart("container_registry")
@@ -11843,14 +8237,14 @@ func (s *HandlerPostApplicationComponentsItemDeploySource) encodeFields(e *jx.En
 	}
 }
 
-var jsonFieldsNameOfHandlerPostApplicationComponentsItemDeploySource = [1]string{
+var jsonFieldsNameOfHandlerReadApplicationComponentsItemDeploySource = [1]string{
 	0: "container_registry",
 }
 
-// Decode decodes HandlerPostApplicationComponentsItemDeploySource from json.
-func (s *HandlerPostApplicationComponentsItemDeploySource) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItemDeploySource from json.
+func (s *HandlerReadApplicationComponentsItemDeploySource) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplicationComponentsItemDeploySource to nil")
+		return errors.New("invalid: unable to decode HandlerReadApplicationComponentsItemDeploySource to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -11870,34 +8264,34 @@ func (s *HandlerPostApplicationComponentsItemDeploySource) Decode(d *jx.Decoder)
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostApplicationComponentsItemDeploySource")
+		return errors.Wrap(err, "decode HandlerReadApplicationComponentsItemDeploySource")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostApplicationComponentsItemDeploySource) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadApplicationComponentsItemDeploySource) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplicationComponentsItemDeploySource) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadApplicationComponentsItemDeploySource) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("image")
 		e.Str(s.Image)
@@ -11916,16 +8310,16 @@ func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) enco
 	}
 }
 
-var jsonFieldsNameOfHandlerPostApplicationComponentsItemDeploySourceContainerRegistry = [3]string{
+var jsonFieldsNameOfHandlerReadApplicationComponentsItemDeploySourceContainerRegistry = [3]string{
 	0: "image",
 	1: "server",
 	2: "username",
 }
 
-// Decode decodes HandlerPostApplicationComponentsItemDeploySourceContainerRegistry from json.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItemDeploySourceContainerRegistry from json.
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplicationComponentsItemDeploySourceContainerRegistry to nil")
+		return errors.New("invalid: unable to decode HandlerReadApplicationComponentsItemDeploySourceContainerRegistry to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -11968,7 +8362,7 @@ func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Deco
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostApplicationComponentsItemDeploySourceContainerRegistry")
+		return errors.Wrap(err, "decode HandlerReadApplicationComponentsItemDeploySourceContainerRegistry")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -11985,8 +8379,8 @@ func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Deco
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) {
-					name = jsonFieldsNameOfHandlerPostApplicationComponentsItemDeploySourceContainerRegistry[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) {
+					name = jsonFieldsNameOfHandlerReadApplicationComponentsItemDeploySourceContainerRegistry[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -12007,107 +8401,27 @@ func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Deco
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostApplicationComponentsItemEnvItem) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostApplicationComponentsItemEnvItem) encodeFields(e *jx.Encoder) {
-	{
-		if s.Key.Set {
-			e.FieldStart("key")
-			s.Key.Encode(e)
-		}
-	}
-	{
-		if s.Value.Set {
-			e.FieldStart("value")
-			s.Value.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfHandlerPostApplicationComponentsItemEnvItem = [2]string{
-	0: "key",
-	1: "value",
-}
-
-// Decode decodes HandlerPostApplicationComponentsItemEnvItem from json.
-func (s *HandlerPostApplicationComponentsItemEnvItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplicationComponentsItemEnvItem to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "key":
-			if err := func() error {
-				s.Key.Reset()
-				if err := s.Key.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"key\"")
-			}
-		case "value":
-			if err := func() error {
-				s.Value.Reset()
-				if err := s.Value.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"value\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostApplicationComponentsItemEnvItem")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostApplicationComponentsItemEnvItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplicationComponentsItemEnvItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *HandlerPostApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *HandlerPostApplicationComponentsItemProbe) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemProbe) encodeFields(e *jx.Encoder) {
 	{
 		if s.HTTPGet.Set {
 			e.FieldStart("http_get")
@@ -12116,14 +8430,14 @@ func (s *HandlerPostApplicationComponentsItemProbe) encodeFields(e *jx.Encoder) 
 	}
 }
 
-var jsonFieldsNameOfHandlerPostApplicationComponentsItemProbe = [1]string{
+var jsonFieldsNameOfHandlerReadApplicationComponentsItemProbe = [1]string{
 	0: "http_get",
 }
 
-// Decode decodes HandlerPostApplicationComponentsItemProbe from json.
-func (s *HandlerPostApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItemProbe from json.
+func (s *HandlerReadApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplicationComponentsItemProbe to nil")
+		return errors.New("invalid: unable to decode HandlerReadApplicationComponentsItemProbe to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -12143,34 +8457,34 @@ func (s *HandlerPostApplicationComponentsItemProbe) Decode(d *jx.Decoder) error 
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostApplicationComponentsItemProbe")
+		return errors.Wrap(err, "decode HandlerReadApplicationComponentsItemProbe")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostApplicationComponentsItemProbe) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadApplicationComponentsItemProbe) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplicationComponentsItemProbe) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadApplicationComponentsItemProbe) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("path")
 		e.Str(s.Path)
@@ -12191,16 +8505,16 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) encodeFields(e *jx.En
 	}
 }
 
-var jsonFieldsNameOfHandlerPostApplicationComponentsItemProbeHTTPGet = [3]string{
+var jsonFieldsNameOfHandlerReadApplicationComponentsItemProbeHTTPGet = [3]string{
 	0: "path",
 	1: "port",
 	2: "headers",
 }
 
-// Decode decodes HandlerPostApplicationComponentsItemProbeHTTPGet from json.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItemProbeHTTPGet from json.
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplicationComponentsItemProbeHTTPGet to nil")
+		return errors.New("invalid: unable to decode HandlerReadApplicationComponentsItemProbeHTTPGet to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -12232,9 +8546,9 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder)
 			}
 		case "headers":
 			if err := func() error {
-				s.Headers = make([]HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem, 0)
+				s.Headers = make([]HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem
+					var elem HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem
 					if err := elem.Decode(d); err != nil {
 						return err
 					}
@@ -12252,7 +8566,7 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder)
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostApplicationComponentsItemProbeHTTPGet")
+		return errors.Wrap(err, "decode HandlerReadApplicationComponentsItemProbeHTTPGet")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -12269,8 +8583,8 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder)
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerPostApplicationComponentsItemProbeHTTPGet) {
-					name = jsonFieldsNameOfHandlerPostApplicationComponentsItemProbeHTTPGet[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadApplicationComponentsItemProbeHTTPGet) {
+					name = jsonFieldsNameOfHandlerReadApplicationComponentsItemProbeHTTPGet[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -12291,27 +8605,27 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder)
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) encodeFields(e *jx.Encoder) {
 	{
 		if s.Name.Set {
 			e.FieldStart("name")
@@ -12326,15 +8640,15 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) encodeFiel
 	}
 }
 
-var jsonFieldsNameOfHandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem = [2]string{
+var jsonFieldsNameOfHandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem = [2]string{
 	0: "name",
 	1: "value",
 }
 
-// Decode decodes HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem from json.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem from json.
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem to nil")
+		return errors.New("invalid: unable to decode HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -12364,116 +8678,91 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) Decode(d *
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem")
+		return errors.Wrap(err, "decode HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes HandlerPostApplicationStatus as json.
-func (s HandlerPostApplicationStatus) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes HandlerPostApplicationStatus from json.
-func (s *HandlerPostApplicationStatus) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostApplicationStatus to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch HandlerPostApplicationStatus(v) {
-	case HandlerPostApplicationStatusHealthy:
-		*s = HandlerPostApplicationStatusHealthy
-	case HandlerPostApplicationStatusUnHealthy:
-		*s = HandlerPostApplicationStatusUnHealthy
-	case HandlerPostApplicationStatusDeploying:
-		*s = HandlerPostApplicationStatusDeploying
-	default:
-		*s = HandlerPostApplicationStatus(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s HandlerPostApplicationStatus) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostApplicationStatus) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostUser) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplicationOnlyStatus) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostUser) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplicationOnlyStatus) encodeFields(e *jx.Encoder) {
 	{
-		e.FieldStart("limit")
-		s.Limit.Encode(e)
+		e.FieldStart("status")
+		s.Status.Encode(e)
+	}
+	{
+		e.FieldStart("message")
+		e.Str(s.Message)
 	}
 }
 
-var jsonFieldsNameOfHandlerPostUser = [1]string{
-	0: "limit",
+var jsonFieldsNameOfHandlerReadApplicationOnlyStatus = [2]string{
+	0: "status",
+	1: "message",
 }
 
-// Decode decodes HandlerPostUser from json.
-func (s *HandlerPostUser) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationOnlyStatus from json.
+func (s *HandlerReadApplicationOnlyStatus) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostUser to nil")
+		return errors.New("invalid: unable to decode HandlerReadApplicationOnlyStatus to nil")
 	}
 	var requiredBitSet [1]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "limit":
+		case "status":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				if err := s.Limit.Decode(d); err != nil {
+				if err := s.Status.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"limit\"")
+				return errors.Wrap(err, "decode field \"status\"")
+			}
+		case "message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"message\"")
 			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostUser")
+		return errors.Wrap(err, "decode HandlerReadApplicationOnlyStatus")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000001,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -12485,8 +8774,8 @@ func (s *HandlerPostUser) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerPostUser) {
-					name = jsonFieldsNameOfHandlerPostUser[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadApplicationOnlyStatus) {
+					name = jsonFieldsNameOfHandlerReadApplicationOnlyStatus[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -12507,41 +8796,608 @@ func (s *HandlerPostUser) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostUser) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadApplicationOnlyStatus) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostUser) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadApplicationOnlyStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes HandlerReadApplicationOnlyStatusStatus as json.
+func (s HandlerReadApplicationOnlyStatusStatus) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes HandlerReadApplicationOnlyStatusStatus from json.
+func (s *HandlerReadApplicationOnlyStatusStatus) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadApplicationOnlyStatusStatus to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch HandlerReadApplicationOnlyStatusStatus(v) {
+	case HandlerReadApplicationOnlyStatusStatusHealthy:
+		*s = HandlerReadApplicationOnlyStatusStatusHealthy
+	case HandlerReadApplicationOnlyStatusStatusUnHealthy:
+		*s = HandlerReadApplicationOnlyStatusStatusUnHealthy
+	case HandlerReadApplicationOnlyStatusStatusDeploying:
+		*s = HandlerReadApplicationOnlyStatusStatusDeploying
+	default:
+		*s = HandlerReadApplicationOnlyStatusStatus(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s HandlerReadApplicationOnlyStatusStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadApplicationOnlyStatusStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes HandlerReadApplicationStatus as json.
+func (s HandlerReadApplicationStatus) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes HandlerReadApplicationStatus from json.
+func (s *HandlerReadApplicationStatus) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadApplicationStatus to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch HandlerReadApplicationStatus(v) {
+	case HandlerReadApplicationStatusHealthy:
+		*s = HandlerReadApplicationStatusHealthy
+	case HandlerReadApplicationStatusUnHealthy:
+		*s = HandlerReadApplicationStatusUnHealthy
+	case HandlerReadApplicationStatusDeploying:
+		*s = HandlerReadApplicationStatusDeploying
+	default:
+		*s = HandlerReadApplicationStatus(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s HandlerReadApplicationStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadApplicationStatus) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPostUserLimit) Encode(e *jx.Encoder) {
+func (s *HandlerReadApplicationVersionOnlyStatus) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPostUserLimit) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadApplicationVersionOnlyStatus) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("status")
+		s.Status.Encode(e)
+	}
+	{
+		e.FieldStart("message")
+		e.Str(s.Message)
+	}
+}
+
+var jsonFieldsNameOfHandlerReadApplicationVersionOnlyStatus = [2]string{
+	0: "status",
+	1: "message",
+}
+
+// Decode decodes HandlerReadApplicationVersionOnlyStatus from json.
+func (s *HandlerReadApplicationVersionOnlyStatus) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadApplicationVersionOnlyStatus to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "status":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Status.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"status\"")
+			}
+		case "message":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Message = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"message\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadApplicationVersionOnlyStatus")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadApplicationVersionOnlyStatus) {
+					name = jsonFieldsNameOfHandlerReadApplicationVersionOnlyStatus[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadApplicationVersionOnlyStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadApplicationVersionOnlyStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes HandlerReadApplicationVersionOnlyStatusStatus as json.
+func (s HandlerReadApplicationVersionOnlyStatusStatus) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes HandlerReadApplicationVersionOnlyStatusStatus from json.
+func (s *HandlerReadApplicationVersionOnlyStatusStatus) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadApplicationVersionOnlyStatusStatus to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch HandlerReadApplicationVersionOnlyStatusStatus(v) {
+	case HandlerReadApplicationVersionOnlyStatusStatusHealthy:
+		*s = HandlerReadApplicationVersionOnlyStatusStatusHealthy
+	case HandlerReadApplicationVersionOnlyStatusStatusUnHealthy:
+		*s = HandlerReadApplicationVersionOnlyStatusStatusUnHealthy
+	case HandlerReadApplicationVersionOnlyStatusStatusDeploying:
+		*s = HandlerReadApplicationVersionOnlyStatusStatusDeploying
+	default:
+		*s = HandlerReadApplicationVersionOnlyStatusStatus(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s HandlerReadApplicationVersionOnlyStatusStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadApplicationVersionOnlyStatusStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadPacketFilter) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadPacketFilter) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("is_enabled")
+		e.Bool(s.IsEnabled)
+	}
+	{
+		e.FieldStart("settings")
+		e.ArrStart()
+		for _, elem := range s.Settings {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+}
+
+var jsonFieldsNameOfHandlerReadPacketFilter = [2]string{
+	0: "is_enabled",
+	1: "settings",
+}
+
+// Decode decodes HandlerReadPacketFilter from json.
+func (s *HandlerReadPacketFilter) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadPacketFilter to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "is_enabled":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Bool()
+				s.IsEnabled = bool(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"is_enabled\"")
+			}
+		case "settings":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				s.Settings = make([]HandlerReadPacketFilterSettingsItem, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem HandlerReadPacketFilterSettingsItem
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Settings = append(s.Settings, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"settings\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadPacketFilter")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadPacketFilter) {
+					name = jsonFieldsNameOfHandlerReadPacketFilter[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadPacketFilter) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadPacketFilter) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadPacketFilterSettingsItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadPacketFilterSettingsItem) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("from_ip")
+		e.Str(s.FromIP)
+	}
+	{
+		e.FieldStart("from_ip_prefix_length")
+		e.Int(s.FromIPPrefixLength)
+	}
+}
+
+var jsonFieldsNameOfHandlerReadPacketFilterSettingsItem = [2]string{
+	0: "from_ip",
+	1: "from_ip_prefix_length",
+}
+
+// Decode decodes HandlerReadPacketFilterSettingsItem from json.
+func (s *HandlerReadPacketFilterSettingsItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadPacketFilterSettingsItem to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "from_ip":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.FromIP = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"from_ip\"")
+			}
+		case "from_ip_prefix_length":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Int()
+				s.FromIPPrefixLength = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"from_ip_prefix_length\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadPacketFilterSettingsItem")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadPacketFilterSettingsItem) {
+					name = jsonFieldsNameOfHandlerReadPacketFilterSettingsItem[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadPacketFilterSettingsItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadPacketFilterSettingsItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadUser) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadUser) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("limit")
+		s.Limit.Encode(e)
+	}
+}
+
+var jsonFieldsNameOfHandlerReadUser = [1]string{
+	0: "limit",
+}
+
+// Decode decodes HandlerReadUser from json.
+func (s *HandlerReadUser) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadUser to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "limit":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Limit.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"limit\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadUser")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadUser) {
+					name = jsonFieldsNameOfHandlerReadUser[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadUser) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadUser) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadUserLimit) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadUserLimit) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("application_count")
 		e.Int(s.ApplicationCount)
 	}
 }
 
-var jsonFieldsNameOfHandlerPostUserLimit = [1]string{
+var jsonFieldsNameOfHandlerReadUserLimit = [1]string{
 	0: "application_count",
 }
 
-// Decode decodes HandlerPostUserLimit from json.
-func (s *HandlerPostUserLimit) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadUserLimit from json.
+func (s *HandlerReadUserLimit) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPostUserLimit to nil")
+		return errors.New("invalid: unable to decode HandlerReadUserLimit to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -12564,7 +9420,7 @@ func (s *HandlerPostUserLimit) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPostUserLimit")
+		return errors.Wrap(err, "decode HandlerReadUserLimit")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -12581,8 +9437,8 @@ func (s *HandlerPostUserLimit) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerPostUserLimit) {
-					name = jsonFieldsNameOfHandlerPostUserLimit[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadUserLimit) {
+					name = jsonFieldsNameOfHandlerReadUserLimit[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -12603,27 +9459,999 @@ func (s *HandlerPostUserLimit) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPostUserLimit) MarshalJSON() ([]byte, error) {
+func (s *HandlerReadUserLimit) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPostUserLimit) UnmarshalJSON(data []byte) error {
+func (s *HandlerReadUserLimit) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPutTraffics) Encode(e *jx.Encoder) {
+func (s *HandlerReadVersion) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPutTraffics) encodeFields(e *jx.Encoder) {
+func (s *HandlerReadVersion) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("id")
+		e.Str(s.ID)
+	}
+	{
+		e.FieldStart("name")
+		e.Str(s.Name)
+	}
+	{
+		e.FieldStart("status")
+		s.Status.Encode(e)
+	}
+	{
+		e.FieldStart("timeout_seconds")
+		e.Int(s.TimeoutSeconds)
+	}
+	{
+		e.FieldStart("port")
+		e.Int(s.Port)
+	}
+	{
+		e.FieldStart("min_scale")
+		e.Int(s.MinScale)
+	}
+	{
+		e.FieldStart("max_scale")
+		e.Int(s.MaxScale)
+	}
+	{
+		if s.ScaleTargetConcurrency.Set {
+			e.FieldStart("scale_target_concurrency")
+			s.ScaleTargetConcurrency.Encode(e)
+		}
+	}
+	{
+		e.FieldStart("components")
+		e.ArrStart()
+		for _, elem := range s.Components {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+	{
+		e.FieldStart("created_at")
+		json.EncodeDateTime(e, s.CreatedAt)
+	}
+}
+
+var jsonFieldsNameOfHandlerReadVersion = [10]string{
+	0: "id",
+	1: "name",
+	2: "status",
+	3: "timeout_seconds",
+	4: "port",
+	5: "min_scale",
+	6: "max_scale",
+	7: "scale_target_concurrency",
+	8: "components",
+	9: "created_at",
+}
+
+// Decode decodes HandlerReadVersion from json.
+func (s *HandlerReadVersion) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadVersion to nil")
+	}
+	var requiredBitSet [2]uint8
+	s.setDefaults()
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.ID = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "name":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "status":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				if err := s.Status.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"status\"")
+			}
+		case "timeout_seconds":
+			requiredBitSet[0] |= 1 << 3
+			if err := func() error {
+				v, err := d.Int()
+				s.TimeoutSeconds = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"timeout_seconds\"")
+			}
+		case "port":
+			requiredBitSet[0] |= 1 << 4
+			if err := func() error {
+				v, err := d.Int()
+				s.Port = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"port\"")
+			}
+		case "min_scale":
+			requiredBitSet[0] |= 1 << 5
+			if err := func() error {
+				v, err := d.Int()
+				s.MinScale = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"min_scale\"")
+			}
+		case "max_scale":
+			requiredBitSet[0] |= 1 << 6
+			if err := func() error {
+				v, err := d.Int()
+				s.MaxScale = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"max_scale\"")
+			}
+		case "scale_target_concurrency":
+			if err := func() error {
+				s.ScaleTargetConcurrency.Reset()
+				if err := s.ScaleTargetConcurrency.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"scale_target_concurrency\"")
+			}
+		case "components":
+			requiredBitSet[1] |= 1 << 0
+			if err := func() error {
+				s.Components = make([]HandlerReadVersionComponentsItem, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem HandlerReadVersionComponentsItem
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Components = append(s.Components, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"components\"")
+			}
+		case "created_at":
+			requiredBitSet[1] |= 1 << 1
+			if err := func() error {
+				v, err := json.DecodeDateTime(d)
+				s.CreatedAt = v
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"created_at\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadVersion")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [2]uint8{
+		0b01111111,
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadVersion) {
+					name = jsonFieldsNameOfHandlerReadVersion[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadVersion) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadVersion) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadVersionComponentsItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadVersionComponentsItem) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("name")
+		e.Str(s.Name)
+	}
+	{
+		e.FieldStart("max_cpu")
+		e.Str(s.MaxCPU)
+	}
+	{
+		e.FieldStart("max_memory")
+		e.Str(s.MaxMemory)
+	}
+	{
+		e.FieldStart("deploy_source")
+		s.DeploySource.Encode(e)
+	}
+	{
+		if s.Env != nil {
+			e.FieldStart("env")
+			s.Env.Encode(e)
+		}
+	}
+	{
+		if s.Secret != nil {
+			e.FieldStart("secret")
+			s.Secret.Encode(e)
+		}
+	}
+	{
+		if s.Probe.Set {
+			e.FieldStart("probe")
+			s.Probe.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfHandlerReadVersionComponentsItem = [7]string{
+	0: "name",
+	1: "max_cpu",
+	2: "max_memory",
+	3: "deploy_source",
+	4: "env",
+	5: "secret",
+	6: "probe",
+}
+
+// Decode decodes HandlerReadVersionComponentsItem from json.
+func (s *HandlerReadVersionComponentsItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadVersionComponentsItem to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "name":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Name = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "max_cpu":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.MaxCPU = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"max_cpu\"")
+			}
+		case "max_memory":
+			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				v, err := d.Str()
+				s.MaxMemory = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"max_memory\"")
+			}
+		case "deploy_source":
+			requiredBitSet[0] |= 1 << 3
+			if err := func() error {
+				if err := s.DeploySource.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"deploy_source\"")
+			}
+		case "env":
+			if err := func() error {
+				if err := s.Env.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"env\"")
+			}
+		case "secret":
+			if err := func() error {
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"secret\"")
+			}
+		case "probe":
+			if err := func() error {
+				s.Probe.Reset()
+				if err := s.Probe.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"probe\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadVersionComponentsItem")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00001111,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadVersionComponentsItem) {
+					name = jsonFieldsNameOfHandlerReadVersionComponentsItem[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadVersionComponentsItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadVersionComponentsItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadVersionComponentsItemDeploySource) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadVersionComponentsItemDeploySource) encodeFields(e *jx.Encoder) {
+	{
+		if s.ContainerRegistry.Set {
+			e.FieldStart("container_registry")
+			s.ContainerRegistry.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfHandlerReadVersionComponentsItemDeploySource = [1]string{
+	0: "container_registry",
+}
+
+// Decode decodes HandlerReadVersionComponentsItemDeploySource from json.
+func (s *HandlerReadVersionComponentsItemDeploySource) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadVersionComponentsItemDeploySource to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "container_registry":
+			if err := func() error {
+				s.ContainerRegistry.Reset()
+				if err := s.ContainerRegistry.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"container_registry\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadVersionComponentsItemDeploySource")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadVersionComponentsItemDeploySource) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadVersionComponentsItemDeploySource) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("image")
+		e.Str(s.Image)
+	}
+	{
+		if s.Server.Set {
+			e.FieldStart("server")
+			s.Server.Encode(e)
+		}
+	}
+	{
+		if s.Username.Set {
+			e.FieldStart("username")
+			s.Username.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfHandlerReadVersionComponentsItemDeploySourceContainerRegistry = [3]string{
+	0: "image",
+	1: "server",
+	2: "username",
+}
+
+// Decode decodes HandlerReadVersionComponentsItemDeploySourceContainerRegistry from json.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadVersionComponentsItemDeploySourceContainerRegistry to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "image":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Image = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"image\"")
+			}
+		case "server":
+			if err := func() error {
+				s.Server.Reset()
+				if err := s.Server.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"server\"")
+			}
+		case "username":
+			if err := func() error {
+				s.Username.Reset()
+				if err := s.Username.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"username\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadVersionComponentsItemDeploySourceContainerRegistry")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadVersionComponentsItemDeploySourceContainerRegistry) {
+					name = jsonFieldsNameOfHandlerReadVersionComponentsItemDeploySourceContainerRegistry[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadVersionComponentsItemProbe) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadVersionComponentsItemProbe) encodeFields(e *jx.Encoder) {
+	{
+		if s.HTTPGet.Set {
+			e.FieldStart("http_get")
+			s.HTTPGet.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfHandlerReadVersionComponentsItemProbe = [1]string{
+	0: "http_get",
+}
+
+// Decode decodes HandlerReadVersionComponentsItemProbe from json.
+func (s *HandlerReadVersionComponentsItemProbe) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadVersionComponentsItemProbe to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "http_get":
+			if err := func() error {
+				s.HTTPGet.Reset()
+				if err := s.HTTPGet.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"http_get\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadVersionComponentsItemProbe")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadVersionComponentsItemProbe) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadVersionComponentsItemProbe) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("path")
+		e.Str(s.Path)
+	}
+	{
+		e.FieldStart("port")
+		e.Int(s.Port)
+	}
+	{
+		if s.Headers != nil {
+			e.FieldStart("headers")
+			e.ArrStart()
+			for _, elem := range s.Headers {
+				elem.Encode(e)
+			}
+			e.ArrEnd()
+		}
+	}
+}
+
+var jsonFieldsNameOfHandlerReadVersionComponentsItemProbeHTTPGet = [3]string{
+	0: "path",
+	1: "port",
+	2: "headers",
+}
+
+// Decode decodes HandlerReadVersionComponentsItemProbeHTTPGet from json.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadVersionComponentsItemProbeHTTPGet to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "path":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Path = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"path\"")
+			}
+		case "port":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Int()
+				s.Port = int(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"port\"")
+			}
+		case "headers":
+			if err := func() error {
+				s.Headers = make([]HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Headers = append(s.Headers, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"headers\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadVersionComponentsItemProbeHTTPGet")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfHandlerReadVersionComponentsItemProbeHTTPGet) {
+					name = jsonFieldsNameOfHandlerReadVersionComponentsItemProbeHTTPGet[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) encodeFields(e *jx.Encoder) {
+	{
+		if s.Name.Set {
+			e.FieldStart("name")
+			s.Name.Encode(e)
+		}
+	}
+	{
+		if s.Value.Set {
+			e.FieldStart("value")
+			s.Value.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfHandlerReadVersionComponentsItemProbeHTTPGetHeadersItem = [2]string{
+	0: "name",
+	1: "value",
+}
+
+// Decode decodes HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem from json.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "name":
+			if err := func() error {
+				s.Name.Reset()
+				if err := s.Name.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"name\"")
+			}
+		case "value":
+			if err := func() error {
+				s.Value.Reset()
+				if err := s.Value.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"value\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes HandlerReadVersionStatus as json.
+func (s HandlerReadVersionStatus) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes HandlerReadVersionStatus from json.
+func (s *HandlerReadVersionStatus) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode HandlerReadVersionStatus to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch HandlerReadVersionStatus(v) {
+	case HandlerReadVersionStatusHealthy:
+		*s = HandlerReadVersionStatusHealthy
+	case HandlerReadVersionStatusUnHealthy:
+		*s = HandlerReadVersionStatusUnHealthy
+	case HandlerReadVersionStatusDeploying:
+		*s = HandlerReadVersionStatusDeploying
+	default:
+		*s = HandlerReadVersionStatus(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s HandlerReadVersionStatus) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *HandlerReadVersionStatus) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *HandlerUpdateTraffic) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *HandlerUpdateTraffic) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("meta")
 		if s.Meta == nil {
@@ -12642,15 +10470,15 @@ func (s *HandlerPutTraffics) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerPutTraffics = [2]string{
+var jsonFieldsNameOfHandlerUpdateTraffic = [2]string{
 	0: "meta",
 	1: "data",
 }
 
-// Decode decodes HandlerPutTraffics from json.
-func (s *HandlerPutTraffics) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerUpdateTraffic from json.
+func (s *HandlerUpdateTraffic) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPutTraffics to nil")
+		return errors.New("invalid: unable to decode HandlerUpdateTraffic to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -12660,7 +10488,7 @@ func (s *HandlerPutTraffics) Decode(d *jx.Decoder) error {
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
 				s.Meta = nil
-				var elem HandlerPutTrafficsMeta
+				var elem HandlerUpdateTrafficMeta
 				if err := elem.Decode(d); err != nil {
 					return err
 				}
@@ -12672,9 +10500,9 @@ func (s *HandlerPutTraffics) Decode(d *jx.Decoder) error {
 		case "data":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				s.Data = make([]HandlerPutTrafficsDataItem, 0)
+				s.Data = make([]HandlerUpdateTrafficDataItem, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem HandlerPutTrafficsDataItem
+					var elem HandlerUpdateTrafficDataItem
 					if err := elem.Decode(d); err != nil {
 						return err
 					}
@@ -12692,7 +10520,7 @@ func (s *HandlerPutTraffics) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPutTraffics")
+		return errors.Wrap(err, "decode HandlerUpdateTraffic")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -12709,8 +10537,8 @@ func (s *HandlerPutTraffics) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerPutTraffics) {
-					name = jsonFieldsNameOfHandlerPutTraffics[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerUpdateTraffic) {
+					name = jsonFieldsNameOfHandlerUpdateTraffic[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -12731,27 +10559,27 @@ func (s *HandlerPutTraffics) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPutTraffics) MarshalJSON() ([]byte, error) {
+func (s *HandlerUpdateTraffic) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPutTraffics) UnmarshalJSON(data []byte) error {
+func (s *HandlerUpdateTraffic) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPutTrafficsDataItem) Encode(e *jx.Encoder) {
+func (s *HandlerUpdateTrafficDataItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPutTrafficsDataItem) encodeFields(e *jx.Encoder) {
+func (s *HandlerUpdateTrafficDataItem) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("version_name")
 		e.Str(s.VersionName)
@@ -12766,16 +10594,16 @@ func (s *HandlerPutTrafficsDataItem) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfHandlerPutTrafficsDataItem = [3]string{
+var jsonFieldsNameOfHandlerUpdateTrafficDataItem = [3]string{
 	0: "version_name",
 	1: "is_latest_version",
 	2: "percent",
 }
 
-// Decode decodes HandlerPutTrafficsDataItem from json.
-func (s *HandlerPutTrafficsDataItem) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerUpdateTrafficDataItem from json.
+func (s *HandlerUpdateTrafficDataItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPutTrafficsDataItem to nil")
+		return errors.New("invalid: unable to decode HandlerUpdateTrafficDataItem to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -12822,7 +10650,7 @@ func (s *HandlerPutTrafficsDataItem) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPutTrafficsDataItem")
+		return errors.Wrap(err, "decode HandlerUpdateTrafficDataItem")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -12839,8 +10667,8 @@ func (s *HandlerPutTrafficsDataItem) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfHandlerPutTrafficsDataItem) {
-					name = jsonFieldsNameOfHandlerPutTrafficsDataItem[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfHandlerUpdateTrafficDataItem) {
+					name = jsonFieldsNameOfHandlerUpdateTrafficDataItem[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -12861,35 +10689,35 @@ func (s *HandlerPutTrafficsDataItem) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPutTrafficsDataItem) MarshalJSON() ([]byte, error) {
+func (s *HandlerUpdateTrafficDataItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPutTrafficsDataItem) UnmarshalJSON(data []byte) error {
+func (s *HandlerUpdateTrafficDataItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *HandlerPutTrafficsMeta) Encode(e *jx.Encoder) {
+func (s *HandlerUpdateTrafficMeta) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *HandlerPutTrafficsMeta) encodeFields(e *jx.Encoder) {
+func (s *HandlerUpdateTrafficMeta) encodeFields(e *jx.Encoder) {
 }
 
-var jsonFieldsNameOfHandlerPutTrafficsMeta = [0]string{}
+var jsonFieldsNameOfHandlerUpdateTrafficMeta = [0]string{}
 
-// Decode decodes HandlerPutTrafficsMeta from json.
-func (s *HandlerPutTrafficsMeta) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerUpdateTrafficMeta from json.
+func (s *HandlerUpdateTrafficMeta) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode HandlerPutTrafficsMeta to nil")
+		return errors.New("invalid: unable to decode HandlerUpdateTrafficMeta to nil")
 	}
 
 	// OpenAPI上ではnullableだがogenがそれを正しく処理できずにいるため、nullを許容するための特別な処理を追加。
@@ -12904,48 +10732,48 @@ func (s *HandlerPutTrafficsMeta) Decode(d *jx.Decoder) error {
 			return d.Skip()
 		}
 	}); err != nil {
-		return errors.Wrap(err, "decode HandlerPutTrafficsMeta")
+		return errors.Wrap(err, "decode HandlerUpdateTrafficMeta")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *HandlerPutTrafficsMeta) MarshalJSON() ([]byte, error) {
+func (s *HandlerUpdateTrafficMeta) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *HandlerPutTrafficsMeta) UnmarshalJSON(data []byte) error {
+func (s *HandlerUpdateTrafficMeta) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes ListApplicationTrafficsBadRequest as json.
-func (s ListApplicationTrafficsBadRequest) Encode(e *jx.Encoder) {
+// Encode encodes ListApplicationTrafficBadRequest as json.
+func (s ListApplicationTrafficBadRequest) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsBadRequest:
+	case ModelDefaultErrorListApplicationTrafficBadRequest:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorListApplicationTrafficsBadRequest:
+	case ModelCloudctrlErrorListApplicationTrafficBadRequest:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s ListApplicationTrafficsBadRequest) encodeFields(e *jx.Encoder) {
+func (s ListApplicationTrafficBadRequest) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsBadRequest:
+	case ModelDefaultErrorListApplicationTrafficBadRequest:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorListApplicationTrafficsBadRequest:
+	case ModelCloudctrlErrorListApplicationTrafficBadRequest:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes ListApplicationTrafficsBadRequest from json.
-func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
+// Decode decodes ListApplicationTrafficBadRequest from json.
+func (s *ListApplicationTrafficBadRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ListApplicationTrafficsBadRequest to nil")
+		return errors.New("invalid: unable to decode ListApplicationTrafficBadRequest to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -12962,7 +10790,7 @@ func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorListApplicationTrafficsBadRequest
+				match := ModelDefaultErrorListApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -12975,7 +10803,7 @@ func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsBadRequest
+				match := ModelCloudctrlErrorListApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -12988,7 +10816,7 @@ func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsBadRequest
+				match := ModelCloudctrlErrorListApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13001,7 +10829,7 @@ func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsBadRequest
+				match := ModelCloudctrlErrorListApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13014,7 +10842,7 @@ func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsBadRequest
+				match := ModelCloudctrlErrorListApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13027,7 +10855,7 @@ func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsBadRequest
+				match := ModelCloudctrlErrorListApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13044,11 +10872,11 @@ func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsBadRequest:
+	case ModelDefaultErrorListApplicationTrafficBadRequest:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorListApplicationTrafficsBadRequest:
+	case ModelCloudctrlErrorListApplicationTrafficBadRequest:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -13059,41 +10887,41 @@ func (s *ListApplicationTrafficsBadRequest) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s ListApplicationTrafficsBadRequest) MarshalJSON() ([]byte, error) {
+func (s ListApplicationTrafficBadRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ListApplicationTrafficsBadRequest) UnmarshalJSON(data []byte) error {
+func (s *ListApplicationTrafficBadRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes ListApplicationTrafficsForbidden as json.
-func (s ListApplicationTrafficsForbidden) Encode(e *jx.Encoder) {
+// Encode encodes ListApplicationTrafficForbidden as json.
+func (s ListApplicationTrafficForbidden) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsForbidden:
+	case ModelDefaultErrorListApplicationTrafficForbidden:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorListApplicationTrafficsForbidden:
+	case ModelCloudctrlErrorListApplicationTrafficForbidden:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s ListApplicationTrafficsForbidden) encodeFields(e *jx.Encoder) {
+func (s ListApplicationTrafficForbidden) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsForbidden:
+	case ModelDefaultErrorListApplicationTrafficForbidden:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorListApplicationTrafficsForbidden:
+	case ModelCloudctrlErrorListApplicationTrafficForbidden:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes ListApplicationTrafficsForbidden from json.
-func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
+// Decode decodes ListApplicationTrafficForbidden from json.
+func (s *ListApplicationTrafficForbidden) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ListApplicationTrafficsForbidden to nil")
+		return errors.New("invalid: unable to decode ListApplicationTrafficForbidden to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -13110,7 +10938,7 @@ func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorListApplicationTrafficsForbidden
+				match := ModelDefaultErrorListApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13123,7 +10951,7 @@ func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsForbidden
+				match := ModelCloudctrlErrorListApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13136,7 +10964,7 @@ func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsForbidden
+				match := ModelCloudctrlErrorListApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13149,7 +10977,7 @@ func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsForbidden
+				match := ModelCloudctrlErrorListApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13162,7 +10990,7 @@ func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsForbidden
+				match := ModelCloudctrlErrorListApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13175,7 +11003,7 @@ func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsForbidden
+				match := ModelCloudctrlErrorListApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13192,11 +11020,11 @@ func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsForbidden:
+	case ModelDefaultErrorListApplicationTrafficForbidden:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorListApplicationTrafficsForbidden:
+	case ModelCloudctrlErrorListApplicationTrafficForbidden:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -13207,41 +11035,41 @@ func (s *ListApplicationTrafficsForbidden) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s ListApplicationTrafficsForbidden) MarshalJSON() ([]byte, error) {
+func (s ListApplicationTrafficForbidden) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ListApplicationTrafficsForbidden) UnmarshalJSON(data []byte) error {
+func (s *ListApplicationTrafficForbidden) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes ListApplicationTrafficsInternalServerError as json.
-func (s ListApplicationTrafficsInternalServerError) Encode(e *jx.Encoder) {
+// Encode encodes ListApplicationTrafficInternalServerError as json.
+func (s ListApplicationTrafficInternalServerError) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsInternalServerError:
+	case ModelDefaultErrorListApplicationTrafficInternalServerError:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorListApplicationTrafficsInternalServerError:
+	case ModelCloudctrlErrorListApplicationTrafficInternalServerError:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s ListApplicationTrafficsInternalServerError) encodeFields(e *jx.Encoder) {
+func (s ListApplicationTrafficInternalServerError) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsInternalServerError:
+	case ModelDefaultErrorListApplicationTrafficInternalServerError:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorListApplicationTrafficsInternalServerError:
+	case ModelCloudctrlErrorListApplicationTrafficInternalServerError:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes ListApplicationTrafficsInternalServerError from json.
-func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error {
+// Decode decodes ListApplicationTrafficInternalServerError from json.
+func (s *ListApplicationTrafficInternalServerError) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ListApplicationTrafficsInternalServerError to nil")
+		return errors.New("invalid: unable to decode ListApplicationTrafficInternalServerError to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -13258,7 +11086,7 @@ func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorListApplicationTrafficsInternalServerError
+				match := ModelDefaultErrorListApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13271,7 +11099,7 @@ func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsInternalServerError
+				match := ModelCloudctrlErrorListApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13284,7 +11112,7 @@ func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsInternalServerError
+				match := ModelCloudctrlErrorListApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13297,7 +11125,7 @@ func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsInternalServerError
+				match := ModelCloudctrlErrorListApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13310,7 +11138,7 @@ func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsInternalServerError
+				match := ModelCloudctrlErrorListApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13323,7 +11151,7 @@ func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsInternalServerError
+				match := ModelCloudctrlErrorListApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13340,11 +11168,11 @@ func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsInternalServerError:
+	case ModelDefaultErrorListApplicationTrafficInternalServerError:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorListApplicationTrafficsInternalServerError:
+	case ModelCloudctrlErrorListApplicationTrafficInternalServerError:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -13355,41 +11183,41 @@ func (s *ListApplicationTrafficsInternalServerError) Decode(d *jx.Decoder) error
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s ListApplicationTrafficsInternalServerError) MarshalJSON() ([]byte, error) {
+func (s ListApplicationTrafficInternalServerError) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ListApplicationTrafficsInternalServerError) UnmarshalJSON(data []byte) error {
+func (s *ListApplicationTrafficInternalServerError) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes ListApplicationTrafficsNotFound as json.
-func (s ListApplicationTrafficsNotFound) Encode(e *jx.Encoder) {
+// Encode encodes ListApplicationTrafficNotFound as json.
+func (s ListApplicationTrafficNotFound) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsNotFound:
+	case ModelDefaultErrorListApplicationTrafficNotFound:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorListApplicationTrafficsNotFound:
+	case ModelCloudctrlErrorListApplicationTrafficNotFound:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s ListApplicationTrafficsNotFound) encodeFields(e *jx.Encoder) {
+func (s ListApplicationTrafficNotFound) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsNotFound:
+	case ModelDefaultErrorListApplicationTrafficNotFound:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorListApplicationTrafficsNotFound:
+	case ModelCloudctrlErrorListApplicationTrafficNotFound:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes ListApplicationTrafficsNotFound from json.
-func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
+// Decode decodes ListApplicationTrafficNotFound from json.
+func (s *ListApplicationTrafficNotFound) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ListApplicationTrafficsNotFound to nil")
+		return errors.New("invalid: unable to decode ListApplicationTrafficNotFound to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -13406,7 +11234,7 @@ func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorListApplicationTrafficsNotFound
+				match := ModelDefaultErrorListApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13419,7 +11247,7 @@ func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsNotFound
+				match := ModelCloudctrlErrorListApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13432,7 +11260,7 @@ func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsNotFound
+				match := ModelCloudctrlErrorListApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13445,7 +11273,7 @@ func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsNotFound
+				match := ModelCloudctrlErrorListApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13458,7 +11286,7 @@ func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsNotFound
+				match := ModelCloudctrlErrorListApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13471,7 +11299,7 @@ func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsNotFound
+				match := ModelCloudctrlErrorListApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13488,11 +11316,11 @@ func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsNotFound:
+	case ModelDefaultErrorListApplicationTrafficNotFound:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorListApplicationTrafficsNotFound:
+	case ModelCloudctrlErrorListApplicationTrafficNotFound:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -13503,41 +11331,41 @@ func (s *ListApplicationTrafficsNotFound) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s ListApplicationTrafficsNotFound) MarshalJSON() ([]byte, error) {
+func (s ListApplicationTrafficNotFound) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ListApplicationTrafficsNotFound) UnmarshalJSON(data []byte) error {
+func (s *ListApplicationTrafficNotFound) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes ListApplicationTrafficsUnauthorized as json.
-func (s ListApplicationTrafficsUnauthorized) Encode(e *jx.Encoder) {
+// Encode encodes ListApplicationTrafficUnauthorized as json.
+func (s ListApplicationTrafficUnauthorized) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsUnauthorized:
+	case ModelDefaultErrorListApplicationTrafficUnauthorized:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorListApplicationTrafficsUnauthorized:
+	case ModelCloudctrlErrorListApplicationTrafficUnauthorized:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s ListApplicationTrafficsUnauthorized) encodeFields(e *jx.Encoder) {
+func (s ListApplicationTrafficUnauthorized) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsUnauthorized:
+	case ModelDefaultErrorListApplicationTrafficUnauthorized:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorListApplicationTrafficsUnauthorized:
+	case ModelCloudctrlErrorListApplicationTrafficUnauthorized:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes ListApplicationTrafficsUnauthorized from json.
-func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
+// Decode decodes ListApplicationTrafficUnauthorized from json.
+func (s *ListApplicationTrafficUnauthorized) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ListApplicationTrafficsUnauthorized to nil")
+		return errors.New("invalid: unable to decode ListApplicationTrafficUnauthorized to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -13554,7 +11382,7 @@ func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorListApplicationTrafficsUnauthorized
+				match := ModelDefaultErrorListApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13567,7 +11395,7 @@ func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsUnauthorized
+				match := ModelCloudctrlErrorListApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13580,7 +11408,7 @@ func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsUnauthorized
+				match := ModelCloudctrlErrorListApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13593,7 +11421,7 @@ func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsUnauthorized
+				match := ModelCloudctrlErrorListApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13606,7 +11434,7 @@ func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsUnauthorized
+				match := ModelCloudctrlErrorListApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13619,7 +11447,7 @@ func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorListApplicationTrafficsUnauthorized
+				match := ModelCloudctrlErrorListApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -13636,11 +11464,11 @@ func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsUnauthorized:
+	case ModelDefaultErrorListApplicationTrafficUnauthorized:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorListApplicationTrafficsUnauthorized:
+	case ModelCloudctrlErrorListApplicationTrafficUnauthorized:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -13651,14 +11479,14 @@ func (s *ListApplicationTrafficsUnauthorized) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s ListApplicationTrafficsUnauthorized) MarshalJSON() ([]byte, error) {
+func (s ListApplicationTrafficUnauthorized) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ListApplicationTrafficsUnauthorized) UnmarshalJSON(data []byte) error {
+func (s *ListApplicationTrafficUnauthorized) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -15720,18 +13548,18 @@ func (s *OptBool) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerGetApplicationComponentsItemDeploySourceContainerRegistry as json.
-func (o OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
+// Encode encodes CreateApplicationBodyComponentsItemDeploySourceContainerRegistry as json.
+func (o OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes HandlerGetApplicationComponentsItemDeploySourceContainerRegistry from json.
-func (o *OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
+// Decode decodes CreateApplicationBodyComponentsItemDeploySourceContainerRegistry from json.
+func (o *OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry to nil")
+		return errors.New("invalid: unable to decode OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry to nil")
 	}
 	o.Set = true
 	if err := o.Value.Decode(d); err != nil {
@@ -15741,30 +13569,30 @@ func (o *OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) De
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+func (s OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+func (s *OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerGetVersionComponentsItemDeploySourceContainerRegistry as json.
-func (o OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
+// Encode encodes HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry as json.
+func (o OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes HandlerGetVersionComponentsItemDeploySourceContainerRegistry from json.
-func (o *OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry from json.
+func (o *OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry to nil")
+		return errors.New("invalid: unable to decode OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry to nil")
 	}
 	o.Set = true
 	if err := o.Value.Decode(d); err != nil {
@@ -15774,33 +13602,33 @@ func (o *OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) Decode
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+func (s OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+func (s *OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes *HandlerListTrafficsMeta as json.
-func (o OptHandlerListTrafficsMeta) Encode(e *jx.Encoder) {
+// Encode encodes *HandlerListTrafficMeta as json.
+func (o OptHandlerListTrafficMeta) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes *HandlerListTrafficsMeta from json.
-func (o *OptHandlerListTrafficsMeta) Decode(d *jx.Decoder) error {
+// Decode decodes *HandlerListTrafficMeta from json.
+func (o *OptHandlerListTrafficMeta) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptHandlerListTrafficsMeta to nil")
+		return errors.New("invalid: unable to decode OptHandlerListTrafficMeta to nil")
 	}
 	o.Set = true
-	o.Value = new(HandlerListTrafficsMeta)
+	o.Value = new(HandlerListTrafficMeta)
 	if err := o.Value.Decode(d); err != nil {
 		return err
 	}
@@ -15808,14 +13636,14 @@ func (o *OptHandlerListTrafficsMeta) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptHandlerListTrafficsMeta) MarshalJSON() ([]byte, error) {
+func (s OptHandlerListTrafficMeta) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptHandlerListTrafficsMeta) UnmarshalJSON(data []byte) error {
+func (s *OptHandlerListTrafficMeta) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -15853,18 +13681,18 @@ func (s *OptHandlerPatchApplicationComponentsItemDeploySourceContainerRegistry) 
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerPostApplicationComponentsItemDeploySourceContainerRegistry as json.
-func (o OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
+// Encode encodes HandlerReadApplicationComponentsItemDeploySourceContainerRegistry as json.
+func (o OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes HandlerPostApplicationComponentsItemDeploySourceContainerRegistry from json.
-func (o *OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItemDeploySourceContainerRegistry from json.
+func (o *OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry to nil")
+		return errors.New("invalid: unable to decode OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry to nil")
 	}
 	o.Set = true
 	if err := o.Value.Decode(d); err != nil {
@@ -15874,14 +13702,47 @@ func (o *OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) D
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+func (s OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+func (s *OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes HandlerReadVersionComponentsItemDeploySourceContainerRegistry as json.
+func (o OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes HandlerReadVersionComponentsItemDeploySourceContainerRegistry from json.
+func (o *OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -15970,8 +13831,8 @@ func (s *OptNilContainerRegistryAction) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerGetApplicationComponentsItemProbe as json.
-func (o OptNilHandlerGetApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
+// Encode encodes CreateApplicationBodyComponentsItemProbe as json.
+func (o OptNilCreateApplicationBodyComponentsItemProbe) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
@@ -15982,17 +13843,17 @@ func (o OptNilHandlerGetApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
 	o.Value.Encode(e)
 }
 
-// Decode decodes HandlerGetApplicationComponentsItemProbe from json.
-func (o *OptNilHandlerGetApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
+// Decode decodes CreateApplicationBodyComponentsItemProbe from json.
+func (o *OptNilCreateApplicationBodyComponentsItemProbe) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptNilHandlerGetApplicationComponentsItemProbe to nil")
+		return errors.New("invalid: unable to decode OptNilCreateApplicationBodyComponentsItemProbe to nil")
 	}
 	if d.Next() == jx.Null {
 		if err := d.Null(); err != nil {
 			return err
 		}
 
-		var v HandlerGetApplicationComponentsItemProbe
+		var v CreateApplicationBodyComponentsItemProbe
 		o.Value = v
 		o.Set = true
 		o.Null = true
@@ -16007,20 +13868,20 @@ func (o *OptNilHandlerGetApplicationComponentsItemProbe) Decode(d *jx.Decoder) e
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptNilHandlerGetApplicationComponentsItemProbe) MarshalJSON() ([]byte, error) {
+func (s OptNilCreateApplicationBodyComponentsItemProbe) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilHandlerGetApplicationComponentsItemProbe) UnmarshalJSON(data []byte) error {
+func (s *OptNilCreateApplicationBodyComponentsItemProbe) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerGetApplicationComponentsItemProbeHTTPGet as json.
-func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+// Encode encodes CreateApplicationBodyComponentsItemProbeHTTPGet as json.
+func (o OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
@@ -16031,17 +13892,17 @@ func (o OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Enco
 	o.Value.Encode(e)
 }
 
-// Decode decodes HandlerGetApplicationComponentsItemProbeHTTPGet from json.
-func (o *OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+// Decode decodes CreateApplicationBodyComponentsItemProbeHTTPGet from json.
+func (o *OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptNilHandlerGetApplicationComponentsItemProbeHTTPGet to nil")
+		return errors.New("invalid: unable to decode OptNilCreateApplicationBodyComponentsItemProbeHTTPGet to nil")
 	}
 	if d.Next() == jx.Null {
 		if err := d.Null(); err != nil {
 			return err
 		}
 
-		var v HandlerGetApplicationComponentsItemProbeHTTPGet
+		var v CreateApplicationBodyComponentsItemProbeHTTPGet
 		o.Value = v
 		o.Set = true
 		o.Null = true
@@ -16056,20 +13917,20 @@ func (o *OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Dec
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+func (s OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+func (s *OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerGetVersionComponentsItemProbe as json.
-func (o OptNilHandlerGetVersionComponentsItemProbe) Encode(e *jx.Encoder) {
+// Encode encodes []CreateApplicationBodyComponentsItemSecretItem as json.
+func (o OptNilCreateApplicationBodyComponentsItemSecretItemArray) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
@@ -16077,20 +13938,24 @@ func (o OptNilHandlerGetVersionComponentsItemProbe) Encode(e *jx.Encoder) {
 		e.Null()
 		return
 	}
-	o.Value.Encode(e)
+	e.ArrStart()
+	for _, elem := range o.Value {
+		elem.Encode(e)
+	}
+	e.ArrEnd()
 }
 
-// Decode decodes HandlerGetVersionComponentsItemProbe from json.
-func (o *OptNilHandlerGetVersionComponentsItemProbe) Decode(d *jx.Decoder) error {
+// Decode decodes []CreateApplicationBodyComponentsItemSecretItem from json.
+func (o *OptNilCreateApplicationBodyComponentsItemSecretItemArray) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptNilHandlerGetVersionComponentsItemProbe to nil")
+		return errors.New("invalid: unable to decode OptNilCreateApplicationBodyComponentsItemSecretItemArray to nil")
 	}
 	if d.Next() == jx.Null {
 		if err := d.Null(); err != nil {
 			return err
 		}
 
-		var v HandlerGetVersionComponentsItemProbe
+		var v []CreateApplicationBodyComponentsItemSecretItem
 		o.Value = v
 		o.Set = true
 		o.Null = true
@@ -16098,27 +13963,35 @@ func (o *OptNilHandlerGetVersionComponentsItemProbe) Decode(d *jx.Decoder) error
 	}
 	o.Set = true
 	o.Null = false
-	if err := o.Value.Decode(d); err != nil {
+	o.Value = make([]CreateApplicationBodyComponentsItemSecretItem, 0)
+	if err := d.Arr(func(d *jx.Decoder) error {
+		var elem CreateApplicationBodyComponentsItemSecretItem
+		if err := elem.Decode(d); err != nil {
+			return err
+		}
+		o.Value = append(o.Value, elem)
+		return nil
+	}); err != nil {
 		return err
 	}
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptNilHandlerGetVersionComponentsItemProbe) MarshalJSON() ([]byte, error) {
+func (s OptNilCreateApplicationBodyComponentsItemSecretItemArray) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilHandlerGetVersionComponentsItemProbe) UnmarshalJSON(data []byte) error {
+func (s *OptNilCreateApplicationBodyComponentsItemSecretItemArray) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerGetVersionComponentsItemProbeHTTPGet as json.
-func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+// Encode encodes HandlerCreateApplicationComponentsItemProbe as json.
+func (o OptNilHandlerCreateApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
@@ -16129,17 +14002,17 @@ func (o OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Encode(e *jx.Encoder)
 	o.Value.Encode(e)
 }
 
-// Decode decodes HandlerGetVersionComponentsItemProbeHTTPGet from json.
-func (o *OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerCreateApplicationComponentsItemProbe from json.
+func (o *OptNilHandlerCreateApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptNilHandlerGetVersionComponentsItemProbeHTTPGet to nil")
+		return errors.New("invalid: unable to decode OptNilHandlerCreateApplicationComponentsItemProbe to nil")
 	}
 	if d.Next() == jx.Null {
 		if err := d.Null(); err != nil {
 			return err
 		}
 
-		var v HandlerGetVersionComponentsItemProbeHTTPGet
+		var v HandlerCreateApplicationComponentsItemProbe
 		o.Value = v
 		o.Set = true
 		o.Null = true
@@ -16154,14 +14027,63 @@ func (o *OptNilHandlerGetVersionComponentsItemProbeHTTPGet) Decode(d *jx.Decoder
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptNilHandlerGetVersionComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+func (s OptNilHandlerCreateApplicationComponentsItemProbe) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilHandlerGetVersionComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+func (s *OptNilHandlerCreateApplicationComponentsItemProbe) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes HandlerCreateApplicationComponentsItemProbeHTTPGet as json.
+func (o OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	if o.Null {
+		e.Null()
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes HandlerCreateApplicationComponentsItemProbeHTTPGet from json.
+func (o *OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v HandlerCreateApplicationComponentsItemProbeHTTPGet
+		o.Value = v
+		o.Set = true
+		o.Null = true
+		return nil
+	}
+	o.Set = true
+	o.Null = false
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -16264,8 +14186,8 @@ func (s *OptNilHandlerPatchApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerPostApplicationComponentsItemProbe as json.
-func (o OptNilHandlerPostApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
+// Encode encodes HandlerReadApplicationComponentsItemProbe as json.
+func (o OptNilHandlerReadApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
@@ -16276,17 +14198,17 @@ func (o OptNilHandlerPostApplicationComponentsItemProbe) Encode(e *jx.Encoder) {
 	o.Value.Encode(e)
 }
 
-// Decode decodes HandlerPostApplicationComponentsItemProbe from json.
-func (o *OptNilHandlerPostApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItemProbe from json.
+func (o *OptNilHandlerReadApplicationComponentsItemProbe) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptNilHandlerPostApplicationComponentsItemProbe to nil")
+		return errors.New("invalid: unable to decode OptNilHandlerReadApplicationComponentsItemProbe to nil")
 	}
 	if d.Next() == jx.Null {
 		if err := d.Null(); err != nil {
 			return err
 		}
 
-		var v HandlerPostApplicationComponentsItemProbe
+		var v HandlerReadApplicationComponentsItemProbe
 		o.Value = v
 		o.Set = true
 		o.Null = true
@@ -16301,20 +14223,20 @@ func (o *OptNilHandlerPostApplicationComponentsItemProbe) Decode(d *jx.Decoder) 
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptNilHandlerPostApplicationComponentsItemProbe) MarshalJSON() ([]byte, error) {
+func (s OptNilHandlerReadApplicationComponentsItemProbe) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilHandlerPostApplicationComponentsItemProbe) UnmarshalJSON(data []byte) error {
+func (s *OptNilHandlerReadApplicationComponentsItemProbe) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes HandlerPostApplicationComponentsItemProbeHTTPGet as json.
-func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+// Encode encodes HandlerReadApplicationComponentsItemProbeHTTPGet as json.
+func (o OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
@@ -16325,17 +14247,17 @@ func (o OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Encode(e *jx.Enc
 	o.Value.Encode(e)
 }
 
-// Decode decodes HandlerPostApplicationComponentsItemProbeHTTPGet from json.
-func (o *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+// Decode decodes HandlerReadApplicationComponentsItemProbeHTTPGet from json.
+func (o *OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptNilHandlerPostApplicationComponentsItemProbeHTTPGet to nil")
+		return errors.New("invalid: unable to decode OptNilHandlerReadApplicationComponentsItemProbeHTTPGet to nil")
 	}
 	if d.Next() == jx.Null {
 		if err := d.Null(); err != nil {
 			return err
 		}
 
-		var v HandlerPostApplicationComponentsItemProbeHTTPGet
+		var v HandlerReadApplicationComponentsItemProbeHTTPGet
 		o.Value = v
 		o.Set = true
 		o.Null = true
@@ -16350,14 +14272,112 @@ func (o *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) Decode(d *jx.De
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+func (s OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+func (s *OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes HandlerReadVersionComponentsItemProbe as json.
+func (o OptNilHandlerReadVersionComponentsItemProbe) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	if o.Null {
+		e.Null()
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes HandlerReadVersionComponentsItemProbe from json.
+func (o *OptNilHandlerReadVersionComponentsItemProbe) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptNilHandlerReadVersionComponentsItemProbe to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v HandlerReadVersionComponentsItemProbe
+		o.Value = v
+		o.Set = true
+		o.Null = true
+		return nil
+	}
+	o.Set = true
+	o.Null = false
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptNilHandlerReadVersionComponentsItemProbe) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptNilHandlerReadVersionComponentsItemProbe) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes HandlerReadVersionComponentsItemProbeHTTPGet as json.
+func (o OptNilHandlerReadVersionComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	if o.Null {
+		e.Null()
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes HandlerReadVersionComponentsItemProbeHTTPGet from json.
+func (o *OptNilHandlerReadVersionComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptNilHandlerReadVersionComponentsItemProbeHTTPGet to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v HandlerReadVersionComponentsItemProbeHTTPGet
+		o.Value = v
+		o.Set = true
+		o.Null = true
+		return nil
+	}
+	o.Set = true
+	o.Null = false
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptNilHandlerReadVersionComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptNilHandlerReadVersionComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -16407,67 +14427,6 @@ func (s OptNilModelErrorsItemLocationType) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptNilModelErrorsItemLocationType) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes []PatchApplicationBodyComponentsItemEnvItem as json.
-func (o OptNilPatchApplicationBodyComponentsItemEnvItemArray) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	if o.Null {
-		e.Null()
-		return
-	}
-	e.ArrStart()
-	for _, elem := range o.Value {
-		elem.Encode(e)
-	}
-	e.ArrEnd()
-}
-
-// Decode decodes []PatchApplicationBodyComponentsItemEnvItem from json.
-func (o *OptNilPatchApplicationBodyComponentsItemEnvItemArray) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptNilPatchApplicationBodyComponentsItemEnvItemArray to nil")
-	}
-	if d.Next() == jx.Null {
-		if err := d.Null(); err != nil {
-			return err
-		}
-
-		var v []PatchApplicationBodyComponentsItemEnvItem
-		o.Value = v
-		o.Set = true
-		o.Null = true
-		return nil
-	}
-	o.Set = true
-	o.Null = false
-	o.Value = make([]PatchApplicationBodyComponentsItemEnvItem, 0)
-	if err := d.Arr(func(d *jx.Decoder) error {
-		var elem PatchApplicationBodyComponentsItemEnvItem
-		if err := elem.Decode(d); err != nil {
-			return err
-		}
-		o.Value = append(o.Value, elem)
-		return nil
-	}); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptNilPatchApplicationBodyComponentsItemEnvItemArray) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilPatchApplicationBodyComponentsItemEnvItemArray) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -16570,8 +14529,8 @@ func (s *OptNilPatchApplicationBodyComponentsItemProbeHTTPGet) UnmarshalJSON(dat
 	return s.Decode(d)
 }
 
-// Encode encodes []PostApplicationBodyComponentsItemEnvItem as json.
-func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) Encode(e *jx.Encoder) {
+// Encode encodes []PatchApplicationBodyComponentsItemSecretItem as json.
+func (o OptNilPatchApplicationBodyComponentsItemSecretItemArray) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
@@ -16586,17 +14545,17 @@ func (o OptNilPostApplicationBodyComponentsItemEnvItemArray) Encode(e *jx.Encode
 	e.ArrEnd()
 }
 
-// Decode decodes []PostApplicationBodyComponentsItemEnvItem from json.
-func (o *OptNilPostApplicationBodyComponentsItemEnvItemArray) Decode(d *jx.Decoder) error {
+// Decode decodes []PatchApplicationBodyComponentsItemSecretItem from json.
+func (o *OptNilPatchApplicationBodyComponentsItemSecretItemArray) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptNilPostApplicationBodyComponentsItemEnvItemArray to nil")
+		return errors.New("invalid: unable to decode OptNilPatchApplicationBodyComponentsItemSecretItemArray to nil")
 	}
 	if d.Next() == jx.Null {
 		if err := d.Null(); err != nil {
 			return err
 		}
 
-		var v []PostApplicationBodyComponentsItemEnvItem
+		var v []PatchApplicationBodyComponentsItemSecretItem
 		o.Value = v
 		o.Set = true
 		o.Null = true
@@ -16604,9 +14563,9 @@ func (o *OptNilPostApplicationBodyComponentsItemEnvItemArray) Decode(d *jx.Decod
 	}
 	o.Set = true
 	o.Null = false
-	o.Value = make([]PostApplicationBodyComponentsItemEnvItem, 0)
+	o.Value = make([]PatchApplicationBodyComponentsItemSecretItem, 0)
 	if err := d.Arr(func(d *jx.Decoder) error {
-		var elem PostApplicationBodyComponentsItemEnvItem
+		var elem PatchApplicationBodyComponentsItemSecretItem
 		if err := elem.Decode(d); err != nil {
 			return err
 		}
@@ -16619,20 +14578,20 @@ func (o *OptNilPostApplicationBodyComponentsItemEnvItemArray) Decode(d *jx.Decod
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptNilPostApplicationBodyComponentsItemEnvItemArray) MarshalJSON() ([]byte, error) {
+func (s OptNilPatchApplicationBodyComponentsItemSecretItemArray) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilPostApplicationBodyComponentsItemEnvItemArray) UnmarshalJSON(data []byte) error {
+func (s *OptNilPatchApplicationBodyComponentsItemSecretItemArray) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PostApplicationBodyComponentsItemProbe as json.
-func (o OptNilPostApplicationBodyComponentsItemProbe) Encode(e *jx.Encoder) {
+// Encode encodes RequestEnv as json.
+func (o OptNilRequestEnv) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
@@ -16643,17 +14602,17 @@ func (o OptNilPostApplicationBodyComponentsItemProbe) Encode(e *jx.Encoder) {
 	o.Value.Encode(e)
 }
 
-// Decode decodes PostApplicationBodyComponentsItemProbe from json.
-func (o *OptNilPostApplicationBodyComponentsItemProbe) Decode(d *jx.Decoder) error {
+// Decode decodes RequestEnv from json.
+func (o *OptNilRequestEnv) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptNilPostApplicationBodyComponentsItemProbe to nil")
+		return errors.New("invalid: unable to decode OptNilRequestEnv to nil")
 	}
 	if d.Next() == jx.Null {
 		if err := d.Null(); err != nil {
 			return err
 		}
 
-		var v PostApplicationBodyComponentsItemProbe
+		var v RequestEnv
 		o.Value = v
 		o.Set = true
 		o.Null = true
@@ -16668,63 +14627,14 @@ func (o *OptNilPostApplicationBodyComponentsItemProbe) Decode(d *jx.Decoder) err
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptNilPostApplicationBodyComponentsItemProbe) MarshalJSON() ([]byte, error) {
+func (s OptNilRequestEnv) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilPostApplicationBodyComponentsItemProbe) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostApplicationBodyComponentsItemProbeHTTPGet as json.
-func (o OptNilPostApplicationBodyComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	if o.Null {
-		e.Null()
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes PostApplicationBodyComponentsItemProbeHTTPGet from json.
-func (o *OptNilPostApplicationBodyComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptNilPostApplicationBodyComponentsItemProbeHTTPGet to nil")
-	}
-	if d.Next() == jx.Null {
-		if err := d.Null(); err != nil {
-			return err
-		}
-
-		var v PostApplicationBodyComponentsItemProbeHTTPGet
-		o.Value = v
-		o.Set = true
-		o.Null = true
-		return nil
-	}
-	o.Set = true
-	o.Null = false
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptNilPostApplicationBodyComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptNilPostApplicationBodyComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
+func (s *OptNilRequestEnv) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -16809,39 +14719,6 @@ func (s OptPatchApplicationBodyComponentsItemDeploySourceContainerRegistry) Mars
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptPatchApplicationBodyComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostApplicationBodyComponentsItemDeploySourceContainerRegistry as json.
-func (o OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes PostApplicationBodyComponentsItemDeploySourceContainerRegistry from json.
-func (o *OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry to nil")
-	}
-	o.Set = true
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -17237,6 +15114,12 @@ func (s *PatchApplicationBodyComponentsItem) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
+		if s.Secret.Set {
+			e.FieldStart("secret")
+			s.Secret.Encode(e)
+		}
+	}
+	{
 		if s.Probe.Set {
 			e.FieldStart("probe")
 			s.Probe.Encode(e)
@@ -17244,13 +15127,14 @@ func (s *PatchApplicationBodyComponentsItem) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPatchApplicationBodyComponentsItem = [6]string{
+var jsonFieldsNameOfPatchApplicationBodyComponentsItem = [7]string{
 	0: "name",
 	1: "max_cpu",
 	2: "max_memory",
 	3: "deploy_source",
 	4: "env",
-	5: "probe",
+	5: "secret",
+	6: "probe",
 }
 
 // Decode decodes PatchApplicationBodyComponentsItem from json.
@@ -17313,6 +15197,16 @@ func (s *PatchApplicationBodyComponentsItem) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"env\"")
+			}
+		case "secret":
+			if err := func() error {
+				s.Secret.Reset()
+				if err := s.Secret.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"secret\"")
 			}
 		case "probe":
 			if err := func() error {
@@ -17604,86 +15498,6 @@ func (s *PatchApplicationBodyComponentsItemDeploySourceContainerRegistry) Marsha
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *PatchApplicationBodyComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *PatchApplicationBodyComponentsItemEnvItem) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *PatchApplicationBodyComponentsItemEnvItem) encodeFields(e *jx.Encoder) {
-	{
-		if s.Key.Set {
-			e.FieldStart("key")
-			s.Key.Encode(e)
-		}
-	}
-	{
-		if s.Value.Set {
-			e.FieldStart("value")
-			s.Value.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfPatchApplicationBodyComponentsItemEnvItem = [2]string{
-	0: "key",
-	1: "value",
-}
-
-// Decode decodes PatchApplicationBodyComponentsItemEnvItem from json.
-func (s *PatchApplicationBodyComponentsItemEnvItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PatchApplicationBodyComponentsItemEnvItem to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "key":
-			if err := func() error {
-				s.Key.Reset()
-				if err := s.Key.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"key\"")
-			}
-		case "value":
-			if err := func() error {
-				s.Value.Reset()
-				if err := s.Value.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"value\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode PatchApplicationBodyComponentsItemEnvItem")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PatchApplicationBodyComponentsItemEnvItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PatchApplicationBodyComponentsItemEnvItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -18052,6 +15866,119 @@ func (s *PatchApplicationBodyComponentsItemProbeHTTPGetHeadersItem) MarshalJSON(
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *PatchApplicationBodyComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *PatchApplicationBodyComponentsItemSecretItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *PatchApplicationBodyComponentsItemSecretItem) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("key")
+		e.Str(s.Key)
+	}
+	{
+		if s.Value.Set {
+			e.FieldStart("value")
+			s.Value.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfPatchApplicationBodyComponentsItemSecretItem = [2]string{
+	0: "key",
+	1: "value",
+}
+
+// Decode decodes PatchApplicationBodyComponentsItemSecretItem from json.
+func (s *PatchApplicationBodyComponentsItemSecretItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PatchApplicationBodyComponentsItemSecretItem to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "key":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Key = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"key\"")
+			}
+		case "value":
+			if err := func() error {
+				s.Value.Reset()
+				if err := s.Value.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"value\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode PatchApplicationBodyComponentsItemSecretItem")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfPatchApplicationBodyComponentsItemSecretItem) {
+					name = jsonFieldsNameOfPatchApplicationBodyComponentsItemSecretItem[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *PatchApplicationBodyComponentsItemSecretItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PatchApplicationBodyComponentsItemSecretItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -18648,6 +16575,746 @@ func (s *PatchApplicationNotFound) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes PatchApplicationPacketFilterBadRequest as json.
+func (s PatchApplicationPacketFilterBadRequest) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterBadRequest:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s PatchApplicationPacketFilterBadRequest) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterBadRequest:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes PatchApplicationPacketFilterBadRequest from json.
+func (s *PatchApplicationPacketFilterBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PatchApplicationPacketFilterBadRequest to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorPatchApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterBadRequest:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PatchApplicationPacketFilterBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PatchApplicationPacketFilterBadRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PatchApplicationPacketFilterForbidden as json.
+func (s PatchApplicationPacketFilterForbidden) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterForbidden:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterForbidden:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s PatchApplicationPacketFilterForbidden) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterForbidden:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterForbidden:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes PatchApplicationPacketFilterForbidden from json.
+func (s *PatchApplicationPacketFilterForbidden) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PatchApplicationPacketFilterForbidden to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorPatchApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterForbidden:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorPatchApplicationPacketFilterForbidden:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PatchApplicationPacketFilterForbidden) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PatchApplicationPacketFilterForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PatchApplicationPacketFilterInternalServerError as json.
+func (s PatchApplicationPacketFilterInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s PatchApplicationPacketFilterInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes PatchApplicationPacketFilterInternalServerError from json.
+func (s *PatchApplicationPacketFilterInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PatchApplicationPacketFilterInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorPatchApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PatchApplicationPacketFilterInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PatchApplicationPacketFilterInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PatchApplicationPacketFilterNotFound as json.
+func (s PatchApplicationPacketFilterNotFound) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterNotFound:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterNotFound:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s PatchApplicationPacketFilterNotFound) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterNotFound:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterNotFound:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes PatchApplicationPacketFilterNotFound from json.
+func (s *PatchApplicationPacketFilterNotFound) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PatchApplicationPacketFilterNotFound to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorPatchApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterNotFound:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorPatchApplicationPacketFilterNotFound:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PatchApplicationPacketFilterNotFound) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PatchApplicationPacketFilterNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes PatchApplicationPacketFilterUnauthorized as json.
+func (s PatchApplicationPacketFilterUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s PatchApplicationPacketFilterUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes PatchApplicationPacketFilterUnauthorized from json.
+func (s *PatchApplicationPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode PatchApplicationPacketFilterUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorPatchApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s PatchApplicationPacketFilterUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *PatchApplicationPacketFilterUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes PatchApplicationUnauthorized as json.
 func (s PatchApplicationUnauthorized) Encode(e *jx.Encoder) {
 	switch s.Type {
@@ -18797,14 +17464,14 @@ func (s *PatchApplicationUnauthorized) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *PatchPacketFilter) Encode(e *jx.Encoder) {
+func (s *PatchPacketFilterBody) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *PatchPacketFilter) encodeFields(e *jx.Encoder) {
+func (s *PatchPacketFilterBody) encodeFields(e *jx.Encoder) {
 	{
 		if s.IsEnabled.Set {
 			e.FieldStart("is_enabled")
@@ -18823,15 +17490,15 @@ func (s *PatchPacketFilter) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPatchPacketFilter = [2]string{
+var jsonFieldsNameOfPatchPacketFilterBody = [2]string{
 	0: "is_enabled",
 	1: "settings",
 }
 
-// Decode decodes PatchPacketFilter from json.
-func (s *PatchPacketFilter) Decode(d *jx.Decoder) error {
+// Decode decodes PatchPacketFilterBody from json.
+func (s *PatchPacketFilterBody) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PatchPacketFilter to nil")
+		return errors.New("invalid: unable to decode PatchPacketFilterBody to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -18848,9 +17515,9 @@ func (s *PatchPacketFilter) Decode(d *jx.Decoder) error {
 			}
 		case "settings":
 			if err := func() error {
-				s.Settings = make([]PatchPacketFilterSettingsItem, 0)
+				s.Settings = make([]PatchPacketFilterBodySettingsItem, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem PatchPacketFilterSettingsItem
+					var elem PatchPacketFilterBodySettingsItem
 					if err := elem.Decode(d); err != nil {
 						return err
 					}
@@ -18868,626 +17535,34 @@ func (s *PatchPacketFilter) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode PatchPacketFilter")
+		return errors.Wrap(err, "decode PatchPacketFilterBody")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *PatchPacketFilter) MarshalJSON() ([]byte, error) {
+func (s *PatchPacketFilterBody) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PatchPacketFilter) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PatchPacketFilterBadRequest as json.
-func (s PatchPacketFilterBadRequest) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterBadRequest:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPatchPacketFilterBadRequest:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PatchPacketFilterBadRequest) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterBadRequest:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPatchPacketFilterBadRequest:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PatchPacketFilterBadRequest from json.
-func (s *PatchPacketFilterBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PatchPacketFilterBadRequest to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPatchPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterBadRequest:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPatchPacketFilterBadRequest:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PatchPacketFilterBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PatchPacketFilterBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PatchPacketFilterForbidden as json.
-func (s PatchPacketFilterForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPatchPacketFilterForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PatchPacketFilterForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPatchPacketFilterForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PatchPacketFilterForbidden from json.
-func (s *PatchPacketFilterForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PatchPacketFilterForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPatchPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPatchPacketFilterForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PatchPacketFilterForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PatchPacketFilterForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PatchPacketFilterInternalServerError as json.
-func (s PatchPacketFilterInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPatchPacketFilterInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PatchPacketFilterInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPatchPacketFilterInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PatchPacketFilterInternalServerError from json.
-func (s *PatchPacketFilterInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PatchPacketFilterInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPatchPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPatchPacketFilterInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PatchPacketFilterInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PatchPacketFilterInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PatchPacketFilterNotFound as json.
-func (s PatchPacketFilterNotFound) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterNotFound:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPatchPacketFilterNotFound:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PatchPacketFilterNotFound) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterNotFound:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPatchPacketFilterNotFound:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PatchPacketFilterNotFound from json.
-func (s *PatchPacketFilterNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PatchPacketFilterNotFound to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPatchPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPatchPacketFilterNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterNotFound:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPatchPacketFilterNotFound:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PatchPacketFilterNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PatchPacketFilterNotFound) UnmarshalJSON(data []byte) error {
+func (s *PatchPacketFilterBody) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *PatchPacketFilterSettingsItem) Encode(e *jx.Encoder) {
+func (s *PatchPacketFilterBodySettingsItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *PatchPacketFilterSettingsItem) encodeFields(e *jx.Encoder) {
+func (s *PatchPacketFilterBodySettingsItem) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("from_ip")
 		e.Str(s.FromIP)
@@ -19498,15 +17573,15 @@ func (s *PatchPacketFilterSettingsItem) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPatchPacketFilterSettingsItem = [2]string{
+var jsonFieldsNameOfPatchPacketFilterBodySettingsItem = [2]string{
 	0: "from_ip",
 	1: "from_ip_prefix_length",
 }
 
-// Decode decodes PatchPacketFilterSettingsItem from json.
-func (s *PatchPacketFilterSettingsItem) Decode(d *jx.Decoder) error {
+// Decode decodes PatchPacketFilterBodySettingsItem from json.
+func (s *PatchPacketFilterBodySettingsItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PatchPacketFilterSettingsItem to nil")
+		return errors.New("invalid: unable to decode PatchPacketFilterBodySettingsItem to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -19541,7 +17616,7 @@ func (s *PatchPacketFilterSettingsItem) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode PatchPacketFilterSettingsItem")
+		return errors.Wrap(err, "decode PatchPacketFilterBodySettingsItem")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -19558,8 +17633,8 @@ func (s *PatchPacketFilterSettingsItem) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfPatchPacketFilterSettingsItem) {
-					name = jsonFieldsNameOfPatchPacketFilterSettingsItem[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfPatchPacketFilterBodySettingsItem) {
+					name = jsonFieldsNameOfPatchPacketFilterBodySettingsItem[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -19580,41 +17655,41 @@ func (s *PatchPacketFilterSettingsItem) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *PatchPacketFilterSettingsItem) MarshalJSON() ([]byte, error) {
+func (s *PatchPacketFilterBodySettingsItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PatchPacketFilterSettingsItem) UnmarshalJSON(data []byte) error {
+func (s *PatchPacketFilterBodySettingsItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PatchPacketFilterUnauthorized as json.
-func (s PatchPacketFilterUnauthorized) Encode(e *jx.Encoder) {
+// Encode encodes ReadApplicationBadRequest as json.
+func (s ReadApplicationBadRequest) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterUnauthorized:
+	case ModelDefaultErrorReadApplicationBadRequest:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPatchPacketFilterUnauthorized:
+	case ModelCloudctrlErrorReadApplicationBadRequest:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s PatchPacketFilterUnauthorized) encodeFields(e *jx.Encoder) {
+func (s ReadApplicationBadRequest) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterUnauthorized:
+	case ModelDefaultErrorReadApplicationBadRequest:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPatchPacketFilterUnauthorized:
+	case ModelCloudctrlErrorReadApplicationBadRequest:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes PatchPacketFilterUnauthorized from json.
-func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
+// Decode decodes ReadApplicationBadRequest from json.
+func (s *ReadApplicationBadRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PatchPacketFilterUnauthorized to nil")
+		return errors.New("invalid: unable to decode ReadApplicationBadRequest to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -19631,7 +17706,7 @@ func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorPatchPacketFilterUnauthorized
+				match := ModelDefaultErrorReadApplicationBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19644,7 +17719,7 @@ func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPatchPacketFilterUnauthorized
+				match := ModelCloudctrlErrorReadApplicationBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19657,7 +17732,7 @@ func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPatchPacketFilterUnauthorized
+				match := ModelCloudctrlErrorReadApplicationBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19670,7 +17745,7 @@ func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPatchPacketFilterUnauthorized
+				match := ModelCloudctrlErrorReadApplicationBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19683,7 +17758,7 @@ func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPatchPacketFilterUnauthorized
+				match := ModelCloudctrlErrorReadApplicationBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19696,7 +17771,7 @@ func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPatchPacketFilterUnauthorized
+				match := ModelCloudctrlErrorReadApplicationBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19713,11 +17788,11 @@ func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterUnauthorized:
+	case ModelDefaultErrorReadApplicationBadRequest:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorPatchPacketFilterUnauthorized:
+	case ModelCloudctrlErrorReadApplicationBadRequest:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -19728,41 +17803,41 @@ func (s *PatchPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PatchPacketFilterUnauthorized) MarshalJSON() ([]byte, error) {
+func (s ReadApplicationBadRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PatchPacketFilterUnauthorized) UnmarshalJSON(data []byte) error {
+func (s *ReadApplicationBadRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PostApplicationBadRequest as json.
-func (s PostApplicationBadRequest) Encode(e *jx.Encoder) {
+// Encode encodes ReadApplicationForbidden as json.
+func (s ReadApplicationForbidden) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationBadRequest:
+	case ModelDefaultErrorReadApplicationForbidden:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostApplicationBadRequest:
+	case ModelCloudctrlErrorReadApplicationForbidden:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s PostApplicationBadRequest) encodeFields(e *jx.Encoder) {
+func (s ReadApplicationForbidden) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationBadRequest:
+	case ModelDefaultErrorReadApplicationForbidden:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostApplicationBadRequest:
+	case ModelCloudctrlErrorReadApplicationForbidden:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes PostApplicationBadRequest from json.
-func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
+// Decode decodes ReadApplicationForbidden from json.
+func (s *ReadApplicationForbidden) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBadRequest to nil")
+		return errors.New("invalid: unable to decode ReadApplicationForbidden to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -19779,7 +17854,7 @@ func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorPostApplicationBadRequest
+				match := ModelDefaultErrorReadApplicationForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19792,7 +17867,7 @@ func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationBadRequest
+				match := ModelCloudctrlErrorReadApplicationForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19805,7 +17880,7 @@ func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationBadRequest
+				match := ModelCloudctrlErrorReadApplicationForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19818,7 +17893,7 @@ func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationBadRequest
+				match := ModelCloudctrlErrorReadApplicationForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19831,7 +17906,7 @@ func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationBadRequest
+				match := ModelCloudctrlErrorReadApplicationForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19844,7 +17919,7 @@ func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationBadRequest
+				match := ModelCloudctrlErrorReadApplicationForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -19861,11 +17936,11 @@ func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationBadRequest:
+	case ModelDefaultErrorReadApplicationForbidden:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorPostApplicationBadRequest:
+	case ModelCloudctrlErrorReadApplicationForbidden:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -19876,182 +17951,4300 @@ func (s *PostApplicationBadRequest) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PostApplicationBadRequest) MarshalJSON() ([]byte, error) {
+func (s ReadApplicationForbidden) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBadRequest) UnmarshalJSON(data []byte) error {
+func (s *ReadApplicationForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationInternalServerError as json.
+func (s ReadApplicationInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationInternalServerError from json.
+func (s *ReadApplicationInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationNotFound as json.
+func (s ReadApplicationNotFound) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationNotFound:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationNotFound:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationNotFound) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationNotFound:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationNotFound:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationNotFound from json.
+func (s *ReadApplicationNotFound) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationNotFound to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationNotFound:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationNotFound:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationNotFound) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationPacketFilterBadRequest as json.
+func (s ReadApplicationPacketFilterBadRequest) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterBadRequest:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterBadRequest:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationPacketFilterBadRequest) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterBadRequest:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterBadRequest:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationPacketFilterBadRequest from json.
+func (s *ReadApplicationPacketFilterBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationPacketFilterBadRequest to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterBadRequest:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationPacketFilterBadRequest:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationPacketFilterBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationPacketFilterBadRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationPacketFilterForbidden as json.
+func (s ReadApplicationPacketFilterForbidden) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterForbidden:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterForbidden:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationPacketFilterForbidden) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterForbidden:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterForbidden:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationPacketFilterForbidden from json.
+func (s *ReadApplicationPacketFilterForbidden) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationPacketFilterForbidden to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterForbidden:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationPacketFilterForbidden:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationPacketFilterForbidden) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationPacketFilterForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationPacketFilterInternalServerError as json.
+func (s ReadApplicationPacketFilterInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationPacketFilterInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationPacketFilterInternalServerError from json.
+func (s *ReadApplicationPacketFilterInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationPacketFilterInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationPacketFilterInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationPacketFilterInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationPacketFilterNotFound as json.
+func (s ReadApplicationPacketFilterNotFound) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterNotFound:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterNotFound:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationPacketFilterNotFound) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterNotFound:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterNotFound:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationPacketFilterNotFound from json.
+func (s *ReadApplicationPacketFilterNotFound) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationPacketFilterNotFound to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterNotFound:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationPacketFilterNotFound:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationPacketFilterNotFound) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationPacketFilterNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationPacketFilterUnauthorized as json.
+func (s ReadApplicationPacketFilterUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationPacketFilterUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationPacketFilterUnauthorized from json.
+func (s *ReadApplicationPacketFilterUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationPacketFilterUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationPacketFilterUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationPacketFilterUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationStatusBadRequest as json.
+func (s ReadApplicationStatusBadRequest) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusBadRequest:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationStatusBadRequest:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationStatusBadRequest) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusBadRequest:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationStatusBadRequest:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationStatusBadRequest from json.
+func (s *ReadApplicationStatusBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationStatusBadRequest to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusBadRequest:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationStatusBadRequest:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationStatusBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationStatusBadRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationStatusForbidden as json.
+func (s ReadApplicationStatusForbidden) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusForbidden:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationStatusForbidden:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationStatusForbidden) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusForbidden:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationStatusForbidden:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationStatusForbidden from json.
+func (s *ReadApplicationStatusForbidden) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationStatusForbidden to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusForbidden:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationStatusForbidden:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationStatusForbidden) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationStatusForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationStatusInternalServerError as json.
+func (s ReadApplicationStatusInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationStatusInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationStatusInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationStatusInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationStatusInternalServerError from json.
+func (s *ReadApplicationStatusInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationStatusInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationStatusInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationStatusInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationStatusInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationStatusNotFound as json.
+func (s ReadApplicationStatusNotFound) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusNotFound:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationStatusNotFound:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationStatusNotFound) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusNotFound:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationStatusNotFound:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationStatusNotFound from json.
+func (s *ReadApplicationStatusNotFound) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationStatusNotFound to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusNotFound:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationStatusNotFound:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationStatusNotFound) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationStatusNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationStatusUnauthorized as json.
+func (s ReadApplicationStatusUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationStatusUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationStatusUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationStatusUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationStatusUnauthorized from json.
+func (s *ReadApplicationStatusUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationStatusUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationStatusUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationStatusUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationStatusUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationUnauthorized as json.
+func (s ReadApplicationUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationUnauthorized from json.
+func (s *ReadApplicationUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionBadRequest as json.
+func (s ReadApplicationVersionBadRequest) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionBadRequest:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionBadRequest:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionBadRequest) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionBadRequest:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionBadRequest:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionBadRequest from json.
+func (s *ReadApplicationVersionBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionBadRequest to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionBadRequest:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionBadRequest:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionBadRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionForbidden as json.
+func (s ReadApplicationVersionForbidden) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionForbidden:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionForbidden:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionForbidden) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionForbidden:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionForbidden:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionForbidden from json.
+func (s *ReadApplicationVersionForbidden) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionForbidden to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionForbidden:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionForbidden:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionForbidden) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionInternalServerError as json.
+func (s ReadApplicationVersionInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionInternalServerError from json.
+func (s *ReadApplicationVersionInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionNotFound as json.
+func (s ReadApplicationVersionNotFound) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionNotFound:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionNotFound:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionNotFound) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionNotFound:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionNotFound:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionNotFound from json.
+func (s *ReadApplicationVersionNotFound) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionNotFound to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionNotFound:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionNotFound:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionNotFound) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionStatusBadRequest as json.
+func (s ReadApplicationVersionStatusBadRequest) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusBadRequest:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusBadRequest:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionStatusBadRequest) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusBadRequest:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusBadRequest:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionStatusBadRequest from json.
+func (s *ReadApplicationVersionStatusBadRequest) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionStatusBadRequest to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusBadRequest
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusBadRequest:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionStatusBadRequest:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionStatusBadRequest) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionStatusBadRequest) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionStatusForbidden as json.
+func (s ReadApplicationVersionStatusForbidden) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusForbidden:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusForbidden:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionStatusForbidden) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusForbidden:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusForbidden:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionStatusForbidden from json.
+func (s *ReadApplicationVersionStatusForbidden) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionStatusForbidden to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusForbidden:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionStatusForbidden:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionStatusForbidden) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionStatusForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionStatusInternalServerError as json.
+func (s ReadApplicationVersionStatusInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionStatusInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionStatusInternalServerError from json.
+func (s *ReadApplicationVersionStatusInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionStatusInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionStatusInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionStatusInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionStatusNotFound as json.
+func (s ReadApplicationVersionStatusNotFound) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusNotFound:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusNotFound:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionStatusNotFound) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusNotFound:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusNotFound:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionStatusNotFound from json.
+func (s *ReadApplicationVersionStatusNotFound) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionStatusNotFound to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusNotFound:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionStatusNotFound:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionStatusNotFound) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionStatusNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionStatusUnauthorized as json.
+func (s ReadApplicationVersionStatusUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionStatusUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionStatusUnauthorized from json.
+func (s *ReadApplicationVersionStatusUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionStatusUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionStatusUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionStatusUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadApplicationVersionUnauthorized as json.
+func (s ReadApplicationVersionUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadApplicationVersionUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadApplicationVersionUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadApplicationVersionUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadApplicationVersionUnauthorized from json.
+func (s *ReadApplicationVersionUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadApplicationVersionUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadApplicationVersionUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadApplicationVersionUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadApplicationVersionUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadApplicationVersionUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadApplicationVersionUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadUserForbidden as json.
+func (s ReadUserForbidden) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadUserForbidden:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadUserForbidden:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadUserForbidden) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadUserForbidden:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadUserForbidden:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadUserForbidden from json.
+func (s *ReadUserForbidden) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadUserForbidden to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserForbidden
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadUserForbidden:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadUserForbidden:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadUserForbidden) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadUserForbidden) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadUserInternalServerError as json.
+func (s ReadUserInternalServerError) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadUserInternalServerError:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadUserInternalServerError:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadUserInternalServerError) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadUserInternalServerError:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadUserInternalServerError:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadUserInternalServerError from json.
+func (s *ReadUserInternalServerError) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadUserInternalServerError to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserInternalServerError
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadUserInternalServerError:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadUserInternalServerError:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadUserInternalServerError) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadUserInternalServerError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadUserNotFound as json.
+func (s ReadUserNotFound) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadUserNotFound:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadUserNotFound:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadUserNotFound) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadUserNotFound:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadUserNotFound:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadUserNotFound from json.
+func (s *ReadUserNotFound) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadUserNotFound to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadUserNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserNotFound
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadUserNotFound:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadUserNotFound:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadUserNotFound) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadUserNotFound) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ReadUserUnauthorized as json.
+func (s ReadUserUnauthorized) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadUserUnauthorized:
+		s.ModelDefaultError.Encode(e)
+	case ModelCloudctrlErrorReadUserUnauthorized:
+		s.ModelCloudctrlError.Encode(e)
+	}
+}
+
+func (s ReadUserUnauthorized) encodeFields(e *jx.Encoder) {
+	switch s.Type {
+	case ModelDefaultErrorReadUserUnauthorized:
+		s.ModelDefaultError.encodeFields(e)
+	case ModelCloudctrlErrorReadUserUnauthorized:
+		s.ModelCloudctrlError.encodeFields(e)
+	}
+}
+
+// Decode decodes ReadUserUnauthorized from json.
+func (s *ReadUserUnauthorized) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ReadUserUnauthorized to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "error":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Object {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelDefaultErrorReadUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_code":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "error_msg":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "is_fatal":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.Bool {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "serial":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "status":
+				// Type-based discrimination: check if field has expected JSON type
+				if typ := d.Next(); typ != jx.String {
+					// Field exists but has wrong type, not a match for this variant
+					return d.Skip()
+				}
+				match := ModelCloudctrlErrorReadUserUnauthorized
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case ModelDefaultErrorReadUserUnauthorized:
+		if err := s.ModelDefaultError.Decode(d); err != nil {
+			return err
+		}
+	case ModelCloudctrlErrorReadUserUnauthorized:
+		if err := s.ModelCloudctrlError.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ReadUserUnauthorized) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ReadUserUnauthorized) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes RequestEnv as json.
+func (s RequestEnv) Encode(e *jx.Encoder) {
+	unwrapped := []RequestEnvItem(s)
+
+	e.ArrStart()
+	for _, elem := range unwrapped {
+		elem.Encode(e)
+	}
+	e.ArrEnd()
+}
+
+// Decode decodes RequestEnv from json.
+func (s *RequestEnv) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode RequestEnv to nil")
+	}
+	var unwrapped []RequestEnvItem
+	if err := func() error {
+		unwrapped = make([]RequestEnvItem, 0)
+		if err := d.Arr(func(d *jx.Decoder) error {
+			var elem RequestEnvItem
+			if err := elem.Decode(d); err != nil {
+				return err
+			}
+			unwrapped = append(unwrapped, elem)
+			return nil
+		}); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = RequestEnv(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s RequestEnv) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *RequestEnv) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *PostApplicationBody) Encode(e *jx.Encoder) {
+func (s *RequestEnvItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *PostApplicationBody) encodeFields(e *jx.Encoder) {
+func (s *RequestEnvItem) encodeFields(e *jx.Encoder) {
 	{
-		e.FieldStart("name")
-		e.Str(s.Name)
+		e.FieldStart("key")
+		e.Str(s.Key)
 	}
 	{
-		e.FieldStart("timeout_seconds")
-		e.Int(s.TimeoutSeconds)
+		e.FieldStart("value")
+		e.Str(s.Value)
 	}
-	{
-		e.FieldStart("port")
-		e.Int(s.Port)
+}
+
+var jsonFieldsNameOfRequestEnvItem = [2]string{
+	0: "key",
+	1: "value",
+}
+
+// Decode decodes RequestEnvItem from json.
+func (s *RequestEnvItem) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode RequestEnvItem to nil")
 	}
-	{
-		e.FieldStart("min_scale")
-		e.Int(s.MinScale)
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "key":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.Key = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"key\"")
+			}
+		case "value":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Value = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"value\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode RequestEnvItem")
 	}
-	{
-		e.FieldStart("max_scale")
-		e.Int(s.MaxScale)
-	}
-	{
-		if s.ScaleTargetConcurrency.Set {
-			e.FieldStart("scale_target_concurrency")
-			s.ScaleTargetConcurrency.Encode(e)
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfRequestEnvItem) {
+					name = jsonFieldsNameOfRequestEnvItem[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
 		}
 	}
-	{
-		e.FieldStart("components")
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *RequestEnvItem) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *RequestEnvItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ResponseEnv as json.
+func (s ResponseEnv) Encode(e *jx.Encoder) {
+	unwrapped := []ResponseEnvItem(s)
+	if unwrapped == nil {
+		e.ArrEmpty()
+		return
+	}
+	if unwrapped != nil {
 		e.ArrStart()
-		for _, elem := range s.Components {
+		for _, elem := range unwrapped {
 			elem.Encode(e)
 		}
 		e.ArrEnd()
 	}
 }
 
-var jsonFieldsNameOfPostApplicationBody = [7]string{
-	0: "name",
-	1: "timeout_seconds",
-	2: "port",
-	3: "min_scale",
-	4: "max_scale",
-	5: "scale_target_concurrency",
-	6: "components",
+// Decode decodes ResponseEnv from json.
+func (s *ResponseEnv) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ResponseEnv to nil")
+	}
+	var unwrapped []ResponseEnvItem
+	if err := func() error {
+		unwrapped = make([]ResponseEnvItem, 0)
+		if err := d.Arr(func(d *jx.Decoder) error {
+			var elem ResponseEnvItem
+			if err := elem.Decode(d); err != nil {
+				return err
+			}
+			unwrapped = append(unwrapped, elem)
+			return nil
+		}); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = ResponseEnv(unwrapped)
+	return nil
 }
 
-// Decode decodes PostApplicationBody from json.
-func (s *PostApplicationBody) Decode(d *jx.Decoder) error {
+// MarshalJSON implements stdjson.Marshaler.
+func (s ResponseEnv) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ResponseEnv) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ResponseEnvItem) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ResponseEnvItem) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("key")
+		e.Str(s.Key)
+	}
+	{
+		e.FieldStart("value")
+		e.Str(s.Value)
+	}
+}
+
+var jsonFieldsNameOfResponseEnvItem = [2]string{
+	0: "key",
+	1: "value",
+}
+
+// Decode decodes ResponseEnvItem from json.
+func (s *ResponseEnvItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBody to nil")
+		return errors.New("invalid: unable to decode ResponseEnvItem to nil")
 	}
 	var requiredBitSet [1]uint8
-	s.setDefaults()
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "name":
+		case "key":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
-				s.Name = string(v)
+				s.Key = string(v)
 				if err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
+				return errors.Wrap(err, "decode field \"key\"")
 			}
-		case "timeout_seconds":
+		case "value":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Int()
-				s.TimeoutSeconds = int(v)
+				v, err := d.Str()
+				s.Value = string(v)
 				if err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"timeout_seconds\"")
-			}
-		case "port":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				v, err := d.Int()
-				s.Port = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"port\"")
-			}
-		case "min_scale":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				v, err := d.Int()
-				s.MinScale = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"min_scale\"")
-			}
-		case "max_scale":
-			requiredBitSet[0] |= 1 << 4
-			if err := func() error {
-				v, err := d.Int()
-				s.MaxScale = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"max_scale\"")
-			}
-		case "scale_target_concurrency":
-			if err := func() error {
-				s.ScaleTargetConcurrency.Reset()
-				if err := s.ScaleTargetConcurrency.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"scale_target_concurrency\"")
-			}
-		case "components":
-			requiredBitSet[0] |= 1 << 6
-			if err := func() error {
-				s.Components = make([]PostApplicationBodyComponentsItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem PostApplicationBodyComponentsItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Components = append(s.Components, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"components\"")
+				return errors.Wrap(err, "decode field \"value\"")
 			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode PostApplicationBody")
+		return errors.Wrap(err, "decode ResponseEnvItem")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b01011111,
+		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -20063,8 +22256,8 @@ func (s *PostApplicationBody) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfPostApplicationBody) {
-					name = jsonFieldsNameOfPostApplicationBody[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfResponseEnvItem) {
+					name = jsonFieldsNameOfResponseEnvItem[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -20085,353 +22278,119 @@ func (s *PostApplicationBody) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *PostApplicationBody) MarshalJSON() ([]byte, error) {
+func (s *ResponseEnvItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBody) UnmarshalJSON(data []byte) error {
+func (s *ResponseEnvItem) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ResponseSecret as json.
+func (s ResponseSecret) Encode(e *jx.Encoder) {
+	unwrapped := []ResponseSecretItem(s)
+	if unwrapped == nil {
+		e.ArrEmpty()
+		return
+	}
+	if unwrapped != nil {
+		e.ArrStart()
+		for _, elem := range unwrapped {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+}
+
+// Decode decodes ResponseSecret from json.
+func (s *ResponseSecret) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ResponseSecret to nil")
+	}
+	var unwrapped []ResponseSecretItem
+	if err := func() error {
+		unwrapped = make([]ResponseSecretItem, 0)
+		if err := d.Arr(func(d *jx.Decoder) error {
+			var elem ResponseSecretItem
+			if err := elem.Decode(d); err != nil {
+				return err
+			}
+			unwrapped = append(unwrapped, elem)
+			return nil
+		}); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = ResponseSecret(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ResponseSecret) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ResponseSecret) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *PostApplicationBodyComponentsItem) Encode(e *jx.Encoder) {
+func (s *ResponseSecretItem) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *PostApplicationBodyComponentsItem) encodeFields(e *jx.Encoder) {
+func (s *ResponseSecretItem) encodeFields(e *jx.Encoder) {
 	{
-		e.FieldStart("name")
-		e.Str(s.Name)
-	}
-	{
-		e.FieldStart("max_cpu")
-		s.MaxCPU.Encode(e)
-	}
-	{
-		e.FieldStart("max_memory")
-		s.MaxMemory.Encode(e)
-	}
-	{
-		e.FieldStart("deploy_source")
-		s.DeploySource.Encode(e)
-	}
-	{
-		if s.Env.Set {
-			e.FieldStart("env")
-			s.Env.Encode(e)
-		}
-	}
-	{
-		if s.Probe.Set {
-			e.FieldStart("probe")
-			s.Probe.Encode(e)
-		}
+		e.FieldStart("key")
+		e.Str(s.Key)
 	}
 }
 
-var jsonFieldsNameOfPostApplicationBodyComponentsItem = [6]string{
-	0: "name",
-	1: "max_cpu",
-	2: "max_memory",
-	3: "deploy_source",
-	4: "env",
-	5: "probe",
+var jsonFieldsNameOfResponseSecretItem = [1]string{
+	0: "key",
 }
 
-// Decode decodes PostApplicationBodyComponentsItem from json.
-func (s *PostApplicationBodyComponentsItem) Decode(d *jx.Decoder) error {
+// Decode decodes ResponseSecretItem from json.
+func (s *ResponseSecretItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItem to nil")
+		return errors.New("invalid: unable to decode ResponseSecretItem to nil")
 	}
 	var requiredBitSet [1]uint8
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
 		switch string(k) {
-		case "name":
+		case "key":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
-				s.Name = string(v)
+				s.Key = string(v)
 				if err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "max_cpu":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				if err := s.MaxCPU.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"max_cpu\"")
-			}
-		case "max_memory":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				if err := s.MaxMemory.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"max_memory\"")
-			}
-		case "deploy_source":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				if err := s.DeploySource.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"deploy_source\"")
-			}
-		case "env":
-			if err := func() error {
-				s.Env.Reset()
-				if err := s.Env.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"env\"")
-			}
-		case "probe":
-			if err := func() error {
-				s.Probe.Reset()
-				if err := s.Probe.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"probe\"")
+				return errors.Wrap(err, "decode field \"key\"")
 			}
 		default:
 			return d.Skip()
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode PostApplicationBodyComponentsItem")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00001111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfPostApplicationBodyComponentsItem) {
-					name = jsonFieldsNameOfPostApplicationBodyComponentsItem[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostApplicationBodyComponentsItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *PostApplicationBodyComponentsItemDeploySource) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *PostApplicationBodyComponentsItemDeploySource) encodeFields(e *jx.Encoder) {
-	{
-		if s.ContainerRegistry.Set {
-			e.FieldStart("container_registry")
-			s.ContainerRegistry.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfPostApplicationBodyComponentsItemDeploySource = [1]string{
-	0: "container_registry",
-}
-
-// Decode decodes PostApplicationBodyComponentsItemDeploySource from json.
-func (s *PostApplicationBodyComponentsItemDeploySource) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItemDeploySource to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "container_registry":
-			if err := func() error {
-				s.ContainerRegistry.Reset()
-				if err := s.ContainerRegistry.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"container_registry\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode PostApplicationBodyComponentsItemDeploySource")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostApplicationBodyComponentsItemDeploySource) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItemDeploySource) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("image")
-		e.Str(s.Image)
-	}
-	{
-		if s.Server.Set {
-			e.FieldStart("server")
-			s.Server.Encode(e)
-		}
-	}
-	{
-		if s.Username.Set {
-			e.FieldStart("username")
-			s.Username.Encode(e)
-		}
-	}
-	{
-		if s.Password.Set {
-			e.FieldStart("password")
-			s.Password.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfPostApplicationBodyComponentsItemDeploySourceContainerRegistry = [4]string{
-	0: "image",
-	1: "server",
-	2: "username",
-	3: "password",
-}
-
-// Decode decodes PostApplicationBodyComponentsItemDeploySourceContainerRegistry from json.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItemDeploySourceContainerRegistry to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "image":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Image = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"image\"")
-			}
-		case "server":
-			if err := func() error {
-				s.Server.Reset()
-				if err := s.Server.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"server\"")
-			}
-		case "username":
-			if err := func() error {
-				s.Username.Reset()
-				if err := s.Username.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"username\"")
-			}
-		case "password":
-			if err := func() error {
-				s.Password.Reset()
-				if err := s.Password.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"password\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode PostApplicationBodyComponentsItemDeploySourceContainerRegistry")
+		return errors.Wrap(err, "decode ResponseSecretItem")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -20448,8 +22407,8 @@ func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) Decode(
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfPostApplicationBodyComponentsItemDeploySourceContainerRegistry) {
-					name = jsonFieldsNameOfPostApplicationBodyComponentsItemDeploySourceContainerRegistry[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfResponseSecretItem) {
+					name = jsonFieldsNameOfResponseSecretItem[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -20470,489 +22429,41 @@ func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) Decode(
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) MarshalJSON() ([]byte, error) {
+func (s *ResponseSecretItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) UnmarshalJSON(data []byte) error {
+func (s *ResponseSecretItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode implements json.Marshaler.
-func (s *PostApplicationBodyComponentsItemEnvItem) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *PostApplicationBodyComponentsItemEnvItem) encodeFields(e *jx.Encoder) {
-	{
-		if s.Key.Set {
-			e.FieldStart("key")
-			s.Key.Encode(e)
-		}
-	}
-	{
-		if s.Value.Set {
-			e.FieldStart("value")
-			s.Value.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfPostApplicationBodyComponentsItemEnvItem = [2]string{
-	0: "key",
-	1: "value",
-}
-
-// Decode decodes PostApplicationBodyComponentsItemEnvItem from json.
-func (s *PostApplicationBodyComponentsItemEnvItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItemEnvItem to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "key":
-			if err := func() error {
-				s.Key.Reset()
-				if err := s.Key.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"key\"")
-			}
-		case "value":
-			if err := func() error {
-				s.Value.Reset()
-				if err := s.Value.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"value\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode PostApplicationBodyComponentsItemEnvItem")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostApplicationBodyComponentsItemEnvItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItemEnvItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostApplicationBodyComponentsItemMaxCPU as json.
-func (s PostApplicationBodyComponentsItemMaxCPU) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes PostApplicationBodyComponentsItemMaxCPU from json.
-func (s *PostApplicationBodyComponentsItemMaxCPU) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItemMaxCPU to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch PostApplicationBodyComponentsItemMaxCPU(v) {
-	case PostApplicationBodyComponentsItemMaxCPU05:
-		*s = PostApplicationBodyComponentsItemMaxCPU05
-	case PostApplicationBodyComponentsItemMaxCPU1:
-		*s = PostApplicationBodyComponentsItemMaxCPU1
-	case PostApplicationBodyComponentsItemMaxCPU2:
-		*s = PostApplicationBodyComponentsItemMaxCPU2
-	default:
-		*s = PostApplicationBodyComponentsItemMaxCPU(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PostApplicationBodyComponentsItemMaxCPU) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItemMaxCPU) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostApplicationBodyComponentsItemMaxMemory as json.
-func (s PostApplicationBodyComponentsItemMaxMemory) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes PostApplicationBodyComponentsItemMaxMemory from json.
-func (s *PostApplicationBodyComponentsItemMaxMemory) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItemMaxMemory to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch PostApplicationBodyComponentsItemMaxMemory(v) {
-	case PostApplicationBodyComponentsItemMaxMemory1Gi:
-		*s = PostApplicationBodyComponentsItemMaxMemory1Gi
-	case PostApplicationBodyComponentsItemMaxMemory2Gi:
-		*s = PostApplicationBodyComponentsItemMaxMemory2Gi
-	case PostApplicationBodyComponentsItemMaxMemory4Gi:
-		*s = PostApplicationBodyComponentsItemMaxMemory4Gi
-	default:
-		*s = PostApplicationBodyComponentsItemMaxMemory(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PostApplicationBodyComponentsItemMaxMemory) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItemMaxMemory) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *PostApplicationBodyComponentsItemProbe) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *PostApplicationBodyComponentsItemProbe) encodeFields(e *jx.Encoder) {
-	{
-		if s.HTTPGet.Set {
-			e.FieldStart("http_get")
-			s.HTTPGet.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfPostApplicationBodyComponentsItemProbe = [1]string{
-	0: "http_get",
-}
-
-// Decode decodes PostApplicationBodyComponentsItemProbe from json.
-func (s *PostApplicationBodyComponentsItemProbe) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItemProbe to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "http_get":
-			if err := func() error {
-				s.HTTPGet.Reset()
-				if err := s.HTTPGet.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"http_get\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode PostApplicationBodyComponentsItemProbe")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostApplicationBodyComponentsItemProbe) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItemProbe) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("path")
-		e.Str(s.Path)
-	}
-	{
-		e.FieldStart("port")
-		e.Int(s.Port)
-	}
-	{
-		if s.Headers != nil {
-			e.FieldStart("headers")
-			e.ArrStart()
-			for _, elem := range s.Headers {
-				elem.Encode(e)
-			}
-			e.ArrEnd()
-		}
-	}
-}
-
-var jsonFieldsNameOfPostApplicationBodyComponentsItemProbeHTTPGet = [3]string{
-	0: "path",
-	1: "port",
-	2: "headers",
-}
-
-// Decode decodes PostApplicationBodyComponentsItemProbeHTTPGet from json.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItemProbeHTTPGet to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "path":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				v, err := d.Str()
-				s.Path = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"path\"")
-			}
-		case "port":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Int()
-				s.Port = int(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"port\"")
-			}
-		case "headers":
-			if err := func() error {
-				s.Headers = make([]PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem
-					if err := elem.Decode(d); err != nil {
-						return err
-					}
-					s.Headers = append(s.Headers, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"headers\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode PostApplicationBodyComponentsItemProbeHTTPGet")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000011,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfPostApplicationBodyComponentsItemProbeHTTPGet) {
-					name = jsonFieldsNameOfPostApplicationBodyComponentsItemProbeHTTPGet[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) encodeFields(e *jx.Encoder) {
-	{
-		if s.Name.Set {
-			e.FieldStart("name")
-			s.Name.Encode(e)
-		}
-	}
-	{
-		if s.Value.Set {
-			e.FieldStart("value")
-			s.Value.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfPostApplicationBodyComponentsItemProbeHTTPGetHeadersItem = [2]string{
-	0: "name",
-	1: "value",
-}
-
-// Decode decodes PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem from json.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "name":
-			if err := func() error {
-				s.Name.Reset()
-				if err := s.Name.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"name\"")
-			}
-		case "value":
-			if err := func() error {
-				s.Value.Reset()
-				if err := s.Value.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"value\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostApplicationConflict as json.
-func (s PostApplicationConflict) Encode(e *jx.Encoder) {
+// Encode encodes UpdateApplicationTrafficBadRequest as json.
+func (s UpdateApplicationTrafficBadRequest) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationConflict:
+	case ModelDefaultErrorUpdateApplicationTrafficBadRequest:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostApplicationConflict:
+	case ModelCloudctrlErrorUpdateApplicationTrafficBadRequest:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s PostApplicationConflict) encodeFields(e *jx.Encoder) {
+func (s UpdateApplicationTrafficBadRequest) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationConflict:
+	case ModelDefaultErrorUpdateApplicationTrafficBadRequest:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostApplicationConflict:
+	case ModelCloudctrlErrorUpdateApplicationTrafficBadRequest:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes PostApplicationConflict from json.
-func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateApplicationTrafficBadRequest from json.
+func (s *UpdateApplicationTrafficBadRequest) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationConflict to nil")
+		return errors.New("invalid: unable to decode UpdateApplicationTrafficBadRequest to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -20969,7 +22480,7 @@ func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorPostApplicationConflict
+				match := ModelDefaultErrorUpdateApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -20982,7 +22493,7 @@ func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -20995,7 +22506,7 @@ func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21008,7 +22519,7 @@ func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21021,7 +22532,7 @@ func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21034,7 +22545,7 @@ func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficBadRequest
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21051,11 +22562,11 @@ func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationConflict:
+	case ModelDefaultErrorUpdateApplicationTrafficBadRequest:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorPostApplicationConflict:
+	case ModelCloudctrlErrorUpdateApplicationTrafficBadRequest:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -21066,41 +22577,41 @@ func (s *PostApplicationConflict) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PostApplicationConflict) MarshalJSON() ([]byte, error) {
+func (s UpdateApplicationTrafficBadRequest) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationConflict) UnmarshalJSON(data []byte) error {
+func (s *UpdateApplicationTrafficBadRequest) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PostApplicationForbidden as json.
-func (s PostApplicationForbidden) Encode(e *jx.Encoder) {
+// Encode encodes UpdateApplicationTrafficForbidden as json.
+func (s UpdateApplicationTrafficForbidden) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationForbidden:
+	case ModelDefaultErrorUpdateApplicationTrafficForbidden:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostApplicationForbidden:
+	case ModelCloudctrlErrorUpdateApplicationTrafficForbidden:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s PostApplicationForbidden) encodeFields(e *jx.Encoder) {
+func (s UpdateApplicationTrafficForbidden) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationForbidden:
+	case ModelDefaultErrorUpdateApplicationTrafficForbidden:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostApplicationForbidden:
+	case ModelCloudctrlErrorUpdateApplicationTrafficForbidden:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes PostApplicationForbidden from json.
-func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateApplicationTrafficForbidden from json.
+func (s *UpdateApplicationTrafficForbidden) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationForbidden to nil")
+		return errors.New("invalid: unable to decode UpdateApplicationTrafficForbidden to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -21117,7 +22628,7 @@ func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorPostApplicationForbidden
+				match := ModelDefaultErrorUpdateApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21130,7 +22641,7 @@ func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationForbidden
+				match := ModelCloudctrlErrorUpdateApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21143,7 +22654,7 @@ func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationForbidden
+				match := ModelCloudctrlErrorUpdateApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21156,7 +22667,7 @@ func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationForbidden
+				match := ModelCloudctrlErrorUpdateApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21169,7 +22680,7 @@ func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationForbidden
+				match := ModelCloudctrlErrorUpdateApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21182,7 +22693,7 @@ func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationForbidden
+				match := ModelCloudctrlErrorUpdateApplicationTrafficForbidden
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21199,11 +22710,11 @@ func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationForbidden:
+	case ModelDefaultErrorUpdateApplicationTrafficForbidden:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorPostApplicationForbidden:
+	case ModelCloudctrlErrorUpdateApplicationTrafficForbidden:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -21214,41 +22725,41 @@ func (s *PostApplicationForbidden) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PostApplicationForbidden) MarshalJSON() ([]byte, error) {
+func (s UpdateApplicationTrafficForbidden) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationForbidden) UnmarshalJSON(data []byte) error {
+func (s *UpdateApplicationTrafficForbidden) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PostApplicationInternalServerError as json.
-func (s PostApplicationInternalServerError) Encode(e *jx.Encoder) {
+// Encode encodes UpdateApplicationTrafficInternalServerError as json.
+func (s UpdateApplicationTrafficInternalServerError) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationInternalServerError:
+	case ModelDefaultErrorUpdateApplicationTrafficInternalServerError:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostApplicationInternalServerError:
+	case ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s PostApplicationInternalServerError) encodeFields(e *jx.Encoder) {
+func (s UpdateApplicationTrafficInternalServerError) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationInternalServerError:
+	case ModelDefaultErrorUpdateApplicationTrafficInternalServerError:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostApplicationInternalServerError:
+	case ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes PostApplicationInternalServerError from json.
-func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateApplicationTrafficInternalServerError from json.
+func (s *UpdateApplicationTrafficInternalServerError) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationInternalServerError to nil")
+		return errors.New("invalid: unable to decode UpdateApplicationTrafficInternalServerError to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -21265,7 +22776,7 @@ func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorPostApplicationInternalServerError
+				match := ModelDefaultErrorUpdateApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21278,7 +22789,7 @@ func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationInternalServerError
+				match := ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21291,7 +22802,7 @@ func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationInternalServerError
+				match := ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21304,7 +22815,7 @@ func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationInternalServerError
+				match := ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21317,7 +22828,7 @@ func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationInternalServerError
+				match := ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21330,7 +22841,7 @@ func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationInternalServerError
+				match := ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21347,11 +22858,11 @@ func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationInternalServerError:
+	case ModelDefaultErrorUpdateApplicationTrafficInternalServerError:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorPostApplicationInternalServerError:
+	case ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -21362,41 +22873,41 @@ func (s *PostApplicationInternalServerError) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PostApplicationInternalServerError) MarshalJSON() ([]byte, error) {
+func (s UpdateApplicationTrafficInternalServerError) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationInternalServerError) UnmarshalJSON(data []byte) error {
+func (s *UpdateApplicationTrafficInternalServerError) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PostApplicationUnauthorized as json.
-func (s PostApplicationUnauthorized) Encode(e *jx.Encoder) {
+// Encode encodes UpdateApplicationTrafficNotFound as json.
+func (s UpdateApplicationTrafficNotFound) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationUnauthorized:
+	case ModelDefaultErrorUpdateApplicationTrafficNotFound:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostApplicationUnauthorized:
+	case ModelCloudctrlErrorUpdateApplicationTrafficNotFound:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s PostApplicationUnauthorized) encodeFields(e *jx.Encoder) {
+func (s UpdateApplicationTrafficNotFound) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationUnauthorized:
+	case ModelDefaultErrorUpdateApplicationTrafficNotFound:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostApplicationUnauthorized:
+	case ModelCloudctrlErrorUpdateApplicationTrafficNotFound:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes PostApplicationUnauthorized from json.
-func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateApplicationTrafficNotFound from json.
+func (s *UpdateApplicationTrafficNotFound) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PostApplicationUnauthorized to nil")
+		return errors.New("invalid: unable to decode UpdateApplicationTrafficNotFound to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -21413,7 +22924,7 @@ func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorPostApplicationUnauthorized
+				match := ModelDefaultErrorUpdateApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21426,7 +22937,7 @@ func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationUnauthorized
+				match := ModelCloudctrlErrorUpdateApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21439,7 +22950,7 @@ func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationUnauthorized
+				match := ModelCloudctrlErrorUpdateApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21452,7 +22963,7 @@ func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationUnauthorized
+				match := ModelCloudctrlErrorUpdateApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21465,7 +22976,7 @@ func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationUnauthorized
+				match := ModelCloudctrlErrorUpdateApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21478,7 +22989,7 @@ func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostApplicationUnauthorized
+				match := ModelCloudctrlErrorUpdateApplicationTrafficNotFound
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21495,11 +23006,11 @@ func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationUnauthorized:
+	case ModelDefaultErrorUpdateApplicationTrafficNotFound:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorPostApplicationUnauthorized:
+	case ModelCloudctrlErrorUpdateApplicationTrafficNotFound:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -21510,41 +23021,41 @@ func (s *PostApplicationUnauthorized) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PostApplicationUnauthorized) MarshalJSON() ([]byte, error) {
+func (s UpdateApplicationTrafficNotFound) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostApplicationUnauthorized) UnmarshalJSON(data []byte) error {
+func (s *UpdateApplicationTrafficNotFound) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PostUserConflict as json.
-func (s PostUserConflict) Encode(e *jx.Encoder) {
+// Encode encodes UpdateApplicationTrafficUnauthorized as json.
+func (s UpdateApplicationTrafficUnauthorized) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostUserConflict:
+	case ModelDefaultErrorUpdateApplicationTrafficUnauthorized:
 		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostUserConflict:
+	case ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized:
 		s.ModelCloudctrlError.Encode(e)
 	}
 }
 
-func (s PostUserConflict) encodeFields(e *jx.Encoder) {
+func (s UpdateApplicationTrafficUnauthorized) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case ModelDefaultErrorPostUserConflict:
+	case ModelDefaultErrorUpdateApplicationTrafficUnauthorized:
 		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostUserConflict:
+	case ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized:
 		s.ModelCloudctrlError.encodeFields(e)
 	}
 }
 
-// Decode decodes PostUserConflict from json.
-func (s *PostUserConflict) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateApplicationTrafficUnauthorized from json.
+func (s *UpdateApplicationTrafficUnauthorized) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PostUserConflict to nil")
+		return errors.New("invalid: unable to decode UpdateApplicationTrafficUnauthorized to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -21561,7 +23072,7 @@ func (s *PostUserConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelDefaultErrorPostUserConflict
+				match := ModelDefaultErrorUpdateApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21574,7 +23085,7 @@ func (s *PostUserConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostUserConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21587,7 +23098,7 @@ func (s *PostUserConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostUserConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21600,7 +23111,7 @@ func (s *PostUserConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostUserConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21613,7 +23124,7 @@ func (s *PostUserConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostUserConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21626,7 +23137,7 @@ func (s *PostUserConflict) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := ModelCloudctrlErrorPostUserConflict
+				match := ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -21643,11 +23154,11 @@ func (s *PostUserConflict) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case ModelDefaultErrorPostUserConflict:
+	case ModelDefaultErrorUpdateApplicationTrafficUnauthorized:
 		if err := s.ModelDefaultError.Decode(d); err != nil {
 			return err
 		}
-	case ModelCloudctrlErrorPostUserConflict:
+	case ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized:
 		if err := s.ModelCloudctrlError.Decode(d); err != nil {
 			return err
 		}
@@ -21658,1205 +23169,21 @@ func (s *PostUserConflict) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PostUserConflict) MarshalJSON() ([]byte, error) {
+func (s UpdateApplicationTrafficUnauthorized) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostUserConflict) UnmarshalJSON(data []byte) error {
+func (s *UpdateApplicationTrafficUnauthorized) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PostUserForbidden as json.
-func (s PostUserForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPostUserForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostUserForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PostUserForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPostUserForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostUserForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PostUserForbidden from json.
-func (s *PostUserForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostUserForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPostUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPostUserForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPostUserForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PostUserForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostUserForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostUserInternalServerError as json.
-func (s PostUserInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPostUserInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostUserInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PostUserInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPostUserInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostUserInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PostUserInternalServerError from json.
-func (s *PostUserInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostUserInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPostUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPostUserInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPostUserInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PostUserInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostUserInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostUserUnauthorized as json.
-func (s PostUserUnauthorized) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPostUserUnauthorized:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPostUserUnauthorized:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PostUserUnauthorized) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPostUserUnauthorized:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPostUserUnauthorized:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PostUserUnauthorized from json.
-func (s *PostUserUnauthorized) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostUserUnauthorized to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPostUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPostUserUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPostUserUnauthorized:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPostUserUnauthorized:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PostUserUnauthorized) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostUserUnauthorized) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutApplicationTrafficBadRequest as json.
-func (s PutApplicationTrafficBadRequest) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficBadRequest:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPutApplicationTrafficBadRequest:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PutApplicationTrafficBadRequest) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficBadRequest:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPutApplicationTrafficBadRequest:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PutApplicationTrafficBadRequest from json.
-func (s *PutApplicationTrafficBadRequest) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutApplicationTrafficBadRequest to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPutApplicationTrafficBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficBadRequest
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficBadRequest:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPutApplicationTrafficBadRequest:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PutApplicationTrafficBadRequest) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutApplicationTrafficBadRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutApplicationTrafficForbidden as json.
-func (s PutApplicationTrafficForbidden) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficForbidden:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPutApplicationTrafficForbidden:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PutApplicationTrafficForbidden) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficForbidden:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPutApplicationTrafficForbidden:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PutApplicationTrafficForbidden from json.
-func (s *PutApplicationTrafficForbidden) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutApplicationTrafficForbidden to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPutApplicationTrafficForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficForbidden
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficForbidden:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPutApplicationTrafficForbidden:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PutApplicationTrafficForbidden) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutApplicationTrafficForbidden) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutApplicationTrafficInternalServerError as json.
-func (s PutApplicationTrafficInternalServerError) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficInternalServerError:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPutApplicationTrafficInternalServerError:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PutApplicationTrafficInternalServerError) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficInternalServerError:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPutApplicationTrafficInternalServerError:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PutApplicationTrafficInternalServerError from json.
-func (s *PutApplicationTrafficInternalServerError) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutApplicationTrafficInternalServerError to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPutApplicationTrafficInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficInternalServerError
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficInternalServerError:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPutApplicationTrafficInternalServerError:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PutApplicationTrafficInternalServerError) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutApplicationTrafficInternalServerError) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutApplicationTrafficNotFound as json.
-func (s PutApplicationTrafficNotFound) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficNotFound:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPutApplicationTrafficNotFound:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PutApplicationTrafficNotFound) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficNotFound:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPutApplicationTrafficNotFound:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PutApplicationTrafficNotFound from json.
-func (s *PutApplicationTrafficNotFound) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutApplicationTrafficNotFound to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPutApplicationTrafficNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficNotFound
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficNotFound:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPutApplicationTrafficNotFound:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PutApplicationTrafficNotFound) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutApplicationTrafficNotFound) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutApplicationTrafficUnauthorized as json.
-func (s PutApplicationTrafficUnauthorized) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficUnauthorized:
-		s.ModelDefaultError.Encode(e)
-	case ModelCloudctrlErrorPutApplicationTrafficUnauthorized:
-		s.ModelCloudctrlError.Encode(e)
-	}
-}
-
-func (s PutApplicationTrafficUnauthorized) encodeFields(e *jx.Encoder) {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficUnauthorized:
-		s.ModelDefaultError.encodeFields(e)
-	case ModelCloudctrlErrorPutApplicationTrafficUnauthorized:
-		s.ModelCloudctrlError.encodeFields(e)
-	}
-}
-
-// Decode decodes PutApplicationTrafficUnauthorized from json.
-func (s *PutApplicationTrafficUnauthorized) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PutApplicationTrafficUnauthorized to nil")
-	}
-	// Sum type fields.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			switch string(key) {
-			case "error":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Object {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelDefaultErrorPutApplicationTrafficUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_code":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "error_msg":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "is_fatal":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.Bool {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "serial":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			case "status":
-				// Type-based discrimination: check if field has expected JSON type
-				if typ := d.Next(); typ != jx.String {
-					// Field exists but has wrong type, not a match for this variant
-					return d.Skip()
-				}
-				match := ModelCloudctrlErrorPutApplicationTrafficUnauthorized
-				if found && s.Type != match {
-					s.Type = ""
-					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
-				}
-				found = true
-				s.Type = match
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficUnauthorized:
-		if err := s.ModelDefaultError.Decode(d); err != nil {
-			return err
-		}
-	case ModelCloudctrlErrorPutApplicationTrafficUnauthorized:
-		if err := s.ModelCloudctrlError.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s PutApplicationTrafficUnauthorized) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutApplicationTrafficUnauthorized) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PutTrafficsBody as json.
-func (s PutTrafficsBody) Encode(e *jx.Encoder) {
-	unwrapped := []PutTrafficsBodyItem(s)
+// Encode encodes UpdateTrafficBody as json.
+func (s UpdateTrafficBody) Encode(e *jx.Encoder) {
+	unwrapped := []UpdateTrafficBodyItem(s)
 
 	e.ArrStart()
 	for _, elem := range unwrapped {
@@ -22865,16 +23192,16 @@ func (s PutTrafficsBody) Encode(e *jx.Encoder) {
 	e.ArrEnd()
 }
 
-// Decode decodes PutTrafficsBody from json.
-func (s *PutTrafficsBody) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateTrafficBody from json.
+func (s *UpdateTrafficBody) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PutTrafficsBody to nil")
+		return errors.New("invalid: unable to decode UpdateTrafficBody to nil")
 	}
-	var unwrapped []PutTrafficsBodyItem
+	var unwrapped []UpdateTrafficBodyItem
 	if err := func() error {
-		unwrapped = make([]PutTrafficsBodyItem, 0)
+		unwrapped = make([]UpdateTrafficBodyItem, 0)
 		if err := d.Arr(func(d *jx.Decoder) error {
-			var elem PutTrafficsBodyItem
+			var elem UpdateTrafficBodyItem
 			if err := elem.Decode(d); err != nil {
 				return err
 			}
@@ -22887,46 +23214,46 @@ func (s *PutTrafficsBody) Decode(d *jx.Decoder) error {
 	}(); err != nil {
 		return errors.Wrap(err, "alias")
 	}
-	*s = PutTrafficsBody(unwrapped)
+	*s = UpdateTrafficBody(unwrapped)
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PutTrafficsBody) MarshalJSON() ([]byte, error) {
+func (s UpdateTrafficBody) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTrafficsBody) UnmarshalJSON(data []byte) error {
+func (s *UpdateTrafficBody) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes PutTrafficsBodyItem as json.
-func (s PutTrafficsBodyItem) Encode(e *jx.Encoder) {
+// Encode encodes UpdateTrafficBodyItem as json.
+func (s UpdateTrafficBodyItem) Encode(e *jx.Encoder) {
 	switch s.Type {
-	case PutTrafficsBodyItem0PutTrafficsBodyItem:
-		s.PutTrafficsBodyItem0.Encode(e)
-	case PutTrafficsBodyItem1PutTrafficsBodyItem:
-		s.PutTrafficsBodyItem1.Encode(e)
+	case UpdateTrafficBodyItem0UpdateTrafficBodyItem:
+		s.UpdateTrafficBodyItem0.Encode(e)
+	case UpdateTrafficBodyItem1UpdateTrafficBodyItem:
+		s.UpdateTrafficBodyItem1.Encode(e)
 	}
 }
 
-func (s PutTrafficsBodyItem) encodeFields(e *jx.Encoder) {
+func (s UpdateTrafficBodyItem) encodeFields(e *jx.Encoder) {
 	switch s.Type {
-	case PutTrafficsBodyItem0PutTrafficsBodyItem:
-		s.PutTrafficsBodyItem0.encodeFields(e)
-	case PutTrafficsBodyItem1PutTrafficsBodyItem:
-		s.PutTrafficsBodyItem1.encodeFields(e)
+	case UpdateTrafficBodyItem0UpdateTrafficBodyItem:
+		s.UpdateTrafficBodyItem0.encodeFields(e)
+	case UpdateTrafficBodyItem1UpdateTrafficBodyItem:
+		s.UpdateTrafficBodyItem1.encodeFields(e)
 	}
 }
 
-// Decode decodes PutTrafficsBodyItem from json.
-func (s *PutTrafficsBodyItem) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateTrafficBodyItem from json.
+func (s *UpdateTrafficBodyItem) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PutTrafficsBodyItem to nil")
+		return errors.New("invalid: unable to decode UpdateTrafficBodyItem to nil")
 	}
 	// Sum type fields.
 	if typ := d.Next(); typ != jx.Object {
@@ -22943,7 +23270,7 @@ func (s *PutTrafficsBodyItem) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := PutTrafficsBodyItem0PutTrafficsBodyItem
+				match := UpdateTrafficBodyItem0UpdateTrafficBodyItem
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -22956,7 +23283,7 @@ func (s *PutTrafficsBodyItem) Decode(d *jx.Decoder) error {
 					// Field exists but has wrong type, not a match for this variant
 					return d.Skip()
 				}
-				match := PutTrafficsBodyItem1PutTrafficsBodyItem
+				match := UpdateTrafficBodyItem1UpdateTrafficBodyItem
 				if found && s.Type != match {
 					s.Type = ""
 					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
@@ -22973,12 +23300,12 @@ func (s *PutTrafficsBodyItem) Decode(d *jx.Decoder) error {
 		return errors.New("unable to detect sum type variant")
 	}
 	switch s.Type {
-	case PutTrafficsBodyItem0PutTrafficsBodyItem:
-		if err := s.PutTrafficsBodyItem0.Decode(d); err != nil {
+	case UpdateTrafficBodyItem0UpdateTrafficBodyItem:
+		if err := s.UpdateTrafficBodyItem0.Decode(d); err != nil {
 			return err
 		}
-	case PutTrafficsBodyItem1PutTrafficsBodyItem:
-		if err := s.PutTrafficsBodyItem1.Decode(d); err != nil {
+	case UpdateTrafficBodyItem1UpdateTrafficBodyItem:
+		if err := s.UpdateTrafficBodyItem1.Decode(d); err != nil {
 			return err
 		}
 	default:
@@ -22988,27 +23315,27 @@ func (s *PutTrafficsBodyItem) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s PutTrafficsBodyItem) MarshalJSON() ([]byte, error) {
+func (s UpdateTrafficBodyItem) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTrafficsBodyItem) UnmarshalJSON(data []byte) error {
+func (s *UpdateTrafficBodyItem) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *PutTrafficsBodyItem0) Encode(e *jx.Encoder) {
+func (s *UpdateTrafficBodyItem0) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *PutTrafficsBodyItem0) encodeFields(e *jx.Encoder) {
+func (s *UpdateTrafficBodyItem0) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("is_latest_version")
 		e.Bool(s.IsLatestVersion)
@@ -23019,15 +23346,15 @@ func (s *PutTrafficsBodyItem0) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPutTrafficsBodyItem0 = [2]string{
+var jsonFieldsNameOfUpdateTrafficBodyItem0 = [2]string{
 	0: "is_latest_version",
 	1: "percent",
 }
 
-// Decode decodes PutTrafficsBodyItem0 from json.
-func (s *PutTrafficsBodyItem0) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateTrafficBodyItem0 from json.
+func (s *UpdateTrafficBodyItem0) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PutTrafficsBodyItem0 to nil")
+		return errors.New("invalid: unable to decode UpdateTrafficBodyItem0 to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -23062,7 +23389,7 @@ func (s *PutTrafficsBodyItem0) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode PutTrafficsBodyItem0")
+		return errors.Wrap(err, "decode UpdateTrafficBodyItem0")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -23079,8 +23406,8 @@ func (s *PutTrafficsBodyItem0) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfPutTrafficsBodyItem0) {
-					name = jsonFieldsNameOfPutTrafficsBodyItem0[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfUpdateTrafficBodyItem0) {
+					name = jsonFieldsNameOfUpdateTrafficBodyItem0[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -23101,27 +23428,27 @@ func (s *PutTrafficsBodyItem0) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *PutTrafficsBodyItem0) MarshalJSON() ([]byte, error) {
+func (s *UpdateTrafficBodyItem0) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTrafficsBodyItem0) UnmarshalJSON(data []byte) error {
+func (s *UpdateTrafficBodyItem0) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *PutTrafficsBodyItem1) Encode(e *jx.Encoder) {
+func (s *UpdateTrafficBodyItem1) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *PutTrafficsBodyItem1) encodeFields(e *jx.Encoder) {
+func (s *UpdateTrafficBodyItem1) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("version_name")
 		e.Str(s.VersionName)
@@ -23132,15 +23459,15 @@ func (s *PutTrafficsBodyItem1) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfPutTrafficsBodyItem1 = [2]string{
+var jsonFieldsNameOfUpdateTrafficBodyItem1 = [2]string{
 	0: "version_name",
 	1: "percent",
 }
 
-// Decode decodes PutTrafficsBodyItem1 from json.
-func (s *PutTrafficsBodyItem1) Decode(d *jx.Decoder) error {
+// Decode decodes UpdateTrafficBodyItem1 from json.
+func (s *UpdateTrafficBodyItem1) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode PutTrafficsBodyItem1 to nil")
+		return errors.New("invalid: unable to decode UpdateTrafficBodyItem1 to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -23175,7 +23502,7 @@ func (s *PutTrafficsBodyItem1) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode PutTrafficsBodyItem1")
+		return errors.Wrap(err, "decode UpdateTrafficBodyItem1")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -23192,8 +23519,8 @@ func (s *PutTrafficsBodyItem1) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfPutTrafficsBodyItem1) {
-					name = jsonFieldsNameOfPutTrafficsBodyItem1[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfUpdateTrafficBodyItem1) {
+					name = jsonFieldsNameOfUpdateTrafficBodyItem1[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -23214,14 +23541,14 @@ func (s *PutTrafficsBodyItem1) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *PutTrafficsBodyItem1) MarshalJSON() ([]byte, error) {
+func (s *UpdateTrafficBodyItem1) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PutTrafficsBodyItem1) UnmarshalJSON(data []byte) error {
+func (s *UpdateTrafficBodyItem1) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

@@ -41,7 +41,7 @@ func Random(strlen int, charSet string) string {
 // RandomName ランダムな文字列を生成して返す
 func RandomName(prefix string, strlen int, charSet string) string {
 	result := make([]byte, strlen)
-	for i := 0; i < strlen; i++ {
+	for i := range strlen {
 		result[i] = charSet[r.Intn(len(charSet))]
 	}
 	return prefix + string(result)
@@ -56,14 +56,14 @@ func IsAccTest() bool {
 //
 // 通常は*testing.Tを実装として利用する
 type TestT interface {
-	Log(args ...interface{})
-	Logf(format string, args ...interface{})
-	Error(args ...interface{})
-	Errorf(format string, args ...interface{})
+	Log(args ...any)
+	Logf(format string, args ...any)
+	Error(args ...any)
+	Errorf(format string, args ...any)
 	FailNow()
-	Fatal(args ...interface{})
-	Skip(args ...interface{})
-	Skipf(format string, args ...interface{})
+	Fatal(args ...any)
+	Skip(args ...any)
+	Skipf(format string, args ...any)
 	Name() string
 	Parallel()
 }

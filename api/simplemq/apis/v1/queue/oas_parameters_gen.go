@@ -8,32 +8,32 @@ type ClearQueueParams struct {
 	ID string
 }
 
-// ConfigQueueParams is parameters of configQueue operation.
-type ConfigQueueParams struct {
-	// キューのリソースID.
-	ID string
-}
-
 // DeleteQueueParams is parameters of deleteQueue operation.
 type DeleteQueueParams struct {
 	// キューのリソースID.
 	ID string
 }
 
-// GetMessageCountParams is parameters of getMessageCount operation.
-type GetMessageCountParams struct {
+// ReadMessageCountParams is parameters of readMessageCount operation.
+type ReadMessageCountParams struct {
 	// キューのリソースID.
 	ID string
 }
 
-// GetQueueParams is parameters of getQueue operation.
-type GetQueueParams struct {
+// ReadQueueParams is parameters of readQueue operation.
+type ReadQueueParams struct {
 	// キューのリソースID.
 	ID string
 }
 
 // RotateAPIKeyParams is parameters of rotateAPIKey operation.
 type RotateAPIKeyParams struct {
+	// キューのリソースID.
+	ID string
+}
+
+// UpdateQueueParams is parameters of updateQueue operation.
+type UpdateQueueParams struct {
 	// キューのリソースID.
 	ID string
 }

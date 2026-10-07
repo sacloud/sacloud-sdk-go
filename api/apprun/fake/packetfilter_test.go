@@ -34,13 +34,13 @@ func TestEngine_PacketFilter(t *testing.T) {
 		require.Error(t, err)
 
 		enabled := true
-		settings := []v1.PatchPacketFilterSettingsItem{
+		settings := []v1.PatchPacketFilterBodySettingsItem{
 			{
 				FromIP:             "192.0.2.0",
 				FromIPPrefixLength: 24,
 			},
 		}
-		updated, err := engine.UpdatePacketFilter(createdApp.ID, &v1.PatchPacketFilter{
+		updated, err := engine.UpdatePacketFilter(createdApp.ID, &v1.PatchPacketFilterBody{
 			IsEnabled: v1.NewOptBool(enabled),
 			Settings:  settings,
 		})

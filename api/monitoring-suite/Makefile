@@ -5,7 +5,8 @@ COPYRIGHT_YEAR ?= 2022-2025
 BIN            ?= monitoring-suite-api-go
 GO_FILES       ?= $(shell find . -name '*.go')
 
-include includes/go/common.mk
+SACLOUD_SDK_GO_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../..)
+include $(SACLOUD_SDK_GO_ROOT)/makefiles/go/common.mk
 #====================
 
 default: $(DEFAULT_GOALS)

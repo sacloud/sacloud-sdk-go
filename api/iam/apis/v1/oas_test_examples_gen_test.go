@@ -182,8 +182,8 @@ func TestAuthConditionsRequireTwoFactorAuth_Examples(t *testing.T) {
 		})
 	}
 }
-func TestCompatAPIKeysApikeyIDPutReq_EncodeDecode(t *testing.T) {
-	var typ CompatAPIKeysApikeyIDPutReq
+func TestCheckServicePolicyStatusOK_EncodeDecode(t *testing.T) {
+	var typ CheckServicePolicyStatusOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -191,41 +191,11 @@ func TestCompatAPIKeysApikeyIDPutReq_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatAPIKeysApikeyIDPutReq
+	var typ2 CheckServicePolicyStatusOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-
-func TestCompatAPIKeysApikeyIDPutReq_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"description\":\"シングルサーバコントロールパネル用\",\"iam_roles\":[\"viewer\",\"editor\"],\"name\":\"シングルサーバAPIキー\",\"server_resource_id\":\"111222333444\",\"zone_id\":\"is1a\"}"},
-		{Input: "{\"description\":\"通常のリソース操作用\",\"iam_roles\":[\"admin\"],\"name\":\"リソース操作APIキー\"}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CompatAPIKeysApikeyIDPutReq
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 CompatAPIKeysApikeyIDPutReq
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestCompatAPIKeysGetOK_EncodeDecode(t *testing.T) {
-	var typ CompatAPIKeysGetOK
+func TestCreateApiKeyReq_EncodeDecode(t *testing.T) {
+	var typ CreateApiKeyReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -233,23 +203,11 @@ func TestCompatAPIKeysGetOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatAPIKeysGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestCompatAPIKeysPostReq_EncodeDecode(t *testing.T) {
-	var typ CompatAPIKeysPostReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CompatAPIKeysPostReq
+	var typ2 CreateApiKeyReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestCompatAPIKeysPostReq_Examples(t *testing.T) {
+func TestCreateApiKeyReq_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -259,7 +217,7 @@ func TestCompatAPIKeysPostReq_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ CompatAPIKeysPostReq
+			var typ CreateApiKeyReq
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -273,13 +231,13 @@ func TestCompatAPIKeysPostReq_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 CompatAPIKeysPostReq
+			var typ2 CreateApiKeyReq
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestCompatUsersGetOK_EncodeDecode(t *testing.T) {
-	var typ CompatUsersGetOK
+func TestCreateFolderReq_EncodeDecode(t *testing.T) {
+	var typ CreateFolderReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -287,11 +245,11 @@ func TestCompatUsersGetOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatUsersGetOK
+	var typ2 CreateFolderReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCompatUsersPostReq_EncodeDecode(t *testing.T) {
-	var typ CompatUsersPostReq
+func TestCreateGroupReq_EncodeDecode(t *testing.T) {
+	var typ CreateGroupReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -299,11 +257,11 @@ func TestCompatUsersPostReq_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatUsersPostReq
+	var typ2 CreateGroupReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCompatUsersUserIDPutReq_EncodeDecode(t *testing.T) {
-	var typ CompatUsersUserIDPutReq
+func TestCreateProjectReq_EncodeDecode(t *testing.T) {
+	var typ CreateProjectReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -311,11 +269,11 @@ func TestCompatUsersUserIDPutReq_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatUsersUserIDPutReq
+	var typ2 CreateProjectReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCompatUsersUserIDRegisterEmailPostReq_EncodeDecode(t *testing.T) {
-	var typ CompatUsersUserIDRegisterEmailPostReq
+func TestCreateScimConfigurationReq_EncodeDecode(t *testing.T) {
+	var typ CreateScimConfigurationReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -323,11 +281,11 @@ func TestCompatUsersUserIDRegisterEmailPostReq_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatUsersUserIDRegisterEmailPostReq
+	var typ2 CreateScimConfigurationReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCompatUsersUserIDSecurityKeysGetOK_EncodeDecode(t *testing.T) {
-	var typ CompatUsersUserIDSecurityKeysGetOK
+func TestCreateServicePrincipalReq_EncodeDecode(t *testing.T) {
+	var typ CreateServicePrincipalReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -335,11 +293,11 @@ func TestCompatUsersUserIDSecurityKeysGetOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatUsersUserIDSecurityKeysGetOK
+	var typ2 CreateServicePrincipalReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq_EncodeDecode(t *testing.T) {
-	var typ CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq
+func TestCreateSsoProfileReq_EncodeDecode(t *testing.T) {
+	var typ CreateSsoProfileReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -347,11 +305,41 @@ func TestCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq_EncodeDecode(t *testin
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq
+	var typ2 CreateSsoProfileReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCompatUsersUserIDTrustedDevicesGetOK_EncodeDecode(t *testing.T) {
-	var typ CompatUsersUserIDTrustedDevicesGetOK
+
+func TestCreateSsoProfileReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"description\":\"SSOプロファイル1の説明\",\"idp_certificate\":\"\",\"idp_entity_id\":\"\",\"idp_login_url\":\"\",\"idp_logout_url\":\"\",\"name\":\"SSOプロファイル1\"}"},
+		{Input: "{\"description\":\"SSOプロファイル1の説明\",\"idp_certificate\":\"-----BEGIN CERTIFICATE-----\\nMIIDqjCCApKgAwIBA\\u003csnip\\u003e\\n-----END CERTIFICATE-----\",\"idp_entity_id\":\"https://idp.example.com/ile2ephei7saeph6\",\"idp_login_url\":\"https://idp.example.com/ile2ephei7saeph6/sso/login\",\"idp_logout_url\":\"https://idp.example.com/ile2ephei7saeph6/sso/logout\",\"name\":\"SSOプロファイル1\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateSsoProfileReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateSsoProfileReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateUserReq_EncodeDecode(t *testing.T) {
+	var typ CreateUserReq
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -359,7 +347,7 @@ func TestCompatUsersUserIDTrustedDevicesGetOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CompatUsersUserIDTrustedDevicesGetOK
+	var typ2 CreateUserReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestFolder_EncodeDecode(t *testing.T) {
@@ -372,160 +360,6 @@ func TestFolder_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Folder
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestFoldersFolderIDIamPolicyGetOK_EncodeDecode(t *testing.T) {
-	var typ FoldersFolderIDIamPolicyGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 FoldersFolderIDIamPolicyGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestFoldersFolderIDIamPolicyGetOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"admin\",\"type\":\"preset\"}}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ FoldersFolderIDIamPolicyGetOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 FoldersFolderIDIamPolicyGetOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestFoldersFolderIDIamPolicyPutOK_EncodeDecode(t *testing.T) {
-	var typ FoldersFolderIDIamPolicyPutOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 FoldersFolderIDIamPolicyPutOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestFoldersFolderIDIamPolicyPutReq_EncodeDecode(t *testing.T) {
-	var typ FoldersFolderIDIamPolicyPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 FoldersFolderIDIamPolicyPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestFoldersFolderIDIamPolicyPutReq_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"admin\",\"type\":\"preset\"}}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ FoldersFolderIDIamPolicyPutReq
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 FoldersFolderIDIamPolicyPutReq
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestFoldersFolderIDPutReq_EncodeDecode(t *testing.T) {
-	var typ FoldersFolderIDPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 FoldersFolderIDPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestFoldersGetOK_EncodeDecode(t *testing.T) {
-	var typ FoldersGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 FoldersGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestFoldersPostReq_EncodeDecode(t *testing.T) {
-	var typ FoldersPostReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 FoldersPostReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetAuthContextOK_EncodeDecode(t *testing.T) {
-	var typ GetAuthContextOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetAuthContextOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetAuthContextOKAuthType_EncodeDecode(t *testing.T) {
-	var typ GetAuthContextOKAuthType
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetAuthContextOKAuthType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestGroup_EncodeDecode(t *testing.T) {
@@ -564,66 +398,6 @@ func TestGroupMembershipsCompatUsersItem_EncodeDecode(t *testing.T) {
 	var typ2 GroupMembershipsCompatUsersItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGroupsGetOK_EncodeDecode(t *testing.T) {
-	var typ GroupsGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GroupsGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGroupsGroupIDMembershipsPutReq_EncodeDecode(t *testing.T) {
-	var typ GroupsGroupIDMembershipsPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GroupsGroupIDMembershipsPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGroupsGroupIDMembershipsPutReqCompatUsersItem_EncodeDecode(t *testing.T) {
-	var typ GroupsGroupIDMembershipsPutReqCompatUsersItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GroupsGroupIDMembershipsPutReqCompatUsersItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGroupsGroupIDPutReq_EncodeDecode(t *testing.T) {
-	var typ GroupsGroupIDPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GroupsGroupIDPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGroupsPostReq_EncodeDecode(t *testing.T) {
-	var typ GroupsPostReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GroupsPostReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestHttp400BadRequest_EncodeDecode(t *testing.T) {
 	var typ Http400BadRequest
 	typ.SetFake()
@@ -642,6 +416,8 @@ func TestHttp400BadRequest_Examples(t *testing.T) {
 	for i, tc := range []struct {
 		Input string
 	}{
+		{Input: "{\"detail\":\"Invalid input.\",\"errors\":{\"role\":[{\"code\":\"invalid\",\"message\":\"\\\"folder-admin\\\"はフォルダ階層以上にのみ付与可能です\"}]},\"status\":400,\"title\":\"invalid\",\"type\":\"about:blank\"}"},
+		{Input: "{\"detail\":\"Invalid input.\",\"errors\":{\"role\":[{\"code\":\"invalid\",\"message\":\"\\\"servicepolicy-admin\\\"は組織階層以上にのみ付与可能です\"}]},\"status\":400,\"title\":\"invalid\",\"type\":\"about:blank\"}"},
 		{Input: "{\"detail\":\"フォルダの登録数上限◯◯を超えています。\",\"errors\":{},\"status\":400,\"title\":\"folder_registration_limit_over\",\"type\":\"about:blank\"}"},
 		{Input: "{\"detail\":\"下の階層にフォルダまたはプロジェクトがあります。\",\"errors\":{},\"status\":400,\"title\":\"exist_dependency_folders_or_projects\",\"type\":\"about:blank\"}"},
 		{Input: "{\"detail\":\"同じ階層に同じ名前のフォルダを登録できません。\",\"errors\":{},\"status\":400,\"title\":\"duplicate_folder_names\",\"type\":\"about:blank\"}"},
@@ -853,18 +629,6 @@ func TestHttp503ServiceUnavailable_EncodeDecode(t *testing.T) {
 	var typ2 Http503ServiceUnavailable
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestIDRolesGetOK_EncodeDecode(t *testing.T) {
-	var typ IDRolesGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 IDRolesGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestIamPolicy_EncodeDecode(t *testing.T) {
 	var typ IamPolicy
 	typ.SetFake()
@@ -954,18 +718,6 @@ func TestIamRoleLowestGrantableResource_Examples(t *testing.T) {
 		})
 	}
 }
-func TestIamRolesGetOK_EncodeDecode(t *testing.T) {
-	var typ IamRolesGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 IamRolesGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestIdPolicy_EncodeDecode(t *testing.T) {
 	var typ IdPolicy
 	typ.SetFake()
@@ -1014,6 +766,174 @@ func TestIdRole_EncodeDecode(t *testing.T) {
 	var typ2 IdRole
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestListApiKeysOK_EncodeDecode(t *testing.T) {
+	var typ ListApiKeysOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListApiKeysOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListFoldersOK_EncodeDecode(t *testing.T) {
+	var typ ListFoldersOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListFoldersOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListGroupsOK_EncodeDecode(t *testing.T) {
+	var typ ListGroupsOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListGroupsOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListIamRolesOK_EncodeDecode(t *testing.T) {
+	var typ ListIamRolesOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListIamRolesOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListIdRolesOK_EncodeDecode(t *testing.T) {
+	var typ ListIdRolesOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListIdRolesOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListProjectsOK_EncodeDecode(t *testing.T) {
+	var typ ListProjectsOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListProjectsOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListScimConfigurationsOK_EncodeDecode(t *testing.T) {
+	var typ ListScimConfigurationsOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListScimConfigurationsOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListSecurityKeysOK_EncodeDecode(t *testing.T) {
+	var typ ListSecurityKeysOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListSecurityKeysOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListServicePolicyRuleTemplatesOK_EncodeDecode(t *testing.T) {
+	var typ ListServicePolicyRuleTemplatesOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListServicePolicyRuleTemplatesOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListServicePrincipalKeysOK_EncodeDecode(t *testing.T) {
+	var typ ListServicePrincipalKeysOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListServicePrincipalKeysOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListServicePrincipalsOK_EncodeDecode(t *testing.T) {
+	var typ ListServicePrincipalsOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListServicePrincipalsOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListSsoProfilesOK_EncodeDecode(t *testing.T) {
+	var typ ListSsoProfilesOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListSsoProfilesOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListTrustedDevicesOK_EncodeDecode(t *testing.T) {
+	var typ ListTrustedDevicesOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListTrustedDevicesOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListUsersOK_EncodeDecode(t *testing.T) {
+	var typ ListUsersOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListUsersOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestMoveFolders_EncodeDecode(t *testing.T) {
 	var typ MoveFolders
 	typ.SetFake()
@@ -1049,311 +969,6 @@ func TestOrganization_EncodeDecode(t *testing.T) {
 
 	var typ2 Organization
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestOrganizationIDPolicyGetOK_EncodeDecode(t *testing.T) {
-	var typ OrganizationIDPolicyGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationIDPolicyGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestOrganizationIDPolicyGetOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"identity-admin\",\"type\":\"preset\"}}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ OrganizationIDPolicyGetOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 OrganizationIDPolicyGetOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestOrganizationIDPolicyPutOK_EncodeDecode(t *testing.T) {
-	var typ OrganizationIDPolicyPutOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationIDPolicyPutOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestOrganizationIDPolicyPutReq_EncodeDecode(t *testing.T) {
-	var typ OrganizationIDPolicyPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationIDPolicyPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestOrganizationIDPolicyPutReq_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"identity-admin\",\"type\":\"preset\"}}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ OrganizationIDPolicyPutReq
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 OrganizationIDPolicyPutReq
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestOrganizationIamPolicyGetOK_EncodeDecode(t *testing.T) {
-	var typ OrganizationIamPolicyGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationIamPolicyGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestOrganizationIamPolicyGetOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"admin\",\"type\":\"preset\"}}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ OrganizationIamPolicyGetOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 OrganizationIamPolicyGetOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestOrganizationIamPolicyPutOK_EncodeDecode(t *testing.T) {
-	var typ OrganizationIamPolicyPutOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationIamPolicyPutOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestOrganizationIamPolicyPutReq_EncodeDecode(t *testing.T) {
-	var typ OrganizationIamPolicyPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationIamPolicyPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestOrganizationIamPolicyPutReq_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"admin\",\"type\":\"preset\"}}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ OrganizationIamPolicyPutReq
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 OrganizationIamPolicyPutReq
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestOrganizationPutReq_EncodeDecode(t *testing.T) {
-	var typ OrganizationPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestOrganizationServicePolicyGetOK_EncodeDecode(t *testing.T) {
-	var typ OrganizationServicePolicyGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationServicePolicyGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestOrganizationServicePolicyGetOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"rules\":[{\"code\":\"example.rule.code1\",\"dry_run_spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]},\"is_active\":false,\"is_dry_run\":false,\"name\":\"Example List Rule\",\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.code1\",\"dry_run_spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]},\"is_active\":false,\"is_dry_run\":true,\"name\":\"Example List Rule\",\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.code1\",\"dry_run_spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]},\"is_active\":true,\"is_dry_run\":false,\"name\":\"Example List Rule\",\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.code1\",\"dry_run_spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]},\"is_active\":true,\"is_dry_run\":true,\"name\":\"Example List Rule\",\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.code2\",\"dry_run_spec\":{\"contents\":[{\"enforce\":true}]},\"is_active\":false,\"is_dry_run\":false,\"name\":\"Example Bool Rule\",\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.code2\",\"dry_run_spec\":{\"contents\":[{\"enforce\":true}]},\"is_active\":false,\"is_dry_run\":true,\"name\":\"Example Bool Rule\",\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.code2\",\"dry_run_spec\":{\"contents\":[{\"enforce\":true}]},\"is_active\":true,\"is_dry_run\":false,\"name\":\"Example Bool Rule\",\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.code2\",\"dry_run_spec\":{\"contents\":[{\"enforce\":true}]},\"is_active\":true,\"is_dry_run\":true,\"name\":\"Example Bool Rule\",\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ OrganizationServicePolicyGetOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 OrganizationServicePolicyGetOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestOrganizationServicePolicyPutOK_EncodeDecode(t *testing.T) {
-	var typ OrganizationServicePolicyPutOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationServicePolicyPutOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestOrganizationServicePolicyPutReq_EncodeDecode(t *testing.T) {
-	var typ OrganizationServicePolicyPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 OrganizationServicePolicyPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestOrganizationServicePolicyPutReq_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":false,\"values\":{\"allowed_values\":[\"example1\",\"example2\"]}}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":false,\"values\":{\"denied_values\":[\"example1\",\"example2\"]}}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{}}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":false,\"values\":{\"allowed_values\":[\"example1\",\"example2\"]}}]}},{\"code\":\"example.rule.bool\",\"is_active\":false,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
-		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":false,\"values\":{}}]}}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ OrganizationServicePolicyPutReq
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 OrganizationServicePolicyPutReq
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
 }
 func TestPasswordPolicy_EncodeDecode(t *testing.T) {
 	var typ PasswordPolicy
@@ -1486,8 +1101,8 @@ func TestProjectStatus_Examples(t *testing.T) {
 		})
 	}
 }
-func TestProjectsGetOK_EncodeDecode(t *testing.T) {
-	var typ ProjectsGetOK
+func TestReadAuthContextOK_EncodeDecode(t *testing.T) {
+	var typ ReadAuthContextOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1495,11 +1110,11 @@ func TestProjectsGetOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectsGetOK
+	var typ2 ReadAuthContextOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectsPostReq_EncodeDecode(t *testing.T) {
-	var typ ProjectsPostReq
+func TestReadAuthContextOKAuthType_EncodeDecode(t *testing.T) {
+	var typ ReadAuthContextOKAuthType
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1507,11 +1122,11 @@ func TestProjectsPostReq_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectsPostReq
+	var typ2 ReadAuthContextOKAuthType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestProjectsProjectIDIamPolicyGetOK_EncodeDecode(t *testing.T) {
-	var typ ProjectsProjectIDIamPolicyGetOK
+func TestReadFolderIamPolicyOK_EncodeDecode(t *testing.T) {
+	var typ ReadFolderIamPolicyOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1519,11 +1134,11 @@ func TestProjectsProjectIDIamPolicyGetOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectsProjectIDIamPolicyGetOK
+	var typ2 ReadFolderIamPolicyOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestProjectsProjectIDIamPolicyGetOK_Examples(t *testing.T) {
+func TestReadFolderIamPolicyOK_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -1532,7 +1147,7 @@ func TestProjectsProjectIDIamPolicyGetOK_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ProjectsProjectIDIamPolicyGetOK
+			var typ ReadFolderIamPolicyOK
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1546,13 +1161,13 @@ func TestProjectsProjectIDIamPolicyGetOK_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ProjectsProjectIDIamPolicyGetOK
+			var typ2 ReadFolderIamPolicyOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestProjectsProjectIDIamPolicyPutOK_EncodeDecode(t *testing.T) {
-	var typ ProjectsProjectIDIamPolicyPutOK
+func TestReadOrganizationIamPolicyOK_EncodeDecode(t *testing.T) {
+	var typ ReadOrganizationIamPolicyOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1560,23 +1175,11 @@ func TestProjectsProjectIDIamPolicyPutOK_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectsProjectIDIamPolicyPutOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestProjectsProjectIDIamPolicyPutReq_EncodeDecode(t *testing.T) {
-	var typ ProjectsProjectIDIamPolicyPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ProjectsProjectIDIamPolicyPutReq
+	var typ2 ReadOrganizationIamPolicyOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestProjectsProjectIDIamPolicyPutReq_Examples(t *testing.T) {
+func TestReadOrganizationIamPolicyOK_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -1585,7 +1188,7 @@ func TestProjectsProjectIDIamPolicyPutReq_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ProjectsProjectIDIamPolicyPutReq
+			var typ ReadOrganizationIamPolicyOK
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1599,13 +1202,13 @@ func TestProjectsProjectIDIamPolicyPutReq_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ProjectsProjectIDIamPolicyPutReq
+			var typ2 ReadOrganizationIamPolicyOK
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestProjectsProjectIDPutReq_EncodeDecode(t *testing.T) {
-	var typ ProjectsProjectIDPutReq
+func TestReadOrganizationIdPolicyOK_EncodeDecode(t *testing.T) {
+	var typ ReadOrganizationIdPolicyOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1613,7 +1216,178 @@ func TestProjectsProjectIDPutReq_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ProjectsProjectIDPutReq
+	var typ2 ReadOrganizationIdPolicyOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadOrganizationIdPolicyOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"identity-admin\",\"type\":\"preset\"}}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadOrganizationIdPolicyOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadOrganizationIdPolicyOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadOrganizationServicePolicyOK_EncodeDecode(t *testing.T) {
+	var typ ReadOrganizationServicePolicyOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadOrganizationServicePolicyOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadOrganizationServicePolicyOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"rules\":[{\"code\":\"example.rule.code1\",\"dry_run_spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]},\"is_active\":false,\"is_dry_run\":false,\"name\":\"Example List Rule\",\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.code1\",\"dry_run_spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]},\"is_active\":false,\"is_dry_run\":true,\"name\":\"Example List Rule\",\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.code1\",\"dry_run_spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]},\"is_active\":true,\"is_dry_run\":false,\"name\":\"Example List Rule\",\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.code1\",\"dry_run_spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]},\"is_active\":true,\"is_dry_run\":true,\"name\":\"Example List Rule\",\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":true,\"values\":{\"allowed_values\":[\"example1\"],\"denied_values\":[\"example2\"]}}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.code2\",\"dry_run_spec\":{\"contents\":[{\"enforce\":true}]},\"is_active\":false,\"is_dry_run\":false,\"name\":\"Example Bool Rule\",\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.code2\",\"dry_run_spec\":{\"contents\":[{\"enforce\":true}]},\"is_active\":false,\"is_dry_run\":true,\"name\":\"Example Bool Rule\",\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.code2\",\"dry_run_spec\":{\"contents\":[{\"enforce\":true}]},\"is_active\":true,\"is_dry_run\":false,\"name\":\"Example Bool Rule\",\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.code2\",\"dry_run_spec\":{\"contents\":[{\"enforce\":true}]},\"is_active\":true,\"is_dry_run\":true,\"name\":\"Example Bool Rule\",\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadOrganizationServicePolicyOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadOrganizationServicePolicyOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadProjectIamPolicyOK_EncodeDecode(t *testing.T) {
+	var typ ReadProjectIamPolicyOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadProjectIamPolicyOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadProjectIamPolicyOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"admin\",\"type\":\"preset\"}}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadProjectIamPolicyOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadProjectIamPolicyOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestRegenerateScimConfigurationTokenOK_EncodeDecode(t *testing.T) {
+	var typ RegenerateScimConfigurationTokenOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 RegenerateScimConfigurationTokenOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestRegenerateScimConfigurationTokenOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"secret_token\":\"your-secret-token\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ RegenerateScimConfigurationTokenOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 RegenerateScimConfigurationTokenOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestRegisterEmailReq_EncodeDecode(t *testing.T) {
+	var typ RegisterEmailReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 RegisterEmailReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestRule_EncodeDecode(t *testing.T) {
@@ -1700,72 +1474,6 @@ func TestSSOProfile_EncodeDecode(t *testing.T) {
 	var typ2 SSOProfile
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestSSOProfilesGetOK_EncodeDecode(t *testing.T) {
-	var typ SSOProfilesGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 SSOProfilesGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestSSOProfilesPostReq_EncodeDecode(t *testing.T) {
-	var typ SSOProfilesPostReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 SSOProfilesPostReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestSSOProfilesPostReq_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"description\":\"SSOプロファイル1の説明\",\"idp_certificate\":\"\",\"idp_entity_id\":\"\",\"idp_login_url\":\"\",\"idp_logout_url\":\"\",\"name\":\"SSOプロファイル1\"}"},
-		{Input: "{\"description\":\"SSOプロファイル1の説明\",\"idp_certificate\":\"-----BEGIN CERTIFICATE-----\\nMIIDqjCCApKgAwIBA\\u003csnip\\u003e\\n-----END CERTIFICATE-----\",\"idp_entity_id\":\"https://idp.example.com/ile2ephei7saeph6\",\"idp_login_url\":\"https://idp.example.com/ile2ephei7saeph6/sso/login\",\"idp_logout_url\":\"https://idp.example.com/ile2ephei7saeph6/sso/logout\",\"name\":\"SSOプロファイル1\"}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ SSOProfilesPostReq
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 SSOProfilesPostReq
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestSSOProfilesSSOProfileIDPutReq_EncodeDecode(t *testing.T) {
-	var typ SSOProfilesSSOProfileIDPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 SSOProfilesSSOProfileIDPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestScimConfiguration_EncodeDecode(t *testing.T) {
 	var typ ScimConfiguration
 	typ.SetFake()
@@ -1788,107 +1496,6 @@ func TestScimConfigurationBase_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ScimConfigurationBase
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestScimConfigurationsGetOK_EncodeDecode(t *testing.T) {
-	var typ ScimConfigurationsGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ScimConfigurationsGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestScimConfigurationsIDPutReq_EncodeDecode(t *testing.T) {
-	var typ ScimConfigurationsIDPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ScimConfigurationsIDPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestScimConfigurationsIDRegenerateTokenPostOK_EncodeDecode(t *testing.T) {
-	var typ ScimConfigurationsIDRegenerateTokenPostOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ScimConfigurationsIDRegenerateTokenPostOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestScimConfigurationsIDRegenerateTokenPostOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"secret_token\":\"your-secret-token\"}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ScimConfigurationsIDRegenerateTokenPostOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ScimConfigurationsIDRegenerateTokenPostOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestScimConfigurationsPostReq_EncodeDecode(t *testing.T) {
-	var typ ScimConfigurationsPostReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ScimConfigurationsPostReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestServicePolicyRuleTemplatesGetOK_EncodeDecode(t *testing.T) {
-	var typ ServicePolicyRuleTemplatesGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ServicePolicyRuleTemplatesGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestServicePolicyStatusGetOK_EncodeDecode(t *testing.T) {
-	var typ ServicePolicyStatusGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ServicePolicyStatusGetOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestServicePrincipal_EncodeDecode(t *testing.T) {
@@ -2039,66 +1646,6 @@ func TestServicePrincipalOAuth2AccessToken_EncodeDecode(t *testing.T) {
 	var typ2 ServicePrincipalOAuth2AccessToken
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestServicePrincipalsGetOK_EncodeDecode(t *testing.T) {
-	var typ ServicePrincipalsGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ServicePrincipalsGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestServicePrincipalsPostReq_EncodeDecode(t *testing.T) {
-	var typ ServicePrincipalsPostReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ServicePrincipalsPostReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestServicePrincipalsServicePrincipalIDKeysGetOK_EncodeDecode(t *testing.T) {
-	var typ ServicePrincipalsServicePrincipalIDKeysGetOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ServicePrincipalsServicePrincipalIDKeysGetOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestServicePrincipalsServicePrincipalIDPutReq_EncodeDecode(t *testing.T) {
-	var typ ServicePrincipalsServicePrincipalIDPutReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ServicePrincipalsServicePrincipalIDPutReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestServicePrincipalsServicePrincipalIDUploadKeyPostReq_EncodeDecode(t *testing.T) {
-	var typ ServicePrincipalsServicePrincipalIDUploadKeyPostReq
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ServicePrincipalsServicePrincipalIDUploadKeyPostReq
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestServiceprincipalKeyPublicKey_EncodeDecode(t *testing.T) {
 	var typ ServiceprincipalKeyPublicKey
 	typ.SetFake()
@@ -2109,6 +1656,449 @@ func TestServiceprincipalKeyPublicKey_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ServiceprincipalKeyPublicKey
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateApiKeyReq_EncodeDecode(t *testing.T) {
+	var typ UpdateApiKeyReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateApiKeyReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateApiKeyReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"description\":\"シングルサーバコントロールパネル用\",\"iam_roles\":[\"viewer\",\"editor\"],\"name\":\"シングルサーバAPIキー\",\"server_resource_id\":\"111222333444\",\"zone_id\":\"is1a\"}"},
+		{Input: "{\"description\":\"通常のリソース操作用\",\"iam_roles\":[\"admin\"],\"name\":\"リソース操作APIキー\"}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateApiKeyReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateApiKeyReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateFolderIamPolicyOK_EncodeDecode(t *testing.T) {
+	var typ UpdateFolderIamPolicyOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateFolderIamPolicyOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateFolderIamPolicyReq_EncodeDecode(t *testing.T) {
+	var typ UpdateFolderIamPolicyReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateFolderIamPolicyReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateFolderIamPolicyReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"admin\",\"type\":\"preset\"}}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateFolderIamPolicyReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateFolderIamPolicyReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateFolderReq_EncodeDecode(t *testing.T) {
+	var typ UpdateFolderReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateFolderReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateGroupReq_EncodeDecode(t *testing.T) {
+	var typ UpdateGroupReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateGroupReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateMembershipsReq_EncodeDecode(t *testing.T) {
+	var typ UpdateMembershipsReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateMembershipsReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateMembershipsReqCompatUsersItem_EncodeDecode(t *testing.T) {
+	var typ UpdateMembershipsReqCompatUsersItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateMembershipsReqCompatUsersItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateOrganizationIamPolicyOK_EncodeDecode(t *testing.T) {
+	var typ UpdateOrganizationIamPolicyOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateOrganizationIamPolicyOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateOrganizationIamPolicyReq_EncodeDecode(t *testing.T) {
+	var typ UpdateOrganizationIamPolicyReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateOrganizationIamPolicyReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateOrganizationIamPolicyReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"admin\",\"type\":\"preset\"}}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateOrganizationIamPolicyReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateOrganizationIamPolicyReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateOrganizationIdPolicyOK_EncodeDecode(t *testing.T) {
+	var typ UpdateOrganizationIdPolicyOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateOrganizationIdPolicyOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateOrganizationIdPolicyReq_EncodeDecode(t *testing.T) {
+	var typ UpdateOrganizationIdPolicyReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateOrganizationIdPolicyReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateOrganizationIdPolicyReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"identity-admin\",\"type\":\"preset\"}}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateOrganizationIdPolicyReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateOrganizationIdPolicyReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateOrganizationReq_EncodeDecode(t *testing.T) {
+	var typ UpdateOrganizationReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateOrganizationReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateOrganizationServicePolicyOK_EncodeDecode(t *testing.T) {
+	var typ UpdateOrganizationServicePolicyOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateOrganizationServicePolicyOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateOrganizationServicePolicyReq_EncodeDecode(t *testing.T) {
+	var typ UpdateOrganizationServicePolicyReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateOrganizationServicePolicyReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateOrganizationServicePolicyReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":false,\"values\":{\"allowed_values\":[\"example1\",\"example2\"]}}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":false,\"values\":{\"denied_values\":[\"example1\",\"example2\"]}}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":false,\"deny_all\":true,\"values\":{}}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":false,\"values\":{\"allowed_values\":[\"example1\",\"example2\"]}}]}},{\"code\":\"example.rule.bool\",\"is_active\":false,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"enforce\":true}]}}]}"},
+		{Input: "{\"rules\":[{\"code\":\"example.rule.list\",\"is_active\":true,\"is_dry_run\":false,\"spec\":{\"contents\":[{\"allow_all\":true,\"deny_all\":false,\"values\":{}}]}}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateOrganizationServicePolicyReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateOrganizationServicePolicyReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateProjectIamPolicyOK_EncodeDecode(t *testing.T) {
+	var typ UpdateProjectIamPolicyOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateProjectIamPolicyOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateProjectIamPolicyReq_EncodeDecode(t *testing.T) {
+	var typ UpdateProjectIamPolicyReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateProjectIamPolicyReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestUpdateProjectIamPolicyReq_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"bindings\":[{\"principals\":[{\"id\":111111111111,\"type\":\"user\"},{\"id\":1,\"type\":\"group\"},{\"id\":111111111111,\"type\":\"service-principal\"}],\"role\":{\"id\":\"admin\",\"type\":\"preset\"}}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ UpdateProjectIamPolicyReq
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 UpdateProjectIamPolicyReq
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestUpdateProjectReq_EncodeDecode(t *testing.T) {
+	var typ UpdateProjectReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateProjectReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateScimConfigurationReq_EncodeDecode(t *testing.T) {
+	var typ UpdateScimConfigurationReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateScimConfigurationReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateServicePrincipalReq_EncodeDecode(t *testing.T) {
+	var typ UpdateServicePrincipalReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateServicePrincipalReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateSsoProfileReq_EncodeDecode(t *testing.T) {
+	var typ UpdateSsoProfileReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateSsoProfileReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateUserReq_EncodeDecode(t *testing.T) {
+	var typ UpdateUserReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateUserReq
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUploadServicePrincipalKeyReq_EncodeDecode(t *testing.T) {
+	var typ UploadServicePrincipalKeyReq
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UploadServicePrincipalKeyReq
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestUser_EncodeDecode(t *testing.T) {

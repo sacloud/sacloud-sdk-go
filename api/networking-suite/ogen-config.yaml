@@ -1,0 +1,9 @@
+# sets generator options.
+generator:
+  # sets generator features.
+  features:
+    enable:
+      - 'paths/client'
+      - 'client/request/validation'
+      - 'debug/example_tests'
+    disable_all: true

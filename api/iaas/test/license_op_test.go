@@ -82,17 +82,17 @@ var (
 	}
 )
 
-func testLicenseCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLicenseCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLicenseOp(caller)
 	return client.Create(ctx, createLicenseParam)
 }
 
-func testLicenseRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLicenseRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLicenseOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testLicenseUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLicenseUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLicenseOp(caller)
 	return client.Update(ctx, ctx.ID, updateLicenseParam)
 }

@@ -12,6 +12,287 @@ func (s *ContainerRegistryAction) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *CreateApplicationBadRequest) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBody) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.TimeoutSeconds = int(0)
+		}
+	}
+	{
+		{
+			s.Port = int(0)
+		}
+	}
+	{
+		{
+			s.MinScale = int(0)
+		}
+	}
+	{
+		{
+			s.MaxScale = int(0)
+		}
+	}
+	{
+		{
+			s.ScaleTargetConcurrency.SetFake()
+		}
+	}
+	{
+		{
+			s.Components = nil
+			for i := 0; i < 0; i++ {
+				var elem CreateApplicationBodyComponentsItem
+				{
+					elem.SetFake()
+				}
+				s.Components = append(s.Components, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItem) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.MaxCPU.SetFake()
+		}
+	}
+	{
+		{
+			s.MaxMemory.SetFake()
+		}
+	}
+	{
+		{
+			s.DeploySource.SetFake()
+		}
+	}
+	{
+		{
+			s.Env.SetFake()
+		}
+	}
+	{
+		{
+			s.Secret.SetFake()
+		}
+	}
+	{
+		{
+			s.Probe.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItemDeploySource) SetFake() {
+	{
+		{
+			s.ContainerRegistry.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) SetFake() {
+	{
+		{
+			s.Image = "string"
+		}
+	}
+	{
+		{
+			s.Server.SetFake()
+		}
+	}
+	{
+		{
+			s.Username.SetFake()
+		}
+	}
+	{
+		{
+			s.Password.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItemMaxCPU) SetFake() {
+	*s = CreateApplicationBodyComponentsItemMaxCPU05
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItemMaxMemory) SetFake() {
+	*s = CreateApplicationBodyComponentsItemMaxMemory1Gi
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItemProbe) SetFake() {
+	{
+		{
+			s.HTTPGet.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) SetFake() {
+	{
+		{
+			s.Path = "string"
+		}
+	}
+	{
+		{
+			s.Port = int(0)
+		}
+	}
+	{
+		{
+			s.Headers = nil
+			for i := 0; i < 0; i++ {
+				var elem CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem
+				{
+					elem.SetFake()
+				}
+				s.Headers = append(s.Headers, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetFake() {
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Value.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationBodyComponentsItemSecretItem) SetFake() {
+	{
+		{
+			s.Key = "string"
+		}
+	}
+	{
+		{
+			s.Value = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationConflict) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationForbidden) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationInternalServerError) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationUnauthorized) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *CreateUserConflict) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *CreateUserForbidden) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *CreateUserInternalServerError) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *CreateUserUnauthorized) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
 func (s *DeleteApplicationBadRequest) SetFake() {
 	var variant ModelDefaultError
 
@@ -112,297 +393,7 @@ func (s *DeleteApplicationVersionUnauthorized) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetApplicationBadRequest) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationForbidden) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationInternalServerError) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationNotFound) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationStatusBadRequest) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationStatusForbidden) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationStatusInternalServerError) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationStatusNotFound) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationStatusUnauthorized) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationUnauthorized) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionBadRequest) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionForbidden) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionInternalServerError) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionNotFound) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionStatusBadRequest) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionStatusForbidden) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionStatusInternalServerError) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionStatusNotFound) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionStatusUnauthorized) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionUnauthorized) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetPacketFilterBadRequest) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetPacketFilterForbidden) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetPacketFilterInternalServerError) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetPacketFilterNotFound) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetPacketFilterUnauthorized) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetUserForbidden) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetUserInternalServerError) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetUserNotFound) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *GetUserUnauthorized) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *HandlerGetApplication) SetFake() {
+func (s *HandlerCreateApplication) SetFake() {
 	{
 		{
 			s.ID = "string"
@@ -442,7 +433,7 @@ func (s *HandlerGetApplication) SetFake() {
 		{
 			s.Components = nil
 			for i := 0; i < 0; i++ {
-				var elem HandlerGetApplicationComponentsItem
+				var elem HandlerCreateApplicationComponentsItem
 				{
 					elem.SetFake()
 				}
@@ -473,7 +464,7 @@ func (s *HandlerGetApplication) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerGetApplicationComponentsItem) SetFake() {
+func (s *HandlerCreateApplicationComponentsItem) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -496,14 +487,12 @@ func (s *HandlerGetApplicationComponentsItem) SetFake() {
 	}
 	{
 		{
-			s.Env = nil
-			for i := 0; i < 0; i++ {
-				var elem HandlerGetApplicationComponentsItemEnvItem
-				{
-					elem.SetFake()
-				}
-				s.Env = append(s.Env, elem)
-			}
+			s.Env.SetFake()
+		}
+	}
+	{
+		{
+			s.Secret.SetFake()
 		}
 	}
 	{
@@ -514,7 +503,7 @@ func (s *HandlerGetApplicationComponentsItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerGetApplicationComponentsItemDeploySource) SetFake() {
+func (s *HandlerCreateApplicationComponentsItemDeploySource) SetFake() {
 	{
 		{
 			s.ContainerRegistry.SetFake()
@@ -523,7 +512,7 @@ func (s *HandlerGetApplicationComponentsItemDeploySource) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) SetFake() {
+func (s *HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) SetFake() {
 	{
 		{
 			s.Image = "string"
@@ -542,21 +531,7 @@ func (s *HandlerGetApplicationComponentsItemDeploySourceContainerRegistry) SetFa
 }
 
 // SetFake set fake values.
-func (s *HandlerGetApplicationComponentsItemEnvItem) SetFake() {
-	{
-		{
-			s.Key.SetFake()
-		}
-	}
-	{
-		{
-			s.Value.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetApplicationComponentsItemProbe) SetFake() {
+func (s *HandlerCreateApplicationComponentsItemProbe) SetFake() {
 	{
 		{
 			s.HTTPGet.SetFake()
@@ -565,7 +540,7 @@ func (s *HandlerGetApplicationComponentsItemProbe) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) SetFake() {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) SetFake() {
 	{
 		{
 			s.Path = "string"
@@ -580,7 +555,7 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) SetFake() {
 		{
 			s.Headers = nil
 			for i := 0; i < 0; i++ {
-				var elem HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem
+				var elem HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem
 				{
 					elem.SetFake()
 				}
@@ -591,7 +566,7 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) SetFake() {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem) SetFake() {
 	{
 		{
 			s.Name.SetFake()
@@ -605,85 +580,12 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerGetApplicationOnlyStatus) SetFake() {
-	{
-		{
-			s.Status.SetFake()
-		}
-	}
-	{
-		{
-			s.Message = "string"
-		}
-	}
+func (s *HandlerCreateApplicationStatus) SetFake() {
+	*s = HandlerCreateApplicationStatusHealthy
 }
 
 // SetFake set fake values.
-func (s *HandlerGetApplicationOnlyStatusStatus) SetFake() {
-	*s = HandlerGetApplicationOnlyStatusStatusHealthy
-}
-
-// SetFake set fake values.
-func (s *HandlerGetApplicationStatus) SetFake() {
-	*s = HandlerGetApplicationStatusHealthy
-}
-
-// SetFake set fake values.
-func (s *HandlerGetApplicationVersionOnlyStatus) SetFake() {
-	{
-		{
-			s.Status.SetFake()
-		}
-	}
-	{
-		{
-			s.Message = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetApplicationVersionOnlyStatusStatus) SetFake() {
-	*s = HandlerGetApplicationVersionOnlyStatusStatusHealthy
-}
-
-// SetFake set fake values.
-func (s *HandlerGetPacketFilter) SetFake() {
-	{
-		{
-			s.IsEnabled = true
-		}
-	}
-	{
-		{
-			s.Settings = nil
-			for i := 0; i < 0; i++ {
-				var elem HandlerGetPacketFilterSettingsItem
-				{
-					elem.SetFake()
-				}
-				s.Settings = append(s.Settings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetPacketFilterSettingsItem) SetFake() {
-	{
-		{
-			s.FromIP = "string"
-		}
-	}
-	{
-		{
-			s.FromIPPrefixLength = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetUser) SetFake() {
+func (s *HandlerCreateUser) SetFake() {
 	{
 		{
 			s.Limit.SetFake()
@@ -692,210 +594,12 @@ func (s *HandlerGetUser) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerGetUserLimit) SetFake() {
+func (s *HandlerCreateUserLimit) SetFake() {
 	{
 		{
 			s.ApplicationCount = int(0)
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersion) SetFake() {
-	{
-		{
-			s.ID = "string"
-		}
-	}
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Status.SetFake()
-		}
-	}
-	{
-		{
-			s.TimeoutSeconds = int(0)
-		}
-	}
-	{
-		{
-			s.Port = int(0)
-		}
-	}
-	{
-		{
-			s.MinScale = int(0)
-		}
-	}
-	{
-		{
-			s.MaxScale = int(0)
-		}
-	}
-	{
-		{
-			s.ScaleTargetConcurrency.SetFake()
-		}
-	}
-	{
-		{
-			s.Components = nil
-			for i := 0; i < 0; i++ {
-				var elem HandlerGetVersionComponentsItem
-				{
-					elem.SetFake()
-				}
-				s.Components = append(s.Components, elem)
-			}
-		}
-	}
-	{
-		{
-			s.CreatedAt = time.Now()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersionComponentsItem) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.MaxCPU = "string"
-		}
-	}
-	{
-		{
-			s.MaxMemory = "string"
-		}
-	}
-	{
-		{
-			s.DeploySource.SetFake()
-		}
-	}
-	{
-		{
-			s.Env = nil
-			for i := 0; i < 0; i++ {
-				var elem HandlerGetVersionComponentsItemEnvItem
-				{
-					elem.SetFake()
-				}
-				s.Env = append(s.Env, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Probe.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersionComponentsItemDeploySource) SetFake() {
-	{
-		{
-			s.ContainerRegistry.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersionComponentsItemDeploySourceContainerRegistry) SetFake() {
-	{
-		{
-			s.Image = "string"
-		}
-	}
-	{
-		{
-			s.Server.SetFake()
-		}
-	}
-	{
-		{
-			s.Username.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersionComponentsItemEnvItem) SetFake() {
-	{
-		{
-			s.Key.SetFake()
-		}
-	}
-	{
-		{
-			s.Value.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersionComponentsItemProbe) SetFake() {
-	{
-		{
-			s.HTTPGet.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) SetFake() {
-	{
-		{
-			s.Path = "string"
-		}
-	}
-	{
-		{
-			s.Port = int(0)
-		}
-	}
-	{
-		{
-			s.Headers = nil
-			for i := 0; i < 0; i++ {
-				var elem HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem
-				{
-					elem.SetFake()
-				}
-				s.Headers = append(s.Headers, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem) SetFake() {
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-	{
-		{
-			s.Value.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerGetVersionStatus) SetFake() {
-	*s = HandlerGetVersionStatusHealthy
 }
 
 // SetFake set fake values.
@@ -988,7 +692,7 @@ func (s *HandlerListApplicationsMetaSortOrder) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerListTraffics) SetFake() {
+func (s *HandlerListTraffic) SetFake() {
 	{
 		{
 			s.Meta.SetFake()
@@ -998,7 +702,7 @@ func (s *HandlerListTraffics) SetFake() {
 		{
 			s.Data = nil
 			for i := 0; i < 0; i++ {
-				var elem HandlerListTrafficsDataItem
+				var elem HandlerListTrafficDataItem
 				{
 					elem.SetFake()
 				}
@@ -1009,7 +713,7 @@ func (s *HandlerListTraffics) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerListTrafficsDataItem) SetFake() {
+func (s *HandlerListTrafficDataItem) SetFake() {
 	{
 		{
 			s.VersionName = "string"
@@ -1028,7 +732,7 @@ func (s *HandlerListTrafficsDataItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerListTrafficsMeta) SetFake() {
+func (s *HandlerListTrafficMeta) SetFake() {
 }
 
 // SetFake set fake values.
@@ -1210,14 +914,12 @@ func (s *HandlerPatchApplicationComponentsItem) SetFake() {
 	}
 	{
 		{
-			s.Env = nil
-			for i := 0; i < 0; i++ {
-				var elem HandlerPatchApplicationComponentsItemEnvItem
-				{
-					elem.SetFake()
-				}
-				s.Env = append(s.Env, elem)
-			}
+			s.Env.SetFake()
+		}
+	}
+	{
+		{
+			s.Secret.SetFake()
 		}
 	}
 	{
@@ -1251,20 +953,6 @@ func (s *HandlerPatchApplicationComponentsItemDeploySourceContainerRegistry) Set
 	{
 		{
 			s.Username.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerPatchApplicationComponentsItemEnvItem) SetFake() {
-	{
-		{
-			s.Key.SetFake()
-		}
-	}
-	{
-		{
-			s.Value.SetFake()
 		}
 	}
 }
@@ -1359,7 +1047,7 @@ func (s *HandlerPatchPacketFilterSettingsItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPostApplication) SetFake() {
+func (s *HandlerReadApplication) SetFake() {
 	{
 		{
 			s.ID = "string"
@@ -1399,7 +1087,7 @@ func (s *HandlerPostApplication) SetFake() {
 		{
 			s.Components = nil
 			for i := 0; i < 0; i++ {
-				var elem HandlerPostApplicationComponentsItem
+				var elem HandlerReadApplicationComponentsItem
 				{
 					elem.SetFake()
 				}
@@ -1430,7 +1118,7 @@ func (s *HandlerPostApplication) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPostApplicationComponentsItem) SetFake() {
+func (s *HandlerReadApplicationComponentsItem) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -1453,14 +1141,12 @@ func (s *HandlerPostApplicationComponentsItem) SetFake() {
 	}
 	{
 		{
-			s.Env = nil
-			for i := 0; i < 0; i++ {
-				var elem HandlerPostApplicationComponentsItemEnvItem
-				{
-					elem.SetFake()
-				}
-				s.Env = append(s.Env, elem)
-			}
+			s.Env.SetFake()
+		}
+	}
+	{
+		{
+			s.Secret.SetFake()
 		}
 	}
 	{
@@ -1471,7 +1157,7 @@ func (s *HandlerPostApplicationComponentsItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPostApplicationComponentsItemDeploySource) SetFake() {
+func (s *HandlerReadApplicationComponentsItemDeploySource) SetFake() {
 	{
 		{
 			s.ContainerRegistry.SetFake()
@@ -1480,7 +1166,7 @@ func (s *HandlerPostApplicationComponentsItemDeploySource) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) SetFake() {
+func (s *HandlerReadApplicationComponentsItemDeploySourceContainerRegistry) SetFake() {
 	{
 		{
 			s.Image = "string"
@@ -1499,21 +1185,7 @@ func (s *HandlerPostApplicationComponentsItemDeploySourceContainerRegistry) SetF
 }
 
 // SetFake set fake values.
-func (s *HandlerPostApplicationComponentsItemEnvItem) SetFake() {
-	{
-		{
-			s.Key.SetFake()
-		}
-	}
-	{
-		{
-			s.Value.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *HandlerPostApplicationComponentsItemProbe) SetFake() {
+func (s *HandlerReadApplicationComponentsItemProbe) SetFake() {
 	{
 		{
 			s.HTTPGet.SetFake()
@@ -1522,7 +1194,7 @@ func (s *HandlerPostApplicationComponentsItemProbe) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) SetFake() {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) SetFake() {
 	{
 		{
 			s.Path = "string"
@@ -1537,7 +1209,7 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) SetFake() {
 		{
 			s.Headers = nil
 			for i := 0; i < 0; i++ {
-				var elem HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem
+				var elem HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem
 				{
 					elem.SetFake()
 				}
@@ -1548,7 +1220,7 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) SetFake() {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem) SetFake() {
 	{
 		{
 			s.Name.SetFake()
@@ -1562,12 +1234,85 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem) SetFake() 
 }
 
 // SetFake set fake values.
-func (s *HandlerPostApplicationStatus) SetFake() {
-	*s = HandlerPostApplicationStatusHealthy
+func (s *HandlerReadApplicationOnlyStatus) SetFake() {
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.Message = "string"
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *HandlerPostUser) SetFake() {
+func (s *HandlerReadApplicationOnlyStatusStatus) SetFake() {
+	*s = HandlerReadApplicationOnlyStatusStatusHealthy
+}
+
+// SetFake set fake values.
+func (s *HandlerReadApplicationStatus) SetFake() {
+	*s = HandlerReadApplicationStatusHealthy
+}
+
+// SetFake set fake values.
+func (s *HandlerReadApplicationVersionOnlyStatus) SetFake() {
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.Message = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadApplicationVersionOnlyStatusStatus) SetFake() {
+	*s = HandlerReadApplicationVersionOnlyStatusStatusHealthy
+}
+
+// SetFake set fake values.
+func (s *HandlerReadPacketFilter) SetFake() {
+	{
+		{
+			s.IsEnabled = true
+		}
+	}
+	{
+		{
+			s.Settings = nil
+			for i := 0; i < 0; i++ {
+				var elem HandlerReadPacketFilterSettingsItem
+				{
+					elem.SetFake()
+				}
+				s.Settings = append(s.Settings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadPacketFilterSettingsItem) SetFake() {
+	{
+		{
+			s.FromIP = "string"
+		}
+	}
+	{
+		{
+			s.FromIPPrefixLength = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadUser) SetFake() {
 	{
 		{
 			s.Limit.SetFake()
@@ -1576,7 +1321,7 @@ func (s *HandlerPostUser) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPostUserLimit) SetFake() {
+func (s *HandlerReadUserLimit) SetFake() {
 	{
 		{
 			s.ApplicationCount = int(0)
@@ -1585,7 +1330,189 @@ func (s *HandlerPostUserLimit) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPutTraffics) SetFake() {
+func (s *HandlerReadVersion) SetFake() {
+	{
+		{
+			s.ID = "string"
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.TimeoutSeconds = int(0)
+		}
+	}
+	{
+		{
+			s.Port = int(0)
+		}
+	}
+	{
+		{
+			s.MinScale = int(0)
+		}
+	}
+	{
+		{
+			s.MaxScale = int(0)
+		}
+	}
+	{
+		{
+			s.ScaleTargetConcurrency.SetFake()
+		}
+	}
+	{
+		{
+			s.Components = nil
+			for i := 0; i < 0; i++ {
+				var elem HandlerReadVersionComponentsItem
+				{
+					elem.SetFake()
+				}
+				s.Components = append(s.Components, elem)
+			}
+		}
+	}
+	{
+		{
+			s.CreatedAt = time.Now()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadVersionComponentsItem) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.MaxCPU = "string"
+		}
+	}
+	{
+		{
+			s.MaxMemory = "string"
+		}
+	}
+	{
+		{
+			s.DeploySource.SetFake()
+		}
+	}
+	{
+		{
+			s.Env.SetFake()
+		}
+	}
+	{
+		{
+			s.Secret.SetFake()
+		}
+	}
+	{
+		{
+			s.Probe.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadVersionComponentsItemDeploySource) SetFake() {
+	{
+		{
+			s.ContainerRegistry.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadVersionComponentsItemDeploySourceContainerRegistry) SetFake() {
+	{
+		{
+			s.Image = "string"
+		}
+	}
+	{
+		{
+			s.Server.SetFake()
+		}
+	}
+	{
+		{
+			s.Username.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadVersionComponentsItemProbe) SetFake() {
+	{
+		{
+			s.HTTPGet.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) SetFake() {
+	{
+		{
+			s.Path = "string"
+		}
+	}
+	{
+		{
+			s.Port = int(0)
+		}
+	}
+	{
+		{
+			s.Headers = nil
+			for i := 0; i < 0; i++ {
+				var elem HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem
+				{
+					elem.SetFake()
+				}
+				s.Headers = append(s.Headers, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem) SetFake() {
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Value.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *HandlerReadVersionStatus) SetFake() {
+	*s = HandlerReadVersionStatusHealthy
+}
+
+// SetFake set fake values.
+func (s *HandlerUpdateTraffic) SetFake() {
 	{
 		{ // Keep pointer nil to prevent infinite recursion.
 			s.Meta = nil
@@ -1595,7 +1522,7 @@ func (s *HandlerPutTraffics) SetFake() {
 		{
 			s.Data = nil
 			for i := 0; i < 0; i++ {
-				var elem HandlerPutTrafficsDataItem
+				var elem HandlerUpdateTrafficDataItem
 				{
 					elem.SetFake()
 				}
@@ -1606,7 +1533,7 @@ func (s *HandlerPutTraffics) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPutTrafficsDataItem) SetFake() {
+func (s *HandlerUpdateTrafficDataItem) SetFake() {
 	{
 		{
 			s.VersionName = "string"
@@ -1625,11 +1552,11 @@ func (s *HandlerPutTrafficsDataItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *HandlerPutTrafficsMeta) SetFake() {
+func (s *HandlerUpdateTrafficMeta) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListApplicationTrafficsBadRequest) SetFake() {
+func (s *ListApplicationTrafficBadRequest) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -1639,7 +1566,7 @@ func (s *ListApplicationTrafficsBadRequest) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListApplicationTrafficsForbidden) SetFake() {
+func (s *ListApplicationTrafficForbidden) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -1649,7 +1576,7 @@ func (s *ListApplicationTrafficsForbidden) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListApplicationTrafficsInternalServerError) SetFake() {
+func (s *ListApplicationTrafficInternalServerError) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -1659,7 +1586,7 @@ func (s *ListApplicationTrafficsInternalServerError) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListApplicationTrafficsNotFound) SetFake() {
+func (s *ListApplicationTrafficNotFound) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -1669,7 +1596,7 @@ func (s *ListApplicationTrafficsNotFound) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListApplicationTrafficsUnauthorized) SetFake() {
+func (s *ListApplicationTrafficUnauthorized) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -1890,8 +1817,8 @@ func (s *OptBool) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) SetFake() {
-	var elem HandlerGetApplicationComponentsItemDeploySourceContainerRegistry
+func (s *OptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry) SetFake() {
+	var elem CreateApplicationBodyComponentsItemDeploySourceContainerRegistry
 	{
 		elem.SetFake()
 	}
@@ -1899,8 +1826,8 @@ func (s *OptHandlerGetApplicationComponentsItemDeploySourceContainerRegistry) Se
 }
 
 // SetFake set fake values.
-func (s *OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) SetFake() {
-	var elem HandlerGetVersionComponentsItemDeploySourceContainerRegistry
+func (s *OptHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry) SetFake() {
+	var elem HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry
 	{
 		elem.SetFake()
 	}
@@ -1908,8 +1835,8 @@ func (s *OptHandlerGetVersionComponentsItemDeploySourceContainerRegistry) SetFak
 }
 
 // SetFake set fake values.
-func (s *OptHandlerListTrafficsMeta) SetFake() {
-	var elem *HandlerListTrafficsMeta
+func (s *OptHandlerListTrafficMeta) SetFake() {
+	var elem *HandlerListTrafficMeta
 	{ // Keep pointer nil to prevent infinite recursion.
 		elem = nil
 	}
@@ -1926,8 +1853,17 @@ func (s *OptHandlerPatchApplicationComponentsItemDeploySourceContainerRegistry) 
 }
 
 // SetFake set fake values.
-func (s *OptHandlerPostApplicationComponentsItemDeploySourceContainerRegistry) SetFake() {
-	var elem HandlerPostApplicationComponentsItemDeploySourceContainerRegistry
+func (s *OptHandlerReadApplicationComponentsItemDeploySourceContainerRegistry) SetFake() {
+	var elem HandlerReadApplicationComponentsItemDeploySourceContainerRegistry
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptHandlerReadVersionComponentsItemDeploySourceContainerRegistry) SetFake() {
+	var elem HandlerReadVersionComponentsItemDeploySourceContainerRegistry
 	{
 		elem.SetFake()
 	}
@@ -1950,25 +1886,31 @@ func (s *OptNilContainerRegistryAction) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptNilHandlerGetApplicationComponentsItemProbe) SetFake() {
+func (s *OptNilCreateApplicationBodyComponentsItemProbe) SetFake() {
 	s.Null = true
 	s.Set = true
 }
 
 // SetFake set fake values.
-func (s *OptNilHandlerGetApplicationComponentsItemProbeHTTPGet) SetFake() {
+func (s *OptNilCreateApplicationBodyComponentsItemProbeHTTPGet) SetFake() {
 	s.Null = true
 	s.Set = true
 }
 
 // SetFake set fake values.
-func (s *OptNilHandlerGetVersionComponentsItemProbe) SetFake() {
+func (s *OptNilCreateApplicationBodyComponentsItemSecretItemArray) SetFake() {
 	s.Null = true
 	s.Set = true
 }
 
 // SetFake set fake values.
-func (s *OptNilHandlerGetVersionComponentsItemProbeHTTPGet) SetFake() {
+func (s *OptNilHandlerCreateApplicationComponentsItemProbe) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilHandlerCreateApplicationComponentsItemProbeHTTPGet) SetFake() {
 	s.Null = true
 	s.Set = true
 }
@@ -1986,25 +1928,31 @@ func (s *OptNilHandlerPatchApplicationComponentsItemProbeHTTPGet) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptNilHandlerPostApplicationComponentsItemProbe) SetFake() {
+func (s *OptNilHandlerReadApplicationComponentsItemProbe) SetFake() {
 	s.Null = true
 	s.Set = true
 }
 
 // SetFake set fake values.
-func (s *OptNilHandlerPostApplicationComponentsItemProbeHTTPGet) SetFake() {
+func (s *OptNilHandlerReadApplicationComponentsItemProbeHTTPGet) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilHandlerReadVersionComponentsItemProbe) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilHandlerReadVersionComponentsItemProbeHTTPGet) SetFake() {
 	s.Null = true
 	s.Set = true
 }
 
 // SetFake set fake values.
 func (s *OptNilModelErrorsItemLocationType) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilPatchApplicationBodyComponentsItemEnvItemArray) SetFake() {
 	s.Null = true
 	s.Set = true
 }
@@ -2022,19 +1970,13 @@ func (s *OptNilPatchApplicationBodyComponentsItemProbeHTTPGet) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptNilPostApplicationBodyComponentsItemEnvItemArray) SetFake() {
+func (s *OptNilPatchApplicationBodyComponentsItemSecretItemArray) SetFake() {
 	s.Null = true
 	s.Set = true
 }
 
 // SetFake set fake values.
-func (s *OptNilPostApplicationBodyComponentsItemProbe) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilPostApplicationBodyComponentsItemProbeHTTPGet) SetFake() {
+func (s *OptNilRequestEnv) SetFake() {
 	s.Null = true
 	s.Set = true
 }
@@ -2048,15 +1990,6 @@ func (s *OptNilString) SetFake() {
 // SetFake set fake values.
 func (s *OptPatchApplicationBodyComponentsItemDeploySourceContainerRegistry) SetFake() {
 	var elem PatchApplicationBodyComponentsItemDeploySourceContainerRegistry
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptPostApplicationBodyComponentsItemDeploySourceContainerRegistry) SetFake() {
-	var elem PostApplicationBodyComponentsItemDeploySourceContainerRegistry
 	{
 		elem.SetFake()
 	}
@@ -2157,6 +2090,11 @@ func (s *PatchApplicationBodyComponentsItem) SetFake() {
 	}
 	{
 		{
+			s.Secret.SetFake()
+		}
+	}
+	{
+		{
 			s.Probe.SetFake()
 		}
 	}
@@ -2196,20 +2134,6 @@ func (s *PatchApplicationBodyComponentsItemDeploySourceContainerRegistry) SetFak
 	{
 		{
 			s.Action.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PatchApplicationBodyComponentsItemEnvItem) SetFake() {
-	{
-		{
-			s.Key.SetFake()
-		}
-	}
-	{
-		{
-			s.Value.SetFake()
 		}
 	}
 }
@@ -2274,6 +2198,20 @@ func (s *PatchApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *PatchApplicationBodyComponentsItemSecretItem) SetFake() {
+	{
+		{
+			s.Key = "string"
+		}
+	}
+	{
+		{
+			s.Value.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *PatchApplicationConflict) SetFake() {
 	var variant ModelDefaultError
 
@@ -2314,6 +2252,56 @@ func (s *PatchApplicationNotFound) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *PatchApplicationPacketFilterBadRequest) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *PatchApplicationPacketFilterForbidden) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *PatchApplicationPacketFilterInternalServerError) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *PatchApplicationPacketFilterNotFound) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *PatchApplicationPacketFilterUnauthorized) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
 func (s *PatchApplicationUnauthorized) SetFake() {
 	var variant ModelDefaultError
 
@@ -2324,7 +2312,7 @@ func (s *PatchApplicationUnauthorized) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PatchPacketFilter) SetFake() {
+func (s *PatchPacketFilterBody) SetFake() {
 	{
 		{
 			s.IsEnabled.SetFake()
@@ -2334,7 +2322,7 @@ func (s *PatchPacketFilter) SetFake() {
 		{
 			s.Settings = nil
 			for i := 0; i < 0; i++ {
-				var elem PatchPacketFilterSettingsItem
+				var elem PatchPacketFilterBodySettingsItem
 				{
 					elem.SetFake()
 				}
@@ -2345,47 +2333,7 @@ func (s *PatchPacketFilter) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PatchPacketFilterBadRequest) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *PatchPacketFilterForbidden) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *PatchPacketFilterInternalServerError) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *PatchPacketFilterNotFound) SetFake() {
-	var variant ModelDefaultError
-
-	{
-		variant.SetFake()
-	}
-	s.SetModelDefaultError(variant)
-}
-
-// SetFake set fake values.
-func (s *PatchPacketFilterSettingsItem) SetFake() {
+func (s *PatchPacketFilterBodySettingsItem) SetFake() {
 	{
 		{
 			s.FromIP = "string"
@@ -2399,7 +2347,7 @@ func (s *PatchPacketFilterSettingsItem) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PatchPacketFilterUnauthorized) SetFake() {
+func (s *ReadApplicationBadRequest) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2409,7 +2357,7 @@ func (s *PatchPacketFilterUnauthorized) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostApplicationBadRequest) SetFake() {
+func (s *ReadApplicationForbidden) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2419,193 +2367,7 @@ func (s *PostApplicationBadRequest) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostApplicationBody) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.TimeoutSeconds = int(0)
-		}
-	}
-	{
-		{
-			s.Port = int(0)
-		}
-	}
-	{
-		{
-			s.MinScale = int(0)
-		}
-	}
-	{
-		{
-			s.MaxScale = int(0)
-		}
-	}
-	{
-		{
-			s.ScaleTargetConcurrency.SetFake()
-		}
-	}
-	{
-		{
-			s.Components = nil
-			for i := 0; i < 0; i++ {
-				var elem PostApplicationBodyComponentsItem
-				{
-					elem.SetFake()
-				}
-				s.Components = append(s.Components, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItem) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.MaxCPU.SetFake()
-		}
-	}
-	{
-		{
-			s.MaxMemory.SetFake()
-		}
-	}
-	{
-		{
-			s.DeploySource.SetFake()
-		}
-	}
-	{
-		{
-			s.Env.SetFake()
-		}
-	}
-	{
-		{
-			s.Probe.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItemDeploySource) SetFake() {
-	{
-		{
-			s.ContainerRegistry.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) SetFake() {
-	{
-		{
-			s.Image = "string"
-		}
-	}
-	{
-		{
-			s.Server.SetFake()
-		}
-	}
-	{
-		{
-			s.Username.SetFake()
-		}
-	}
-	{
-		{
-			s.Password.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItemEnvItem) SetFake() {
-	{
-		{
-			s.Key.SetFake()
-		}
-	}
-	{
-		{
-			s.Value.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItemMaxCPU) SetFake() {
-	*s = PostApplicationBodyComponentsItemMaxCPU05
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItemMaxMemory) SetFake() {
-	*s = PostApplicationBodyComponentsItemMaxMemory1Gi
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItemProbe) SetFake() {
-	{
-		{
-			s.HTTPGet.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) SetFake() {
-	{
-		{
-			s.Path = "string"
-		}
-	}
-	{
-		{
-			s.Port = int(0)
-		}
-	}
-	{
-		{
-			s.Headers = nil
-			for i := 0; i < 0; i++ {
-				var elem PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem
-				{
-					elem.SetFake()
-				}
-				s.Headers = append(s.Headers, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem) SetFake() {
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-	{
-		{
-			s.Value.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PostApplicationConflict) SetFake() {
+func (s *ReadApplicationInternalServerError) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2615,7 +2377,7 @@ func (s *PostApplicationConflict) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostApplicationForbidden) SetFake() {
+func (s *ReadApplicationNotFound) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2625,7 +2387,7 @@ func (s *PostApplicationForbidden) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostApplicationInternalServerError) SetFake() {
+func (s *ReadApplicationPacketFilterBadRequest) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2635,7 +2397,7 @@ func (s *PostApplicationInternalServerError) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostApplicationUnauthorized) SetFake() {
+func (s *ReadApplicationPacketFilterForbidden) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2645,7 +2407,7 @@ func (s *PostApplicationUnauthorized) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostUserConflict) SetFake() {
+func (s *ReadApplicationPacketFilterInternalServerError) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2655,7 +2417,7 @@ func (s *PostUserConflict) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostUserForbidden) SetFake() {
+func (s *ReadApplicationPacketFilterNotFound) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2665,7 +2427,7 @@ func (s *PostUserForbidden) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostUserInternalServerError) SetFake() {
+func (s *ReadApplicationPacketFilterUnauthorized) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2675,7 +2437,7 @@ func (s *PostUserInternalServerError) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PostUserUnauthorized) SetFake() {
+func (s *ReadApplicationStatusBadRequest) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2685,7 +2447,7 @@ func (s *PostUserUnauthorized) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutApplicationTrafficBadRequest) SetFake() {
+func (s *ReadApplicationStatusForbidden) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2695,7 +2457,7 @@ func (s *PutApplicationTrafficBadRequest) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutApplicationTrafficForbidden) SetFake() {
+func (s *ReadApplicationStatusInternalServerError) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2705,7 +2467,7 @@ func (s *PutApplicationTrafficForbidden) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutApplicationTrafficInternalServerError) SetFake() {
+func (s *ReadApplicationStatusNotFound) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2715,7 +2477,7 @@ func (s *PutApplicationTrafficInternalServerError) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutApplicationTrafficNotFound) SetFake() {
+func (s *ReadApplicationStatusUnauthorized) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2725,7 +2487,7 @@ func (s *PutApplicationTrafficNotFound) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutApplicationTrafficUnauthorized) SetFake() {
+func (s *ReadApplicationUnauthorized) SetFake() {
 	var variant ModelDefaultError
 
 	{
@@ -2735,33 +2497,308 @@ func (s *PutApplicationTrafficUnauthorized) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutTrafficsBody) SetFake() {
-	var unwrapped []PutTrafficsBodyItem
+func (s *ReadApplicationVersionBadRequest) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionForbidden) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionInternalServerError) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionNotFound) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionStatusBadRequest) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionStatusForbidden) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionStatusInternalServerError) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionStatusNotFound) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionStatusUnauthorized) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersionUnauthorized) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadUserForbidden) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadUserInternalServerError) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadUserNotFound) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *ReadUserUnauthorized) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *RequestEnv) SetFake() {
+	var unwrapped []RequestEnvItem
 	{
 		unwrapped = nil
 		for i := 0; i < 0; i++ {
-			var elem PutTrafficsBodyItem
+			var elem RequestEnvItem
 			{
 				elem.SetFake()
 			}
 			unwrapped = append(unwrapped, elem)
 		}
 	}
-	*s = PutTrafficsBody(unwrapped)
+	*s = RequestEnv(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *PutTrafficsBodyItem) SetFake() {
-	var variant PutTrafficsBodyItem0
+func (s *RequestEnvItem) SetFake() {
+	{
+		{
+			s.Key = "string"
+		}
+	}
+	{
+		{
+			s.Value = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ResponseEnv) SetFake() {
+	var unwrapped []ResponseEnvItem
+	{
+		unwrapped = nil
+		for i := 0; i < 0; i++ {
+			var elem ResponseEnvItem
+			{
+				elem.SetFake()
+			}
+			unwrapped = append(unwrapped, elem)
+		}
+	}
+	*s = ResponseEnv(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ResponseEnvItem) SetFake() {
+	{
+		{
+			s.Key = "string"
+		}
+	}
+	{
+		{
+			s.Value = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ResponseSecret) SetFake() {
+	var unwrapped []ResponseSecretItem
+	{
+		unwrapped = nil
+		for i := 0; i < 0; i++ {
+			var elem ResponseSecretItem
+			{
+				elem.SetFake()
+			}
+			unwrapped = append(unwrapped, elem)
+		}
+	}
+	*s = ResponseSecret(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ResponseSecretItem) SetFake() {
+	{
+		{
+			s.Key = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateApplicationTrafficBadRequest) SetFake() {
+	var variant ModelDefaultError
 
 	{
 		variant.SetFake()
 	}
-	s.SetPutTrafficsBodyItem0(variant)
+	s.SetModelDefaultError(variant)
 }
 
 // SetFake set fake values.
-func (s *PutTrafficsBodyItem0) SetFake() {
+func (s *UpdateApplicationTrafficForbidden) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *UpdateApplicationTrafficInternalServerError) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *UpdateApplicationTrafficNotFound) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *UpdateApplicationTrafficUnauthorized) SetFake() {
+	var variant ModelDefaultError
+
+	{
+		variant.SetFake()
+	}
+	s.SetModelDefaultError(variant)
+}
+
+// SetFake set fake values.
+func (s *UpdateTrafficBody) SetFake() {
+	var unwrapped []UpdateTrafficBodyItem
+	{
+		unwrapped = nil
+		for i := 0; i < 0; i++ {
+			var elem UpdateTrafficBodyItem
+			{
+				elem.SetFake()
+			}
+			unwrapped = append(unwrapped, elem)
+		}
+	}
+	*s = UpdateTrafficBody(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateTrafficBodyItem) SetFake() {
+	var variant UpdateTrafficBodyItem0
+
+	{
+		variant.SetFake()
+	}
+	s.SetUpdateTrafficBodyItem0(variant)
+}
+
+// SetFake set fake values.
+func (s *UpdateTrafficBodyItem0) SetFake() {
 	{
 		{
 			s.IsLatestVersion = true
@@ -2775,7 +2812,7 @@ func (s *PutTrafficsBodyItem0) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutTrafficsBodyItem1) SetFake() {
+func (s *UpdateTrafficBodyItem1) SetFake() {
 	{
 		{
 			s.VersionName = "string"

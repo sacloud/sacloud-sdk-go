@@ -44,7 +44,7 @@ func TestNewProjectAPIKeyOp(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.CompatAPIKeysGetOK
+	var expected v1.ListApiKeysOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.ProjectApiKey, 1))
 	expected.Items[0].SetFake()
@@ -186,7 +186,7 @@ func TestUpdate_Fail(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	assert, api := setup(t, &v1.CompatAPIKeysApikeyIDDeleteNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.DeleteApiKeyNoContent{}, http.StatusNoContent)
 
 	err := api.Delete(t.Context(), 123)
 	assert.NoError(err)

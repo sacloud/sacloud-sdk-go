@@ -8,7 +8,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
-	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type LoadBalancerAPI interface {
@@ -45,7 +45,7 @@ func (op *LoadBalancerOp) List(ctx context.Context, maxItems int64, cursor *v1.L
 		return op.client.ListLoadBalancers(ctx, v1.ListLoadBalancersParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
-			Cursor:             common.IntoOpt[v1.OptLoadBalancerID](cursor),
+			Cursor:             into.Opt[v1.OptLoadBalancerID](cursor),
 			MaxItems:           maxItems,
 		})
 	})
@@ -60,7 +60,7 @@ func (op *LoadBalancerOp) List(ctx context.Context, maxItems int64, cursor *v1.L
 
 func (op *LoadBalancerOp) Create(ctx context.Context, params CreateParams) (lb *v1.CreatedLoadBalancer, err error) {
 	res, err := common.ErrorFromDecodedResponse("LoadBalancer.Create", func() (*v1.CreateLoadBalancerResponse, error) {
-		return op.client.CreateLoadBalancer(ctx, saclient.Ptr(params.into()), v1.CreateLoadBalancerParams{
+		return op.client.CreateLoadBalancer(ctx, new(params.into()), v1.CreateLoadBalancerParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
 		})
@@ -107,7 +107,7 @@ func (op *LoadBalancerOp) ListNodes(ctx context.Context, lbID v1.LoadBalancerID,
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
 			LoadBalancerID:     lbID,
-			Cursor:             common.IntoOpt[v1.OptLoadBalancerID](cursor),
+			Cursor:             into.Opt[v1.OptLoadBalancerID](cursor),
 			MaxItems:           maxItems,
 		})
 	})
@@ -155,11 +155,11 @@ func (l LoadBalancerInterface) into() (ret v1.LoadBalancerInterface) {
 	ret.SetInterfaceIndex(l.InterfaceIndex)
 	ret.SetUpstream(l.Upstream)
 	ret.SetIpPool(l.IpPool)
-	ret.SetNetmaskLen(common.IntoOpt[v1.OptInt16](l.NetmaskLen))
-	ret.SetDefaultGateway(common.IntoOpt[v1.OptString](l.DefaultGateway))
-	ret.SetVip(common.IntoOpt[v1.OptString](l.Vip))
-	ret.SetVirtualRouterID(common.IntoOpt[v1.OptInt16](l.VirtualRouterID))
-	ret.SetPacketFilterID(common.IntoOpt[v1.OptString](l.PacketFilterID))
+	ret.SetNetmaskLen(into.Opt[v1.OptInt16](l.NetmaskLen))
+	ret.SetDefaultGateway(into.Opt[v1.OptString](l.DefaultGateway))
+	ret.SetVip(into.Opt[v1.OptString](l.Vip))
+	ret.SetVirtualRouterID(into.Opt[v1.OptInt16](l.VirtualRouterID))
+	ret.SetPacketFilterID(into.Opt[v1.OptString](l.PacketFilterID))
 
 	return
 }
@@ -232,13 +232,13 @@ func (l *LoadBalancerDetail) from(res *v1.ReadLoadBalancerDetail) {
 }
 
 type LoadBalancerNodeDetail struct {
-	LoadBalancerNodeID v1.LoadBalancerNodeID `json:"loadBalancerNodeID"`
-	ResourceID         *string               `json:"resourceID"`
-	Interfaces         []NodeInterface       `json:"interfaces"`
+	LoadBalancerNodeID v1.LoadBalancerNodeID     `json:"loadBalancerNodeID"`
+	ResourceID         *string                   `json:"resourceID"`
+	Interfaces         []NodeInterface           `json:"interfaces"`
 	Status             v1.LoadBalancerNodeStatus `json:"status"`
-	ArchiveVersion     *string               `json:"archiveVersion"`
-	CreateErrorMessage *string               `json:"createErrorMessage"`
-	Created            int                   `json:"created"`
+	ArchiveVersion     *string                   `json:"archiveVersion"`
+	CreateErrorMessage *string                   `json:"createErrorMessage"`
+	Created            int                       `json:"created"`
 }
 
 func (l *LoadBalancerNodeDetail) from(res *v1.ReadLoadBalancerNode) {

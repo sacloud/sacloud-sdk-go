@@ -46,7 +46,7 @@ func TestNewUser2FAOp(t *testing.T) {
 }
 
 func TestDeactivateOTP(t *testing.T) {
-	assert, api := setup(t, &v1.CompatUsersUserIDDeactivateOtpPostNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.DeactivateOtpNoContent{}, http.StatusNoContent)
 
 	err := api.DeactivateOTP(t.Context())
 	assert.NoError(err)
@@ -66,7 +66,7 @@ func TestDeactivateOTP_Fail(t *testing.T) {
 }
 
 func TestListSecurityKeys(t *testing.T) {
-	var expected v1.CompatUsersUserIDSecurityKeysGetOK
+	var expected v1.ListSecurityKeysOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.UserSecurityKey, 1))
 	expected.Items[0].SetFake()
@@ -125,39 +125,8 @@ func TestGetSecurityKey_Fail(t *testing.T) {
 	assert.Contains(err.Error(), expected)
 }
 
-func TestUpdateSecurityKey(t *testing.T) {
-	var expected v1.UserSecurityKey
-	name := testutil.RandomName("key", 32, testutil.CharSetAlphaNum)
-	expected.SetFake()
-	expected.SetName(name)
-	expected.SetID(456)
-	expected.SetRegisteredAt(Time)
-	expected.SetLastUsedAt(v1.NewNilDateTime(Time))
-	assert, api := setup(t, &expected)
-
-	actual, err := api.UpdateSecurityKey(t.Context(), 123, name)
-	assert.NoError(err)
-	assert.NotNil(actual)
-	assert.Equal(&expected, actual)
-}
-
-func TestUpdateSecurityKey_Fail(t *testing.T) {
-	var res v1.Http403Forbidden
-	expected := testutil.Random(128, testutil.CharSetAlphaNum)
-	res.SetFake()
-	res.SetStatus(http.StatusForbidden)
-	res.SetDetail(expected)
-	assert, api := setup(t, &res, res.Status)
-
-	name := testutil.RandomName("key", 32, testutil.CharSetAlphaNum)
-	actual, err := api.UpdateSecurityKey(t.Context(), 123, name)
-	assert.Error(err)
-	assert.Nil(actual)
-	assert.Contains(err.Error(), expected)
-}
-
 func TestDeleteSecurityKey(t *testing.T) {
-	assert, api := setup(t, &v1.CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.DeleteSecurityKeyNoContent{}, http.StatusNoContent)
 
 	err := api.DeleteSecurityKey(t.Context(), 123)
 	assert.NoError(err)
@@ -177,7 +146,7 @@ func TestDeleteSecurityKey_Fail(t *testing.T) {
 }
 
 func TestListTrustedDevices(t *testing.T) {
-	var expected v1.CompatUsersUserIDTrustedDevicesGetOK
+	var expected v1.ListTrustedDevicesOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.UserTrustedDevice, 1))
 	expected.Items[0].SetFake()

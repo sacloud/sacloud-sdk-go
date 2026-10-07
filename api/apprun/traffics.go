@@ -24,9 +24,9 @@ import (
 
 type TrafficAPI interface {
 	// List アプリケーショントラフィック分散を取得
-	List(ctx context.Context, appId string) (*v1.HandlerListTraffics, error)
+	List(ctx context.Context, appId string) (*v1.HandlerListTraffic, error)
 	// Update アプリケーショントラフィック分散を変更
-	Update(ctx context.Context, appId string, params *v1.PutTrafficsBody) (*v1.HandlerPutTraffics, error)
+	Update(ctx context.Context, appId string, params *v1.UpdateTrafficBody) (*v1.HandlerUpdateTraffic, error)
 }
 
 var _ TrafficAPI = (*trafficOp)(nil)
@@ -40,52 +40,52 @@ func NewTrafficOp(client *v1.Client) TrafficAPI {
 	return &trafficOp{client: client}
 }
 
-func (op *trafficOp) List(ctx context.Context, appId string) (*v1.HandlerListTraffics, error) {
+func (op *trafficOp) List(ctx context.Context, appId string) (*v1.HandlerListTraffic, error) {
 	const methodName = "Traffics.List"
-	res, err := op.client.ListApplicationTraffics(ctx, v1.ListApplicationTrafficsParams{ID: appId})
+	res, err := op.client.ListApplicationTraffic(ctx, v1.ListApplicationTrafficParams{ID: appId})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerListTraffics:
+	case *v1.HandlerListTraffic:
 		return result, nil
-	case *v1.ListApplicationTrafficsBadRequest:
+	case *v1.ListApplicationTrafficBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.ListApplicationTrafficsUnauthorized:
+	case *v1.ListApplicationTrafficUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.ListApplicationTrafficsForbidden:
+	case *v1.ListApplicationTrafficForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.ListApplicationTrafficsNotFound:
+	case *v1.ListApplicationTrafficNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.ListApplicationTrafficsInternalServerError:
+	case *v1.ListApplicationTrafficInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
 	}
 }
 
-func (op *trafficOp) Update(ctx context.Context, appId string, params *v1.PutTrafficsBody) (*v1.HandlerPutTraffics, error) {
+func (op *trafficOp) Update(ctx context.Context, appId string, params *v1.UpdateTrafficBody) (*v1.HandlerUpdateTraffic, error) {
 	const methodName = "Traffics.Update"
 	if params == nil {
 		return nil, NewError(methodName, errors.New("params is nil"))
 	}
 
-	res, err := op.client.PutApplicationTraffic(ctx, *params, v1.PutApplicationTrafficParams{ID: appId})
+	res, err := op.client.UpdateApplicationTraffic(ctx, *params, v1.UpdateApplicationTrafficParams{ID: appId})
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerPutTraffics:
+	case *v1.HandlerUpdateTraffic:
 		return result, nil
-	case *v1.PutApplicationTrafficBadRequest:
+	case *v1.UpdateApplicationTrafficBadRequest:
 		return nil, apiErrorFromModel(methodName, http.StatusBadRequest, result)
-	case *v1.PutApplicationTrafficUnauthorized:
+	case *v1.UpdateApplicationTrafficUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.PutApplicationTrafficForbidden:
+	case *v1.UpdateApplicationTrafficForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.PutApplicationTrafficNotFound:
+	case *v1.UpdateApplicationTrafficNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.PutApplicationTrafficInternalServerError:
+	case *v1.UpdateApplicationTrafficInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))

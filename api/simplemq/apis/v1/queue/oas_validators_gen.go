@@ -54,29 +54,6 @@ func (s *CommonServiceItem) Validate() error {
 	return nil
 }
 
-func (s *ConfigQueueOK) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.CommonServiceItem.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "CommonServiceItem",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
 func (s *ConfigQueueRequest) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -276,30 +253,7 @@ func (s ExpireSeconds) Validate() error {
 	return nil
 }
 
-func (s *GetQueueOK) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.CommonServiceItem.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "CommonServiceItem",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *GetQueuesOK) Validate() error {
+func (s *ListQueuesOK) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -391,6 +345,29 @@ func (s QueueName) Validate() error {
 	return nil
 }
 
+func (s *ReadQueueOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.CommonServiceItem.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "CommonServiceItem",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *Settings) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -416,6 +393,29 @@ func (s *Settings) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "ExpireSeconds",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *UpdateQueueOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.CommonServiceItem.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "CommonServiceItem",
 			Error: err,
 		})
 	}

@@ -44,7 +44,7 @@ type Database struct {
 	Remark       *ApplianceRemark    `json:",omitempty" yaml:"remark,omitempty" structs:",omitempty"`
 	Disk         *DatabaseDisk       `json:",omitempty" yaml:"disk,omitempty" structs:",omitempty"`
 
-	Generation interface{}
+	Generation any
 }
 
 type DatabaseDisk struct {
@@ -79,7 +79,7 @@ type DatabaseSettingCommon struct {
 	//
 	// [HACK] Create時はbool型、Read/Update時は文字列(FQDN or IP)となる。
 	// また、無効にするにはJSONで要素自体を指定しないことで行う。
-	WebUI           interface{}                   `yaml:"web_ui"`
+	WebUI           any                           `yaml:"web_ui"`
 	ServicePort     int                           `json:",omitempty" yaml:"service_port,omitempty" structs:",omitempty"`
 	SourceNetwork   DatabaseSettingSourceNetworks `yaml:"source_network"`
 	DefaultUser     string                        `json:",omitempty" yaml:"default_user,omitempty" structs:",omitempty"`
@@ -284,11 +284,11 @@ type DatabaseStatusPostgreSQL struct {
 
 // DatabaseStatusVersion データベース設定バージョン情報
 type DatabaseStatusVersion struct {
-	LastModified string      `json:"lastmodified,omitempty" yaml:"last_modified,omitempty" structs:",omitempty"`
-	CommitHash   string      `json:"commithash,omitempty" yaml:"commit_hash,omitempty" structs:",omitempty"`
-	Status       string      `json:"status,omitempty" yaml:"status,omitempty" structs:",omitempty"`
-	Tag          interface{} `json:"tag,omitempty" yaml:"tag,omitempty" structs:",omitempty"` // Note: `1.1`や`"1.1"`などと表記揺れがあるためここではinterface{}で受け取る
-	Expire       string      `json:"expire,omitempty" yaml:"expire,omitempty" structs:",omitempty"`
+	LastModified string `json:"lastmodified,omitempty" yaml:"last_modified,omitempty" structs:",omitempty"`
+	CommitHash   string `json:"commithash,omitempty" yaml:"commit_hash,omitempty" structs:",omitempty"`
+	Status       string `json:"status,omitempty" yaml:"status,omitempty" structs:",omitempty"`
+	Tag          any    `json:"tag,omitempty" yaml:"tag,omitempty" structs:",omitempty"` // Note: `1.1`や`"1.1"`などと表記揺れがあるためここではinterface{}で受け取る
+	Expire       string `json:"expire,omitempty" yaml:"expire,omitempty" structs:",omitempty"`
 }
 
 // DatabaseLog データベースログ
@@ -348,7 +348,7 @@ func (h *DatabaseBackupHistory) FormatRecoveredAt(layout string) string {
 
 // UnmarshalJSON JSON復号処理
 func (h *DatabaseBackupHistory) UnmarshalJSON(data []byte) error {
-	var tmpMap = map[string]interface{}{}
+	var tmpMap = map[string]any{}
 	if err := json.Unmarshal(data, &tmpMap); err != nil {
 		return err
 	}
@@ -400,14 +400,14 @@ type DatabaseParameterSetting struct {
 	Attr   DatabaseParameterSettingAttr `json:",omitempty" yaml:"attr,omitempty" structs:",omitempty"`
 }
 
-type DatabaseParameterSettingAttr map[string]interface{}
+type DatabaseParameterSettingAttr map[string]any
 
 // UnmarshalJSON 配列/オブジェクトが混在することへの対応
 func (d *DatabaseParameterSettingAttr) UnmarshalJSON(b []byte) error {
 	if string(b) == "[]" {
 		return nil
 	}
-	type alias map[string]interface{}
+	type alias map[string]any
 
 	var a alias
 	if err := json.Unmarshal(b, &a); err != nil {
@@ -418,7 +418,7 @@ func (d *DatabaseParameterSettingAttr) UnmarshalJSON(b []byte) error {
 }
 
 type DatabaseParameterRemark struct {
-	Settings []interface{}                // どのような値が入るのか不明
+	Settings []any                        // どのような値が入るのか不明
 	Form     []*DatabaseParameterFormMeta `json:",omitempty" yaml:"form,omitempty" structs:",omitempty"`
 }
 
@@ -427,7 +427,7 @@ type DatabaseParameterFormMeta struct {
 	Name    string                            `json:"name" yaml:"name"`
 	Label   string                            `json:"label" yaml:"label"`
 	Options *DatabaseParameterFormMetaOptions `json:"options" yaml:"options"`
-	Items   [][]interface{}                   `json:"items,omitempty" yaml:"items,omitempty" structs:",omitempty"` // 例: [["value1", "text1"],[ "value2", "text2"]] ※ valueは数値となる可能性がある
+	Items   [][]any                           `json:"items,omitempty" yaml:"items,omitempty" structs:",omitempty"` // 例: [["value1", "text1"],[ "value2", "text2"]] ※ valueは数値となる可能性がある
 }
 
 type DatabaseParameterFormMetaOptions struct {

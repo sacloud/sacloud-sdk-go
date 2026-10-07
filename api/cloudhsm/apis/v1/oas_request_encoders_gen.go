@@ -10,8 +10,8 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeCloudhsmCloudhsmsClientsCreateRequest(
-	req *WrappedCreateCloudHSMClient,
+func encodeCreateCloudHSMRequest(
+	req *WrappedCreateCloudHSMRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -24,8 +24,8 @@ func encodeCloudhsmCloudhsmsClientsCreateRequest(
 	return nil
 }
 
-func encodeCloudhsmCloudhsmsClientsUpdateRequest(
-	req *WrappedCloudHSMClient,
+func encodeCreateCloudHSMClientRequest(
+	req *WrappedCreateCloudHSMClientRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -38,8 +38,8 @@ func encodeCloudhsmCloudhsmsClientsUpdateRequest(
 	return nil
 }
 
-func encodeCloudhsmCloudhsmsCreateRequest(
-	req *WrappedCreateCloudHSM,
+func encodeCreateCloudHSMLicenseRequest(
+	req *WrappedCreateCloudHSMSoftwareLicenseRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -52,8 +52,8 @@ func encodeCloudhsmCloudhsmsCreateRequest(
 	return nil
 }
 
-func encodeCloudhsmCloudhsmsPeersCreateRequest(
-	req *WrappedCreateCloudHSMPeer,
+func encodeCreateCloudHSMPeerRequest(
+	req *WrappedPeerRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -66,8 +66,8 @@ func encodeCloudhsmCloudhsmsPeersCreateRequest(
 	return nil
 }
 
-func encodeCloudhsmCloudhsmsUpdateRequest(
-	req *WrappedCloudHSM,
+func encodeUpdateCloudHSMRequest(
+	req *WrappedCloudHSMRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -80,8 +80,8 @@ func encodeCloudhsmCloudhsmsUpdateRequest(
 	return nil
 }
 
-func encodeCloudhsmLicensesCreateRequest(
-	req *WrappedCreateCloudHSMSoftwareLicense,
+func encodeUpdateCloudHSMClientRequest(
+	req *WrappedCloudHSMClientRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -94,8 +94,8 @@ func encodeCloudhsmLicensesCreateRequest(
 	return nil
 }
 
-func encodeCloudhsmLicensesUpdateRequest(
-	req *WrappedCloudHSMSoftwareLicense,
+func encodeUpdateCloudHSMLicenseRequest(
+	req *WrappedCloudHSMSoftwareLicenseRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

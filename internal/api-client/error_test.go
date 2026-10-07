@@ -5,10 +5,9 @@ import (
 	"net/http"
 	"testing"
 
+	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	client "github.com/sacloud/sacloud-sdk-go/internal/api-client"
 )
 
 type XXXAPIError struct {

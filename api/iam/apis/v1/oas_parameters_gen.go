@@ -6,164 +6,125 @@ import (
 	"github.com/google/uuid"
 )
 
-// CompatAPIKeysApikeyIDDeleteParams is parameters of DELETE /compat/api-keys/{apikey_id} operation.
-type CompatAPIKeysApikeyIDDeleteParams struct {
+// AssignSsoProfileParams is parameters of assignSsoProfile operation.
+type AssignSsoProfileParams struct {
+	// SSOプロファイルID.
+	SSOProfileID int
+}
+
+// ClearTrustedDevicesParams is parameters of clearTrustedDevices operation.
+type ClearTrustedDevicesParams struct {
+	// ユーザID.
+	UserID int
+}
+
+// DeactivateOtpParams is parameters of deactivateOtp operation.
+type DeactivateOtpParams struct {
+	// ユーザID.
+	UserID int
+}
+
+// DeleteApiKeyParams is parameters of deleteApiKey operation.
+type DeleteApiKeyParams struct {
 	// APIキーID.
 	ApikeyID int
 }
 
-// CompatAPIKeysApikeyIDGetParams is parameters of GET /compat/api-keys/{apikey_id} operation.
-type CompatAPIKeysApikeyIDGetParams struct {
-	// APIキーID.
-	ApikeyID int
+// DeleteFolderParams is parameters of deleteFolder operation.
+type DeleteFolderParams struct {
+	// フォルダID.
+	FolderID int
 }
 
-// CompatAPIKeysApikeyIDPutParams is parameters of PUT /compat/api-keys/{apikey_id} operation.
-type CompatAPIKeysApikeyIDPutParams struct {
-	// APIキーID.
-	ApikeyID int
+// DeleteGroupParams is parameters of deleteGroup operation.
+type DeleteGroupParams struct {
+	// グループID.
+	GroupID int
 }
 
-// CompatAPIKeysGetParams is parameters of GET /compat/api-keys operation.
-type CompatAPIKeysGetParams struct {
-	Page    OptInt `json:",omitempty,omitzero"`
-	PerPage OptInt `json:",omitempty,omitzero"`
-	// 並び替えキー
-	//
-	//  - `name` - APIキー名昇順
-	//  - `-name` - APIキー名降順
-	Ordering OptCompatAPIKeysGetOrdering `json:",omitempty,omitzero"`
+// DeleteProjectParams is parameters of deleteProject operation.
+type DeleteProjectParams struct {
+	// プロジェクトID.
+	ProjectID int
 }
 
-// CompatUsersGetParams is parameters of GET /compat/users operation.
-type CompatUsersGetParams struct {
-	Page    OptInt `json:",omitempty,omitzero"`
-	PerPage OptInt `json:",omitempty,omitzero"`
-	// 並び替えキー
-	//
-	//  - `code` - ユーザコード昇順
-	//  - `-code` - ユーザコード降順
-	Ordering OptCompatUsersGetOrdering `json:",omitempty,omitzero"`
+// DeleteScimConfigurationParams is parameters of deleteScimConfiguration operation.
+type DeleteScimConfigurationParams struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID
 }
 
-// CompatUsersUserIDClearTrustedDevicesPostParams is parameters of POST /compat/users/{user_id}/clear-trusted-devices operation.
-type CompatUsersUserIDClearTrustedDevicesPostParams struct {
-	// ユーザID.
-	UserID int
-}
-
-// CompatUsersUserIDDeactivateOtpPostParams is parameters of POST /compat/users/{user_id}/deactivate-otp operation.
-type CompatUsersUserIDDeactivateOtpPostParams struct {
-	// ユーザID.
-	UserID int
-}
-
-// CompatUsersUserIDDeleteParams is parameters of DELETE /compat/users/{user_id} operation.
-type CompatUsersUserIDDeleteParams struct {
-	// ユーザID.
-	UserID int
-}
-
-// CompatUsersUserIDGetParams is parameters of GET /compat/users/{user_id} operation.
-type CompatUsersUserIDGetParams struct {
-	// ユーザID.
-	UserID int
-}
-
-// CompatUsersUserIDPutParams is parameters of PUT /compat/users/{user_id} operation.
-type CompatUsersUserIDPutParams struct {
-	// ユーザID.
-	UserID int
-}
-
-// CompatUsersUserIDRegisterEmailPostParams is parameters of POST /compat/users/{user_id}/register-email operation.
-type CompatUsersUserIDRegisterEmailPostParams struct {
-	// ユーザID.
-	UserID int
-}
-
-// CompatUsersUserIDSecurityKeysGetParams is parameters of GET /compat/users/{user_id}/security-keys operation.
-type CompatUsersUserIDSecurityKeysGetParams struct {
-	// ユーザID.
-	UserID int
-}
-
-// CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteParams is parameters of DELETE /compat/users/{user_id}/security-keys/{security_key_id} operation.
-type CompatUsersUserIDSecurityKeysSecurityKeyIDDeleteParams struct {
+// DeleteSecurityKeyParams is parameters of deleteSecurityKey operation.
+type DeleteSecurityKeyParams struct {
 	// ユーザID.
 	UserID int
 	// セキュリティキーID.
 	SecurityKeyID int
 }
 
-// CompatUsersUserIDSecurityKeysSecurityKeyIDGetParams is parameters of GET /compat/users/{user_id}/security-keys/{security_key_id} operation.
-type CompatUsersUserIDSecurityKeysSecurityKeyIDGetParams struct {
-	// ユーザID.
-	UserID int
-	// セキュリティキーID.
-	SecurityKeyID int
+// DeleteServicePrincipalParams is parameters of deleteServicePrincipal operation.
+type DeleteServicePrincipalParams struct {
+	// サービスプリンシパルID.
+	ServicePrincipalID int
 }
 
-// CompatUsersUserIDSecurityKeysSecurityKeyIDPutParams is parameters of PUT /compat/users/{user_id}/security-keys/{security_key_id} operation.
-type CompatUsersUserIDSecurityKeysSecurityKeyIDPutParams struct {
-	// ユーザID.
-	UserID int
-	// セキュリティキーID.
-	SecurityKeyID int
+// DeleteServicePrincipalKeyParams is parameters of deleteServicePrincipalKey operation.
+type DeleteServicePrincipalKeyParams struct {
+	// サービスプリンシパルID.
+	ServicePrincipalID int
+	// サービスプリンシパルキーID.
+	ServicePrincipalKeyID uuid.UUID
 }
 
-// CompatUsersUserIDTrustedDevicesGetParams is parameters of GET /compat/users/{user_id}/trusted-devices operation.
-type CompatUsersUserIDTrustedDevicesGetParams struct {
-	// ユーザID.
-	UserID int
+// DeleteSsoProfileParams is parameters of deleteSsoProfile operation.
+type DeleteSsoProfileParams struct {
+	// SSOプロファイルID.
+	SSOProfileID int
 }
 
-// CompatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteParams is parameters of DELETE /compat/users/{user_id}/trusted-devices/{trusted_device_id} operation.
-type CompatUsersUserIDTrustedDevicesTrustedDeviceIDDeleteParams struct {
+// DeleteTrustedDeviceParams is parameters of deleteTrustedDevice operation.
+type DeleteTrustedDeviceParams struct {
 	// ユーザID.
 	UserID int
 	// ユーザID.
 	TrustedDeviceID int
 }
 
-// CompatUsersUserIDUnregisterEmailPostParams is parameters of POST /compat/users/{user_id}/unregister-email operation.
-type CompatUsersUserIDUnregisterEmailPostParams struct {
+// DeleteUserParams is parameters of deleteUser operation.
+type DeleteUserParams struct {
 	// ユーザID.
 	UserID int
 }
 
-// FoldersFolderIDDeleteParams is parameters of DELETE /folders/{folder_id} operation.
-type FoldersFolderIDDeleteParams struct {
-	// フォルダID.
-	FolderID int
+// DisableServicePrincipalKeyParams is parameters of disableServicePrincipalKey operation.
+type DisableServicePrincipalKeyParams struct {
+	// サービスプリンシパルID.
+	ServicePrincipalID int
+	// サービスプリンシパルキーID.
+	ServicePrincipalKeyID uuid.UUID
 }
 
-// FoldersFolderIDGetParams is parameters of GET /folders/{folder_id} operation.
-type FoldersFolderIDGetParams struct {
-	// フォルダID.
-	FolderID int
+// EnableServicePrincipalKeyParams is parameters of enableServicePrincipalKey operation.
+type EnableServicePrincipalKeyParams struct {
+	// サービスプリンシパルID.
+	ServicePrincipalID int
+	// サービスプリンシパルキーID.
+	ServicePrincipalKeyID uuid.UUID
 }
 
-// FoldersFolderIDIamPolicyGetParams is parameters of GET /folders/{folder_id}/iam-policy operation.
-type FoldersFolderIDIamPolicyGetParams struct {
-	// フォルダID.
-	FolderID int
+// ListApiKeysParams is parameters of listApiKeys operation.
+type ListApiKeysParams struct {
+	Page    OptInt `json:",omitempty,omitzero"`
+	PerPage OptInt `json:",omitempty,omitzero"`
+	// 並び替えキー
+	//
+	//  - `name` - APIキー名昇順
+	//  - `-name` - APIキー名降順
+	Ordering OptListApiKeysOrdering `json:",omitempty,omitzero"`
 }
 
-// FoldersFolderIDIamPolicyPutParams is parameters of PUT /folders/{folder_id}/iam-policy operation.
-type FoldersFolderIDIamPolicyPutParams struct {
-	// フォルダID.
-	FolderID int
-}
-
-// FoldersFolderIDPutParams is parameters of PUT /folders/{folder_id} operation.
-type FoldersFolderIDPutParams struct {
-	// フォルダID.
-	FolderID int
-}
-
-// FoldersGetParams is parameters of GET /folders operation.
-type FoldersGetParams struct {
+// ListFoldersParams is parameters of listFolders operation.
+type ListFoldersParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 	// フォルダ名での絞り込み。.
@@ -172,200 +133,66 @@ type FoldersGetParams struct {
 	ParentID OptInt `json:",omitempty,omitzero"`
 }
 
-// GroupsGetParams is parameters of GET /groups operation.
-type GroupsGetParams struct {
+// ListGroupsParams is parameters of listGroups operation.
+type ListGroupsParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 	// 並び替えキー
 	//
 	//  - `name` - グループ名昇順
 	//  - `-name` - グループ名降順
-	Ordering OptGroupsGetOrdering `json:",omitempty,omitzero"`
+	Ordering OptListGroupsOrdering `json:",omitempty,omitzero"`
 	// 所属するユーザIDでの絞り込み.
 	CompatUserID OptInt `json:",omitempty,omitzero"`
 }
 
-// GroupsGroupIDDeleteParams is parameters of DELETE /groups/{group_id} operation.
-type GroupsGroupIDDeleteParams struct {
-	// グループID.
-	GroupID int
-}
-
-// GroupsGroupIDGetParams is parameters of GET /groups/{group_id} operation.
-type GroupsGroupIDGetParams struct {
-	// グループID.
-	GroupID int
-}
-
-// GroupsGroupIDMembershipsGetParams is parameters of GET /groups/{group_id}/memberships operation.
-type GroupsGroupIDMembershipsGetParams struct {
-	// グループID.
-	GroupID int
-}
-
-// GroupsGroupIDMembershipsPutParams is parameters of PUT /groups/{group_id}/memberships operation.
-type GroupsGroupIDMembershipsPutParams struct {
-	// グループID.
-	GroupID int
-}
-
-// GroupsGroupIDPutParams is parameters of PUT /groups/{group_id} operation.
-type GroupsGroupIDPutParams struct {
-	// グループID.
-	GroupID int
-}
-
-// IDRolesGetParams is parameters of GET /id-roles operation.
-type IDRolesGetParams struct {
+// ListIamRolesParams is parameters of listIamRoles operation.
+type ListIamRolesParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
-// IDRolesIDRoleIDGetParams is parameters of GET /id-roles/{id_role_id} operation.
-type IDRolesIDRoleIDGetParams struct {
-	// IDロールID.
-	IDRoleID string
-}
-
-// IamRolesGetParams is parameters of GET /iam-roles operation.
-type IamRolesGetParams struct {
+// ListIdRolesParams is parameters of listIdRoles operation.
+type ListIdRolesParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
-// IamRolesIamRoleIDGetParams is parameters of GET /iam-roles/{iam_role_id} operation.
-type IamRolesIamRoleIDGetParams struct {
-	// IAMロールID.
-	IamRoleID string
+// ListMembershipsParams is parameters of listMemberships operation.
+type ListMembershipsParams struct {
+	// グループID.
+	GroupID int
 }
 
-// OrganizationServicePolicyGetParams is parameters of GET /organization-service-policy operation.
-type OrganizationServicePolicyGetParams struct {
-	// 有効かどうか.
-	IsActive OptBool `json:",omitempty,omitzero"`
-	// ドライランかどうか.
-	IsDryRun OptBool `json:",omitempty,omitzero"`
-	// ルール名.
-	Name OptString `json:",omitempty,omitzero"`
-	// ルールのコード.
-	Code OptString `json:",omitempty,omitzero"`
-	// ルールのタイプ.
-	Type OptOrganizationServicePolicyGetType `json:",omitempty,omitzero"`
-}
-
-// ProjectsGetParams is parameters of GET /projects operation.
-type ProjectsGetParams struct {
+// ListProjectsParams is parameters of listProjects operation.
+type ListProjectsParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 	// 並び替えキー
 	//
 	//  - `code` - プロジェクトコード昇順
 	//  - `-code` - プロジェクトコード降順
-	Ordering OptProjectsGetOrdering `json:",omitempty,omitzero"`
+	Ordering OptListProjectsOrdering `json:",omitempty,omitzero"`
 	// IAMロールでの絞り込み。カンマ区切りで複数指定可能.
 	IamRole OptString `json:",omitempty,omitzero"`
 	// 親のフォルダIDでの絞り込み。.
 	ParentFolderID OptInt `json:",omitempty,omitzero"`
 }
 
-// ProjectsProjectIDDeleteParams is parameters of DELETE /projects/{project_id} operation.
-type ProjectsProjectIDDeleteParams struct {
-	// プロジェクトID.
-	ProjectID int
-}
-
-// ProjectsProjectIDGetParams is parameters of GET /projects/{project_id} operation.
-type ProjectsProjectIDGetParams struct {
-	// プロジェクトID.
-	ProjectID int
-}
-
-// ProjectsProjectIDIamPolicyGetParams is parameters of GET /projects/{project_id}/iam-policy operation.
-type ProjectsProjectIDIamPolicyGetParams struct {
-	// プロジェクトID.
-	ProjectID int
-}
-
-// ProjectsProjectIDIamPolicyPutParams is parameters of PUT /projects/{project_id}/iam-policy operation.
-type ProjectsProjectIDIamPolicyPutParams struct {
-	// プロジェクトID.
-	ProjectID int
-}
-
-// ProjectsProjectIDPutParams is parameters of PUT /projects/{project_id} operation.
-type ProjectsProjectIDPutParams struct {
-	// プロジェクトID.
-	ProjectID int
-}
-
-// SSOProfilesGetParams is parameters of GET /sso-profiles operation.
-type SSOProfilesGetParams struct {
+// ListScimConfigurationsParams is parameters of listScimConfigurations operation.
+type ListScimConfigurationsParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 }
 
-// SSOProfilesSSOProfileIDAssignPostParams is parameters of POST /sso-profiles/{sso_profile_id}/assign operation.
-type SSOProfilesSSOProfileIDAssignPostParams struct {
-	// SSOプロファイルID.
-	SSOProfileID int
+// ListSecurityKeysParams is parameters of listSecurityKeys operation.
+type ListSecurityKeysParams struct {
+	// ユーザID.
+	UserID int
 }
 
-// SSOProfilesSSOProfileIDDeleteParams is parameters of DELETE /sso-profiles/{sso_profile_id} operation.
-type SSOProfilesSSOProfileIDDeleteParams struct {
-	// SSOプロファイルID.
-	SSOProfileID int
-}
-
-// SSOProfilesSSOProfileIDGetParams is parameters of GET /sso-profiles/{sso_profile_id} operation.
-type SSOProfilesSSOProfileIDGetParams struct {
-	// SSOプロファイルID.
-	SSOProfileID int
-}
-
-// SSOProfilesSSOProfileIDPutParams is parameters of PUT /sso-profiles/{sso_profile_id} operation.
-type SSOProfilesSSOProfileIDPutParams struct {
-	// SSOプロファイルID.
-	SSOProfileID int
-}
-
-// SSOProfilesSSOProfileIDUnassignPostParams is parameters of POST /sso-profiles/{sso_profile_id}/unassign operation.
-type SSOProfilesSSOProfileIDUnassignPostParams struct {
-	// SSOプロファイルID.
-	SSOProfileID int
-}
-
-// ScimConfigurationsGetParams is parameters of GET /scim-configurations operation.
-type ScimConfigurationsGetParams struct {
-	Page    OptInt `json:",omitempty,omitzero"`
-	PerPage OptInt `json:",omitempty,omitzero"`
-}
-
-// ScimConfigurationsIDDeleteParams is parameters of DELETE /scim-configurations/{id} operation.
-type ScimConfigurationsIDDeleteParams struct {
-	// ユーザープロビジョニングID.
-	ID uuid.UUID
-}
-
-// ScimConfigurationsIDGetParams is parameters of GET /scim-configurations/{id} operation.
-type ScimConfigurationsIDGetParams struct {
-	// ユーザープロビジョニングID.
-	ID uuid.UUID
-}
-
-// ScimConfigurationsIDPutParams is parameters of PUT /scim-configurations/{id} operation.
-type ScimConfigurationsIDPutParams struct {
-	// ユーザープロビジョニングID.
-	ID uuid.UUID
-}
-
-// ScimConfigurationsIDRegenerateTokenPostParams is parameters of POST /scim-configurations/{id}/regenerate-token operation.
-type ScimConfigurationsIDRegenerateTokenPostParams struct {
-	// ユーザープロビジョニングID.
-	ID uuid.UUID
-}
-
-// ServicePolicyRuleTemplatesGetParams is parameters of GET /service-policy-rule-templates operation.
-type ServicePolicyRuleTemplatesGetParams struct {
+// ListServicePolicyRuleTemplatesParams is parameters of listServicePolicyRuleTemplates operation.
+type ListServicePolicyRuleTemplatesParams struct {
 	Page    OptInt `json:",omitempty,omitzero"`
 	PerPage OptInt `json:",omitempty,omitzero"`
 	// ルールテンプレート名.
@@ -373,36 +200,11 @@ type ServicePolicyRuleTemplatesGetParams struct {
 	// ルールテンプレートのコード.
 	Code OptString `json:",omitempty,omitzero"`
 	// ルールテンプレートのタイプ.
-	Type OptServicePolicyRuleTemplatesGetType `json:",omitempty,omitzero"`
+	Type OptListServicePolicyRuleTemplatesType `json:",omitempty,omitzero"`
 }
 
-// ServicePrincipalsGetParams is parameters of GET /service-principals operation.
-type ServicePrincipalsGetParams struct {
-	Page    OptInt `json:",omitempty,omitzero"`
-	PerPage OptInt `json:",omitempty,omitzero"`
-	// プロジェクトID.
-	ProjectID OptInt `json:",omitempty,omitzero"`
-	// 並び替えキー
-	//
-	//  - `name` - サービスプリンシパル名昇順
-	//  - `-name` - サービスプリンシパル名降順
-	Ordering OptServicePrincipalsGetOrdering `json:",omitempty,omitzero"`
-}
-
-// ServicePrincipalsServicePrincipalIDDeleteParams is parameters of DELETE /service-principals/{service_principal_id} operation.
-type ServicePrincipalsServicePrincipalIDDeleteParams struct {
-	// サービスプリンシパルID.
-	ServicePrincipalID int
-}
-
-// ServicePrincipalsServicePrincipalIDGetParams is parameters of GET /service-principals/{service_principal_id} operation.
-type ServicePrincipalsServicePrincipalIDGetParams struct {
-	// サービスプリンシパルID.
-	ServicePrincipalID int
-}
-
-// ServicePrincipalsServicePrincipalIDKeysGetParams is parameters of GET /service-principals/{service_principal_id}/keys operation.
-type ServicePrincipalsServicePrincipalIDKeysGetParams struct {
+// ListServicePrincipalKeysParams is parameters of listServicePrincipalKeys operation.
+type ListServicePrincipalKeysParams struct {
 	// サービスプリンシパルID.
 	ServicePrincipalID int
 	Page               OptInt `json:",omitempty,omitzero"`
@@ -413,41 +215,231 @@ type ServicePrincipalsServicePrincipalIDKeysGetParams struct {
 	//  - `-created_at` - 作成日時降順
 	//  - `key_expires_at` - 有効期限昇順
 	//  - `-key_expires_at` - 有効期限降順
-	Ordering OptServicePrincipalsServicePrincipalIDKeysGetOrdering `json:",omitempty,omitzero"`
+	Ordering OptListServicePrincipalKeysOrdering `json:",omitempty,omitzero"`
 }
 
-// ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteParams is parameters of DELETE /service-principals/{service_principal_id}/keys/{service_principal_key_id} operation.
-type ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDeleteParams struct {
+// ListServicePrincipalsParams is parameters of listServicePrincipals operation.
+type ListServicePrincipalsParams struct {
+	Page    OptInt `json:",omitempty,omitzero"`
+	PerPage OptInt `json:",omitempty,omitzero"`
+	// プロジェクトID.
+	ProjectID OptInt `json:",omitempty,omitzero"`
+	// 並び替えキー
+	//
+	//  - `name` - サービスプリンシパル名昇順
+	//  - `-name` - サービスプリンシパル名降順
+	Ordering OptListServicePrincipalsOrdering `json:",omitempty,omitzero"`
+}
+
+// ListSsoProfilesParams is parameters of listSsoProfiles operation.
+type ListSsoProfilesParams struct {
+	Page    OptInt `json:",omitempty,omitzero"`
+	PerPage OptInt `json:",omitempty,omitzero"`
+}
+
+// ListTrustedDevicesParams is parameters of listTrustedDevices operation.
+type ListTrustedDevicesParams struct {
+	// ユーザID.
+	UserID int
+}
+
+// ListUsersParams is parameters of listUsers operation.
+type ListUsersParams struct {
+	Page    OptInt `json:",omitempty,omitzero"`
+	PerPage OptInt `json:",omitempty,omitzero"`
+	// 並び替えキー
+	//
+	//  - `code` - ユーザコード昇順
+	//  - `-code` - ユーザコード降順
+	Ordering OptListUsersOrdering `json:",omitempty,omitzero"`
+}
+
+// ReadApiKeyParams is parameters of readApiKey operation.
+type ReadApiKeyParams struct {
+	// APIキーID.
+	ApikeyID int
+}
+
+// ReadFolderParams is parameters of readFolder operation.
+type ReadFolderParams struct {
+	// フォルダID.
+	FolderID int
+}
+
+// ReadFolderIamPolicyParams is parameters of readFolderIamPolicy operation.
+type ReadFolderIamPolicyParams struct {
+	// フォルダID.
+	FolderID int
+}
+
+// ReadGroupParams is parameters of readGroup operation.
+type ReadGroupParams struct {
+	// グループID.
+	GroupID int
+}
+
+// ReadIamRoleParams is parameters of readIamRole operation.
+type ReadIamRoleParams struct {
+	// IAMロールID.
+	IamRoleID string
+}
+
+// ReadIdRoleParams is parameters of readIdRole operation.
+type ReadIdRoleParams struct {
+	// IDロールID.
+	IDRoleID string
+}
+
+// ReadOrganizationServicePolicyParams is parameters of readOrganizationServicePolicy operation.
+type ReadOrganizationServicePolicyParams struct {
+	// 有効かどうか.
+	IsActive OptBool `json:",omitempty,omitzero"`
+	// ドライランかどうか.
+	IsDryRun OptBool `json:",omitempty,omitzero"`
+	// ルール名.
+	Name OptString `json:",omitempty,omitzero"`
+	// ルールのコード.
+	Code OptString `json:",omitempty,omitzero"`
+	// ルールのタイプ.
+	Type OptReadOrganizationServicePolicyType `json:",omitempty,omitzero"`
+}
+
+// ReadProjectParams is parameters of readProject operation.
+type ReadProjectParams struct {
+	// プロジェクトID.
+	ProjectID int
+}
+
+// ReadProjectIamPolicyParams is parameters of readProjectIamPolicy operation.
+type ReadProjectIamPolicyParams struct {
+	// プロジェクトID.
+	ProjectID int
+}
+
+// ReadScimConfigurationParams is parameters of readScimConfiguration operation.
+type ReadScimConfigurationParams struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID
+}
+
+// ReadSecurityKeyParams is parameters of readSecurityKey operation.
+type ReadSecurityKeyParams struct {
+	// ユーザID.
+	UserID int
+	// セキュリティキーID.
+	SecurityKeyID int
+}
+
+// ReadServicePrincipalParams is parameters of readServicePrincipal operation.
+type ReadServicePrincipalParams struct {
 	// サービスプリンシパルID.
 	ServicePrincipalID int
-	// サービスプリンシパルキーID.
-	ServicePrincipalKeyID uuid.UUID
 }
 
-// ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostParams is parameters of POST /service-principals/{service_principal_id}/keys/{service_principal_key_id}/disable operation.
-type ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDDisablePostParams struct {
+// ReadSsoProfileParams is parameters of readSsoProfile operation.
+type ReadSsoProfileParams struct {
+	// SSOプロファイルID.
+	SSOProfileID int
+}
+
+// ReadUserParams is parameters of readUser operation.
+type ReadUserParams struct {
+	// ユーザID.
+	UserID int
+}
+
+// RegenerateScimConfigurationTokenParams is parameters of regenerateScimConfigurationToken operation.
+type RegenerateScimConfigurationTokenParams struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID
+}
+
+// RegisterEmailParams is parameters of registerEmail operation.
+type RegisterEmailParams struct {
+	// ユーザID.
+	UserID int
+}
+
+// UnassignSsoProfileParams is parameters of unassignSsoProfile operation.
+type UnassignSsoProfileParams struct {
+	// SSOプロファイルID.
+	SSOProfileID int
+}
+
+// UnregisterEmailParams is parameters of unregisterEmail operation.
+type UnregisterEmailParams struct {
+	// ユーザID.
+	UserID int
+}
+
+// UpdateApiKeyParams is parameters of updateApiKey operation.
+type UpdateApiKeyParams struct {
+	// APIキーID.
+	ApikeyID int
+}
+
+// UpdateFolderParams is parameters of updateFolder operation.
+type UpdateFolderParams struct {
+	// フォルダID.
+	FolderID int
+}
+
+// UpdateFolderIamPolicyParams is parameters of updateFolderIamPolicy operation.
+type UpdateFolderIamPolicyParams struct {
+	// フォルダID.
+	FolderID int
+}
+
+// UpdateGroupParams is parameters of updateGroup operation.
+type UpdateGroupParams struct {
+	// グループID.
+	GroupID int
+}
+
+// UpdateMembershipsParams is parameters of updateMemberships operation.
+type UpdateMembershipsParams struct {
+	// グループID.
+	GroupID int
+}
+
+// UpdateProjectParams is parameters of updateProject operation.
+type UpdateProjectParams struct {
+	// プロジェクトID.
+	ProjectID int
+}
+
+// UpdateProjectIamPolicyParams is parameters of updateProjectIamPolicy operation.
+type UpdateProjectIamPolicyParams struct {
+	// プロジェクトID.
+	ProjectID int
+}
+
+// UpdateScimConfigurationParams is parameters of updateScimConfiguration operation.
+type UpdateScimConfigurationParams struct {
+	// ユーザープロビジョニングID.
+	ID uuid.UUID
+}
+
+// UpdateServicePrincipalParams is parameters of updateServicePrincipal operation.
+type UpdateServicePrincipalParams struct {
 	// サービスプリンシパルID.
 	ServicePrincipalID int
-	// サービスプリンシパルキーID.
-	ServicePrincipalKeyID uuid.UUID
 }
 
-// ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostParams is parameters of POST /service-principals/{service_principal_id}/keys/{service_principal_key_id}/enable operation.
-type ServicePrincipalsServicePrincipalIDKeysServicePrincipalKeyIDEnablePostParams struct {
-	// サービスプリンシパルID.
-	ServicePrincipalID int
-	// サービスプリンシパルキーID.
-	ServicePrincipalKeyID uuid.UUID
+// UpdateSsoProfileParams is parameters of updateSsoProfile operation.
+type UpdateSsoProfileParams struct {
+	// SSOプロファイルID.
+	SSOProfileID int
 }
 
-// ServicePrincipalsServicePrincipalIDPutParams is parameters of PUT /service-principals/{service_principal_id} operation.
-type ServicePrincipalsServicePrincipalIDPutParams struct {
-	// サービスプリンシパルID.
-	ServicePrincipalID int
+// UpdateUserParams is parameters of updateUser operation.
+type UpdateUserParams struct {
+	// ユーザID.
+	UserID int
 }
 
-// ServicePrincipalsServicePrincipalIDUploadKeyPostParams is parameters of POST /service-principals/{service_principal_id}/upload-key operation.
-type ServicePrincipalsServicePrincipalIDUploadKeyPostParams struct {
+// UploadServicePrincipalKeyParams is parameters of uploadServicePrincipalKey operation.
+type UploadServicePrincipalKeyParams struct {
 	// サービスプリンシパルID.
 	ServicePrincipalID int
 }

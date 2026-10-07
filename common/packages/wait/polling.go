@@ -25,18 +25,18 @@ var (
 )
 
 // StateReadFunc PollingWaiterにより利用される、対象リソースの状態を取得するためのfunc
-type StateReadFunc func() (state interface{}, err error)
+type StateReadFunc func() (state any, err error)
 
 // StateCheckFunc StateReadFuncで得たリソースの情報を元に待ちを継続するか判定するためのfunc
 //
 // completeがtrueの場合待ち処理を終了する
-type StateCheckFunc func(target interface{}) (complete bool, err error)
+type StateCheckFunc func(target any) (complete bool, err error)
 
 // ComposeStateCheckFunc 指定のStateCheckFuncを順に適用するするStateCheckFuncを生成する
 //
 // completeがtrueまたはerrが非nilになったら即時リターンする。
 func ComposeStateCheckFunc(funcs ...StateCheckFunc) StateCheckFunc {
-	return func(target interface{}) (bool, error) {
+	return func(target any) (bool, error) {
 		for _, f := range funcs {
 			complete, err := f(target)
 			if err != nil {
@@ -68,7 +68,7 @@ type PollingWaiter struct {
 }
 
 // WaitForState リソースが指定の状態になるまで待つ
-func (w *PollingWaiter) WaitForState(ctx context.Context) (interface{}, error) {
+func (w *PollingWaiter) WaitForState(ctx context.Context) (any, error) {
 	c, p, e := w.WaitForStateAsync(ctx)
 	for {
 		select {
@@ -85,12 +85,12 @@ func (w *PollingWaiter) WaitForState(ctx context.Context) (interface{}, error) {
 }
 
 // WaitForStateAsync リソースが指定の状態になるまで待つ
-func (w *PollingWaiter) WaitForStateAsync(ctx context.Context) (<-chan interface{}, <-chan interface{}, <-chan error) {
+func (w *PollingWaiter) WaitForStateAsync(ctx context.Context) (<-chan any, <-chan any, <-chan error) {
 	w.validateFields()
 	w.defaults()
 
-	compCh := make(chan interface{})
-	progressCh := make(chan interface{})
+	compCh := make(chan any)
+	progressCh := make(chan any)
 	errCh := make(chan error)
 
 	ticker := time.NewTicker(w.Interval)

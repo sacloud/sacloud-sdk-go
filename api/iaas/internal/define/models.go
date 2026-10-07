@@ -97,7 +97,7 @@ func (m *modelsDef) diskEdit() *dsl.Model {
 		},
 		{
 			Name: "Variables",
-			Type: meta.Static(map[string]interface{}{}),
+			Type: meta.Static(map[string]any{}),
 			Tags: &dsl.FieldTags{
 				MapConv: ",omitempty",
 				JSON:    ",omitempty",

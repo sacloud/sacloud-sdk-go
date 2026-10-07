@@ -25,7 +25,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/internal/services"
 )
 
-type FormatErrorFunc func(target interface{}, err validator.FieldError) string
+type FormatErrorFunc func(target any, err validator.FieldError) string
 
 type Validator struct {
 	FormatErrorFuncMap map[string]FormatErrorFunc
@@ -38,7 +38,7 @@ type Validator struct {
 func New(service services.Service) *Validator {
 	v := &Validator{
 		FormatErrorFuncMap: map[string]FormatErrorFunc{
-			"file": func(_ interface{}, err validator.FieldError) string {
+			"file": func(_ any, err validator.FieldError) string {
 				return fmt.Sprintf("invalid file path: %v", err.Value())
 			},
 		},
@@ -90,7 +90,7 @@ func (v *Validator) RegisterCollectionValidator(key string, allowedValues []stri
 }
 
 // Struct 対象structを検証しerrorを返す
-func (v *Validator) Struct(value interface{}) error {
+func (v *Validator) Struct(value any) error {
 	v.init()
 
 	errors := v.StructWithMultiError(value)
@@ -101,7 +101,7 @@ func (v *Validator) Struct(value interface{}) error {
 }
 
 // StructWithMultiError 対象structを検証し、*multierror.Errorを返す
-func (v *Validator) StructWithMultiError(value interface{}) *multierror.Error {
+func (v *Validator) StructWithMultiError(value any) *multierror.Error {
 	v.init()
 
 	err := v.instance.Struct(value)
@@ -123,7 +123,7 @@ func (v *Validator) StructWithMultiError(value interface{}) *multierror.Error {
 	return nil
 }
 
-func (v *Validator) errorFromValidationErr(target interface{}, err validator.FieldError) error {
+func (v *Validator) errorFromValidationErr(target any, err validator.FieldError) error {
 	namespaces := strings.Split(err.Namespace(), ".")
 	actualName := namespaces[len(namespaces)-1] // .で区切った末尾の要素
 
@@ -140,7 +140,7 @@ func (v *Validator) errorFromValidationErr(target interface{}, err validator.Fie
 	return v.newError(actualName, v.formatErrorDetail(detail, target, err))
 }
 
-func (v *Validator) formatErrorDetail(detail string, target interface{}, err validator.FieldError) string {
+func (v *Validator) formatErrorDetail(detail string, target any, err validator.FieldError) string {
 	if fn, ok := v.FormatErrorFuncMap[detail]; ok {
 		return fn(target, err)
 	}

@@ -28,8 +28,8 @@ import (
 )
 
 type databaseSystemInfoEnvelope struct {
-	Products []interface{}   // 利用しない
-	Backup   interface{}     // 利用しない
+	Products []any           // 利用しない
+	Backup   any             // 利用しない
 	Plans    []*DatabasePlan `json:"AppliancePlans"`
 }
 

@@ -86,17 +86,17 @@ var (
 	}
 )
 
-func testSSHKeyCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSSHKeyCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSSHKeyOp(caller)
 	return client.Create(ctx, createSSHKeyParam)
 }
 
-func testSSHKeyRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSSHKeyRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSSHKeyOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testSSHKeyUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSSHKeyUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSSHKeyOp(caller)
 	return client.Update(ctx, ctx.ID, updateSSHKeyParam)
 }

@@ -41,7 +41,7 @@ func TestAutoBackupOpCRUD(t *testing.T) {
 				return err
 			}
 
-			_, err = iaas.WaiterForReady(func() (interface{}, error) {
+			_, err = iaas.WaiterForReady(func() (any, error) {
 				return diskOp.Read(ctx, testZone, disk.ID)
 			}).WaitForState(ctx)
 			if !assert.NoError(t, err) {
@@ -198,27 +198,27 @@ var (
 	}
 )
 
-func testAutoBackupCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoBackupCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoBackupOp(caller)
 	return client.Create(ctx, testZone, createAutoBackupParam)
 }
 
-func testAutoBackupRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoBackupRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoBackupOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testAutoBackupUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoBackupUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoBackupOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateAutoBackupParam)
 }
 
-func testAutoBackupUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoBackupUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoBackupOp(caller)
 	return client.UpdateSettings(ctx, testZone, ctx.ID, updateAutoBackupSettingsParam)
 }
 
-func testAutoBackupUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoBackupUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoBackupOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateAutoBackupToMinParam)
 }

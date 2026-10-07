@@ -37,7 +37,7 @@ func TestNewIamPolicyOp(t *testing.T) {
 }
 
 func TestGetOrganizationPolicy(t *testing.T) {
-	var expected v1.OrganizationIamPolicyGetOK
+	var expected v1.ReadOrganizationIamPolicyOK
 	expected.SetFake()
 	expected.SetBindings(make([]v1.IamPolicy, 1))
 	expected.Bindings[0].SetFake()
@@ -50,7 +50,7 @@ func TestGetOrganizationPolicy(t *testing.T) {
 }
 
 func TestUpdateOrganizationPolicy(t *testing.T) {
-	var expected v1.OrganizationIamPolicyPutOK
+	var expected v1.UpdateOrganizationIamPolicyOK
 	expected.SetFake()
 	expected.SetBindings(make([]v1.IamPolicy, 1))
 	expected.Bindings[0].SetFake()
@@ -64,7 +64,7 @@ func TestUpdateOrganizationPolicy(t *testing.T) {
 }
 
 func TestGetProjectPolicy(t *testing.T) {
-	var expected v1.ProjectsProjectIDIamPolicyGetOK
+	var expected v1.ReadProjectIamPolicyOK
 	expected.SetFake()
 	expected.SetBindings(make([]v1.IamPolicy, 1))
 	expected.Bindings[0].SetFake()
@@ -77,7 +77,7 @@ func TestGetProjectPolicy(t *testing.T) {
 }
 
 func TestUpdateProjectPolicy(t *testing.T) {
-	var expected v1.ProjectsProjectIDIamPolicyPutOK
+	var expected v1.UpdateProjectIamPolicyOK
 	expected.SetFake()
 	expected.SetBindings(make([]v1.IamPolicy, 1))
 	expected.Bindings[0].SetFake()
@@ -91,7 +91,7 @@ func TestUpdateProjectPolicy(t *testing.T) {
 }
 
 func TestGetFolderPolicy(t *testing.T) {
-	var expected v1.FoldersFolderIDIamPolicyGetOK
+	var expected v1.ReadFolderIamPolicyOK
 	expected.SetFake()
 	expected.SetBindings(make([]v1.IamPolicy, 1))
 	expected.Bindings[0].SetFake()
@@ -104,7 +104,7 @@ func TestGetFolderPolicy(t *testing.T) {
 }
 
 func TestUpdateFolderPolicy(t *testing.T) {
-	var expected v1.FoldersFolderIDIamPolicyPutOK
+	var expected v1.UpdateFolderIamPolicyOK
 	expected.SetFake()
 	expected.SetBindings(make([]v1.IamPolicy, 1))
 	expected.Bindings[0].SetFake()

@@ -71,10 +71,10 @@ func TestCreate(t *testing.T) {
 		CPU:                    1000,
 		Memory:                 512,
 		ScalingMode:            v1.ScalingModeManual,
-		FixedScale:             saclient.Ptr(int32(27)),
+		FixedScale:             new(int32(27)),
 		Cmd:                    []string{"/bin/sh"},
-		RegistryUsername:       saclient.Ptr("username"),
-		RegistryPassword:       saclient.Ptr("password"),
+		RegistryUsername:       new("username"),
+		RegistryPassword:       new("password"),
 		RegistryPasswordAction: v1.RegistryPasswordActionKeep,
 		ExposedPorts: []ExposedPort{{
 			TargetPort:       v1.Port(8080),
@@ -90,7 +90,7 @@ func TestCreate(t *testing.T) {
 		EnvVars: []EnvironmentVariable{
 			{
 				Key:    "SAKURA_ACCESS_TOKEN",
-				Value:  saclient.Ptr("token"),
+				Value:  new("token"),
 				Secret: false,
 			},
 			{
@@ -188,7 +188,7 @@ func TestIntegrated(t *testing.T) {
 			CPU:                    1000,
 			Memory:                 512,
 			ScalingMode:            v1.ScalingModeManual,
-			FixedScale:             saclient.Ptr(int32(1)),
+			FixedScale:             new(int32(1)),
 			Cmd:                    []string{"/bin/sh"},
 			RegistryUsername:       nil,
 			RegistryPassword:       nil,
@@ -232,7 +232,7 @@ func TestJSONTags(t *testing.T) {
 		Memory:  128,
 		Image:   "nginx:latest",
 		Cmd:     []string{"/bin/sh"},
-		EnvVars: []EnvironmentVariable{{Key: "K", Value: saclient.Ptr("V")}},
+		EnvVars: []EnvironmentVariable{{Key: "K", Value: new("V")}},
 		ExposedPorts: []ExposedPort{{
 			TargetPort:     8080,
 			UseLetsEncrypt: true,

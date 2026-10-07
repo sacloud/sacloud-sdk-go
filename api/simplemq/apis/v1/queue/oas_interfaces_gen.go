@@ -5,10 +5,6 @@ type ClearQueueRes interface {
 	clearQueueRes()
 }
 
-type ConfigQueueRes interface {
-	configQueueRes()
-}
-
 type CreateQueueRes interface {
 	createQueueRes()
 }
@@ -17,18 +13,22 @@ type DeleteQueueRes interface {
 	deleteQueueRes()
 }
 
-type GetMessageCountRes interface {
-	getMessageCountRes()
+type ListQueuesRes interface {
+	listQueuesRes()
 }
 
-type GetQueueRes interface {
-	getQueueRes()
+type ReadMessageCountRes interface {
+	readMessageCountRes()
 }
 
-type GetQueuesRes interface {
-	getQueuesRes()
+type ReadQueueRes interface {
+	readQueueRes()
 }
 
 type RotateAPIKeyRes interface {
 	rotateAPIKeyRes()
+}
+
+type UpdateQueueRes interface {
+	updateQueueRes()
 }

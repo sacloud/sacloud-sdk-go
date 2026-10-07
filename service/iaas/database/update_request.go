@@ -35,15 +35,15 @@ type UpdateRequest struct {
 	Tags        *types.Tags `service:",omitempty"`
 	IconID      *types.ID   `service:",omitempty"`
 
-	SourceNetwork         *[]string               `service:",omitempty" validate:"omitempty,dive,cidrv4"`
-	EnableReplication     *bool                   `service:",omitempty"`
-	ReplicaUserPassword   *string                 `service:",omitempty" validate:"omitempty,required_with=EnableReplication"`
-	EnableWebUI           *bool                   `service:",omitempty"`
-	EnableBackup          *bool                   `service:",omitempty"`
-	BackupWeekdays        *[]types.EDayOfTheWeek  `service:",omitempty" validate:"omitempty,required_with=EnableBackup,max=7"`
-	BackupStartTimeHour   *int                    `service:",omitempty" validate:"omitempty,min=0,max=23"`
-	BackupStartTimeMinute *int                    `service:",omitempty" validate:"omitempty,oneof=0 15 30 45"`
-	Parameters            *map[string]interface{} `service:",omitempty"`
+	SourceNetwork         *[]string              `service:",omitempty" validate:"omitempty,dive,cidrv4"`
+	EnableReplication     *bool                  `service:",omitempty"`
+	ReplicaUserPassword   *string                `service:",omitempty" validate:"omitempty,required_with=EnableReplication"`
+	EnableWebUI           *bool                  `service:",omitempty"`
+	EnableBackup          *bool                  `service:",omitempty"`
+	BackupWeekdays        *[]types.EDayOfTheWeek `service:",omitempty" validate:"omitempty,required_with=EnableBackup,max=7"`
+	BackupStartTimeHour   *int                   `service:",omitempty" validate:"omitempty,min=0,max=23"`
+	BackupStartTimeMinute *int                   `service:",omitempty" validate:"omitempty,oneof=0 15 30 45"`
+	Parameters            *map[string]any        `service:",omitempty"`
 
 	EnableBackupv2          *bool
 	Backupv2Weekdays        *[]types.EDayOfTheWeek `validate:"required_with=EnableBackupv2,max=7"`
@@ -164,7 +164,7 @@ func (req *UpdateRequest) ApplyRequest(ctx context.Context, caller iaas.APICalle
 		return nil, err
 	}
 	// パラメータ設定をLabelをキーにするように正規化
-	ps := make(map[string]interface{})
+	ps := make(map[string]any)
 	for k, v := range parameter.Settings {
 		for _, meta := range parameter.MetaInfo {
 			if meta.Name == k {

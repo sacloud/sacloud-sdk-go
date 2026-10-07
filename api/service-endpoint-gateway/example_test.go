@@ -118,6 +118,7 @@ func Example() {
 								},
 							},
 						},
+						// AIEngine / SimpleAI also supported
 					},
 					MonitoringSuite: v1.OptModelsSettingsMonitoringSuiteSettings{
 						Value: v1.ModelsSettingsMonitoringSuiteSettings{

@@ -127,14 +127,14 @@ func (m *mockRequestTracker) handler() http.HandlerFunc {
 		switch {
 		case r.URL.Path == "/commonserviceitem":
 			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(map[string]interface{}{ //nolint:errcheck,gosec
-				"CommonServiceItems": []interface{}{},
+			json.NewEncoder(w).Encode(map[string]any{ //nolint:errcheck,gosec
+				"CommonServiceItems": []any{},
 			})
 		case r.URL.Path == "/v1/queues/test-queue/messages" && r.Method == "POST":
 			w.Header().Set("Content-Type", "application/json")
-			json.NewEncoder(w).Encode(map[string]interface{}{ //nolint:errcheck,gosec
+			json.NewEncoder(w).Encode(map[string]any{ //nolint:errcheck,gosec
 				"result": "success",
-				"message": map[string]interface{}{
+				"message": map[string]any{
 					"id":         "0193b878-1b25-7775-87f5-9c698206a7e7",
 					"content":    "test message",
 					"created_at": 1704067200000,

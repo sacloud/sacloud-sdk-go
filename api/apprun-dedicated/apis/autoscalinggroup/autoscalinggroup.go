@@ -8,7 +8,7 @@ import (
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/common"
-	"github.com/sacloud/sacloud-sdk-go/common/saclient"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type AutoScalingGroupAPI interface {
@@ -37,7 +37,7 @@ func (op *AutoScalingGroupOp) List(ctx context.Context, maxItems int64, cursor *
 	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.List", func() (*v1.ListAutoScalingGroupResponse, error) {
 		return op.client.ListAutoScalingGroups(ctx, v1.ListAutoScalingGroupsParams{
 			ClusterID: op.clusterID,
-			Cursor:    common.IntoOpt[v1.OptAutoScalingGroupID](cursor),
+			Cursor:    into.Opt[v1.OptAutoScalingGroupID](cursor),
 			MaxItems:  maxItems,
 		})
 	})
@@ -52,7 +52,7 @@ func (op *AutoScalingGroupOp) List(ctx context.Context, maxItems int64, cursor *
 
 func (op *AutoScalingGroupOp) Create(ctx context.Context, params CreateParams) (group *v1.CreatedAutoScalingGroup, err error) {
 	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.Create", func() (*v1.CreateAutoScalingGroupResponse, error) {
-		return op.client.CreateAutoScalingGroup(ctx, saclient.Ptr(params.into()), v1.CreateAutoScalingGroupParams{
+		return op.client.CreateAutoScalingGroup(ctx, new(params.into()), v1.CreateAutoScalingGroupParams{
 			ClusterID: op.clusterID,
 		})
 	})
@@ -106,9 +106,9 @@ func (n NodeInterface) into() (ret v1.AutoScalingGroupNodeInterface) {
 	ret.SetInterfaceIndex(n.InterfaceIndex)
 	ret.SetUpstream(n.Upstream)
 	ret.SetIpPool(n.IpPool)
-	ret.SetNetmaskLen(common.IntoOpt[v1.OptInt16](n.NetmaskLen))
-	ret.SetDefaultGateway(common.IntoOpt[v1.OptString](n.DefaultGateway))
-	ret.SetPacketFilterID(common.IntoOpt[v1.OptString](n.PacketFilterID))
+	ret.SetNetmaskLen(into.Opt[v1.OptInt16](n.NetmaskLen))
+	ret.SetDefaultGateway(into.Opt[v1.OptString](n.DefaultGateway))
+	ret.SetPacketFilterID(into.Opt[v1.OptString](n.PacketFilterID))
 	ret.SetConnectsToLB(n.ConnectsToLB)
 
 	return

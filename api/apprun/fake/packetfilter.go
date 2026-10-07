@@ -16,7 +16,7 @@ package fake
 
 import v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 
-func (engine *Engine) ReadPacketFilter(appId string) (*v1.HandlerGetPacketFilter, error) {
+func (engine *Engine) ReadPacketFilter(appId string) (*v1.HandlerReadPacketFilter, error) {
 	defer engine.rLock()()
 
 	v, ok := engine.appPacketFilterRelations[appId]
@@ -26,27 +26,27 @@ func (engine *Engine) ReadPacketFilter(appId string) (*v1.HandlerGetPacketFilter
 			"アプリケーション、またはパケットフィルタが見つかりませんでした。")
 	}
 
-	return &v1.HandlerGetPacketFilter{
+	return &v1.HandlerReadPacketFilter{
 		IsEnabled: v.IsEnabled,
 		Settings:  v.Settings,
 	}, nil
 }
 
-func (engine *Engine) UpdatePacketFilter(appId string, body *v1.PatchPacketFilter) (*v1.HandlerPatchPacketFilter, error) {
+func (engine *Engine) UpdatePacketFilter(appId string, body *v1.PatchPacketFilterBody) (*v1.HandlerPatchPacketFilter, error) {
 	if _, err := engine.ReadApplication(appId); err != nil {
 		return nil, newError(
 			ErrorTypeNotFound, "application", nil,
 			"アプリケーションが見つかりませんでした。")
 	}
 
-	v := &v1.HandlerGetPacketFilter{}
+	v := &v1.HandlerReadPacketFilter{}
 	if enabled, ok := body.IsEnabled.Get(); ok {
 		v.IsEnabled = enabled
 	}
 	if len(body.Settings) > 0 {
-		settings := make([]v1.HandlerGetPacketFilterSettingsItem, 0, len(body.Settings))
+		settings := make([]v1.HandlerReadPacketFilterSettingsItem, 0, len(body.Settings))
 		for _, s := range body.Settings {
-			settings = append(settings, v1.HandlerGetPacketFilterSettingsItem{
+			settings = append(settings, v1.HandlerReadPacketFilterSettingsItem{
 				FromIP:             s.FromIP,
 				FromIPPrefixLength: s.FromIPPrefixLength,
 			})

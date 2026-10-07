@@ -20,28 +20,28 @@ import (
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 )
 
-// GetUser returns user information
+// ReadUser returns user information
 // (GET /user)
-func (s *Server) GetUser(w http.ResponseWriter, r *http.Request) {
+func (s *Server) ReadUser(w http.ResponseWriter, r *http.Request) {
 	if err := s.Engine.GetUser(); err != nil {
 		writeError(w, http.StatusInternalServerError, err)
 		return
 	}
 
-	writeJSON(w, http.StatusOK, &v1.HandlerGetUser{
-		Limit: v1.HandlerGetUserLimit{ApplicationCount: 0},
+	writeJSON(w, http.StatusOK, &v1.HandlerReadUser{
+		Limit: v1.HandlerReadUserLimit{ApplicationCount: 0},
 	})
 }
 
-// PostUser creates a user
+// CreateUser creates a user
 // (POST /user)
-func (s *Server) PostUser(w http.ResponseWriter, r *http.Request) {
+func (s *Server) CreateUser(w http.ResponseWriter, r *http.Request) {
 	if err := s.Engine.CreateUser(); err != nil {
 		writeError(w, http.StatusInternalServerError, err)
 		return
 	}
 
-	writeJSON(w, http.StatusCreated, &v1.HandlerPostUser{
-		Limit: v1.HandlerPostUserLimit{ApplicationCount: 0},
+	writeJSON(w, http.StatusCreated, &v1.HandlerCreateUser{
+		Limit: v1.HandlerCreateUserLimit{ApplicationCount: 0},
 	})
 }

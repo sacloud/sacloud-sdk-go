@@ -21,6 +21,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type MetricsStorageAPI interface {
@@ -60,16 +61,16 @@ type MetricsStorageListParams struct {
 
 func (op *metricsStorageOp) List(ctx context.Context, params MetricsStorageListParams) (ret []v1.MetricsStorage, err error) {
 	res, err := errorFromDecodedResponse("MetricsStorage.List", func() (*v1.PaginatedMetricsStorageList, error) {
-		resourceId, err := fromStringPtr[v1.OptInt64, int64](params.ResourceID)
+		resourceId, err := into.FromStringPtr[v1.OptInt64, int64](params.ResourceID)
 		if err != nil {
 			return nil, err
 		}
 		return op.client.MetricsStoragesList(ctx, v1.MetricsStoragesListParams{
-			Count:      intoOpt[v1.OptInt](params.Count),
-			From:       intoOpt[v1.OptInt](params.From),
-			AccountID:  intoOpt[v1.OptString](params.AccountID),
+			Count:      into.Opt[v1.OptInt](params.Count),
+			From:       into.Opt[v1.OptInt](params.From),
+			AccountID:  into.Opt[v1.OptString](params.AccountID),
 			ResourceID: resourceId,
-			IsSystem:   intoOpt[v1.OptBool](params.IsSystem),
+			IsSystem:   into.Opt[v1.OptBool](params.IsSystem),
 		})
 	})
 	if err == nil {
@@ -99,7 +100,7 @@ func (op *metricsStorageOp) Create(ctx context.Context, params MetricsStorageCre
 	res, err := errorFromDecodedResponse("MetricsStorage.Create", func() (*v1.MetricsStorage, error) {
 		return op.client.MetricsStoragesCreate(ctx, &v1.MetricsStorageCreateRequest{
 			Name:        params.Name,
-			Description: intoOpt[v1.OptString](params.Description),
+			Description: into.Opt[v1.OptString](params.Description),
 			IsSystem:    params.IsSystem,
 		})
 	})
@@ -118,8 +119,8 @@ func (op *metricsStorageOp) Update(ctx context.Context, id string, params Metric
 			return nil, err
 		}
 		return op.client.MetricsStoragesPartialUpdate(ctx, v1.NewOptPatchedMetricsStorageRequest(v1.PatchedMetricsStorageRequest{
-			Name:        intoOpt[v1.OptString](params.Name),
-			Description: intoOpt[v1.OptString](params.Description),
+			Name:        into.Opt[v1.OptString](params.Name),
+			Description: into.Opt[v1.OptString](params.Description),
 		}), v1.MetricsStoragesPartialUpdateParams{ResourceID: rid})
 	})
 	return unwrapE[*v1.MetricsStorage](res, err)
@@ -143,8 +144,8 @@ func (op *metricsStorageOp) ReadDailyStats(ctx context.Context, resourceID strin
 		}
 		return op.client.MetricsStoragesStatsDailyRetrieve(ctx, v1.MetricsStoragesStatsDailyRetrieveParams{
 			ResourceID: rid,
-			StartDate:  intoOpt[v1.OptDate](startDate),
-			EndDate:    intoOpt[v1.OptDate](endDate),
+			StartDate:  into.Opt[v1.OptDate](startDate),
+			EndDate:    into.Opt[v1.OptDate](endDate),
 		})
 	})
 	if err == nil {
@@ -178,8 +179,8 @@ func (op *metricsStorageOp) ListKeys(ctx context.Context, metricsResourceId stri
 		}
 		return op.client.MetricsStoragesKeysList(ctx, v1.MetricsStoragesKeysListParams{
 			MetricsResourceID: rid,
-			Count:             intoOpt[v1.OptInt](count),
-			From:              intoOpt[v1.OptInt](from),
+			Count:             into.Opt[v1.OptInt](count),
+			From:              into.Opt[v1.OptInt](from),
 		})
 	})
 	if err == nil {
@@ -195,7 +196,7 @@ func (op *metricsStorageOp) CreateKey(ctx context.Context, metricsResourceId str
 			return nil, err
 		}
 		return op.client.MetricsStoragesKeysCreate(ctx, v1.NewOptMetricsStorageAccessKeyRequest(v1.MetricsStorageAccessKeyRequest{
-			Description: intoOpt[v1.OptString](description),
+			Description: into.Opt[v1.OptString](description),
 		}), v1.MetricsStoragesKeysCreateParams{MetricsResourceID: rid})
 	})
 	return unwrapE[*v1.MetricsStorageAccessKey](res, err)
@@ -222,7 +223,7 @@ func (op *metricsStorageOp) UpdateKey(ctx context.Context, metricsResourceId str
 			return nil, err
 		}
 		return op.client.MetricsStoragesKeysUpdate(ctx, v1.NewOptMetricsStorageAccessKeyRequest(v1.MetricsStorageAccessKeyRequest{
-			Description: intoOpt[v1.OptString](description),
+			Description: into.Opt[v1.OptString](description),
 		}), v1.MetricsStoragesKeysUpdateParams{
 			MetricsResourceID: rid,
 			UID:               id,

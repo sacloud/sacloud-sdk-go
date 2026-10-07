@@ -27,7 +27,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func newTestCloudHSMClient(resp interface{}, status ...int) *v1.Client {
+func newTestCloudHSMClient(resp any, status ...int) *v1.Client {
 	return newTestClient(resp, status...)
 }
 
@@ -35,14 +35,14 @@ func TestCloudHSMOp_List(t *testing.T) {
 	assert := require.New(t)
 	expected := v1.PaginatedCloudHSMList{
 		Count:     1,
-		From:      v1.NewOptInt(0),
-		Total:     v1.NewOptInt(1),
+		From:      0,
+		Total:     1,
 		CloudHSMs: []v1.CloudHSM{TemplateCloudHSM},
 	}
 	client := newTestCloudHSMClient(expected)
 	api := NewCloudHSMOp(client)
 	ctx := context.Background()
-	cloudhsms, err := api.List(ctx)
+	cloudhsms, err := api.List(ctx, nil, nil)
 
 	assert.NoError(err)
 	assert.NotNil(cloudhsms)
@@ -82,11 +82,13 @@ func TestCloudHSMOp_Create(t *testing.T) {
 
 	res, err := api.Create(ctx, CloudHSMCreateParams{
 		Name:        "Test HSM",
-		Description: ref("This is a test HSM"),
+		Description: new("This is a test HSM"),
 		Tags: []string{
 			"tag1",
 			"tag2",
 		},
+		IPv4NetworkAddress: "192.168.100.0",
+		IPv4PrefixLength:   24,
 	})
 	assert.NoError(err)
 	assert.NotNil(res)
@@ -113,12 +115,14 @@ func TestCloudHSMOp_Update(t *testing.T) {
 	ctx := context.Background()
 
 	res, err := api.Update(ctx, "12345", CloudHSMUpdateParams{
-		Description: ref("Updated Description"),
+		Description: new("Updated Description"),
 		Name:        "Updated Name",
 		Tags: []string{
 			"tag1",
 			"tag2",
 		},
+		IPv4NetworkAddress: "192.168.100.0",
+		IPv4PrefixLength:   24,
 	})
 	assert.NoError(err)
 	assert.NotNil(res)
@@ -170,29 +174,31 @@ func TestCloudHSMIntegrated(t *testing.T) {
 	// Create
 	created, err := api.Create(ctx, CloudHSMCreateParams{
 		Name:        testutil.RandomName("test-cloudhsm-", 16, testutil.CharSetAlphaNum),
-		Description: ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+		Description: new(testutil.Random(128, testutil.CharSetAlphaNum)),
 		// This IP address is arbitrary, but recommended to be in the private range.
-		Ipv4NetworkAddress: fmt.Sprintf("172.%d.%d.0", rand.Uint32N(31), rand.Uint32N(255)),
-		Ipv4PrefixLength:   28,
+		IPv4NetworkAddress: fmt.Sprintf("172.%d.%d.0", rand.Uint32N(31), rand.Uint32N(255)),
+		IPv4PrefixLength:   28,
 	})
 	assert.NoError(err)
 	assert.NotNil(created)
+	id, ok := created.GetID().Get()
+	assert.True(ok)
 
 	// Delete
 	t.Cleanup(func() {
-		err := api.Delete(ctx, created.GetID())
+		err := api.Delete(ctx, id)
 		assert.NoError(err)
 	})
 
 	// Read
-	read, err := api.Read(ctx, created.GetID())
+	read, err := api.Read(ctx, id)
 	assert.NoError(err)
 	assert.NotNil(read)
-	assert.Equal(created.GetID(), read.GetID())
+	assert.Equal(id, read.GetID())
 	assert.Equal(created.GetName(), read.GetName())
 
 	// List
-	cloudhsms, err := api.List(ctx)
+	cloudhsms, err := api.List(ctx, new(10), new(0))
 	assert.NoError(err)
 	assert.NotNil(cloudhsms)
 	assert.NotEmpty(cloudhsms)
@@ -200,13 +206,13 @@ func TestCloudHSMIntegrated(t *testing.T) {
 	// Update
 	newDesc := "updated integration test CloudHSM"
 	updateReq := CloudHSMUpdateParams{
-		Description:        ref(newDesc),
+		Description:        new(newDesc),
 		Name:               read.GetName(),
-		Ipv4NetworkAddress: read.Ipv4NetworkAddress,
-		Ipv4PrefixLength:   read.Ipv4PrefixLength,
+		IPv4NetworkAddress: read.IPv4NetworkAddress,
+		IPv4PrefixLength:   read.IPv4PrefixLength,
 	}
-	updated, err := api.Update(ctx, created.GetID(), updateReq)
+	updated, err := api.Update(ctx, id, updateReq)
 	assert.NoError(err)
 	assert.NotNil(updated)
-	assert.Equal(newDesc, updated.GetDescription().Or("failure"))
+	assert.Equal(newDesc, updated.GetDescription())
 }

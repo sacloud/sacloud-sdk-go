@@ -47,8 +47,7 @@ func (o *RoutingOp) List(ctx context.Context) (*v1.ListCommonServiceItemsRespons
 
 	res, err := o.client.ListCommonServiceItems(ctx)
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -64,8 +63,7 @@ func (o *RoutingOp) Create(ctx context.Context, request v1.PostCommonServiceItem
 
 	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -78,8 +76,7 @@ func (o *RoutingOp) Read(ctx context.Context, id string) (*v1.GetCommonServiceIt
 
 	res, err := o.client.GetCommonServiceItem(ctx, v1.GetCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -93,8 +90,7 @@ func (o *RoutingOp) Update(ctx context.Context, id string, request v1.PutCommonS
 
 	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -106,8 +102,7 @@ func (o *RoutingOp) Delete(ctx context.Context, id string) error {
 	const methodName = "Routing.Delete"
 	_, err := o.client.DeleteCommonServiceItem(ctx, v1.DeleteCommonServiceItemParams{ID: id})
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return NewAPIError(methodName, e.StatusCode, err)
 		}
 		return NewError(methodName, err)
@@ -120,8 +115,7 @@ func (o *RoutingOp) Reorder(ctx context.Context, request v1.PutCommonServiceItem
 
 	resp, err := o.client.ReorderRouting(ctx, v1.NewOptPutCommonServiceItemRoutingReorderRequest(request))
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)
@@ -134,8 +128,7 @@ func (o *RoutingOp) ListSource(ctx context.Context) (*v1.ListSourcesResponse, er
 
 	res, err := o.client.ListSources(ctx)
 	if err != nil {
-		var e *v1.ErrorStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
 		}
 		return nil, NewError(methodName, err)

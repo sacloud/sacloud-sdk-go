@@ -22,7 +22,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/wait"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/size"
 	"github.com/stretchr/testify/require"
 )
@@ -31,8 +30,8 @@ func TestDiskUpdateRequest_Update(t *testing.T) {
 	v := &UpdateRequest{
 		Zone:        "tk1a",
 		ID:          1,
-		Name:        pointer.NewString(""),
-		Description: pointer.NewString(""),
+		Name:        new(""),
+		Description: new(""),
 	}
 	err := v.Validate()
 	if err == nil {
@@ -74,7 +73,7 @@ func TestDiskService_convertUpdateRequest(t *testing.T) {
 			in: &UpdateRequest{
 				Zone: zone,
 				ID:   disk.ID,
-				Name: pointer.NewString(name + "-upd"),
+				Name: new(name + "-upd"),
 				EditParameter: &EditParameter{
 					HostName: "hostname",
 					Password: "password",

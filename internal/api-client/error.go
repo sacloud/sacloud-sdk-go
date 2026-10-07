@@ -58,8 +58,7 @@ func IsNotFoundError(err error) bool {
 		return false
 	}
 
-	var apiError *APIError
-	if errors.As(err, &apiError) {
+	if apiError, ok := errors.AsType[*APIError](err); ok {
 		return apiError.Code == http.StatusNotFound
 	}
 

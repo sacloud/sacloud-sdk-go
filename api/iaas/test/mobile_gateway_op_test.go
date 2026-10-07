@@ -67,14 +67,14 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// shutdown(no check)
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					// shutdown
 					if err := mgwOp.Shutdown(ctx, testZone, ctx.ID, &iaas.ShutdownOption{Force: true}); err != nil {
 						return nil, err
 					}
 
-					waiter := iaas.WaiterForDown(func() (interface{}, error) {
+					waiter := iaas.WaiterForDown(func() (any, error) {
 						return mgwOp.Read(ctx, testZone, ctx.ID)
 					})
 
@@ -84,7 +84,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// connect to switch
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					// prepare switch
 					swOp := iaas.NewSwitchOp(caller)
 					sw, err := swOp.Create(ctx, testZone, &iaas.SwitchCreateRequest{
@@ -104,7 +104,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 
 					return mgwOp.Read(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					mgw := i.(*iaas.MobileGateway)
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, mgw.Interfaces, 2, "len(MobileGateway.Interfaces)"),
@@ -114,7 +114,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// set IPAddress to eth1
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					mgs, err := mgwOp.UpdateSettings(ctx, testZone, ctx.ID, &iaas.MobileGatewayUpdateSettingsRequest{
 						InterfaceSettings: []*iaas.MobileGatewayInterfaceSetting{
@@ -133,7 +133,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 					}
 					return mgs, nil
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					mgw := i.(*iaas.MobileGateway)
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, mgw.InterfaceSettings, "MobileGateway.Settings.Interfaces"),
@@ -147,7 +147,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 
 			// Get/Set DNS
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					if err := mgwOp.SetDNS(ctx, testZone, ctx.ID, &iaas.MobileGatewayDNSSetting{
 						DNS1: "8.8.8.8",
@@ -157,7 +157,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 					}
 					return mgwOp.GetDNS(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					dns := i.(*iaas.MobileGatewayDNSSetting)
 					return testutil.DoAsserts(
 						testutil.AssertEqualFunc(t, "8.8.8.8", dns.DNS1, "DNS1"),
@@ -168,7 +168,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// Add/List SIM
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					simOp := iaas.NewSIMOp(caller)
 					sim, err := simOp.Create(ctx, &iaas.SIMCreateRequest{
 						Name:     testutil.ResourceName("switch-for-mobile-gateway"),
@@ -189,7 +189,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 					ctx.Values["mobile-gateway/sim"] = sim.ID
 					return mgwOp.ListSIM(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					sims := i.(iaas.MobileGatewaySIMs)
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, sims, 1, "len(SIM)"),
@@ -199,7 +199,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// SIMOp: Assign IP
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewSIMOp(caller)
 					simID := ctx.Values["mobile-gateway/sim"].(types.ID)
 					if err := client.AssignIP(ctx, simID, &iaas.SIMAssignIPRequest{
@@ -209,7 +209,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 					}
 					return client.Status(ctx, simID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					simInfo := v.(*iaas.SIMInfo)
 					return testutil.DoAsserts(
 						testutil.AssertEqualFunc(t, "192.168.2.1", simInfo.IP, "SIMInfo.IP"),
@@ -219,7 +219,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// SIMOp: clear IP
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					client := iaas.NewSIMOp(caller)
 					simID := ctx.Values["mobile-gateway/sim"].(types.ID)
 					if err := client.ClearIP(ctx, simID); err != nil {
@@ -227,7 +227,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 					}
 					return client.Status(ctx, simID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, v any) error {
 					simInfo := v.(*iaas.SIMInfo)
 					return testutil.DoAsserts(
 						testutil.AssertEmptyFunc(t, simInfo.IP, "SIMInfo.IP"),
@@ -238,7 +238,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 
 			// Get/Set SIMRoutes
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					if err := mgwOp.SetSIMRoutes(ctx, testZone, ctx.ID, []*iaas.MobileGatewaySIMRouteParam{
 						{
@@ -250,7 +250,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 					}
 					return mgwOp.GetSIMRoutes(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					routes := i.(iaas.MobileGatewaySIMRoutes)
 					simID := ctx.Values["mobile-gateway/sim"].(types.ID)
 					return testutil.DoAsserts(
@@ -263,14 +263,14 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// Delete SIMRoutes
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					if err := mgwOp.SetSIMRoutes(ctx, testZone, ctx.ID, []*iaas.MobileGatewaySIMRouteParam{}); err != nil {
 						return nil, err
 					}
 					return mgwOp.GetSIMRoutes(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					routes := i.(iaas.MobileGatewaySIMRoutes)
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, routes, 0, "len(SIMRoutes)"),
@@ -281,7 +281,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 
 			// Get/Set TrafficConfig
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					if err := mgwOp.SetTrafficConfig(ctx, testZone, ctx.ID, &iaas.MobileGatewayTrafficControl{
 						TrafficQuotaInMB:       10,
@@ -295,7 +295,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 					}
 					return mgwOp.GetTrafficConfig(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					slackURL := "https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/XXXXXXXXXXXXXXXXXXXXXXXX"
 					config := i.(*iaas.MobileGatewayTrafficControl)
 					return testutil.DoAsserts(
@@ -311,7 +311,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// Delete TrafficConfig(no check)
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					return nil, mgwOp.DeleteTrafficConfig(ctx, testZone, ctx.ID)
 				},
@@ -320,11 +320,11 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 
 			// Get TrafficStatus
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					return mgwOp.TrafficStatus(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					status := i.(*iaas.MobileGatewayTrafficStatus)
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, status, "TrafficStatus"),
@@ -337,7 +337,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 
 			// Delete SIM
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					simID := ctx.Values["mobile-gateway/sim"].(types.ID)
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					if err := mgwOp.DeleteSIM(ctx, testZone, ctx.ID, simID); err != nil {
@@ -351,7 +351,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 
 					return mgwOp.ListSIM(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					sims := i.(iaas.MobileGatewaySIMs)
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, sims, 0, "len(SIM)"),
@@ -361,7 +361,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 			},
 			// disconnect from switch
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					mgwOp := iaas.NewMobileGatewayOp(caller)
 					if err := mgwOp.DisconnectFromSwitch(ctx, testZone, ctx.ID); err != nil {
 						return nil, err
@@ -375,7 +375,7 @@ func TestMobileGatewayOpCRUD(t *testing.T) {
 
 					return mgwOp.Read(ctx, testZone, ctx.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					mgw := i.(*iaas.MobileGateway)
 					return testutil.DoAsserts(
 						testutil.AssertLenFunc(t, mgw.Interfaces, 1, "len(MobileGateway.Interfaces)"),
@@ -467,13 +467,13 @@ var (
 	updateMobileGatewaySettingsExpected *iaas.MobileGateway
 )
 
-func testMobileGatewayCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testMobileGatewayCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewMobileGatewayOp(caller)
 	v, err := client.Create(ctx, testZone, createMobileGatewayParam)
 	if err != nil {
 		return nil, err
 	}
-	value, err := iaas.WaiterForReady(func() (interface{}, error) {
+	value, err := iaas.WaiterForReady(func() (any, error) {
 		return client.Read(ctx, testZone, v.ID)
 	}).WaitForState(ctx)
 	if err != nil {
@@ -485,17 +485,17 @@ func testMobileGatewayCreate(ctx *testutil.CRUDTestContext, caller iaas.APICalle
 	return value, nil
 }
 
-func testMobileGatewayRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testMobileGatewayRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewMobileGatewayOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testMobileGatewayUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testMobileGatewayUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewMobileGatewayOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateMobileGatewayParam)
 }
 
-func testMobileGatewayUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testMobileGatewayUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewMobileGatewayOp(caller)
 	return client.UpdateSettings(ctx, testZone, ctx.ID, updateMobileGatewaySettingsParam)
 }

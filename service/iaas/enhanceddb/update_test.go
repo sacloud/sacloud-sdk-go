@@ -21,7 +21,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	sacloudTestUtil "github.com/sacloud/sacloud-sdk-go/common/packages/testutil"
 	"github.com/stretchr/testify/require"
 )
@@ -57,7 +56,7 @@ func TestEnhancedDBService_convertUpdateRequest(t *testing.T) {
 		{
 			in: &UpdateRequest{
 				ID:           current.ID,
-				Name:         pointer.NewString(current.Name + "-upd"),
+				Name:         new(current.Name + "-upd"),
 				Password:     password,
 				SettingsHash: "aaaaa",
 			},

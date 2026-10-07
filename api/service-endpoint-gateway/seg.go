@@ -66,8 +66,7 @@ func NewServiceEndpointGatewayOpWithPowerRetryConfig(client *v1.Client, powerRet
 func (op *ServiceEndpointGatewayOp) List(ctx context.Context) (*v1.ModelsApplianceApplianceListResponseBody, error) {
 	res, err := op.client.SegList(ctx)
 	if err != nil {
-		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
 			return nil, NewAPIError("ServiceEndpointGateway.List", e.StatusCode, err)
 		}
 		return nil, err
@@ -81,8 +80,7 @@ func (op *ServiceEndpointGatewayOp) Create(ctx context.Context, request v1.Model
 
 	res, err := op.client.SegCreate(ctx, &request)
 	if err != nil {
-		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
 			return nil, NewAPIError("ServiceEndpointGateway.Create", e.StatusCode, err)
 		}
 		return nil, err
@@ -93,8 +91,7 @@ func (op *ServiceEndpointGatewayOp) Create(ctx context.Context, request v1.Model
 func (op *ServiceEndpointGatewayOp) Read(ctx context.Context, id string) (*v1.ModelsApplianceApplianceGetResponseBody, error) {
 	res, err := op.client.SegGet(ctx, v1.SegGetParams{ApplianceID: id})
 	if err != nil {
-		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
 			return nil, NewAPIError("ServiceEndpointGateway.Read", e.StatusCode, err)
 		}
 		return nil, err
@@ -105,8 +102,7 @@ func (op *ServiceEndpointGatewayOp) Read(ctx context.Context, id string) (*v1.Mo
 func (op *ServiceEndpointGatewayOp) Update(ctx context.Context, id string, request v1.ModelsApplianceApplianceUpdateRequest) (*v1.ModelsApplianceApplianceGetResponseBody, error) {
 	res, err := op.client.SegUpdate(ctx, &request, v1.SegUpdateParams{ApplianceID: id})
 	if err != nil {
-		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
 			return nil, NewAPIError("ServiceEndpointGateway.Update", e.StatusCode, err)
 		}
 		return nil, err
@@ -117,8 +113,7 @@ func (op *ServiceEndpointGatewayOp) Update(ctx context.Context, id string, reque
 func (op *ServiceEndpointGatewayOp) Apply(ctx context.Context, id string) error {
 	_, err := op.client.SegApply(ctx, v1.OptModelsApplianceApplianceUpdateRequest{Set: false}, v1.SegApplyParams{ApplianceID: id})
 	if err != nil {
-		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
 			return NewAPIError("ServiceEndpointGateway.Apply", e.StatusCode, err)
 		}
 		return err
@@ -129,8 +124,7 @@ func (op *ServiceEndpointGatewayOp) Apply(ctx context.Context, id string) error 
 func (op *ServiceEndpointGatewayOp) Delete(ctx context.Context, id string) error {
 	_, err := op.client.SegDelete(ctx, v1.SegDeleteParams{ApplianceID: id})
 	if err != nil {
-		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
 			return NewAPIError("ServiceEndpointGateway.Delete", e.StatusCode, err)
 		}
 		return err
@@ -141,8 +135,7 @@ func (op *ServiceEndpointGatewayOp) Delete(ctx context.Context, id string) error
 func (op *ServiceEndpointGatewayOp) ReadInterface(ctx context.Context, applianceID string, interfaceID string) (*v1.ModelsApplianceApplianceGetInterfaceResponseBody, error) {
 	res, err := op.client.SegInterfaceGetInterface(ctx, v1.SegInterfaceGetInterfaceParams{ApplianceID: applianceID, InterfaceID: interfaceID})
 	if err != nil {
-		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
 			return nil, NewAPIError("ServiceEndpointGateway.ReadInterface", e.StatusCode, err)
 		}
 		return nil, err
@@ -153,8 +146,7 @@ func (op *ServiceEndpointGatewayOp) ReadInterface(ctx context.Context, appliance
 func (op *ServiceEndpointGatewayOp) ReadPowerStatus(ctx context.Context, id string) (*v1.ModelsPowerApplianceGetPowerStatusResponseBody, error) {
 	res, err := op.client.SegStatusGetPowerStatus(ctx, v1.SegStatusGetPowerStatusParams{ApplianceID: id})
 	if err != nil {
-		var e *v1.ModelsCommonDefaultErrorResponseBodyStatusCode
-		if errors.As(err, &e) {
+		if e, ok := errors.AsType[*v1.ModelsCommonDefaultErrorResponseBodyStatusCode](err); ok {
 			return nil, NewAPIError("ServiceEndpointGateway.ReadPowerStatus", e.StatusCode, err)
 		}
 		return nil, err

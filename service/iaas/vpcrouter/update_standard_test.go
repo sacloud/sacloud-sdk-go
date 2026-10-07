@@ -22,7 +22,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/sacloud/sacloud-sdk-go/service/iaas/setup"
 	vpcRouterBuilder "github.com/sacloud/sacloud-sdk-go/service/iaas/vpcrouter/builder"
 	"github.com/stretchr/testify/require"
@@ -100,7 +99,7 @@ func TestVPCRouterService_convertUpdateStandardRequest(t *testing.T) {
 			in: &UpdateStandardRequest{
 				ID:     vpcRouter.ID,
 				Zone:   zone,
-				Name:   pointer.NewString(name + "-upd"),
+				Name:   new(name + "-upd"),
 				NoWait: true,
 			},
 			expect: &ApplyRequest{

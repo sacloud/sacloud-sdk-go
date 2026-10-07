@@ -64,7 +64,7 @@ func TestCreate_Fail(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.FoldersGetOK
+	var expected v1.ListFoldersOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.Folder, 1))
 	expected.Items[0].SetFake()
@@ -224,6 +224,6 @@ func TestIntegrated(t *testing.T) {
 		err = op.Move(t.Context(), []int{folder1.GetID()}, nil)
 		assert.NoError(err)
 	}()
-	err = op.Move(t.Context(), []int{folder1.GetID()}, saclient.Ptr(folder2.GetID()))
+	err = op.Move(t.Context(), []int{folder1.GetID()}, new(folder2.GetID()))
 	assert.NoError(err)
 }

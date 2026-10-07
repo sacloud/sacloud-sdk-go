@@ -46,7 +46,7 @@ func MonitorCondition(start, end time.Time) (*iaas.MonitorCondition, error) {
 	return &iaas.MonitorCondition{Start: s, End: e}, nil
 }
 
-func RequestConvertTo(source interface{}, dest interface{}) error {
+func RequestConvertTo(source any, dest any) error {
 	decoder := &mapconv.Decoder{
 		Config: &mapconv.DecoderConfig{
 			TagName: "service",
@@ -58,7 +58,7 @@ func RequestConvertTo(source interface{}, dest interface{}) error {
 	return decoder.ConvertTo(source, dest)
 }
 
-func gbToMb(v interface{}) (interface{}, error) {
+func gbToMb(v any) (any, error) {
 	s, ok := v.(int)
 	if !ok {
 		return nil, fmt.Errorf("invalid size value: %v", v)

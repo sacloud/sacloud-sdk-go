@@ -34,28 +34,31 @@ func main() {
 
 	// アプリケーションを作成
 	appOp := apprun.NewApplicationOp(client)
-	application, err := appOp.Create(ctx, &v1.PostApplicationBody{
+	application, err := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:           "example-app1",
 		TimeoutSeconds: 100,
 		Port:           80,
 		MinScale:       0,
 		MaxScale:       1,
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image: "sakura-oss-dev.sakuracr.jp/test:latest",
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
+							Username: v1.NewOptNilString("test-user"),
+							Password: v1.NewOptNilString("test-password"),
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},

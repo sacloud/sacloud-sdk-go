@@ -42,7 +42,7 @@ func getArchiveByID(zone string, id types.ID) *iaas.Archive {
 }
 
 func putArchive(zone string, value *iaas.Archive) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceArchive, zone, id.GetID(), value)
 		return
@@ -70,7 +70,7 @@ func getAuthStatusByID(zone string, id types.ID) *iaas.AuthStatus {
 }
 
 func putAuthStatus(zone string, value *iaas.AuthStatus) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceAuthStatus, zone, id.GetID(), value)
 		return
@@ -98,7 +98,7 @@ func getAutoBackupByID(zone string, id types.ID) *iaas.AutoBackup {
 }
 
 func putAutoBackup(zone string, value *iaas.AutoBackup) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceAutoBackup, zone, id.GetID(), value)
 		return
@@ -126,7 +126,7 @@ func getAutoScaleByID(zone string, id types.ID) *iaas.AutoScale {
 }
 
 func putAutoScale(zone string, value *iaas.AutoScale) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceAutoScale, zone, id.GetID(), value)
 		return
@@ -154,7 +154,7 @@ func getBillByID(zone string, id types.ID) *iaas.Bill {
 }
 
 func putBill(zone string, value *iaas.Bill) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceBill, zone, id.GetID(), value)
 		return
@@ -182,7 +182,7 @@ func getBridgeByID(zone string, id types.ID) *iaas.Bridge {
 }
 
 func putBridge(zone string, value *iaas.Bridge) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceBridge, zone, id.GetID(), value)
 		return
@@ -210,7 +210,7 @@ func getCDROMByID(zone string, id types.ID) *iaas.CDROM {
 }
 
 func putCDROM(zone string, value *iaas.CDROM) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceCDROM, zone, id.GetID(), value)
 		return
@@ -238,7 +238,7 @@ func getCertificateAuthorityByID(zone string, id types.ID) *iaas.CertificateAuth
 }
 
 func putCertificateAuthority(zone string, value *iaas.CertificateAuthority) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceCertificateAuthority, zone, id.GetID(), value)
 		return
@@ -266,7 +266,7 @@ func getContainerRegistryByID(zone string, id types.ID) *iaas.ContainerRegistry 
 }
 
 func putContainerRegistry(zone string, value *iaas.ContainerRegistry) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceContainerRegistry, zone, id.GetID(), value)
 		return
@@ -294,7 +294,7 @@ func getCouponByID(zone string, id types.ID) *iaas.Coupon {
 }
 
 func putCoupon(zone string, value *iaas.Coupon) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceCoupon, zone, id.GetID(), value)
 		return
@@ -322,7 +322,7 @@ func getDatabaseByID(zone string, id types.ID) *iaas.Database {
 }
 
 func putDatabase(zone string, value *iaas.Database) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceDatabase, zone, id.GetID(), value)
 		return
@@ -350,7 +350,7 @@ func getDiskByID(zone string, id types.ID) *iaas.Disk {
 }
 
 func putDisk(zone string, value *iaas.Disk) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceDisk, zone, id.GetID(), value)
 		return
@@ -378,7 +378,7 @@ func getDiskPlanByID(zone string, id types.ID) *iaas.DiskPlan {
 }
 
 func putDiskPlan(zone string, value *iaas.DiskPlan) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceDiskPlan, zone, id.GetID(), value)
 		return
@@ -406,7 +406,7 @@ func getDNSByID(zone string, id types.ID) *iaas.DNS {
 }
 
 func putDNS(zone string, value *iaas.DNS) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceDNS, zone, id.GetID(), value)
 		return
@@ -434,7 +434,7 @@ func getEnhancedDBByID(zone string, id types.ID) *iaas.EnhancedDB {
 }
 
 func putEnhancedDB(zone string, value *iaas.EnhancedDB) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceEnhancedDB, zone, id.GetID(), value)
 		return
@@ -462,7 +462,7 @@ func getESMEByID(zone string, id types.ID) *iaas.ESME {
 }
 
 func putESME(zone string, value *iaas.ESME) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceESME, zone, id.GetID(), value)
 		return
@@ -490,7 +490,7 @@ func getGSLBByID(zone string, id types.ID) *iaas.GSLB {
 }
 
 func putGSLB(zone string, value *iaas.GSLB) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceGSLB, zone, id.GetID(), value)
 		return
@@ -518,7 +518,7 @@ func getIconByID(zone string, id types.ID) *iaas.Icon {
 }
 
 func putIcon(zone string, value *iaas.Icon) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceIcon, zone, id.GetID(), value)
 		return
@@ -546,7 +546,7 @@ func getInterfaceByID(zone string, id types.ID) *iaas.Interface {
 }
 
 func putInterface(zone string, value *iaas.Interface) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceInterface, zone, id.GetID(), value)
 		return
@@ -574,7 +574,7 @@ func getInternetByID(zone string, id types.ID) *iaas.Internet {
 }
 
 func putInternet(zone string, value *iaas.Internet) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceInternet, zone, id.GetID(), value)
 		return
@@ -602,7 +602,7 @@ func getInternetPlanByID(zone string, id types.ID) *iaas.InternetPlan {
 }
 
 func putInternetPlan(zone string, value *iaas.InternetPlan) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceInternetPlan, zone, id.GetID(), value)
 		return
@@ -630,7 +630,7 @@ func getIPAddressByID(zone string, id types.ID) *iaas.IPAddress {
 }
 
 func putIPAddress(zone string, value *iaas.IPAddress) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceIPAddress, zone, id.GetID(), value)
 		return
@@ -658,7 +658,7 @@ func getIPv6NetByID(zone string, id types.ID) *iaas.IPv6Net {
 }
 
 func putIPv6Net(zone string, value *iaas.IPv6Net) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceIPv6Net, zone, id.GetID(), value)
 		return
@@ -686,7 +686,7 @@ func getIPv6AddrByID(zone string, id types.ID) *iaas.IPv6Addr {
 }
 
 func putIPv6Addr(zone string, value *iaas.IPv6Addr) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceIPv6Addr, zone, id.GetID(), value)
 		return
@@ -714,7 +714,7 @@ func getLicenseByID(zone string, id types.ID) *iaas.License {
 }
 
 func putLicense(zone string, value *iaas.License) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceLicense, zone, id.GetID(), value)
 		return
@@ -742,7 +742,7 @@ func getLicenseInfoByID(zone string, id types.ID) *iaas.LicenseInfo {
 }
 
 func putLicenseInfo(zone string, value *iaas.LicenseInfo) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceLicenseInfo, zone, id.GetID(), value)
 		return
@@ -770,7 +770,7 @@ func getLoadBalancerByID(zone string, id types.ID) *iaas.LoadBalancer {
 }
 
 func putLoadBalancer(zone string, value *iaas.LoadBalancer) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceLoadBalancer, zone, id.GetID(), value)
 		return
@@ -798,7 +798,7 @@ func getLocalRouterByID(zone string, id types.ID) *iaas.LocalRouter {
 }
 
 func putLocalRouter(zone string, value *iaas.LocalRouter) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceLocalRouter, zone, id.GetID(), value)
 		return
@@ -826,7 +826,7 @@ func getMobileGatewayByID(zone string, id types.ID) *iaas.MobileGateway {
 }
 
 func putMobileGateway(zone string, value *iaas.MobileGateway) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceMobileGateway, zone, id.GetID(), value)
 		return
@@ -854,7 +854,7 @@ func getNFSByID(zone string, id types.ID) *iaas.NFS {
 }
 
 func putNFS(zone string, value *iaas.NFS) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceNFS, zone, id.GetID(), value)
 		return
@@ -882,7 +882,7 @@ func getNoteByID(zone string, id types.ID) *iaas.Note {
 }
 
 func putNote(zone string, value *iaas.Note) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceNote, zone, id.GetID(), value)
 		return
@@ -910,7 +910,7 @@ func getPacketFilterByID(zone string, id types.ID) *iaas.PacketFilter {
 }
 
 func putPacketFilter(zone string, value *iaas.PacketFilter) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourcePacketFilter, zone, id.GetID(), value)
 		return
@@ -938,7 +938,7 @@ func getPrivateHostByID(zone string, id types.ID) *iaas.PrivateHost {
 }
 
 func putPrivateHost(zone string, value *iaas.PrivateHost) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourcePrivateHost, zone, id.GetID(), value)
 		return
@@ -966,7 +966,7 @@ func getPrivateHostPlanByID(zone string, id types.ID) *iaas.PrivateHostPlan {
 }
 
 func putPrivateHostPlan(zone string, value *iaas.PrivateHostPlan) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourcePrivateHostPlan, zone, id.GetID(), value)
 		return
@@ -994,7 +994,7 @@ func getProxyLBByID(zone string, id types.ID) *iaas.ProxyLB {
 }
 
 func putProxyLB(zone string, value *iaas.ProxyLB) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceProxyLB, zone, id.GetID(), value)
 		return
@@ -1022,7 +1022,7 @@ func getRegionByID(zone string, id types.ID) *iaas.Region {
 }
 
 func putRegion(zone string, value *iaas.Region) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceRegion, zone, id.GetID(), value)
 		return
@@ -1050,7 +1050,7 @@ func getServerByID(zone string, id types.ID) *iaas.Server {
 }
 
 func putServer(zone string, value *iaas.Server) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceServer, zone, id.GetID(), value)
 		return
@@ -1078,7 +1078,7 @@ func getServerPlanByID(zone string, id types.ID) *iaas.ServerPlan {
 }
 
 func putServerPlan(zone string, value *iaas.ServerPlan) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceServerPlan, zone, id.GetID(), value)
 		return
@@ -1106,7 +1106,7 @@ func getServiceClassByID(zone string, id types.ID) *iaas.ServiceClass {
 }
 
 func putServiceClass(zone string, value *iaas.ServiceClass) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceServiceClass, zone, id.GetID(), value)
 		return
@@ -1134,7 +1134,7 @@ func getSIMByID(zone string, id types.ID) *iaas.SIM {
 }
 
 func putSIM(zone string, value *iaas.SIM) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceSIM, zone, id.GetID(), value)
 		return
@@ -1162,7 +1162,7 @@ func getSimpleMonitorByID(zone string, id types.ID) *iaas.SimpleMonitor {
 }
 
 func putSimpleMonitor(zone string, value *iaas.SimpleMonitor) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceSimpleMonitor, zone, id.GetID(), value)
 		return
@@ -1190,7 +1190,7 @@ func getSimpleNotificationDestinationByID(zone string, id types.ID) *iaas.Simple
 }
 
 func putSimpleNotificationDestination(zone string, value *iaas.SimpleNotificationDestination) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceSimpleNotificationDestination, zone, id.GetID(), value)
 		return
@@ -1218,7 +1218,7 @@ func getSimpleNotificationGroupByID(zone string, id types.ID) *iaas.SimpleNotifi
 }
 
 func putSimpleNotificationGroup(zone string, value *iaas.SimpleNotificationGroup) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceSimpleNotificationGroup, zone, id.GetID(), value)
 		return
@@ -1246,7 +1246,7 @@ func getSSHKeyByID(zone string, id types.ID) *iaas.SSHKey {
 }
 
 func putSSHKey(zone string, value *iaas.SSHKey) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceSSHKey, zone, id.GetID(), value)
 		return
@@ -1274,7 +1274,7 @@ func getSubnetByID(zone string, id types.ID) *iaas.Subnet {
 }
 
 func putSubnet(zone string, value *iaas.Subnet) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceSubnet, zone, id.GetID(), value)
 		return
@@ -1302,7 +1302,7 @@ func getSwitchByID(zone string, id types.ID) *iaas.Switch {
 }
 
 func putSwitch(zone string, value *iaas.Switch) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceSwitch, zone, id.GetID(), value)
 		return
@@ -1330,7 +1330,7 @@ func getVPCRouterByID(zone string, id types.ID) *iaas.VPCRouter {
 }
 
 func putVPCRouter(zone string, value *iaas.VPCRouter) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceVPCRouter, zone, id.GetID(), value)
 		return
@@ -1358,7 +1358,7 @@ func getZoneByID(zone string, id types.ID) *iaas.Zone {
 }
 
 func putZone(zone string, value *iaas.Zone) {
-	var v interface{} = value
+	var v any = value
 	if id, ok := v.(accessor.ID); ok {
 		ds().Put(ResourceZone, zone, id.GetID(), value)
 		return

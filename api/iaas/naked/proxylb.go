@@ -318,7 +318,7 @@ type ProxyLBCertificate struct {
 
 // UnmarshalJSON UnmarshalJSON(CertificateEndDateのtime.TimeへのUnmarshal対応)
 func (p *ProxyLBCertificate) UnmarshalJSON(data []byte) error {
-	var tmp map[string]interface{}
+	var tmp map[string]any
 	if err := json.Unmarshal(data, &tmp); err != nil {
 		return err
 	}

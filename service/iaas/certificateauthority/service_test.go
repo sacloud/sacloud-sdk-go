@@ -38,7 +38,7 @@ func TestCertificateAuthorityService_CRUD(t *testing.T) {
 		SetupAPICallerFunc: testutil.SingletonAPICaller,
 		Setup:              nil,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 				return svc.Create(&CreateRequest{
 					Name:             name,
 					Description:      "test",
@@ -61,7 +61,7 @@ func TestCertificateAuthorityService_CRUD(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, _ iaas.APICaller) (any, error) {
 				return svc.Read(&ReadRequest{ID: ctx.ID})
 			},
 		},

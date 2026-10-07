@@ -20,12 +20,13 @@ import (
 	"net/http"
 	"net/url"
 	"os"
-	"strconv"
+	"slices"
 	"strings"
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun/fake"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type Server struct {
@@ -75,8 +76,8 @@ func (s *Server) Handler() http.Handler {
 }
 
 func chain(middlewares []Middleware, next http.Handler) http.Handler {
-	for i := len(middlewares) - 1; i >= 0; i-- {
-		next = middlewares[i](next)
+	for _, middleware := range slices.Backward(middlewares) {
+		next = middleware(next)
 	}
 	return next
 }
@@ -92,9 +93,9 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 	if parts[0] == "user" && len(parts) == 1 {
 		switch r.Method {
 		case http.MethodGet:
-			s.GetUser(w, r)
+			s.ReadUser(w, r)
 		case http.MethodPost:
-			s.PostUser(w, r)
+			s.CreateUser(w, r)
 		default:
 			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
@@ -116,7 +117,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 			}
 			s.ListApplications(w, r, params)
 		case http.MethodPost:
-			s.PostApplication(w, r)
+			s.CreateApplication(w, r)
 		default:
 			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
@@ -128,7 +129,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 	if len(parts) == 2 {
 		switch r.Method {
 		case http.MethodGet:
-			s.GetApplication(w, r, appID)
+			s.ReadApplication(w, r, appID)
 		case http.MethodPatch:
 			s.PatchApplication(w, r, appID)
 		case http.MethodDelete:
@@ -143,15 +144,15 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 		switch parts[2] {
 		case "status":
 			if r.Method == http.MethodGet {
-				s.GetApplicationStatus(w, r, appID)
+				s.ReadApplicationStatus(w, r, appID)
 				return
 			}
 		case "traffics":
 			switch r.Method {
 			case http.MethodGet:
-				s.ListApplicationTraffics(w, r, appID)
+				s.ListApplicationTraffic(w, r, appID)
 			case http.MethodPut:
-				s.PutApplicationTraffic(w, r, appID)
+				s.UpdateApplicationTraffic(w, r, appID)
 			default:
 				w.WriteHeader(http.StatusMethodNotAllowed)
 			}
@@ -163,9 +164,9 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 			}
 			switch r.Method {
 			case http.MethodGet:
-				s.GetPacketFilter(w, r, appID)
+				s.ReadApplicationPacketFilter(w, r, appID)
 			case http.MethodPatch:
-				s.PatchPacketFilter(w, r, appID)
+				s.PatchApplicationPacketFilter(w, r, appID)
 			default:
 				w.WriteHeader(http.StatusMethodNotAllowed)
 			}
@@ -189,7 +190,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 		versionID := parts[3]
 		switch r.Method {
 		case http.MethodGet:
-			s.GetApplicationVersion(w, r, appID, versionID)
+			s.ReadApplicationVersion(w, r, appID, versionID)
 		case http.MethodDelete:
 			s.DeleteApplicationVersion(w, r, appID, versionID)
 		default:
@@ -200,7 +201,7 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 
 	if len(parts) == 5 && parts[2] == "versions" && parts[4] == "status" {
 		if r.Method == http.MethodGet {
-			s.GetApplicationVersionStatus(w, r, appID, parts[3])
+			s.ReadApplicationVersionStatus(w, r, appID, parts[3])
 			return
 		}
 		w.WriteHeader(http.StatusMethodNotAllowed)
@@ -210,21 +211,18 @@ func (s *Server) route(w http.ResponseWriter, r *http.Request) {
 	http.NotFound(w, r)
 }
 
-func listApplicationsParamsFromQuery(q url.Values) (v1.ListApplicationsParams, error) {
-	params := v1.ListApplicationsParams{}
+func listApplicationsParamsFromQuery(q url.Values) (params v1.ListApplicationsParams, err error) {
 	if v := q.Get("page_num"); v != "" {
-		parsed, err := strconv.Atoi(v)
+		params.PageNum, err = into.FromStringPtr[v1.OptInt, int](new(v))
 		if err != nil {
 			return params, err
 		}
-		params.PageNum = v1.NewOptInt(parsed)
 	}
 	if v := q.Get("page_size"); v != "" {
-		parsed, err := strconv.Atoi(v)
+		params.PageSize, err = into.FromStringPtr[v1.OptInt, int](new(v))
 		if err != nil {
 			return params, err
 		}
-		params.PageSize = v1.NewOptInt(parsed)
 	}
 	if v := q.Get("sort_field"); v != "" {
 		params.SortField = v1.NewOptString(v)
@@ -242,21 +240,18 @@ func listApplicationsParamsFromQuery(q url.Values) (v1.ListApplicationsParams, e
 	return params, nil
 }
 
-func listApplicationVersionsParamsFromQuery(q url.Values) (v1.ListApplicationVersionsParams, error) {
-	params := v1.ListApplicationVersionsParams{}
+func listApplicationVersionsParamsFromQuery(q url.Values) (params v1.ListApplicationVersionsParams, err error) {
 	if v := q.Get("page_num"); v != "" {
-		parsed, err := strconv.Atoi(v)
+		params.PageNum, err = into.FromStringPtr[v1.OptInt, int](new(v))
 		if err != nil {
 			return params, err
 		}
-		params.PageNum = v1.NewOptInt(parsed)
 	}
 	if v := q.Get("page_size"); v != "" {
-		parsed, err := strconv.Atoi(v)
+		params.PageSize, err = into.FromStringPtr[v1.OptInt, int](new(v))
 		if err != nil {
 			return params, err
 		}
-		params.PageSize = v1.NewOptInt(parsed)
 	}
 	if v := q.Get("sort_field"); v != "" {
 		params.SortField = v1.NewOptString(v)

@@ -142,7 +142,7 @@ func (o *InterfaceOp) Monitor(ctx context.Context, zone string, id types.ID, con
 	}
 
 	res := &iaas.InterfaceActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorInterfaceValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			Send:    float64(random(1000)),

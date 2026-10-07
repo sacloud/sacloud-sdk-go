@@ -251,7 +251,8 @@ func (s *CommonServiceItem) SetTags(val []string) {
 
 // CommonServiceItemID represents sum type.
 type CommonServiceItemID struct {
-	Type   CommonServiceItemIDType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   CommonServiceItemIDType
 	String string
 	Int    int
 }
@@ -375,7 +376,8 @@ func (s *CommonServiceItemIcon) SetTags(val []string) {
 // 0を指定することでIconなしに設定することが出来ます.
 // CommonServiceItemIconID represents sum type.
 type CommonServiceItemIconID struct {
-	Type   CommonServiceItemIconIDType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   CommonServiceItemIconIDType
 	String string
 	Int    int
 }
@@ -436,56 +438,6 @@ func NewIntCommonServiceItemIconID(v int) CommonServiceItemIconID {
 	s.SetInt(v)
 	return s
 }
-
-type ConfigQueueBadRequest Error
-
-func (*ConfigQueueBadRequest) configQueueRes() {}
-
-type ConfigQueueInternalServerError Error
-
-func (*ConfigQueueInternalServerError) configQueueRes() {}
-
-type ConfigQueueNotFound Error
-
-func (*ConfigQueueNotFound) configQueueRes() {}
-
-type ConfigQueueOK struct {
-	CommonServiceItem CommonServiceItem `json:"CommonServiceItem"`
-	Success           OptBool           `json:"Success"`
-	IsOk              OptBool           `json:"is_ok"`
-}
-
-// GetCommonServiceItem returns the value of CommonServiceItem.
-func (s *ConfigQueueOK) GetCommonServiceItem() CommonServiceItem {
-	return s.CommonServiceItem
-}
-
-// GetSuccess returns the value of Success.
-func (s *ConfigQueueOK) GetSuccess() OptBool {
-	return s.Success
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ConfigQueueOK) GetIsOk() OptBool {
-	return s.IsOk
-}
-
-// SetCommonServiceItem sets the value of CommonServiceItem.
-func (s *ConfigQueueOK) SetCommonServiceItem(val CommonServiceItem) {
-	s.CommonServiceItem = val
-}
-
-// SetSuccess sets the value of Success.
-func (s *ConfigQueueOK) SetSuccess(val OptBool) {
-	s.Success = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ConfigQueueOK) SetIsOk(val OptBool) {
-	s.IsOk = val
-}
-
-func (*ConfigQueueOK) configQueueRes() {}
 
 // Ref: #/components/schemas/ConfigQueueRequest
 type ConfigQueueRequest struct {
@@ -611,7 +563,8 @@ func (s *ConfigQueueRequestCommonServiceItemIcon) SetTags(val []string) {
 // 0を指定することでIconなしに設定することが出来ます.
 // ConfigQueueRequestCommonServiceItemIconID represents sum type.
 type ConfigQueueRequestCommonServiceItemIconID struct {
-	Type   ConfigQueueRequestCommonServiceItemIconIDType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   ConfigQueueRequestCommonServiceItemIconIDType
 	String string
 	Int    int
 }
@@ -676,10 +629,6 @@ func NewIntConfigQueueRequestCommonServiceItemIconID(v int) ConfigQueueRequestCo
 	s.SetInt(v)
 	return s
 }
-
-type ConfigQueueUnauthorized Error
-
-func (*ConfigQueueUnauthorized) configQueueRes() {}
 
 type CreateQueueBadRequest Error
 
@@ -866,7 +815,8 @@ func (s *CreateQueueRequestCommonServiceItemIcon) SetTags(val []string) {
 // 0を指定することでIconなしに設定することが出来ます.
 // CreateQueueRequestCommonServiceItemIconID represents sum type.
 type CreateQueueRequestCommonServiceItemIconID struct {
-	Type   CreateQueueRequestCommonServiceItemIconIDType // switch on this field
+	// Type selects the active sum variant, switch on this field.
+	Type   CreateQueueRequestCommonServiceItemIconIDType
 	String string
 	Int    int
 }
@@ -1099,126 +1049,15 @@ func (s *Error) SetErrorMsg(val OptString) {
 
 type ExpireSeconds int
 
-type GetMessageCountBadRequest Error
+type ListQueuesBadRequest Error
 
-func (*GetMessageCountBadRequest) getMessageCountRes() {}
+func (*ListQueuesBadRequest) listQueuesRes() {}
 
-type GetMessageCountInternalServerError Error
+type ListQueuesInternalServerError Error
 
-func (*GetMessageCountInternalServerError) getMessageCountRes() {}
+func (*ListQueuesInternalServerError) listQueuesRes() {}
 
-type GetMessageCountNotFound Error
-
-func (*GetMessageCountNotFound) getMessageCountRes() {}
-
-type GetMessageCountOK struct {
-	SimpleMQ GetMessageCountOKSimpleMQ `json:"SimpleMQ"`
-	IsOk     OptBool                   `json:"is_ok"`
-}
-
-// GetSimpleMQ returns the value of SimpleMQ.
-func (s *GetMessageCountOK) GetSimpleMQ() GetMessageCountOKSimpleMQ {
-	return s.SimpleMQ
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetMessageCountOK) GetIsOk() OptBool {
-	return s.IsOk
-}
-
-// SetSimpleMQ sets the value of SimpleMQ.
-func (s *GetMessageCountOK) SetSimpleMQ(val GetMessageCountOKSimpleMQ) {
-	s.SimpleMQ = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetMessageCountOK) SetIsOk(val OptBool) {
-	s.IsOk = val
-}
-
-func (*GetMessageCountOK) getMessageCountRes() {}
-
-type GetMessageCountOKSimpleMQ struct {
-	Result OptString `json:"result"`
-	Count  int       `json:"count"`
-}
-
-// GetResult returns the value of Result.
-func (s *GetMessageCountOKSimpleMQ) GetResult() OptString {
-	return s.Result
-}
-
-// GetCount returns the value of Count.
-func (s *GetMessageCountOKSimpleMQ) GetCount() int {
-	return s.Count
-}
-
-// SetResult sets the value of Result.
-func (s *GetMessageCountOKSimpleMQ) SetResult(val OptString) {
-	s.Result = val
-}
-
-// SetCount sets the value of Count.
-func (s *GetMessageCountOKSimpleMQ) SetCount(val int) {
-	s.Count = val
-}
-
-type GetMessageCountUnauthorized Error
-
-func (*GetMessageCountUnauthorized) getMessageCountRes() {}
-
-type GetQueueBadRequest Error
-
-func (*GetQueueBadRequest) getQueueRes() {}
-
-type GetQueueInternalServerError Error
-
-func (*GetQueueInternalServerError) getQueueRes() {}
-
-type GetQueueNotFound Error
-
-func (*GetQueueNotFound) getQueueRes() {}
-
-type GetQueueOK struct {
-	CommonServiceItem CommonServiceItem `json:"CommonServiceItem"`
-	IsOk              OptBool           `json:"is_ok"`
-}
-
-// GetCommonServiceItem returns the value of CommonServiceItem.
-func (s *GetQueueOK) GetCommonServiceItem() CommonServiceItem {
-	return s.CommonServiceItem
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetQueueOK) GetIsOk() OptBool {
-	return s.IsOk
-}
-
-// SetCommonServiceItem sets the value of CommonServiceItem.
-func (s *GetQueueOK) SetCommonServiceItem(val CommonServiceItem) {
-	s.CommonServiceItem = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetQueueOK) SetIsOk(val OptBool) {
-	s.IsOk = val
-}
-
-func (*GetQueueOK) getQueueRes() {}
-
-type GetQueueUnauthorized Error
-
-func (*GetQueueUnauthorized) getQueueRes() {}
-
-type GetQueuesBadRequest Error
-
-func (*GetQueuesBadRequest) getQueuesRes() {}
-
-type GetQueuesInternalServerError Error
-
-func (*GetQueuesInternalServerError) getQueuesRes() {}
-
-type GetQueuesOK struct {
+type ListQueuesOK struct {
 	From               OptInt              `json:"From"`
 	Count              OptInt              `json:"Count"`
 	Total              OptInt              `json:"Total"`
@@ -1227,60 +1066,60 @@ type GetQueuesOK struct {
 }
 
 // GetFrom returns the value of From.
-func (s *GetQueuesOK) GetFrom() OptInt {
+func (s *ListQueuesOK) GetFrom() OptInt {
 	return s.From
 }
 
 // GetCount returns the value of Count.
-func (s *GetQueuesOK) GetCount() OptInt {
+func (s *ListQueuesOK) GetCount() OptInt {
 	return s.Count
 }
 
 // GetTotal returns the value of Total.
-func (s *GetQueuesOK) GetTotal() OptInt {
+func (s *ListQueuesOK) GetTotal() OptInt {
 	return s.Total
 }
 
 // GetCommonServiceItems returns the value of CommonServiceItems.
-func (s *GetQueuesOK) GetCommonServiceItems() []CommonServiceItem {
+func (s *ListQueuesOK) GetCommonServiceItems() []CommonServiceItem {
 	return s.CommonServiceItems
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *GetQueuesOK) GetIsOk() OptBool {
+func (s *ListQueuesOK) GetIsOk() OptBool {
 	return s.IsOk
 }
 
 // SetFrom sets the value of From.
-func (s *GetQueuesOK) SetFrom(val OptInt) {
+func (s *ListQueuesOK) SetFrom(val OptInt) {
 	s.From = val
 }
 
 // SetCount sets the value of Count.
-func (s *GetQueuesOK) SetCount(val OptInt) {
+func (s *ListQueuesOK) SetCount(val OptInt) {
 	s.Count = val
 }
 
 // SetTotal sets the value of Total.
-func (s *GetQueuesOK) SetTotal(val OptInt) {
+func (s *ListQueuesOK) SetTotal(val OptInt) {
 	s.Total = val
 }
 
 // SetCommonServiceItems sets the value of CommonServiceItems.
-func (s *GetQueuesOK) SetCommonServiceItems(val []CommonServiceItem) {
+func (s *ListQueuesOK) SetCommonServiceItems(val []CommonServiceItem) {
 	s.CommonServiceItems = val
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *GetQueuesOK) SetIsOk(val OptBool) {
+func (s *ListQueuesOK) SetIsOk(val OptBool) {
 	s.IsOk = val
 }
 
-func (*GetQueuesOK) getQueuesRes() {}
+func (*ListQueuesOK) listQueuesRes() {}
 
-type GetQueuesUnauthorized Error
+type ListQueuesUnauthorized Error
 
-func (*GetQueuesUnauthorized) getQueuesRes() {}
+func (*ListQueuesUnauthorized) listQueuesRes() {}
 
 // NewOptBool returns new OptBool with value set to v.
 func NewOptBool(v bool) OptBool {
@@ -1602,6 +1441,11 @@ func (o *OptNilCommonServiceItemIcon) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilCommonServiceItemIcon) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilCommonServiceItemIcon) Get() (v CommonServiceItemIcon, ok bool) {
 	if o.Null {
@@ -1663,6 +1507,11 @@ func (o *OptNilConfigQueueRequestCommonServiceItemIcon) SetToNull() {
 	o.Null = true
 	var v ConfigQueueRequestCommonServiceItemIcon
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilConfigQueueRequestCommonServiceItemIcon) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -1728,6 +1577,11 @@ func (o *OptNilCreateQueueRequestCommonServiceItemIcon) SetToNull() {
 	o.Value = v
 }
 
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilCreateQueueRequestCommonServiceItemIcon) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
 // Get returns value and boolean that denotes whether value was set.
 func (o OptNilCreateQueueRequestCommonServiceItemIcon) Get() (v CreateQueueRequestCommonServiceItemIcon, ok bool) {
 	if o.Null {
@@ -1789,6 +1643,11 @@ func (o *OptNilString) SetToNull() {
 	o.Null = true
 	var v string
 	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
@@ -1940,6 +1799,117 @@ func (s *ProviderClass) UnmarshalText(data []byte) error {
 
 type QueueName string
 
+type ReadMessageCountBadRequest Error
+
+func (*ReadMessageCountBadRequest) readMessageCountRes() {}
+
+type ReadMessageCountInternalServerError Error
+
+func (*ReadMessageCountInternalServerError) readMessageCountRes() {}
+
+type ReadMessageCountNotFound Error
+
+func (*ReadMessageCountNotFound) readMessageCountRes() {}
+
+type ReadMessageCountOK struct {
+	SimpleMQ ReadMessageCountOKSimpleMQ `json:"SimpleMQ"`
+	IsOk     OptBool                    `json:"is_ok"`
+}
+
+// GetSimpleMQ returns the value of SimpleMQ.
+func (s *ReadMessageCountOK) GetSimpleMQ() ReadMessageCountOKSimpleMQ {
+	return s.SimpleMQ
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadMessageCountOK) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// SetSimpleMQ sets the value of SimpleMQ.
+func (s *ReadMessageCountOK) SetSimpleMQ(val ReadMessageCountOKSimpleMQ) {
+	s.SimpleMQ = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadMessageCountOK) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+func (*ReadMessageCountOK) readMessageCountRes() {}
+
+type ReadMessageCountOKSimpleMQ struct {
+	Result OptString `json:"result"`
+	Count  int       `json:"count"`
+}
+
+// GetResult returns the value of Result.
+func (s *ReadMessageCountOKSimpleMQ) GetResult() OptString {
+	return s.Result
+}
+
+// GetCount returns the value of Count.
+func (s *ReadMessageCountOKSimpleMQ) GetCount() int {
+	return s.Count
+}
+
+// SetResult sets the value of Result.
+func (s *ReadMessageCountOKSimpleMQ) SetResult(val OptString) {
+	s.Result = val
+}
+
+// SetCount sets the value of Count.
+func (s *ReadMessageCountOKSimpleMQ) SetCount(val int) {
+	s.Count = val
+}
+
+type ReadMessageCountUnauthorized Error
+
+func (*ReadMessageCountUnauthorized) readMessageCountRes() {}
+
+type ReadQueueBadRequest Error
+
+func (*ReadQueueBadRequest) readQueueRes() {}
+
+type ReadQueueInternalServerError Error
+
+func (*ReadQueueInternalServerError) readQueueRes() {}
+
+type ReadQueueNotFound Error
+
+func (*ReadQueueNotFound) readQueueRes() {}
+
+type ReadQueueOK struct {
+	CommonServiceItem CommonServiceItem `json:"CommonServiceItem"`
+	IsOk              OptBool           `json:"is_ok"`
+}
+
+// GetCommonServiceItem returns the value of CommonServiceItem.
+func (s *ReadQueueOK) GetCommonServiceItem() CommonServiceItem {
+	return s.CommonServiceItem
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadQueueOK) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// SetCommonServiceItem sets the value of CommonServiceItem.
+func (s *ReadQueueOK) SetCommonServiceItem(val CommonServiceItem) {
+	s.CommonServiceItem = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadQueueOK) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+func (*ReadQueueOK) readQueueRes() {}
+
+type ReadQueueUnauthorized Error
+
+func (*ReadQueueUnauthorized) readQueueRes() {}
+
 type RotateAPIKeyBadRequest Error
 
 func (*RotateAPIKeyBadRequest) rotateAPIKeyRes() {}
@@ -2049,5 +2019,59 @@ func (s *Status) GetQueueName() string {
 func (s *Status) SetQueueName(val string) {
 	s.QueueName = val
 }
+
+type UpdateQueueBadRequest Error
+
+func (*UpdateQueueBadRequest) updateQueueRes() {}
+
+type UpdateQueueInternalServerError Error
+
+func (*UpdateQueueInternalServerError) updateQueueRes() {}
+
+type UpdateQueueNotFound Error
+
+func (*UpdateQueueNotFound) updateQueueRes() {}
+
+type UpdateQueueOK struct {
+	CommonServiceItem CommonServiceItem `json:"CommonServiceItem"`
+	Success           OptBool           `json:"Success"`
+	IsOk              OptBool           `json:"is_ok"`
+}
+
+// GetCommonServiceItem returns the value of CommonServiceItem.
+func (s *UpdateQueueOK) GetCommonServiceItem() CommonServiceItem {
+	return s.CommonServiceItem
+}
+
+// GetSuccess returns the value of Success.
+func (s *UpdateQueueOK) GetSuccess() OptBool {
+	return s.Success
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateQueueOK) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// SetCommonServiceItem sets the value of CommonServiceItem.
+func (s *UpdateQueueOK) SetCommonServiceItem(val CommonServiceItem) {
+	s.CommonServiceItem = val
+}
+
+// SetSuccess sets the value of Success.
+func (s *UpdateQueueOK) SetSuccess(val OptBool) {
+	s.Success = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateQueueOK) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+func (*UpdateQueueOK) updateQueueRes() {}
+
+type UpdateQueueUnauthorized Error
+
+func (*UpdateQueueUnauthorized) updateQueueRes() {}
 
 type VisibilityTimeoutSeconds int

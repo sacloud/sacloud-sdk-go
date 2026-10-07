@@ -159,7 +159,7 @@ func TestEngine_Version(t *testing.T) {
 		require.NoError(t, err)
 
 		require.Equal(t, "", resp.Message)
-		require.Equal(t, v1.HandlerGetApplicationVersionOnlyStatusStatus(r.version.Status), resp.Status)
+		require.Equal(t, v1.HandlerReadApplicationVersionOnlyStatusStatus(r.version.Status), resp.Status)
 	})
 
 	t.Run("delete version", func(t *testing.T) {

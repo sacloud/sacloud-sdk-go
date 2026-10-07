@@ -37,7 +37,7 @@ func TestNotificationRoutingService_List(t *testing.T) {
 	api := NewNotificationRoutingOp(client)
 	ctx := t.Context()
 
-	routings, err := api.List(ctx, "12345", ref(20), ref(0))
+	routings, err := api.List(ctx, "12345", new(20), new(0))
 	require.NoError(t, err)
 	require.NotNil(t, routings)
 	require.Equal(t, 1, len(routings))
@@ -56,7 +56,7 @@ func TestNotificationRoutingService_List_403(t *testing.T) {
 	api := NewNotificationRoutingOp(client)
 	ctx := t.Context()
 
-	_, err := api.List(ctx, "12345", ref(20), ref(0))
+	_, err := api.List(ctx, "12345", new(20), new(0))
 	require.Error(t, err)
 	require.ErrorContains(t, err, "request not authorized")
 }
@@ -98,7 +98,7 @@ func TestNotificationRoutingService_Create(t *testing.T) {
 		MatchLabels: []v1.MatchLabelsItem{
 			{Name: "severity", Value: "critical"},
 		},
-		ResendIntervalMinutes: ref(60),
+		ResendIntervalMinutes: new(60),
 	}
 	actual, err := api.Create(ctx, "12345", createParams)
 	require.NoError(t, err)
@@ -129,9 +129,9 @@ func TestNotificationRoutingService_Update(t *testing.T) {
 	ctx := t.Context()
 
 	updateParams := NotificationRoutingUpdateParams{
-		NotificationTargetUID: ref(uuid.New()),
+		NotificationTargetUID: new(uuid.New()),
 		MatchLabels:           []v1.MatchLabelsItem{},
-		ResendIntervalMinutes: ref(120),
+		ResendIntervalMinutes: new(120),
 	}
 	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
 	require.NoError(t, err)
@@ -220,7 +220,7 @@ func TestNotificationRoutingIntegrated(t *testing.T) {
 		MatchLabels: []v1.MatchLabelsItem{
 			{Name: "severity", Value: "critical"},
 		},
-		ResendIntervalMinutes: ref(30),
+		ResendIntervalMinutes: new(30),
 	}
 	created, err := api.Create(ctx, id, createParams)
 	require.NoError(t, err)
@@ -280,7 +280,7 @@ func TestNotificationRoutingIntegratedWithEmptyMatchLabels(t *testing.T) {
 	createParams := NotificationRoutingCreateParams{
 		NotificationTargetUID: targetID,
 		MatchLabels:           []v1.MatchLabelsItem{},
-		ResendIntervalMinutes: ref(30),
+		ResendIntervalMinutes: new(30),
 	}
 	created, err := api.Create(ctx, id, createParams)
 	require.NoError(t, err)

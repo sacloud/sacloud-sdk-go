@@ -224,9 +224,9 @@ func TestAlertRuleIntegrated(t *testing.T) {
 		MetricsStorageID:         storageId,
 		Name:                     &name,
 		Query:                    "count_values",
-		EnabledWarning:           ref(true),
-		ThresholdWarning:         ref("==0"),
-		ThresholdDurationWarning: ref[int64](32768),
+		EnabledWarning:           new(true),
+		ThresholdWarning:         new("==0"),
+		ThresholdDurationWarning: new(int64(32768)),
 	})
 	require.NoError(t, err)
 	require.NotNil(t, created)
@@ -251,7 +251,7 @@ func TestAlertRuleIntegrated(t *testing.T) {
 	updated, err := api.Update(ctx, projectId, uid, AlertRuleUpdateParams{
 		// :TODO: this `EnabledWarning` is tentatively mandatory
 		// but subject to change in the future.
-		EnabledWarning: ref(true),
+		EnabledWarning: new(true),
 		Name:           &rename,
 	})
 	require.NoError(t, err)

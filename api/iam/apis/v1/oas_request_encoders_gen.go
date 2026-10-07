@@ -14,8 +14,8 @@ import (
 	"github.com/ogen-go/ogen/uri"
 )
 
-func encodeCompatAPIKeysApikeyIDPutRequest(
-	req *CompatAPIKeysApikeyIDPutReq,
+func encodeCreateApiKeyRequest(
+	req *CreateApiKeyReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -28,8 +28,8 @@ func encodeCompatAPIKeysApikeyIDPutRequest(
 	return nil
 }
 
-func encodeCompatAPIKeysPostRequest(
-	req *CompatAPIKeysPostReq,
+func encodeCreateFolderRequest(
+	req *CreateFolderReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -42,8 +42,8 @@ func encodeCompatAPIKeysPostRequest(
 	return nil
 }
 
-func encodeCompatUsersPostRequest(
-	req *CompatUsersPostReq,
+func encodeCreateGroupRequest(
+	req *CreateGroupReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -56,8 +56,8 @@ func encodeCompatUsersPostRequest(
 	return nil
 }
 
-func encodeCompatUsersUserIDPutRequest(
-	req *CompatUsersUserIDPutReq,
+func encodeCreateProjectRequest(
+	req *CreateProjectReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -70,8 +70,8 @@ func encodeCompatUsersUserIDPutRequest(
 	return nil
 }
 
-func encodeCompatUsersUserIDRegisterEmailPostRequest(
-	req *CompatUsersUserIDRegisterEmailPostReq,
+func encodeCreateScimConfigurationRequest(
+	req *CreateScimConfigurationReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -84,28 +84,8 @@ func encodeCompatUsersUserIDRegisterEmailPostRequest(
 	return nil
 }
 
-func encodeCompatUsersUserIDSecurityKeysSecurityKeyIDPutRequest(
-	req OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeFoldersFolderIDIamPolicyPutRequest(
-	req *FoldersFolderIDIamPolicyPutReq,
+func encodeCreateServicePrincipalRequest(
+	req *CreateServicePrincipalReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -118,8 +98,8 @@ func encodeFoldersFolderIDIamPolicyPutRequest(
 	return nil
 }
 
-func encodeFoldersFolderIDPutRequest(
-	req *FoldersFolderIDPutReq,
+func encodeCreateSsoProfileRequest(
+	req *CreateSsoProfileReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -132,8 +112,8 @@ func encodeFoldersFolderIDPutRequest(
 	return nil
 }
 
-func encodeFoldersPostRequest(
-	req *FoldersPostReq,
+func encodeCreateUserRequest(
+	req *CreateUserReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -146,259 +126,7 @@ func encodeFoldersPostRequest(
 	return nil
 }
 
-func encodeGroupsGroupIDMembershipsPutRequest(
-	req *GroupsGroupIDMembershipsPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeGroupsGroupIDPutRequest(
-	req *GroupsGroupIDPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeGroupsPostRequest(
-	req *GroupsPostReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeMoveFoldersPostRequest(
-	req *MoveFolders,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeMoveProjectsPostRequest(
-	req *MoveProjects,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeOrganizationAuthConditionsPutRequest(
-	req *AuthConditions,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeOrganizationIDPolicyPutRequest(
-	req *OrganizationIDPolicyPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeOrganizationIamPolicyPutRequest(
-	req *OrganizationIamPolicyPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeOrganizationPasswordPolicyPutRequest(
-	req *PasswordPolicy,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeOrganizationPutRequest(
-	req *OrganizationPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeOrganizationServicePolicyPutRequest(
-	req *OrganizationServicePolicyPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeProjectsPostRequest(
-	req *ProjectsPostReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeProjectsProjectIDIamPolicyPutRequest(
-	req *ProjectsProjectIDIamPolicyPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeProjectsProjectIDPutRequest(
-	req *ProjectsProjectIDPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeSSOProfilesPostRequest(
-	req *SSOProfilesPostReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeSSOProfilesSSOProfileIDPutRequest(
-	req *SSOProfilesSSOProfileIDPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeScimConfigurationsIDPutRequest(
-	req *ScimConfigurationsIDPutReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeScimConfigurationsPostRequest(
-	req *ScimConfigurationsPostReq,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeServicePrincipalsOAuth2TokenPostRequest(
+func encodeIssueServicePrincipalTokenRequest(
 	req *ServicePrincipalJWTGrantRequest,
 	r *http.Request,
 ) error {
@@ -437,8 +165,8 @@ func encodeServicePrincipalsOAuth2TokenPostRequest(
 	return nil
 }
 
-func encodeServicePrincipalsPostRequest(
-	req *ServicePrincipalsPostReq,
+func encodeMoveFoldersRequest(
+	req *MoveFolders,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -451,8 +179,8 @@ func encodeServicePrincipalsPostRequest(
 	return nil
 }
 
-func encodeServicePrincipalsServicePrincipalIDPutRequest(
-	req *ServicePrincipalsServicePrincipalIDPutReq,
+func encodeMoveProjectsRequest(
+	req *MoveProjects,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -465,8 +193,260 @@ func encodeServicePrincipalsServicePrincipalIDPutRequest(
 	return nil
 }
 
-func encodeServicePrincipalsServicePrincipalIDUploadKeyPostRequest(
-	req OptServicePrincipalsServicePrincipalIDUploadKeyPostReq,
+func encodeRegisterEmailRequest(
+	req *RegisterEmailReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateApiKeyRequest(
+	req *UpdateApiKeyReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateFolderRequest(
+	req *UpdateFolderReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateFolderIamPolicyRequest(
+	req *UpdateFolderIamPolicyReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateGroupRequest(
+	req *UpdateGroupReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateMembershipsRequest(
+	req *UpdateMembershipsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateOrganizationRequest(
+	req *UpdateOrganizationReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateOrganizationAuthConditionsRequest(
+	req *AuthConditions,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateOrganizationIamPolicyRequest(
+	req *UpdateOrganizationIamPolicyReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateOrganizationIdPolicyRequest(
+	req *UpdateOrganizationIdPolicyReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateOrganizationPasswordPolicyRequest(
+	req *PasswordPolicy,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateOrganizationServicePolicyRequest(
+	req *UpdateOrganizationServicePolicyReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateProjectRequest(
+	req *UpdateProjectReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateProjectIamPolicyRequest(
+	req *UpdateProjectIamPolicyReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateScimConfigurationRequest(
+	req *UpdateScimConfigurationReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateServicePrincipalRequest(
+	req *UpdateServicePrincipalReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateSsoProfileRequest(
+	req *UpdateSsoProfileReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateUserRequest(
+	req *UpdateUserReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUploadServicePrincipalKeyRequest(
+	req OptUploadServicePrincipalKeyReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

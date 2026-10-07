@@ -180,27 +180,27 @@ var (
 	}
 )
 
-func testDNSCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDNSCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDNSOp(caller)
 	return client.Create(ctx, createDNSParam)
 }
 
-func testDNSRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDNSRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDNSOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testDNSUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDNSUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDNSOp(caller)
 	return client.Update(ctx, ctx.ID, updateDNSParam)
 }
 
-func testDNSUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDNSUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDNSOp(caller)
 	return client.UpdateSettings(ctx, ctx.ID, updateDNSSettingsParam)
 }
 
-func testDNSUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDNSUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDNSOp(caller)
 	return client.Update(ctx, ctx.ID, updateDNSToMinParam)
 }

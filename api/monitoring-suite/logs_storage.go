@@ -22,6 +22,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type LogsStorageAPI interface {
@@ -64,18 +65,18 @@ type LogsStoragesListParams struct {
 
 func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) (ret []v1.LogStorage, err error) {
 	res, err := errorFromDecodedResponse("LogsStorage.List", func() (*v1.PaginatedLogStorageList, error) {
-		id, err := fromStringPtr[v1.OptInt64, int64](p.ResourceID)
+		id, err := into.FromStringPtr[v1.OptInt64, int64](p.ResourceID)
 		if err != nil {
 			return nil, fmt.Errorf("LogsStoragesListParams.ResourceID: %w", err)
 		}
 		return op.client.LogsStoragesList(ctx, v1.LogsStoragesListParams{
-			AccountID:            intoOpt[v1.OptString](p.AccountID),
-			BucketClassification: intoOpt[v1.OptLogsStoragesListBucketClassification](p.BucketClassification),
-			Count:                intoOpt[v1.OptInt](p.Count),
-			From:                 intoOpt[v1.OptInt](p.From),
-			IsSystem:             intoOpt[v1.OptBool](p.IsSystem),
+			AccountID:            into.Opt[v1.OptString](p.AccountID),
+			BucketClassification: into.Opt[v1.OptLogsStoragesListBucketClassification](p.BucketClassification),
+			Count:                into.Opt[v1.OptInt](p.Count),
+			From:                 into.Opt[v1.OptInt](p.From),
+			IsSystem:             into.Opt[v1.OptBool](p.IsSystem),
 			ResourceID:           id,
-			Status:               intoOpt[v1.OptLogsStoragesListStatus](p.Status),
+			Status:               into.Opt[v1.OptLogsStoragesListStatus](p.Status),
 		})
 	})
 	if err == nil {
@@ -105,10 +106,10 @@ type LogStorageCreateParams struct {
 func (op *logsStorageOp) Create(ctx context.Context, params LogStorageCreateParams) (*v1.LogStorage, error) {
 	res, err := errorFromDecodedResponse("LogsStorage.Create", func() (*v1.LogStorage, error) {
 		req := v1.LogStorageCreateRequest{
-			Classification: intoOpt[v1.OptLogStorageCreateRequestClassification](params.Classification),
+			Classification: into.Opt[v1.OptLogStorageCreateRequestClassification](params.Classification),
 			IsSystem:       params.IsSystem,
 			Name:           params.Name,
-			Description:    intoOpt[v1.OptString](params.Description),
+			Description:    into.Opt[v1.OptString](params.Description),
 		}
 		return op.client.LogsStoragesCreate(ctx, &req)
 	})
@@ -127,8 +128,8 @@ func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpda
 			return nil, err
 		}
 		return op.client.LogsStoragesPartialUpdate(ctx, v1.NewOptPatchedLogStorageRequest(v1.PatchedLogStorageRequest{
-			Name:        intoOpt[v1.OptString](p.Name),
-			Description: intoOpt[v1.OptString](p.Description),
+			Name:        into.Opt[v1.OptString](p.Name),
+			Description: into.Opt[v1.OptString](p.Description),
 		}), v1.LogsStoragesPartialUpdateParams{ResourceID: rid})
 	})
 	return unwrapE[*v1.LogStorage](res, err)
@@ -167,8 +168,8 @@ func (op *logsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, 
 		}
 		return op.client.LogsStoragesStatsDailyRetrieve(ctx, v1.LogsStoragesStatsDailyRetrieveParams{
 			ResourceID: rid,
-			StartDate:  intoOpt[v1.OptDate](startDate),
-			EndDate:    intoOpt[v1.OptDate](endDate),
+			StartDate:  into.Opt[v1.OptDate](startDate),
+			EndDate:    into.Opt[v1.OptDate](endDate),
 		})
 	})
 	if err == nil {
@@ -201,8 +202,8 @@ func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, cou
 			return nil, err
 		}
 		return op.client.LogsStoragesKeysList(ctx, v1.LogsStoragesKeysListParams{
-			Count:         intoOpt[v1.OptInt](count),
-			From:          intoOpt[v1.OptInt](from),
+			Count:         into.Opt[v1.OptInt](count),
+			From:          into.Opt[v1.OptInt](from),
 			LogResourceID: rid,
 		})
 	})
@@ -219,7 +220,7 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, de
 			return nil, err
 		}
 		return op.client.LogsStoragesKeysCreate(ctx, v1.NewOptLogStorageAccessKeyRequest(v1.LogStorageAccessKeyRequest{
-			Description: intoOpt[v1.OptString](description),
+			Description: into.Opt[v1.OptString](description),
 		}), v1.LogsStoragesKeysCreateParams{LogResourceID: rid})
 	})
 	return unwrapE[*v1.LogStorageAccessKey](res, err)
@@ -246,7 +247,7 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 			return nil, err
 		}
 		return op.client.LogsStoragesKeysUpdate(ctx, v1.NewOptLogStorageAccessKeyRequest(v1.LogStorageAccessKeyRequest{
-			Description: intoOpt[v1.OptString](description),
+			Description: into.Opt[v1.OptString](description),
 		}), v1.LogsStoragesKeysUpdateParams{
 			LogResourceID: rid,
 			UID:           id,

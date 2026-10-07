@@ -75,10 +75,10 @@ type CRUDTestContext struct {
 	// Values 一連のテスト中に共有したい値
 	//
 	// 依存リソースのIDの保持などで利用する
-	Values map[string]interface{}
+	Values map[string]any
 
 	// LastValue 最後の操作での戻り値
-	LastValue interface{}
+	LastValue any
 
 	ctx  context.Context
 	once sync.Once
@@ -109,7 +109,7 @@ func (c *CRUDTestContext) Err() error {
 }
 
 // Value context.Context実装
-func (c *CRUDTestContext) Value(key interface{}) interface{} {
+func (c *CRUDTestContext) Value(key any) any {
 	c.initInnerContext()
 	return c.ctx.Value(key)
 }
@@ -117,10 +117,10 @@ func (c *CRUDTestContext) Value(key interface{}) interface{} {
 // CRUDTestFunc CRUD操作(DELETE以外)テストでのテスト用Func
 type CRUDTestFunc struct {
 	// Func API操作を行うFunc
-	Func func(*CRUDTestContext, iaas.APICaller) (interface{}, error)
+	Func func(*CRUDTestContext, iaas.APICaller) (any, error)
 
 	// CheckFunc 任意のチェックを行うためのFunc、省略可能。
-	CheckFunc func(TestT, *CRUDTestContext, interface{}) error
+	CheckFunc func(TestT, *CRUDTestContext, any) error
 
 	// SkipExtractID Trueの場合Funcの戻り値からのID抽出を行わない
 	SkipExtractID bool
@@ -135,20 +135,20 @@ type CRUDTestDeleteFunc struct {
 // CRUDTestExpect CRUD操作(DELETE以外)テストでの期待値
 type CRUDTestExpect struct {
 	// ExpectValue CRUD操作実行後の期待値
-	ExpectValue interface{}
+	ExpectValue any
 
 	// IgnoreFields比較時に無視する項目
 	IgnoreFields []string
 }
 
 // Prepare テスト対象値を受け取り、比較可能な状態に加工した対象値と期待値を返す
-func (c *CRUDTestExpect) Prepare(actual interface{}) (interface{}, interface{}) {
-	toMap := func(v interface{}) map[string]interface{} {
+func (c *CRUDTestExpect) Prepare(actual any) (any, any) {
+	toMap := func(v any) map[string]any {
 		data, err := json.Marshal(v)
 		if err != nil {
 			log.Fatalf("prepare is failed: json.Marshal returned error: %s", err)
 		}
-		var m map[string]interface{}
+		var m map[string]any
 		if err := json.Unmarshal(data, &m); err != nil {
 			log.Fatalf("prepare is failed: json.Unmarshal returned error: %s", err)
 		}
@@ -162,7 +162,7 @@ func (c *CRUDTestExpect) Prepare(actual interface{}) (interface{}, interface{}) 
 }
 
 // deleteByPath removes a nested field specified by dot-separated path (e.g. "aaa.bbb")
-func (c *CRUDTestExpect) deleteByPath(m map[string]interface{}, path string) {
+func (c *CRUDTestExpect) deleteByPath(m map[string]any, path string) {
 	keys := strings.Split(path, ".")
 	last := len(keys) - 1
 
@@ -181,7 +181,7 @@ func (c *CRUDTestExpect) deleteByPath(m map[string]interface{}, path string) {
 		}
 
 		// 次に進むための map かどうか確認
-		next, ok := v.(map[string]interface{})
+		next, ok := v.(map[string]any)
 		if !ok {
 			// 途中で map でなくなったら削除不能
 			return
@@ -205,7 +205,7 @@ func RunCRUD(t TestT, testCase *CRUDTestCase) {
 	}
 
 	testContext := &CRUDTestContext{
-		Values: make(map[string]interface{}),
+		Values: make(map[string]any),
 	}
 	defer func() {
 		// Cleanup
@@ -257,7 +257,7 @@ func RunCRUD(t TestT, testCase *CRUDTestCase) {
 		}
 
 		if !testCase.IgnoreStartupWait && testCase.Read != nil && testContext.LastValue != nil {
-			waiter := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+			waiter := iaas.WaiterForApplianceUp(func() (any, error) {
 				return testCase.Read.Func(testContext, testCase.SetupAPICallerFunc())
 			}, 100)
 			if _, err := waiter.WaitForState(context.TODO()); err != nil {
@@ -298,7 +298,7 @@ func RunCRUD(t TestT, testCase *CRUDTestCase) {
 					return
 				}
 
-				waiter := iaas.WaiterForDown(func() (interface{}, error) {
+				waiter := iaas.WaiterForDown(func() (any, error) {
 					return testCase.Read.Func(testContext, testCase.SetupAPICallerFunc())
 				})
 				if _, err := waiter.WaitForState(context.TODO()); err != nil {

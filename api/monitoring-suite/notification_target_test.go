@@ -38,8 +38,8 @@ func TestNotificationTargetService_List(t *testing.T) {
 	api := NewNotificationTargetOp(client)
 	ctx := t.Context()
 	params := NotificationTargetsListParams{
-		Count: ref(20),
-		From:  ref(0),
+		Count: new(20),
+		From:  new(0),
 	}
 	targets, err := api.List(ctx, "12345", params)
 	require.NoError(t, err)
@@ -123,9 +123,9 @@ func TestNotificationTargetService_Update(t *testing.T) {
 	ctx := t.Context()
 
 	updateParams := NotificationTargetUpdateParams{
-		ServiceType: ref(v1.PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE),
-		URL:         ref("https://example.com/notify"),
-		Description: ref("description"),
+		ServiceType: new(v1.PatchedNotificationTargetRequestServiceTypeSAKURASIMPLENOTICE),
+		URL:         new("https://example.com/notify"),
+		Description: new("description"),
 	}
 	updated, err := api.Update(ctx, "12345", uuid.New(), updateParams)
 	require.NoError(t, err)

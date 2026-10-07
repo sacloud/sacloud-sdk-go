@@ -53,7 +53,7 @@ func init() {
 	APIs.Define(gslbAPI)                          // GSLB
 	APIs.Define(iconAPI)                          // アイコン
 	APIs.Define(interfaceAPI)                     // インターフェース(NIC)
-	APIs.Define(internetAPI)                      // スイッチ+ルータ
+	APIs.Define(internetAPI)                      // ルータ+スイッチ
 	APIs.Define(internetPlanAPI)                  // ルータプラン
 	APIs.Define(ipAPI)                            // IPアドレス
 	APIs.Define(ipv6netAPI)                       // IPv6ネットワーク

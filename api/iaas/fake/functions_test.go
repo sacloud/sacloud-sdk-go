@@ -29,8 +29,8 @@ type SourceStruct struct {
 	Field3e int
 	Field4  []string
 	Field4e []string
-	Field5  interface{}
-	Field5e interface{}
+	Field5  any
+	Field5e any
 }
 
 type DestStruct struct {
@@ -38,7 +38,7 @@ type DestStruct struct {
 	Field2 string
 	Field3 int
 	Field4 []string
-	Field5 interface{}
+	Field5 any
 }
 
 func TestCopy(t *testing.T) {

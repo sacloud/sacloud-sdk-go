@@ -20,6 +20,673 @@ func (s ContainerRegistryAction) Validate() error {
 	}
 }
 
+func (s CreateApplicationBadRequest) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationBadRequest:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateApplicationBadRequest:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s *CreateApplicationBody) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:     1,
+			MinLengthSet:  true,
+			MaxLength:     255,
+			MaxLengthSet:  true,
+			Email:         false,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
+		}).Validate(string(s.Name)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "name",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           300,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.TimeoutSeconds)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "timeout_seconds",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           65535,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.Port)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "port",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           0,
+			MaxSet:        true,
+			Max:           10,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.MinScale)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "min_scale",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           10,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.MaxScale)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "max_scale",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.ScaleTargetConcurrency.Get(); ok {
+			if err := func() error {
+				if err := (validate.Int{
+					MinSet:        true,
+					Min:           50,
+					MaxSet:        true,
+					Max:           200,
+					MinExclusive:  false,
+					MaxExclusive:  false,
+					MultipleOfSet: false,
+					MultipleOf:    0,
+					Pattern:       nil,
+				}).Validate(int64(value)); err != nil {
+					return errors.Wrap(err, "int")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scale_target_concurrency",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Components == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Components {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "components",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *CreateApplicationBodyComponentsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:     1,
+			MinLengthSet:  true,
+			MaxLength:     255,
+			MaxLengthSet:  true,
+			Email:         false,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
+		}).Validate(string(s.Name)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "name",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.MaxCPU.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "max_cpu",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.MaxMemory.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "max_memory",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.DeploySource.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "deploy_source",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Env.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "env",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Secret.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "secret",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Probe.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "probe",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *CreateApplicationBodyComponentsItemDeploySource) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.ContainerRegistry.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "container_registry",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *CreateApplicationBodyComponentsItemDeploySourceContainerRegistry) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.String{
+			MinLength:     1,
+			MinLengthSet:  true,
+			MaxLength:     128,
+			MaxLengthSet:  true,
+			Email:         false,
+			Hostname:      false,
+			Regex:         nil,
+			MinNumeric:    0,
+			MinNumericSet: false,
+			MaxNumeric:    0,
+			MaxNumericSet: false,
+		}).Validate(string(s.Image)); err != nil {
+			return errors.Wrap(err, "string")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "image",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Server.Get(); ok {
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:     1,
+					MinLengthSet:  true,
+					MaxLength:     128,
+					MaxLengthSet:  true,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
+				}).Validate(string(value)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "server",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Username.Get(); ok {
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:     1,
+					MinLengthSet:  true,
+					MaxLength:     63,
+					MaxLengthSet:  true,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
+				}).Validate(string(value)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "username",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Password.Get(); ok {
+			if err := func() error {
+				if err := (validate.String{
+					MinLength:     1,
+					MinLengthSet:  true,
+					MaxLength:     63,
+					MaxLengthSet:  true,
+					Email:         false,
+					Hostname:      false,
+					Regex:         nil,
+					MinNumeric:    0,
+					MinNumericSet: false,
+					MaxNumeric:    0,
+					MaxNumericSet: false,
+				}).Validate(string(value)); err != nil {
+					return errors.Wrap(err, "string")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "password",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s CreateApplicationBodyComponentsItemMaxCPU) Validate() error {
+	switch s {
+	case "0.5":
+		return nil
+	case "1":
+		return nil
+	case "2":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s CreateApplicationBodyComponentsItemMaxMemory) Validate() error {
+	switch s {
+	case "1Gi":
+		return nil
+	case "2Gi":
+		return nil
+	case "4Gi":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *CreateApplicationBodyComponentsItemProbe) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.HTTPGet.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "http_get",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *CreateApplicationBodyComponentsItemProbeHTTPGet) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           65535,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.Port)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "port",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s CreateApplicationConflict) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationConflict:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateApplicationConflict:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s CreateApplicationForbidden) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationForbidden:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateApplicationForbidden:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s CreateApplicationInternalServerError) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationInternalServerError:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateApplicationInternalServerError:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s CreateApplicationUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateApplicationUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateApplicationUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s CreateUserConflict) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserConflict:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateUserConflict:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s CreateUserForbidden) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserForbidden:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateUserForbidden:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s CreateUserInternalServerError) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserInternalServerError:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateUserInternalServerError:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s CreateUserUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorCreateUserUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorCreateUserUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
 func (s DeleteApplicationBadRequest) Validate() error {
 	switch s.Type {
 	case ModelDefaultErrorDeleteApplicationBadRequest:
@@ -160,413 +827,7 @@ func (s DeleteApplicationVersionUnauthorized) Validate() error {
 	}
 }
 
-func (s GetApplicationBadRequest) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationBadRequest:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationBadRequest:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationForbidden) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationForbidden:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationForbidden:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationInternalServerError) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationInternalServerError:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationInternalServerError:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationNotFound) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationNotFound:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationNotFound:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationStatusBadRequest) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusBadRequest:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationStatusBadRequest:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationStatusForbidden) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusForbidden:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationStatusForbidden:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationStatusInternalServerError) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusInternalServerError:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationStatusInternalServerError:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationStatusNotFound) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusNotFound:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationStatusNotFound:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationStatusUnauthorized) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationStatusUnauthorized:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationStatusUnauthorized:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationUnauthorized) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationUnauthorized:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationUnauthorized:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionBadRequest) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionBadRequest:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionBadRequest:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionForbidden) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionForbidden:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionForbidden:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionInternalServerError) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionInternalServerError:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionInternalServerError:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionNotFound) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionNotFound:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionNotFound:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionStatusBadRequest) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusBadRequest:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionStatusBadRequest:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionStatusForbidden) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusForbidden:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionStatusForbidden:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionStatusInternalServerError) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusInternalServerError:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionStatusInternalServerError:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionStatusNotFound) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusNotFound:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionStatusNotFound:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionStatusUnauthorized) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionStatusUnauthorized:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionStatusUnauthorized:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetApplicationVersionUnauthorized) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetApplicationVersionUnauthorized:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetApplicationVersionUnauthorized:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetPacketFilterBadRequest) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterBadRequest:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetPacketFilterBadRequest:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetPacketFilterForbidden) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterForbidden:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetPacketFilterForbidden:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetPacketFilterInternalServerError) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterInternalServerError:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetPacketFilterInternalServerError:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetPacketFilterNotFound) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterNotFound:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetPacketFilterNotFound:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetPacketFilterUnauthorized) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetPacketFilterUnauthorized:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetPacketFilterUnauthorized:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetUserForbidden) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetUserForbidden:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetUserForbidden:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetUserInternalServerError) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetUserInternalServerError:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetUserInternalServerError:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetUserNotFound) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetUserNotFound:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetUserNotFound:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetUserUnauthorized) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorGetUserUnauthorized:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorGetUserUnauthorized:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s *HandlerGetApplication) Validate() error {
+func (s *HandlerCreateApplication) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -729,7 +990,7 @@ func (s *HandlerGetApplication) Validate() error {
 	return nil
 }
 
-func (s *HandlerGetApplicationComponentsItem) Validate() error {
+func (s *HandlerCreateApplicationComponentsItem) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -759,7 +1020,7 @@ func (s *HandlerGetApplicationComponentsItem) Validate() error {
 	return nil
 }
 
-func (s *HandlerGetApplicationComponentsItemProbe) Validate() error {
+func (s *HandlerCreateApplicationComponentsItemProbe) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -789,7 +1050,7 @@ func (s *HandlerGetApplicationComponentsItemProbe) Validate() error {
 	return nil
 }
 
-func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) Validate() error {
+func (s *HandlerCreateApplicationComponentsItemProbeHTTPGet) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -822,429 +1083,7 @@ func (s *HandlerGetApplicationComponentsItemProbeHTTPGet) Validate() error {
 	return nil
 }
 
-func (s *HandlerGetApplicationOnlyStatus) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Status.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "status",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s HandlerGetApplicationOnlyStatusStatus) Validate() error {
-	switch s {
-	case "Healthy":
-		return nil
-	case "UnHealthy":
-		return nil
-	case "Deploying":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s HandlerGetApplicationStatus) Validate() error {
-	switch s {
-	case "Healthy":
-		return nil
-	case "UnHealthy":
-		return nil
-	case "Deploying":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *HandlerGetApplicationVersionOnlyStatus) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Status.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "status",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s HandlerGetApplicationVersionOnlyStatusStatus) Validate() error {
-	switch s {
-	case "Healthy":
-		return nil
-	case "UnHealthy":
-		return nil
-	case "Deploying":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *HandlerGetPacketFilter) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Settings == nil {
-			return errors.New("nil is invalid value")
-		}
-		if err := (validate.Array{
-			MinLength:    0,
-			MinLengthSet: false,
-			MaxLength:    10,
-			MaxLengthSet: true,
-		}).ValidateLength(len(s.Settings)); err != nil {
-			return errors.Wrap(err, "array")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.Settings {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "settings",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *HandlerGetPacketFilterSettingsItem) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           0,
-			MaxSet:        true,
-			Max:           32,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.FromIPPrefixLength)); err != nil {
-			return errors.Wrap(err, "int")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "from_ip_prefix_length",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *HandlerGetVersion) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Status.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "status",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           300,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.TimeoutSeconds)); err != nil {
-			return errors.Wrap(err, "int")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "timeout_seconds",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           65535,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.Port)); err != nil {
-			return errors.Wrap(err, "int")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "port",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           0,
-			MaxSet:        true,
-			Max:           10,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.MinScale)); err != nil {
-			return errors.Wrap(err, "int")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "min_scale",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           10,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.MaxScale)); err != nil {
-			return errors.Wrap(err, "int")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "max_scale",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.ScaleTargetConcurrency.Get(); ok {
-			if err := func() error {
-				if err := (validate.Int{
-					MinSet:        true,
-					Min:           50,
-					MaxSet:        true,
-					Max:           200,
-					MinExclusive:  false,
-					MaxExclusive:  false,
-					MultipleOfSet: false,
-					MultipleOf:    0,
-					Pattern:       nil,
-				}).Validate(int64(value)); err != nil {
-					return errors.Wrap(err, "int")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "scale_target_concurrency",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if s.Components == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.Components {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "components",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *HandlerGetVersionComponentsItem) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Probe.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "probe",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *HandlerGetVersionComponentsItemProbe) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.HTTPGet.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "http_get",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *HandlerGetVersionComponentsItemProbeHTTPGet) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           65535,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.Port)); err != nil {
-			return errors.Wrap(err, "int")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "port",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s HandlerGetVersionStatus) Validate() error {
+func (s HandlerCreateApplicationStatus) Validate() error {
 	switch s {
 	case "Healthy":
 		return nil
@@ -1378,7 +1217,7 @@ func (s HandlerListApplicationsMetaSortOrder) Validate() error {
 	}
 }
 
-func (s *HandlerListTraffics) Validate() error {
+func (s *HandlerListTraffic) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -1822,7 +1661,7 @@ func (s *HandlerPatchPacketFilter) Validate() error {
 	return nil
 }
 
-func (s *HandlerPostApplication) Validate() error {
+func (s *HandlerReadApplication) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -1985,7 +1824,7 @@ func (s *HandlerPostApplication) Validate() error {
 	return nil
 }
 
-func (s *HandlerPostApplicationComponentsItem) Validate() error {
+func (s *HandlerReadApplicationComponentsItem) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -2015,7 +1854,7 @@ func (s *HandlerPostApplicationComponentsItem) Validate() error {
 	return nil
 }
 
-func (s *HandlerPostApplicationComponentsItemProbe) Validate() error {
+func (s *HandlerReadApplicationComponentsItemProbe) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -2045,7 +1884,7 @@ func (s *HandlerPostApplicationComponentsItemProbe) Validate() error {
 	return nil
 }
 
-func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) Validate() error {
+func (s *HandlerReadApplicationComponentsItemProbeHTTPGet) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -2078,7 +1917,30 @@ func (s *HandlerPostApplicationComponentsItemProbeHTTPGet) Validate() error {
 	return nil
 }
 
-func (s HandlerPostApplicationStatus) Validate() error {
+func (s *HandlerReadApplicationOnlyStatus) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Status.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s HandlerReadApplicationOnlyStatusStatus) Validate() error {
 	switch s {
 	case "Healthy":
 		return nil
@@ -2091,7 +1953,406 @@ func (s HandlerPostApplicationStatus) Validate() error {
 	}
 }
 
-func (s *HandlerPutTraffics) Validate() error {
+func (s HandlerReadApplicationStatus) Validate() error {
+	switch s {
+	case "Healthy":
+		return nil
+	case "UnHealthy":
+		return nil
+	case "Deploying":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *HandlerReadApplicationVersionOnlyStatus) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Status.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s HandlerReadApplicationVersionOnlyStatusStatus) Validate() error {
+	switch s {
+	case "Healthy":
+		return nil
+	case "UnHealthy":
+		return nil
+	case "Deploying":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *HandlerReadPacketFilter) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Settings == nil {
+			return errors.New("nil is invalid value")
+		}
+		if err := (validate.Array{
+			MinLength:    0,
+			MinLengthSet: false,
+			MaxLength:    10,
+			MaxLengthSet: true,
+		}).ValidateLength(len(s.Settings)); err != nil {
+			return errors.Wrap(err, "array")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Settings {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "settings",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *HandlerReadPacketFilterSettingsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           0,
+			MaxSet:        true,
+			Max:           32,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.FromIPPrefixLength)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "from_ip_prefix_length",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *HandlerReadVersion) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Status.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           300,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.TimeoutSeconds)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "timeout_seconds",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           65535,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.Port)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "port",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           0,
+			MaxSet:        true,
+			Max:           10,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.MinScale)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "min_scale",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           10,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.MaxScale)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "max_scale",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.ScaleTargetConcurrency.Get(); ok {
+			if err := func() error {
+				if err := (validate.Int{
+					MinSet:        true,
+					Min:           50,
+					MaxSet:        true,
+					Max:           200,
+					MinExclusive:  false,
+					MaxExclusive:  false,
+					MultipleOfSet: false,
+					MultipleOf:    0,
+					Pattern:       nil,
+				}).Validate(int64(value)); err != nil {
+					return errors.Wrap(err, "int")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scale_target_concurrency",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Components == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Components {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "components",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *HandlerReadVersionComponentsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Probe.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "probe",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *HandlerReadVersionComponentsItemProbe) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.HTTPGet.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "http_get",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *HandlerReadVersionComponentsItemProbeHTTPGet) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Int{
+			MinSet:        true,
+			Min:           1,
+			MaxSet:        true,
+			Max:           65535,
+			MinExclusive:  false,
+			MaxExclusive:  false,
+			MultipleOfSet: false,
+			MultipleOf:    0,
+			Pattern:       nil,
+		}).Validate(int64(s.Port)); err != nil {
+			return errors.Wrap(err, "int")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "port",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s HandlerReadVersionStatus) Validate() error {
+	switch s {
+	case "Healthy":
+		return nil
+	case "UnHealthy":
+		return nil
+	case "Deploying":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *HandlerUpdateTraffic) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -2114,70 +2375,70 @@ func (s *HandlerPutTraffics) Validate() error {
 	return nil
 }
 
-func (s ListApplicationTrafficsBadRequest) Validate() error {
+func (s ListApplicationTrafficBadRequest) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsBadRequest:
+	case ModelDefaultErrorListApplicationTrafficBadRequest:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorListApplicationTrafficsBadRequest:
+	case ModelCloudctrlErrorListApplicationTrafficBadRequest:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s ListApplicationTrafficsForbidden) Validate() error {
+func (s ListApplicationTrafficForbidden) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsForbidden:
+	case ModelDefaultErrorListApplicationTrafficForbidden:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorListApplicationTrafficsForbidden:
+	case ModelCloudctrlErrorListApplicationTrafficForbidden:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s ListApplicationTrafficsInternalServerError) Validate() error {
+func (s ListApplicationTrafficInternalServerError) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsInternalServerError:
+	case ModelDefaultErrorListApplicationTrafficInternalServerError:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorListApplicationTrafficsInternalServerError:
+	case ModelCloudctrlErrorListApplicationTrafficInternalServerError:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s ListApplicationTrafficsNotFound) Validate() error {
+func (s ListApplicationTrafficNotFound) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsNotFound:
+	case ModelDefaultErrorListApplicationTrafficNotFound:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorListApplicationTrafficsNotFound:
+	case ModelCloudctrlErrorListApplicationTrafficNotFound:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s ListApplicationTrafficsUnauthorized) Validate() error {
+func (s ListApplicationTrafficUnauthorized) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorListApplicationTrafficsUnauthorized:
+	case ModelDefaultErrorListApplicationTrafficUnauthorized:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorListApplicationTrafficsUnauthorized:
+	case ModelCloudctrlErrorListApplicationTrafficUnauthorized:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
@@ -2701,6 +2962,24 @@ func (s *PatchApplicationBodyComponentsItem) Validate() error {
 	if err := func() error {
 		if value, ok := s.Env.Get(); ok {
 			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "env",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Secret.Get(); ok {
+			if err := func() error {
 				if value == nil {
 					return errors.New("nil is invalid value")
 				}
@@ -2712,7 +2991,7 @@ func (s *PatchApplicationBodyComponentsItem) Validate() error {
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "env",
+			Name:  "secret",
 			Error: err,
 		})
 	}
@@ -3058,6 +3337,76 @@ func (s PatchApplicationNotFound) Validate() error {
 	}
 }
 
+func (s PatchApplicationPacketFilterBadRequest) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterBadRequest:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorPatchApplicationPacketFilterBadRequest:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s PatchApplicationPacketFilterForbidden) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterForbidden:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorPatchApplicationPacketFilterForbidden:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s PatchApplicationPacketFilterInternalServerError) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterInternalServerError:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorPatchApplicationPacketFilterInternalServerError:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s PatchApplicationPacketFilterNotFound) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterNotFound:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorPatchApplicationPacketFilterNotFound:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s PatchApplicationPacketFilterUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorPatchApplicationPacketFilterUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorPatchApplicationPacketFilterUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
 func (s PatchApplicationUnauthorized) Validate() error {
 	switch s.Type {
 	case ModelDefaultErrorPatchApplicationUnauthorized:
@@ -3072,7 +3421,7 @@ func (s PatchApplicationUnauthorized) Validate() error {
 	}
 }
 
-func (s *PatchPacketFilter) Validate() error {
+func (s *PatchPacketFilterBody) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -3103,797 +3452,492 @@ func (s *PatchPacketFilter) Validate() error {
 	return nil
 }
 
-func (s PatchPacketFilterBadRequest) Validate() error {
+func (s ReadApplicationBadRequest) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterBadRequest:
+	case ModelDefaultErrorReadApplicationBadRequest:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPatchPacketFilterBadRequest:
+	case ModelCloudctrlErrorReadApplicationBadRequest:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PatchPacketFilterForbidden) Validate() error {
+func (s ReadApplicationForbidden) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterForbidden:
+	case ModelDefaultErrorReadApplicationForbidden:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPatchPacketFilterForbidden:
+	case ModelCloudctrlErrorReadApplicationForbidden:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PatchPacketFilterInternalServerError) Validate() error {
+func (s ReadApplicationInternalServerError) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterInternalServerError:
+	case ModelDefaultErrorReadApplicationInternalServerError:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPatchPacketFilterInternalServerError:
+	case ModelCloudctrlErrorReadApplicationInternalServerError:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PatchPacketFilterNotFound) Validate() error {
+func (s ReadApplicationNotFound) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterNotFound:
+	case ModelDefaultErrorReadApplicationNotFound:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPatchPacketFilterNotFound:
+	case ModelCloudctrlErrorReadApplicationNotFound:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PatchPacketFilterUnauthorized) Validate() error {
+func (s ReadApplicationPacketFilterBadRequest) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPatchPacketFilterUnauthorized:
+	case ModelDefaultErrorReadApplicationPacketFilterBadRequest:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPatchPacketFilterUnauthorized:
+	case ModelCloudctrlErrorReadApplicationPacketFilterBadRequest:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PostApplicationBadRequest) Validate() error {
+func (s ReadApplicationPacketFilterForbidden) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationBadRequest:
+	case ModelDefaultErrorReadApplicationPacketFilterForbidden:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPostApplicationBadRequest:
+	case ModelCloudctrlErrorReadApplicationPacketFilterForbidden:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s *PostApplicationBody) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
+func (s ReadApplicationPacketFilterInternalServerError) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterInternalServerError:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationPacketFilterInternalServerError:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
+}
 
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     255,
-			MaxLengthSet:  true,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Name)); err != nil {
-			return errors.Wrap(err, "string")
+func (s ReadApplicationPacketFilterNotFound) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterNotFound:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "name",
-			Error: err,
-		})
+	case ModelCloudctrlErrorReadApplicationPacketFilterNotFound:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           300,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.TimeoutSeconds)); err != nil {
-			return errors.Wrap(err, "int")
+}
+
+func (s ReadApplicationPacketFilterUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationPacketFilterUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "timeout_seconds",
-			Error: err,
-		})
+	case ModelCloudctrlErrorReadApplicationPacketFilterUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           65535,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.Port)); err != nil {
-			return errors.Wrap(err, "int")
+}
+
+func (s ReadApplicationStatusBadRequest) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusBadRequest:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "port",
-			Error: err,
-		})
+	case ModelCloudctrlErrorReadApplicationStatusBadRequest:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           0,
-			MaxSet:        true,
-			Max:           10,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.MinScale)); err != nil {
-			return errors.Wrap(err, "int")
+}
+
+func (s ReadApplicationStatusForbidden) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusForbidden:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "min_scale",
-			Error: err,
-		})
+	case ModelCloudctrlErrorReadApplicationStatusForbidden:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           10,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.MaxScale)); err != nil {
-			return errors.Wrap(err, "int")
+}
+
+func (s ReadApplicationStatusInternalServerError) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusInternalServerError:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "max_scale",
-			Error: err,
-		})
+	case ModelCloudctrlErrorReadApplicationStatusInternalServerError:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if err := func() error {
-		if value, ok := s.ScaleTargetConcurrency.Get(); ok {
-			if err := func() error {
-				if err := (validate.Int{
-					MinSet:        true,
-					Min:           50,
-					MaxSet:        true,
-					Max:           200,
-					MinExclusive:  false,
-					MaxExclusive:  false,
-					MultipleOfSet: false,
-					MultipleOf:    0,
-					Pattern:       nil,
-				}).Validate(int64(value)); err != nil {
-					return errors.Wrap(err, "int")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+}
+
+func (s ReadApplicationStatusNotFound) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusNotFound:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "scale_target_concurrency",
-			Error: err,
-		})
+	case ModelCloudctrlErrorReadApplicationStatusNotFound:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if err := func() error {
-		if s.Components == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.Components {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
+}
+
+func (s ReadApplicationStatusUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationStatusUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "components",
-			Error: err,
-		})
+	case ModelCloudctrlErrorReadApplicationStatusUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
+}
+
+func (s ReadApplicationUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionBadRequest) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionBadRequest:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionBadRequest:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionForbidden) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionForbidden:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionForbidden:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionInternalServerError) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionInternalServerError:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionInternalServerError:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionNotFound) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionNotFound:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionNotFound:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionStatusBadRequest) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusBadRequest:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionStatusBadRequest:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionStatusForbidden) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusForbidden:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionStatusForbidden:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionStatusInternalServerError) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusInternalServerError:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionStatusInternalServerError:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionStatusNotFound) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusNotFound:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionStatusNotFound:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionStatusUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionStatusUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionStatusUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadApplicationVersionUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadApplicationVersionUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadApplicationVersionUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadUserForbidden) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadUserForbidden:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadUserForbidden:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadUserInternalServerError) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadUserInternalServerError:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadUserInternalServerError:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadUserNotFound) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadUserNotFound:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadUserNotFound:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s ReadUserUnauthorized) Validate() error {
+	switch s.Type {
+	case ModelDefaultErrorReadUserUnauthorized:
+		if err := s.ModelDefaultError.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ModelCloudctrlErrorReadUserUnauthorized:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s RequestEnv) Validate() error {
+	alias := ([]RequestEnvItem)(s)
+	if alias == nil {
+		return errors.New("nil is invalid value")
 	}
 	return nil
 }
 
-func (s *PostApplicationBodyComponentsItem) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     255,
-			MaxLengthSet:  true,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Name)); err != nil {
-			return errors.Wrap(err, "string")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "name",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := s.MaxCPU.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "max_cpu",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := s.MaxMemory.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "max_memory",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := s.DeploySource.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "deploy_source",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Env.Get(); ok {
-			if err := func() error {
-				if value == nil {
-					return errors.New("nil is invalid value")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "env",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Probe.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "probe",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *PostApplicationBodyComponentsItemDeploySource) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.ContainerRegistry.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "container_registry",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *PostApplicationBodyComponentsItemDeploySourceContainerRegistry) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := (validate.String{
-			MinLength:     1,
-			MinLengthSet:  true,
-			MaxLength:     128,
-			MaxLengthSet:  true,
-			Email:         false,
-			Hostname:      false,
-			Regex:         nil,
-			MinNumeric:    0,
-			MinNumericSet: false,
-			MaxNumeric:    0,
-			MaxNumericSet: false,
-		}).Validate(string(s.Image)); err != nil {
-			return errors.Wrap(err, "string")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "image",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Server.Get(); ok {
-			if err := func() error {
-				if err := (validate.String{
-					MinLength:     1,
-					MinLengthSet:  true,
-					MaxLength:     128,
-					MaxLengthSet:  true,
-					Email:         false,
-					Hostname:      false,
-					Regex:         nil,
-					MinNumeric:    0,
-					MinNumericSet: false,
-					MaxNumeric:    0,
-					MaxNumericSet: false,
-				}).Validate(string(value)); err != nil {
-					return errors.Wrap(err, "string")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "server",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Username.Get(); ok {
-			if err := func() error {
-				if err := (validate.String{
-					MinLength:     1,
-					MinLengthSet:  true,
-					MaxLength:     63,
-					MaxLengthSet:  true,
-					Email:         false,
-					Hostname:      false,
-					Regex:         nil,
-					MinNumeric:    0,
-					MinNumericSet: false,
-					MaxNumeric:    0,
-					MaxNumericSet: false,
-				}).Validate(string(value)); err != nil {
-					return errors.Wrap(err, "string")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "username",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Password.Get(); ok {
-			if err := func() error {
-				if err := (validate.String{
-					MinLength:     1,
-					MinLengthSet:  true,
-					MaxLength:     63,
-					MaxLengthSet:  true,
-					Email:         false,
-					Hostname:      false,
-					Regex:         nil,
-					MinNumeric:    0,
-					MinNumericSet: false,
-					MaxNumeric:    0,
-					MaxNumericSet: false,
-				}).Validate(string(value)); err != nil {
-					return errors.Wrap(err, "string")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "password",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s PostApplicationBodyComponentsItemMaxCPU) Validate() error {
-	switch s {
-	case "0.5":
-		return nil
-	case "1":
-		return nil
-	case "2":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s PostApplicationBodyComponentsItemMaxMemory) Validate() error {
-	switch s {
-	case "1Gi":
-		return nil
-	case "2Gi":
-		return nil
-	case "4Gi":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *PostApplicationBodyComponentsItemProbe) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.HTTPGet.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "http_get",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *PostApplicationBodyComponentsItemProbeHTTPGet) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := (validate.Int{
-			MinSet:        true,
-			Min:           1,
-			MaxSet:        true,
-			Max:           65535,
-			MinExclusive:  false,
-			MaxExclusive:  false,
-			MultipleOfSet: false,
-			MultipleOf:    0,
-			Pattern:       nil,
-		}).Validate(int64(s.Port)); err != nil {
-			return errors.Wrap(err, "int")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "port",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s PostApplicationConflict) Validate() error {
+func (s UpdateApplicationTrafficBadRequest) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationConflict:
+	case ModelDefaultErrorUpdateApplicationTrafficBadRequest:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPostApplicationConflict:
+	case ModelCloudctrlErrorUpdateApplicationTrafficBadRequest:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PostApplicationForbidden) Validate() error {
+func (s UpdateApplicationTrafficForbidden) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationForbidden:
+	case ModelDefaultErrorUpdateApplicationTrafficForbidden:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPostApplicationForbidden:
+	case ModelCloudctrlErrorUpdateApplicationTrafficForbidden:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PostApplicationInternalServerError) Validate() error {
+func (s UpdateApplicationTrafficInternalServerError) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationInternalServerError:
+	case ModelDefaultErrorUpdateApplicationTrafficInternalServerError:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPostApplicationInternalServerError:
+	case ModelCloudctrlErrorUpdateApplicationTrafficInternalServerError:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PostApplicationUnauthorized) Validate() error {
+func (s UpdateApplicationTrafficNotFound) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPostApplicationUnauthorized:
+	case ModelDefaultErrorUpdateApplicationTrafficNotFound:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPostApplicationUnauthorized:
+	case ModelCloudctrlErrorUpdateApplicationTrafficNotFound:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PostUserConflict) Validate() error {
+func (s UpdateApplicationTrafficUnauthorized) Validate() error {
 	switch s.Type {
-	case ModelDefaultErrorPostUserConflict:
+	case ModelDefaultErrorUpdateApplicationTrafficUnauthorized:
 		if err := s.ModelDefaultError.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case ModelCloudctrlErrorPostUserConflict:
+	case ModelCloudctrlErrorUpdateApplicationTrafficUnauthorized:
 		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
-func (s PostUserForbidden) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorPostUserForbidden:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorPostUserForbidden:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s PostUserInternalServerError) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorPostUserInternalServerError:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorPostUserInternalServerError:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s PostUserUnauthorized) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorPostUserUnauthorized:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorPostUserUnauthorized:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s PutApplicationTrafficBadRequest) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficBadRequest:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorPutApplicationTrafficBadRequest:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s PutApplicationTrafficForbidden) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficForbidden:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorPutApplicationTrafficForbidden:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s PutApplicationTrafficInternalServerError) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficInternalServerError:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorPutApplicationTrafficInternalServerError:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s PutApplicationTrafficNotFound) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficNotFound:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorPutApplicationTrafficNotFound:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s PutApplicationTrafficUnauthorized) Validate() error {
-	switch s.Type {
-	case ModelDefaultErrorPutApplicationTrafficUnauthorized:
-		if err := s.ModelDefaultError.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ModelCloudctrlErrorPutApplicationTrafficUnauthorized:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s PutTrafficsBody) Validate() error {
-	alias := ([]PutTrafficsBodyItem)(s)
+func (s UpdateTrafficBody) Validate() error {
+	alias := ([]UpdateTrafficBodyItem)(s)
 	if alias == nil {
 		return errors.New("nil is invalid value")
 	}

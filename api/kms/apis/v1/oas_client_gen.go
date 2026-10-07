@@ -22,46 +22,46 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// KmsKeysCreate invokes kms_keys_create operation.
-	//
-	// POST /kms/keys
-	KmsKeysCreate(ctx context.Context, request *WrappedCreateKey) (*WrappedCreateKey, error)
-	// KmsKeysDecrypt invokes kms_keys_decrypt operation.
-	//
-	// POST /kms/keys/{resource_id}/decrypt
-	KmsKeysDecrypt(ctx context.Context, request *WrappedKeyCipher, params KmsKeysDecryptParams) (*WrappedKeyPlain, error)
-	// KmsKeysDestroy invokes kms_keys_destroy operation.
-	//
-	// DELETE /kms/keys/{resource_id}
-	KmsKeysDestroy(ctx context.Context, params KmsKeysDestroyParams) error
-	// KmsKeysEncrypt invokes kms_keys_encrypt operation.
-	//
-	// POST /kms/keys/{resource_id}/encrypt
-	KmsKeysEncrypt(ctx context.Context, request *WrappedKeyPlain, params KmsKeysEncryptParams) (*WrappedKeyCipher, error)
-	// KmsKeysList invokes kms_keys_list operation.
-	//
-	// GET /kms/keys
-	KmsKeysList(ctx context.Context) (*PaginatedKeyList, error)
-	// KmsKeysRetrieve invokes kms_keys_retrieve operation.
-	//
-	// GET /kms/keys/{resource_id}
-	KmsKeysRetrieve(ctx context.Context, params KmsKeysRetrieveParams) (*WrappedKey, error)
-	// KmsKeysRotate invokes kms_keys_rotate operation.
-	//
-	// POST /kms/keys/{resource_id}/rotate
-	KmsKeysRotate(ctx context.Context, params KmsKeysRotateParams) (KmsKeysRotateRes, error)
-	// KmsKeysScheduleDestruction invokes kms_keys_schedule_destruction operation.
-	//
-	// POST /kms/keys/{resource_id}/schedule-destruction
-	KmsKeysScheduleDestruction(ctx context.Context, request *WrappedScheduleDestructionKey, params KmsKeysScheduleDestructionParams) error
-	// KmsKeysStatus invokes kms_keys_status operation.
+	// ChangeKeyStatus invokes changeKeyStatus operation.
 	//
 	// POST /kms/keys/{resource_id}/status
-	KmsKeysStatus(ctx context.Context, request *WrappedChangeKeyStatus, params KmsKeysStatusParams) error
-	// KmsKeysUpdate invokes kms_keys_update operation.
+	ChangeKeyStatus(ctx context.Context, request *WrappedChangeKeyStateRequest, params ChangeKeyStatusParams) (*WrappedChangeKeyState, error)
+	// CreateKey invokes createKey operation.
+	//
+	// POST /kms/keys
+	CreateKey(ctx context.Context, request *WrappedCreateKeyRequest) (*WrappedCreateKeyResponse, error)
+	// DecryptDataWithKey invokes decryptDataWithKey operation.
+	//
+	// POST /kms/keys/{resource_id}/decrypt
+	DecryptDataWithKey(ctx context.Context, request *WrappedDecryptionRequest, params DecryptDataWithKeyParams) (*WrappedKeyPlain, error)
+	// DeleteKey invokes deleteKey operation.
+	//
+	// DELETE /kms/keys/{resource_id}
+	DeleteKey(ctx context.Context, params DeleteKeyParams) error
+	// EncryptDataWithKey invokes encryptDataWithKey operation.
+	//
+	// POST /kms/keys/{resource_id}/encrypt
+	EncryptDataWithKey(ctx context.Context, request *WrappedEncryptionRequest, params EncryptDataWithKeyParams) (*WrappedKeyCipher, error)
+	// ListKeys invokes listKeys operation.
+	//
+	// GET /kms/keys
+	ListKeys(ctx context.Context, params ListKeysParams) (*PaginatedKeyList, error)
+	// ReadKey invokes readKey operation.
+	//
+	// GET /kms/keys/{resource_id}
+	ReadKey(ctx context.Context, params ReadKeyParams) (*WrappedKey, error)
+	// RotateKey invokes rotateKey operation.
+	//
+	// POST /kms/keys/{resource_id}/rotate
+	RotateKey(ctx context.Context, params RotateKeyParams) (*WrappedKey, error)
+	// ScheduleKeyDestruction invokes scheduleKeyDestruction operation.
+	//
+	// POST /kms/keys/{resource_id}/schedule-destruction
+	ScheduleKeyDestruction(ctx context.Context, request *WrappedScheduleDestructionKeyRequest, params ScheduleKeyDestructionParams) (*WrappedKeyScheduledDestruction, error)
+	// UpdateKey invokes updateKey operation.
 	//
 	// PUT /kms/keys/{resource_id}
-	KmsKeysUpdate(ctx context.Context, request *WrappedKey, params KmsKeysUpdateParams) (*WrappedKey, error)
+	UpdateKey(ctx context.Context, request *WrappedKeyRequest, params UpdateKeyParams) (*WrappedKey, error)
 }
 
 // Client implements OAS client.
@@ -105,749 +105,15 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// KmsKeysCreate invokes kms_keys_create operation.
-//
-// POST /kms/keys
-func (c *Client) KmsKeysCreate(ctx context.Context, request *WrappedCreateKey) (*WrappedCreateKey, error) {
-	res, err := c.sendKmsKeysCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendKmsKeysCreate(ctx context.Context, request *WrappedCreateKey) (res *WrappedCreateKey, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/kms/keys"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeKmsKeysCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, KmsKeysCreateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeKmsKeysCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// KmsKeysDecrypt invokes kms_keys_decrypt operation.
-//
-// POST /kms/keys/{resource_id}/decrypt
-func (c *Client) KmsKeysDecrypt(ctx context.Context, request *WrappedKeyCipher, params KmsKeysDecryptParams) (*WrappedKeyPlain, error) {
-	res, err := c.sendKmsKeysDecrypt(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendKmsKeysDecrypt(ctx context.Context, request *WrappedKeyCipher, params KmsKeysDecryptParams) (res *WrappedKeyPlain, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/kms/keys/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/decrypt"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeKmsKeysDecryptRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, KmsKeysDecryptOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeKmsKeysDecryptResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// KmsKeysDestroy invokes kms_keys_destroy operation.
-//
-// DELETE /kms/keys/{resource_id}
-func (c *Client) KmsKeysDestroy(ctx context.Context, params KmsKeysDestroyParams) error {
-	_, err := c.sendKmsKeysDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendKmsKeysDestroy(ctx context.Context, params KmsKeysDestroyParams) (res *KmsKeysDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/kms/keys/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, KmsKeysDestroyOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeKmsKeysDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// KmsKeysEncrypt invokes kms_keys_encrypt operation.
-//
-// POST /kms/keys/{resource_id}/encrypt
-func (c *Client) KmsKeysEncrypt(ctx context.Context, request *WrappedKeyPlain, params KmsKeysEncryptParams) (*WrappedKeyCipher, error) {
-	res, err := c.sendKmsKeysEncrypt(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendKmsKeysEncrypt(ctx context.Context, request *WrappedKeyPlain, params KmsKeysEncryptParams) (res *WrappedKeyCipher, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/kms/keys/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/encrypt"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeKmsKeysEncryptRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, KmsKeysEncryptOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeKmsKeysEncryptResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// KmsKeysList invokes kms_keys_list operation.
-//
-// GET /kms/keys
-func (c *Client) KmsKeysList(ctx context.Context) (*PaginatedKeyList, error) {
-	res, err := c.sendKmsKeysList(ctx)
-	return res, err
-}
-
-func (c *Client) sendKmsKeysList(ctx context.Context) (res *PaginatedKeyList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/kms/keys"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, KmsKeysListOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeKmsKeysListResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// KmsKeysRetrieve invokes kms_keys_retrieve operation.
-//
-// GET /kms/keys/{resource_id}
-func (c *Client) KmsKeysRetrieve(ctx context.Context, params KmsKeysRetrieveParams) (*WrappedKey, error) {
-	res, err := c.sendKmsKeysRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendKmsKeysRetrieve(ctx context.Context, params KmsKeysRetrieveParams) (res *WrappedKey, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/kms/keys/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, KmsKeysRetrieveOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeKmsKeysRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// KmsKeysRotate invokes kms_keys_rotate operation.
-//
-// POST /kms/keys/{resource_id}/rotate
-func (c *Client) KmsKeysRotate(ctx context.Context, params KmsKeysRotateParams) (KmsKeysRotateRes, error) {
-	res, err := c.sendKmsKeysRotate(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendKmsKeysRotate(ctx context.Context, params KmsKeysRotateParams) (res KmsKeysRotateRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/kms/keys/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/rotate"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, KmsKeysRotateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeKmsKeysRotateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// KmsKeysScheduleDestruction invokes kms_keys_schedule_destruction operation.
-//
-// POST /kms/keys/{resource_id}/schedule-destruction
-func (c *Client) KmsKeysScheduleDestruction(ctx context.Context, request *WrappedScheduleDestructionKey, params KmsKeysScheduleDestructionParams) error {
-	_, err := c.sendKmsKeysScheduleDestruction(ctx, request, params)
-	return err
-}
-
-func (c *Client) sendKmsKeysScheduleDestruction(ctx context.Context, request *WrappedScheduleDestructionKey, params KmsKeysScheduleDestructionParams) (res *KmsKeysScheduleDestructionOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/kms/keys/"
-	{
-		// Encode "resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/schedule-destruction"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeKmsKeysScheduleDestructionRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, KmsKeysScheduleDestructionOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeKmsKeysScheduleDestructionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// KmsKeysStatus invokes kms_keys_status operation.
+// ChangeKeyStatus invokes changeKeyStatus operation.
 //
 // POST /kms/keys/{resource_id}/status
-func (c *Client) KmsKeysStatus(ctx context.Context, request *WrappedChangeKeyStatus, params KmsKeysStatusParams) error {
-	_, err := c.sendKmsKeysStatus(ctx, request, params)
-	return err
+func (c *Client) ChangeKeyStatus(ctx context.Context, request *WrappedChangeKeyStateRequest, params ChangeKeyStatusParams) (*WrappedChangeKeyState, error) {
+	res, err := c.sendChangeKeyStatus(ctx, request, params)
+	return res, err
 }
 
-func (c *Client) sendKmsKeysStatus(ctx context.Context, request *WrappedChangeKeyStatus, params KmsKeysStatusParams) (res *KmsKeysStatusOK, err error) {
+func (c *Client) sendChangeKeyStatus(ctx context.Context, request *WrappedChangeKeyStateRequest, params ChangeKeyStatusParams) (res *WrappedChangeKeyState, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -886,7 +152,7 @@ func (c *Client) sendKmsKeysStatus(ctx context.Context, request *WrappedChangeKe
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeKmsKeysStatusRequest(request, r); err != nil {
+	if err := encodeChangeKeyStatusRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -895,7 +161,7 @@ func (c *Client) sendKmsKeysStatus(ctx context.Context, request *WrappedChangeKe
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, KmsKeysStatusOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ChangeKeyStatusOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -936,7 +202,7 @@ func (c *Client) sendKmsKeysStatus(ctx context.Context, request *WrappedChangeKe
 		_ = body.Close()
 	}()
 
-	result, err := decodeKmsKeysStatusResponse(resp)
+	result, err := decodeChangeKeyStatusResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -944,15 +210,804 @@ func (c *Client) sendKmsKeysStatus(ctx context.Context, request *WrappedChangeKe
 	return result, nil
 }
 
-// KmsKeysUpdate invokes kms_keys_update operation.
+// CreateKey invokes createKey operation.
 //
-// PUT /kms/keys/{resource_id}
-func (c *Client) KmsKeysUpdate(ctx context.Context, request *WrappedKey, params KmsKeysUpdateParams) (*WrappedKey, error) {
-	res, err := c.sendKmsKeysUpdate(ctx, request, params)
+// POST /kms/keys
+func (c *Client) CreateKey(ctx context.Context, request *WrappedCreateKeyRequest) (*WrappedCreateKeyResponse, error) {
+	res, err := c.sendCreateKey(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendKmsKeysUpdate(ctx context.Context, request *WrappedKey, params KmsKeysUpdateParams) (res *WrappedKey, err error) {
+func (c *Client) sendCreateKey(ctx context.Context, request *WrappedCreateKeyRequest) (res *WrappedCreateKeyResponse, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/kms/keys"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, CreateKeyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DecryptDataWithKey invokes decryptDataWithKey operation.
+//
+// POST /kms/keys/{resource_id}/decrypt
+func (c *Client) DecryptDataWithKey(ctx context.Context, request *WrappedDecryptionRequest, params DecryptDataWithKeyParams) (*WrappedKeyPlain, error) {
+	res, err := c.sendDecryptDataWithKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendDecryptDataWithKey(ctx context.Context, request *WrappedDecryptionRequest, params DecryptDataWithKeyParams) (res *WrappedKeyPlain, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/kms/keys/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/decrypt"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeDecryptDataWithKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, DecryptDataWithKeyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDecryptDataWithKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteKey invokes deleteKey operation.
+//
+// DELETE /kms/keys/{resource_id}
+func (c *Client) DeleteKey(ctx context.Context, params DeleteKeyParams) error {
+	_, err := c.sendDeleteKey(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteKey(ctx context.Context, params DeleteKeyParams) (res *DeleteKeyNoContent, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/kms/keys/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, DeleteKeyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// EncryptDataWithKey invokes encryptDataWithKey operation.
+//
+// POST /kms/keys/{resource_id}/encrypt
+func (c *Client) EncryptDataWithKey(ctx context.Context, request *WrappedEncryptionRequest, params EncryptDataWithKeyParams) (*WrappedKeyCipher, error) {
+	res, err := c.sendEncryptDataWithKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendEncryptDataWithKey(ctx context.Context, request *WrappedEncryptionRequest, params EncryptDataWithKeyParams) (res *WrappedKeyCipher, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/kms/keys/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/encrypt"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeEncryptDataWithKeyRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, EncryptDataWithKeyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeEncryptDataWithKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListKeys invokes listKeys operation.
+//
+// GET /kms/keys
+func (c *Client) ListKeys(ctx context.Context, params ListKeysParams) (*PaginatedKeyList, error) {
+	res, err := c.sendListKeys(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListKeys(ctx context.Context, params ListKeysParams) (res *PaginatedKeyList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/kms/keys"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "From" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "From",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListKeysOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListKeysResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadKey invokes readKey operation.
+//
+// GET /kms/keys/{resource_id}
+func (c *Client) ReadKey(ctx context.Context, params ReadKeyParams) (*WrappedKey, error) {
+	res, err := c.sendReadKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadKey(ctx context.Context, params ReadKeyParams) (res *WrappedKey, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/kms/keys/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadKeyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RotateKey invokes rotateKey operation.
+//
+// POST /kms/keys/{resource_id}/rotate
+func (c *Client) RotateKey(ctx context.Context, params RotateKeyParams) (*WrappedKey, error) {
+	res, err := c.sendRotateKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRotateKey(ctx context.Context, params RotateKeyParams) (res *WrappedKey, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/kms/keys/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/rotate"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, RotateKeyOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeRotateKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ScheduleKeyDestruction invokes scheduleKeyDestruction operation.
+//
+// POST /kms/keys/{resource_id}/schedule-destruction
+func (c *Client) ScheduleKeyDestruction(ctx context.Context, request *WrappedScheduleDestructionKeyRequest, params ScheduleKeyDestructionParams) (*WrappedKeyScheduledDestruction, error) {
+	res, err := c.sendScheduleKeyDestruction(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendScheduleKeyDestruction(ctx context.Context, request *WrappedScheduleDestructionKeyRequest, params ScheduleKeyDestructionParams) (res *WrappedKeyScheduledDestruction, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/kms/keys/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/schedule-destruction"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeScheduleKeyDestructionRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ScheduleKeyDestructionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeScheduleKeyDestructionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateKey invokes updateKey operation.
+//
+// PUT /kms/keys/{resource_id}
+func (c *Client) UpdateKey(ctx context.Context, request *WrappedKeyRequest, params UpdateKeyParams) (*WrappedKey, error) {
+	res, err := c.sendUpdateKey(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateKey(ctx context.Context, request *WrappedKeyRequest, params UpdateKeyParams) (res *WrappedKey, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -990,7 +1045,7 @@ func (c *Client) sendKmsKeysUpdate(ctx context.Context, request *WrappedKey, par
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeKmsKeysUpdateRequest(request, r); err != nil {
+	if err := encodeUpdateKeyRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -999,7 +1054,7 @@ func (c *Client) sendKmsKeysUpdate(ctx context.Context, request *WrappedKey, par
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, KmsKeysUpdateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, UpdateKeyOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1040,7 +1095,7 @@ func (c *Client) sendKmsKeysUpdate(ctx context.Context, request *WrappedKey, par
 		_ = body.Close()
 	}()
 
-	result, err := decodeKmsKeysUpdateResponse(resp)
+	result, err := decodeUpdateKeyResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

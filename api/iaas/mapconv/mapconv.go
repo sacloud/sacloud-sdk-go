@@ -17,6 +17,7 @@ package mapconv
 import (
 	"errors"
 	"fmt"
+	"maps"
 	"reflect"
 	"strings"
 
@@ -35,14 +36,14 @@ type DecoderConfig struct {
 }
 
 // FilterFunc mapconvでの変換時に適用するフィルタ
-type FilterFunc func(v interface{}) (interface{}, error)
+type FilterFunc func(v any) (any, error)
 
 // TagInfo mapconvタグの情報
 type TagInfo struct {
 	Ignore       bool
 	SourceFields []string
 	Filters      []string
-	DefaultValue interface{}
+	DefaultValue any
 	OmitEmpty    bool
 	Recursive    bool
 	Squash       bool
@@ -54,12 +55,12 @@ type Decoder struct {
 	Config *DecoderConfig
 }
 
-func (d *Decoder) ConvertTo(source interface{}, dest interface{}) error {
+func (d *Decoder) ConvertTo(source any, dest any) error {
 	s := structs.New(source)
-	mappedValues := Map(make(map[string]interface{}))
+	mappedValues := Map(make(map[string]any))
 
 	// recursiveの際に参照するためのdestのmap
-	destValues := Map(make(map[string]interface{}))
+	destValues := Map(make(map[string]any))
 	if structs.IsStruct(dest) {
 		destValues = Map(structs.Map(dest))
 	}
@@ -103,7 +104,7 @@ func (d *Decoder) ConvertTo(source interface{}, dest interface{}) error {
 			}
 
 			if tags.Squash {
-				dest := Map(make(map[string]interface{}))
+				dest := Map(make(map[string]any))
 				err := d.ConvertTo(value, &dest)
 				if err != nil {
 					return err
@@ -120,22 +121,22 @@ func (d *Decoder) ConvertTo(source interface{}, dest interface{}) error {
 					return err
 				}
 
-				var dest []interface{}
+				var dest []any
 				values := valueToSlice(value)
 				currentValues := valueToSlice(current)
 				for i, v := range values {
 					if structs.IsStruct(v) {
-						var currentDest interface{}
+						var currentDest any
 						if len(currentValues) > i {
 							currentDest = currentValues[i]
 						}
-						destMap := Map(make(map[string]interface{}))
+						destMap := Map(make(map[string]any))
 						if err := d.ConvertTo(v, &destMap); err != nil {
 							return err
 						}
 						// 宛先が存在しstructであれば(map[string]interface{}になっているはずなので)マージする
 						if currentDest != nil {
-							mv, ok := currentDest.(map[string]interface{})
+							mv, ok := currentDest.(map[string]any)
 							// 元の値から空の値を除去する(structs:",omitempty"でも可)
 							for k, v := range mv {
 								if objutil.IsEmpty(v) {
@@ -143,9 +144,7 @@ func (d *Decoder) ConvertTo(source interface{}, dest interface{}) error {
 								}
 							}
 							if ok {
-								for k, v := range destMap.Map() {
-									mv[k] = v
-								}
+								maps.Copy(mv, destMap.Map())
 								destMap = Map(mv)
 							}
 						}
@@ -177,14 +176,14 @@ func (d *Decoder) ConvertTo(source interface{}, dest interface{}) error {
 	return decoder.Decode(mappedValues.Map())
 }
 
-func (d *Decoder) ConvertFrom(source interface{}, dest interface{}) error {
+func (d *Decoder) ConvertFrom(source any, dest any) error {
 	var sourceMap Map
-	if m, ok := source.(map[string]interface{}); ok {
+	if m, ok := source.(map[string]any); ok {
 		sourceMap = Map(m)
 	} else {
 		sourceMap = Map(structs.New(source).Map())
 	}
-	destMap := Map(make(map[string]interface{}))
+	destMap := Map(make(map[string]any))
 
 	s := structs.New(dest)
 	fields := s.Fields()
@@ -234,7 +233,7 @@ func (d *Decoder) ConvertFrom(source interface{}, dest interface{}) error {
 					t = t.Elem()
 				}
 
-				var dest []interface{}
+				var dest []any
 				values := valueToSlice(value)
 				for _, v := range values {
 					if v == nil {
@@ -273,13 +272,13 @@ func (d *Decoder) ConvertFrom(source interface{}, dest interface{}) error {
 }
 
 // ConvertTo converts struct which input by mapconv to plain models
-func ConvertTo(source interface{}, dest interface{}) error {
+func ConvertTo(source any, dest any) error {
 	decoder := &Decoder{Config: &DecoderConfig{TagName: DefaultMapConvTag}}
 	return decoder.ConvertTo(source, dest)
 }
 
 // ConvertFrom converts struct which input by mapconv from plain models
-func ConvertFrom(source interface{}, dest interface{}) error {
+func ConvertFrom(source any, dest any) error {
 	decoder := &Decoder{Config: &DecoderConfig{TagName: DefaultMapConvTag}}
 	return decoder.ConvertFrom(source, dest)
 }
@@ -290,7 +289,7 @@ func (d *Decoder) ParseMapConvTag(tagBody string) TagInfo {
 	key := strings.TrimSpace(tokens[0])
 
 	keys := strings.Split(key, "/")
-	var defaultValue interface{}
+	var defaultValue any
 	var filters []string
 	var ignore, omitEmpty, recursive, squash, isSlice bool
 

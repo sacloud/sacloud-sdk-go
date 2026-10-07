@@ -213,22 +213,22 @@ var (
 	}
 )
 
-func testAutoScaleCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoScaleCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoScaleOp(caller)
 	return client.Create(ctx, createAutoScaleParam)
 }
 
-func testAutoScaleRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoScaleRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoScaleOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testAutoScaleUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoScaleUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoScaleOp(caller)
 	return client.Update(ctx, ctx.ID, updateAutoScaleParam)
 }
 
-func testAutoScaleUpdateTriggerType(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testAutoScaleUpdateTriggerType(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewAutoScaleOp(caller)
 	return client.Update(ctx, ctx.ID, updateAutoScaleTriggerTypeParam)
 }

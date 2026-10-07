@@ -530,17 +530,17 @@ func TestSquash(t *testing.T) {
 }
 
 func testDecoder() *Decoder {
-	strToNumFilter := func(v interface{}) (interface{}, error) {
+	strToNumFilter := func(v any) (any, error) {
 		return strconv.ParseInt(v.(string), 10, 64)
 	}
-	toUpperFilter := func(v interface{}) (interface{}, error) {
+	toUpperFilter := func(v any) (any, error) {
 		// to upper
 		return strings.ToUpper(v.(string)), nil
 	}
-	numToIDFilter := func(v interface{}) (interface{}, error) {
+	numToIDFilter := func(v any) (any, error) {
 		return types.ID(v.(int64)), nil
 	}
-	errorFilter := func(v interface{}) (interface{}, error) {
+	errorFilter := func(v any) (any, error) {
 		return nil, errors.New("foobar")
 	}
 
@@ -559,9 +559,9 @@ func TestFiltersWithConvertTo(t *testing.T) {
 	decoder := testDecoder()
 
 	cases := []struct {
-		in     interface{}
-		dest   interface{}
-		expect interface{}
+		in     any
+		dest   any
+		expect any
 		err    error
 	}{
 		{
@@ -607,9 +607,9 @@ func TestFiltersWithConvertFrom(t *testing.T) {
 	decoder := testDecoder()
 
 	cases := []struct {
-		in     interface{}
-		dest   interface{}
-		expect interface{}
+		in     any
+		dest   any
+		expect any
 		err    error
 	}{
 		{

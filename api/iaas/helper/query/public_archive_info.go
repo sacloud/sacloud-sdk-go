@@ -17,6 +17,7 @@ package query
 import (
 	"context"
 	"errors"
+	"slices"
 	"strings"
 
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
@@ -120,11 +121,9 @@ func getPublicArchiveFromAncestors(ctx context.Context, zone string, reader *Arc
 		return nil, nil
 	}
 
-	for _, t := range allowDiskEditTags {
-		if archive.HasTag(t) {
-			// 対応OSインストール済みディスク
-			return archive, nil
-		}
+	if slices.ContainsFunc(allowDiskEditTags, archive.HasTag) {
+		// 対応OSインストール済みディスク
+		return archive, nil
 	}
 
 	// ここまできても判定できないならソースに投げる

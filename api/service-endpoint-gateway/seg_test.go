@@ -199,9 +199,16 @@ func TestOpFULL(t *testing.T) {
 					{
 						Type: v1.ModelsSettingsEnabledServiceTypeAIEngine,
 						Config: v1.ModelsSettingsServiceConfig{
-							Mode: v1.OptModelsSettingsServiceConfigMode{
-								Value: v1.ModelsSettingsServiceConfigModeManaged,
-								Set:   true,
+							Endpoints: []string{
+								"api.ai.sakura.ad.jp",
+							},
+						},
+					},
+					{
+						Type: v1.ModelsSettingsEnabledServiceTypeSimpleAI,
+						Config: v1.ModelsSettingsServiceConfig{
+							Endpoints: []string{
+								"simpleai.is1.api.sacloud.jp",
 							},
 						},
 					},

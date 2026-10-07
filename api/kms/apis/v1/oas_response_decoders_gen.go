@@ -13,10 +13,10 @@ import (
 	"github.com/ogen-go/ogen/validate"
 )
 
-func decodeKmsKeysCreateResponse(resp *http.Response) (res *WrappedCreateKey, _ error) {
+func decodeChangeKeyStatusResponse(resp *http.Response) (res *WrappedChangeKeyState, _ error) {
 	switch resp.StatusCode {
-	case 201:
-		// Code 201.
+	case 200:
+		// Code 200.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
 		if err != nil {
 			return res, errors.Wrap(err, "parse media type")
@@ -29,7 +29,7 @@ func decodeKmsKeysCreateResponse(resp *http.Response) (res *WrappedCreateKey, _ 
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response WrappedCreateKey
+			var response WrappedChangeKeyState
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -63,7 +63,57 @@ func decodeKmsKeysCreateResponse(resp *http.Response) (res *WrappedCreateKey, _ 
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeKmsKeysDecryptResponse(resp *http.Response) (res *WrappedKeyPlain, _ error) {
+func decodeCreateKeyResponse(resp *http.Response) (res *WrappedCreateKeyResponse, _ error) {
+	switch resp.StatusCode {
+	case 201:
+		// Code 201.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response WrappedCreateKeyResponse
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	return res, validate.UnexpectedStatusCodeWithResponse(resp)
+}
+
+func decodeDecryptDataWithKeyResponse(resp *http.Response) (res *WrappedKeyPlain, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -96,15 +146,6 @@ func decodeKmsKeysDecryptResponse(resp *http.Response) (res *WrappedKeyPlain, _ 
 				}
 				return res, err
 			}
-			// Validate response.
-			if err := func() error {
-				if err := response.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return res, errors.Wrap(err, "validate")
-			}
 			return &response, nil
 		default:
 			return res, validate.InvalidContentType(ct)
@@ -113,16 +154,16 @@ func decodeKmsKeysDecryptResponse(resp *http.Response) (res *WrappedKeyPlain, _ 
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeKmsKeysDestroyResponse(resp *http.Response) (res *KmsKeysDestroyNoContent, _ error) {
+func decodeDeleteKeyResponse(resp *http.Response) (res *DeleteKeyNoContent, _ error) {
 	switch resp.StatusCode {
 	case 204:
 		// Code 204.
-		return &KmsKeysDestroyNoContent{}, nil
+		return &DeleteKeyNoContent{}, nil
 	}
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeKmsKeysEncryptResponse(resp *http.Response) (res *WrappedKeyCipher, _ error) {
+func decodeEncryptDataWithKeyResponse(resp *http.Response) (res *WrappedKeyCipher, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -163,7 +204,7 @@ func decodeKmsKeysEncryptResponse(resp *http.Response) (res *WrappedKeyCipher, _
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeKmsKeysListResponse(resp *http.Response) (res *PaginatedKeyList, _ error) {
+func decodeListKeysResponse(resp *http.Response) (res *PaginatedKeyList, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -213,7 +254,7 @@ func decodeKmsKeysListResponse(resp *http.Response) (res *PaginatedKeyList, _ er
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeKmsKeysRetrieveResponse(resp *http.Response) (res *WrappedKey, _ error) {
+func decodeReadKeyResponse(resp *http.Response) (res *WrappedKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -263,7 +304,7 @@ func decodeKmsKeysRetrieveResponse(resp *http.Response) (res *WrappedKey, _ erro
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeKmsKeysRotateResponse(resp *http.Response) (res KmsKeysRotateRes, _ error) {
+func decodeRotateKeyResponse(resp *http.Response) (res *WrappedKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
@@ -309,32 +350,61 @@ func decodeKmsKeysRotateResponse(resp *http.Response) (res KmsKeysRotateRes, _ e
 		default:
 			return res, validate.InvalidContentType(ct)
 		}
-	case 403:
-		// Code 403.
-		return &KmsKeysRotateForbidden{}, nil
 	}
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeKmsKeysScheduleDestructionResponse(resp *http.Response) (res *KmsKeysScheduleDestructionOK, _ error) {
+func decodeScheduleKeyDestructionResponse(resp *http.Response) (res *WrappedKeyScheduledDestruction, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.
-		return &KmsKeysScheduleDestructionOK{}, nil
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response WrappedKeyScheduledDestruction
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			// Validate response.
+			if err := func() error {
+				if err := response.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return res, errors.Wrap(err, "validate")
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
 	}
 	return res, validate.UnexpectedStatusCodeWithResponse(resp)
 }
 
-func decodeKmsKeysStatusResponse(resp *http.Response) (res *KmsKeysStatusOK, _ error) {
-	switch resp.StatusCode {
-	case 200:
-		// Code 200.
-		return &KmsKeysStatusOK{}, nil
-	}
-	return res, validate.UnexpectedStatusCodeWithResponse(resp)
-}
-
-func decodeKmsKeysUpdateResponse(resp *http.Response) (res *WrappedKey, _ error) {
+func decodeUpdateKeyResponse(resp *http.Response) (res *WrappedKey, _ error) {
 	switch resp.StatusCode {
 	case 200:
 		// Code 200.

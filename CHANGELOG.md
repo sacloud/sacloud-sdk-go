@@ -1,5 +1,88 @@
 # Changelog
 
+## [v0.3.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.2.0...v0.3.0) - 2026-09-30
+
+### 🚀 New Features
+- api/simplemq: update OpenAPI definitions by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/264
+- iam: openapi.json 2.1.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/263
+- kms/secretmanager/cloudhsm: openapi.json 1.2.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/261
+### 📦 Dependency Updates
+- go: bump google.golang.org/grpc from 1.83.1 to 1.83.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/255
+- go: bump google.golang.org/grpc from 1.83.1 to 1.83.2 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/254
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.1.0 to 0.2.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/268
+- go: bump github.com/gofrs/flock from 0.13.0 to 0.13.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/253
+- ci: bump Songmu/tagpr from 1.20.2 to 1.20.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/257
+- go: bump the otel group across 2 directories with 7 updates by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/252
+- go: bump golang.org/x/crypto from 0.55.0 to 0.57.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/266
+- ci: bump github/codeql-action/upload-sarif from 4.37.9 to 4.38.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/271
+- go: bump github.com/go-playground/validator/v10 from 10.30.3 to 10.30.5 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/273
+### Other Changes
+- seg: Update OpenAPI to support SimpleAI by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/258
+- [chore] refactor hoist out utility functions by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/260
+- apis/apprun-dedicated: fix add missing cast by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/269
+- service/iaas: skip fqdn validation by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/275
+
+## [v0.2.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.1.0...v0.2.0) - 2026-09-07
+
+### 🚀 New Features
+- toolchain go1.27.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/234
+### 📦 Dependency Updates
+- go: bump github.com/stretchr/testify from 1.11.1 to 1.12.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/227
+- go: bump github.com/stretchr/testify from 1.11.1 to 1.12.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/226
+- go: bump golang.org/x/crypto from 0.54.0 to 0.55.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/231
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.0.1 to 0.1.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/245
+- go: bump google.golang.org/grpc from 1.83.0 to 1.83.1 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/250
+- ci: bump github/codeql-action/upload-sarif from 4.37.6 to 4.37.9 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/251
+- go: bump github.com/minio/minio-go/v7 from 7.2.1 to 7.3.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/236
+- ci: bump Songmu/tagpr from 1.20.1 to 1.20.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/248
+- go: bump github.com/ogen-go/ogen from 1.23.0 to 1.24.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/230
+- go: bump github.com/hashicorp/terraform-exec from 0.25.2 to 0.25.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/243
+- go: bump github.com/jlaffaye/ftp from 0.2.2 to 0.2.4 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/244
+### Other Changes
+- common/saclient: allow 1 min time window by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/233
+- apprun: Update OpenAPI to v1.5.0 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/238
+- common/saclient: add `WithAPIRequestRateLimit` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/240
+- Add Networking Suite API by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/241
+- chore: standardize includes/go/common.mk and includes/go/single.mk across all modules by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/246
+- chore: centralize Makefile recipes by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/247
+- fix: avoid sharing partially built fake servers by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/249
+
+## [v0.1.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.0.1...v0.1.0) - 2026-08-20
+
+### 🚀 New Features
+- feat: re-generate V1 codes using ogen v1.23.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/215
+### 📦 Dependency Updates
+- ci: bump golangci/golangci-lint-action from 9.2.1 to 9.3.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/189
+- ci: bump sacloud/textlint-action from 0.1.0 to 0.1.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/200
+- ci: bump dorny/paths-filter from 4.0.1 to 4.0.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/199
+- ci: bump github/codeql-action/upload-sarif from 4.36.0 to 4.37.5 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/204
+- go: bump go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace from 0.68.0 to 0.69.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/197
+- go: bump go.opentelemetry.io/otel/exporters/stdout/stdouttrace from 1.43.0 to 1.44.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/195
+- go: bump github.com/ogen-go/ogen from 1.20.3 to 1.23.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/192
+- go: bump github.com/jlaffaye/ftp from 0.2.0 to 0.2.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/207
+- go: bump github.com/go-playground/validator/v10 from 10.30.2 to 10.30.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/208
+- go: bump github.com/go-faster/errors from 0.7.1 to 0.8.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/209
+- ci: bump github/codeql-action/upload-sarif from 4.37.5 to 4.37.6 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/214
+- ci: bump dorny/paths-filter from 4.0.2 to 4.0.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/219
+- go: bump the otel group across 2 directories with 7 updates by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/225
+### Other Changes
+- [doc] repository no longer under transition by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/186
+- add: expose DefaultZone via EndpointConfig() by @yamamoto-febc in https://github.com/sacloud/sacloud-sdk-go/pull/201
+- [CI] get rid of `lint-def` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/202
+- toolchain go1.26.5 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/188
+- [chore] delete unnecessary replace by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/203
+- [CI] speed up by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/205
+- [chore] delete unnecessary scripts by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/206
+- Fix fake ProxyLB certificate mapping by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/216
+- api/iaas/trace/otel: use sacloud-sdk-go v0.0.1 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/217
+- fix: prevent fake database parameter panic without Conf by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/218
+- iaas: add Ubuntu 26.04 to ostype by @yamamoto-febc in https://github.com/sacloud/sacloud-sdk-go/pull/220
+- `README.md` fix after transition by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/223
+- api/eventbus: fix Provider.Class filter query injection by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/222
+- [CI] dependabot groups for otel updates by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/221
+- chore: categorize GitHub auto-generated release notes by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/224
+- s/スイッチ\+ルータ/ルータ+スイッチ/g by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/229
+
 ## [v0.0.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.0.0...v0.0.1) - 2026-08-03
 
 - feat: initial implementation by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/1

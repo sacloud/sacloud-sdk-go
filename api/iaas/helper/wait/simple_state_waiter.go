@@ -47,7 +47,7 @@ type SimpleStateWaiter struct {
 
 func (s *SimpleStateWaiter) waiter() wait.StateWaiter {
 	return &iaas.StatePollingWaiter{
-		ReadFunc: func() (interface{}, error) {
+		ReadFunc: func() (any, error) {
 			result, err := s.ReadStateFunc()
 			if err != nil {
 				return false, err
@@ -67,12 +67,12 @@ func (s *SimpleStateWaiter) waiter() wait.StateWaiter {
 }
 
 // WaitForState iaas.StateWaiterの実装
-func (s *SimpleStateWaiter) WaitForState(ctx context.Context) (interface{}, error) {
+func (s *SimpleStateWaiter) WaitForState(ctx context.Context) (any, error) {
 	return s.waiter().WaitForState(ctx)
 }
 
 // WaitForStateAsync iaas.StateWaiterの実装
-func (s *SimpleStateWaiter) WaitForStateAsync(ctx context.Context) (compCh <-chan interface{}, progressCh <-chan interface{}, errorCh <-chan error) {
+func (s *SimpleStateWaiter) WaitForStateAsync(ctx context.Context) (compCh <-chan any, progressCh <-chan any, errorCh <-chan error) {
 	return s.waiter().WaitForStateAsync(ctx)
 }
 

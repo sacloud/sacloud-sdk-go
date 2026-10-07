@@ -38,7 +38,7 @@ func TestIPv6NetOp_List_Read(t *testing.T) {
 	assert.NoError(t, err)
 
 	// wait
-	waiter := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+	waiter := iaas.WaiterForApplianceUp(func() (any, error) {
 		return internetOp.Read(ctx, testZone, internet.ID)
 	}, 100)
 	if _, err := waiter.WaitForState(context.TODO()); err != nil {

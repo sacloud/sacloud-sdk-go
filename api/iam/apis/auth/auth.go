@@ -28,7 +28,7 @@ type AuthAPI interface {
 	ReadAuthConditions(ctx context.Context) (*v1.AuthConditions, error)
 	UpdateAuthConditions(ctx context.Context, req *v1.AuthConditions) (*v1.AuthConditions, error)
 
-	ReadAuthContext(ctx context.Context) (*v1.GetAuthContextOK, error)
+	ReadAuthContext(ctx context.Context) (*v1.ReadAuthContextOK, error)
 }
 
 type authOp struct {
@@ -41,30 +41,30 @@ func NewAuthOp(client *v1.Client) AuthAPI { return &authOp{client} }
 
 func (a *authOp) ReadPasswordPolicy(ctx context.Context) (*v1.PasswordPolicy, error) {
 	return common.ErrorFromDecodedResponse[v1.PasswordPolicy]("Auth.ReadPasswordPolicy", func() (any, error) {
-		return a.client.OrganizationPasswordPolicyGet(ctx)
+		return a.client.ReadOrganizationPasswordPolicy(ctx)
 	})
 }
 
 func (a *authOp) UpdatePasswordPolicy(ctx context.Context, req v1.PasswordPolicy) (*v1.PasswordPolicy, error) {
 	return common.ErrorFromDecodedResponse[v1.PasswordPolicy]("Auth.UpdatePasswordPolicy", func() (any, error) {
-		return a.client.OrganizationPasswordPolicyPut(ctx, &req)
+		return a.client.UpdateOrganizationPasswordPolicy(ctx, &req)
 	})
 }
 
 func (a *authOp) ReadAuthConditions(ctx context.Context) (*v1.AuthConditions, error) {
 	return common.ErrorFromDecodedResponse[v1.AuthConditions]("Auth.ReadAuthConditions", func() (any, error) {
-		return a.client.OrganizationAuthConditionsGet(ctx)
+		return a.client.ReadOrganizationAuthConditions(ctx)
 	})
 }
 
 func (a *authOp) UpdateAuthConditions(ctx context.Context, req *v1.AuthConditions) (*v1.AuthConditions, error) {
 	return common.ErrorFromDecodedResponse[v1.AuthConditions]("Auth.UpdateAuthConditions", func() (any, error) {
-		return a.client.OrganizationAuthConditionsPut(ctx, req)
+		return a.client.UpdateOrganizationAuthConditions(ctx, req)
 	})
 }
 
-func (a *authOp) ReadAuthContext(ctx context.Context) (*v1.GetAuthContextOK, error) {
-	return common.ErrorFromDecodedResponse[v1.GetAuthContextOK]("Auth.ReadAuthContext", func() (any, error) {
-		return a.client.GetAuthContext(ctx)
+func (a *authOp) ReadAuthContext(ctx context.Context) (*v1.ReadAuthContextOK, error) {
+	return common.ErrorFromDecodedResponse[v1.ReadAuthContextOK]("Auth.ReadAuthContext", func() (any, error) {
+		return a.client.ReadAuthContext(ctx)
 	})
 }

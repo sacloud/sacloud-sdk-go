@@ -67,6 +67,7 @@ func TestUserAPI(t *testing.T) {
 //   - アプリケーションを削除
 func TestApplicationAPI(t *testing.T) {
 	skipIfNoRequiredKeys(t)
+	skipIfNoEnv(t, "SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -78,21 +79,21 @@ func TestApplicationAPI(t *testing.T) {
 	appOp := apprun.NewApplicationOp(client)
 
 	// Create
-	created, err := appOp.Create(ctx, &v1.PostApplicationBody{
+	created, err := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:                   appName,
 		TimeoutSeconds:         100,
 		Port:                   80,
 		MinScale:               0,
 		MaxScale:               1,
 		ScaleTargetConcurrency: v1.NewOptInt(100),
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
 							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
 							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
 							Username: v1.NewOptNilString("test-user"),
@@ -100,14 +101,30 @@ func TestApplicationAPI(t *testing.T) {
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},
 						),
+					},
+				),
+				Env: v1.NewOptNilRequestEnv(
+					v1.RequestEnv{
+						{
+							Key:   "envkey",
+							Value: "envvalue",
+						},
+					},
+				),
+				Secret: v1.NewOptNilCreateApplicationBodyComponentsItemSecretItemArray(
+					[]v1.CreateApplicationBodyComponentsItemSecretItem{
+						{
+							Key:   "secretkey",
+							Value: "secretvalue",
+						},
 					},
 				),
 			},
@@ -115,10 +132,19 @@ func TestApplicationAPI(t *testing.T) {
 	})
 	require.NoError(t, err)
 
+	defer func() {
+		// Delete
+		err = appOp.Delete(ctx, created.ID)
+		require.NoError(t, err)
+	}()
+
 	// Read
 	application, err := appOp.Read(ctx, created.ID)
 	require.NoError(t, err)
 	require.Equal(t, application.Name, appName)
+	require.Equal(t, application.Components[0].Env[0].Key, "envkey")
+	require.Equal(t, application.Components[0].Env[0].Value, "envvalue")
+	require.Equal(t, application.Components[0].Secret[0].Key, "secretkey")
 
 	// Update
 	timeoutUpdated := 20
@@ -137,11 +163,7 @@ func TestApplicationAPI(t *testing.T) {
 
 	res, err := appOp.ReadStatus(ctx, application.ID)
 	require.NoError(t, err)
-	require.Equal(t, res.Status, v1.HandlerGetApplicationOnlyStatusStatusHealthy)
-
-	// Delete
-	err = appOp.Delete(ctx, application.ID)
-	require.NoError(t, err)
+	require.Equal(t, res.Status, v1.HandlerReadApplicationOnlyStatusStatusHealthy)
 }
 
 // TestApplicationAPIWithExternalRegistry 外部レジストリを利用してのアプリケーションの作成テスト。外部レジストリとしてdockerhub/ghcrがあるが、レートリミット等を考慮してghcrを利用する。
@@ -161,29 +183,29 @@ func TestApplicationAPIWithExternalRegistry(t *testing.T) {
 	appOp := apprun.NewApplicationOp(client)
 
 	// Create
-	created, err := appOp.Create(ctx, &v1.PostApplicationBody{
+	created, err := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:                   appName,
 		TimeoutSeconds:         100,
 		Port:                   80,
 		MinScale:               0,
 		MaxScale:               1,
 		ScaleTargetConcurrency: v1.NewOptInt(100),
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
 							Image: "ghcr.io/nginx/nginx-gateway-fabric/nginx:2.6.2",
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},
@@ -208,6 +230,7 @@ func TestApplicationAPIWithExternalRegistry(t *testing.T) {
 //   - アプリケーションを削除
 func TestPacketFilterAPI(t *testing.T) {
 	skipIfNoRequiredKeys(t)
+	skipIfNoEnv(t, "SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -220,21 +243,21 @@ func TestPacketFilterAPI(t *testing.T) {
 	pfOp := apprun.NewPacketFilterOp(client)
 
 	// Application Create
-	application, _ := appOp.Create(ctx, &v1.PostApplicationBody{
+	application, _ := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:                   appName,
 		TimeoutSeconds:         100,
 		Port:                   80,
 		MinScale:               0,
 		MaxScale:               1,
 		ScaleTargetConcurrency: v1.NewOptInt(100),
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
 							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
 							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
 							Username: v1.NewOptNilString("test-user"),
@@ -242,10 +265,10 @@ func TestPacketFilterAPI(t *testing.T) {
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},
@@ -258,13 +281,13 @@ func TestPacketFilterAPI(t *testing.T) {
 
 	// Update PacketFilter
 	enabled := true
-	settings := []v1.PatchPacketFilterSettingsItem{
+	settings := []v1.PatchPacketFilterBodySettingsItem{
 		{
 			FromIP:             "192.0.2.0",
 			FromIPPrefixLength: 24,
 		},
 	}
-	updated, err := pfOp.Update(ctx, application.ID, &v1.PatchPacketFilter{
+	updated, err := pfOp.Update(ctx, application.ID, &v1.PatchPacketFilterBody{
 		IsEnabled: v1.NewOptBool(enabled),
 		Settings:  settings,
 	})
@@ -295,6 +318,7 @@ func TestPacketFilterAPI(t *testing.T) {
 //   - アプリケーションを削除
 func TestVersionAPI(t *testing.T) {
 	skipIfNoRequiredKeys(t)
+	skipIfNoEnv(t, "SAKURA_CONTAINER_REGISTRY_USER_PASSWORD")
 
 	if err := cleanupTestApplication(); err != nil {
 		t.Fatal(err)
@@ -307,21 +331,21 @@ func TestVersionAPI(t *testing.T) {
 	versionOp := apprun.NewVersionOp(client)
 
 	// Application Create
-	application, _ := appOp.Create(ctx, &v1.PostApplicationBody{
+	application, _ := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:                   appName,
 		TimeoutSeconds:         100,
 		Port:                   80,
 		MinScale:               0,
 		MaxScale:               1,
 		ScaleTargetConcurrency: v1.NewOptInt(100),
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
 							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
 							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
 							Username: v1.NewOptNilString("test-user"),
@@ -329,10 +353,10 @@ func TestVersionAPI(t *testing.T) {
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},
@@ -366,7 +390,7 @@ func TestVersionAPI(t *testing.T) {
 	status, err := versionOp.ReadStatus(ctx, application.ID, versions.Data[0].ID)
 	require.NoError(t, err)
 	// タイミングによってはDeployingの可能性もあるため、HealthyかDeployingのどちらかであればテスト成功とする
-	require.Contains(t, []string{string(v1.HandlerGetApplicationVersionOnlyStatusStatusHealthy), string(v1.HandlerGetApplicationVersionOnlyStatusStatusDeploying)}, string(status.Status))
+	require.Contains(t, []string{string(v1.HandlerReadApplicationVersionOnlyStatusStatusHealthy), string(v1.HandlerReadApplicationVersionOnlyStatusStatusDeploying)}, string(status.Status))
 
 	// Delete Application
 	appOp.Delete(ctx, application.ID)
@@ -394,20 +418,20 @@ func TestTrafficAPI(t *testing.T) {
 	trafficOp := apprun.NewTrafficOp(client)
 
 	// Application Create
-	application, _ := appOp.Create(ctx, &v1.PostApplicationBody{
+	application, _ := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:           appName,
 		TimeoutSeconds: 100,
 		Port:           80,
 		MinScale:       0,
 		MaxScale:       1,
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
 							Image:    "sakura-oss-dev.sakuracr.jp/test:latest",
 							Server:   v1.NewOptNilString("sakura-oss-dev.sakuracr.jp"),
 							Username: v1.NewOptNilString("test-user"),
@@ -415,10 +439,10 @@ func TestTrafficAPI(t *testing.T) {
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},
@@ -444,12 +468,12 @@ func TestTrafficAPI(t *testing.T) {
 	v1Name := versions.Data[1].Name
 	v1Percent := 10
 
-	trafficBody := v1.PutTrafficsBody{
-		v1.NewPutTrafficsBodyItem0PutTrafficsBodyItem(v1.PutTrafficsBodyItem0{
+	trafficBody := v1.UpdateTrafficBody{
+		v1.NewUpdateTrafficBodyItem0UpdateTrafficBodyItem(v1.UpdateTrafficBodyItem0{
 			IsLatestVersion: v0IsLatestVersion,
 			Percent:         v0Percent,
 		}),
-		v1.NewPutTrafficsBodyItem1PutTrafficsBodyItem(v1.PutTrafficsBodyItem1{
+		v1.NewUpdateTrafficBodyItem1UpdateTrafficBodyItem(v1.UpdateTrafficBodyItem1{
 			VersionName: v1Name,
 			Percent:     v1Percent,
 		}),

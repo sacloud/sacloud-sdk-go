@@ -41,20 +41,16 @@ func TestNewScimOp(t *testing.T) {
 	assert.NotNil(api)
 }
 
-func intPtr(i int) *int {
-	return &i
-}
-
 func TestList(t *testing.T) {
-	var expected v1.ScimConfigurationsGetOK
+	var expected v1.ListScimConfigurationsOK
 	expected.SetFake()
 	// Itemsフィールドは空のスライスになるように調整
 	expected.Items = []v1.ScimConfigurationBase{}
 	assert, api := setup(t, &expected, 200)
 
 	params := ListParams{
-		Page:    intPtr(1),
-		PerPage: intPtr(10),
+		Page:    new(1),
+		PerPage: new(10),
 	}
 	actual, err := api.List(t.Context(), params)
 	assert.NoError(err)
@@ -71,8 +67,8 @@ func TestList_Fail(t *testing.T) {
 	assert, api := setup(t, &res, res.Status)
 
 	params := ListParams{
-		Page:    intPtr(1),
-		PerPage: intPtr(10),
+		Page:    new(1),
+		PerPage: new(10),
 	}
 	actual, err := api.List(t.Context(), params)
 	assert.Error(err)
@@ -197,7 +193,7 @@ func TestDelete_Fail(t *testing.T) {
 }
 
 func TestRegenerateToken(t *testing.T) {
-	var expected v1.ScimConfigurationsIDRegenerateTokenPostOK
+	var expected v1.RegenerateScimConfigurationTokenOK
 	expected.SetFake()
 	assert, api := setup(t, &expected, 200)
 

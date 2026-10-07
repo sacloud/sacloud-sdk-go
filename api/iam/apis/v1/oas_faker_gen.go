@@ -112,74 +112,16 @@ func (s *AuthConditionsRequireTwoFactorAuth) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CompatAPIKeysApikeyIDPutReq) SetFake() {
+func (s *CheckServicePolicyStatusOK) SetFake() {
 	{
 		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Description = "string"
-		}
-	}
-	{
-		{
-			s.ServerResourceID.SetFake()
-		}
-	}
-	{
-		{
-			s.IamRoles = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.IamRoles = append(s.IamRoles, elem)
-			}
-		}
-	}
-	{
-		{
-			s.ZoneID.SetFake()
+			s.Enabled = true
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *CompatAPIKeysGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem ProjectApiKey
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CompatAPIKeysPostReq) SetFake() {
+func (s *CreateApiKeyReq) SetFake() {
 	{
 		{
 			s.ProjectID = int(0)
@@ -220,38 +162,126 @@ func (s *CompatAPIKeysPostReq) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CompatUsersGetOK) SetFake() {
+func (s *CreateFolderReq) SetFake() {
 	{
 		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem User
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
+			s.Name = "string"
 		}
 	}
 	{
 		{
-			s.Count = int(0)
+			s.Description.SetFake()
 		}
 	}
 	{
 		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
+			s.ParentID.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *CompatUsersPostReq) SetFake() {
+func (s *CreateGroupReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateProjectReq) SetFake() {
+	{
+		{
+			s.Code = "string"
+		}
+	}
+	{
+		{
+			s.ParentFolderID.SetFake()
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateScimConfigurationReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateServicePrincipalReq) SetFake() {
+	{
+		{
+			s.ProjectID = int(0)
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateSsoProfileReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description = "string"
+		}
+	}
+	{
+		{
+			s.IdpEntityID = "string"
+		}
+	}
+	{
+		{
+			s.IdpLoginURL = "string"
+		}
+	}
+	{
+		{
+			s.IdpLogoutURL = "string"
+		}
+	}
+	{
+		{
+			s.IdpCertificate = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *CreateUserReq) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -275,105 +305,6 @@ func (s *CompatUsersPostReq) SetFake() {
 	{
 		{
 			s.Email.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CompatUsersUserIDPutReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Password.SetFake()
-		}
-	}
-	{
-		{
-			s.Description = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CompatUsersUserIDRegisterEmailPostReq) SetFake() {
-	{
-		{
-			s.Email = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CompatUsersUserIDSecurityKeysGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem UserSecurityKey
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CompatUsersUserIDTrustedDevicesGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem UserTrustedDevice
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
 		}
 	}
 }
@@ -410,142 +341,6 @@ func (s *Folder) SetFake() {
 			s.UpdatedAt = "string"
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *FoldersFolderIDIamPolicyGetOK) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IamPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *FoldersFolderIDIamPolicyPutOK) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IamPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *FoldersFolderIDIamPolicyPutReq) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IamPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *FoldersFolderIDPutReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Description.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *FoldersGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem Folder
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *FoldersPostReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Description.SetFake()
-		}
-	}
-	{
-		{
-			s.ParentID.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetAuthContextOK) SetFake() {
-	{
-		{
-			s.ResourceID = int64(0)
-		}
-	}
-	{
-		{
-			s.AuthType.SetFake()
-		}
-	}
-	{
-		{
-			s.LimitedToProjectID.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetAuthContextOKAuthType) SetFake() {
-	*s = GetAuthContextOKAuthTypeApikey
 }
 
 // SetFake set fake values.
@@ -598,90 +393,6 @@ func (s *GroupMembershipsCompatUsersItem) SetFake() {
 	{
 		{
 			s.ID = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GroupsGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem Group
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GroupsGroupIDMembershipsPutReq) SetFake() {
-	{
-		{
-			s.CompatUsers = nil
-			for i := 0; i < 0; i++ {
-				var elem GroupsGroupIDMembershipsPutReqCompatUsersItem
-				{
-					elem.SetFake()
-				}
-				s.CompatUsers = append(s.CompatUsers, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GroupsGroupIDMembershipsPutReqCompatUsersItem) SetFake() {
-	{
-		{
-			s.ID = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GroupsGroupIDPutReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Description = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GroupsPostReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Description = "string"
 		}
 	}
 }
@@ -920,37 +631,6 @@ func (s *Http503ServiceUnavailable) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *IDRolesGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem IdRole
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *IamPolicy) SetFake() {
 	{
 		{
@@ -1025,37 +705,6 @@ func (s *IamRoleLowestGrantableResource) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *IamRolesGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem IamRole
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *IdPolicy) SetFake() {
 	{
 		{
@@ -1110,6 +759,440 @@ func (s *IdRole) SetFake() {
 	{
 		{
 			s.Description = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListApiKeysOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem ProjectApiKey
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListFoldersOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem Folder
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListGroupsOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem Group
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListIamRolesOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem IamRole
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListIdRolesOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem IdRole
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListProjectsOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem Project
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListScimConfigurationsOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem ScimConfigurationBase
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListSecurityKeysOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem UserSecurityKey
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListServicePolicyRuleTemplatesOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem RuleTemplate
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListServicePrincipalKeysOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem ServicePrincipalKey
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListServicePrincipalsOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem ServicePrincipal
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListSsoProfilesOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem SSOProfile
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListTrustedDevicesOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem UserTrustedDevice
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListUsersOK) SetFake() {
+	{
+		{
+			s.Items = nil
+			for i := 0; i < 0; i++ {
+				var elem User
+				{
+					elem.SetFake()
+				}
+				s.Items = append(s.Items, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Count = int(0)
+		}
+	}
+	{
+		{
+			s.Next.SetFake()
+		}
+	}
+	{
+		{
+			s.Previous.SetFake()
 		}
 	}
 }
@@ -1199,15 +1282,6 @@ func (s *OptBool) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptCompatUsersUserIDSecurityKeysSecurityKeyIDPutReq) SetFake() {
-	var elem CompatUsersUserIDSecurityKeysSecurityKeyIDPutReq
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
 func (s *OptIamPolicyRole) SetFake() {
 	var elem IamPolicyRole
 	{
@@ -1283,19 +1357,19 @@ func (s *OptRuleSpec) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptServicePrincipalsServicePrincipalIDUploadKeyPostReq) SetFake() {
-	var elem ServicePrincipalsServicePrincipalIDUploadKeyPostReq
+func (s *OptString) SetFake() {
+	var elem string
 	{
-		elem.SetFake()
+		elem = "string"
 	}
 	s.SetTo(elem)
 }
 
 // SetFake set fake values.
-func (s *OptString) SetFake() {
-	var elem string
+func (s *OptUploadServicePrincipalKeyReq) SetFake() {
+	var elem UploadServicePrincipalKeyReq
 	{
-		elem = "string"
+		elem.SetFake()
 	}
 	s.SetTo(elem)
 }
@@ -1310,159 +1384,6 @@ func (s *Organization) SetFake() {
 	{
 		{
 			s.Name = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationIDPolicyGetOK) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IdPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationIDPolicyPutOK) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IdPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationIDPolicyPutReq) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IdPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationIamPolicyGetOK) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IamPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationIamPolicyPutOK) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IamPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationIamPolicyPutReq) SetFake() {
-	{
-		{
-			s.Bindings = nil
-			for i := 0; i < 0; i++ {
-				var elem IamPolicy
-				{
-					elem.SetFake()
-				}
-				s.Bindings = append(s.Bindings, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationPutReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationServicePolicyGetOK) SetFake() {
-	{
-		{
-			s.Rules = nil
-			for i := 0; i < 0; i++ {
-				var elem RuleResponse
-				{
-					elem.SetFake()
-				}
-				s.Rules = append(s.Rules, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationServicePolicyPutOK) SetFake() {
-	{
-		{
-			s.Rules = nil
-			for i := 0; i < 0; i++ {
-				var elem RuleResponse
-				{
-					elem.SetFake()
-				}
-				s.Rules = append(s.Rules, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *OrganizationServicePolicyPutReq) SetFake() {
-	{
-		{
-			s.Rules = nil
-			for i := 0; i < 0; i++ {
-				var elem Rule
-				{
-					elem.SetFake()
-				}
-				s.Rules = append(s.Rules, elem)
-			}
 		}
 	}
 }
@@ -1682,62 +1603,36 @@ func (s *ProjectStatus) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ProjectsGetOK) SetFake() {
+func (s *ReadAuthContextOK) SetFake() {
 	{
 		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem Project
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
+			s.ResourceID = int64(0)
 		}
 	}
 	{
 		{
-			s.Count = int(0)
+			s.AuthType.SetFake()
 		}
 	}
 	{
 		{
-			s.Next.SetFake()
+			s.LimitedToProjectID.SetFake()
 		}
 	}
 	{
 		{
-			s.Previous.SetFake()
+			s.MemberCode = "string"
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ProjectsPostReq) SetFake() {
-	{
-		{
-			s.Code = "string"
-		}
-	}
-	{
-		{
-			s.ParentFolderID.SetFake()
-		}
-	}
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Description = "string"
-		}
-	}
+func (s *ReadAuthContextOKAuthType) SetFake() {
+	*s = ReadAuthContextOKAuthTypeApikey
 }
 
 // SetFake set fake values.
-func (s *ProjectsProjectIDIamPolicyGetOK) SetFake() {
+func (s *ReadFolderIamPolicyOK) SetFake() {
 	{
 		{
 			s.Bindings = nil
@@ -1753,7 +1648,7 @@ func (s *ProjectsProjectIDIamPolicyGetOK) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ProjectsProjectIDIamPolicyPutOK) SetFake() {
+func (s *ReadOrganizationIamPolicyOK) SetFake() {
 	{
 		{
 			s.Bindings = nil
@@ -1769,7 +1664,39 @@ func (s *ProjectsProjectIDIamPolicyPutOK) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ProjectsProjectIDIamPolicyPutReq) SetFake() {
+func (s *ReadOrganizationIdPolicyOK) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IdPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadOrganizationServicePolicyOK) SetFake() {
+	{
+		{
+			s.Rules = nil
+			for i := 0; i < 0; i++ {
+				var elem RuleResponse
+				{
+					elem.SetFake()
+				}
+				s.Rules = append(s.Rules, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadProjectIamPolicyOK) SetFake() {
 	{
 		{
 			s.Bindings = nil
@@ -1785,15 +1712,19 @@ func (s *ProjectsProjectIDIamPolicyPutReq) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ProjectsProjectIDPutReq) SetFake() {
+func (s *RegenerateScimConfigurationTokenOK) SetFake() {
 	{
 		{
-			s.Name = "string"
+			s.SecretToken.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *RegisterEmailReq) SetFake() {
 	{
 		{
-			s.Description = "string"
+			s.Email = "string"
 		}
 	}
 }
@@ -2035,105 +1966,6 @@ func (s *SSOProfile) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *SSOProfilesGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem SSOProfile
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *SSOProfilesPostReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Description = "string"
-		}
-	}
-	{
-		{
-			s.IdpEntityID = "string"
-		}
-	}
-	{
-		{
-			s.IdpLoginURL = "string"
-		}
-	}
-	{
-		{
-			s.IdpLogoutURL = "string"
-		}
-	}
-	{
-		{
-			s.IdpCertificate = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *SSOProfilesSSOProfileIDPutReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.Description = "string"
-		}
-	}
-	{
-		{
-			s.IdpEntityID = "string"
-		}
-	}
-	{
-		{
-			s.IdpLoginURL = "string"
-		}
-	}
-	{
-		{
-			s.IdpLogoutURL = "string"
-		}
-	}
-	{
-		{
-			s.IdpCertificate = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *ScimConfiguration) SetFake() {
 	{
 		{
@@ -2192,104 +2024,6 @@ func (s *ScimConfigurationBase) SetFake() {
 	{
 		{
 			s.UpdatedAt = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ScimConfigurationsGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem ScimConfigurationBase
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ScimConfigurationsIDPutReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ScimConfigurationsIDRegenerateTokenPostOK) SetFake() {
-	{
-		{
-			s.SecretToken.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ScimConfigurationsPostReq) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ServicePolicyRuleTemplatesGetOK) SetFake() {
-	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem RuleTemplate
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ServicePolicyStatusGetOK) SetFake() {
-	{
-		{
-			s.Enabled = true
 		}
 	}
 }
@@ -2402,43 +2136,16 @@ func (s *ServicePrincipalOAuth2AccessToken) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ServicePrincipalsGetOK) SetFake() {
+func (s *ServiceprincipalKeyPublicKey) SetFake() {
+	var unwrapped string
 	{
-		{
-			s.Items = nil
-			for i := 0; i < 0; i++ {
-				var elem ServicePrincipal
-				{
-					elem.SetFake()
-				}
-				s.Items = append(s.Items, elem)
-			}
-		}
+		unwrapped = "string"
 	}
-	{
-		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
-		}
-	}
+	*s = ServiceprincipalKeyPublicKey(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *ServicePrincipalsPostReq) SetFake() {
-	{
-		{
-			s.ProjectID = int(0)
-		}
-	}
+func (s *UpdateApiKeyReq) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -2449,41 +2156,64 @@ func (s *ServicePrincipalsPostReq) SetFake() {
 			s.Description = "string"
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *ServicePrincipalsServicePrincipalIDKeysGetOK) SetFake() {
 	{
 		{
-			s.Items = nil
+			s.ServerResourceID.SetFake()
+		}
+	}
+	{
+		{
+			s.IamRoles = nil
 			for i := 0; i < 0; i++ {
-				var elem ServicePrincipalKey
+				var elem string
 				{
-					elem.SetFake()
+					elem = "string"
 				}
-				s.Items = append(s.Items, elem)
+				s.IamRoles = append(s.IamRoles, elem)
 			}
 		}
 	}
 	{
 		{
-			s.Count = int(0)
-		}
-	}
-	{
-		{
-			s.Next.SetFake()
-		}
-	}
-	{
-		{
-			s.Previous.SetFake()
+			s.ZoneID.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ServicePrincipalsServicePrincipalIDPutReq) SetFake() {
+func (s *UpdateFolderIamPolicyOK) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IamPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateFolderIamPolicyReq) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IamPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateFolderReq) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -2497,21 +2227,278 @@ func (s *ServicePrincipalsServicePrincipalIDPutReq) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ServicePrincipalsServicePrincipalIDUploadKeyPostReq) SetFake() {
+func (s *UpdateGroupReq) SetFake() {
 	{
 		{
-			s.PublicKey.SetFake()
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description = "string"
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ServiceprincipalKeyPublicKey) SetFake() {
-	var unwrapped string
+func (s *UpdateMembershipsReq) SetFake() {
 	{
-		unwrapped = "string"
+		{
+			s.CompatUsers = nil
+			for i := 0; i < 0; i++ {
+				var elem UpdateMembershipsReqCompatUsersItem
+				{
+					elem.SetFake()
+				}
+				s.CompatUsers = append(s.CompatUsers, elem)
+			}
+		}
 	}
-	*s = ServiceprincipalKeyPublicKey(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateMembershipsReqCompatUsersItem) SetFake() {
+	{
+		{
+			s.ID = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateOrganizationIamPolicyOK) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IamPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateOrganizationIamPolicyReq) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IamPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateOrganizationIdPolicyOK) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IdPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateOrganizationIdPolicyReq) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IdPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateOrganizationReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateOrganizationServicePolicyOK) SetFake() {
+	{
+		{
+			s.Rules = nil
+			for i := 0; i < 0; i++ {
+				var elem RuleResponse
+				{
+					elem.SetFake()
+				}
+				s.Rules = append(s.Rules, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateOrganizationServicePolicyReq) SetFake() {
+	{
+		{
+			s.Rules = nil
+			for i := 0; i < 0; i++ {
+				var elem Rule
+				{
+					elem.SetFake()
+				}
+				s.Rules = append(s.Rules, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateProjectIamPolicyOK) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IamPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateProjectIamPolicyReq) SetFake() {
+	{
+		{
+			s.Bindings = nil
+			for i := 0; i < 0; i++ {
+				var elem IamPolicy
+				{
+					elem.SetFake()
+				}
+				s.Bindings = append(s.Bindings, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateProjectReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateScimConfigurationReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateServicePrincipalReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateSsoProfileReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Description = "string"
+		}
+	}
+	{
+		{
+			s.IdpEntityID = "string"
+		}
+	}
+	{
+		{
+			s.IdpLoginURL = "string"
+		}
+	}
+	{
+		{
+			s.IdpLogoutURL = "string"
+		}
+	}
+	{
+		{
+			s.IdpCertificate = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateUserReq) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.Password.SetFake()
+		}
+	}
+	{
+		{
+			s.Description = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UploadServicePrincipalKeyReq) SetFake() {
+	{
+		{
+			s.PublicKey.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.

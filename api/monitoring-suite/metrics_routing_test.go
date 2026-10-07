@@ -120,9 +120,9 @@ func TestMetricsRoutingOp_Update(t *testing.T) {
 	ctx := t.Context()
 
 	updateReq := MetricsRoutingUpdateParams{
-		PublisherCode:    ref("appliance"),
-		Variant:          ref("variant"),
-		MetricsStorageID: ref("12355"),
+		PublisherCode:    new("appliance"),
+		Variant:          new("variant"),
+		MetricsStorageID: new("12355"),
 	}
 	res, err := api.Update(ctx, uuid.New(), updateReq)
 	require.NoError(t, err)
@@ -259,9 +259,9 @@ func TestMetricsRoutingIntegrated(t *testing.T) {
 
 	// Update
 	updateReq := MetricsRoutingUpdateParams{
-		PublisherCode:    ref(pub2.Code),
-		Variant:          ref(variant2.Name),
-		MetricsStorageID: ref(fmt.Sprintf("%d", read.MetricsStorage.ID)),
+		PublisherCode:    new(pub2.Code),
+		Variant:          new(variant2.Name),
+		MetricsStorageID: new(fmt.Sprintf("%d", read.MetricsStorage.ID)),
 	}
 	updated, err := api.Update(ctx, rid, updateReq)
 	require.NoError(t, err)

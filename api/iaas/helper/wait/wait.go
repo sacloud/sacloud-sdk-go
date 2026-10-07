@@ -31,7 +31,7 @@ var (
 
 // UntilArchiveIsReady コピー完了まで待機
 func UntilArchiveIsReady(ctx context.Context, client iaas.ArchiveAPI, zone string, id types.ID) (*iaas.Archive, error) {
-	lastState, err := iaas.WaiterForReady(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForReady(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -43,7 +43,7 @@ func UntilArchiveIsReady(ctx context.Context, client iaas.ArchiveAPI, zone strin
 // UntilDatabaseIsUp 起動まで待機
 func UntilDatabaseIsUp(ctx context.Context, client iaas.DatabaseAPI, zone string, id types.ID) (*iaas.Database, error) {
 	var database *iaas.Database
-	lastState, err := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForApplianceUp(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}, ApplianceNotFoundRetryCount).WaitForState(ctx)
 	if lastState != nil {
@@ -53,7 +53,7 @@ func UntilDatabaseIsUp(ctx context.Context, client iaas.DatabaseAPI, zone string
 		return nil, err
 	}
 	// [HACK] データベースアプライアンス場合のみ/appliance/:id/statusも考慮する
-	waiter := iaas.WaiterForUp(func() (interface{}, error) {
+	waiter := iaas.WaiterForUp(func() (any, error) {
 		return client.Status(ctx, zone, id)
 	})
 	waiter.(*iaas.StatePollingWaiter).Interval = defaults.DefaultDBStatusPollingInterval // HACK 現状は決め打ち、ユースケースが出たら修正する
@@ -64,7 +64,7 @@ func UntilDatabaseIsUp(ctx context.Context, client iaas.DatabaseAPI, zone string
 
 // UntilDatabaseIsDown シャットダウンまで待機
 func UntilDatabaseIsDown(ctx context.Context, client iaas.DatabaseAPI, zone string, id types.ID) (*iaas.Database, error) {
-	lastState, err := iaas.WaiterForDown(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForDown(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -75,7 +75,7 @@ func UntilDatabaseIsDown(ctx context.Context, client iaas.DatabaseAPI, zone stri
 
 // UntilDiskIsReady コピー完了/ディスク修正完了まで待機
 func UntilDiskIsReady(ctx context.Context, client iaas.DiskAPI, zone string, id types.ID) (*iaas.Disk, error) {
-	lastState, err := iaas.WaiterForReady(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForReady(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -86,7 +86,7 @@ func UntilDiskIsReady(ctx context.Context, client iaas.DiskAPI, zone string, id 
 
 // UntilInternetIsReady 準備完了まで待機
 func UntilInternetIsReady(ctx context.Context, client iaas.InternetAPI, zone string, id types.ID) (*iaas.Internet, error) {
-	lastState, err := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForApplianceUp(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}, InternetNotFoundRetryCount).WaitForState(ctx)
 	if lastState != nil {
@@ -97,7 +97,7 @@ func UntilInternetIsReady(ctx context.Context, client iaas.InternetAPI, zone str
 
 // UntilLoadBalancerIsUp 起動完了まで待機
 func UntilLoadBalancerIsUp(ctx context.Context, client iaas.LoadBalancerAPI, zone string, id types.ID) (*iaas.LoadBalancer, error) {
-	lastState, err := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForApplianceUp(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}, ApplianceNotFoundRetryCount).WaitForState(ctx)
 	if lastState != nil {
@@ -108,7 +108,7 @@ func UntilLoadBalancerIsUp(ctx context.Context, client iaas.LoadBalancerAPI, zon
 
 // UntilLoadBalancerIsDown シャットダウンまで待機
 func UntilLoadBalancerIsDown(ctx context.Context, client iaas.LoadBalancerAPI, zone string, id types.ID) (*iaas.LoadBalancer, error) {
-	lastState, err := iaas.WaiterForDown(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForDown(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -119,7 +119,7 @@ func UntilLoadBalancerIsDown(ctx context.Context, client iaas.LoadBalancerAPI, z
 
 // UntilMobileGatewayIsReady コピー完了まで待機
 func UntilMobileGatewayIsReady(ctx context.Context, client iaas.MobileGatewayAPI, zone string, id types.ID) (*iaas.MobileGateway, error) {
-	lastState, err := iaas.WaiterForReady(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForReady(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -130,7 +130,7 @@ func UntilMobileGatewayIsReady(ctx context.Context, client iaas.MobileGatewayAPI
 
 // UntilMobileGatewayIsUp 起動まで待機
 func UntilMobileGatewayIsUp(ctx context.Context, client iaas.MobileGatewayAPI, zone string, id types.ID) (*iaas.MobileGateway, error) {
-	lastState, err := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForApplianceUp(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}, ApplianceNotFoundRetryCount).WaitForState(ctx)
 	if lastState != nil {
@@ -141,7 +141,7 @@ func UntilMobileGatewayIsUp(ctx context.Context, client iaas.MobileGatewayAPI, z
 
 // UntilMobileGatewayIsDown シャットダウンまで待機
 func UntilMobileGatewayIsDown(ctx context.Context, client iaas.MobileGatewayAPI, zone string, id types.ID) (*iaas.MobileGateway, error) {
-	lastState, err := iaas.WaiterForDown(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForDown(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -152,7 +152,7 @@ func UntilMobileGatewayIsDown(ctx context.Context, client iaas.MobileGatewayAPI,
 
 // UntilNFSIsUp 起動まで待機
 func UntilNFSIsUp(ctx context.Context, client iaas.NFSAPI, zone string, id types.ID) (*iaas.NFS, error) {
-	lastState, err := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForApplianceUp(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}, ApplianceNotFoundRetryCount).WaitForState(ctx)
 	if lastState != nil {
@@ -163,7 +163,7 @@ func UntilNFSIsUp(ctx context.Context, client iaas.NFSAPI, zone string, id types
 
 // UntilNFSIsDown シャットダウンまで待機
 func UntilNFSIsDown(ctx context.Context, client iaas.NFSAPI, zone string, id types.ID) (*iaas.NFS, error) {
-	lastState, err := iaas.WaiterForDown(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForDown(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -174,7 +174,7 @@ func UntilNFSIsDown(ctx context.Context, client iaas.NFSAPI, zone string, id typ
 
 // UntilServerIsUp 起動まで待機
 func UntilServerIsUp(ctx context.Context, client iaas.ServerAPI, zone string, id types.ID) (*iaas.Server, error) {
-	lastState, err := iaas.WaiterForUp(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForUp(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -185,7 +185,7 @@ func UntilServerIsUp(ctx context.Context, client iaas.ServerAPI, zone string, id
 
 // UntilServerIsDown シャットダウンまで待機
 func UntilServerIsDown(ctx context.Context, client iaas.ServerAPI, zone string, id types.ID) (*iaas.Server, error) {
-	lastState, err := iaas.WaiterForDown(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForDown(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -196,7 +196,7 @@ func UntilServerIsDown(ctx context.Context, client iaas.ServerAPI, zone string, 
 
 // UntilVPCRouterIsReady コピー完了まで待機
 func UntilVPCRouterIsReady(ctx context.Context, client iaas.VPCRouterAPI, zone string, id types.ID) (*iaas.VPCRouter, error) {
-	lastState, err := iaas.WaiterForReady(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForReady(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {
@@ -207,7 +207,7 @@ func UntilVPCRouterIsReady(ctx context.Context, client iaas.VPCRouterAPI, zone s
 
 // UntilVPCRouterIsUp 起動まで待機
 func UntilVPCRouterIsUp(ctx context.Context, client iaas.VPCRouterAPI, zone string, id types.ID) (*iaas.VPCRouter, error) {
-	lastState, err := iaas.WaiterForApplianceUp(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForApplianceUp(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}, ApplianceNotFoundRetryCount).WaitForState(ctx)
 	if lastState != nil {
@@ -218,7 +218,7 @@ func UntilVPCRouterIsUp(ctx context.Context, client iaas.VPCRouterAPI, zone stri
 
 // UntilVPCRouterIsDown シャットダウンまで待機
 func UntilVPCRouterIsDown(ctx context.Context, client iaas.VPCRouterAPI, zone string, id types.ID) (*iaas.VPCRouter, error) {
-	lastState, err := iaas.WaiterForDown(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForDown(func() (any, error) {
 		return client.Read(ctx, zone, id)
 	}).WaitForState(ctx)
 	if lastState != nil {

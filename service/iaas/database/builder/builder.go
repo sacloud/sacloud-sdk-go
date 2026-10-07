@@ -54,7 +54,7 @@ type Builder struct {
 	//
 	// キーにはiaas.DatabaseParameterMetaのLabelを指定する
 	//   - 例: effective_cache_size: 10
-	Parameters map[string]interface{}
+	Parameters map[string]any
 
 	SettingsHash string
 
@@ -129,16 +129,16 @@ func (b *Builder) create(ctx context.Context, zone string) (*iaas.Database, erro
 		Delete: func(ctx context.Context, zone string, id types.ID) error {
 			return b.Client.Database.Delete(ctx, zone, id)
 		},
-		Read: func(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+		Read: func(ctx context.Context, zone string, id types.ID) (any, error) {
 			return b.Client.Database.Read(ctx, zone, id)
 		},
-		ProvisionBeforeUp: func(ctx context.Context, zone string, id types.ID, _ interface{}) error {
+		ProvisionBeforeUp: func(ctx context.Context, zone string, id types.ID, _ any) error {
 			if b.NoWait {
 				return nil
 			}
 
 			// [HACK] データベースアプライアンス場合のみ/appliance/:id/statusも考慮する
-			waiter := iaas.WaiterForUp(func() (interface{}, error) {
+			waiter := iaas.WaiterForUp(func() (any, error) {
 				return b.Client.Database.Status(ctx, zone, id)
 			})
 			waiter.(*iaas.StatePollingWaiter).Interval = defaults.DefaultDBStatusPollingInterval // HACK 現状は決め打ち、ユースケースが出たら修正する
@@ -253,7 +253,7 @@ func (b *Builder) reconcileDatabaseParameters(ctx context.Context, zone string, 
 		return err
 	}
 
-	newParameters := make(map[string]interface{})
+	newParameters := make(map[string]any)
 	// 既存のパラメータは一旦nullに
 	for k := range parameters.Settings {
 		newParameters[k] = nil

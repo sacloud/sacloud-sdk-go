@@ -37,11 +37,11 @@ func Register(platformName string, ss services.Services) {
 	}
 }
 
-func Dispatch(arguments []string, parameter interface{}) (interface{}, error) {
+func Dispatch(arguments []string, parameter any) (any, error) {
 	return DispatchWithContext(context.Background(), arguments, parameter)
 }
 
-func DispatchWithContext(ctx context.Context, arguments []string, parameter interface{}) (interface{}, error) {
+func DispatchWithContext(ctx context.Context, arguments []string, parameter any) (any, error) {
 	if len(arguments) < 2 {
 		panic("invalid arguments")
 	}
@@ -58,9 +58,9 @@ func DispatchWithContext(ctx context.Context, arguments []string, parameter inte
 	return nil, fmt.Errorf("operation %s#%s not found", key(keys), operation)
 }
 
-func serviceParameter(service services.Service, op services.SupportedOperation, parameter interface{}) (interface{}, error) {
+func serviceParameter(service services.Service, op services.SupportedOperation, parameter any) (any, error) {
 	if parameter == nil {
-		parameter = map[string]interface{}{}
+		parameter = map[string]any{}
 	}
 
 	param, err := helper.NewParameter(service, op.Name)
@@ -77,7 +77,7 @@ func serviceParameter(service services.Service, op services.SupportedOperation, 
 	return param, nil
 }
 
-func dispatch(ctx context.Context, service services.Service, op services.SupportedOperation, parameter interface{}) (interface{}, error) {
+func dispatch(ctx context.Context, service services.Service, op services.SupportedOperation, parameter any) (any, error) {
 	param, err := serviceParameter(service, op, parameter)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ func dispatch(ctx context.Context, service services.Service, op services.Support
 	method := reflect.ValueOf(service).MethodByName(op.WithContextFuncName())
 	results := method.Call([]reflect.Value{reflect.ValueOf(ctx), reflect.ValueOf(param)}) // xxxWithContextはctx+reqの2つだけを受け取るはず
 
-	var value interface{}
+	var value any
 	if op.OperationType.HasReturnValue() {
 		if len(results) != 2 {
 			return nil, fmt.Errorf("invalid results: want 2 results, but got %d: %+v", len(results), results)

@@ -38,7 +38,7 @@ func TestSIMBuilder_Build(t *testing.T) {
 		Parallel:           true,
 		IgnoreStartupWait:  true,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &Builder{
 					Name:        testutil.ResourceName("sim-builder"),
 					Description: "description",
@@ -59,11 +59,11 @@ func TestSIMBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				simOp := iaas.NewSIMOp(caller)
 				return query.FindSIMByID(ctx, simOp, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				sim := value.(*iaas.SIM)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, sim, "SIM"),
@@ -75,7 +75,7 @@ func TestSIMBuilder_Build(t *testing.T) {
 		},
 		Updates: []*testutil.CRUDTestFunc{
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					sim := ctx.LastValue.(*iaas.SIM)
 					builder := &Builder{
 						Name:        sim.Name,
@@ -95,7 +95,7 @@ func TestSIMBuilder_Build(t *testing.T) {
 					}
 					return builder.Update(ctx, sim.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 					sim := value.(*iaas.SIM)
 					return testutil.DoAsserts(
 						testutil.AssertTrueFunc(t, sim.Info.IMEILock, "SIM.Info.IMEILock"),
@@ -103,7 +103,7 @@ func TestSIMBuilder_Build(t *testing.T) {
 				},
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					sim := ctx.LastValue.(*iaas.SIM)
 					builder := &Builder{
 						Name:        sim.Name,
@@ -123,7 +123,7 @@ func TestSIMBuilder_Build(t *testing.T) {
 					}
 					return builder.Update(ctx, sim.ID)
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 					sim := value.(*iaas.SIM)
 					return testutil.DoAsserts(
 						testutil.AssertFalseFunc(t, sim.Info.IMEILock, "SIM.Info.IMEILock"),

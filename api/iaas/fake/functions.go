@@ -37,7 +37,7 @@ func random(max int) int {
 	return rand.Intn(max) //nolint:gosec
 }
 
-func newErrorNotFound(resourceKey string, id interface{}) error {
+func newErrorNotFound(resourceKey string, id any) error {
 	return iaas.NewAPIError("", nil, http.StatusNotFound, &iaas.APIErrorResponse{
 		IsFatal:      true,
 		Serial:       "",
@@ -47,7 +47,7 @@ func newErrorNotFound(resourceKey string, id interface{}) error {
 	})
 }
 
-func newErrorBadRequest(resourceKey string, id interface{}, msgs ...string) error {
+func newErrorBadRequest(resourceKey string, id any, msgs ...string) error {
 	return iaas.NewAPIError("", nil, http.StatusBadRequest, &iaas.APIErrorResponse{
 		IsFatal:      true,
 		Serial:       "",
@@ -57,7 +57,7 @@ func newErrorBadRequest(resourceKey string, id interface{}, msgs ...string) erro
 	})
 }
 
-func newErrorConflict(resourceKey string, id interface{}, msgs ...string) error {
+func newErrorConflict(resourceKey string, id any, msgs ...string) error {
 	return iaas.NewAPIError("", nil, http.StatusConflict, &iaas.APIErrorResponse{
 		IsFatal:      true,
 		Serial:       "",
@@ -67,7 +67,7 @@ func newErrorConflict(resourceKey string, id interface{}, msgs ...string) error 
 	})
 }
 
-func newInternalServerError(resourceKey string, id interface{}, msgs ...string) error {
+func newInternalServerError(resourceKey string, id any, msgs ...string) error {
 	return iaas.NewAPIError("", nil, http.StatusInternalServerError, &iaas.APIErrorResponse{
 		IsFatal:      true,
 		Serial:       "",
@@ -77,8 +77,8 @@ func newInternalServerError(resourceKey string, id interface{}, msgs ...string) 
 	})
 }
 
-func find(resourceKey, zone string, conditions *iaas.FindCondition) ([]interface{}, error) {
-	var results []interface{}
+func find(resourceKey, zone string, conditions *iaas.FindCondition) ([]any, error) {
+	var results []any
 	if conditions == nil {
 		conditions = &iaas.FindCondition{}
 	}
@@ -134,7 +134,7 @@ FILTER_APPLY_LOOP:
 							}
 						}
 					} else {
-						var value interface{}
+						var value any
 						switch fieldName {
 						case "ID":
 							if v, ok := target.(accessor.ID); ok {
@@ -186,18 +186,18 @@ FILTER_APPLY_LOOP:
 	return results, nil
 }
 
-func copySameNameField(source interface{}, dest interface{}) {
+func copySameNameField(source any, dest any) {
 	data, _ := json.Marshal(source)
 	json.Unmarshal(data, dest) //nolint
 }
 
-func fill(target interface{}, fillFuncs ...func(interface{})) {
+func fill(target any, fillFuncs ...func(any)) {
 	for _, f := range fillFuncs {
 		f(target)
 	}
 }
 
-func fillID(target interface{}) {
+func fillID(target any) {
 	if v, ok := target.(accessor.ID); ok {
 		id := v.GetID()
 		if id.IsEmpty() {
@@ -206,7 +206,7 @@ func fillID(target interface{}) {
 	}
 }
 
-func fillAvailability(target interface{}) {
+func fillAvailability(target any) {
 	if v, ok := target.(accessor.Availability); ok {
 		value := v.GetAvailability()
 		if value == types.Availabilities.Unknown {
@@ -215,7 +215,7 @@ func fillAvailability(target interface{}) {
 	}
 }
 
-func fillScope(target interface{}) {
+func fillScope(target any) {
 	if v, ok := target.(accessor.Scope); ok {
 		value := v.GetScope()
 		if value == types.EScope("") {
@@ -224,7 +224,7 @@ func fillScope(target interface{}) {
 	}
 }
 
-func fillDiskPlan(target interface{}) {
+func fillDiskPlan(target any) {
 	if v, ok := target.(accessor.DiskPlan); ok {
 		id := v.GetDiskPlanID()
 		switch id {
@@ -237,7 +237,7 @@ func fillDiskPlan(target interface{}) {
 	}
 }
 
-func fillCreatedAt(target interface{}) {
+func fillCreatedAt(target any) {
 	if v, ok := target.(accessor.CreatedAt); ok {
 		value := v.GetCreatedAt()
 		if value.IsZero() {
@@ -246,7 +246,7 @@ func fillCreatedAt(target interface{}) {
 	}
 }
 
-func fillModifiedAt(target interface{}) {
+func fillModifiedAt(target any) {
 	if v, ok := target.(accessor.ModifiedAt); ok {
 		value := v.GetModifiedAt()
 		if value.IsZero() {

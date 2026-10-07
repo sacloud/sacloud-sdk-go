@@ -38,7 +38,7 @@ type PeerOp struct {
 
 func NewPeerOp(client *v1.Client, hsm *v1.CloudHSM) (PeerAPI, error) {
 	// The HSM partition has to be "available" before doing anything with its peers.
-	if hsm.GetAvailability() == v1.AvailabilityEnumAvailable {
+	if hsm.GetAvailability() == v1.CloudHSMAvailabilityAvailable {
 		return &PeerOp{
 			client: client,
 			hsm:    hsm,
@@ -49,9 +49,9 @@ func NewPeerOp(client *v1.Client, hsm *v1.CloudHSM) (PeerAPI, error) {
 }
 
 func (op *PeerOp) List(ctx context.Context) ([]v1.CloudHSMPeer, error) {
-	resp, err := op.client.CloudhsmCloudhsmsPeersRetrieve(
+	resp, err := op.client.ListCloudHSMPeers(
 		ctx,
-		v1.CloudhsmCloudhsmsPeersRetrieveParams{
+		v1.ListCloudHSMPeersParams{
 			ResourceID: op.hsm.GetID(),
 		},
 	)
@@ -73,15 +73,15 @@ type CloudHSMPeerCreateParams struct {
 }
 
 func (op *PeerOp) Create(ctx context.Context, p CloudHSMPeerCreateParams) error {
-	err := op.client.CloudhsmCloudhsmsPeersCreate(
+	err := op.client.CreateCloudHSMPeer(
 		ctx,
-		&v1.WrappedCreateCloudHSMPeer{
-			Peer: v1.CreateCloudHSMPeer{
+		&v1.WrappedPeerRequest{
+			Peer: v1.PeerRequest{
 				ID:        p.RouterID,
 				SecretKey: p.SecretKey,
 			},
 		},
-		v1.CloudhsmCloudhsmsPeersCreateParams{
+		v1.CreateCloudHSMPeerParams{
 			ResourceID: op.hsm.GetID(),
 		},
 	)
@@ -98,9 +98,9 @@ func (op *PeerOp) Create(ctx context.Context, p CloudHSMPeerCreateParams) error 
 }
 
 func (op *PeerOp) Delete(ctx context.Context, id string) error {
-	err := op.client.CloudhsmCloudhsmsPeersDestroy(
+	err := op.client.DeleteCloudHSMPeer(
 		ctx,
-		v1.CloudhsmCloudhsmsPeersDestroyParams{
+		v1.DeleteCloudHSMPeerParams{
 			ResourceID: op.hsm.GetID(),
 			PeerID:     id,
 		},

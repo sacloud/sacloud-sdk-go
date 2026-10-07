@@ -24,9 +24,9 @@ import (
 
 type UserAPI interface {
 	// Read ログイン中のユーザー情報を取得
-	Read(ctx context.Context) (*v1.HandlerGetUser, error)
+	Read(ctx context.Context) (*v1.HandlerReadUser, error)
 	// Create さくらのAppRunにサインアップ
-	Create(ctx context.Context) (*v1.HandlerPostUser, error)
+	Create(ctx context.Context) (*v1.HandlerCreateUser, error)
 }
 
 var _ UserAPI = (*userOp)(nil)
@@ -40,44 +40,44 @@ func NewUserOp(client *v1.Client) UserAPI {
 	return &userOp{client: client}
 }
 
-func (op *userOp) Read(ctx context.Context) (*v1.HandlerGetUser, error) {
+func (op *userOp) Read(ctx context.Context) (*v1.HandlerReadUser, error) {
 	const methodName = "Users.Read"
-	res, err := op.client.GetUser(ctx)
+	res, err := op.client.ReadUser(ctx)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerGetUser:
+	case *v1.HandlerReadUser:
 		return result, nil
-	case *v1.GetUserUnauthorized:
+	case *v1.ReadUserUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.GetUserForbidden:
+	case *v1.ReadUserForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.GetUserNotFound:
+	case *v1.ReadUserNotFound:
 		return nil, apiErrorFromModel(methodName, http.StatusNotFound, result)
-	case *v1.GetUserInternalServerError:
+	case *v1.ReadUserInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))
 	}
 }
 
-func (op *userOp) Create(ctx context.Context) (*v1.HandlerPostUser, error) {
+func (op *userOp) Create(ctx context.Context) (*v1.HandlerCreateUser, error) {
 	const methodName = "Users.Create"
-	res, err := op.client.PostUser(ctx)
+	res, err := op.client.CreateUser(ctx)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 	switch result := res.(type) {
-	case *v1.HandlerPostUser:
+	case *v1.HandlerCreateUser:
 		return result, nil
-	case *v1.PostUserUnauthorized:
+	case *v1.CreateUserUnauthorized:
 		return nil, apiErrorFromModel(methodName, http.StatusUnauthorized, result)
-	case *v1.PostUserForbidden:
+	case *v1.CreateUserForbidden:
 		return nil, apiErrorFromModel(methodName, http.StatusForbidden, result)
-	case *v1.PostUserConflict:
+	case *v1.CreateUserConflict:
 		return nil, apiErrorFromModel(methodName, http.StatusConflict, result)
-	case *v1.PostUserInternalServerError:
+	case *v1.CreateUserInternalServerError:
 		return nil, apiErrorFromModel(methodName, http.StatusInternalServerError, result)
 	default:
 		return nil, NewAPIError(methodName, 0, errors.New("unknown error"))

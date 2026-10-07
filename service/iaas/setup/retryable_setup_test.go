@@ -59,7 +59,7 @@ func TestRetryableSetup_Setup(t *testing.T) {
 				Create: func(context.Context, string) (id accessor.ID, e error) {
 					return &dummyIDAccessor{id: 1}, nil
 				},
-				Read: func(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+				Read: func(ctx context.Context, zone string, id types.ID) (any, error) {
 					return &dummyIDAccessor{id: 1}, nil
 				},
 				Options: &Options{
@@ -81,7 +81,7 @@ func TestRetryableSetup_Setup(t *testing.T) {
 				Create: func(context.Context, string) (accessor.ID, error) {
 					return nil, fmt.Errorf("error")
 				},
-				Read: func(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+				Read: func(ctx context.Context, zone string, id types.ID) (any, error) {
 					return &dummyIDAccessor{id: 1}, nil
 				},
 				Options: &Options{
@@ -108,7 +108,7 @@ func TestRetryableSetup_Setup(t *testing.T) {
 				Delete: func(context.Context, string, types.ID) error {
 					return nil
 				},
-				Read: withErrorReadFunc(func(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+				Read: withErrorReadFunc(func(ctx context.Context, zone string, id types.ID) (any, error) {
 					return &dummyIDAccessor{id: 1}, nil
 				}, 3),
 				Options: &Options{
@@ -134,7 +134,7 @@ func TestRetryableSetup_Setup(t *testing.T) {
 				Delete: func(context.Context, string, types.ID) error {
 					return nil
 				},
-				Read: withErrorReadFunc(func(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+				Read: withErrorReadFunc(func(ctx context.Context, zone string, id types.ID) (any, error) {
 					return &dummyIDAccessor{id: 1}, nil
 				}, 5),
 				Options: &Options{
@@ -157,7 +157,7 @@ func TestRetryableSetup_Setup(t *testing.T) {
 
 func withErrorReadFunc(readFunc ReadFunc, errCount int) ReadFunc {
 	maxErr := errCount
-	return func(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+	return func(ctx context.Context, zone string, id types.ID) (any, error) {
 		maxErr--
 		if maxErr <= 0 {
 			return &dummyAvailabilityAccessor{available: types.Availabilities.Available}, nil

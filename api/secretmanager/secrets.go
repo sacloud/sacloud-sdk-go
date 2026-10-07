@@ -18,16 +18,17 @@ import (
 	"context"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/secretmanager/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 // SecretAPIはSecretの操作をCRUD+Lで行うためのインターフェース. READは未実装
 type SecretAPI interface {
-	List(ctx context.Context) ([]v1.Secret, error)
-	// Read(ctx context.Context, id string) (*v1.Secret, error)
-	Create(ctx context.Context, request v1.CreateSecret) (*v1.Secret, error)
-	Update(ctx context.Context, request v1.CreateSecret) (*v1.Secret, error)
-	Delete(ctx context.Context, request v1.DeleteSecret) error
-	Unveil(ctx context.Context, request v1.Unveil) (*v1.Unveil, error)
+	List(ctx context.Context, count, from *int) ([]v1.SecretResponse, error)
+	// Read(ctx context.Context, id string) (*v1.CreateSecretResponse, error)
+	Create(ctx context.Context, request CreateSecretParams) (*v1.CreateSecretResponse, error)
+	Update(ctx context.Context, request UpdateSecretParams) (*v1.CreateSecretResponse, error)
+	Delete(ctx context.Context, request string) error
+	Unveil(ctx context.Context, request UnveilParams) (*v1.UnveilResponse, error)
 }
 
 var _ SecretAPI = (*secretOp)(nil)
@@ -41,9 +42,12 @@ func NewSecretOp(client *v1.Client, id string) SecretAPI {
 	return &secretOp{client: client, vaultId: id}
 }
 
-func (op *secretOp) List(ctx context.Context) ([]v1.Secret, error) {
-	res, err := op.client.SecretmanagerVaultsSecretsList(ctx,
-		v1.SecretmanagerVaultsSecretsListParams{VaultResourceID: op.vaultId})
+func (op *secretOp) List(ctx context.Context, count, from *int) ([]v1.SecretResponse, error) {
+	res, err := op.client.ListVaultSecrets(ctx, v1.ListVaultSecretsParams{
+		VaultResourceID: op.vaultId,
+		Count:           into.Opt[v1.OptInt](count),
+		From:            into.Opt[v1.OptInt](from),
+	})
 	if err != nil {
 		return nil, createAPIError("List", err)
 	}
@@ -51,10 +55,12 @@ func (op *secretOp) List(ctx context.Context) ([]v1.Secret, error) {
 	return res.Secrets, nil
 }
 
-func (op *secretOp) Create(ctx context.Context, request v1.CreateSecret) (*v1.Secret, error) {
-	res, err := op.client.SecretmanagerVaultsSecretsCreate(ctx, &v1.WrappedCreateSecret{
+type CreateSecretParams = v1.CreateSecretRequest
+
+func (op *secretOp) Create(ctx context.Context, request CreateSecretParams) (*v1.CreateSecretResponse, error) {
+	res, err := op.client.CreateVaultSecret(ctx, &v1.WrappedCreateSecretRequest{
 		Secret: request,
-	}, v1.SecretmanagerVaultsSecretsCreateParams{VaultResourceID: op.vaultId})
+	}, v1.CreateVaultSecretParams{VaultResourceID: op.vaultId})
 	if err != nil {
 		return nil, createAPIError("Create", err)
 	}
@@ -62,15 +68,25 @@ func (op *secretOp) Create(ctx context.Context, request v1.CreateSecret) (*v1.Se
 	return &res.Secret, nil
 }
 
+type UpdateSecretParams = v1.CreateSecretRequest
+
 // Create / Updateは同じAPIを使うためUpdateは内部でCreateを呼び出すだけ
-func (op *secretOp) Update(ctx context.Context, request v1.CreateSecret) (*v1.Secret, error) {
+func (op *secretOp) Update(ctx context.Context, request UpdateSecretParams) (*v1.CreateSecretResponse, error) {
 	return op.Create(ctx, request)
 }
 
-func (op *secretOp) Unveil(ctx context.Context, request v1.Unveil) (*v1.Unveil, error) {
-	res, err := op.client.SecretmanagerVaultsSecretsUnveil(ctx, &v1.WrappedUnveil{
-		Secret: request,
-	}, v1.SecretmanagerVaultsSecretsUnveilParams{VaultResourceID: op.vaultId})
+type UnveilParams struct {
+	Name    string
+	Version *int
+}
+
+func (op *secretOp) Unveil(ctx context.Context, request UnveilParams) (*v1.UnveilResponse, error) {
+	res, err := op.client.UnveilSecret(ctx, &v1.WrappedUnveilRequest{
+		Secret: v1.UnveilRequest{
+			Name:    request.Name,
+			Version: into.OptNil[v1.OptNilInt](request.Version),
+		},
+	}, v1.UnveilSecretParams{VaultResourceID: op.vaultId})
 	if err != nil {
 		return nil, createAPIError("Unveil", err)
 	}
@@ -78,10 +94,12 @@ func (op *secretOp) Unveil(ctx context.Context, request v1.Unveil) (*v1.Unveil, 
 	return &res.Secret, nil
 }
 
-func (op *secretOp) Delete(ctx context.Context, request v1.DeleteSecret) error {
-	err := op.client.SecretmanagerVaultsSecretsDestroy(ctx, &v1.WrappedDeleteSecret{
-		Secret: request,
-	}, v1.SecretmanagerVaultsSecretsDestroyParams{VaultResourceID: op.vaultId})
+func (op *secretOp) Delete(ctx context.Context, request string) error {
+	err := op.client.DeleteVaultSecret(ctx, &v1.WrappedDeleteSecretRequest{
+		Secret: v1.WrappedDeleteSecretRequestSecret{
+			Name: request,
+		},
+	}, v1.DeleteVaultSecretParams{VaultResourceID: op.vaultId})
 	if err != nil {
 		return createAPIError("Delete", err)
 	}

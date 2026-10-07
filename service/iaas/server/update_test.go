@@ -21,7 +21,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/sacloud/sacloud-sdk-go/common/packages/size"
 	diskService "github.com/sacloud/sacloud-sdk-go/service/iaas/disk"
 	"github.com/stretchr/testify/require"
@@ -97,11 +96,11 @@ func TestServerService_convertUpdateRequest(t *testing.T) {
 				Zone:            zone,
 				ID:              server.ID,
 				Name:            &name,
-				Description:     pointer.NewString("desc-upd"),
+				Description:     new("desc-upd"),
 				Tags:            &types.Tags{"tag1-upd", "tag2-upd"},
-				CPU:             pointer.NewInt(2),
-				MemoryGB:        pointer.NewInt(4),
-				CPUModel:        pointer.NewString("uncategorized"),
+				CPU:             new(2),
+				MemoryGB:        new(4),
+				CPUModel:        new("uncategorized"),
 				Commitment:      &types.Commitments.DedicatedCPU,
 				Generation:      &types.PlanGenerations.G200,
 				InterfaceDriver: &types.InterfaceDrivers.E1000,

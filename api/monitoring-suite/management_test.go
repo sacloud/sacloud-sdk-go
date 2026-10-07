@@ -81,8 +81,8 @@ func TestManagementOp_CreateProvisioning(t *testing.T) {
 	var req ProvisioningCreateParam
 	var res v1.Provisioning
 	res.SetFake()
-	req.Logs = ref(res.GetLogs())
-	req.Metrics = ref(res.GetMetrics())
+	req.Logs = new(res.GetLogs())
+	req.Metrics = new(res.GetMetrics())
 	client := newTestClient(res, http.StatusCreated)
 	api := NewManagementOp(client)
 	ctx := t.Context()

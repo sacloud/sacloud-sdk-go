@@ -109,22 +109,22 @@ var (
 	}
 )
 
-func testNoteCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testNoteCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewNoteOp(caller)
 	return client.Create(ctx, createNoteParam)
 }
 
-func testNoteRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testNoteRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewNoteOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testNoteUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testNoteUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewNoteOp(caller)
 	return client.Update(ctx, ctx.ID, updateNoteParam)
 }
 
-func testNoteUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testNoteUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewNoteOp(caller)
 	return client.Update(ctx, ctx.ID, updateNoteToMinParam)
 }

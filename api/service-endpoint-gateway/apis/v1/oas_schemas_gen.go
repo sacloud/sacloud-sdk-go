@@ -49,7 +49,7 @@ type ModelsApplianceAppliance struct {
 	// インターフェース情報.
 	Interfaces []ModelsNetworkInterface `json:"Interfaces"`
 	// タグ情報.
-	Tags []jx.Raw `json:"Tags"`
+	Tags []string `json:"Tags"`
 }
 
 // GetID returns the value of ID.
@@ -138,7 +138,7 @@ func (s *ModelsApplianceAppliance) GetInterfaces() []ModelsNetworkInterface {
 }
 
 // GetTags returns the value of Tags.
-func (s *ModelsApplianceAppliance) GetTags() []jx.Raw {
+func (s *ModelsApplianceAppliance) GetTags() []string {
 	return s.Tags
 }
 
@@ -228,7 +228,7 @@ func (s *ModelsApplianceAppliance) SetInterfaces(val []ModelsNetworkInterface) {
 }
 
 // SetTags sets the value of Tags.
-func (s *ModelsApplianceAppliance) SetTags(val []jx.Raw) {
+func (s *ModelsApplianceAppliance) SetTags(val []string) {
 	s.Tags = val
 }
 
@@ -2158,6 +2158,7 @@ const (
 	ModelsSettingsEnabledServiceTypeContainerRegistry           ModelsSettingsEnabledServiceType = "ContainerRegistry"
 	ModelsSettingsEnabledServiceTypeMonitoringSuite             ModelsSettingsEnabledServiceType = "MonitoringSuite"
 	ModelsSettingsEnabledServiceTypeAIEngine                    ModelsSettingsEnabledServiceType = "AIEngine"
+	ModelsSettingsEnabledServiceTypeSimpleAI                    ModelsSettingsEnabledServiceType = "SimpleAI"
 	ModelsSettingsEnabledServiceTypeAppRunDedicatedControlPlane ModelsSettingsEnabledServiceType = "AppRunDedicatedControlPlane"
 )
 
@@ -2168,6 +2169,7 @@ func (ModelsSettingsEnabledServiceType) AllValues() []ModelsSettingsEnabledServi
 		ModelsSettingsEnabledServiceTypeContainerRegistry,
 		ModelsSettingsEnabledServiceTypeMonitoringSuite,
 		ModelsSettingsEnabledServiceTypeAIEngine,
+		ModelsSettingsEnabledServiceTypeSimpleAI,
 		ModelsSettingsEnabledServiceTypeAppRunDedicatedControlPlane,
 	}
 }
@@ -2182,6 +2184,8 @@ func (s ModelsSettingsEnabledServiceType) MarshalText() ([]byte, error) {
 	case ModelsSettingsEnabledServiceTypeMonitoringSuite:
 		return []byte(s), nil
 	case ModelsSettingsEnabledServiceTypeAIEngine:
+		return []byte(s), nil
+	case ModelsSettingsEnabledServiceTypeSimpleAI:
 		return []byte(s), nil
 	case ModelsSettingsEnabledServiceTypeAppRunDedicatedControlPlane:
 		return []byte(s), nil
@@ -2204,6 +2208,9 @@ func (s *ModelsSettingsEnabledServiceType) UnmarshalText(data []byte) error {
 		return nil
 	case ModelsSettingsEnabledServiceTypeAIEngine:
 		*s = ModelsSettingsEnabledServiceTypeAIEngine
+		return nil
+	case ModelsSettingsEnabledServiceTypeSimpleAI:
+		*s = ModelsSettingsEnabledServiceTypeSimpleAI
 		return nil
 	case ModelsSettingsEnabledServiceTypeAppRunDedicatedControlPlane:
 		*s = ModelsSettingsEnabledServiceTypeAppRunDedicatedControlPlane

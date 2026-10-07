@@ -60,7 +60,7 @@ func (o *ServerOp) Create(ctx context.Context, zone string, param *iaas.ServerCr
 	result.ServerPlanName = fmt.Sprintf("世代:%03d メモリ:%03d CPU:%03d", result.Generation, result.GetMemoryGB(), result.CPU)
 
 	// NIC操作のためにあらかじめ登録しておく
-	putServer(zone, result)
+	putServer(zone, cloneServer(result))
 
 	for _, cs := range param.ConnectedSwitches {
 		ifOp := NewInterfaceOp()
@@ -146,6 +146,12 @@ func (o *ServerOp) Create(ctx context.Context, zone string, param *iaas.ServerCr
 	result.Availability = types.Availabilities.Available
 	putServer(zone, result)
 	return result, nil
+}
+
+func cloneServer(source *iaas.Server) *iaas.Server {
+	dest := &iaas.Server{}
+	copySameNameField(source, dest)
+	return dest
 }
 
 // Read is fake implementation
@@ -311,7 +317,7 @@ func (o *ServerOp) Boot(ctx context.Context, zone string, id types.ID) error {
 		return newErrorConflict(o.key, id, "Boot is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -333,7 +339,7 @@ func (o *ServerOp) Shutdown(ctx context.Context, zone string, id types.ID, shutd
 		return newErrorConflict(o.key, id, "Shutdown is failed")
 	}
 
-	startPowerOff(o.key, zone, func() (interface{}, error) {
+	startPowerOff(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -350,7 +356,7 @@ func (o *ServerOp) Reset(ctx context.Context, zone string, id types.ID) error {
 		return newErrorConflict(o.key, id, "Reset is failed")
 	}
 
-	startPowerOn(o.key, zone, func() (interface{}, error) {
+	startPowerOn(o.key, zone, func() (any, error) {
 		return o.Read(context.Background(), zone, id)
 	})
 
@@ -410,7 +416,7 @@ func (o *ServerOp) Monitor(ctx context.Context, zone string, id types.ID, condit
 	}
 
 	res := &iaas.CPUTimeActivity{}
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		res.Values = append(res.Values, &iaas.MonitorCPUTimeValue{
 			Time:    now.Add(time.Duration(i*-5) * time.Minute),
 			CPUTime: float64(random(value.CPU * 1000)),

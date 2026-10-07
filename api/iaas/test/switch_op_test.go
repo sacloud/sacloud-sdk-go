@@ -110,22 +110,22 @@ var (
 	}
 )
 
-func testSwitchCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSwitchCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSwitchOp(caller)
 	return client.Create(ctx, testZone, createSwitchParam)
 }
 
-func testSwitchRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSwitchRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSwitchOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testSwitchUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSwitchUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSwitchOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateSwitchParam)
 }
 
-func testSwitchUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSwitchUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSwitchOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateSwitchToMinParam)
 }
@@ -147,7 +147,7 @@ func TestSwitchOp_BridgeConnection(t *testing.T) {
 		Parallel:           true,
 		SetupAPICallerFunc: singletonAPICaller,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i interface{}, e error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i any, e error) {
 				return swOp.Create(ctx, testZone, &iaas.SwitchCreateRequest{
 					Name: testutil.ResourceName("switch-for-bridge"),
 				})
@@ -159,7 +159,7 @@ func TestSwitchOp_BridgeConnection(t *testing.T) {
 		Updates: []*testutil.CRUDTestFunc{
 			// bridge create and connect
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i interface{}, e error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i any, e error) {
 					bridge, err := bridgeOp.Create(ctx, testZone, &iaas.BridgeCreateRequest{
 						Name: testutil.ResourceName("bridge"),
 					})
@@ -173,7 +173,7 @@ func TestSwitchOp_BridgeConnection(t *testing.T) {
 			},
 			// connect
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i interface{}, e error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i any, e error) {
 					// connect to bridge
 					if err := swOp.ConnectToBridge(ctx, testZone, ctx.ID, bridgeID); err != nil {
 						return nil, err
@@ -181,7 +181,7 @@ func TestSwitchOp_BridgeConnection(t *testing.T) {
 					return nil, nil
 				},
 				SkipExtractID: true,
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					sw, err := swOp.Read(ctx, testZone, ctx.ID)
 					if err != nil {
 						return err
@@ -203,14 +203,14 @@ func TestSwitchOp_BridgeConnection(t *testing.T) {
 			},
 			// disconnect
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i interface{}, e error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (i any, e error) {
 					if err := swOp.DisconnectFromBridge(ctx, testZone, ctx.ID); err != nil {
 						return nil, err
 					}
 					return nil, nil
 				},
 				SkipExtractID: true,
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, i any) error {
 					sw, err := swOp.Read(ctx, testZone, ctx.ID)
 					if err != nil {
 						return err
@@ -232,7 +232,7 @@ func TestSwitchOp_BridgeConnection(t *testing.T) {
 			},
 			// bridge delete
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					if err := bridgeOp.Delete(ctx, testZone, bridgeID); err != nil {
 						return nil, err
 					}

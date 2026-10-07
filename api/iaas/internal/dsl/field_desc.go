@@ -136,7 +136,7 @@ func RequestOmitEmptyTag() *FieldTags {
 	return RequestTag(",omitempty")
 }
 
-func RequestTag(t string, args ...interface{}) *FieldTags {
+func RequestTag(t string, args ...any) *FieldTags {
 	tag := t
 	if len(args) > 0 {
 		tag = fmt.Sprintf(t, args...)

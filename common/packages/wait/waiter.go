@@ -21,7 +21,7 @@ import (
 // StateWaiter リソースの状態が変わるまで待機する
 type StateWaiter interface {
 	// WaitForState リソースが指定の状態になるまで待つ
-	WaitForState(context.Context) (interface{}, error)
+	WaitForState(context.Context) (any, error)
 	// WaitForStateAsync リソースが指定の状態になるまで待つ(非同期)
-	WaitForStateAsync(context.Context) (completeCh <-chan interface{}, progressCh <-chan interface{}, errorCh <-chan error)
+	WaitForStateAsync(context.Context) (completeCh <-chan any, progressCh <-chan any, errorCh <-chan error)
 }

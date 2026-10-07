@@ -21,9 +21,9 @@ import (
 	v1 "github.com/sacloud/sacloud-sdk-go/api/apprun/apis/v1"
 )
 
-// ListApplicationTraffics returns traffics for application
+// ListApplicationTraffic returns traffics for application
 // (GET /applications/{id}/traffics)
-func (s *Server) ListApplicationTraffics(w http.ResponseWriter, r *http.Request, id string) {
+func (s *Server) ListApplicationTraffic(w http.ResponseWriter, r *http.Request, id string) {
 	ts, err := s.Engine.ListTraffics(id)
 	if err != nil {
 		writeError(w, http.StatusInternalServerError, err)
@@ -33,10 +33,10 @@ func (s *Server) ListApplicationTraffics(w http.ResponseWriter, r *http.Request,
 	writeJSON(w, http.StatusOK, ts)
 }
 
-// PutApplicationTraffic updates traffics for application
+// UpdateApplicationTraffic updates traffics for application
 // (PUT /applications/{id}/traffics)
-func (s *Server) PutApplicationTraffic(w http.ResponseWriter, r *http.Request, id string) {
-	paramJSON := &v1.PutTrafficsBody{}
+func (s *Server) UpdateApplicationTraffic(w http.ResponseWriter, r *http.Request, id string) {
+	paramJSON := &v1.UpdateTrafficBody{}
 	if err := json.NewDecoder(r.Body).Decode(paramJSON); err != nil {
 		writeError(w, http.StatusBadRequest, err)
 		return

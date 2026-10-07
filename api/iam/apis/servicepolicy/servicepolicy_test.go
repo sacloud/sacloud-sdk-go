@@ -81,7 +81,7 @@ func TestDisable_Fail(t *testing.T) {
 }
 
 func TestGetStatus(t *testing.T) {
-	var expected v1.ServicePolicyStatusGetOK
+	var expected v1.CheckServicePolicyStatusOK
 	expected.SetFake()
 	expected.SetEnabled(true)
 	assert, api := setup(t, &expected)
@@ -107,7 +107,7 @@ func TestGetStatus_Fail(t *testing.T) {
 }
 
 func TestGetRuleTemplates(t *testing.T) {
-	var expected v1.ServicePolicyRuleTemplatesGetOK
+	var expected v1.ListServicePolicyRuleTemplatesOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.RuleTemplate, 1))
 	expected.Items[0].SetFake()

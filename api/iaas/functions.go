@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-func buildURL(pathFormat string, param map[string]interface{}) (string, error) {
+func buildURL(pathFormat string, param map[string]any) (string, error) {
 	var replPairs []string
 	for k, v := range param {
 		replPairs = append(replPairs, fmt.Sprintf("{{.%s}}", k), fmt.Sprint(v))

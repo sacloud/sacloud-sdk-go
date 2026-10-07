@@ -37,7 +37,7 @@ func init() {
 var fakeDataDefines = []struct {
 	destination   string
 	template      string
-	parameterFunc func() interface{}
+	parameterFunc func() any
 }{
 	{
 		destination:   "fake/zz_init_archive.go",
@@ -67,7 +67,7 @@ func main() {
 	}
 }
 
-func collectArchives() interface{} {
+func collectArchives() any {
 	if os.Getenv("SAKURACLOUD_ACCESS_TOKEN") == "" ||
 		os.Getenv("SAKURACLOUD_ACCESS_TOKEN_SECRET") == "" {
 		log.Fatal("required: SAKURACLOUD_ACCESS_TOKEN and SAKURACLOUD_ACCESS_TOKEN_SECRET")
@@ -123,7 +123,7 @@ var initArchives = map[string][]*iaas.Archive{
 }
 `
 
-func collectCDROMs() interface{} {
+func collectCDROMs() any {
 	if os.Getenv("SAKURACLOUD_ACCESS_TOKEN") == "" ||
 		os.Getenv("SAKURACLOUD_ACCESS_TOKEN_SECRET") == "" {
 		log.Fatal("required: SAKURACLOUD_ACCESS_TOKEN and SAKURACLOUD_ACCESS_TOKEN_SECRET")

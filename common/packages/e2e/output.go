@@ -118,13 +118,13 @@ func (o *Output) Output() {
 }
 
 // Fatal 出力バッファの内容を標準エラーに出力した上でテストをFatalさせる
-func (o *Output) Fatal(t *testing.T, args ...interface{}) {
+func (o *Output) Fatal(t *testing.T, args ...any) {
 	o.Output()
 	t.Fatal(args...)
 }
 
 // Fatalf 出力バッファの内容を標準エラーに出力した上でテストをFatalさせる
-func (o *Output) Fatalf(t *testing.T, format string, args ...interface{}) {
+func (o *Output) Fatalf(t *testing.T, format string, args ...any) {
 	o.Output()
 	t.Fatalf(format, args...)
 }

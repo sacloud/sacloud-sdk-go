@@ -53,7 +53,7 @@ func TestEnhancedDBOp_CRUD(t *testing.T) {
 				}),
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					edbOp := iaas.NewEnhancedDBOp(caller)
 					return nil, edbOp.SetConfig(ctx, ctx.ID, &iaas.EnhancedDBSetConfigRequest{
 						AllowedNetworks: []string{"192.0.2.1/32"},
@@ -62,7 +62,7 @@ func TestEnhancedDBOp_CRUD(t *testing.T) {
 				SkipExtractID: true,
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					edbOp := iaas.NewEnhancedDBOp(caller)
 					config, err := edbOp.GetConfig(ctx, ctx.ID)
 					if err != nil {
@@ -81,7 +81,7 @@ func TestEnhancedDBOp_CRUD(t *testing.T) {
 				SkipExtractID: true,
 			},
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					edbOp := iaas.NewEnhancedDBOp(caller)
 					return nil, edbOp.SetPassword(ctx, ctx.ID, &iaas.EnhancedDBSetPasswordRequest{
 						Password: "password",
@@ -144,17 +144,17 @@ var (
 	}
 )
 
-func testEnhancedDBCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testEnhancedDBCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewEnhancedDBOp(caller)
 	return client.Create(ctx, createEnhancedDBParam)
 }
 
-func testEnhancedDBRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testEnhancedDBRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewEnhancedDBOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testEnhancedDBUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testEnhancedDBUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewEnhancedDBOp(caller)
 	return client.Update(ctx, ctx.ID, updateEnhancedDBParam)
 }

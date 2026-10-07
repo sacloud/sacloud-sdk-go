@@ -186,22 +186,22 @@ var (
 	}
 )
 
-func testLocalRouterCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLocalRouterCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLocalRouterOp(caller)
 	return client.Create(ctx, createLocalRouterParam)
 }
 
-func testLocalRouterRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLocalRouterRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLocalRouterOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testLocalRouterUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLocalRouterUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLocalRouterOp(caller)
 	return client.Update(ctx, ctx.ID, updateLocalRouterParam)
 }
 
-func testLocalRouterUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLocalRouterUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLocalRouterOp(caller)
 	return client.UpdateSettings(ctx, ctx.ID, updateLocalRouterSettingsParam)
 }
@@ -246,7 +246,7 @@ func TestLocalRouter_peering(t *testing.T) {
 			return nil
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				lrOp := iaas.NewLocalRouterOp(caller)
 				lr, err := lrOp.Create(ctx, &iaas.LocalRouterCreateRequest{
 					Name: testutil.ResourceName("local-router"),
@@ -266,7 +266,7 @@ func TestLocalRouter_peering(t *testing.T) {
 		Updates: []*testutil.CRUDTestFunc{
 			// connect to switches
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					lrOp := iaas.NewLocalRouterOp(caller)
 					lr1, err := lrOp.UpdateSettings(ctx, peerLocalRouter1.ID, &iaas.LocalRouterUpdateSettingsRequest{
 						Switch: &iaas.LocalRouterSwitch{
@@ -310,7 +310,7 @@ func TestLocalRouter_peering(t *testing.T) {
 			},
 			// set peer
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					lrOp := iaas.NewLocalRouterOp(caller)
 					lr1, err := lrOp.UpdateSettings(ctx, peerLocalRouter1.ID, &iaas.LocalRouterUpdateSettingsRequest{
 						Switch:    peerLocalRouter1.Switch,
@@ -349,7 +349,7 @@ func TestLocalRouter_peering(t *testing.T) {
 					peerLocalRouter2 = lr2
 					return lr2, nil
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, _ interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, _ any) error {
 					return testutil.DoAsserts(
 						testutil.AssertNotNilFunc(t, peerLocalRouter1.Peers, "LocalRouter1.Peers"),
 						testutil.AssertNotNilFunc(t, peerLocalRouter2.Peers, "LocalRouter2.Peers"),
@@ -360,7 +360,7 @@ func TestLocalRouter_peering(t *testing.T) {
 			},
 			// clear peer
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					lrOp := iaas.NewLocalRouterOp(caller)
 					lr1, err := lrOp.UpdateSettings(ctx, peerLocalRouter1.ID, &iaas.LocalRouterUpdateSettingsRequest{
 						Switch:       peerLocalRouter1.Switch,
@@ -383,7 +383,7 @@ func TestLocalRouter_peering(t *testing.T) {
 					peerLocalRouter2 = lr2
 					return lr2, nil
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, _ interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, _ any) error {
 					return testutil.DoAsserts(
 						testutil.AssertNilFunc(t, peerLocalRouter1.Peers, "LocalRouter1.Peers"),
 						testutil.AssertNilFunc(t, peerLocalRouter2.Peers, "LocalRouter2.Peers"),
@@ -392,7 +392,7 @@ func TestLocalRouter_peering(t *testing.T) {
 			},
 			// disconnect from switches
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					lrOp := iaas.NewLocalRouterOp(caller)
 					lr1, err := lrOp.UpdateSettings(ctx, peerLocalRouter1.ID, &iaas.LocalRouterUpdateSettingsRequest{
 						SettingsHash: peerLocalRouter1.SettingsHash,
@@ -411,7 +411,7 @@ func TestLocalRouter_peering(t *testing.T) {
 					peerLocalRouter2 = lr2
 					return lr2, nil
 				},
-				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, _ interface{}) error {
+				CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, _ any) error {
 					return testutil.DoAsserts(
 						testutil.AssertNilFunc(t, peerLocalRouter1.Switch, "LocalRouter1.Switch"),
 						testutil.AssertNilFunc(t, peerLocalRouter2.Switch, "LocalRouter2.Switch"),

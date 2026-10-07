@@ -18,6 +18,7 @@ import (
 	"context"
 	"net/http"
 	"os"
+	"slices"
 	"testing"
 
 	. "github.com/sacloud/sacloud-sdk-go/api/cloudhsm"
@@ -26,14 +27,15 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func newTestCloudHSMPeerClient(resp interface{}, status ...int) *v1.Client {
+func newTestCloudHSMPeerClient(resp any, status ...int) *v1.Client {
 	return newTestClient(resp, status...)
 }
 
 func TestCloudHSMPeerOp_List(t *testing.T) {
 	assert := require.New(t)
-	expected := v1.CloudHSMPeerList{
+	expected := v1.WrappedPeerList{
 		Peers: []v1.CloudHSMPeer{TemplateCloudHSMPeer},
+		IsOk:  true,
 	}
 	client := newTestCloudHSMPeerClient(expected)
 	api, err := NewPeerOp(client, &TemplateCloudHSM)
@@ -107,7 +109,7 @@ func TestCloudHSMPeerIntegrated(t *testing.T) {
 	hsm, err := NewCloudHSMOp(client).Read(ctx, os.Getenv("SAKURA_CLOUDHSM_ID"))
 	assert.NoError(err)
 	assert.NotNil(hsm)
-	assert.Equal(v1.AvailabilityEnumAvailable, hsm.GetAvailability())
+	assert.Equal(v1.CloudHSMAvailabilityAvailable, hsm.GetAvailability())
 	api, err := NewPeerOp(client, hsm)
 	assert.NoError(err)
 
@@ -142,13 +144,7 @@ func TestCloudHSMPeerIntegrated(t *testing.T) {
 	// find
 	var createdPeerID string
 	for _, i := range newPeerIDs {
-		found := false
-		for _, j := range existingPeerIDs {
-			if i == j {
-				found = true
-				break
-			}
-		}
+		found := slices.Contains(existingPeerIDs, i)
 		if !found {
 			createdPeerID = i
 			break

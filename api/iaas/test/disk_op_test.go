@@ -142,22 +142,22 @@ var (
 	}
 )
 
-func testDiskCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDiskCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDiskOp(caller)
 	return client.Create(ctx, testZone, createDiskParam, nil, types.StringID(os.Getenv("SAKURACLOUD_KMS_KEY_ID")))
 }
 
-func testDiskRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDiskRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDiskOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testDiskUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDiskUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDiskOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateDiskParam)
 }
 
-func testDiskUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testDiskUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewDiskOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateDiskToMinParam)
 }
@@ -191,7 +191,7 @@ func TestDiskOp_Config(t *testing.T) {
 			return nil
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				client := iaas.NewDiskOp(singletonAPICaller())
 				disk, err := client.Create(ctx, testZone, &iaas.DiskCreateRequest{
 					Name:            testutil.ResourceName("disk-edit"),
@@ -202,7 +202,7 @@ func TestDiskOp_Config(t *testing.T) {
 				if err != nil {
 					return nil, err
 				}
-				if _, err = iaas.WaiterForReady(func() (interface{}, error) {
+				if _, err = iaas.WaiterForReady(func() (any, error) {
 					return client.Read(ctx, testZone, disk.ID)
 				}).WaitForState(ctx); err != nil {
 					return disk, err
@@ -216,7 +216,7 @@ func TestDiskOp_Config(t *testing.T) {
 		},
 		Updates: []*testutil.CRUDTestFunc{
 			{
-				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+				Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 					// edit disk
 					client := iaas.NewDiskOp(singletonAPICaller())
 					err := client.Config(ctx, testZone, ctx.ID, &iaas.DiskEditRequest{
@@ -240,7 +240,7 @@ func TestDiskOp_Config(t *testing.T) {
 						return nil, err
 					}
 					// wait
-					_, err = iaas.WaiterForReady(func() (interface{}, error) {
+					_, err = iaas.WaiterForReady(func() (any, error) {
 						return client.Read(ctx, testZone, ctx.ID)
 					}).WaitForState(ctx)
 					return nil, err

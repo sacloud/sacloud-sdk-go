@@ -22,78 +22,86 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// CloudhsmCloudhsmsClientsCreate invokes cloudhsm_cloudhsms_clients_create operation.
-	//
-	// POST /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients
-	CloudhsmCloudhsmsClientsCreate(ctx context.Context, request *WrappedCreateCloudHSMClient, params CloudhsmCloudhsmsClientsCreateParams) (*WrappedCreateCloudHSMClient, error)
-	// CloudhsmCloudhsmsClientsDestroy invokes cloudhsm_cloudhsms_clients_destroy operation.
-	//
-	// DELETE /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
-	CloudhsmCloudhsmsClientsDestroy(ctx context.Context, params CloudhsmCloudhsmsClientsDestroyParams) error
-	// CloudhsmCloudhsmsClientsList invokes cloudhsm_cloudhsms_clients_list operation.
-	//
-	// GET /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients
-	CloudhsmCloudhsmsClientsList(ctx context.Context, params CloudhsmCloudhsmsClientsListParams) (*PaginatedCloudHSMClientList, error)
-	// CloudhsmCloudhsmsClientsRetrieve invokes cloudhsm_cloudhsms_clients_retrieve operation.
-	//
-	// GET /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
-	CloudhsmCloudhsmsClientsRetrieve(ctx context.Context, params CloudhsmCloudhsmsClientsRetrieveParams) (*WrappedCloudHSMClient, error)
-	// CloudhsmCloudhsmsClientsUpdate invokes cloudhsm_cloudhsms_clients_update operation.
-	//
-	// PUT /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
-	CloudhsmCloudhsmsClientsUpdate(ctx context.Context, request *WrappedCloudHSMClient, params CloudhsmCloudhsmsClientsUpdateParams) (*WrappedCloudHSMClient, error)
-	// CloudhsmCloudhsmsCreate invokes cloudhsm_cloudhsms_create operation.
+	// CreateCloudHSM invokes createCloudHSM operation.
 	//
 	// POST /cloudhsm/cloudhsms
-	CloudhsmCloudhsmsCreate(ctx context.Context, request *WrappedCreateCloudHSM) (*WrappedCreateCloudHSM, error)
-	// CloudhsmCloudhsmsDestroy invokes cloudhsm_cloudhsms_destroy operation.
+	CreateCloudHSM(ctx context.Context, request *WrappedCreateCloudHSMRequest) (*WrappedCreateCloudHSM, error)
+	// CreateCloudHSMClient invokes createCloudHSMClient operation.
 	//
-	// DELETE /cloudhsm/cloudhsms/{resource_id}
-	CloudhsmCloudhsmsDestroy(ctx context.Context, params CloudhsmCloudhsmsDestroyParams) error
-	// CloudhsmCloudhsmsList invokes cloudhsm_cloudhsms_list operation.
-	//
-	// GET /cloudhsm/cloudhsms
-	CloudhsmCloudhsmsList(ctx context.Context) (*PaginatedCloudHSMList, error)
-	// CloudhsmCloudhsmsPeersCreate invokes cloudhsm_cloudhsms_peers_create operation.
-	//
-	// POST /cloudhsm/cloudhsms/{resource_id}/peers
-	CloudhsmCloudhsmsPeersCreate(ctx context.Context, request *WrappedCreateCloudHSMPeer, params CloudhsmCloudhsmsPeersCreateParams) error
-	// CloudhsmCloudhsmsPeersDestroy invokes cloudhsm_cloudhsms_peers_destroy operation.
-	//
-	// DELETE /cloudhsm/cloudhsms/{resource_id}/peers/{peer_id}
-	CloudhsmCloudhsmsPeersDestroy(ctx context.Context, params CloudhsmCloudhsmsPeersDestroyParams) error
-	// CloudhsmCloudhsmsPeersRetrieve invokes cloudhsm_cloudhsms_peers_retrieve operation.
-	//
-	// GET /cloudhsm/cloudhsms/{resource_id}/peers
-	CloudhsmCloudhsmsPeersRetrieve(ctx context.Context, params CloudhsmCloudhsmsPeersRetrieveParams) (*CloudHSMPeerList, error)
-	// CloudhsmCloudhsmsRetrieve invokes cloudhsm_cloudhsms_retrieve operation.
-	//
-	// GET /cloudhsm/cloudhsms/{resource_id}
-	CloudhsmCloudhsmsRetrieve(ctx context.Context, params CloudhsmCloudhsmsRetrieveParams) (*WrappedCloudHSM, error)
-	// CloudhsmCloudhsmsUpdate invokes cloudhsm_cloudhsms_update operation.
-	//
-	// PUT /cloudhsm/cloudhsms/{resource_id}
-	CloudhsmCloudhsmsUpdate(ctx context.Context, request *WrappedCloudHSM, params CloudhsmCloudhsmsUpdateParams) (*WrappedCloudHSM, error)
-	// CloudhsmLicensesCreate invokes cloudhsm_licenses_create operation.
+	// POST /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients
+	CreateCloudHSMClient(ctx context.Context, request *WrappedCreateCloudHSMClientRequest, params CreateCloudHSMClientParams) (*WrappedCreateCloudHSMClient, error)
+	// CreateCloudHSMLicense invokes createCloudHSMLicense operation.
 	//
 	// POST /cloudhsm/licenses
-	CloudhsmLicensesCreate(ctx context.Context, request *WrappedCreateCloudHSMSoftwareLicense) (*WrappedCreateCloudHSMSoftwareLicense, error)
-	// CloudhsmLicensesDestroy invokes cloudhsm_licenses_destroy operation.
+	CreateCloudHSMLicense(ctx context.Context, request *WrappedCreateCloudHSMSoftwareLicenseRequest) (*WrappedCreateCloudHSMSoftwareLicense, error)
+	// CreateCloudHSMPeer invokes createCloudHSMPeer operation.
+	//
+	// POST /cloudhsm/cloudhsms/{resource_id}/peers
+	CreateCloudHSMPeer(ctx context.Context, request *WrappedPeerRequest, params CreateCloudHSMPeerParams) error
+	// DeleteCloudHSM invokes deleteCloudHSM operation.
+	//
+	// DELETE /cloudhsm/cloudhsms/{resource_id}
+	DeleteCloudHSM(ctx context.Context, params DeleteCloudHSMParams) error
+	// DeleteCloudHSMClient invokes deleteCloudHSMClient operation.
+	//
+	// DELETE /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
+	DeleteCloudHSMClient(ctx context.Context, params DeleteCloudHSMClientParams) error
+	// DeleteCloudHSMLicense invokes deleteCloudHSMLicense operation.
 	//
 	// DELETE /cloudhsm/licenses/{resource_id}
-	CloudhsmLicensesDestroy(ctx context.Context, params CloudhsmLicensesDestroyParams) error
-	// CloudhsmLicensesList invokes cloudhsm_licenses_list operation.
+	DeleteCloudHSMLicense(ctx context.Context, params DeleteCloudHSMLicenseParams) error
+	// DeleteCloudHSMPeer invokes deleteCloudHSMPeer operation.
+	//
+	// DELETE /cloudhsm/cloudhsms/{resource_id}/peers/{peer_id}
+	DeleteCloudHSMPeer(ctx context.Context, params DeleteCloudHSMPeerParams) error
+	// DownloadCloudHSMDocument invokes downloadCloudHSMDocument operation.
+	//
+	// POST /cloudhsm/licenses/{license_resource_id}/documents/{id}/download
+	DownloadCloudHSMDocument(ctx context.Context, params DownloadCloudHSMDocumentParams) (*WrappedCloudHSMDocumentDownload, error)
+	// ListCloudHSMClients invokes listCloudHSMClients operation.
+	//
+	// GET /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients
+	ListCloudHSMClients(ctx context.Context, params ListCloudHSMClientsParams) (*PaginatedCloudHSMClientList, error)
+	// ListCloudHSMDocuments invokes listCloudHSMDocuments operation.
+	//
+	// GET /cloudhsm/licenses/{license_resource_id}/documents
+	ListCloudHSMDocuments(ctx context.Context, params ListCloudHSMDocumentsParams) (*PaginatedCloudHSMDocumentList, error)
+	// ListCloudHSMLicenses invokes listCloudHSMLicenses operation.
 	//
 	// GET /cloudhsm/licenses
-	CloudhsmLicensesList(ctx context.Context) (*PaginatedCloudHSMSoftwareLicenseList, error)
-	// CloudhsmLicensesRetrieve invokes cloudhsm_licenses_retrieve operation.
+	ListCloudHSMLicenses(ctx context.Context, params ListCloudHSMLicensesParams) (*PaginatedCloudHSMSoftwareLicenseList, error)
+	// ListCloudHSMPeers invokes listCloudHSMPeers operation.
+	//
+	// GET /cloudhsm/cloudhsms/{resource_id}/peers
+	ListCloudHSMPeers(ctx context.Context, params ListCloudHSMPeersParams) (*WrappedPeerList, error)
+	// ListCloudHSMs invokes listCloudHSMs operation.
+	//
+	// GET /cloudhsm/cloudhsms
+	ListCloudHSMs(ctx context.Context, params ListCloudHSMsParams) (*PaginatedCloudHSMList, error)
+	// ReadCloudHSM invokes readCloudHSM operation.
+	//
+	// GET /cloudhsm/cloudhsms/{resource_id}
+	ReadCloudHSM(ctx context.Context, params ReadCloudHSMParams) (*WrappedCloudHSM, error)
+	// ReadCloudHSMClient invokes readCloudHSMClient operation.
+	//
+	// GET /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
+	ReadCloudHSMClient(ctx context.Context, params ReadCloudHSMClientParams) (*WrappedCloudHSMClient, error)
+	// ReadCloudHSMLicense invokes readCloudHSMLicense operation.
 	//
 	// GET /cloudhsm/licenses/{resource_id}
-	CloudhsmLicensesRetrieve(ctx context.Context, params CloudhsmLicensesRetrieveParams) (*WrappedCloudHSMSoftwareLicense, error)
-	// CloudhsmLicensesUpdate invokes cloudhsm_licenses_update operation.
+	ReadCloudHSMLicense(ctx context.Context, params ReadCloudHSMLicenseParams) (*WrappedCloudHSMSoftwareLicense, error)
+	// UpdateCloudHSM invokes updateCloudHSM operation.
+	//
+	// PUT /cloudhsm/cloudhsms/{resource_id}
+	UpdateCloudHSM(ctx context.Context, request *WrappedCloudHSMRequest, params UpdateCloudHSMParams) (*WrappedCloudHSM, error)
+	// UpdateCloudHSMClient invokes updateCloudHSMClient operation.
+	//
+	// PUT /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
+	UpdateCloudHSMClient(ctx context.Context, request *WrappedCloudHSMClientRequest, params UpdateCloudHSMClientParams) (*WrappedCloudHSMClient, error)
+	// UpdateCloudHSMLicense invokes updateCloudHSMLicense operation.
 	//
 	// PUT /cloudhsm/licenses/{resource_id}
-	CloudhsmLicensesUpdate(ctx context.Context, request *WrappedCloudHSMSoftwareLicense, params CloudhsmLicensesUpdateParams) (*WrappedCloudHSMSoftwareLicense, error)
+	UpdateCloudHSMLicense(ctx context.Context, request *WrappedCloudHSMSoftwareLicenseRequest, params UpdateCloudHSMLicenseParams) (*WrappedCloudHSMSoftwareLicense, error)
 }
 
 // Client implements OAS client.
@@ -137,558 +145,15 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// CloudhsmCloudhsmsClientsCreate invokes cloudhsm_cloudhsms_clients_create operation.
-//
-// POST /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients
-func (c *Client) CloudhsmCloudhsmsClientsCreate(ctx context.Context, request *WrappedCreateCloudHSMClient, params CloudhsmCloudhsmsClientsCreateParams) (*WrappedCreateCloudHSMClient, error) {
-	res, err := c.sendCloudhsmCloudhsmsClientsCreate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendCloudhsmCloudhsmsClientsCreate(ctx context.Context, request *WrappedCreateCloudHSMClient, params CloudhsmCloudhsmsClientsCreateParams) (res *WrappedCreateCloudHSMClient, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/cloudhsm/cloudhsms/"
-	{
-		// Encode "cloudhsm_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "cloudhsm_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/clients"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCloudhsmCloudhsmsClientsCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsClientsCreateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCloudhsmCloudhsmsClientsCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CloudhsmCloudhsmsClientsDestroy invokes cloudhsm_cloudhsms_clients_destroy operation.
-//
-// DELETE /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
-func (c *Client) CloudhsmCloudhsmsClientsDestroy(ctx context.Context, params CloudhsmCloudhsmsClientsDestroyParams) error {
-	_, err := c.sendCloudhsmCloudhsmsClientsDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendCloudhsmCloudhsmsClientsDestroy(ctx context.Context, params CloudhsmCloudhsmsClientsDestroyParams) (res *CloudhsmCloudhsmsClientsDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/cloudhsm/cloudhsms/"
-	{
-		// Encode "cloudhsm_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "cloudhsm_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/clients/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsClientsDestroyOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCloudhsmCloudhsmsClientsDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CloudhsmCloudhsmsClientsList invokes cloudhsm_cloudhsms_clients_list operation.
-//
-// GET /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients
-func (c *Client) CloudhsmCloudhsmsClientsList(ctx context.Context, params CloudhsmCloudhsmsClientsListParams) (*PaginatedCloudHSMClientList, error) {
-	res, err := c.sendCloudhsmCloudhsmsClientsList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendCloudhsmCloudhsmsClientsList(ctx context.Context, params CloudhsmCloudhsmsClientsListParams) (res *PaginatedCloudHSMClientList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/cloudhsm/cloudhsms/"
-	{
-		// Encode "cloudhsm_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "cloudhsm_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/clients"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsClientsListOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCloudhsmCloudhsmsClientsListResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CloudhsmCloudhsmsClientsRetrieve invokes cloudhsm_cloudhsms_clients_retrieve operation.
-//
-// GET /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
-func (c *Client) CloudhsmCloudhsmsClientsRetrieve(ctx context.Context, params CloudhsmCloudhsmsClientsRetrieveParams) (*WrappedCloudHSMClient, error) {
-	res, err := c.sendCloudhsmCloudhsmsClientsRetrieve(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendCloudhsmCloudhsmsClientsRetrieve(ctx context.Context, params CloudhsmCloudhsmsClientsRetrieveParams) (res *WrappedCloudHSMClient, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/cloudhsm/cloudhsms/"
-	{
-		// Encode "cloudhsm_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "cloudhsm_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/clients/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsClientsRetrieveOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCloudhsmCloudhsmsClientsRetrieveResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CloudhsmCloudhsmsClientsUpdate invokes cloudhsm_cloudhsms_clients_update operation.
-//
-// PUT /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
-func (c *Client) CloudhsmCloudhsmsClientsUpdate(ctx context.Context, request *WrappedCloudHSMClient, params CloudhsmCloudhsmsClientsUpdateParams) (*WrappedCloudHSMClient, error) {
-	res, err := c.sendCloudhsmCloudhsmsClientsUpdate(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendCloudhsmCloudhsmsClientsUpdate(ctx context.Context, request *WrappedCloudHSMClient, params CloudhsmCloudhsmsClientsUpdateParams) (res *WrappedCloudHSMClient, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/cloudhsm/cloudhsms/"
-	{
-		// Encode "cloudhsm_resource_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "cloudhsm_resource_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/clients/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCloudhsmCloudhsmsClientsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsClientsUpdateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCloudhsmCloudhsmsClientsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CloudhsmCloudhsmsCreate invokes cloudhsm_cloudhsms_create operation.
+// CreateCloudHSM invokes createCloudHSM operation.
 //
 // POST /cloudhsm/cloudhsms
-func (c *Client) CloudhsmCloudhsmsCreate(ctx context.Context, request *WrappedCreateCloudHSM) (*WrappedCreateCloudHSM, error) {
-	res, err := c.sendCloudhsmCloudhsmsCreate(ctx, request)
+func (c *Client) CreateCloudHSM(ctx context.Context, request *WrappedCreateCloudHSMRequest) (*WrappedCreateCloudHSM, error) {
+	res, err := c.sendCreateCloudHSM(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendCloudhsmCloudhsmsCreate(ctx context.Context, request *WrappedCreateCloudHSM) (res *WrappedCreateCloudHSM, err error) {
+func (c *Client) sendCreateCloudHSM(ctx context.Context, request *WrappedCreateCloudHSMRequest) (res *WrappedCreateCloudHSM, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -708,7 +173,7 @@ func (c *Client) sendCloudhsmCloudhsmsCreate(ctx context.Context, request *Wrapp
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeCloudhsmCloudhsmsCreateRequest(request, r); err != nil {
+	if err := encodeCreateCloudHSMRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -717,7 +182,7 @@ func (c *Client) sendCloudhsmCloudhsmsCreate(ctx context.Context, request *Wrapp
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsCreateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, CreateCloudHSMOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -758,7 +223,7 @@ func (c *Client) sendCloudhsmCloudhsmsCreate(ctx context.Context, request *Wrapp
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmCloudhsmsCreateResponse(resp)
+	result, err := decodeCreateCloudHSMResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -766,15 +231,311 @@ func (c *Client) sendCloudhsmCloudhsmsCreate(ctx context.Context, request *Wrapp
 	return result, nil
 }
 
-// CloudhsmCloudhsmsDestroy invokes cloudhsm_cloudhsms_destroy operation.
+// CreateCloudHSMClient invokes createCloudHSMClient operation.
 //
-// DELETE /cloudhsm/cloudhsms/{resource_id}
-func (c *Client) CloudhsmCloudhsmsDestroy(ctx context.Context, params CloudhsmCloudhsmsDestroyParams) error {
-	_, err := c.sendCloudhsmCloudhsmsDestroy(ctx, params)
+// POST /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients
+func (c *Client) CreateCloudHSMClient(ctx context.Context, request *WrappedCreateCloudHSMClientRequest, params CreateCloudHSMClientParams) (*WrappedCreateCloudHSMClient, error) {
+	res, err := c.sendCreateCloudHSMClient(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateCloudHSMClient(ctx context.Context, request *WrappedCreateCloudHSMClientRequest, params CreateCloudHSMClientParams) (res *WrappedCreateCloudHSMClient, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/cloudhsm/cloudhsms/"
+	{
+		// Encode "cloudhsm_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "cloudhsm_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/clients"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateCloudHSMClientRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, CreateCloudHSMClientOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateCloudHSMClientResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateCloudHSMLicense invokes createCloudHSMLicense operation.
+//
+// POST /cloudhsm/licenses
+func (c *Client) CreateCloudHSMLicense(ctx context.Context, request *WrappedCreateCloudHSMSoftwareLicenseRequest) (*WrappedCreateCloudHSMSoftwareLicense, error) {
+	res, err := c.sendCreateCloudHSMLicense(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateCloudHSMLicense(ctx context.Context, request *WrappedCreateCloudHSMSoftwareLicenseRequest) (res *WrappedCreateCloudHSMSoftwareLicense, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/cloudhsm/licenses"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateCloudHSMLicenseRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, CreateCloudHSMLicenseOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateCloudHSMLicenseResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateCloudHSMPeer invokes createCloudHSMPeer operation.
+//
+// POST /cloudhsm/cloudhsms/{resource_id}/peers
+func (c *Client) CreateCloudHSMPeer(ctx context.Context, request *WrappedPeerRequest, params CreateCloudHSMPeerParams) error {
+	_, err := c.sendCreateCloudHSMPeer(ctx, request, params)
 	return err
 }
 
-func (c *Client) sendCloudhsmCloudhsmsDestroy(ctx context.Context, params CloudhsmCloudhsmsDestroyParams) (res *CloudhsmCloudhsmsDestroyNoContent, err error) {
+func (c *Client) sendCreateCloudHSMPeer(ctx context.Context, request *WrappedPeerRequest, params CreateCloudHSMPeerParams) (res *CreateCloudHSMPeerNoContent, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/cloudhsm/cloudhsms/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/peers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateCloudHSMPeerRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, CreateCloudHSMPeerOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateCloudHSMPeerResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteCloudHSM invokes deleteCloudHSM operation.
+//
+// DELETE /cloudhsm/cloudhsms/{resource_id}
+func (c *Client) DeleteCloudHSM(ctx context.Context, params DeleteCloudHSMParams) error {
+	_, err := c.sendDeleteCloudHSM(ctx, params)
+	return err
+}
+
+func (c *Client) sendDeleteCloudHSM(ctx context.Context, params DeleteCloudHSMParams) (res *DeleteCloudHSMNoContent, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -809,7 +570,7 @@ func (c *Client) sendCloudhsmCloudhsmsDestroy(ctx context.Context, params Cloudh
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsDestroyOperation, r); {
+			switch err := c.securityBasicAuth(ctx, DeleteCloudHSMOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -850,7 +611,7 @@ func (c *Client) sendCloudhsmCloudhsmsDestroy(ctx context.Context, params Cloudh
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmCloudhsmsDestroyResponse(resp)
+	result, err := decodeDeleteCloudHSMResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -858,22 +619,59 @@ func (c *Client) sendCloudhsmCloudhsmsDestroy(ctx context.Context, params Cloudh
 	return result, nil
 }
 
-// CloudhsmCloudhsmsList invokes cloudhsm_cloudhsms_list operation.
+// DeleteCloudHSMClient invokes deleteCloudHSMClient operation.
 //
-// GET /cloudhsm/cloudhsms
-func (c *Client) CloudhsmCloudhsmsList(ctx context.Context) (*PaginatedCloudHSMList, error) {
-	res, err := c.sendCloudhsmCloudhsmsList(ctx)
-	return res, err
+// DELETE /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
+func (c *Client) DeleteCloudHSMClient(ctx context.Context, params DeleteCloudHSMClientParams) error {
+	_, err := c.sendDeleteCloudHSMClient(ctx, params)
+	return err
 }
 
-func (c *Client) sendCloudhsmCloudhsmsList(ctx context.Context) (res *PaginatedCloudHSMList, err error) {
+func (c *Client) sendDeleteCloudHSMClient(ctx context.Context, params DeleteCloudHSMClientParams) (res *DeleteCloudHSMClientNoContent, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/cloudhsm/cloudhsms"
+	var pathParts [4]string
+	pathParts[0] = "/cloudhsm/cloudhsms/"
+	{
+		// Encode "cloudhsm_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "cloudhsm_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/clients/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "DELETE", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
@@ -883,7 +681,7 @@ func (c *Client) sendCloudhsmCloudhsmsList(ctx context.Context) (res *PaginatedC
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsListOperation, r); {
+			switch err := c.securityBasicAuth(ctx, DeleteCloudHSMClientOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -924,7 +722,7 @@ func (c *Client) sendCloudhsmCloudhsmsList(ctx context.Context) (res *PaginatedC
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmCloudhsmsListResponse(resp)
+	result, err := decodeDeleteCloudHSMClientResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -932,19 +730,19 @@ func (c *Client) sendCloudhsmCloudhsmsList(ctx context.Context) (res *PaginatedC
 	return result, nil
 }
 
-// CloudhsmCloudhsmsPeersCreate invokes cloudhsm_cloudhsms_peers_create operation.
+// DeleteCloudHSMLicense invokes deleteCloudHSMLicense operation.
 //
-// POST /cloudhsm/cloudhsms/{resource_id}/peers
-func (c *Client) CloudhsmCloudhsmsPeersCreate(ctx context.Context, request *WrappedCreateCloudHSMPeer, params CloudhsmCloudhsmsPeersCreateParams) error {
-	_, err := c.sendCloudhsmCloudhsmsPeersCreate(ctx, request, params)
+// DELETE /cloudhsm/licenses/{resource_id}
+func (c *Client) DeleteCloudHSMLicense(ctx context.Context, params DeleteCloudHSMLicenseParams) error {
+	_, err := c.sendDeleteCloudHSMLicense(ctx, params)
 	return err
 }
 
-func (c *Client) sendCloudhsmCloudhsmsPeersCreate(ctx context.Context, request *WrappedCreateCloudHSMPeer, params CloudhsmCloudhsmsPeersCreateParams) (res *CloudhsmCloudhsmsPeersCreateNoContent, err error) {
+func (c *Client) sendDeleteCloudHSMLicense(ctx context.Context, params DeleteCloudHSMLicenseParams) (res *DeleteCloudHSMLicenseNoContent, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/cloudhsm/cloudhsms/"
+	var pathParts [2]string
+	pathParts[0] = "/cloudhsm/licenses/"
 	{
 		// Encode "resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -963,15 +761,11 @@ func (c *Client) sendCloudhsmCloudhsmsPeersCreate(ctx context.Context, request *
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/peers"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "POST", u)
+	r, err := ht.NewRequest(ctx, "DELETE", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCloudhsmCloudhsmsPeersCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
 	}
 
 	{
@@ -979,7 +773,7 @@ func (c *Client) sendCloudhsmCloudhsmsPeersCreate(ctx context.Context, request *
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsPeersCreateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, DeleteCloudHSMLicenseOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1020,7 +814,7 @@ func (c *Client) sendCloudhsmCloudhsmsPeersCreate(ctx context.Context, request *
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmCloudhsmsPeersCreateResponse(resp)
+	result, err := decodeDeleteCloudHSMLicenseResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1028,15 +822,15 @@ func (c *Client) sendCloudhsmCloudhsmsPeersCreate(ctx context.Context, request *
 	return result, nil
 }
 
-// CloudhsmCloudhsmsPeersDestroy invokes cloudhsm_cloudhsms_peers_destroy operation.
+// DeleteCloudHSMPeer invokes deleteCloudHSMPeer operation.
 //
 // DELETE /cloudhsm/cloudhsms/{resource_id}/peers/{peer_id}
-func (c *Client) CloudhsmCloudhsmsPeersDestroy(ctx context.Context, params CloudhsmCloudhsmsPeersDestroyParams) error {
-	_, err := c.sendCloudhsmCloudhsmsPeersDestroy(ctx, params)
+func (c *Client) DeleteCloudHSMPeer(ctx context.Context, params DeleteCloudHSMPeerParams) error {
+	_, err := c.sendDeleteCloudHSMPeer(ctx, params)
 	return err
 }
 
-func (c *Client) sendCloudhsmCloudhsmsPeersDestroy(ctx context.Context, params CloudhsmCloudhsmsPeersDestroyParams) (res *CloudhsmCloudhsmsPeersDestroyNoContent, err error) {
+func (c *Client) sendDeleteCloudHSMPeer(ctx context.Context, params DeleteCloudHSMPeerParams) (res *DeleteCloudHSMPeerNoContent, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [4]string
@@ -1090,7 +884,7 @@ func (c *Client) sendCloudhsmCloudhsmsPeersDestroy(ctx context.Context, params C
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsPeersDestroyOperation, r); {
+			switch err := c.securityBasicAuth(ctx, DeleteCloudHSMPeerOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1131,7 +925,7 @@ func (c *Client) sendCloudhsmCloudhsmsPeersDestroy(ctx context.Context, params C
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmCloudhsmsPeersDestroyResponse(resp)
+	result, err := decodeDeleteCloudHSMPeerResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1139,15 +933,498 @@ func (c *Client) sendCloudhsmCloudhsmsPeersDestroy(ctx context.Context, params C
 	return result, nil
 }
 
-// CloudhsmCloudhsmsPeersRetrieve invokes cloudhsm_cloudhsms_peers_retrieve operation.
+// DownloadCloudHSMDocument invokes downloadCloudHSMDocument operation.
 //
-// GET /cloudhsm/cloudhsms/{resource_id}/peers
-func (c *Client) CloudhsmCloudhsmsPeersRetrieve(ctx context.Context, params CloudhsmCloudhsmsPeersRetrieveParams) (*CloudHSMPeerList, error) {
-	res, err := c.sendCloudhsmCloudhsmsPeersRetrieve(ctx, params)
+// POST /cloudhsm/licenses/{license_resource_id}/documents/{id}/download
+func (c *Client) DownloadCloudHSMDocument(ctx context.Context, params DownloadCloudHSMDocumentParams) (*WrappedCloudHSMDocumentDownload, error) {
+	res, err := c.sendDownloadCloudHSMDocument(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendCloudhsmCloudhsmsPeersRetrieve(ctx context.Context, params CloudhsmCloudhsmsPeersRetrieveParams) (res *CloudHSMPeerList, err error) {
+func (c *Client) sendDownloadCloudHSMDocument(ctx context.Context, params DownloadCloudHSMDocumentParams) (res *WrappedCloudHSMDocumentDownload, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/cloudhsm/licenses/"
+	{
+		// Encode "license_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "license_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.LicenseResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/documents/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/download"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, DownloadCloudHSMDocumentOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDownloadCloudHSMDocumentResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListCloudHSMClients invokes listCloudHSMClients operation.
+//
+// GET /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients
+func (c *Client) ListCloudHSMClients(ctx context.Context, params ListCloudHSMClientsParams) (*PaginatedCloudHSMClientList, error) {
+	res, err := c.sendListCloudHSMClients(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListCloudHSMClients(ctx context.Context, params ListCloudHSMClientsParams) (res *PaginatedCloudHSMClientList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/cloudhsm/cloudhsms/"
+	{
+		// Encode "cloudhsm_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "cloudhsm_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/clients"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "From" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "From",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListCloudHSMClientsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListCloudHSMClientsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListCloudHSMDocuments invokes listCloudHSMDocuments operation.
+//
+// GET /cloudhsm/licenses/{license_resource_id}/documents
+func (c *Client) ListCloudHSMDocuments(ctx context.Context, params ListCloudHSMDocumentsParams) (*PaginatedCloudHSMDocumentList, error) {
+	res, err := c.sendListCloudHSMDocuments(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListCloudHSMDocuments(ctx context.Context, params ListCloudHSMDocumentsParams) (res *PaginatedCloudHSMDocumentList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/cloudhsm/licenses/"
+	{
+		// Encode "license_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "license_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.LicenseResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/documents"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "From" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "From",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListCloudHSMDocumentsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListCloudHSMDocumentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListCloudHSMLicenses invokes listCloudHSMLicenses operation.
+//
+// GET /cloudhsm/licenses
+func (c *Client) ListCloudHSMLicenses(ctx context.Context, params ListCloudHSMLicensesParams) (*PaginatedCloudHSMSoftwareLicenseList, error) {
+	res, err := c.sendListCloudHSMLicenses(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListCloudHSMLicenses(ctx context.Context, params ListCloudHSMLicensesParams) (res *PaginatedCloudHSMSoftwareLicenseList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/cloudhsm/licenses"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "From" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "From",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListCloudHSMLicensesOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListCloudHSMLicensesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListCloudHSMPeers invokes listCloudHSMPeers operation.
+//
+// GET /cloudhsm/cloudhsms/{resource_id}/peers
+func (c *Client) ListCloudHSMPeers(ctx context.Context, params ListCloudHSMPeersParams) (*WrappedPeerList, error) {
+	res, err := c.sendListCloudHSMPeers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListCloudHSMPeers(ctx context.Context, params ListCloudHSMPeersParams) (res *WrappedPeerList, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -1183,7 +1460,7 @@ func (c *Client) sendCloudhsmCloudhsmsPeersRetrieve(ctx context.Context, params 
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsPeersRetrieveOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListCloudHSMPeersOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1224,7 +1501,7 @@ func (c *Client) sendCloudhsmCloudhsmsPeersRetrieve(ctx context.Context, params 
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmCloudhsmsPeersRetrieveResponse(resp)
+	result, err := decodeListCloudHSMPeersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1232,15 +1509,126 @@ func (c *Client) sendCloudhsmCloudhsmsPeersRetrieve(ctx context.Context, params 
 	return result, nil
 }
 
-// CloudhsmCloudhsmsRetrieve invokes cloudhsm_cloudhsms_retrieve operation.
+// ListCloudHSMs invokes listCloudHSMs operation.
+//
+// GET /cloudhsm/cloudhsms
+func (c *Client) ListCloudHSMs(ctx context.Context, params ListCloudHSMsParams) (*PaginatedCloudHSMList, error) {
+	res, err := c.sendListCloudHSMs(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListCloudHSMs(ctx context.Context, params ListCloudHSMsParams) (res *PaginatedCloudHSMList, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/cloudhsm/cloudhsms"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Count" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Count",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Count.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "From" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "From",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.From.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListCloudHSMsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListCloudHSMsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadCloudHSM invokes readCloudHSM operation.
 //
 // GET /cloudhsm/cloudhsms/{resource_id}
-func (c *Client) CloudhsmCloudhsmsRetrieve(ctx context.Context, params CloudhsmCloudhsmsRetrieveParams) (*WrappedCloudHSM, error) {
-	res, err := c.sendCloudhsmCloudhsmsRetrieve(ctx, params)
+func (c *Client) ReadCloudHSM(ctx context.Context, params ReadCloudHSMParams) (*WrappedCloudHSM, error) {
+	res, err := c.sendReadCloudHSM(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendCloudhsmCloudhsmsRetrieve(ctx context.Context, params CloudhsmCloudhsmsRetrieveParams) (res *WrappedCloudHSM, err error) {
+func (c *Client) sendReadCloudHSM(ctx context.Context, params ReadCloudHSMParams) (res *WrappedCloudHSM, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -1275,7 +1663,7 @@ func (c *Client) sendCloudhsmCloudhsmsRetrieve(ctx context.Context, params Cloud
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsRetrieveOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ReadCloudHSMOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1316,7 +1704,7 @@ func (c *Client) sendCloudhsmCloudhsmsRetrieve(ctx context.Context, params Cloud
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmCloudhsmsRetrieveResponse(resp)
+	result, err := decodeReadCloudHSMResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1324,37 +1712,28 @@ func (c *Client) sendCloudhsmCloudhsmsRetrieve(ctx context.Context, params Cloud
 	return result, nil
 }
 
-// CloudhsmCloudhsmsUpdate invokes cloudhsm_cloudhsms_update operation.
+// ReadCloudHSMClient invokes readCloudHSMClient operation.
 //
-// PUT /cloudhsm/cloudhsms/{resource_id}
-func (c *Client) CloudhsmCloudhsmsUpdate(ctx context.Context, request *WrappedCloudHSM, params CloudhsmCloudhsmsUpdateParams) (*WrappedCloudHSM, error) {
-	res, err := c.sendCloudhsmCloudhsmsUpdate(ctx, request, params)
+// GET /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
+func (c *Client) ReadCloudHSMClient(ctx context.Context, params ReadCloudHSMClientParams) (*WrappedCloudHSMClient, error) {
+	res, err := c.sendReadCloudHSMClient(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendCloudhsmCloudhsmsUpdate(ctx context.Context, request *WrappedCloudHSM, params CloudhsmCloudhsmsUpdateParams) (res *WrappedCloudHSM, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
+func (c *Client) sendReadCloudHSMClient(ctx context.Context, params ReadCloudHSMClientParams) (res *WrappedCloudHSMClient, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
+	var pathParts [4]string
 	pathParts[0] = "/cloudhsm/cloudhsms/"
 	{
-		// Encode "resource_id" parameter.
+		// Encode "cloudhsm_resource_id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "cloudhsm_resource_id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
+			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1364,178 +1743,16 @@ func (c *Client) sendCloudhsmCloudhsmsUpdate(ctx context.Context, request *Wrapp
 		}
 		pathParts[1] = encoded
 	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCloudhsmCloudhsmsUpdateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
+	pathParts[2] = "/clients/"
 	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, CloudhsmCloudhsmsUpdateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCloudhsmCloudhsmsUpdateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CloudhsmLicensesCreate invokes cloudhsm_licenses_create operation.
-//
-// POST /cloudhsm/licenses
-func (c *Client) CloudhsmLicensesCreate(ctx context.Context, request *WrappedCreateCloudHSMSoftwareLicense) (*WrappedCreateCloudHSMSoftwareLicense, error) {
-	res, err := c.sendCloudhsmLicensesCreate(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCloudhsmLicensesCreate(ctx context.Context, request *WrappedCreateCloudHSMSoftwareLicense) (res *WrappedCreateCloudHSMSoftwareLicense, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/cloudhsm/licenses"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCloudhsmLicensesCreateRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, CloudhsmLicensesCreateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCloudhsmLicensesCreateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CloudhsmLicensesDestroy invokes cloudhsm_licenses_destroy operation.
-//
-// DELETE /cloudhsm/licenses/{resource_id}
-func (c *Client) CloudhsmLicensesDestroy(ctx context.Context, params CloudhsmLicensesDestroyParams) error {
-	_, err := c.sendCloudhsmLicensesDestroy(ctx, params)
-	return err
-}
-
-func (c *Client) sendCloudhsmLicensesDestroy(ctx context.Context, params CloudhsmLicensesDestroyParams) (res *CloudhsmLicensesDestroyNoContent, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/cloudhsm/licenses/"
-	{
-		// Encode "resource_id" parameter.
+		// Encode "id" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "resource_id",
+			Param:   "id",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ResourceID))
+			return e.EncodeValue(conv.StringToString(params.ID))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1543,82 +1760,8 @@ func (c *Client) sendCloudhsmLicensesDestroy(ctx context.Context, params Cloudhs
 		if err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
-		pathParts[1] = encoded
+		pathParts[3] = encoded
 	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, CloudhsmLicensesDestroyOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCloudhsmLicensesDestroyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CloudhsmLicensesList invokes cloudhsm_licenses_list operation.
-//
-// GET /cloudhsm/licenses
-func (c *Client) CloudhsmLicensesList(ctx context.Context) (*PaginatedCloudHSMSoftwareLicenseList, error) {
-	res, err := c.sendCloudhsmLicensesList(ctx)
-	return res, err
-}
-
-func (c *Client) sendCloudhsmLicensesList(ctx context.Context) (res *PaginatedCloudHSMSoftwareLicenseList, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/cloudhsm/licenses"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -1631,7 +1774,7 @@ func (c *Client) sendCloudhsmLicensesList(ctx context.Context) (res *PaginatedCl
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmLicensesListOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ReadCloudHSMClientOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1672,7 +1815,7 @@ func (c *Client) sendCloudhsmLicensesList(ctx context.Context) (res *PaginatedCl
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmLicensesListResponse(resp)
+	result, err := decodeReadCloudHSMClientResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1680,15 +1823,15 @@ func (c *Client) sendCloudhsmLicensesList(ctx context.Context) (res *PaginatedCl
 	return result, nil
 }
 
-// CloudhsmLicensesRetrieve invokes cloudhsm_licenses_retrieve operation.
+// ReadCloudHSMLicense invokes readCloudHSMLicense operation.
 //
 // GET /cloudhsm/licenses/{resource_id}
-func (c *Client) CloudhsmLicensesRetrieve(ctx context.Context, params CloudhsmLicensesRetrieveParams) (*WrappedCloudHSMSoftwareLicense, error) {
-	res, err := c.sendCloudhsmLicensesRetrieve(ctx, params)
+func (c *Client) ReadCloudHSMLicense(ctx context.Context, params ReadCloudHSMLicenseParams) (*WrappedCloudHSMSoftwareLicense, error) {
+	res, err := c.sendReadCloudHSMLicense(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendCloudhsmLicensesRetrieve(ctx context.Context, params CloudhsmLicensesRetrieveParams) (res *WrappedCloudHSMSoftwareLicense, err error) {
+func (c *Client) sendReadCloudHSMLicense(ctx context.Context, params ReadCloudHSMLicenseParams) (res *WrappedCloudHSMSoftwareLicense, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -1723,7 +1866,7 @@ func (c *Client) sendCloudhsmLicensesRetrieve(ctx context.Context, params Cloudh
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmLicensesRetrieveOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ReadCloudHSMLicenseOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1764,7 +1907,7 @@ func (c *Client) sendCloudhsmLicensesRetrieve(ctx context.Context, params Cloudh
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmLicensesRetrieveResponse(resp)
+	result, err := decodeReadCloudHSMLicenseResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1772,15 +1915,242 @@ func (c *Client) sendCloudhsmLicensesRetrieve(ctx context.Context, params Cloudh
 	return result, nil
 }
 
-// CloudhsmLicensesUpdate invokes cloudhsm_licenses_update operation.
+// UpdateCloudHSM invokes updateCloudHSM operation.
 //
-// PUT /cloudhsm/licenses/{resource_id}
-func (c *Client) CloudhsmLicensesUpdate(ctx context.Context, request *WrappedCloudHSMSoftwareLicense, params CloudhsmLicensesUpdateParams) (*WrappedCloudHSMSoftwareLicense, error) {
-	res, err := c.sendCloudhsmLicensesUpdate(ctx, request, params)
+// PUT /cloudhsm/cloudhsms/{resource_id}
+func (c *Client) UpdateCloudHSM(ctx context.Context, request *WrappedCloudHSMRequest, params UpdateCloudHSMParams) (*WrappedCloudHSM, error) {
+	res, err := c.sendUpdateCloudHSM(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCloudhsmLicensesUpdate(ctx context.Context, request *WrappedCloudHSMSoftwareLicense, params CloudhsmLicensesUpdateParams) (res *WrappedCloudHSMSoftwareLicense, err error) {
+func (c *Client) sendUpdateCloudHSM(ctx context.Context, request *WrappedCloudHSMRequest, params UpdateCloudHSMParams) (res *WrappedCloudHSM, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/cloudhsm/cloudhsms/"
+	{
+		// Encode "resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateCloudHSMRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, UpdateCloudHSMOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateCloudHSMResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateCloudHSMClient invokes updateCloudHSMClient operation.
+//
+// PUT /cloudhsm/cloudhsms/{cloudhsm_resource_id}/clients/{id}
+func (c *Client) UpdateCloudHSMClient(ctx context.Context, request *WrappedCloudHSMClientRequest, params UpdateCloudHSMClientParams) (*WrappedCloudHSMClient, error) {
+	res, err := c.sendUpdateCloudHSMClient(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateCloudHSMClient(ctx context.Context, request *WrappedCloudHSMClientRequest, params UpdateCloudHSMClientParams) (res *WrappedCloudHSMClient, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/cloudhsm/cloudhsms/"
+	{
+		// Encode "cloudhsm_resource_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "cloudhsm_resource_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.CloudhsmResourceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/clients/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateCloudHSMClientRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, UpdateCloudHSMClientOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateCloudHSMClientResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateCloudHSMLicense invokes updateCloudHSMLicense operation.
+//
+// PUT /cloudhsm/licenses/{resource_id}
+func (c *Client) UpdateCloudHSMLicense(ctx context.Context, request *WrappedCloudHSMSoftwareLicenseRequest, params UpdateCloudHSMLicenseParams) (*WrappedCloudHSMSoftwareLicense, error) {
+	res, err := c.sendUpdateCloudHSMLicense(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateCloudHSMLicense(ctx context.Context, request *WrappedCloudHSMSoftwareLicenseRequest, params UpdateCloudHSMLicenseParams) (res *WrappedCloudHSMSoftwareLicense, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -1818,7 +2188,7 @@ func (c *Client) sendCloudhsmLicensesUpdate(ctx context.Context, request *Wrappe
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeCloudhsmLicensesUpdateRequest(request, r); err != nil {
+	if err := encodeUpdateCloudHSMLicenseRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -1827,7 +2197,7 @@ func (c *Client) sendCloudhsmLicensesUpdate(ctx context.Context, request *Wrappe
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, CloudhsmLicensesUpdateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, UpdateCloudHSMLicenseOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1868,7 +2238,7 @@ func (c *Client) sendCloudhsmLicensesUpdate(ctx context.Context, request *Wrappe
 		_ = body.Close()
 	}()
 
-	result, err := decodeCloudhsmLicensesUpdateResponse(resp)
+	result, err := decodeUpdateCloudHSMLicenseResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

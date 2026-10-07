@@ -24,14 +24,14 @@ func TestBuildURL(t *testing.T) {
 	tests := []struct {
 		name    string
 		tmpl    string
-		param   map[string]interface{}
+		param   map[string]any
 		want    string
 		wantErr bool
 	}{
 		{
 			name: "basic substitution with multiple keys",
 			tmpl: "{{.rootURL}}/{{.zone}}/{{.pathSuffix}}/{{.pathName}}",
-			param: map[string]interface{}{
+			param: map[string]any{
 				"rootURL":    "https://api.example.com",
 				"zone":       "is1a",
 				"pathSuffix": "api/cloud/1.1",
@@ -43,7 +43,7 @@ func TestBuildURL(t *testing.T) {
 		{
 			name: "substitution with ID",
 			tmpl: "{{.rootURL}}/{{.zone}}/{{.pathSuffix}}/{{.pathName}}/{{.id}}",
-			param: map[string]interface{}{
+			param: map[string]any{
 				"rootURL":    "https://api.example.com",
 				"zone":       "is1b",
 				"pathSuffix": "api/cloud/1.1",
@@ -56,7 +56,7 @@ func TestBuildURL(t *testing.T) {
 		{
 			name: "numeric values are stringified",
 			tmpl: "{{.rootURL}}/{{.accountID}}/{{.year}}/{{.month}}",
-			param: map[string]interface{}{
+			param: map[string]any{
 				"rootURL":   "https://api.example.com",
 				"accountID": 111111111111,
 				"year":      2024,
@@ -68,7 +68,7 @@ func TestBuildURL(t *testing.T) {
 		{
 			name: "empty template",
 			tmpl: "",
-			param: map[string]interface{}{
+			param: map[string]any{
 				"rootURL": "https://api.example.com",
 			},
 			want:    "",
@@ -77,7 +77,7 @@ func TestBuildURL(t *testing.T) {
 		{
 			name: "undefined variable in template",
 			tmpl: "{{.rootURL}}/{{.zone}}/{{.undefinedKey}}",
-			param: map[string]interface{}{
+			param: map[string]any{
 				"rootURL": "https://api.example.com",
 				"zone":    "is1a",
 			},
@@ -87,7 +87,7 @@ func TestBuildURL(t *testing.T) {
 		{
 			name: "same placeholder appears multiple times",
 			tmpl: "{{.zone}}/{{.zone}}/{{.zone}}",
-			param: map[string]interface{}{
+			param: map[string]any{
 				"zone": "is1a",
 			},
 			want:    "is1a/is1a/is1a",

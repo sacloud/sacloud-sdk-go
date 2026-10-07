@@ -59,31 +59,34 @@ func Example_applicationAPI() {
 	ctx := context.Background()
 	appOp := apprun.NewApplicationOp(client)
 
-	created, err := appOp.Create(ctx, &v1.PostApplicationBody{
+	created, err := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:           "example-app",
 		TimeoutSeconds: 100,
 		Port:           80,
 		MinScale:       0,
 		MaxScale:       1,
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image:    "apprun-test.sakuracr.jp/apprun/test1:latest",
-							Server:   v1.NewOptNilString("apprun-test.sakuracr.jp"),
-							Username: v1.NewOptNilString("test-user"),
-							Password: v1.NewOptNilString("test-password"),
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image: "ghcr.io/nginx/nginx-gateway-fabric/nginx:2.6.2",
+							/* さくらのコンテナレジストリを利用する場合は以下のように指定してください
+							Image:    "your-registry.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("your-registry.sakuracr.jp"),
+							Username: v1.NewOptNilString("your-username"),
+							Password: v1.NewOptNilString("your-password"),
+							*/
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},
@@ -127,31 +130,34 @@ func Example_versionAPI() {
 	appOp := apprun.NewApplicationOp(client)
 	versionOp := apprun.NewVersionOp(client)
 
-	application, err := appOp.Create(ctx, &v1.PostApplicationBody{
+	application, err := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:           "example-app",
 		TimeoutSeconds: 100,
 		Port:           80,
 		MinScale:       0,
 		MaxScale:       1,
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image:    "apprun-test.sakuracr.jp/apprun/test1:latest",
-							Server:   v1.NewOptNilString("apprun-test.sakuracr.jp"),
-							Username: v1.NewOptNilString("test-user"),
-							Password: v1.NewOptNilString("test-password"),
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image: "ghcr.io/nginx/nginx-gateway-fabric/nginx:2.6.2",
+							/* さくらのコンテナレジストリを利用する場合は以下のように指定してください
+							Image:    "your-registry.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("your-registry.sakuracr.jp"),
+							Username: v1.NewOptNilString("your-username"),
+							Password: v1.NewOptNilString("your-password"),
+							*/
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},
@@ -218,31 +224,34 @@ func Example_trafficAPI() {
 	versionOp := apprun.NewVersionOp(client)
 	trafficOp := apprun.NewTrafficOp(client)
 
-	application, err := appOp.Create(ctx, &v1.PostApplicationBody{
+	application, err := appOp.Create(ctx, &v1.CreateApplicationBody{
 		Name:           "example-app",
 		TimeoutSeconds: 100,
 		Port:           80,
 		MinScale:       0,
 		MaxScale:       1,
-		Components: []v1.PostApplicationBodyComponentsItem{
+		Components: []v1.CreateApplicationBodyComponentsItem{
 			{
 				Name:      "component1",
-				MaxCPU:    v1.PostApplicationBodyComponentsItemMaxCPU05,
-				MaxMemory: v1.PostApplicationBodyComponentsItemMaxMemory1Gi,
-				DeploySource: v1.PostApplicationBodyComponentsItemDeploySource{
-					ContainerRegistry: v1.NewOptPostApplicationBodyComponentsItemDeploySourceContainerRegistry(
-						v1.PostApplicationBodyComponentsItemDeploySourceContainerRegistry{
-							Image:    "apprun-test.sakuracr.jp/apprun/test1:latest",
-							Server:   v1.NewOptNilString("apprun-test.sakuracr.jp"),
-							Username: v1.NewOptNilString("test-user"),
-							Password: v1.NewOptNilString("test-password"),
+				MaxCPU:    v1.CreateApplicationBodyComponentsItemMaxCPU05,
+				MaxMemory: v1.CreateApplicationBodyComponentsItemMaxMemory1Gi,
+				DeploySource: v1.CreateApplicationBodyComponentsItemDeploySource{
+					ContainerRegistry: v1.NewOptCreateApplicationBodyComponentsItemDeploySourceContainerRegistry(
+						v1.CreateApplicationBodyComponentsItemDeploySourceContainerRegistry{
+							Image: "ghcr.io/nginx/nginx-gateway-fabric/nginx:2.6.2",
+							/* さくらのコンテナレジストリを利用する場合は以下のように指定してください
+							Image:    "your-registry.sakuracr.jp/test:latest",
+							Server:   v1.NewOptNilString("your-registry.sakuracr.jp"),
+							Username: v1.NewOptNilString("your-username"),
+							Password: v1.NewOptNilString("your-password"),
+							*/
 						},
 					),
 				},
-				Probe: v1.NewOptNilPostApplicationBodyComponentsItemProbe(
-					v1.PostApplicationBodyComponentsItemProbe{
-						HTTPGet: v1.NewOptNilPostApplicationBodyComponentsItemProbeHTTPGet(
-							v1.PostApplicationBodyComponentsItemProbeHTTPGet{
+				Probe: v1.NewOptNilCreateApplicationBodyComponentsItemProbe(
+					v1.CreateApplicationBodyComponentsItemProbe{
+						HTTPGet: v1.NewOptNilCreateApplicationBodyComponentsItemProbeHTTPGet(
+							v1.CreateApplicationBodyComponentsItemProbeHTTPGet{
 								Path: "/",
 								Port: 80,
 							},
@@ -278,12 +287,12 @@ func Example_trafficAPI() {
 	v1Name := versions.Data[1].Name
 	v1Percent := 10
 
-	trafficBody := v1.PutTrafficsBody{
-		v1.NewPutTrafficsBodyItem0PutTrafficsBodyItem(v1.PutTrafficsBodyItem0{
+	trafficBody := v1.UpdateTrafficBody{
+		v1.NewUpdateTrafficBodyItem0UpdateTrafficBodyItem(v1.UpdateTrafficBodyItem0{
 			IsLatestVersion: v0IsLatestVersion,
 			Percent:         v0Percent,
 		}),
-		v1.NewPutTrafficsBodyItem1PutTrafficsBodyItem(v1.PutTrafficsBodyItem1{
+		v1.NewUpdateTrafficBodyItem1UpdateTrafficBodyItem(v1.UpdateTrafficBodyItem1{
 			VersionName: v1Name,
 			Percent:     v1Percent,
 		}),

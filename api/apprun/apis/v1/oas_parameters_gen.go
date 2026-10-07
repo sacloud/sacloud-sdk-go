@@ -17,35 +17,8 @@ type DeleteApplicationVersionParams struct {
 	VersionID string
 }
 
-// GetApplicationParams is parameters of getApplication operation.
-type GetApplicationParams struct {
-	ID string
-}
-
-// GetApplicationStatusParams is parameters of getApplicationStatus operation.
-type GetApplicationStatusParams struct {
-	ID string
-}
-
-// GetApplicationVersionParams is parameters of getApplicationVersion operation.
-type GetApplicationVersionParams struct {
-	ID        string
-	VersionID string
-}
-
-// GetApplicationVersionStatusParams is parameters of getApplicationVersionStatus operation.
-type GetApplicationVersionStatusParams struct {
-	ID        string
-	VersionID string
-}
-
-// GetPacketFilterParams is parameters of getPacketFilter operation.
-type GetPacketFilterParams struct {
-	ID uuid.UUID
-}
-
-// ListApplicationTrafficsParams is parameters of listApplicationTraffics operation.
-type ListApplicationTrafficsParams struct {
+// ListApplicationTrafficParams is parameters of listApplicationTraffic operation.
+type ListApplicationTrafficParams struct {
 	ID string
 }
 
@@ -79,12 +52,39 @@ type PatchApplicationParams struct {
 	ID string
 }
 
-// PatchPacketFilterParams is parameters of patchPacketFilter operation.
-type PatchPacketFilterParams struct {
+// PatchApplicationPacketFilterParams is parameters of patchApplicationPacketFilter operation.
+type PatchApplicationPacketFilterParams struct {
 	ID uuid.UUID
 }
 
-// PutApplicationTrafficParams is parameters of putApplicationTraffic operation.
-type PutApplicationTrafficParams struct {
+// ReadApplicationParams is parameters of readApplication operation.
+type ReadApplicationParams struct {
+	ID string
+}
+
+// ReadApplicationPacketFilterParams is parameters of readApplicationPacketFilter operation.
+type ReadApplicationPacketFilterParams struct {
+	ID uuid.UUID
+}
+
+// ReadApplicationStatusParams is parameters of readApplicationStatus operation.
+type ReadApplicationStatusParams struct {
+	ID string
+}
+
+// ReadApplicationVersionParams is parameters of readApplicationVersion operation.
+type ReadApplicationVersionParams struct {
+	ID        string
+	VersionID string
+}
+
+// ReadApplicationVersionStatusParams is parameters of readApplicationVersionStatus operation.
+type ReadApplicationVersionStatusParams struct {
+	ID        string
+	VersionID string
+}
+
+// UpdateApplicationTrafficParams is parameters of updateApplicationTraffic operation.
+type UpdateApplicationTrafficParams struct {
 	ID string
 }

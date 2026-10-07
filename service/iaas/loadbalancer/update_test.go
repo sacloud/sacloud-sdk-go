@@ -22,7 +22,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/wait"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/stretchr/testify/require"
 )
 
@@ -103,7 +102,7 @@ func TestLoadBalancerService_convertUpdateRequest(t *testing.T) {
 			in: &UpdateRequest{
 				Zone: zone,
 				ID:   current.ID,
-				Name: pointer.NewString(name + "-upd"),
+				Name: new(name + "-upd"),
 				VirtualIPAddresses: &iaas.LoadBalancerVirtualIPAddresses{
 					{
 						VirtualIPAddress: "192.168.0.202",

@@ -2,10 +2,6 @@
 
 package v1
 
-import (
-	"github.com/go-faster/jx"
-)
-
 // SetFake set fake values.
 func (s *ModelsApplianceAppliance) SetFake() {
 	{
@@ -104,9 +100,9 @@ func (s *ModelsApplianceAppliance) SetFake() {
 		{
 			s.Tags = nil
 			for i := 0; i < 0; i++ {
-				var elem jx.Raw
+				var elem string
 				{
-					elem = []byte("null")
+					elem = "string"
 				}
 				s.Tags = append(s.Tags, elem)
 			}

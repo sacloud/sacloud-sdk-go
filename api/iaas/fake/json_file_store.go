@@ -43,17 +43,17 @@ type JSONFileStore struct {
 }
 
 // JSONFileStoreData .
-type JSONFileStoreData map[string]map[string]interface{}
+type JSONFileStoreData map[string]map[string]any
 
 // MarshalJSON .
 func (d JSONFileStoreData) MarshalJSON() ([]byte, error) {
-	var transformed []map[string]interface{}
+	var transformed []map[string]any
 	for cacheKey, resources := range d {
 		resourceKey, zone := d.parseKey(cacheKey)
 		for id, value := range resources {
-			var mapValue map[string]interface{}
+			var mapValue map[string]any
 			if d.isArrayOrSlice(value) {
-				mapValue = map[string]interface{}{
+				mapValue = map[string]any{
 					"Values": value,
 				}
 			} else {
@@ -84,7 +84,7 @@ func (d JSONFileStoreData) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON .
 func (d *JSONFileStoreData) UnmarshalJSON(data []byte) error {
-	var transformed []map[string]interface{}
+	var transformed []map[string]any
 	if err := json.Unmarshal(data, &transformed); err != nil {
 		return err
 	}
@@ -109,12 +109,12 @@ func (d *JSONFileStoreData) UnmarshalJSON(data []byte) error {
 		}
 		rt := rawRt.(string)
 
-		var resources map[string]interface{}
+		var resources map[string]any
 		r, ok := dest[d.key(rt, zone)]
 		if ok {
 			resources = r
 		} else {
-			resources = map[string]interface{}{}
+			resources = map[string]any{}
 		}
 		if v, ok := mapValue["Values"]; ok {
 			resources[id] = v
@@ -129,12 +129,12 @@ func (d *JSONFileStoreData) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-func (d *JSONFileStoreData) isArrayOrSlice(v interface{}) bool {
+func (d *JSONFileStoreData) isArrayOrSlice(v any) bool {
 	rt := reflect.TypeOf(v)
 	switch rt.Kind() {
 	case reflect.Slice, reflect.Array:
 		return true
-	case reflect.Ptr:
+	case reflect.Pointer:
 		return d.isArrayOrSlice(reflect.ValueOf(v).Elem().Interface())
 	}
 	return false
@@ -156,7 +156,7 @@ func (d *JSONFileStoreData) parseKey(k string) (string, string) {
 func NewJSONFileStore(path string) *JSONFileStore {
 	return &JSONFileStore{
 		Path:  path,
-		cache: make(map[string]map[string]interface{}),
+		cache: make(map[string]map[string]any),
 	}
 }
 
@@ -202,13 +202,13 @@ func (s *JSONFileStore) NeedInitData() bool {
 }
 
 // Put .
-func (s *JSONFileStore) Put(resourceKey, zone string, id types.ID, value interface{}) {
+func (s *JSONFileStore) Put(resourceKey, zone string, id types.ID, value any) {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	values := s.values(resourceKey, zone)
 	if values == nil {
-		values = map[string]interface{}{}
+		values = map[string]any{}
 	}
 	values[id.String()] = value
 	s.cache[s.key(resourceKey, zone)] = values
@@ -217,7 +217,7 @@ func (s *JSONFileStore) Put(resourceKey, zone string, id types.ID, value interfa
 }
 
 // Get .
-func (s *JSONFileStore) Get(resourceKey, zone string, id types.ID) interface{} {
+func (s *JSONFileStore) Get(resourceKey, zone string, id types.ID) any {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -229,12 +229,12 @@ func (s *JSONFileStore) Get(resourceKey, zone string, id types.ID) interface{} {
 }
 
 // List .
-func (s *JSONFileStore) List(resourceKey, zone string) []interface{} {
+func (s *JSONFileStore) List(resourceKey, zone string) []any {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
 	values := s.values(resourceKey, zone)
-	var ret []interface{}
+	var ret []any
 	for _, v := range values {
 		ret = append(ret, v)
 	}
@@ -253,67 +253,67 @@ func (s *JSONFileStore) Delete(resourceKey, zone string, id types.ID) {
 	s.store() //nolint
 }
 
-var jsonResourceTypeMap = map[string]func() interface{}{
-	ResourceArchive:           func() interface{} { return &iaas.Archive{} },
-	ResourceAuthStatus:        func() interface{} { return &iaas.AuthStatus{} },
-	ResourceAutoBackup:        func() interface{} { return &iaas.AutoBackup{} },
-	ResourceBill:              func() interface{} { return &iaas.Bill{} },
-	ResourceBridge:            func() interface{} { return &iaas.Bridge{} },
-	ResourceCDROM:             func() interface{} { return &iaas.CDROM{} },
-	ResourceContainerRegistry: func() interface{} { return &iaas.ContainerRegistry{} },
-	ResourceCoupon:            func() interface{} { return &iaas.Coupon{} },
-	ResourceDatabase:          func() interface{} { return &iaas.Database{} },
-	ResourceDisk:              func() interface{} { return &iaas.Disk{} },
-	ResourceDiskPlan:          func() interface{} { return &iaas.DiskPlan{} },
-	ResourceDNS:               func() interface{} { return &iaas.DNS{} },
-	ResourceEnhancedDB:        func() interface{} { return &iaas.EnhancedDB{} },
-	ResourceESME:              func() interface{} { return &iaas.ESME{} },
-	ResourceGSLB:              func() interface{} { return &iaas.GSLB{} },
-	ResourceIcon:              func() interface{} { return &iaas.Icon{} },
-	ResourceInterface:         func() interface{} { return &iaas.Interface{} },
-	ResourceInternet:          func() interface{} { return &iaas.Internet{} },
-	ResourceInternetPlan:      func() interface{} { return &iaas.InternetPlan{} },
-	ResourceIPAddress:         func() interface{} { return &iaas.IPAddress{} },
-	ResourceIPv6Net:           func() interface{} { return &iaas.IPv6Net{} },
-	ResourceIPv6Addr:          func() interface{} { return &iaas.IPv6Addr{} },
-	ResourceLicense:           func() interface{} { return &iaas.License{} },
-	ResourceLicenseInfo:       func() interface{} { return &iaas.LicenseInfo{} },
-	ResourceLoadBalancer:      func() interface{} { return &iaas.LoadBalancer{} },
-	ResourceLocalRouter:       func() interface{} { return &iaas.LocalRouter{} },
-	ResourceMobileGateway:     func() interface{} { return &iaas.MobileGateway{} },
-	ResourceNFS:               func() interface{} { return &iaas.NFS{} },
-	ResourceNote:              func() interface{} { return &iaas.Note{} },
-	ResourcePacketFilter:      func() interface{} { return &iaas.PacketFilter{} },
-	ResourcePrivateHost:       func() interface{} { return &iaas.PrivateHost{} },
-	ResourcePrivateHostPlan:   func() interface{} { return &iaas.PrivateHostPlan{} },
-	ResourceProxyLB:           func() interface{} { return &iaas.ProxyLB{} },
-	ResourceRegion:            func() interface{} { return &iaas.Region{} },
-	ResourceServer:            func() interface{} { return &iaas.Server{} },
-	ResourceServerPlan:        func() interface{} { return &iaas.ServerPlan{} },
-	ResourceServiceClass:      func() interface{} { return &iaas.ServiceClass{} },
-	ResourceSIM:               func() interface{} { return &iaas.SIM{} },
-	ResourceSimpleMonitor:     func() interface{} { return &iaas.SimpleMonitor{} },
-	ResourceSubnet:            func() interface{} { return &iaas.Subnet{} },
-	ResourceSSHKey:            func() interface{} { return &iaas.SSHKey{} },
-	ResourceSwitch:            func() interface{} { return &iaas.Switch{} },
-	ResourceVPCRouter:         func() interface{} { return &iaas.VPCRouter{} },
-	ResourceZone:              func() interface{} { return &iaas.Zone{} },
+var jsonResourceTypeMap = map[string]func() any{
+	ResourceArchive:           func() any { return &iaas.Archive{} },
+	ResourceAuthStatus:        func() any { return &iaas.AuthStatus{} },
+	ResourceAutoBackup:        func() any { return &iaas.AutoBackup{} },
+	ResourceBill:              func() any { return &iaas.Bill{} },
+	ResourceBridge:            func() any { return &iaas.Bridge{} },
+	ResourceCDROM:             func() any { return &iaas.CDROM{} },
+	ResourceContainerRegistry: func() any { return &iaas.ContainerRegistry{} },
+	ResourceCoupon:            func() any { return &iaas.Coupon{} },
+	ResourceDatabase:          func() any { return &iaas.Database{} },
+	ResourceDisk:              func() any { return &iaas.Disk{} },
+	ResourceDiskPlan:          func() any { return &iaas.DiskPlan{} },
+	ResourceDNS:               func() any { return &iaas.DNS{} },
+	ResourceEnhancedDB:        func() any { return &iaas.EnhancedDB{} },
+	ResourceESME:              func() any { return &iaas.ESME{} },
+	ResourceGSLB:              func() any { return &iaas.GSLB{} },
+	ResourceIcon:              func() any { return &iaas.Icon{} },
+	ResourceInterface:         func() any { return &iaas.Interface{} },
+	ResourceInternet:          func() any { return &iaas.Internet{} },
+	ResourceInternetPlan:      func() any { return &iaas.InternetPlan{} },
+	ResourceIPAddress:         func() any { return &iaas.IPAddress{} },
+	ResourceIPv6Net:           func() any { return &iaas.IPv6Net{} },
+	ResourceIPv6Addr:          func() any { return &iaas.IPv6Addr{} },
+	ResourceLicense:           func() any { return &iaas.License{} },
+	ResourceLicenseInfo:       func() any { return &iaas.LicenseInfo{} },
+	ResourceLoadBalancer:      func() any { return &iaas.LoadBalancer{} },
+	ResourceLocalRouter:       func() any { return &iaas.LocalRouter{} },
+	ResourceMobileGateway:     func() any { return &iaas.MobileGateway{} },
+	ResourceNFS:               func() any { return &iaas.NFS{} },
+	ResourceNote:              func() any { return &iaas.Note{} },
+	ResourcePacketFilter:      func() any { return &iaas.PacketFilter{} },
+	ResourcePrivateHost:       func() any { return &iaas.PrivateHost{} },
+	ResourcePrivateHostPlan:   func() any { return &iaas.PrivateHostPlan{} },
+	ResourceProxyLB:           func() any { return &iaas.ProxyLB{} },
+	ResourceRegion:            func() any { return &iaas.Region{} },
+	ResourceServer:            func() any { return &iaas.Server{} },
+	ResourceServerPlan:        func() any { return &iaas.ServerPlan{} },
+	ResourceServiceClass:      func() any { return &iaas.ServiceClass{} },
+	ResourceSIM:               func() any { return &iaas.SIM{} },
+	ResourceSimpleMonitor:     func() any { return &iaas.SimpleMonitor{} },
+	ResourceSubnet:            func() any { return &iaas.Subnet{} },
+	ResourceSSHKey:            func() any { return &iaas.SSHKey{} },
+	ResourceSwitch:            func() any { return &iaas.Switch{} },
+	ResourceVPCRouter:         func() any { return &iaas.VPCRouter{} },
+	ResourceZone:              func() any { return &iaas.Zone{} },
 
-	valuePoolResourceKey:         func() interface{} { return &valuePool{} },
-	"BillDetails":                func() interface{} { return &[]*iaas.BillDetail{} },
-	"ContainerRegistryUsers":     func() interface{} { return &[]*iaas.ContainerRegistryUser{} },
-	"DatabaseParameter":          func() interface{} { return map[string]interface{}{} },
-	"ESMELogs":                   func() interface{} { return &[]*iaas.ESMELogs{} },
-	"LocalRouterStatus":          func() interface{} { return &iaas.LocalRouterHealth{} },
-	"MobileGatewayDNS":           func() interface{} { return &iaas.MobileGatewayDNSSetting{} },
-	"MobileGatewaySIMRoutes":     func() interface{} { return &[]*iaas.MobileGatewaySIMRoute{} },
-	"MobileGatewaySIMs":          func() interface{} { return &[]*iaas.MobileGatewaySIMInfo{} },
-	"MobileGatewayTrafficConfig": func() interface{} { return &iaas.MobileGatewayTrafficControl{} },
-	"ProxyLBStatus":              func() interface{} { return &iaas.ProxyLBHealth{} },
-	"SIMNetworkOperator":         func() interface{} { return &[]*iaas.SIMNetworkOperatorConfig{} },
+	valuePoolResourceKey:         func() any { return &valuePool{} },
+	"BillDetails":                func() any { return &[]*iaas.BillDetail{} },
+	"ContainerRegistryUsers":     func() any { return &[]*iaas.ContainerRegistryUser{} },
+	"DatabaseParameter":          func() any { return map[string]any{} },
+	"ESMELogs":                   func() any { return &[]*iaas.ESMELogs{} },
+	"LocalRouterStatus":          func() any { return &iaas.LocalRouterHealth{} },
+	"MobileGatewayDNS":           func() any { return &iaas.MobileGatewayDNSSetting{} },
+	"MobileGatewaySIMRoutes":     func() any { return &[]*iaas.MobileGatewaySIMRoute{} },
+	"MobileGatewaySIMs":          func() any { return &[]*iaas.MobileGatewaySIMInfo{} },
+	"MobileGatewayTrafficConfig": func() any { return &iaas.MobileGatewayTrafficControl{} },
+	"ProxyLBStatus":              func() any { return &iaas.ProxyLBHealth{} },
+	"SIMNetworkOperator":         func() any { return &[]*iaas.SIMNetworkOperatorConfig{} },
 }
 
-func (s *JSONFileStore) unmarshalResource(resourceKey string, data []byte) (interface{}, error) {
+func (s *JSONFileStore) unmarshalResource(resourceKey string, data []byte) (any, error) {
 	f, ok := jsonResourceTypeMap[resourceKey]
 	if !ok {
 		panic(fmt.Errorf("type %q is not registered", resourceKey))
@@ -350,11 +350,11 @@ func (s *JSONFileStore) load() error {
 		return err
 	}
 
-	var loaded = make(map[string]map[string]interface{})
+	var loaded = make(map[string]map[string]any)
 	for cacheKey, values := range cache {
 		resourceKey, _ := s.parseKey(cacheKey)
 
-		var dest = make(map[string]interface{})
+		var dest = make(map[string]any)
 		for id, v := range values {
 			data, err := json.Marshal(v)
 			if err != nil {
@@ -384,6 +384,6 @@ func (s *JSONFileStore) parseKey(k string) (string, string) {
 	return "", ""
 }
 
-func (s *JSONFileStore) values(resourceKey, zone string) map[string]interface{} {
+func (s *JSONFileStore) values(resourceKey, zone string) map[string]any {
 	return s.cache[s.key(resourceKey, zone)]
 }

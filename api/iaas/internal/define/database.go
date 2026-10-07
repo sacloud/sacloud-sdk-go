@@ -127,7 +127,7 @@ var databaseAPI = &dsl.Resource{
 				dsl.ArgumentID,
 				{
 					Name:       "param",
-					Type:       meta.Static(map[string]interface{}{}),
+					Type:       meta.Static(map[string]any{}),
 					MapConvTag: "Parameter.Attr",
 				},
 			},
@@ -355,7 +355,7 @@ var (
 		Fields: []*dsl.FieldDesc{
 			{
 				Name: "Settings",
-				Type: meta.Static(map[string]interface{}{}),
+				Type: meta.Static(map[string]any{}),
 				Tags: &dsl.FieldTags{
 					MapConv: "Parameter.Attr",
 				},

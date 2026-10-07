@@ -35,7 +35,7 @@ func (s *Service) ListParameterWithContext(ctx context.Context, req *ListParamet
 	}
 	var results []*Parameter
 	for _, p := range parameters.MetaInfo {
-		var setting interface{}
+		var setting any
 		for k, v := range parameters.Settings {
 			if p.Name == k {
 				setting = v

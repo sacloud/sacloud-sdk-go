@@ -401,32 +401,32 @@ var (
 	}
 )
 
-func testLoadBalancerCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLoadBalancerCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLoadBalancerOp(caller)
 	return client.Create(ctx, testZone, createLoadBalancerParam)
 }
 
-func testLoadBalancerRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLoadBalancerRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLoadBalancerOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testLoadBalancerUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLoadBalancerUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLoadBalancerOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateLoadBalancerParam)
 }
 
-func testLoadBalancerUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLoadBalancerUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLoadBalancerOp(caller)
 	return client.UpdateSettings(ctx, testZone, ctx.ID, updateLoadBalancerSettingsParam)
 }
 
-func testLoadBalancerUpdateToMin1(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLoadBalancerUpdateToMin1(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLoadBalancerOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateLoadBalancerToMin1Param)
 }
 
-func testLoadBalancerUpdateToMin2(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testLoadBalancerUpdateToMin2(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewLoadBalancerOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateLoadBalancerToMin2Param)
 }

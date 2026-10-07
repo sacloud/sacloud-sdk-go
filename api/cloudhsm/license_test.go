@@ -25,7 +25,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func newTestLicenseClient(resp interface{}, status ...int) *v1.Client {
+func newTestLicenseClient(resp any, status ...int) *v1.Client {
 	return newTestClient(resp, status...)
 }
 
@@ -33,14 +33,14 @@ func TestLicenseOp_List(t *testing.T) {
 	assert := require.New(t)
 	expected := v1.PaginatedCloudHSMSoftwareLicenseList{
 		Count:    1,
-		From:     v1.NewOptInt(0),
-		Total:    v1.NewOptInt(1),
+		From:     0,
+		Total:    1,
 		Licenses: []v1.CloudHSMSoftwareLicense{TemplateLicense},
 	}
 	client := newTestLicenseClient(expected)
 	api := NewLicenseOp(client)
 	ctx := context.Background()
-	licenses, err := api.List(ctx)
+	licenses, err := api.List(ctx, nil, nil)
 
 	assert.NoError(err)
 	assert.NotNil(licenses)
@@ -56,7 +56,7 @@ func TestLicenseOp_Read(t *testing.T) {
 	res, err := api.Read(ctx, "12345")
 	assert.NoError(err)
 	assert.NotNil(res)
-	assert.Equal(TemplateWrappedLicense.GetLicense().Value, *res)
+	assert.Equal(TemplateWrappedLicense.GetLicense(), *res)
 }
 
 func TestLicenseOp_Read_404(t *testing.T) {
@@ -80,7 +80,7 @@ func TestLicenseOp_Create(t *testing.T) {
 
 	res, err := api.Create(ctx, CloudHSMSoftwareLicenseCreateParams{
 		Name:        "Test License",
-		Description: ref("This is a test license"),
+		Description: new("This is a test license"),
 		Tags: []string{
 			"tag1",
 			"tag2",
@@ -88,7 +88,7 @@ func TestLicenseOp_Create(t *testing.T) {
 	})
 	assert.NoError(err)
 	assert.NotNil(res)
-	assert.Equal(TemplateWrappedCreateLicense.GetLicense().Value, *res)
+	assert.Equal(TemplateWrappedCreateLicense.GetLicense(), *res)
 }
 
 func TestLicenseOp_Create_422(t *testing.T) {
@@ -111,7 +111,7 @@ func TestLicenseOp_Update(t *testing.T) {
 	ctx := context.Background()
 
 	res, err := api.Update(ctx, "12345", CloudHSMSoftwareLicenseUpdateParams{
-		Description: "Updated Description",
+		Description: new("Updated Description"),
 		Name:        "Updated Name",
 		Tags: []string{
 			"tag1",
@@ -120,7 +120,7 @@ func TestLicenseOp_Update(t *testing.T) {
 	})
 	assert.NoError(err)
 	assert.NotNil(res)
-	assert.Equal(TemplateWrappedLicense.GetLicense().Value, *res)
+	assert.Equal(TemplateWrappedLicense.GetLicense(), *res)
 }
 
 func TestLicenseOp_Update_400(t *testing.T) {
@@ -167,26 +167,28 @@ func TestLicenseIntegrated(t *testing.T) {
 	// Create
 	created, err := api.Create(ctx, CloudHSMSoftwareLicenseCreateParams{
 		Name:        testutil.RandomName("test-license-", 16, testutil.CharSetAlphaNum),
-		Description: ref(testutil.Random(128, testutil.CharSetAlphaNum)),
+		Description: new(testutil.Random(128, testutil.CharSetAlphaNum)),
 	})
 	assert.NoError(err)
 	assert.NotNil(created)
+	id, ok := created.GetID().Get()
+	assert.True(ok)
 
 	// Delete
 	t.Cleanup(func() {
-		err := api.Delete(ctx, created.GetID())
+		err := api.Delete(ctx, id)
 		assert.NoError(err)
 	})
 
 	// Read
-	read, err := api.Read(ctx, created.GetID())
+	read, err := api.Read(ctx, id)
 	assert.NoError(err)
 	assert.NotNil(read)
 	assert.Equal(created.GetID(), read.GetID())
 	assert.Equal(created.GetName(), read.GetName())
 
 	// List
-	licenses, err := api.List(ctx)
+	licenses, err := api.List(ctx, new(10), new(0))
 	assert.NoError(err)
 	assert.NotNil(licenses)
 	assert.NotEmpty(licenses)
@@ -194,10 +196,10 @@ func TestLicenseIntegrated(t *testing.T) {
 	// Update
 	newDesc := "updated integration test License"
 	updateReq := CloudHSMSoftwareLicenseUpdateParams{
-		Description: newDesc,
+		Description: &newDesc,
 		Name:        read.GetName(),
 	}
-	updated, err := api.Update(ctx, created.GetID(), updateReq)
+	updated, err := api.Update(ctx, id, updateReq)
 	assert.NoError(err)
 	assert.NotNil(updated)
 	assert.Equal(newDesc, updated.GetDescription())

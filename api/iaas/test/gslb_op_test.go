@@ -215,27 +215,27 @@ var (
 	}
 )
 
-func testGSLBCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testGSLBCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewGSLBOp(caller)
 	return client.Create(ctx, createGSLBParam)
 }
 
-func testGSLBRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testGSLBRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewGSLBOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testGSLBUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testGSLBUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewGSLBOp(caller)
 	return client.Update(ctx, ctx.ID, updateGSLBParam)
 }
 
-func testGSLBUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testGSLBUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewGSLBOp(caller)
 	return client.UpdateSettings(ctx, ctx.ID, updateGSLBSettingsParam)
 }
 
-func testGSLBUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testGSLBUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewGSLBOp(caller)
 	return client.Update(ctx, ctx.ID, updateGSLBToMinParam)
 }

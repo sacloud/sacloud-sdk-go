@@ -25,17 +25,17 @@ import (
 // Serverに渡した後はDataStore内のデータを外部から操作しないこと
 type Engine struct {
 	User         *User
-	Applications []*v1.HandlerGetApplication
-	Versions     []*v1.HandlerGetVersion
+	Applications []*v1.HandlerReadApplication
+	Versions     []*v1.HandlerReadVersion
 
 	// MapのkeyにApplicationのIDを利用する
-	Traffics map[string][]v1.HandlerListTrafficsDataItem
+	Traffics map[string][]v1.HandlerListTrafficDataItem
 
 	// MapのkeyにApplicationのIDを利用する
 	appVersionRelations map[string][]*appVersionRelation
 
 	// MapのkeyにApplicationのIDを利用する
-	appPacketFilterRelations map[string]*v1.HandlerGetPacketFilter
+	appPacketFilterRelations map[string]*v1.HandlerReadPacketFilter
 
 	// GeneratedID 採番済みの最終ID
 	//
@@ -46,15 +46,15 @@ type Engine struct {
 }
 
 type appVersionRelation struct {
-	application *v1.HandlerGetApplication
-	version     *v1.HandlerGetVersion
+	application *v1.HandlerReadApplication
+	version     *v1.HandlerReadVersion
 }
 
 func NewEngine() *Engine {
 	return &Engine{
 		appVersionRelations:      make(map[string][]*appVersionRelation),
-		appPacketFilterRelations: make(map[string]*v1.HandlerGetPacketFilter),
-		Traffics:                 make(map[string][]v1.HandlerListTrafficsDataItem),
+		appPacketFilterRelations: make(map[string]*v1.HandlerReadPacketFilter),
+		Traffics:                 make(map[string][]v1.HandlerListTrafficDataItem),
 	}
 }
 

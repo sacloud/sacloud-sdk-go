@@ -35,7 +35,7 @@ func (d *dummyIDAccessor) SetID(id types.ID) {
 
 func TestIDAccessor(t *testing.T) {
 	expects := []struct {
-		input  interface{}
+		input  any
 		expect types.ID
 	}{
 		{

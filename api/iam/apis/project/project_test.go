@@ -41,7 +41,7 @@ func TestNewProjectOp(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.ProjectsGetOK
+	var expected v1.ListProjectsOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.Project, 2))
 	expected.Items[0].SetFake()
@@ -168,7 +168,7 @@ func TestUpdate_Fail(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	assert, api := setup(t, &v1.ProjectsProjectIDDeleteNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.DeleteProjectNoContent{}, http.StatusNoContent)
 
 	projectID := 1
 	err := api.Delete(t.Context(), projectID)
@@ -190,7 +190,7 @@ func TestDelete_Fail(t *testing.T) {
 }
 
 func TestMove(t *testing.T) {
-	assert, api := setup(t, &v1.MoveProjectsPostNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.MoveProjectsNoContent{}, http.StatusNoContent)
 
 	ids := []int{1, 2, 3}
 	parentFolderID := 1

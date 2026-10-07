@@ -127,22 +127,22 @@ var (
 	}
 )
 
-func testPrivateHostCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testPrivateHostCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewPrivateHostOp(caller)
 	return client.Create(ctx, privateHostTestZone, createPrivateHostParam)
 }
 
-func testPrivateHostRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testPrivateHostRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewPrivateHostOp(caller)
 	return client.Read(ctx, privateHostTestZone, ctx.ID)
 }
 
-func testPrivateHostUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testPrivateHostUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewPrivateHostOp(caller)
 	return client.Update(ctx, privateHostTestZone, ctx.ID, updatePrivateHostParam)
 }
 
-func testPrivateHostUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testPrivateHostUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewPrivateHostOp(caller)
 	return client.Update(ctx, privateHostTestZone, ctx.ID, updatePrivateHostToMinParam)
 }

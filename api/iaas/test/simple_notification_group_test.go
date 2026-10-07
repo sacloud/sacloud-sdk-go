@@ -113,17 +113,17 @@ var (
 	}
 )
 
-func testSimpleNotificationGroupCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleNotificationGroupCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleNotificationGroupOp(caller)
 	return client.Create(ctx, createSimpleNotificationGroupParam)
 }
 
-func testSimpleNotificationGroupRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleNotificationGroupRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleNotificationGroupOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testSimpleNotificationGroupUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testSimpleNotificationGroupUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewSimpleNotificationGroupOp(caller)
 	return client.Update(ctx, ctx.ID, updateSimpleNotificationGroupParam)
 }

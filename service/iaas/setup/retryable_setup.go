@@ -35,7 +35,7 @@ type CreateFunc func(ctx context.Context, zone string) (accessor.ID, error)
 //
 // リソース作成後に起動が行われないリソース(VPCルータなど)向け。
 // 必要であればこの中でリソース起動処理を行う。
-type ProvisionBeforeUpFunc func(ctx context.Context, zone string, id types.ID, target interface{}) error
+type ProvisionBeforeUpFunc func(ctx context.Context, zone string, id types.ID, target any) error
 
 // DeleteFunc リソース削除関数。
 //
@@ -43,7 +43,7 @@ type ProvisionBeforeUpFunc func(ctx context.Context, zone string, id types.ID, t
 type DeleteFunc func(ctx context.Context, zone string, id types.ID) error
 
 // ReadFunc リソース起動待ちなどで利用するリソースのRead用Func
-type ReadFunc func(ctx context.Context, zone string, id types.ID) (interface{}, error)
+type ReadFunc func(ctx context.Context, zone string, id types.ID) (any, error)
 
 // RetryableSetup リソース作成時にコピー待ちや起動待ちが必要なリソースのビルダー。
 //
@@ -67,14 +67,14 @@ type RetryableSetup struct {
 }
 
 // Setup リソースのビルドを行う。必要に応じてリトライ(リソースの削除&再作成)を行う。
-func (r *RetryableSetup) Setup(ctx context.Context, zone string) (interface{}, error) {
+func (r *RetryableSetup) Setup(ctx context.Context, zone string) (any, error) {
 	if (r.IsWaitForCopy || r.IsWaitForUp) && r.Read == nil {
 		return nil, errors.New("failed: Read is required when IsWaitForCopy or IsWaitForUp is true")
 	}
 
 	r.init()
 
-	var created interface{}
+	var created any
 	for r.Options.RetryCount+1 > 0 {
 		r.Options.RetryCount--
 
@@ -134,9 +134,9 @@ func (r *RetryableSetup) createResource(ctx context.Context, zone string) (acces
 	return r.Create(ctx, zone)
 }
 
-func (r *RetryableSetup) waitForCopyWithCleanup(ctx context.Context, zone string, id types.ID) (interface{}, error) {
+func (r *RetryableSetup) waitForCopyWithCleanup(ctx context.Context, zone string, id types.ID) (any, error) {
 	waiter := &iaas.StatePollingWaiter{
-		ReadFunc: func() (interface{}, error) {
+		ReadFunc: func() (any, error) {
 			return r.Read(ctx, zone, id)
 		},
 		TargetAvailability: []types.EAvailability{
@@ -155,7 +155,7 @@ func (r *RetryableSetup) waitForCopyWithCleanup(ctx context.Context, zone string
 
 	// wait
 	compChan, progressChan, errChan := waiter.WaitForStateAsync(ctx)
-	var state interface{}
+	var state any
 	var err error
 
 loop:
@@ -198,7 +198,7 @@ loop:
 	return nil, nil
 }
 
-func (r *RetryableSetup) provisionBeforeUp(ctx context.Context, zone string, id types.ID, created interface{}) error {
+func (r *RetryableSetup) provisionBeforeUp(ctx context.Context, zone string, id types.ID, created any) error {
 	if r.ProvisionBeforeUp != nil && created != nil {
 		var err error
 		for i := 0; i < r.Options.ProvisioningRetryCount; i++ {
@@ -212,10 +212,10 @@ func (r *RetryableSetup) provisionBeforeUp(ctx context.Context, zone string, id 
 	return nil
 }
 
-func (r *RetryableSetup) waitForUp(ctx context.Context, zone string, id types.ID, created interface{}) error {
+func (r *RetryableSetup) waitForUp(ctx context.Context, zone string, id types.ID, created any) error {
 	if r.IsWaitForUp && created != nil {
 		waiter := &iaas.StatePollingWaiter{
-			ReadFunc: func() (interface{}, error) {
+			ReadFunc: func() (any, error) {
 				return r.Read(ctx, zone, id)
 			},
 			TargetAvailability: []types.EAvailability{

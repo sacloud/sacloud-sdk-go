@@ -6,12 +6,12 @@ package queue
 type OperationName = string
 
 const (
-	ClearQueueOperation      OperationName = "ClearQueue"
-	ConfigQueueOperation     OperationName = "ConfigQueue"
-	CreateQueueOperation     OperationName = "CreateQueue"
-	DeleteQueueOperation     OperationName = "DeleteQueue"
-	GetMessageCountOperation OperationName = "GetMessageCount"
-	GetQueueOperation        OperationName = "GetQueue"
-	GetQueuesOperation       OperationName = "GetQueues"
-	RotateAPIKeyOperation    OperationName = "RotateAPIKey"
+	ClearQueueOperation       OperationName = "ClearQueue"
+	CreateQueueOperation      OperationName = "CreateQueue"
+	DeleteQueueOperation      OperationName = "DeleteQueue"
+	ListQueuesOperation       OperationName = "ListQueues"
+	ReadMessageCountOperation OperationName = "ReadMessageCount"
+	ReadQueueOperation        OperationName = "ReadQueue"
+	RotateAPIKeyOperation     OperationName = "RotateAPIKey"
+	UpdateQueueOperation      OperationName = "UpdateQueue"
 )

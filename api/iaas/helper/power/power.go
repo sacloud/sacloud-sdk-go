@@ -194,7 +194,7 @@ func ShutdownMobileGateway(ctx context.Context, client MobileGatewayAPI, zone st
 type handler interface {
 	boot() error
 	shutdown(force bool) error
-	read() (interface{}, error)
+	read() (any, error)
 }
 
 var mu sync.Mutex
@@ -233,7 +233,7 @@ func boot(ctx context.Context, h handler) error {
 	waiter := iaas.WaiterForUp(h.read)
 	compCh, progressCh, errCh := waiter.WaitForStateAsync(ctx)
 
-	var state interface{}
+	var state any
 
 	for {
 		select {
@@ -281,7 +281,7 @@ func shutdown(ctx context.Context, h handler, force bool) error {
 	waiter := iaas.WaiterForDown(h.read)
 	compCh, progressCh, errCh := waiter.WaitForStateAsync(ctx)
 
-	var state interface{}
+	var state any
 
 	for {
 		select {

@@ -128,22 +128,22 @@ var (
 	}
 )
 
-func testPacketFilterCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testPacketFilterCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewPacketFilterOp(caller)
 	return client.Create(ctx, testZone, createPacketFilterParam)
 }
 
-func testPacketFilterRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testPacketFilterRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewPacketFilterOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testPacketFilterUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testPacketFilterUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewPacketFilterOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updatePacketFilterParam, "")
 }
 
-func testPacketFilterUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testPacketFilterUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewPacketFilterOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updatePacketFilterToMinParam, "")
 }

@@ -98,9 +98,7 @@ func (s *ModelsApplianceAppliance) encodeFields(e *jx.Encoder) {
 		e.FieldStart("Tags")
 		e.ArrStart()
 		for _, elem := range s.Tags {
-			if len(elem) != 0 {
-				e.Raw(elem)
-			}
+			e.Str(elem)
 		}
 		e.ArrEnd()
 	}
@@ -329,11 +327,11 @@ func (s *ModelsApplianceAppliance) Decode(d *jx.Decoder) error {
 		case "Tags":
 			requiredBitSet[2] |= 1 << 1
 			if err := func() error {
-				s.Tags = make([]jx.Raw, 0)
+				s.Tags = make([]string, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem jx.Raw
-					v, err := d.RawAppend(nil)
-					elem = jx.Raw(v)
+					var elem string
+					v, err := d.Str()
+					elem = string(v)
 					if err != nil {
 						return err
 					}
@@ -5613,6 +5611,8 @@ func (s *ModelsSettingsEnabledServiceType) Decode(d *jx.Decoder) error {
 		*s = ModelsSettingsEnabledServiceTypeMonitoringSuite
 	case ModelsSettingsEnabledServiceTypeAIEngine:
 		*s = ModelsSettingsEnabledServiceTypeAIEngine
+	case ModelsSettingsEnabledServiceTypeSimpleAI:
+		*s = ModelsSettingsEnabledServiceTypeSimpleAI
 	case ModelsSettingsEnabledServiceTypeAppRunDedicatedControlPlane:
 		*s = ModelsSettingsEnabledServiceTypeAppRunDedicatedControlPlane
 	default:

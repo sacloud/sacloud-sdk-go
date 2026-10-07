@@ -49,7 +49,7 @@ type ApplyRequest struct {
 	BackupWeekdays        []types.EDayOfTheWeek `validate:"required_with=EnableBackup,max=7"`
 	BackupStartTimeHour   int                   `validate:"omitempty,min=0,max=23"`
 	BackupStartTimeMinute int                   `validate:"omitempty,oneof=0 15 30 45"`
-	Parameters            map[string]interface{}
+	Parameters            map[string]any
 
 	EnableBackupv2          bool
 	Backupv2Weekdays        []types.EDayOfTheWeek `validate:"required_with=EnableBackupv2,max=7"`

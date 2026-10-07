@@ -22,6 +22,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type LogMeasureRuleAPI interface {
@@ -53,8 +54,8 @@ func (op *logMeasureRuleOp) List(ctx context.Context, projectId string, count *i
 		}
 		return op.client.AlertsProjectsLogMeasureRulesList(ctx, v1.AlertsProjectsLogMeasureRulesListParams{
 			ProjectResourceID: id,
-			Count:             intoOpt[v1.OptInt](count),
-			From:              intoOpt[v1.OptInt](from),
+			Count:             into.Opt[v1.OptInt](count),
+			From:              into.Opt[v1.OptInt](from),
 		})
 	})
 	if err == nil {
@@ -88,8 +89,8 @@ func (op *logMeasureRuleOp) Create(ctx context.Context, projectId string, p LogM
 		params := &v1.LogMeasureRuleRequest{
 			LogStorageID:     v1.NewNilInt64(lid),
 			MetricsStorageID: v1.NewNilInt64(mid),
-			Name:             intoOpt[v1.OptString](p.Name),
-			Description:      intoOpt[v1.OptString](p.Description),
+			Name:             into.Opt[v1.OptString](p.Name),
+			Description:      into.Opt[v1.OptString](p.Description),
 			Rule:             v1.LogMeasureRuleModelRequest(p.Rule),
 		}
 		return op.client.AlertsProjectsLogMeasureRulesCreate(ctx, params, v1.AlertsProjectsLogMeasureRulesCreateParams{
@@ -125,20 +126,20 @@ func (op *logMeasureRuleOp) Update(ctx context.Context, projectId string, ruleId
 		if err != nil {
 			return nil, fmt.Errorf("projectId: %w", err)
 		}
-		lid, err := fromStringPtr[v1.OptNilInt64, int64](p.LogStorageID)
+		lid, err := into.FromStringPtr[v1.OptNilInt64, int64](p.LogStorageID)
 		if err != nil {
 			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.LogStorageID: %w", err)
 		}
-		mid, err := fromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
+		mid, err := into.FromStringPtr[v1.OptNilInt64, int64](p.MetricsStorageID)
 		if err != nil {
 			return nil, fmt.Errorf("LogMeasureRuleUpdateParams.MetricsStorageID: %w", err)
 		}
 		return op.client.AlertsProjectsLogMeasureRulesPartialUpdate(ctx, v1.NewOptPatchedLogMeasureRuleRequest(v1.PatchedLogMeasureRuleRequest{
 			LogStorageID:     lid,
 			MetricsStorageID: mid,
-			Name:             intoOpt[v1.OptString](p.Name),
-			Description:      intoOpt[v1.OptString](p.Description),
-			Rule: intoOpt[v1.OptLogMeasureRuleModelRequest](func() *v1.LogMeasureRuleModelRequest {
+			Name:             into.Opt[v1.OptString](p.Name),
+			Description:      into.Opt[v1.OptString](p.Description),
+			Rule: into.Opt[v1.OptLogMeasureRuleModelRequest](func() *v1.LogMeasureRuleModelRequest {
 				if p.Rule == nil {
 					return nil
 				}
@@ -181,11 +182,11 @@ func (op *logMeasureRuleOp) ListHistories(ctx context.Context, projectId string,
 		}
 		return op.client.AlertsProjectsHistoriesList(ctx, v1.AlertsProjectsHistoriesListParams{
 			ProjectResourceID: pid,
-			Count:             intoOpt[v1.OptInt](params.Count),
-			From:              intoOpt[v1.OptInt](params.From),
-			Open:              intoOpt[v1.OptBool](params.Open),
-			Severity:          intoOpt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
-			StartsAt:          intoOpt[v1.OptDateTime](params.StartsAt),
+			Count:             into.Opt[v1.OptInt](params.Count),
+			From:              into.Opt[v1.OptInt](params.From),
+			Open:              into.Opt[v1.OptBool](params.Open),
+			Severity:          into.Opt[v1.OptAlertsProjectsHistoriesListSeverity](params.Severity),
+			StartsAt:          into.Opt[v1.OptDateTime](params.StartsAt),
 		})
 	})
 	if err == nil {

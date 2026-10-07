@@ -26,8 +26,8 @@ type ArchiveFindResult struct {
 }
 
 // Values returns find results
-func (r *ArchiveFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *ArchiveFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Archives {
 		results = append(results, v)
 	}
@@ -108,8 +108,8 @@ type AutoBackupFindResult struct {
 }
 
 // Values returns find results
-func (r *AutoBackupFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *AutoBackupFindResult) Values() []any {
+	var results []any
 	for _, v := range r.AutoBackups {
 		results = append(results, v)
 	}
@@ -154,8 +154,8 @@ type AutoScaleFindResult struct {
 }
 
 // Values returns find results
-func (r *AutoScaleFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *AutoScaleFindResult) Values() []any {
+	var results []any
 	for _, v := range r.AutoScale {
 		results = append(results, v)
 	}
@@ -207,8 +207,8 @@ type BillByContractResult struct {
 }
 
 // Values returns find results
-func (r *BillByContractResult) Values() []interface{} {
-	var results []interface{}
+func (r *BillByContractResult) Values() []any {
+	var results []any
 	for _, v := range r.Bills {
 		results = append(results, v)
 	}
@@ -225,8 +225,8 @@ type BillByContractYearResult struct {
 }
 
 // Values returns find results
-func (r *BillByContractYearResult) Values() []interface{} {
-	var results []interface{}
+func (r *BillByContractYearResult) Values() []any {
+	var results []any
 	for _, v := range r.Bills {
 		results = append(results, v)
 	}
@@ -243,8 +243,8 @@ type BillByContractYearMonthResult struct {
 }
 
 // Values returns find results
-func (r *BillByContractYearMonthResult) Values() []interface{} {
-	var results []interface{}
+func (r *BillByContractYearMonthResult) Values() []any {
+	var results []any
 	for _, v := range r.Bills {
 		results = append(results, v)
 	}
@@ -261,8 +261,8 @@ type BillReadResult struct {
 }
 
 // Values returns find results
-func (r *BillReadResult) Values() []interface{} {
-	var results []interface{}
+func (r *BillReadResult) Values() []any {
+	var results []any
 	for _, v := range r.Bills {
 		results = append(results, v)
 	}
@@ -279,8 +279,8 @@ type BillDetailsResult struct {
 }
 
 // Values returns find results
-func (r *BillDetailsResult) Values() []interface{} {
-	var results []interface{}
+func (r *BillDetailsResult) Values() []any {
+	var results []any
 	for _, v := range r.BillDetails {
 		results = append(results, v)
 	}
@@ -304,8 +304,8 @@ type BridgeFindResult struct {
 }
 
 // Values returns find results
-func (r *BridgeFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *BridgeFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Bridges {
 		results = append(results, v)
 	}
@@ -343,8 +343,8 @@ type CDROMFindResult struct {
 }
 
 // Values returns find results
-func (r *CDROMFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *CDROMFindResult) Values() []any {
+	var results []any
 	for _, v := range r.CDROMs {
 		results = append(results, v)
 	}
@@ -390,8 +390,8 @@ type CertificateAuthorityFindResult struct {
 }
 
 // Values returns find results
-func (r *CertificateAuthorityFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *CertificateAuthorityFindResult) Values() []any {
+	var results []any
 	for _, v := range r.CertificateAuthorities {
 		results = append(results, v)
 	}
@@ -443,8 +443,8 @@ type CertificateAuthorityListClientsResult struct {
 }
 
 // Values returns find results
-func (r *CertificateAuthorityListClientsResult) Values() []interface{} {
-	var results []interface{}
+func (r *CertificateAuthorityListClientsResult) Values() []any {
+	var results []any
 	for _, v := range r.CertificateAuthority {
 		results = append(results, v)
 	}
@@ -475,8 +475,8 @@ type CertificateAuthorityListServersResult struct {
 }
 
 // Values returns find results
-func (r *CertificateAuthorityListServersResult) Values() []interface{} {
-	var results []interface{}
+func (r *CertificateAuthorityListServersResult) Values() []any {
+	var results []any
 	for _, v := range r.CertificateAuthority {
 		results = append(results, v)
 	}
@@ -500,8 +500,8 @@ type ContainerRegistryFindResult struct {
 }
 
 // Values returns find results
-func (r *ContainerRegistryFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *ContainerRegistryFindResult) Values() []any {
+	var results []any
 	for _, v := range r.ContainerRegistries {
 		results = append(results, v)
 	}
@@ -553,8 +553,8 @@ type CouponFindResult struct {
 }
 
 // Values returns find results
-func (r *CouponFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *CouponFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Coupons {
 		results = append(results, v)
 	}
@@ -571,8 +571,8 @@ type DatabaseFindResult struct {
 }
 
 // Values returns find results
-func (r *DatabaseFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *DatabaseFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Databases {
 		results = append(results, v)
 	}
@@ -659,8 +659,8 @@ type DiskFindResult struct {
 }
 
 // Values returns find results
-func (r *DiskFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *DiskFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Disks {
 		results = append(results, v)
 	}
@@ -733,8 +733,8 @@ type DiskPlanFindResult struct {
 }
 
 // Values returns find results
-func (r *DiskPlanFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *DiskPlanFindResult) Values() []any {
+	var results []any
 	for _, v := range r.DiskPlans {
 		results = append(results, v)
 	}
@@ -758,8 +758,8 @@ type DNSFindResult struct {
 }
 
 // Values returns find results
-func (r *DNSFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *DNSFindResult) Values() []any {
+	var results []any
 	for _, v := range r.DNS {
 		results = append(results, v)
 	}
@@ -804,8 +804,8 @@ type EnhancedDBFindResult struct {
 }
 
 // Values returns find results
-func (r *EnhancedDBFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *EnhancedDBFindResult) Values() []any {
+	var results []any
 	for _, v := range r.EnhancedDBs {
 		results = append(results, v)
 	}
@@ -850,8 +850,8 @@ type ESMEFindResult struct {
 }
 
 // Values returns find results
-func (r *ESMEFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *ESMEFindResult) Values() []any {
+	var results []any
 	for _, v := range r.ESME {
 		results = append(results, v)
 	}
@@ -910,8 +910,8 @@ type GSLBFindResult struct {
 }
 
 // Values returns find results
-func (r *GSLBFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *GSLBFindResult) Values() []any {
+	var results []any
 	for _, v := range r.GSLBs {
 		results = append(results, v)
 	}
@@ -956,8 +956,8 @@ type IconFindResult struct {
 }
 
 // Values returns find results
-func (r *IconFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *IconFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Icons {
 		results = append(results, v)
 	}
@@ -995,8 +995,8 @@ type InterfaceFindResult struct {
 }
 
 // Values returns find results
-func (r *InterfaceFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *InterfaceFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Interfaces {
 		results = append(results, v)
 	}
@@ -1041,8 +1041,8 @@ type InternetFindResult struct {
 }
 
 // Values returns find results
-func (r *InternetFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *InternetFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Internet {
 		results = append(results, v)
 	}
@@ -1122,8 +1122,8 @@ type InternetPlanFindResult struct {
 }
 
 // Values returns find results
-func (r *InternetPlanFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *InternetPlanFindResult) Values() []any {
+	var results []any
 	for _, v := range r.InternetPlans {
 		results = append(results, v)
 	}
@@ -1147,8 +1147,8 @@ type IPAddressListResult struct {
 }
 
 // Values returns find results
-func (r *IPAddressListResult) Values() []interface{} {
-	var results []interface{}
+func (r *IPAddressListResult) Values() []any {
+	var results []any
 	for _, v := range r.IPAddress {
 		results = append(results, v)
 	}
@@ -1179,8 +1179,8 @@ type IPv6NetListResult struct {
 }
 
 // Values returns find results
-func (r *IPv6NetListResult) Values() []interface{} {
-	var results []interface{}
+func (r *IPv6NetListResult) Values() []any {
+	var results []any
 	for _, v := range r.IPv6Nets {
 		results = append(results, v)
 	}
@@ -1197,8 +1197,8 @@ type IPv6NetFindResult struct {
 }
 
 // Values returns find results
-func (r *IPv6NetFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *IPv6NetFindResult) Values() []any {
+	var results []any
 	for _, v := range r.IPv6Nets {
 		results = append(results, v)
 	}
@@ -1222,8 +1222,8 @@ type IPv6AddrFindResult struct {
 }
 
 // Values returns find results
-func (r *IPv6AddrFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *IPv6AddrFindResult) Values() []any {
+	var results []any
 	for _, v := range r.IPv6Addrs {
 		results = append(results, v)
 	}
@@ -1261,8 +1261,8 @@ type LicenseFindResult struct {
 }
 
 // Values returns find results
-func (r *LicenseFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *LicenseFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Licenses {
 		results = append(results, v)
 	}
@@ -1300,8 +1300,8 @@ type LicenseInfoFindResult struct {
 }
 
 // Values returns find results
-func (r *LicenseInfoFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *LicenseInfoFindResult) Values() []any {
+	var results []any
 	for _, v := range r.LicenseInfo {
 		results = append(results, v)
 	}
@@ -1325,8 +1325,8 @@ type LoadBalancerFindResult struct {
 }
 
 // Values returns find results
-func (r *LoadBalancerFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *LoadBalancerFindResult) Values() []any {
+	var results []any
 	for _, v := range r.LoadBalancers {
 		results = append(results, v)
 	}
@@ -1385,8 +1385,8 @@ type LoadBalancerStatusResult struct {
 }
 
 // Values returns find results
-func (r *LoadBalancerStatusResult) Values() []interface{} {
-	var results []interface{}
+func (r *LoadBalancerStatusResult) Values() []any {
+	var results []any
 	for _, v := range r.Status {
 		results = append(results, v)
 	}
@@ -1403,8 +1403,8 @@ type LocalRouterFindResult struct {
 }
 
 // Values returns find results
-func (r *LocalRouterFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *LocalRouterFindResult) Values() []any {
+	var results []any
 	for _, v := range r.LocalRouters {
 		results = append(results, v)
 	}
@@ -1463,8 +1463,8 @@ type MobileGatewayFindResult struct {
 }
 
 // Values returns find results
-func (r *MobileGatewayFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *MobileGatewayFindResult) Values() []any {
+	var results []any
 	for _, v := range r.MobileGateways {
 		results = append(results, v)
 	}
@@ -1558,8 +1558,8 @@ type NFSFindResult struct {
 }
 
 // Values returns find results
-func (r *NFSFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *NFSFindResult) Values() []any {
+	var results []any
 	for _, v := range r.NFS {
 		results = append(results, v)
 	}
@@ -1618,8 +1618,8 @@ type NoteFindResult struct {
 }
 
 // Values returns find results
-func (r *NoteFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *NoteFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Notes {
 		results = append(results, v)
 	}
@@ -1657,8 +1657,8 @@ type PacketFilterFindResult struct {
 }
 
 // Values returns find results
-func (r *PacketFilterFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *PacketFilterFindResult) Values() []any {
+	var results []any
 	for _, v := range r.PacketFilters {
 		results = append(results, v)
 	}
@@ -1696,8 +1696,8 @@ type PrivateHostFindResult struct {
 }
 
 // Values returns find results
-func (r *PrivateHostFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *PrivateHostFindResult) Values() []any {
+	var results []any
 	for _, v := range r.PrivateHosts {
 		results = append(results, v)
 	}
@@ -1742,8 +1742,8 @@ type PrivateHostPlanFindResult struct {
 }
 
 // Values returns find results
-func (r *PrivateHostPlanFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *PrivateHostPlanFindResult) Values() []any {
+	var results []any
 	for _, v := range r.PrivateHostPlans {
 		results = append(results, v)
 	}
@@ -1767,8 +1767,8 @@ type ProxyLBFindResult struct {
 }
 
 // Values returns find results
-func (r *ProxyLBFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *ProxyLBFindResult) Values() []any {
+	var results []any
 	for _, v := range r.ProxyLBs {
 		results = append(results, v)
 	}
@@ -1848,8 +1848,8 @@ type RegionFindResult struct {
 }
 
 // Values returns find results
-func (r *RegionFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *RegionFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Regions {
 		results = append(results, v)
 	}
@@ -1873,8 +1873,8 @@ type ServerFindResult struct {
 }
 
 // Values returns find results
-func (r *ServerFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *ServerFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Servers {
 		results = append(results, v)
 	}
@@ -1940,8 +1940,8 @@ type ServerPlanFindResult struct {
 }
 
 // Values returns find results
-func (r *ServerPlanFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *ServerPlanFindResult) Values() []any {
+	var results []any
 	for _, v := range r.ServerPlans {
 		results = append(results, v)
 	}
@@ -1965,8 +1965,8 @@ type ServiceClassFindResult struct {
 }
 
 // Values returns find results
-func (r *ServiceClassFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *ServiceClassFindResult) Values() []any {
+	var results []any
 	for _, v := range r.ServiceClasses {
 		results = append(results, v)
 	}
@@ -1983,8 +1983,8 @@ type SIMFindResult struct {
 }
 
 // Values returns find results
-func (r *SIMFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *SIMFindResult) Values() []any {
+	var results []any
 	for _, v := range r.SIMs {
 		results = append(results, v)
 	}
@@ -2022,8 +2022,8 @@ type SIMLogsResult struct {
 }
 
 // Values returns find results
-func (r *SIMLogsResult) Values() []interface{} {
-	var results []interface{}
+func (r *SIMLogsResult) Values() []any {
+	var results []any
 	for _, v := range r.Logs {
 		results = append(results, v)
 	}
@@ -2061,8 +2061,8 @@ type SimpleMonitorFindResult struct {
 }
 
 // Values returns find results
-func (r *SimpleMonitorFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *SimpleMonitorFindResult) Values() []any {
+	var results []any
 	for _, v := range r.SimpleMonitors {
 		results = append(results, v)
 	}
@@ -2121,8 +2121,8 @@ type SimpleNotificationDestinationFindResult struct {
 }
 
 // Values returns find results
-func (r *SimpleNotificationDestinationFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *SimpleNotificationDestinationFindResult) Values() []any {
+	var results []any
 	for _, v := range r.SimpleNotificationDestinations {
 		results = append(results, v)
 	}
@@ -2174,8 +2174,8 @@ type SimpleNotificationGroupFindResult struct {
 }
 
 // Values returns find results
-func (r *SimpleNotificationGroupFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *SimpleNotificationGroupFindResult) Values() []any {
+	var results []any
 	for _, v := range r.SimpleNotificationGroups {
 		results = append(results, v)
 	}
@@ -2227,8 +2227,8 @@ type SSHKeyFindResult struct {
 }
 
 // Values returns find results
-func (r *SSHKeyFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *SSHKeyFindResult) Values() []any {
+	var results []any
 	for _, v := range r.SSHKeys {
 		results = append(results, v)
 	}
@@ -2266,8 +2266,8 @@ type SubnetFindResult struct {
 }
 
 // Values returns find results
-func (r *SubnetFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *SubnetFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Subnets {
 		results = append(results, v)
 	}
@@ -2291,8 +2291,8 @@ type SwitchFindResult struct {
 }
 
 // Values returns find results
-func (r *SwitchFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *SwitchFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Switches {
 		results = append(results, v)
 	}
@@ -2330,8 +2330,8 @@ type SwitchGetServersResult struct {
 }
 
 // Values returns find results
-func (r *SwitchGetServersResult) Values() []interface{} {
-	var results []interface{}
+func (r *SwitchGetServersResult) Values() []any {
+	var results []any
 	for _, v := range r.Servers {
 		results = append(results, v)
 	}
@@ -2348,8 +2348,8 @@ type VPCRouterFindResult struct {
 }
 
 // Values returns find results
-func (r *VPCRouterFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *VPCRouterFindResult) Values() []any {
+	var results []any
 	for _, v := range r.VPCRouters {
 		results = append(results, v)
 	}
@@ -2429,8 +2429,8 @@ type ZoneFindResult struct {
 }
 
 // Values returns find results
-func (r *ZoneFindResult) Values() []interface{} {
-	var results []interface{}
+func (r *ZoneFindResult) Values() []any {
+	var results []any
 	for _, v := range r.Zones {
 		results = append(results, v)
 	}

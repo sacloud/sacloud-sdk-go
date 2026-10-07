@@ -639,34 +639,34 @@ func initProxyLBVariables() {
 	}
 }
 
-func testProxyLBCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testProxyLBCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewProxyLBOp(caller)
 	return client.Create(ctx, createProxyLBParam)
 }
 
-func testProxyLBRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testProxyLBRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewProxyLBOp(caller)
 	return client.Read(ctx, ctx.ID)
 }
 
-func testProxyLBUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testProxyLBUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewProxyLBOp(caller)
 	return client.Update(ctx, ctx.ID, updateProxyLBParam)
 }
 
-func testProxyLBUpdatePlan(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testProxyLBUpdatePlan(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewProxyLBOp(caller)
 	return client.ChangePlan(ctx, ctx.ID, &iaas.ProxyLBChangePlanRequest{
 		ServiceClass: types.ProxyLBServiceClass(types.ProxyLBPlans.CPS500, types.ProxyLBRegions.Anycast),
 	})
 }
 
-func testProxyLBUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testProxyLBUpdateSettings(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewProxyLBOp(caller)
 	return client.UpdateSettings(ctx, ctx.ID, updateProxyLBSettingsParam)
 }
 
-func testProxyLBUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testProxyLBUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewProxyLBOp(caller)
 	return client.Update(ctx, ctx.ID, updateProxyLBToMinParam)
 }

@@ -22,7 +22,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/helper/cleanup"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 	"github.com/stretchr/testify/require"
 )
 
@@ -64,9 +63,9 @@ func TestSIMService_convertUpdateRequest(t *testing.T) {
 		{
 			in: &UpdateRequest{
 				ID:       sim.ID,
-				Name:     pointer.NewString(name + "-upd"),
-				Activate: pointer.NewBool(false),
-				IMEI:     pointer.NewString(""),
+				Name:     new(name + "-upd"),
+				Activate: new(false),
+				IMEI:     new(""),
 				Carriers: &[]*iaas.SIMNetworkOperatorConfig{
 					{Allow: true, Name: types.SIMOperators.SoftBank.String()},
 				},

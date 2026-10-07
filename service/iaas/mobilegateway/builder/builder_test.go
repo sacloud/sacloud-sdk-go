@@ -57,7 +57,7 @@ func TestMobileGatewayBuilder_Build(t *testing.T) {
 			return nil
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &Builder{
 					Zone:        testZone,
 					Name:        testutil.ResourceName("mobile-gateway-builder"),
@@ -99,11 +99,11 @@ func TestMobileGatewayBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				mgwOp := iaas.NewMobileGatewayOp(caller)
 				return mgwOp.Read(ctx, testZone, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				mgw := value.(*iaas.MobileGateway)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, mgw, "MobileGateway"),

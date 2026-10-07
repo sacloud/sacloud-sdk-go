@@ -109,9 +109,9 @@ func TestLogRoutingOp_Update(t *testing.T) {
 	ctx := context.Background()
 
 	updateReq := LogsRoutingUpdateParams{
-		PublisherCode: ref("appliance"),
-		Variant:       ref("variant"),
-		LogStorageID:  ref("12345"),
+		PublisherCode: new("appliance"),
+		Variant:       new("variant"),
+		LogStorageID:  new("12345"),
 	}
 	res, err := api.Update(ctx, uuid.New(), updateReq)
 	require.NoError(t, err)
@@ -243,9 +243,9 @@ func TestLogRoutingIntegrated(t *testing.T) {
 
 	// Update
 	updateReq := LogsRoutingUpdateParams{
-		PublisherCode: ref(pub2.Code),
-		Variant:       ref(variant2.Name),
-		LogStorageID:  ref(fmt.Sprintf("%d", read.LogStorage.ID)),
+		PublisherCode: new(pub2.Code),
+		Variant:       new(variant2.Name),
+		LogStorageID:  new(fmt.Sprintf("%d", read.LogStorage.ID)),
 	}
 	updated, err := api.Update(ctx, rid, updateReq)
 	require.NoError(t, err)

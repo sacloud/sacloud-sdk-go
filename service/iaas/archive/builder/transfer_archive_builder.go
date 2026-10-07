@@ -83,7 +83,7 @@ func (b *TransferArchiveBuilder) Build(ctx context.Context, zone string) (*iaas.
 		return archive, nil
 	}
 
-	lastState, err := iaas.WaiterForReady(func() (interface{}, error) {
+	lastState, err := iaas.WaiterForReady(func() (any, error) {
 		return b.Client.Archive.Read(ctx, zone, archive.ID)
 	}).WaitForState(ctx)
 

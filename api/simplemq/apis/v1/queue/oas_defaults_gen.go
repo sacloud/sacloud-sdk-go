@@ -11,7 +11,7 @@ func (s *ClearQueueOKSimpleMQ) setDefaults() {
 }
 
 // setDefaults set default value of fields.
-func (s *GetMessageCountOKSimpleMQ) setDefaults() {
+func (s *ReadMessageCountOKSimpleMQ) setDefaults() {
 	{
 		val := string("success")
 		s.Result.SetTo(val)

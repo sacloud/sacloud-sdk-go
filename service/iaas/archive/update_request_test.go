@@ -20,7 +20,6 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/iaas"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/testutil"
 	"github.com/sacloud/sacloud-sdk-go/api/iaas/types"
-	"github.com/sacloud/sacloud-sdk-go/common/packages/pointer"
 )
 
 func TestUpdateRequest(t *testing.T) {
@@ -34,7 +33,7 @@ func TestUpdateRequest(t *testing.T) {
 	updateRequest := &UpdateRequest{
 		Zone: "is1a",
 		ID:   1,
-		Name: pointer.NewString(""),
+		Name: new(""),
 		//Description: pointer.NewString(""), // 未指定パラメータは元の値を保持(service:,omitemptyが必要)
 		Tags: &types.Tags{},
 	}

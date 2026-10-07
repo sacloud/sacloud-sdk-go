@@ -42,7 +42,7 @@ func TestStandardArchiveBuilder_Build(t *testing.T) {
 			return nil
 		},
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				builder := &StandardArchiveBuilder{
 					Name:            testutil.ResourceName("standard-archive-builder"),
 					Description:     "description",
@@ -54,10 +54,10 @@ func TestStandardArchiveBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				return iaas.NewArchiveOp(caller).Read(ctx, testZone, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				archive := value.(*iaas.Archive)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, archive, "Archive"),
@@ -68,7 +68,7 @@ func TestStandardArchiveBuilder_Build(t *testing.T) {
 			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) error {
 				archiveOp := iaas.NewArchiveOp(caller)
 
-				_, err := iaas.WaiterForReady(func() (interface{}, error) {
+				_, err := iaas.WaiterForReady(func() (any, error) {
 					return archiveOp.Read(ctx, testZone, ctx.ID)
 				}).WaitForState(ctx)
 				if err != nil {

@@ -25,7 +25,7 @@ import (
 )
 
 // NewParameter 指定のfuncのパラメータを新規作成&初期化して返す
-func NewParameter(service services.Service, funcName string) (interface{}, error) {
+func NewParameter(service services.Service, funcName string) (any, error) {
 	method, found := reflect.TypeOf(service).MethodByName(naming.ToUpperCamelCase(funcName))
 	if !found {
 		return nil, fmt.Errorf("method %q not found", funcName)
@@ -67,7 +67,7 @@ func ParameterMeta(service services.Service, funcName string) ([]meta.StructFiel
 }
 
 // ValidateStruct serviceのコンフィグを反映したバリデーターを用いたバリデーション
-func ValidateStruct(service services.Service, parameter interface{}) error {
+func ValidateStruct(service services.Service, parameter any) error {
 	if err := validate.New(service).Struct(parameter); err != nil {
 		return err
 	}

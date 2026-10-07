@@ -42,7 +42,7 @@ func setup(t *testing.T, v any, s ...int) (*require.Assertions, ServicePrincipal
 }
 
 func TestList(t *testing.T) {
-	var expected v1.ServicePrincipalsGetOK
+	var expected v1.ListServicePrincipalsOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.ServicePrincipal, 1))
 	expected.Items[0].SetFake()
@@ -71,7 +71,7 @@ func TestList_Fail(t *testing.T) {
 func TestCreate(t *testing.T) {
 	var expected v1.ServicePrincipal
 	expected.SetFake()
-	var req v1.ServicePrincipalsPostReq
+	var req v1.CreateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &expected, http.StatusCreated)
 
@@ -87,7 +87,7 @@ func TestCreate_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusBadRequest)
 	res.SetDetail(expected)
-	var req v1.ServicePrincipalsPostReq
+	var req v1.CreateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 
@@ -125,7 +125,7 @@ func TestGet_Fail(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	var expected v1.ServicePrincipal
 	expected.SetFake()
-	var req v1.ServicePrincipalsServicePrincipalIDPutReq
+	var req v1.UpdateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &expected)
 
@@ -141,7 +141,7 @@ func TestUpdate_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusForbidden)
 	res.SetDetail(expected)
-	var req v1.ServicePrincipalsServicePrincipalIDPutReq
+	var req v1.UpdateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 
@@ -152,7 +152,7 @@ func TestUpdate_Fail(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	assert, api := setup(t, &v1.ServicePrincipalsServicePrincipalIDDeleteNoContent{}, http.StatusNoContent)
+	assert, api := setup(t, &v1.DeleteServicePrincipalNoContent{}, http.StatusNoContent)
 
 	err := api.Delete(t.Context(), 123)
 	assert.NoError(err)
@@ -172,7 +172,7 @@ func TestDelete_Fail(t *testing.T) {
 }
 
 func TestListKeys(t *testing.T) {
-	var expected v1.ServicePrincipalsServicePrincipalIDKeysGetOK
+	var expected v1.ListServicePrincipalKeysOK
 	expected.SetFake()
 	expected.SetItems(make([]v1.ServicePrincipalKey, 1))
 	expected.Items[0].SetFake()
@@ -214,7 +214,7 @@ func TestUploadKey_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusBadRequest)
 	res.SetDetail("bad request")
-	var req v1.ServicePrincipalsPostReq
+	var req v1.CreateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 
@@ -241,7 +241,7 @@ func TestEnableKey_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusForbidden)
 	res.SetDetail(expected)
-	var req v1.ServicePrincipalsPostReq
+	var req v1.CreateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 
@@ -268,7 +268,7 @@ func TestDisableKey_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusForbidden)
 	res.SetDetail(expected)
-	var req v1.ServicePrincipalsPostReq
+	var req v1.CreateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 
@@ -291,7 +291,7 @@ func TestDeleteKey_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusUnauthorized)
 	res.SetDetail(expected)
-	var req v1.ServicePrincipalsPostReq
+	var req v1.CreateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 
@@ -318,7 +318,7 @@ func TestIssueToken_Fail(t *testing.T) {
 	res.SetFake()
 	res.SetStatus(http.StatusBadRequest)
 	res.SetDetail(expected)
-	var req v1.ServicePrincipalsPostReq
+	var req v1.CreateServicePrincipalReq
 	req.SetFake()
 	assert, api := setup(t, &res, res.Status)
 

@@ -20,7 +20,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/common/packages/cidr"
 )
 
-// AssignedIPAddress スイッチ+ルータの割り当てられたIPアドレスリスト
+// AssignedIPAddress ルータ+スイッチの割り当てられたIPアドレスリスト
 type AssignedIPAddress interface {
 	GetAssignedIPAddressMax() string
 	SetAssignedIPAddressMax(v string)

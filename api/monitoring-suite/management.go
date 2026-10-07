@@ -18,6 +18,7 @@ import (
 	"context"
 
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type ManagementAPI interface {
@@ -58,7 +59,7 @@ func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCr
 		ret = new(v1.Provisioning)
 
 		res, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreateRequest(v1.ProvisioningCreateRequest{
-			Logs: intoOpt[v1.OptProvisioningExistRequest](func() *v1.ProvisioningExistRequest {
+			Logs: into.Opt[v1.OptProvisioningExistRequest](func() *v1.ProvisioningExistRequest {
 				if p.Logs == nil {
 					return nil
 				}
@@ -68,7 +69,7 @@ func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCr
 				}
 				return &r
 			}()),
-			Metrics: intoOpt[v1.OptProvisioningExistRequest](func() *v1.ProvisioningExistRequest {
+			Metrics: into.Opt[v1.OptProvisioningExistRequest](func() *v1.ProvisioningExistRequest {
 				if p.Metrics == nil {
 					return nil
 				}

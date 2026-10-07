@@ -94,7 +94,7 @@ func TestPut_Fail(t *testing.T) {
 }
 
 func TestGetServicePolicy(t *testing.T) {
-	var expected v1.OrganizationServicePolicyGetOK
+	var expected v1.ReadOrganizationServicePolicyOK
 	expected.SetFake()
 	expected.SetRules(make([]v1.RuleResponse, 1))
 	expected.Rules[0].SetFake()
@@ -123,7 +123,7 @@ func TestGetServicePolicy_Fail(t *testing.T) {
 }
 
 func TestPutServicePolicy(t *testing.T) {
-	var expected v1.OrganizationServicePolicyPutOK
+	var expected v1.UpdateOrganizationServicePolicyOK
 	expected.SetFake()
 	expected.SetRules(make([]v1.RuleResponse, 1))
 	expected.Rules[0].SetFake()

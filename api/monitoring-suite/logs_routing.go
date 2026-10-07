@@ -21,6 +21,7 @@ import (
 
 	"github.com/google/uuid"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/monitoring-suite/apis/v1"
+	"github.com/sacloud/sacloud-sdk-go/common/packages/into"
 )
 
 type LogRoutingAPI interface {
@@ -52,11 +53,11 @@ type LogsRoutingsListParams struct {
 func (op *logRoutingOp) List(ctx context.Context, p LogsRoutingsListParams) (ret []v1.LogRouting, err error) {
 	res, err := errorFromDecodedResponse("LogRouting.List", func() (*v1.PaginatedLogRoutingList, error) {
 		return op.client.LogsRoutingsList(ctx, v1.LogsRoutingsListParams{
-			Count:         intoOpt[v1.OptInt](p.Count),
-			From:          intoOpt[v1.OptInt](p.From),
-			PublisherCode: intoOpt[v1.OptString](p.PublisherCode),
-			ResourceID:    intoOpt[v1.OptInt64](p.ResourceID),
-			Variant:       intoOpt[v1.OptString](p.Variant),
+			Count:         into.Opt[v1.OptInt](p.Count),
+			From:          into.Opt[v1.OptInt](p.From),
+			PublisherCode: into.Opt[v1.OptString](p.PublisherCode),
+			ResourceID:    into.Opt[v1.OptInt64](p.ResourceID),
+			Variant:       into.Opt[v1.OptString](p.Variant),
 		})
 	})
 	if err == nil {
@@ -74,7 +75,7 @@ type LogsRoutingCreateParams struct {
 
 func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreateParams) (*v1.LogRouting, error) {
 	res, err := errorFromDecodedResponse("LogRouting.Create", func() (*v1.WrappedLogRouting, error) {
-		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		rid, err := into.FromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
 		if err != nil {
 			return nil, fmt.Errorf("LogsRoutingCreateParams.ResourceID: %w", err)
 		}
@@ -110,18 +111,18 @@ type LogsRoutingUpdateParams struct {
 
 func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRoutingUpdateParams) (*v1.LogRouting, error) {
 	res, err := errorFromDecodedResponse("LogRouting.Update", func() (*v1.WrappedLogRouting, error) {
-		rid, err := fromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
+		rid, err := into.FromStringPtr[v1.OptNilInt64, int64](params.ResourceID)
 		if err != nil {
 			return nil, fmt.Errorf("LogsRoutingUpdateParams.ResourceID: %w", err)
 		}
-		lid, err := fromStringPtr[v1.OptNilInt64, int64](params.LogStorageID)
+		lid, err := into.FromStringPtr[v1.OptNilInt64, int64](params.LogStorageID)
 		if err != nil {
 			return nil, fmt.Errorf("LogsRoutingUpdateParams.LogStorageID: %w", err)
 		}
 		return op.client.LogsRoutingsPartialUpdate(ctx, v1.NewOptPatchedLogRoutingRequest(v1.PatchedLogRoutingRequest{
-			PublisherCode: intoOpt[v1.OptString](params.PublisherCode),
+			PublisherCode: into.Opt[v1.OptString](params.PublisherCode),
 			ResourceID:    rid,
-			Variant:       intoOpt[v1.OptString](params.Variant),
+			Variant:       into.Opt[v1.OptString](params.Variant),
 			LogStorageID:  lid,
 		}), v1.LogsRoutingsPartialUpdateParams{UID: id})
 	})

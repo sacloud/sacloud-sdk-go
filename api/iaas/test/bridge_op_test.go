@@ -99,22 +99,22 @@ var (
 	}
 )
 
-func testBridgeCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testBridgeCreate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewBridgeOp(caller)
 	return client.Create(ctx, testZone, createBridgeParam)
 }
 
-func testBridgeRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testBridgeRead(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewBridgeOp(caller)
 	return client.Read(ctx, testZone, ctx.ID)
 }
 
-func testBridgeUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testBridgeUpdate(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewBridgeOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateBridgeParam)
 }
 
-func testBridgeUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+func testBridgeUpdateToMin(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 	client := iaas.NewBridgeOp(caller)
 	return client.Update(ctx, testZone, ctx.ID, updateBridgeToMinParam)
 }

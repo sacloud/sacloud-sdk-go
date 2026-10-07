@@ -105,7 +105,7 @@ func TestMetricsStorageOp_Create(t *testing.T) {
 
 	createReq := MetricsStorageCreateParams{
 		Name:        "created-tank",
-		Description: ref("Created metrics tank"),
+		Description: new("Created metrics tank"),
 		IsSystem:    false,
 	}
 	actual, err := api.Create(ctx, createReq)

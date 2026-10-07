@@ -29,5 +29,5 @@ type ParameterValidator interface {
 //
 // ここで返される値はJSONまたはYAMLで出力されることがあるため適切なタグを付与しておくこと
 type ParameterExampleValuer interface {
-	Examples() interface{}
+	Examples() any
 }

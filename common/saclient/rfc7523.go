@@ -57,6 +57,7 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 	var ret tokenResponse
 	iat := time.Now().Unix()
 	exp := iat + 600 // 10 min
+	nbf := iat - 60  // 1 min
 
 	// these fields are checked beforehand
 	aud := obtainFromConfig[string](cfg, "TokenEndpoint").unwrap()
@@ -84,6 +85,7 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 		"sub": sub,
 		"aud": aud,
 		"iat": iat,
+		"nbf": nbf,
 		"exp": exp,
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)

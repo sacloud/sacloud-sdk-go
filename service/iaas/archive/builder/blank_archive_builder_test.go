@@ -49,7 +49,7 @@ func TestBlankArchiveBuilder_Build(t *testing.T) {
 		Parallel:           true,
 		IgnoreStartupWait:  true,
 		Create: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				source := bytes.NewBufferString("dummy")
 
 				builder := &BlankArchiveBuilder{
@@ -64,10 +64,10 @@ func TestBlankArchiveBuilder_Build(t *testing.T) {
 			},
 		},
 		Read: &testutil.CRUDTestFunc{
-			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (interface{}, error) {
+			Func: func(ctx *testutil.CRUDTestContext, caller iaas.APICaller) (any, error) {
 				return iaas.NewArchiveOp(caller).Read(ctx, testZone, ctx.ID)
 			},
-			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value interface{}) error {
+			CheckFunc: func(t testutil.TestT, ctx *testutil.CRUDTestContext, value any) error {
 				archive := value.(*iaas.Archive)
 				return testutil.DoAsserts(
 					testutil.AssertNotNilFunc(t, archive, "Archive"),

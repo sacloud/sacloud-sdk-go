@@ -27,6 +27,292 @@ func TestContainerRegistryAction_EncodeDecode(t *testing.T) {
 	var typ2 ContainerRegistryAction
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestCreateApplicationBadRequest_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationBody_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationBodyComponentsItem_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationBodyComponentsItemDeploySource_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItemDeploySource
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItemDeploySource
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationBodyComponentsItemDeploySourceContainerRegistry_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItemDeploySourceContainerRegistry
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItemDeploySourceContainerRegistry
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationBodyComponentsItemMaxCPU_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItemMaxCPU
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItemMaxCPU
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateApplicationBodyComponentsItemMaxCPU_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"0.5\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateApplicationBodyComponentsItemMaxCPU
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateApplicationBodyComponentsItemMaxCPU
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateApplicationBodyComponentsItemMaxMemory_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItemMaxMemory
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItemMaxMemory
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestCreateApplicationBodyComponentsItemMaxMemory_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"1Gi\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ CreateApplicationBodyComponentsItemMaxMemory
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 CreateApplicationBodyComponentsItemMaxMemory
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestCreateApplicationBodyComponentsItemProbe_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItemProbe
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItemProbe
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationBodyComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItemProbeHTTPGet
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItemProbeHTTPGet
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItemProbeHTTPGetHeadersItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationBodyComponentsItemSecretItem_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationBodyComponentsItemSecretItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationBodyComponentsItemSecretItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationConflict_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationConflict
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationConflict
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationForbidden_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationInternalServerError_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationUnauthorized_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateUserConflict_EncodeDecode(t *testing.T) {
+	var typ CreateUserConflict
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateUserConflict
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateUserForbidden_EncodeDecode(t *testing.T) {
+	var typ CreateUserForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateUserForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateUserInternalServerError_EncodeDecode(t *testing.T) {
+	var typ CreateUserInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateUserInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateUserUnauthorized_EncodeDecode(t *testing.T) {
+	var typ CreateUserUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateUserUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestDeleteApplicationBadRequest_EncodeDecode(t *testing.T) {
 	var typ DeleteApplicationBadRequest
 	typ.SetFake()
@@ -147,8 +433,8 @@ func TestDeleteApplicationVersionUnauthorized_EncodeDecode(t *testing.T) {
 	var typ2 DeleteApplicationVersionUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetApplicationBadRequest
+func TestHandlerCreateApplication_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateApplication
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -156,11 +442,11 @@ func TestGetApplicationBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetApplicationBadRequest
+	var typ2 HandlerCreateApplication
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationForbidden_EncodeDecode(t *testing.T) {
-	var typ GetApplicationForbidden
+func TestHandlerCreateApplicationComponentsItem_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateApplicationComponentsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -168,11 +454,11 @@ func TestGetApplicationForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetApplicationForbidden
+	var typ2 HandlerCreateApplicationComponentsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetApplicationInternalServerError
+func TestHandlerCreateApplicationComponentsItemDeploySource_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateApplicationComponentsItemDeploySource
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -180,11 +466,11 @@ func TestGetApplicationInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetApplicationInternalServerError
+	var typ2 HandlerCreateApplicationComponentsItemDeploySource
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationNotFound_EncodeDecode(t *testing.T) {
-	var typ GetApplicationNotFound
+func TestHandlerCreateApplicationComponentsItemDeploySourceContainerRegistry_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -192,11 +478,11 @@ func TestGetApplicationNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetApplicationNotFound
+	var typ2 HandlerCreateApplicationComponentsItemDeploySourceContainerRegistry
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationStatusBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetApplicationStatusBadRequest
+func TestHandlerCreateApplicationComponentsItemProbe_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateApplicationComponentsItemProbe
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -204,11 +490,11 @@ func TestGetApplicationStatusBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetApplicationStatusBadRequest
+	var typ2 HandlerCreateApplicationComponentsItemProbe
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationStatusForbidden_EncodeDecode(t *testing.T) {
-	var typ GetApplicationStatusForbidden
+func TestHandlerCreateApplicationComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateApplicationComponentsItemProbeHTTPGet
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -216,11 +502,11 @@ func TestGetApplicationStatusForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetApplicationStatusForbidden
+	var typ2 HandlerCreateApplicationComponentsItemProbeHTTPGet
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationStatusInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetApplicationStatusInternalServerError
+func TestHandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -228,11 +514,11 @@ func TestGetApplicationStatusInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetApplicationStatusInternalServerError
+	var typ2 HandlerCreateApplicationComponentsItemProbeHTTPGetHeadersItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationStatusNotFound_EncodeDecode(t *testing.T) {
-	var typ GetApplicationStatusNotFound
+func TestHandlerCreateApplicationStatus_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateApplicationStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -240,383 +526,11 @@ func TestGetApplicationStatusNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 GetApplicationStatusNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationStatusUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetApplicationStatusUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationStatusUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetApplicationUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionForbidden_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionNotFound_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionStatusBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionStatusBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionStatusBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionStatusForbidden_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionStatusForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionStatusForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionStatusInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionStatusInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionStatusInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionStatusNotFound_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionStatusNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionStatusNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionStatusUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionStatusUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionStatusUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetApplicationVersionUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetPacketFilterBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetPacketFilterBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetPacketFilterBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetPacketFilterForbidden_EncodeDecode(t *testing.T) {
-	var typ GetPacketFilterForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetPacketFilterForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetPacketFilterInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetPacketFilterInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetPacketFilterInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetPacketFilterNotFound_EncodeDecode(t *testing.T) {
-	var typ GetPacketFilterNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetPacketFilterNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetPacketFilterUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetPacketFilterUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetPacketFilterUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetUserForbidden_EncodeDecode(t *testing.T) {
-	var typ GetUserForbidden
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetUserForbidden
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetUserInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetUserInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetUserInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetUserNotFound_EncodeDecode(t *testing.T) {
-	var typ GetUserNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetUserNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetUserUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetUserUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetUserUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplication_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplication
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplication
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationComponentsItem_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationComponentsItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationComponentsItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationComponentsItemDeploySource_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationComponentsItemDeploySource
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationComponentsItemDeploySource
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationComponentsItemDeploySourceContainerRegistry_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationComponentsItemDeploySourceContainerRegistry
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationComponentsItemDeploySourceContainerRegistry
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationComponentsItemEnvItem_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationComponentsItemEnvItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationComponentsItemEnvItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationComponentsItemProbe_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationComponentsItemProbe
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationComponentsItemProbe
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationComponentsItemProbeHTTPGet
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationComponentsItemProbeHTTPGet
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationComponentsItemProbeHTTPGetHeadersItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationOnlyStatus_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationOnlyStatus
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationOnlyStatus
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationOnlyStatusStatus_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationOnlyStatusStatus
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationOnlyStatusStatus
+	var typ2 HandlerCreateApplicationStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestHandlerGetApplicationOnlyStatusStatus_Examples(t *testing.T) {
+func TestHandlerCreateApplicationStatus_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -625,7 +539,7 @@ func TestHandlerGetApplicationOnlyStatusStatus_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ HandlerGetApplicationOnlyStatusStatus
+			var typ HandlerCreateApplicationStatus
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -639,13 +553,13 @@ func TestHandlerGetApplicationOnlyStatusStatus_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 HandlerGetApplicationOnlyStatusStatus
+			var typ2 HandlerCreateApplicationStatus
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestHandlerGetApplicationStatus_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationStatus
+func TestHandlerCreateUser_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateUser
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -653,40 +567,11 @@ func TestHandlerGetApplicationStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerGetApplicationStatus
+	var typ2 HandlerCreateUser
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-
-func TestHandlerGetApplicationStatus_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "\"Healthy\""},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ HandlerGetApplicationStatus
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 HandlerGetApplicationStatus
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestHandlerGetApplicationVersionOnlyStatus_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationVersionOnlyStatus
+func TestHandlerCreateUserLimit_EncodeDecode(t *testing.T) {
+	var typ HandlerCreateUserLimit
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -694,234 +579,8 @@ func TestHandlerGetApplicationVersionOnlyStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerGetApplicationVersionOnlyStatus
+	var typ2 HandlerCreateUserLimit
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetApplicationVersionOnlyStatusStatus_EncodeDecode(t *testing.T) {
-	var typ HandlerGetApplicationVersionOnlyStatusStatus
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetApplicationVersionOnlyStatusStatus
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestHandlerGetApplicationVersionOnlyStatusStatus_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "\"UnHealthy\""},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ HandlerGetApplicationVersionOnlyStatusStatus
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 HandlerGetApplicationVersionOnlyStatusStatus
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestHandlerGetPacketFilter_EncodeDecode(t *testing.T) {
-	var typ HandlerGetPacketFilter
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetPacketFilter
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetPacketFilterSettingsItem_EncodeDecode(t *testing.T) {
-	var typ HandlerGetPacketFilterSettingsItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetPacketFilterSettingsItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetUser_EncodeDecode(t *testing.T) {
-	var typ HandlerGetUser
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetUser
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetUserLimit_EncodeDecode(t *testing.T) {
-	var typ HandlerGetUserLimit
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetUserLimit
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersion_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersion
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersion
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersionComponentsItem_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersionComponentsItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersionComponentsItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersionComponentsItemDeploySource_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersionComponentsItemDeploySource
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersionComponentsItemDeploySource
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersionComponentsItemDeploySourceContainerRegistry_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersionComponentsItemDeploySourceContainerRegistry
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersionComponentsItemDeploySourceContainerRegistry
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersionComponentsItemEnvItem_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersionComponentsItemEnvItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersionComponentsItemEnvItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersionComponentsItemProbe_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersionComponentsItemProbe
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersionComponentsItemProbe
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersionComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersionComponentsItemProbeHTTPGet
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersionComponentsItemProbeHTTPGet
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersionComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersionComponentsItemProbeHTTPGetHeadersItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestHandlerGetVersionStatus_EncodeDecode(t *testing.T) {
-	var typ HandlerGetVersionStatus
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerGetVersionStatus
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestHandlerGetVersionStatus_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "\"Healthy\""},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ HandlerGetVersionStatus
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 HandlerGetVersionStatus
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
 }
 func TestHandlerListApplications_EncodeDecode(t *testing.T) {
 	var typ HandlerListApplications
@@ -1041,8 +700,8 @@ func TestHandlerListApplicationsMetaSortOrder_Examples(t *testing.T) {
 		})
 	}
 }
-func TestHandlerListTraffics_EncodeDecode(t *testing.T) {
-	var typ HandlerListTraffics
+func TestHandlerListTraffic_EncodeDecode(t *testing.T) {
+	var typ HandlerListTraffic
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1050,11 +709,11 @@ func TestHandlerListTraffics_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerListTraffics
+	var typ2 HandlerListTraffic
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerListTrafficsDataItem_EncodeDecode(t *testing.T) {
-	var typ HandlerListTrafficsDataItem
+func TestHandlerListTrafficDataItem_EncodeDecode(t *testing.T) {
+	var typ HandlerListTrafficDataItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1062,11 +721,11 @@ func TestHandlerListTrafficsDataItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerListTrafficsDataItem
+	var typ2 HandlerListTrafficDataItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerListTrafficsMeta_EncodeDecode(t *testing.T) {
-	var typ HandlerListTrafficsMeta
+func TestHandlerListTrafficMeta_EncodeDecode(t *testing.T) {
+	var typ HandlerListTrafficMeta
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1074,11 +733,11 @@ func TestHandlerListTrafficsMeta_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerListTrafficsMeta
+	var typ2 HandlerListTrafficMeta
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestHandlerListTrafficsMeta_Examples(t *testing.T) {
+func TestHandlerListTrafficMeta_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -1087,7 +746,7 @@ func TestHandlerListTrafficsMeta_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ HandlerListTrafficsMeta
+			var typ HandlerListTrafficMeta
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1101,7 +760,7 @@ func TestHandlerListTrafficsMeta_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 HandlerListTrafficsMeta
+			var typ2 HandlerListTrafficMeta
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -1272,18 +931,6 @@ func TestHandlerPatchApplicationComponentsItemDeploySourceContainerRegistry_Enco
 	var typ2 HandlerPatchApplicationComponentsItemDeploySourceContainerRegistry
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPatchApplicationComponentsItemEnvItem_EncodeDecode(t *testing.T) {
-	var typ HandlerPatchApplicationComponentsItemEnvItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 HandlerPatchApplicationComponentsItemEnvItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestHandlerPatchApplicationComponentsItemProbe_EncodeDecode(t *testing.T) {
 	var typ HandlerPatchApplicationComponentsItemProbe
 	typ.SetFake()
@@ -1385,8 +1032,8 @@ func TestHandlerPatchPacketFilterSettingsItem_EncodeDecode(t *testing.T) {
 	var typ2 HandlerPatchPacketFilterSettingsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplication_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplication
+func TestHandlerReadApplication_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplication
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1394,11 +1041,11 @@ func TestHandlerPostApplication_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplication
+	var typ2 HandlerReadApplication
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplicationComponentsItem_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplicationComponentsItem
+func TestHandlerReadApplicationComponentsItem_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationComponentsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1406,11 +1053,11 @@ func TestHandlerPostApplicationComponentsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplicationComponentsItem
+	var typ2 HandlerReadApplicationComponentsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplicationComponentsItemDeploySource_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplicationComponentsItemDeploySource
+func TestHandlerReadApplicationComponentsItemDeploySource_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationComponentsItemDeploySource
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1418,11 +1065,11 @@ func TestHandlerPostApplicationComponentsItemDeploySource_EncodeDecode(t *testin
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplicationComponentsItemDeploySource
+	var typ2 HandlerReadApplicationComponentsItemDeploySource
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplicationComponentsItemDeploySourceContainerRegistry_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplicationComponentsItemDeploySourceContainerRegistry
+func TestHandlerReadApplicationComponentsItemDeploySourceContainerRegistry_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationComponentsItemDeploySourceContainerRegistry
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1430,11 +1077,11 @@ func TestHandlerPostApplicationComponentsItemDeploySourceContainerRegistry_Encod
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplicationComponentsItemDeploySourceContainerRegistry
+	var typ2 HandlerReadApplicationComponentsItemDeploySourceContainerRegistry
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplicationComponentsItemEnvItem_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplicationComponentsItemEnvItem
+func TestHandlerReadApplicationComponentsItemProbe_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationComponentsItemProbe
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1442,11 +1089,11 @@ func TestHandlerPostApplicationComponentsItemEnvItem_EncodeDecode(t *testing.T) 
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplicationComponentsItemEnvItem
+	var typ2 HandlerReadApplicationComponentsItemProbe
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplicationComponentsItemProbe_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplicationComponentsItemProbe
+func TestHandlerReadApplicationComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationComponentsItemProbeHTTPGet
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1454,11 +1101,11 @@ func TestHandlerPostApplicationComponentsItemProbe_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplicationComponentsItemProbe
+	var typ2 HandlerReadApplicationComponentsItemProbeHTTPGet
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplicationComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplicationComponentsItemProbeHTTPGet
+func TestHandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1466,11 +1113,11 @@ func TestHandlerPostApplicationComponentsItemProbeHTTPGet_EncodeDecode(t *testin
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplicationComponentsItemProbeHTTPGet
+	var typ2 HandlerReadApplicationComponentsItemProbeHTTPGetHeadersItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem
+func TestHandlerReadApplicationOnlyStatus_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationOnlyStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1478,11 +1125,11 @@ func TestHandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem_EncodeDecod
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplicationComponentsItemProbeHTTPGetHeadersItem
+	var typ2 HandlerReadApplicationOnlyStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostApplicationStatus_EncodeDecode(t *testing.T) {
-	var typ HandlerPostApplicationStatus
+func TestHandlerReadApplicationOnlyStatusStatus_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationOnlyStatusStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1490,11 +1137,11 @@ func TestHandlerPostApplicationStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostApplicationStatus
+	var typ2 HandlerReadApplicationOnlyStatusStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestHandlerPostApplicationStatus_Examples(t *testing.T) {
+func TestHandlerReadApplicationOnlyStatusStatus_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -1503,7 +1150,7 @@ func TestHandlerPostApplicationStatus_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ HandlerPostApplicationStatus
+			var typ HandlerReadApplicationOnlyStatusStatus
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1517,13 +1164,13 @@ func TestHandlerPostApplicationStatus_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 HandlerPostApplicationStatus
+			var typ2 HandlerReadApplicationOnlyStatusStatus
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestHandlerPostUser_EncodeDecode(t *testing.T) {
-	var typ HandlerPostUser
+func TestHandlerReadApplicationStatus_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1531,11 +1178,40 @@ func TestHandlerPostUser_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostUser
+	var typ2 HandlerReadApplicationStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPostUserLimit_EncodeDecode(t *testing.T) {
-	var typ HandlerPostUserLimit
+
+func TestHandlerReadApplicationStatus_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"Healthy\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ HandlerReadApplicationStatus
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 HandlerReadApplicationStatus
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestHandlerReadApplicationVersionOnlyStatus_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationVersionOnlyStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1543,11 +1219,11 @@ func TestHandlerPostUserLimit_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPostUserLimit
+	var typ2 HandlerReadApplicationVersionOnlyStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPutTraffics_EncodeDecode(t *testing.T) {
-	var typ HandlerPutTraffics
+func TestHandlerReadApplicationVersionOnlyStatusStatus_EncodeDecode(t *testing.T) {
+	var typ HandlerReadApplicationVersionOnlyStatusStatus
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1555,11 +1231,40 @@ func TestHandlerPutTraffics_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPutTraffics
+	var typ2 HandlerReadApplicationVersionOnlyStatusStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPutTrafficsDataItem_EncodeDecode(t *testing.T) {
-	var typ HandlerPutTrafficsDataItem
+
+func TestHandlerReadApplicationVersionOnlyStatusStatus_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"UnHealthy\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ HandlerReadApplicationVersionOnlyStatusStatus
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 HandlerReadApplicationVersionOnlyStatusStatus
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestHandlerReadPacketFilter_EncodeDecode(t *testing.T) {
+	var typ HandlerReadPacketFilter
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1567,11 +1272,11 @@ func TestHandlerPutTrafficsDataItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPutTrafficsDataItem
+	var typ2 HandlerReadPacketFilter
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestHandlerPutTrafficsMeta_EncodeDecode(t *testing.T) {
-	var typ HandlerPutTrafficsMeta
+func TestHandlerReadPacketFilterSettingsItem_EncodeDecode(t *testing.T) {
+	var typ HandlerReadPacketFilterSettingsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1579,11 +1284,196 @@ func TestHandlerPutTrafficsMeta_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 HandlerPutTrafficsMeta
+	var typ2 HandlerReadPacketFilterSettingsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadUser_EncodeDecode(t *testing.T) {
+	var typ HandlerReadUser
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadUser
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadUserLimit_EncodeDecode(t *testing.T) {
+	var typ HandlerReadUserLimit
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadUserLimit
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadVersion_EncodeDecode(t *testing.T) {
+	var typ HandlerReadVersion
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadVersion
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadVersionComponentsItem_EncodeDecode(t *testing.T) {
+	var typ HandlerReadVersionComponentsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadVersionComponentsItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadVersionComponentsItemDeploySource_EncodeDecode(t *testing.T) {
+	var typ HandlerReadVersionComponentsItemDeploySource
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadVersionComponentsItemDeploySource
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadVersionComponentsItemDeploySourceContainerRegistry_EncodeDecode(t *testing.T) {
+	var typ HandlerReadVersionComponentsItemDeploySourceContainerRegistry
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadVersionComponentsItemDeploySourceContainerRegistry
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadVersionComponentsItemProbe_EncodeDecode(t *testing.T) {
+	var typ HandlerReadVersionComponentsItemProbe
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadVersionComponentsItemProbe
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadVersionComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T) {
+	var typ HandlerReadVersionComponentsItemProbeHTTPGet
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadVersionComponentsItemProbeHTTPGet
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadVersionComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t *testing.T) {
+	var typ HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadVersionComponentsItemProbeHTTPGetHeadersItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerReadVersionStatus_EncodeDecode(t *testing.T) {
+	var typ HandlerReadVersionStatus
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerReadVersionStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestHandlerPutTrafficsMeta_Examples(t *testing.T) {
+func TestHandlerReadVersionStatus_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "\"Healthy\""},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ HandlerReadVersionStatus
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 HandlerReadVersionStatus
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestHandlerUpdateTraffic_EncodeDecode(t *testing.T) {
+	var typ HandlerUpdateTraffic
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerUpdateTraffic
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerUpdateTrafficDataItem_EncodeDecode(t *testing.T) {
+	var typ HandlerUpdateTrafficDataItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerUpdateTrafficDataItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestHandlerUpdateTrafficMeta_EncodeDecode(t *testing.T) {
+	var typ HandlerUpdateTrafficMeta
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 HandlerUpdateTrafficMeta
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestHandlerUpdateTrafficMeta_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -1592,7 +1482,7 @@ func TestHandlerPutTrafficsMeta_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ HandlerPutTrafficsMeta
+			var typ HandlerUpdateTrafficMeta
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1606,13 +1496,13 @@ func TestHandlerPutTrafficsMeta_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 HandlerPutTrafficsMeta
+			var typ2 HandlerUpdateTrafficMeta
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListApplicationTrafficsBadRequest_EncodeDecode(t *testing.T) {
-	var typ ListApplicationTrafficsBadRequest
+func TestListApplicationTrafficBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListApplicationTrafficBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1620,11 +1510,11 @@ func TestListApplicationTrafficsBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListApplicationTrafficsBadRequest
+	var typ2 ListApplicationTrafficBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListApplicationTrafficsForbidden_EncodeDecode(t *testing.T) {
-	var typ ListApplicationTrafficsForbidden
+func TestListApplicationTrafficForbidden_EncodeDecode(t *testing.T) {
+	var typ ListApplicationTrafficForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1632,11 +1522,11 @@ func TestListApplicationTrafficsForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListApplicationTrafficsForbidden
+	var typ2 ListApplicationTrafficForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListApplicationTrafficsInternalServerError_EncodeDecode(t *testing.T) {
-	var typ ListApplicationTrafficsInternalServerError
+func TestListApplicationTrafficInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ListApplicationTrafficInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1644,11 +1534,11 @@ func TestListApplicationTrafficsInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListApplicationTrafficsInternalServerError
+	var typ2 ListApplicationTrafficInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListApplicationTrafficsNotFound_EncodeDecode(t *testing.T) {
-	var typ ListApplicationTrafficsNotFound
+func TestListApplicationTrafficNotFound_EncodeDecode(t *testing.T) {
+	var typ ListApplicationTrafficNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1656,11 +1546,11 @@ func TestListApplicationTrafficsNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListApplicationTrafficsNotFound
+	var typ2 ListApplicationTrafficNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListApplicationTrafficsUnauthorized_EncodeDecode(t *testing.T) {
-	var typ ListApplicationTrafficsUnauthorized
+func TestListApplicationTrafficUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListApplicationTrafficUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1668,7 +1558,7 @@ func TestListApplicationTrafficsUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListApplicationTrafficsUnauthorized
+	var typ2 ListApplicationTrafficUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestListApplicationVersionsBadRequest_EncodeDecode(t *testing.T) {
@@ -1940,18 +1830,6 @@ func TestPatchApplicationBodyComponentsItemDeploySourceContainerRegistry_EncodeD
 	var typ2 PatchApplicationBodyComponentsItemDeploySourceContainerRegistry
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchApplicationBodyComponentsItemEnvItem_EncodeDecode(t *testing.T) {
-	var typ PatchApplicationBodyComponentsItemEnvItem
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PatchApplicationBodyComponentsItemEnvItem
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestPatchApplicationBodyComponentsItemMaxCPU_EncodeDecode(t *testing.T) {
 	var typ PatchApplicationBodyComponentsItemMaxCPU
 	typ.SetFake()
@@ -2070,6 +1948,18 @@ func TestPatchApplicationBodyComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(
 	var typ2 PatchApplicationBodyComponentsItemProbeHTTPGetHeadersItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestPatchApplicationBodyComponentsItemSecretItem_EncodeDecode(t *testing.T) {
+	var typ PatchApplicationBodyComponentsItemSecretItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchApplicationBodyComponentsItemSecretItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestPatchApplicationConflict_EncodeDecode(t *testing.T) {
 	var typ PatchApplicationConflict
 	typ.SetFake()
@@ -2118,6 +2008,66 @@ func TestPatchApplicationNotFound_EncodeDecode(t *testing.T) {
 	var typ2 PatchApplicationNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestPatchApplicationPacketFilterBadRequest_EncodeDecode(t *testing.T) {
+	var typ PatchApplicationPacketFilterBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchApplicationPacketFilterBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPatchApplicationPacketFilterForbidden_EncodeDecode(t *testing.T) {
+	var typ PatchApplicationPacketFilterForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchApplicationPacketFilterForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPatchApplicationPacketFilterInternalServerError_EncodeDecode(t *testing.T) {
+	var typ PatchApplicationPacketFilterInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchApplicationPacketFilterInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPatchApplicationPacketFilterNotFound_EncodeDecode(t *testing.T) {
+	var typ PatchApplicationPacketFilterNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchApplicationPacketFilterNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPatchApplicationPacketFilterUnauthorized_EncodeDecode(t *testing.T) {
+	var typ PatchApplicationPacketFilterUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchApplicationPacketFilterUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestPatchApplicationUnauthorized_EncodeDecode(t *testing.T) {
 	var typ PatchApplicationUnauthorized
 	typ.SetFake()
@@ -2130,8 +2080,8 @@ func TestPatchApplicationUnauthorized_EncodeDecode(t *testing.T) {
 	var typ2 PatchApplicationUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchPacketFilter_EncodeDecode(t *testing.T) {
-	var typ PatchPacketFilter
+func TestPatchPacketFilterBody_EncodeDecode(t *testing.T) {
+	var typ PatchPacketFilterBody
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2139,11 +2089,11 @@ func TestPatchPacketFilter_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchPacketFilter
+	var typ2 PatchPacketFilterBody
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchPacketFilterBadRequest_EncodeDecode(t *testing.T) {
-	var typ PatchPacketFilterBadRequest
+func TestPatchPacketFilterBodySettingsItem_EncodeDecode(t *testing.T) {
+	var typ PatchPacketFilterBodySettingsItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2151,11 +2101,11 @@ func TestPatchPacketFilterBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchPacketFilterBadRequest
+	var typ2 PatchPacketFilterBodySettingsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchPacketFilterForbidden_EncodeDecode(t *testing.T) {
-	var typ PatchPacketFilterForbidden
+func TestReadApplicationBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2163,11 +2113,11 @@ func TestPatchPacketFilterForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchPacketFilterForbidden
+	var typ2 ReadApplicationBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchPacketFilterInternalServerError_EncodeDecode(t *testing.T) {
-	var typ PatchPacketFilterInternalServerError
+func TestReadApplicationForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2175,11 +2125,11 @@ func TestPatchPacketFilterInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchPacketFilterInternalServerError
+	var typ2 ReadApplicationForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchPacketFilterNotFound_EncodeDecode(t *testing.T) {
-	var typ PatchPacketFilterNotFound
+func TestReadApplicationInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2187,11 +2137,11 @@ func TestPatchPacketFilterNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchPacketFilterNotFound
+	var typ2 ReadApplicationInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchPacketFilterSettingsItem_EncodeDecode(t *testing.T) {
-	var typ PatchPacketFilterSettingsItem
+func TestReadApplicationNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2199,11 +2149,11 @@ func TestPatchPacketFilterSettingsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchPacketFilterSettingsItem
+	var typ2 ReadApplicationNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPatchPacketFilterUnauthorized_EncodeDecode(t *testing.T) {
-	var typ PatchPacketFilterUnauthorized
+func TestReadApplicationPacketFilterBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationPacketFilterBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2211,11 +2161,11 @@ func TestPatchPacketFilterUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PatchPacketFilterUnauthorized
+	var typ2 ReadApplicationPacketFilterBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBadRequest_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBadRequest
+func TestReadApplicationPacketFilterForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationPacketFilterForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2223,11 +2173,11 @@ func TestPostApplicationBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBadRequest
+	var typ2 ReadApplicationPacketFilterForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBody_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBody
+func TestReadApplicationPacketFilterInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationPacketFilterInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2235,11 +2185,11 @@ func TestPostApplicationBody_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBody
+	var typ2 ReadApplicationPacketFilterInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBodyComponentsItem_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItem
+func TestReadApplicationPacketFilterNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationPacketFilterNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2247,11 +2197,11 @@ func TestPostApplicationBodyComponentsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItem
+	var typ2 ReadApplicationPacketFilterNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBodyComponentsItemDeploySource_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItemDeploySource
+func TestReadApplicationPacketFilterUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationPacketFilterUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2259,11 +2209,11 @@ func TestPostApplicationBodyComponentsItemDeploySource_EncodeDecode(t *testing.T
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItemDeploySource
+	var typ2 ReadApplicationPacketFilterUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBodyComponentsItemDeploySourceContainerRegistry_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItemDeploySourceContainerRegistry
+func TestReadApplicationStatusBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationStatusBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2271,11 +2221,11 @@ func TestPostApplicationBodyComponentsItemDeploySourceContainerRegistry_EncodeDe
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItemDeploySourceContainerRegistry
+	var typ2 ReadApplicationStatusBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBodyComponentsItemEnvItem_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItemEnvItem
+func TestReadApplicationStatusForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationStatusForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2283,11 +2233,11 @@ func TestPostApplicationBodyComponentsItemEnvItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItemEnvItem
+	var typ2 ReadApplicationStatusForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBodyComponentsItemMaxCPU_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItemMaxCPU
+func TestReadApplicationStatusInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationStatusInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2295,40 +2245,11 @@ func TestPostApplicationBodyComponentsItemMaxCPU_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItemMaxCPU
+	var typ2 ReadApplicationStatusInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-
-func TestPostApplicationBodyComponentsItemMaxCPU_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "\"0.5\""},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ PostApplicationBodyComponentsItemMaxCPU
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 PostApplicationBodyComponentsItemMaxCPU
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestPostApplicationBodyComponentsItemMaxMemory_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItemMaxMemory
+func TestReadApplicationStatusNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationStatusNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2336,40 +2257,11 @@ func TestPostApplicationBodyComponentsItemMaxMemory_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItemMaxMemory
+	var typ2 ReadApplicationStatusNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-
-func TestPostApplicationBodyComponentsItemMaxMemory_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "\"1Gi\""},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ PostApplicationBodyComponentsItemMaxMemory
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 PostApplicationBodyComponentsItemMaxMemory
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestPostApplicationBodyComponentsItemProbe_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItemProbe
+func TestReadApplicationStatusUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationStatusUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2377,11 +2269,11 @@ func TestPostApplicationBodyComponentsItemProbe_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItemProbe
+	var typ2 ReadApplicationStatusUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBodyComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItemProbeHTTPGet
+func TestReadApplicationUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2389,11 +2281,11 @@ func TestPostApplicationBodyComponentsItemProbeHTTPGet_EncodeDecode(t *testing.T
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItemProbeHTTPGet
+	var typ2 ReadApplicationUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationBodyComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t *testing.T) {
-	var typ PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem
+func TestReadApplicationVersionBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2401,11 +2293,11 @@ func TestPostApplicationBodyComponentsItemProbeHTTPGetHeadersItem_EncodeDecode(t
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationBodyComponentsItemProbeHTTPGetHeadersItem
+	var typ2 ReadApplicationVersionBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationConflict_EncodeDecode(t *testing.T) {
-	var typ PostApplicationConflict
+func TestReadApplicationVersionForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2413,11 +2305,11 @@ func TestPostApplicationConflict_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationConflict
+	var typ2 ReadApplicationVersionForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationForbidden_EncodeDecode(t *testing.T) {
-	var typ PostApplicationForbidden
+func TestReadApplicationVersionInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2425,11 +2317,11 @@ func TestPostApplicationForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationForbidden
+	var typ2 ReadApplicationVersionInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationInternalServerError_EncodeDecode(t *testing.T) {
-	var typ PostApplicationInternalServerError
+func TestReadApplicationVersionNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2437,11 +2329,11 @@ func TestPostApplicationInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationInternalServerError
+	var typ2 ReadApplicationVersionNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostApplicationUnauthorized_EncodeDecode(t *testing.T) {
-	var typ PostApplicationUnauthorized
+func TestReadApplicationVersionStatusBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionStatusBadRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2449,11 +2341,11 @@ func TestPostApplicationUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostApplicationUnauthorized
+	var typ2 ReadApplicationVersionStatusBadRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostUserConflict_EncodeDecode(t *testing.T) {
-	var typ PostUserConflict
+func TestReadApplicationVersionStatusForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionStatusForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2461,11 +2353,11 @@ func TestPostUserConflict_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostUserConflict
+	var typ2 ReadApplicationVersionStatusForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostUserForbidden_EncodeDecode(t *testing.T) {
-	var typ PostUserForbidden
+func TestReadApplicationVersionStatusInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionStatusInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2473,11 +2365,11 @@ func TestPostUserForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostUserForbidden
+	var typ2 ReadApplicationVersionStatusInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostUserInternalServerError_EncodeDecode(t *testing.T) {
-	var typ PostUserInternalServerError
+func TestReadApplicationVersionStatusNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionStatusNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2485,11 +2377,11 @@ func TestPostUserInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostUserInternalServerError
+	var typ2 ReadApplicationVersionStatusNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostUserUnauthorized_EncodeDecode(t *testing.T) {
-	var typ PostUserUnauthorized
+func TestReadApplicationVersionStatusUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionStatusUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2497,11 +2389,11 @@ func TestPostUserUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PostUserUnauthorized
+	var typ2 ReadApplicationVersionStatusUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutApplicationTrafficBadRequest_EncodeDecode(t *testing.T) {
-	var typ PutApplicationTrafficBadRequest
+func TestReadApplicationVersionUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2509,11 +2401,11 @@ func TestPutApplicationTrafficBadRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutApplicationTrafficBadRequest
+	var typ2 ReadApplicationVersionUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutApplicationTrafficForbidden_EncodeDecode(t *testing.T) {
-	var typ PutApplicationTrafficForbidden
+func TestReadUserForbidden_EncodeDecode(t *testing.T) {
+	var typ ReadUserForbidden
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2521,11 +2413,11 @@ func TestPutApplicationTrafficForbidden_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutApplicationTrafficForbidden
+	var typ2 ReadUserForbidden
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutApplicationTrafficInternalServerError_EncodeDecode(t *testing.T) {
-	var typ PutApplicationTrafficInternalServerError
+func TestReadUserInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadUserInternalServerError
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2533,11 +2425,11 @@ func TestPutApplicationTrafficInternalServerError_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutApplicationTrafficInternalServerError
+	var typ2 ReadUserInternalServerError
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutApplicationTrafficNotFound_EncodeDecode(t *testing.T) {
-	var typ PutApplicationTrafficNotFound
+func TestReadUserNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadUserNotFound
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2545,11 +2437,11 @@ func TestPutApplicationTrafficNotFound_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutApplicationTrafficNotFound
+	var typ2 ReadUserNotFound
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutApplicationTrafficUnauthorized_EncodeDecode(t *testing.T) {
-	var typ PutApplicationTrafficUnauthorized
+func TestReadUserUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadUserUnauthorized
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2557,11 +2449,11 @@ func TestPutApplicationTrafficUnauthorized_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutApplicationTrafficUnauthorized
+	var typ2 ReadUserUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutTrafficsBody_EncodeDecode(t *testing.T) {
-	var typ PutTrafficsBody
+func TestRequestEnv_EncodeDecode(t *testing.T) {
+	var typ RequestEnv
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2569,11 +2461,11 @@ func TestPutTrafficsBody_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutTrafficsBody
+	var typ2 RequestEnv
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutTrafficsBodyItem_EncodeDecode(t *testing.T) {
-	var typ PutTrafficsBodyItem
+func TestRequestEnvItem_EncodeDecode(t *testing.T) {
+	var typ RequestEnvItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2581,11 +2473,11 @@ func TestPutTrafficsBodyItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutTrafficsBodyItem
+	var typ2 RequestEnvItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutTrafficsBodyItem0_EncodeDecode(t *testing.T) {
-	var typ PutTrafficsBodyItem0
+func TestResponseEnv_EncodeDecode(t *testing.T) {
+	var typ ResponseEnv
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2593,11 +2485,11 @@ func TestPutTrafficsBodyItem0_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutTrafficsBodyItem0
+	var typ2 ResponseEnv
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutTrafficsBodyItem1_EncodeDecode(t *testing.T) {
-	var typ PutTrafficsBodyItem1
+func TestResponseEnvItem_EncodeDecode(t *testing.T) {
+	var typ ResponseEnvItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -2605,6 +2497,138 @@ func TestPutTrafficsBodyItem1_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutTrafficsBodyItem1
+	var typ2 ResponseEnvItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestResponseSecret_EncodeDecode(t *testing.T) {
+	var typ ResponseSecret
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ResponseSecret
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestResponseSecretItem_EncodeDecode(t *testing.T) {
+	var typ ResponseSecretItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ResponseSecretItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateApplicationTrafficBadRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateApplicationTrafficBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateApplicationTrafficBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateApplicationTrafficForbidden_EncodeDecode(t *testing.T) {
+	var typ UpdateApplicationTrafficForbidden
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateApplicationTrafficForbidden
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateApplicationTrafficInternalServerError_EncodeDecode(t *testing.T) {
+	var typ UpdateApplicationTrafficInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateApplicationTrafficInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateApplicationTrafficNotFound_EncodeDecode(t *testing.T) {
+	var typ UpdateApplicationTrafficNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateApplicationTrafficNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateApplicationTrafficUnauthorized_EncodeDecode(t *testing.T) {
+	var typ UpdateApplicationTrafficUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateApplicationTrafficUnauthorized
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateTrafficBody_EncodeDecode(t *testing.T) {
+	var typ UpdateTrafficBody
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateTrafficBody
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateTrafficBodyItem_EncodeDecode(t *testing.T) {
+	var typ UpdateTrafficBodyItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateTrafficBodyItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateTrafficBodyItem0_EncodeDecode(t *testing.T) {
+	var typ UpdateTrafficBodyItem0
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateTrafficBodyItem0
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateTrafficBodyItem1_EncodeDecode(t *testing.T) {
+	var typ UpdateTrafficBodyItem1
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateTrafficBodyItem1
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
