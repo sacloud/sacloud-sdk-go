@@ -21,6 +21,7 @@ import (
 	"fmt"
 	"log"
 	"maps"
+	"math"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -35,31 +36,31 @@ import (
 )
 
 type storage struct {
-	profileName           option[string]
-	privateKeyPath        option[string]
-	privateKey            option[string]
-	servicePrincipalKeyID option[string]
-	servicePrincipalID    option[string]
-	tokenEndpoint         option[string]
-	accessToken           option[string]
-	accessTokenSecret     option[string]
-	zone                  option[string]
-	defaultZone           option[string]
-	zones                 option[[]string]
-	retryMax              option[int64]
-	retryWaitMax          option[int64]
-	retryWaitMin          option[int64]
-	apiRootURL            option[string]
-	apiRequestTimeout     option[time.Duration]
-	apiRequestRateLimit   option[int64]
-	traceMode             option[string]
-	mockServer            option[*httptest.Server]
-	userAgent             option[string]
-	acceptLanguage        option[string]
-	authPreference        option[string]
-	middlewares           option[[]Middleware]
-	checkRetryFunc        option[retryablehttp.CheckRetry]
-	endpoints             option[map[string]string]
+	profileName            option[string]
+	privateKeyPath         option[string]
+	privateKey             option[string]
+	servicePrincipalKeyKID option[string]
+	servicePrincipalID     option[string]
+	tokenEndpoint          option[string]
+	accessToken            option[string]
+	accessTokenSecret      option[string]
+	zone                   option[string]
+	defaultZone            option[string]
+	zones                  option[[]string]
+	retryMax               option[int64]
+	retryWaitMax           option[int64]
+	retryWaitMin           option[int64]
+	apiRootURL             option[string]
+	apiRequestTimeout      option[time.Duration]
+	apiRequestRateLimit    option[int64]
+	traceMode              option[string]
+	mockServer             option[*httptest.Server]
+	userAgent              option[string]
+	acceptLanguage         option[string]
+	authPreference         option[string]
+	middlewares            option[[]Middleware]
+	checkRetryFunc         option[retryablehttp.CheckRetry]
+	endpoints              option[map[string]string]
 
 	// Deprecated: this is to migrate from old client.
 	requestCustomizers option[[]saht.RequestCustomizer]
@@ -89,7 +90,7 @@ func (p *parameter) setEnviron(env []string) error {
 		return NewErrorf("nil parameter")
 	} else {
 		p.env = slices.Clone(env)
-		r := make([]error, 0, 43) // <- 43 is the # of `append` calls below
+		r := make([]error, 0, 44) // <- 44 is the # of `append` calls below
 		e := intoEnvmap(env)
 		s := &p.envp
 
@@ -102,8 +103,8 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_PRIVATE_KEY", s.privateKey.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
-		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
-		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_KID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_KID", s.servicePrincipalKeyKID.fromEnv))
+		r = append(r, e.fetchInto("SAKURA_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyKID.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN", s.accessToken.fromEnv))
 		r = append(r, e.fetchInto("SAKURA_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
@@ -136,7 +137,8 @@ func (p *parameter) setEnviron(env []string) error {
 		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY_PATH", s.privateKeyPath.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_PRIVATE_KEY", s.privateKey.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_ID", s.servicePrincipalID.fromEnv))
-		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyID.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_KEY_KID", s.servicePrincipalKeyKID.fromEnv))
+		r = append(r, e.fetchInto("SAKURACLOUD_SERVICE_PRINCIPAL_KEY_ID", s.servicePrincipalKeyKID.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_TOKEN_ENDPOINT", s.tokenEndpoint.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_ACCESS_TOKEN", s.accessToken.fromEnv))
 		r = append(r, e.fetchInto("SAKURACLOUD_ACCESS_TOKEN_SECRET", s.accessTokenSecret.fromEnv))
@@ -191,7 +193,7 @@ func (p *parameter) setHCL(config TerraformProviderInterface) {
 	p.hcl.apiRequestRateLimit.from(config.LookupClientConfigAPIRequestRateLimit)
 	p.hcl.traceMode.from(config.LookupClientConfigTraceMode)
 	p.hcl.servicePrincipalID.from(config.LookupClientConfigServicePrincipalID)
-	p.hcl.servicePrincipalKeyID.from(config.LookupClientConfigServicePrincipalKeyID)
+	p.hcl.servicePrincipalKeyKID.from(config.LookupClientConfigServicePrincipalKeyKID)
 }
 
 func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
@@ -204,7 +206,13 @@ func (p *parameter) flagSet(eh flag.ErrorHandling) *flag.FlagSet {
 		fs.Var(&p.argv.profileName, "profile", "the name of saved credentials")
 		fs.Var(&p.argv.privateKeyPath, "private-key-path", "path to an RSA 2048 bit private key PEM format")
 		fs.Var(&p.argv.servicePrincipalID, "service-principal-id", "the ID of the service principal")
-		fs.Var(&p.argv.servicePrincipalKeyID, "service-principal-key-id", "the `kid` of the service principal")
+		fs.Func("service-principal-key-kid", "the `kid` of the service principal", p.argv.servicePrincipalKeyKID.Set)
+		fs.Func("service-principal-key-id", "deprecated alias of --service-principal-key-kid", func(value string) error {
+			if _, ok := p.argv.servicePrincipalKeyKID.Get(); ok {
+				return nil
+			}
+			return p.argv.servicePrincipalKeyKID.Set(value)
+		})
 		fs.Var(&p.argv.accessToken, "token", "the API token used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.accessTokenSecret, "secret", "the API secret used when calling SAKURA Cloud API")
 		fs.Var(&p.argv.zones, "zones", "permitted zone names")
@@ -372,7 +380,7 @@ func (p *parameter) populate(c *config) error {
 	ret = append(ret, p.populateProfile(c))
 	ret = append(ret, p.populatePrivateKeyPath(c))
 	ret = append(ret, p.populatePrivateKey(c))
-	ret = append(ret, p.populateServicePrincipalKeyID(c))
+	ret = append(ret, p.populateServicePrincipalKeyKID(c))
 	ret = append(ret, p.populateServicePrincipalID(c))
 	ret = append(ret, p.populateTokenEndpoint(c))
 	ret = append(ret, p.populateAccessToken(c))
@@ -521,8 +529,8 @@ func (p *parameter) populateServicePrincipalID(c *config) error {
 	return p.populateString(c, "ServicePrincipalID")
 }
 
-func (p *parameter) populateServicePrincipalKeyID(c *config) error {
-	return p.populateString(c, "ServicePrincipalKeyID")
+func (p *parameter) populateServicePrincipalKeyKID(c *config) error {
+	return p.populateString(c, "ServicePrincipalKeyKID")
 }
 
 func (p *parameter) populateTokenEndpoint(c *config) error {
@@ -563,21 +571,28 @@ func (p *parameter) populateZones(c *config) []error {
 	} else if v, ok := p.hcl.zones.Get(); ok {
 		val.initialize(v)
 		whence = "terraform configuration"
-	} else if whence, result := obtainFromProfile[[]any](c, "Zones", "profile"); result.isErr() {
+	} else if whence, result := obtainFromProfile[any](c, "Zones", "profile"); result.isErr() {
 		ret = append(ret, result.error())
-	} else if v, ok := result.some(); !ok {
+	} else if value, ok := result.some(); !ok {
 		// just not set
 
 	} else {
-		w := []string{}
-		for i, z := range v {
-			if s, ok := z.(string); !ok {
-				ret = append(ret, NewErrorf("nonstring zone %v in %s's #%d", z, whence, i))
-			} else {
-				w = append(w, s)
+		switch zones := value.(type) {
+		case []string:
+			val.initialize(slices.Clone(zones))
+		case []any:
+			w := []string{}
+			for i, z := range zones {
+				if s, ok := z.(string); !ok {
+					ret = append(ret, NewErrorf("nonstring zone %v in %s's #%d", z, whence, i))
+				} else {
+					w = append(w, s)
+				}
 			}
+			val.initialize(w)
+		default:
+			ret = append(ret, NewErrorf("invalid type for Zones in %s: %T", whence, value))
 		}
-		val.initialize(w)
 	}
 
 	if v, ok := val.Get(); !ok {
@@ -666,7 +681,7 @@ func (p *parameter) populateAuthPreference(c *config) error {
 		key2auth := [][2]string{
 			{"PrivateKeyPEMPath", "bearer"},
 			{"ServicePrincipalID", "bearer"},
-			{"ServicePrincipalKeyID", "bearer"},
+			{"ServicePrincipalKeyKID", "bearer"},
 			{"AccessToken", "basic"},
 			{"AccessTokenSecret", "basic"},
 		}
@@ -983,7 +998,17 @@ func obtainFromProfile[
 		return
 	}
 
+	v0Key := ""
+	switch k {
+	case "APIRequestRateLimit":
+		v0Key = "HTTPRequestRateLimit"
+	case "APIRequestTimeout":
+		v0Key = "HTTPRequestTimeout"
+	}
 	v, ok := p.Get(k)
+	if !ok && v0Key != "" {
+		v, ok = p.Get(v0Key)
+	}
 
 	if !ok {
 		// profile does not have this key; ok unspecified
@@ -998,13 +1023,50 @@ func obtainFromProfile[
 	w, ok := v.(T)
 
 	if !ok {
-		// float64 -> int64 conversion special case
+		if _, isDuration := any((*new(T))).(time.Duration); isDuration {
+			var seconds int64
+			converted := true
+			switch value := v.(type) {
+			case float64:
+				if float64(int64(value)) != value {
+					converted = false
+				} else {
+					seconds = int64(value)
+				}
+			case uint64:
+				if value > uint64(math.MaxInt64) {
+					converted = false
+				} else {
+					seconds = int64(value)
+				}
+			case int:
+				seconds = int64(value)
+			case int64:
+				seconds = value
+			default:
+				converted = false
+			}
+			if converted {
+				result = resultOptionSome(any(time.Duration(seconds) * time.Second).(T))
+				return
+			}
+		}
+		// Numeric conversions to int64 for JSON and YAML profile values.
 		if _, isInt64 := any((*new(T))).(int64); isInt64 {
-			if w, isFloat64 := v.(float64); isFloat64 {
-				if (float64(int64(w))) == w {
-					result = resultOptionSome(any(int64(w)).(T))
+			switch value := v.(type) {
+			case float64:
+				if float64(int64(value)) == value {
+					result = resultOptionSome(any(int64(value)).(T))
 					return
 				}
+			case uint64:
+				if value <= uint64(math.MaxInt64) {
+					result = resultOptionSome(any(int64(value)).(T))
+					return
+				}
+			case int:
+				result = resultOptionSome(any(int64(value)).(T))
+				return
 			}
 		}
 		result = resultOptionErr[T](NewErrorf("invalid type for %s in %s: %T", k, whence, v))
@@ -1058,8 +1120,8 @@ func (s *storage) get(k string) (any, bool) {
 	case "ServicePrincipalID":
 		return s.servicePrincipalID.Get()
 
-	case "ServicePrincipalKeyID":
-		return s.servicePrincipalKeyID.Get()
+	case "ServicePrincipalKeyKID":
+		return s.servicePrincipalKeyKID.Get()
 
 	case "TokenEndpoint":
 		return s.tokenEndpoint.Get()
@@ -1095,6 +1157,12 @@ func (s *storage) get(k string) (any, bool) {
 		return s.apiRequestTimeout.Get()
 
 	case "APIRequestRateLimit":
+		return s.apiRequestRateLimit.Get()
+
+	case "HTTPRequestTimeout":
+		return s.apiRequestTimeout.Get()
+
+	case "HTTPRequestRateLimit":
 		return s.apiRequestRateLimit.Get()
 
 	case "TraceMode":

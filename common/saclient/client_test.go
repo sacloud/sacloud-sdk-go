@@ -72,7 +72,7 @@ func (p *providerModel) LookupClientConfigServicePrincipalID() (string, bool) {
 	return "", false
 }
 
-func (p *providerModel) LookupClientConfigServicePrincipalKeyID() (string, bool) {
+func (p *providerModel) LookupClientConfigServicePrincipalKeyKID() (string, bool) {
 	// Not supported in this test model
 	return "", false
 }
@@ -167,7 +167,7 @@ func (s *ClientTestSuite) SetupSuite() {
 	}
 	dir, _ := os.MkdirTemp(os.TempDir(), "profile_test")
 	os.Setenv("XDG_CONFIG_HOME", dir)
-	os.Unsetenv("SAKURACLOUD_PROFILE_DIR")
+	os.Setenv("SAKURACLOUD_PROFILE_DIR", filepath.Join(dir, "usacloud"))
 
 	// create sample profiles
 	os.MkdirAll(dir+"/usacloud/usacloud", 0o700)
@@ -218,6 +218,19 @@ euIJBGkmzNop
 		}`),
 		0o600,
 	)
+
+	os.MkdirAll(dir+"/usacloud/v1", 0o700)
+	os.WriteFile(dir+"/usacloud/v1/config.yaml", []byte(`version: 1
+credentials:
+  service_principal_id: service-principal-id
+  service_principal_key_kid: service-principal-key-kid
+  private_key: inline-private-key
+sacloud-sdk-go:
+  api_request_rate_limit: 9
+  api_request_timeout: 42
+  retry_max: 3
+  zone: is1a
+`), 0o600)
 }
 
 //nolint:errcheck,gosec
@@ -429,6 +442,20 @@ func (s *ClientTestSuite) TestEnviron() {
 			},
 		}, subject.JSON())
 	})
+
+	for _, prefix := range []string{"SAKURA", "SAKURACLOUD"} {
+		s.Run(prefix+"_SERVICE_PRINCIPAL_KEY_KID wins", func() {
+			subject := s.subject.Dup().(*Client)
+			e := subject.SetEnviron([]string{
+				prefix + "_SERVICE_PRINCIPAL_KEY_ID=legacy-kid",
+				prefix + "_SERVICE_PRINCIPAL_KEY_KID=canonical-kid",
+			})
+			s.NoError(e)
+			s.NoError(subject.Populate())
+			s.Equal("canonical-kid", subject.JSON()["ServicePrincipalKeyKID"])
+			s.NotContains(subject.JSON(), "ServicePrincipalKeyID")
+		})
+	}
 }
 
 // #nosec G101 -- This is only a test
@@ -473,6 +500,19 @@ func (s *ClientTestSuite) TestTerraform() {
 			", bar",
 		},
 	}, s.subject.JSON())
+}
+
+func (s *ClientTestSuite) TestServicePrincipalKeyKIDFlagWinsLegacyAlias() {
+	for _, args := range [][]string{
+		{"--service-principal-key-id=legacy-kid", "--service-principal-key-kid=canonical-kid"},
+		{"--service-principal-key-kid=canonical-kid", "--service-principal-key-id=legacy-kid"},
+	} {
+		subject := s.subject.Dup().(*Client)
+		s.NoError(subject.FlagSet(flag.PanicOnError).Parse(args))
+		s.NoError(subject.Populate())
+		s.Equal("canonical-kid", subject.JSON()["ServicePrincipalKeyKID"])
+		s.NotContains(subject.JSON(), "ServicePrincipalKeyID")
+	}
 }
 
 func (s *ClientTestSuite) TestNoProfile() {
@@ -680,6 +720,10 @@ func (s *ClientTestSuite) TestProfileWithNullValue() {
 	var subject *Client = s.subject.Dup().(*Client)
 	e := subject.CompatSettingsFromAPIClientParams("", old.WithDisableProfile(false))
 	s.NoError(e)
+	e = subject.SetEnviron([]string{
+		"SAKURA_PROFILE_DIR=" + filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "usacloud"),
+	})
+	s.NoError(e)
 
 	e = subject.FlagSet(flag.PanicOnError).Parse([]string{"--profile=withNull"})
 	s.NoError(e)
@@ -690,6 +734,68 @@ func (s *ClientTestSuite) TestProfileWithNullValue() {
 	actual := subject.JSON()
 	s.NotContains(actual, "Zone")
 	s.NotContains(actual, "Zones")
+}
+
+func (s *ClientTestSuite) TestProfileV1EffectiveSettings() {
+	var subject Client
+	s.NoError(subject.SetEnviron([]string{
+		"SAKURA_PROFILE_DIR=" + filepath.Join(os.Getenv("XDG_CONFIG_HOME"), "usacloud"),
+		"SAKURA_PROFILE=v1",
+	}))
+	s.NoError(subject.Populate())
+
+	actual := subject.JSON()
+	s.Equal("service-principal-id", actual["ServicePrincipalID"])
+	s.Equal("service-principal-key-kid", actual["ServicePrincipalKeyKID"])
+	s.Equal("inline-private-key", actual["PrivateKey"])
+	s.Equal(int64(9), actual["APIRequestRateLimit"])
+	s.Equal(42*time.Second, actual["APIRequestTimeout"])
+	s.Equal(int64(3), actual["RetryMax"])
+	s.Equal("is1a", actual["Zone"])
+	s.Equal("bearer", actual["AuthPreference"])
+}
+
+func (s *ClientTestSuite) TestProfileZones() {
+	tests := []struct {
+		name       string
+		configName string
+		config     string
+	}{
+		{
+			name:       "v0",
+			configName: "config.json",
+			config:     `{"Zones":["is1a","tk1a"]}`,
+		},
+		{
+			name:       "v1",
+			configName: "config.yaml",
+			config: `version: 1
+sacloud-sdk-go:
+  zones:
+    - is1a
+    - tk1a
+`,
+		},
+	}
+
+	for _, tt := range tests {
+		s.Run(tt.name, func() {
+			profileDir := s.T().TempDir()
+			profilePath := filepath.Join(profileDir, tt.name)
+			s.NoError(os.MkdirAll(profilePath, 0o700))
+			s.NoError(os.WriteFile(filepath.Join(profilePath, tt.configName), []byte(tt.config), 0o600))
+
+			var subject Client
+			s.NoError(subject.SetEnviron([]string{
+				"SAKURA_PROFILE_DIR=" + profileDir,
+				"SAKURA_PROFILE=" + tt.name,
+			}))
+			if !s.NoError(subject.Populate()) {
+				return
+			}
+			s.Equal([]string{"is1a", "tk1a"}, subject.JSON()["Zones"])
+		})
+	}
 }
 
 func (s *ClientTestSuite) TestWithoutProfile() {

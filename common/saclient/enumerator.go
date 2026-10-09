@@ -103,13 +103,3 @@ func transformSeq[T, U any](seq iter.Seq[T], f func(T) (U, bool)) iter.Seq[U] {
 		}
 	}
 }
-
-// (intuitive)
-func selectSeq[T any](seq iter.Seq[T], f func(T) bool) iter.Seq[T] {
-	return transformSeq(seq, func(v T) (T, bool) { return v, f(v) })
-}
-
-// (intuitive)
-func mapSeq[T, U any](seq iter.Seq[T], f func(T) U) iter.Seq[U] {
-	return transformSeq(seq, func(v T) (U, bool) { return f(v), true })
-}

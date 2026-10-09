@@ -125,7 +125,7 @@ func (s *ProfileTestSuite) TearDownSubTest() {
 
 func (s *ProfileTestSuite) TestProfileOp_usacloud() {
 	var err error
-	s.op, err = NewProfileOp(os.Environ())
+	s.op, err = NewProfileOp([]string{"USACLOUD_PROFILE_DIR=" + s.dir + "/.usacloud"})
 	s.NoError(err)
 	s.NotNil(s.op)
 	op := s.op
@@ -343,6 +343,553 @@ func (s *ProfileTestSuite) TestProfileOp_XDG() {
 	})
 }
 
+func (s *ProfileTestSuite) TestProfileOp_ProfileDirectoryPriority() {
+	dir := s.T().TempDir()
+	configHome := filepath.Join(dir, "config")
+	s.NoError(os.MkdirAll(filepath.Join(configHome, "usacloud"), 0o700))
+
+	op, err := NewProfileOp([]string{"XDG_CONFIG_HOME=" + configHome})
+	s.NoError(err)
+	s.Equal(filepath.Join(configHome, "usacloud"), op.Dir())
+
+	s.NoError(os.MkdirAll(filepath.Join(configHome, "sakura"), 0o700))
+	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + configHome})
+	s.NoError(err)
+	s.Equal(filepath.Join(configHome, "sakura"), op.Dir())
+
+	// test for legacy config directory priority over XDG_CONFIG_HOME
+	home := filepath.Join(dir, "home-with-legacy-config")
+	homeEnv := "HOME"
+	if runtime.GOOS == "windows" {
+		homeEnv = "USERPROFILE"
+	}
+	s.T().Setenv(homeEnv, home)
+	legacyDir := filepath.Join(home, ".usacloud")
+	s.NoError(os.MkdirAll(legacyDir, 0o700))
+	fallbackConfigHome := filepath.Join(dir, "fallback-config")
+	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + fallbackConfigHome})
+	s.NoError(err)
+	s.Equal(legacyDir, op.Dir())
+	s.T().Setenv(homeEnv, filepath.Join(dir, "home-without-legacy-config"))
+
+	emptyConfigHome := filepath.Join(dir, "empty-config")
+	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + emptyConfigHome})
+	s.NoError(err)
+	s.Equal(filepath.Join(emptyConfigHome, "sakura"), op.Dir())
+}
+
+func (s *ProfileTestSuite) TestProfileOp_HomeDirectoryPriority() {
+	home := s.T().TempDir()
+	homeEnv := "HOME"
+	if runtime.GOOS == "windows" {
+		homeEnv = "USERPROFILE"
+	}
+	s.T().Setenv(homeEnv, home)
+
+	op, err := NewProfileOp(nil)
+	s.NoError(err)
+	s.Equal(filepath.Join(home, ".config", "sakura"), op.Dir())
+
+	legacyDir := filepath.Join(home, ".usacloud")
+	s.NoError(os.MkdirAll(legacyDir, 0o700))
+	op, err = NewProfileOp(nil)
+	s.NoError(err)
+	s.Equal(legacyDir, op.Dir())
+
+	configDir := filepath.Join(home, ".config", "sakura")
+	s.NoError(os.MkdirAll(configDir, 0o700))
+	op, err = NewProfileOp(nil)
+	s.NoError(err)
+	s.Equal(configDir, op.Dir())
+}
+
+//nolint:gosec
+const fullV1ProfileYAML = `version: 1
+credentials:
+  access_token: <your-access-token>
+  access_token_secret: <your-access-token-secret>
+  service_principal_id: <your-service-principal-id>
+  service_principal_key_kid: <your-service-principal-kid>
+  private_key: '-----BEGIN RSA PRIVATE KEY-----...'
+  private_key_path: /path/to/key
+endpoints:
+  iam: https://secure.sakura.ad.jp/cloud-test/api/iam/1.0
+cli:
+  argument_match_mode: exact
+  default_output_type: table
+  default_query_driver: jq
+  no_color: true
+  process_timeout_sec: 7200
+sacloud-sdk-go:
+  api_root_url: https://secure.sakura.ad.jp/cloud/zone
+  accept_language: "en-US,en;q=0.9"
+  default_zone: is1a
+  fake_mode: false
+  fake_store_path: ~/.usacloud/fake_store.json
+  api_request_rate_limit: 5
+  api_request_timeout: 300
+  retry_max: 0
+  retry_wait_max: 64
+  retry_wait_min: 1
+  state_polling_interval: 0
+  state_polling_timeout: 0
+  trace_mode: HTTP
+  zone: is1a
+  zones:
+    - is1a
+    - is1b
+    - tk1a
+    - tk1b
+    - tk1v
+sacloud-sdk-dotnet:
+  str_field: foobar
+  num_field: 123
+  bool_field: true
+`
+
+func (s *ProfileTestSuite) TestProfileOp_FullV1Sample() {
+	dir := s.T().TempDir()
+	s.NoError(os.MkdirAll(filepath.Join(dir, "sample"), 0o700))
+	s.NoError(os.WriteFile(filepath.Join(dir, "sample", "config.yaml"), []byte(fullV1ProfileYAML), 0o600))
+
+	op, err := NewProfileOp([]string{"SAKURA_PROFILE_DIR=" + dir})
+	s.NoError(err)
+	profile, err := op.Read("sample")
+	s.NoError(err)
+	s.EqualValues(1, profile.Version)
+	s.Equal("is1a", profile.Go.Zone.MustGet())
+}
+
+func (s *ProfileTestSuite) TestProfileOp_UpdateV0ToV1() {
+	dir := s.T().TempDir()
+	profileDir := filepath.Join(dir, "legacy")
+	s.NoError(os.MkdirAll(profileDir, 0o700))
+	s.NoError(os.WriteFile(filepath.Join(profileDir, "config.json"), []byte(`{
+  "AccessToken": "legacy-token",
+  "AccessTokenSecret": "legacy-secret",
+  "NoColor": true,
+  "FakeMode": false,
+  "Zone": "is1a"
+}`), 0o600))
+
+	op, err := NewProfileOp([]string{"SAKURA_PROFILE_DIR=" + dir})
+	if !s.NoError(err) {
+		return
+	}
+
+	profile, err := op.Read("legacy")
+	if !s.NoError(err) {
+		return
+	}
+	s.EqualValues(0, profile.Version)
+
+	profile.Version = 1
+	profile.Set("sacloud-sdk-go.api_request_rate_limit", 10)
+	updated, err := op.Update(profile)
+	if !s.NoError(err) {
+		return
+	}
+	s.Same(profile, updated)
+	s.EqualValues(1, updated.Version)
+
+	yamlPath := filepath.Join(profileDir, "config.yaml")
+	_, err = os.Stat(yamlPath)
+	if !s.NoError(err) {
+		return
+	}
+
+	profile, err = op.Read("legacy")
+	if !s.NoError(err) {
+		return
+	}
+	s.EqualValues(1, profile.Version)
+	s.Equal("legacy-token", profile.Credentials.AccessToken.MustGet())
+	s.Equal("legacy-secret", profile.Credentials.AccessTokenSecret.MustGet())
+	s.EqualValues(10, profile.Go.APIRequestRateLimit.MustGet())
+	s.True(profile.Cli.NoColor.MustGet())
+	s.False(profile.Go.FakeMode.MustGet())
+	s.Equal("is1a", profile.Go.Zone.MustGet())
+}
+
+func (s *ProfileTestSuite) TestProfileOp_V1YAML() {
+	dir := s.T().TempDir()
+
+	s.NoError(os.MkdirAll(dir+"/default", 0o700))
+	s.NoError(os.MkdirAll(dir+"/legacy", 0o700))
+
+	v1 := `version: 1
+credentials:
+  access_token: v1-token
+  access_token_secret: v1-secret
+  service_principal_id: spid
+  service_principal_key_kid: kid
+sacloud-sdk-go:
+  zone: is1a
+  zones:
+    - is1a
+    - tk1a
+endpoints:
+  iam: https://example.invalid/iam
+sacloud-sdk-dotnet:
+  foobar: preserved
+`
+
+	v0 := `{"AccessToken":"legacy-token","Zone":"tk1a"}`
+
+	s.NoError(os.WriteFile(dir+"/default/config.yaml", []byte(v1), 0o600))
+	s.NoError(os.WriteFile(dir+"/legacy/config.json", []byte(v0), 0o600))
+
+	op, err := NewProfileOp([]string{"SAKURA_PROFILE_DIR=" + dir})
+	s.NoError(err)
+	s.NotNil(op)
+
+	s.Run("List", func() {
+		names, err := op.List()
+		s.NoError(err)
+		s.Equal([]string{"default", "legacy"}, names)
+	})
+
+	s.Run("read v1 yaml", func() {
+		profile, err := op.Read("default")
+		s.NoError(err)
+		s.NotNil(profile)
+		s.EqualValues(1, profile.Version)
+		s.Equal("v1-token", profile.Attributes["AccessToken"])
+		s.Equal("v1-secret", profile.Attributes["AccessTokenSecret"])
+		s.Equal("spid", profile.Attributes["ServicePrincipalID"])
+		s.Equal("kid", profile.Attributes["ServicePrincipalKeyKID"])
+		s.Equal("is1a", profile.Attributes["Zone"])
+
+		eps, ok := profile.Attributes["Endpoints"].(map[string]any)
+		s.True(ok)
+		s.Equal("https://example.invalid/iam", eps["iam"])
+		s.Equal("v1-token", profile.Credentials.AccessToken.MustGet())
+		s.Equal("kid", profile.Credentials.ServicePrincipalKeyKID.MustGet())
+		s.Equal("is1a", profile.Go.Zone.MustGet())
+		s.Equal([]string{"is1a", "tk1a"}, profile.Go.Zones.MustGet())
+		s.Equal("https://example.invalid/iam", profile.Endpoints["iam"])
+	})
+
+	s.Run("fallback to v0 json", func() {
+		profile, err := op.Read("legacy")
+		s.NoError(err)
+		s.NotNil(profile)
+		s.EqualValues(0, profile.Version)
+		s.Equal("legacy-token", profile.Attributes["AccessToken"])
+		s.Equal("tk1a", profile.Attributes["Zone"])
+		s.Equal("legacy-token", profile.Credentials.AccessToken.MustGet())
+		s.Equal("tk1a", profile.Go.Zone.MustGet())
+	})
+
+	s.Run("create writes v1 yaml", func() {
+		created := &Profile{Name: "created", Version: 1}
+		created.Credentials.AccessToken.SetTo("created-token")
+		created.Credentials.AccessTokenSecret.SetTo("created-secret")
+		created.Go.Zone.SetTo("is1b")
+		err := op.Create(created)
+		s.NoError(err)
+
+		_, err = os.Stat(dir + "/created/config.yaml")
+		s.NoError(err)
+
+		_, err = os.Stat(dir + "/created/config.json")
+		var e1 *os.PathError
+		s.ErrorAs(err, &e1)
+
+		profile, err := op.Read("created")
+		s.NoError(err)
+		s.NotNil(profile)
+		s.Equal("created-token", profile.Attributes["AccessToken"])
+		s.Equal("is1b", profile.Attributes["Zone"])
+	})
+
+	s.Run("create writes v0 json", func() {
+		err := op.Create(&Profile{
+			Name: "created-v0",
+			Attributes: map[string]any{
+				"AccessToken": "created-v0-token",
+				"Zone":        "tk1a",
+			},
+		})
+		s.NoError(err)
+
+		contents, err := os.ReadFile(filepath.Clean(dir + "/created-v0/config.json"))
+		s.NoError(err)
+		s.NotContains(string(contents), `"Version"`)
+
+		profile, err := op.Read("created-v0")
+		s.NoError(err)
+		s.EqualValues(0, profile.Version)
+		s.Equal("created-v0-token", profile.Credentials.AccessToken.MustGet())
+	})
+
+	s.Run("rejects unsupported version", func() {
+		err := op.Create(&Profile{Name: "unsupported", Version: 2})
+		s.Error(err)
+		s.NotContains(err.Error(), "failed to open")
+
+		profile, err := op.Update(&Profile{Name: "default", Version: 2})
+		s.Nil(profile)
+		s.Error(err)
+
+		_, err = os.Stat(filepath.Join(dir, "unsupported"))
+		s.ErrorIs(err, os.ErrNotExist)
+	})
+
+	s.Run("update preserves source format", func() {
+		profile, err := op.Update(&Profile{
+			Name:       "default",
+			Attributes: map[string]any{"Zone": "is1b"},
+		})
+		s.NoError(err)
+		s.EqualValues(1, profile.Version)
+		s.Equal("is1b", profile.Go.Zone.MustGet())
+
+		contents, err := os.ReadFile(filepath.Clean(dir + "/default/config.yaml"))
+		s.NoError(err)
+		s.Contains(string(contents), "sacloud-sdk-dotnet:")
+		s.Contains(string(contents), "foobar: preserved")
+
+		profile, err = op.Update(&Profile{
+			Name:       "legacy",
+			Attributes: map[string]any{"Zone": "tk1b"},
+		})
+		s.NoError(err)
+		s.EqualValues(0, profile.Version)
+		s.Equal("tk1b", profile.Go.Zone.MustGet())
+
+		contents, err = os.ReadFile(filepath.Clean(dir + "/legacy/config.json"))
+		s.NoError(err)
+		s.True(json.Valid(contents))
+	})
+
+	s.Run("update v1 writes an updated profile", func() {
+		updated, err := op.Read("default")
+		s.NoError(err)
+		updated.Credentials.AccessToken.SetTo("replacement-token")
+		updated.Go.Zone.SetTo("tk1b")
+
+		profile, err := op.Update(updated)
+		s.NoError(err)
+		s.Same(updated, profile)
+
+		contents, err := os.ReadFile(filepath.Clean(dir + "/default/config.yaml"))
+		s.NoError(err)
+		s.Contains(string(contents), "sacloud-sdk-dotnet:")
+		s.Contains(string(contents), "access_token_secret: v1-secret")
+
+		profile, err = op.Read("default")
+		s.NoError(err)
+		s.EqualValues(1, profile.Version)
+		s.Equal("replacement-token", profile.Credentials.AccessToken.MustGet())
+		s.Equal("tk1b", profile.Go.Zone.MustGet())
+		s.Equal("v1-secret", profile.Credentials.AccessTokenSecret.MustGet())
+	})
+}
+
+func (s *ProfileTestSuite) TestProfileOp_FULLV1YAML() {
+	dir := s.T().TempDir()
+	s.NoError(os.MkdirAll(dir+"/v0", 0o700))
+	s.NoError(os.MkdirAll(dir+"/v1", 0o700))
+
+	v0 := `{
+  "APIRootURL": "https://secure.sakura.ad.jp/cloud/zone",
+  "AcceptLanguage": "en-US,en;q=0.9",
+  "AccessToken": "<your-access-token>",
+  "AccessTokenSecret": "<your-access-secret>",
+  "ArgumentMatchMode": "exact",
+  "DefaultOutputType": "table",
+  "DefaultQueryDriver": "jq",
+  "DefaultZone": "is1a",
+  "Endpoints": {
+    "iam": "https://secure.sakura.ad.jp/cloud-test/api/iam/1.0"
+  },
+  "FakeMode": false,
+  "FakeStorePath": "~/.usacloud/fake_store.json",
+  "HTTPRequestRateLimit": 5,
+  "HTTPRequestTimeout": 300,
+  "NoColor": false,
+  "ProcessTimeoutSec": 7200,
+  "RetryMax": 0,
+  "RetryWaitMax": 64,
+  "RetryWaitMin": 1,
+  "StatePollingInterval": 0,
+  "StatePollingTimeout": 0,
+  "TraceMode": "HTTP",
+  "Zone": "is1a",
+  "Zones": ["is1a", "is1b", "tk1a", "tk1b", "tk1v"]
+}`
+	v1 := fullV1ProfileYAML
+
+	s.NoError(os.WriteFile(dir+"/v0/config.json", []byte(v0), 0o600))
+	s.NoError(os.WriteFile(dir+"/v1/config.yaml", []byte(v1), 0o600))
+
+	op, err := NewProfileOp([]string{"SAKURA_PROFILE_DIR=" + dir})
+	s.NoError(err)
+
+	s.Run("read v0 full profile", func() {
+		profile, err := op.Read("v0")
+		s.NoError(err)
+		s.EqualValues(0, profile.Version)
+		s.Equal("<your-access-token>", profile.Credentials.AccessToken.MustGet())
+		s.Equal("<your-access-secret>", profile.Credentials.AccessTokenSecret.MustGet())
+		s.Equal("exact", profile.Cli.ArgumentMatchMode.MustGet())
+		s.Equal("table", profile.Cli.DefaultOutputType.MustGet())
+		s.Equal("jq", profile.Cli.DefaultQueryDriver.MustGet())
+		s.False(profile.Cli.NoColor.MustGet())
+		s.Equal(int64(7200), profile.Cli.ProcessTimeoutSec.MustGet())
+		s.Equal("https://secure.sakura.ad.jp/cloud/zone", profile.Go.APIRootURL.MustGet())
+		s.Equal("en-US,en;q=0.9", profile.Go.AcceptLanguage.MustGet())
+		s.Equal("is1a", profile.Go.DefaultZone.MustGet())
+		s.False(profile.Go.FakeMode.MustGet())
+		s.Equal("~/.usacloud/fake_store.json", profile.Go.FakeStorePath.MustGet())
+		s.Equal(int64(5), profile.Go.APIRequestRateLimit.MustGet())
+		s.Equal(int64(300), profile.Go.APIRequestTimeout.MustGet())
+		s.Equal(int64(0), profile.Go.RetryMax.MustGet())
+		s.Equal(int64(64), profile.Go.RetryWaitMax.MustGet())
+		s.Equal(int64(1), profile.Go.RetryWaitMin.MustGet())
+		s.Equal(int64(0), profile.Go.StatePollingInterval.MustGet())
+		s.Equal(int64(0), profile.Go.StatePollingTimeout.MustGet())
+		s.Equal("HTTP", profile.Go.TraceMode.MustGet())
+		s.Equal("is1a", profile.Go.Zone.MustGet())
+		s.Equal([]string{"is1a", "is1b", "tk1a", "tk1b", "tk1v"}, profile.Go.Zones.MustGet())
+		s.Equal("https://secure.sakura.ad.jp/cloud-test/api/iam/1.0", profile.Endpoints["iam"])
+		s.Equal("<your-access-token>", profile.Attributes["AccessToken"])
+		s.Equal("<your-access-secret>", profile.Attributes["AccessTokenSecret"])
+		s.Equal("exact", profile.Attributes["ArgumentMatchMode"])
+		s.Equal("table", profile.Attributes["DefaultOutputType"])
+		s.Equal("jq", profile.Attributes["DefaultQueryDriver"])
+		s.Equal(false, profile.Attributes["NoColor"])
+		s.Equal(float64(7200), profile.Attributes["ProcessTimeoutSec"])
+		s.Equal("https://secure.sakura.ad.jp/cloud/zone", profile.Attributes["APIRootURL"])
+		s.Equal("en-US,en;q=0.9", profile.Attributes["AcceptLanguage"])
+		s.Equal("is1a", profile.Attributes["DefaultZone"])
+		s.Equal(false, profile.Attributes["FakeMode"])
+		s.Equal(float64(5), profile.Attributes["HTTPRequestRateLimit"])
+		s.Equal(float64(300), profile.Attributes["HTTPRequestTimeout"])
+		s.Equal(float64(0), profile.Attributes["RetryMax"])
+		s.Equal(float64(64), profile.Attributes["RetryWaitMax"])
+		s.Equal(float64(1), profile.Attributes["RetryWaitMin"])
+		s.Equal("HTTP", profile.Attributes["TraceMode"])
+		s.Equal("is1a", profile.Attributes["Zone"])
+		s.Equal([]any{"is1a", "is1b", "tk1a", "tk1b", "tk1v"}, profile.Attributes["Zones"])
+		endpoints, ok := profile.Attributes["Endpoints"].(map[string]any)
+		s.True(ok)
+		s.Equal("https://secure.sakura.ad.jp/cloud-test/api/iam/1.0", endpoints["iam"])
+	})
+
+	s.Run("read v1 full profile", func() {
+		profile, err := op.Read("v1")
+		s.NoError(err)
+		s.EqualValues(1, profile.Version)
+		s.Equal("<your-access-token>", profile.Credentials.AccessToken.MustGet())
+		s.Equal("<your-access-token-secret>", profile.Credentials.AccessTokenSecret.MustGet())
+		s.Equal("<your-service-principal-id>", profile.Credentials.ServicePrincipalID.MustGet())
+		s.Equal("<your-service-principal-kid>", profile.Credentials.ServicePrincipalKeyKID.MustGet())
+		s.Equal("-----BEGIN RSA PRIVATE KEY-----...", profile.Credentials.PrivateKey.MustGet())
+		s.Equal("/path/to/key", profile.Credentials.PrivateKeyPEMPath.MustGet())
+		s.Equal("https://secure.sakura.ad.jp/cloud-test/api/iam/1.0", profile.Endpoints["iam"])
+		s.Equal("exact", profile.Cli.ArgumentMatchMode.MustGet())
+		s.Equal("table", profile.Cli.DefaultOutputType.MustGet())
+		s.Equal("jq", profile.Cli.DefaultQueryDriver.MustGet())
+		s.True(profile.Cli.NoColor.MustGet())
+		s.Equal(int64(7200), profile.Cli.ProcessTimeoutSec.MustGet())
+		s.Equal("https://secure.sakura.ad.jp/cloud/zone", profile.Go.APIRootURL.MustGet())
+		s.Equal("en-US,en;q=0.9", profile.Go.AcceptLanguage.MustGet())
+		s.Equal("is1a", profile.Go.DefaultZone.MustGet())
+		s.False(profile.Go.FakeMode.MustGet())
+		s.Equal("~/.usacloud/fake_store.json", profile.Go.FakeStorePath.MustGet())
+		s.Equal(int64(5), profile.Go.APIRequestRateLimit.MustGet())
+		s.Equal(int64(300), profile.Go.APIRequestTimeout.MustGet())
+		s.Equal(int64(0), profile.Go.RetryMax.MustGet())
+		s.Equal(int64(64), profile.Go.RetryWaitMax.MustGet())
+		s.Equal(int64(1), profile.Go.RetryWaitMin.MustGet())
+		s.Equal(int64(0), profile.Go.StatePollingInterval.MustGet())
+		s.Equal(int64(0), profile.Go.StatePollingTimeout.MustGet())
+		s.Equal("HTTP", profile.Go.TraceMode.MustGet())
+		s.Equal("is1a", profile.Go.Zone.MustGet())
+		s.Equal([]string{"is1a", "is1b", "tk1a", "tk1b", "tk1v"}, profile.Go.Zones.MustGet())
+		s.Equal("<your-access-token>", profile.Attributes["AccessToken"])
+		s.Equal("<your-access-token-secret>", profile.Attributes["AccessTokenSecret"])
+		s.Equal("<your-service-principal-id>", profile.Attributes["ServicePrincipalID"])
+		s.Equal("<your-service-principal-kid>", profile.Attributes["ServicePrincipalKeyKID"])
+		s.Equal("-----BEGIN RSA PRIVATE KEY-----...", profile.Attributes["PrivateKey"])
+		s.Equal("/path/to/key", profile.Attributes["PrivateKeyPEMPath"])
+		s.Equal("exact", profile.Attributes["ArgumentMatchMode"])
+		s.Equal("table", profile.Attributes["DefaultOutputType"])
+		s.Equal("jq", profile.Attributes["DefaultQueryDriver"])
+		s.Equal(true, profile.Attributes["NoColor"])
+		s.Equal(uint64(7200), profile.Attributes["ProcessTimeoutSec"])
+		s.Equal("https://secure.sakura.ad.jp/cloud/zone", profile.Attributes["APIRootURL"])
+		s.Equal("en-US,en;q=0.9", profile.Attributes["AcceptLanguage"])
+		s.Equal("is1a", profile.Attributes["DefaultZone"])
+		s.Equal(false, profile.Attributes["FakeMode"])
+		s.Equal(uint64(5), profile.Attributes["HTTPRequestRateLimit"])
+		s.Equal(uint64(300), profile.Attributes["HTTPRequestTimeout"])
+		s.Equal(uint64(0), profile.Attributes["RetryMax"])
+		s.Equal(uint64(64), profile.Attributes["RetryWaitMax"])
+		s.Equal(uint64(1), profile.Attributes["RetryWaitMin"])
+		s.Equal("HTTP", profile.Attributes["TraceMode"])
+
+		dotnet, ok := profile.Attributes["sacloud-sdk-dotnet"].(map[string]any)
+		s.True(ok)
+		s.Equal("foobar", dotnet["str_field"])
+		s.Equal(uint64(123), dotnet["num_field"])
+		s.Equal(true, dotnet["bool_field"])
+		s.Equal("is1a", profile.Attributes["Zone"])
+	})
+
+	s.Run("update v1 full profile", func() {
+		profile, err := op.Read("v1")
+		s.NoError(err)
+		profile.Credentials.AccessToken.SetTo("updated-access-token")
+		profile.Go.Zone.SetTo("tk1a")
+
+		_, err = op.Update(profile)
+		s.NoError(err)
+
+		profile, err = op.Read("v1")
+		s.NoError(err)
+		s.Equal("updated-access-token", profile.Credentials.AccessToken.MustGet())
+		s.Equal("updated-access-token", profile.Attributes["AccessToken"])
+		s.Equal("tk1a", profile.Go.Zone.MustGet())
+		s.Equal("tk1a", profile.Attributes["Zone"])
+		s.Equal("<your-access-token-secret>", profile.Attributes["AccessTokenSecret"])
+
+		dotnet, ok := profile.Attributes["sacloud-sdk-dotnet"].(map[string]any)
+		s.True(ok)
+		s.Equal("foobar", dotnet["str_field"])
+	})
+}
+
+func (s *ProfileTestSuite) TestProfileGetSetV1Keys() {
+	profile := &Profile{Version: 1}
+	profile.Credentials.AccessToken.SetTo("initial-token")
+	profile.Go.APIRequestTimeout.SetTo(30)
+	get := func(key string) any {
+		value, ok := profile.Get(key)
+		s.True(ok, "profile key %q should exist", key)
+		return value
+	}
+
+	s.Equal("initial-token", get("AccessToken"))
+	s.Equal("initial-token", get("credentials.access_token"))
+	s.Equal(int64(30), get("sacloud-sdk-go.api_request_timeout"))
+	s.Equal(int64(30), get("HTTPRequestTimeout"))
+
+	profile.Set("credentials.access_token", "updated-token")
+	s.Equal("updated-token", profile.Credentials.AccessToken.MustGet())
+	s.Equal("updated-token", get("AccessToken"))
+
+	profile.Set("HTTPRequestTimeout", 45)
+	s.Equal(int64(45), profile.Go.APIRequestTimeout.MustGet())
+	s.Equal(int64(45), get("sacloud-sdk-go.api_request_timeout"))
+
+	profile.Set("endpoints.iam", "https://example.invalid/iam")
+	s.Equal("https://example.invalid/iam", profile.Endpoints["iam"])
+	s.Equal("https://example.invalid/iam", get("endpoints.iam"))
+}
+
 func (s *ProfileTestSuite) TestProfileOp_UnsetHOME() {
 	runWithoutEnv(s, "TestProfileTestSuite/TestProfileOp_UnsetHOME", func() {
 		err := os.Unsetenv("HOME")
@@ -377,7 +924,7 @@ func (s *ProfileTestSuite) TestProfileOp_UnsetHOME() {
 }
 
 func (s *ProfileTestSuite) TestProfile_GetCacheFilePath() {
-	op, err := NewProfileOp(os.Environ())
+	op, err := NewProfileOp([]string{"USACLOUD_PROFILE_DIR=" + s.dir + "/.usacloud"})
 	s.NoError(err)
 	s.NotNil(op)
 
