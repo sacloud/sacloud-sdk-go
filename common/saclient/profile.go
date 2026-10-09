@@ -61,6 +61,7 @@ type ProfileAPI interface {
 }
 
 // A (loaded) profile
+// Profile spec is here: https://github.com/sacloud/guide/tree/main/profile
 type Profile struct {
 	dir string `yaml:"-"`
 
@@ -282,7 +283,7 @@ func (this *ProfileOp) Create(p *Profile) error {
 	}
 
 	if _, err := this.Read(p.Name); err == nil {
-		return Wrapf(&os.PathError{Op: "open", Path: p.Name, Err: os.ErrExist}, "failed to open %+v profile", p.Name)
+		return Wrapf(&os.PathError{Op: "open", Path: p.Name, Err: os.ErrExist}, "%+v already exists", p.Name)
 	} else if !errors.Is(err, os.ErrNotExist) {
 		return err
 	}
@@ -1057,6 +1058,13 @@ func lookupProfileDir(envp []string) (string, error) {
 			path := filepath.Join(v, name)
 			if stat, err := os.Stat(path); err == nil && stat.IsDir() { // #nosec G703 -- this is in fact secure
 				return filepath.Clean(path), nil
+			}
+		}
+		home, err := os.UserHomeDir()
+		if err == nil && home != "" {
+			legacyDir := filepath.Join(home, ".usacloud")
+			if stat, err := os.Stat(legacyDir); err == nil && stat.IsDir() { // #nosec G703 -- this is in fact secure
+				return filepath.Clean(legacyDir), nil
 			}
 		}
 

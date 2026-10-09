@@ -357,6 +357,21 @@ func (s *ProfileTestSuite) TestProfileOp_ProfileDirectoryPriority() {
 	s.NoError(err)
 	s.Equal(filepath.Join(configHome, "sakura"), op.Dir())
 
+	// test for legacy config directory priority over XDG_CONFIG_HOME
+	home := filepath.Join(dir, "home-with-legacy-config")
+	homeEnv := "HOME"
+	if runtime.GOOS == "windows" {
+		homeEnv = "USERPROFILE"
+	}
+	s.T().Setenv(homeEnv, home)
+	legacyDir := filepath.Join(home, ".usacloud")
+	s.NoError(os.MkdirAll(legacyDir, 0o700))
+	fallbackConfigHome := filepath.Join(dir, "fallback-config")
+	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + fallbackConfigHome})
+	s.NoError(err)
+	s.Equal(legacyDir, op.Dir())
+	s.T().Setenv(homeEnv, filepath.Join(dir, "home-without-legacy-config"))
+
 	emptyConfigHome := filepath.Join(dir, "empty-config")
 	op, err = NewProfileOp([]string{"XDG_CONFIG_HOME=" + emptyConfigHome})
 	s.NoError(err)
