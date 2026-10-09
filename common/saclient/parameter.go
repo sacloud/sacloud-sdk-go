@@ -571,21 +571,28 @@ func (p *parameter) populateZones(c *config) []error {
 	} else if v, ok := p.hcl.zones.Get(); ok {
 		val.initialize(v)
 		whence = "terraform configuration"
-	} else if whence, result := obtainFromProfile[[]any](c, "Zones", "profile"); result.isErr() {
+	} else if whence, result := obtainFromProfile[any](c, "Zones", "profile"); result.isErr() {
 		ret = append(ret, result.error())
-	} else if v, ok := result.some(); !ok {
+	} else if value, ok := result.some(); !ok {
 		// just not set
 
 	} else {
-		w := []string{}
-		for i, z := range v {
-			if s, ok := z.(string); !ok {
-				ret = append(ret, NewErrorf("nonstring zone %v in %s's #%d", z, whence, i))
-			} else {
-				w = append(w, s)
+		switch zones := value.(type) {
+		case []string:
+			val.initialize(slices.Clone(zones))
+		case []any:
+			w := []string{}
+			for i, z := range zones {
+				if s, ok := z.(string); !ok {
+					ret = append(ret, NewErrorf("nonstring zone %v in %s's #%d", z, whence, i))
+				} else {
+					w = append(w, s)
+				}
 			}
+			val.initialize(w)
+		default:
+			ret = append(ret, NewErrorf("invalid type for Zones in %s: %T", whence, value))
 		}
-		val.initialize(w)
 	}
 
 	if v, ok := val.Get(); !ok {

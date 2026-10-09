@@ -755,6 +755,49 @@ func (s *ClientTestSuite) TestProfileV1EffectiveSettings() {
 	s.Equal("bearer", actual["AuthPreference"])
 }
 
+func (s *ClientTestSuite) TestProfileZones() {
+	tests := []struct {
+		name       string
+		configName string
+		config     string
+	}{
+		{
+			name:       "v0",
+			configName: "config.json",
+			config:     `{"Zones":["is1a","tk1a"]}`,
+		},
+		{
+			name:       "v1",
+			configName: "config.yaml",
+			config: `version: 1
+sacloud-sdk-go:
+  zones:
+    - is1a
+    - tk1a
+`,
+		},
+	}
+
+	for _, tt := range tests {
+		s.Run(tt.name, func() {
+			profileDir := s.T().TempDir()
+			profilePath := filepath.Join(profileDir, tt.name)
+			s.NoError(os.MkdirAll(profilePath, 0o700))
+			s.NoError(os.WriteFile(filepath.Join(profilePath, tt.configName), []byte(tt.config), 0o600))
+
+			var subject Client
+			s.NoError(subject.SetEnviron([]string{
+				"SAKURA_PROFILE_DIR=" + profileDir,
+				"SAKURA_PROFILE=" + tt.name,
+			}))
+			if !s.NoError(subject.Populate()) {
+				return
+			}
+			s.Equal([]string{"is1a", "tk1a"}, subject.JSON()["Zones"])
+		})
+	}
+}
+
 func (s *ClientTestSuite) TestWithoutProfile() {
 	xdg := os.Getenv("XDG_CONFIG_HOME")
 
