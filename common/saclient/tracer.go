@@ -50,7 +50,7 @@ func (d *doer) tracer(c *config) Middleware {
 
 		res, err := pullThenCall(pull, req)
 
-		if mode == "error" && res.StatusCode < 300 {
+		if res != nil && mode == "error" && res.StatusCode < 300 {
 			// why this is 300 rather than 400 ^^^ <--- is not obvious to @shyouhei.
 			// Just mimicing sacloud/go-http.
 			return res, err

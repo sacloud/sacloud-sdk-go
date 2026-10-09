@@ -106,19 +106,7 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 	}
 
 	var resp *http.Response
-	if d.server == nil {
-		if d.client == nil {
-			// should we error here...?
-			d.client = http.DefaultClient
-		}
-		if resp, err = d.client.Do(req); err != nil {
-			return nil, err
-		} else {
-			defer func() {
-				_ = resp.Body.Close()
-			}()
-		}
-	} else {
+	if d.server != nil {
 		// :BEWARE: in case of using httptest.Server, it is not a wise idea to
 		// issue actual HTTP request to the token endpoint.  Instead we create
 		// a temporary fake token response to be used later.
@@ -129,6 +117,17 @@ func (d *doer) inquireAccessToken(ctx context.Context, cfg *config) (*tokenRespo
 			isFake:      true,
 		}, nil
 	}
+
+	if d.client == nil {
+		// should we error here...?
+		d.client = http.DefaultClient
+	}
+
+	if resp, err = d.client.Do(req); err != nil {
+		return nil, classifiedRequestError(err, "token endpoint request failed")
+	}
+
+	defer func() { _ = resp.Body.Close() }()
 
 	if resp.StatusCode != http.StatusOK {
 		b, _ := io.ReadAll(resp.Body)
