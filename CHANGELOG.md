@@ -1,5 +1,10 @@
 # Changelog
 
+## [v0.3.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.3.0...v0.3.1) - 2026-10-09
+
+### 📦 Dependency Updates
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.2.0 to 0.3.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/280
+
 ## [v0.3.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.2.0...v0.3.0) - 2026-09-30
 
 ### 🚀 New Features
