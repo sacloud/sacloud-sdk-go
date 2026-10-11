@@ -17,7 +17,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/go-retryablehttp v0.7.8
-	github.com/hashicorp/hc-install v0.9.5
+	github.com/hashicorp/hc-install v0.10.0
 	github.com/hashicorp/terraform-exec v0.25.3
 	github.com/hashicorp/terraform-plugin-framework v1.19.0
 	github.com/huandu/xstrings v1.5.0
@@ -33,7 +33,7 @@ require (
 )
 
 require (
-	github.com/ProtonMail/go-crypto v1.4.1 // indirect
+	github.com/ProtonMail/go-crypto v1.5.2 // indirect
 	github.com/apparentlymart/go-textseg/v15 v15.0.0 // indirect
 	github.com/benbjohnson/clock v1.3.5 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
