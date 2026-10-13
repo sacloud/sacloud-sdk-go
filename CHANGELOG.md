@@ -1,5 +1,16 @@
 # Changelog
 
+## [v0.3.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.3.0...v0.3.1) - 2026-10-13
+
+### 📦 Dependency Updates
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.2.0 to 0.3.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/280
+- ci: bump github/codeql-action/upload-sarif from 4.38.1 to 4.38.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/277
+- ci: bump Songmu/tagpr from 1.20.3 to 1.21.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/278
+- go: bump github.com/hashicorp/hc-install from 0.9.5 to 0.10.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/284
+- go: bump the otel group across 2 directories with 7 updates by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/283
+### Other Changes
+- common/saclient: reduce IdleConnTimeout by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/282
+
 ## [v0.3.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.2.0...v0.3.0) - 2026-09-30
 
 ### 🚀 New Features
