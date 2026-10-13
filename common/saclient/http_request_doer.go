@@ -59,6 +59,7 @@ func newHttpRequestDoer(c *config) (HttpRequestDoer, error) {
 	h := http.Client{
 		Transport: http.DefaultTransport.(*http.Transport).Clone(),
 	}
+	h.Transport.(*http.Transport).IdleConnTimeout = 9.0 * time.Second
 
 	t, ok, err := obtainFromConfig[time.Duration](c, "APIRequestTimeout").decompose()
 
