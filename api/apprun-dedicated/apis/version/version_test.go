@@ -32,7 +32,6 @@ func TestList(t *testing.T) {
 	expected.SetVersions(make([]v1.ApplicationVersionDeploymentStatus, 3))
 	for i := 0; i < len(expected.GetVersions()); i++ {
 		expected.Versions[i].SetFake()
-		//nolint: gosec // this never integer overflows
 		expected.Versions[i].SetVersion(v1.ApplicationVersionNumber(i + 1))
 	}
 	assert, api := setup(t, &expected)
@@ -78,7 +77,7 @@ func TestCreate(t *testing.T) {
 		RegistryPasswordAction: v1.RegistryPasswordActionKeep,
 		ExposedPorts: []ExposedPort{{
 			TargetPort:       v1.Port(8080),
-			LoadBalancerPort: saclient.Ptr(v1.Port(80)),
+			LoadBalancerPort: new(v1.Port(80)),
 			UseLetsEncrypt:   true,
 			Host:             []string{apprun_test.FakeCN()},
 			HealthCheck: &v1.HealthCheck{
