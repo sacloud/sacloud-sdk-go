@@ -9,9 +9,12 @@ changelog:
     - title: 🚀 New Features
       labels:
         - sacloud-minor
+    - title: ✨ Ordinary Updates
+      labels:
+        - "*"
+      exclude:
+        labels:
+          - dependencies
     - title: 📦 Dependency Updates
       labels:
         - dependencies
-    - title: Other Changes
-      labels:
-        - "*"
