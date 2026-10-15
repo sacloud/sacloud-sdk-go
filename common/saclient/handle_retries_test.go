@@ -19,6 +19,7 @@ import (
 	"errors"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
 	"testing"
 
 	. "github.com/sacloud/sacloud-sdk-go/common/saclient"
@@ -49,13 +50,33 @@ func (s *HandleRequestTestSuite) TestNilResponse() {
 	// #nosec G104 -- this is only a test
 	s.client.SetWith(WithTestServer(svr), WithoutRetry())
 	req, _ := http.NewRequest("GET", svr.URL, bytes.NewBuffer([]byte(nil)))
+	req.URL.User = url.UserPassword("user", "password")
 	actual, err := s.client.Do(req)
 	s.Nil(actual)
 	s.ErrorContains(err, "transport failure")
+	s.ErrorContains(err, "giving up after 1 attempt(s)")
+	s.ErrorIs(err, forceKillError)
+	s.NotContains(err.Error(), "password")
+}
+
+//nolint:errcheck // this is only a test
+func (s *HandleRequestTestSuite) TestNilResponseWithTraceMode() {
+	svr := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) { /*:UNREACHABLE:*/ }))
+	svr.Client().Transport = forceKillRoundTripper{}
+	defer svr.Close()
+
+	s.client.SetWith(WithTestServer(svr), WithoutRetry(), WithTraceMode("error")) // #nosec G104
+	req, _ := http.NewRequest("GET", svr.URL, bytes.NewBuffer([]byte(nil)))
+	actual, err := s.client.Do(req)
+	s.Nil(actual)
+	s.ErrorContains(err, "transport failure")
+	s.ErrorIs(err, forceKillError)
 }
 
 type forceKillRoundTripper struct{}
 
+var forceKillError = errors.New("transport failure")
+
 func (forceKillRoundTripper) RoundTrip(*http.Request) (*http.Response, error) {
-	return nil, errors.New("transport failure")
+	return nil, forceKillError
 }
