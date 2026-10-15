@@ -90,6 +90,6 @@ func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCr
 		default:
 			ret = nil
 		}
-		return
+		return ret, err
 	})
 }

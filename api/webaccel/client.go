@@ -73,7 +73,7 @@ type Client struct {
 
 	initOnce sync.Once
 
-	//onceで実行するInitializeのエラーを保持する
+	// onceで実行するInitializeのエラーを保持する
 	initError error
 }
 
