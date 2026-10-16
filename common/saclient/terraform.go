@@ -24,7 +24,7 @@ type TerraformProviderInterface interface {
 
 	// Returns if a Service Principal Key ID is set, and its value
 	// (this ID is unformatted)
-	LookupClientConfigServicePrincipalKeyID() (string, bool)
+	LookupClientConfigServicePrincipalKeyKID() (string, bool)
 
 	// Returns if a Service Principal BYOK Private Key's path is set, and its value
 	LookupClientConfigPrivateKeyPath() (string, bool)

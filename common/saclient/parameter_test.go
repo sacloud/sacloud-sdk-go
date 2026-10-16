@@ -19,6 +19,37 @@ import (
 	"testing"
 )
 
+func TestBoolOptionSet(t *testing.T) {
+	tests := []struct {
+		value   string
+		want    bool
+		wantErr bool
+	}{
+		{value: "true", want: true},
+		{value: "false", want: false},
+		{value: "1", wantErr: true},
+		{value: "t", wantErr: true},
+		{value: "TRUE", wantErr: true},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.value, func(t *testing.T) {
+			var option option[bool]
+			err := option.Set(tt.value)
+			if (err != nil) != tt.wantErr {
+				t.Fatalf("Set(%q) error = %v, wantErr %v", tt.value, err, tt.wantErr)
+			}
+			if tt.wantErr {
+				return
+			}
+
+			if got := option.MustGet(); got != tt.want {
+				t.Errorf("Set(%q) value = %v, want %v", tt.value, got, tt.want)
+			}
+		})
+	}
+}
+
 // TestNormalizeEndpoints tests the normalizeEndpoints function
 func TestNormalizeEndpoints(t *testing.T) {
 	tests := []struct {
