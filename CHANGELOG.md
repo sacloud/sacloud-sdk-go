@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.3.2](https://github.com/sacloud/sacloud-sdk-go/compare/v0.3.1...v0.3.2) - 2026-10-16
+
+### ✨ Ordinary Updates
+- golang 1.27.2 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/286
+- .github/release.yml: reorder sections by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/285
+- Support Profile v1 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/228
+- api/kms: avoid explicit `{Tags: null}` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/290
+
 ## [v0.3.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.3.0...v0.3.1) - 2026-10-13
 
 ### 📦 Dependency Updates
