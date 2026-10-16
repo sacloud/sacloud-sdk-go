@@ -2,8 +2,8 @@
 
 `sources.json` maps OpenAPI definitions in this repository to the authoritative
 YAML files linked from the [Sakura Cloud API portal](https://manual.sakura.ad.jp/api/cloud/portal/).
-The `OpenAPI drift` GitHub Actions workflow runs every Monday and can also be
-started manually.
+The `OpenAPI drift` GitHub Actions workflow is scheduled for Fridays at 09:00
+JST (00:00 UTC) and can also be started manually.
 
 Run the comparison from the repository root:
 
