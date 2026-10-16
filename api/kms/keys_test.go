@@ -89,3 +89,39 @@ func TestKeyAPI(t *testing.T) {
 	assert.NoError(t, err, "failed to read key for ScheduleDestruction")
 	assert.Equal(t, v1.KeyStatusPendingDestruction, read.Status)
 }
+
+func TestKeyNeedsWithEmptyTags(t *testing.T) {
+	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET")(t)
+
+	var theClient saclient.Client
+	client, err := kms.NewClient(&theClient)
+	require.NoError(t, err, "failed to create client")
+
+	ctx := context.Background()
+	keyOp := kms.NewKeyOp(client)
+
+	resCreate, err := keyOp.Create(ctx, kms.CreateParams{
+		Name:        "key gen from go",
+		Description: new("key gen from go client"),
+		Tags:        nil,
+	})
+	require.NoError(t, err, "failed to create key")
+	assert.Equal(t, "key gen from go", resCreate.Name)
+
+	defer func() {
+		err = keyOp.Delete(ctx, resCreate.ID)
+		require.NoError(t, err, "failed to delete key")
+	}()
+
+	updated, err := keyOp.Update(ctx, resCreate.ID, kms.UpdateParams{
+		Name:        "key gen from go 2",
+		Description: new("key gen from go client 2"),
+		Tags:        nil,
+	})
+	assert.NoError(t, err, "failed to update key")
+	assert.Equal(t, "key gen from go 2", updated.Name)
+	assert.Equal(t, "key gen from go client 2", updated.Description)
+	assert.Equal(t, []string{}, updated.Tags)
+	assert.Equal(t, v1.KeyStatusActive, updated.Status)
+	assert.Equal(t, 0, updated.LatestVersion)
+}
