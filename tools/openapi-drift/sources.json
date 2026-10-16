@@ -1,0 +1,166 @@
+{
+  "sources": [
+    {
+      "id": "iam",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/iam-api.yaml"
+    },
+    {
+      "id": "monitoring-suite",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/monitoring-suite-api.yaml"
+    },
+    {
+      "id": "simplemq-message",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/simplemq-api.yaml"
+    },
+    {
+      "id": "simplemq-queue",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/simplemq-sacloud-api.yaml"
+    },
+    {
+      "id": "addon",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/addon-api.yaml"
+    },
+    {
+      "id": "apigw",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/apigw-api.yaml"
+    },
+    {
+      "id": "apprun",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/apprun-shared-api.yaml"
+    },
+    {
+      "id": "apprun-dedicated",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/apprun-dedicated-api.yaml"
+    },
+    {
+      "id": "eventbus",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/eventbus-api.yaml"
+    },
+    {
+      "id": "security-encryption",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/security-encryption-api.yaml"
+    },
+    {
+      "id": "nosql",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/nosql-api.yaml"
+    },
+    {
+      "id": "networking-suite",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/networking-suite-api.yaml"
+    },
+    {
+      "id": "workflows",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/workflows-api.yaml"
+    },
+    {
+      "id": "seg",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/seg-api.yaml"
+    },
+    {
+      "id": "objectstorage",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/objectstorage-api.yaml"
+    },
+    {
+      "id": "simple-notification",
+      "url": "https://manual.sakura.ad.jp/api/cloud/portal/openapis/simple-notification-api.yaml"
+    }
+  ],
+  "packages": [
+    {
+      "name": "IAM",
+      "local": "api/iam/openapi/openapi.json",
+      "source": "iam"
+    },
+    {
+      "name": "Monitoring Suite",
+      "local": "api/monitoring-suite/openapi/openapi.json",
+      "source": "monitoring-suite"
+    },
+    {
+      "name": "SimpleMQ message",
+      "local": "api/simplemq/openapi/message.yaml",
+      "source": "simplemq-message"
+    },
+    {
+      "name": "SimpleMQ queue",
+      "local": "api/simplemq/openapi/queue.yaml",
+      "source": "simplemq-queue"
+    },
+    {
+      "name": "Add-on",
+      "local": "api/addon/openapi/openapi.json",
+      "source": "addon"
+    },
+    {
+      "name": "API Gateway",
+      "local": "api/apigw/openapi/openapi.json",
+      "source": "apigw"
+    },
+    {
+      "name": "AppRun shared",
+      "local": "api/apprun/openapi/openapi.yaml",
+      "source": "apprun"
+    },
+    {
+      "name": "AppRun dedicated",
+      "local": "api/apprun-dedicated/openapi/openapi.json",
+      "source": "apprun-dedicated"
+    },
+    {
+      "name": "EventBus",
+      "local": "api/eventbus/openapi/openapi.json",
+      "source": "eventbus"
+    },
+    {
+      "name": "KMS",
+      "local": "api/kms/openapi/openapi.json",
+      "source": "security-encryption",
+      "skipPaths": true,
+      "skipComponentSetChanges": true
+    },
+    {
+      "name": "CloudHSM",
+      "local": "api/cloudhsm/openapi/openapi.json",
+      "source": "security-encryption",
+      "skipPaths": true,
+      "skipComponentSetChanges": true
+    },
+    {
+      "name": "SecretManager",
+      "local": "api/secretmanager/openapi/openapi-fixed.json",
+      "source": "security-encryption",
+      "skipPaths": true,
+      "skipComponentSetChanges": true
+    },
+    {
+      "name": "NoSQL",
+      "local": "api/nosql/openapi/openapi.json",
+      "source": "nosql"
+    },
+    {
+      "name": "Networking Suite",
+      "local": "api/networking-suite/openapi/openapi.yaml",
+      "source": "networking-suite"
+    },
+    {
+      "name": "Workflows",
+      "local": "api/workflows/openapi/openapi.json",
+      "source": "workflows"
+    },
+    {
+      "name": "Service Endpoint Gateway",
+      "local": "api/service-endpoint-gateway/openapi/openapi.json",
+      "source": "seg"
+    },
+    {
+      "name": "Object Storage",
+      "local": "api/object-storage/openapi/openapi.json",
+      "source": "objectstorage"
+    },
+    {
+      "name": "Simple Notification",
+      "local": "api/simple-notification/openapi/openapi.yaml",
+      "source": "simple-notification"
+    }
+  ]
+}
