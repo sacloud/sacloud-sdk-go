@@ -117,10 +117,6 @@ func run() error {
 			localVersion:  localVersion,
 			portalVersion: upstreamVersion,
 		})
-		if localVersion != upstreamVersion {
-			diff.add(fmt.Sprintf("info.version: local %q; portal %q", localVersion, upstreamVersion))
-		}
-
 		localComponents := nestedMap(local, "components")
 		upstreamComponents := nestedMap(upstream, "components")
 		diff.addMapDifferences(
@@ -134,6 +130,10 @@ func run() error {
 			diff.addPathDifferences(nestedMap(local, "paths"), nestedMap(upstream, "paths"))
 		}
 		summary[len(summary)-1].differenceCount = diff.total
+
+		if localVersion != upstreamVersion {
+			diff.add(fmt.Sprintf("info.version: local %q; portal %q", localVersion, upstreamVersion))
+		}
 
 		if diff.total > 0 {
 			details := diff.items
