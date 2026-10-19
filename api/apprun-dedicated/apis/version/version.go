@@ -15,8 +15,8 @@ type VersionAPI interface {
 	// List returns the list of ApplicationVersions, paginated.
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
-	List(ctx context.Context, maxItems int64, cursor *v1.ApplicationVersionNumber) (list []v1.ApplicationVersionDeploymentStatus, nextCursor *v1.ApplicationVersionNumber, err error)
-	Create(ctx context.Context, params CreateParams) (version *v1.ReadApplicationVersionSummary, err error)
+	List(ctx context.Context, maxItems int64, cursor *v1.ApplicationVersionNumber) (list []v1.ApplicationVersionSummary, nextCursor *v1.ApplicationVersionNumber, err error)
+	Create(ctx context.Context, params CreateParams) (version *v1.ApplicationVersionIdentifier, err error)
 	Read(ctx context.Context, id v1.ApplicationVersionNumber) (version *VersionDetail, err error)
 	Delete(ctx context.Context, id v1.ApplicationVersionNumber) error
 }
@@ -33,8 +33,8 @@ func NewVersionOp(client *v1.Client, applicationID v1.ApplicationID) *VersionOp 
 	}
 }
 
-func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.ApplicationVersionNumber) (list []v1.ApplicationVersionDeploymentStatus, nextCursor *v1.ApplicationVersionNumber, err error) {
-	res, err := common.ErrorFromDecodedResponse("Version.List", func() (*v1.ListApplicationVersionResponse, error) {
+func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.ApplicationVersionNumber) (list []v1.ApplicationVersionSummary, nextCursor *v1.ApplicationVersionNumber, err error) {
+	res, err := common.ErrorFromDecodedResponse("Version.List", func() (*v1.ListApplicationVersionsResponse, error) {
 		return op.client.ListApplicationVersions(ctx, v1.ListApplicationVersionsParams{
 			ApplicationID: op.applicationID,
 			Cursor:        into.Opt[v1.OptApplicationVersionNumber](cursor),
@@ -50,7 +50,7 @@ func (op *VersionOp) List(ctx context.Context, maxItems int64, cursor *v1.Applic
 	return
 }
 
-func (op *VersionOp) Create(ctx context.Context, params CreateParams) (ver *v1.ReadApplicationVersionSummary, err error) {
+func (op *VersionOp) Create(ctx context.Context, params CreateParams) (ver *v1.ApplicationVersionIdentifier, err error) {
 	res, err := common.ErrorFromDecodedResponse("Version.Create", func() (*v1.CreateApplicationVersionResponse, error) {
 		return op.client.CreateApplicationVersion(ctx, new(params.into()), v1.CreateApplicationVersionParams{
 			ApplicationID: op.applicationID,
@@ -65,8 +65,8 @@ func (op *VersionOp) Create(ctx context.Context, params CreateParams) (ver *v1.R
 }
 
 func (op *VersionOp) Read(ctx context.Context, id v1.ApplicationVersionNumber) (ver *VersionDetail, err error) {
-	res, err := common.ErrorFromDecodedResponse("Version.Read", func() (*v1.GetApplicationVersionResponse, error) {
-		return op.client.GetApplicationVersion(ctx, v1.GetApplicationVersionParams{
+	res, err := common.ErrorFromDecodedResponse("Version.Read", func() (*v1.ReadApplicationVersionResponse, error) {
+		return op.client.ReadApplicationVersion(ctx, v1.ReadApplicationVersionParams{
 			ApplicationID: op.applicationID,
 			Version:       id,
 		})
@@ -104,7 +104,11 @@ func (p ExposedPort) into() (ret v1.ExposedPort) {
 	ret.SetTargetPort(p.TargetPort)
 	ret.SetLoadBalancerPort(into.Nil[v1.NilPort](p.LoadBalancerPort))
 	ret.SetUseLetsEncrypt(p.UseLetsEncrypt)
-	ret.SetHost(p.Host)
+	hosts := make([]v1.Hostname, len(p.Host))
+	for i, host := range p.Host {
+		hosts[i] = v1.Hostname(host)
+	}
+	ret.SetHost(hosts)
 	ret.SetHealthCheck(into.Nil[v1.NilHealthCheck](p.HealthCheck))
 
 	return
@@ -114,7 +118,10 @@ func (p *ExposedPort) From(res *v1.ExposedPort) {
 	p.TargetPort = res.GetTargetPort()
 	p.LoadBalancerPort = common.FromOpt(res.GetLoadBalancerPort())
 	p.UseLetsEncrypt = res.GetUseLetsEncrypt()
-	p.Host = res.GetHost()
+	p.Host = make([]string, len(res.GetHost()))
+	for i, host := range res.GetHost() {
+		p.Host[i] = string(host)
+	}
 	p.HealthCheck = common.FromOpt(res.GetHealthCheck())
 }
 
@@ -125,16 +132,24 @@ type EnvironmentVariable struct {
 }
 
 func (e EnvironmentVariable) into() (ret v1.CreateEnvironmentVariable) {
+	var v *v1.EnvironmentVariableValue
+	if e.Value != nil {
+		v = new(v1.EnvironmentVariableValue(*e.Value))
+	}
 	ret.SetKey(e.Key)
-	ret.SetValue(into.Opt[v1.OptString](e.Value))
+	ret.SetValue(into.Opt[v1.OptEnvironmentVariableValue](v))
 	ret.SetSecret(e.Secret)
 
 	return
 }
 
 func (e *EnvironmentVariable) From(res *v1.ReadEnvironmentVariable) {
+	var v *string
+	if w := common.FromOpt(res.GetValue()); w != nil {
+		v = new(string(*w))
+	}
 	e.Key = res.GetKey()
-	e.Value = common.FromOpt(res.GetValue())
+	e.Value = v
 	e.Secret = res.GetSecret()
 }
 
@@ -156,7 +171,7 @@ type CreateParams struct {
 	EnvVars                []EnvironmentVariable     `json:"envVars,omitempty"`
 }
 
-func (c *CreateParams) into() (ret v1.CreateApplicationVersion) {
+func (c *CreateParams) into() (ret v1.CreateApplicationVersionRequest) {
 	ret.SetCPU(c.CPU)
 	ret.SetMemory(c.Memory)
 	ret.SetScalingMode(c.ScalingMode)
@@ -196,7 +211,7 @@ type VersionDetail struct {
 	EnvVars           []EnvironmentVariable       `json:"envVars,omitempty"`
 }
 
-func (v *VersionDetail) from(res *v1.ReadApplicationVersionDetail) {
+func (v *VersionDetail) from(res *v1.ReadApplicationVersion) {
 	v.Version = res.GetVersion()
 	v.CPU = res.GetCPU()
 	v.Memory = res.GetMemory()

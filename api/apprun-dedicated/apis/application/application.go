@@ -15,8 +15,8 @@ type ApplicationAPI interface {
 	// List returns the list of Applications, paginated.
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
-	List(ctx context.Context, maxItems int64, cursor *string) (list []v1.ReadApplicationDetail, nextCursor *string, err error)
-	Create(ctx context.Context, name string, clusterID v1.ClusterID) (app *v1.CreatedApplication, err error)
+	List(ctx context.Context, maxItems int64, cursor *v1.ApplicationID) (list []v1.ReadApplication, nextCursor *v1.ApplicationID, err error)
+	Create(ctx context.Context, name string, clusterID v1.ClusterID) (app *v1.ApplicationIdentifier, err error)
 	Read(ctx context.Context, id v1.ApplicationID) (app *ApplicationDetail, err error)
 	Update(ctx context.Context, id v1.ApplicationID, toVersion *int32) error
 	Delete(ctx context.Context, id v1.ApplicationID) error
@@ -27,10 +27,10 @@ type ApplicationOp struct{ *v1.Client }
 
 func NewApplicationOp(client *v1.Client) *ApplicationOp { return &ApplicationOp{Client: client} }
 
-func (op *ApplicationOp) List(ctx context.Context, maxItems int64, cursor *string) (list []v1.ReadApplicationDetail, nextCursor *string, err error) {
-	res, err := common.ErrorFromDecodedResponse("Application.List", func() (*v1.ListApplicationResponse, error) {
+func (op *ApplicationOp) List(ctx context.Context, maxItems int64, cursor *v1.ApplicationID) (list []v1.ReadApplication, nextCursor *v1.ApplicationID, err error) {
+	res, err := common.ErrorFromDecodedResponse("Application.List", func() (*v1.ListApplicationsResponse, error) {
 		return op.Client.ListApplications(ctx, v1.ListApplicationsParams{
-			Cursor:   into.Opt[v1.OptString](cursor),
+			Cursor:   into.Opt[v1.OptApplicationID](cursor),
 			MaxItems: maxItems,
 		})
 	})
@@ -43,9 +43,9 @@ func (op *ApplicationOp) List(ctx context.Context, maxItems int64, cursor *strin
 	return
 }
 
-func (op *ApplicationOp) Create(ctx context.Context, name string, clusterID v1.ClusterID) (app *v1.CreatedApplication, err error) {
+func (op *ApplicationOp) Create(ctx context.Context, name string, clusterID v1.ClusterID) (app *v1.ApplicationIdentifier, err error) {
 	res, err := common.ErrorFromDecodedResponse("Application.Create", func() (*v1.CreateApplicationResponse, error) {
-		return op.Client.CreateApplication(ctx, &v1.CreateApplication{
+		return op.Client.CreateApplication(ctx, &v1.CreateApplicationRequest{
 			Name:      name,
 			ClusterID: clusterID,
 		})
@@ -69,20 +69,24 @@ type ApplicationDetail struct {
 }
 
 func (op *ApplicationOp) Read(ctx context.Context, id v1.ApplicationID) (app *ApplicationDetail, err error) {
-	res, err := common.ErrorFromDecodedResponse("Application.Read", func() (*v1.GetApplicationResponse, error) {
-		return op.Client.GetApplication(ctx, v1.GetApplicationParams{
+	res, err := common.ErrorFromDecodedResponse("Application.Read", func() (*v1.ReadApplicationResponse, error) {
+		return op.Client.ReadApplication(ctx, v1.ReadApplicationParams{
 			ApplicationID: id,
 		})
 	})
 
 	if res != nil {
 		tmp := res.GetApplication()
+		var v *int32
+		if w := common.FromOpt(tmp.GetActiveVersion()); w != nil {
+			v = new(int32(*w))
+		}
 		app = &ApplicationDetail{
 			ApplicationID:          tmp.GetApplicationID(),
 			Name:                   tmp.GetName(),
 			ClusterID:              tmp.GetClusterID(),
 			ClusterName:            tmp.GetClusterName(),
-			ActiveVersion:          common.FromOpt(tmp.GetActiveVersion()),
+			ActiveVersion:          v,
 			DesiredCount:           common.FromOpt(tmp.GetDesiredCount()),
 			ScalingCooldownSeconds: tmp.GetScalingCooldownSeconds(),
 		}
@@ -101,7 +105,11 @@ func (op *ApplicationOp) Delete(ctx context.Context, id v1.ApplicationID) error 
 
 func (op *ApplicationOp) Update(ctx context.Context, id v1.ApplicationID, toVersion *int32) error {
 	return common.ErrorFromDecodedResponseE("Application.Update", func() error {
-		req := v1.UpdateApplication{ActiveVersion: into.Nil[v1.NilInt32](toVersion)}
+		var v *v1.ApplicationVersionNumber
+		if toVersion != nil {
+			v = new(v1.ApplicationVersionNumber(*toVersion))
+		}
+		req := v1.UpdateApplicationRequest{ActiveVersion: into.Nil[v1.NilApplicationVersionNumber](v)}
 		params := v1.UpdateApplicationParams{ApplicationID: id}
 
 		return op.Client.UpdateApplication(ctx, &req, params)
@@ -109,14 +117,14 @@ func (op *ApplicationOp) Update(ctx context.Context, id v1.ApplicationID, toVers
 }
 
 type Placement struct {
-	NodeID          string                                      `json:"nodeID"`
-	ContainersStats v1.ApplicationContainersStats               `json:"containersStats"`
-	Desired         v1.ApplicationPeekDesiredContainersResponse `json:"desired"`
+	NodeID          v1.WorkerNodeID                 `json:"nodeID"`
+	ContainersStats v1.ApplicationCurrentContainers `json:"containersStats"`
+	Desired         v1.ApplicationDesiredContainers `json:"desired"`
 }
 
 func (op *ApplicationOp) Containers(ctx context.Context, id v1.ApplicationID) (list []Placement, err error) {
-	res, err := common.ErrorFromDecodedResponse("Application.Containers", func() (*v1.GetApplicationContainersResponse, error) {
-		return op.Client.GetApplicationContainers(ctx, v1.GetApplicationContainersParams{
+	res, err := common.ErrorFromDecodedResponse("Application.Containers", func() (*v1.ListApplicationContainersResponse, error) {
+		return op.Client.ListApplicationContainers(ctx, v1.ListApplicationContainersParams{
 			ApplicationID: id,
 		})
 	})

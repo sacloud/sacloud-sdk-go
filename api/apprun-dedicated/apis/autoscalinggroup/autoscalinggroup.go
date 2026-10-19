@@ -15,8 +15,8 @@ type AutoScalingGroupAPI interface {
 	// List returns the list of AutoScalingGroups, paginated.
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
-	List(ctx context.Context, maxItems int64, cursor *v1.AutoScalingGroupID) (list []v1.ReadAutoScalingGroupDetail, nextCursor *v1.AutoScalingGroupID, err error)
-	Create(ctx context.Context, params CreateParams) (group *v1.CreatedAutoScalingGroup, err error)
+	List(ctx context.Context, maxItems int64, cursor *v1.AutoScalingGroupID) (list []v1.ReadAutoScalingGroup, nextCursor *v1.AutoScalingGroupID, err error)
+	Create(ctx context.Context, params CreateParams) (group *v1.AutoScalingGroupIdentifier, err error)
 	Read(ctx context.Context, id v1.AutoScalingGroupID) (group *AutoScalingGroupDetail, err error)
 	Delete(ctx context.Context, id v1.AutoScalingGroupID) error
 }
@@ -33,8 +33,8 @@ func NewAutoScalingGroupOp(client *v1.Client, clusterID v1.ClusterID) *AutoScali
 	}
 }
 
-func (op *AutoScalingGroupOp) List(ctx context.Context, maxItems int64, cursor *v1.AutoScalingGroupID) (list []v1.ReadAutoScalingGroupDetail, nextCursor *v1.AutoScalingGroupID, err error) {
-	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.List", func() (*v1.ListAutoScalingGroupResponse, error) {
+func (op *AutoScalingGroupOp) List(ctx context.Context, maxItems int64, cursor *v1.AutoScalingGroupID) (list []v1.ReadAutoScalingGroup, nextCursor *v1.AutoScalingGroupID, err error) {
+	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.List", func() (*v1.ListAutoScalingGroupsResponse, error) {
 		return op.client.ListAutoScalingGroups(ctx, v1.ListAutoScalingGroupsParams{
 			ClusterID: op.clusterID,
 			Cursor:    into.Opt[v1.OptAutoScalingGroupID](cursor),
@@ -50,7 +50,7 @@ func (op *AutoScalingGroupOp) List(ctx context.Context, maxItems int64, cursor *
 	return
 }
 
-func (op *AutoScalingGroupOp) Create(ctx context.Context, params CreateParams) (group *v1.CreatedAutoScalingGroup, err error) {
+func (op *AutoScalingGroupOp) Create(ctx context.Context, params CreateParams) (group *v1.AutoScalingGroupIdentifier, err error) {
 	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.Create", func() (*v1.CreateAutoScalingGroupResponse, error) {
 		return op.client.CreateAutoScalingGroup(ctx, new(params.into()), v1.CreateAutoScalingGroupParams{
 			ClusterID: op.clusterID,
@@ -65,8 +65,8 @@ func (op *AutoScalingGroupOp) Create(ctx context.Context, params CreateParams) (
 }
 
 func (op *AutoScalingGroupOp) Read(ctx context.Context, id v1.AutoScalingGroupID) (group *AutoScalingGroupDetail, err error) {
-	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.Read", func() (*v1.GetAutoScalingGroupResponse, error) {
-		return op.client.GetAutoScalingGroup(ctx, v1.GetAutoScalingGroupParams{
+	res, err := common.ErrorFromDecodedResponse("AutoScalingGroup.Read", func() (*v1.ReadAutoScalingGroupResponse, error) {
+		return op.client.ReadAutoScalingGroup(ctx, v1.ReadAutoScalingGroupParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: id,
 		})
@@ -127,14 +127,14 @@ func (n *NodeInterface) From(res *v1.AutoScalingGroupNodeInterface) {
 type CreateParams struct {
 	Name                   string          `json:"name"`
 	Zone                   string          `json:"zone"`
-	NameServers            []v1.IPv4       `json:"nameServers"`
+	NameServers            []v1.Ipv4       `json:"nameServers"`
 	WorkerServiceClassPath string          `json:"workerServiceClassPath"`
 	MinNodes               int32           `json:"minNodes"`
 	MaxNodes               int32           `json:"maxNodes"`
 	Interfaces             []NodeInterface `json:"interfaces"`
 }
 
-func (c CreateParams) into() (ret v1.CreateAutoScalingGroup) {
+func (c CreateParams) into() (ret v1.CreateAutoScalingGroupRequest) {
 	ret.SetName(c.Name)
 	ret.SetZone(c.Zone)
 	ret.SetNameServers(c.NameServers)
@@ -150,7 +150,7 @@ type AutoScalingGroupDetail struct {
 	AutoScalingGroupID     v1.AutoScalingGroupID `json:"autoScalingGroupID"`
 	Name                   string                `json:"name"`
 	Zone                   string                `json:"zone"`
-	NameServers            []v1.IPv4             `json:"nameServers"`
+	NameServers            []v1.Ipv4             `json:"nameServers"`
 	WorkerServiceClassPath string                `json:"workerServiceClassPath"`
 	MinNodes               int32                 `json:"minNodes"`
 	MaxNodes               int32                 `json:"maxNodes"`
@@ -159,7 +159,7 @@ type AutoScalingGroupDetail struct {
 	Interfaces             []NodeInterface       `json:"interfaces"`
 }
 
-func (a *AutoScalingGroupDetail) from(res *v1.ReadAutoScalingGroupDetail) {
+func (a *AutoScalingGroupDetail) from(res *v1.ReadAutoScalingGroup) {
 	a.AutoScalingGroupID = res.GetAutoScalingGroupID()
 	a.Name = res.GetName()
 	a.Zone = res.GetZone()

@@ -29,7 +29,7 @@ func setup(t *testing.T, v interface{ Encode(*jx.Encoder) }, s ...int) (assert *
 
 func TestList(t *testing.T) {
 	next := v1.ClusterID(uuid.New())
-	var expected v1.ListClusterResponse
+	var expected v1.ListClustersResponse
 	expected.SetFake()
 	expected.NextCursor.SetTo(next)
 	expected.SetClusters(make([]v1.ReadClusterSummary, 3))
@@ -63,7 +63,7 @@ func TestList_failed(t *testing.T) {
 
 func TestCreate(t *testing.T) {
 	var expected v1.CreateClusterResponse
-	var cluster v1.CreatedCluster
+	var cluster v1.ClusterIdentifier
 	cluster.SetFake()
 	expected.SetCluster(cluster)
 	assert, api := setup(t, &expected)
@@ -71,7 +71,7 @@ func TestCreate(t *testing.T) {
 	params := CreateParams{
 		Name:               "test-cluster",
 		LetsEncryptEmail:   nil,
-		Ports:              []v1.CreateLoadBalancerPort{},
+		Ports:              []v1.ClusterLoadBalancerPort{},
 		ServicePrincipalID: "sp-123456789", // 12 chars
 	}
 	actual, err := api.Create(t.Context(), params)
@@ -99,9 +99,10 @@ func TestCreate_failed(t *testing.T) {
 }
 
 func TestRead(t *testing.T) {
-	var expected v1.GetClusterResponse
-	var cluster v1.ReadClusterDetail
+	var expected v1.ReadClusterResponse
+	var cluster v1.ReadCluster
 	cluster.SetFake()
+	cluster.SetServicePrincipalID("sp-123456789")
 	id := cluster.GetClusterID()
 	expected.SetCluster(cluster)
 
@@ -127,6 +128,43 @@ func TestRead_failed(t *testing.T) {
 	assert.Error(err)
 	assert.Nil(actual)
 	assert.True(saclient.IsNotFoundError(err))
+}
+
+func TestReadLoadBalancer(t *testing.T) {
+	var expected v1.ReadClusterLoadBalancerResponse
+	var loadBalancer v1.ReadClusterLoadBalancer
+	loadBalancer.SetFake()
+	loadBalancer.SetPorts([]v1.ClusterLoadBalancerPort{})
+	expected.SetLoadBalancer(loadBalancer)
+	assert, api := setup(t, &expected)
+
+	actual, err := api.ReadLoadBalancer(t.Context(), v1.ClusterID(uuid.New()))
+
+	assert.NoError(err)
+	assert.Equal(loadBalancer, *actual)
+}
+
+func TestReadLoadBalancer_failed(t *testing.T) {
+	expected := apprun_test.Fake404Error()
+	assert, api := setup(t, &expected, int(expected.GetStatus()))
+
+	actual, err := api.ReadLoadBalancer(t.Context(), v1.ClusterID(uuid.New()))
+
+	assert.Error(err)
+	assert.Nil(actual)
+	assert.True(saclient.IsNotFoundError(err))
+}
+
+func TestPatchLoadBalancer_omitsUnsetFields(t *testing.T) {
+	assert, api := setup(t, nil, http.StatusNoContent)
+
+	id := v1.ClusterID(uuid.New())
+	params := UpdateLoadBalancerParams{
+		LetsEncryptEmail: nil,
+	}
+	err := api.UpdateLoadBalancer(t.Context(), id, params)
+
+	assert.NoError(err)
 }
 
 func TestUpdate(t *testing.T) {
@@ -192,10 +230,10 @@ func TestIntegrated(t *testing.T) {
 			Name:               name,
 			ServicePrincipalID: spid,
 			LetsEncryptEmail:   nil, // :TODO: to be tested
-			Ports: []v1.CreateLoadBalancerPort{
+			Ports: []v1.ClusterLoadBalancerPort{
 				{
 					Port:     443,
-					Protocol: v1.CreateLoadBalancerPortProtocolHTTPS,
+					Protocol: v1.ClusterLoadBalancerPortProtocolHTTPS,
 				},
 			},
 		}

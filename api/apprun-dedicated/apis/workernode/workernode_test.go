@@ -30,9 +30,9 @@ func TestList(t *testing.T) {
 	var expected v1.ListWorkerNodesResponse
 	expected.SetFake()
 	expected.NextCursor.SetTo(next)
-	expected.SetWorkerNodes(make([]v1.ReadWorkerNodeSummary, 3))
+	expected.SetWorkerNodes(make([]v1.WorkerNodeSummary, 3))
 	for i := 0; i < len(expected.GetWorkerNodes()); i++ {
-		var node v1.ReadWorkerNodeSummary
+		var node v1.WorkerNodeSummary
 		node.SetFake()
 		expected.WorkerNodes[i] = node
 	}
@@ -60,8 +60,8 @@ func TestList_failed(t *testing.T) {
 }
 
 func TestRead(t *testing.T) {
-	var expected v1.GetWorkerNodeResponse
-	var node v1.ReadWorkerNodeDetail
+	var expected v1.ReadWorkerNodeResponse
+	var node v1.WorkerNode
 	node.SetFake()
 	id := node.GetWorkerNodeID()
 	expected.SetWorkerNode(node)

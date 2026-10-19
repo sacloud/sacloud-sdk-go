@@ -25,9 +25,9 @@ func setup(t *testing.T, v interface{ Encode(*jx.Encoder) }, s ...int) (assert *
 }
 
 func TestListLB(t *testing.T) {
-	var expected v1.ListLbServiceClassResponse
+	var expected v1.ListLoadBalancerServiceClassesResponse
 	expected.SetFake()
-	expected.SetLbServiceClasses(make([]v1.ReadLbServiceClass, 2))
+	expected.SetLbServiceClasses(make([]v1.LoadBalancerServiceClass, 2))
 	for i := 0; i < len(expected.GetLbServiceClasses()); i++ {
 		expected.LbServiceClasses[i].SetFake()
 	}
@@ -52,9 +52,9 @@ func TestListLB_failed(t *testing.T) {
 }
 
 func TestListWorker(t *testing.T) {
-	var expected v1.ListWorkerServiceClassResponse
+	var expected v1.ListWorkerServiceClassesResponse
 	expected.SetFake()
-	expected.SetWorkerServiceClasses(make([]v1.ReadWorkerServiceClass, 3))
+	expected.SetWorkerServiceClasses(make([]v1.WorkerServiceClass, 3))
 	for i := 0; i < len(expected.GetWorkerServiceClasses()); i++ {
 		expected.WorkerServiceClasses[i].SetFake()
 	}

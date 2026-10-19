@@ -27,11 +27,11 @@ func setup(t *testing.T, v interface{ Encode(*jx.Encoder) }, s ...int) (assert *
 }
 
 func TestList(t *testing.T) {
-	next := "next-cursor"
-	var expected v1.ListApplicationResponse
+	next := v1.ApplicationID(uuid.New())
+	var expected v1.ListApplicationsResponse
 	expected.SetFake()
 	expected.NextCursor.SetTo(next)
-	expected.SetApplications(make([]v1.ReadApplicationDetail, 3))
+	expected.SetApplications(make([]v1.ReadApplication, 3))
 	for i := 0; i < len(expected.GetApplications()); i++ {
 		expected.Applications[i] = apprun_test.FakeApplication()
 	}
@@ -81,7 +81,7 @@ func TestCreate_failed(t *testing.T) {
 }
 
 func TestRead(t *testing.T) {
-	var expected v1.GetApplicationResponse
+	var expected v1.ReadApplicationResponse
 	fake := apprun_test.FakeApplication()
 	id := fake.ApplicationID
 	expected.SetApplication(fake)
@@ -132,7 +132,7 @@ func TestDelete_failed(t *testing.T) {
 }
 
 func TestContainers(t *testing.T) {
-	var expected v1.GetApplicationContainersResponse
+	var expected v1.ListApplicationContainersResponse
 	expected.SetFake()
 	assert, api := setup(t, &expected)
 
@@ -202,7 +202,7 @@ func TestIntegrated(t *testing.T) {
 		})
 
 		t.Run("List", func(t *testing.T) {
-			list := apprun_test.RepeatedList(func(cursor *string) (res []v1.ReadApplicationDetail, next *string) {
+			list := apprun_test.RepeatedList(func(cursor *v1.ApplicationID) (res []v1.ReadApplication, next *v1.ApplicationID) {
 				res, next, err := api.List(t.Context(), 10, cursor)
 				assert.NoError(err)
 				return

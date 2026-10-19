@@ -46,7 +46,7 @@ func (op *WorkerNodeOp) List(ctx context.Context, maxItems int64, cursor *v1.Wor
 
 	if res != nil {
 		nextCursor = common.FromOpt(res.NextCursor)
-		nodes = common.MapSlice(res.WorkerNodes, func(w v1.ReadWorkerNodeSummary) WorkerNodeDetail {
+		nodes = common.MapSlice(res.WorkerNodes, func(w v1.WorkerNodeSummary) WorkerNodeDetail {
 			var detail WorkerNodeDetail
 			detail.fromSummary(&w)
 			return detail
@@ -57,8 +57,8 @@ func (op *WorkerNodeOp) List(ctx context.Context, maxItems int64, cursor *v1.Wor
 }
 
 func (op *WorkerNodeOp) Read(ctx context.Context, id v1.WorkerNodeID) (node *WorkerNodeDetail, err error) {
-	res, err := common.ErrorFromDecodedResponse("WorkerNode.Read", func() (*v1.GetWorkerNodeResponse, error) {
-		return op.client.GetWorkerNode(ctx, v1.GetWorkerNodeParams{
+	res, err := common.ErrorFromDecodedResponse("WorkerNode.Read", func() (*v1.ReadWorkerNodeResponse, error) {
+		return op.client.ReadWorkerNode(ctx, v1.ReadWorkerNodeParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
 			WorkerNodeID:       id,
@@ -78,7 +78,7 @@ func (op *WorkerNodeOp) Update(ctx context.Context, id v1.WorkerNodeID, draining
 	return common.ErrorFromDecodedResponseE("WorkerNode.Update", func() error {
 		var req v1.UpdateWorkerNodeDrainingRequest
 		req.SetDraining(draining)
-		return op.client.UpdateWorkerNodeDrainingState(ctx, &req, v1.UpdateWorkerNodeDrainingStateParams{
+		return op.client.UpdateWorkerNodeDraining(ctx, &req, v1.UpdateWorkerNodeDrainingParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
 			WorkerNodeID:       id,
@@ -89,20 +89,20 @@ func (op *WorkerNodeOp) Update(ctx context.Context, id v1.WorkerNodeID, draining
 var _ WorkerNodeAPI = (*WorkerNodeOp)(nil)
 
 type WorkerNodeDetail struct {
-	WorkerNodeID       v1.WorkerNodeID              `json:"workerNodeID"`
-	ResourceID         *string                      `json:"resourceID"`
-	Draining           bool                         `json:"draining"`
-	Status             v1.WorkerNodeStatus          `json:"status"`
-	Healthy            bool                         `json:"healthy"`
-	Creating           bool                         `json:"creating"`
-	Created            int                          `json:"created"`
-	RunningContainers  []v1.RunningContainer        `json:"runningContainers"`
-	NetworkInterfaces  []WorkerNodeNetworkInterface `json:"networkInterfaces"`
-	ArchiveVersion     *string                      `json:"archiveVersion"`
-	CreateErrorMessage *string                      `json:"createErrorMessage"`
+	WorkerNodeID       v1.WorkerNodeID                 `json:"workerNodeID"`
+	ResourceID         *string                         `json:"resourceID"`
+	Draining           bool                            `json:"draining"`
+	Status             v1.WorkerNodeStatus             `json:"status"`
+	Healthy            bool                            `json:"healthy"`
+	Creating           bool                            `json:"creating"`
+	Created            int                             `json:"created"`
+	RunningContainers  []v1.WorkerNodeRunningContainer `json:"runningContainers"`
+	NetworkInterfaces  []WorkerNodeNetworkInterface    `json:"networkInterfaces"`
+	ArchiveVersion     *string                         `json:"archiveVersion"`
+	CreateErrorMessage *string                         `json:"createErrorMessage"`
 }
 
-func (w *WorkerNodeDetail) fromSummary(res *v1.ReadWorkerNodeSummary) {
+func (w *WorkerNodeDetail) fromSummary(res *v1.WorkerNodeSummary) {
 	w.WorkerNodeID = res.GetWorkerNodeID()
 	w.ResourceID = common.FromOpt(res.GetResourceID())
 	w.Draining = res.GetDraining()
@@ -110,13 +110,13 @@ func (w *WorkerNodeDetail) fromSummary(res *v1.ReadWorkerNodeSummary) {
 	w.Healthy = false
 	w.Creating = false
 	w.Created = res.GetCreated()
-	w.RunningContainers = []v1.RunningContainer(nil)
-	w.NetworkInterfaces = common.MapSlice(res.GetNetworkInterfaces(), common.ConvertFrom[v1.ReadWorkerNodeNetworkInterface, WorkerNodeNetworkInterface]())
+	w.RunningContainers = []v1.WorkerNodeRunningContainer(nil)
+	w.NetworkInterfaces = common.MapSlice(res.GetNetworkInterfaces(), common.ConvertFrom[v1.WorkerNodeNetworkInterface, WorkerNodeNetworkInterface]())
 	w.ArchiveVersion = common.FromOpt(res.GetArchiveVersion())
 	w.CreateErrorMessage = common.FromOpt(res.GetCreateErrorMessage())
 }
 
-func (w *WorkerNodeDetail) from(res *v1.ReadWorkerNodeDetail) {
+func (w *WorkerNodeDetail) from(res *v1.WorkerNode) {
 	w.WorkerNodeID = res.GetWorkerNodeID()
 	w.ResourceID = common.FromOpt(res.GetResourceID())
 	w.Draining = res.GetDraining()
@@ -125,7 +125,7 @@ func (w *WorkerNodeDetail) from(res *v1.ReadWorkerNodeDetail) {
 	w.Creating = res.GetCreating()
 	w.Created = res.GetCreated()
 	w.RunningContainers = res.GetRunningContainers()
-	w.NetworkInterfaces = common.MapSlice(res.GetNetworkInterfaces(), common.ConvertFrom[v1.ReadWorkerNodeNetworkInterface, WorkerNodeNetworkInterface]())
+	w.NetworkInterfaces = common.MapSlice(res.GetNetworkInterfaces(), common.ConvertFrom[v1.WorkerNodeNetworkInterface, WorkerNodeNetworkInterface]())
 	w.ArchiveVersion = common.FromOpt(res.GetArchiveVersion())
 	w.CreateErrorMessage = common.FromOpt(res.GetCreateErrorMessage())
 }
@@ -135,9 +135,9 @@ type WorkerNodeNetworkInterface struct {
 	Addresses      []string `json:"addresses"`
 }
 
-func (w *WorkerNodeNetworkInterface) From(res *v1.ReadWorkerNodeNetworkInterface) {
+func (w *WorkerNodeNetworkInterface) From(res *v1.WorkerNodeNetworkInterface) {
 	w.InterfaceIndex = res.GetInterfaceIndex()
-	w.Addresses = common.MapSlice(res.GetAddresses(), func(a v1.ReadWorkerNodeInterfaceAddress) string {
+	w.Addresses = common.MapSlice(res.GetAddresses(), func(a v1.WorkerNodeInterfaceAddress) string {
 		return a.GetAddress()
 	})
 }
