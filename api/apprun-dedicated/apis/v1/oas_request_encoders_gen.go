@@ -11,7 +11,7 @@ import (
 )
 
 func encodeCreateApplicationRequest(
-	req *CreateApplication,
+	req *CreateApplicationRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -25,7 +25,7 @@ func encodeCreateApplicationRequest(
 }
 
 func encodeCreateApplicationVersionRequest(
-	req *CreateApplicationVersion,
+	req *CreateApplicationVersionRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -39,7 +39,7 @@ func encodeCreateApplicationVersionRequest(
 }
 
 func encodeCreateAutoScalingGroupRequest(
-	req *CreateAutoScalingGroup,
+	req *CreateAutoScalingGroupRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -53,7 +53,7 @@ func encodeCreateAutoScalingGroupRequest(
 }
 
 func encodeCreateCertificateRequest(
-	req *CreateCertificate,
+	req *CreateCertificateRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -67,7 +67,7 @@ func encodeCreateCertificateRequest(
 }
 
 func encodeCreateClusterRequest(
-	req *CreateCluster,
+	req *CreateClusterRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -81,7 +81,7 @@ func encodeCreateClusterRequest(
 }
 
 func encodeCreateLoadBalancerRequest(
-	req *CreateLoadBalancer,
+	req *CreateLoadBalancerRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -94,8 +94,22 @@ func encodeCreateLoadBalancerRequest(
 	return nil
 }
 
+func encodePatchClusterLoadBalancerRequest(
+	req *PatchClusterLoadBalancerRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/merge-patch+json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdateApplicationRequest(
-	req *UpdateApplication,
+	req *UpdateApplicationRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -109,7 +123,7 @@ func encodeUpdateApplicationRequest(
 }
 
 func encodeUpdateCertificateRequest(
-	req *UpdateCertificate,
+	req *UpdateCertificateRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -123,7 +137,7 @@ func encodeUpdateCertificateRequest(
 }
 
 func encodeUpdateClusterRequest(
-	req *UpdateCluster,
+	req *UpdateClusterRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -136,7 +150,7 @@ func encodeUpdateClusterRequest(
 	return nil
 }
 
-func encodeUpdateWorkerNodeDrainingStateRequest(
+func encodeUpdateWorkerNodeDrainingRequest(
 	req *UpdateWorkerNodeDrainingRequest,
 	r *http.Request,
 ) error {

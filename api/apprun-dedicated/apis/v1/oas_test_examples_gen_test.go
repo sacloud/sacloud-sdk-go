@@ -15,8 +15,8 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestApplicationContainerSummary_EncodeDecode(t *testing.T) {
-	var typ ApplicationContainerSummary
+func TestApplicationCurrentContainer_EncodeDecode(t *testing.T) {
+	var typ ApplicationCurrentContainer
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -24,11 +24,11 @@ func TestApplicationContainerSummary_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ApplicationContainerSummary
+	var typ2 ApplicationCurrentContainer
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestApplicationContainersStats_EncodeDecode(t *testing.T) {
-	var typ ApplicationContainersStats
+func TestApplicationCurrentContainers_EncodeDecode(t *testing.T) {
+	var typ ApplicationCurrentContainers
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -36,7 +36,7 @@ func TestApplicationContainersStats_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ApplicationContainersStats
+	var typ2 ApplicationCurrentContainers
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestApplicationDesiredContainer_EncodeDecode(t *testing.T) {
@@ -51,6 +51,18 @@ func TestApplicationDesiredContainer_EncodeDecode(t *testing.T) {
 	var typ2 ApplicationDesiredContainer
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestApplicationDesiredContainers_EncodeDecode(t *testing.T) {
+	var typ ApplicationDesiredContainers
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ApplicationDesiredContainers
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestApplicationID_EncodeDecode(t *testing.T) {
 	var typ ApplicationID
 	typ.SetFake()
@@ -63,8 +75,8 @@ func TestApplicationID_EncodeDecode(t *testing.T) {
 	var typ2 ApplicationID
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestApplicationPeekDesiredContainersResponse_EncodeDecode(t *testing.T) {
-	var typ ApplicationPeekDesiredContainersResponse
+func TestApplicationIdentifier_EncodeDecode(t *testing.T) {
+	var typ ApplicationIdentifier
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -72,11 +84,11 @@ func TestApplicationPeekDesiredContainersResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ApplicationPeekDesiredContainersResponse
+	var typ2 ApplicationIdentifier
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestApplicationVersionDeploymentStatus_EncodeDecode(t *testing.T) {
-	var typ ApplicationVersionDeploymentStatus
+func TestApplicationVersionIdentifier_EncodeDecode(t *testing.T) {
+	var typ ApplicationVersionIdentifier
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -84,7 +96,7 @@ func TestApplicationVersionDeploymentStatus_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ApplicationVersionDeploymentStatus
+	var typ2 ApplicationVersionIdentifier
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestApplicationVersionNumber_EncodeDecode(t *testing.T) {
@@ -99,6 +111,18 @@ func TestApplicationVersionNumber_EncodeDecode(t *testing.T) {
 	var typ2 ApplicationVersionNumber
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestApplicationVersionSummary_EncodeDecode(t *testing.T) {
+	var typ ApplicationVersionSummary
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ApplicationVersionSummary
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestAutoScalingGroupID_EncodeDecode(t *testing.T) {
 	var typ AutoScalingGroupID
 	typ.SetFake()
@@ -109,6 +133,18 @@ func TestAutoScalingGroupID_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 AutoScalingGroupID
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestAutoScalingGroupIdentifier_EncodeDecode(t *testing.T) {
+	var typ AutoScalingGroupIdentifier
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 AutoScalingGroupIdentifier
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestAutoScalingGroupNodeInterface_EncodeDecode(t *testing.T) {
@@ -135,6 +171,18 @@ func TestCertificateID_EncodeDecode(t *testing.T) {
 	var typ2 CertificateID
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestCertificateIdentifier_EncodeDecode(t *testing.T) {
+	var typ CertificateIdentifier
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CertificateIdentifier
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestClusterID_EncodeDecode(t *testing.T) {
 	var typ ClusterID
 	typ.SetFake()
@@ -147,8 +195,8 @@ func TestClusterID_EncodeDecode(t *testing.T) {
 	var typ2 ClusterID
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateApplication_EncodeDecode(t *testing.T) {
-	var typ CreateApplication
+func TestClusterIdentifier_EncodeDecode(t *testing.T) {
+	var typ ClusterIdentifier
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -156,7 +204,67 @@ func TestCreateApplication_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateApplication
+	var typ2 ClusterIdentifier
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestClusterLoadBalancerPort_EncodeDecode(t *testing.T) {
+	var typ ClusterLoadBalancerPort
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ClusterLoadBalancerPort
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly_EncodeDecode(t *testing.T) {
+	var typ ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol_EncodeDecode(t *testing.T) {
+	var typ ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestClusterLoadBalancerPortProtocol_EncodeDecode(t *testing.T) {
+	var typ ClusterLoadBalancerPortProtocol
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ClusterLoadBalancerPortProtocol
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCreateApplicationRequest_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CreateApplicationRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateApplicationResponse_EncodeDecode(t *testing.T) {
@@ -171,8 +279,8 @@ func TestCreateApplicationResponse_EncodeDecode(t *testing.T) {
 	var typ2 CreateApplicationResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateApplicationVersion_EncodeDecode(t *testing.T) {
-	var typ CreateApplicationVersion
+func TestCreateApplicationVersionRequest_EncodeDecode(t *testing.T) {
+	var typ CreateApplicationVersionRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -180,7 +288,7 @@ func TestCreateApplicationVersion_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateApplicationVersion
+	var typ2 CreateApplicationVersionRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateApplicationVersionResponse_EncodeDecode(t *testing.T) {
@@ -195,8 +303,8 @@ func TestCreateApplicationVersionResponse_EncodeDecode(t *testing.T) {
 	var typ2 CreateApplicationVersionResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateAutoScalingGroup_EncodeDecode(t *testing.T) {
-	var typ CreateAutoScalingGroup
+func TestCreateAutoScalingGroupRequest_EncodeDecode(t *testing.T) {
+	var typ CreateAutoScalingGroupRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -204,7 +312,7 @@ func TestCreateAutoScalingGroup_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateAutoScalingGroup
+	var typ2 CreateAutoScalingGroupRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateAutoScalingGroupResponse_EncodeDecode(t *testing.T) {
@@ -219,8 +327,8 @@ func TestCreateAutoScalingGroupResponse_EncodeDecode(t *testing.T) {
 	var typ2 CreateAutoScalingGroupResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateCertificate_EncodeDecode(t *testing.T) {
-	var typ CreateCertificate
+func TestCreateCertificateRequest_EncodeDecode(t *testing.T) {
+	var typ CreateCertificateRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -228,7 +336,7 @@ func TestCreateCertificate_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateCertificate
+	var typ2 CreateCertificateRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateCertificateResponse_EncodeDecode(t *testing.T) {
@@ -243,8 +351,8 @@ func TestCreateCertificateResponse_EncodeDecode(t *testing.T) {
 	var typ2 CreateCertificateResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateCluster_EncodeDecode(t *testing.T) {
-	var typ CreateCluster
+func TestCreateClusterRequest_EncodeDecode(t *testing.T) {
+	var typ CreateClusterRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -252,7 +360,7 @@ func TestCreateCluster_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateCluster
+	var typ2 CreateClusterRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateClusterResponse_EncodeDecode(t *testing.T) {
@@ -279,8 +387,8 @@ func TestCreateEnvironmentVariable_EncodeDecode(t *testing.T) {
 	var typ2 CreateEnvironmentVariable
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreateLoadBalancer_EncodeDecode(t *testing.T) {
-	var typ CreateLoadBalancer
+func TestCreateLoadBalancerRequest_EncodeDecode(t *testing.T) {
+	var typ CreateLoadBalancerRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -288,31 +396,7 @@ func TestCreateLoadBalancer_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreateLoadBalancer
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestCreateLoadBalancerPort_EncodeDecode(t *testing.T) {
-	var typ CreateLoadBalancerPort
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateLoadBalancerPort
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestCreateLoadBalancerPortProtocol_EncodeDecode(t *testing.T) {
-	var typ CreateLoadBalancerPortProtocol
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreateLoadBalancerPortProtocol
+	var typ2 CreateLoadBalancerRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCreateLoadBalancerResponse_EncodeDecode(t *testing.T) {
@@ -356,8 +440,8 @@ func TestCreateLoadBalancerResponse_Examples(t *testing.T) {
 		})
 	}
 }
-func TestCreatedApplication_EncodeDecode(t *testing.T) {
-	var typ CreatedApplication
+func TestEnoughResources_EncodeDecode(t *testing.T) {
+	var typ EnoughResources
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -365,11 +449,11 @@ func TestCreatedApplication_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreatedApplication
+	var typ2 EnoughResources
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCreatedAutoScalingGroup_EncodeDecode(t *testing.T) {
-	var typ CreatedAutoScalingGroup
+func TestEnvironmentVariableValue_EncodeDecode(t *testing.T) {
+	var typ EnvironmentVariableValue
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -377,43 +461,7 @@ func TestCreatedAutoScalingGroup_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CreatedAutoScalingGroup
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestCreatedCertificate_EncodeDecode(t *testing.T) {
-	var typ CreatedCertificate
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreatedCertificate
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestCreatedCluster_EncodeDecode(t *testing.T) {
-	var typ CreatedCluster
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreatedCluster
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestCreatedLoadBalancer_EncodeDecode(t *testing.T) {
-	var typ CreatedLoadBalancer
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 CreatedLoadBalancer
+	var typ2 EnvironmentVariableValue
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestError_EncodeDecode(t *testing.T) {
@@ -440,375 +488,6 @@ func TestExposedPort_EncodeDecode(t *testing.T) {
 	var typ2 ExposedPort
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestGetApplicationContainersResponse_EncodeDecode(t *testing.T) {
-	var typ GetApplicationContainersResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationContainersResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetApplicationContainersResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"nodes\":[{\"containersStats\":{\"collectedAtSec\":1721203200,\"containers\":[{\"applicationID\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"applicationVersion\":2,\"cpuUsagePercent\":12.5,\"id\":\"container-1\",\"image\":\"nginx:latest\",\"state\":\"running\",\"status\":\"Up 5 minutes\"}]},\"desired\":{\"containers\":[]},\"nodeID\":\"b7e6a1c2-3f4d-4e2a-9b1a-2c3d4e5f6a7b\"},{\"containersStats\":{\"collectedAtSec\":1721203200,\"containers\":[]},\"desired\":{\"containers\":[{\"applicationID\":\"9c858901-8a57-4791-81fe-4c455b099bc9\",\"applicationVersion\":1,\"cpuMillis\":250,\"image\":\"redis:alpine\",\"memoryMB\":128}]},\"nodeID\":\"c8f7b2d3-4e5f-5a6b-8c2d-3e4f5a6b7c8d\"}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetApplicationContainersResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetApplicationContainersResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetApplicationResponse_EncodeDecode(t *testing.T) {
-	var typ GetApplicationResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetApplicationResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"application\":{\"activeVersion\":3,\"applicationID\":\"A0199B39-B361-45B9-8DF4-FC8BE494D690\",\"clusterID\":\"13B9EA83-DDB0-4385-9533-3D693A6A310F\",\"clusterName\":\"mock-cluster\",\"desiredCount\":3,\"name\":\"my-app\",\"scalingCooldownSeconds\":300}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetApplicationResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetApplicationResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetApplicationVersionResponse_EncodeDecode(t *testing.T) {
-	var typ GetApplicationVersionResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetApplicationVersionResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetApplicationVersionResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"applicationVersion\":{\"activeNodeCount\":1,\"cpu\":500,\"created\":1577836800,\"env\":[{\"key\":\"ENV_VAR\",\"secret\":false,\"value\":\"value\"},{\"key\":\"DB_PASSWORD\",\"secret\":true,\"value\":\"****\"}],\"exposedPorts\":[{\"healthCheck\":{\"intervalSeconds\":10,\"path\":\"/healthz\",\"timeoutSeconds\":30},\"loadBalancerPort\":80,\"targetPort\":8080,\"useLetsEncrypt\":false},{\"healthCheck\":{\"intervalSeconds\":10,\"path\":\"/monitoring/l7check\",\"timeoutSeconds\":30},\"host\":[\"example.com\"],\"loadBalancerPort\":443,\"targetPort\":8084,\"useLetsEncrypt\":true}],\"image\":\"nginx:2\",\"maxScale\":2,\"memory\":500,\"minScale\":1,\"registryPassword\":null,\"registryUsername\":null,\"scalingMode\":\"cpu\",\"version\":3}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetApplicationVersionResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetApplicationVersionResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetAutoScalingGroupResponse_EncodeDecode(t *testing.T) {
-	var typ GetAutoScalingGroupResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetAutoScalingGroupResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetAutoScalingGroupResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"autoScalingGroup\":{\"autoScalingGroupID\":\"123e4567-e89b-12d3-a456-426614174001\",\"deleting\":false,\"interfaces\":[{\"connectsToLB\":true,\"defaultGateway\":\"192.0.1.1\",\"interfaceIndex\":1,\"netmaskLen\":24,\"packetFilterID\":\"pf-123456\",\"upstream\":\"111111111111\"},{\"connectsToLB\":false,\"interfaceIndex\":2,\"netmaskLen\":24,\"upstream\":\"111111111112\"}],\"maxNodes\":10,\"minNodes\":2,\"name\":\"tokyo-asg\",\"workerNodeCount\":3,\"workerServiceClassPath\":\"cloud/apprun/dedicated/worker/1vcpu_2gb\",\"zone\":\"tk1b\"}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetAutoScalingGroupResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetAutoScalingGroupResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetCertificateResponse_EncodeDecode(t *testing.T) {
-	var typ GetCertificateResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCertificateResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetCertificateResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"certificate\":{\"certificateID\":\"83B9EA83-DDB0-4385-9533-3D693A6A310F\",\"commonName\":\"example.com\",\"created\":1577836800,\"name\":\"my-certificate\",\"notAfterSec\":1640995200,\"notBeforeSec\":1577836800,\"subjectAlternativeNames\":[\"www.example.com\",\"api.example.com\"],\"updated\":1577836800}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetCertificateResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetCertificateResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetClusterResponse_EncodeDecode(t *testing.T) {
-	var typ GetClusterResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetClusterResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetClusterResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"cluster\":{\"clusterID\":\"13B9EA83-DDB0-4385-9533-3D693A6A310F\",\"created\":1577836800,\"hasLetsEncryptEmail\":true,\"name\":\"mock-cluster\",\"ports\":[{\"port\":80,\"protocol\":\"http\"},{\"port\":443,\"protocol\":\"https\"}],\"servicePrincipalID\":\"123456789012\"}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetClusterResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetClusterResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetLoadBalancerNodeResponse_EncodeDecode(t *testing.T) {
-	var typ GetLoadBalancerNodeResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetLoadBalancerNodeResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetLoadBalancerNodeResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"loadBalancerNode\":{\"archiveVersion\":\"2025.1014.1\",\"createErrorMessage\":\"クラスタのサービスプリンシパルにさくらのクラウドの作成・削除権限が付与されているか確認してください\",\"created\":1577836800,\"interfaces\":[{\"addresses\":[{\"address\":\"10.0.0.2/24\",\"vip\":false},{\"address\":\"10.0.1.2/24\",\"vip\":true}],\"interfaceIndex\":1},{\"addresses\":[{\"address\":\"10.0.2.8/24\",\"vip\":false},{\"address\":\"10.0.3.4/24\",\"vip\":true}],\"interfaceIndex\":2}],\"loadBalancerNodeID\":\"550e8400-e29b-41d4-a716-446655440001\",\"resourceID\":\"12345678901\",\"status\":\"healthy\"}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetLoadBalancerNodeResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetLoadBalancerNodeResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetLoadBalancerResponse_EncodeDecode(t *testing.T) {
-	var typ GetLoadBalancerResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetLoadBalancerResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetLoadBalancerResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"loadBalancer\":{\"created\":1577836800,\"deleting\":false,\"interfaces\":[{\"defaultGateway\":\"192.168.1.0/32\",\"interfaceIndex\":1,\"netmaskLen\":24,\"packetFilterID\":\"pf-123456\",\"upstream\":\"switch1\",\"vip\":\"192.168.1.100\",\"virtualRouterID\":51},{\"interfaceIndex\":2,\"netmaskLen\":24,\"upstream\":\"switch2\"}],\"loadBalancerID\":\"550e8400-e29b-41d4-a716-446655440000\",\"name\":\"example-lb\",\"serviceClassPath\":\"cloud/apprun/dedicated/lb/1vcpu_2gb_1\"}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetLoadBalancerResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetLoadBalancerResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetWorkerNodeResponse_EncodeDecode(t *testing.T) {
-	var typ GetWorkerNodeResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetWorkerNodeResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetWorkerNodeResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"workerNode\":{\"archiveVersion\":\"2025.1014.1\",\"createErrorMessage\":\"クラスタのサービスプリンシパルにさくらのクラウドの作成・削除権限が付与されているか確認してください\",\"created\":1577836800,\"creating\":false,\"draining\":false,\"healthy\":true,\"networkInterfaces\":[{\"addresses\":[{\"address\":\"10.0.0.1\"}],\"interfaceIndex\":0},{\"addresses\":[{\"address\":\"192.168.0.1\"}],\"interfaceIndex\":1}],\"resourceID\":\"worker-node-01\",\"runningContainers\":[{\"applicationID\":\"A0199B39-B361-45B9-8DF4-FC8BE494D690\",\"applicationVersion\":1,\"containerID\":\"container-01\",\"image\":\"nginx:latest\",\"name\":\"nginx\",\"startedAt\":1577836800,\"state\":\"running\",\"status\":\"running\"},{\"applicationID\":\"A0199B39-B361-45B9-8DF4-FC8BE494D690\",\"applicationVersion\":1,\"containerID\":\"container-02\",\"image\":\"redis:latest\",\"name\":\"redis\",\"startedAt\":1577836800,\"state\":\"running\",\"status\":\"running\"}],\"status\":\"healthy\",\"workerNodeID\":\"123e4567-e89b-12d3-a456-426614174002\"}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetWorkerNodeResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetWorkerNodeResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
 func TestHealthCheck_EncodeDecode(t *testing.T) {
 	var typ HealthCheck
 	typ.SetFake()
@@ -821,8 +500,8 @@ func TestHealthCheck_EncodeDecode(t *testing.T) {
 	var typ2 HealthCheck
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestIPv4_EncodeDecode(t *testing.T) {
-	var typ IPv4
+func TestHostname_EncodeDecode(t *testing.T) {
+	var typ Hostname
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -830,7 +509,7 @@ func TestIPv4_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 IPv4
+	var typ2 Hostname
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestIpRange_EncodeDecode(t *testing.T) {
@@ -845,8 +524,8 @@ func TestIpRange_EncodeDecode(t *testing.T) {
 	var typ2 IpRange
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListApplicationResponse_EncodeDecode(t *testing.T) {
-	var typ ListApplicationResponse
+func TestIpv4_EncodeDecode(t *testing.T) {
+	var typ Ipv4
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -854,20 +533,44 @@ func TestListApplicationResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListApplicationResponse
+	var typ2 Ipv4
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLimit_EncodeDecode(t *testing.T) {
+	var typ Limit
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 Limit
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListApplicationContainersResponse_EncodeDecode(t *testing.T) {
+	var typ ListApplicationContainersResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListApplicationContainersResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListApplicationResponse_Examples(t *testing.T) {
+func TestListApplicationContainersResponse_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"applications\":[{\"activeVersion\":3,\"applicationID\":\"A0199B39-B361-45B9-8DF4-FC8BE494D690\",\"clusterID\":\"13B9EA83-DDB0-4385-9533-3D693A6A310F\",\"clusterName\":\"mock-cluster\",\"desiredCount\":3,\"name\":\"my-app\",\"scalingCooldownSeconds\":300}]}"},
+		{Input: "{\"nodes\":[{\"containersStats\":{\"collectedAtSec\":1721203200,\"containers\":[{\"applicationID\":\"f47ac10b-58cc-4372-a567-0e02b2c3d479\",\"applicationVersion\":2,\"cpuUsagePercent\":12.5,\"id\":\"container-1\",\"image\":\"nginx:latest\",\"state\":\"running\",\"status\":\"Up 5 minutes\"}]},\"desired\":{\"containers\":[]},\"nodeID\":\"b7e6a1c2-3f4d-4e2a-9b1a-2c3d4e5f6a7b\"},{\"containersStats\":{\"collectedAtSec\":1721203200,\"containers\":[]},\"desired\":{\"containers\":[{\"applicationID\":\"9c858901-8a57-4791-81fe-4c455b099bc9\",\"applicationVersion\":1,\"cpuMillis\":250,\"image\":\"redis:alpine\",\"memoryMB\":128}]},\"nodeID\":\"c8f7b2d3-4e5f-5a6b-8c2d-3e4f5a6b7c8d\"}]}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListApplicationResponse
+			var typ ListApplicationContainersResponse
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -881,13 +584,13 @@ func TestListApplicationResponse_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListApplicationResponse
+			var typ2 ListApplicationContainersResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListApplicationVersionResponse_EncodeDecode(t *testing.T) {
-	var typ ListApplicationVersionResponse
+func TestListApplicationVersionsResponse_EncodeDecode(t *testing.T) {
+	var typ ListApplicationVersionsResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -895,11 +598,11 @@ func TestListApplicationVersionResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListApplicationVersionResponse
+	var typ2 ListApplicationVersionsResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListApplicationVersionResponse_Examples(t *testing.T) {
+func TestListApplicationVersionsResponse_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -908,7 +611,7 @@ func TestListApplicationVersionResponse_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListApplicationVersionResponse
+			var typ ListApplicationVersionsResponse
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -922,13 +625,13 @@ func TestListApplicationVersionResponse_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListApplicationVersionResponse
+			var typ2 ListApplicationVersionsResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListAutoScalingGroupResponse_EncodeDecode(t *testing.T) {
-	var typ ListAutoScalingGroupResponse
+func TestListApplicationsResponse_EncodeDecode(t *testing.T) {
+	var typ ListApplicationsResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -936,20 +639,20 @@ func TestListAutoScalingGroupResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListAutoScalingGroupResponse
+	var typ2 ListApplicationsResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListAutoScalingGroupResponse_Examples(t *testing.T) {
+func TestListApplicationsResponse_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"autoScalingGroups\":[{\"autoScalingGroupID\":\"123e4567-e89b-12d3-a456-426614174001\",\"deleting\":false,\"interfaces\":[{\"connectsToLB\":true,\"defaultGateway\":\"192.0.1.1\",\"interfaceIndex\":1,\"ipPool\":[{\"end\":\"192.0.1.255\",\"start\":\"192.0.1.0\"}],\"netmaskLen\":24,\"packetFilterID\":\"pf-123456\",\"upstream\":\"111111111111\"},{\"connectsToLB\":false,\"interfaceIndex\":2,\"ipPool\":[{\"end\":\"192.0.2.255\",\"start\":\"192.0.2.0\"}],\"netmaskLen\":24,\"upstream\":\"111111111112\"}],\"maxNodes\":10,\"minNodes\":2,\"name\":\"tokyo-asg\",\"workerNodeCount\":3,\"workerServiceClassPath\":\"cloud/apprun/dedicated/worker/1vcpu_2gb\",\"zone\":\"tk1b\"}]}"},
+		{Input: "{\"applications\":[{\"activeVersion\":3,\"applicationID\":\"A0199B39-B361-45B9-8DF4-FC8BE494D690\",\"clusterID\":\"13B9EA83-DDB0-4385-9533-3D693A6A310F\",\"clusterName\":\"mock-cluster\",\"desiredCount\":3,\"enoughResources\":{\"cpu\":true,\"memory\":true},\"name\":\"my-app\",\"scalingCooldownSeconds\":300}]}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListAutoScalingGroupResponse
+			var typ ListApplicationsResponse
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -963,13 +666,13 @@ func TestListAutoScalingGroupResponse_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListAutoScalingGroupResponse
+			var typ2 ListApplicationsResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListCertificateResponse_EncodeDecode(t *testing.T) {
-	var typ ListCertificateResponse
+func TestListAutoScalingGroupsResponse_EncodeDecode(t *testing.T) {
+	var typ ListAutoScalingGroupsResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -977,11 +680,52 @@ func TestListCertificateResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListCertificateResponse
+	var typ2 ListAutoScalingGroupsResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListCertificateResponse_Examples(t *testing.T) {
+func TestListAutoScalingGroupsResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"autoScalingGroups\":[{\"autoScalingGroupID\":\"123e4567-e89b-12d3-a456-426614174001\",\"deleting\":false,\"interfaces\":[{\"connectsToLB\":true,\"defaultGateway\":\"192.0.1.1\",\"interfaceIndex\":0,\"ipPool\":[{\"end\":\"192.0.1.255\",\"start\":\"192.0.1.0\"}],\"netmaskLen\":24,\"packetFilterID\":\"pf-123456\",\"upstream\":\"111111111111\"},{\"connectsToLB\":false,\"interfaceIndex\":1,\"ipPool\":[{\"end\":\"192.0.2.255\",\"start\":\"192.0.2.0\"}],\"netmaskLen\":24,\"upstream\":\"111111111112\"}],\"maxNodes\":10,\"minNodes\":2,\"name\":\"tokyo-asg\",\"workerNodeCount\":3,\"workerServiceClassPath\":\"cloud/apprun/dedicated/worker/1vcpu_2gb\",\"zone\":\"tk1b\"}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListAutoScalingGroupsResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListAutoScalingGroupsResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestListCertificatesResponse_EncodeDecode(t *testing.T) {
+	var typ ListCertificatesResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListCertificatesResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListCertificatesResponse_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -990,7 +734,7 @@ func TestListCertificateResponse_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListCertificateResponse
+			var typ ListCertificatesResponse
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1004,13 +748,13 @@ func TestListCertificateResponse_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListCertificateResponse
+			var typ2 ListCertificatesResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListClusterResponse_EncodeDecode(t *testing.T) {
-	var typ ListClusterResponse
+func TestListClustersResponse_EncodeDecode(t *testing.T) {
+	var typ ListClustersResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1018,11 +762,11 @@ func TestListClusterResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListClusterResponse
+	var typ2 ListClustersResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListClusterResponse_Examples(t *testing.T) {
+func TestListClustersResponse_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -1031,7 +775,7 @@ func TestListClusterResponse_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListClusterResponse
+			var typ ListClustersResponse
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1045,48 +789,7 @@ func TestListClusterResponse_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListClusterResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestListLbServiceClassResponse_EncodeDecode(t *testing.T) {
-	var typ ListLbServiceClassResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ListLbServiceClassResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestListLbServiceClassResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"lbServiceClasses\":[{\"name\":\"1vCPU / 1GB メモリ * 1 (非冗長構成)\",\"nodeCount\":1,\"path\":\"cloud/apprun/dedicated/lb/1vcpu_2gb_1\"},{\"name\":\"1vCPU / 1GB メモリ * 2 (冗長構成)\",\"nodeCount\":2,\"path\":\"cloud/apprun/dedicated/lb/1vcpu_2gb_2\"},{\"name\":\"4vCPU / 4GB メモリ * 2 (冗長構成)\",\"nodeCount\":2,\"path\":\"cloud/apprun/dedicated/lb/4vcpu_4gb_2\"}]}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListLbServiceClassResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 ListLbServiceClassResponse
+			var typ2 ListClustersResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -1128,6 +831,47 @@ func TestListLoadBalancerNodesResponse_Examples(t *testing.T) {
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
 			var typ2 ListLoadBalancerNodesResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestListLoadBalancerServiceClassesResponse_EncodeDecode(t *testing.T) {
+	var typ ListLoadBalancerServiceClassesResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListLoadBalancerServiceClassesResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestListLoadBalancerServiceClassesResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"lbServiceClasses\":[{\"name\":\"1vCPU / 2GB メモリ * 1 (非冗長構成)\",\"nodeCount\":1,\"path\":\"cloud/apprun/dedicated/lb/1vcpu_2gb_1\"},{\"name\":\"1vCPU / 2GB メモリ * 2 (冗長構成)\",\"nodeCount\":2,\"path\":\"cloud/apprun/dedicated/lb/1vcpu_2gb_2\"},{\"name\":\"4vCPU / 4GB メモリ * 2 (冗長構成)\",\"nodeCount\":2,\"path\":\"cloud/apprun/dedicated/lb/4vcpu_4gb_2\"}]}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ListLoadBalancerServiceClassesResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ListLoadBalancerServiceClassesResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -1214,8 +958,8 @@ func TestListWorkerNodesResponse_Examples(t *testing.T) {
 		})
 	}
 }
-func TestListWorkerServiceClassResponse_EncodeDecode(t *testing.T) {
-	var typ ListWorkerServiceClassResponse
+func TestListWorkerServiceClassesResponse_EncodeDecode(t *testing.T) {
+	var typ ListWorkerServiceClassesResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1223,20 +967,20 @@ func TestListWorkerServiceClassResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListWorkerServiceClassResponse
+	var typ2 ListWorkerServiceClassesResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListWorkerServiceClassResponse_Examples(t *testing.T) {
+func TestListWorkerServiceClassesResponse_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"workerServiceClasses\":[{\"name\":\"1vCPU / 1GB メモリ\",\"path\":\"cloud/apprun/dedicated/worker/1vcpu_2gb\"},{\"name\":\"2vCPU / 2GB メモリ\",\"path\":\"cloud/apprun/dedicated/worker/2vcpu_2gb\"},{\"name\":\"2vCPU / 4GB メモリ\",\"path\":\"cloud/apprun/dedicated/worker/2vcpu_4gb\"},{\"name\":\"4vCPU / 8GB メモリ\",\"path\":\"cloud/apprun/dedicated/worker/4vcpu_8gb\"}]}"},
+		{Input: "{\"workerServiceClasses\":[{\"name\":\"1vCPU / 2GB メモリ\",\"path\":\"cloud/apprun/dedicated/worker/1vcpu_2gb\"},{\"name\":\"2vCPU / 2GB メモリ\",\"path\":\"cloud/apprun/dedicated/worker/2vcpu_2gb\"},{\"name\":\"2vCPU / 4GB メモリ\",\"path\":\"cloud/apprun/dedicated/worker/2vcpu_4gb\"},{\"name\":\"4vCPU / 8GB メモリ\",\"path\":\"cloud/apprun/dedicated/worker/4vcpu_8gb\"}]}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListWorkerServiceClassResponse
+			var typ ListWorkerServiceClassesResponse
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1250,7 +994,7 @@ func TestListWorkerServiceClassResponse_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListWorkerServiceClassResponse
+			var typ2 ListWorkerServiceClassesResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
@@ -1267,6 +1011,18 @@ func TestLoadBalancerID_EncodeDecode(t *testing.T) {
 	var typ2 LoadBalancerID
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestLoadBalancerIdentifier_EncodeDecode(t *testing.T) {
+	var typ LoadBalancerIdentifier
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LoadBalancerIdentifier
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestLoadBalancerInterface_EncodeDecode(t *testing.T) {
 	var typ LoadBalancerInterface
 	typ.SetFake()
@@ -1277,6 +1033,18 @@ func TestLoadBalancerInterface_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 LoadBalancerInterface
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLoadBalancerNode_EncodeDecode(t *testing.T) {
+	var typ LoadBalancerNode
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LoadBalancerNode
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestLoadBalancerNodeID_EncodeDecode(t *testing.T) {
@@ -1291,6 +1059,30 @@ func TestLoadBalancerNodeID_EncodeDecode(t *testing.T) {
 	var typ2 LoadBalancerNodeID
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestLoadBalancerNodeInterface_EncodeDecode(t *testing.T) {
+	var typ LoadBalancerNodeInterface
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LoadBalancerNodeInterface
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestLoadBalancerNodeInterfaceAddress_EncodeDecode(t *testing.T) {
+	var typ LoadBalancerNodeInterfaceAddress
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 LoadBalancerNodeInterfaceAddress
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestLoadBalancerNodeStatus_EncodeDecode(t *testing.T) {
 	var typ LoadBalancerNodeStatus
 	typ.SetFake()
@@ -1303,8 +1095,8 @@ func TestLoadBalancerNodeStatus_EncodeDecode(t *testing.T) {
 	var typ2 LoadBalancerNodeStatus
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestNodeContainerPlacementInfo_EncodeDecode(t *testing.T) {
-	var typ NodeContainerPlacementInfo
+func TestLoadBalancerServiceClass_EncodeDecode(t *testing.T) {
+	var typ LoadBalancerServiceClass
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1312,7 +1104,19 @@ func TestNodeContainerPlacementInfo_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 NodeContainerPlacementInfo
+	var typ2 LoadBalancerServiceClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPatchClusterLoadBalancerRequest_EncodeDecode(t *testing.T) {
+	var typ PatchClusterLoadBalancerRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PatchClusterLoadBalancerRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestPort_EncodeDecode(t *testing.T) {
@@ -1327,8 +1131,8 @@ func TestPort_EncodeDecode(t *testing.T) {
 	var typ2 Port
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadApplicationDetail_EncodeDecode(t *testing.T) {
-	var typ ReadApplicationDetail
+func TestReadApplication_EncodeDecode(t *testing.T) {
+	var typ ReadApplication
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1336,11 +1140,11 @@ func TestReadApplicationDetail_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadApplicationDetail
+	var typ2 ReadApplication
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadApplicationVersionDetail_EncodeDecode(t *testing.T) {
-	var typ ReadApplicationVersionDetail
+func TestReadApplicationResponse_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1348,20 +1152,20 @@ func TestReadApplicationVersionDetail_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadApplicationVersionDetail
+	var typ2 ReadApplicationResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestReadApplicationVersionDetail_Examples(t *testing.T) {
+func TestReadApplicationResponse_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
 	}{
-		{Input: "{\"activeNodeCount\":0,\"cpu\":500,\"created\":1577836800,\"env\":[{\"key\":\"DB_DSN\",\"secret\":false,\"value\":\"postgresql://192.168.0.1:5432/foobar\"},{\"key\":\"DB_PASSWORD\",\"secret\":true,\"value\":\"****\"}],\"exposedPorts\":[{\"healthCheck\":{\"intervalSeconds\":10,\"path\":\"/healthz2\",\"timeoutSeconds\":30},\"loadBalancerPort\":8080,\"targetPort\":8080,\"useLetsEncrypt\":false}],\"fixedScale\":2,\"image\":\"nginx:2\",\"memory\":500,\"registryPassword\":null,\"registryUsername\":null,\"scalingMode\":\"manual\",\"version\":2}"},
+		{Input: "{\"application\":{\"activeVersion\":3,\"applicationID\":\"A0199B39-B361-45B9-8DF4-FC8BE494D690\",\"clusterID\":\"13B9EA83-DDB0-4385-9533-3D693A6A310F\",\"clusterName\":\"mock-cluster\",\"desiredCount\":3,\"enoughResources\":{\"cpu\":true,\"memory\":true},\"name\":\"my-app\",\"scalingCooldownSeconds\":300}}"},
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ReadApplicationVersionDetail
+			var typ ReadApplicationResponse
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -1375,13 +1179,13 @@ func TestReadApplicationVersionDetail_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ReadApplicationVersionDetail
+			var typ2 ReadApplicationResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestReadApplicationVersionSummary_EncodeDecode(t *testing.T) {
-	var typ ReadApplicationVersionSummary
+func TestReadApplicationVersion_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersion
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1389,11 +1193,40 @@ func TestReadApplicationVersionSummary_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadApplicationVersionSummary
+	var typ2 ReadApplicationVersion
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadAutoScalingGroupDetail_EncodeDecode(t *testing.T) {
-	var typ ReadAutoScalingGroupDetail
+
+func TestReadApplicationVersion_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"activeNodeCount\":0,\"cpu\":500,\"created\":1577836800,\"env\":[{\"key\":\"DB_DSN\",\"secret\":false,\"value\":\"postgresql://192.168.0.1:5432/foobar\"},{\"key\":\"DB_PASSWORD\",\"secret\":true,\"value\":\"****\"}],\"exposedPorts\":[{\"healthCheck\":{\"intervalSeconds\":10,\"path\":\"/healthz2\",\"timeoutSeconds\":30},\"loadBalancerPort\":8080,\"targetPort\":8080,\"useLetsEncrypt\":false}],\"fixedScale\":2,\"image\":\"nginx:2\",\"memory\":500,\"registryPassword\":null,\"registryUsername\":null,\"scalingMode\":\"manual\",\"version\":2}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadApplicationVersion
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadApplicationVersion
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadApplicationVersionResponse_EncodeDecode(t *testing.T) {
+	var typ ReadApplicationVersionResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1401,8 +1234,90 @@ func TestReadAutoScalingGroupDetail_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadAutoScalingGroupDetail
+	var typ2 ReadApplicationVersionResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadApplicationVersionResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"applicationVersion\":{\"activeNodeCount\":1,\"cpu\":500,\"created\":1577836800,\"env\":[{\"key\":\"ENV_VAR\",\"secret\":false,\"value\":\"value\"},{\"key\":\"DB_PASSWORD\",\"secret\":true,\"value\":\"****\"}],\"exposedPorts\":[{\"healthCheck\":{\"intervalSeconds\":10,\"path\":\"/healthz\",\"timeoutSeconds\":30},\"loadBalancerPort\":80,\"targetPort\":8080,\"useLetsEncrypt\":false},{\"healthCheck\":{\"intervalSeconds\":10,\"path\":\"/monitoring/l7check\",\"timeoutSeconds\":30},\"host\":[\"example.com\"],\"loadBalancerPort\":443,\"targetPort\":8084,\"useLetsEncrypt\":true}],\"image\":\"nginx:2\",\"maxScale\":2,\"memory\":500,\"minScale\":1,\"registryPassword\":null,\"registryUsername\":null,\"scalingMode\":\"cpu\",\"version\":3}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadApplicationVersionResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadApplicationVersionResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadAutoScalingGroup_EncodeDecode(t *testing.T) {
+	var typ ReadAutoScalingGroup
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadAutoScalingGroup
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadAutoScalingGroupResponse_EncodeDecode(t *testing.T) {
+	var typ ReadAutoScalingGroupResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadAutoScalingGroupResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadAutoScalingGroupResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"autoScalingGroup\":{\"autoScalingGroupID\":\"123e4567-e89b-12d3-a456-426614174001\",\"deleting\":false,\"interfaces\":[{\"connectsToLB\":true,\"defaultGateway\":\"192.0.1.1\",\"interfaceIndex\":0,\"netmaskLen\":24,\"packetFilterID\":\"pf-123456\",\"upstream\":\"111111111111\"},{\"connectsToLB\":false,\"interfaceIndex\":1,\"netmaskLen\":24,\"upstream\":\"111111111112\"}],\"maxNodes\":10,\"minNodes\":2,\"name\":\"tokyo-asg\",\"nameServers\":[\"192.0.2.1\"],\"workerNodeCount\":3,\"workerServiceClassPath\":\"cloud/apprun/dedicated/worker/1vcpu_2gb\",\"zone\":\"tk1b\"}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadAutoScalingGroupResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadAutoScalingGroupResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestReadCertificate_EncodeDecode(t *testing.T) {
 	var typ ReadCertificate
@@ -1416,8 +1331,8 @@ func TestReadCertificate_EncodeDecode(t *testing.T) {
 	var typ2 ReadCertificate
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadClusterDetail_EncodeDecode(t *testing.T) {
-	var typ ReadClusterDetail
+func TestReadCertificateResponse_EncodeDecode(t *testing.T) {
+	var typ ReadCertificateResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1425,8 +1340,143 @@ func TestReadClusterDetail_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadClusterDetail
+	var typ2 ReadCertificateResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadCertificateResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"certificate\":{\"certificateID\":\"83B9EA83-DDB0-4385-9533-3D693A6A310F\",\"commonName\":\"example.com\",\"created\":1577836800,\"name\":\"my-certificate\",\"notAfterSec\":1640995200,\"notBeforeSec\":1577836800,\"subjectAlternativeNames\":[\"www.example.com\",\"api.example.com\"],\"updated\":1577836800}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadCertificateResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadCertificateResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadCluster_EncodeDecode(t *testing.T) {
+	var typ ReadCluster
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadCluster
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadClusterLoadBalancer_EncodeDecode(t *testing.T) {
+	var typ ReadClusterLoadBalancer
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadClusterLoadBalancer
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadClusterLoadBalancerResponse_EncodeDecode(t *testing.T) {
+	var typ ReadClusterLoadBalancerResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadClusterLoadBalancerResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadClusterLoadBalancerResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"loadBalancer\":{\"hasLetsEncryptEmail\":true,\"ports\":[{\"port\":80,\"protocol\":\"http\"},{\"port\":443,\"protocol\":\"https\"}]}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadClusterLoadBalancerResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadClusterLoadBalancerResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadClusterResponse_EncodeDecode(t *testing.T) {
+	var typ ReadClusterResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadClusterResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+
+func TestReadClusterResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"cluster\":{\"clusterID\":\"13B9EA83-DDB0-4385-9533-3D693A6A310F\",\"created\":1577836800,\"hasLetsEncryptEmail\":true,\"name\":\"mock-cluster\",\"ports\":[{\"port\":80,\"protocol\":\"http\"},{\"port\":443,\"protocol\":\"https\"}],\"servicePrincipalID\":\"123456789012\"}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadClusterResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadClusterResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestReadClusterSummary_EncodeDecode(t *testing.T) {
 	var typ ReadClusterSummary
@@ -1452,8 +1502,8 @@ func TestReadEnvironmentVariable_EncodeDecode(t *testing.T) {
 	var typ2 ReadEnvironmentVariable
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadLbServiceClass_EncodeDecode(t *testing.T) {
-	var typ ReadLbServiceClass
+func TestReadLimitsResponse_EncodeDecode(t *testing.T) {
+	var typ ReadLimitsResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1461,11 +1511,40 @@ func TestReadLbServiceClass_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadLbServiceClass
+	var typ2 ReadLimitsResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadLoadBalancerDetail_EncodeDecode(t *testing.T) {
-	var typ ReadLoadBalancerDetail
+
+func TestReadLimitsResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"limit\":{\"applicationCount\":10,\"applicationVersionCountPerApplication\":50,\"autoScalingGroupCount\":6,\"clusterCount\":10,\"loadBalancerNodeCount\":6,\"workerNodeCount\":14}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadLimitsResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadLimitsResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadLoadBalancer_EncodeDecode(t *testing.T) {
+	var typ ReadLoadBalancer
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1473,11 +1552,11 @@ func TestReadLoadBalancerDetail_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadLoadBalancerDetail
+	var typ2 ReadLoadBalancer
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadLoadBalancerNode_EncodeDecode(t *testing.T) {
-	var typ ReadLoadBalancerNode
+func TestReadLoadBalancerNodeResponse_EncodeDecode(t *testing.T) {
+	var typ ReadLoadBalancerNodeResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1485,11 +1564,40 @@ func TestReadLoadBalancerNode_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadLoadBalancerNode
+	var typ2 ReadLoadBalancerNodeResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadLoadBalancerNodeInterface_EncodeDecode(t *testing.T) {
-	var typ ReadLoadBalancerNodeInterface
+
+func TestReadLoadBalancerNodeResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"loadBalancerNode\":{\"archiveVersion\":\"2025.1014.1\",\"createErrorMessage\":\"クラスタのサービスプリンシパルにさくらのクラウドの作成・削除権限が付与されているか確認してください\",\"created\":1577836800,\"interfaces\":[{\"addresses\":[{\"address\":\"10.0.0.2/24\",\"vip\":false},{\"address\":\"10.0.1.2/24\",\"vip\":true}],\"interfaceIndex\":1},{\"addresses\":[{\"address\":\"10.0.2.8/24\",\"vip\":false},{\"address\":\"10.0.3.4/24\",\"vip\":true}],\"interfaceIndex\":2}],\"loadBalancerNodeID\":\"550e8400-e29b-41d4-a716-446655440001\",\"resourceID\":\"12345678901\",\"status\":\"healthy\"}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadLoadBalancerNodeResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadLoadBalancerNodeResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadLoadBalancerResponse_EncodeDecode(t *testing.T) {
+	var typ ReadLoadBalancerResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1497,56 +1605,37 @@ func TestReadLoadBalancerNodeInterface_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadLoadBalancerNodeInterface
+	var typ2 ReadLoadBalancerResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadLoadBalancerNodeInterfaceAddress_EncodeDecode(t *testing.T) {
-	var typ ReadLoadBalancerNodeInterfaceAddress
-	typ.SetFake()
 
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
+func TestReadLoadBalancerResponse_Examples(t *testing.T) {
 
-	var typ2 ReadLoadBalancerNodeInterfaceAddress
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestReadLoadBalancerNodeSummary_EncodeDecode(t *testing.T) {
-	var typ ReadLoadBalancerNodeSummary
-	typ.SetFake()
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"loadBalancer\":{\"created\":1577836800,\"deleting\":false,\"interfaces\":[{\"defaultGateway\":\"192.168.1.0/32\",\"interfaceIndex\":1,\"netmaskLen\":24,\"packetFilterID\":\"pf-123456\",\"upstream\":\"switch1\",\"vip\":\"192.168.1.100\",\"virtualRouterID\":51},{\"interfaceIndex\":2,\"netmaskLen\":24,\"upstream\":\"switch2\"}],\"loadBalancerID\":\"550e8400-e29b-41d4-a716-446655440000\",\"name\":\"example-lb\",\"serviceClassPath\":\"cloud/apprun/dedicated/lb/1vcpu_2gb_1\"}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadLoadBalancerResponse
 
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
 
-	var typ2 ReadLoadBalancerNodeSummary
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestReadLoadBalancerPort_EncodeDecode(t *testing.T) {
-	var typ ReadLoadBalancerPort
-	typ.SetFake()
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ReadLoadBalancerPort
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestReadLoadBalancerPortProtocol_EncodeDecode(t *testing.T) {
-	var typ ReadLoadBalancerPortProtocol
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ReadLoadBalancerPortProtocol
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+			var typ2 ReadLoadBalancerResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestReadLoadBalancerSummary_EncodeDecode(t *testing.T) {
 	var typ ReadLoadBalancerSummary
@@ -1560,8 +1649,8 @@ func TestReadLoadBalancerSummary_EncodeDecode(t *testing.T) {
 	var typ2 ReadLoadBalancerSummary
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadWorkerNodeDetail_EncodeDecode(t *testing.T) {
-	var typ ReadWorkerNodeDetail
+func TestReadWorkerNodeResponse_EncodeDecode(t *testing.T) {
+	var typ ReadWorkerNodeResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1569,56 +1658,37 @@ func TestReadWorkerNodeDetail_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReadWorkerNodeDetail
+	var typ2 ReadWorkerNodeResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReadWorkerNodeInterfaceAddress_EncodeDecode(t *testing.T) {
-	var typ ReadWorkerNodeInterfaceAddress
-	typ.SetFake()
 
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
+func TestReadWorkerNodeResponse_Examples(t *testing.T) {
 
-	var typ2 ReadWorkerNodeInterfaceAddress
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestReadWorkerNodeNetworkInterface_EncodeDecode(t *testing.T) {
-	var typ ReadWorkerNodeNetworkInterface
-	typ.SetFake()
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"workerNode\":{\"archiveVersion\":\"2025.1014.1\",\"createErrorMessage\":\"クラスタのサービスプリンシパルにさくらのクラウドの作成・削除権限が付与されているか確認してください\",\"created\":1577836800,\"creating\":false,\"draining\":false,\"healthy\":true,\"networkInterfaces\":[{\"addresses\":[{\"address\":\"10.0.0.1\"}],\"interfaceIndex\":0},{\"addresses\":[{\"address\":\"192.168.0.1\"}],\"interfaceIndex\":1}],\"resourceID\":\"worker-node-01\",\"runningContainers\":[{\"applicationID\":\"A0199B39-B361-45B9-8DF4-FC8BE494D690\",\"applicationVersion\":1,\"containerID\":\"container-01\",\"image\":\"nginx:latest\",\"name\":\"nginx\",\"startedAt\":1577836800,\"state\":\"running\",\"status\":\"running\"},{\"applicationID\":\"A0199B39-B361-45B9-8DF4-FC8BE494D690\",\"applicationVersion\":1,\"containerID\":\"container-02\",\"image\":\"redis:latest\",\"name\":\"redis\",\"startedAt\":1577836800,\"state\":\"running\",\"status\":\"running\"}],\"status\":\"healthy\",\"workerNodeID\":\"123e4567-e89b-12d3-a456-426614174002\"}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadWorkerNodeResponse
 
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
 
-	var typ2 ReadWorkerNodeNetworkInterface
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestReadWorkerNodeSummary_EncodeDecode(t *testing.T) {
-	var typ ReadWorkerNodeSummary
-	typ.SetFake()
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ReadWorkerNodeSummary
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestReadWorkerServiceClass_EncodeDecode(t *testing.T) {
-	var typ ReadWorkerServiceClass
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 ReadWorkerServiceClass
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+			var typ2 ReadWorkerNodeResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
 }
 func TestRegistryPasswordAction_EncodeDecode(t *testing.T) {
 	var typ RegistryPasswordAction
@@ -1630,18 +1700,6 @@ func TestRegistryPasswordAction_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 RegistryPasswordAction
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestRunningContainer_EncodeDecode(t *testing.T) {
-	var typ RunningContainer
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 RunningContainer
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestScalingMode_EncodeDecode(t *testing.T) {
@@ -1656,8 +1714,8 @@ func TestScalingMode_EncodeDecode(t *testing.T) {
 	var typ2 ScalingMode
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateApplication_EncodeDecode(t *testing.T) {
-	var typ UpdateApplication
+func TestServicePrincipalID_EncodeDecode(t *testing.T) {
+	var typ ServicePrincipalID
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1665,11 +1723,11 @@ func TestUpdateApplication_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateApplication
+	var typ2 ServicePrincipalID
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateCertificate_EncodeDecode(t *testing.T) {
-	var typ UpdateCertificate
+func TestUpdateApplicationRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateApplicationRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1677,11 +1735,11 @@ func TestUpdateCertificate_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateCertificate
+	var typ2 UpdateApplicationRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestUpdateCluster_EncodeDecode(t *testing.T) {
-	var typ UpdateCluster
+func TestUpdateCertificateRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateCertificateRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -1689,7 +1747,19 @@ func TestUpdateCluster_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 UpdateCluster
+	var typ2 UpdateCertificateRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestUpdateClusterRequest_EncodeDecode(t *testing.T) {
+	var typ UpdateClusterRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 UpdateClusterRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestUpdateWorkerNodeDrainingRequest_EncodeDecode(t *testing.T) {
@@ -1704,6 +1774,30 @@ func TestUpdateWorkerNodeDrainingRequest_EncodeDecode(t *testing.T) {
 	var typ2 UpdateWorkerNodeDrainingRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestWorkerNode_EncodeDecode(t *testing.T) {
+	var typ WorkerNode
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkerNode
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWorkerNodeContainerPlacement_EncodeDecode(t *testing.T) {
+	var typ WorkerNodeContainerPlacement
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkerNodeContainerPlacement
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestWorkerNodeID_EncodeDecode(t *testing.T) {
 	var typ WorkerNodeID
 	typ.SetFake()
@@ -1716,6 +1810,42 @@ func TestWorkerNodeID_EncodeDecode(t *testing.T) {
 	var typ2 WorkerNodeID
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestWorkerNodeInterfaceAddress_EncodeDecode(t *testing.T) {
+	var typ WorkerNodeInterfaceAddress
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkerNodeInterfaceAddress
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWorkerNodeNetworkInterface_EncodeDecode(t *testing.T) {
+	var typ WorkerNodeNetworkInterface
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkerNodeNetworkInterface
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWorkerNodeRunningContainer_EncodeDecode(t *testing.T) {
+	var typ WorkerNodeRunningContainer
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkerNodeRunningContainer
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestWorkerNodeStatus_EncodeDecode(t *testing.T) {
 	var typ WorkerNodeStatus
 	typ.SetFake()
@@ -1726,5 +1856,29 @@ func TestWorkerNodeStatus_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 WorkerNodeStatus
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWorkerNodeSummary_EncodeDecode(t *testing.T) {
+	var typ WorkerNodeSummary
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkerNodeSummary
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestWorkerServiceClass_EncodeDecode(t *testing.T) {
+	var typ WorkerServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 WorkerServiceClass
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }

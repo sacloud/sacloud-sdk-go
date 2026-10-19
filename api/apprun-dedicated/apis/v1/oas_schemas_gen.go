@@ -13,142 +13,143 @@ func (s *ErrorStatusCode) Error() string {
 	return fmt.Sprintf("code %d: %+v", s.StatusCode, s.Response)
 }
 
-// Ref: #/components/schemas/ApplicationContainerSummary
-type ApplicationContainerSummary struct {
+// Ref: #/components/schemas/ApplicationCurrentContainer
+type ApplicationCurrentContainer struct {
 	// コンテナID.
 	ID string `json:"id"`
 	// イメージ名.
 	Image string `json:"image"`
-	// State.
+	// コンテナのステート（created、running、restarting、removing、paused、exited、dead
+	// のうちいずれか）.
 	State string `json:"state"`
-	// Status.
+	// コンテナのステータス.
 	Status string `json:"status"`
-	// コンテナのCPU使用率(単位: %).
+	// コンテナのCPU使用率（単位：%）.
 	CpuUsagePercent float32 `json:"cpuUsagePercent"`
-	// ApplicationID.
-	ApplicationID string `json:"applicationID"`
-	// Version.
-	ApplicationVersion int64 `json:"applicationVersion"`
+	// アプリケーションID.
+	ApplicationID ApplicationID `json:"applicationID"`
+	// アプリケーションのバージョン.
+	ApplicationVersion ApplicationVersionNumber `json:"applicationVersion"`
 }
 
 // GetID returns the value of ID.
-func (s *ApplicationContainerSummary) GetID() string {
+func (s *ApplicationCurrentContainer) GetID() string {
 	return s.ID
 }
 
 // GetImage returns the value of Image.
-func (s *ApplicationContainerSummary) GetImage() string {
+func (s *ApplicationCurrentContainer) GetImage() string {
 	return s.Image
 }
 
 // GetState returns the value of State.
-func (s *ApplicationContainerSummary) GetState() string {
+func (s *ApplicationCurrentContainer) GetState() string {
 	return s.State
 }
 
 // GetStatus returns the value of Status.
-func (s *ApplicationContainerSummary) GetStatus() string {
+func (s *ApplicationCurrentContainer) GetStatus() string {
 	return s.Status
 }
 
 // GetCpuUsagePercent returns the value of CpuUsagePercent.
-func (s *ApplicationContainerSummary) GetCpuUsagePercent() float32 {
+func (s *ApplicationCurrentContainer) GetCpuUsagePercent() float32 {
 	return s.CpuUsagePercent
 }
 
 // GetApplicationID returns the value of ApplicationID.
-func (s *ApplicationContainerSummary) GetApplicationID() string {
+func (s *ApplicationCurrentContainer) GetApplicationID() ApplicationID {
 	return s.ApplicationID
 }
 
 // GetApplicationVersion returns the value of ApplicationVersion.
-func (s *ApplicationContainerSummary) GetApplicationVersion() int64 {
+func (s *ApplicationCurrentContainer) GetApplicationVersion() ApplicationVersionNumber {
 	return s.ApplicationVersion
 }
 
 // SetID sets the value of ID.
-func (s *ApplicationContainerSummary) SetID(val string) {
+func (s *ApplicationCurrentContainer) SetID(val string) {
 	s.ID = val
 }
 
 // SetImage sets the value of Image.
-func (s *ApplicationContainerSummary) SetImage(val string) {
+func (s *ApplicationCurrentContainer) SetImage(val string) {
 	s.Image = val
 }
 
 // SetState sets the value of State.
-func (s *ApplicationContainerSummary) SetState(val string) {
+func (s *ApplicationCurrentContainer) SetState(val string) {
 	s.State = val
 }
 
 // SetStatus sets the value of Status.
-func (s *ApplicationContainerSummary) SetStatus(val string) {
+func (s *ApplicationCurrentContainer) SetStatus(val string) {
 	s.Status = val
 }
 
 // SetCpuUsagePercent sets the value of CpuUsagePercent.
-func (s *ApplicationContainerSummary) SetCpuUsagePercent(val float32) {
+func (s *ApplicationCurrentContainer) SetCpuUsagePercent(val float32) {
 	s.CpuUsagePercent = val
 }
 
 // SetApplicationID sets the value of ApplicationID.
-func (s *ApplicationContainerSummary) SetApplicationID(val string) {
+func (s *ApplicationCurrentContainer) SetApplicationID(val ApplicationID) {
 	s.ApplicationID = val
 }
 
 // SetApplicationVersion sets the value of ApplicationVersion.
-func (s *ApplicationContainerSummary) SetApplicationVersion(val int64) {
+func (s *ApplicationCurrentContainer) SetApplicationVersion(val ApplicationVersionNumber) {
 	s.ApplicationVersion = val
 }
 
-// Ref: #/components/schemas/ApplicationContainersStats
-type ApplicationContainersStats struct {
-	// 状態回収日時.
-	CollectedAtSec int64                         `json:"collectedAtSec"`
-	Containers     []ApplicationContainerSummary `json:"containers"`
+// Ref: #/components/schemas/ApplicationCurrentContainers
+type ApplicationCurrentContainers struct {
+	// 状態回収日時：UNIX時間（秒）.
+	CollectedAtSec int                           `json:"collectedAtSec"`
+	Containers     []ApplicationCurrentContainer `json:"containers"`
 }
 
 // GetCollectedAtSec returns the value of CollectedAtSec.
-func (s *ApplicationContainersStats) GetCollectedAtSec() int64 {
+func (s *ApplicationCurrentContainers) GetCollectedAtSec() int {
 	return s.CollectedAtSec
 }
 
 // GetContainers returns the value of Containers.
-func (s *ApplicationContainersStats) GetContainers() []ApplicationContainerSummary {
+func (s *ApplicationCurrentContainers) GetContainers() []ApplicationCurrentContainer {
 	return s.Containers
 }
 
 // SetCollectedAtSec sets the value of CollectedAtSec.
-func (s *ApplicationContainersStats) SetCollectedAtSec(val int64) {
+func (s *ApplicationCurrentContainers) SetCollectedAtSec(val int) {
 	s.CollectedAtSec = val
 }
 
 // SetContainers sets the value of Containers.
-func (s *ApplicationContainersStats) SetContainers(val []ApplicationContainerSummary) {
+func (s *ApplicationCurrentContainers) SetContainers(val []ApplicationCurrentContainer) {
 	s.Containers = val
 }
 
 // Ref: #/components/schemas/ApplicationDesiredContainer
 type ApplicationDesiredContainer struct {
 	// デプロイするアプリケーションID.
-	ApplicationID string `json:"applicationID"`
+	ApplicationID ApplicationID `json:"applicationID"`
 	// デプロイするアプリケーションのバージョン.
-	ApplicationVersion int64 `json:"applicationVersion"`
-	// 割り当てる CPU(単位: mCPU).
+	ApplicationVersion ApplicationVersionNumber `json:"applicationVersion"`
+	// 割り当てるCPU（単位：mCPU）.
 	CpuMillis int64 `json:"cpuMillis"`
-	// 割り当てる メモリ(単位: MB).
+	// 割り当てるメモリ（単位：MB）.
 	MemoryMB int64 `json:"memoryMB"`
 	// デプロイするコンテナのイメージ名.
 	Image string `json:"image"`
 }
 
 // GetApplicationID returns the value of ApplicationID.
-func (s *ApplicationDesiredContainer) GetApplicationID() string {
+func (s *ApplicationDesiredContainer) GetApplicationID() ApplicationID {
 	return s.ApplicationID
 }
 
 // GetApplicationVersion returns the value of ApplicationVersion.
-func (s *ApplicationDesiredContainer) GetApplicationVersion() int64 {
+func (s *ApplicationDesiredContainer) GetApplicationVersion() ApplicationVersionNumber {
 	return s.ApplicationVersion
 }
 
@@ -168,12 +169,12 @@ func (s *ApplicationDesiredContainer) GetImage() string {
 }
 
 // SetApplicationID sets the value of ApplicationID.
-func (s *ApplicationDesiredContainer) SetApplicationID(val string) {
+func (s *ApplicationDesiredContainer) SetApplicationID(val ApplicationID) {
 	s.ApplicationID = val
 }
 
 // SetApplicationVersion sets the value of ApplicationVersion.
-func (s *ApplicationDesiredContainer) SetApplicationVersion(val int64) {
+func (s *ApplicationDesiredContainer) SetApplicationVersion(val ApplicationVersionNumber) {
 	s.ApplicationVersion = val
 }
 
@@ -192,98 +193,145 @@ func (s *ApplicationDesiredContainer) SetImage(val string) {
 	s.Image = val
 }
 
-type ApplicationID uuid.UUID
-
-// Ref: #/components/schemas/ApplicationPeekDesiredContainersResponse
-type ApplicationPeekDesiredContainersResponse struct {
+// Ref: #/components/schemas/ApplicationDesiredContainers
+type ApplicationDesiredContainers struct {
 	Containers []ApplicationDesiredContainer `json:"containers"`
 }
 
 // GetContainers returns the value of Containers.
-func (s *ApplicationPeekDesiredContainersResponse) GetContainers() []ApplicationDesiredContainer {
+func (s *ApplicationDesiredContainers) GetContainers() []ApplicationDesiredContainer {
 	return s.Containers
 }
 
 // SetContainers sets the value of Containers.
-func (s *ApplicationPeekDesiredContainersResponse) SetContainers(val []ApplicationDesiredContainer) {
+func (s *ApplicationDesiredContainers) SetContainers(val []ApplicationDesiredContainer) {
 	s.Containers = val
 }
 
-// Ref: #/components/schemas/ApplicationVersionDeploymentStatus
-type ApplicationVersionDeploymentStatus struct {
-	// アプリケーションバージョン.
+type ApplicationID uuid.UUID
+
+// Ref: #/components/schemas/ApplicationIdentifier
+type ApplicationIdentifier struct {
+	// ID.
+	ApplicationID ApplicationID `json:"applicationID"`
+}
+
+// GetApplicationID returns the value of ApplicationID.
+func (s *ApplicationIdentifier) GetApplicationID() ApplicationID {
+	return s.ApplicationID
+}
+
+// SetApplicationID sets the value of ApplicationID.
+func (s *ApplicationIdentifier) SetApplicationID(val ApplicationID) {
+	s.ApplicationID = val
+}
+
+// Ref: #/components/schemas/ApplicationVersionIdentifier
+type ApplicationVersionIdentifier struct {
 	Version ApplicationVersionNumber `json:"version"`
-	Image   string                   `json:"image"`
-	// 現在動いているノードの数.
-	ActiveNodeCount int64 `json:"activeNodeCount"`
-	// アプリケーションバージョン作成日時(unixTime in seconds).
-	Created int `json:"created"`
 }
 
 // GetVersion returns the value of Version.
-func (s *ApplicationVersionDeploymentStatus) GetVersion() ApplicationVersionNumber {
+func (s *ApplicationVersionIdentifier) GetVersion() ApplicationVersionNumber {
 	return s.Version
 }
 
-// GetImage returns the value of Image.
-func (s *ApplicationVersionDeploymentStatus) GetImage() string {
-	return s.Image
-}
-
-// GetActiveNodeCount returns the value of ActiveNodeCount.
-func (s *ApplicationVersionDeploymentStatus) GetActiveNodeCount() int64 {
-	return s.ActiveNodeCount
-}
-
-// GetCreated returns the value of Created.
-func (s *ApplicationVersionDeploymentStatus) GetCreated() int {
-	return s.Created
-}
-
 // SetVersion sets the value of Version.
-func (s *ApplicationVersionDeploymentStatus) SetVersion(val ApplicationVersionNumber) {
+func (s *ApplicationVersionIdentifier) SetVersion(val ApplicationVersionNumber) {
 	s.Version = val
-}
-
-// SetImage sets the value of Image.
-func (s *ApplicationVersionDeploymentStatus) SetImage(val string) {
-	s.Image = val
-}
-
-// SetActiveNodeCount sets the value of ActiveNodeCount.
-func (s *ApplicationVersionDeploymentStatus) SetActiveNodeCount(val int64) {
-	s.ActiveNodeCount = val
-}
-
-// SetCreated sets the value of Created.
-func (s *ApplicationVersionDeploymentStatus) SetCreated(val int) {
-	s.Created = val
 }
 
 type ApplicationVersionNumber int32
 
+// Ref: #/components/schemas/ApplicationVersionSummary
+type ApplicationVersionSummary struct {
+	Version ApplicationVersionNumber `json:"version"`
+	Image   string                   `json:"image"`
+	// 現在動いているノードの数.
+	ActiveNodeCount int64 `json:"activeNodeCount"`
+	// アプリケーションバージョン作成日時：UNIX時間（秒）.
+	Created int `json:"created"`
+}
+
+// GetVersion returns the value of Version.
+func (s *ApplicationVersionSummary) GetVersion() ApplicationVersionNumber {
+	return s.Version
+}
+
+// GetImage returns the value of Image.
+func (s *ApplicationVersionSummary) GetImage() string {
+	return s.Image
+}
+
+// GetActiveNodeCount returns the value of ActiveNodeCount.
+func (s *ApplicationVersionSummary) GetActiveNodeCount() int64 {
+	return s.ActiveNodeCount
+}
+
+// GetCreated returns the value of Created.
+func (s *ApplicationVersionSummary) GetCreated() int {
+	return s.Created
+}
+
+// SetVersion sets the value of Version.
+func (s *ApplicationVersionSummary) SetVersion(val ApplicationVersionNumber) {
+	s.Version = val
+}
+
+// SetImage sets the value of Image.
+func (s *ApplicationVersionSummary) SetImage(val string) {
+	s.Image = val
+}
+
+// SetActiveNodeCount sets the value of ActiveNodeCount.
+func (s *ApplicationVersionSummary) SetActiveNodeCount(val int64) {
+	s.ActiveNodeCount = val
+}
+
+// SetCreated sets the value of Created.
+func (s *ApplicationVersionSummary) SetCreated(val int) {
+	s.Created = val
+}
+
 type AutoScalingGroupID uuid.UUID
+
+// Ref: #/components/schemas/AutoScalingGroupIdentifier
+type AutoScalingGroupIdentifier struct {
+	AutoScalingGroupID AutoScalingGroupID `json:"autoScalingGroupID"`
+}
+
+// GetAutoScalingGroupID returns the value of AutoScalingGroupID.
+func (s *AutoScalingGroupIdentifier) GetAutoScalingGroupID() AutoScalingGroupID {
+	return s.AutoScalingGroupID
+}
+
+// SetAutoScalingGroupID sets the value of AutoScalingGroupID.
+func (s *AutoScalingGroupIdentifier) SetAutoScalingGroupID(val AutoScalingGroupID) {
+	s.AutoScalingGroupID = val
+}
 
 // Ref: #/components/schemas/AutoScalingGroupNodeInterface
 type AutoScalingGroupNodeInterface struct {
-	// インターフェース番号。例: eth0→0, eth1→1, eth2→2。0は必須｡重複不可｡.
+	// インターフェース番号。例：eth0→0、eth1→1、eth2→2。0は必須。重複不可。.
 	InterfaceIndex int16 `json:"interfaceIndex"`
-	// Sharedにすると共有セグメントに繋がります。ルータ+スイッチ、および共有セグメントにつなげられるのはeth0のみです。.
+	// 'shared'
+	// にすると共有セグメントに繋がります。ルータ+スイッチ、および共有セグメントにつなげられるのは
+	// eth0 のみです。.
 	Upstream string `json:"upstream"`
-	// IP Pool は最大20個まで指定可能｡アップストリームが 'shared'
-	// の場合は指定できません｡それ以外の場合は指定必須です｡.
+	// IPプールは最大20個まで指定可能。アップストリームが 'shared'
+	// の場合は指定できません。それ以外の場合は指定必須です。.
 	IpPool []IpRange `json:"ipPool"`
 	// アップストリームが 'shared'
-	// の場合､指定できません｡それ以外の場合は指定必須です｡.
+	// の場合、指定できません。それ以外の場合は指定必須です。.
 	NetmaskLen OptInt16 `json:"netmaskLen"`
-	// アップストリームが 'shared' の場合､指定できません｡.
+	// アップストリームが 'shared' の場合、指定できません。.
 	DefaultGateway OptString `json:"defaultGateway"`
-	// パケットフィルターid.
+	// パケットフィルターID.
 	PacketFilterID OptString `json:"packetFilterID"`
-	// 一つのオートスケーリンググループにつき､一つのインターフェースのみがロードバランサー接続対象となる｡接続対象になった場合､そのインターフェースに割り当てられた
+	// 一つのオートスケーリンググループにつき、一つのインターフェースのみがロードバランサ接続対象となる。接続対象になった場合、そのインターフェースに割り当てられた
 	// IP
-	// アドレスがロードバランサーのバックエンドとして登録される｡クラスターにロードバランサーポートが設定されている場合､一つのインターフェースが
-	// true である必要がある｡.
+	// アドレスがロードバランサのバックエンドとして登録される。クラスタにロードバランサポートが設定されている場合、一つのインターフェースが
+	// true である必要がある。.
 	ConnectsToLB bool `json:"connectsToLB"`
 }
 
@@ -395,54 +443,240 @@ func (s *BasicAuth) SetRoles(val []string) {
 
 type CertificateID uuid.UUID
 
+// Ref: #/components/schemas/CertificateIdentifier
+type CertificateIdentifier struct {
+	// 証明書ID.
+	CertificateID CertificateID `json:"certificateID"`
+}
+
+// GetCertificateID returns the value of CertificateID.
+func (s *CertificateIdentifier) GetCertificateID() CertificateID {
+	return s.CertificateID
+}
+
+// SetCertificateID sets the value of CertificateID.
+func (s *CertificateIdentifier) SetCertificateID(val CertificateID) {
+	s.CertificateID = val
+}
+
 type ClusterID uuid.UUID
 
-// Ref: #/components/schemas/CreateApplication
-type CreateApplication struct {
-	// アプリケーションの名前｡クラスタの中ではユニーク｡英数字とハイフン、アンダースコアのみ使用可能.
+// Ref: #/components/schemas/ClusterIdentifier
+type ClusterIdentifier struct {
+	ClusterID ClusterID `json:"clusterID"`
+}
+
+// GetClusterID returns the value of ClusterID.
+func (s *ClusterIdentifier) GetClusterID() ClusterID {
+	return s.ClusterID
+}
+
+// SetClusterID sets the value of ClusterID.
+func (s *ClusterIdentifier) SetClusterID(val ClusterID) {
+	s.ClusterID = val
+}
+
+// Ref: #/components/schemas/ClusterLoadBalancerPort
+type ClusterLoadBalancerPort struct {
+	// 外部公開するポート番号。5950-5959は予約されているため指定不可.
+	Port uint16 `json:"port"`
+	// ポートで扱うプロトコル.
+	Protocol ClusterLoadBalancerPortProtocol `json:"protocol"`
+}
+
+// GetPort returns the value of Port.
+func (s *ClusterLoadBalancerPort) GetPort() uint16 {
+	return s.Port
+}
+
+// GetProtocol returns the value of Protocol.
+func (s *ClusterLoadBalancerPort) GetProtocol() ClusterLoadBalancerPortProtocol {
+	return s.Protocol
+}
+
+// SetPort sets the value of Port.
+func (s *ClusterLoadBalancerPort) SetPort(val uint16) {
+	s.Port = val
+}
+
+// SetProtocol sets the value of Protocol.
+func (s *ClusterLoadBalancerPort) SetProtocol(val ClusterLoadBalancerPortProtocol) {
+	s.Protocol = val
+}
+
+// Ref: #/components/schemas/ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly
+type ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly struct {
+	// 外部公開するポート番号。5950-5959は予約されているため指定不可.
+	Port uint16 `json:"port"`
+	// ポートで扱うプロトコル.
+	Protocol ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol `json:"protocol"`
+}
+
+// GetPort returns the value of Port.
+func (s *ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly) GetPort() uint16 {
+	return s.Port
+}
+
+// GetProtocol returns the value of Protocol.
+func (s *ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly) GetProtocol() ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol {
+	return s.Protocol
+}
+
+// SetPort sets the value of Port.
+func (s *ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly) SetPort(val uint16) {
+	s.Port = val
+}
+
+// SetProtocol sets the value of Protocol.
+func (s *ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly) SetProtocol(val ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol) {
+	s.Protocol = val
+}
+
+// ポートで扱うプロトコル.
+type ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol string
+
+const (
+	ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTP  ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol = "http"
+	ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTPS ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol = "https"
+	ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolTCP   ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol = "tcp"
+)
+
+// AllValues returns all ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol values.
+func (ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol) AllValues() []ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol {
+	return []ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol{
+		ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTP,
+		ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTPS,
+		ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolTCP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol) MarshalText() ([]byte, error) {
+	switch s {
+	case ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTP:
+		return []byte(s), nil
+	case ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTPS:
+		return []byte(s), nil
+	case ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolTCP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol) UnmarshalText(data []byte) error {
+	switch ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol(data) {
+	case ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTP:
+		*s = ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTP
+		return nil
+	case ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTPS:
+		*s = ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTPS
+		return nil
+	case ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolTCP:
+		*s = ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolTCP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ポートで扱うプロトコル.
+type ClusterLoadBalancerPortProtocol string
+
+const (
+	ClusterLoadBalancerPortProtocolHTTP  ClusterLoadBalancerPortProtocol = "http"
+	ClusterLoadBalancerPortProtocolHTTPS ClusterLoadBalancerPortProtocol = "https"
+	ClusterLoadBalancerPortProtocolTCP   ClusterLoadBalancerPortProtocol = "tcp"
+)
+
+// AllValues returns all ClusterLoadBalancerPortProtocol values.
+func (ClusterLoadBalancerPortProtocol) AllValues() []ClusterLoadBalancerPortProtocol {
+	return []ClusterLoadBalancerPortProtocol{
+		ClusterLoadBalancerPortProtocolHTTP,
+		ClusterLoadBalancerPortProtocolHTTPS,
+		ClusterLoadBalancerPortProtocolTCP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ClusterLoadBalancerPortProtocol) MarshalText() ([]byte, error) {
+	switch s {
+	case ClusterLoadBalancerPortProtocolHTTP:
+		return []byte(s), nil
+	case ClusterLoadBalancerPortProtocolHTTPS:
+		return []byte(s), nil
+	case ClusterLoadBalancerPortProtocolTCP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ClusterLoadBalancerPortProtocol) UnmarshalText(data []byte) error {
+	switch ClusterLoadBalancerPortProtocol(data) {
+	case ClusterLoadBalancerPortProtocolHTTP:
+		*s = ClusterLoadBalancerPortProtocolHTTP
+		return nil
+	case ClusterLoadBalancerPortProtocolHTTPS:
+		*s = ClusterLoadBalancerPortProtocolHTTPS
+		return nil
+	case ClusterLoadBalancerPortProtocolTCP:
+		*s = ClusterLoadBalancerPortProtocolTCP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CreateApplicationRequest
+type CreateApplicationRequest struct {
+	// アプリケーションの名前。クラスタの中ではユニーク。英数字とハイフン、アンダースコアのみ使用可能.
 	Name string `json:"name"`
 	// デプロイ先クラスタ.
 	ClusterID ClusterID `json:"clusterID"`
 }
 
 // GetName returns the value of Name.
-func (s *CreateApplication) GetName() string {
+func (s *CreateApplicationRequest) GetName() string {
 	return s.Name
 }
 
 // GetClusterID returns the value of ClusterID.
-func (s *CreateApplication) GetClusterID() ClusterID {
+func (s *CreateApplicationRequest) GetClusterID() ClusterID {
 	return s.ClusterID
 }
 
 // SetName sets the value of Name.
-func (s *CreateApplication) SetName(val string) {
+func (s *CreateApplicationRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetClusterID sets the value of ClusterID.
-func (s *CreateApplication) SetClusterID(val ClusterID) {
+func (s *CreateApplicationRequest) SetClusterID(val ClusterID) {
 	s.ClusterID = val
 }
 
 // Ref: #/components/schemas/CreateApplicationResponse
 type CreateApplicationResponse struct {
 	// 作成されたアプリケーションの情報.
-	Application CreatedApplication `json:"application"`
+	Application ApplicationIdentifier `json:"application"`
 }
 
 // GetApplication returns the value of Application.
-func (s *CreateApplicationResponse) GetApplication() CreatedApplication {
+func (s *CreateApplicationResponse) GetApplication() ApplicationIdentifier {
 	return s.Application
 }
 
 // SetApplication sets the value of Application.
-func (s *CreateApplicationResponse) SetApplication(val CreatedApplication) {
+func (s *CreateApplicationResponse) SetApplication(val ApplicationIdentifier) {
 	s.Application = val
 }
 
-// Ref: #/components/schemas/CreateApplicationVersion
-type CreateApplicationVersion struct {
+// Ref: #/components/schemas/CreateApplicationVersionRequest
+type CreateApplicationVersionRequest struct {
+	Image             string      `json:"image"`
 	CPU               int64       `json:"cpu"`
 	Memory            int64       `json:"memory"`
 	ScalingMode       ScalingMode `json:"scalingMode"`
@@ -451,194 +685,195 @@ type CreateApplicationVersion struct {
 	MaxScale          OptInt32    `json:"maxScale"`
 	ScaleInThreshold  OptInt32    `json:"scaleInThreshold"`
 	ScaleOutThreshold OptInt32    `json:"scaleOutThreshold"`
-	Image             string      `json:"image"`
 	// コンテナ起動時に実行するコマンドと引数.
-	Cmd              []string  `json:"cmd"`
+	Cmd []string `json:"cmd"`
+	// レジストリのユーザ名。未設定の場合はnull。.
 	RegistryUsername NilString `json:"registryUsername"`
+	// レジストリのパスワード。レスポンスではマスクされる。未設定の場合はnull。.
 	RegistryPassword NilString `json:"registryPassword"`
 	// レジストリパスワードの設定方法.
 	RegistryPasswordAction RegistryPasswordAction `json:"registryPasswordAction"`
-	// アプリケーションが公開するポート番号｡同一クラスタ内で､ポートの重複不可｡.
+	// アプリケーションが公開するポート番号。同一クラスタ内で、ポートの重複不可。.
 	ExposedPorts []ExposedPort `json:"exposedPorts"`
 	// 環境変数.
 	Env []CreateEnvironmentVariable `json:"env"`
 }
 
+// GetImage returns the value of Image.
+func (s *CreateApplicationVersionRequest) GetImage() string {
+	return s.Image
+}
+
 // GetCPU returns the value of CPU.
-func (s *CreateApplicationVersion) GetCPU() int64 {
+func (s *CreateApplicationVersionRequest) GetCPU() int64 {
 	return s.CPU
 }
 
 // GetMemory returns the value of Memory.
-func (s *CreateApplicationVersion) GetMemory() int64 {
+func (s *CreateApplicationVersionRequest) GetMemory() int64 {
 	return s.Memory
 }
 
 // GetScalingMode returns the value of ScalingMode.
-func (s *CreateApplicationVersion) GetScalingMode() ScalingMode {
+func (s *CreateApplicationVersionRequest) GetScalingMode() ScalingMode {
 	return s.ScalingMode
 }
 
 // GetFixedScale returns the value of FixedScale.
-func (s *CreateApplicationVersion) GetFixedScale() OptInt32 {
+func (s *CreateApplicationVersionRequest) GetFixedScale() OptInt32 {
 	return s.FixedScale
 }
 
 // GetMinScale returns the value of MinScale.
-func (s *CreateApplicationVersion) GetMinScale() OptInt32 {
+func (s *CreateApplicationVersionRequest) GetMinScale() OptInt32 {
 	return s.MinScale
 }
 
 // GetMaxScale returns the value of MaxScale.
-func (s *CreateApplicationVersion) GetMaxScale() OptInt32 {
+func (s *CreateApplicationVersionRequest) GetMaxScale() OptInt32 {
 	return s.MaxScale
 }
 
 // GetScaleInThreshold returns the value of ScaleInThreshold.
-func (s *CreateApplicationVersion) GetScaleInThreshold() OptInt32 {
+func (s *CreateApplicationVersionRequest) GetScaleInThreshold() OptInt32 {
 	return s.ScaleInThreshold
 }
 
 // GetScaleOutThreshold returns the value of ScaleOutThreshold.
-func (s *CreateApplicationVersion) GetScaleOutThreshold() OptInt32 {
+func (s *CreateApplicationVersionRequest) GetScaleOutThreshold() OptInt32 {
 	return s.ScaleOutThreshold
 }
 
-// GetImage returns the value of Image.
-func (s *CreateApplicationVersion) GetImage() string {
-	return s.Image
-}
-
 // GetCmd returns the value of Cmd.
-func (s *CreateApplicationVersion) GetCmd() []string {
+func (s *CreateApplicationVersionRequest) GetCmd() []string {
 	return s.Cmd
 }
 
 // GetRegistryUsername returns the value of RegistryUsername.
-func (s *CreateApplicationVersion) GetRegistryUsername() NilString {
+func (s *CreateApplicationVersionRequest) GetRegistryUsername() NilString {
 	return s.RegistryUsername
 }
 
 // GetRegistryPassword returns the value of RegistryPassword.
-func (s *CreateApplicationVersion) GetRegistryPassword() NilString {
+func (s *CreateApplicationVersionRequest) GetRegistryPassword() NilString {
 	return s.RegistryPassword
 }
 
 // GetRegistryPasswordAction returns the value of RegistryPasswordAction.
-func (s *CreateApplicationVersion) GetRegistryPasswordAction() RegistryPasswordAction {
+func (s *CreateApplicationVersionRequest) GetRegistryPasswordAction() RegistryPasswordAction {
 	return s.RegistryPasswordAction
 }
 
 // GetExposedPorts returns the value of ExposedPorts.
-func (s *CreateApplicationVersion) GetExposedPorts() []ExposedPort {
+func (s *CreateApplicationVersionRequest) GetExposedPorts() []ExposedPort {
 	return s.ExposedPorts
 }
 
 // GetEnv returns the value of Env.
-func (s *CreateApplicationVersion) GetEnv() []CreateEnvironmentVariable {
+func (s *CreateApplicationVersionRequest) GetEnv() []CreateEnvironmentVariable {
 	return s.Env
 }
 
+// SetImage sets the value of Image.
+func (s *CreateApplicationVersionRequest) SetImage(val string) {
+	s.Image = val
+}
+
 // SetCPU sets the value of CPU.
-func (s *CreateApplicationVersion) SetCPU(val int64) {
+func (s *CreateApplicationVersionRequest) SetCPU(val int64) {
 	s.CPU = val
 }
 
 // SetMemory sets the value of Memory.
-func (s *CreateApplicationVersion) SetMemory(val int64) {
+func (s *CreateApplicationVersionRequest) SetMemory(val int64) {
 	s.Memory = val
 }
 
 // SetScalingMode sets the value of ScalingMode.
-func (s *CreateApplicationVersion) SetScalingMode(val ScalingMode) {
+func (s *CreateApplicationVersionRequest) SetScalingMode(val ScalingMode) {
 	s.ScalingMode = val
 }
 
 // SetFixedScale sets the value of FixedScale.
-func (s *CreateApplicationVersion) SetFixedScale(val OptInt32) {
+func (s *CreateApplicationVersionRequest) SetFixedScale(val OptInt32) {
 	s.FixedScale = val
 }
 
 // SetMinScale sets the value of MinScale.
-func (s *CreateApplicationVersion) SetMinScale(val OptInt32) {
+func (s *CreateApplicationVersionRequest) SetMinScale(val OptInt32) {
 	s.MinScale = val
 }
 
 // SetMaxScale sets the value of MaxScale.
-func (s *CreateApplicationVersion) SetMaxScale(val OptInt32) {
+func (s *CreateApplicationVersionRequest) SetMaxScale(val OptInt32) {
 	s.MaxScale = val
 }
 
 // SetScaleInThreshold sets the value of ScaleInThreshold.
-func (s *CreateApplicationVersion) SetScaleInThreshold(val OptInt32) {
+func (s *CreateApplicationVersionRequest) SetScaleInThreshold(val OptInt32) {
 	s.ScaleInThreshold = val
 }
 
 // SetScaleOutThreshold sets the value of ScaleOutThreshold.
-func (s *CreateApplicationVersion) SetScaleOutThreshold(val OptInt32) {
+func (s *CreateApplicationVersionRequest) SetScaleOutThreshold(val OptInt32) {
 	s.ScaleOutThreshold = val
 }
 
-// SetImage sets the value of Image.
-func (s *CreateApplicationVersion) SetImage(val string) {
-	s.Image = val
-}
-
 // SetCmd sets the value of Cmd.
-func (s *CreateApplicationVersion) SetCmd(val []string) {
+func (s *CreateApplicationVersionRequest) SetCmd(val []string) {
 	s.Cmd = val
 }
 
 // SetRegistryUsername sets the value of RegistryUsername.
-func (s *CreateApplicationVersion) SetRegistryUsername(val NilString) {
+func (s *CreateApplicationVersionRequest) SetRegistryUsername(val NilString) {
 	s.RegistryUsername = val
 }
 
 // SetRegistryPassword sets the value of RegistryPassword.
-func (s *CreateApplicationVersion) SetRegistryPassword(val NilString) {
+func (s *CreateApplicationVersionRequest) SetRegistryPassword(val NilString) {
 	s.RegistryPassword = val
 }
 
 // SetRegistryPasswordAction sets the value of RegistryPasswordAction.
-func (s *CreateApplicationVersion) SetRegistryPasswordAction(val RegistryPasswordAction) {
+func (s *CreateApplicationVersionRequest) SetRegistryPasswordAction(val RegistryPasswordAction) {
 	s.RegistryPasswordAction = val
 }
 
 // SetExposedPorts sets the value of ExposedPorts.
-func (s *CreateApplicationVersion) SetExposedPorts(val []ExposedPort) {
+func (s *CreateApplicationVersionRequest) SetExposedPorts(val []ExposedPort) {
 	s.ExposedPorts = val
 }
 
 // SetEnv sets the value of Env.
-func (s *CreateApplicationVersion) SetEnv(val []CreateEnvironmentVariable) {
+func (s *CreateApplicationVersionRequest) SetEnv(val []CreateEnvironmentVariable) {
 	s.Env = val
 }
 
 // Ref: #/components/schemas/CreateApplicationVersionResponse
 type CreateApplicationVersionResponse struct {
 	// 作成されたアプリケーションバージョンの情報.
-	ApplicationVersion ReadApplicationVersionSummary `json:"applicationVersion"`
+	ApplicationVersion ApplicationVersionIdentifier `json:"applicationVersion"`
 }
 
 // GetApplicationVersion returns the value of ApplicationVersion.
-func (s *CreateApplicationVersionResponse) GetApplicationVersion() ReadApplicationVersionSummary {
+func (s *CreateApplicationVersionResponse) GetApplicationVersion() ApplicationVersionIdentifier {
 	return s.ApplicationVersion
 }
 
 // SetApplicationVersion sets the value of ApplicationVersion.
-func (s *CreateApplicationVersionResponse) SetApplicationVersion(val ReadApplicationVersionSummary) {
+func (s *CreateApplicationVersionResponse) SetApplicationVersion(val ApplicationVersionIdentifier) {
 	s.ApplicationVersion = val
 }
 
-// Ref: #/components/schemas/CreateAutoScalingGroup
-type CreateAutoScalingGroup struct {
-	// オートスケーリンググループの名前｡クラスタ内でユニーク｡英数字とアンダースコア、ハイフンのみ使用可能.
+// Ref: #/components/schemas/CreateAutoScalingGroupRequest
+type CreateAutoScalingGroupRequest struct {
+	// オートスケーリンググループの名前。クラスタ内でユニーク。英数字、アンダースコア、ハイフンのみ使用可能.
 	Name string `json:"name"`
 	// オートスケーリンググループのゾーン.
 	Zone string `json:"zone"`
-	// ネームサーバー設定.
-	NameServers []IPv4 `json:"nameServers"`
-	// ワーカーのサービスクラスパス.
+	// ネームサーバ設定.
+	NameServers []Ipv4 `json:"nameServers"`
+	// ワーカノードのサービスクラスパス.
 	WorkerServiceClassPath string `json:"workerServiceClassPath"`
 	// オートスケーリンググループの最小ノード数.
 	MinNodes int32 `json:"minNodes"`
@@ -648,93 +883,94 @@ type CreateAutoScalingGroup struct {
 }
 
 // GetName returns the value of Name.
-func (s *CreateAutoScalingGroup) GetName() string {
+func (s *CreateAutoScalingGroupRequest) GetName() string {
 	return s.Name
 }
 
 // GetZone returns the value of Zone.
-func (s *CreateAutoScalingGroup) GetZone() string {
+func (s *CreateAutoScalingGroupRequest) GetZone() string {
 	return s.Zone
 }
 
 // GetNameServers returns the value of NameServers.
-func (s *CreateAutoScalingGroup) GetNameServers() []IPv4 {
+func (s *CreateAutoScalingGroupRequest) GetNameServers() []Ipv4 {
 	return s.NameServers
 }
 
 // GetWorkerServiceClassPath returns the value of WorkerServiceClassPath.
-func (s *CreateAutoScalingGroup) GetWorkerServiceClassPath() string {
+func (s *CreateAutoScalingGroupRequest) GetWorkerServiceClassPath() string {
 	return s.WorkerServiceClassPath
 }
 
 // GetMinNodes returns the value of MinNodes.
-func (s *CreateAutoScalingGroup) GetMinNodes() int32 {
+func (s *CreateAutoScalingGroupRequest) GetMinNodes() int32 {
 	return s.MinNodes
 }
 
 // GetMaxNodes returns the value of MaxNodes.
-func (s *CreateAutoScalingGroup) GetMaxNodes() int32 {
+func (s *CreateAutoScalingGroupRequest) GetMaxNodes() int32 {
 	return s.MaxNodes
 }
 
 // GetInterfaces returns the value of Interfaces.
-func (s *CreateAutoScalingGroup) GetInterfaces() []AutoScalingGroupNodeInterface {
+func (s *CreateAutoScalingGroupRequest) GetInterfaces() []AutoScalingGroupNodeInterface {
 	return s.Interfaces
 }
 
 // SetName sets the value of Name.
-func (s *CreateAutoScalingGroup) SetName(val string) {
+func (s *CreateAutoScalingGroupRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetZone sets the value of Zone.
-func (s *CreateAutoScalingGroup) SetZone(val string) {
+func (s *CreateAutoScalingGroupRequest) SetZone(val string) {
 	s.Zone = val
 }
 
 // SetNameServers sets the value of NameServers.
-func (s *CreateAutoScalingGroup) SetNameServers(val []IPv4) {
+func (s *CreateAutoScalingGroupRequest) SetNameServers(val []Ipv4) {
 	s.NameServers = val
 }
 
 // SetWorkerServiceClassPath sets the value of WorkerServiceClassPath.
-func (s *CreateAutoScalingGroup) SetWorkerServiceClassPath(val string) {
+func (s *CreateAutoScalingGroupRequest) SetWorkerServiceClassPath(val string) {
 	s.WorkerServiceClassPath = val
 }
 
 // SetMinNodes sets the value of MinNodes.
-func (s *CreateAutoScalingGroup) SetMinNodes(val int32) {
+func (s *CreateAutoScalingGroupRequest) SetMinNodes(val int32) {
 	s.MinNodes = val
 }
 
 // SetMaxNodes sets the value of MaxNodes.
-func (s *CreateAutoScalingGroup) SetMaxNodes(val int32) {
+func (s *CreateAutoScalingGroupRequest) SetMaxNodes(val int32) {
 	s.MaxNodes = val
 }
 
 // SetInterfaces sets the value of Interfaces.
-func (s *CreateAutoScalingGroup) SetInterfaces(val []AutoScalingGroupNodeInterface) {
+func (s *CreateAutoScalingGroupRequest) SetInterfaces(val []AutoScalingGroupNodeInterface) {
 	s.Interfaces = val
 }
 
 // Ref: #/components/schemas/CreateAutoScalingGroupResponse
 type CreateAutoScalingGroupResponse struct {
-	AutoScalingGroup CreatedAutoScalingGroup `json:"autoScalingGroup"`
+	// 作成されたオートスケーリンググループの情報.
+	AutoScalingGroup AutoScalingGroupIdentifier `json:"autoScalingGroup"`
 }
 
 // GetAutoScalingGroup returns the value of AutoScalingGroup.
-func (s *CreateAutoScalingGroupResponse) GetAutoScalingGroup() CreatedAutoScalingGroup {
+func (s *CreateAutoScalingGroupResponse) GetAutoScalingGroup() AutoScalingGroupIdentifier {
 	return s.AutoScalingGroup
 }
 
 // SetAutoScalingGroup sets the value of AutoScalingGroup.
-func (s *CreateAutoScalingGroupResponse) SetAutoScalingGroup(val CreatedAutoScalingGroup) {
+func (s *CreateAutoScalingGroupResponse) SetAutoScalingGroup(val AutoScalingGroupIdentifier) {
 	s.AutoScalingGroup = val
 }
 
-// Ref: #/components/schemas/CreateCertificate
-type CreateCertificate struct {
-	// 証明書の名前｡クラスタ内でユニーク｡英数字、アンダースコア、ハイフン､ドットのみ使用可能.
+// Ref: #/components/schemas/CreateCertificateRequest
+type CreateCertificateRequest struct {
+	// 証明書の名前。クラスタ内でユニーク。英数字、アンダースコア、ハイフン、ドットのみ使用可能.
 	Name string `json:"name"`
 	// 証明書のPEM形式の文字列.
 	CertificatePem string `json:"certificatePem"`
@@ -745,129 +981,128 @@ type CreateCertificate struct {
 }
 
 // GetName returns the value of Name.
-func (s *CreateCertificate) GetName() string {
+func (s *CreateCertificateRequest) GetName() string {
 	return s.Name
 }
 
 // GetCertificatePem returns the value of CertificatePem.
-func (s *CreateCertificate) GetCertificatePem() string {
+func (s *CreateCertificateRequest) GetCertificatePem() string {
 	return s.CertificatePem
 }
 
 // GetPrivatekeyPem returns the value of PrivatekeyPem.
-func (s *CreateCertificate) GetPrivatekeyPem() string {
+func (s *CreateCertificateRequest) GetPrivatekeyPem() string {
 	return s.PrivatekeyPem
 }
 
 // GetIntermediateCertificatePem returns the value of IntermediateCertificatePem.
-func (s *CreateCertificate) GetIntermediateCertificatePem() OptString {
+func (s *CreateCertificateRequest) GetIntermediateCertificatePem() OptString {
 	return s.IntermediateCertificatePem
 }
 
 // SetName sets the value of Name.
-func (s *CreateCertificate) SetName(val string) {
+func (s *CreateCertificateRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetCertificatePem sets the value of CertificatePem.
-func (s *CreateCertificate) SetCertificatePem(val string) {
+func (s *CreateCertificateRequest) SetCertificatePem(val string) {
 	s.CertificatePem = val
 }
 
 // SetPrivatekeyPem sets the value of PrivatekeyPem.
-func (s *CreateCertificate) SetPrivatekeyPem(val string) {
+func (s *CreateCertificateRequest) SetPrivatekeyPem(val string) {
 	s.PrivatekeyPem = val
 }
 
 // SetIntermediateCertificatePem sets the value of IntermediateCertificatePem.
-func (s *CreateCertificate) SetIntermediateCertificatePem(val OptString) {
+func (s *CreateCertificateRequest) SetIntermediateCertificatePem(val OptString) {
 	s.IntermediateCertificatePem = val
 }
 
 // Ref: #/components/schemas/CreateCertificateResponse
 type CreateCertificateResponse struct {
-	// 作成されたクラスターの情報.
-	Certificate CreatedCertificate `json:"certificate"`
+	// 作成された証明書の情報.
+	Certificate CertificateIdentifier `json:"certificate"`
 }
 
 // GetCertificate returns the value of Certificate.
-func (s *CreateCertificateResponse) GetCertificate() CreatedCertificate {
+func (s *CreateCertificateResponse) GetCertificate() CertificateIdentifier {
 	return s.Certificate
 }
 
 // SetCertificate sets the value of Certificate.
-func (s *CreateCertificateResponse) SetCertificate(val CreatedCertificate) {
+func (s *CreateCertificateResponse) SetCertificate(val CertificateIdentifier) {
 	s.Certificate = val
 }
 
-// Ref: #/components/schemas/CreateCluster
-type CreateCluster struct {
-	// クラスターの名前｡プロジェクト内でユニーク｡英数字、アンダースコア、ハイフンのみ使用可能.
+// Ref: #/components/schemas/CreateClusterRequest
+type CreateClusterRequest struct {
+	// クラスタの名前。プロジェクト内でユニーク。英数字、アンダースコア、ハイフンのみ使用可能.
 	Name string `json:"name"`
-	// Let's encrypt
-	// による証明書発行を有効にするにはここにメールアドレスを設定します｡
-	// let's encrypt による証明書発行は HTTP-01 Challenge になるため､80 番ポートを
-	// HTTP Protocol で外向きに解放する必要があります｡.
+	// Let's Encrypt
+	// による証明書発行を有効にするにはここにメールアドレスを設定します。
+	// Let's Encrypt による証明書発行は HTTP-01 チャレンジになるため、80
+	// 番ポートを HTTPプロトコルで外向きに解放する必要があります。.
 	LetsEncryptEmail OptString `json:"letsEncryptEmail"`
-	// ロードバランサーのポート群.
-	Ports []CreateLoadBalancerPort `json:"ports"`
-	// サービスプリンシパルのID.
-	ServicePrincipalID string `json:"servicePrincipalID"`
+	// ロードバランサのポート群.
+	Ports              []ClusterLoadBalancerPort `json:"ports"`
+	ServicePrincipalID ServicePrincipalID        `json:"servicePrincipalID"`
 }
 
 // GetName returns the value of Name.
-func (s *CreateCluster) GetName() string {
+func (s *CreateClusterRequest) GetName() string {
 	return s.Name
 }
 
 // GetLetsEncryptEmail returns the value of LetsEncryptEmail.
-func (s *CreateCluster) GetLetsEncryptEmail() OptString {
+func (s *CreateClusterRequest) GetLetsEncryptEmail() OptString {
 	return s.LetsEncryptEmail
 }
 
 // GetPorts returns the value of Ports.
-func (s *CreateCluster) GetPorts() []CreateLoadBalancerPort {
+func (s *CreateClusterRequest) GetPorts() []ClusterLoadBalancerPort {
 	return s.Ports
 }
 
 // GetServicePrincipalID returns the value of ServicePrincipalID.
-func (s *CreateCluster) GetServicePrincipalID() string {
+func (s *CreateClusterRequest) GetServicePrincipalID() ServicePrincipalID {
 	return s.ServicePrincipalID
 }
 
 // SetName sets the value of Name.
-func (s *CreateCluster) SetName(val string) {
+func (s *CreateClusterRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetLetsEncryptEmail sets the value of LetsEncryptEmail.
-func (s *CreateCluster) SetLetsEncryptEmail(val OptString) {
+func (s *CreateClusterRequest) SetLetsEncryptEmail(val OptString) {
 	s.LetsEncryptEmail = val
 }
 
 // SetPorts sets the value of Ports.
-func (s *CreateCluster) SetPorts(val []CreateLoadBalancerPort) {
+func (s *CreateClusterRequest) SetPorts(val []ClusterLoadBalancerPort) {
 	s.Ports = val
 }
 
 // SetServicePrincipalID sets the value of ServicePrincipalID.
-func (s *CreateCluster) SetServicePrincipalID(val string) {
+func (s *CreateClusterRequest) SetServicePrincipalID(val ServicePrincipalID) {
 	s.ServicePrincipalID = val
 }
 
 // Ref: #/components/schemas/CreateClusterResponse
 type CreateClusterResponse struct {
-	// 作成されたクラスターの情報.
-	Cluster CreatedCluster `json:"cluster"`
+	// 作成されたクラスタの情報.
+	Cluster ClusterIdentifier `json:"cluster"`
 }
 
 // GetCluster returns the value of Cluster.
-func (s *CreateClusterResponse) GetCluster() CreatedCluster {
+func (s *CreateClusterResponse) GetCluster() ClusterIdentifier {
 	return s.Cluster
 }
 
 // SetCluster sets the value of Cluster.
-func (s *CreateClusterResponse) SetCluster(val CreatedCluster) {
+func (s *CreateClusterResponse) SetCluster(val ClusterIdentifier) {
 	s.Cluster = val
 }
 
@@ -875,11 +1110,11 @@ func (s *CreateClusterResponse) SetCluster(val CreatedCluster) {
 // Ref: #/components/schemas/CreateEnvironmentVariable
 type CreateEnvironmentVariable struct {
 	Key string `json:"key"`
-	// 環境変数の値｡secret が true で､かつ value
-	// が指定されていない場合は前のバージョンの値が利用される｡.
-	Value OptString `json:"value"`
-	// 秘密情報か否か｡true の場合､value を API 等で取得することは出来ない｡.
+	// 秘密情報か否か。true の場合、value を API 等で取得することは出来ない。.
 	Secret bool `json:"secret"`
+	// 環境変数の値。secret が true で、かつ value
+	// が指定されていない場合は前のバージョンの値が利用される。.
+	Value OptEnvironmentVariableValue `json:"value"`
 }
 
 // GetKey returns the value of Key.
@@ -887,14 +1122,14 @@ func (s *CreateEnvironmentVariable) GetKey() string {
 	return s.Key
 }
 
-// GetValue returns the value of Value.
-func (s *CreateEnvironmentVariable) GetValue() OptString {
-	return s.Value
-}
-
 // GetSecret returns the value of Secret.
 func (s *CreateEnvironmentVariable) GetSecret() bool {
 	return s.Secret
+}
+
+// GetValue returns the value of Value.
+func (s *CreateEnvironmentVariable) GetValue() OptEnvironmentVariableValue {
+	return s.Value
 }
 
 // SetKey sets the value of Key.
@@ -902,240 +1137,83 @@ func (s *CreateEnvironmentVariable) SetKey(val string) {
 	s.Key = val
 }
 
-// SetValue sets the value of Value.
-func (s *CreateEnvironmentVariable) SetValue(val OptString) {
-	s.Value = val
-}
-
 // SetSecret sets the value of Secret.
 func (s *CreateEnvironmentVariable) SetSecret(val bool) {
 	s.Secret = val
 }
 
-// Ref: #/components/schemas/CreateLoadBalancer
-type CreateLoadBalancer struct {
-	// 名称.
+// SetValue sets the value of Value.
+func (s *CreateEnvironmentVariable) SetValue(val OptEnvironmentVariableValue) {
+	s.Value = val
+}
+
+// Ref: #/components/schemas/CreateLoadBalancerRequest
+type CreateLoadBalancerRequest struct {
+	// ロードバランサ名。オートスケーリンググループ内でユニーク。英数字とハイフン、アンダースコアのみ使用可能.
 	Name string `json:"name"`
-	// ロードバランサーのサービスクラスパス.
+	// ロードバランサのサービスクラスパス.
 	ServiceClassPath string `json:"serviceClassPath"`
-	// ネームサーバー設定.
-	NameServers []IPv4 `json:"nameServers"`
-	// ロードバランサーのインターフェース.
+	// ネームサーバ設定.
+	NameServers []Ipv4 `json:"nameServers"`
+	// ロードバランサのインターフェース.
 	Interfaces []LoadBalancerInterface `json:"interfaces"`
 }
 
 // GetName returns the value of Name.
-func (s *CreateLoadBalancer) GetName() string {
+func (s *CreateLoadBalancerRequest) GetName() string {
 	return s.Name
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
-func (s *CreateLoadBalancer) GetServiceClassPath() string {
+func (s *CreateLoadBalancerRequest) GetServiceClassPath() string {
 	return s.ServiceClassPath
 }
 
 // GetNameServers returns the value of NameServers.
-func (s *CreateLoadBalancer) GetNameServers() []IPv4 {
+func (s *CreateLoadBalancerRequest) GetNameServers() []Ipv4 {
 	return s.NameServers
 }
 
 // GetInterfaces returns the value of Interfaces.
-func (s *CreateLoadBalancer) GetInterfaces() []LoadBalancerInterface {
+func (s *CreateLoadBalancerRequest) GetInterfaces() []LoadBalancerInterface {
 	return s.Interfaces
 }
 
 // SetName sets the value of Name.
-func (s *CreateLoadBalancer) SetName(val string) {
+func (s *CreateLoadBalancerRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetServiceClassPath sets the value of ServiceClassPath.
-func (s *CreateLoadBalancer) SetServiceClassPath(val string) {
+func (s *CreateLoadBalancerRequest) SetServiceClassPath(val string) {
 	s.ServiceClassPath = val
 }
 
 // SetNameServers sets the value of NameServers.
-func (s *CreateLoadBalancer) SetNameServers(val []IPv4) {
+func (s *CreateLoadBalancerRequest) SetNameServers(val []Ipv4) {
 	s.NameServers = val
 }
 
 // SetInterfaces sets the value of Interfaces.
-func (s *CreateLoadBalancer) SetInterfaces(val []LoadBalancerInterface) {
+func (s *CreateLoadBalancerRequest) SetInterfaces(val []LoadBalancerInterface) {
 	s.Interfaces = val
 }
 
-// Ref: #/components/schemas/CreateLoadBalancerPort
-type CreateLoadBalancerPort struct {
-	// 外部公開するポート番号｡5950-5959は予約されているため指定不可.
-	Port uint16 `json:"port"`
-	// ポートで扱うプロトコル.
-	Protocol CreateLoadBalancerPortProtocol `json:"protocol"`
-}
-
-// GetPort returns the value of Port.
-func (s *CreateLoadBalancerPort) GetPort() uint16 {
-	return s.Port
-}
-
-// GetProtocol returns the value of Protocol.
-func (s *CreateLoadBalancerPort) GetProtocol() CreateLoadBalancerPortProtocol {
-	return s.Protocol
-}
-
-// SetPort sets the value of Port.
-func (s *CreateLoadBalancerPort) SetPort(val uint16) {
-	s.Port = val
-}
-
-// SetProtocol sets the value of Protocol.
-func (s *CreateLoadBalancerPort) SetProtocol(val CreateLoadBalancerPortProtocol) {
-	s.Protocol = val
-}
-
-// ポートで扱うプロトコル.
-type CreateLoadBalancerPortProtocol string
-
-const (
-	CreateLoadBalancerPortProtocolHTTP  CreateLoadBalancerPortProtocol = "http"
-	CreateLoadBalancerPortProtocolHTTPS CreateLoadBalancerPortProtocol = "https"
-	CreateLoadBalancerPortProtocolTCP   CreateLoadBalancerPortProtocol = "tcp"
-)
-
-// AllValues returns all CreateLoadBalancerPortProtocol values.
-func (CreateLoadBalancerPortProtocol) AllValues() []CreateLoadBalancerPortProtocol {
-	return []CreateLoadBalancerPortProtocol{
-		CreateLoadBalancerPortProtocolHTTP,
-		CreateLoadBalancerPortProtocolHTTPS,
-		CreateLoadBalancerPortProtocolTCP,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s CreateLoadBalancerPortProtocol) MarshalText() ([]byte, error) {
-	switch s {
-	case CreateLoadBalancerPortProtocolHTTP:
-		return []byte(s), nil
-	case CreateLoadBalancerPortProtocolHTTPS:
-		return []byte(s), nil
-	case CreateLoadBalancerPortProtocolTCP:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CreateLoadBalancerPortProtocol) UnmarshalText(data []byte) error {
-	switch CreateLoadBalancerPortProtocol(data) {
-	case CreateLoadBalancerPortProtocolHTTP:
-		*s = CreateLoadBalancerPortProtocolHTTP
-		return nil
-	case CreateLoadBalancerPortProtocolHTTPS:
-		*s = CreateLoadBalancerPortProtocolHTTPS
-		return nil
-	case CreateLoadBalancerPortProtocolTCP:
-		*s = CreateLoadBalancerPortProtocolTCP
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// ロードバランサーを作成するリクエスト.
+// ロードバランサの作成レスポンス.
 // Ref: #/components/schemas/CreateLoadBalancerResponse
 type CreateLoadBalancerResponse struct {
-	// 作成されたロードバランサーの情報.
-	LoadBalancer CreatedLoadBalancer `json:"loadBalancer"`
+	// 作成されたロードバランサの情報.
+	LoadBalancer LoadBalancerIdentifier `json:"loadBalancer"`
 }
 
 // GetLoadBalancer returns the value of LoadBalancer.
-func (s *CreateLoadBalancerResponse) GetLoadBalancer() CreatedLoadBalancer {
+func (s *CreateLoadBalancerResponse) GetLoadBalancer() LoadBalancerIdentifier {
 	return s.LoadBalancer
 }
 
 // SetLoadBalancer sets the value of LoadBalancer.
-func (s *CreateLoadBalancerResponse) SetLoadBalancer(val CreatedLoadBalancer) {
+func (s *CreateLoadBalancerResponse) SetLoadBalancer(val LoadBalancerIdentifier) {
 	s.LoadBalancer = val
-}
-
-// Ref: #/components/schemas/CreatedApplication
-type CreatedApplication struct {
-	// ID.
-	ApplicationID ApplicationID `json:"applicationID"`
-}
-
-// GetApplicationID returns the value of ApplicationID.
-func (s *CreatedApplication) GetApplicationID() ApplicationID {
-	return s.ApplicationID
-}
-
-// SetApplicationID sets the value of ApplicationID.
-func (s *CreatedApplication) SetApplicationID(val ApplicationID) {
-	s.ApplicationID = val
-}
-
-// Ref: #/components/schemas/CreatedAutoScalingGroup
-type CreatedAutoScalingGroup struct {
-	// ID.
-	AutoScalingGroupID AutoScalingGroupID `json:"autoScalingGroupID"`
-}
-
-// GetAutoScalingGroupID returns the value of AutoScalingGroupID.
-func (s *CreatedAutoScalingGroup) GetAutoScalingGroupID() AutoScalingGroupID {
-	return s.AutoScalingGroupID
-}
-
-// SetAutoScalingGroupID sets the value of AutoScalingGroupID.
-func (s *CreatedAutoScalingGroup) SetAutoScalingGroupID(val AutoScalingGroupID) {
-	s.AutoScalingGroupID = val
-}
-
-// Ref: #/components/schemas/CreatedCertificate
-type CreatedCertificate struct {
-	// 証明書ID.
-	CertificateID CertificateID `json:"certificateID"`
-}
-
-// GetCertificateID returns the value of CertificateID.
-func (s *CreatedCertificate) GetCertificateID() CertificateID {
-	return s.CertificateID
-}
-
-// SetCertificateID sets the value of CertificateID.
-func (s *CreatedCertificate) SetCertificateID(val CertificateID) {
-	s.CertificateID = val
-}
-
-// Ref: #/components/schemas/CreatedCluster
-type CreatedCluster struct {
-	// クラスタID.
-	ClusterID ClusterID `json:"clusterID"`
-}
-
-// GetClusterID returns the value of ClusterID.
-func (s *CreatedCluster) GetClusterID() ClusterID {
-	return s.ClusterID
-}
-
-// SetClusterID sets the value of ClusterID.
-func (s *CreatedCluster) SetClusterID(val ClusterID) {
-	s.ClusterID = val
-}
-
-// Ref: #/components/schemas/CreatedLoadBalancer
-type CreatedLoadBalancer struct {
-	// 作成されたロードバランサーのID.
-	LoadBalancerID LoadBalancerID `json:"loadBalancerID"`
-}
-
-// GetLoadBalancerID returns the value of LoadBalancerID.
-func (s *CreatedLoadBalancer) GetLoadBalancerID() LoadBalancerID {
-	return s.LoadBalancerID
-}
-
-// SetLoadBalancerID sets the value of LoadBalancerID.
-func (s *CreatedLoadBalancer) SetLoadBalancerID(val LoadBalancerID) {
-	s.LoadBalancerID = val
 }
 
 // DeleteApplicationNoContent is response for DeleteApplication operation.
@@ -1155,6 +1233,36 @@ type DeleteClusterNoContent struct{}
 
 // DeleteLoadBalancerNoContent is response for DeleteLoadBalancer operation.
 type DeleteLoadBalancerNoContent struct{}
+
+// Ref: #/components/schemas/EnoughResources
+type EnoughResources struct {
+	// CPU不足が原因でアプリケーションがデプロイできない場合はfalse。ASGスケールアウト中もfalse。nullの場合は不明。.
+	CPU NilBool `json:"cpu"`
+	// メモリ不足が原因でアプリケーションがデプロイできない場合はfalse。ASGスケールアウト中もfalse。nullの場合は不明。.
+	Memory NilBool `json:"memory"`
+}
+
+// GetCPU returns the value of CPU.
+func (s *EnoughResources) GetCPU() NilBool {
+	return s.CPU
+}
+
+// GetMemory returns the value of Memory.
+func (s *EnoughResources) GetMemory() NilBool {
+	return s.Memory
+}
+
+// SetCPU sets the value of CPU.
+func (s *EnoughResources) SetCPU(val NilBool) {
+	s.CPU = val
+}
+
+// SetMemory sets the value of Memory.
+func (s *EnoughResources) SetMemory(val NilBool) {
+	s.Memory = val
+}
+
+type EnvironmentVariableValue string
 
 // Ref: #/components/schemas/Error
 type Error struct {
@@ -1210,17 +1318,17 @@ func (s *ErrorStatusCode) SetResponse(val Error) {
 
 // Ref: #/components/schemas/ExposedPort
 type ExposedPort struct {
-	// アプリケーション内部でリッスンするポート番号｡このポートがホストでリッスンされます｡同一クラスタ内で､ポートの重複不可｡.
+	// アプリケーション内部でリッスンするポート番号。このポートがホストでリッスンされます。同一クラスタ内で、ポートの重複不可。.
 	TargetPort Port `json:"targetPort"`
-	// 公開先となるロードバランサーのポート番号。ロードバランサーに設定しない場合は
-	// null を指定する｡.
+	// 公開先となるロードバランサのポート番号。ロードバランサに設定しない場合は
+	// null を指定する。.
 	LoadBalancerPort NilPort `json:"loadBalancerPort"`
-	// Let's encrypt を利用するかどうか(https の場合のみサポート).
+	// Let's Encrypt を利用するかどうか（https の場合のみサポート）.
 	UseLetsEncrypt bool `json:"useLetsEncrypt"`
-	//  - HTTP/HTTPS のロードバランサーポートを利用する場合は 必須（1〜5件）。
+	//  - HTTP/HTTPS のロードバランサポートを利用する場合は 必須（1〜5件）。
 	//  - TCP または loadBalancerPort = null の場合は 指定不可。
-	Host []string `json:"host"`
-	// ロードバランサーがアプリケーションの正常性を確認するための設定です。ヘルスチェックが有効な場合、指定したパスにアクセスし、HTTPステータスコードが
+	Host []Hostname `json:"host"`
+	// ロードバランサがアプリケーションの正常性を確認するための設定です。ヘルスチェックが有効な場合、指定したパスにアクセスし、HTTPステータスコードが
 	// 2xx または 3xx
 	// 以外の場合は、そのノードへのトラフィックが停止されます。これにより、異常なノードへのアクセスを自動的に防止できます。.
 	HealthCheck NilHealthCheck `json:"healthCheck"`
@@ -1242,7 +1350,7 @@ func (s *ExposedPort) GetUseLetsEncrypt() bool {
 }
 
 // GetHost returns the value of Host.
-func (s *ExposedPort) GetHost() []string {
+func (s *ExposedPort) GetHost() []Hostname {
 	return s.Host
 }
 
@@ -1267,7 +1375,7 @@ func (s *ExposedPort) SetUseLetsEncrypt(val bool) {
 }
 
 // SetHost sets the value of Host.
-func (s *ExposedPort) SetHost(val []string) {
+func (s *ExposedPort) SetHost(val []Hostname) {
 	s.Host = val
 }
 
@@ -1276,158 +1384,13 @@ func (s *ExposedPort) SetHealthCheck(val NilHealthCheck) {
 	s.HealthCheck = val
 }
 
-// Ref: #/components/schemas/GetApplicationContainersResponse
-type GetApplicationContainersResponse struct {
-	// ノードごとのコンテナ配置情報リスト.
-	Nodes []NodeContainerPlacementInfo `json:"nodes"`
-}
-
-// GetNodes returns the value of Nodes.
-func (s *GetApplicationContainersResponse) GetNodes() []NodeContainerPlacementInfo {
-	return s.Nodes
-}
-
-// SetNodes sets the value of Nodes.
-func (s *GetApplicationContainersResponse) SetNodes(val []NodeContainerPlacementInfo) {
-	s.Nodes = val
-}
-
-// Ref: #/components/schemas/GetApplicationResponse
-type GetApplicationResponse struct {
-	// アプリケーションの情報.
-	Application ReadApplicationDetail `json:"application"`
-}
-
-// GetApplication returns the value of Application.
-func (s *GetApplicationResponse) GetApplication() ReadApplicationDetail {
-	return s.Application
-}
-
-// SetApplication sets the value of Application.
-func (s *GetApplicationResponse) SetApplication(val ReadApplicationDetail) {
-	s.Application = val
-}
-
-// Ref: #/components/schemas/GetApplicationVersionResponse
-type GetApplicationVersionResponse struct {
-	// アプリケーションのバージョン情報.
-	ApplicationVersion ReadApplicationVersionDetail `json:"applicationVersion"`
-}
-
-// GetApplicationVersion returns the value of ApplicationVersion.
-func (s *GetApplicationVersionResponse) GetApplicationVersion() ReadApplicationVersionDetail {
-	return s.ApplicationVersion
-}
-
-// SetApplicationVersion sets the value of ApplicationVersion.
-func (s *GetApplicationVersionResponse) SetApplicationVersion(val ReadApplicationVersionDetail) {
-	s.ApplicationVersion = val
-}
-
-// Ref: #/components/schemas/GetAutoScalingGroupResponse
-type GetAutoScalingGroupResponse struct {
-	AutoScalingGroup ReadAutoScalingGroupDetail `json:"autoScalingGroup"`
-}
-
-// GetAutoScalingGroup returns the value of AutoScalingGroup.
-func (s *GetAutoScalingGroupResponse) GetAutoScalingGroup() ReadAutoScalingGroupDetail {
-	return s.AutoScalingGroup
-}
-
-// SetAutoScalingGroup sets the value of AutoScalingGroup.
-func (s *GetAutoScalingGroupResponse) SetAutoScalingGroup(val ReadAutoScalingGroupDetail) {
-	s.AutoScalingGroup = val
-}
-
-// Ref: #/components/schemas/GetCertificateResponse
-type GetCertificateResponse struct {
-	// 証明書の情報.
-	Certificate ReadCertificate `json:"certificate"`
-}
-
-// GetCertificate returns the value of Certificate.
-func (s *GetCertificateResponse) GetCertificate() ReadCertificate {
-	return s.Certificate
-}
-
-// SetCertificate sets the value of Certificate.
-func (s *GetCertificateResponse) SetCertificate(val ReadCertificate) {
-	s.Certificate = val
-}
-
-// Ref: #/components/schemas/GetClusterResponse
-type GetClusterResponse struct {
-	// クラスターの情報.
-	Cluster ReadClusterDetail `json:"cluster"`
-}
-
-// GetCluster returns the value of Cluster.
-func (s *GetClusterResponse) GetCluster() ReadClusterDetail {
-	return s.Cluster
-}
-
-// SetCluster sets the value of Cluster.
-func (s *GetClusterResponse) SetCluster(val ReadClusterDetail) {
-	s.Cluster = val
-}
-
-// ロードバランサーノードの詳細取得レスポンス.
-// Ref: #/components/schemas/GetLoadBalancerNodeResponse
-type GetLoadBalancerNodeResponse struct {
-	// ロードバランサーノードの情報.
-	LoadBalancerNode ReadLoadBalancerNode `json:"loadBalancerNode"`
-}
-
-// GetLoadBalancerNode returns the value of LoadBalancerNode.
-func (s *GetLoadBalancerNodeResponse) GetLoadBalancerNode() ReadLoadBalancerNode {
-	return s.LoadBalancerNode
-}
-
-// SetLoadBalancerNode sets the value of LoadBalancerNode.
-func (s *GetLoadBalancerNodeResponse) SetLoadBalancerNode(val ReadLoadBalancerNode) {
-	s.LoadBalancerNode = val
-}
-
-// ロードバランサーの詳細取得レスポンス.
-// Ref: #/components/schemas/GetLoadBalancerResponse
-type GetLoadBalancerResponse struct {
-	// ロードバランサーの情報.
-	LoadBalancer ReadLoadBalancerDetail `json:"loadBalancer"`
-}
-
-// GetLoadBalancer returns the value of LoadBalancer.
-func (s *GetLoadBalancerResponse) GetLoadBalancer() ReadLoadBalancerDetail {
-	return s.LoadBalancer
-}
-
-// SetLoadBalancer sets the value of LoadBalancer.
-func (s *GetLoadBalancerResponse) SetLoadBalancer(val ReadLoadBalancerDetail) {
-	s.LoadBalancer = val
-}
-
-// Ref: #/components/schemas/GetWorkerNodeResponse
-type GetWorkerNodeResponse struct {
-	// ワーカーノードの詳細.
-	WorkerNode ReadWorkerNodeDetail `json:"workerNode"`
-}
-
-// GetWorkerNode returns the value of WorkerNode.
-func (s *GetWorkerNodeResponse) GetWorkerNode() ReadWorkerNodeDetail {
-	return s.WorkerNode
-}
-
-// SetWorkerNode sets the value of WorkerNode.
-func (s *GetWorkerNodeResponse) SetWorkerNode(val ReadWorkerNodeDetail) {
-	s.WorkerNode = val
-}
-
 // Ref: #/components/schemas/HealthCheck
 type HealthCheck struct {
 	// ヘルスチェックのパス（HTTP の場合）.
 	Path string `json:"path"`
-	// ヘルスチェックの間隔(秒).
+	// ヘルスチェックの間隔（秒）.
 	IntervalSeconds int32 `json:"intervalSeconds"`
-	// ヘルスチェックのタイムアウト.
+	// ヘルスチェックのタイムアウト（秒）.
 	TimeoutSeconds int32 `json:"timeoutSeconds"`
 }
 
@@ -1461,120 +1424,214 @@ func (s *HealthCheck) SetTimeoutSeconds(val int32) {
 	s.TimeoutSeconds = val
 }
 
-type IPv4 string
+type Hostname string
 
 // Ref: #/components/schemas/IpRange
 type IpRange struct {
-	Start IPv4 `json:"start"`
-	End   IPv4 `json:"end"`
+	Start Ipv4 `json:"start"`
+	End   Ipv4 `json:"end"`
 }
 
 // GetStart returns the value of Start.
-func (s *IpRange) GetStart() IPv4 {
+func (s *IpRange) GetStart() Ipv4 {
 	return s.Start
 }
 
 // GetEnd returns the value of End.
-func (s *IpRange) GetEnd() IPv4 {
+func (s *IpRange) GetEnd() Ipv4 {
 	return s.End
 }
 
 // SetStart sets the value of Start.
-func (s *IpRange) SetStart(val IPv4) {
+func (s *IpRange) SetStart(val Ipv4) {
 	s.Start = val
 }
 
 // SetEnd sets the value of End.
-func (s *IpRange) SetEnd(val IPv4) {
+func (s *IpRange) SetEnd(val Ipv4) {
 	s.End = val
 }
 
-// Ref: #/components/schemas/ListApplicationResponse
-type ListApplicationResponse struct {
-	// アプリケーションの一覧.
-	Applications []ReadApplicationDetail `json:"applications"`
-	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
-	NextCursor OptString `json:"nextCursor"`
+type Ipv4 string
+
+// Ref: #/components/schemas/Limit
+type Limit struct {
+	// クラスタの最大数.
+	ClusterCount int64 `json:"clusterCount"`
+	// オートスケーリンググループの最大数.
+	AutoScalingGroupCount int64 `json:"autoScalingGroupCount"`
+	// ワーカノードの最大数.
+	WorkerNodeCount int64 `json:"workerNodeCount"`
+	// ロードバランサノードの最大数.
+	LoadBalancerNodeCount int64 `json:"loadBalancerNodeCount"`
+	// アプリケーションの最大数.
+	ApplicationCount int64 `json:"applicationCount"`
+	// アプリケーションあたりのバージョンの最大数.
+	ApplicationVersionCountPerApplication int64 `json:"applicationVersionCountPerApplication"`
 }
 
-// GetApplications returns the value of Applications.
-func (s *ListApplicationResponse) GetApplications() []ReadApplicationDetail {
-	return s.Applications
+// GetClusterCount returns the value of ClusterCount.
+func (s *Limit) GetClusterCount() int64 {
+	return s.ClusterCount
 }
 
-// GetNextCursor returns the value of NextCursor.
-func (s *ListApplicationResponse) GetNextCursor() OptString {
-	return s.NextCursor
+// GetAutoScalingGroupCount returns the value of AutoScalingGroupCount.
+func (s *Limit) GetAutoScalingGroupCount() int64 {
+	return s.AutoScalingGroupCount
 }
 
-// SetApplications sets the value of Applications.
-func (s *ListApplicationResponse) SetApplications(val []ReadApplicationDetail) {
-	s.Applications = val
+// GetWorkerNodeCount returns the value of WorkerNodeCount.
+func (s *Limit) GetWorkerNodeCount() int64 {
+	return s.WorkerNodeCount
 }
 
-// SetNextCursor sets the value of NextCursor.
-func (s *ListApplicationResponse) SetNextCursor(val OptString) {
-	s.NextCursor = val
+// GetLoadBalancerNodeCount returns the value of LoadBalancerNodeCount.
+func (s *Limit) GetLoadBalancerNodeCount() int64 {
+	return s.LoadBalancerNodeCount
 }
 
-// Ref: #/components/schemas/ListApplicationVersionResponse
-type ListApplicationVersionResponse struct {
+// GetApplicationCount returns the value of ApplicationCount.
+func (s *Limit) GetApplicationCount() int64 {
+	return s.ApplicationCount
+}
+
+// GetApplicationVersionCountPerApplication returns the value of ApplicationVersionCountPerApplication.
+func (s *Limit) GetApplicationVersionCountPerApplication() int64 {
+	return s.ApplicationVersionCountPerApplication
+}
+
+// SetClusterCount sets the value of ClusterCount.
+func (s *Limit) SetClusterCount(val int64) {
+	s.ClusterCount = val
+}
+
+// SetAutoScalingGroupCount sets the value of AutoScalingGroupCount.
+func (s *Limit) SetAutoScalingGroupCount(val int64) {
+	s.AutoScalingGroupCount = val
+}
+
+// SetWorkerNodeCount sets the value of WorkerNodeCount.
+func (s *Limit) SetWorkerNodeCount(val int64) {
+	s.WorkerNodeCount = val
+}
+
+// SetLoadBalancerNodeCount sets the value of LoadBalancerNodeCount.
+func (s *Limit) SetLoadBalancerNodeCount(val int64) {
+	s.LoadBalancerNodeCount = val
+}
+
+// SetApplicationCount sets the value of ApplicationCount.
+func (s *Limit) SetApplicationCount(val int64) {
+	s.ApplicationCount = val
+}
+
+// SetApplicationVersionCountPerApplication sets the value of ApplicationVersionCountPerApplication.
+func (s *Limit) SetApplicationVersionCountPerApplication(val int64) {
+	s.ApplicationVersionCountPerApplication = val
+}
+
+// Ref: #/components/schemas/ListApplicationContainersResponse
+type ListApplicationContainersResponse struct {
+	// ノードごとのコンテナ配置情報リスト.
+	Nodes []WorkerNodeContainerPlacement `json:"nodes"`
+}
+
+// GetNodes returns the value of Nodes.
+func (s *ListApplicationContainersResponse) GetNodes() []WorkerNodeContainerPlacement {
+	return s.Nodes
+}
+
+// SetNodes sets the value of Nodes.
+func (s *ListApplicationContainersResponse) SetNodes(val []WorkerNodeContainerPlacement) {
+	s.Nodes = val
+}
+
+// Ref: #/components/schemas/ListApplicationVersionsResponse
+type ListApplicationVersionsResponse struct {
 	// アプリケーションのバージョン一覧.
-	Versions []ApplicationVersionDeploymentStatus `json:"versions"`
+	Versions []ApplicationVersionSummary `json:"versions"`
 	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
 	NextCursor OptApplicationVersionNumber `json:"nextCursor"`
 }
 
 // GetVersions returns the value of Versions.
-func (s *ListApplicationVersionResponse) GetVersions() []ApplicationVersionDeploymentStatus {
+func (s *ListApplicationVersionsResponse) GetVersions() []ApplicationVersionSummary {
 	return s.Versions
 }
 
 // GetNextCursor returns the value of NextCursor.
-func (s *ListApplicationVersionResponse) GetNextCursor() OptApplicationVersionNumber {
+func (s *ListApplicationVersionsResponse) GetNextCursor() OptApplicationVersionNumber {
 	return s.NextCursor
 }
 
 // SetVersions sets the value of Versions.
-func (s *ListApplicationVersionResponse) SetVersions(val []ApplicationVersionDeploymentStatus) {
+func (s *ListApplicationVersionsResponse) SetVersions(val []ApplicationVersionSummary) {
 	s.Versions = val
 }
 
 // SetNextCursor sets the value of NextCursor.
-func (s *ListApplicationVersionResponse) SetNextCursor(val OptApplicationVersionNumber) {
+func (s *ListApplicationVersionsResponse) SetNextCursor(val OptApplicationVersionNumber) {
 	s.NextCursor = val
 }
 
-// Ref: #/components/schemas/ListAutoScalingGroupResponse
-type ListAutoScalingGroupResponse struct {
+// Ref: #/components/schemas/ListApplicationsResponse
+type ListApplicationsResponse struct {
+	// アプリケーションの一覧.
+	Applications []ReadApplication `json:"applications"`
+	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
+	NextCursor OptApplicationID `json:"nextCursor"`
+}
+
+// GetApplications returns the value of Applications.
+func (s *ListApplicationsResponse) GetApplications() []ReadApplication {
+	return s.Applications
+}
+
+// GetNextCursor returns the value of NextCursor.
+func (s *ListApplicationsResponse) GetNextCursor() OptApplicationID {
+	return s.NextCursor
+}
+
+// SetApplications sets the value of Applications.
+func (s *ListApplicationsResponse) SetApplications(val []ReadApplication) {
+	s.Applications = val
+}
+
+// SetNextCursor sets the value of NextCursor.
+func (s *ListApplicationsResponse) SetNextCursor(val OptApplicationID) {
+	s.NextCursor = val
+}
+
+// Ref: #/components/schemas/ListAutoScalingGroupsResponse
+type ListAutoScalingGroupsResponse struct {
 	// オートスケーリンググループの一覧.
-	AutoScalingGroups []ReadAutoScalingGroupDetail `json:"autoScalingGroups"`
+	AutoScalingGroups []ReadAutoScalingGroup `json:"autoScalingGroups"`
 	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
 	NextCursor OptAutoScalingGroupID `json:"nextCursor"`
 }
 
 // GetAutoScalingGroups returns the value of AutoScalingGroups.
-func (s *ListAutoScalingGroupResponse) GetAutoScalingGroups() []ReadAutoScalingGroupDetail {
+func (s *ListAutoScalingGroupsResponse) GetAutoScalingGroups() []ReadAutoScalingGroup {
 	return s.AutoScalingGroups
 }
 
 // GetNextCursor returns the value of NextCursor.
-func (s *ListAutoScalingGroupResponse) GetNextCursor() OptAutoScalingGroupID {
+func (s *ListAutoScalingGroupsResponse) GetNextCursor() OptAutoScalingGroupID {
 	return s.NextCursor
 }
 
 // SetAutoScalingGroups sets the value of AutoScalingGroups.
-func (s *ListAutoScalingGroupResponse) SetAutoScalingGroups(val []ReadAutoScalingGroupDetail) {
+func (s *ListAutoScalingGroupsResponse) SetAutoScalingGroups(val []ReadAutoScalingGroup) {
 	s.AutoScalingGroups = val
 }
 
 // SetNextCursor sets the value of NextCursor.
-func (s *ListAutoScalingGroupResponse) SetNextCursor(val OptAutoScalingGroupID) {
+func (s *ListAutoScalingGroupsResponse) SetNextCursor(val OptAutoScalingGroupID) {
 	s.NextCursor = val
 }
 
-// Ref: #/components/schemas/ListCertificateResponse
-type ListCertificateResponse struct {
+// Ref: #/components/schemas/ListCertificatesResponse
+type ListCertificatesResponse struct {
 	// 証明書の一覧.
 	Certificates []ReadCertificate `json:"certificates"`
 	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
@@ -1582,27 +1639,27 @@ type ListCertificateResponse struct {
 }
 
 // GetCertificates returns the value of Certificates.
-func (s *ListCertificateResponse) GetCertificates() []ReadCertificate {
+func (s *ListCertificatesResponse) GetCertificates() []ReadCertificate {
 	return s.Certificates
 }
 
 // GetNextCursor returns the value of NextCursor.
-func (s *ListCertificateResponse) GetNextCursor() OptCertificateID {
+func (s *ListCertificatesResponse) GetNextCursor() OptCertificateID {
 	return s.NextCursor
 }
 
 // SetCertificates sets the value of Certificates.
-func (s *ListCertificateResponse) SetCertificates(val []ReadCertificate) {
+func (s *ListCertificatesResponse) SetCertificates(val []ReadCertificate) {
 	s.Certificates = val
 }
 
 // SetNextCursor sets the value of NextCursor.
-func (s *ListCertificateResponse) SetNextCursor(val OptCertificateID) {
+func (s *ListCertificatesResponse) SetNextCursor(val OptCertificateID) {
 	s.NextCursor = val
 }
 
-// Ref: #/components/schemas/ListClusterResponse
-type ListClusterResponse struct {
+// Ref: #/components/schemas/ListClustersResponse
+type ListClustersResponse struct {
 	// クラスタの一覧.
 	Clusters []ReadClusterSummary `json:"clusters"`
 	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
@@ -1610,52 +1667,36 @@ type ListClusterResponse struct {
 }
 
 // GetClusters returns the value of Clusters.
-func (s *ListClusterResponse) GetClusters() []ReadClusterSummary {
+func (s *ListClustersResponse) GetClusters() []ReadClusterSummary {
 	return s.Clusters
 }
 
 // GetNextCursor returns the value of NextCursor.
-func (s *ListClusterResponse) GetNextCursor() OptClusterID {
+func (s *ListClustersResponse) GetNextCursor() OptClusterID {
 	return s.NextCursor
 }
 
 // SetClusters sets the value of Clusters.
-func (s *ListClusterResponse) SetClusters(val []ReadClusterSummary) {
+func (s *ListClustersResponse) SetClusters(val []ReadClusterSummary) {
 	s.Clusters = val
 }
 
 // SetNextCursor sets the value of NextCursor.
-func (s *ListClusterResponse) SetNextCursor(val OptClusterID) {
+func (s *ListClustersResponse) SetNextCursor(val OptClusterID) {
 	s.NextCursor = val
 }
 
-// Ref: #/components/schemas/ListLbServiceClassResponse
-type ListLbServiceClassResponse struct {
-	// ロードバランサー用サービスクラスの一覧.
-	LbServiceClasses []ReadLbServiceClass `json:"lbServiceClasses"`
-}
-
-// GetLbServiceClasses returns the value of LbServiceClasses.
-func (s *ListLbServiceClassResponse) GetLbServiceClasses() []ReadLbServiceClass {
-	return s.LbServiceClasses
-}
-
-// SetLbServiceClasses sets the value of LbServiceClasses.
-func (s *ListLbServiceClassResponse) SetLbServiceClasses(val []ReadLbServiceClass) {
-	s.LbServiceClasses = val
-}
-
-// ロードバランサーノードの一覧レスポンス.
+// ロードバランサノードの一覧レスポンス.
 // Ref: #/components/schemas/ListLoadBalancerNodesResponse
 type ListLoadBalancerNodesResponse struct {
-	// ロードバランサーノードの一覧.
-	LoadBalancerNodes []ReadLoadBalancerNodeSummary `json:"loadBalancerNodes"`
+	// ロードバランサノードの一覧.
+	LoadBalancerNodes []LoadBalancerNode `json:"loadBalancerNodes"`
 	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
 	NextCursor OptLoadBalancerNodeID `json:"nextCursor"`
 }
 
 // GetLoadBalancerNodes returns the value of LoadBalancerNodes.
-func (s *ListLoadBalancerNodesResponse) GetLoadBalancerNodes() []ReadLoadBalancerNodeSummary {
+func (s *ListLoadBalancerNodesResponse) GetLoadBalancerNodes() []LoadBalancerNode {
 	return s.LoadBalancerNodes
 }
 
@@ -1665,7 +1706,7 @@ func (s *ListLoadBalancerNodesResponse) GetNextCursor() OptLoadBalancerNodeID {
 }
 
 // SetLoadBalancerNodes sets the value of LoadBalancerNodes.
-func (s *ListLoadBalancerNodesResponse) SetLoadBalancerNodes(val []ReadLoadBalancerNodeSummary) {
+func (s *ListLoadBalancerNodesResponse) SetLoadBalancerNodes(val []LoadBalancerNode) {
 	s.LoadBalancerNodes = val
 }
 
@@ -1674,10 +1715,26 @@ func (s *ListLoadBalancerNodesResponse) SetNextCursor(val OptLoadBalancerNodeID)
 	s.NextCursor = val
 }
 
-// ロードバランサーの一覧レスポンス.
+// Ref: #/components/schemas/ListLoadBalancerServiceClassesResponse
+type ListLoadBalancerServiceClassesResponse struct {
+	// ロードバランササービスクラスの一覧.
+	LbServiceClasses []LoadBalancerServiceClass `json:"lbServiceClasses"`
+}
+
+// GetLbServiceClasses returns the value of LbServiceClasses.
+func (s *ListLoadBalancerServiceClassesResponse) GetLbServiceClasses() []LoadBalancerServiceClass {
+	return s.LbServiceClasses
+}
+
+// SetLbServiceClasses sets the value of LbServiceClasses.
+func (s *ListLoadBalancerServiceClassesResponse) SetLbServiceClasses(val []LoadBalancerServiceClass) {
+	s.LbServiceClasses = val
+}
+
+// ロードバランサの一覧レスポンス.
 // Ref: #/components/schemas/ListLoadBalancersResponse
 type ListLoadBalancersResponse struct {
-	// ロードバランサーの一覧.
+	// ロードバランサの一覧.
 	LoadBalancers []ReadLoadBalancerSummary `json:"loadBalancers"`
 	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
 	NextCursor OptLoadBalancerID `json:"nextCursor"`
@@ -1705,14 +1762,14 @@ func (s *ListLoadBalancersResponse) SetNextCursor(val OptLoadBalancerID) {
 
 // Ref: #/components/schemas/ListWorkerNodesResponse
 type ListWorkerNodesResponse struct {
-	// ワーカーノードの一覧.
-	WorkerNodes []ReadWorkerNodeSummary `json:"workerNodes"`
+	// ワーカノードの一覧.
+	WorkerNodes []WorkerNodeSummary `json:"workerNodes"`
 	// 次ページのカーソル。次のリクエストでcursorとして指定する。データが残っていなければnull。.
 	NextCursor OptWorkerNodeID `json:"nextCursor"`
 }
 
 // GetWorkerNodes returns the value of WorkerNodes.
-func (s *ListWorkerNodesResponse) GetWorkerNodes() []ReadWorkerNodeSummary {
+func (s *ListWorkerNodesResponse) GetWorkerNodes() []WorkerNodeSummary {
 	return s.WorkerNodes
 }
 
@@ -1722,7 +1779,7 @@ func (s *ListWorkerNodesResponse) GetNextCursor() OptWorkerNodeID {
 }
 
 // SetWorkerNodes sets the value of WorkerNodes.
-func (s *ListWorkerNodesResponse) SetWorkerNodes(val []ReadWorkerNodeSummary) {
+func (s *ListWorkerNodesResponse) SetWorkerNodes(val []WorkerNodeSummary) {
 	s.WorkerNodes = val
 }
 
@@ -1731,45 +1788,61 @@ func (s *ListWorkerNodesResponse) SetNextCursor(val OptWorkerNodeID) {
 	s.NextCursor = val
 }
 
-// Ref: #/components/schemas/ListWorkerServiceClassResponse
-type ListWorkerServiceClassResponse struct {
-	// ワーカー用サービスクラスの一覧.
-	WorkerServiceClasses []ReadWorkerServiceClass `json:"workerServiceClasses"`
+// Ref: #/components/schemas/ListWorkerServiceClassesResponse
+type ListWorkerServiceClassesResponse struct {
+	// ワーカノードサービスクラスの一覧.
+	WorkerServiceClasses []WorkerServiceClass `json:"workerServiceClasses"`
 }
 
 // GetWorkerServiceClasses returns the value of WorkerServiceClasses.
-func (s *ListWorkerServiceClassResponse) GetWorkerServiceClasses() []ReadWorkerServiceClass {
+func (s *ListWorkerServiceClassesResponse) GetWorkerServiceClasses() []WorkerServiceClass {
 	return s.WorkerServiceClasses
 }
 
 // SetWorkerServiceClasses sets the value of WorkerServiceClasses.
-func (s *ListWorkerServiceClassResponse) SetWorkerServiceClasses(val []ReadWorkerServiceClass) {
+func (s *ListWorkerServiceClassesResponse) SetWorkerServiceClasses(val []WorkerServiceClass) {
 	s.WorkerServiceClasses = val
 }
 
 type LoadBalancerID uuid.UUID
 
+// Ref: #/components/schemas/LoadBalancerIdentifier
+type LoadBalancerIdentifier struct {
+	// ロードバランサID.
+	LoadBalancerID LoadBalancerID `json:"loadBalancerID"`
+}
+
+// GetLoadBalancerID returns the value of LoadBalancerID.
+func (s *LoadBalancerIdentifier) GetLoadBalancerID() LoadBalancerID {
+	return s.LoadBalancerID
+}
+
+// SetLoadBalancerID sets the value of LoadBalancerID.
+func (s *LoadBalancerIdentifier) SetLoadBalancerID(val LoadBalancerID) {
+	s.LoadBalancerID = val
+}
+
 // Ref: #/components/schemas/LoadBalancerInterface
 type LoadBalancerInterface struct {
-	// 例: eth0→0, eth1→1, eth2→2。0は必須｡重複不可｡.
+	// 例：eth0→0、eth1→1、eth2→2。0は必須。重複不可。.
 	InterfaceIndex int16 `json:"interfaceIndex"`
-	// 接続先 switch.
+	// 接続先スイッチ.
 	Upstream string `json:"upstream"`
 	// アップストリームが 'shared'
-	// の場合､指定できません｡それ以外のときは必須です｡.
+	// の場合、指定できません。それ以外のときは必須です。.
 	IpPool []IpRange `json:"ipPool"`
 	// アップストリームが 'shared'
-	// の場合､指定できません｡それ以外のときは必須です｡.
+	// の場合、指定できません。それ以外のときは必須です。.
 	NetmaskLen OptInt16 `json:"netmaskLen"`
-	// アップストリームが 'shared' の場合､指定できません｡.
+	// アップストリームが 'shared' の場合、指定できません。.
 	DefaultGateway OptString `json:"defaultGateway"`
-	// アップストリームが 'shared' の場合､指定できません｡.
+	// アップストリームが 'shared' の場合、指定できません。.
 	Vip OptString `json:"vip"`
-	// アップストリームが 'shared' の場合､指定できません｡1-255
-	// の値を指定します｡ロードバランサーの VIP
-	// を指定した場合は､virtualRouterID の入力は必須です｡.
+	// アップストリームが 'shared' の場合、指定できません。1-255
+	// の値を指定します。ロードバランサの VIP を指定した場合は、virtualRouterID
+	// の入力は必須です。.
 	VirtualRouterID OptInt16 `json:"virtualRouterID"`
-	// パケットフィルターid.
+	// パケットフィルターID.
 	PacketFilterID OptString `json:"packetFilterID"`
 }
 
@@ -1853,9 +1926,153 @@ func (s *LoadBalancerInterface) SetPacketFilterID(val OptString) {
 	s.PacketFilterID = val
 }
 
+// Ref: #/components/schemas/LoadBalancerNode
+type LoadBalancerNode struct {
+	// ID.
+	LoadBalancerNodeID LoadBalancerNodeID `json:"loadBalancerNodeID"`
+	// リソースID.
+	ResourceID NilString `json:"resourceID"`
+	// ノードの状態.
+	Status LoadBalancerNodeStatus `json:"status"`
+	// インターフェース情報.
+	Interfaces []LoadBalancerNodeInterface `json:"interfaces"`
+	// ノードにインストールされているアーカイブのバージョン.
+	ArchiveVersion OptString `json:"archiveVersion"`
+	// ノードの作成に関するエラーメッセージ.
+	CreateErrorMessage OptString `json:"createErrorMessage"`
+	// 作成日時：UNIX時間（秒）.
+	Created int `json:"created"`
+}
+
+// GetLoadBalancerNodeID returns the value of LoadBalancerNodeID.
+func (s *LoadBalancerNode) GetLoadBalancerNodeID() LoadBalancerNodeID {
+	return s.LoadBalancerNodeID
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *LoadBalancerNode) GetResourceID() NilString {
+	return s.ResourceID
+}
+
+// GetStatus returns the value of Status.
+func (s *LoadBalancerNode) GetStatus() LoadBalancerNodeStatus {
+	return s.Status
+}
+
+// GetInterfaces returns the value of Interfaces.
+func (s *LoadBalancerNode) GetInterfaces() []LoadBalancerNodeInterface {
+	return s.Interfaces
+}
+
+// GetArchiveVersion returns the value of ArchiveVersion.
+func (s *LoadBalancerNode) GetArchiveVersion() OptString {
+	return s.ArchiveVersion
+}
+
+// GetCreateErrorMessage returns the value of CreateErrorMessage.
+func (s *LoadBalancerNode) GetCreateErrorMessage() OptString {
+	return s.CreateErrorMessage
+}
+
+// GetCreated returns the value of Created.
+func (s *LoadBalancerNode) GetCreated() int {
+	return s.Created
+}
+
+// SetLoadBalancerNodeID sets the value of LoadBalancerNodeID.
+func (s *LoadBalancerNode) SetLoadBalancerNodeID(val LoadBalancerNodeID) {
+	s.LoadBalancerNodeID = val
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *LoadBalancerNode) SetResourceID(val NilString) {
+	s.ResourceID = val
+}
+
+// SetStatus sets the value of Status.
+func (s *LoadBalancerNode) SetStatus(val LoadBalancerNodeStatus) {
+	s.Status = val
+}
+
+// SetInterfaces sets the value of Interfaces.
+func (s *LoadBalancerNode) SetInterfaces(val []LoadBalancerNodeInterface) {
+	s.Interfaces = val
+}
+
+// SetArchiveVersion sets the value of ArchiveVersion.
+func (s *LoadBalancerNode) SetArchiveVersion(val OptString) {
+	s.ArchiveVersion = val
+}
+
+// SetCreateErrorMessage sets the value of CreateErrorMessage.
+func (s *LoadBalancerNode) SetCreateErrorMessage(val OptString) {
+	s.CreateErrorMessage = val
+}
+
+// SetCreated sets the value of Created.
+func (s *LoadBalancerNode) SetCreated(val int) {
+	s.Created = val
+}
+
 type LoadBalancerNodeID uuid.UUID
 
-// ロードバランサーノードの状態を表す列挙型.
+// Ref: #/components/schemas/LoadBalancerNodeInterface
+type LoadBalancerNodeInterface struct {
+	// インターフェース番号。eth0 なら 0。eth1 なら 1。.
+	InterfaceIndex int16 `json:"interfaceIndex"`
+	// ロードバランサノードのアドレス.
+	Addresses []LoadBalancerNodeInterfaceAddress `json:"addresses"`
+}
+
+// GetInterfaceIndex returns the value of InterfaceIndex.
+func (s *LoadBalancerNodeInterface) GetInterfaceIndex() int16 {
+	return s.InterfaceIndex
+}
+
+// GetAddresses returns the value of Addresses.
+func (s *LoadBalancerNodeInterface) GetAddresses() []LoadBalancerNodeInterfaceAddress {
+	return s.Addresses
+}
+
+// SetInterfaceIndex sets the value of InterfaceIndex.
+func (s *LoadBalancerNodeInterface) SetInterfaceIndex(val int16) {
+	s.InterfaceIndex = val
+}
+
+// SetAddresses sets the value of Addresses.
+func (s *LoadBalancerNodeInterface) SetAddresses(val []LoadBalancerNodeInterfaceAddress) {
+	s.Addresses = val
+}
+
+// Ref: #/components/schemas/LoadBalancerNodeInterfaceAddress
+type LoadBalancerNodeInterfaceAddress struct {
+	// アドレス.
+	Address string `json:"address"`
+	// VIPかどうか.
+	Vip bool `json:"vip"`
+}
+
+// GetAddress returns the value of Address.
+func (s *LoadBalancerNodeInterfaceAddress) GetAddress() string {
+	return s.Address
+}
+
+// GetVip returns the value of Vip.
+func (s *LoadBalancerNodeInterfaceAddress) GetVip() bool {
+	return s.Vip
+}
+
+// SetAddress sets the value of Address.
+func (s *LoadBalancerNodeInterfaceAddress) SetAddress(val string) {
+	s.Address = val
+}
+
+// SetVip sets the value of Vip.
+func (s *LoadBalancerNodeInterfaceAddress) SetVip(val bool) {
+	s.Vip = val
+}
+
+// ロードバランサノードの状態を表す列挙型.
 // Ref: #/components/schemas/LoadBalancerNodeStatus
 type LoadBalancerNodeStatus string
 
@@ -1912,37 +2129,77 @@ func (s *LoadBalancerNodeStatus) UnmarshalText(data []byte) error {
 	}
 }
 
-// NewNilApplicationContainersStats returns new NilApplicationContainersStats with value set to v.
-func NewNilApplicationContainersStats(v ApplicationContainersStats) NilApplicationContainersStats {
-	return NilApplicationContainersStats{
+// Ref: #/components/schemas/LoadBalancerServiceClass
+type LoadBalancerServiceClass struct {
+	// サービスクラスのパス.
+	Path string `json:"path"`
+	// 割り当てられるノード数.
+	NodeCount int16 `json:"nodeCount"`
+	// サービスクラスの名前.
+	Name string `json:"name"`
+}
+
+// GetPath returns the value of Path.
+func (s *LoadBalancerServiceClass) GetPath() string {
+	return s.Path
+}
+
+// GetNodeCount returns the value of NodeCount.
+func (s *LoadBalancerServiceClass) GetNodeCount() int16 {
+	return s.NodeCount
+}
+
+// GetName returns the value of Name.
+func (s *LoadBalancerServiceClass) GetName() string {
+	return s.Name
+}
+
+// SetPath sets the value of Path.
+func (s *LoadBalancerServiceClass) SetPath(val string) {
+	s.Path = val
+}
+
+// SetNodeCount sets the value of NodeCount.
+func (s *LoadBalancerServiceClass) SetNodeCount(val int16) {
+	s.NodeCount = val
+}
+
+// SetName sets the value of Name.
+func (s *LoadBalancerServiceClass) SetName(val string) {
+	s.Name = val
+}
+
+// NewNilApplicationCurrentContainers returns new NilApplicationCurrentContainers with value set to v.
+func NewNilApplicationCurrentContainers(v ApplicationCurrentContainers) NilApplicationCurrentContainers {
+	return NilApplicationCurrentContainers{
 		Value: v,
 	}
 }
 
-// NilApplicationContainersStats is nullable ApplicationContainersStats.
-type NilApplicationContainersStats struct {
-	Value ApplicationContainersStats
+// NilApplicationCurrentContainers is nullable ApplicationCurrentContainers.
+type NilApplicationCurrentContainers struct {
+	Value ApplicationCurrentContainers
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilApplicationContainersStats) SetTo(v ApplicationContainersStats) {
+func (o *NilApplicationCurrentContainers) SetTo(v ApplicationCurrentContainers) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o NilApplicationContainersStats) IsNull() bool { return o.Null }
+func (o NilApplicationCurrentContainers) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *NilApplicationContainersStats) SetToNull() {
+func (o *NilApplicationCurrentContainers) SetToNull() {
 	o.Null = true
-	var v ApplicationContainersStats
+	var v ApplicationCurrentContainers
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilApplicationContainersStats) Get() (v ApplicationContainersStats, ok bool) {
+func (o NilApplicationCurrentContainers) Get() (v ApplicationCurrentContainers, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -1950,44 +2207,44 @@ func (o NilApplicationContainersStats) Get() (v ApplicationContainersStats, ok b
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilApplicationContainersStats) Or(d ApplicationContainersStats) ApplicationContainersStats {
+func (o NilApplicationCurrentContainers) Or(d ApplicationCurrentContainers) ApplicationCurrentContainers {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewNilApplicationPeekDesiredContainersResponse returns new NilApplicationPeekDesiredContainersResponse with value set to v.
-func NewNilApplicationPeekDesiredContainersResponse(v ApplicationPeekDesiredContainersResponse) NilApplicationPeekDesiredContainersResponse {
-	return NilApplicationPeekDesiredContainersResponse{
+// NewNilApplicationDesiredContainers returns new NilApplicationDesiredContainers with value set to v.
+func NewNilApplicationDesiredContainers(v ApplicationDesiredContainers) NilApplicationDesiredContainers {
+	return NilApplicationDesiredContainers{
 		Value: v,
 	}
 }
 
-// NilApplicationPeekDesiredContainersResponse is nullable ApplicationPeekDesiredContainersResponse.
-type NilApplicationPeekDesiredContainersResponse struct {
-	Value ApplicationPeekDesiredContainersResponse
+// NilApplicationDesiredContainers is nullable ApplicationDesiredContainers.
+type NilApplicationDesiredContainers struct {
+	Value ApplicationDesiredContainers
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilApplicationPeekDesiredContainersResponse) SetTo(v ApplicationPeekDesiredContainersResponse) {
+func (o *NilApplicationDesiredContainers) SetTo(v ApplicationDesiredContainers) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o NilApplicationPeekDesiredContainersResponse) IsNull() bool { return o.Null }
+func (o NilApplicationDesiredContainers) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *NilApplicationPeekDesiredContainersResponse) SetToNull() {
+func (o *NilApplicationDesiredContainers) SetToNull() {
 	o.Null = true
-	var v ApplicationPeekDesiredContainersResponse
+	var v ApplicationDesiredContainers
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilApplicationPeekDesiredContainersResponse) Get() (v ApplicationPeekDesiredContainersResponse, ok bool) {
+func (o NilApplicationDesiredContainers) Get() (v ApplicationDesiredContainers, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -1995,7 +2252,142 @@ func (o NilApplicationPeekDesiredContainersResponse) Get() (v ApplicationPeekDes
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilApplicationPeekDesiredContainersResponse) Or(d ApplicationPeekDesiredContainersResponse) ApplicationPeekDesiredContainersResponse {
+func (o NilApplicationDesiredContainers) Or(d ApplicationDesiredContainers) ApplicationDesiredContainers {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilApplicationVersionNumber returns new NilApplicationVersionNumber with value set to v.
+func NewNilApplicationVersionNumber(v ApplicationVersionNumber) NilApplicationVersionNumber {
+	return NilApplicationVersionNumber{
+		Value: v,
+	}
+}
+
+// NilApplicationVersionNumber is nullable ApplicationVersionNumber.
+type NilApplicationVersionNumber struct {
+	Value ApplicationVersionNumber
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilApplicationVersionNumber) SetTo(v ApplicationVersionNumber) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilApplicationVersionNumber) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilApplicationVersionNumber) SetToNull() {
+	o.Null = true
+	var v ApplicationVersionNumber
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilApplicationVersionNumber) Get() (v ApplicationVersionNumber, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilApplicationVersionNumber) Or(d ApplicationVersionNumber) ApplicationVersionNumber {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilBool returns new NilBool with value set to v.
+func NewNilBool(v bool) NilBool {
+	return NilBool{
+		Value: v,
+	}
+}
+
+// NilBool is nullable bool.
+type NilBool struct {
+	Value bool
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilBool) SetTo(v bool) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilBool) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilBool) SetToNull() {
+	o.Null = true
+	var v bool
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilBool) Get() (v bool, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilBool) Or(d bool) bool {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilEnvironmentVariableValue returns new NilEnvironmentVariableValue with value set to v.
+func NewNilEnvironmentVariableValue(v EnvironmentVariableValue) NilEnvironmentVariableValue {
+	return NilEnvironmentVariableValue{
+		Value: v,
+	}
+}
+
+// NilEnvironmentVariableValue is nullable EnvironmentVariableValue.
+type NilEnvironmentVariableValue struct {
+	Value EnvironmentVariableValue
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilEnvironmentVariableValue) SetTo(v EnvironmentVariableValue) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o NilEnvironmentVariableValue) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *NilEnvironmentVariableValue) SetToNull() {
+	o.Null = true
+	var v EnvironmentVariableValue
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilEnvironmentVariableValue) Get() (v EnvironmentVariableValue, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilEnvironmentVariableValue) Or(d EnvironmentVariableValue) EnvironmentVariableValue {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -2182,44 +2574,50 @@ func (o NilString) Or(d string) string {
 	return d
 }
 
-// Ref: #/components/schemas/NodeContainerPlacementInfo
-type NodeContainerPlacementInfo struct {
-	// ノードID.
-	NodeID string `json:"nodeID"`
-	// 現在配置されているコンテナ情報.
-	ContainersStats NilApplicationContainersStats `json:"containersStats"`
-	// Desired(目標配置)情報.
-	Desired NilApplicationPeekDesiredContainersResponse `json:"desired"`
+// NewOptApplicationID returns new OptApplicationID with value set to v.
+func NewOptApplicationID(v ApplicationID) OptApplicationID {
+	return OptApplicationID{
+		Value: v,
+		Set:   true,
+	}
 }
 
-// GetNodeID returns the value of NodeID.
-func (s *NodeContainerPlacementInfo) GetNodeID() string {
-	return s.NodeID
+// OptApplicationID is optional ApplicationID.
+type OptApplicationID struct {
+	Value ApplicationID
+	Set   bool
 }
 
-// GetContainersStats returns the value of ContainersStats.
-func (s *NodeContainerPlacementInfo) GetContainersStats() NilApplicationContainersStats {
-	return s.ContainersStats
+// IsSet returns true if OptApplicationID was set.
+func (o OptApplicationID) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptApplicationID) Reset() {
+	var v ApplicationID
+	o.Value = v
+	o.Set = false
 }
 
-// GetDesired returns the value of Desired.
-func (s *NodeContainerPlacementInfo) GetDesired() NilApplicationPeekDesiredContainersResponse {
-	return s.Desired
+// SetTo sets value to v.
+func (o *OptApplicationID) SetTo(v ApplicationID) {
+	o.Set = true
+	o.Value = v
 }
 
-// SetNodeID sets the value of NodeID.
-func (s *NodeContainerPlacementInfo) SetNodeID(val string) {
-	s.NodeID = val
+// Get returns value and boolean that denotes whether value was set.
+func (o OptApplicationID) Get() (v ApplicationID, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
 }
 
-// SetContainersStats sets the value of ContainersStats.
-func (s *NodeContainerPlacementInfo) SetContainersStats(val NilApplicationContainersStats) {
-	s.ContainersStats = val
-}
-
-// SetDesired sets the value of Desired.
-func (s *NodeContainerPlacementInfo) SetDesired(val NilApplicationPeekDesiredContainersResponse) {
-	s.Desired = val
+// Or returns value if set, or given parameter if does not.
+func (o OptApplicationID) Or(d ApplicationID) ApplicationID {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
 }
 
 // NewOptApplicationVersionNumber returns new OptApplicationVersionNumber with value set to v.
@@ -2400,6 +2798,52 @@ func (o OptClusterID) Get() (v ClusterID, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptClusterID) Or(d ClusterID) ClusterID {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentVariableValue returns new OptEnvironmentVariableValue with value set to v.
+func NewOptEnvironmentVariableValue(v EnvironmentVariableValue) OptEnvironmentVariableValue {
+	return OptEnvironmentVariableValue{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentVariableValue is optional EnvironmentVariableValue.
+type OptEnvironmentVariableValue struct {
+	Value EnvironmentVariableValue
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentVariableValue was set.
+func (o OptEnvironmentVariableValue) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentVariableValue) Reset() {
+	var v EnvironmentVariableValue
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentVariableValue) SetTo(v EnvironmentVariableValue) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentVariableValue) Get() (v EnvironmentVariableValue, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentVariableValue) Or(d EnvironmentVariableValue) EnvironmentVariableValue {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -2590,6 +3034,74 @@ func (o OptLoadBalancerNodeID) Or(d LoadBalancerNodeID) LoadBalancerNodeID {
 	return d
 }
 
+// NewOptNilString returns new OptNilString with value set to v.
+func NewOptNilString(v string) OptNilString {
+	return OptNilString{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilString is optional nullable string.
+type OptNilString struct {
+	Value string
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilString was set.
+func (o OptNilString) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilString) Reset() {
+	var v string
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilString) SetTo(v string) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsNull returns true if value is Null.
+func (o OptNilString) IsNull() bool { return o.Null }
+
+// SetToNull sets value to null.
+func (o *OptNilString) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v string
+	o.Value = v
+}
+
+// IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
+func (o OptNilString) IsEmpty() bool {
+	return !o.Set && !o.Null
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilString) Get() (v string, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilString) Or(d string) string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptString returns new OptString with value set to v.
 func NewOptString(v string) OptString {
 	return OptString{
@@ -2682,453 +3194,533 @@ func (o OptWorkerNodeID) Or(d WorkerNodeID) WorkerNodeID {
 	return d
 }
 
+// PatchClusterLoadBalancerNoContent is response for PatchClusterLoadBalancer operation.
+type PatchClusterLoadBalancerNoContent struct{}
+
+// Ref: #/components/schemas/PatchClusterLoadBalancerRequest
+type PatchClusterLoadBalancerRequest struct {
+	// Let's Encrypt
+	// による証明書発行を有効にするにはここにメールアドレスを設定します。
+	// Let's Encrypt による証明書発行は HTTP-01 チャレンジになるため、80
+	// 番ポートを HTTPプロトコルで外向きに解放する必要があります。.
+	LetsEncryptEmail OptNilString `json:"letsEncryptEmail"`
+	// ロードバランサのポート群.
+	Ports []ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly `json:"ports"`
+}
+
+// GetLetsEncryptEmail returns the value of LetsEncryptEmail.
+func (s *PatchClusterLoadBalancerRequest) GetLetsEncryptEmail() OptNilString {
+	return s.LetsEncryptEmail
+}
+
+// GetPorts returns the value of Ports.
+func (s *PatchClusterLoadBalancerRequest) GetPorts() []ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly {
+	return s.Ports
+}
+
+// SetLetsEncryptEmail sets the value of LetsEncryptEmail.
+func (s *PatchClusterLoadBalancerRequest) SetLetsEncryptEmail(val OptNilString) {
+	s.LetsEncryptEmail = val
+}
+
+// SetPorts sets the value of Ports.
+func (s *PatchClusterLoadBalancerRequest) SetPorts(val []ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly) {
+	s.Ports = val
+}
+
 type Port uint16
 
-// Ref: #/components/schemas/ReadApplicationDetail
-type ReadApplicationDetail struct {
+// アプリケーション.
+// Ref: #/components/schemas/ReadApplication
+type ReadApplication struct {
 	// ID.
 	ApplicationID ApplicationID `json:"applicationID"`
-	// アプリケーションの名前｡クラスタの中ではユニーク｡英数字とハイフン、アンダースコアのみ使用可能.
+	// アプリケーションの名前。クラスタの中ではユニーク。英数字とハイフン、アンダースコアのみ使用可能.
 	Name string `json:"name"`
 	// デプロイ先クラスタ.
 	ClusterID ClusterID `json:"clusterID"`
 	// クラスタ名.
 	ClusterName string `json:"clusterName"`
 	// 利用しているバージョン.
-	ActiveVersion NilInt32 `json:"activeVersion"`
-	// デプロイされているべきコンテナ数｡active_versionが未指定の場合は null｡.
+	ActiveVersion NilApplicationVersionNumber `json:"activeVersion"`
+	// デプロイされているべきコンテナ数。activeVersionが未指定の場合はnull。.
 	DesiredCount NilInt32 `json:"desiredCount"`
-	// スケーリングのクールダウン時間(秒).
+	// スケーリングのクールダウン時間（秒）.
 	ScalingCooldownSeconds int32 `json:"scalingCooldownSeconds"`
+	// アプリケーションをデプロイするクラスタのリソースが十分かどうか.
+	EnoughResources EnoughResources `json:"enoughResources"`
 }
 
 // GetApplicationID returns the value of ApplicationID.
-func (s *ReadApplicationDetail) GetApplicationID() ApplicationID {
+func (s *ReadApplication) GetApplicationID() ApplicationID {
 	return s.ApplicationID
 }
 
 // GetName returns the value of Name.
-func (s *ReadApplicationDetail) GetName() string {
+func (s *ReadApplication) GetName() string {
 	return s.Name
 }
 
 // GetClusterID returns the value of ClusterID.
-func (s *ReadApplicationDetail) GetClusterID() ClusterID {
+func (s *ReadApplication) GetClusterID() ClusterID {
 	return s.ClusterID
 }
 
 // GetClusterName returns the value of ClusterName.
-func (s *ReadApplicationDetail) GetClusterName() string {
+func (s *ReadApplication) GetClusterName() string {
 	return s.ClusterName
 }
 
 // GetActiveVersion returns the value of ActiveVersion.
-func (s *ReadApplicationDetail) GetActiveVersion() NilInt32 {
+func (s *ReadApplication) GetActiveVersion() NilApplicationVersionNumber {
 	return s.ActiveVersion
 }
 
 // GetDesiredCount returns the value of DesiredCount.
-func (s *ReadApplicationDetail) GetDesiredCount() NilInt32 {
+func (s *ReadApplication) GetDesiredCount() NilInt32 {
 	return s.DesiredCount
 }
 
 // GetScalingCooldownSeconds returns the value of ScalingCooldownSeconds.
-func (s *ReadApplicationDetail) GetScalingCooldownSeconds() int32 {
+func (s *ReadApplication) GetScalingCooldownSeconds() int32 {
 	return s.ScalingCooldownSeconds
 }
 
+// GetEnoughResources returns the value of EnoughResources.
+func (s *ReadApplication) GetEnoughResources() EnoughResources {
+	return s.EnoughResources
+}
+
 // SetApplicationID sets the value of ApplicationID.
-func (s *ReadApplicationDetail) SetApplicationID(val ApplicationID) {
+func (s *ReadApplication) SetApplicationID(val ApplicationID) {
 	s.ApplicationID = val
 }
 
 // SetName sets the value of Name.
-func (s *ReadApplicationDetail) SetName(val string) {
+func (s *ReadApplication) SetName(val string) {
 	s.Name = val
 }
 
 // SetClusterID sets the value of ClusterID.
-func (s *ReadApplicationDetail) SetClusterID(val ClusterID) {
+func (s *ReadApplication) SetClusterID(val ClusterID) {
 	s.ClusterID = val
 }
 
 // SetClusterName sets the value of ClusterName.
-func (s *ReadApplicationDetail) SetClusterName(val string) {
+func (s *ReadApplication) SetClusterName(val string) {
 	s.ClusterName = val
 }
 
 // SetActiveVersion sets the value of ActiveVersion.
-func (s *ReadApplicationDetail) SetActiveVersion(val NilInt32) {
+func (s *ReadApplication) SetActiveVersion(val NilApplicationVersionNumber) {
 	s.ActiveVersion = val
 }
 
 // SetDesiredCount sets the value of DesiredCount.
-func (s *ReadApplicationDetail) SetDesiredCount(val NilInt32) {
+func (s *ReadApplication) SetDesiredCount(val NilInt32) {
 	s.DesiredCount = val
 }
 
 // SetScalingCooldownSeconds sets the value of ScalingCooldownSeconds.
-func (s *ReadApplicationDetail) SetScalingCooldownSeconds(val int32) {
+func (s *ReadApplication) SetScalingCooldownSeconds(val int32) {
 	s.ScalingCooldownSeconds = val
 }
 
-// Ref: #/components/schemas/ReadApplicationVersionDetail
-type ReadApplicationVersionDetail struct {
-	Version           ApplicationVersionNumber `json:"version"`
-	CPU               int64                    `json:"cpu"`
-	Memory            int64                    `json:"memory"`
-	ScalingMode       ScalingMode              `json:"scalingMode"`
-	FixedScale        OptInt32                 `json:"fixedScale"`
-	MinScale          OptInt32                 `json:"minScale"`
-	MaxScale          OptInt32                 `json:"maxScale"`
-	ScaleInThreshold  OptInt32                 `json:"scaleInThreshold"`
-	ScaleOutThreshold OptInt32                 `json:"scaleOutThreshold"`
-	Image             string                   `json:"image"`
-	// コンテナ起動時に実行するコマンドと引数.
-	Cmd              []string  `json:"cmd"`
-	RegistryUsername NilString `json:"registryUsername"`
-	RegistryPassword NilString `json:"registryPassword"`
+// SetEnoughResources sets the value of EnoughResources.
+func (s *ReadApplication) SetEnoughResources(val EnoughResources) {
+	s.EnoughResources = val
+}
+
+// Ref: #/components/schemas/ReadApplicationResponse
+type ReadApplicationResponse struct {
+	// アプリケーションの情報.
+	Application ReadApplication `json:"application"`
+}
+
+// GetApplication returns the value of Application.
+func (s *ReadApplicationResponse) GetApplication() ReadApplication {
+	return s.Application
+}
+
+// SetApplication sets the value of Application.
+func (s *ReadApplicationResponse) SetApplication(val ReadApplication) {
+	s.Application = val
+}
+
+// Ref: #/components/schemas/ReadApplicationVersion
+type ReadApplicationVersion struct {
+	Version ApplicationVersionNumber `json:"version"`
+	Image   string                   `json:"image"`
 	// 現在動いているノードの数.
 	ActiveNodeCount int64 `json:"activeNodeCount"`
-	// アプリケーションバージョン作成日時(unixTime in seconds).
-	Created int `json:"created"`
-	// アプリケーションが公開するポート番号｡同一クラスタ内で､ポートの重複不可｡.
+	// アプリケーションバージョン作成日時：UNIX時間（秒）.
+	Created           int         `json:"created"`
+	CPU               int64       `json:"cpu"`
+	Memory            int64       `json:"memory"`
+	ScalingMode       ScalingMode `json:"scalingMode"`
+	FixedScale        OptInt32    `json:"fixedScale"`
+	MinScale          OptInt32    `json:"minScale"`
+	MaxScale          OptInt32    `json:"maxScale"`
+	ScaleInThreshold  OptInt32    `json:"scaleInThreshold"`
+	ScaleOutThreshold OptInt32    `json:"scaleOutThreshold"`
+	// コンテナ起動時に実行するコマンドと引数.
+	Cmd []string `json:"cmd"`
+	// レジストリのユーザ名。未設定の場合はnull。.
+	RegistryUsername NilString `json:"registryUsername"`
+	// レジストリのパスワード。レスポンスではマスクされる。未設定の場合はnull。.
+	RegistryPassword NilString `json:"registryPassword"`
+	// アプリケーションが公開するポート番号。同一クラスタ内で、ポートの重複不可。.
 	ExposedPorts []ExposedPort `json:"exposedPorts"`
 	// 環境変数.
 	Env []ReadEnvironmentVariable `json:"env"`
 }
 
 // GetVersion returns the value of Version.
-func (s *ReadApplicationVersionDetail) GetVersion() ApplicationVersionNumber {
+func (s *ReadApplicationVersion) GetVersion() ApplicationVersionNumber {
 	return s.Version
 }
 
-// GetCPU returns the value of CPU.
-func (s *ReadApplicationVersionDetail) GetCPU() int64 {
-	return s.CPU
-}
-
-// GetMemory returns the value of Memory.
-func (s *ReadApplicationVersionDetail) GetMemory() int64 {
-	return s.Memory
-}
-
-// GetScalingMode returns the value of ScalingMode.
-func (s *ReadApplicationVersionDetail) GetScalingMode() ScalingMode {
-	return s.ScalingMode
-}
-
-// GetFixedScale returns the value of FixedScale.
-func (s *ReadApplicationVersionDetail) GetFixedScale() OptInt32 {
-	return s.FixedScale
-}
-
-// GetMinScale returns the value of MinScale.
-func (s *ReadApplicationVersionDetail) GetMinScale() OptInt32 {
-	return s.MinScale
-}
-
-// GetMaxScale returns the value of MaxScale.
-func (s *ReadApplicationVersionDetail) GetMaxScale() OptInt32 {
-	return s.MaxScale
-}
-
-// GetScaleInThreshold returns the value of ScaleInThreshold.
-func (s *ReadApplicationVersionDetail) GetScaleInThreshold() OptInt32 {
-	return s.ScaleInThreshold
-}
-
-// GetScaleOutThreshold returns the value of ScaleOutThreshold.
-func (s *ReadApplicationVersionDetail) GetScaleOutThreshold() OptInt32 {
-	return s.ScaleOutThreshold
-}
-
 // GetImage returns the value of Image.
-func (s *ReadApplicationVersionDetail) GetImage() string {
+func (s *ReadApplicationVersion) GetImage() string {
 	return s.Image
 }
 
-// GetCmd returns the value of Cmd.
-func (s *ReadApplicationVersionDetail) GetCmd() []string {
-	return s.Cmd
-}
-
-// GetRegistryUsername returns the value of RegistryUsername.
-func (s *ReadApplicationVersionDetail) GetRegistryUsername() NilString {
-	return s.RegistryUsername
-}
-
-// GetRegistryPassword returns the value of RegistryPassword.
-func (s *ReadApplicationVersionDetail) GetRegistryPassword() NilString {
-	return s.RegistryPassword
-}
-
 // GetActiveNodeCount returns the value of ActiveNodeCount.
-func (s *ReadApplicationVersionDetail) GetActiveNodeCount() int64 {
+func (s *ReadApplicationVersion) GetActiveNodeCount() int64 {
 	return s.ActiveNodeCount
 }
 
 // GetCreated returns the value of Created.
-func (s *ReadApplicationVersionDetail) GetCreated() int {
+func (s *ReadApplicationVersion) GetCreated() int {
 	return s.Created
 }
 
+// GetCPU returns the value of CPU.
+func (s *ReadApplicationVersion) GetCPU() int64 {
+	return s.CPU
+}
+
+// GetMemory returns the value of Memory.
+func (s *ReadApplicationVersion) GetMemory() int64 {
+	return s.Memory
+}
+
+// GetScalingMode returns the value of ScalingMode.
+func (s *ReadApplicationVersion) GetScalingMode() ScalingMode {
+	return s.ScalingMode
+}
+
+// GetFixedScale returns the value of FixedScale.
+func (s *ReadApplicationVersion) GetFixedScale() OptInt32 {
+	return s.FixedScale
+}
+
+// GetMinScale returns the value of MinScale.
+func (s *ReadApplicationVersion) GetMinScale() OptInt32 {
+	return s.MinScale
+}
+
+// GetMaxScale returns the value of MaxScale.
+func (s *ReadApplicationVersion) GetMaxScale() OptInt32 {
+	return s.MaxScale
+}
+
+// GetScaleInThreshold returns the value of ScaleInThreshold.
+func (s *ReadApplicationVersion) GetScaleInThreshold() OptInt32 {
+	return s.ScaleInThreshold
+}
+
+// GetScaleOutThreshold returns the value of ScaleOutThreshold.
+func (s *ReadApplicationVersion) GetScaleOutThreshold() OptInt32 {
+	return s.ScaleOutThreshold
+}
+
+// GetCmd returns the value of Cmd.
+func (s *ReadApplicationVersion) GetCmd() []string {
+	return s.Cmd
+}
+
+// GetRegistryUsername returns the value of RegistryUsername.
+func (s *ReadApplicationVersion) GetRegistryUsername() NilString {
+	return s.RegistryUsername
+}
+
+// GetRegistryPassword returns the value of RegistryPassword.
+func (s *ReadApplicationVersion) GetRegistryPassword() NilString {
+	return s.RegistryPassword
+}
+
 // GetExposedPorts returns the value of ExposedPorts.
-func (s *ReadApplicationVersionDetail) GetExposedPorts() []ExposedPort {
+func (s *ReadApplicationVersion) GetExposedPorts() []ExposedPort {
 	return s.ExposedPorts
 }
 
 // GetEnv returns the value of Env.
-func (s *ReadApplicationVersionDetail) GetEnv() []ReadEnvironmentVariable {
+func (s *ReadApplicationVersion) GetEnv() []ReadEnvironmentVariable {
 	return s.Env
 }
 
 // SetVersion sets the value of Version.
-func (s *ReadApplicationVersionDetail) SetVersion(val ApplicationVersionNumber) {
+func (s *ReadApplicationVersion) SetVersion(val ApplicationVersionNumber) {
 	s.Version = val
 }
 
-// SetCPU sets the value of CPU.
-func (s *ReadApplicationVersionDetail) SetCPU(val int64) {
-	s.CPU = val
-}
-
-// SetMemory sets the value of Memory.
-func (s *ReadApplicationVersionDetail) SetMemory(val int64) {
-	s.Memory = val
-}
-
-// SetScalingMode sets the value of ScalingMode.
-func (s *ReadApplicationVersionDetail) SetScalingMode(val ScalingMode) {
-	s.ScalingMode = val
-}
-
-// SetFixedScale sets the value of FixedScale.
-func (s *ReadApplicationVersionDetail) SetFixedScale(val OptInt32) {
-	s.FixedScale = val
-}
-
-// SetMinScale sets the value of MinScale.
-func (s *ReadApplicationVersionDetail) SetMinScale(val OptInt32) {
-	s.MinScale = val
-}
-
-// SetMaxScale sets the value of MaxScale.
-func (s *ReadApplicationVersionDetail) SetMaxScale(val OptInt32) {
-	s.MaxScale = val
-}
-
-// SetScaleInThreshold sets the value of ScaleInThreshold.
-func (s *ReadApplicationVersionDetail) SetScaleInThreshold(val OptInt32) {
-	s.ScaleInThreshold = val
-}
-
-// SetScaleOutThreshold sets the value of ScaleOutThreshold.
-func (s *ReadApplicationVersionDetail) SetScaleOutThreshold(val OptInt32) {
-	s.ScaleOutThreshold = val
-}
-
 // SetImage sets the value of Image.
-func (s *ReadApplicationVersionDetail) SetImage(val string) {
+func (s *ReadApplicationVersion) SetImage(val string) {
 	s.Image = val
 }
 
-// SetCmd sets the value of Cmd.
-func (s *ReadApplicationVersionDetail) SetCmd(val []string) {
-	s.Cmd = val
-}
-
-// SetRegistryUsername sets the value of RegistryUsername.
-func (s *ReadApplicationVersionDetail) SetRegistryUsername(val NilString) {
-	s.RegistryUsername = val
-}
-
-// SetRegistryPassword sets the value of RegistryPassword.
-func (s *ReadApplicationVersionDetail) SetRegistryPassword(val NilString) {
-	s.RegistryPassword = val
-}
-
 // SetActiveNodeCount sets the value of ActiveNodeCount.
-func (s *ReadApplicationVersionDetail) SetActiveNodeCount(val int64) {
+func (s *ReadApplicationVersion) SetActiveNodeCount(val int64) {
 	s.ActiveNodeCount = val
 }
 
 // SetCreated sets the value of Created.
-func (s *ReadApplicationVersionDetail) SetCreated(val int) {
+func (s *ReadApplicationVersion) SetCreated(val int) {
 	s.Created = val
 }
 
+// SetCPU sets the value of CPU.
+func (s *ReadApplicationVersion) SetCPU(val int64) {
+	s.CPU = val
+}
+
+// SetMemory sets the value of Memory.
+func (s *ReadApplicationVersion) SetMemory(val int64) {
+	s.Memory = val
+}
+
+// SetScalingMode sets the value of ScalingMode.
+func (s *ReadApplicationVersion) SetScalingMode(val ScalingMode) {
+	s.ScalingMode = val
+}
+
+// SetFixedScale sets the value of FixedScale.
+func (s *ReadApplicationVersion) SetFixedScale(val OptInt32) {
+	s.FixedScale = val
+}
+
+// SetMinScale sets the value of MinScale.
+func (s *ReadApplicationVersion) SetMinScale(val OptInt32) {
+	s.MinScale = val
+}
+
+// SetMaxScale sets the value of MaxScale.
+func (s *ReadApplicationVersion) SetMaxScale(val OptInt32) {
+	s.MaxScale = val
+}
+
+// SetScaleInThreshold sets the value of ScaleInThreshold.
+func (s *ReadApplicationVersion) SetScaleInThreshold(val OptInt32) {
+	s.ScaleInThreshold = val
+}
+
+// SetScaleOutThreshold sets the value of ScaleOutThreshold.
+func (s *ReadApplicationVersion) SetScaleOutThreshold(val OptInt32) {
+	s.ScaleOutThreshold = val
+}
+
+// SetCmd sets the value of Cmd.
+func (s *ReadApplicationVersion) SetCmd(val []string) {
+	s.Cmd = val
+}
+
+// SetRegistryUsername sets the value of RegistryUsername.
+func (s *ReadApplicationVersion) SetRegistryUsername(val NilString) {
+	s.RegistryUsername = val
+}
+
+// SetRegistryPassword sets the value of RegistryPassword.
+func (s *ReadApplicationVersion) SetRegistryPassword(val NilString) {
+	s.RegistryPassword = val
+}
+
 // SetExposedPorts sets the value of ExposedPorts.
-func (s *ReadApplicationVersionDetail) SetExposedPorts(val []ExposedPort) {
+func (s *ReadApplicationVersion) SetExposedPorts(val []ExposedPort) {
 	s.ExposedPorts = val
 }
 
 // SetEnv sets the value of Env.
-func (s *ReadApplicationVersionDetail) SetEnv(val []ReadEnvironmentVariable) {
+func (s *ReadApplicationVersion) SetEnv(val []ReadEnvironmentVariable) {
 	s.Env = val
 }
 
-// Ref: #/components/schemas/ReadApplicationVersionSummary
-type ReadApplicationVersionSummary struct {
-	Version ApplicationVersionNumber `json:"version"`
+// Ref: #/components/schemas/ReadApplicationVersionResponse
+type ReadApplicationVersionResponse struct {
+	// アプリケーションのバージョン情報.
+	ApplicationVersion ReadApplicationVersion `json:"applicationVersion"`
 }
 
-// GetVersion returns the value of Version.
-func (s *ReadApplicationVersionSummary) GetVersion() ApplicationVersionNumber {
-	return s.Version
+// GetApplicationVersion returns the value of ApplicationVersion.
+func (s *ReadApplicationVersionResponse) GetApplicationVersion() ReadApplicationVersion {
+	return s.ApplicationVersion
 }
 
-// SetVersion sets the value of Version.
-func (s *ReadApplicationVersionSummary) SetVersion(val ApplicationVersionNumber) {
-	s.Version = val
+// SetApplicationVersion sets the value of ApplicationVersion.
+func (s *ReadApplicationVersionResponse) SetApplicationVersion(val ReadApplicationVersion) {
+	s.ApplicationVersion = val
 }
 
-// Ref: #/components/schemas/ReadAutoScalingGroupDetail
-type ReadAutoScalingGroupDetail struct {
-	// ID.
+// Ref: #/components/schemas/ReadAutoScalingGroup
+type ReadAutoScalingGroup struct {
 	AutoScalingGroupID AutoScalingGroupID `json:"autoScalingGroupID"`
-	// オートスケーリンググループの名前｡クラスタ内でユニーク｡英数字とアンダースコア、ハイフンのみ使用可能.
+	// オートスケーリンググループの名前。クラスタ内でユニーク。英数字、アンダースコア、ハイフンのみ使用可能.
 	Name string `json:"name"`
 	// オートスケーリンググループのゾーン.
 	Zone string `json:"zone"`
-	// ネームサーバー設定.
-	NameServers []IPv4 `json:"nameServers"`
-	// ワーカーのサービスクラスパス.
+	// ネームサーバ設定.
+	NameServers []Ipv4 `json:"nameServers"`
+	// ワーカノードのサービスクラスパス.
 	WorkerServiceClassPath string `json:"workerServiceClassPath"`
 	// オートスケーリンググループの最小ノード数.
 	MinNodes int32 `json:"minNodes"`
 	// オートスケーリンググループの最大ノード数.
 	MaxNodes int32 `json:"maxNodes"`
-	// 現在のワーカーノードの数.
-	WorkerNodeCount int32 `json:"workerNodeCount"`
+	// 現在のワーカノードの数.
+	WorkerNodeCount int32                           `json:"workerNodeCount"`
+	Interfaces      []AutoScalingGroupNodeInterface `json:"interfaces"`
 	// 削除中.
 	Deleting bool `json:"deleting"`
-	// ネットワークインターフェース定義.
-	Interfaces []AutoScalingGroupNodeInterface `json:"interfaces"`
 }
 
 // GetAutoScalingGroupID returns the value of AutoScalingGroupID.
-func (s *ReadAutoScalingGroupDetail) GetAutoScalingGroupID() AutoScalingGroupID {
+func (s *ReadAutoScalingGroup) GetAutoScalingGroupID() AutoScalingGroupID {
 	return s.AutoScalingGroupID
 }
 
 // GetName returns the value of Name.
-func (s *ReadAutoScalingGroupDetail) GetName() string {
+func (s *ReadAutoScalingGroup) GetName() string {
 	return s.Name
 }
 
 // GetZone returns the value of Zone.
-func (s *ReadAutoScalingGroupDetail) GetZone() string {
+func (s *ReadAutoScalingGroup) GetZone() string {
 	return s.Zone
 }
 
 // GetNameServers returns the value of NameServers.
-func (s *ReadAutoScalingGroupDetail) GetNameServers() []IPv4 {
+func (s *ReadAutoScalingGroup) GetNameServers() []Ipv4 {
 	return s.NameServers
 }
 
 // GetWorkerServiceClassPath returns the value of WorkerServiceClassPath.
-func (s *ReadAutoScalingGroupDetail) GetWorkerServiceClassPath() string {
+func (s *ReadAutoScalingGroup) GetWorkerServiceClassPath() string {
 	return s.WorkerServiceClassPath
 }
 
 // GetMinNodes returns the value of MinNodes.
-func (s *ReadAutoScalingGroupDetail) GetMinNodes() int32 {
+func (s *ReadAutoScalingGroup) GetMinNodes() int32 {
 	return s.MinNodes
 }
 
 // GetMaxNodes returns the value of MaxNodes.
-func (s *ReadAutoScalingGroupDetail) GetMaxNodes() int32 {
+func (s *ReadAutoScalingGroup) GetMaxNodes() int32 {
 	return s.MaxNodes
 }
 
 // GetWorkerNodeCount returns the value of WorkerNodeCount.
-func (s *ReadAutoScalingGroupDetail) GetWorkerNodeCount() int32 {
+func (s *ReadAutoScalingGroup) GetWorkerNodeCount() int32 {
 	return s.WorkerNodeCount
 }
 
-// GetDeleting returns the value of Deleting.
-func (s *ReadAutoScalingGroupDetail) GetDeleting() bool {
-	return s.Deleting
-}
-
 // GetInterfaces returns the value of Interfaces.
-func (s *ReadAutoScalingGroupDetail) GetInterfaces() []AutoScalingGroupNodeInterface {
+func (s *ReadAutoScalingGroup) GetInterfaces() []AutoScalingGroupNodeInterface {
 	return s.Interfaces
 }
 
+// GetDeleting returns the value of Deleting.
+func (s *ReadAutoScalingGroup) GetDeleting() bool {
+	return s.Deleting
+}
+
 // SetAutoScalingGroupID sets the value of AutoScalingGroupID.
-func (s *ReadAutoScalingGroupDetail) SetAutoScalingGroupID(val AutoScalingGroupID) {
+func (s *ReadAutoScalingGroup) SetAutoScalingGroupID(val AutoScalingGroupID) {
 	s.AutoScalingGroupID = val
 }
 
 // SetName sets the value of Name.
-func (s *ReadAutoScalingGroupDetail) SetName(val string) {
+func (s *ReadAutoScalingGroup) SetName(val string) {
 	s.Name = val
 }
 
 // SetZone sets the value of Zone.
-func (s *ReadAutoScalingGroupDetail) SetZone(val string) {
+func (s *ReadAutoScalingGroup) SetZone(val string) {
 	s.Zone = val
 }
 
 // SetNameServers sets the value of NameServers.
-func (s *ReadAutoScalingGroupDetail) SetNameServers(val []IPv4) {
+func (s *ReadAutoScalingGroup) SetNameServers(val []Ipv4) {
 	s.NameServers = val
 }
 
 // SetWorkerServiceClassPath sets the value of WorkerServiceClassPath.
-func (s *ReadAutoScalingGroupDetail) SetWorkerServiceClassPath(val string) {
+func (s *ReadAutoScalingGroup) SetWorkerServiceClassPath(val string) {
 	s.WorkerServiceClassPath = val
 }
 
 // SetMinNodes sets the value of MinNodes.
-func (s *ReadAutoScalingGroupDetail) SetMinNodes(val int32) {
+func (s *ReadAutoScalingGroup) SetMinNodes(val int32) {
 	s.MinNodes = val
 }
 
 // SetMaxNodes sets the value of MaxNodes.
-func (s *ReadAutoScalingGroupDetail) SetMaxNodes(val int32) {
+func (s *ReadAutoScalingGroup) SetMaxNodes(val int32) {
 	s.MaxNodes = val
 }
 
 // SetWorkerNodeCount sets the value of WorkerNodeCount.
-func (s *ReadAutoScalingGroupDetail) SetWorkerNodeCount(val int32) {
+func (s *ReadAutoScalingGroup) SetWorkerNodeCount(val int32) {
 	s.WorkerNodeCount = val
 }
 
+// SetInterfaces sets the value of Interfaces.
+func (s *ReadAutoScalingGroup) SetInterfaces(val []AutoScalingGroupNodeInterface) {
+	s.Interfaces = val
+}
+
 // SetDeleting sets the value of Deleting.
-func (s *ReadAutoScalingGroupDetail) SetDeleting(val bool) {
+func (s *ReadAutoScalingGroup) SetDeleting(val bool) {
 	s.Deleting = val
 }
 
-// SetInterfaces sets the value of Interfaces.
-func (s *ReadAutoScalingGroupDetail) SetInterfaces(val []AutoScalingGroupNodeInterface) {
-	s.Interfaces = val
+// Ref: #/components/schemas/ReadAutoScalingGroupResponse
+type ReadAutoScalingGroupResponse struct {
+	// オートスケーリンググループの情報.
+	AutoScalingGroup ReadAutoScalingGroup `json:"autoScalingGroup"`
+}
+
+// GetAutoScalingGroup returns the value of AutoScalingGroup.
+func (s *ReadAutoScalingGroupResponse) GetAutoScalingGroup() ReadAutoScalingGroup {
+	return s.AutoScalingGroup
+}
+
+// SetAutoScalingGroup sets the value of AutoScalingGroup.
+func (s *ReadAutoScalingGroupResponse) SetAutoScalingGroup(val ReadAutoScalingGroup) {
+	s.AutoScalingGroup = val
 }
 
 // Ref: #/components/schemas/ReadCertificate
 type ReadCertificate struct {
 	// 証明書ID.
-	CertificateID uuid.UUID `json:"certificateID"`
-	// 証明書の名前｡クラスタ内でユニーク｡英数字、アンダースコア、ハイフン､ドットのみ使用可能.
+	CertificateID CertificateID `json:"certificateID"`
+	// 証明書の名前。クラスタ内でユニーク。英数字、アンダースコア、ハイフン、ドットのみ使用可能.
 	Name string `json:"name"`
 	// 証明書の共通名.
 	CommonName string `json:"commonName"`
-	// 証明書のサブジェクト代替名(SAN)のリスト.
+	// 証明書のサブジェクト代替名（SAN）のリスト.
 	SubjectAlternativeNames []string `json:"subjectAlternativeNames"`
-	// 証明書の有効開始日時(unixTime in seconds).
+	// 証明書の有効開始日時：UNIX時間（秒）.
 	NotBeforeSec int `json:"notBeforeSec"`
-	// 証明書の有効終了日時(unixTime in seconds).
+	// 証明書の有効終了日時：UNIX時間（秒）.
 	NotAfterSec int `json:"notAfterSec"`
-	// 作成日時.
+	// 作成日時：UNIX時間（秒）.
 	Created int `json:"created"`
-	// 更新日時.
+	// 更新日時：UNIX時間（秒）.
 	Updated int `json:"updated"`
 }
 
 // GetCertificateID returns the value of CertificateID.
-func (s *ReadCertificate) GetCertificateID() uuid.UUID {
+func (s *ReadCertificate) GetCertificateID() CertificateID {
 	return s.CertificateID
 }
 
@@ -3168,7 +3760,7 @@ func (s *ReadCertificate) GetUpdated() int {
 }
 
 // SetCertificateID sets the value of CertificateID.
-func (s *ReadCertificate) SetCertificateID(val uuid.UUID) {
+func (s *ReadCertificate) SetCertificateID(val CertificateID) {
 	s.CertificateID = val
 }
 
@@ -3207,95 +3799,163 @@ func (s *ReadCertificate) SetUpdated(val int) {
 	s.Updated = val
 }
 
-// Ref: #/components/schemas/ReadClusterDetail
-type ReadClusterDetail struct {
-	// クラスターの名前｡プロジェクト内でユニーク｡英数字、アンダースコア、ハイフンのみ使用可能.
-	Name string `json:"name"`
-	// クラスタID.
-	ClusterID ClusterID `json:"clusterID"`
-	// ロードバランサーのポート群.
-	Ports []ReadLoadBalancerPort `json:"ports"`
-	// サービスプリンシパルのID.
-	ServicePrincipalID string `json:"servicePrincipalID"`
-	// Let's encrypt 用のメアドが設定済みかどうか.
-	HasLetsEncryptEmail bool `json:"hasLetsEncryptEmail"`
-	// クラスター作成日時.
-	Created int `json:"created"`
+// Ref: #/components/schemas/ReadCertificateResponse
+type ReadCertificateResponse struct {
+	// 証明書の情報.
+	Certificate ReadCertificate `json:"certificate"`
 }
 
-// GetName returns the value of Name.
-func (s *ReadClusterDetail) GetName() string {
-	return s.Name
+// GetCertificate returns the value of Certificate.
+func (s *ReadCertificateResponse) GetCertificate() ReadCertificate {
+	return s.Certificate
+}
+
+// SetCertificate sets the value of Certificate.
+func (s *ReadCertificateResponse) SetCertificate(val ReadCertificate) {
+	s.Certificate = val
+}
+
+// Ref: #/components/schemas/ReadCluster
+type ReadCluster struct {
+	ClusterID ClusterID `json:"clusterID"`
+	// クラスタの名前。プロジェクト内でユニーク。英数字、アンダースコア、ハイフンのみ使用可能.
+	Name string `json:"name"`
+	// クラスタの作成日時：UNIX時間（秒）.
+	Created int `json:"created"`
+	// Let's Encrypt 用のメールアドレスが設定済みかどうか.
+	HasLetsEncryptEmail bool `json:"hasLetsEncryptEmail"`
+	// ロードバランサのポート群.
+	Ports              []ClusterLoadBalancerPort `json:"ports"`
+	ServicePrincipalID ServicePrincipalID        `json:"servicePrincipalID"`
 }
 
 // GetClusterID returns the value of ClusterID.
-func (s *ReadClusterDetail) GetClusterID() ClusterID {
+func (s *ReadCluster) GetClusterID() ClusterID {
 	return s.ClusterID
 }
 
+// GetName returns the value of Name.
+func (s *ReadCluster) GetName() string {
+	return s.Name
+}
+
+// GetCreated returns the value of Created.
+func (s *ReadCluster) GetCreated() int {
+	return s.Created
+}
+
+// GetHasLetsEncryptEmail returns the value of HasLetsEncryptEmail.
+func (s *ReadCluster) GetHasLetsEncryptEmail() bool {
+	return s.HasLetsEncryptEmail
+}
+
 // GetPorts returns the value of Ports.
-func (s *ReadClusterDetail) GetPorts() []ReadLoadBalancerPort {
+func (s *ReadCluster) GetPorts() []ClusterLoadBalancerPort {
 	return s.Ports
 }
 
 // GetServicePrincipalID returns the value of ServicePrincipalID.
-func (s *ReadClusterDetail) GetServicePrincipalID() string {
+func (s *ReadCluster) GetServicePrincipalID() ServicePrincipalID {
 	return s.ServicePrincipalID
 }
 
-// GetHasLetsEncryptEmail returns the value of HasLetsEncryptEmail.
-func (s *ReadClusterDetail) GetHasLetsEncryptEmail() bool {
-	return s.HasLetsEncryptEmail
-}
-
-// GetCreated returns the value of Created.
-func (s *ReadClusterDetail) GetCreated() int {
-	return s.Created
-}
-
-// SetName sets the value of Name.
-func (s *ReadClusterDetail) SetName(val string) {
-	s.Name = val
-}
-
 // SetClusterID sets the value of ClusterID.
-func (s *ReadClusterDetail) SetClusterID(val ClusterID) {
+func (s *ReadCluster) SetClusterID(val ClusterID) {
 	s.ClusterID = val
 }
 
+// SetName sets the value of Name.
+func (s *ReadCluster) SetName(val string) {
+	s.Name = val
+}
+
+// SetCreated sets the value of Created.
+func (s *ReadCluster) SetCreated(val int) {
+	s.Created = val
+}
+
+// SetHasLetsEncryptEmail sets the value of HasLetsEncryptEmail.
+func (s *ReadCluster) SetHasLetsEncryptEmail(val bool) {
+	s.HasLetsEncryptEmail = val
+}
+
 // SetPorts sets the value of Ports.
-func (s *ReadClusterDetail) SetPorts(val []ReadLoadBalancerPort) {
+func (s *ReadCluster) SetPorts(val []ClusterLoadBalancerPort) {
 	s.Ports = val
 }
 
 // SetServicePrincipalID sets the value of ServicePrincipalID.
-func (s *ReadClusterDetail) SetServicePrincipalID(val string) {
+func (s *ReadCluster) SetServicePrincipalID(val ServicePrincipalID) {
 	s.ServicePrincipalID = val
 }
 
+// Ref: #/components/schemas/ReadClusterLoadBalancer
+type ReadClusterLoadBalancer struct {
+	// Let's Encrypt 用のメールアドレスが設定済みかどうか.
+	HasLetsEncryptEmail bool `json:"hasLetsEncryptEmail"`
+	// ロードバランサのポート群.
+	Ports []ClusterLoadBalancerPort `json:"ports"`
+}
+
+// GetHasLetsEncryptEmail returns the value of HasLetsEncryptEmail.
+func (s *ReadClusterLoadBalancer) GetHasLetsEncryptEmail() bool {
+	return s.HasLetsEncryptEmail
+}
+
+// GetPorts returns the value of Ports.
+func (s *ReadClusterLoadBalancer) GetPorts() []ClusterLoadBalancerPort {
+	return s.Ports
+}
+
 // SetHasLetsEncryptEmail sets the value of HasLetsEncryptEmail.
-func (s *ReadClusterDetail) SetHasLetsEncryptEmail(val bool) {
+func (s *ReadClusterLoadBalancer) SetHasLetsEncryptEmail(val bool) {
 	s.HasLetsEncryptEmail = val
 }
 
-// SetCreated sets the value of Created.
-func (s *ReadClusterDetail) SetCreated(val int) {
-	s.Created = val
+// SetPorts sets the value of Ports.
+func (s *ReadClusterLoadBalancer) SetPorts(val []ClusterLoadBalancerPort) {
+	s.Ports = val
+}
+
+// Ref: #/components/schemas/ReadClusterLoadBalancerResponse
+type ReadClusterLoadBalancerResponse struct {
+	// ロードバランサ設定の情報.
+	LoadBalancer ReadClusterLoadBalancer `json:"loadBalancer"`
+}
+
+// GetLoadBalancer returns the value of LoadBalancer.
+func (s *ReadClusterLoadBalancerResponse) GetLoadBalancer() ReadClusterLoadBalancer {
+	return s.LoadBalancer
+}
+
+// SetLoadBalancer sets the value of LoadBalancer.
+func (s *ReadClusterLoadBalancerResponse) SetLoadBalancer(val ReadClusterLoadBalancer) {
+	s.LoadBalancer = val
+}
+
+// Ref: #/components/schemas/ReadClusterResponse
+type ReadClusterResponse struct {
+	// クラスタの情報.
+	Cluster ReadCluster `json:"cluster"`
+}
+
+// GetCluster returns the value of Cluster.
+func (s *ReadClusterResponse) GetCluster() ReadCluster {
+	return s.Cluster
+}
+
+// SetCluster sets the value of Cluster.
+func (s *ReadClusterResponse) SetCluster(val ReadCluster) {
+	s.Cluster = val
 }
 
 // Ref: #/components/schemas/ReadClusterSummary
 type ReadClusterSummary struct {
-	// クラスターの名前.
-	Name string `json:"name"`
-	// クラスタID.
 	ClusterID ClusterID `json:"clusterID"`
-	// 作成日時.
+	// クラスタの名前。プロジェクト内でユニーク。英数字、アンダースコア、ハイフンのみ使用可能.
+	Name string `json:"name"`
+	// クラスタの作成日時：UNIX時間（秒）.
 	Created int `json:"created"`
-}
-
-// GetName returns the value of Name.
-func (s *ReadClusterSummary) GetName() string {
-	return s.Name
 }
 
 // GetClusterID returns the value of ClusterID.
@@ -3303,19 +3963,24 @@ func (s *ReadClusterSummary) GetClusterID() ClusterID {
 	return s.ClusterID
 }
 
+// GetName returns the value of Name.
+func (s *ReadClusterSummary) GetName() string {
+	return s.Name
+}
+
 // GetCreated returns the value of Created.
 func (s *ReadClusterSummary) GetCreated() int {
 	return s.Created
 }
 
-// SetName sets the value of Name.
-func (s *ReadClusterSummary) SetName(val string) {
-	s.Name = val
-}
-
 // SetClusterID sets the value of ClusterID.
 func (s *ReadClusterSummary) SetClusterID(val ClusterID) {
 	s.ClusterID = val
+}
+
+// SetName sets the value of Name.
+func (s *ReadClusterSummary) SetName(val string) {
+	s.Name = val
 }
 
 // SetCreated sets the value of Created.
@@ -3327,10 +3992,10 @@ func (s *ReadClusterSummary) SetCreated(val int) {
 // Ref: #/components/schemas/ReadEnvironmentVariable
 type ReadEnvironmentVariable struct {
 	Key string `json:"key"`
-	// 環境変数の値｡secret が true の場合は null になる｡.
-	Value NilString `json:"value"`
-	// 秘密情報か否か｡true の場合､value を API 等で取得することは出来ない｡.
+	// 秘密情報か否か。true の場合、value を API 等で取得することは出来ない。.
 	Secret bool `json:"secret"`
+	// 環境変数の値。secret が true の場合は null になる。.
+	Value NilEnvironmentVariableValue `json:"value"`
 }
 
 // GetKey returns the value of Key.
@@ -3338,14 +4003,14 @@ func (s *ReadEnvironmentVariable) GetKey() string {
 	return s.Key
 }
 
-// GetValue returns the value of Value.
-func (s *ReadEnvironmentVariable) GetValue() NilString {
-	return s.Value
-}
-
 // GetSecret returns the value of Secret.
 func (s *ReadEnvironmentVariable) GetSecret() bool {
 	return s.Secret
+}
+
+// GetValue returns the value of Value.
+func (s *ReadEnvironmentVariable) GetValue() NilEnvironmentVariableValue {
+	return s.Value
 }
 
 // SetKey sets the value of Key.
@@ -3353,464 +4018,165 @@ func (s *ReadEnvironmentVariable) SetKey(val string) {
 	s.Key = val
 }
 
-// SetValue sets the value of Value.
-func (s *ReadEnvironmentVariable) SetValue(val NilString) {
-	s.Value = val
-}
-
 // SetSecret sets the value of Secret.
 func (s *ReadEnvironmentVariable) SetSecret(val bool) {
 	s.Secret = val
 }
 
-// Ref: #/components/schemas/ReadLbServiceClass
-type ReadLbServiceClass struct {
-	// サービスクラスのパス.
-	Path string `json:"path"`
-	// 割り当てられるノード数.
-	NodeCount int16 `json:"nodeCount"`
-	// サービスクラスの名前.
-	Name string `json:"name"`
+// SetValue sets the value of Value.
+func (s *ReadEnvironmentVariable) SetValue(val NilEnvironmentVariableValue) {
+	s.Value = val
 }
 
-// GetPath returns the value of Path.
-func (s *ReadLbServiceClass) GetPath() string {
-	return s.Path
+// Ref: #/components/schemas/ReadLimitsResponse
+type ReadLimitsResponse struct {
+	// プロジェクトのリソース制限値.
+	Limit Limit `json:"limit"`
 }
 
-// GetNodeCount returns the value of NodeCount.
-func (s *ReadLbServiceClass) GetNodeCount() int16 {
-	return s.NodeCount
+// GetLimit returns the value of Limit.
+func (s *ReadLimitsResponse) GetLimit() Limit {
+	return s.Limit
 }
 
-// GetName returns the value of Name.
-func (s *ReadLbServiceClass) GetName() string {
-	return s.Name
+// SetLimit sets the value of Limit.
+func (s *ReadLimitsResponse) SetLimit(val Limit) {
+	s.Limit = val
 }
 
-// SetPath sets the value of Path.
-func (s *ReadLbServiceClass) SetPath(val string) {
-	s.Path = val
-}
-
-// SetNodeCount sets the value of NodeCount.
-func (s *ReadLbServiceClass) SetNodeCount(val int16) {
-	s.NodeCount = val
-}
-
-// SetName sets the value of Name.
-func (s *ReadLbServiceClass) SetName(val string) {
-	s.Name = val
-}
-
-// Ref: #/components/schemas/ReadLoadBalancerDetail
-type ReadLoadBalancerDetail struct {
-	// ロードバランサーID.
+// Ref: #/components/schemas/ReadLoadBalancer
+type ReadLoadBalancer struct {
+	// ロードバランサID.
 	LoadBalancerID LoadBalancerID `json:"loadBalancerID"`
-	// 名称.
+	// ロードバランサ名。オートスケーリンググループ内でユニーク。英数字とハイフン、アンダースコアのみ使用可能.
 	Name string `json:"name"`
-	// ロードバランサーのサービスクラスパス.
+	// ロードバランサのサービスクラスパス.
 	ServiceClassPath string `json:"serviceClassPath"`
-	// ネームサーバー設定.
-	NameServers []IPv4 `json:"nameServers"`
-	// ロードバランサーのインターフェース.
-	Interfaces []LoadBalancerInterface `json:"interfaces"`
-	// ロードバランサー作成日時.
+	// ネームサーバ設定.
+	NameServers []Ipv4 `json:"nameServers"`
+	// ロードバランサの作成日時：UNIX時間（秒）.
 	Created int `json:"created"`
 	// 削除中.
 	Deleting bool `json:"deleting"`
+	// ロードバランサのインターフェース.
+	Interfaces []LoadBalancerInterface `json:"interfaces"`
 }
 
 // GetLoadBalancerID returns the value of LoadBalancerID.
-func (s *ReadLoadBalancerDetail) GetLoadBalancerID() LoadBalancerID {
+func (s *ReadLoadBalancer) GetLoadBalancerID() LoadBalancerID {
 	return s.LoadBalancerID
 }
 
 // GetName returns the value of Name.
-func (s *ReadLoadBalancerDetail) GetName() string {
+func (s *ReadLoadBalancer) GetName() string {
 	return s.Name
 }
 
 // GetServiceClassPath returns the value of ServiceClassPath.
-func (s *ReadLoadBalancerDetail) GetServiceClassPath() string {
+func (s *ReadLoadBalancer) GetServiceClassPath() string {
 	return s.ServiceClassPath
 }
 
 // GetNameServers returns the value of NameServers.
-func (s *ReadLoadBalancerDetail) GetNameServers() []IPv4 {
+func (s *ReadLoadBalancer) GetNameServers() []Ipv4 {
 	return s.NameServers
 }
 
-// GetInterfaces returns the value of Interfaces.
-func (s *ReadLoadBalancerDetail) GetInterfaces() []LoadBalancerInterface {
-	return s.Interfaces
-}
-
 // GetCreated returns the value of Created.
-func (s *ReadLoadBalancerDetail) GetCreated() int {
+func (s *ReadLoadBalancer) GetCreated() int {
 	return s.Created
 }
 
 // GetDeleting returns the value of Deleting.
-func (s *ReadLoadBalancerDetail) GetDeleting() bool {
+func (s *ReadLoadBalancer) GetDeleting() bool {
 	return s.Deleting
 }
 
+// GetInterfaces returns the value of Interfaces.
+func (s *ReadLoadBalancer) GetInterfaces() []LoadBalancerInterface {
+	return s.Interfaces
+}
+
 // SetLoadBalancerID sets the value of LoadBalancerID.
-func (s *ReadLoadBalancerDetail) SetLoadBalancerID(val LoadBalancerID) {
+func (s *ReadLoadBalancer) SetLoadBalancerID(val LoadBalancerID) {
 	s.LoadBalancerID = val
 }
 
 // SetName sets the value of Name.
-func (s *ReadLoadBalancerDetail) SetName(val string) {
+func (s *ReadLoadBalancer) SetName(val string) {
 	s.Name = val
 }
 
 // SetServiceClassPath sets the value of ServiceClassPath.
-func (s *ReadLoadBalancerDetail) SetServiceClassPath(val string) {
+func (s *ReadLoadBalancer) SetServiceClassPath(val string) {
 	s.ServiceClassPath = val
 }
 
 // SetNameServers sets the value of NameServers.
-func (s *ReadLoadBalancerDetail) SetNameServers(val []IPv4) {
+func (s *ReadLoadBalancer) SetNameServers(val []Ipv4) {
 	s.NameServers = val
 }
 
-// SetInterfaces sets the value of Interfaces.
-func (s *ReadLoadBalancerDetail) SetInterfaces(val []LoadBalancerInterface) {
-	s.Interfaces = val
-}
-
 // SetCreated sets the value of Created.
-func (s *ReadLoadBalancerDetail) SetCreated(val int) {
+func (s *ReadLoadBalancer) SetCreated(val int) {
 	s.Created = val
 }
 
 // SetDeleting sets the value of Deleting.
-func (s *ReadLoadBalancerDetail) SetDeleting(val bool) {
+func (s *ReadLoadBalancer) SetDeleting(val bool) {
 	s.Deleting = val
 }
 
-// Ref: #/components/schemas/ReadLoadBalancerNode
-type ReadLoadBalancerNode struct {
-	// ID.
-	LoadBalancerNodeID LoadBalancerNodeID `json:"loadBalancerNodeID"`
-	// リソースID.
-	ResourceID NilString `json:"resourceID"`
-	// Interface 情報.
-	Interfaces []ReadLoadBalancerNodeInterface `json:"interfaces"`
-	// ノードの状態.
-	Status LoadBalancerNodeStatus `json:"status"`
-	// ノードにインストールされているアーカイブのバージョン.
-	ArchiveVersion OptString `json:"archiveVersion"`
-	// ノードの作成に関するエラーメッセージ.
-	CreateErrorMessage OptString `json:"createErrorMessage"`
-	// 作成日時.
-	Created int `json:"created"`
-}
-
-// GetLoadBalancerNodeID returns the value of LoadBalancerNodeID.
-func (s *ReadLoadBalancerNode) GetLoadBalancerNodeID() LoadBalancerNodeID {
-	return s.LoadBalancerNodeID
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *ReadLoadBalancerNode) GetResourceID() NilString {
-	return s.ResourceID
-}
-
-// GetInterfaces returns the value of Interfaces.
-func (s *ReadLoadBalancerNode) GetInterfaces() []ReadLoadBalancerNodeInterface {
-	return s.Interfaces
-}
-
-// GetStatus returns the value of Status.
-func (s *ReadLoadBalancerNode) GetStatus() LoadBalancerNodeStatus {
-	return s.Status
-}
-
-// GetArchiveVersion returns the value of ArchiveVersion.
-func (s *ReadLoadBalancerNode) GetArchiveVersion() OptString {
-	return s.ArchiveVersion
-}
-
-// GetCreateErrorMessage returns the value of CreateErrorMessage.
-func (s *ReadLoadBalancerNode) GetCreateErrorMessage() OptString {
-	return s.CreateErrorMessage
-}
-
-// GetCreated returns the value of Created.
-func (s *ReadLoadBalancerNode) GetCreated() int {
-	return s.Created
-}
-
-// SetLoadBalancerNodeID sets the value of LoadBalancerNodeID.
-func (s *ReadLoadBalancerNode) SetLoadBalancerNodeID(val LoadBalancerNodeID) {
-	s.LoadBalancerNodeID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *ReadLoadBalancerNode) SetResourceID(val NilString) {
-	s.ResourceID = val
-}
-
 // SetInterfaces sets the value of Interfaces.
-func (s *ReadLoadBalancerNode) SetInterfaces(val []ReadLoadBalancerNodeInterface) {
+func (s *ReadLoadBalancer) SetInterfaces(val []LoadBalancerInterface) {
 	s.Interfaces = val
 }
 
-// SetStatus sets the value of Status.
-func (s *ReadLoadBalancerNode) SetStatus(val LoadBalancerNodeStatus) {
-	s.Status = val
+// ロードバランサノードの詳細取得レスポンス.
+// Ref: #/components/schemas/ReadLoadBalancerNodeResponse
+type ReadLoadBalancerNodeResponse struct {
+	// ロードバランサノードの情報.
+	LoadBalancerNode LoadBalancerNode `json:"loadBalancerNode"`
 }
 
-// SetArchiveVersion sets the value of ArchiveVersion.
-func (s *ReadLoadBalancerNode) SetArchiveVersion(val OptString) {
-	s.ArchiveVersion = val
+// GetLoadBalancerNode returns the value of LoadBalancerNode.
+func (s *ReadLoadBalancerNodeResponse) GetLoadBalancerNode() LoadBalancerNode {
+	return s.LoadBalancerNode
 }
 
-// SetCreateErrorMessage sets the value of CreateErrorMessage.
-func (s *ReadLoadBalancerNode) SetCreateErrorMessage(val OptString) {
-	s.CreateErrorMessage = val
+// SetLoadBalancerNode sets the value of LoadBalancerNode.
+func (s *ReadLoadBalancerNodeResponse) SetLoadBalancerNode(val LoadBalancerNode) {
+	s.LoadBalancerNode = val
 }
 
-// SetCreated sets the value of Created.
-func (s *ReadLoadBalancerNode) SetCreated(val int) {
-	s.Created = val
+// ロードバランサの詳細取得レスポンス.
+// Ref: #/components/schemas/ReadLoadBalancerResponse
+type ReadLoadBalancerResponse struct {
+	// ロードバランサの情報.
+	LoadBalancer ReadLoadBalancer `json:"loadBalancer"`
 }
 
-// Ref: #/components/schemas/ReadLoadBalancerNodeInterface
-type ReadLoadBalancerNodeInterface struct {
-	// インターフェース番号｡eth0 なら 0｡eth1 なら 1｡.
-	InterfaceIndex int16 `json:"interfaceIndex"`
-	// ロードバランサーノードのアドレス.
-	Addresses []ReadLoadBalancerNodeInterfaceAddress `json:"addresses"`
+// GetLoadBalancer returns the value of LoadBalancer.
+func (s *ReadLoadBalancerResponse) GetLoadBalancer() ReadLoadBalancer {
+	return s.LoadBalancer
 }
 
-// GetInterfaceIndex returns the value of InterfaceIndex.
-func (s *ReadLoadBalancerNodeInterface) GetInterfaceIndex() int16 {
-	return s.InterfaceIndex
-}
-
-// GetAddresses returns the value of Addresses.
-func (s *ReadLoadBalancerNodeInterface) GetAddresses() []ReadLoadBalancerNodeInterfaceAddress {
-	return s.Addresses
-}
-
-// SetInterfaceIndex sets the value of InterfaceIndex.
-func (s *ReadLoadBalancerNodeInterface) SetInterfaceIndex(val int16) {
-	s.InterfaceIndex = val
-}
-
-// SetAddresses sets the value of Addresses.
-func (s *ReadLoadBalancerNodeInterface) SetAddresses(val []ReadLoadBalancerNodeInterfaceAddress) {
-	s.Addresses = val
-}
-
-// Ref: #/components/schemas/ReadLoadBalancerNodeInterfaceAddress
-type ReadLoadBalancerNodeInterfaceAddress struct {
-	// アドレス.
-	Address string `json:"address"`
-	// VIP かどうか.
-	Vip bool `json:"vip"`
-}
-
-// GetAddress returns the value of Address.
-func (s *ReadLoadBalancerNodeInterfaceAddress) GetAddress() string {
-	return s.Address
-}
-
-// GetVip returns the value of Vip.
-func (s *ReadLoadBalancerNodeInterfaceAddress) GetVip() bool {
-	return s.Vip
-}
-
-// SetAddress sets the value of Address.
-func (s *ReadLoadBalancerNodeInterfaceAddress) SetAddress(val string) {
-	s.Address = val
-}
-
-// SetVip sets the value of Vip.
-func (s *ReadLoadBalancerNodeInterfaceAddress) SetVip(val bool) {
-	s.Vip = val
-}
-
-// Ref: #/components/schemas/ReadLoadBalancerNodeSummary
-type ReadLoadBalancerNodeSummary struct {
-	// ID.
-	LoadBalancerNodeID LoadBalancerNodeID `json:"loadBalancerNodeID"`
-	// リソースID.
-	ResourceID NilString `json:"resourceID"`
-	// ノードの状態.
-	Status LoadBalancerNodeStatus `json:"status"`
-	// Interface 情報.
-	Interfaces []ReadLoadBalancerNodeInterface `json:"interfaces"`
-	// ノードにインストールされているアーカイブのバージョン.
-	ArchiveVersion OptString `json:"archiveVersion"`
-	// Node作成Jobのエラーメッセージ.
-	CreateErrorMessage OptString `json:"createErrorMessage"`
-	// 作成日時.
-	Created int `json:"created"`
-}
-
-// GetLoadBalancerNodeID returns the value of LoadBalancerNodeID.
-func (s *ReadLoadBalancerNodeSummary) GetLoadBalancerNodeID() LoadBalancerNodeID {
-	return s.LoadBalancerNodeID
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *ReadLoadBalancerNodeSummary) GetResourceID() NilString {
-	return s.ResourceID
-}
-
-// GetStatus returns the value of Status.
-func (s *ReadLoadBalancerNodeSummary) GetStatus() LoadBalancerNodeStatus {
-	return s.Status
-}
-
-// GetInterfaces returns the value of Interfaces.
-func (s *ReadLoadBalancerNodeSummary) GetInterfaces() []ReadLoadBalancerNodeInterface {
-	return s.Interfaces
-}
-
-// GetArchiveVersion returns the value of ArchiveVersion.
-func (s *ReadLoadBalancerNodeSummary) GetArchiveVersion() OptString {
-	return s.ArchiveVersion
-}
-
-// GetCreateErrorMessage returns the value of CreateErrorMessage.
-func (s *ReadLoadBalancerNodeSummary) GetCreateErrorMessage() OptString {
-	return s.CreateErrorMessage
-}
-
-// GetCreated returns the value of Created.
-func (s *ReadLoadBalancerNodeSummary) GetCreated() int {
-	return s.Created
-}
-
-// SetLoadBalancerNodeID sets the value of LoadBalancerNodeID.
-func (s *ReadLoadBalancerNodeSummary) SetLoadBalancerNodeID(val LoadBalancerNodeID) {
-	s.LoadBalancerNodeID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *ReadLoadBalancerNodeSummary) SetResourceID(val NilString) {
-	s.ResourceID = val
-}
-
-// SetStatus sets the value of Status.
-func (s *ReadLoadBalancerNodeSummary) SetStatus(val LoadBalancerNodeStatus) {
-	s.Status = val
-}
-
-// SetInterfaces sets the value of Interfaces.
-func (s *ReadLoadBalancerNodeSummary) SetInterfaces(val []ReadLoadBalancerNodeInterface) {
-	s.Interfaces = val
-}
-
-// SetArchiveVersion sets the value of ArchiveVersion.
-func (s *ReadLoadBalancerNodeSummary) SetArchiveVersion(val OptString) {
-	s.ArchiveVersion = val
-}
-
-// SetCreateErrorMessage sets the value of CreateErrorMessage.
-func (s *ReadLoadBalancerNodeSummary) SetCreateErrorMessage(val OptString) {
-	s.CreateErrorMessage = val
-}
-
-// SetCreated sets the value of Created.
-func (s *ReadLoadBalancerNodeSummary) SetCreated(val int) {
-	s.Created = val
-}
-
-// Ref: #/components/schemas/ReadLoadBalancerPort
-type ReadLoadBalancerPort struct {
-	// 外部公開するポート番号｡5950-5959は予約されているため指定不可.
-	Port uint16 `json:"port"`
-	// ポートで扱うプロトコル.
-	Protocol ReadLoadBalancerPortProtocol `json:"protocol"`
-}
-
-// GetPort returns the value of Port.
-func (s *ReadLoadBalancerPort) GetPort() uint16 {
-	return s.Port
-}
-
-// GetProtocol returns the value of Protocol.
-func (s *ReadLoadBalancerPort) GetProtocol() ReadLoadBalancerPortProtocol {
-	return s.Protocol
-}
-
-// SetPort sets the value of Port.
-func (s *ReadLoadBalancerPort) SetPort(val uint16) {
-	s.Port = val
-}
-
-// SetProtocol sets the value of Protocol.
-func (s *ReadLoadBalancerPort) SetProtocol(val ReadLoadBalancerPortProtocol) {
-	s.Protocol = val
-}
-
-// ポートで扱うプロトコル.
-type ReadLoadBalancerPortProtocol string
-
-const (
-	ReadLoadBalancerPortProtocolHTTP  ReadLoadBalancerPortProtocol = "http"
-	ReadLoadBalancerPortProtocolHTTPS ReadLoadBalancerPortProtocol = "https"
-	ReadLoadBalancerPortProtocolTCP   ReadLoadBalancerPortProtocol = "tcp"
-)
-
-// AllValues returns all ReadLoadBalancerPortProtocol values.
-func (ReadLoadBalancerPortProtocol) AllValues() []ReadLoadBalancerPortProtocol {
-	return []ReadLoadBalancerPortProtocol{
-		ReadLoadBalancerPortProtocolHTTP,
-		ReadLoadBalancerPortProtocolHTTPS,
-		ReadLoadBalancerPortProtocolTCP,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ReadLoadBalancerPortProtocol) MarshalText() ([]byte, error) {
-	switch s {
-	case ReadLoadBalancerPortProtocolHTTP:
-		return []byte(s), nil
-	case ReadLoadBalancerPortProtocolHTTPS:
-		return []byte(s), nil
-	case ReadLoadBalancerPortProtocolTCP:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ReadLoadBalancerPortProtocol) UnmarshalText(data []byte) error {
-	switch ReadLoadBalancerPortProtocol(data) {
-	case ReadLoadBalancerPortProtocolHTTP:
-		*s = ReadLoadBalancerPortProtocolHTTP
-		return nil
-	case ReadLoadBalancerPortProtocolHTTPS:
-		*s = ReadLoadBalancerPortProtocolHTTPS
-		return nil
-	case ReadLoadBalancerPortProtocolTCP:
-		*s = ReadLoadBalancerPortProtocolTCP
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
+// SetLoadBalancer sets the value of LoadBalancer.
+func (s *ReadLoadBalancerResponse) SetLoadBalancer(val ReadLoadBalancer) {
+	s.LoadBalancer = val
 }
 
 // Ref: #/components/schemas/ReadLoadBalancerSummary
 type ReadLoadBalancerSummary struct {
-	// ロードバランサーID.
+	// ロードバランサID.
 	LoadBalancerID LoadBalancerID `json:"loadBalancerID"`
-	// ロードバランサー名称｡オートスケーリンググループ内でユニーク｡英数字とハイフン、アンダースコアのみ使用可能.
+	// ロードバランサ名。オートスケーリンググループ内でユニーク。英数字とハイフン、アンダースコアのみ使用可能.
 	Name string `json:"name"`
-	// ロードバランサーのサービスクラスパス.
+	// ロードバランサのサービスクラスパス.
 	ServiceClassPath string `json:"serviceClassPath"`
-	// ネームサーバー設定.
-	NameServers []IPv4 `json:"nameServers"`
-	// ロードバランサーの作成日時.
+	// ネームサーバ設定.
+	NameServers []Ipv4 `json:"nameServers"`
+	// ロードバランサの作成日時：UNIX時間（秒）.
 	Created int `json:"created"`
 	// 削除中.
 	Deleting bool `json:"deleting"`
@@ -3832,7 +4198,7 @@ func (s *ReadLoadBalancerSummary) GetServiceClassPath() string {
 }
 
 // GetNameServers returns the value of NameServers.
-func (s *ReadLoadBalancerSummary) GetNameServers() []IPv4 {
+func (s *ReadLoadBalancerSummary) GetNameServers() []Ipv4 {
 	return s.NameServers
 }
 
@@ -3862,7 +4228,7 @@ func (s *ReadLoadBalancerSummary) SetServiceClassPath(val string) {
 }
 
 // SetNameServers sets the value of NameServers.
-func (s *ReadLoadBalancerSummary) SetNameServers(val []IPv4) {
+func (s *ReadLoadBalancerSummary) SetNameServers(val []Ipv4) {
 	s.NameServers = val
 }
 
@@ -3876,312 +4242,20 @@ func (s *ReadLoadBalancerSummary) SetDeleting(val bool) {
 	s.Deleting = val
 }
 
-// Ref: #/components/schemas/ReadWorkerNodeDetail
-type ReadWorkerNodeDetail struct {
-	// ワーカーノードID.
-	WorkerNodeID WorkerNodeID `json:"workerNodeID"`
-	// アプライアンスリソースID.
-	ResourceID NilString `json:"resourceID"`
-	// Draining 状態かどうか.
-	Draining bool `json:"draining"`
-	// ノード状態.
-	Status WorkerNodeStatus `json:"status"`
-	// ヘルシーかどうか.
-	Healthy bool `json:"healthy"`
-	// ワーカーノードが作成中かどうか.
-	Creating bool `json:"creating"`
-	// リソース作成日時(unixTime in seconds).
-	Created int `json:"created"`
-	// 実行中コンテナ.
-	RunningContainers []RunningContainer `json:"runningContainers"`
-	// ネットワークインターフェース情報.
-	NetworkInterfaces []ReadWorkerNodeNetworkInterface `json:"networkInterfaces"`
-	// ノードにインストールされているアーカイブのバージョン.
-	ArchiveVersion OptString `json:"archiveVersion"`
-	// Node作成Jobのエラーメッセージ.
-	CreateErrorMessage OptString `json:"createErrorMessage"`
+// Ref: #/components/schemas/ReadWorkerNodeResponse
+type ReadWorkerNodeResponse struct {
+	// ワーカノードの詳細.
+	WorkerNode WorkerNode `json:"workerNode"`
 }
 
-// GetWorkerNodeID returns the value of WorkerNodeID.
-func (s *ReadWorkerNodeDetail) GetWorkerNodeID() WorkerNodeID {
-	return s.WorkerNodeID
+// GetWorkerNode returns the value of WorkerNode.
+func (s *ReadWorkerNodeResponse) GetWorkerNode() WorkerNode {
+	return s.WorkerNode
 }
 
-// GetResourceID returns the value of ResourceID.
-func (s *ReadWorkerNodeDetail) GetResourceID() NilString {
-	return s.ResourceID
-}
-
-// GetDraining returns the value of Draining.
-func (s *ReadWorkerNodeDetail) GetDraining() bool {
-	return s.Draining
-}
-
-// GetStatus returns the value of Status.
-func (s *ReadWorkerNodeDetail) GetStatus() WorkerNodeStatus {
-	return s.Status
-}
-
-// GetHealthy returns the value of Healthy.
-func (s *ReadWorkerNodeDetail) GetHealthy() bool {
-	return s.Healthy
-}
-
-// GetCreating returns the value of Creating.
-func (s *ReadWorkerNodeDetail) GetCreating() bool {
-	return s.Creating
-}
-
-// GetCreated returns the value of Created.
-func (s *ReadWorkerNodeDetail) GetCreated() int {
-	return s.Created
-}
-
-// GetRunningContainers returns the value of RunningContainers.
-func (s *ReadWorkerNodeDetail) GetRunningContainers() []RunningContainer {
-	return s.RunningContainers
-}
-
-// GetNetworkInterfaces returns the value of NetworkInterfaces.
-func (s *ReadWorkerNodeDetail) GetNetworkInterfaces() []ReadWorkerNodeNetworkInterface {
-	return s.NetworkInterfaces
-}
-
-// GetArchiveVersion returns the value of ArchiveVersion.
-func (s *ReadWorkerNodeDetail) GetArchiveVersion() OptString {
-	return s.ArchiveVersion
-}
-
-// GetCreateErrorMessage returns the value of CreateErrorMessage.
-func (s *ReadWorkerNodeDetail) GetCreateErrorMessage() OptString {
-	return s.CreateErrorMessage
-}
-
-// SetWorkerNodeID sets the value of WorkerNodeID.
-func (s *ReadWorkerNodeDetail) SetWorkerNodeID(val WorkerNodeID) {
-	s.WorkerNodeID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *ReadWorkerNodeDetail) SetResourceID(val NilString) {
-	s.ResourceID = val
-}
-
-// SetDraining sets the value of Draining.
-func (s *ReadWorkerNodeDetail) SetDraining(val bool) {
-	s.Draining = val
-}
-
-// SetStatus sets the value of Status.
-func (s *ReadWorkerNodeDetail) SetStatus(val WorkerNodeStatus) {
-	s.Status = val
-}
-
-// SetHealthy sets the value of Healthy.
-func (s *ReadWorkerNodeDetail) SetHealthy(val bool) {
-	s.Healthy = val
-}
-
-// SetCreating sets the value of Creating.
-func (s *ReadWorkerNodeDetail) SetCreating(val bool) {
-	s.Creating = val
-}
-
-// SetCreated sets the value of Created.
-func (s *ReadWorkerNodeDetail) SetCreated(val int) {
-	s.Created = val
-}
-
-// SetRunningContainers sets the value of RunningContainers.
-func (s *ReadWorkerNodeDetail) SetRunningContainers(val []RunningContainer) {
-	s.RunningContainers = val
-}
-
-// SetNetworkInterfaces sets the value of NetworkInterfaces.
-func (s *ReadWorkerNodeDetail) SetNetworkInterfaces(val []ReadWorkerNodeNetworkInterface) {
-	s.NetworkInterfaces = val
-}
-
-// SetArchiveVersion sets the value of ArchiveVersion.
-func (s *ReadWorkerNodeDetail) SetArchiveVersion(val OptString) {
-	s.ArchiveVersion = val
-}
-
-// SetCreateErrorMessage sets the value of CreateErrorMessage.
-func (s *ReadWorkerNodeDetail) SetCreateErrorMessage(val OptString) {
-	s.CreateErrorMessage = val
-}
-
-// Ref: #/components/schemas/ReadWorkerNodeInterfaceAddress
-type ReadWorkerNodeInterfaceAddress struct {
-	// アドレス.
-	Address string `json:"address"`
-}
-
-// GetAddress returns the value of Address.
-func (s *ReadWorkerNodeInterfaceAddress) GetAddress() string {
-	return s.Address
-}
-
-// SetAddress sets the value of Address.
-func (s *ReadWorkerNodeInterfaceAddress) SetAddress(val string) {
-	s.Address = val
-}
-
-// Ref: #/components/schemas/ReadWorkerNodeNetworkInterface
-type ReadWorkerNodeNetworkInterface struct {
-	// インターフェース番号｡eth0 なら 0｡eth1 なら 1｡.
-	InterfaceIndex int16 `json:"interfaceIndex"`
-	// ロードバランサーノードのアドレス.
-	Addresses []ReadWorkerNodeInterfaceAddress `json:"addresses"`
-}
-
-// GetInterfaceIndex returns the value of InterfaceIndex.
-func (s *ReadWorkerNodeNetworkInterface) GetInterfaceIndex() int16 {
-	return s.InterfaceIndex
-}
-
-// GetAddresses returns the value of Addresses.
-func (s *ReadWorkerNodeNetworkInterface) GetAddresses() []ReadWorkerNodeInterfaceAddress {
-	return s.Addresses
-}
-
-// SetInterfaceIndex sets the value of InterfaceIndex.
-func (s *ReadWorkerNodeNetworkInterface) SetInterfaceIndex(val int16) {
-	s.InterfaceIndex = val
-}
-
-// SetAddresses sets the value of Addresses.
-func (s *ReadWorkerNodeNetworkInterface) SetAddresses(val []ReadWorkerNodeInterfaceAddress) {
-	s.Addresses = val
-}
-
-// Ref: #/components/schemas/ReadWorkerNodeSummary
-type ReadWorkerNodeSummary struct {
-	// ワーカーノードID.
-	WorkerNodeID WorkerNodeID `json:"workerNodeID"`
-	// アプライアンスリソースID.
-	ResourceID NilString `json:"resourceID"`
-	// Draining 状態かどうか.
-	Draining bool `json:"draining"`
-	// ノード状態.
-	Status WorkerNodeStatus `json:"status"`
-	// ネットワークインターフェース情報.
-	NetworkInterfaces []ReadWorkerNodeNetworkInterface `json:"networkInterfaces"`
-	// ノードにインストールされているアーカイブのバージョン.
-	ArchiveVersion OptString `json:"archiveVersion"`
-	// リソース作成日時(unixTime in seconds).
-	Created int `json:"created"`
-	// ノード作成に関するエラーメッセージ.
-	CreateErrorMessage OptString `json:"createErrorMessage"`
-}
-
-// GetWorkerNodeID returns the value of WorkerNodeID.
-func (s *ReadWorkerNodeSummary) GetWorkerNodeID() WorkerNodeID {
-	return s.WorkerNodeID
-}
-
-// GetResourceID returns the value of ResourceID.
-func (s *ReadWorkerNodeSummary) GetResourceID() NilString {
-	return s.ResourceID
-}
-
-// GetDraining returns the value of Draining.
-func (s *ReadWorkerNodeSummary) GetDraining() bool {
-	return s.Draining
-}
-
-// GetStatus returns the value of Status.
-func (s *ReadWorkerNodeSummary) GetStatus() WorkerNodeStatus {
-	return s.Status
-}
-
-// GetNetworkInterfaces returns the value of NetworkInterfaces.
-func (s *ReadWorkerNodeSummary) GetNetworkInterfaces() []ReadWorkerNodeNetworkInterface {
-	return s.NetworkInterfaces
-}
-
-// GetArchiveVersion returns the value of ArchiveVersion.
-func (s *ReadWorkerNodeSummary) GetArchiveVersion() OptString {
-	return s.ArchiveVersion
-}
-
-// GetCreated returns the value of Created.
-func (s *ReadWorkerNodeSummary) GetCreated() int {
-	return s.Created
-}
-
-// GetCreateErrorMessage returns the value of CreateErrorMessage.
-func (s *ReadWorkerNodeSummary) GetCreateErrorMessage() OptString {
-	return s.CreateErrorMessage
-}
-
-// SetWorkerNodeID sets the value of WorkerNodeID.
-func (s *ReadWorkerNodeSummary) SetWorkerNodeID(val WorkerNodeID) {
-	s.WorkerNodeID = val
-}
-
-// SetResourceID sets the value of ResourceID.
-func (s *ReadWorkerNodeSummary) SetResourceID(val NilString) {
-	s.ResourceID = val
-}
-
-// SetDraining sets the value of Draining.
-func (s *ReadWorkerNodeSummary) SetDraining(val bool) {
-	s.Draining = val
-}
-
-// SetStatus sets the value of Status.
-func (s *ReadWorkerNodeSummary) SetStatus(val WorkerNodeStatus) {
-	s.Status = val
-}
-
-// SetNetworkInterfaces sets the value of NetworkInterfaces.
-func (s *ReadWorkerNodeSummary) SetNetworkInterfaces(val []ReadWorkerNodeNetworkInterface) {
-	s.NetworkInterfaces = val
-}
-
-// SetArchiveVersion sets the value of ArchiveVersion.
-func (s *ReadWorkerNodeSummary) SetArchiveVersion(val OptString) {
-	s.ArchiveVersion = val
-}
-
-// SetCreated sets the value of Created.
-func (s *ReadWorkerNodeSummary) SetCreated(val int) {
-	s.Created = val
-}
-
-// SetCreateErrorMessage sets the value of CreateErrorMessage.
-func (s *ReadWorkerNodeSummary) SetCreateErrorMessage(val OptString) {
-	s.CreateErrorMessage = val
-}
-
-// Ref: #/components/schemas/ReadWorkerServiceClass
-type ReadWorkerServiceClass struct {
-	// サービスクラスのパス.
-	Path string `json:"path"`
-	// サービスクラスの名前.
-	Name string `json:"name"`
-}
-
-// GetPath returns the value of Path.
-func (s *ReadWorkerServiceClass) GetPath() string {
-	return s.Path
-}
-
-// GetName returns the value of Name.
-func (s *ReadWorkerServiceClass) GetName() string {
-	return s.Name
-}
-
-// SetPath sets the value of Path.
-func (s *ReadWorkerServiceClass) SetPath(val string) {
-	s.Path = val
-}
-
-// SetName sets the value of Name.
-func (s *ReadWorkerServiceClass) SetName(val string) {
-	s.Name = val
+// SetWorkerNode sets the value of WorkerNode.
+func (s *ReadWorkerNodeResponse) SetWorkerNode(val WorkerNode) {
+	s.WorkerNode = val
 }
 
 // Ref: #/components/schemas/RegistryPasswordAction
@@ -4233,107 +4307,6 @@ func (s *RegistryPasswordAction) UnmarshalText(data []byte) error {
 	}
 }
 
-// Ref: #/components/schemas/RunningContainer
-type RunningContainer struct {
-	// コンテナID.
-	ContainerID string `json:"containerID"`
-	// コンテナ名.
-	Name string `json:"name"`
-	// コンテナのステート(created, running, restarting, removing, paused, exited, dead
-	// のうちいずれか).
-	State string `json:"state"`
-	// コンテナのステータス.
-	Status string `json:"status"`
-	// コンテナのイメージ.
-	Image string `json:"image"`
-	// コンテナの開始日時(unixTime in seconds).
-	StartedAt int `json:"startedAt"`
-	// アプリケーションID.
-	ApplicationID ApplicationID `json:"applicationID"`
-	// アプリケーションバージョン.
-	ApplicationVersion int32 `json:"applicationVersion"`
-}
-
-// GetContainerID returns the value of ContainerID.
-func (s *RunningContainer) GetContainerID() string {
-	return s.ContainerID
-}
-
-// GetName returns the value of Name.
-func (s *RunningContainer) GetName() string {
-	return s.Name
-}
-
-// GetState returns the value of State.
-func (s *RunningContainer) GetState() string {
-	return s.State
-}
-
-// GetStatus returns the value of Status.
-func (s *RunningContainer) GetStatus() string {
-	return s.Status
-}
-
-// GetImage returns the value of Image.
-func (s *RunningContainer) GetImage() string {
-	return s.Image
-}
-
-// GetStartedAt returns the value of StartedAt.
-func (s *RunningContainer) GetStartedAt() int {
-	return s.StartedAt
-}
-
-// GetApplicationID returns the value of ApplicationID.
-func (s *RunningContainer) GetApplicationID() ApplicationID {
-	return s.ApplicationID
-}
-
-// GetApplicationVersion returns the value of ApplicationVersion.
-func (s *RunningContainer) GetApplicationVersion() int32 {
-	return s.ApplicationVersion
-}
-
-// SetContainerID sets the value of ContainerID.
-func (s *RunningContainer) SetContainerID(val string) {
-	s.ContainerID = val
-}
-
-// SetName sets the value of Name.
-func (s *RunningContainer) SetName(val string) {
-	s.Name = val
-}
-
-// SetState sets the value of State.
-func (s *RunningContainer) SetState(val string) {
-	s.State = val
-}
-
-// SetStatus sets the value of Status.
-func (s *RunningContainer) SetStatus(val string) {
-	s.Status = val
-}
-
-// SetImage sets the value of Image.
-func (s *RunningContainer) SetImage(val string) {
-	s.Image = val
-}
-
-// SetStartedAt sets the value of StartedAt.
-func (s *RunningContainer) SetStartedAt(val int) {
-	s.StartedAt = val
-}
-
-// SetApplicationID sets the value of ApplicationID.
-func (s *RunningContainer) SetApplicationID(val ApplicationID) {
-	s.ApplicationID = val
-}
-
-// SetApplicationVersion sets the value of ApplicationVersion.
-func (s *RunningContainer) SetApplicationVersion(val int32) {
-	s.ApplicationVersion = val
-}
-
 // Ref: #/components/schemas/ScalingMode
 type ScalingMode string
 
@@ -4376,28 +4349,33 @@ func (s *ScalingMode) UnmarshalText(data []byte) error {
 	}
 }
 
-// Ref: #/components/schemas/UpdateApplication
-type UpdateApplication struct {
-	// 利用しているバージョン.
-	ActiveVersion NilInt32 `json:"activeVersion"`
-}
-
-// GetActiveVersion returns the value of ActiveVersion.
-func (s *UpdateApplication) GetActiveVersion() NilInt32 {
-	return s.ActiveVersion
-}
-
-// SetActiveVersion sets the value of ActiveVersion.
-func (s *UpdateApplication) SetActiveVersion(val NilInt32) {
-	s.ActiveVersion = val
-}
+type ServicePrincipalID string
 
 // UpdateApplicationNoContent is response for UpdateApplication operation.
 type UpdateApplicationNoContent struct{}
 
-// Ref: #/components/schemas/UpdateCertificate
-type UpdateCertificate struct {
-	// 証明書の名前｡クラスタ内でユニーク｡英数字、アンダースコア、ハイフン､ドットのみ使用可能.
+// Ref: #/components/schemas/UpdateApplicationRequest
+type UpdateApplicationRequest struct {
+	// 利用しているバージョン.
+	ActiveVersion NilApplicationVersionNumber `json:"activeVersion"`
+}
+
+// GetActiveVersion returns the value of ActiveVersion.
+func (s *UpdateApplicationRequest) GetActiveVersion() NilApplicationVersionNumber {
+	return s.ActiveVersion
+}
+
+// SetActiveVersion sets the value of ActiveVersion.
+func (s *UpdateApplicationRequest) SetActiveVersion(val NilApplicationVersionNumber) {
+	s.ActiveVersion = val
+}
+
+// UpdateCertificateNoContent is response for UpdateCertificate operation.
+type UpdateCertificateNoContent struct{}
+
+// Ref: #/components/schemas/UpdateCertificateRequest
+type UpdateCertificateRequest struct {
+	// 証明書の名前。クラスタ内でユニーク。英数字、アンダースコア、ハイフン、ドットのみ使用可能.
 	Name string `json:"name"`
 	// 証明書のPEM形式の文字列.
 	CertificatePem string `json:"certificatePem"`
@@ -4408,86 +4386,97 @@ type UpdateCertificate struct {
 }
 
 // GetName returns the value of Name.
-func (s *UpdateCertificate) GetName() string {
+func (s *UpdateCertificateRequest) GetName() string {
 	return s.Name
 }
 
 // GetCertificatePem returns the value of CertificatePem.
-func (s *UpdateCertificate) GetCertificatePem() string {
+func (s *UpdateCertificateRequest) GetCertificatePem() string {
 	return s.CertificatePem
 }
 
 // GetPrivatekeyPem returns the value of PrivatekeyPem.
-func (s *UpdateCertificate) GetPrivatekeyPem() string {
+func (s *UpdateCertificateRequest) GetPrivatekeyPem() string {
 	return s.PrivatekeyPem
 }
 
 // GetIntermediateCertificatePem returns the value of IntermediateCertificatePem.
-func (s *UpdateCertificate) GetIntermediateCertificatePem() OptString {
+func (s *UpdateCertificateRequest) GetIntermediateCertificatePem() OptString {
 	return s.IntermediateCertificatePem
 }
 
 // SetName sets the value of Name.
-func (s *UpdateCertificate) SetName(val string) {
+func (s *UpdateCertificateRequest) SetName(val string) {
 	s.Name = val
 }
 
 // SetCertificatePem sets the value of CertificatePem.
-func (s *UpdateCertificate) SetCertificatePem(val string) {
+func (s *UpdateCertificateRequest) SetCertificatePem(val string) {
 	s.CertificatePem = val
 }
 
 // SetPrivatekeyPem sets the value of PrivatekeyPem.
-func (s *UpdateCertificate) SetPrivatekeyPem(val string) {
+func (s *UpdateCertificateRequest) SetPrivatekeyPem(val string) {
 	s.PrivatekeyPem = val
 }
 
 // SetIntermediateCertificatePem sets the value of IntermediateCertificatePem.
-func (s *UpdateCertificate) SetIntermediateCertificatePem(val OptString) {
+func (s *UpdateCertificateRequest) SetIntermediateCertificatePem(val OptString) {
 	s.IntermediateCertificatePem = val
-}
-
-// UpdateCertificateNoContent is response for UpdateCertificate operation.
-type UpdateCertificateNoContent struct{}
-
-// Ref: #/components/schemas/UpdateCluster
-type UpdateCluster struct {
-	// Let's encrypt
-	// による証明書発行を有効にするにはここにメールアドレスを設定します｡
-	// let's encrypt による証明書発行は HTTP-01 Challenge になるため､80 番ポートを
-	// HTTP Protocol で外向きに解放する必要があります｡.
-	LetsEncryptEmail OptString `json:"letsEncryptEmail"`
-	// サービスプリンシパルのID.
-	ServicePrincipalID string `json:"servicePrincipalID"`
-}
-
-// GetLetsEncryptEmail returns the value of LetsEncryptEmail.
-func (s *UpdateCluster) GetLetsEncryptEmail() OptString {
-	return s.LetsEncryptEmail
-}
-
-// GetServicePrincipalID returns the value of ServicePrincipalID.
-func (s *UpdateCluster) GetServicePrincipalID() string {
-	return s.ServicePrincipalID
-}
-
-// SetLetsEncryptEmail sets the value of LetsEncryptEmail.
-func (s *UpdateCluster) SetLetsEncryptEmail(val OptString) {
-	s.LetsEncryptEmail = val
-}
-
-// SetServicePrincipalID sets the value of ServicePrincipalID.
-func (s *UpdateCluster) SetServicePrincipalID(val string) {
-	s.ServicePrincipalID = val
 }
 
 // UpdateClusterNoContent is response for UpdateCluster operation.
 type UpdateClusterNoContent struct{}
 
-// ワーカーノードのdraining状態を変更するリクエスト.
+// Ref: #/components/schemas/UpdateClusterRequest
+type UpdateClusterRequest struct {
+	// Let's Encrypt
+	// による証明書発行を有効にするにはここにメールアドレスを設定します。
+	// Let's Encrypt による証明書発行は HTTP-01 チャレンジになるため、80
+	// 番ポートを HTTPプロトコルで外向きに解放する必要があります。.
+	LetsEncryptEmail   OptString          `json:"letsEncryptEmail"`
+	ServicePrincipalID ServicePrincipalID `json:"servicePrincipalID"`
+	// ロードバランサのポート群.
+	Ports []ClusterLoadBalancerPort `json:"ports"`
+}
+
+// GetLetsEncryptEmail returns the value of LetsEncryptEmail.
+func (s *UpdateClusterRequest) GetLetsEncryptEmail() OptString {
+	return s.LetsEncryptEmail
+}
+
+// GetServicePrincipalID returns the value of ServicePrincipalID.
+func (s *UpdateClusterRequest) GetServicePrincipalID() ServicePrincipalID {
+	return s.ServicePrincipalID
+}
+
+// GetPorts returns the value of Ports.
+func (s *UpdateClusterRequest) GetPorts() []ClusterLoadBalancerPort {
+	return s.Ports
+}
+
+// SetLetsEncryptEmail sets the value of LetsEncryptEmail.
+func (s *UpdateClusterRequest) SetLetsEncryptEmail(val OptString) {
+	s.LetsEncryptEmail = val
+}
+
+// SetServicePrincipalID sets the value of ServicePrincipalID.
+func (s *UpdateClusterRequest) SetServicePrincipalID(val ServicePrincipalID) {
+	s.ServicePrincipalID = val
+}
+
+// SetPorts sets the value of Ports.
+func (s *UpdateClusterRequest) SetPorts(val []ClusterLoadBalancerPort) {
+	s.Ports = val
+}
+
+// UpdateWorkerNodeDrainingNoContent is response for UpdateWorkerNodeDraining operation.
+type UpdateWorkerNodeDrainingNoContent struct{}
+
+// ワーカノードのドレイン状態を変更するリクエスト.
 // Ref: #/components/schemas/UpdateWorkerNodeDrainingRequest
 type UpdateWorkerNodeDrainingRequest struct {
-	// Draining状態にするかどうか.
+	// ドレイン状態にするかどうか.
 	Draining bool `json:"draining"`
 }
 
@@ -4501,12 +4490,330 @@ func (s *UpdateWorkerNodeDrainingRequest) SetDraining(val bool) {
 	s.Draining = val
 }
 
-// UpdateWorkerNodeDrainingStateNoContent is response for UpdateWorkerNodeDrainingState operation.
-type UpdateWorkerNodeDrainingStateNoContent struct{}
+// Ref: #/components/schemas/WorkerNode
+type WorkerNode struct {
+	// ワーカノードID.
+	WorkerNodeID WorkerNodeID `json:"workerNodeID"`
+	// アプライアンスリソースID.
+	ResourceID NilString `json:"resourceID"`
+	// ドレイン状態かどうか.
+	Draining bool `json:"draining"`
+	// ノード状態.
+	Status WorkerNodeStatus `json:"status"`
+	// ネットワークインターフェース情報.
+	NetworkInterfaces []WorkerNodeNetworkInterface `json:"networkInterfaces"`
+	// ノードにインストールされているアーカイブのバージョン.
+	ArchiveVersion OptString `json:"archiveVersion"`
+	// リソース作成日時：UNIX時間（秒）.
+	Created int `json:"created"`
+	// ノード作成に関するエラーメッセージ.
+	CreateErrorMessage OptString `json:"createErrorMessage"`
+	// ヘルシーかどうか.
+	Healthy bool `json:"healthy"`
+	// ワーカノードが作成中かどうか.
+	Creating bool `json:"creating"`
+	// 実行中コンテナ.
+	RunningContainers []WorkerNodeRunningContainer `json:"runningContainers"`
+}
+
+// GetWorkerNodeID returns the value of WorkerNodeID.
+func (s *WorkerNode) GetWorkerNodeID() WorkerNodeID {
+	return s.WorkerNodeID
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *WorkerNode) GetResourceID() NilString {
+	return s.ResourceID
+}
+
+// GetDraining returns the value of Draining.
+func (s *WorkerNode) GetDraining() bool {
+	return s.Draining
+}
+
+// GetStatus returns the value of Status.
+func (s *WorkerNode) GetStatus() WorkerNodeStatus {
+	return s.Status
+}
+
+// GetNetworkInterfaces returns the value of NetworkInterfaces.
+func (s *WorkerNode) GetNetworkInterfaces() []WorkerNodeNetworkInterface {
+	return s.NetworkInterfaces
+}
+
+// GetArchiveVersion returns the value of ArchiveVersion.
+func (s *WorkerNode) GetArchiveVersion() OptString {
+	return s.ArchiveVersion
+}
+
+// GetCreated returns the value of Created.
+func (s *WorkerNode) GetCreated() int {
+	return s.Created
+}
+
+// GetCreateErrorMessage returns the value of CreateErrorMessage.
+func (s *WorkerNode) GetCreateErrorMessage() OptString {
+	return s.CreateErrorMessage
+}
+
+// GetHealthy returns the value of Healthy.
+func (s *WorkerNode) GetHealthy() bool {
+	return s.Healthy
+}
+
+// GetCreating returns the value of Creating.
+func (s *WorkerNode) GetCreating() bool {
+	return s.Creating
+}
+
+// GetRunningContainers returns the value of RunningContainers.
+func (s *WorkerNode) GetRunningContainers() []WorkerNodeRunningContainer {
+	return s.RunningContainers
+}
+
+// SetWorkerNodeID sets the value of WorkerNodeID.
+func (s *WorkerNode) SetWorkerNodeID(val WorkerNodeID) {
+	s.WorkerNodeID = val
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *WorkerNode) SetResourceID(val NilString) {
+	s.ResourceID = val
+}
+
+// SetDraining sets the value of Draining.
+func (s *WorkerNode) SetDraining(val bool) {
+	s.Draining = val
+}
+
+// SetStatus sets the value of Status.
+func (s *WorkerNode) SetStatus(val WorkerNodeStatus) {
+	s.Status = val
+}
+
+// SetNetworkInterfaces sets the value of NetworkInterfaces.
+func (s *WorkerNode) SetNetworkInterfaces(val []WorkerNodeNetworkInterface) {
+	s.NetworkInterfaces = val
+}
+
+// SetArchiveVersion sets the value of ArchiveVersion.
+func (s *WorkerNode) SetArchiveVersion(val OptString) {
+	s.ArchiveVersion = val
+}
+
+// SetCreated sets the value of Created.
+func (s *WorkerNode) SetCreated(val int) {
+	s.Created = val
+}
+
+// SetCreateErrorMessage sets the value of CreateErrorMessage.
+func (s *WorkerNode) SetCreateErrorMessage(val OptString) {
+	s.CreateErrorMessage = val
+}
+
+// SetHealthy sets the value of Healthy.
+func (s *WorkerNode) SetHealthy(val bool) {
+	s.Healthy = val
+}
+
+// SetCreating sets the value of Creating.
+func (s *WorkerNode) SetCreating(val bool) {
+	s.Creating = val
+}
+
+// SetRunningContainers sets the value of RunningContainers.
+func (s *WorkerNode) SetRunningContainers(val []WorkerNodeRunningContainer) {
+	s.RunningContainers = val
+}
+
+// Ref: #/components/schemas/WorkerNodeContainerPlacement
+type WorkerNodeContainerPlacement struct {
+	// ワーカノードID.
+	NodeID WorkerNodeID `json:"nodeID"`
+	// 現在配置されているコンテナ情報.
+	ContainersStats NilApplicationCurrentContainers `json:"containersStats"`
+	// Desired（目標配置）情報.
+	Desired NilApplicationDesiredContainers `json:"desired"`
+}
+
+// GetNodeID returns the value of NodeID.
+func (s *WorkerNodeContainerPlacement) GetNodeID() WorkerNodeID {
+	return s.NodeID
+}
+
+// GetContainersStats returns the value of ContainersStats.
+func (s *WorkerNodeContainerPlacement) GetContainersStats() NilApplicationCurrentContainers {
+	return s.ContainersStats
+}
+
+// GetDesired returns the value of Desired.
+func (s *WorkerNodeContainerPlacement) GetDesired() NilApplicationDesiredContainers {
+	return s.Desired
+}
+
+// SetNodeID sets the value of NodeID.
+func (s *WorkerNodeContainerPlacement) SetNodeID(val WorkerNodeID) {
+	s.NodeID = val
+}
+
+// SetContainersStats sets the value of ContainersStats.
+func (s *WorkerNodeContainerPlacement) SetContainersStats(val NilApplicationCurrentContainers) {
+	s.ContainersStats = val
+}
+
+// SetDesired sets the value of Desired.
+func (s *WorkerNodeContainerPlacement) SetDesired(val NilApplicationDesiredContainers) {
+	s.Desired = val
+}
 
 type WorkerNodeID uuid.UUID
 
-// ワーカーノードの状態を表す列挙型.
+// Ref: #/components/schemas/WorkerNodeInterfaceAddress
+type WorkerNodeInterfaceAddress struct {
+	// アドレス.
+	Address string `json:"address"`
+}
+
+// GetAddress returns the value of Address.
+func (s *WorkerNodeInterfaceAddress) GetAddress() string {
+	return s.Address
+}
+
+// SetAddress sets the value of Address.
+func (s *WorkerNodeInterfaceAddress) SetAddress(val string) {
+	s.Address = val
+}
+
+// Ref: #/components/schemas/WorkerNodeNetworkInterface
+type WorkerNodeNetworkInterface struct {
+	// インターフェース番号。eth0 なら 0。eth1 なら 1。.
+	InterfaceIndex int16 `json:"interfaceIndex"`
+	// インターフェースに割り当てられたIPアドレスのリスト.
+	Addresses []WorkerNodeInterfaceAddress `json:"addresses"`
+}
+
+// GetInterfaceIndex returns the value of InterfaceIndex.
+func (s *WorkerNodeNetworkInterface) GetInterfaceIndex() int16 {
+	return s.InterfaceIndex
+}
+
+// GetAddresses returns the value of Addresses.
+func (s *WorkerNodeNetworkInterface) GetAddresses() []WorkerNodeInterfaceAddress {
+	return s.Addresses
+}
+
+// SetInterfaceIndex sets the value of InterfaceIndex.
+func (s *WorkerNodeNetworkInterface) SetInterfaceIndex(val int16) {
+	s.InterfaceIndex = val
+}
+
+// SetAddresses sets the value of Addresses.
+func (s *WorkerNodeNetworkInterface) SetAddresses(val []WorkerNodeInterfaceAddress) {
+	s.Addresses = val
+}
+
+// Ref: #/components/schemas/WorkerNodeRunningContainer
+type WorkerNodeRunningContainer struct {
+	// コンテナID.
+	ContainerID string `json:"containerID"`
+	// コンテナ名.
+	Name string `json:"name"`
+	// コンテナのステート（created、running、restarting、removing、paused、exited、dead
+	// のうちいずれか）.
+	State string `json:"state"`
+	// コンテナのステータス.
+	Status string `json:"status"`
+	// コンテナのイメージ.
+	Image string `json:"image"`
+	// コンテナの開始日時：UNIX時間（秒）.
+	StartedAt int `json:"startedAt"`
+	// アプリケーションID.
+	ApplicationID ApplicationID `json:"applicationID"`
+	// アプリケーションバージョン.
+	ApplicationVersion ApplicationVersionNumber `json:"applicationVersion"`
+}
+
+// GetContainerID returns the value of ContainerID.
+func (s *WorkerNodeRunningContainer) GetContainerID() string {
+	return s.ContainerID
+}
+
+// GetName returns the value of Name.
+func (s *WorkerNodeRunningContainer) GetName() string {
+	return s.Name
+}
+
+// GetState returns the value of State.
+func (s *WorkerNodeRunningContainer) GetState() string {
+	return s.State
+}
+
+// GetStatus returns the value of Status.
+func (s *WorkerNodeRunningContainer) GetStatus() string {
+	return s.Status
+}
+
+// GetImage returns the value of Image.
+func (s *WorkerNodeRunningContainer) GetImage() string {
+	return s.Image
+}
+
+// GetStartedAt returns the value of StartedAt.
+func (s *WorkerNodeRunningContainer) GetStartedAt() int {
+	return s.StartedAt
+}
+
+// GetApplicationID returns the value of ApplicationID.
+func (s *WorkerNodeRunningContainer) GetApplicationID() ApplicationID {
+	return s.ApplicationID
+}
+
+// GetApplicationVersion returns the value of ApplicationVersion.
+func (s *WorkerNodeRunningContainer) GetApplicationVersion() ApplicationVersionNumber {
+	return s.ApplicationVersion
+}
+
+// SetContainerID sets the value of ContainerID.
+func (s *WorkerNodeRunningContainer) SetContainerID(val string) {
+	s.ContainerID = val
+}
+
+// SetName sets the value of Name.
+func (s *WorkerNodeRunningContainer) SetName(val string) {
+	s.Name = val
+}
+
+// SetState sets the value of State.
+func (s *WorkerNodeRunningContainer) SetState(val string) {
+	s.State = val
+}
+
+// SetStatus sets the value of Status.
+func (s *WorkerNodeRunningContainer) SetStatus(val string) {
+	s.Status = val
+}
+
+// SetImage sets the value of Image.
+func (s *WorkerNodeRunningContainer) SetImage(val string) {
+	s.Image = val
+}
+
+// SetStartedAt sets the value of StartedAt.
+func (s *WorkerNodeRunningContainer) SetStartedAt(val int) {
+	s.StartedAt = val
+}
+
+// SetApplicationID sets the value of ApplicationID.
+func (s *WorkerNodeRunningContainer) SetApplicationID(val ApplicationID) {
+	s.ApplicationID = val
+}
+
+// SetApplicationVersion sets the value of ApplicationVersion.
+func (s *WorkerNodeRunningContainer) SetApplicationVersion(val ApplicationVersionNumber) {
+	s.ApplicationVersion = val
+}
+
+// ワーカノードの状態を表す列挙型.
 // Ref: #/components/schemas/WorkerNodeStatus
 type WorkerNodeStatus string
 
@@ -4561,4 +4868,132 @@ func (s *WorkerNodeStatus) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+// Ref: #/components/schemas/WorkerNodeSummary
+type WorkerNodeSummary struct {
+	// ワーカノードID.
+	WorkerNodeID WorkerNodeID `json:"workerNodeID"`
+	// アプライアンスリソースID.
+	ResourceID NilString `json:"resourceID"`
+	// ドレイン状態かどうか.
+	Draining bool `json:"draining"`
+	// ノード状態.
+	Status WorkerNodeStatus `json:"status"`
+	// ネットワークインターフェース情報.
+	NetworkInterfaces []WorkerNodeNetworkInterface `json:"networkInterfaces"`
+	// ノードにインストールされているアーカイブのバージョン.
+	ArchiveVersion OptString `json:"archiveVersion"`
+	// リソース作成日時：UNIX時間（秒）.
+	Created int `json:"created"`
+	// ノード作成に関するエラーメッセージ.
+	CreateErrorMessage OptString `json:"createErrorMessage"`
+}
+
+// GetWorkerNodeID returns the value of WorkerNodeID.
+func (s *WorkerNodeSummary) GetWorkerNodeID() WorkerNodeID {
+	return s.WorkerNodeID
+}
+
+// GetResourceID returns the value of ResourceID.
+func (s *WorkerNodeSummary) GetResourceID() NilString {
+	return s.ResourceID
+}
+
+// GetDraining returns the value of Draining.
+func (s *WorkerNodeSummary) GetDraining() bool {
+	return s.Draining
+}
+
+// GetStatus returns the value of Status.
+func (s *WorkerNodeSummary) GetStatus() WorkerNodeStatus {
+	return s.Status
+}
+
+// GetNetworkInterfaces returns the value of NetworkInterfaces.
+func (s *WorkerNodeSummary) GetNetworkInterfaces() []WorkerNodeNetworkInterface {
+	return s.NetworkInterfaces
+}
+
+// GetArchiveVersion returns the value of ArchiveVersion.
+func (s *WorkerNodeSummary) GetArchiveVersion() OptString {
+	return s.ArchiveVersion
+}
+
+// GetCreated returns the value of Created.
+func (s *WorkerNodeSummary) GetCreated() int {
+	return s.Created
+}
+
+// GetCreateErrorMessage returns the value of CreateErrorMessage.
+func (s *WorkerNodeSummary) GetCreateErrorMessage() OptString {
+	return s.CreateErrorMessage
+}
+
+// SetWorkerNodeID sets the value of WorkerNodeID.
+func (s *WorkerNodeSummary) SetWorkerNodeID(val WorkerNodeID) {
+	s.WorkerNodeID = val
+}
+
+// SetResourceID sets the value of ResourceID.
+func (s *WorkerNodeSummary) SetResourceID(val NilString) {
+	s.ResourceID = val
+}
+
+// SetDraining sets the value of Draining.
+func (s *WorkerNodeSummary) SetDraining(val bool) {
+	s.Draining = val
+}
+
+// SetStatus sets the value of Status.
+func (s *WorkerNodeSummary) SetStatus(val WorkerNodeStatus) {
+	s.Status = val
+}
+
+// SetNetworkInterfaces sets the value of NetworkInterfaces.
+func (s *WorkerNodeSummary) SetNetworkInterfaces(val []WorkerNodeNetworkInterface) {
+	s.NetworkInterfaces = val
+}
+
+// SetArchiveVersion sets the value of ArchiveVersion.
+func (s *WorkerNodeSummary) SetArchiveVersion(val OptString) {
+	s.ArchiveVersion = val
+}
+
+// SetCreated sets the value of Created.
+func (s *WorkerNodeSummary) SetCreated(val int) {
+	s.Created = val
+}
+
+// SetCreateErrorMessage sets the value of CreateErrorMessage.
+func (s *WorkerNodeSummary) SetCreateErrorMessage(val OptString) {
+	s.CreateErrorMessage = val
+}
+
+// Ref: #/components/schemas/WorkerServiceClass
+type WorkerServiceClass struct {
+	// サービスクラスのパス.
+	Path string `json:"path"`
+	// サービスクラスの名前.
+	Name string `json:"name"`
+}
+
+// GetPath returns the value of Path.
+func (s *WorkerServiceClass) GetPath() string {
+	return s.Path
+}
+
+// GetName returns the value of Name.
+func (s *WorkerServiceClass) GetName() string {
+	return s.Name
+}
+
+// SetPath sets the value of Path.
+func (s *WorkerServiceClass) SetPath(val string) {
+	s.Path = val
+}
+
+// SetName sets the value of Name.
+func (s *WorkerServiceClass) SetName(val string) {
+	s.Name = val
 }
