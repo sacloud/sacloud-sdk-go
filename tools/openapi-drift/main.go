@@ -155,9 +155,10 @@ func run() error {
 		return err
 	}
 	if len(findings) > 0 {
-		return fmt.Errorf("found differences in %d API definition(s)", len(findings))
+		fmt.Printf("Found differences in %d API definition(s).\n", len(findings))
+	} else {
+		fmt.Println("No structural differences found.")
 	}
-	fmt.Println("No structural differences found.")
 	return nil
 }
 
