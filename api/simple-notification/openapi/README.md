@@ -17,6 +17,9 @@ The portal definition changes operation and schema names without changing
 for responses, creation requests, and update requests. Request `Tags` no longer
 specify `nullable: true`; use an empty slice for an empty tag list.
 
-The routing request examples omit the required `PriorityRank` field, so ogen's
-generated example tests skip those examples. The SDK's routing tests explicitly
-set `PriorityRank`.
+`PriorityRank` is marked both `readOnly: true` and `required`. Under OpenAPI 3.0,
+this makes it required in responses, not requests, so its omission from the
+routing request examples is valid. The current ogen-generated validators still
+require it in requests, causing the corresponding generated example tests to
+skip. The handwritten acceptance tests explicitly set it to satisfy those
+validators; this does not establish that the API requires it in requests.
