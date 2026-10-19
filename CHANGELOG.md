@@ -1,5 +1,18 @@
 # Changelog
 
+## [v0.4.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.3.1...v0.4.0) - 2026-10-19
+
+### 🚀 New Features
+- Support Profile v1 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/228
+### ✨ Ordinary Updates
+- golang 1.27.2 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/286
+- .github/release.yml: reorder sections by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/285
+- api/kms: avoid explicit `{Tags: null}` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/290
+- OpenAPIポータルとの差分検出スクリプトと定期チェックを追加 by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/291
+### 📦 Dependency Updates
+- ci: bump Songmu/tagpr from 1.21.1 to 1.21.2 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/287
+- ci: bump github/codeql-action/upload-sarif from 4.38.2 to 4.38.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/289
+
 ## [v0.3.1](https://github.com/sacloud/sacloud-sdk-go/compare/v0.3.0...v0.3.1) - 2026-10-13
 
 ### 📦 Dependency Updates
