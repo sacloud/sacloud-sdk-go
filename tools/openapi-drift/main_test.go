@@ -20,7 +20,6 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 		paths      string
 		wantCounts string
 		wantRow    string
-		wantError  bool
 	}{
 		{
 			name:       "identical",
@@ -35,7 +34,13 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			paths:      "{}",
 			wantCounts: "version differences: 1; APIs with structural differences: 0.",
 			wantRow:    "| Test API | 1.0.0 | 1.1.0 | :x: | 0 |",
-			wantError:  true,
+		},
+		{
+			name:       "structure only",
+			version:    "1.0.0",
+			paths:      `{"/new": {}}`,
+			wantCounts: "version differences: 0; APIs with structural differences: 1.",
+			wantRow:    "| Test API | 1.0.0 | 1.0.0 | :x: | 1 |",
 		},
 		{
 			name:       "version and structure",
@@ -43,7 +48,6 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			paths:      `{"/new": {}}`,
 			wantCounts: "version differences: 1; APIs with structural differences: 1.",
 			wantRow:    "| Test API | 1.0.0 | 1.1.0 | :x: | 1 |",
-			wantError:  true,
 		},
 	}
 
@@ -78,9 +82,10 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			}
 			t.Setenv("GITHUB_STEP_SUMMARY", filepath.Join(dir, "summary.md"))
 
-			if err := run(); (err != nil) != tt.wantError {
-				t.Fatalf("run() error = %v; want error: %v", err, tt.wantError)
+			if err := run(); err != nil {
+				t.Fatalf("run() error = %v; want success even when differences are found", err)
 			}
+
 			summary, err := os.ReadFile("summary.md")
 			if err != nil {
 				t.Fatal(err)
@@ -91,5 +96,13 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 				}
 			}
 		})
+	}
+}
+
+func TestRunFailsWhenManifestCannotBeRead(t *testing.T) {
+	t.Chdir(t.TempDir())
+
+	if err := run(); err == nil || !strings.Contains(err.Error(), "read manifest:") {
+		t.Fatalf("run() error = %v; want manifest read error", err)
 	}
 }
