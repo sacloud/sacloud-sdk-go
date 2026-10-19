@@ -101,7 +101,7 @@ func OptNilArray[T, U any, P interface {
 //
 // ```golang
 //
-//	opt := into.OptNonnilArray[OptNilIntArray](([]int)nil)
+//	opt := into.OptNonnilArray[OptNilIntArray](new([]int))
 //
 // ```
 func OptNonnilArray[T, U any, P interface {
