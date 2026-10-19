@@ -25,3 +25,36 @@ definitions are still compared.
 Treat the output as a review aid, not proof that a local definition is stale.
 Some local definitions intentionally include compatibility fixes, and
 formatting or documentation differences can also appear.
+
+## Example output
+
+The default output looks like this (excerpt from October 19, 2026; omitted
+rows and details are marked with `...`). Versions and counts depend on the
+current repository and portal definitions.
+
+```text
+# OpenAPI comparison summary
+
+Compared APIs: 18; version differences: 10; APIs with structural differences: 12.
+
+| API component | Repository version | Portal version | Status | Structural differences |
+|---|---:|---:|---|---:|
+| IAM | 2.1.0 | 2.1.0 | :white_check_mark: | 0 |
+| Monitoring Suite | 1.1.0 | 1.3.0 | :x: | 169 |
+| SimpleMQ message | 1.1.2 | 1.1.4 | :x: | 1 |
+| SimpleMQ queue | 1.1.2 | 1.1.2 | :white_check_mark: | 0 |
+...
+| AppRun shared | 1.5.0 | 1.5.0 | :x: | 3 |
+...
+
+# OpenAPI structural differences
+
+## Monitoring Suite
+- components.schemas.Type: present locally, missing from portal
+- components.schemas.Type1: present locally, missing from portal
+...
+```
+
+In GitHub Actions, the summary is rendered as a Markdown table with status
+icons. A component can have matching versions but still show `:x:` because
+its structure differs, as with AppRun shared above.
