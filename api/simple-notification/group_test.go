@@ -61,6 +61,7 @@ func TestGroupOp(t *testing.T) {
 					Type: v1.CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
 					CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
 						Destinations: []string{destinationID},
+						Disabled:     v1.NewOptBool(true),
 					},
 				},
 			},
@@ -124,6 +125,7 @@ func TestGroupOp(t *testing.T) {
 						Type: v1.CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
 						CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
 							Destinations: []string{destinationID},
+							Disabled:     v1.NewOptBool(false),
 						},
 					},
 				},
@@ -139,12 +141,21 @@ func TestGroupOp(t *testing.T) {
 		require.Equal(t, groupnameUpdate, resp.CommonServiceItem.Name, "group name should be updated")
 		require.Equal(t, descriptionUpdate, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdate, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.True(t, resp.CommonServiceItem.Settings.IsCommonServiceItemGroupSettings())
+		actualSetting := resp.CommonServiceItem.Settings.CommonServiceItemGroupSettings
+		require.Equal(t, []string{destinationID}, actualSetting.Destinations)
+		require.False(t, actualSetting.Disabled.Value)
+		read, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, resp.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("GroupOp.Update response: %+v", resp)
 	})
 	t.Run("UpdatewithoutSetting", func(t *testing.T) {
 		groupnameUpdatewithoutSetting := "updated-group-withoutSetting"
 		descriptionUpdatewithoutSetting := "updated-description-withoutSetting"
 		tagsUpdatewithoutSetting := []string{"updated-withoutSetting"}
+		before, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
 
 		request := v1.PutCommonServiceItemRequest{
 			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
@@ -166,7 +177,29 @@ func TestGroupOp(t *testing.T) {
 		require.Equal(t, groupnameUpdatewithoutSetting, resp.CommonServiceItem.Name, "group name should be updated")
 		require.Equal(t, descriptionUpdatewithoutSetting, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdatewithoutSetting, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("GroupOp.UpdatewithoutSetting response: %+v", resp)
+	})
+	t.Run("ClearTags", func(t *testing.T) {
+		before, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.NotEmpty(t, before.CommonServiceItem.Tags)
+		resp, err := groupAPI.Update(ctx, id, v1.PutCommonServiceItemRequest{
+			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
+				Name: before.CommonServiceItem.Name, Description: before.CommonServiceItem.Description,
+				Tags: []string{}, Icon: before.CommonServiceItem.Icon,
+			},
+		})
+		require.NoError(t, err)
+		require.Empty(t, resp.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Empty(t, read.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 	})
 	t.Run("SendMessage", func(t *testing.T) {
 		request := v1.SendNotificationRequest{

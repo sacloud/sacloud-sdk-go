@@ -135,7 +135,7 @@ func TestRoutingOp(t *testing.T) {
 		tagsUpdate := []string{"updated"}
 		updateSetting := v1.CommonServiceItemRoutingSettings{
 			MatchLabels: []v1.CommonServiceItemRoutingSettingsMatchLabelsItem{
-				{Name: testLabel, Value: testLabelValue},
+				{Name: testLabel, Value: "sdk-test-updated"},
 			},
 			SourceID:      testSourceID,
 			TargetGroupID: testTargetGroupID,
@@ -170,12 +170,22 @@ func TestRoutingOp(t *testing.T) {
 		require.Equal(t, routingNameUpdate, resp.CommonServiceItem.Name, "routing name should be updated")
 		require.Equal(t, descriptionUpdate, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdate, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.True(t, resp.CommonServiceItem.Settings.IsCommonServiceItemRoutingSettings())
+		actualSetting := resp.CommonServiceItem.Settings.CommonServiceItemRoutingSettings
+		require.Equal(t, updateSetting.MatchLabels, actualSetting.MatchLabels)
+		require.Equal(t, updateSetting.SourceID, actualSetting.SourceID)
+		require.Equal(t, updateSetting.TargetGroupID, actualSetting.TargetGroupID)
+		read, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, resp.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("RoutingOp.Update response: %+v", resp)
 	})
 	t.Run("UpdateWithoutSetting", func(t *testing.T) {
 		routingNameUpdateWithoutSetting := "updated-routing-withoutSetting"
 		descriptionUpdateWithoutSetting := "updated-description-withoutSetting"
 		tagsUpdateWithoutSetting := []string{"updated-withoutSetting"}
+		before, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
 		request := v1.PutCommonServiceItemRequest{
 			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
 				Name:        routingNameUpdateWithoutSetting,
@@ -202,7 +212,29 @@ func TestRoutingOp(t *testing.T) {
 		require.Equal(t, routingNameUpdateWithoutSetting, resp.CommonServiceItem.Name, "routing name should be updated")
 		require.Equal(t, descriptionUpdateWithoutSetting, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdateWithoutSetting, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("RoutingOp.UpdateWithoutSetting response: %+v", resp)
+	})
+	t.Run("ClearTags", func(t *testing.T) {
+		before, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.NotEmpty(t, before.CommonServiceItem.Tags)
+		resp, err := routingAPI.Update(ctx, id, v1.PutCommonServiceItemRequest{
+			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
+				Name: before.CommonServiceItem.Name, Description: before.CommonServiceItem.Description,
+				Tags: []string{}, Icon: before.CommonServiceItem.Icon,
+			},
+		})
+		require.NoError(t, err)
+		require.Empty(t, resp.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Empty(t, read.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 	})
 	t.Run("Reorder", func(t *testing.T) {
 		secondCreateRequest := v1.PostCommonServiceItemRequest{
