@@ -57,9 +57,9 @@ func TestGroupOp(t *testing.T) {
 				Name:        groupname,
 				Description: description,
 				Tags:        tags,
-				Settings: v1.CommonServiceItemSettings{
-					Type: v1.GroupSettingsCommonServiceItemSettings,
-					GroupSettings: v1.GroupSettings{
+				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
+					Type: v1.CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
+					CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
 						Destinations: []string{destinationID},
 					},
 				},
@@ -118,11 +118,11 @@ func TestGroupOp(t *testing.T) {
 				Name:        groupnameUpdate,
 				Description: descriptionUpdate,
 				Tags:        tagsUpdate,
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: true,
-					Value: v1.CommonServiceItemSettings{
-						Type: v1.GroupSettingsCommonServiceItemSettings,
-						GroupSettings: v1.GroupSettings{
+					Value: v1.PutCommonServiceItemRequestCommonServiceItemSettings{
+						Type: v1.CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
+						CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
 							Destinations: []string{destinationID},
 						},
 					},
@@ -151,7 +151,7 @@ func TestGroupOp(t *testing.T) {
 				Name:        groupnameUpdatewithoutSetting,
 				Description: descriptionUpdatewithoutSetting,
 				Tags:        tagsUpdatewithoutSetting,
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: false,
 				},
 			},
@@ -169,7 +169,7 @@ func TestGroupOp(t *testing.T) {
 		t.Logf("GroupOp.UpdatewithoutSetting response: %+v", resp)
 	})
 	t.Run("SendMessage", func(t *testing.T) {
-		request := v1.SendNotificationMessageRequest{
+		request := v1.SendNotificationRequest{
 			Message: "test message from GroupOp.SendMessage",
 		}
 

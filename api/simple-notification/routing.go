@@ -24,11 +24,11 @@ import (
 type RoutingAPI interface {
 	List(ctx context.Context) (*v1.ListCommonServiceItemsResponse, error)
 	Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error)
-	Read(ctx context.Context, id string) (*v1.GetCommonServiceItemOK, error)
+	Read(ctx context.Context, id string) (*v1.ReadCommonServiceItemOK, error)
 	Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error)
 	Delete(ctx context.Context, id string) error
-	Reorder(ctx context.Context, request v1.PutCommonServiceItemRoutingReorderRequest) (*v1.ReorderRoutingAccepted, error)
-	ListSource(ctx context.Context) (*v1.ListSourcesResponse, error)
+	Reorder(ctx context.Context, request v1.ReorderNotificationRoutingRequest) (*v1.ReorderNotificationRoutingAccepted, error)
+	ListSource(ctx context.Context) (*v1.ListNotificationSourcesResponse, error)
 }
 
 var _ RoutingAPI = (*RoutingOp)(nil)
@@ -57,9 +57,9 @@ func (o *RoutingOp) List(ctx context.Context) (*v1.ListCommonServiceItemsRespons
 
 func (o *RoutingOp) Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error) {
 	const methodName = "Routing.Create"
-	request.CommonServiceItem.ServiceClass = v1.CommonServiceItemServiceClassCloudSaknoticerouting2
-	request.CommonServiceItem.Provider.Class = v1.CommonServiceItemProviderClassSaknoticerouting
-	request.CommonServiceItem.Settings.Type = v1.RoutingSettingsCommonServiceItemSettings
+	request.CommonServiceItem.ServiceClass = v1.PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticerouting2
+	request.CommonServiceItem.Provider.Class = v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting
+	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings
 
 	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
@@ -71,10 +71,10 @@ func (o *RoutingOp) Create(ctx context.Context, request v1.PostCommonServiceItem
 	return res, nil
 }
 
-func (o *RoutingOp) Read(ctx context.Context, id string) (*v1.GetCommonServiceItemOK, error) {
+func (o *RoutingOp) Read(ctx context.Context, id string) (*v1.ReadCommonServiceItemOK, error) {
 	const methodName = "Routing.Read"
 
-	res, err := o.client.GetCommonServiceItem(ctx, v1.GetCommonServiceItemParams{ID: id})
+	res, err := o.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
@@ -86,7 +86,7 @@ func (o *RoutingOp) Read(ctx context.Context, id string) (*v1.GetCommonServiceIt
 
 func (o *RoutingOp) Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error) {
 	const methodName = "Routing.Update"
-	request.CommonServiceItem.Settings.Value.Type = v1.RoutingSettingsCommonServiceItemSettings
+	request.CommonServiceItem.Settings.Value.Type = v1.CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings
 
 	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
@@ -110,10 +110,10 @@ func (o *RoutingOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (o *RoutingOp) Reorder(ctx context.Context, request v1.PutCommonServiceItemRoutingReorderRequest) (*v1.ReorderRoutingAccepted, error) {
+func (o *RoutingOp) Reorder(ctx context.Context, request v1.ReorderNotificationRoutingRequest) (*v1.ReorderNotificationRoutingAccepted, error) {
 	const methodName = "Routing.Reorder"
 
-	resp, err := o.client.ReorderRouting(ctx, v1.NewOptPutCommonServiceItemRoutingReorderRequest(request))
+	resp, err := o.client.ReorderNotificationRouting(ctx, v1.NewOptReorderNotificationRoutingRequest(request))
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
@@ -123,10 +123,10 @@ func (o *RoutingOp) Reorder(ctx context.Context, request v1.PutCommonServiceItem
 	return resp, nil
 }
 
-func (o *RoutingOp) ListSource(ctx context.Context) (*v1.ListSourcesResponse, error) {
+func (o *RoutingOp) ListSource(ctx context.Context) (*v1.ListNotificationSourcesResponse, error) {
 	const methodName = "Routing.ListSource"
 
-	res, err := o.client.ListSources(ctx)
+	res, err := o.client.ListNotificationSources(ctx)
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)

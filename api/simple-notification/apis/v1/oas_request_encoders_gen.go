@@ -30,8 +30,8 @@ func encodeCreateCommonServiceItemRequest(
 	return nil
 }
 
-func encodeReorderRoutingRequest(
-	req OptPutCommonServiceItemRoutingReorderRequest,
+func encodeReorderNotificationRoutingRequest(
+	req OptReorderNotificationRoutingRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -50,8 +50,8 @@ func encodeReorderRoutingRequest(
 	return nil
 }
 
-func encodeSendNotificationMessageRequest(
-	req OptSendNotificationMessageRequest,
+func encodeSendNotificationRequest(
+	req OptSendNotificationRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

@@ -13,6 +13,46 @@ func (s *ErrorStatusCode) Error() string {
 	return fmt.Sprintf("code %d: %+v", s.StatusCode, s.Response)
 }
 
+// Ref: #/components/schemas/CheckDestinationStatusResponse
+type CheckDestinationStatusResponse struct {
+	NotificationStatus CheckDestinationStatusResponseNotificationStatus `json:"NotificationStatus"`
+}
+
+// GetNotificationStatus returns the value of NotificationStatus.
+func (s *CheckDestinationStatusResponse) GetNotificationStatus() CheckDestinationStatusResponseNotificationStatus {
+	return s.NotificationStatus
+}
+
+// SetNotificationStatus sets the value of NotificationStatus.
+func (s *CheckDestinationStatusResponse) SetNotificationStatus(val CheckDestinationStatusResponseNotificationStatus) {
+	s.NotificationStatus = val
+}
+
+type CheckDestinationStatusResponseNotificationStatus struct {
+	IsValid    bool      `json:"IsValid"`
+	ModifiedAt time.Time `json:"ModifiedAt"`
+}
+
+// GetIsValid returns the value of IsValid.
+func (s *CheckDestinationStatusResponseNotificationStatus) GetIsValid() bool {
+	return s.IsValid
+}
+
+// GetModifiedAt returns the value of ModifiedAt.
+func (s *CheckDestinationStatusResponseNotificationStatus) GetModifiedAt() time.Time {
+	return s.ModifiedAt
+}
+
+// SetIsValid sets the value of IsValid.
+func (s *CheckDestinationStatusResponseNotificationStatus) SetIsValid(val bool) {
+	s.IsValid = val
+}
+
+// SetModifiedAt sets the value of ModifiedAt.
+func (s *CheckDestinationStatusResponseNotificationStatus) SetModifiedAt(val time.Time) {
+	s.ModifiedAt = val
+}
+
 // Ref: #/components/schemas/CommonServiceItem
 type CommonServiceItem struct {
 	Index       OptInt                    `json:"Index"`
@@ -20,11 +60,11 @@ type CommonServiceItem struct {
 	Name        string                    `json:"Name"`
 	Description string                    `json:"Description"`
 	Settings    CommonServiceItemSettings `json:"Settings"`
+	CreatedAt   time.Time                 `json:"CreatedAt"`
+	ModifiedAt  time.Time                 `json:"ModifiedAt"`
 	Provider    CommonServiceItemProvider `json:"Provider"`
 	Icon        NilCommonServiceItemIcon  `json:"Icon"`
 	Tags        []string                  `json:"Tags"`
-	CreatedAt   time.Time                 `json:"CreatedAt"`
-	ModifiedAt  time.Time                 `json:"ModifiedAt"`
 }
 
 // GetIndex returns the value of Index.
@@ -52,6 +92,16 @@ func (s *CommonServiceItem) GetSettings() CommonServiceItemSettings {
 	return s.Settings
 }
 
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CommonServiceItem) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetModifiedAt returns the value of ModifiedAt.
+func (s *CommonServiceItem) GetModifiedAt() time.Time {
+	return s.ModifiedAt
+}
+
 // GetProvider returns the value of Provider.
 func (s *CommonServiceItem) GetProvider() CommonServiceItemProvider {
 	return s.Provider
@@ -65,16 +115,6 @@ func (s *CommonServiceItem) GetIcon() NilCommonServiceItemIcon {
 // GetTags returns the value of Tags.
 func (s *CommonServiceItem) GetTags() []string {
 	return s.Tags
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *CommonServiceItem) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetModifiedAt returns the value of ModifiedAt.
-func (s *CommonServiceItem) GetModifiedAt() time.Time {
-	return s.ModifiedAt
 }
 
 // SetIndex sets the value of Index.
@@ -102,6 +142,16 @@ func (s *CommonServiceItem) SetSettings(val CommonServiceItemSettings) {
 	s.Settings = val
 }
 
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CommonServiceItem) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetModifiedAt sets the value of ModifiedAt.
+func (s *CommonServiceItem) SetModifiedAt(val time.Time) {
+	s.ModifiedAt = val
+}
+
 // SetProvider sets the value of Provider.
 func (s *CommonServiceItem) SetProvider(val CommonServiceItemProvider) {
 	s.Provider = val
@@ -117,14 +167,108 @@ func (s *CommonServiceItem) SetTags(val []string) {
 	s.Tags = val
 }
 
-// SetCreatedAt sets the value of CreatedAt.
-func (s *CommonServiceItem) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
+// Ref: #/components/schemas/CommonServiceItemDestinationSettings
+type CommonServiceItemDestinationSettings struct {
+	Type     CommonServiceItemDestinationSettingsType `json:"Type"`
+	Value    string                                   `json:"Value"`
+	Disabled OptBool                                  `json:"Disabled"`
 }
 
-// SetModifiedAt sets the value of ModifiedAt.
-func (s *CommonServiceItem) SetModifiedAt(val time.Time) {
-	s.ModifiedAt = val
+// GetType returns the value of Type.
+func (s *CommonServiceItemDestinationSettings) GetType() CommonServiceItemDestinationSettingsType {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *CommonServiceItemDestinationSettings) GetValue() string {
+	return s.Value
+}
+
+// GetDisabled returns the value of Disabled.
+func (s *CommonServiceItemDestinationSettings) GetDisabled() OptBool {
+	return s.Disabled
+}
+
+// SetType sets the value of Type.
+func (s *CommonServiceItemDestinationSettings) SetType(val CommonServiceItemDestinationSettingsType) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *CommonServiceItemDestinationSettings) SetValue(val string) {
+	s.Value = val
+}
+
+// SetDisabled sets the value of Disabled.
+func (s *CommonServiceItemDestinationSettings) SetDisabled(val OptBool) {
+	s.Disabled = val
+}
+
+type CommonServiceItemDestinationSettingsType string
+
+const (
+	CommonServiceItemDestinationSettingsTypeEmail   CommonServiceItemDestinationSettingsType = "email"
+	CommonServiceItemDestinationSettingsTypeWebhook CommonServiceItemDestinationSettingsType = "webhook"
+)
+
+// AllValues returns all CommonServiceItemDestinationSettingsType values.
+func (CommonServiceItemDestinationSettingsType) AllValues() []CommonServiceItemDestinationSettingsType {
+	return []CommonServiceItemDestinationSettingsType{
+		CommonServiceItemDestinationSettingsTypeEmail,
+		CommonServiceItemDestinationSettingsTypeWebhook,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CommonServiceItemDestinationSettingsType) MarshalText() ([]byte, error) {
+	switch s {
+	case CommonServiceItemDestinationSettingsTypeEmail:
+		return []byte(s), nil
+	case CommonServiceItemDestinationSettingsTypeWebhook:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CommonServiceItemDestinationSettingsType) UnmarshalText(data []byte) error {
+	switch CommonServiceItemDestinationSettingsType(data) {
+	case CommonServiceItemDestinationSettingsTypeEmail:
+		*s = CommonServiceItemDestinationSettingsTypeEmail
+		return nil
+	case CommonServiceItemDestinationSettingsTypeWebhook:
+		*s = CommonServiceItemDestinationSettingsTypeWebhook
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CommonServiceItemGroupSettings
+type CommonServiceItemGroupSettings struct {
+	Destinations []string `json:"Destinations"`
+	Disabled     OptBool  `json:"Disabled"`
+}
+
+// GetDestinations returns the value of Destinations.
+func (s *CommonServiceItemGroupSettings) GetDestinations() []string {
+	return s.Destinations
+}
+
+// GetDisabled returns the value of Disabled.
+func (s *CommonServiceItemGroupSettings) GetDisabled() OptBool {
+	return s.Disabled
+}
+
+// SetDestinations sets the value of Destinations.
+func (s *CommonServiceItemGroupSettings) SetDestinations(val []string) {
+	s.Destinations = val
+}
+
+// SetDisabled sets the value of Disabled.
+func (s *CommonServiceItemGroupSettings) SetDisabled(val OptBool) {
+	s.Disabled = val
 }
 
 // Ref: #/components/schemas/CommonServiceItemIcon
@@ -175,11 +319,8 @@ func (s *CommonServiceItemIcon) SetScope(val OptString) {
 	s.Scope = val
 }
 
-// Ref: #/components/schemas/CommonServiceItemProvider
 type CommonServiceItemProvider struct {
-	Class        CommonServiceItemProviderClass `json:"Class"`
-	Name         OptString                      `json:"Name"`
-	ServiceClass OptString                      `json:"ServiceClass"`
+	Class CommonServiceItemProviderClass `json:"Class"`
 }
 
 // GetClass returns the value of Class.
@@ -187,29 +328,9 @@ func (s *CommonServiceItemProvider) GetClass() CommonServiceItemProviderClass {
 	return s.Class
 }
 
-// GetName returns the value of Name.
-func (s *CommonServiceItemProvider) GetName() OptString {
-	return s.Name
-}
-
-// GetServiceClass returns the value of ServiceClass.
-func (s *CommonServiceItemProvider) GetServiceClass() OptString {
-	return s.ServiceClass
-}
-
 // SetClass sets the value of Class.
 func (s *CommonServiceItemProvider) SetClass(val CommonServiceItemProviderClass) {
 	s.Class = val
-}
-
-// SetName sets the value of Name.
-func (s *CommonServiceItemProvider) SetName(val OptString) {
-	s.Name = val
-}
-
-// SetServiceClass sets the value of ServiceClass.
-func (s *CommonServiceItemProvider) SetServiceClass(val OptString) {
-	s.ServiceClass = val
 }
 
 type CommonServiceItemProviderClass string
@@ -260,63 +381,86 @@ func (s *CommonServiceItemProviderClass) UnmarshalText(data []byte) error {
 	}
 }
 
-// Ref: #/components/schemas/CommonServiceItemServiceClass
-type CommonServiceItemServiceClass string
-
-const (
-	CommonServiceItemServiceClassCloudSaknoticedestination2 CommonServiceItemServiceClass = "cloud/saknoticedestination/2"
-	CommonServiceItemServiceClassCloudSaknoticegroup2       CommonServiceItemServiceClass = "cloud/saknoticegroup/2"
-	CommonServiceItemServiceClassCloudSaknoticerouting2     CommonServiceItemServiceClass = "cloud/saknoticerouting/2"
-)
-
-// AllValues returns all CommonServiceItemServiceClass values.
-func (CommonServiceItemServiceClass) AllValues() []CommonServiceItemServiceClass {
-	return []CommonServiceItemServiceClass{
-		CommonServiceItemServiceClassCloudSaknoticedestination2,
-		CommonServiceItemServiceClassCloudSaknoticegroup2,
-		CommonServiceItemServiceClassCloudSaknoticerouting2,
-	}
+// Ref: #/components/schemas/CommonServiceItemRoutingSettings
+type CommonServiceItemRoutingSettings struct {
+	MatchLabels   []CommonServiceItemRoutingSettingsMatchLabelsItem `json:"MatchLabels"`
+	SourceID      string                                            `json:"SourceID"`
+	TargetGroupID string                                            `json:"TargetGroupID"`
+	PriorityRank  int                                               `json:"PriorityRank"`
 }
 
-// MarshalText implements encoding.TextMarshaler.
-func (s CommonServiceItemServiceClass) MarshalText() ([]byte, error) {
-	switch s {
-	case CommonServiceItemServiceClassCloudSaknoticedestination2:
-		return []byte(s), nil
-	case CommonServiceItemServiceClassCloudSaknoticegroup2:
-		return []byte(s), nil
-	case CommonServiceItemServiceClassCloudSaknoticerouting2:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
+// GetMatchLabels returns the value of MatchLabels.
+func (s *CommonServiceItemRoutingSettings) GetMatchLabels() []CommonServiceItemRoutingSettingsMatchLabelsItem {
+	return s.MatchLabels
 }
 
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CommonServiceItemServiceClass) UnmarshalText(data []byte) error {
-	switch CommonServiceItemServiceClass(data) {
-	case CommonServiceItemServiceClassCloudSaknoticedestination2:
-		*s = CommonServiceItemServiceClassCloudSaknoticedestination2
-		return nil
-	case CommonServiceItemServiceClassCloudSaknoticegroup2:
-		*s = CommonServiceItemServiceClassCloudSaknoticegroup2
-		return nil
-	case CommonServiceItemServiceClassCloudSaknoticerouting2:
-		*s = CommonServiceItemServiceClassCloudSaknoticerouting2
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
+// GetSourceID returns the value of SourceID.
+func (s *CommonServiceItemRoutingSettings) GetSourceID() string {
+	return s.SourceID
 }
 
-// Ref: #/components/schemas/CommonServiceItemSettings
+// GetTargetGroupID returns the value of TargetGroupID.
+func (s *CommonServiceItemRoutingSettings) GetTargetGroupID() string {
+	return s.TargetGroupID
+}
+
+// GetPriorityRank returns the value of PriorityRank.
+func (s *CommonServiceItemRoutingSettings) GetPriorityRank() int {
+	return s.PriorityRank
+}
+
+// SetMatchLabels sets the value of MatchLabels.
+func (s *CommonServiceItemRoutingSettings) SetMatchLabels(val []CommonServiceItemRoutingSettingsMatchLabelsItem) {
+	s.MatchLabels = val
+}
+
+// SetSourceID sets the value of SourceID.
+func (s *CommonServiceItemRoutingSettings) SetSourceID(val string) {
+	s.SourceID = val
+}
+
+// SetTargetGroupID sets the value of TargetGroupID.
+func (s *CommonServiceItemRoutingSettings) SetTargetGroupID(val string) {
+	s.TargetGroupID = val
+}
+
+// SetPriorityRank sets the value of PriorityRank.
+func (s *CommonServiceItemRoutingSettings) SetPriorityRank(val int) {
+	s.PriorityRank = val
+}
+
+type CommonServiceItemRoutingSettingsMatchLabelsItem struct {
+	Name  string `json:"Name"`
+	Value string `json:"Value"`
+}
+
+// GetName returns the value of Name.
+func (s *CommonServiceItemRoutingSettingsMatchLabelsItem) GetName() string {
+	return s.Name
+}
+
+// GetValue returns the value of Value.
+func (s *CommonServiceItemRoutingSettingsMatchLabelsItem) GetValue() string {
+	return s.Value
+}
+
+// SetName sets the value of Name.
+func (s *CommonServiceItemRoutingSettingsMatchLabelsItem) SetName(val string) {
+	s.Name = val
+}
+
+// SetValue sets the value of Value.
+func (s *CommonServiceItemRoutingSettingsMatchLabelsItem) SetValue(val string) {
+	s.Value = val
+}
+
 // CommonServiceItemSettings represents sum type.
 type CommonServiceItemSettings struct {
 	// Type selects the active sum variant, switch on this field.
-	Type                CommonServiceItemSettingsType
-	DestinationSettings DestinationSettings
-	GroupSettings       GroupSettings
-	RoutingSettings     RoutingSettings
+	Type                                 CommonServiceItemSettingsType
+	CommonServiceItemDestinationSettings CommonServiceItemDestinationSettings
+	CommonServiceItemGroupSettings       CommonServiceItemGroupSettings
+	CommonServiceItemRoutingSettings     CommonServiceItemRoutingSettings
 }
 
 // CommonServiceItemSettingsType is oneOf type of CommonServiceItemSettings.
@@ -324,86 +468,86 @@ type CommonServiceItemSettingsType string
 
 // Possible values for CommonServiceItemSettingsType.
 const (
-	DestinationSettingsCommonServiceItemSettings CommonServiceItemSettingsType = "DestinationSettings"
-	GroupSettingsCommonServiceItemSettings       CommonServiceItemSettingsType = "GroupSettings"
-	RoutingSettingsCommonServiceItemSettings     CommonServiceItemSettingsType = "RoutingSettings"
+	CommonServiceItemDestinationSettingsCommonServiceItemSettings CommonServiceItemSettingsType = "CommonServiceItemDestinationSettings"
+	CommonServiceItemGroupSettingsCommonServiceItemSettings       CommonServiceItemSettingsType = "CommonServiceItemGroupSettings"
+	CommonServiceItemRoutingSettingsCommonServiceItemSettings     CommonServiceItemSettingsType = "CommonServiceItemRoutingSettings"
 )
 
-// IsDestinationSettings reports whether CommonServiceItemSettings is DestinationSettings.
-func (s CommonServiceItemSettings) IsDestinationSettings() bool {
-	return s.Type == DestinationSettingsCommonServiceItemSettings
+// IsCommonServiceItemDestinationSettings reports whether CommonServiceItemSettings is CommonServiceItemDestinationSettings.
+func (s CommonServiceItemSettings) IsCommonServiceItemDestinationSettings() bool {
+	return s.Type == CommonServiceItemDestinationSettingsCommonServiceItemSettings
 }
 
-// IsGroupSettings reports whether CommonServiceItemSettings is GroupSettings.
-func (s CommonServiceItemSettings) IsGroupSettings() bool {
-	return s.Type == GroupSettingsCommonServiceItemSettings
+// IsCommonServiceItemGroupSettings reports whether CommonServiceItemSettings is CommonServiceItemGroupSettings.
+func (s CommonServiceItemSettings) IsCommonServiceItemGroupSettings() bool {
+	return s.Type == CommonServiceItemGroupSettingsCommonServiceItemSettings
 }
 
-// IsRoutingSettings reports whether CommonServiceItemSettings is RoutingSettings.
-func (s CommonServiceItemSettings) IsRoutingSettings() bool {
-	return s.Type == RoutingSettingsCommonServiceItemSettings
+// IsCommonServiceItemRoutingSettings reports whether CommonServiceItemSettings is CommonServiceItemRoutingSettings.
+func (s CommonServiceItemSettings) IsCommonServiceItemRoutingSettings() bool {
+	return s.Type == CommonServiceItemRoutingSettingsCommonServiceItemSettings
 }
 
-// SetDestinationSettings sets CommonServiceItemSettings to DestinationSettings.
-func (s *CommonServiceItemSettings) SetDestinationSettings(v DestinationSettings) {
-	s.Type = DestinationSettingsCommonServiceItemSettings
-	s.DestinationSettings = v
+// SetCommonServiceItemDestinationSettings sets CommonServiceItemSettings to CommonServiceItemDestinationSettings.
+func (s *CommonServiceItemSettings) SetCommonServiceItemDestinationSettings(v CommonServiceItemDestinationSettings) {
+	s.Type = CommonServiceItemDestinationSettingsCommonServiceItemSettings
+	s.CommonServiceItemDestinationSettings = v
 }
 
-// GetDestinationSettings returns DestinationSettings and true boolean if CommonServiceItemSettings is DestinationSettings.
-func (s CommonServiceItemSettings) GetDestinationSettings() (v DestinationSettings, ok bool) {
-	if !s.IsDestinationSettings() {
+// GetCommonServiceItemDestinationSettings returns CommonServiceItemDestinationSettings and true boolean if CommonServiceItemSettings is CommonServiceItemDestinationSettings.
+func (s CommonServiceItemSettings) GetCommonServiceItemDestinationSettings() (v CommonServiceItemDestinationSettings, ok bool) {
+	if !s.IsCommonServiceItemDestinationSettings() {
 		return v, false
 	}
-	return s.DestinationSettings, true
+	return s.CommonServiceItemDestinationSettings, true
 }
 
-// NewDestinationSettingsCommonServiceItemSettings returns new CommonServiceItemSettings from DestinationSettings.
-func NewDestinationSettingsCommonServiceItemSettings(v DestinationSettings) CommonServiceItemSettings {
+// NewCommonServiceItemDestinationSettingsCommonServiceItemSettings returns new CommonServiceItemSettings from CommonServiceItemDestinationSettings.
+func NewCommonServiceItemDestinationSettingsCommonServiceItemSettings(v CommonServiceItemDestinationSettings) CommonServiceItemSettings {
 	var s CommonServiceItemSettings
-	s.SetDestinationSettings(v)
+	s.SetCommonServiceItemDestinationSettings(v)
 	return s
 }
 
-// SetGroupSettings sets CommonServiceItemSettings to GroupSettings.
-func (s *CommonServiceItemSettings) SetGroupSettings(v GroupSettings) {
-	s.Type = GroupSettingsCommonServiceItemSettings
-	s.GroupSettings = v
+// SetCommonServiceItemGroupSettings sets CommonServiceItemSettings to CommonServiceItemGroupSettings.
+func (s *CommonServiceItemSettings) SetCommonServiceItemGroupSettings(v CommonServiceItemGroupSettings) {
+	s.Type = CommonServiceItemGroupSettingsCommonServiceItemSettings
+	s.CommonServiceItemGroupSettings = v
 }
 
-// GetGroupSettings returns GroupSettings and true boolean if CommonServiceItemSettings is GroupSettings.
-func (s CommonServiceItemSettings) GetGroupSettings() (v GroupSettings, ok bool) {
-	if !s.IsGroupSettings() {
+// GetCommonServiceItemGroupSettings returns CommonServiceItemGroupSettings and true boolean if CommonServiceItemSettings is CommonServiceItemGroupSettings.
+func (s CommonServiceItemSettings) GetCommonServiceItemGroupSettings() (v CommonServiceItemGroupSettings, ok bool) {
+	if !s.IsCommonServiceItemGroupSettings() {
 		return v, false
 	}
-	return s.GroupSettings, true
+	return s.CommonServiceItemGroupSettings, true
 }
 
-// NewGroupSettingsCommonServiceItemSettings returns new CommonServiceItemSettings from GroupSettings.
-func NewGroupSettingsCommonServiceItemSettings(v GroupSettings) CommonServiceItemSettings {
+// NewCommonServiceItemGroupSettingsCommonServiceItemSettings returns new CommonServiceItemSettings from CommonServiceItemGroupSettings.
+func NewCommonServiceItemGroupSettingsCommonServiceItemSettings(v CommonServiceItemGroupSettings) CommonServiceItemSettings {
 	var s CommonServiceItemSettings
-	s.SetGroupSettings(v)
+	s.SetCommonServiceItemGroupSettings(v)
 	return s
 }
 
-// SetRoutingSettings sets CommonServiceItemSettings to RoutingSettings.
-func (s *CommonServiceItemSettings) SetRoutingSettings(v RoutingSettings) {
-	s.Type = RoutingSettingsCommonServiceItemSettings
-	s.RoutingSettings = v
+// SetCommonServiceItemRoutingSettings sets CommonServiceItemSettings to CommonServiceItemRoutingSettings.
+func (s *CommonServiceItemSettings) SetCommonServiceItemRoutingSettings(v CommonServiceItemRoutingSettings) {
+	s.Type = CommonServiceItemRoutingSettingsCommonServiceItemSettings
+	s.CommonServiceItemRoutingSettings = v
 }
 
-// GetRoutingSettings returns RoutingSettings and true boolean if CommonServiceItemSettings is RoutingSettings.
-func (s CommonServiceItemSettings) GetRoutingSettings() (v RoutingSettings, ok bool) {
-	if !s.IsRoutingSettings() {
+// GetCommonServiceItemRoutingSettings returns CommonServiceItemRoutingSettings and true boolean if CommonServiceItemSettings is CommonServiceItemRoutingSettings.
+func (s CommonServiceItemSettings) GetCommonServiceItemRoutingSettings() (v CommonServiceItemRoutingSettings, ok bool) {
+	if !s.IsCommonServiceItemRoutingSettings() {
 		return v, false
 	}
-	return s.RoutingSettings, true
+	return s.CommonServiceItemRoutingSettings, true
 }
 
-// NewRoutingSettingsCommonServiceItemSettings returns new CommonServiceItemSettings from RoutingSettings.
-func NewRoutingSettingsCommonServiceItemSettings(v RoutingSettings) CommonServiceItemSettings {
+// NewCommonServiceItemRoutingSettingsCommonServiceItemSettings returns new CommonServiceItemSettings from CommonServiceItemRoutingSettings.
+func NewCommonServiceItemRoutingSettingsCommonServiceItemSettings(v CommonServiceItemRoutingSettings) CommonServiceItemSettings {
 	var s CommonServiceItemSettings
-	s.SetRoutingSettings(v)
+	s.SetCommonServiceItemRoutingSettings(v)
 	return s
 }
 
@@ -433,84 +577,6 @@ func (s *DeleteCommonServiceItemOK) GetCommonServiceItem() CommonServiceItem {
 // SetCommonServiceItem sets the value of CommonServiceItem.
 func (s *DeleteCommonServiceItemOK) SetCommonServiceItem(val CommonServiceItem) {
 	s.CommonServiceItem = val
-}
-
-// Ref: #/components/schemas/DestinationSettings
-type DestinationSettings struct {
-	Type     DestinationSettingsType `json:"Type"`
-	Value    string                  `json:"Value"`
-	Disabled OptBool                 `json:"Disabled"`
-}
-
-// GetType returns the value of Type.
-func (s *DestinationSettings) GetType() DestinationSettingsType {
-	return s.Type
-}
-
-// GetValue returns the value of Value.
-func (s *DestinationSettings) GetValue() string {
-	return s.Value
-}
-
-// GetDisabled returns the value of Disabled.
-func (s *DestinationSettings) GetDisabled() OptBool {
-	return s.Disabled
-}
-
-// SetType sets the value of Type.
-func (s *DestinationSettings) SetType(val DestinationSettingsType) {
-	s.Type = val
-}
-
-// SetValue sets the value of Value.
-func (s *DestinationSettings) SetValue(val string) {
-	s.Value = val
-}
-
-// SetDisabled sets the value of Disabled.
-func (s *DestinationSettings) SetDisabled(val OptBool) {
-	s.Disabled = val
-}
-
-type DestinationSettingsType string
-
-const (
-	DestinationSettingsTypeEmail   DestinationSettingsType = "email"
-	DestinationSettingsTypeWebhook DestinationSettingsType = "webhook"
-)
-
-// AllValues returns all DestinationSettingsType values.
-func (DestinationSettingsType) AllValues() []DestinationSettingsType {
-	return []DestinationSettingsType{
-		DestinationSettingsTypeEmail,
-		DestinationSettingsTypeWebhook,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s DestinationSettingsType) MarshalText() ([]byte, error) {
-	switch s {
-	case DestinationSettingsTypeEmail:
-		return []byte(s), nil
-	case DestinationSettingsTypeWebhook:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *DestinationSettingsType) UnmarshalText(data []byte) error {
-	switch DestinationSettingsType(data) {
-	case DestinationSettingsTypeEmail:
-		*s = DestinationSettingsTypeEmail
-		return nil
-	case DestinationSettingsTypeWebhook:
-		*s = DestinationSettingsTypeWebhook
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // Ref: #/components/schemas/Error
@@ -598,101 +664,6 @@ func (s *ErrorStatusCode) SetResponse(val Error) {
 	s.Response = val
 }
 
-type GetCommonServiceItemOK struct {
-	CommonServiceItem CommonServiceItem `json:"CommonServiceItem"`
-}
-
-// GetCommonServiceItem returns the value of CommonServiceItem.
-func (s *GetCommonServiceItemOK) GetCommonServiceItem() CommonServiceItem {
-	return s.CommonServiceItem
-}
-
-// SetCommonServiceItem sets the value of CommonServiceItem.
-func (s *GetCommonServiceItemOK) SetCommonServiceItem(val CommonServiceItem) {
-	s.CommonServiceItem = val
-}
-
-// Ref: #/components/schemas/GetCommonServiceItemStatusResponse
-type GetCommonServiceItemStatusResponse struct {
-	NotificationStatus GetCommonServiceItemStatusResponseNotificationStatus `json:"NotificationStatus"`
-}
-
-// GetNotificationStatus returns the value of NotificationStatus.
-func (s *GetCommonServiceItemStatusResponse) GetNotificationStatus() GetCommonServiceItemStatusResponseNotificationStatus {
-	return s.NotificationStatus
-}
-
-// SetNotificationStatus sets the value of NotificationStatus.
-func (s *GetCommonServiceItemStatusResponse) SetNotificationStatus(val GetCommonServiceItemStatusResponseNotificationStatus) {
-	s.NotificationStatus = val
-}
-
-type GetCommonServiceItemStatusResponseNotificationStatus struct {
-	IsValid    bool      `json:"IsValid"`
-	ModifiedAt time.Time `json:"ModifiedAt"`
-}
-
-// GetIsValid returns the value of IsValid.
-func (s *GetCommonServiceItemStatusResponseNotificationStatus) GetIsValid() bool {
-	return s.IsValid
-}
-
-// GetModifiedAt returns the value of ModifiedAt.
-func (s *GetCommonServiceItemStatusResponseNotificationStatus) GetModifiedAt() time.Time {
-	return s.ModifiedAt
-}
-
-// SetIsValid sets the value of IsValid.
-func (s *GetCommonServiceItemStatusResponseNotificationStatus) SetIsValid(val bool) {
-	s.IsValid = val
-}
-
-// SetModifiedAt sets the value of ModifiedAt.
-func (s *GetCommonServiceItemStatusResponseNotificationStatus) SetModifiedAt(val time.Time) {
-	s.ModifiedAt = val
-}
-
-// Ref: #/components/schemas/GetSimpleNotificationHistoryResponse
-type GetSimpleNotificationHistoryResponse struct {
-	NotificationHistory NotificationHistory `json:"NotificationHistory"`
-}
-
-// GetNotificationHistory returns the value of NotificationHistory.
-func (s *GetSimpleNotificationHistoryResponse) GetNotificationHistory() NotificationHistory {
-	return s.NotificationHistory
-}
-
-// SetNotificationHistory sets the value of NotificationHistory.
-func (s *GetSimpleNotificationHistoryResponse) SetNotificationHistory(val NotificationHistory) {
-	s.NotificationHistory = val
-}
-
-// Ref: #/components/schemas/GroupSettings
-type GroupSettings struct {
-	Destinations []string `json:"Destinations"`
-	Disabled     OptBool  `json:"Disabled"`
-}
-
-// GetDestinations returns the value of Destinations.
-func (s *GroupSettings) GetDestinations() []string {
-	return s.Destinations
-}
-
-// GetDisabled returns the value of Disabled.
-func (s *GroupSettings) GetDisabled() OptBool {
-	return s.Disabled
-}
-
-// SetDestinations sets the value of Destinations.
-func (s *GroupSettings) SetDestinations(val []string) {
-	s.Destinations = val
-}
-
-// SetDisabled sets the value of Disabled.
-func (s *GroupSettings) SetDisabled(val OptBool) {
-	s.Disabled = val
-}
-
 // Ref: #/components/schemas/ListCommonServiceItemsResponse
 type ListCommonServiceItemsResponse struct {
 	From               OptInt              `json:"From"`
@@ -741,58 +712,58 @@ func (s *ListCommonServiceItemsResponse) SetCommonServiceItems(val []CommonServi
 	s.CommonServiceItems = val
 }
 
-// Ref: #/components/schemas/ListSimpleNotificationHistoriesResponse
-type ListSimpleNotificationHistoriesResponse struct {
+// Ref: #/components/schemas/ListNotificationHistoriesResponse
+type ListNotificationHistoriesResponse struct {
 	NotificationHistories []NotificationHistory `json:"NotificationHistories"`
 }
 
 // GetNotificationHistories returns the value of NotificationHistories.
-func (s *ListSimpleNotificationHistoriesResponse) GetNotificationHistories() []NotificationHistory {
+func (s *ListNotificationHistoriesResponse) GetNotificationHistories() []NotificationHistory {
 	return s.NotificationHistories
 }
 
 // SetNotificationHistories sets the value of NotificationHistories.
-func (s *ListSimpleNotificationHistoriesResponse) SetNotificationHistories(val []NotificationHistory) {
+func (s *ListNotificationHistoriesResponse) SetNotificationHistories(val []NotificationHistory) {
 	s.NotificationHistories = val
 }
 
-// Ref: #/components/schemas/ListSourcesResponse
-type ListSourcesResponse struct {
-	Sources []ListSourcesResponseSourcesItem `json:"Sources"`
+// Ref: #/components/schemas/ListNotificationSourcesResponse
+type ListNotificationSourcesResponse struct {
+	Sources []ListNotificationSourcesResponseSourcesItem `json:"Sources"`
 }
 
 // GetSources returns the value of Sources.
-func (s *ListSourcesResponse) GetSources() []ListSourcesResponseSourcesItem {
+func (s *ListNotificationSourcesResponse) GetSources() []ListNotificationSourcesResponseSourcesItem {
 	return s.Sources
 }
 
 // SetSources sets the value of Sources.
-func (s *ListSourcesResponse) SetSources(val []ListSourcesResponseSourcesItem) {
+func (s *ListNotificationSourcesResponse) SetSources(val []ListNotificationSourcesResponseSourcesItem) {
 	s.Sources = val
 }
 
-type ListSourcesResponseSourcesItem struct {
+type ListNotificationSourcesResponseSourcesItem struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
 
 // GetID returns the value of ID.
-func (s *ListSourcesResponseSourcesItem) GetID() string {
+func (s *ListNotificationSourcesResponseSourcesItem) GetID() string {
 	return s.ID
 }
 
 // GetName returns the value of Name.
-func (s *ListSourcesResponseSourcesItem) GetName() string {
+func (s *ListNotificationSourcesResponseSourcesItem) GetName() string {
 	return s.Name
 }
 
 // SetID sets the value of ID.
-func (s *ListSourcesResponseSourcesItem) SetID(val string) {
+func (s *ListNotificationSourcesResponseSourcesItem) SetID(val string) {
 	s.ID = val
 }
 
 // SetName sets the value of Name.
-func (s *ListSourcesResponseSourcesItem) SetName(val string) {
+func (s *ListNotificationSourcesResponseSourcesItem) SetName(val string) {
 	s.Name = val
 }
 
@@ -1139,52 +1110,6 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
-// NewOptCommonServiceItemSettings returns new OptCommonServiceItemSettings with value set to v.
-func NewOptCommonServiceItemSettings(v CommonServiceItemSettings) OptCommonServiceItemSettings {
-	return OptCommonServiceItemSettings{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCommonServiceItemSettings is optional CommonServiceItemSettings.
-type OptCommonServiceItemSettings struct {
-	Value CommonServiceItemSettings
-	Set   bool
-}
-
-// IsSet returns true if OptCommonServiceItemSettings was set.
-func (o OptCommonServiceItemSettings) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCommonServiceItemSettings) Reset() {
-	var v CommonServiceItemSettings
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCommonServiceItemSettings) SetTo(v CommonServiceItemSettings) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCommonServiceItemSettings) Get() (v CommonServiceItemSettings, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCommonServiceItemSettings) Or(d CommonServiceItemSettings) CommonServiceItemSettings {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptInt returns new OptInt with value set to v.
 func NewOptInt(v int) OptInt {
 	return OptInt{
@@ -1323,38 +1248,38 @@ func (o OptPutCommonServiceItemRequest) Or(d PutCommonServiceItemRequest) PutCom
 	return d
 }
 
-// NewOptPutCommonServiceItemRoutingReorderRequest returns new OptPutCommonServiceItemRoutingReorderRequest with value set to v.
-func NewOptPutCommonServiceItemRoutingReorderRequest(v PutCommonServiceItemRoutingReorderRequest) OptPutCommonServiceItemRoutingReorderRequest {
-	return OptPutCommonServiceItemRoutingReorderRequest{
+// NewOptPutCommonServiceItemRequestCommonServiceItemSettings returns new OptPutCommonServiceItemRequestCommonServiceItemSettings with value set to v.
+func NewOptPutCommonServiceItemRequestCommonServiceItemSettings(v PutCommonServiceItemRequestCommonServiceItemSettings) OptPutCommonServiceItemRequestCommonServiceItemSettings {
+	return OptPutCommonServiceItemRequestCommonServiceItemSettings{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptPutCommonServiceItemRoutingReorderRequest is optional PutCommonServiceItemRoutingReorderRequest.
-type OptPutCommonServiceItemRoutingReorderRequest struct {
-	Value PutCommonServiceItemRoutingReorderRequest
+// OptPutCommonServiceItemRequestCommonServiceItemSettings is optional PutCommonServiceItemRequestCommonServiceItemSettings.
+type OptPutCommonServiceItemRequestCommonServiceItemSettings struct {
+	Value PutCommonServiceItemRequestCommonServiceItemSettings
 	Set   bool
 }
 
-// IsSet returns true if OptPutCommonServiceItemRoutingReorderRequest was set.
-func (o OptPutCommonServiceItemRoutingReorderRequest) IsSet() bool { return o.Set }
+// IsSet returns true if OptPutCommonServiceItemRequestCommonServiceItemSettings was set.
+func (o OptPutCommonServiceItemRequestCommonServiceItemSettings) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptPutCommonServiceItemRoutingReorderRequest) Reset() {
-	var v PutCommonServiceItemRoutingReorderRequest
+func (o *OptPutCommonServiceItemRequestCommonServiceItemSettings) Reset() {
+	var v PutCommonServiceItemRequestCommonServiceItemSettings
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptPutCommonServiceItemRoutingReorderRequest) SetTo(v PutCommonServiceItemRoutingReorderRequest) {
+func (o *OptPutCommonServiceItemRequestCommonServiceItemSettings) SetTo(v PutCommonServiceItemRequestCommonServiceItemSettings) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptPutCommonServiceItemRoutingReorderRequest) Get() (v PutCommonServiceItemRoutingReorderRequest, ok bool) {
+func (o OptPutCommonServiceItemRequestCommonServiceItemSettings) Get() (v PutCommonServiceItemRequestCommonServiceItemSettings, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -1362,45 +1287,45 @@ func (o OptPutCommonServiceItemRoutingReorderRequest) Get() (v PutCommonServiceI
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptPutCommonServiceItemRoutingReorderRequest) Or(d PutCommonServiceItemRoutingReorderRequest) PutCommonServiceItemRoutingReorderRequest {
+func (o OptPutCommonServiceItemRequestCommonServiceItemSettings) Or(d PutCommonServiceItemRequestCommonServiceItemSettings) PutCommonServiceItemRequestCommonServiceItemSettings {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptSendNotificationMessageRequest returns new OptSendNotificationMessageRequest with value set to v.
-func NewOptSendNotificationMessageRequest(v SendNotificationMessageRequest) OptSendNotificationMessageRequest {
-	return OptSendNotificationMessageRequest{
+// NewOptReorderNotificationRoutingRequest returns new OptReorderNotificationRoutingRequest with value set to v.
+func NewOptReorderNotificationRoutingRequest(v ReorderNotificationRoutingRequest) OptReorderNotificationRoutingRequest {
+	return OptReorderNotificationRoutingRequest{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptSendNotificationMessageRequest is optional SendNotificationMessageRequest.
-type OptSendNotificationMessageRequest struct {
-	Value SendNotificationMessageRequest
+// OptReorderNotificationRoutingRequest is optional ReorderNotificationRoutingRequest.
+type OptReorderNotificationRoutingRequest struct {
+	Value ReorderNotificationRoutingRequest
 	Set   bool
 }
 
-// IsSet returns true if OptSendNotificationMessageRequest was set.
-func (o OptSendNotificationMessageRequest) IsSet() bool { return o.Set }
+// IsSet returns true if OptReorderNotificationRoutingRequest was set.
+func (o OptReorderNotificationRoutingRequest) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptSendNotificationMessageRequest) Reset() {
-	var v SendNotificationMessageRequest
+func (o *OptReorderNotificationRoutingRequest) Reset() {
+	var v ReorderNotificationRoutingRequest
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptSendNotificationMessageRequest) SetTo(v SendNotificationMessageRequest) {
+func (o *OptReorderNotificationRoutingRequest) SetTo(v ReorderNotificationRoutingRequest) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptSendNotificationMessageRequest) Get() (v SendNotificationMessageRequest, ok bool) {
+func (o OptReorderNotificationRoutingRequest) Get() (v ReorderNotificationRoutingRequest, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -1408,7 +1333,53 @@ func (o OptSendNotificationMessageRequest) Get() (v SendNotificationMessageReque
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptSendNotificationMessageRequest) Or(d SendNotificationMessageRequest) SendNotificationMessageRequest {
+func (o OptReorderNotificationRoutingRequest) Or(d ReorderNotificationRoutingRequest) ReorderNotificationRoutingRequest {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptSendNotificationRequest returns new OptSendNotificationRequest with value set to v.
+func NewOptSendNotificationRequest(v SendNotificationRequest) OptSendNotificationRequest {
+	return OptSendNotificationRequest{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSendNotificationRequest is optional SendNotificationRequest.
+type OptSendNotificationRequest struct {
+	Value SendNotificationRequest
+	Set   bool
+}
+
+// IsSet returns true if OptSendNotificationRequest was set.
+func (o OptSendNotificationRequest) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSendNotificationRequest) Reset() {
+	var v SendNotificationRequest
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSendNotificationRequest) SetTo(v SendNotificationRequest) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSendNotificationRequest) Get() (v SendNotificationRequest, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSendNotificationRequest) Or(d SendNotificationRequest) SendNotificationRequest {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -1477,13 +1448,13 @@ func (s *PostCommonServiceItemRequest) SetCommonServiceItem(val PostCommonServic
 }
 
 type PostCommonServiceItemRequestCommonServiceItem struct {
-	Name         string                        `json:"Name"`
-	Description  string                        `json:"Description"`
-	Settings     CommonServiceItemSettings     `json:"Settings"`
-	Provider     CommonServiceItemProvider     `json:"Provider"`
-	ServiceClass CommonServiceItemServiceClass `json:"ServiceClass"`
-	Icon         NilCommonServiceItemIcon      `json:"Icon"`
-	Tags         []string                      `json:"Tags"`
+	Name         string                                                    `json:"Name"`
+	Description  string                                                    `json:"Description"`
+	Tags         []string                                                  `json:"Tags"`
+	Icon         NilCommonServiceItemIcon                                  `json:"Icon"`
+	Provider     PostCommonServiceItemRequestCommonServiceItemProvider     `json:"Provider"`
+	Settings     PostCommonServiceItemRequestCommonServiceItemSettings     `json:"Settings"`
+	ServiceClass PostCommonServiceItemRequestCommonServiceItemServiceClass `json:"ServiceClass"`
 }
 
 // GetName returns the value of Name.
@@ -1496,19 +1467,9 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) GetDescription() string 
 	return s.Description
 }
 
-// GetSettings returns the value of Settings.
-func (s *PostCommonServiceItemRequestCommonServiceItem) GetSettings() CommonServiceItemSettings {
-	return s.Settings
-}
-
-// GetProvider returns the value of Provider.
-func (s *PostCommonServiceItemRequestCommonServiceItem) GetProvider() CommonServiceItemProvider {
-	return s.Provider
-}
-
-// GetServiceClass returns the value of ServiceClass.
-func (s *PostCommonServiceItemRequestCommonServiceItem) GetServiceClass() CommonServiceItemServiceClass {
-	return s.ServiceClass
+// GetTags returns the value of Tags.
+func (s *PostCommonServiceItemRequestCommonServiceItem) GetTags() []string {
+	return s.Tags
 }
 
 // GetIcon returns the value of Icon.
@@ -1516,9 +1477,19 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) GetIcon() NilCommonServi
 	return s.Icon
 }
 
-// GetTags returns the value of Tags.
-func (s *PostCommonServiceItemRequestCommonServiceItem) GetTags() []string {
-	return s.Tags
+// GetProvider returns the value of Provider.
+func (s *PostCommonServiceItemRequestCommonServiceItem) GetProvider() PostCommonServiceItemRequestCommonServiceItemProvider {
+	return s.Provider
+}
+
+// GetSettings returns the value of Settings.
+func (s *PostCommonServiceItemRequestCommonServiceItem) GetSettings() PostCommonServiceItemRequestCommonServiceItemSettings {
+	return s.Settings
+}
+
+// GetServiceClass returns the value of ServiceClass.
+func (s *PostCommonServiceItemRequestCommonServiceItem) GetServiceClass() PostCommonServiceItemRequestCommonServiceItemServiceClass {
+	return s.ServiceClass
 }
 
 // SetName sets the value of Name.
@@ -1531,19 +1502,9 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) SetDescription(val strin
 	s.Description = val
 }
 
-// SetSettings sets the value of Settings.
-func (s *PostCommonServiceItemRequestCommonServiceItem) SetSettings(val CommonServiceItemSettings) {
-	s.Settings = val
-}
-
-// SetProvider sets the value of Provider.
-func (s *PostCommonServiceItemRequestCommonServiceItem) SetProvider(val CommonServiceItemProvider) {
-	s.Provider = val
-}
-
-// SetServiceClass sets the value of ServiceClass.
-func (s *PostCommonServiceItemRequestCommonServiceItem) SetServiceClass(val CommonServiceItemServiceClass) {
-	s.ServiceClass = val
+// SetTags sets the value of Tags.
+func (s *PostCommonServiceItemRequestCommonServiceItem) SetTags(val []string) {
+	s.Tags = val
 }
 
 // SetIcon sets the value of Icon.
@@ -1551,9 +1512,248 @@ func (s *PostCommonServiceItemRequestCommonServiceItem) SetIcon(val NilCommonSer
 	s.Icon = val
 }
 
-// SetTags sets the value of Tags.
-func (s *PostCommonServiceItemRequestCommonServiceItem) SetTags(val []string) {
-	s.Tags = val
+// SetProvider sets the value of Provider.
+func (s *PostCommonServiceItemRequestCommonServiceItem) SetProvider(val PostCommonServiceItemRequestCommonServiceItemProvider) {
+	s.Provider = val
+}
+
+// SetSettings sets the value of Settings.
+func (s *PostCommonServiceItemRequestCommonServiceItem) SetSettings(val PostCommonServiceItemRequestCommonServiceItemSettings) {
+	s.Settings = val
+}
+
+// SetServiceClass sets the value of ServiceClass.
+func (s *PostCommonServiceItemRequestCommonServiceItem) SetServiceClass(val PostCommonServiceItemRequestCommonServiceItemServiceClass) {
+	s.ServiceClass = val
+}
+
+type PostCommonServiceItemRequestCommonServiceItemProvider struct {
+	Class        PostCommonServiceItemRequestCommonServiceItemProviderClass `json:"Class"`
+	Name         OptString                                                  `json:"Name"`
+	ServiceClass OptString                                                  `json:"ServiceClass"`
+}
+
+// GetClass returns the value of Class.
+func (s *PostCommonServiceItemRequestCommonServiceItemProvider) GetClass() PostCommonServiceItemRequestCommonServiceItemProviderClass {
+	return s.Class
+}
+
+// GetName returns the value of Name.
+func (s *PostCommonServiceItemRequestCommonServiceItemProvider) GetName() OptString {
+	return s.Name
+}
+
+// GetServiceClass returns the value of ServiceClass.
+func (s *PostCommonServiceItemRequestCommonServiceItemProvider) GetServiceClass() OptString {
+	return s.ServiceClass
+}
+
+// SetClass sets the value of Class.
+func (s *PostCommonServiceItemRequestCommonServiceItemProvider) SetClass(val PostCommonServiceItemRequestCommonServiceItemProviderClass) {
+	s.Class = val
+}
+
+// SetName sets the value of Name.
+func (s *PostCommonServiceItemRequestCommonServiceItemProvider) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetServiceClass sets the value of ServiceClass.
+func (s *PostCommonServiceItemRequestCommonServiceItemProvider) SetServiceClass(val OptString) {
+	s.ServiceClass = val
+}
+
+type PostCommonServiceItemRequestCommonServiceItemProviderClass string
+
+const (
+	PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination PostCommonServiceItemRequestCommonServiceItemProviderClass = "saknoticedestination"
+	PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticegroup       PostCommonServiceItemRequestCommonServiceItemProviderClass = "saknoticegroup"
+	PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting     PostCommonServiceItemRequestCommonServiceItemProviderClass = "saknoticerouting"
+)
+
+// AllValues returns all PostCommonServiceItemRequestCommonServiceItemProviderClass values.
+func (PostCommonServiceItemRequestCommonServiceItemProviderClass) AllValues() []PostCommonServiceItemRequestCommonServiceItemProviderClass {
+	return []PostCommonServiceItemRequestCommonServiceItemProviderClass{
+		PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination,
+		PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticegroup,
+		PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PostCommonServiceItemRequestCommonServiceItemProviderClass) MarshalText() ([]byte, error) {
+	switch s {
+	case PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination:
+		return []byte(s), nil
+	case PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticegroup:
+		return []byte(s), nil
+	case PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PostCommonServiceItemRequestCommonServiceItemProviderClass) UnmarshalText(data []byte) error {
+	switch PostCommonServiceItemRequestCommonServiceItemProviderClass(data) {
+	case PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination:
+		*s = PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination
+		return nil
+	case PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticegroup:
+		*s = PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticegroup
+		return nil
+	case PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting:
+		*s = PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type PostCommonServiceItemRequestCommonServiceItemServiceClass string
+
+const (
+	PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2 PostCommonServiceItemRequestCommonServiceItemServiceClass = "cloud/saknoticedestination/2"
+	PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticegroup2       PostCommonServiceItemRequestCommonServiceItemServiceClass = "cloud/saknoticegroup/2"
+	PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticerouting2     PostCommonServiceItemRequestCommonServiceItemServiceClass = "cloud/saknoticerouting/2"
+)
+
+// AllValues returns all PostCommonServiceItemRequestCommonServiceItemServiceClass values.
+func (PostCommonServiceItemRequestCommonServiceItemServiceClass) AllValues() []PostCommonServiceItemRequestCommonServiceItemServiceClass {
+	return []PostCommonServiceItemRequestCommonServiceItemServiceClass{
+		PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2,
+		PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticegroup2,
+		PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticerouting2,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PostCommonServiceItemRequestCommonServiceItemServiceClass) MarshalText() ([]byte, error) {
+	switch s {
+	case PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2:
+		return []byte(s), nil
+	case PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticegroup2:
+		return []byte(s), nil
+	case PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticerouting2:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PostCommonServiceItemRequestCommonServiceItemServiceClass) UnmarshalText(data []byte) error {
+	switch PostCommonServiceItemRequestCommonServiceItemServiceClass(data) {
+	case PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2:
+		*s = PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2
+		return nil
+	case PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticegroup2:
+		*s = PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticegroup2
+		return nil
+	case PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticerouting2:
+		*s = PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticerouting2
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// PostCommonServiceItemRequestCommonServiceItemSettings represents sum type.
+type PostCommonServiceItemRequestCommonServiceItemSettings struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                                 PostCommonServiceItemRequestCommonServiceItemSettingsType
+	CommonServiceItemDestinationSettings CommonServiceItemDestinationSettings
+	CommonServiceItemGroupSettings       CommonServiceItemGroupSettings
+	CommonServiceItemRoutingSettings     CommonServiceItemRoutingSettings
+}
+
+// PostCommonServiceItemRequestCommonServiceItemSettingsType is oneOf type of PostCommonServiceItemRequestCommonServiceItemSettings.
+type PostCommonServiceItemRequestCommonServiceItemSettingsType string
+
+// Possible values for PostCommonServiceItemRequestCommonServiceItemSettingsType.
+const (
+	CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings PostCommonServiceItemRequestCommonServiceItemSettingsType = "CommonServiceItemDestinationSettings"
+	CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings       PostCommonServiceItemRequestCommonServiceItemSettingsType = "CommonServiceItemGroupSettings"
+	CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings     PostCommonServiceItemRequestCommonServiceItemSettingsType = "CommonServiceItemRoutingSettings"
+)
+
+// IsCommonServiceItemDestinationSettings reports whether PostCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemDestinationSettings.
+func (s PostCommonServiceItemRequestCommonServiceItemSettings) IsCommonServiceItemDestinationSettings() bool {
+	return s.Type == CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings
+}
+
+// IsCommonServiceItemGroupSettings reports whether PostCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemGroupSettings.
+func (s PostCommonServiceItemRequestCommonServiceItemSettings) IsCommonServiceItemGroupSettings() bool {
+	return s.Type == CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings
+}
+
+// IsCommonServiceItemRoutingSettings reports whether PostCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemRoutingSettings.
+func (s PostCommonServiceItemRequestCommonServiceItemSettings) IsCommonServiceItemRoutingSettings() bool {
+	return s.Type == CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings
+}
+
+// SetCommonServiceItemDestinationSettings sets PostCommonServiceItemRequestCommonServiceItemSettings to CommonServiceItemDestinationSettings.
+func (s *PostCommonServiceItemRequestCommonServiceItemSettings) SetCommonServiceItemDestinationSettings(v CommonServiceItemDestinationSettings) {
+	s.Type = CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings
+	s.CommonServiceItemDestinationSettings = v
+}
+
+// GetCommonServiceItemDestinationSettings returns CommonServiceItemDestinationSettings and true boolean if PostCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemDestinationSettings.
+func (s PostCommonServiceItemRequestCommonServiceItemSettings) GetCommonServiceItemDestinationSettings() (v CommonServiceItemDestinationSettings, ok bool) {
+	if !s.IsCommonServiceItemDestinationSettings() {
+		return v, false
+	}
+	return s.CommonServiceItemDestinationSettings, true
+}
+
+// NewCommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings returns new PostCommonServiceItemRequestCommonServiceItemSettings from CommonServiceItemDestinationSettings.
+func NewCommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings(v CommonServiceItemDestinationSettings) PostCommonServiceItemRequestCommonServiceItemSettings {
+	var s PostCommonServiceItemRequestCommonServiceItemSettings
+	s.SetCommonServiceItemDestinationSettings(v)
+	return s
+}
+
+// SetCommonServiceItemGroupSettings sets PostCommonServiceItemRequestCommonServiceItemSettings to CommonServiceItemGroupSettings.
+func (s *PostCommonServiceItemRequestCommonServiceItemSettings) SetCommonServiceItemGroupSettings(v CommonServiceItemGroupSettings) {
+	s.Type = CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings
+	s.CommonServiceItemGroupSettings = v
+}
+
+// GetCommonServiceItemGroupSettings returns CommonServiceItemGroupSettings and true boolean if PostCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemGroupSettings.
+func (s PostCommonServiceItemRequestCommonServiceItemSettings) GetCommonServiceItemGroupSettings() (v CommonServiceItemGroupSettings, ok bool) {
+	if !s.IsCommonServiceItemGroupSettings() {
+		return v, false
+	}
+	return s.CommonServiceItemGroupSettings, true
+}
+
+// NewCommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings returns new PostCommonServiceItemRequestCommonServiceItemSettings from CommonServiceItemGroupSettings.
+func NewCommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings(v CommonServiceItemGroupSettings) PostCommonServiceItemRequestCommonServiceItemSettings {
+	var s PostCommonServiceItemRequestCommonServiceItemSettings
+	s.SetCommonServiceItemGroupSettings(v)
+	return s
+}
+
+// SetCommonServiceItemRoutingSettings sets PostCommonServiceItemRequestCommonServiceItemSettings to CommonServiceItemRoutingSettings.
+func (s *PostCommonServiceItemRequestCommonServiceItemSettings) SetCommonServiceItemRoutingSettings(v CommonServiceItemRoutingSettings) {
+	s.Type = CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings
+	s.CommonServiceItemRoutingSettings = v
+}
+
+// GetCommonServiceItemRoutingSettings returns CommonServiceItemRoutingSettings and true boolean if PostCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemRoutingSettings.
+func (s PostCommonServiceItemRequestCommonServiceItemSettings) GetCommonServiceItemRoutingSettings() (v CommonServiceItemRoutingSettings, ok bool) {
+	if !s.IsCommonServiceItemRoutingSettings() {
+		return v, false
+	}
+	return s.CommonServiceItemRoutingSettings, true
+}
+
+// NewCommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings returns new PostCommonServiceItemRequestCommonServiceItemSettings from CommonServiceItemRoutingSettings.
+func NewCommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings(v CommonServiceItemRoutingSettings) PostCommonServiceItemRequestCommonServiceItemSettings {
+	var s PostCommonServiceItemRequestCommonServiceItemSettings
+	s.SetCommonServiceItemRoutingSettings(v)
+	return s
 }
 
 // Ref: #/components/schemas/PutCommonServiceItemRequest
@@ -1572,11 +1772,11 @@ func (s *PutCommonServiceItemRequest) SetCommonServiceItem(val PutCommonServiceI
 }
 
 type PutCommonServiceItemRequestCommonServiceItem struct {
-	Name        string                       `json:"Name"`
-	Description string                       `json:"Description"`
-	Tags        []string                     `json:"Tags"`
-	Icon        NilCommonServiceItemIcon     `json:"Icon"`
-	Settings    OptCommonServiceItemSettings `json:"Settings"`
+	Name        string                                                  `json:"Name"`
+	Description string                                                  `json:"Description"`
+	Tags        []string                                                `json:"Tags"`
+	Icon        NilCommonServiceItemIcon                                `json:"Icon"`
+	Settings    OptPutCommonServiceItemRequestCommonServiceItemSettings `json:"Settings"`
 }
 
 // GetName returns the value of Name.
@@ -1600,7 +1800,7 @@ func (s *PutCommonServiceItemRequestCommonServiceItem) GetIcon() NilCommonServic
 }
 
 // GetSettings returns the value of Settings.
-func (s *PutCommonServiceItemRequestCommonServiceItem) GetSettings() OptCommonServiceItemSettings {
+func (s *PutCommonServiceItemRequestCommonServiceItem) GetSettings() OptPutCommonServiceItemRequestCommonServiceItemSettings {
 	return s.Settings
 }
 
@@ -1625,164 +1825,217 @@ func (s *PutCommonServiceItemRequestCommonServiceItem) SetIcon(val NilCommonServ
 }
 
 // SetSettings sets the value of Settings.
-func (s *PutCommonServiceItemRequestCommonServiceItem) SetSettings(val OptCommonServiceItemSettings) {
+func (s *PutCommonServiceItemRequestCommonServiceItem) SetSettings(val OptPutCommonServiceItemRequestCommonServiceItemSettings) {
 	s.Settings = val
 }
 
-// Ref: #/components/schemas/PutCommonServiceItemRoutingReorderRequest
-type PutCommonServiceItemRoutingReorderRequest struct {
-	Orders []PutCommonServiceItemRoutingReorderRequestOrdersItem `json:"Orders"`
+// PutCommonServiceItemRequestCommonServiceItemSettings represents sum type.
+type PutCommonServiceItemRequestCommonServiceItemSettings struct {
+	// Type selects the active sum variant, switch on this field.
+	Type                                 PutCommonServiceItemRequestCommonServiceItemSettingsType
+	CommonServiceItemDestinationSettings CommonServiceItemDestinationSettings
+	CommonServiceItemGroupSettings       CommonServiceItemGroupSettings
+	CommonServiceItemRoutingSettings     CommonServiceItemRoutingSettings
+}
+
+// PutCommonServiceItemRequestCommonServiceItemSettingsType is oneOf type of PutCommonServiceItemRequestCommonServiceItemSettings.
+type PutCommonServiceItemRequestCommonServiceItemSettingsType string
+
+// Possible values for PutCommonServiceItemRequestCommonServiceItemSettingsType.
+const (
+	CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings PutCommonServiceItemRequestCommonServiceItemSettingsType = "CommonServiceItemDestinationSettings"
+	CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings       PutCommonServiceItemRequestCommonServiceItemSettingsType = "CommonServiceItemGroupSettings"
+	CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings     PutCommonServiceItemRequestCommonServiceItemSettingsType = "CommonServiceItemRoutingSettings"
+)
+
+// IsCommonServiceItemDestinationSettings reports whether PutCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemDestinationSettings.
+func (s PutCommonServiceItemRequestCommonServiceItemSettings) IsCommonServiceItemDestinationSettings() bool {
+	return s.Type == CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings
+}
+
+// IsCommonServiceItemGroupSettings reports whether PutCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemGroupSettings.
+func (s PutCommonServiceItemRequestCommonServiceItemSettings) IsCommonServiceItemGroupSettings() bool {
+	return s.Type == CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings
+}
+
+// IsCommonServiceItemRoutingSettings reports whether PutCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemRoutingSettings.
+func (s PutCommonServiceItemRequestCommonServiceItemSettings) IsCommonServiceItemRoutingSettings() bool {
+	return s.Type == CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings
+}
+
+// SetCommonServiceItemDestinationSettings sets PutCommonServiceItemRequestCommonServiceItemSettings to CommonServiceItemDestinationSettings.
+func (s *PutCommonServiceItemRequestCommonServiceItemSettings) SetCommonServiceItemDestinationSettings(v CommonServiceItemDestinationSettings) {
+	s.Type = CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings
+	s.CommonServiceItemDestinationSettings = v
+}
+
+// GetCommonServiceItemDestinationSettings returns CommonServiceItemDestinationSettings and true boolean if PutCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemDestinationSettings.
+func (s PutCommonServiceItemRequestCommonServiceItemSettings) GetCommonServiceItemDestinationSettings() (v CommonServiceItemDestinationSettings, ok bool) {
+	if !s.IsCommonServiceItemDestinationSettings() {
+		return v, false
+	}
+	return s.CommonServiceItemDestinationSettings, true
+}
+
+// NewCommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings returns new PutCommonServiceItemRequestCommonServiceItemSettings from CommonServiceItemDestinationSettings.
+func NewCommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings(v CommonServiceItemDestinationSettings) PutCommonServiceItemRequestCommonServiceItemSettings {
+	var s PutCommonServiceItemRequestCommonServiceItemSettings
+	s.SetCommonServiceItemDestinationSettings(v)
+	return s
+}
+
+// SetCommonServiceItemGroupSettings sets PutCommonServiceItemRequestCommonServiceItemSettings to CommonServiceItemGroupSettings.
+func (s *PutCommonServiceItemRequestCommonServiceItemSettings) SetCommonServiceItemGroupSettings(v CommonServiceItemGroupSettings) {
+	s.Type = CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings
+	s.CommonServiceItemGroupSettings = v
+}
+
+// GetCommonServiceItemGroupSettings returns CommonServiceItemGroupSettings and true boolean if PutCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemGroupSettings.
+func (s PutCommonServiceItemRequestCommonServiceItemSettings) GetCommonServiceItemGroupSettings() (v CommonServiceItemGroupSettings, ok bool) {
+	if !s.IsCommonServiceItemGroupSettings() {
+		return v, false
+	}
+	return s.CommonServiceItemGroupSettings, true
+}
+
+// NewCommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings returns new PutCommonServiceItemRequestCommonServiceItemSettings from CommonServiceItemGroupSettings.
+func NewCommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings(v CommonServiceItemGroupSettings) PutCommonServiceItemRequestCommonServiceItemSettings {
+	var s PutCommonServiceItemRequestCommonServiceItemSettings
+	s.SetCommonServiceItemGroupSettings(v)
+	return s
+}
+
+// SetCommonServiceItemRoutingSettings sets PutCommonServiceItemRequestCommonServiceItemSettings to CommonServiceItemRoutingSettings.
+func (s *PutCommonServiceItemRequestCommonServiceItemSettings) SetCommonServiceItemRoutingSettings(v CommonServiceItemRoutingSettings) {
+	s.Type = CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings
+	s.CommonServiceItemRoutingSettings = v
+}
+
+// GetCommonServiceItemRoutingSettings returns CommonServiceItemRoutingSettings and true boolean if PutCommonServiceItemRequestCommonServiceItemSettings is CommonServiceItemRoutingSettings.
+func (s PutCommonServiceItemRequestCommonServiceItemSettings) GetCommonServiceItemRoutingSettings() (v CommonServiceItemRoutingSettings, ok bool) {
+	if !s.IsCommonServiceItemRoutingSettings() {
+		return v, false
+	}
+	return s.CommonServiceItemRoutingSettings, true
+}
+
+// NewCommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings returns new PutCommonServiceItemRequestCommonServiceItemSettings from CommonServiceItemRoutingSettings.
+func NewCommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings(v CommonServiceItemRoutingSettings) PutCommonServiceItemRequestCommonServiceItemSettings {
+	var s PutCommonServiceItemRequestCommonServiceItemSettings
+	s.SetCommonServiceItemRoutingSettings(v)
+	return s
+}
+
+type ReadCommonServiceItemOK struct {
+	CommonServiceItem CommonServiceItem `json:"CommonServiceItem"`
+}
+
+// GetCommonServiceItem returns the value of CommonServiceItem.
+func (s *ReadCommonServiceItemOK) GetCommonServiceItem() CommonServiceItem {
+	return s.CommonServiceItem
+}
+
+// SetCommonServiceItem sets the value of CommonServiceItem.
+func (s *ReadCommonServiceItemOK) SetCommonServiceItem(val CommonServiceItem) {
+	s.CommonServiceItem = val
+}
+
+// Ref: #/components/schemas/ReadNotificationHistoryResponse
+type ReadNotificationHistoryResponse struct {
+	NotificationHistory NotificationHistory `json:"NotificationHistory"`
+}
+
+// GetNotificationHistory returns the value of NotificationHistory.
+func (s *ReadNotificationHistoryResponse) GetNotificationHistory() NotificationHistory {
+	return s.NotificationHistory
+}
+
+// SetNotificationHistory sets the value of NotificationHistory.
+func (s *ReadNotificationHistoryResponse) SetNotificationHistory(val NotificationHistory) {
+	s.NotificationHistory = val
+}
+
+type ReorderNotificationRoutingAccepted struct {
+	IsOk OptBool `json:"is_ok"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReorderNotificationRoutingAccepted) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReorderNotificationRoutingAccepted) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+// Ref: #/components/schemas/ReorderNotificationRoutingRequest
+type ReorderNotificationRoutingRequest struct {
+	Orders []ReorderNotificationRoutingRequestOrdersItem `json:"Orders"`
 }
 
 // GetOrders returns the value of Orders.
-func (s *PutCommonServiceItemRoutingReorderRequest) GetOrders() []PutCommonServiceItemRoutingReorderRequestOrdersItem {
+func (s *ReorderNotificationRoutingRequest) GetOrders() []ReorderNotificationRoutingRequestOrdersItem {
 	return s.Orders
 }
 
 // SetOrders sets the value of Orders.
-func (s *PutCommonServiceItemRoutingReorderRequest) SetOrders(val []PutCommonServiceItemRoutingReorderRequestOrdersItem) {
+func (s *ReorderNotificationRoutingRequest) SetOrders(val []ReorderNotificationRoutingRequestOrdersItem) {
 	s.Orders = val
 }
 
-type PutCommonServiceItemRoutingReorderRequestOrdersItem struct {
+type ReorderNotificationRoutingRequestOrdersItem struct {
 	PriorityRank int    `json:"PriorityRank"`
 	RoutingID    string `json:"RoutingID"`
 }
 
 // GetPriorityRank returns the value of PriorityRank.
-func (s *PutCommonServiceItemRoutingReorderRequestOrdersItem) GetPriorityRank() int {
+func (s *ReorderNotificationRoutingRequestOrdersItem) GetPriorityRank() int {
 	return s.PriorityRank
 }
 
 // GetRoutingID returns the value of RoutingID.
-func (s *PutCommonServiceItemRoutingReorderRequestOrdersItem) GetRoutingID() string {
+func (s *ReorderNotificationRoutingRequestOrdersItem) GetRoutingID() string {
 	return s.RoutingID
 }
 
 // SetPriorityRank sets the value of PriorityRank.
-func (s *PutCommonServiceItemRoutingReorderRequestOrdersItem) SetPriorityRank(val int) {
+func (s *ReorderNotificationRoutingRequestOrdersItem) SetPriorityRank(val int) {
 	s.PriorityRank = val
 }
 
 // SetRoutingID sets the value of RoutingID.
-func (s *PutCommonServiceItemRoutingReorderRequestOrdersItem) SetRoutingID(val string) {
+func (s *ReorderNotificationRoutingRequestOrdersItem) SetRoutingID(val string) {
 	s.RoutingID = val
 }
 
-type ReorderRoutingAccepted struct {
-	IsOk OptBool `json:"is_ok"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ReorderRoutingAccepted) GetIsOk() OptBool {
-	return s.IsOk
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ReorderRoutingAccepted) SetIsOk(val OptBool) {
-	s.IsOk = val
-}
-
-// Ref: #/components/schemas/RoutingSettings
-type RoutingSettings struct {
-	MatchLabels   []RoutingSettingsMatchLabelsItem `json:"MatchLabels"`
-	SourceID      string                           `json:"SourceID"`
-	TargetGroupID string                           `json:"TargetGroupID"`
-	PriorityRank  int                              `json:"PriorityRank"`
-}
-
-// GetMatchLabels returns the value of MatchLabels.
-func (s *RoutingSettings) GetMatchLabels() []RoutingSettingsMatchLabelsItem {
-	return s.MatchLabels
-}
-
-// GetSourceID returns the value of SourceID.
-func (s *RoutingSettings) GetSourceID() string {
-	return s.SourceID
-}
-
-// GetTargetGroupID returns the value of TargetGroupID.
-func (s *RoutingSettings) GetTargetGroupID() string {
-	return s.TargetGroupID
-}
-
-// GetPriorityRank returns the value of PriorityRank.
-func (s *RoutingSettings) GetPriorityRank() int {
-	return s.PriorityRank
-}
-
-// SetMatchLabels sets the value of MatchLabels.
-func (s *RoutingSettings) SetMatchLabels(val []RoutingSettingsMatchLabelsItem) {
-	s.MatchLabels = val
-}
-
-// SetSourceID sets the value of SourceID.
-func (s *RoutingSettings) SetSourceID(val string) {
-	s.SourceID = val
-}
-
-// SetTargetGroupID sets the value of TargetGroupID.
-func (s *RoutingSettings) SetTargetGroupID(val string) {
-	s.TargetGroupID = val
-}
-
-// SetPriorityRank sets the value of PriorityRank.
-func (s *RoutingSettings) SetPriorityRank(val int) {
-	s.PriorityRank = val
-}
-
-type RoutingSettingsMatchLabelsItem struct {
-	Name  string `json:"Name"`
-	Value string `json:"Value"`
-}
-
-// GetName returns the value of Name.
-func (s *RoutingSettingsMatchLabelsItem) GetName() string {
-	return s.Name
-}
-
-// GetValue returns the value of Value.
-func (s *RoutingSettingsMatchLabelsItem) GetValue() string {
-	return s.Value
-}
-
-// SetName sets the value of Name.
-func (s *RoutingSettingsMatchLabelsItem) SetName(val string) {
-	s.Name = val
-}
-
-// SetValue sets the value of Value.
-func (s *RoutingSettingsMatchLabelsItem) SetValue(val string) {
-	s.Value = val
-}
-
-// Ref: #/components/schemas/SendNotificationMessageRequest
-type SendNotificationMessageRequest struct {
+// Ref: #/components/schemas/SendNotificationRequest
+type SendNotificationRequest struct {
 	Message string `json:"Message"`
 }
 
 // GetMessage returns the value of Message.
-func (s *SendNotificationMessageRequest) GetMessage() string {
+func (s *SendNotificationRequest) GetMessage() string {
 	return s.Message
 }
 
 // SetMessage sets the value of Message.
-func (s *SendNotificationMessageRequest) SetMessage(val string) {
+func (s *SendNotificationRequest) SetMessage(val string) {
 	s.Message = val
 }
 
-// Ref: #/components/schemas/SendNotificationMessageResponse
-type SendNotificationMessageResponse struct {
+// Ref: #/components/schemas/SendNotificationResponse
+type SendNotificationResponse struct {
 	IsOk bool `json:"is_ok"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *SendNotificationMessageResponse) GetIsOk() bool {
+func (s *SendNotificationResponse) GetIsOk() bool {
 	return s.IsOk
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *SendNotificationMessageResponse) SetIsOk(val bool) {
+func (s *SendNotificationResponse) SetIsOk(val bool) {
 	s.IsOk = val
 }
 

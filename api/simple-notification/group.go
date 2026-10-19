@@ -24,11 +24,11 @@ import (
 type GroupAPI interface {
 	List(ctx context.Context) (*v1.ListCommonServiceItemsResponse, error)
 	Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error)
-	Read(ctx context.Context, id string) (*v1.GetCommonServiceItemOK, error)
+	Read(ctx context.Context, id string) (*v1.ReadCommonServiceItemOK, error)
 	Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error)
 	Delete(ctx context.Context, id string) error
 	SendMessage(ctx context.Context, id string,
-		request v1.SendNotificationMessageRequest) (*v1.SendNotificationMessageResponse, error)
+		request v1.SendNotificationRequest) (*v1.SendNotificationResponse, error)
 }
 
 var _ GroupAPI = (*GroupOp)(nil)
@@ -57,10 +57,10 @@ func (o *GroupOp) List(ctx context.Context) (*v1.ListCommonServiceItemsResponse,
 
 func (o *GroupOp) Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error) {
 	const methodName = "Group.Create"
-	request.CommonServiceItem.ServiceClass = v1.CommonServiceItemServiceClassCloudSaknoticegroup2
-	request.CommonServiceItem.Provider.Class = v1.CommonServiceItemProviderClassSaknoticegroup
+	request.CommonServiceItem.ServiceClass = v1.PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticegroup2
+	request.CommonServiceItem.Provider.Class = v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticegroup
 	request.CommonServiceItem.Provider.ServiceClass = v1.NewOptString("cloud/saknotice")
-	request.CommonServiceItem.Settings.Type = v1.GroupSettingsCommonServiceItemSettings
+	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings
 
 	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
@@ -72,9 +72,9 @@ func (o *GroupOp) Create(ctx context.Context, request v1.PostCommonServiceItemRe
 	return res, nil
 }
 
-func (o *GroupOp) Read(ctx context.Context, id string) (*v1.GetCommonServiceItemOK, error) {
+func (o *GroupOp) Read(ctx context.Context, id string) (*v1.ReadCommonServiceItemOK, error) {
 	const methodName = "Group.Read"
-	res, err := o.client.GetCommonServiceItem(ctx, v1.GetCommonServiceItemParams{ID: id})
+	res, err := o.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
@@ -86,7 +86,7 @@ func (o *GroupOp) Read(ctx context.Context, id string) (*v1.GetCommonServiceItem
 
 func (o *GroupOp) Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error) {
 	const methodName = "Group.Update"
-	request.CommonServiceItem.Settings.Value.Type = v1.GroupSettingsCommonServiceItemSettings
+	request.CommonServiceItem.Settings.Value.Type = v1.CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings
 	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
@@ -109,9 +109,9 @@ func (o *GroupOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (o *GroupOp) SendMessage(ctx context.Context, id string, request v1.SendNotificationMessageRequest) (*v1.SendNotificationMessageResponse, error) {
+func (o *GroupOp) SendMessage(ctx context.Context, id string, request v1.SendNotificationRequest) (*v1.SendNotificationResponse, error) {
 	const methodName = "Group.SendMessage"
-	res, err := o.client.SendNotificationMessage(ctx, v1.NewOptSendNotificationMessageRequest(request), v1.SendNotificationMessageParams{ID: id})
+	res, err := o.client.SendNotification(ctx, v1.NewOptSendNotificationRequest(request), v1.SendNotificationParams{ID: id})
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)

@@ -24,10 +24,10 @@ import (
 type DestinationAPI interface {
 	List(ctx context.Context) (*v1.ListCommonServiceItemsResponse, error)
 	Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error)
-	Read(ctx context.Context, id string) (*v1.GetCommonServiceItemOK, error)
+	Read(ctx context.Context, id string) (*v1.ReadCommonServiceItemOK, error)
 	Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error)
 	Delete(ctx context.Context, id string) error
-	ReadStatus(ctx context.Context, id string) (*v1.GetCommonServiceItemStatusResponse, error)
+	ReadStatus(ctx context.Context, id string) (*v1.CheckDestinationStatusResponse, error)
 }
 
 var _ DestinationAPI = (*DestinationOp)(nil)
@@ -55,9 +55,9 @@ func (o *DestinationOp) List(ctx context.Context) (*v1.ListCommonServiceItemsRes
 
 func (o *DestinationOp) Create(ctx context.Context, request v1.PostCommonServiceItemRequest) (*v1.CreateCommonServiceItemCreated, error) {
 	const methodName = "Destination.Create"
-	request.CommonServiceItem.ServiceClass = v1.CommonServiceItemServiceClassCloudSaknoticedestination2
-	request.CommonServiceItem.Provider.Class = v1.CommonServiceItemProviderClassSaknoticedestination
-	request.CommonServiceItem.Settings.Type = v1.DestinationSettingsCommonServiceItemSettings
+	request.CommonServiceItem.ServiceClass = v1.PostCommonServiceItemRequestCommonServiceItemServiceClassCloudSaknoticedestination2
+	request.CommonServiceItem.Provider.Class = v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticedestination
+	request.CommonServiceItem.Settings.Type = v1.CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings
 	res, err := o.client.CreateCommonServiceItem(ctx, v1.NewOptPostCommonServiceItemRequest(request))
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
@@ -68,9 +68,9 @@ func (o *DestinationOp) Create(ctx context.Context, request v1.PostCommonService
 	return res, nil
 }
 
-func (o *DestinationOp) Read(ctx context.Context, id string) (*v1.GetCommonServiceItemOK, error) {
+func (o *DestinationOp) Read(ctx context.Context, id string) (*v1.ReadCommonServiceItemOK, error) {
 	const methodName = "Destination.Read"
-	res, err := o.client.GetCommonServiceItem(ctx, v1.GetCommonServiceItemParams{ID: id})
+	res, err := o.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)
@@ -82,7 +82,7 @@ func (o *DestinationOp) Read(ctx context.Context, id string) (*v1.GetCommonServi
 
 func (o *DestinationOp) Update(ctx context.Context, id string, request v1.PutCommonServiceItemRequest) (*v1.UpdateCommonServiceItemOK, error) {
 	const methodName = "Destination.Update"
-	request.CommonServiceItem.Settings.Value.Type = v1.DestinationSettingsCommonServiceItemSettings
+	request.CommonServiceItem.Settings.Value.Type = v1.CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings
 	res, err := o.client.UpdateCommonServiceItem(ctx, v1.NewOptPutCommonServiceItemRequest(request), v1.UpdateCommonServiceItemParams{ID: id})
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
@@ -105,9 +105,9 @@ func (o *DestinationOp) Delete(ctx context.Context, id string) error {
 	return nil
 }
 
-func (o *DestinationOp) ReadStatus(ctx context.Context, id string) (*v1.GetCommonServiceItemStatusResponse, error) {
+func (o *DestinationOp) ReadStatus(ctx context.Context, id string) (*v1.CheckDestinationStatusResponse, error) {
 	const methodName = "Destination.ReadStatus"
-	res, err := o.client.GetCommonServiceItemStatus(ctx, v1.GetCommonServiceItemStatusParams{ID: id})
+	res, err := o.client.CheckNotificationDestinationStatus(ctx, v1.CheckNotificationDestinationStatusParams{ID: id})
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)

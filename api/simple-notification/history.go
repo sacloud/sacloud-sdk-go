@@ -22,8 +22,8 @@ import (
 )
 
 type HistoryAPI interface {
-	List(ctx context.Context) (*v1.ListSimpleNotificationHistoriesResponse, error)
-	Read(ctx context.Context, id string) (*v1.GetSimpleNotificationHistoryResponse, error)
+	List(ctx context.Context) (*v1.ListNotificationHistoriesResponse, error)
+	Read(ctx context.Context, id string) (*v1.ReadNotificationHistoryResponse, error)
 }
 
 var _ HistoryAPI = (*HistoryOp)(nil)
@@ -36,7 +36,7 @@ func NewHistoryOp(client *v1.Client) HistoryAPI {
 	return &HistoryOp{client: client}
 }
 
-func (o *HistoryOp) List(ctx context.Context) (*v1.ListSimpleNotificationHistoriesResponse, error) {
+func (o *HistoryOp) List(ctx context.Context) (*v1.ListNotificationHistoriesResponse, error) {
 	const methodName = "History.List"
 	res, err := o.client.ListNotificationHistories(ctx)
 	if err != nil {
@@ -48,9 +48,9 @@ func (o *HistoryOp) List(ctx context.Context) (*v1.ListSimpleNotificationHistori
 	return res, nil
 }
 
-func (o *HistoryOp) Read(ctx context.Context, id string) (*v1.GetSimpleNotificationHistoryResponse, error) {
+func (o *HistoryOp) Read(ctx context.Context, id string) (*v1.ReadNotificationHistoryResponse, error) {
 	const methodName = "History.Read"
-	res, err := o.client.GetNotificationHistory(ctx, v1.GetNotificationHistoryParams{RequestID: id})
+	res, err := o.client.ReadNotificationHistory(ctx, v1.ReadNotificationHistoryParams{RequestID: id})
 	if err != nil {
 		if e, ok := errors.AsType[*v1.ErrorStatusCode](err); ok {
 			return nil, NewAPIError(methodName, e.StatusCode, err)

@@ -21,6 +21,12 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
+	// CheckNotificationDestinationStatus invokes checkNotificationDestinationStatus operation.
+	//
+	// 通知先が通知送信可能かどうかのステータス情報を取得します。.
+	//
+	// GET /commonserviceitem/{id}/simplenotification/status
+	CheckNotificationDestinationStatus(ctx context.Context, params CheckNotificationDestinationStatusParams) (*CheckDestinationStatusResponse, error)
 	// CreateCommonServiceItem invokes createCommonServiceItem operation.
 	//
 	// リソースの作成。`Provider.Class`の値に応じて必要な`Settings`の内容が異なります。.
@@ -33,24 +39,6 @@ type Invoker interface {
 	//
 	// DELETE /commonserviceitem/{id}
 	DeleteCommonServiceItem(ctx context.Context, params DeleteCommonServiceItemParams) (*DeleteCommonServiceItemOK, error)
-	// GetCommonServiceItem invokes getCommonServiceItem operation.
-	//
-	// リソースの取得。取得された`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
-	//
-	// GET /commonserviceitem/{id}
-	GetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (*GetCommonServiceItemOK, error)
-	// GetCommonServiceItemStatus invokes getCommonServiceItemStatus operation.
-	//
-	// 通知先が通知送信可能かどうかのステータス情報を取得します。.
-	//
-	// GET /commonserviceitem/{id}/simplenotification/status
-	GetCommonServiceItemStatus(ctx context.Context, params GetCommonServiceItemStatusParams) (*GetCommonServiceItemStatusResponse, error)
-	// GetNotificationHistory invokes getNotificationHistory operation.
-	//
-	// 指定した`request_id`に対応する通知履歴の取得。.
-	//
-	// GET /commonserviceitem/simplenotification/history/{request_id}
-	GetNotificationHistory(ctx context.Context, params GetNotificationHistoryParams) (*GetSimpleNotificationHistoryResponse, error)
 	// ListCommonServiceItems invokes listCommonServiceItems operation.
 	//
 	// リソースの一覧取得。クエリパラメータにて下記のように`Provider.Class`を指定してフィルタを設定することで通知先、通知先グループまたは通知ルーティングのリソースのみを取得できます。
@@ -67,26 +55,38 @@ type Invoker interface {
 	// 直近30日間以内の通知送信履歴が最大100件まで取得可能です。.
 	//
 	// GET /commonserviceitem/simplenotification/history
-	ListNotificationHistories(ctx context.Context) (*ListSimpleNotificationHistoriesResponse, error)
-	// ListSources invokes listSources operation.
+	ListNotificationHistories(ctx context.Context) (*ListNotificationHistoriesResponse, error)
+	// ListNotificationSources invokes listNotificationSources operation.
 	//
 	// 通知ルーティングに設定する通知元の情報を取得します。.
 	//
 	// GET /commonserviceitem/simplenotification/sources
-	ListSources(ctx context.Context) (*ListSourcesResponse, error)
-	// ReorderRouting invokes reorderRouting operation.
+	ListNotificationSources(ctx context.Context) (*ListNotificationSourcesResponse, error)
+	// ReadCommonServiceItem invokes readCommonServiceItem operation.
+	//
+	// リソースの取得。取得された`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
+	//
+	// GET /commonserviceitem/{id}
+	ReadCommonServiceItem(ctx context.Context, params ReadCommonServiceItemParams) (*ReadCommonServiceItemOK, error)
+	// ReadNotificationHistory invokes readNotificationHistory operation.
+	//
+	// 指定した`request_id`に対応する通知履歴の取得。.
+	//
+	// GET /commonserviceitem/simplenotification/history/{request_id}
+	ReadNotificationHistory(ctx context.Context, params ReadNotificationHistoryParams) (*ReadNotificationHistoryResponse, error)
+	// ReorderNotificationRouting invokes reorderNotificationRouting operation.
 	//
 	// 通知ルーティングの優先順位を並び替えます。
 	// `PriorityRank`の値は他の通知ルーティングと重複しないように指定する必要があります。.
 	//
 	// PUT /commonserviceitem/simplenotification/routing/reorder
-	ReorderRouting(ctx context.Context, request OptPutCommonServiceItemRoutingReorderRequest) (*ReorderRoutingAccepted, error)
-	// SendNotificationMessage invokes sendNotificationMessage operation.
+	ReorderNotificationRouting(ctx context.Context, request OptReorderNotificationRoutingRequest) (*ReorderNotificationRoutingAccepted, error)
+	// SendNotification invokes sendNotification operation.
 	//
 	// 指定した通知先グループに対してメッセージを送信します。.
 	//
 	// POST /commonserviceitem/{id}/simplenotification/message
-	SendNotificationMessage(ctx context.Context, request OptSendNotificationMessageRequest, params SendNotificationMessageParams) (*SendNotificationMessageResponse, error)
+	SendNotification(ctx context.Context, request OptSendNotificationRequest, params SendNotificationParams) (*SendNotificationResponse, error)
 	// UpdateCommonServiceItem invokes updateCommonServiceItem operation.
 	//
 	// リソースの更新。更新される`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
@@ -132,6 +132,68 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 		return c.serverURL
 	}
 	return u
+}
+
+// CheckNotificationDestinationStatus invokes checkNotificationDestinationStatus operation.
+//
+// 通知先が通知送信可能かどうかのステータス情報を取得します。.
+//
+// GET /commonserviceitem/{id}/simplenotification/status
+func (c *Client) CheckNotificationDestinationStatus(ctx context.Context, params CheckNotificationDestinationStatusParams) (*CheckDestinationStatusResponse, error) {
+	res, err := c.sendCheckNotificationDestinationStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendCheckNotificationDestinationStatus(ctx context.Context, params CheckNotificationDestinationStatusParams) (res *CheckDestinationStatusResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/commonserviceitem/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/simplenotification/status"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCheckNotificationDestinationStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
 }
 
 // CreateCommonServiceItem invokes createCommonServiceItem operation.
@@ -257,190 +319,6 @@ func (c *Client) sendDeleteCommonServiceItem(ctx context.Context, params DeleteC
 	return result, nil
 }
 
-// GetCommonServiceItem invokes getCommonServiceItem operation.
-//
-// リソースの取得。取得された`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
-//
-// GET /commonserviceitem/{id}
-func (c *Client) GetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (*GetCommonServiceItemOK, error) {
-	res, err := c.sendGetCommonServiceItem(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetCommonServiceItem(ctx context.Context, params GetCommonServiceItemParams) (res *GetCommonServiceItemOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/commonserviceitem/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetCommonServiceItemResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetCommonServiceItemStatus invokes getCommonServiceItemStatus operation.
-//
-// 通知先が通知送信可能かどうかのステータス情報を取得します。.
-//
-// GET /commonserviceitem/{id}/simplenotification/status
-func (c *Client) GetCommonServiceItemStatus(ctx context.Context, params GetCommonServiceItemStatusParams) (*GetCommonServiceItemStatusResponse, error) {
-	res, err := c.sendGetCommonServiceItemStatus(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetCommonServiceItemStatus(ctx context.Context, params GetCommonServiceItemStatusParams) (res *GetCommonServiceItemStatusResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/commonserviceitem/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/simplenotification/status"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetCommonServiceItemStatusResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetNotificationHistory invokes getNotificationHistory operation.
-//
-// 指定した`request_id`に対応する通知履歴の取得。.
-//
-// GET /commonserviceitem/simplenotification/history/{request_id}
-func (c *Client) GetNotificationHistory(ctx context.Context, params GetNotificationHistoryParams) (*GetSimpleNotificationHistoryResponse, error) {
-	res, err := c.sendGetNotificationHistory(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetNotificationHistory(ctx context.Context, params GetNotificationHistoryParams) (res *GetSimpleNotificationHistoryResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/commonserviceitem/simplenotification/history/"
-	{
-		// Encode "request_id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "request_id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.RequestID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetNotificationHistoryResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // ListCommonServiceItems invokes listCommonServiceItems operation.
 //
 // リソースの一覧取得。クエリパラメータにて下記のように`Provider.Class`を指定してフィルタを設定することで通知先、通知先グループまたは通知ルーティングのリソースのみを取得できます。
@@ -494,12 +372,12 @@ func (c *Client) sendListCommonServiceItems(ctx context.Context) (res *ListCommo
 // 直近30日間以内の通知送信履歴が最大100件まで取得可能です。.
 //
 // GET /commonserviceitem/simplenotification/history
-func (c *Client) ListNotificationHistories(ctx context.Context) (*ListSimpleNotificationHistoriesResponse, error) {
+func (c *Client) ListNotificationHistories(ctx context.Context) (*ListNotificationHistoriesResponse, error) {
 	res, err := c.sendListNotificationHistories(ctx)
 	return res, err
 }
 
-func (c *Client) sendListNotificationHistories(ctx context.Context) (res *ListSimpleNotificationHistoriesResponse, err error) {
+func (c *Client) sendListNotificationHistories(ctx context.Context) (res *ListNotificationHistoriesResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -532,17 +410,17 @@ func (c *Client) sendListNotificationHistories(ctx context.Context) (res *ListSi
 	return result, nil
 }
 
-// ListSources invokes listSources operation.
+// ListNotificationSources invokes listNotificationSources operation.
 //
 // 通知ルーティングに設定する通知元の情報を取得します。.
 //
 // GET /commonserviceitem/simplenotification/sources
-func (c *Client) ListSources(ctx context.Context) (*ListSourcesResponse, error) {
-	res, err := c.sendListSources(ctx)
+func (c *Client) ListNotificationSources(ctx context.Context) (*ListNotificationSourcesResponse, error) {
+	res, err := c.sendListNotificationSources(ctx)
 	return res, err
 }
 
-func (c *Client) sendListSources(ctx context.Context) (res *ListSourcesResponse, err error) {
+func (c *Client) sendListNotificationSources(ctx context.Context) (res *ListNotificationSourcesResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -567,7 +445,7 @@ func (c *Client) sendListSources(ctx context.Context) (res *ListSourcesResponse,
 		_ = body.Close()
 	}()
 
-	result, err := decodeListSourcesResponse(resp)
+	result, err := decodeListNotificationSourcesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -575,18 +453,140 @@ func (c *Client) sendListSources(ctx context.Context) (res *ListSourcesResponse,
 	return result, nil
 }
 
-// ReorderRouting invokes reorderRouting operation.
+// ReadCommonServiceItem invokes readCommonServiceItem operation.
+//
+// リソースの取得。取得された`CommonServiceItem`の`Provider.Class`の値に応じて`Settings`の内容は異なります。.
+//
+// GET /commonserviceitem/{id}
+func (c *Client) ReadCommonServiceItem(ctx context.Context, params ReadCommonServiceItemParams) (*ReadCommonServiceItemOK, error) {
+	res, err := c.sendReadCommonServiceItem(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadCommonServiceItem(ctx context.Context, params ReadCommonServiceItemParams) (res *ReadCommonServiceItemOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/commonserviceitem/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadCommonServiceItemResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadNotificationHistory invokes readNotificationHistory operation.
+//
+// 指定した`request_id`に対応する通知履歴の取得。.
+//
+// GET /commonserviceitem/simplenotification/history/{request_id}
+func (c *Client) ReadNotificationHistory(ctx context.Context, params ReadNotificationHistoryParams) (*ReadNotificationHistoryResponse, error) {
+	res, err := c.sendReadNotificationHistory(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadNotificationHistory(ctx context.Context, params ReadNotificationHistoryParams) (res *ReadNotificationHistoryResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/commonserviceitem/simplenotification/history/"
+	{
+		// Encode "request_id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "request_id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.RequestID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadNotificationHistoryResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReorderNotificationRouting invokes reorderNotificationRouting operation.
 //
 // 通知ルーティングの優先順位を並び替えます。
 // `PriorityRank`の値は他の通知ルーティングと重複しないように指定する必要があります。.
 //
 // PUT /commonserviceitem/simplenotification/routing/reorder
-func (c *Client) ReorderRouting(ctx context.Context, request OptPutCommonServiceItemRoutingReorderRequest) (*ReorderRoutingAccepted, error) {
-	res, err := c.sendReorderRouting(ctx, request)
+func (c *Client) ReorderNotificationRouting(ctx context.Context, request OptReorderNotificationRoutingRequest) (*ReorderNotificationRoutingAccepted, error) {
+	res, err := c.sendReorderNotificationRouting(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendReorderRouting(ctx context.Context, request OptPutCommonServiceItemRoutingReorderRequest) (res *ReorderRoutingAccepted, err error) {
+func (c *Client) sendReorderNotificationRouting(ctx context.Context, request OptReorderNotificationRoutingRequest) (res *ReorderNotificationRoutingAccepted, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -613,7 +613,7 @@ func (c *Client) sendReorderRouting(ctx context.Context, request OptPutCommonSer
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeReorderRoutingRequest(request, r); err != nil {
+	if err := encodeReorderNotificationRoutingRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -630,7 +630,7 @@ func (c *Client) sendReorderRouting(ctx context.Context, request OptPutCommonSer
 		_ = body.Close()
 	}()
 
-	result, err := decodeReorderRoutingResponse(resp)
+	result, err := decodeReorderNotificationRoutingResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -638,17 +638,17 @@ func (c *Client) sendReorderRouting(ctx context.Context, request OptPutCommonSer
 	return result, nil
 }
 
-// SendNotificationMessage invokes sendNotificationMessage operation.
+// SendNotification invokes sendNotification operation.
 //
 // 指定した通知先グループに対してメッセージを送信します。.
 //
 // POST /commonserviceitem/{id}/simplenotification/message
-func (c *Client) SendNotificationMessage(ctx context.Context, request OptSendNotificationMessageRequest, params SendNotificationMessageParams) (*SendNotificationMessageResponse, error) {
-	res, err := c.sendSendNotificationMessage(ctx, request, params)
+func (c *Client) SendNotification(ctx context.Context, request OptSendNotificationRequest, params SendNotificationParams) (*SendNotificationResponse, error) {
+	res, err := c.sendSendNotification(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendSendNotificationMessage(ctx context.Context, request OptSendNotificationMessageRequest, params SendNotificationMessageParams) (res *SendNotificationMessageResponse, err error) {
+func (c *Client) sendSendNotification(ctx context.Context, request OptSendNotificationRequest, params SendNotificationParams) (res *SendNotificationResponse, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if value, ok := request.Get(); ok {
@@ -694,7 +694,7 @@ func (c *Client) sendSendNotificationMessage(ctx context.Context, request OptSen
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeSendNotificationMessageRequest(request, r); err != nil {
+	if err := encodeSendNotificationRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -711,7 +711,7 @@ func (c *Client) sendSendNotificationMessage(ctx context.Context, request OptSen
 		_ = body.Close()
 	}()
 
-	result, err := decodeSendNotificationMessageResponse(resp)
+	result, err := decodeSendNotificationResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

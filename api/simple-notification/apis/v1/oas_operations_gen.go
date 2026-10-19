@@ -6,15 +6,15 @@ package v1
 type OperationName = string
 
 const (
-	CreateCommonServiceItemOperation    OperationName = "CreateCommonServiceItem"
-	DeleteCommonServiceItemOperation    OperationName = "DeleteCommonServiceItem"
-	GetCommonServiceItemOperation       OperationName = "GetCommonServiceItem"
-	GetCommonServiceItemStatusOperation OperationName = "GetCommonServiceItemStatus"
-	GetNotificationHistoryOperation     OperationName = "GetNotificationHistory"
-	ListCommonServiceItemsOperation     OperationName = "ListCommonServiceItems"
-	ListNotificationHistoriesOperation  OperationName = "ListNotificationHistories"
-	ListSourcesOperation                OperationName = "ListSources"
-	ReorderRoutingOperation             OperationName = "ReorderRouting"
-	SendNotificationMessageOperation    OperationName = "SendNotificationMessage"
-	UpdateCommonServiceItemOperation    OperationName = "UpdateCommonServiceItem"
+	CheckNotificationDestinationStatusOperation OperationName = "CheckNotificationDestinationStatus"
+	CreateCommonServiceItemOperation            OperationName = "CreateCommonServiceItem"
+	DeleteCommonServiceItemOperation            OperationName = "DeleteCommonServiceItem"
+	ListCommonServiceItemsOperation             OperationName = "ListCommonServiceItems"
+	ListNotificationHistoriesOperation          OperationName = "ListNotificationHistories"
+	ListNotificationSourcesOperation            OperationName = "ListNotificationSources"
+	ReadCommonServiceItemOperation              OperationName = "ReadCommonServiceItem"
+	ReadNotificationHistoryOperation            OperationName = "ReadNotificationHistory"
+	ReorderNotificationRoutingOperation         OperationName = "ReorderNotificationRouting"
+	SendNotificationOperation                   OperationName = "SendNotification"
+	UpdateCommonServiceItemOperation            OperationName = "UpdateCommonServiceItem"
 )

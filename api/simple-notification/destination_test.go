@@ -47,8 +47,8 @@ func TestDestinationOp(t *testing.T) {
 	description := "test-destination-description"
 	tags := []string{"test"}
 	mailAddress := os.Getenv("SAKURA_DESTINATION_TEST_MAILADDRESS")
-	setting := v1.DestinationSettings{
-		Type:  v1.DestinationSettingsTypeEmail,
+	setting := v1.CommonServiceItemDestinationSettings{
+		Type:  v1.CommonServiceItemDestinationSettingsTypeEmail,
 		Value: mailAddress,
 	}
 	result := t.Run("Create", func(t *testing.T) {
@@ -63,8 +63,8 @@ func TestDestinationOp(t *testing.T) {
 						ID: "112901627732", // Debian icon ID
 					},
 				},
-				Settings: v1.CommonServiceItemSettings{
-					DestinationSettings: setting,
+				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
+					CommonServiceItemDestinationSettings: setting,
 				},
 			},
 		}
@@ -122,12 +122,12 @@ func TestDestinationOp(t *testing.T) {
 				Name:        destNameUpdate,
 				Description: descriptionUpdate,
 				Tags:        tagsUpdate,
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: true,
-					Value: v1.CommonServiceItemSettings{
-						Type: v1.DestinationSettingsCommonServiceItemSettings,
-						DestinationSettings: v1.DestinationSettings{
-							Type:  v1.DestinationSettingsTypeEmail,
+					Value: v1.PutCommonServiceItemRequestCommonServiceItemSettings{
+						Type: v1.CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
+						CommonServiceItemDestinationSettings: v1.CommonServiceItemDestinationSettings{
+							Type:  v1.CommonServiceItemDestinationSettingsTypeEmail,
 							Value: mailAddress,
 						},
 					},
@@ -156,7 +156,7 @@ func TestDestinationOp(t *testing.T) {
 				Name:        destNameUpdateWithoutSetting,
 				Description: descriptionUpdateWithoutSetting,
 				Tags:        tagsUpdateWithoutSetting,
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: false,
 				},
 			},

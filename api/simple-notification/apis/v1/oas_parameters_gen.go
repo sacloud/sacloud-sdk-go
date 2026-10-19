@@ -2,28 +2,28 @@
 
 package v1
 
+// CheckNotificationDestinationStatusParams is parameters of checkNotificationDestinationStatus operation.
+type CheckNotificationDestinationStatusParams struct {
+	ID string
+}
+
 // DeleteCommonServiceItemParams is parameters of deleteCommonServiceItem operation.
 type DeleteCommonServiceItemParams struct {
 	ID string
 }
 
-// GetCommonServiceItemParams is parameters of getCommonServiceItem operation.
-type GetCommonServiceItemParams struct {
+// ReadCommonServiceItemParams is parameters of readCommonServiceItem operation.
+type ReadCommonServiceItemParams struct {
 	ID string
 }
 
-// GetCommonServiceItemStatusParams is parameters of getCommonServiceItemStatus operation.
-type GetCommonServiceItemStatusParams struct {
-	ID string
-}
-
-// GetNotificationHistoryParams is parameters of getNotificationHistory operation.
-type GetNotificationHistoryParams struct {
+// ReadNotificationHistoryParams is parameters of readNotificationHistory operation.
+type ReadNotificationHistoryParams struct {
 	RequestID string
 }
 
-// SendNotificationMessageParams is parameters of sendNotificationMessage operation.
-type SendNotificationMessageParams struct {
+// SendNotificationParams is parameters of sendNotification operation.
+type SendNotificationParams struct {
 	ID string
 }
 

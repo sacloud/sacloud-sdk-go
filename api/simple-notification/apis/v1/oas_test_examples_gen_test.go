@@ -15,6 +15,30 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+func TestCheckDestinationStatusResponse_EncodeDecode(t *testing.T) {
+	var typ CheckDestinationStatusResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CheckDestinationStatusResponse
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCheckDestinationStatusResponseNotificationStatus_EncodeDecode(t *testing.T) {
+	var typ CheckDestinationStatusResponseNotificationStatus
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CheckDestinationStatusResponseNotificationStatus
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestCommonServiceItem_EncodeDecode(t *testing.T) {
 	var typ CommonServiceItem
 	typ.SetFake()
@@ -25,6 +49,42 @@ func TestCommonServiceItem_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 CommonServiceItem
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCommonServiceItemDestinationSettings_EncodeDecode(t *testing.T) {
+	var typ CommonServiceItemDestinationSettings
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CommonServiceItemDestinationSettings
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCommonServiceItemDestinationSettingsType_EncodeDecode(t *testing.T) {
+	var typ CommonServiceItemDestinationSettingsType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CommonServiceItemDestinationSettingsType
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCommonServiceItemGroupSettings_EncodeDecode(t *testing.T) {
+	var typ CommonServiceItemGroupSettings
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CommonServiceItemGroupSettings
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCommonServiceItemIcon_EncodeDecode(t *testing.T) {
@@ -63,8 +123,8 @@ func TestCommonServiceItemProviderClass_EncodeDecode(t *testing.T) {
 	var typ2 CommonServiceItemProviderClass
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestCommonServiceItemServiceClass_EncodeDecode(t *testing.T) {
-	var typ CommonServiceItemServiceClass
+func TestCommonServiceItemRoutingSettings_EncodeDecode(t *testing.T) {
+	var typ CommonServiceItemRoutingSettings
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -72,7 +132,19 @@ func TestCommonServiceItemServiceClass_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 CommonServiceItemServiceClass
+	var typ2 CommonServiceItemRoutingSettings
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestCommonServiceItemRoutingSettingsMatchLabelsItem_EncodeDecode(t *testing.T) {
+	var typ CommonServiceItemRoutingSettingsMatchLabelsItem
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 CommonServiceItemRoutingSettingsMatchLabelsItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestCommonServiceItemSettings_EncodeDecode(t *testing.T) {
@@ -111,30 +183,6 @@ func TestDeleteCommonServiceItemOK_EncodeDecode(t *testing.T) {
 	var typ2 DeleteCommonServiceItemOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestDestinationSettings_EncodeDecode(t *testing.T) {
-	var typ DestinationSettings
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DestinationSettings
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestDestinationSettingsType_EncodeDecode(t *testing.T) {
-	var typ DestinationSettingsType
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 DestinationSettingsType
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestError_EncodeDecode(t *testing.T) {
 	var typ Error
 	typ.SetFake()
@@ -145,126 +193,6 @@ func TestError_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Error
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemOK_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetCommonServiceItemOK_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"メール通知先の説明\",\"ID\":\"123700010001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"mail destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]}}"},
-		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知ルーティングの説明\",\"ID\":\"123700030001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test routing\",\"Provider\":{\"Class\":\"saknoticerouting\"},\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"PriorityRank\":1,\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}}"},
-		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知先グループの説明\",\"ID\":\"123700020001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test group\",\"Provider\":{\"Class\":\"saknoticegroup\"},\"Settings\":{\"Destinations\":[\"123700010001\",\"123700010002\"]},\"Tags\":[]}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetCommonServiceItemOK
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetCommonServiceItemOK
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGetCommonServiceItemStatusResponse_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemStatusResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemStatusResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemStatusResponseNotificationStatus_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemStatusResponseNotificationStatus
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemStatusResponseNotificationStatus
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetSimpleNotificationHistoryResponse_EncodeDecode(t *testing.T) {
-	var typ GetSimpleNotificationHistoryResponse
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetSimpleNotificationHistoryResponse
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-
-func TestGetSimpleNotificationHistoryResponse_Examples(t *testing.T) {
-
-	for i, tc := range []struct {
-		Input string
-	}{
-		{Input: "{\"NotificationHistory\":{\"message\":{\"body\":\"This is a test notification message.\",\"color\":\"default\",\"color_code\":\"#7d7d7d\",\"icon_url\":\"https://example.com/icon.png\",\"image_url\":\"https://example.com/image.png\",\"title\":\"Test Notification\"},\"received_at\":\"2025-12-18T12:00:00+09:00\",\"request_id\":\"12345\",\"source_id\":\"\",\"statuses\":[{\"created_at\":\"2025-12-18T12:00:00+09:00\",\"destination_id\":\"123700010001\",\"error_info\":\"\",\"group_id\":\"123700020001\",\"id\":\"67890\",\"notification_request_id\":\"12345\",\"status\":2,\"updated_at\":\"2025-12-18T12:05:00+09:00\"}]}}"},
-	} {
-		tc := tc
-		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ GetSimpleNotificationHistoryResponse
-
-			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
-				if validateErr, ok := errors.Into[*validate.Error](err); ok {
-					t.Skipf("Validation error: %v", validateErr)
-					return
-				}
-				require.NoErrorf(t, err, "Input: %s", tc.Input)
-			}
-
-			e := jx.Encoder{}
-			typ.Encode(&e)
-			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
-
-			var typ2 GetSimpleNotificationHistoryResponse
-			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
-		})
-	}
-}
-func TestGroupSettings_EncodeDecode(t *testing.T) {
-	var typ GroupSettings
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GroupSettings
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestListCommonServiceItemsResponse_EncodeDecode(t *testing.T) {
@@ -310,8 +238,8 @@ func TestListCommonServiceItemsResponse_Examples(t *testing.T) {
 		})
 	}
 }
-func TestListSimpleNotificationHistoriesResponse_EncodeDecode(t *testing.T) {
-	var typ ListSimpleNotificationHistoriesResponse
+func TestListNotificationHistoriesResponse_EncodeDecode(t *testing.T) {
+	var typ ListNotificationHistoriesResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -319,11 +247,11 @@ func TestListSimpleNotificationHistoriesResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListSimpleNotificationHistoriesResponse
+	var typ2 ListNotificationHistoriesResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 
-func TestListSimpleNotificationHistoriesResponse_Examples(t *testing.T) {
+func TestListNotificationHistoriesResponse_Examples(t *testing.T) {
 
 	for i, tc := range []struct {
 		Input string
@@ -332,7 +260,7 @@ func TestListSimpleNotificationHistoriesResponse_Examples(t *testing.T) {
 	} {
 		tc := tc
 		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
-			var typ ListSimpleNotificationHistoriesResponse
+			var typ ListNotificationHistoriesResponse
 
 			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
 				if validateErr, ok := errors.Into[*validate.Error](err); ok {
@@ -346,13 +274,13 @@ func TestListSimpleNotificationHistoriesResponse_Examples(t *testing.T) {
 			typ.Encode(&e)
 			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
 
-			var typ2 ListSimpleNotificationHistoriesResponse
+			var typ2 ListNotificationHistoriesResponse
 			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
 		})
 	}
 }
-func TestListSourcesResponse_EncodeDecode(t *testing.T) {
-	var typ ListSourcesResponse
+func TestListNotificationSourcesResponse_EncodeDecode(t *testing.T) {
+	var typ ListNotificationSourcesResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -360,11 +288,11 @@ func TestListSourcesResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListSourcesResponse
+	var typ2 ListNotificationSourcesResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestListSourcesResponseSourcesItem_EncodeDecode(t *testing.T) {
-	var typ ListSourcesResponseSourcesItem
+func TestListNotificationSourcesResponseSourcesItem_EncodeDecode(t *testing.T) {
+	var typ ListNotificationSourcesResponseSourcesItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -372,7 +300,7 @@ func TestListSourcesResponseSourcesItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ListSourcesResponseSourcesItem
+	var typ2 ListNotificationSourcesResponseSourcesItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestNotificationHistory_EncodeDecode(t *testing.T) {
@@ -478,6 +406,54 @@ func TestPostCommonServiceItemRequestCommonServiceItem_EncodeDecode(t *testing.T
 	var typ2 PostCommonServiceItemRequestCommonServiceItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestPostCommonServiceItemRequestCommonServiceItemProvider_EncodeDecode(t *testing.T) {
+	var typ PostCommonServiceItemRequestCommonServiceItemProvider
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PostCommonServiceItemRequestCommonServiceItemProvider
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPostCommonServiceItemRequestCommonServiceItemProviderClass_EncodeDecode(t *testing.T) {
+	var typ PostCommonServiceItemRequestCommonServiceItemProviderClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PostCommonServiceItemRequestCommonServiceItemProviderClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPostCommonServiceItemRequestCommonServiceItemServiceClass_EncodeDecode(t *testing.T) {
+	var typ PostCommonServiceItemRequestCommonServiceItemServiceClass
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PostCommonServiceItemRequestCommonServiceItemServiceClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestPostCommonServiceItemRequestCommonServiceItemSettings_EncodeDecode(t *testing.T) {
+	var typ PostCommonServiceItemRequestCommonServiceItemSettings
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 PostCommonServiceItemRequestCommonServiceItemSettings
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestPutCommonServiceItemRequest_EncodeDecode(t *testing.T) {
 	var typ PutCommonServiceItemRequest
 	typ.SetFake()
@@ -533,8 +509,8 @@ func TestPutCommonServiceItemRequestCommonServiceItem_EncodeDecode(t *testing.T)
 	var typ2 PutCommonServiceItemRequestCommonServiceItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutCommonServiceItemRoutingReorderRequest_EncodeDecode(t *testing.T) {
-	var typ PutCommonServiceItemRoutingReorderRequest
+func TestPutCommonServiceItemRequestCommonServiceItemSettings_EncodeDecode(t *testing.T) {
+	var typ PutCommonServiceItemRequestCommonServiceItemSettings
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -542,11 +518,11 @@ func TestPutCommonServiceItemRoutingReorderRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutCommonServiceItemRoutingReorderRequest
+	var typ2 PutCommonServiceItemRequestCommonServiceItemSettings
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPutCommonServiceItemRoutingReorderRequestOrdersItem_EncodeDecode(t *testing.T) {
-	var typ PutCommonServiceItemRoutingReorderRequestOrdersItem
+func TestReadCommonServiceItemOK_EncodeDecode(t *testing.T) {
+	var typ ReadCommonServiceItemOK
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -554,11 +530,42 @@ func TestPutCommonServiceItemRoutingReorderRequestOrdersItem_EncodeDecode(t *tes
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 PutCommonServiceItemRoutingReorderRequestOrdersItem
+	var typ2 ReadCommonServiceItemOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestReorderRoutingAccepted_EncodeDecode(t *testing.T) {
-	var typ ReorderRoutingAccepted
+
+func TestReadCommonServiceItemOK_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"メール通知先の説明\",\"ID\":\"123700010001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"mail destination\",\"Provider\":{\"Class\":\"saknoticedestination\"},\"Settings\":{\"Type\":\"email\",\"Value\":\"user@example.com\"},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知ルーティングの説明\",\"ID\":\"123700030001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test routing\",\"Provider\":{\"Class\":\"saknoticerouting\"},\"Settings\":{\"MatchLabels\":[{\"Name\":\"environment\",\"Value\":\"development\"}],\"PriorityRank\":1,\"SourceID\":\"1\",\"TargetGroupID\":\"123700020001\"},\"Tags\":[]}}"},
+		{Input: "{\"CommonServiceItem\":{\"CreatedAt\":\"2025-12-18T12:00:00+09:00\",\"Description\":\"通知先グループの説明\",\"ID\":\"123700020001\",\"Icon\":{\"ID\":\"123700100001\"},\"ModifiedAt\":\"2025-12-18T12:00:00+09:00\",\"Name\":\"test group\",\"Provider\":{\"Class\":\"saknoticegroup\"},\"Settings\":{\"Destinations\":[\"123700010001\",\"123700010002\"]},\"Tags\":[]}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadCommonServiceItemOK
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadCommonServiceItemOK
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReadNotificationHistoryResponse_EncodeDecode(t *testing.T) {
+	var typ ReadNotificationHistoryResponse
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -566,11 +573,40 @@ func TestReorderRoutingAccepted_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 ReorderRoutingAccepted
+	var typ2 ReadNotificationHistoryResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestRoutingSettings_EncodeDecode(t *testing.T) {
-	var typ RoutingSettings
+
+func TestReadNotificationHistoryResponse_Examples(t *testing.T) {
+
+	for i, tc := range []struct {
+		Input string
+	}{
+		{Input: "{\"NotificationHistory\":{\"message\":{\"body\":\"This is a test notification message.\",\"color\":\"default\",\"color_code\":\"#7d7d7d\",\"icon_url\":\"https://example.com/icon.png\",\"image_url\":\"https://example.com/image.png\",\"title\":\"Test Notification\"},\"received_at\":\"2025-12-18T12:00:00+09:00\",\"request_id\":\"12345\",\"source_id\":\"\",\"statuses\":[{\"created_at\":\"2025-12-18T12:00:00+09:00\",\"destination_id\":\"123700010001\",\"error_info\":\"\",\"group_id\":\"123700020001\",\"id\":\"67890\",\"notification_request_id\":\"12345\",\"status\":2,\"updated_at\":\"2025-12-18T12:05:00+09:00\"}]}}"},
+	} {
+		tc := tc
+		t.Run(fmt.Sprintf("Test%d", i+1), func(t *testing.T) {
+			var typ ReadNotificationHistoryResponse
+
+			if err := typ.Decode(jx.DecodeStr(tc.Input)); err != nil {
+				if validateErr, ok := errors.Into[*validate.Error](err); ok {
+					t.Skipf("Validation error: %v", validateErr)
+					return
+				}
+				require.NoErrorf(t, err, "Input: %s", tc.Input)
+			}
+
+			e := jx.Encoder{}
+			typ.Encode(&e)
+			require.True(t, std.Valid(e.Bytes()), "Encoded: %s", e.Bytes())
+
+			var typ2 ReadNotificationHistoryResponse
+			require.NoError(t, typ2.Decode(jx.DecodeBytes(e.Bytes())))
+		})
+	}
+}
+func TestReorderNotificationRoutingAccepted_EncodeDecode(t *testing.T) {
+	var typ ReorderNotificationRoutingAccepted
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -578,11 +614,11 @@ func TestRoutingSettings_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 RoutingSettings
+	var typ2 ReorderNotificationRoutingAccepted
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestRoutingSettingsMatchLabelsItem_EncodeDecode(t *testing.T) {
-	var typ RoutingSettingsMatchLabelsItem
+func TestReorderNotificationRoutingRequest_EncodeDecode(t *testing.T) {
+	var typ ReorderNotificationRoutingRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -590,11 +626,11 @@ func TestRoutingSettingsMatchLabelsItem_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 RoutingSettingsMatchLabelsItem
+	var typ2 ReorderNotificationRoutingRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestSendNotificationMessageRequest_EncodeDecode(t *testing.T) {
-	var typ SendNotificationMessageRequest
+func TestReorderNotificationRoutingRequestOrdersItem_EncodeDecode(t *testing.T) {
+	var typ ReorderNotificationRoutingRequestOrdersItem
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -602,11 +638,11 @@ func TestSendNotificationMessageRequest_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 SendNotificationMessageRequest
+	var typ2 ReorderNotificationRoutingRequestOrdersItem
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestSendNotificationMessageResponse_EncodeDecode(t *testing.T) {
-	var typ SendNotificationMessageResponse
+func TestSendNotificationRequest_EncodeDecode(t *testing.T) {
+	var typ SendNotificationRequest
 	typ.SetFake()
 
 	e := jx.Encoder{}
@@ -614,7 +650,19 @@ func TestSendNotificationMessageResponse_EncodeDecode(t *testing.T) {
 	data := e.Bytes()
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
-	var typ2 SendNotificationMessageResponse
+	var typ2 SendNotificationRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestSendNotificationResponse_EncodeDecode(t *testing.T) {
+	var typ SendNotificationResponse
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 SendNotificationResponse
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestUpdateCommonServiceItemOK_EncodeDecode(t *testing.T) {
