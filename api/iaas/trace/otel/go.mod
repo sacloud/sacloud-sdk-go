@@ -5,7 +5,7 @@ go 1.26.0
 toolchain go1.27.2
 
 require (
-	github.com/sacloud/sacloud-sdk-go v0.3.0
+	github.com/sacloud/sacloud-sdk-go v0.3.1
 	github.com/stretchr/testify v1.12.1
 	go.opentelemetry.io/contrib/instrumentation/net/http/httptrace/otelhttptrace v0.72.0
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.72.0
