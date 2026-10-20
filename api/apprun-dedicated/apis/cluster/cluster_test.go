@@ -155,16 +155,97 @@ func TestReadLoadBalancer_failed(t *testing.T) {
 	assert.True(saclient.IsNotFoundError(err))
 }
 
-func TestPatchLoadBalancer_omitsUnsetFields(t *testing.T) {
-	assert, api := setup(t, nil, http.StatusNoContent)
+func TestPatchLoadBalancer(t *testing.T) {
 
-	id := v1.ClusterID(uuid.New())
-	params := UpdateLoadBalancerParams{
-		LetsEncryptEmail: nil,
-	}
-	err := api.UpdateLoadBalancer(t.Context(), id, params)
+	t.Run("no updates", func(t *testing.T) {
+		assert, api := setup(t, nil, http.StatusNoContent)
 
-	assert.NoError(err)
+		id := v1.ClusterID(uuid.New())
+		params := UpdateLoadBalancerParams{}
+		err := api.UpdateLoadBalancer(t.Context(), id, params)
+
+		assert.NoError(err)
+	})
+
+	t.Run("with LetsEncryptEmail", func(t *testing.T) {
+		assert, api := setup(t, nil, http.StatusNoContent)
+
+		id := v1.ClusterID(uuid.New())
+		params := UpdateLoadBalancerParams{
+			LetsEncryptEmail: UpdateParam[*string]{
+				DiscardOldValue: true,
+				UpdatingValue:   new("test@example.com"),
+			},
+		}
+		err := api.UpdateLoadBalancer(t.Context(), id, params)
+
+		assert.NoError(err)
+	})
+
+	t.Run("nullifying LetsEncryptEmail", func(t *testing.T) {
+		assert, api := setup(t, nil, http.StatusNoContent)
+
+		id := v1.ClusterID(uuid.New())
+		params := UpdateLoadBalancerParams{
+			LetsEncryptEmail: UpdateParam[*string]{
+				DiscardOldValue: true,
+				UpdatingValue:   nil,
+			},
+		}
+		err := api.UpdateLoadBalancer(t.Context(), id, params)
+
+		assert.NoError(err)
+	})
+
+	t.Run("specifying LetsEncryptEmail", func(t *testing.T) {
+		assert, api := setup(t, nil, http.StatusNoContent)
+
+		id := v1.ClusterID(uuid.New())
+		params := UpdateLoadBalancerParams{
+			LetsEncryptEmail: UpdateParam[*string]{
+				DiscardOldValue: true,
+				UpdatingValue:   new("test@example.com"),
+			},
+		}
+		err := api.UpdateLoadBalancer(t.Context(), id, params)
+
+		assert.NoError(err)
+	})
+
+	t.Run("specifying empty ports", func(t *testing.T) {
+		assert, api := setup(t, nil, http.StatusNoContent)
+
+		id := v1.ClusterID(uuid.New())
+		params := UpdateLoadBalancerParams{
+			Ports: UpdateParam[[]UpdateLoadBalancerPorts]{
+				DiscardOldValue: true,
+				UpdatingValue:   []UpdateLoadBalancerPorts{},
+			},
+		}
+		err := api.UpdateLoadBalancer(t.Context(), id, params)
+
+		assert.NoError(err)
+	})
+
+	t.Run("specifying non-empty ports", func(t *testing.T) {
+		assert, api := setup(t, nil, http.StatusNoContent)
+
+		id := v1.ClusterID(uuid.New())
+		params := UpdateLoadBalancerParams{
+			Ports: UpdateParam[[]UpdateLoadBalancerPorts]{
+				DiscardOldValue: true,
+				UpdatingValue: []UpdateLoadBalancerPorts{
+					{
+						Port:     443,
+						Protocol: "https",
+					},
+				},
+			},
+		}
+		err := api.UpdateLoadBalancer(t.Context(), id, params)
+
+		assert.NoError(err)
+	})
 }
 
 func TestUpdate(t *testing.T) {

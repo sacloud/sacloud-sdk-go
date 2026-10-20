@@ -161,26 +161,46 @@ func (c *ClusterDetail) from(res *v1.ReadCluster) {
 	c.Created = res.GetCreated()
 }
 
+type UpdateParam[T any] struct {
+	// DiscardOldValue indicates whether the old value should be discarded.
+	// This is intentionally named as such so that a zero value means "retains old value"
+	DiscardOldValue bool `json:"discardOldValue"`
+	UpdatingValue   T    `json:"value,omitempty"`
+}
+
 type UpdateLoadBalancerPorts struct {
 	Port     uint16 `json:"port"`
 	Protocol string `json:"protocol"`
 }
 
 type UpdateLoadBalancerParams struct {
-	LetsEncryptEmail *string                   `json:"letsEncryptEmail,omitempty"`
-	Ports            []UpdateLoadBalancerPorts `json:"ports,omitempty"`
+	LetsEncryptEmail UpdateParam[*string]                   `json:"letsEncryptEmail,omitempty"`
+	Ports            UpdateParam[[]UpdateLoadBalancerPorts] `json:"ports,omitempty"`
 }
 
 func (u UpdateLoadBalancerParams) into() (ret *v1.PatchClusterLoadBalancerRequest) {
-	ret = &v1.PatchClusterLoadBalancerRequest{}
-	ret.SetLetsEncryptEmail(into.Opt[v1.OptNilString](u.LetsEncryptEmail))
-	ports := make([]v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly, len(u.Ports))
-	for i, p := range u.Ports {
-		ports[i] = v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly{
-			Port:     p.Port,
-			Protocol: (v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol)(p.Protocol),
+	var le v1.OptNilString
+	if !u.LetsEncryptEmail.DiscardOldValue {
+		le.Reset()
+	} else if v := u.LetsEncryptEmail.UpdatingValue; v == nil {
+		le.SetToNull()
+	} else {
+		le.SetTo(*u.LetsEncryptEmail.UpdatingValue)
+	}
+
+	var p []v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly
+	if u.Ports.DiscardOldValue {
+		for _, port := range u.Ports.UpdatingValue {
+			q := v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly{
+				Port:     port.Port,
+				Protocol: (v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol)(port.Protocol),
+			}
+			p = append(p, q)
 		}
 	}
-	ret.SetPorts(ports)
+
+	ret = &v1.PatchClusterLoadBalancerRequest{}
+	ret.SetPorts(p)
+	ret.SetLetsEncryptEmail(le)
 	return
 }
