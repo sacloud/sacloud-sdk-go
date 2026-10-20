@@ -15,8 +15,13 @@
 package saclient
 
 import (
+	"context"
+	"crypto/tls"
 	"errors"
 	"fmt"
+	"io"
+	"net"
+	"net/url"
 	"strings"
 )
 
@@ -25,13 +30,6 @@ type Error struct {
 	code int
 	msg  string
 	err  error
-}
-
-// :TODO: shim for golang 1.26+
-func asType[T error](e error) (T, bool) {
-	var t T
-	ok := errors.As(e, &t)
-	return t, ok
 }
 
 func compose(code int, msg string, err error) Error { return Error{code: code, msg: msg, err: err} }
@@ -105,7 +103,7 @@ func (e *Error) Unwrap() error {
 // Returns whether the given error is an Error with a 404 status code.
 // Provided here for compatibility with sacloud/api-client-go.
 func IsNotFoundError(err error) bool {
-	if e, ok := asType[*Error](err); ok {
+	if e, ok := errors.AsType[*Error](err); ok {
 		return e.codeIs(404)
 	} else {
 		return false
@@ -114,9 +112,69 @@ func IsNotFoundError(err error) bool {
 
 // Returns whether the given error is an Error with a 409 status code.
 func IsConflictError(err error) bool {
-	if e, ok := asType[*Error](err); ok {
+	if e, ok := errors.AsType[*Error](err); ok {
 		return e.codeIs(409)
 	} else {
 		return false
 	}
+}
+
+func sanitizedRequestURL(rawURL string) string {
+	u, err := url.Parse(rawURL)
+
+	if err != nil {
+		return "<broken URL redacted>"
+	}
+
+	if ui := u.User; ui != nil {
+		if _, set := ui.Password(); set {
+			u.User = url.UserPassword("redacted", "redacted")
+		} else {
+			u.User = url.User("redacted")
+		}
+	}
+
+	return u.String()
+}
+
+func classifyRequestError(err error) string {
+	if _, ok := errors.AsType[*tls.CertificateVerificationError](err); ok {
+		return "TLS certificate verification failure"
+	} else if _, ok := errors.AsType[tls.RecordHeaderError](err); ok {
+		return "TLS handshake failure"
+	} else if errors.Is(err, context.DeadlineExceeded) {
+		// note that context.DeadlineExceeded happens to conform to net.Error
+		// we need to check this case before checking net.Error.Timeout()
+		return "runtime deadline exceeded"
+	} else if e, ok := errors.AsType[net.Error](err); ok && e.Timeout() {
+		return "timeout"
+	} else if _, ok := errors.AsType[*net.DNSError](err); ok {
+		// note that net.DNSError also conforms to net.Error
+		// reaching here means it's a DNS error, and is not a timeout.
+		return "DNS failure"
+	} else if errors.Is(err, io.ErrUnexpectedEOF) {
+		return "unexpected EOF before response"
+	} else if errors.Is(err, io.EOF) {
+		return "EOF before response"
+	} else if errors.Is(err, context.Canceled) {
+		return "runtime context canceled"
+	} else if _, ok := errors.AsType[*url.Error](err); ok {
+		return "URL error"
+	} else {
+		return "transport failure"
+	}
+}
+
+func classifiedRequestError(err error, preamble string) error {
+	if err == nil {
+		return nil
+	} else if u, ok := errors.AsType[*url.Error](err); ok {
+		err = &url.Error{
+			Op:  u.Op,
+			URL: sanitizedRequestURL(u.URL),
+			Err: u.Err,
+		}
+	}
+
+	return Wrapf(err, "%s (%s)", preamble, classifyRequestError(err))
 }

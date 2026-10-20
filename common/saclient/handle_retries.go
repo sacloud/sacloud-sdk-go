@@ -98,7 +98,7 @@ func (d *doer) retryableClient(c *config) (*retryablehttp.Client, error) {
 			// since it would be lost after retrying.
 			// (Request payload had already been lost here
 			// which we cannot do anything about)
-			if ret == true {
+			if ret == true && res != nil {
 				if res.Header.Get("Content-Encoding") == "gzip" {
 					// make it readable
 					res.Header.Del("Content-Encoding")
@@ -119,20 +119,18 @@ func (d *doer) retryableClient(c *config) (*retryablehttp.Client, error) {
 		}
 	}
 
-	// This is callled right before the retryablehttp client gives up.
+	// This is called right before the retryablehttp client gives up.
 	// without it the `res` would be lost
 	ret.ErrorHandler = func(res *http.Response, err error, n int) (*http.Response, error) {
-		// It seems there are chances when `res` can already be nil.
-		// We can do nothing then.  Just return as-is.
 		if res == nil {
-			return res, err
+			return nil, fmt.Errorf("giving up after %d attempt(s): %w", n, classifiedRequestError(err, "request failed"))
 		}
 
 		req := res.Request
-		msg := fmt.Sprintf("%s %s giving up after %d attempt(s)", req.Method, req.URL, n)
+		msg := fmt.Sprintf("%s %s giving up after %d attempt(s)", req.Method, sanitizedRequestURL(req.URL.String()), n)
 
 		if err != nil {
-			err = fmt.Errorf("%s: %w", msg, err)
+			err = fmt.Errorf("%s: %w", msg, classifiedRequestError(err, "request failed"))
 		} else {
 			err = fmt.Errorf("%s", msg)
 		}
