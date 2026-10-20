@@ -66,6 +66,8 @@ type ApplicationDetail struct {
 	ActiveVersion          *int32           `json:"activeVersion"`
 	DesiredCount           *int32           `json:"desiredCount"`
 	ScalingCooldownSeconds int32            `json:"scalingCooldownSeconds"`
+	EnoughCPU              *bool            `json:"enoughCPU,omitempty"`
+	EnoughMemory           *bool            `json:"enoughMemory,omitempty"`
 }
 
 func (op *ApplicationOp) Read(ctx context.Context, id v1.ApplicationID) (app *ApplicationDetail, err error) {
@@ -89,6 +91,8 @@ func (op *ApplicationOp) Read(ctx context.Context, id v1.ApplicationID) (app *Ap
 			ActiveVersion:          v,
 			DesiredCount:           common.FromOpt(tmp.GetDesiredCount()),
 			ScalingCooldownSeconds: tmp.GetScalingCooldownSeconds(),
+			EnoughCPU:              common.FromOpt(tmp.GetEnoughResources().CPU),
+			EnoughMemory:           common.FromOpt(tmp.GetEnoughResources().Memory),
 		}
 	}
 
