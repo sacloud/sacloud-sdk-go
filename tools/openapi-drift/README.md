@@ -17,8 +17,10 @@ status is `:x:` when versions or structures differ, and `:white_check_mark:`
 otherwise. GitHub Actions also displays the report in the workflow run's job
 summary, without requiring you to open step logs. Detailed
 differences in component definitions, schemas, and paths follow the table. The
-process exits with a non-zero status when differences are found. KMS, CloudHSM,
-and SecretManager share a combined portal specification, so path and
+process exits successfully when the comparison and report output complete, even
+when differences are found. A non-zero status indicates an execution error, such
+as a download, parsing, or report-writing failure. KMS, CloudHSM, and
+SecretManager share a combined portal specification, so path and
 component-set comparisons are skipped for those packages; matching component
 definitions are still compared.
 
