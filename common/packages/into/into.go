@@ -108,7 +108,7 @@ func OptNonnilArray[T, U any, P interface {
 	*T
 	SetTo(u []U)
 }](v *[]U) (opt T) {
-	var w []U = make([]U, 0)
+	w := make([]U, 0)
 	if v != nil {
 		w = append(w, *v...)
 	}
