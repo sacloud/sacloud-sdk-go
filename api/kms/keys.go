@@ -75,12 +75,10 @@ type CreateParams struct {
 }
 
 func (op *keyOp) Create(ctx context.Context, request CreateParams) (*v1.CreateKeyResponse, error) {
-	var tags []string = make([]string, 0)
-	tags = append(tags, request.Tags...)
 	res, err := op.client.CreateKey(ctx, &v1.WrappedCreateKeyRequest{Key: v1.CreateKeyRequest{
 		Name:        request.Name,
 		Description: into.Opt[v1.OptString](request.Description),
-		Tags:        v1.NewOptNilStringArray(tags),
+		Tags:        into.OptNonnilArray[v1.OptNilStringArray](&request.Tags),
 		PlainKey:    into.Opt[v1.OptString](request.PlainKey),
 	}})
 	if err != nil {
@@ -96,12 +94,10 @@ type UpdateParams struct {
 }
 
 func (op *keyOp) Update(ctx context.Context, id string, request UpdateParams) (*v1.Key, error) {
-	var tags []string = make([]string, 0)
-	tags = append(tags, request.Tags...)
 	res, err := op.client.UpdateKey(ctx, &v1.WrappedKeyRequest{Key: v1.KeyRequest{
 		Name:        request.Name,
 		Description: into.Opt[v1.OptString](request.Description),
-		Tags:        v1.NewOptNilStringArray(tags),
+		Tags:        into.OptNonnilArray[v1.OptNilStringArray](&request.Tags),
 	}}, v1.UpdateKeyParams{ResourceID: id})
 	if err != nil {
 		return nil, createAPIError("Key.Update", err)
