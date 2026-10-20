@@ -19,6 +19,24 @@ import (
 	"testing"
 )
 
+func TestPopulateAPIRequestRateLimitV0ProfileZero(t *testing.T) {
+	params := &parameter{}
+	profile := &Profile{
+		Version: 0,
+		Attributes: map[string]any{
+			"HTTPRequestRateLimit": int64(0),
+		},
+	}
+	config := config{"Profile": profile}
+
+	if err := params.populateAPIRequestRateLimit(&config); err != nil {
+		t.Fatalf("populateAPIRequestRateLimit() error = %v", err)
+	}
+	if got := config["APIRequestRateLimit"]; got != int64(5) {
+		t.Errorf("APIRequestRateLimit = %v (%T), want int64(5)", got, got)
+	}
+}
+
 func TestBoolOptionSet(t *testing.T) {
 	tests := []struct {
 		value   string

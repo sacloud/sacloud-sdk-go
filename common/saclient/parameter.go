@@ -639,7 +639,7 @@ func (this *parameter) populateAPIRequestTimeout(c *config) error {
 }
 
 func (this *parameter) populateAPIRequestRateLimit(c *config) error {
-	return this.populateUInt64(c, "APIRequestRateLimit")
+	return this.populateUInt64WithDefault(c, "APIRequestRateLimit", 5)
 }
 
 func (this *parameter) populateTraceMode(c *config) error {
@@ -869,6 +869,14 @@ func (p *parameter) populateString(c *config, key string) error {
 }
 
 func (p *parameter) populateUInt64(c *config, key string) error {
+	return p.populateUInt64OrDefault(c, key, option[int64]{})
+}
+
+func (p *parameter) populateUInt64WithDefault(c *config, key string, defaultValue int64) error {
+	return p.populateUInt64OrDefault(c, key, option[int64]{set: true, some: defaultValue})
+}
+
+func (p *parameter) populateUInt64OrDefault(c *config, key string, defaultValue option[int64]) error {
 	whence, result := prioritizedParameterValue2[int64](p, c, key)
 	v, ok, err := result.decompose()
 
@@ -878,6 +886,12 @@ func (p *parameter) populateUInt64(c *config, key string) error {
 
 	if !ok {
 		return nil // just not set; leave blank
+	}
+
+	if v == 0 {
+		if fallback, ok := defaultValue.Get(); ok {
+			v = fallback
+		}
 	}
 
 	if v < 0 {

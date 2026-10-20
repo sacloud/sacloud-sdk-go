@@ -524,6 +524,7 @@ credentials:
   service_principal_id: spid
   service_principal_key_kid: kid
 sacloud-sdk-go:
+  api_request_rate_limit: 0
   zone: is1a
   zones:
     - is1a
@@ -559,6 +560,7 @@ sacloud-sdk-dotnet:
 		s.Equal("spid", profile.Attributes["ServicePrincipalID"])
 		s.Equal("kid", profile.Attributes["ServicePrincipalKeyKID"])
 		s.Equal("is1a", profile.Attributes["Zone"])
+		s.Equal(int64(0), profile.Go.APIRequestRateLimit.MustGet())
 
 		eps, ok := profile.Attributes["Endpoints"].(map[string]any)
 		s.True(ok)
