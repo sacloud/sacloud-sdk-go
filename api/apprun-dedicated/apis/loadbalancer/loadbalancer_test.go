@@ -161,7 +161,7 @@ func TestListNode(t *testing.T) {
 	assert, api := setup(t, &expected)
 
 	lbID := v1.LoadBalancerID(uuid.New())
-	actual, err := api.ListNodes(t.Context(), lbID, 10, nil)
+	actual, _, err := api.ListNodes(t.Context(), lbID, 10, nil)
 
 	assert.NoError(err)
 	assert.NotNil(actual)
@@ -173,7 +173,7 @@ func TestListNode_failed(t *testing.T) {
 	assert, api := setup(t, &expected, int(expected.GetStatus()))
 
 	lbID := v1.LoadBalancerID(uuid.New())
-	actual, err := api.ListNodes(t.Context(), lbID, 0, nil)
+	actual, _, err := api.ListNodes(t.Context(), lbID, 0, nil)
 
 	assert.Error(err)
 	assert.Nil(actual)
@@ -248,7 +248,7 @@ func TestIntegrated(t *testing.T) {
 			tkr := time.NewTicker(16 * time.Second)
 			defer tkr.Stop()
 
-			nodes, err := api.ListNodes(t.Context(), lbID, 10, nil)
+			nodes, _, err := api.ListNodes(t.Context(), lbID, 10, nil)
 			assert.NoError(err)
 
 			// a load balancer node needs to be deleted _after_ it finished provisioned
@@ -327,7 +327,7 @@ func TestIntegrated(t *testing.T) {
 
 		t.Run("ListNode", func(t *testing.T) {
 			nodes := apprun_test.RepeatedList(func(cursor *v1.LoadBalancerNodeID) (res []v1.LoadBalancerNode, next *v1.LoadBalancerNodeID) {
-				res, err := api.ListNodes(t.Context(), lbID, 10, cursor)
+				res, next, err := api.ListNodes(t.Context(), lbID, 10, cursor)
 				assert.NoError(err)
 				return
 			})
@@ -337,7 +337,7 @@ func TestIntegrated(t *testing.T) {
 		t.Run("ReadNode", func(t *testing.T) {
 			// First list nodes to get a node ID
 			nodes := apprun_test.RepeatedList(func(cursor *v1.LoadBalancerNodeID) (res []v1.LoadBalancerNode, next *v1.LoadBalancerNodeID) {
-				res, err := api.ListNodes(t.Context(), lbID, 10, cursor)
+				res, next, err := api.ListNodes(t.Context(), lbID, 10, cursor)
 				assert.NoError(err)
 				return
 			})

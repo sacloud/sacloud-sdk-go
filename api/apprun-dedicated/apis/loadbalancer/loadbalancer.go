@@ -22,7 +22,7 @@ type LoadBalancerAPI interface {
 
 	// ListNodes returns the list of LoadBalancerNodes, paginated.
 	// Pass nil to `cursor` to get the first page.
-	ListNodes(ctx context.Context, lbID v1.LoadBalancerID, maxItems int64, cursor *v1.LoadBalancerNodeID) (list []v1.LoadBalancerNode, err error)
+	ListNodes(ctx context.Context, lbID v1.LoadBalancerID, maxItems int64, cursor *v1.LoadBalancerNodeID) (list []v1.LoadBalancerNode, nextCursor *v1.LoadBalancerNodeID, err error)
 	ReadNode(ctx context.Context, lbID v1.LoadBalancerID, nodeID v1.LoadBalancerNodeID) (node *LoadBalancerNodeDetail, err error)
 }
 
@@ -101,7 +101,7 @@ func (op *LoadBalancerOp) Delete(ctx context.Context, id v1.LoadBalancerID) erro
 	})
 }
 
-func (op *LoadBalancerOp) ListNodes(ctx context.Context, lbID v1.LoadBalancerID, maxItems int64, cursor *v1.LoadBalancerNodeID) (list []v1.LoadBalancerNode, err error) {
+func (op *LoadBalancerOp) ListNodes(ctx context.Context, lbID v1.LoadBalancerID, maxItems int64, cursor *v1.LoadBalancerNodeID) (list []v1.LoadBalancerNode, nextCursor *v1.LoadBalancerNodeID, err error) {
 	res, err := common.ErrorFromDecodedResponse("LoadBalancer.ListNode", func() (*v1.ListLoadBalancerNodesResponse, error) {
 		return op.client.ListLoadBalancerNodes(ctx, v1.ListLoadBalancerNodesParams{
 			ClusterID:          op.clusterID,
@@ -114,6 +114,7 @@ func (op *LoadBalancerOp) ListNodes(ctx context.Context, lbID v1.LoadBalancerID,
 
 	if res != nil {
 		list = res.LoadBalancerNodes
+		nextCursor = common.FromOpt(res.NextCursor)
 	}
 
 	return
