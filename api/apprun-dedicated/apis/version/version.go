@@ -104,9 +104,16 @@ func (p ExposedPort) into() (ret v1.ExposedPort) {
 	ret.SetTargetPort(p.TargetPort)
 	ret.SetLoadBalancerPort(into.Nil[v1.NilPort](p.LoadBalancerPort))
 	ret.SetUseLetsEncrypt(p.UseLetsEncrypt)
-	hosts := make([]v1.Hostname, len(p.Host))
-	for i, host := range p.Host {
-		hosts[i] = v1.Hostname(host)
+	var hosts []v1.Hostname
+	switch {
+	case p.Host == nil:
+		hosts = nil
+	case len(p.Host) == 0:
+		hosts = make([]v1.Hostname, 0)
+	default:
+		for _, host := range p.Host {
+			hosts = append(hosts, v1.Hostname(host))
+		}
 	}
 	ret.SetHost(hosts)
 	ret.SetHealthCheck(into.Nil[v1.NilHealthCheck](p.HealthCheck))
@@ -118,10 +125,18 @@ func (p *ExposedPort) From(res *v1.ExposedPort) {
 	p.TargetPort = res.GetTargetPort()
 	p.LoadBalancerPort = common.FromOpt(res.GetLoadBalancerPort())
 	p.UseLetsEncrypt = res.GetUseLetsEncrypt()
-	p.Host = make([]string, len(res.GetHost()))
-	for i, host := range res.GetHost() {
-		p.Host[i] = string(host)
+	var hosts []string
+	switch {
+	case res.GetHost() == nil:
+		hosts = nil
+	case len(res.GetHost()) == 0:
+		hosts = make([]string, 0)
+	default:
+		for _, host := range res.GetHost() {
+			hosts = append(hosts, string(host))
+		}
 	}
+	p.Host = hosts
 	p.HealthCheck = common.FromOpt(res.GetHealthCheck())
 }
 
