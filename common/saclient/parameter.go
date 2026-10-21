@@ -639,7 +639,7 @@ func (this *parameter) populateAPIRequestTimeout(c *config) error {
 }
 
 func (this *parameter) populateAPIRequestRateLimit(c *config) error {
-	return this.populateUInt64WithDefault(c, "APIRequestRateLimit", 5)
+	return this.populateUInt64WithDefault(c, "APIRequestRateLimit", defaults.apiRequestRateLimit.MustGet())
 }
 
 func (this *parameter) populateTraceMode(c *config) error {
