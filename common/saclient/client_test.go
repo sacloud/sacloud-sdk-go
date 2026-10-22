@@ -574,12 +574,13 @@ func (s *ClientTestSuite) TestWithAPIRequestRateLimit() {
 		s.NotContains(j, "APIRequestRateLimit")
 	})
 
-	s.Run("zero is rejected", func() {
+	s.Run("zero uses default rate limit", func() {
 		api, err := s.subject.DupWith(WithAPIRequestRateLimit(0))
 		s.NoError(err)
 		err = api.Populate()
-		s.Error(err)
-		s.Contains(err.Error(), "can't be zero")
+		s.NoError(err)
+		subject := api.(*Client)
+		s.Equal(int64(5), subject.JSON()["APIRequestRateLimit"])
 	})
 }
 
