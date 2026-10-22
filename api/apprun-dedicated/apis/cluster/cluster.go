@@ -190,6 +190,8 @@ func (u UpdateLoadBalancerParams) into() (ret *v1.PatchClusterLoadBalancerReques
 
 	var p []v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly
 	if u.Ports.DiscardOldValue {
+		p = make([]v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly, 0, len(u.Ports.UpdatingValue))
+
 		for _, port := range u.Ports.UpdatingValue {
 			q := v1.ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly{
 				Port:     port.Port,
