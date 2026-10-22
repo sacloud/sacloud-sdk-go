@@ -93,6 +93,29 @@ func OptNilArray[T, U any, P interface {
 	return
 }
 
+// Generic-ish type cast helper function
+//
+// This function is identical to OptNilArray, except that it hesitates to return null for empty slices.
+//
+// Handy when the server doesn't expect null for such cases.
+//
+// ```golang
+//
+//	opt := into.OptNonnilArray[OptNilIntArray](new([]int))
+//
+// ```
+func OptNonnilArray[T, U any, P interface {
+	*T
+	SetTo(u []U)
+}](v *[]U) (opt T) {
+	w := make([]U, 0)
+	if v != nil {
+		w = append(w, *v...)
+	}
+	P(&opt).SetTo(w)
+	return
+}
+
 // string parser
 //
 // ```golang

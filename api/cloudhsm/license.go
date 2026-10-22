@@ -70,7 +70,7 @@ func (op *LicenseOp) Create(ctx context.Context, p CloudHSMSoftwareLicenseCreate
 				ServiceClass: v1.CreateCloudHSMSoftwareLicenseRequestServiceClassCloudCloudhsmLicenseL7,
 				Name:         p.Name,
 				Description:  into.Opt[v1.OptString](p.Description),
-				Tags:         into.OptNilArray[v1.OptNilStringArray](&p.Tags),
+				Tags:         into.OptNonnilArray[v1.OptNilStringArray](&p.Tags),
 			},
 		},
 	)
@@ -120,7 +120,7 @@ func (op *LicenseOp) Update(ctx context.Context, id string, p CloudHSMSoftwareLi
 			License: v1.CloudHSMSoftwareLicenseRequest{
 				Name:        p.Name,
 				Description: into.Opt[v1.OptString](p.Description),
-				Tags:        into.OptNilArray[v1.OptNilStringArray](&p.Tags),
+				Tags:        into.OptNonnilArray[v1.OptNilStringArray](&p.Tags),
 			},
 		},
 		v1.UpdateCloudHSMLicenseParams{

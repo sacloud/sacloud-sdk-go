@@ -74,7 +74,7 @@ func (op *vaultOp) Create(ctx context.Context, request CreateVaultParams) (*v1.C
 			Name:        request.Name,
 			Description: into.Opt[v1.OptString](request.Description),
 			KmsKeyID:    request.KmsKeyID,
-			Tags:        into.OptNilArray[v1.OptNilStringArray](&request.Tags),
+			Tags:        into.OptNonnilArray[v1.OptNilStringArray](&request.Tags),
 		},
 	})
 	if err != nil {
@@ -95,7 +95,7 @@ func (op *vaultOp) Update(ctx context.Context, id string, request UpdateVaultPar
 		Vault: v1.VaultRequest{
 			Name:        request.Name,
 			Description: into.Opt[v1.OptString](request.Description),
-			Tags:        into.OptNilArray[v1.OptNilStringArray](&request.Tags),
+			Tags:        into.OptNonnilArray[v1.OptNilStringArray](&request.Tags),
 		},
 	}, v1.UpdateVaultParams{ResourceID: id})
 	if err != nil {

@@ -71,7 +71,7 @@ func (op *CloudHSMOp) Create(ctx context.Context, p CloudHSMCreateParams) (*v1.C
 			CloudHSM: v1.CreateCloudHSMRequest{
 				Name:               p.Name,
 				Description:        into.Opt[v1.OptString](p.Description),
-				Tags:               into.OptNilArray[v1.OptNilStringArray](&p.Tags),
+				Tags:               into.OptNonnilArray[v1.OptNilStringArray](&p.Tags),
 				IPv4NetworkAddress: p.IPv4NetworkAddress,
 				IPv4PrefixLength:   p.IPv4PrefixLength,
 			},
@@ -125,7 +125,7 @@ func (op *CloudHSMOp) Update(ctx context.Context, id string, p CloudHSMUpdatePar
 			CloudHSM: v1.CloudHSMRequest{
 				Name:               p.Name,
 				Description:        into.Opt[v1.OptString](p.Description),
-				Tags:               into.OptNilArray[v1.OptNilStringArray](&p.Tags),
+				Tags:               into.OptNonnilArray[v1.OptNilStringArray](&p.Tags),
 				IPv4NetworkAddress: p.IPv4NetworkAddress,
 				IPv4PrefixLength:   p.IPv4PrefixLength,
 			},
