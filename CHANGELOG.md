@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.5.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.4.0...v0.5.0) - 2026-10-22
+
+### 🚀 New Features
+- feat(simple-notification): 公式OpenAPI定義に追従する by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/294
+### ✨ Ordinary Updates
+- fix(openapi-drift): 差分検出時も成功終了する by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/293
+- common/packages: add `into.OptNonnilArray` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/297
+- saclient: Use default value when rate limit value is 0 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/298
+
 ## [v0.4.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.3.1...v0.4.0) - 2026-10-19
 
 ### 🚀 New Features
