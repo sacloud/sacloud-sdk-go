@@ -47,8 +47,8 @@ func TestDestinationOp(t *testing.T) {
 	description := "test-destination-description"
 	tags := []string{"test"}
 	mailAddress := os.Getenv("SAKURA_DESTINATION_TEST_MAILADDRESS")
-	setting := v1.DestinationSettings{
-		Type:  v1.DestinationSettingsTypeEmail,
+	setting := v1.CommonServiceItemDestinationSettings{
+		Type:  v1.CommonServiceItemDestinationSettingsTypeEmail,
 		Value: mailAddress,
 	}
 	result := t.Run("Create", func(t *testing.T) {
@@ -63,8 +63,8 @@ func TestDestinationOp(t *testing.T) {
 						ID: "112901627732", // Debian icon ID
 					},
 				},
-				Settings: v1.CommonServiceItemSettings{
-					DestinationSettings: setting,
+				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
+					CommonServiceItemDestinationSettings: setting,
 				},
 			},
 		}
@@ -122,13 +122,14 @@ func TestDestinationOp(t *testing.T) {
 				Name:        destNameUpdate,
 				Description: descriptionUpdate,
 				Tags:        tagsUpdate,
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: true,
-					Value: v1.CommonServiceItemSettings{
-						Type: v1.DestinationSettingsCommonServiceItemSettings,
-						DestinationSettings: v1.DestinationSettings{
-							Type:  v1.DestinationSettingsTypeEmail,
-							Value: mailAddress,
+					Value: v1.PutCommonServiceItemRequestCommonServiceItemSettings{
+						Type: v1.CommonServiceItemDestinationSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
+						CommonServiceItemDestinationSettings: v1.CommonServiceItemDestinationSettings{
+							Type:     v1.CommonServiceItemDestinationSettingsTypeEmail,
+							Value:    mailAddress,
+							Disabled: v1.NewOptBool(true),
 						},
 					},
 				},
@@ -144,19 +145,29 @@ func TestDestinationOp(t *testing.T) {
 		require.Equal(t, destNameUpdate, resp.CommonServiceItem.Name, "destination name should be updated")
 		require.Equal(t, descriptionUpdate, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdate, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.True(t, resp.CommonServiceItem.Settings.IsCommonServiceItemDestinationSettings())
+		actualSetting := resp.CommonServiceItem.Settings.CommonServiceItemDestinationSettings
+		require.Equal(t, v1.CommonServiceItemDestinationSettingsTypeEmail, actualSetting.Type)
+		require.Equal(t, mailAddress, actualSetting.Value)
+		require.True(t, actualSetting.Disabled.Value)
+		read, err := destinationAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, resp.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("DestinationOp.Update response: %+v", resp)
 	})
 	t.Run("UpdatewithoutSetting", func(t *testing.T) {
 		destNameUpdateWithoutSetting := "updated-destination-withoutSetting"
 		descriptionUpdateWithoutSetting := "updated-description-withoutSetting"
 		tagsUpdateWithoutSetting := []string{"updated-withoutSetting"}
+		before, err := destinationAPI.Read(ctx, id)
+		require.NoError(t, err)
 
 		request := v1.PutCommonServiceItemRequest{
 			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
 				Name:        destNameUpdateWithoutSetting,
 				Description: descriptionUpdateWithoutSetting,
 				Tags:        tagsUpdateWithoutSetting,
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: false,
 				},
 			},
@@ -171,7 +182,29 @@ func TestDestinationOp(t *testing.T) {
 		require.Equal(t, destNameUpdateWithoutSetting, resp.CommonServiceItem.Name, "destination name should be updated")
 		require.Equal(t, descriptionUpdateWithoutSetting, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdateWithoutSetting, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := destinationAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("DestinationOp.UpdatewithoutSetting response: %+v", resp)
+	})
+	t.Run("ClearTags", func(t *testing.T) {
+		before, err := destinationAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.NotEmpty(t, before.CommonServiceItem.Tags)
+		resp, err := destinationAPI.Update(ctx, id, v1.PutCommonServiceItemRequest{
+			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
+				Name: before.CommonServiceItem.Name, Description: before.CommonServiceItem.Description,
+				Tags: []string{}, Icon: before.CommonServiceItem.Icon,
+			},
+		})
+		require.NoError(t, err)
+		require.Empty(t, resp.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := destinationAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Empty(t, read.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 	})
 	t.Run("ReadStatus", func(t *testing.T) {
 		resp, err := destinationAPI.ReadStatus(ctx, id)

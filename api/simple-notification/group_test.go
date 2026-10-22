@@ -16,8 +16,10 @@ package simplenotification_test
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"testing"
+	"time"
 
 	simplenotification "github.com/sacloud/sacloud-sdk-go/api/simple-notification"
 	v1 "github.com/sacloud/sacloud-sdk-go/api/simple-notification/apis/v1"
@@ -26,7 +28,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func groupAPISetup(t *testing.T) (ctx context.Context, api simplenotification.GroupAPI) {
+func groupAPISetup(t *testing.T) (ctx context.Context, api simplenotification.GroupAPI, history simplenotification.HistoryAPI) {
 	testutil.PreCheckEnvsFunc("SAKURA_ACCESS_TOKEN", "SAKURA_ACCESS_TOKEN_SECRET", "SAKURA_DESTINATION_TEST_ID")(t)
 
 	ctx = t.Context()
@@ -38,12 +40,13 @@ func groupAPISetup(t *testing.T) (ctx context.Context, api simplenotification.Gr
 		t.Fatalf("failed to create client: %v", err)
 	}
 	api = simplenotification.NewGroupOp(client)
+	history = simplenotification.NewHistoryOp(client)
 
-	return ctx, api
+	return ctx, api, history
 }
 
 func TestGroupOp(t *testing.T) {
-	ctx, groupAPI := groupAPISetup(t)
+	ctx, groupAPI, historyAPI := groupAPISetup(t)
 
 	id := "" // set your pre-created group ID here
 	groupname := "test-group-1"
@@ -57,10 +60,11 @@ func TestGroupOp(t *testing.T) {
 				Name:        groupname,
 				Description: description,
 				Tags:        tags,
-				Settings: v1.CommonServiceItemSettings{
-					Type: v1.GroupSettingsCommonServiceItemSettings,
-					GroupSettings: v1.GroupSettings{
+				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
+					Type: v1.CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
+					CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
 						Destinations: []string{destinationID},
+						Disabled:     v1.NewOptBool(true),
 					},
 				},
 			},
@@ -118,12 +122,13 @@ func TestGroupOp(t *testing.T) {
 				Name:        groupnameUpdate,
 				Description: descriptionUpdate,
 				Tags:        tagsUpdate,
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: true,
-					Value: v1.CommonServiceItemSettings{
-						Type: v1.GroupSettingsCommonServiceItemSettings,
-						GroupSettings: v1.GroupSettings{
+					Value: v1.PutCommonServiceItemRequestCommonServiceItemSettings{
+						Type: v1.CommonServiceItemGroupSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
+						CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
 							Destinations: []string{destinationID},
+							Disabled:     v1.NewOptBool(false),
 						},
 					},
 				},
@@ -139,19 +144,28 @@ func TestGroupOp(t *testing.T) {
 		require.Equal(t, groupnameUpdate, resp.CommonServiceItem.Name, "group name should be updated")
 		require.Equal(t, descriptionUpdate, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdate, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.True(t, resp.CommonServiceItem.Settings.IsCommonServiceItemGroupSettings())
+		actualSetting := resp.CommonServiceItem.Settings.CommonServiceItemGroupSettings
+		require.Equal(t, []string{destinationID}, actualSetting.Destinations)
+		require.False(t, actualSetting.Disabled.Value)
+		read, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, resp.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("GroupOp.Update response: %+v", resp)
 	})
 	t.Run("UpdatewithoutSetting", func(t *testing.T) {
 		groupnameUpdatewithoutSetting := "updated-group-withoutSetting"
 		descriptionUpdatewithoutSetting := "updated-description-withoutSetting"
 		tagsUpdatewithoutSetting := []string{"updated-withoutSetting"}
+		before, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
 
 		request := v1.PutCommonServiceItemRequest{
 			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
 				Name:        groupnameUpdatewithoutSetting,
 				Description: descriptionUpdatewithoutSetting,
 				Tags:        tagsUpdatewithoutSetting,
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: false,
 				},
 			},
@@ -166,11 +180,33 @@ func TestGroupOp(t *testing.T) {
 		require.Equal(t, groupnameUpdatewithoutSetting, resp.CommonServiceItem.Name, "group name should be updated")
 		require.Equal(t, descriptionUpdatewithoutSetting, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdatewithoutSetting, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("GroupOp.UpdatewithoutSetting response: %+v", resp)
 	})
+	t.Run("ClearTags", func(t *testing.T) {
+		before, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.NotEmpty(t, before.CommonServiceItem.Tags)
+		resp, err := groupAPI.Update(ctx, id, v1.PutCommonServiceItemRequest{
+			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
+				Name: before.CommonServiceItem.Name, Description: before.CommonServiceItem.Description,
+				Tags: []string{}, Icon: before.CommonServiceItem.Icon,
+			},
+		})
+		require.NoError(t, err)
+		require.Empty(t, resp.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := groupAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Empty(t, read.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
+	})
 	t.Run("SendMessage", func(t *testing.T) {
-		request := v1.SendNotificationMessageRequest{
-			Message: "test message from GroupOp.SendMessage",
+		request := v1.SendNotificationRequest{
+			Message: testutil.RandomName("test message from GroupOp.SendMessage-", 16, testutil.CharSetAlphaNum),
 		}
 
 		resp, err := groupAPI.SendMessage(ctx, id, request)
@@ -181,6 +217,10 @@ func TestGroupOp(t *testing.T) {
 			t.Fatal("expected response but got nil")
 		}
 		t.Logf("GroupOp.SendMessage response: %+v", resp)
+		require.True(t, resp.IsOk, "notification must be accepted")
+		waitCtx, cancel := context.WithTimeout(ctx, 2*time.Minute)
+		defer cancel()
+		require.NoError(t, waitForNotification(waitCtx, historyAPI, id, destinationID, request.Message, time.Second))
 	})
 	t.Run("Delete", func(t *testing.T) {
 		err := groupAPI.Delete(ctx, id)
@@ -190,4 +230,47 @@ func TestGroupOp(t *testing.T) {
 		t.Log("GroupOp.Delete succeeded")
 		id = "" // prevent double delete in defer
 	})
+}
+
+func waitForNotification(ctx context.Context, history simplenotification.HistoryAPI, groupID, destinationID, message string, interval time.Duration) error {
+	ticker := time.NewTicker(interval)
+	defer ticker.Stop()
+
+	for {
+		res, err := history.List(ctx)
+		if err != nil {
+			return fmt.Errorf("read notification history while waiting for delivery: %w", err)
+		}
+		found := false
+		pending := false
+		var failure error
+		for _, item := range res.NotificationHistories {
+			if item.Message.Body != message {
+				continue
+			}
+			for _, status := range item.Statuses {
+				if status.GroupID != groupID || status.DestinationID != destinationID {
+					continue
+				}
+				found = true
+				switch status.Status {
+				case v1.NotificationStatusStatus0, v1.NotificationStatusStatus1:
+					pending = true
+				case v1.NotificationStatusStatus2:
+				case v1.NotificationStatusStatus3, v1.NotificationStatusStatus9:
+					failure = fmt.Errorf("notification did not send: status %d: %s", status.Status, status.ErrorInfo)
+				default:
+					return fmt.Errorf("unexpected notification status %d", status.Status)
+				}
+			}
+		}
+		if found && !pending {
+			return failure
+		}
+		select {
+		case <-ctx.Done():
+			return fmt.Errorf("wait for notification to finish (history found: %t): %w", found, ctx.Err())
+		case <-ticker.C:
+		}
+	}
 }

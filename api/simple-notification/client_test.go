@@ -26,6 +26,8 @@ func TestNewClient(t *testing.T) {
 	assert := require.New(t)
 
 	var theClient saclient.Client
+	assert.NoError(theClient.SetEnviron([]string{}))
+	assert.NoError(theClient.SetWith(saclient.WithoutProfile()))
 	actual, err := simplenotification.NewClient(&theClient)
 	assert.NoError(err)
 	assert.NotNil(actual)

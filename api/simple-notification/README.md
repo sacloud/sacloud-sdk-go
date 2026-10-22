@@ -8,6 +8,9 @@
 ## 概要
 sacloud-sdk-go/api/simple-notificationはさくらのクラウド シンプル通知 APIをGo言語から利用するためのAPIライブラリです。
 
+OpenAPI定義の取得元とクライアントの再生成手順は
+[openapi/README.md](openapi/README.md)を参照してください。
+
 ## 利用イメージ
 
 ### 通知先＆通知グループ登録
@@ -41,10 +44,10 @@ func main() {
 			Name:        "my-destination",
 			Description: "my destination description",
 			Tags:        []string{"tag1", "tag2"},
-			Settings: v1.CommonServiceItemSettings{
-				Type: v1.DestinationSettingsCommonServiceItemSettings,
-				DestinationSettings: v1.DestinationSettings{
-					Type:  v1.DestinationSettingsTypeEmail,
+			Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
+				Type: v1.CommonServiceItemDestinationSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
+				CommonServiceItemDestinationSettings: v1.CommonServiceItemDestinationSettings{
+					Type:  v1.CommonServiceItemDestinationSettingsTypeEmail,
 					Value: mailAddress,
 				},
 			},
@@ -69,9 +72,9 @@ func main() {
 			Name:        "my-group",
 			Description: "my group description",
 			Tags:        []string{"tag1", "tag2"},
-			Settings: v1.CommonServiceItemSettings{
-				Type: v1.GroupSettingsCommonServiceItemSettings,
-				GroupSettings: v1.GroupSettings{
+			Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
+				Type: v1.CommonServiceItemGroupSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
+				CommonServiceItemGroupSettings: v1.CommonServiceItemGroupSettings{
 					Destinations: []string{destResp.CommonServiceItem.ID}, //先ほど作成した通知先をグループに追加
 				},
 			},
@@ -113,7 +116,7 @@ func main() {
 
 	// 通知メッセージを送信
 	// なお、通知先がメールの場合は、事前にメールされる本登録手続きが必要
-	messageReq := v1.SendNotificationMessageRequest{
+	messageReq := v1.SendNotificationRequest{
 		Message: "Hello, Simple Notification API!", //送信するメッセージ
 	}
 	resp, err := groupAPI.SendMessage(ctx, groupID, messageReq)
@@ -126,6 +129,79 @@ func main() {
 > [!WARNING]
 > v1.0に達するまでは互換性のない形で変更される可能性がありますのでご注意ください。
 
+## 実アカウントでの確認
+
+専用のテストアカウントを使用してください。通知先グループのテストでは
+実際にメッセージを送信するため、受信を確認できるテスト用の通知先が必要です。
+
+### 事前準備
+
+1. コントロールパネルでテスト用の通知先を作成する。メールの場合は、
+   届いたメールから本登録を済ませ、その通知先IDを控える。
+2. その通知先を登録したテスト用の通知先グループを作成し、グループIDを控える。
+3. `RoutingAPI.ListSource` が返す `Sources` から、使用する通知元の `id` と
+   `name` を確認する。通知先IDやグループIDとは別のIDである。
+   2026年10月19日の確認時には、`id: "2"` はモニタリングスイートだった。
+   実行するアカウントで取得した一覧を使用する。
+
+通知先と通知先グループの操作は、公式マニュアルの
+[通知先](https://manual.sakura.ad.jp/cloud/appliance/simplenotification/destination.html)、
+[通知先グループ](https://manual.sakura.ad.jp/cloud/appliance/simplenotification/destination_group.html)を参照してください。
+
+テスト内でも通知先・グループを作成しますが、各テストの終了時に削除され、
+他のテストには引き継がれません。以下の環境変数には、事前に作成した
+リソースのIDを指定してください。事前に用意したリソースはテストでは削除しません。
+
+### 環境変数と実行方法
+
+| 環境変数 | 用途 |
+|---|---|
+| `SAKURA_ACCESS_TOKEN` / `SAKURA_ACCESS_TOKEN_SECRET` | APIの認証情報 |
+| `SAKURA_RATE_LIMIT` | APIリクエストのレート制限。例: `5`（`0` はエラー） |
+| `SAKURA_DESTINATION_TEST_MAILADDRESS` | 作成するメール通知先のアドレス |
+| `SAKURA_DESTINATION_TEST_ID` | 通知先グループに追加する既存の通知先ID |
+| `SAKURA_ROUTING_TEST_LABEL` / `SAKURA_ROUTING_TEST_LABELVAL` | 通知ルーティングの照合ラベル名・値 |
+| `SAKURA_ROUTING_TEST_SOURCEID` | `RoutingAPI.ListSource` の `Sources[].id` |
+| `SAKURA_ROUTING_TEST_TARGETGROUPID` | 通知ルーティングの送信先グループID |
+
+認証情報を環境変数に設定したうえで、次の `<...>` を実際の値に置き換えて実行します。
+ラベルの例は、このテストが作成するルーティングの `MatchLabels` に設定されます。
+
+```sh
+export SAKURA_DESTINATION_TEST_MAILADDRESS='<テスト用メールアドレス>'
+export SAKURA_DESTINATION_TEST_ID='<本登録済みの通知先ID>'
+export SAKURA_ROUTING_TEST_TARGETGROUPID='<事前に作成した通知先グループID>'
+export SAKURA_ROUTING_TEST_SOURCEID='<通知元一覧で確認したID>'
+export SAKURA_ROUTING_TEST_LABEL='environment'
+export SAKURA_ROUTING_TEST_LABELVAL='development'
+
+SAKURA_RATE_LIMIT=5 make -C api/simple-notification testacc TESTARGS='-count=1'
+```
+
+`-count=1` はGoのテストキャッシュを無効にし、実際にAPIを呼び出すための指定です。
+ラベル名は英数字・`_`・`-` の64文字以内、値は半角の表示可能文字と
+スペースの64文字以内です。このテストではルーティングの設定操作を確認し、
+通知元からルーティングを経由した配送までは確認しません。
+
+通知先・通知先グループ・通知ルーティングの作成、取得、更新、削除に加え、
+通知送信や通知履歴の取得などを行います。
+通知先・グループ・ルーティングでは、Settingsを指定した更新の反映と、
+省略した更新での設定保持を、更新レスポンスと再取得結果で確認します。
+また、空配列のTagsで更新してタグを削除できることと、その際もSettingsが
+保持されることを確認します。設定変更の検証では、テスト用の通知先を無効にし、
+グループを有効にして、ルーティングの照合ラベル値を変更します。
+必要な環境変数がないテストはスキップされるため、スキップした場合は
+実際のAPI動作を確認できていません。
+通知履歴が空の場合、履歴の個別取得もスキップされます。
+
+送信APIの成功は配送完了を意味しません。グループの送信テストでは、
+一意の本文・グループID・通知先IDで対象の履歴を照合し、最大2分間、
+1秒間隔で送信処理の終了を待ってからグループを削除します。
+送信済みを成功とし、スキップ・送信失敗・履歴取得エラー・待機タイムアウトは
+テストの失敗として扱います。失敗時にもグループの削除を試みます。
+送信済みでもメールの到着を保証するものではないため、通知先への到着も確認してください。
+削除やクリーンアップに失敗した場合は、テストで作成したリソースが残っていないか
+コントロールパネルで確認してください。
 
 ## License
 

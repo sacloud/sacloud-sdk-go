@@ -53,8 +53,8 @@ func TestRoutingOp(t *testing.T) {
 	testLabelValue := os.Getenv("SAKURA_ROUTING_TEST_LABELVAL")
 	testSourceID := os.Getenv("SAKURA_ROUTING_TEST_SOURCEID")
 	testTargetGroupID := os.Getenv("SAKURA_ROUTING_TEST_TARGETGROUPID")
-	setting := v1.RoutingSettings{
-		MatchLabels: []v1.RoutingSettingsMatchLabelsItem{
+	setting := v1.CommonServiceItemRoutingSettings{
+		MatchLabels: []v1.CommonServiceItemRoutingSettingsMatchLabelsItem{
 			{Name: testLabel, Value: testLabelValue},
 		},
 		SourceID:      testSourceID,
@@ -76,12 +76,12 @@ func TestRoutingOp(t *testing.T) {
 						ID: "112901627732", // debian icon ID
 					},
 				},
-				Provider: v1.CommonServiceItemProvider{
-					Class: v1.CommonServiceItemProviderClassSaknoticerouting,
+				Provider: v1.PostCommonServiceItemRequestCommonServiceItemProvider{
+					Class: v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting,
 				},
-				Settings: v1.CommonServiceItemSettings{
-					Type:            v1.RoutingSettingsCommonServiceItemSettings,
-					RoutingSettings: setting,
+				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
+					Type:                             v1.CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
+					CommonServiceItemRoutingSettings: setting,
 				},
 			},
 		}
@@ -133,9 +133,9 @@ func TestRoutingOp(t *testing.T) {
 		routingNameUpdate := "updated-routing"
 		descriptionUpdate := "updated-description"
 		tagsUpdate := []string{"updated"}
-		updateSetting := v1.RoutingSettings{
-			MatchLabels: []v1.RoutingSettingsMatchLabelsItem{
-				{Name: testLabel, Value: testLabelValue},
+		updateSetting := v1.CommonServiceItemRoutingSettings{
+			MatchLabels: []v1.CommonServiceItemRoutingSettingsMatchLabelsItem{
+				{Name: testLabel, Value: "sdk-test-updated"},
 			},
 			SourceID:      testSourceID,
 			TargetGroupID: testTargetGroupID,
@@ -151,11 +151,11 @@ func TestRoutingOp(t *testing.T) {
 				Icon: v1.NilCommonServiceItemIcon{
 					Null: true,
 				},
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: true,
-					Value: v1.CommonServiceItemSettings{
-						Type:            v1.RoutingSettingsCommonServiceItemSettings,
-						RoutingSettings: updateSetting,
+					Value: v1.PutCommonServiceItemRequestCommonServiceItemSettings{
+						Type:                             v1.CommonServiceItemRoutingSettingsPutCommonServiceItemRequestCommonServiceItemSettings,
+						CommonServiceItemRoutingSettings: updateSetting,
 					},
 				},
 			},
@@ -170,12 +170,22 @@ func TestRoutingOp(t *testing.T) {
 		require.Equal(t, routingNameUpdate, resp.CommonServiceItem.Name, "routing name should be updated")
 		require.Equal(t, descriptionUpdate, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdate, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.True(t, resp.CommonServiceItem.Settings.IsCommonServiceItemRoutingSettings())
+		actualSetting := resp.CommonServiceItem.Settings.CommonServiceItemRoutingSettings
+		require.Equal(t, updateSetting.MatchLabels, actualSetting.MatchLabels)
+		require.Equal(t, updateSetting.SourceID, actualSetting.SourceID)
+		require.Equal(t, updateSetting.TargetGroupID, actualSetting.TargetGroupID)
+		read, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, resp.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("RoutingOp.Update response: %+v", resp)
 	})
 	t.Run("UpdateWithoutSetting", func(t *testing.T) {
 		routingNameUpdateWithoutSetting := "updated-routing-withoutSetting"
 		descriptionUpdateWithoutSetting := "updated-description-withoutSetting"
 		tagsUpdateWithoutSetting := []string{"updated-withoutSetting"}
+		before, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
 		request := v1.PutCommonServiceItemRequest{
 			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
 				Name:        routingNameUpdateWithoutSetting,
@@ -187,7 +197,7 @@ func TestRoutingOp(t *testing.T) {
 						ID: "0", // erase icon
 					},
 				},
-				Settings: v1.OptCommonServiceItemSettings{
+				Settings: v1.OptPutCommonServiceItemRequestCommonServiceItemSettings{
 					Set: false,
 				},
 			},
@@ -202,7 +212,29 @@ func TestRoutingOp(t *testing.T) {
 		require.Equal(t, routingNameUpdateWithoutSetting, resp.CommonServiceItem.Name, "routing name should be updated")
 		require.Equal(t, descriptionUpdateWithoutSetting, resp.CommonServiceItem.Description, "description should be updated")
 		require.Equal(t, tagsUpdateWithoutSetting, resp.CommonServiceItem.Tags, "tags should be updated")
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 		t.Logf("RoutingOp.UpdateWithoutSetting response: %+v", resp)
+	})
+	t.Run("ClearTags", func(t *testing.T) {
+		before, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.NotEmpty(t, before.CommonServiceItem.Tags)
+		resp, err := routingAPI.Update(ctx, id, v1.PutCommonServiceItemRequest{
+			CommonServiceItem: v1.PutCommonServiceItemRequestCommonServiceItem{
+				Name: before.CommonServiceItem.Name, Description: before.CommonServiceItem.Description,
+				Tags: []string{}, Icon: before.CommonServiceItem.Icon,
+			},
+		})
+		require.NoError(t, err)
+		require.Empty(t, resp.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, resp.CommonServiceItem.Settings)
+		read, err := routingAPI.Read(ctx, id)
+		require.NoError(t, err)
+		require.Empty(t, read.CommonServiceItem.Tags)
+		require.Equal(t, before.CommonServiceItem.Settings, read.CommonServiceItem.Settings)
 	})
 	t.Run("Reorder", func(t *testing.T) {
 		secondCreateRequest := v1.PostCommonServiceItemRequest{
@@ -210,12 +242,12 @@ func TestRoutingOp(t *testing.T) {
 				Name:        "test-routing-2",
 				Description: "test-routing-description-2",
 				Tags:        tags,
-				Provider: v1.CommonServiceItemProvider{
-					Class: v1.CommonServiceItemProviderClassSaknoticerouting,
+				Provider: v1.PostCommonServiceItemRequestCommonServiceItemProvider{
+					Class: v1.PostCommonServiceItemRequestCommonServiceItemProviderClassSaknoticerouting,
 				},
-				Settings: v1.CommonServiceItemSettings{
-					Type:            v1.RoutingSettingsCommonServiceItemSettings,
-					RoutingSettings: setting,
+				Settings: v1.PostCommonServiceItemRequestCommonServiceItemSettings{
+					Type:                             v1.CommonServiceItemRoutingSettingsPostCommonServiceItemRequestCommonServiceItemSettings,
+					CommonServiceItemRoutingSettings: setting,
 				},
 			},
 		}
@@ -236,8 +268,8 @@ func TestRoutingOp(t *testing.T) {
 		}()
 		firstPriorityRank := 3
 		secondPriorityRank := 4
-		reorderRequest := v1.PutCommonServiceItemRoutingReorderRequest{
-			Orders: []v1.PutCommonServiceItemRoutingReorderRequestOrdersItem{
+		reorderRequest := v1.ReorderNotificationRoutingRequest{
+			Orders: []v1.ReorderNotificationRoutingRequestOrdersItem{
 				{
 					RoutingID:    id,
 					PriorityRank: firstPriorityRank,
@@ -276,8 +308,8 @@ func TestRoutingOp(t *testing.T) {
 		if firstRouting == nil || secondRouting == nil {
 			t.Fatal("could not find created routings in list response")
 		}
-		require.Equal(t, firstPriorityRank, firstRouting.Settings.RoutingSettings.PriorityRank, "first routing's priority rank should be updated")
-		require.Equal(t, secondPriorityRank, secondRouting.Settings.RoutingSettings.PriorityRank, "second routing's priority rank should be updated")
+		require.Equal(t, firstPriorityRank, firstRouting.Settings.CommonServiceItemRoutingSettings.PriorityRank, "first routing's priority rank should be updated")
+		require.Equal(t, secondPriorityRank, secondRouting.Settings.CommonServiceItemRoutingSettings.PriorityRank, "second routing's priority rank should be updated")
 	})
 	t.Run("ListSource", func(t *testing.T) {
 		resp, err := routingAPI.ListSource(ctx)
