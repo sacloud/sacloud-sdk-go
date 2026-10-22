@@ -16,13 +16,13 @@ type LoadBalancerAPI interface {
 	// Pass nil to `cursor` to get the first page, or
 	// previously returned `nextCursor` to get the next page.
 	List(ctx context.Context, maxItems int64, cursor *v1.LoadBalancerID) (list []v1.ReadLoadBalancerSummary, nextCursor *v1.LoadBalancerID, err error)
-	Create(ctx context.Context, params CreateParams) (lb *v1.CreatedLoadBalancer, err error)
+	Create(ctx context.Context, params CreateParams) (lb *v1.LoadBalancerIdentifier, err error)
 	Read(ctx context.Context, id v1.LoadBalancerID) (lb *LoadBalancerDetail, err error)
 	Delete(ctx context.Context, id v1.LoadBalancerID) error
 
 	// ListNodes returns the list of LoadBalancerNodes, paginated.
 	// Pass nil to `cursor` to get the first page.
-	ListNodes(ctx context.Context, lbID v1.LoadBalancerID, maxItems int64, cursor *v1.LoadBalancerID) (list []v1.ReadLoadBalancerNodeSummary, err error)
+	ListNodes(ctx context.Context, lbID v1.LoadBalancerID, maxItems int64, cursor *v1.LoadBalancerNodeID) (list []v1.LoadBalancerNode, nextCursor *v1.LoadBalancerNodeID, err error)
 	ReadNode(ctx context.Context, lbID v1.LoadBalancerID, nodeID v1.LoadBalancerNodeID) (node *LoadBalancerNodeDetail, err error)
 }
 
@@ -58,7 +58,7 @@ func (op *LoadBalancerOp) List(ctx context.Context, maxItems int64, cursor *v1.L
 	return
 }
 
-func (op *LoadBalancerOp) Create(ctx context.Context, params CreateParams) (lb *v1.CreatedLoadBalancer, err error) {
+func (op *LoadBalancerOp) Create(ctx context.Context, params CreateParams) (lb *v1.LoadBalancerIdentifier, err error) {
 	res, err := common.ErrorFromDecodedResponse("LoadBalancer.Create", func() (*v1.CreateLoadBalancerResponse, error) {
 		return op.client.CreateLoadBalancer(ctx, new(params.into()), v1.CreateLoadBalancerParams{
 			ClusterID:          op.clusterID,
@@ -74,8 +74,8 @@ func (op *LoadBalancerOp) Create(ctx context.Context, params CreateParams) (lb *
 }
 
 func (op *LoadBalancerOp) Read(ctx context.Context, id v1.LoadBalancerID) (lb *LoadBalancerDetail, err error) {
-	res, err := common.ErrorFromDecodedResponse("LoadBalancer.Read", func() (*v1.GetLoadBalancerResponse, error) {
-		return op.client.GetLoadBalancer(ctx, v1.GetLoadBalancerParams{
+	res, err := common.ErrorFromDecodedResponse("LoadBalancer.Read", func() (*v1.ReadLoadBalancerResponse, error) {
+		return op.client.ReadLoadBalancer(ctx, v1.ReadLoadBalancerParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
 			LoadBalancerID:     id,
@@ -101,27 +101,28 @@ func (op *LoadBalancerOp) Delete(ctx context.Context, id v1.LoadBalancerID) erro
 	})
 }
 
-func (op *LoadBalancerOp) ListNodes(ctx context.Context, lbID v1.LoadBalancerID, maxItems int64, cursor *v1.LoadBalancerID) (list []v1.ReadLoadBalancerNodeSummary, err error) {
+func (op *LoadBalancerOp) ListNodes(ctx context.Context, lbID v1.LoadBalancerID, maxItems int64, cursor *v1.LoadBalancerNodeID) (list []v1.LoadBalancerNode, nextCursor *v1.LoadBalancerNodeID, err error) {
 	res, err := common.ErrorFromDecodedResponse("LoadBalancer.ListNode", func() (*v1.ListLoadBalancerNodesResponse, error) {
 		return op.client.ListLoadBalancerNodes(ctx, v1.ListLoadBalancerNodesParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
 			LoadBalancerID:     lbID,
-			Cursor:             into.Opt[v1.OptLoadBalancerID](cursor),
+			Cursor:             into.Opt[v1.OptLoadBalancerNodeID](cursor),
 			MaxItems:           maxItems,
 		})
 	})
 
 	if res != nil {
 		list = res.LoadBalancerNodes
+		nextCursor = common.FromOpt(res.NextCursor)
 	}
 
 	return
 }
 
 func (op *LoadBalancerOp) ReadNode(ctx context.Context, lbID v1.LoadBalancerID, nodeID v1.LoadBalancerNodeID) (node *LoadBalancerNodeDetail, err error) {
-	res, err := common.ErrorFromDecodedResponse("LoadBalancer.ReadNode", func() (*v1.GetLoadBalancerNodeResponse, error) {
-		return op.client.GetLoadBalancerNode(ctx, v1.GetLoadBalancerNodeParams{
+	res, err := common.ErrorFromDecodedResponse("LoadBalancer.ReadNode", func() (*v1.ReadLoadBalancerNodeResponse, error) {
+		return op.client.ReadLoadBalancerNode(ctx, v1.ReadLoadBalancerNodeParams{
 			ClusterID:          op.clusterID,
 			AutoScalingGroupID: op.autoScalingGroupID,
 			LoadBalancerID:     lbID,
@@ -180,9 +181,9 @@ type NodeInterface struct {
 	Addresses      []NodeInterfaceAddress `json:"addresses"`
 }
 
-func (n *NodeInterface) From(res *v1.ReadLoadBalancerNodeInterface) {
+func (n *NodeInterface) From(res *v1.LoadBalancerNodeInterface) {
 	n.InterfaceIndex = res.GetInterfaceIndex()
-	n.Addresses = common.MapSlice(res.GetAddresses(), common.ConvertFrom[v1.ReadLoadBalancerNodeInterfaceAddress, NodeInterfaceAddress]())
+	n.Addresses = common.MapSlice(res.GetAddresses(), common.ConvertFrom[v1.LoadBalancerNodeInterfaceAddress, NodeInterfaceAddress]())
 }
 
 type NodeInterfaceAddress struct {
@@ -190,7 +191,7 @@ type NodeInterfaceAddress struct {
 	Vip     bool   `json:"vip"`
 }
 
-func (n *NodeInterfaceAddress) From(res *v1.ReadLoadBalancerNodeInterfaceAddress) {
+func (n *NodeInterfaceAddress) From(res *v1.LoadBalancerNodeInterfaceAddress) {
 	n.Address = res.GetAddress()
 	n.Vip = res.GetVip()
 }
@@ -198,11 +199,11 @@ func (n *NodeInterfaceAddress) From(res *v1.ReadLoadBalancerNodeInterfaceAddress
 type CreateParams struct {
 	Name             string                  `json:"name"`
 	ServiceClassPath string                  `json:"serviceClassPath"`
-	NameServers      []v1.IPv4               `json:"nameServers"`
+	NameServers      []v1.Ipv4               `json:"nameServers"`
 	Interfaces       []LoadBalancerInterface `json:"interfaces"`
 }
 
-func (c CreateParams) into() (ret v1.CreateLoadBalancer) {
+func (c CreateParams) into() (ret v1.CreateLoadBalancerRequest) {
 	ret.SetName(c.Name)
 	ret.SetServiceClassPath(c.ServiceClassPath)
 	ret.SetNameServers(c.NameServers)
@@ -215,13 +216,13 @@ type LoadBalancerDetail struct {
 	LoadBalancerID   v1.LoadBalancerID       `json:"loadBalancerID"`
 	Name             string                  `json:"name"`
 	ServiceClassPath string                  `json:"serviceClassPath"`
-	NameServers      []v1.IPv4               `json:"nameServers"`
+	NameServers      []v1.Ipv4               `json:"nameServers"`
 	Interfaces       []LoadBalancerInterface `json:"interfaces"`
 	Created          int                     `json:"created"`
 	Deleting         bool                    `json:"deleting"`
 }
 
-func (l *LoadBalancerDetail) from(res *v1.ReadLoadBalancerDetail) {
+func (l *LoadBalancerDetail) from(res *v1.ReadLoadBalancer) {
 	l.LoadBalancerID = res.GetLoadBalancerID()
 	l.Name = res.GetName()
 	l.ServiceClassPath = res.GetServiceClassPath()
@@ -241,10 +242,10 @@ type LoadBalancerNodeDetail struct {
 	Created            int                       `json:"created"`
 }
 
-func (l *LoadBalancerNodeDetail) from(res *v1.ReadLoadBalancerNode) {
+func (l *LoadBalancerNodeDetail) from(res *v1.LoadBalancerNode) {
 	l.LoadBalancerNodeID = res.GetLoadBalancerNodeID()
 	l.ResourceID = common.FromOpt(res.GetResourceID())
-	l.Interfaces = common.MapSlice(res.GetInterfaces(), common.ConvertFrom[v1.ReadLoadBalancerNodeInterface, NodeInterface]())
+	l.Interfaces = common.MapSlice(res.GetInterfaces(), common.ConvertFrom[v1.LoadBalancerNodeInterface, NodeInterface]())
 	l.Status = res.GetStatus()
 	l.ArchiveVersion = common.FromOpt(res.GetArchiveVersion())
 	l.CreateErrorMessage = common.FromOpt(res.GetCreateErrorMessage())

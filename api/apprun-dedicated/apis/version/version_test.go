@@ -26,10 +26,10 @@ func setup(t *testing.T, v interface{ Encode(*jx.Encoder) }, s ...int) (*assert.
 }
 
 func TestList(t *testing.T) {
-	var expected v1.ListApplicationVersionResponse
+	var expected v1.ListApplicationVersionsResponse
 	expected.SetFake()
 	expected.NextCursor.SetTo(2)
-	expected.SetVersions(make([]v1.ApplicationVersionDeploymentStatus, 3))
+	expected.SetVersions(make([]v1.ApplicationVersionSummary, 3))
 	for i := 0; i < len(expected.GetVersions()); i++ {
 		expected.Versions[i].SetFake()
 		expected.Versions[i].SetVersion(v1.ApplicationVersionNumber(i + 1))
@@ -117,7 +117,7 @@ func TestCreate_failed(t *testing.T) {
 }
 
 func TestRead(t *testing.T) {
-	var expected v1.GetApplicationVersionResponse
+	var expected v1.ReadApplicationVersionResponse
 	ver := v1.ApplicationVersionNumber(1)
 	expected.SetFake()
 	expected.SetApplicationVersion(apprun_test.FakeApplicationVersion())
@@ -206,7 +206,7 @@ func TestIntegrated(t *testing.T) {
 		})
 
 		t.Run("List", func(t *testing.T) {
-			list := apprun_test.RepeatedList(func(cursor *v1.ApplicationVersionNumber) (res []v1.ApplicationVersionDeploymentStatus, next *v1.ApplicationVersionNumber) {
+			list := apprun_test.RepeatedList(func(cursor *v1.ApplicationVersionNumber) (res []v1.ApplicationVersionSummary, next *v1.ApplicationVersionNumber) {
 				res, next, err := api.List(t.Context(), 10, cursor)
 				assert.NoError(err)
 				return
