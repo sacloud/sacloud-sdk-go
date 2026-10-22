@@ -156,7 +156,6 @@ func TestReadLoadBalancer_failed(t *testing.T) {
 }
 
 func TestPatchLoadBalancer(t *testing.T) {
-
 	t.Run("no updates", func(t *testing.T) {
 		assert, api := setup(t, nil, http.StatusNoContent)
 
