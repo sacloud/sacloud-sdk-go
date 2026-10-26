@@ -39,8 +39,8 @@ func TestLogsStorageOp_List(t *testing.T) {
 	ctx := t.Context()
 	params := LogsStoragesListParams{
 		IsSystem:             new(false),
-		BucketClassification: new(v1.LogsStoragesListBucketClassificationShared),
-		Status:               new(v1.LogsStoragesListStatusAssigned),
+		BucketClassification: new(v1.ListLogStoragesBucketClassificationShared),
+		Status:               new(v1.ListLogStoragesStatusAssigned),
 	}
 	tables, err := api.List(ctx, params)
 	require.NoError(t, err)
@@ -414,8 +414,8 @@ func TestLogStorageIntegrated(t *testing.T) {
 	// List
 	params := LogsStoragesListParams{
 		IsSystem:             new(false),
-		BucketClassification: new(v1.LogsStoragesListBucketClassificationShared),
-		Status:               new(v1.LogsStoragesListStatusAssigned),
+		BucketClassification: new(v1.ListLogStoragesBucketClassificationShared),
+		Status:               new(v1.ListLogStoragesStatusAssigned),
 	}
 	list, err := api.List(ctx, params)
 	require.NoError(t, err)

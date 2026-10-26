@@ -6,274 +6,207 @@ import (
 	"github.com/google/uuid"
 )
 
-// AlertsProjectsDestroyParams is parameters of alerts_projects_destroy operation.
-type AlertsProjectsDestroyParams struct {
-	ResourceID int64
+// CreateAlertProjectLogMeasureRuleParams is parameters of createAlertProjectLogMeasureRule operation.
+type CreateAlertProjectLogMeasureRuleParams struct {
+	ProjectResourceId int64
 }
 
-// AlertsProjectsHistoriesListParams is parameters of alerts_projects_histories_list operation.
-type AlertsProjectsHistoriesListParams struct {
+// CreateAlertProjectNotificationRoutingParams is parameters of createAlertProjectNotificationRouting operation.
+type CreateAlertProjectNotificationRoutingParams struct {
+	ProjectResourceId int64
+}
+
+// CreateAlertProjectNotificationTargetParams is parameters of createAlertProjectNotificationTarget operation.
+type CreateAlertProjectNotificationTargetParams struct {
+	ProjectResourceId int64
+}
+
+// CreateAlertProjectRuleParams is parameters of createAlertProjectRule operation.
+type CreateAlertProjectRuleParams struct {
+	ProjectResourceId int64
+}
+
+// CreateLogStorageKeyParams is parameters of createLogStorageKey operation.
+type CreateLogStorageKeyParams struct {
+	LogResourceId int64
+}
+
+// CreateMetricStorageKeyParams is parameters of createMetricStorageKey operation.
+type CreateMetricStorageKeyParams struct {
+	MetricsResourceId int64
+}
+
+// CreateTraceStorageKeyParams is parameters of createTraceStorageKey operation.
+type CreateTraceStorageKeyParams struct {
+	TraceResourceId int64
+}
+
+// DeleteAlertProjectParams is parameters of deleteAlertProject operation.
+type DeleteAlertProjectParams struct {
+	ResourceId int64
+}
+
+// DeleteAlertProjectLogMeasureRuleParams is parameters of deleteAlertProjectLogMeasureRule operation.
+type DeleteAlertProjectLogMeasureRuleParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// DeleteAlertProjectNotificationRoutingParams is parameters of deleteAlertProjectNotificationRouting operation.
+type DeleteAlertProjectNotificationRoutingParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// DeleteAlertProjectNotificationTargetParams is parameters of deleteAlertProjectNotificationTarget operation.
+type DeleteAlertProjectNotificationTargetParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// DeleteAlertProjectRuleParams is parameters of deleteAlertProjectRule operation.
+type DeleteAlertProjectRuleParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// DeleteDashboardProjectParams is parameters of deleteDashboardProject operation.
+type DeleteDashboardProjectParams struct {
+	ResourceId int64
+}
+
+// DeleteLogRoutingParams is parameters of deleteLogRouting operation.
+type DeleteLogRoutingParams struct {
+	UID uuid.UUID
+}
+
+// DeleteLogStorageParams is parameters of deleteLogStorage operation.
+type DeleteLogStorageParams struct {
+	ResourceId int64
+}
+
+// DeleteLogStorageKeyParams is parameters of deleteLogStorageKey operation.
+type DeleteLogStorageKeyParams struct {
+	LogResourceId int64
+	UID           uuid.UUID
+}
+
+// DeleteMetricRoutingParams is parameters of deleteMetricRouting operation.
+type DeleteMetricRoutingParams struct {
+	UID uuid.UUID
+}
+
+// DeleteMetricStorageParams is parameters of deleteMetricStorage operation.
+type DeleteMetricStorageParams struct {
+	ResourceId int64
+}
+
+// DeleteMetricStorageKeyParams is parameters of deleteMetricStorageKey operation.
+type DeleteMetricStorageKeyParams struct {
+	MetricsResourceId int64
+	UID               uuid.UUID
+}
+
+// DeleteTraceStorageParams is parameters of deleteTraceStorage operation.
+type DeleteTraceStorageParams struct {
+	ResourceId int64
+}
+
+// DeleteTraceStorageKeyParams is parameters of deleteTraceStorageKey operation.
+type DeleteTraceStorageKeyParams struct {
+	TraceResourceId int64
+	UID             uuid.UUID
+}
+
+// ListAlertProjectHistoriesParams is parameters of listAlertProjectHistories operation.
+type ListAlertProjectHistoriesParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From              OptInt  `json:",omitempty,omitzero"`
 	Open              OptBool `json:",omitempty,omitzero"`
-	ProjectResourceID int64
+	ProjectResourceId int64
 	//  - `warning` - Warning
 	//  - `critical` - Critical
-	Severity OptAlertsProjectsHistoriesListSeverity `json:",omitempty,omitzero"`
-	StartsAt OptDateTime                            `json:",omitempty,omitzero"`
+	Severity OptListAlertProjectHistoriesSeverity `json:",omitempty,omitzero"`
+	StartsAt OptDateTime                          `json:",omitempty,omitzero"`
 }
 
-// AlertsProjectsHistoriesRetrieveParams is parameters of alerts_projects_histories_retrieve operation.
-type AlertsProjectsHistoriesRetrieveParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsListParams is parameters of alerts_projects_list operation.
-type AlertsProjectsListParams struct {
-	// Number of results to return per page.
-	Count OptInt `json:",omitempty,omitzero"`
-	// The initial index from which to return the results.
-	From OptInt `json:",omitempty,omitzero"`
-}
-
-// AlertsProjectsLogMeasureRulesCreateParams is parameters of alerts_projects_log_measure_rules_create operation.
-type AlertsProjectsLogMeasureRulesCreateParams struct {
-	ProjectResourceID int64
-}
-
-// AlertsProjectsLogMeasureRulesDestroyParams is parameters of alerts_projects_log_measure_rules_destroy operation.
-type AlertsProjectsLogMeasureRulesDestroyParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsLogMeasureRulesListParams is parameters of alerts_projects_log_measure_rules_list operation.
-type AlertsProjectsLogMeasureRulesListParams struct {
+// ListAlertProjectLogMeasureRulesParams is parameters of listAlertProjectLogMeasureRules operation.
+type ListAlertProjectLogMeasureRulesParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From              OptInt   `json:",omitempty,omitzero"`
 	LogStorageID      OptInt64 `json:",omitempty,omitzero"`
 	MetricsStorageID  OptInt64 `json:",omitempty,omitzero"`
-	ProjectResourceID int64
+	ProjectResourceId int64
 }
 
-// AlertsProjectsLogMeasureRulesPartialUpdateParams is parameters of alerts_projects_log_measure_rules_partial_update operation.
-type AlertsProjectsLogMeasureRulesPartialUpdateParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsLogMeasureRulesRetrieveParams is parameters of alerts_projects_log_measure_rules_retrieve operation.
-type AlertsProjectsLogMeasureRulesRetrieveParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsLogMeasureRulesUpdateParams is parameters of alerts_projects_log_measure_rules_update operation.
-type AlertsProjectsLogMeasureRulesUpdateParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsNotificationRoutingsCreateParams is parameters of alerts_projects_notification_routings_create operation.
-type AlertsProjectsNotificationRoutingsCreateParams struct {
-	ProjectResourceID int64
-}
-
-// AlertsProjectsNotificationRoutingsDestroyParams is parameters of alerts_projects_notification_routings_destroy operation.
-type AlertsProjectsNotificationRoutingsDestroyParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsNotificationRoutingsListParams is parameters of alerts_projects_notification_routings_list operation.
-type AlertsProjectsNotificationRoutingsListParams struct {
+// ListAlertProjectNotificationRoutingsParams is parameters of listAlertProjectNotificationRoutings operation.
+type ListAlertProjectNotificationRoutingsParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From              OptInt `json:",omitempty,omitzero"`
-	ProjectResourceID int64
+	ProjectResourceId int64
 	Target            OptInt `json:",omitempty,omitzero"`
 }
 
-// AlertsProjectsNotificationRoutingsPartialUpdateParams is parameters of alerts_projects_notification_routings_partial_update operation.
-type AlertsProjectsNotificationRoutingsPartialUpdateParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsNotificationRoutingsReorderUpdateParams is parameters of alerts_projects_notification_routings_reorder_update operation.
-type AlertsProjectsNotificationRoutingsReorderUpdateParams struct {
-	ProjectResourceID int64
-}
-
-// AlertsProjectsNotificationRoutingsRetrieveParams is parameters of alerts_projects_notification_routings_retrieve operation.
-type AlertsProjectsNotificationRoutingsRetrieveParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsNotificationRoutingsUpdateParams is parameters of alerts_projects_notification_routings_update operation.
-type AlertsProjectsNotificationRoutingsUpdateParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsNotificationTargetsCreateParams is parameters of alerts_projects_notification_targets_create operation.
-type AlertsProjectsNotificationTargetsCreateParams struct {
-	ProjectResourceID int64
-}
-
-// AlertsProjectsNotificationTargetsDestroyParams is parameters of alerts_projects_notification_targets_destroy operation.
-type AlertsProjectsNotificationTargetsDestroyParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsNotificationTargetsListParams is parameters of alerts_projects_notification_targets_list operation.
-type AlertsProjectsNotificationTargetsListParams struct {
+// ListAlertProjectNotificationTargetsParams is parameters of listAlertProjectNotificationTargets operation.
+type ListAlertProjectNotificationTargetsParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From              OptInt `json:",omitempty,omitzero"`
-	ProjectResourceID int64
+	ProjectResourceId int64
 	//  - `SAKURA_SIMPLE_NOTICE` - Sakura cloud simple notification
 	//  - `SAKURA_EVENT_BUS` - Sakura cloud event bus
-	ServiceType OptAlertsProjectsNotificationTargetsListServiceType `json:",omitempty,omitzero"`
+	ServiceType OptListAlertProjectNotificationTargetsServiceType `json:",omitempty,omitzero"`
 }
 
-// AlertsProjectsNotificationTargetsPartialUpdateParams is parameters of alerts_projects_notification_targets_partial_update operation.
-type AlertsProjectsNotificationTargetsPartialUpdateParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsNotificationTargetsRetrieveParams is parameters of alerts_projects_notification_targets_retrieve operation.
-type AlertsProjectsNotificationTargetsRetrieveParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsNotificationTargetsUpdateParams is parameters of alerts_projects_notification_targets_update operation.
-type AlertsProjectsNotificationTargetsUpdateParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsPartialUpdateParams is parameters of alerts_projects_partial_update operation.
-type AlertsProjectsPartialUpdateParams struct {
-	ResourceID int64
-}
-
-// AlertsProjectsRetrieveParams is parameters of alerts_projects_retrieve operation.
-type AlertsProjectsRetrieveParams struct {
-	ResourceID int64
-}
-
-// AlertsProjectsRulesCreateParams is parameters of alerts_projects_rules_create operation.
-type AlertsProjectsRulesCreateParams struct {
-	ProjectResourceID int64
-}
-
-// AlertsProjectsRulesDestroyParams is parameters of alerts_projects_rules_destroy operation.
-type AlertsProjectsRulesDestroyParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsRulesHistoriesListParams is parameters of alerts_projects_rules_histories_list operation.
-type AlertsProjectsRulesHistoriesListParams struct {
+// ListAlertProjectRuleHistoriesParams is parameters of listAlertProjectRuleHistories operation.
+type ListAlertProjectRuleHistoriesParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From              OptInt  `json:",omitempty,omitzero"`
 	Open              OptBool `json:",omitempty,omitzero"`
-	ProjectResourceID int64
-	RuleUID           uuid.UUID
+	ProjectResourceId int64
+	RuleUid           uuid.UUID
 	//  - `warning` - Warning
 	//  - `critical` - Critical
-	Severity OptAlertsProjectsRulesHistoriesListSeverity `json:",omitempty,omitzero"`
-	StartsAt OptDateTime                                 `json:",omitempty,omitzero"`
+	Severity OptListAlertProjectRuleHistoriesSeverity `json:",omitempty,omitzero"`
+	StartsAt OptDateTime                              `json:",omitempty,omitzero"`
 }
 
-// AlertsProjectsRulesHistoriesRetrieveParams is parameters of alerts_projects_rules_histories_retrieve operation.
-type AlertsProjectsRulesHistoriesRetrieveParams struct {
-	ProjectResourceID int64
-	RuleUID           uuid.UUID
-	UID               uuid.UUID
-}
-
-// AlertsProjectsRulesListParams is parameters of alerts_projects_rules_list operation.
-type AlertsProjectsRulesListParams struct {
+// ListAlertProjectRulesParams is parameters of listAlertProjectRules operation.
+type ListAlertProjectRulesParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From              OptInt `json:",omitempty,omitzero"`
-	ProjectResourceID int64
+	ProjectResourceId int64
 }
 
-// AlertsProjectsRulesPartialUpdateParams is parameters of alerts_projects_rules_partial_update operation.
-type AlertsProjectsRulesPartialUpdateParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsRulesRetrieveParams is parameters of alerts_projects_rules_retrieve operation.
-type AlertsProjectsRulesRetrieveParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsRulesUpdateParams is parameters of alerts_projects_rules_update operation.
-type AlertsProjectsRulesUpdateParams struct {
-	ProjectResourceID int64
-	UID               uuid.UUID
-}
-
-// AlertsProjectsUpdateParams is parameters of alerts_projects_update operation.
-type AlertsProjectsUpdateParams struct {
-	ResourceID int64
-}
-
-// DashboardsProjectsDestroyParams is parameters of dashboards_projects_destroy operation.
-type DashboardsProjectsDestroyParams struct {
-	ResourceID int64
-}
-
-// DashboardsProjectsListParams is parameters of dashboards_projects_list operation.
-type DashboardsProjectsListParams struct {
+// ListAlertProjectsParams is parameters of listAlertProjects operation.
+type ListAlertProjectsParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From OptInt `json:",omitempty,omitzero"`
 }
 
-// DashboardsProjectsPartialUpdateParams is parameters of dashboards_projects_partial_update operation.
-type DashboardsProjectsPartialUpdateParams struct {
-	ResourceID int64
+// ListDashboardProjectsParams is parameters of listDashboardProjects operation.
+type ListDashboardProjectsParams struct {
+	// Number of results to return per page.
+	Count OptInt `json:",omitempty,omitzero"`
+	// The initial index from which to return the results.
+	From OptInt `json:",omitempty,omitzero"`
 }
 
-// DashboardsProjectsRetrieveParams is parameters of dashboards_projects_retrieve operation.
-type DashboardsProjectsRetrieveParams struct {
-	ResourceID int64
-}
-
-// DashboardsProjectsUpdateParams is parameters of dashboards_projects_update operation.
-type DashboardsProjectsUpdateParams struct {
-	ResourceID int64
-}
-
-// LogsRoutingsDestroyParams is parameters of logs_routings_destroy operation.
-type LogsRoutingsDestroyParams struct {
-	UID uuid.UUID
-}
-
-// LogsRoutingsListParams is parameters of logs_routings_list operation.
-type LogsRoutingsListParams struct {
+// ListLogRoutingsParams is parameters of listLogRoutings operation.
+type ListLogRoutingsParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
@@ -284,70 +217,21 @@ type LogsRoutingsListParams struct {
 	Variant    OptString `json:",omitempty,omitzero"`
 }
 
-// LogsRoutingsPartialUpdateParams is parameters of logs_routings_partial_update operation.
-type LogsRoutingsPartialUpdateParams struct {
-	UID uuid.UUID
-}
-
-// LogsRoutingsRetrieveParams is parameters of logs_routings_retrieve operation.
-type LogsRoutingsRetrieveParams struct {
-	UID uuid.UUID
-}
-
-// LogsRoutingsUpdateParams is parameters of logs_routings_update operation.
-type LogsRoutingsUpdateParams struct {
-	UID uuid.UUID
-}
-
-// LogsStoragesDestroyParams is parameters of logs_storages_destroy operation.
-type LogsStoragesDestroyParams struct {
-	ResourceID int64
-}
-
-// LogsStoragesKeysCreateParams is parameters of logs_storages_keys_create operation.
-type LogsStoragesKeysCreateParams struct {
-	LogResourceID int64
-}
-
-// LogsStoragesKeysDestroyParams is parameters of logs_storages_keys_destroy operation.
-type LogsStoragesKeysDestroyParams struct {
-	LogResourceID int64
-	UID           uuid.UUID
-}
-
-// LogsStoragesKeysListParams is parameters of logs_storages_keys_list operation.
-type LogsStoragesKeysListParams struct {
+// ListLogStorageKeysParams is parameters of listLogStorageKeys operation.
+type ListLogStorageKeysParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From          OptInt `json:",omitempty,omitzero"`
-	LogResourceID int64
+	LogResourceId int64
 }
 
-// LogsStoragesKeysPartialUpdateParams is parameters of logs_storages_keys_partial_update operation.
-type LogsStoragesKeysPartialUpdateParams struct {
-	LogResourceID int64
-	UID           uuid.UUID
-}
-
-// LogsStoragesKeysRetrieveParams is parameters of logs_storages_keys_retrieve operation.
-type LogsStoragesKeysRetrieveParams struct {
-	LogResourceID int64
-	UID           uuid.UUID
-}
-
-// LogsStoragesKeysUpdateParams is parameters of logs_storages_keys_update operation.
-type LogsStoragesKeysUpdateParams struct {
-	LogResourceID int64
-	UID           uuid.UUID
-}
-
-// LogsStoragesListParams is parameters of logs_storages_list operation.
-type LogsStoragesListParams struct {
+// ListLogStoragesParams is parameters of listLogStorages operation.
+type ListLogStoragesParams struct {
 	AccountID OptString `json:",omitempty,omitzero"`
 	//  - `shared` - 共用
 	//  - `dedicated` - 専有
-	BucketClassification OptLogsStoragesListBucketClassification `json:",omitempty,omitzero"`
+	BucketClassification OptListLogStoragesBucketClassification `json:",omitempty,omitzero"`
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
@@ -360,49 +244,11 @@ type LogsStoragesListParams struct {
 	//  - `assigned` - 割り当て済み
 	//  - `deleted` - 削除済み
 	//  - `purged` - ログデータ削除済み
-	Status OptLogsStoragesListStatus `json:",omitempty,omitzero"`
+	Status OptListLogStoragesStatus `json:",omitempty,omitzero"`
 }
 
-// LogsStoragesPartialUpdateParams is parameters of logs_storages_partial_update operation.
-type LogsStoragesPartialUpdateParams struct {
-	ResourceID int64
-}
-
-// LogsStoragesRetrieveParams is parameters of logs_storages_retrieve operation.
-type LogsStoragesRetrieveParams struct {
-	ResourceID int64
-}
-
-// LogsStoragesSetExpireCreateParams is parameters of logs_storages_set_expire_create operation.
-type LogsStoragesSetExpireCreateParams struct {
-	ResourceID int64
-}
-
-// LogsStoragesStatsDailyRetrieveParams is parameters of logs_storages_stats_daily_retrieve operation.
-type LogsStoragesStatsDailyRetrieveParams struct {
-	EndDate    OptDate `json:",omitempty,omitzero"`
-	ResourceID int64
-	StartDate  OptDate `json:",omitempty,omitzero"`
-}
-
-// LogsStoragesStatsMonthlyRetrieveParams is parameters of logs_storages_stats_monthly_retrieve operation.
-type LogsStoragesStatsMonthlyRetrieveParams struct {
-	ResourceID int64
-	Year       int
-}
-
-// LogsStoragesUpdateParams is parameters of logs_storages_update operation.
-type LogsStoragesUpdateParams struct {
-	ResourceID int64
-}
-
-// MetricsRoutingsDestroyParams is parameters of metrics_routings_destroy operation.
-type MetricsRoutingsDestroyParams struct {
-	UID uuid.UUID
-}
-
-// MetricsRoutingsListParams is parameters of metrics_routings_list operation.
-type MetricsRoutingsListParams struct {
+// ListMetricRoutingsParams is parameters of listMetricRoutings operation.
+type ListMetricRoutingsParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
@@ -413,66 +259,17 @@ type MetricsRoutingsListParams struct {
 	Variant    OptString `json:",omitempty,omitzero"`
 }
 
-// MetricsRoutingsPartialUpdateParams is parameters of metrics_routings_partial_update operation.
-type MetricsRoutingsPartialUpdateParams struct {
-	UID uuid.UUID
-}
-
-// MetricsRoutingsRetrieveParams is parameters of metrics_routings_retrieve operation.
-type MetricsRoutingsRetrieveParams struct {
-	UID uuid.UUID
-}
-
-// MetricsRoutingsUpdateParams is parameters of metrics_routings_update operation.
-type MetricsRoutingsUpdateParams struct {
-	UID uuid.UUID
-}
-
-// MetricsStoragesDestroyParams is parameters of metrics_storages_destroy operation.
-type MetricsStoragesDestroyParams struct {
-	ResourceID int64
-}
-
-// MetricsStoragesKeysCreateParams is parameters of metrics_storages_keys_create operation.
-type MetricsStoragesKeysCreateParams struct {
-	MetricsResourceID int64
-}
-
-// MetricsStoragesKeysDestroyParams is parameters of metrics_storages_keys_destroy operation.
-type MetricsStoragesKeysDestroyParams struct {
-	MetricsResourceID int64
-	UID               uuid.UUID
-}
-
-// MetricsStoragesKeysListParams is parameters of metrics_storages_keys_list operation.
-type MetricsStoragesKeysListParams struct {
+// ListMetricStorageKeysParams is parameters of listMetricStorageKeys operation.
+type ListMetricStorageKeysParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From              OptInt `json:",omitempty,omitzero"`
-	MetricsResourceID int64
+	MetricsResourceId int64
 }
 
-// MetricsStoragesKeysPartialUpdateParams is parameters of metrics_storages_keys_partial_update operation.
-type MetricsStoragesKeysPartialUpdateParams struct {
-	MetricsResourceID int64
-	UID               uuid.UUID
-}
-
-// MetricsStoragesKeysRetrieveParams is parameters of metrics_storages_keys_retrieve operation.
-type MetricsStoragesKeysRetrieveParams struct {
-	MetricsResourceID int64
-	UID               uuid.UUID
-}
-
-// MetricsStoragesKeysUpdateParams is parameters of metrics_storages_keys_update operation.
-type MetricsStoragesKeysUpdateParams struct {
-	MetricsResourceID int64
-	UID               uuid.UUID
-}
-
-// MetricsStoragesListParams is parameters of metrics_storages_list operation.
-type MetricsStoragesListParams struct {
+// ListMetricStoragesParams is parameters of listMetricStorages operation.
+type ListMetricStoragesParams struct {
 	AccountID OptString `json:",omitempty,omitzero"`
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
@@ -483,92 +280,25 @@ type MetricsStoragesListParams struct {
 	ResourceID OptInt64 `json:",omitempty,omitzero"`
 }
 
-// MetricsStoragesPartialUpdateParams is parameters of metrics_storages_partial_update operation.
-type MetricsStoragesPartialUpdateParams struct {
-	ResourceID int64
-}
-
-// MetricsStoragesRetrieveParams is parameters of metrics_storages_retrieve operation.
-type MetricsStoragesRetrieveParams struct {
-	ResourceID int64
-}
-
-// MetricsStoragesStatsDailyRetrieveParams is parameters of metrics_storages_stats_daily_retrieve operation.
-type MetricsStoragesStatsDailyRetrieveParams struct {
-	EndDate    OptDate `json:",omitempty,omitzero"`
-	ResourceID int64
-	StartDate  OptDate `json:",omitempty,omitzero"`
-}
-
-// MetricsStoragesStatsMonthlyRetrieveParams is parameters of metrics_storages_stats_monthly_retrieve operation.
-type MetricsStoragesStatsMonthlyRetrieveParams struct {
-	ResourceID int64
-	Year       int
-}
-
-// MetricsStoragesUpdateParams is parameters of metrics_storages_update operation.
-type MetricsStoragesUpdateParams struct {
-	ResourceID int64
-}
-
-// PublishersListParams is parameters of publishers_list operation.
-type PublishersListParams struct {
+// ListPublishersParams is parameters of listPublishers operation.
+type ListPublishersParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From OptInt `json:",omitempty,omitzero"`
 }
 
-// PublishersRetrieveParams is parameters of publishers_retrieve operation.
-type PublishersRetrieveParams struct {
-	Code string
-}
-
-// TracesStoragesDestroyParams is parameters of traces_storages_destroy operation.
-type TracesStoragesDestroyParams struct {
-	ResourceID int64
-}
-
-// TracesStoragesKeysCreateParams is parameters of traces_storages_keys_create operation.
-type TracesStoragesKeysCreateParams struct {
-	TraceResourceID int64
-}
-
-// TracesStoragesKeysDestroyParams is parameters of traces_storages_keys_destroy operation.
-type TracesStoragesKeysDestroyParams struct {
-	TraceResourceID int64
-	UID             uuid.UUID
-}
-
-// TracesStoragesKeysListParams is parameters of traces_storages_keys_list operation.
-type TracesStoragesKeysListParams struct {
+// ListTraceStorageKeysParams is parameters of listTraceStorageKeys operation.
+type ListTraceStorageKeysParams struct {
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
 	// The initial index from which to return the results.
 	From            OptInt `json:",omitempty,omitzero"`
-	TraceResourceID int64
+	TraceResourceId int64
 }
 
-// TracesStoragesKeysPartialUpdateParams is parameters of traces_storages_keys_partial_update operation.
-type TracesStoragesKeysPartialUpdateParams struct {
-	TraceResourceID int64
-	UID             uuid.UUID
-}
-
-// TracesStoragesKeysRetrieveParams is parameters of traces_storages_keys_retrieve operation.
-type TracesStoragesKeysRetrieveParams struct {
-	TraceResourceID int64
-	UID             uuid.UUID
-}
-
-// TracesStoragesKeysUpdateParams is parameters of traces_storages_keys_update operation.
-type TracesStoragesKeysUpdateParams struct {
-	TraceResourceID int64
-	UID             uuid.UUID
-}
-
-// TracesStoragesListParams is parameters of traces_storages_list operation.
-type TracesStoragesListParams struct {
+// ListTraceStoragesParams is parameters of listTraceStorages operation.
+type ListTraceStoragesParams struct {
 	AccountID OptString `json:",omitempty,omitzero"`
 	// Number of results to return per page.
 	Count OptInt `json:",omitempty,omitzero"`
@@ -576,39 +306,309 @@ type TracesStoragesListParams struct {
 	From OptInt `json:",omitempty,omitzero"`
 	//  - `shared` - 共用
 	//  - `dedicated` - 専有
-	LogStorageBucketClassification OptTracesStoragesListLogStorageBucketClassification `json:",omitempty,omitzero"`
-	ResourceID                     OptInt64                                            `json:",omitempty,omitzero"`
+	LogStorageBucketClassification OptListTraceStoragesLogStorageBucketClassification `json:",omitempty,omitzero"`
+	ResourceID                     OptInt64                                           `json:",omitempty,omitzero"`
 }
 
-// TracesStoragesPartialUpdateParams is parameters of traces_storages_partial_update operation.
-type TracesStoragesPartialUpdateParams struct {
-	ResourceID int64
+// PatchAlertProjectParams is parameters of patchAlertProject operation.
+type PatchAlertProjectParams struct {
+	ResourceId int64
 }
 
-// TracesStoragesRetrieveParams is parameters of traces_storages_retrieve operation.
-type TracesStoragesRetrieveParams struct {
-	ResourceID int64
+// PatchAlertProjectLogMeasureRuleParams is parameters of patchAlertProjectLogMeasureRule operation.
+type PatchAlertProjectLogMeasureRuleParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
 }
 
-// TracesStoragesSetExpireCreateParams is parameters of traces_storages_set_expire_create operation.
-type TracesStoragesSetExpireCreateParams struct {
-	ResourceID int64
+// PatchAlertProjectNotificationRoutingParams is parameters of patchAlertProjectNotificationRouting operation.
+type PatchAlertProjectNotificationRoutingParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
 }
 
-// TracesStoragesStatsDailyRetrieveParams is parameters of traces_storages_stats_daily_retrieve operation.
-type TracesStoragesStatsDailyRetrieveParams struct {
+// PatchAlertProjectNotificationTargetParams is parameters of patchAlertProjectNotificationTarget operation.
+type PatchAlertProjectNotificationTargetParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// PatchAlertProjectRuleParams is parameters of patchAlertProjectRule operation.
+type PatchAlertProjectRuleParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// PatchDashboardProjectParams is parameters of patchDashboardProject operation.
+type PatchDashboardProjectParams struct {
+	ResourceId int64
+}
+
+// PatchLogRoutingParams is parameters of patchLogRouting operation.
+type PatchLogRoutingParams struct {
+	UID uuid.UUID
+}
+
+// PatchLogStorageParams is parameters of patchLogStorage operation.
+type PatchLogStorageParams struct {
+	ResourceId int64
+}
+
+// PatchLogStorageKeyParams is parameters of patchLogStorageKey operation.
+type PatchLogStorageKeyParams struct {
+	LogResourceId int64
+	UID           uuid.UUID
+}
+
+// PatchMetricRoutingParams is parameters of patchMetricRouting operation.
+type PatchMetricRoutingParams struct {
+	UID uuid.UUID
+}
+
+// PatchMetricStorageParams is parameters of patchMetricStorage operation.
+type PatchMetricStorageParams struct {
+	ResourceId int64
+}
+
+// PatchMetricStorageKeyParams is parameters of patchMetricStorageKey operation.
+type PatchMetricStorageKeyParams struct {
+	MetricsResourceId int64
+	UID               uuid.UUID
+}
+
+// PatchTraceStorageParams is parameters of patchTraceStorage operation.
+type PatchTraceStorageParams struct {
+	ResourceId int64
+}
+
+// PatchTraceStorageKeyParams is parameters of patchTraceStorageKey operation.
+type PatchTraceStorageKeyParams struct {
+	TraceResourceId int64
+	UID             uuid.UUID
+}
+
+// ReadAlertProjectParams is parameters of readAlertProject operation.
+type ReadAlertProjectParams struct {
+	ResourceId int64
+}
+
+// ReadAlertProjectHistoryParams is parameters of readAlertProjectHistory operation.
+type ReadAlertProjectHistoryParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// ReadAlertProjectLogMeasureRuleParams is parameters of readAlertProjectLogMeasureRule operation.
+type ReadAlertProjectLogMeasureRuleParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// ReadAlertProjectNotificationRoutingParams is parameters of readAlertProjectNotificationRouting operation.
+type ReadAlertProjectNotificationRoutingParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// ReadAlertProjectNotificationTargetParams is parameters of readAlertProjectNotificationTarget operation.
+type ReadAlertProjectNotificationTargetParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// ReadAlertProjectRuleParams is parameters of readAlertProjectRule operation.
+type ReadAlertProjectRuleParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// ReadAlertProjectRuleHistoryParams is parameters of readAlertProjectRuleHistory operation.
+type ReadAlertProjectRuleHistoryParams struct {
+	ProjectResourceId int64
+	RuleUid           uuid.UUID
+	UID               uuid.UUID
+}
+
+// ReadDashboardProjectParams is parameters of readDashboardProject operation.
+type ReadDashboardProjectParams struct {
+	ResourceId int64
+}
+
+// ReadLogRoutingParams is parameters of readLogRouting operation.
+type ReadLogRoutingParams struct {
+	UID uuid.UUID
+}
+
+// ReadLogStorageParams is parameters of readLogStorage operation.
+type ReadLogStorageParams struct {
+	ResourceId int64
+}
+
+// ReadLogStorageKeyParams is parameters of readLogStorageKey operation.
+type ReadLogStorageKeyParams struct {
+	LogResourceId int64
+	UID           uuid.UUID
+}
+
+// ReadLogStorageStatsDailyParams is parameters of readLogStorageStatsDaily operation.
+type ReadLogStorageStatsDailyParams struct {
 	EndDate    OptDate `json:",omitempty,omitzero"`
-	ResourceID int64
+	ResourceId int64
 	StartDate  OptDate `json:",omitempty,omitzero"`
 }
 
-// TracesStoragesStatsMonthlyRetrieveParams is parameters of traces_storages_stats_monthly_retrieve operation.
-type TracesStoragesStatsMonthlyRetrieveParams struct {
-	ResourceID int64
+// ReadLogStorageStatsMonthlyParams is parameters of readLogStorageStatsMonthly operation.
+type ReadLogStorageStatsMonthlyParams struct {
+	ResourceId int64
 	Year       int
 }
 
-// TracesStoragesUpdateParams is parameters of traces_storages_update operation.
-type TracesStoragesUpdateParams struct {
-	ResourceID int64
+// ReadMetricRoutingParams is parameters of readMetricRouting operation.
+type ReadMetricRoutingParams struct {
+	UID uuid.UUID
+}
+
+// ReadMetricStorageParams is parameters of readMetricStorage operation.
+type ReadMetricStorageParams struct {
+	ResourceId int64
+}
+
+// ReadMetricStorageKeyParams is parameters of readMetricStorageKey operation.
+type ReadMetricStorageKeyParams struct {
+	MetricsResourceId int64
+	UID               uuid.UUID
+}
+
+// ReadMetricStorageStatsDailyParams is parameters of readMetricStorageStatsDaily operation.
+type ReadMetricStorageStatsDailyParams struct {
+	EndDate    OptDate `json:",omitempty,omitzero"`
+	ResourceId int64
+	StartDate  OptDate `json:",omitempty,omitzero"`
+}
+
+// ReadMetricStorageStatsMonthlyParams is parameters of readMetricStorageStatsMonthly operation.
+type ReadMetricStorageStatsMonthlyParams struct {
+	ResourceId int64
+	Year       int
+}
+
+// ReadPublisherParams is parameters of readPublisher operation.
+type ReadPublisherParams struct {
+	Code string
+}
+
+// ReadTraceStorageParams is parameters of readTraceStorage operation.
+type ReadTraceStorageParams struct {
+	ResourceId int64
+}
+
+// ReadTraceStorageKeyParams is parameters of readTraceStorageKey operation.
+type ReadTraceStorageKeyParams struct {
+	TraceResourceId int64
+	UID             uuid.UUID
+}
+
+// ReadTraceStorageStatsDailyParams is parameters of readTraceStorageStatsDaily operation.
+type ReadTraceStorageStatsDailyParams struct {
+	EndDate    OptDate `json:",omitempty,omitzero"`
+	ResourceId int64
+	StartDate  OptDate `json:",omitempty,omitzero"`
+}
+
+// ReadTraceStorageStatsMonthlyParams is parameters of readTraceStorageStatsMonthly operation.
+type ReadTraceStorageStatsMonthlyParams struct {
+	ResourceId int64
+	Year       int
+}
+
+// ReorderAlertProjectNotificationRoutingsParams is parameters of reorderAlertProjectNotificationRoutings operation.
+type ReorderAlertProjectNotificationRoutingsParams struct {
+	ProjectResourceId int64
+}
+
+// SetLogStorageExpireParams is parameters of setLogStorageExpire operation.
+type SetLogStorageExpireParams struct {
+	ResourceId int64
+}
+
+// SetTraceStorageExpireParams is parameters of setTraceStorageExpire operation.
+type SetTraceStorageExpireParams struct {
+	ResourceId int64
+}
+
+// UpdateAlertProjectParams is parameters of updateAlertProject operation.
+type UpdateAlertProjectParams struct {
+	ResourceId int64
+}
+
+// UpdateAlertProjectLogMeasureRuleParams is parameters of updateAlertProjectLogMeasureRule operation.
+type UpdateAlertProjectLogMeasureRuleParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// UpdateAlertProjectNotificationRoutingParams is parameters of updateAlertProjectNotificationRouting operation.
+type UpdateAlertProjectNotificationRoutingParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// UpdateAlertProjectNotificationTargetParams is parameters of updateAlertProjectNotificationTarget operation.
+type UpdateAlertProjectNotificationTargetParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// UpdateAlertProjectRuleParams is parameters of updateAlertProjectRule operation.
+type UpdateAlertProjectRuleParams struct {
+	ProjectResourceId int64
+	UID               uuid.UUID
+}
+
+// UpdateDashboardProjectParams is parameters of updateDashboardProject operation.
+type UpdateDashboardProjectParams struct {
+	ResourceId int64
+}
+
+// UpdateLogRoutingParams is parameters of updateLogRouting operation.
+type UpdateLogRoutingParams struct {
+	UID uuid.UUID
+}
+
+// UpdateLogStorageParams is parameters of updateLogStorage operation.
+type UpdateLogStorageParams struct {
+	ResourceId int64
+}
+
+// UpdateLogStorageKeyParams is parameters of updateLogStorageKey operation.
+type UpdateLogStorageKeyParams struct {
+	LogResourceId int64
+	UID           uuid.UUID
+}
+
+// UpdateMetricRoutingParams is parameters of updateMetricRouting operation.
+type UpdateMetricRoutingParams struct {
+	UID uuid.UUID
+}
+
+// UpdateMetricStorageParams is parameters of updateMetricStorage operation.
+type UpdateMetricStorageParams struct {
+	ResourceId int64
+}
+
+// UpdateMetricStorageKeyParams is parameters of updateMetricStorageKey operation.
+type UpdateMetricStorageKeyParams struct {
+	MetricsResourceId int64
+	UID               uuid.UUID
+}
+
+// UpdateTraceStorageParams is parameters of updateTraceStorage operation.
+type UpdateTraceStorageParams struct {
+	ResourceId int64
+}
+
+// UpdateTraceStorageKeyParams is parameters of updateTraceStorageKey operation.
+type UpdateTraceStorageKeyParams struct {
+	TraceResourceId int64
+	UID             uuid.UUID
 }

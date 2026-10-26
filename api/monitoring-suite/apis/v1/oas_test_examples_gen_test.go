@@ -95,6 +95,18 @@ func TestAndMatcher_EncodeDecode(t *testing.T) {
 	var typ2 AndMatcher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestAndMatcherType_EncodeDecode(t *testing.T) {
+	var typ AndMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 AndMatcherType
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestBoolMatcher_EncodeDecode(t *testing.T) {
 	var typ BoolMatcher
 	typ.SetFake()
@@ -105,6 +117,18 @@ func TestBoolMatcher_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 BoolMatcher
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestBoolMatcherType_EncodeDecode(t *testing.T) {
+	var typ BoolMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 BoolMatcherType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestBooleanFieldName_EncodeDecode(t *testing.T) {
@@ -179,6 +203,18 @@ func TestEnumMatcher_EncodeDecode(t *testing.T) {
 	var typ2 EnumMatcher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestEnumMatcherType_EncodeDecode(t *testing.T) {
+	var typ EnumMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 EnumMatcherType
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestFieldMatcher_EncodeDecode(t *testing.T) {
 	var typ FieldMatcher
 	typ.SetFake()
@@ -225,6 +261,30 @@ func TestHistorySeverity_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 HistorySeverity
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestInitializeProvisioningCreated_EncodeDecode(t *testing.T) {
+	var typ InitializeProvisioningCreated
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 InitializeProvisioningCreated
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestInitializeProvisioningOK_EncodeDecode(t *testing.T) {
+	var typ InitializeProvisioningOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 InitializeProvisioningOK
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestLogMeasureRule_EncodeDecode(t *testing.T) {
@@ -527,6 +587,18 @@ func TestMapKeyExistsMatcher_EncodeDecode(t *testing.T) {
 	var typ2 MapKeyExistsMatcher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestMapKeyExistsMatcherType_EncodeDecode(t *testing.T) {
+	var typ MapKeyExistsMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MapKeyExistsMatcherType
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestMapKeyValueMatcher_EncodeDecode(t *testing.T) {
 	var typ MapKeyValueMatcher
 	typ.SetFake()
@@ -537,6 +609,18 @@ func TestMapKeyValueMatcher_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 MapKeyValueMatcher
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMapKeyValueMatcherType_EncodeDecode(t *testing.T) {
+	var typ MapKeyValueMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MapKeyValueMatcherType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestMapValueNumMatcher_EncodeDecode(t *testing.T) {
@@ -551,6 +635,18 @@ func TestMapValueNumMatcher_EncodeDecode(t *testing.T) {
 	var typ2 MapValueNumMatcher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestMapValueNumMatcherType_EncodeDecode(t *testing.T) {
+	var typ MapValueNumMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MapValueNumMatcherType
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestMapValueStrMatcher_EncodeDecode(t *testing.T) {
 	var typ MapValueStrMatcher
 	typ.SetFake()
@@ -561,6 +657,18 @@ func TestMapValueStrMatcher_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 MapValueStrMatcher
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestMapValueStrMatcherType_EncodeDecode(t *testing.T) {
+	var typ MapValueStrMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 MapValueStrMatcherType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestMatchLabelsItem_EncodeDecode(t *testing.T) {
@@ -863,6 +971,18 @@ func TestNumMatcher_EncodeDecode(t *testing.T) {
 	var typ2 NumMatcher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestNumMatcherType_EncodeDecode(t *testing.T) {
+	var typ NumMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 NumMatcherType
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestNumberFieldName_EncodeDecode(t *testing.T) {
 	var typ NumberFieldName
 	typ.SetFake()
@@ -945,6 +1065,18 @@ func TestOrMatcher_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 OrMatcher
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestOrMatcherType_EncodeDecode(t *testing.T) {
+	var typ OrMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 OrMatcherType
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestPaginatedAlertProjectList_EncodeDecode(t *testing.T) {
@@ -1319,30 +1451,6 @@ func TestPatchedTraceStorageRequest_EncodeDecode(t *testing.T) {
 	var typ2 PatchedTraceStorageRequest
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
-func TestPostProvisioningInitializeCreated_EncodeDecode(t *testing.T) {
-	var typ PostProvisioningInitializeCreated
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PostProvisioningInitializeCreated
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestPostProvisioningInitializeOK_EncodeDecode(t *testing.T) {
-	var typ PostProvisioningInitializeOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 PostProvisioningInitializeOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestProvisioning_EncodeDecode(t *testing.T) {
 	var typ Provisioning
 	typ.SetFake()
@@ -1499,6 +1607,18 @@ func TestStrMatcher_EncodeDecode(t *testing.T) {
 	var typ2 StrMatcher
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
+func TestStrMatcherType_EncodeDecode(t *testing.T) {
+	var typ StrMatcherType
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 StrMatcherType
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
 func TestStringFieldName_EncodeDecode(t *testing.T) {
 	var typ StringFieldName
 	typ.SetFake()
@@ -1653,126 +1773,6 @@ func TestTraceStorageRequest_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 TraceStorageRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType_EncodeDecode(t *testing.T) {
-	var typ Type
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType1_EncodeDecode(t *testing.T) {
-	var typ Type1
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type1
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType2_EncodeDecode(t *testing.T) {
-	var typ Type2
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type2
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType3_EncodeDecode(t *testing.T) {
-	var typ Type3
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type3
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType4_EncodeDecode(t *testing.T) {
-	var typ Type4
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type4
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType5_EncodeDecode(t *testing.T) {
-	var typ Type5
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type5
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType6_EncodeDecode(t *testing.T) {
-	var typ Type6
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type6
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType7_EncodeDecode(t *testing.T) {
-	var typ Type7
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type7
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType8_EncodeDecode(t *testing.T) {
-	var typ Type8
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type8
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestType9_EncodeDecode(t *testing.T) {
-	var typ Type9
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 Type9
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestValueEnum_EncodeDecode(t *testing.T) {

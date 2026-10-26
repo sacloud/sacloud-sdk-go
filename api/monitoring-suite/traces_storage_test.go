@@ -131,7 +131,7 @@ func TestTracesStorageOp_Update(t *testing.T) {
 	ctx := t.Context()
 
 	updatedName := "updated-tank"
-	actual, err := api.Update(ctx, "54321", TracesStorageUpdateParams{&updatedName, nil})
+	actual, err := api.Update(ctx, "54321", TracesStorageUpdateParams{Name: &updatedName})
 	require.NoError(t, err)
 	require.NotNil(t, actual)
 	require.Equal(t, TemplateWrappedTraceStorage.GetName(), actual.GetName())

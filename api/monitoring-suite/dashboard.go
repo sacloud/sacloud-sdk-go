@@ -42,7 +42,7 @@ func NewDashboardOp(client *v1.Client) DashboardProjectAPI {
 
 func (op *dashboardProjectOp) List(ctx context.Context, count *int, from *int) (ret []v1.DashboardProject, err error) {
 	res, err := errorFromDecodedResponse("DashboardProject.List", func() (*v1.PaginatedDashboardProjectList, error) {
-		return op.client.DashboardsProjectsList(ctx, v1.DashboardsProjectsListParams{
+		return op.client.ListDashboardProjects(ctx, v1.ListDashboardProjectsParams{
 			Count: into.Opt[v1.OptInt](count),
 			From:  into.Opt[v1.OptInt](from),
 		})
@@ -60,7 +60,7 @@ type DashboardProjectCreateParams struct {
 
 func (op *dashboardProjectOp) Create(ctx context.Context, p DashboardProjectCreateParams) (*v1.DashboardProject, error) {
 	return errorFromDecodedResponse("DashboardProject.Create", func() (*v1.DashboardProject, error) {
-		return op.client.DashboardsProjectsCreate(ctx, &v1.DashboardProjectCreateRequest{
+		return op.client.CreateDashboardProject(ctx, &v1.DashboardProjectCreateRequest{
 			Name:        p.Name,
 			Description: into.Opt[v1.OptString](p.Description),
 		})
@@ -73,7 +73,7 @@ func (op *dashboardProjectOp) Read(ctx context.Context, id string) (*v1.Dashboar
 		if err != nil {
 			return nil, err
 		}
-		return op.client.DashboardsProjectsRetrieve(ctx, v1.DashboardsProjectsRetrieveParams{ResourceID: intId})
+		return op.client.ReadDashboardProject(ctx, v1.ReadDashboardProjectParams{ResourceId: intId})
 	})
 	return unwrapE[*v1.DashboardProject](res, err)
 }
@@ -89,10 +89,10 @@ func (op *dashboardProjectOp) Update(ctx context.Context, id string, params Dash
 		if err != nil {
 			return nil, err
 		}
-		return op.client.DashboardsProjectsPartialUpdate(ctx, v1.NewOptPatchedDashboardProjectRequest(v1.PatchedDashboardProjectRequest{
+		return op.client.PatchDashboardProject(ctx, v1.NewOptPatchedDashboardProjectRequest(v1.PatchedDashboardProjectRequest{
 			Name:        into.Opt[v1.OptString](params.Name),
 			Description: into.Opt[v1.OptString](params.Description),
-		}), v1.DashboardsProjectsPartialUpdateParams{ResourceID: intId})
+		}), v1.PatchDashboardProjectParams{ResourceId: intId})
 	})
 	return unwrapE[*v1.DashboardProject](res, err)
 }
@@ -103,8 +103,8 @@ func (op *dashboardProjectOp) Delete(ctx context.Context, id string) error {
 		if err != nil {
 			return err
 		}
-		return op.client.DashboardsProjectsDestroy(ctx, v1.DashboardsProjectsDestroyParams{
-			ResourceID: intId,
+		return op.client.DeleteDashboardProject(ctx, v1.DeleteDashboardProjectParams{
+			ResourceId: intId,
 		})
 	})
 }

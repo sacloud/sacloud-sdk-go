@@ -10,7 +10,7 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeAlertsProjectsCreateRequest(
+func encodeCreateAlertProjectRequest(
 	req *AlertProjectCreateRequest,
 	r *http.Request,
 ) error {
@@ -24,7 +24,7 @@ func encodeAlertsProjectsCreateRequest(
 	return nil
 }
 
-func encodeAlertsProjectsLogMeasureRulesCreateRequest(
+func encodeCreateAlertProjectLogMeasureRuleRequest(
 	req *LogMeasureRuleRequest,
 	r *http.Request,
 ) error {
@@ -38,41 +38,7 @@ func encodeAlertsProjectsLogMeasureRulesCreateRequest(
 	return nil
 }
 
-func encodeAlertsProjectsLogMeasureRulesPartialUpdateRequest(
-	req OptPatchedLogMeasureRuleRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsLogMeasureRulesUpdateRequest(
-	req *LogMeasureRuleRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsNotificationRoutingsCreateRequest(
+func encodeCreateAlertProjectNotificationRoutingRequest(
 	req *NotificationRoutingRequest,
 	r *http.Request,
 ) error {
@@ -86,59 +52,7 @@ func encodeAlertsProjectsNotificationRoutingsCreateRequest(
 	return nil
 }
 
-func encodeAlertsProjectsNotificationRoutingsPartialUpdateRequest(
-	req OptPatchedNotificationRoutingRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsNotificationRoutingsReorderUpdateRequest(
-	req []NotificationRoutingOrderRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		e.ArrStart()
-		for _, elem := range req {
-			elem.Encode(e)
-		}
-		e.ArrEnd()
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsNotificationRoutingsUpdateRequest(
-	req *NotificationRoutingRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsNotificationTargetsCreateRequest(
+func encodeCreateAlertProjectNotificationTargetRequest(
 	req *NotificationTargetRequest,
 	r *http.Request,
 ) error {
@@ -152,61 +66,7 @@ func encodeAlertsProjectsNotificationTargetsCreateRequest(
 	return nil
 }
 
-func encodeAlertsProjectsNotificationTargetsPartialUpdateRequest(
-	req OptPatchedNotificationTargetRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsNotificationTargetsUpdateRequest(
-	req *NotificationTargetRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsPartialUpdateRequest(
-	req OptPatchedAlertProjectRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsRulesCreateRequest(
+func encodeCreateAlertProjectRuleRequest(
 	req *AlertRuleRequest,
 	r *http.Request,
 ) error {
@@ -220,61 +80,7 @@ func encodeAlertsProjectsRulesCreateRequest(
 	return nil
 }
 
-func encodeAlertsProjectsRulesPartialUpdateRequest(
-	req OptPatchedAlertRuleRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsRulesUpdateRequest(
-	req *AlertRuleRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeAlertsProjectsUpdateRequest(
-	req OptAlertProjectRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeDashboardsProjectsCreateRequest(
+func encodeCreateDashboardProjectRequest(
 	req *DashboardProjectCreateRequest,
 	r *http.Request,
 ) error {
@@ -288,47 +94,7 @@ func encodeDashboardsProjectsCreateRequest(
 	return nil
 }
 
-func encodeDashboardsProjectsPartialUpdateRequest(
-	req OptPatchedDashboardProjectRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeDashboardsProjectsUpdateRequest(
-	req OptDashboardProjectRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeLogsRoutingsCreateRequest(
+func encodeCreateLogRoutingRequest(
 	req *LogRoutingRequest,
 	r *http.Request,
 ) error {
@@ -342,41 +108,7 @@ func encodeLogsRoutingsCreateRequest(
 	return nil
 }
 
-func encodeLogsRoutingsPartialUpdateRequest(
-	req OptPatchedLogRoutingRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeLogsRoutingsUpdateRequest(
-	req *LogRoutingRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeLogsStoragesCreateRequest(
+func encodeCreateLogStorageRequest(
 	req *LogStorageCreateRequest,
 	r *http.Request,
 ) error {
@@ -390,7 +122,7 @@ func encodeLogsStoragesCreateRequest(
 	return nil
 }
 
-func encodeLogsStoragesKeysCreateRequest(
+func encodeCreateLogStorageKeyRequest(
 	req OptLogStorageAccessKeyRequest,
 	r *http.Request,
 ) error {
@@ -410,101 +142,7 @@ func encodeLogsStoragesKeysCreateRequest(
 	return nil
 }
 
-func encodeLogsStoragesKeysPartialUpdateRequest(
-	req OptPatchedLogStorageAccessKeyRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeLogsStoragesKeysUpdateRequest(
-	req OptLogStorageAccessKeyRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeLogsStoragesPartialUpdateRequest(
-	req OptPatchedLogStorageRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeLogsStoragesSetExpireCreateRequest(
-	req *SetLogStorageExpireDayRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeLogsStoragesUpdateRequest(
-	req OptLogStorageRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeMetricsRoutingsCreateRequest(
+func encodeCreateMetricRoutingRequest(
 	req *MetricsRoutingRequest,
 	r *http.Request,
 ) error {
@@ -518,41 +156,7 @@ func encodeMetricsRoutingsCreateRequest(
 	return nil
 }
 
-func encodeMetricsRoutingsPartialUpdateRequest(
-	req OptPatchedMetricsRoutingRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeMetricsRoutingsUpdateRequest(
-	req *MetricsRoutingRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeMetricsStoragesCreateRequest(
+func encodeCreateMetricStorageRequest(
 	req *MetricsStorageCreateRequest,
 	r *http.Request,
 ) error {
@@ -566,7 +170,7 @@ func encodeMetricsStoragesCreateRequest(
 	return nil
 }
 
-func encodeMetricsStoragesKeysCreateRequest(
+func encodeCreateMetricStorageKeyRequest(
 	req OptMetricsStorageAccessKeyRequest,
 	r *http.Request,
 ) error {
@@ -586,8 +190,22 @@ func encodeMetricsStoragesKeysCreateRequest(
 	return nil
 }
 
-func encodeMetricsStoragesKeysPartialUpdateRequest(
-	req OptPatchedMetricsStorageAccessKeyRequest,
+func encodeCreateTraceStorageRequest(
+	req *TraceStorageCreateRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateTraceStorageKeyRequest(
+	req OptTraceStorageAccessKeyRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -606,67 +224,7 @@ func encodeMetricsStoragesKeysPartialUpdateRequest(
 	return nil
 }
 
-func encodeMetricsStoragesKeysUpdateRequest(
-	req OptMetricsStorageAccessKeyRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeMetricsStoragesPartialUpdateRequest(
-	req OptPatchedMetricsStorageRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeMetricsStoragesUpdateRequest(
-	req OptMetricsStorageRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
-	e := new(jx.Encoder)
-	{
-		if req.Set {
-			req.Encode(e)
-		}
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePostProvisioningInitializeRequest(
+func encodeInitializeProvisioningRequest(
 	req OptProvisioningCreateRequest,
 	r *http.Request,
 ) error {
@@ -686,22 +244,8 @@ func encodePostProvisioningInitializeRequest(
 	return nil
 }
 
-func encodeTracesStoragesCreateRequest(
-	req *TraceStorageCreateRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeTracesStoragesKeysCreateRequest(
-	req OptTraceStorageAccessKeyRequest,
+func encodePatchAlertProjectRequest(
+	req OptPatchedAlertProjectRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -720,8 +264,8 @@ func encodeTracesStoragesKeysCreateRequest(
 	return nil
 }
 
-func encodeTracesStoragesKeysPartialUpdateRequest(
-	req OptPatchedTraceStorageAccessKeyRequest,
+func encodePatchAlertProjectLogMeasureRuleRequest(
+	req OptPatchedLogMeasureRuleRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -740,8 +284,8 @@ func encodeTracesStoragesKeysPartialUpdateRequest(
 	return nil
 }
 
-func encodeTracesStoragesKeysUpdateRequest(
-	req OptTraceStorageAccessKeyRequest,
+func encodePatchAlertProjectNotificationRoutingRequest(
+	req OptPatchedNotificationRoutingRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -760,7 +304,187 @@ func encodeTracesStoragesKeysUpdateRequest(
 	return nil
 }
 
-func encodeTracesStoragesPartialUpdateRequest(
+func encodePatchAlertProjectNotificationTargetRequest(
+	req OptPatchedNotificationTargetRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchAlertProjectRuleRequest(
+	req OptPatchedAlertRuleRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchDashboardProjectRequest(
+	req OptPatchedDashboardProjectRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchLogRoutingRequest(
+	req OptPatchedLogRoutingRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchLogStorageRequest(
+	req OptPatchedLogStorageRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchLogStorageKeyRequest(
+	req OptPatchedLogStorageAccessKeyRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchMetricRoutingRequest(
+	req OptPatchedMetricsRoutingRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchMetricStorageRequest(
+	req OptPatchedMetricsStorageRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchMetricStorageKeyRequest(
+	req OptPatchedMetricsStorageAccessKeyRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodePatchTraceStorageRequest(
 	req OptPatchedTraceStorageRequest,
 	r *http.Request,
 ) error {
@@ -780,7 +504,59 @@ func encodeTracesStoragesPartialUpdateRequest(
 	return nil
 }
 
-func encodeTracesStoragesSetExpireCreateRequest(
+func encodePatchTraceStorageKeyRequest(
+	req OptPatchedTraceStorageAccessKeyRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeReorderAlertProjectNotificationRoutingsRequest(
+	req []NotificationRoutingOrderRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		e.ArrStart()
+		for _, elem := range req {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeSetLogStorageExpireRequest(
+	req *SetLogStorageExpireDayRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeSetTraceStorageExpireRequest(
 	req *SetTraceStorageExpireDayRequest,
 	r *http.Request,
 ) error {
@@ -794,8 +570,232 @@ func encodeTracesStoragesSetExpireCreateRequest(
 	return nil
 }
 
-func encodeTracesStoragesUpdateRequest(
+func encodeUpdateAlertProjectRequest(
+	req OptAlertProjectRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateAlertProjectLogMeasureRuleRequest(
+	req *LogMeasureRuleRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateAlertProjectNotificationRoutingRequest(
+	req *NotificationRoutingRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateAlertProjectNotificationTargetRequest(
+	req *NotificationTargetRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateAlertProjectRuleRequest(
+	req *AlertRuleRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateDashboardProjectRequest(
+	req OptDashboardProjectRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateLogRoutingRequest(
+	req *LogRoutingRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateLogStorageRequest(
+	req OptLogStorageRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateLogStorageKeyRequest(
+	req OptLogStorageAccessKeyRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateMetricRoutingRequest(
+	req *MetricsRoutingRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateMetricStorageRequest(
+	req OptMetricsStorageRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateMetricStorageKeyRequest(
+	req OptMetricsStorageAccessKeyRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateTraceStorageRequest(
 	req OptTraceStorageRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateTraceStorageKeyRequest(
+	req OptTraceStorageAccessKeyRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

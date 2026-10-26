@@ -52,7 +52,7 @@ type LogsRoutingsListParams struct {
 
 func (op *logRoutingOp) List(ctx context.Context, p LogsRoutingsListParams) (ret []v1.LogRouting, err error) {
 	res, err := errorFromDecodedResponse("LogRouting.List", func() (*v1.PaginatedLogRoutingList, error) {
-		return op.client.LogsRoutingsList(ctx, v1.LogsRoutingsListParams{
+		return op.client.ListLogRoutings(ctx, v1.ListLogRoutingsParams{
 			Count:         into.Opt[v1.OptInt](p.Count),
 			From:          into.Opt[v1.OptInt](p.From),
 			PublisherCode: into.Opt[v1.OptString](p.PublisherCode),
@@ -90,14 +90,14 @@ func (op *logRoutingOp) Create(ctx context.Context, params LogsRoutingCreatePara
 			LogStorageID:  v1.NewNilInt64(lid),
 		}
 
-		return op.client.LogsRoutingsCreate(ctx, &request)
+		return op.client.CreateLogRouting(ctx, &request)
 	})
 	return unwrapE[*v1.LogRouting](res, err)
 }
 
 func (op *logRoutingOp) Read(ctx context.Context, id uuid.UUID) (*v1.LogRouting, error) {
 	res, err := errorFromDecodedResponse("LogRouting.Read", func() (*v1.WrappedLogRouting, error) {
-		return op.client.LogsRoutingsRetrieve(ctx, v1.LogsRoutingsRetrieveParams{UID: id})
+		return op.client.ReadLogRouting(ctx, v1.ReadLogRoutingParams{UID: id})
 	})
 	return unwrapE[*v1.LogRouting](res, err)
 }
@@ -119,18 +119,18 @@ func (op *logRoutingOp) Update(ctx context.Context, id uuid.UUID, params LogsRou
 		if err != nil {
 			return nil, fmt.Errorf("LogsRoutingUpdateParams.LogStorageID: %w", err)
 		}
-		return op.client.LogsRoutingsPartialUpdate(ctx, v1.NewOptPatchedLogRoutingRequest(v1.PatchedLogRoutingRequest{
+		return op.client.PatchLogRouting(ctx, v1.NewOptPatchedLogRoutingRequest(v1.PatchedLogRoutingRequest{
 			PublisherCode: into.Opt[v1.OptString](params.PublisherCode),
 			ResourceID:    rid,
 			Variant:       into.Opt[v1.OptString](params.Variant),
 			LogStorageID:  lid,
-		}), v1.LogsRoutingsPartialUpdateParams{UID: id})
+		}), v1.PatchLogRoutingParams{UID: id})
 	})
 	return unwrapE[*v1.LogRouting](res, err)
 }
 
 func (op *logRoutingOp) Delete(ctx context.Context, id uuid.UUID) error {
 	return errorFromDecodedResponse1("LogRouting.Delete", func() error {
-		return op.client.LogsRoutingsDestroy(ctx, v1.LogsRoutingsDestroyParams{UID: id})
+		return op.client.DeleteLogRouting(ctx, v1.DeleteLogRoutingParams{UID: id})
 	})
 }

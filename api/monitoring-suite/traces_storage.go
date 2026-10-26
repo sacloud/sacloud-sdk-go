@@ -57,7 +57,7 @@ type TracesStorageListParams struct {
 	From                 *int
 	AccountID            *string
 	ResourceID           *string
-	BucketClassification *v1.TracesStoragesListLogStorageBucketClassification
+	BucketClassification *v1.ListTraceStoragesLogStorageBucketClassification
 }
 
 func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListParams) (ret []v1.TraceStorage, err error) {
@@ -66,12 +66,12 @@ func (op *tracesStorageOp) List(ctx context.Context, params TracesStorageListPar
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesList(ctx, v1.TracesStoragesListParams{
+		return op.client.ListTraceStorages(ctx, v1.ListTraceStoragesParams{
 			Count:                          into.Opt[v1.OptInt](params.Count),
 			From:                           into.Opt[v1.OptInt](params.From),
 			AccountID:                      into.Opt[v1.OptString](params.AccountID),
 			ResourceID:                     resourceId,
-			LogStorageBucketClassification: into.Opt[v1.OptTracesStoragesListLogStorageBucketClassification](params.BucketClassification),
+			LogStorageBucketClassification: into.Opt[v1.OptListTraceStoragesLogStorageBucketClassification](params.BucketClassification),
 		})
 	})
 	if err == nil {
@@ -86,32 +86,37 @@ func (op *tracesStorageOp) Read(ctx context.Context, resourceID string) (*v1.Tra
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesRetrieve(ctx, v1.TracesStoragesRetrieveParams{ResourceID: id})
+		return op.client.ReadTraceStorage(ctx, v1.ReadTraceStorageParams{ResourceId: id})
 	})
 	return unwrapE[*v1.TraceStorage](res, err)
 }
 
 type TracesStorageCreateParams struct {
-	Name           string
-	Description    *string
-	Classification *v1.TraceStorageCreateRequestClassification
+	Name               string
+	Description        *string
+	Classification     *v1.TraceStorageCreateRequestClassification
+	KmsKeyID           v1.OptNilInt64
+	ServicePrincipalID v1.OptNilInt64
 }
 
 func (op *tracesStorageOp) Create(ctx context.Context, params TracesStorageCreateParams) (*v1.TraceStorage, error) {
 	res, err := errorFromDecodedResponse("TracesStorage.Create", func() (*v1.TraceStorage, error) {
 		req := v1.TraceStorageCreateRequest{
-			Name:           params.Name,
-			Description:    into.Opt[v1.OptString](params.Description),
-			Classification: into.Opt[v1.OptTraceStorageCreateRequestClassification](params.Classification),
+			Name:               params.Name,
+			Description:        into.Opt[v1.OptString](params.Description),
+			Classification:     into.Opt[v1.OptTraceStorageCreateRequestClassification](params.Classification),
+			KmsKeyID:           params.KmsKeyID,
+			ServicePrincipalID: params.ServicePrincipalID,
 		}
-		return op.client.TracesStoragesCreate(ctx, &req)
+		return op.client.CreateTraceStorage(ctx, &req)
 	})
 	return unwrapE[*v1.TraceStorage](res, err)
 }
 
 type TracesStorageUpdateParams struct {
-	Name        *string
-	Description *string
+	Name               *string
+	Description        *string
+	ServicePrincipalID v1.OptNilInt64
 }
 
 func (op *tracesStorageOp) Update(ctx context.Context, id string, p TracesStorageUpdateParams) (*v1.TraceStorage, error) {
@@ -120,10 +125,11 @@ func (op *tracesStorageOp) Update(ctx context.Context, id string, p TracesStorag
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesPartialUpdate(ctx, v1.NewOptPatchedTraceStorageRequest(v1.PatchedTraceStorageRequest{
-			Name:        into.Opt[v1.OptString](p.Name),
-			Description: into.Opt[v1.OptString](p.Description),
-		}), v1.TracesStoragesPartialUpdateParams{ResourceID: rid})
+		return op.client.PatchTraceStorage(ctx, v1.NewOptPatchedTraceStorageRequest(v1.PatchedTraceStorageRequest{
+			Name:               into.Opt[v1.OptString](p.Name),
+			Description:        into.Opt[v1.OptString](p.Description),
+			ServicePrincipalID: p.ServicePrincipalID,
+		}), v1.PatchTraceStorageParams{ResourceId: rid})
 	})
 	return unwrapE[*v1.TraceStorage](res, err)
 }
@@ -134,7 +140,7 @@ func (op *tracesStorageOp) Delete(ctx context.Context, id string) error {
 		if err != nil {
 			return err
 		}
-		return op.client.TracesStoragesDestroy(ctx, v1.TracesStoragesDestroyParams{ResourceID: rid})
+		return op.client.DeleteTraceStorage(ctx, v1.DeleteTraceStorageParams{ResourceId: rid})
 	})
 }
 
@@ -144,10 +150,10 @@ func (op *tracesStorageOp) SetExpire(ctx context.Context, resourceID string, day
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesSetExpireCreate(
+		return op.client.SetTraceStorageExpire(
 			ctx,
 			&v1.SetTraceStorageExpireDayRequest{Days: days},
-			v1.TracesStoragesSetExpireCreateParams{ResourceID: rid},
+			v1.SetTraceStorageExpireParams{ResourceId: rid},
 		)
 	})
 	return unwrapE[*v1.TraceStorage](res, err)
@@ -159,8 +165,8 @@ func (op *tracesStorageOp) ReadDailyStats(ctx context.Context, resourceID string
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesStatsDailyRetrieve(ctx, v1.TracesStoragesStatsDailyRetrieveParams{
-			ResourceID: rid,
+		return op.client.ReadTraceStorageStatsDaily(ctx, v1.ReadTraceStorageStatsDailyParams{
+			ResourceId: rid,
 			StartDate:  into.Opt[v1.OptDate](startDate),
 			EndDate:    into.Opt[v1.OptDate](endDate),
 		})
@@ -177,8 +183,8 @@ func (op *tracesStorageOp) ReadMonthlyStats(ctx context.Context, resourceID stri
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesStatsMonthlyRetrieve(ctx, v1.TracesStoragesStatsMonthlyRetrieveParams{
-			ResourceID: rid,
+		return op.client.ReadTraceStorageStatsMonthly(ctx, v1.ReadTraceStorageStatsMonthlyParams{
+			ResourceId: rid,
 			Year:       year,
 		})
 	})
@@ -194,8 +200,8 @@ func (op *tracesStorageOp) ListKeys(ctx context.Context, tracesResourceId string
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesKeysList(ctx, v1.TracesStoragesKeysListParams{
-			TraceResourceID: rid,
+		return op.client.ListTraceStorageKeys(ctx, v1.ListTraceStorageKeysParams{
+			TraceResourceId: rid,
 			Count:           into.Opt[v1.OptInt](count),
 			From:            into.Opt[v1.OptInt](from),
 		})
@@ -212,9 +218,9 @@ func (op *tracesStorageOp) CreateKey(ctx context.Context, tracesResourceId strin
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesKeysCreate(ctx, v1.NewOptTraceStorageAccessKeyRequest(v1.TraceStorageAccessKeyRequest{
+		return op.client.CreateTraceStorageKey(ctx, v1.NewOptTraceStorageAccessKeyRequest(v1.TraceStorageAccessKeyRequest{
 			Description: into.Opt[v1.OptString](description),
-		}), v1.TracesStoragesKeysCreateParams{TraceResourceID: rid})
+		}), v1.CreateTraceStorageKeyParams{TraceResourceId: rid})
 	})
 	return unwrapE[*v1.TraceStorageAccessKey](res, err)
 }
@@ -225,8 +231,8 @@ func (op *tracesStorageOp) ReadKey(ctx context.Context, tracesResourceId string,
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesKeysRetrieve(ctx, v1.TracesStoragesKeysRetrieveParams{
-			TraceResourceID: rid,
+		return op.client.ReadTraceStorageKey(ctx, v1.ReadTraceStorageKeyParams{
+			TraceResourceId: rid,
 			UID:             id,
 		})
 	})
@@ -239,10 +245,10 @@ func (op *tracesStorageOp) UpdateKey(ctx context.Context, tracesResourceId strin
 		if err != nil {
 			return nil, err
 		}
-		return op.client.TracesStoragesKeysUpdate(ctx, v1.NewOptTraceStorageAccessKeyRequest(v1.TraceStorageAccessKeyRequest{
+		return op.client.UpdateTraceStorageKey(ctx, v1.NewOptTraceStorageAccessKeyRequest(v1.TraceStorageAccessKeyRequest{
 			Description: into.Opt[v1.OptString](description),
-		}), v1.TracesStoragesKeysUpdateParams{
-			TraceResourceID: rid,
+		}), v1.UpdateTraceStorageKeyParams{
+			TraceResourceId: rid,
 			UID:             id,
 		})
 	})
@@ -256,8 +262,8 @@ func (op *tracesStorageOp) DeleteKey(ctx context.Context, tracesResourceId strin
 		if err != nil {
 			return err
 		}
-		return op.client.TracesStoragesKeysDestroy(ctx, v1.TracesStoragesKeysDestroyParams{
-			TraceResourceID: rid,
+		return op.client.DeleteTraceStorageKey(ctx, v1.DeleteTraceStorageKeyParams{
+			TraceResourceId: rid,
 			UID:             id,
 		})
 	})

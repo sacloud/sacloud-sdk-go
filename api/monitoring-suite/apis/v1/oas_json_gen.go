@@ -1192,6 +1192,44 @@ func (s *AndMatcher) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes AndMatcherType as json.
+func (s AndMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes AndMatcherType from json.
+func (s *AndMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode AndMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch AndMatcherType(v) {
+	case AndMatcherTypeAnd:
+		*s = AndMatcherTypeAnd
+	default:
+		*s = AndMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s AndMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *AndMatcherType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
 func (s *BoolMatcher) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -1329,6 +1367,44 @@ func (s *BoolMatcher) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *BoolMatcher) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes BoolMatcherType as json.
+func (s BoolMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes BoolMatcherType from json.
+func (s *BoolMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode BoolMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch BoolMatcherType(v) {
+	case BoolMatcherTypeBoolean:
+		*s = BoolMatcherTypeBoolean
+	default:
+		*s = BoolMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s BoolMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *BoolMatcherType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -1984,6 +2060,44 @@ func (s *EnumMatcher) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *EnumMatcher) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes EnumMatcherType as json.
+func (s EnumMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes EnumMatcherType from json.
+func (s *EnumMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode EnumMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch EnumMatcherType(v) {
+	case EnumMatcherTypeEnum:
+		*s = EnumMatcherTypeEnum
+	default:
+		*s = EnumMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s EnumMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *EnumMatcherType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -2673,6 +2787,82 @@ func (s HistorySeverity) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *HistorySeverity) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes InitializeProvisioningCreated as json.
+func (s *InitializeProvisioningCreated) Encode(e *jx.Encoder) {
+	unwrapped := (*Provisioning)(s)
+
+	unwrapped.Encode(e)
+}
+
+// Decode decodes InitializeProvisioningCreated from json.
+func (s *InitializeProvisioningCreated) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode InitializeProvisioningCreated to nil")
+	}
+	var unwrapped Provisioning
+	if err := func() error {
+		if err := unwrapped.Decode(d); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = InitializeProvisioningCreated(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *InitializeProvisioningCreated) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *InitializeProvisioningCreated) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes InitializeProvisioningOK as json.
+func (s *InitializeProvisioningOK) Encode(e *jx.Encoder) {
+	unwrapped := (*Provisioning)(s)
+
+	unwrapped.Encode(e)
+}
+
+// Decode decodes InitializeProvisioningOK from json.
+func (s *InitializeProvisioningOK) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode InitializeProvisioningOK to nil")
+	}
+	var unwrapped Provisioning
+	if err := func() error {
+		if err := unwrapped.Decode(d); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return errors.Wrap(err, "alias")
+	}
+	*s = InitializeProvisioningOK(unwrapped)
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *InitializeProvisioningOK) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *InitializeProvisioningOK) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -5826,6 +6016,44 @@ func (s *MapKeyExistsMatcher) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes MapKeyExistsMatcherType as json.
+func (s MapKeyExistsMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes MapKeyExistsMatcherType from json.
+func (s *MapKeyExistsMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode MapKeyExistsMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch MapKeyExistsMatcherType(v) {
+	case MapKeyExistsMatcherTypeMapKeyExists:
+		*s = MapKeyExistsMatcherTypeMapKeyExists
+	default:
+		*s = MapKeyExistsMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s MapKeyExistsMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *MapKeyExistsMatcherType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
 func (s *MapKeyValueMatcher) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -5965,6 +6193,44 @@ func (s *MapKeyValueMatcher) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *MapKeyValueMatcher) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes MapKeyValueMatcherType as json.
+func (s MapKeyValueMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes MapKeyValueMatcherType from json.
+func (s *MapKeyValueMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode MapKeyValueMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch MapKeyValueMatcherType(v) {
+	case MapKeyValueMatcherTypeMapKeyValueMatcher:
+		*s = MapKeyValueMatcherTypeMapKeyValueMatcher
+	default:
+		*s = MapKeyValueMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s MapKeyValueMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *MapKeyValueMatcherType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -6156,6 +6422,44 @@ func (s *MapValueNumMatcher) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes MapValueNumMatcherType as json.
+func (s MapValueNumMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes MapValueNumMatcherType from json.
+func (s *MapValueNumMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode MapValueNumMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch MapValueNumMatcherType(v) {
+	case MapValueNumMatcherTypeMapValueNumber:
+		*s = MapValueNumMatcherTypeMapValueNumber
+	default:
+		*s = MapValueNumMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s MapValueNumMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *MapValueNumMatcherType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
 func (s *MapValueStrMatcher) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -6339,6 +6643,44 @@ func (s *MapValueStrMatcher) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *MapValueStrMatcher) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes MapValueStrMatcherType as json.
+func (s MapValueStrMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes MapValueStrMatcherType from json.
+func (s *MapValueStrMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode MapValueStrMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch MapValueStrMatcherType(v) {
+	case MapValueStrMatcherTypeMapValueString:
+		*s = MapValueStrMatcherTypeMapValueString
+	default:
+		*s = MapValueStrMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s MapValueStrMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *MapValueStrMatcherType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -9997,6 +10339,44 @@ func (s *NumMatcher) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes NumMatcherType as json.
+func (s NumMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes NumMatcherType from json.
+func (s *NumMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode NumMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch NumMatcherType(v) {
+	case NumMatcherTypeNumber:
+		*s = NumMatcherTypeNumber
+	default:
+		*s = NumMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s NumMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *NumMatcherType) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes NumberFieldName as json.
 func (s NumberFieldName) Encode(e *jx.Encoder) {
 	e.Str(string(s))
@@ -11705,6 +12085,44 @@ func (s *OrMatcher) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OrMatcher) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes OrMatcherType as json.
+func (s OrMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes OrMatcherType from json.
+func (s *OrMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode OrMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch OrMatcherType(v) {
+	case OrMatcherTypeOr:
+		*s = OrMatcherTypeOr
+	default:
+		*s = OrMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OrMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OrMatcherType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -15953,82 +16371,6 @@ func (s *PatchedTraceStorageRequest) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes PostProvisioningInitializeCreated as json.
-func (s *PostProvisioningInitializeCreated) Encode(e *jx.Encoder) {
-	unwrapped := (*Provisioning)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostProvisioningInitializeCreated from json.
-func (s *PostProvisioningInitializeCreated) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostProvisioningInitializeCreated to nil")
-	}
-	var unwrapped Provisioning
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostProvisioningInitializeCreated(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostProvisioningInitializeCreated) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostProvisioningInitializeCreated) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes PostProvisioningInitializeOK as json.
-func (s *PostProvisioningInitializeOK) Encode(e *jx.Encoder) {
-	unwrapped := (*Provisioning)(s)
-
-	unwrapped.Encode(e)
-}
-
-// Decode decodes PostProvisioningInitializeOK from json.
-func (s *PostProvisioningInitializeOK) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode PostProvisioningInitializeOK to nil")
-	}
-	var unwrapped Provisioning
-	if err := func() error {
-		if err := unwrapped.Decode(d); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return errors.Wrap(err, "alias")
-	}
-	*s = PostProvisioningInitializeOK(unwrapped)
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *PostProvisioningInitializeOK) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *PostProvisioningInitializeOK) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode implements json.Marshaler.
 func (s *Provisioning) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -17449,6 +17791,44 @@ func (s *StrMatcher) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *StrMatcher) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes StrMatcherType as json.
+func (s StrMatcherType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes StrMatcherType from json.
+func (s *StrMatcherType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode StrMatcherType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch StrMatcherType(v) {
+	case StrMatcherTypeString:
+		*s = StrMatcherTypeString
+	default:
+		*s = StrMatcherType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s StrMatcherType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *StrMatcherType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -18884,386 +19264,6 @@ func (s *TraceStorageRequest) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *TraceStorageRequest) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type as json.
-func (s Type) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type from json.
-func (s *Type) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type(v) {
-	case TypeOr:
-		*s = TypeOr
-	default:
-		*s = Type(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type1 as json.
-func (s Type1) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type1 from json.
-func (s *Type1) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type1 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type1(v) {
-	case Type1And:
-		*s = Type1And
-	default:
-		*s = Type1(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type1) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type1) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type2 as json.
-func (s Type2) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type2 from json.
-func (s *Type2) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type2 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type2(v) {
-	case Type2String:
-		*s = Type2String
-	default:
-		*s = Type2(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type2) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type2) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type3 as json.
-func (s Type3) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type3 from json.
-func (s *Type3) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type3 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type3(v) {
-	case Type3Number:
-		*s = Type3Number
-	default:
-		*s = Type3(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type3) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type3) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type4 as json.
-func (s Type4) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type4 from json.
-func (s *Type4) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type4 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type4(v) {
-	case Type4Enum:
-		*s = Type4Enum
-	default:
-		*s = Type4(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type4) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type4) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type5 as json.
-func (s Type5) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type5 from json.
-func (s *Type5) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type5 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type5(v) {
-	case Type5Boolean:
-		*s = Type5Boolean
-	default:
-		*s = Type5(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type5) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type5) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type6 as json.
-func (s Type6) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type6 from json.
-func (s *Type6) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type6 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type6(v) {
-	case Type6MapKeyExists:
-		*s = Type6MapKeyExists
-	default:
-		*s = Type6(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type6) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type6) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type7 as json.
-func (s Type7) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type7 from json.
-func (s *Type7) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type7 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type7(v) {
-	case Type7MapKeyValueMatcher:
-		*s = Type7MapKeyValueMatcher
-	default:
-		*s = Type7(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type7) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type7) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type8 as json.
-func (s Type8) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type8 from json.
-func (s *Type8) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type8 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type8(v) {
-	case Type8MapValueString:
-		*s = Type8MapValueString
-	default:
-		*s = Type8(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type8) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type8) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes Type9 as json.
-func (s Type9) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes Type9 from json.
-func (s *Type9) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode Type9 to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch Type9(v) {
-	case Type9MapValueNumber:
-		*s = Type9MapValueNumber
-	default:
-		*s = Type9(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s Type9) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *Type9) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

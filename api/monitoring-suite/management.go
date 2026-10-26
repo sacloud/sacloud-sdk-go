@@ -39,13 +39,13 @@ func NewManagementOp(client *v1.Client) ManagementAPI {
 
 func (op *managementOp) ResourceLimits(ctx context.Context) (*v1.ResourcesLimits, error) {
 	return errorFromDecodedResponse("Management.ResourceLimits", func() (*v1.ResourcesLimits, error) {
-		return op.client.GetResourcesLimits(ctx)
+		return op.client.ReadResourceLimits(ctx)
 	})
 }
 
 func (op *managementOp) ReadProvisioning(ctx context.Context) (*v1.Provisioning, error) {
 	return errorFromDecodedResponse("Management.ReadProvisioning", func() (*v1.Provisioning, error) {
-		return op.client.GetProvisioningState(ctx)
+		return op.client.ReadProvisioningState(ctx)
 	})
 }
 
@@ -58,7 +58,7 @@ func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCr
 	return errorFromDecodedResponse("Management.CreateProvisioning", func() (ret *v1.Provisioning, err error) {
 		ret = new(v1.Provisioning)
 
-		res, err := op.client.PostProvisioningInitialize(ctx, v1.NewOptProvisioningCreateRequest(v1.ProvisioningCreateRequest{
+		res, err := op.client.InitializeProvisioning(ctx, v1.NewOptProvisioningCreateRequest(v1.ProvisioningCreateRequest{
 			Logs: into.Opt[v1.OptProvisioningExistRequest](func() *v1.ProvisioningExistRequest {
 				if p.Logs == nil {
 					return nil
@@ -81,10 +81,10 @@ func (op *managementOp) CreateProvisioning(ctx context.Context, p ProvisioningCr
 			}()),
 		}))
 		switch rem := res.(type) {
-		case *v1.PostProvisioningInitializeOK:
+		case *v1.InitializeProvisioningOK:
 			ret.SetLogs(rem.Logs)
 			ret.SetMetrics(rem.Metrics)
-		case *v1.PostProvisioningInitializeCreated:
+		case *v1.InitializeProvisioningCreated:
 			ret.SetLogs(rem.Logs)
 			ret.SetMetrics(rem.Metrics)
 		default:

@@ -450,155 +450,14 @@ func (s *AlertRuleRequest) SetThresholdDurationCritical(val OptInt64) {
 	s.ThresholdDurationCritical = val
 }
 
-// AlertsProjectsDestroyNoContent is response for AlertsProjectsDestroy operation.
-type AlertsProjectsDestroyNoContent struct{}
-
-type AlertsProjectsHistoriesListSeverity string
-
-const (
-	AlertsProjectsHistoriesListSeverityCritical AlertsProjectsHistoriesListSeverity = "critical"
-	AlertsProjectsHistoriesListSeverityWarning  AlertsProjectsHistoriesListSeverity = "warning"
-)
-
-// AllValues returns all AlertsProjectsHistoriesListSeverity values.
-func (AlertsProjectsHistoriesListSeverity) AllValues() []AlertsProjectsHistoriesListSeverity {
-	return []AlertsProjectsHistoriesListSeverity{
-		AlertsProjectsHistoriesListSeverityCritical,
-		AlertsProjectsHistoriesListSeverityWarning,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s AlertsProjectsHistoriesListSeverity) MarshalText() ([]byte, error) {
-	switch s {
-	case AlertsProjectsHistoriesListSeverityCritical:
-		return []byte(s), nil
-	case AlertsProjectsHistoriesListSeverityWarning:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *AlertsProjectsHistoriesListSeverity) UnmarshalText(data []byte) error {
-	switch AlertsProjectsHistoriesListSeverity(data) {
-	case AlertsProjectsHistoriesListSeverityCritical:
-		*s = AlertsProjectsHistoriesListSeverityCritical
-		return nil
-	case AlertsProjectsHistoriesListSeverityWarning:
-		*s = AlertsProjectsHistoriesListSeverityWarning
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// AlertsProjectsLogMeasureRulesDestroyNoContent is response for AlertsProjectsLogMeasureRulesDestroy operation.
-type AlertsProjectsLogMeasureRulesDestroyNoContent struct{}
-
-// AlertsProjectsNotificationRoutingsDestroyNoContent is response for AlertsProjectsNotificationRoutingsDestroy operation.
-type AlertsProjectsNotificationRoutingsDestroyNoContent struct{}
-
-// AlertsProjectsNotificationRoutingsReorderUpdateNoContent is response for AlertsProjectsNotificationRoutingsReorderUpdate operation.
-type AlertsProjectsNotificationRoutingsReorderUpdateNoContent struct{}
-
-// AlertsProjectsNotificationTargetsDestroyNoContent is response for AlertsProjectsNotificationTargetsDestroy operation.
-type AlertsProjectsNotificationTargetsDestroyNoContent struct{}
-
-type AlertsProjectsNotificationTargetsListServiceType string
-
-const (
-	AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS     AlertsProjectsNotificationTargetsListServiceType = "SAKURA_EVENT_BUS"
-	AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE AlertsProjectsNotificationTargetsListServiceType = "SAKURA_SIMPLE_NOTICE"
-)
-
-// AllValues returns all AlertsProjectsNotificationTargetsListServiceType values.
-func (AlertsProjectsNotificationTargetsListServiceType) AllValues() []AlertsProjectsNotificationTargetsListServiceType {
-	return []AlertsProjectsNotificationTargetsListServiceType{
-		AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS,
-		AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s AlertsProjectsNotificationTargetsListServiceType) MarshalText() ([]byte, error) {
-	switch s {
-	case AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS:
-		return []byte(s), nil
-	case AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *AlertsProjectsNotificationTargetsListServiceType) UnmarshalText(data []byte) error {
-	switch AlertsProjectsNotificationTargetsListServiceType(data) {
-	case AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS:
-		*s = AlertsProjectsNotificationTargetsListServiceTypeSAKURAEVENTBUS
-		return nil
-	case AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE:
-		*s = AlertsProjectsNotificationTargetsListServiceTypeSAKURASIMPLENOTICE
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// AlertsProjectsRulesDestroyNoContent is response for AlertsProjectsRulesDestroy operation.
-type AlertsProjectsRulesDestroyNoContent struct{}
-
-type AlertsProjectsRulesHistoriesListSeverity string
-
-const (
-	AlertsProjectsRulesHistoriesListSeverityCritical AlertsProjectsRulesHistoriesListSeverity = "critical"
-	AlertsProjectsRulesHistoriesListSeverityWarning  AlertsProjectsRulesHistoriesListSeverity = "warning"
-)
-
-// AllValues returns all AlertsProjectsRulesHistoriesListSeverity values.
-func (AlertsProjectsRulesHistoriesListSeverity) AllValues() []AlertsProjectsRulesHistoriesListSeverity {
-	return []AlertsProjectsRulesHistoriesListSeverity{
-		AlertsProjectsRulesHistoriesListSeverityCritical,
-		AlertsProjectsRulesHistoriesListSeverityWarning,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s AlertsProjectsRulesHistoriesListSeverity) MarshalText() ([]byte, error) {
-	switch s {
-	case AlertsProjectsRulesHistoriesListSeverityCritical:
-		return []byte(s), nil
-	case AlertsProjectsRulesHistoriesListSeverityWarning:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *AlertsProjectsRulesHistoriesListSeverity) UnmarshalText(data []byte) error {
-	switch AlertsProjectsRulesHistoriesListSeverity(data) {
-	case AlertsProjectsRulesHistoriesListSeverityCritical:
-		*s = AlertsProjectsRulesHistoriesListSeverityCritical
-		return nil
-	case AlertsProjectsRulesHistoriesListSeverityWarning:
-		*s = AlertsProjectsRulesHistoriesListSeverityWarning
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 // Ref: #/components/schemas/AndMatcher
 type AndMatcher struct {
-	Type     Type1          `json:"type"`
+	Type     AndMatcherType `json:"type"`
 	Matchers []FieldMatcher `json:"matchers"`
 }
 
 // GetType returns the value of Type.
-func (s *AndMatcher) GetType() Type1 {
+func (s *AndMatcher) GetType() AndMatcherType {
 	return s.Type
 }
 
@@ -608,7 +467,7 @@ func (s *AndMatcher) GetMatchers() []FieldMatcher {
 }
 
 // SetType sets the value of Type.
-func (s *AndMatcher) SetType(val Type1) {
+func (s *AndMatcher) SetType(val AndMatcherType) {
 	s.Type = val
 }
 
@@ -617,16 +476,50 @@ func (s *AndMatcher) SetMatchers(val []FieldMatcher) {
 	s.Matchers = val
 }
 
+type AndMatcherType string
+
+const (
+	AndMatcherTypeAnd AndMatcherType = "and"
+)
+
+// AllValues returns all AndMatcherType values.
+func (AndMatcherType) AllValues() []AndMatcherType {
+	return []AndMatcherType{
+		AndMatcherTypeAnd,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s AndMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case AndMatcherTypeAnd:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *AndMatcherType) UnmarshalText(data []byte) error {
+	switch AndMatcherType(data) {
+	case AndMatcherTypeAnd:
+		*s = AndMatcherTypeAnd
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/BoolMatcher
 type BoolMatcher struct {
-	Type     Type5            `json:"type"`
+	Type     BoolMatcherType  `json:"type"`
 	Operator Operator2        `json:"operator"`
 	Field    BooleanFieldName `json:"field"`
 	Value    bool             `json:"value"`
 }
 
 // GetType returns the value of Type.
-func (s *BoolMatcher) GetType() Type5 {
+func (s *BoolMatcher) GetType() BoolMatcherType {
 	return s.Type
 }
 
@@ -646,7 +539,7 @@ func (s *BoolMatcher) GetValue() bool {
 }
 
 // SetType sets the value of Type.
-func (s *BoolMatcher) SetType(val Type5) {
+func (s *BoolMatcher) SetType(val BoolMatcherType) {
 	s.Type = val
 }
 
@@ -663,6 +556,40 @@ func (s *BoolMatcher) SetField(val BooleanFieldName) {
 // SetValue sets the value of Value.
 func (s *BoolMatcher) SetValue(val bool) {
 	s.Value = val
+}
+
+type BoolMatcherType string
+
+const (
+	BoolMatcherTypeBoolean BoolMatcherType = "boolean"
+)
+
+// AllValues returns all BoolMatcherType values.
+func (BoolMatcherType) AllValues() []BoolMatcherType {
+	return []BoolMatcherType{
+		BoolMatcherTypeBoolean,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s BoolMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case BoolMatcherTypeBoolean:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *BoolMatcherType) UnmarshalText(data []byte) error {
+	switch BoolMatcherType(data) {
+	case BoolMatcherTypeBoolean:
+		*s = BoolMatcherTypeBoolean
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/BooleanFieldName
@@ -865,18 +792,57 @@ func (s *DashboardProjectRequest) SetDescription(val OptString) {
 	s.Description = val
 }
 
-// DashboardsProjectsDestroyNoContent is response for DashboardsProjectsDestroy operation.
-type DashboardsProjectsDestroyNoContent struct{}
+// DeleteAlertProjectLogMeasureRuleNoContent is response for DeleteAlertProjectLogMeasureRule operation.
+type DeleteAlertProjectLogMeasureRuleNoContent struct{}
+
+// DeleteAlertProjectNoContent is response for DeleteAlertProject operation.
+type DeleteAlertProjectNoContent struct{}
+
+// DeleteAlertProjectNotificationRoutingNoContent is response for DeleteAlertProjectNotificationRouting operation.
+type DeleteAlertProjectNotificationRoutingNoContent struct{}
+
+// DeleteAlertProjectNotificationTargetNoContent is response for DeleteAlertProjectNotificationTarget operation.
+type DeleteAlertProjectNotificationTargetNoContent struct{}
+
+// DeleteAlertProjectRuleNoContent is response for DeleteAlertProjectRule operation.
+type DeleteAlertProjectRuleNoContent struct{}
+
+// DeleteDashboardProjectNoContent is response for DeleteDashboardProject operation.
+type DeleteDashboardProjectNoContent struct{}
+
+// DeleteLogRoutingNoContent is response for DeleteLogRouting operation.
+type DeleteLogRoutingNoContent struct{}
+
+// DeleteLogStorageKeyNoContent is response for DeleteLogStorageKey operation.
+type DeleteLogStorageKeyNoContent struct{}
+
+// DeleteLogStorageNoContent is response for DeleteLogStorage operation.
+type DeleteLogStorageNoContent struct{}
+
+// DeleteMetricRoutingNoContent is response for DeleteMetricRouting operation.
+type DeleteMetricRoutingNoContent struct{}
+
+// DeleteMetricStorageKeyNoContent is response for DeleteMetricStorageKey operation.
+type DeleteMetricStorageKeyNoContent struct{}
+
+// DeleteMetricStorageNoContent is response for DeleteMetricStorage operation.
+type DeleteMetricStorageNoContent struct{}
+
+// DeleteTraceStorageKeyNoContent is response for DeleteTraceStorageKey operation.
+type DeleteTraceStorageKeyNoContent struct{}
+
+// DeleteTraceStorageNoContent is response for DeleteTraceStorage operation.
+type DeleteTraceStorageNoContent struct{}
 
 // Ref: #/components/schemas/EnumMatcher
 type EnumMatcher struct {
-	Type  Type4       `json:"type"`
-	Field FieldModel  `json:"field"`
-	Value []ValueEnum `json:"value"`
+	Type  EnumMatcherType `json:"type"`
+	Field FieldModel      `json:"field"`
+	Value []ValueEnum     `json:"value"`
 }
 
 // GetType returns the value of Type.
-func (s *EnumMatcher) GetType() Type4 {
+func (s *EnumMatcher) GetType() EnumMatcherType {
 	return s.Type
 }
 
@@ -891,7 +857,7 @@ func (s *EnumMatcher) GetValue() []ValueEnum {
 }
 
 // SetType sets the value of Type.
-func (s *EnumMatcher) SetType(val Type4) {
+func (s *EnumMatcher) SetType(val EnumMatcherType) {
 	s.Type = val
 }
 
@@ -903,6 +869,40 @@ func (s *EnumMatcher) SetField(val FieldModel) {
 // SetValue sets the value of Value.
 func (s *EnumMatcher) SetValue(val []ValueEnum) {
 	s.Value = val
+}
+
+type EnumMatcherType string
+
+const (
+	EnumMatcherTypeEnum EnumMatcherType = "enum"
+)
+
+// AllValues returns all EnumMatcherType values.
+func (EnumMatcherType) AllValues() []EnumMatcherType {
+	return []EnumMatcherType{
+		EnumMatcherTypeEnum,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnumMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case EnumMatcherTypeEnum:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnumMatcherType) UnmarshalText(data []byte) error {
+	switch EnumMatcherType(data) {
+	case EnumMatcherTypeEnum:
+		*s = EnumMatcherTypeEnum
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/FieldMatcher
@@ -1378,6 +1378,281 @@ func (s *HistorySeverity) UnmarshalText(data []byte) error {
 		return nil
 	case HistorySeverityCritical:
 		*s = HistorySeverityCritical
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type InitializeProvisioningCreated Provisioning
+
+func (*InitializeProvisioningCreated) initializeProvisioningRes() {}
+
+type InitializeProvisioningOK Provisioning
+
+func (*InitializeProvisioningOK) initializeProvisioningRes() {}
+
+type ListAlertProjectHistoriesSeverity string
+
+const (
+	ListAlertProjectHistoriesSeverityCritical ListAlertProjectHistoriesSeverity = "critical"
+	ListAlertProjectHistoriesSeverityWarning  ListAlertProjectHistoriesSeverity = "warning"
+)
+
+// AllValues returns all ListAlertProjectHistoriesSeverity values.
+func (ListAlertProjectHistoriesSeverity) AllValues() []ListAlertProjectHistoriesSeverity {
+	return []ListAlertProjectHistoriesSeverity{
+		ListAlertProjectHistoriesSeverityCritical,
+		ListAlertProjectHistoriesSeverityWarning,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListAlertProjectHistoriesSeverity) MarshalText() ([]byte, error) {
+	switch s {
+	case ListAlertProjectHistoriesSeverityCritical:
+		return []byte(s), nil
+	case ListAlertProjectHistoriesSeverityWarning:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListAlertProjectHistoriesSeverity) UnmarshalText(data []byte) error {
+	switch ListAlertProjectHistoriesSeverity(data) {
+	case ListAlertProjectHistoriesSeverityCritical:
+		*s = ListAlertProjectHistoriesSeverityCritical
+		return nil
+	case ListAlertProjectHistoriesSeverityWarning:
+		*s = ListAlertProjectHistoriesSeverityWarning
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListAlertProjectNotificationTargetsServiceType string
+
+const (
+	ListAlertProjectNotificationTargetsServiceTypeSAKURAEVENTBUS     ListAlertProjectNotificationTargetsServiceType = "SAKURA_EVENT_BUS"
+	ListAlertProjectNotificationTargetsServiceTypeSAKURASIMPLENOTICE ListAlertProjectNotificationTargetsServiceType = "SAKURA_SIMPLE_NOTICE"
+)
+
+// AllValues returns all ListAlertProjectNotificationTargetsServiceType values.
+func (ListAlertProjectNotificationTargetsServiceType) AllValues() []ListAlertProjectNotificationTargetsServiceType {
+	return []ListAlertProjectNotificationTargetsServiceType{
+		ListAlertProjectNotificationTargetsServiceTypeSAKURAEVENTBUS,
+		ListAlertProjectNotificationTargetsServiceTypeSAKURASIMPLENOTICE,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListAlertProjectNotificationTargetsServiceType) MarshalText() ([]byte, error) {
+	switch s {
+	case ListAlertProjectNotificationTargetsServiceTypeSAKURAEVENTBUS:
+		return []byte(s), nil
+	case ListAlertProjectNotificationTargetsServiceTypeSAKURASIMPLENOTICE:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListAlertProjectNotificationTargetsServiceType) UnmarshalText(data []byte) error {
+	switch ListAlertProjectNotificationTargetsServiceType(data) {
+	case ListAlertProjectNotificationTargetsServiceTypeSAKURAEVENTBUS:
+		*s = ListAlertProjectNotificationTargetsServiceTypeSAKURAEVENTBUS
+		return nil
+	case ListAlertProjectNotificationTargetsServiceTypeSAKURASIMPLENOTICE:
+		*s = ListAlertProjectNotificationTargetsServiceTypeSAKURASIMPLENOTICE
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListAlertProjectRuleHistoriesSeverity string
+
+const (
+	ListAlertProjectRuleHistoriesSeverityCritical ListAlertProjectRuleHistoriesSeverity = "critical"
+	ListAlertProjectRuleHistoriesSeverityWarning  ListAlertProjectRuleHistoriesSeverity = "warning"
+)
+
+// AllValues returns all ListAlertProjectRuleHistoriesSeverity values.
+func (ListAlertProjectRuleHistoriesSeverity) AllValues() []ListAlertProjectRuleHistoriesSeverity {
+	return []ListAlertProjectRuleHistoriesSeverity{
+		ListAlertProjectRuleHistoriesSeverityCritical,
+		ListAlertProjectRuleHistoriesSeverityWarning,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListAlertProjectRuleHistoriesSeverity) MarshalText() ([]byte, error) {
+	switch s {
+	case ListAlertProjectRuleHistoriesSeverityCritical:
+		return []byte(s), nil
+	case ListAlertProjectRuleHistoriesSeverityWarning:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListAlertProjectRuleHistoriesSeverity) UnmarshalText(data []byte) error {
+	switch ListAlertProjectRuleHistoriesSeverity(data) {
+	case ListAlertProjectRuleHistoriesSeverityCritical:
+		*s = ListAlertProjectRuleHistoriesSeverityCritical
+		return nil
+	case ListAlertProjectRuleHistoriesSeverityWarning:
+		*s = ListAlertProjectRuleHistoriesSeverityWarning
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListLogStoragesBucketClassification string
+
+const (
+	ListLogStoragesBucketClassificationDedicated ListLogStoragesBucketClassification = "dedicated"
+	ListLogStoragesBucketClassificationShared    ListLogStoragesBucketClassification = "shared"
+)
+
+// AllValues returns all ListLogStoragesBucketClassification values.
+func (ListLogStoragesBucketClassification) AllValues() []ListLogStoragesBucketClassification {
+	return []ListLogStoragesBucketClassification{
+		ListLogStoragesBucketClassificationDedicated,
+		ListLogStoragesBucketClassificationShared,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListLogStoragesBucketClassification) MarshalText() ([]byte, error) {
+	switch s {
+	case ListLogStoragesBucketClassificationDedicated:
+		return []byte(s), nil
+	case ListLogStoragesBucketClassificationShared:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListLogStoragesBucketClassification) UnmarshalText(data []byte) error {
+	switch ListLogStoragesBucketClassification(data) {
+	case ListLogStoragesBucketClassificationDedicated:
+		*s = ListLogStoragesBucketClassificationDedicated
+		return nil
+	case ListLogStoragesBucketClassificationShared:
+		*s = ListLogStoragesBucketClassificationShared
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListLogStoragesStatus string
+
+const (
+	ListLogStoragesStatusAssigned ListLogStoragesStatus = "assigned"
+	ListLogStoragesStatusDeleted  ListLogStoragesStatus = "deleted"
+	ListLogStoragesStatusFree     ListLogStoragesStatus = "free"
+	ListLogStoragesStatusInit     ListLogStoragesStatus = "init"
+	ListLogStoragesStatusPurged   ListLogStoragesStatus = "purged"
+)
+
+// AllValues returns all ListLogStoragesStatus values.
+func (ListLogStoragesStatus) AllValues() []ListLogStoragesStatus {
+	return []ListLogStoragesStatus{
+		ListLogStoragesStatusAssigned,
+		ListLogStoragesStatusDeleted,
+		ListLogStoragesStatusFree,
+		ListLogStoragesStatusInit,
+		ListLogStoragesStatusPurged,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListLogStoragesStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ListLogStoragesStatusAssigned:
+		return []byte(s), nil
+	case ListLogStoragesStatusDeleted:
+		return []byte(s), nil
+	case ListLogStoragesStatusFree:
+		return []byte(s), nil
+	case ListLogStoragesStatusInit:
+		return []byte(s), nil
+	case ListLogStoragesStatusPurged:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListLogStoragesStatus) UnmarshalText(data []byte) error {
+	switch ListLogStoragesStatus(data) {
+	case ListLogStoragesStatusAssigned:
+		*s = ListLogStoragesStatusAssigned
+		return nil
+	case ListLogStoragesStatusDeleted:
+		*s = ListLogStoragesStatusDeleted
+		return nil
+	case ListLogStoragesStatusFree:
+		*s = ListLogStoragesStatusFree
+		return nil
+	case ListLogStoragesStatusInit:
+		*s = ListLogStoragesStatusInit
+		return nil
+	case ListLogStoragesStatusPurged:
+		*s = ListLogStoragesStatusPurged
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListTraceStoragesLogStorageBucketClassification string
+
+const (
+	ListTraceStoragesLogStorageBucketClassificationDedicated ListTraceStoragesLogStorageBucketClassification = "dedicated"
+	ListTraceStoragesLogStorageBucketClassificationShared    ListTraceStoragesLogStorageBucketClassification = "shared"
+)
+
+// AllValues returns all ListTraceStoragesLogStorageBucketClassification values.
+func (ListTraceStoragesLogStorageBucketClassification) AllValues() []ListTraceStoragesLogStorageBucketClassification {
+	return []ListTraceStoragesLogStorageBucketClassification{
+		ListTraceStoragesLogStorageBucketClassificationDedicated,
+		ListTraceStoragesLogStorageBucketClassificationShared,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListTraceStoragesLogStorageBucketClassification) MarshalText() ([]byte, error) {
+	switch s {
+	case ListTraceStoragesLogStorageBucketClassificationDedicated:
+		return []byte(s), nil
+	case ListTraceStoragesLogStorageBucketClassificationShared:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListTraceStoragesLogStorageBucketClassification) UnmarshalText(data []byte) error {
+	switch ListTraceStoragesLogStorageBucketClassification(data) {
+	case ListTraceStoragesLogStorageBucketClassificationDedicated:
+		*s = ListTraceStoragesLogStorageBucketClassificationDedicated
+		return nil
+	case ListTraceStoragesLogStorageBucketClassificationShared:
+		*s = ListTraceStoragesLogStorageBucketClassificationShared
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -2478,118 +2753,6 @@ func (s *LogStorageUsage) SetLogMeasureRules(val int) {
 	s.LogMeasureRules = val
 }
 
-// LogsRoutingsDestroyNoContent is response for LogsRoutingsDestroy operation.
-type LogsRoutingsDestroyNoContent struct{}
-
-// LogsStoragesDestroyNoContent is response for LogsStoragesDestroy operation.
-type LogsStoragesDestroyNoContent struct{}
-
-// LogsStoragesKeysDestroyNoContent is response for LogsStoragesKeysDestroy operation.
-type LogsStoragesKeysDestroyNoContent struct{}
-
-type LogsStoragesListBucketClassification string
-
-const (
-	LogsStoragesListBucketClassificationDedicated LogsStoragesListBucketClassification = "dedicated"
-	LogsStoragesListBucketClassificationShared    LogsStoragesListBucketClassification = "shared"
-)
-
-// AllValues returns all LogsStoragesListBucketClassification values.
-func (LogsStoragesListBucketClassification) AllValues() []LogsStoragesListBucketClassification {
-	return []LogsStoragesListBucketClassification{
-		LogsStoragesListBucketClassificationDedicated,
-		LogsStoragesListBucketClassificationShared,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s LogsStoragesListBucketClassification) MarshalText() ([]byte, error) {
-	switch s {
-	case LogsStoragesListBucketClassificationDedicated:
-		return []byte(s), nil
-	case LogsStoragesListBucketClassificationShared:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *LogsStoragesListBucketClassification) UnmarshalText(data []byte) error {
-	switch LogsStoragesListBucketClassification(data) {
-	case LogsStoragesListBucketClassificationDedicated:
-		*s = LogsStoragesListBucketClassificationDedicated
-		return nil
-	case LogsStoragesListBucketClassificationShared:
-		*s = LogsStoragesListBucketClassificationShared
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type LogsStoragesListStatus string
-
-const (
-	LogsStoragesListStatusAssigned LogsStoragesListStatus = "assigned"
-	LogsStoragesListStatusDeleted  LogsStoragesListStatus = "deleted"
-	LogsStoragesListStatusFree     LogsStoragesListStatus = "free"
-	LogsStoragesListStatusInit     LogsStoragesListStatus = "init"
-	LogsStoragesListStatusPurged   LogsStoragesListStatus = "purged"
-)
-
-// AllValues returns all LogsStoragesListStatus values.
-func (LogsStoragesListStatus) AllValues() []LogsStoragesListStatus {
-	return []LogsStoragesListStatus{
-		LogsStoragesListStatusAssigned,
-		LogsStoragesListStatusDeleted,
-		LogsStoragesListStatusFree,
-		LogsStoragesListStatusInit,
-		LogsStoragesListStatusPurged,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s LogsStoragesListStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case LogsStoragesListStatusAssigned:
-		return []byte(s), nil
-	case LogsStoragesListStatusDeleted:
-		return []byte(s), nil
-	case LogsStoragesListStatusFree:
-		return []byte(s), nil
-	case LogsStoragesListStatusInit:
-		return []byte(s), nil
-	case LogsStoragesListStatusPurged:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *LogsStoragesListStatus) UnmarshalText(data []byte) error {
-	switch LogsStoragesListStatus(data) {
-	case LogsStoragesListStatusAssigned:
-		*s = LogsStoragesListStatusAssigned
-		return nil
-	case LogsStoragesListStatusDeleted:
-		*s = LogsStoragesListStatusDeleted
-		return nil
-	case LogsStoragesListStatusFree:
-		*s = LogsStoragesListStatusFree
-		return nil
-	case LogsStoragesListStatusInit:
-		*s = LogsStoragesListStatusInit
-		return nil
-	case LogsStoragesListStatusPurged:
-		*s = LogsStoragesListStatusPurged
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 // Ref: #/components/schemas/MapFieldName
 type MapFieldName string
 
@@ -2655,13 +2818,13 @@ func (s *MapFieldName) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/MapKeyExistsMatcher
 type MapKeyExistsMatcher struct {
-	Type  Type6        `json:"type"`
-	Field MapFieldName `json:"field"`
-	Key   string       `json:"key"`
+	Type  MapKeyExistsMatcherType `json:"type"`
+	Field MapFieldName            `json:"field"`
+	Key   string                  `json:"key"`
 }
 
 // GetType returns the value of Type.
-func (s *MapKeyExistsMatcher) GetType() Type6 {
+func (s *MapKeyExistsMatcher) GetType() MapKeyExistsMatcherType {
 	return s.Type
 }
 
@@ -2676,7 +2839,7 @@ func (s *MapKeyExistsMatcher) GetKey() string {
 }
 
 // SetType sets the value of Type.
-func (s *MapKeyExistsMatcher) SetType(val Type6) {
+func (s *MapKeyExistsMatcher) SetType(val MapKeyExistsMatcherType) {
 	s.Type = val
 }
 
@@ -2690,16 +2853,50 @@ func (s *MapKeyExistsMatcher) SetKey(val string) {
 	s.Key = val
 }
 
+type MapKeyExistsMatcherType string
+
+const (
+	MapKeyExistsMatcherTypeMapKeyExists MapKeyExistsMatcherType = "map-key-exists"
+)
+
+// AllValues returns all MapKeyExistsMatcherType values.
+func (MapKeyExistsMatcherType) AllValues() []MapKeyExistsMatcherType {
+	return []MapKeyExistsMatcherType{
+		MapKeyExistsMatcherTypeMapKeyExists,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s MapKeyExistsMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case MapKeyExistsMatcherTypeMapKeyExists:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *MapKeyExistsMatcherType) UnmarshalText(data []byte) error {
+	switch MapKeyExistsMatcherType(data) {
+	case MapKeyExistsMatcherTypeMapKeyExists:
+		*s = MapKeyExistsMatcherTypeMapKeyExists
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/MapKeyValueMatcher
 type MapKeyValueMatcher struct {
-	Type  Type7        `json:"type"`
-	Field MapFieldName `json:"field"`
-	Key   string       `json:"key"`
-	Value string       `json:"value"`
+	Type  MapKeyValueMatcherType `json:"type"`
+	Field MapFieldName           `json:"field"`
+	Key   string                 `json:"key"`
+	Value string                 `json:"value"`
 }
 
 // GetType returns the value of Type.
-func (s *MapKeyValueMatcher) GetType() Type7 {
+func (s *MapKeyValueMatcher) GetType() MapKeyValueMatcherType {
 	return s.Type
 }
 
@@ -2719,7 +2916,7 @@ func (s *MapKeyValueMatcher) GetValue() string {
 }
 
 // SetType sets the value of Type.
-func (s *MapKeyValueMatcher) SetType(val Type7) {
+func (s *MapKeyValueMatcher) SetType(val MapKeyValueMatcherType) {
 	s.Type = val
 }
 
@@ -2738,19 +2935,53 @@ func (s *MapKeyValueMatcher) SetValue(val string) {
 	s.Value = val
 }
 
+type MapKeyValueMatcherType string
+
+const (
+	MapKeyValueMatcherTypeMapKeyValueMatcher MapKeyValueMatcherType = "map-key-value-matcher"
+)
+
+// AllValues returns all MapKeyValueMatcherType values.
+func (MapKeyValueMatcherType) AllValues() []MapKeyValueMatcherType {
+	return []MapKeyValueMatcherType{
+		MapKeyValueMatcherTypeMapKeyValueMatcher,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s MapKeyValueMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case MapKeyValueMatcherTypeMapKeyValueMatcher:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *MapKeyValueMatcherType) UnmarshalText(data []byte) error {
+	switch MapKeyValueMatcherType(data) {
+	case MapKeyValueMatcherTypeMapKeyValueMatcher:
+		*s = MapKeyValueMatcherTypeMapKeyValueMatcher
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/MapValueNumMatcher
 type MapValueNumMatcher struct {
-	Type     Type9        `json:"type"`
-	Operator Operator4    `json:"operator"`
-	Field    MapFieldName `json:"field"`
-	Key      string       `json:"key"`
-	Value    float64      `json:"value"`
+	Type     MapValueNumMatcherType `json:"type"`
+	Operator Operator4              `json:"operator"`
+	Field    MapFieldName           `json:"field"`
+	Key      string                 `json:"key"`
+	Value    float64                `json:"value"`
 	// Use only multi-eq.
 	ValueList []float64 `json:"value_list"`
 }
 
 // GetType returns the value of Type.
-func (s *MapValueNumMatcher) GetType() Type9 {
+func (s *MapValueNumMatcher) GetType() MapValueNumMatcherType {
 	return s.Type
 }
 
@@ -2780,7 +3011,7 @@ func (s *MapValueNumMatcher) GetValueList() []float64 {
 }
 
 // SetType sets the value of Type.
-func (s *MapValueNumMatcher) SetType(val Type9) {
+func (s *MapValueNumMatcher) SetType(val MapValueNumMatcherType) {
 	s.Type = val
 }
 
@@ -2809,18 +3040,52 @@ func (s *MapValueNumMatcher) SetValueList(val []float64) {
 	s.ValueList = val
 }
 
+type MapValueNumMatcherType string
+
+const (
+	MapValueNumMatcherTypeMapValueNumber MapValueNumMatcherType = "map-value-number"
+)
+
+// AllValues returns all MapValueNumMatcherType values.
+func (MapValueNumMatcherType) AllValues() []MapValueNumMatcherType {
+	return []MapValueNumMatcherType{
+		MapValueNumMatcherTypeMapValueNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s MapValueNumMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case MapValueNumMatcherTypeMapValueNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *MapValueNumMatcherType) UnmarshalText(data []byte) error {
+	switch MapValueNumMatcherType(data) {
+	case MapValueNumMatcherTypeMapValueNumber:
+		*s = MapValueNumMatcherTypeMapValueNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/MapValueStrMatcher
 type MapValueStrMatcher struct {
-	Type      Type8        `json:"type"`
-	Operator  Operator3    `json:"operator"`
-	Field     MapFieldName `json:"field"`
-	Key       string       `json:"key"`
-	Value     string       `json:"value"`
-	ValueList []string     `json:"value_list"`
+	Type      MapValueStrMatcherType `json:"type"`
+	Operator  Operator3              `json:"operator"`
+	Field     MapFieldName           `json:"field"`
+	Key       string                 `json:"key"`
+	Value     string                 `json:"value"`
+	ValueList []string               `json:"value_list"`
 }
 
 // GetType returns the value of Type.
-func (s *MapValueStrMatcher) GetType() Type8 {
+func (s *MapValueStrMatcher) GetType() MapValueStrMatcherType {
 	return s.Type
 }
 
@@ -2850,7 +3115,7 @@ func (s *MapValueStrMatcher) GetValueList() []string {
 }
 
 // SetType sets the value of Type.
-func (s *MapValueStrMatcher) SetType(val Type8) {
+func (s *MapValueStrMatcher) SetType(val MapValueStrMatcherType) {
 	s.Type = val
 }
 
@@ -2877,6 +3142,40 @@ func (s *MapValueStrMatcher) SetValue(val string) {
 // SetValueList sets the value of ValueList.
 func (s *MapValueStrMatcher) SetValueList(val []string) {
 	s.ValueList = val
+}
+
+type MapValueStrMatcherType string
+
+const (
+	MapValueStrMatcherTypeMapValueString MapValueStrMatcherType = "map-value-string"
+)
+
+// AllValues returns all MapValueStrMatcherType values.
+func (MapValueStrMatcherType) AllValues() []MapValueStrMatcherType {
+	return []MapValueStrMatcherType{
+		MapValueStrMatcherTypeMapValueString,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s MapValueStrMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case MapValueStrMatcherTypeMapValueString:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *MapValueStrMatcherType) UnmarshalText(data []byte) error {
+	switch MapValueStrMatcherType(data) {
+	case MapValueStrMatcherTypeMapValueString:
+		*s = MapValueStrMatcherTypeMapValueString
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/MatchLabelsItem
@@ -3073,9 +3372,6 @@ func (s *MetricsRoutingRequest) SetVariant(val string) {
 func (s *MetricsRoutingRequest) SetMetricsStorageID(val NilInt64) {
 	s.MetricsStorageID = val
 }
-
-// MetricsRoutingsDestroyNoContent is response for MetricsRoutingsDestroy operation.
-type MetricsRoutingsDestroyNoContent struct{}
 
 // Ref: #/components/schemas/MetricsStorage
 type MetricsStorage struct {
@@ -3530,12 +3826,6 @@ func (s *MetricsStorageUsage) SetAlertRules(val int) {
 func (s *MetricsStorageUsage) SetLogMeasureRules(val int) {
 	s.LogMeasureRules = val
 }
-
-// MetricsStoragesDestroyNoContent is response for MetricsStoragesDestroy operation.
-type MetricsStoragesDestroyNoContent struct{}
-
-// MetricsStoragesKeysDestroyNoContent is response for MetricsStoragesKeysDestroy operation.
-type MetricsStoragesKeysDestroyNoContent struct{}
 
 // NewNilAlertProjectIcon returns new NilAlertProjectIcon with value set to v.
 func NewNilAlertProjectIcon(v AlertProjectIcon) NilAlertProjectIcon {
@@ -4411,7 +4701,7 @@ func (s *NotificationTargetServiceType) UnmarshalText(data []byte) error {
 
 // Ref: #/components/schemas/NumMatcher
 type NumMatcher struct {
-	Type     Type3           `json:"type"`
+	Type     NumMatcherType  `json:"type"`
 	Operator Operator1       `json:"operator"`
 	Field    NumberFieldName `json:"field"`
 	Value    float64         `json:"value"`
@@ -4420,7 +4710,7 @@ type NumMatcher struct {
 }
 
 // GetType returns the value of Type.
-func (s *NumMatcher) GetType() Type3 {
+func (s *NumMatcher) GetType() NumMatcherType {
 	return s.Type
 }
 
@@ -4445,7 +4735,7 @@ func (s *NumMatcher) GetValueList() []float64 {
 }
 
 // SetType sets the value of Type.
-func (s *NumMatcher) SetType(val Type3) {
+func (s *NumMatcher) SetType(val NumMatcherType) {
 	s.Type = val
 }
 
@@ -4467,6 +4757,40 @@ func (s *NumMatcher) SetValue(val float64) {
 // SetValueList sets the value of ValueList.
 func (s *NumMatcher) SetValueList(val []float64) {
 	s.ValueList = val
+}
+
+type NumMatcherType string
+
+const (
+	NumMatcherTypeNumber NumMatcherType = "number"
+)
+
+// AllValues returns all NumMatcherType values.
+func (NumMatcherType) AllValues() []NumMatcherType {
+	return []NumMatcherType{
+		NumMatcherTypeNumber,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NumMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case NumMatcherTypeNumber:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NumMatcherType) UnmarshalText(data []byte) error {
+	switch NumMatcherType(data) {
+	case NumMatcherTypeNumber:
+		*s = NumMatcherTypeNumber
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/NumberFieldName
@@ -4991,144 +5315,6 @@ func (o OptAlertProjectRequest) Or(d AlertProjectRequest) AlertProjectRequest {
 	return d
 }
 
-// NewOptAlertsProjectsHistoriesListSeverity returns new OptAlertsProjectsHistoriesListSeverity with value set to v.
-func NewOptAlertsProjectsHistoriesListSeverity(v AlertsProjectsHistoriesListSeverity) OptAlertsProjectsHistoriesListSeverity {
-	return OptAlertsProjectsHistoriesListSeverity{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAlertsProjectsHistoriesListSeverity is optional AlertsProjectsHistoriesListSeverity.
-type OptAlertsProjectsHistoriesListSeverity struct {
-	Value AlertsProjectsHistoriesListSeverity
-	Set   bool
-}
-
-// IsSet returns true if OptAlertsProjectsHistoriesListSeverity was set.
-func (o OptAlertsProjectsHistoriesListSeverity) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAlertsProjectsHistoriesListSeverity) Reset() {
-	var v AlertsProjectsHistoriesListSeverity
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAlertsProjectsHistoriesListSeverity) SetTo(v AlertsProjectsHistoriesListSeverity) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAlertsProjectsHistoriesListSeverity) Get() (v AlertsProjectsHistoriesListSeverity, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAlertsProjectsHistoriesListSeverity) Or(d AlertsProjectsHistoriesListSeverity) AlertsProjectsHistoriesListSeverity {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptAlertsProjectsNotificationTargetsListServiceType returns new OptAlertsProjectsNotificationTargetsListServiceType with value set to v.
-func NewOptAlertsProjectsNotificationTargetsListServiceType(v AlertsProjectsNotificationTargetsListServiceType) OptAlertsProjectsNotificationTargetsListServiceType {
-	return OptAlertsProjectsNotificationTargetsListServiceType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAlertsProjectsNotificationTargetsListServiceType is optional AlertsProjectsNotificationTargetsListServiceType.
-type OptAlertsProjectsNotificationTargetsListServiceType struct {
-	Value AlertsProjectsNotificationTargetsListServiceType
-	Set   bool
-}
-
-// IsSet returns true if OptAlertsProjectsNotificationTargetsListServiceType was set.
-func (o OptAlertsProjectsNotificationTargetsListServiceType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAlertsProjectsNotificationTargetsListServiceType) Reset() {
-	var v AlertsProjectsNotificationTargetsListServiceType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAlertsProjectsNotificationTargetsListServiceType) SetTo(v AlertsProjectsNotificationTargetsListServiceType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAlertsProjectsNotificationTargetsListServiceType) Get() (v AlertsProjectsNotificationTargetsListServiceType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAlertsProjectsNotificationTargetsListServiceType) Or(d AlertsProjectsNotificationTargetsListServiceType) AlertsProjectsNotificationTargetsListServiceType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptAlertsProjectsRulesHistoriesListSeverity returns new OptAlertsProjectsRulesHistoriesListSeverity with value set to v.
-func NewOptAlertsProjectsRulesHistoriesListSeverity(v AlertsProjectsRulesHistoriesListSeverity) OptAlertsProjectsRulesHistoriesListSeverity {
-	return OptAlertsProjectsRulesHistoriesListSeverity{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAlertsProjectsRulesHistoriesListSeverity is optional AlertsProjectsRulesHistoriesListSeverity.
-type OptAlertsProjectsRulesHistoriesListSeverity struct {
-	Value AlertsProjectsRulesHistoriesListSeverity
-	Set   bool
-}
-
-// IsSet returns true if OptAlertsProjectsRulesHistoriesListSeverity was set.
-func (o OptAlertsProjectsRulesHistoriesListSeverity) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAlertsProjectsRulesHistoriesListSeverity) Reset() {
-	var v AlertsProjectsRulesHistoriesListSeverity
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAlertsProjectsRulesHistoriesListSeverity) SetTo(v AlertsProjectsRulesHistoriesListSeverity) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAlertsProjectsRulesHistoriesListSeverity) Get() (v AlertsProjectsRulesHistoriesListSeverity, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAlertsProjectsRulesHistoriesListSeverity) Or(d AlertsProjectsRulesHistoriesListSeverity) AlertsProjectsRulesHistoriesListSeverity {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptBool returns new OptBool with value set to v.
 func NewOptBool(v bool) OptBool {
 	return OptBool{
@@ -5451,6 +5637,282 @@ func (o OptInt64) Or(d int64) int64 {
 	return d
 }
 
+// NewOptListAlertProjectHistoriesSeverity returns new OptListAlertProjectHistoriesSeverity with value set to v.
+func NewOptListAlertProjectHistoriesSeverity(v ListAlertProjectHistoriesSeverity) OptListAlertProjectHistoriesSeverity {
+	return OptListAlertProjectHistoriesSeverity{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListAlertProjectHistoriesSeverity is optional ListAlertProjectHistoriesSeverity.
+type OptListAlertProjectHistoriesSeverity struct {
+	Value ListAlertProjectHistoriesSeverity
+	Set   bool
+}
+
+// IsSet returns true if OptListAlertProjectHistoriesSeverity was set.
+func (o OptListAlertProjectHistoriesSeverity) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListAlertProjectHistoriesSeverity) Reset() {
+	var v ListAlertProjectHistoriesSeverity
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListAlertProjectHistoriesSeverity) SetTo(v ListAlertProjectHistoriesSeverity) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListAlertProjectHistoriesSeverity) Get() (v ListAlertProjectHistoriesSeverity, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListAlertProjectHistoriesSeverity) Or(d ListAlertProjectHistoriesSeverity) ListAlertProjectHistoriesSeverity {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListAlertProjectNotificationTargetsServiceType returns new OptListAlertProjectNotificationTargetsServiceType with value set to v.
+func NewOptListAlertProjectNotificationTargetsServiceType(v ListAlertProjectNotificationTargetsServiceType) OptListAlertProjectNotificationTargetsServiceType {
+	return OptListAlertProjectNotificationTargetsServiceType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListAlertProjectNotificationTargetsServiceType is optional ListAlertProjectNotificationTargetsServiceType.
+type OptListAlertProjectNotificationTargetsServiceType struct {
+	Value ListAlertProjectNotificationTargetsServiceType
+	Set   bool
+}
+
+// IsSet returns true if OptListAlertProjectNotificationTargetsServiceType was set.
+func (o OptListAlertProjectNotificationTargetsServiceType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListAlertProjectNotificationTargetsServiceType) Reset() {
+	var v ListAlertProjectNotificationTargetsServiceType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListAlertProjectNotificationTargetsServiceType) SetTo(v ListAlertProjectNotificationTargetsServiceType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListAlertProjectNotificationTargetsServiceType) Get() (v ListAlertProjectNotificationTargetsServiceType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListAlertProjectNotificationTargetsServiceType) Or(d ListAlertProjectNotificationTargetsServiceType) ListAlertProjectNotificationTargetsServiceType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListAlertProjectRuleHistoriesSeverity returns new OptListAlertProjectRuleHistoriesSeverity with value set to v.
+func NewOptListAlertProjectRuleHistoriesSeverity(v ListAlertProjectRuleHistoriesSeverity) OptListAlertProjectRuleHistoriesSeverity {
+	return OptListAlertProjectRuleHistoriesSeverity{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListAlertProjectRuleHistoriesSeverity is optional ListAlertProjectRuleHistoriesSeverity.
+type OptListAlertProjectRuleHistoriesSeverity struct {
+	Value ListAlertProjectRuleHistoriesSeverity
+	Set   bool
+}
+
+// IsSet returns true if OptListAlertProjectRuleHistoriesSeverity was set.
+func (o OptListAlertProjectRuleHistoriesSeverity) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListAlertProjectRuleHistoriesSeverity) Reset() {
+	var v ListAlertProjectRuleHistoriesSeverity
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListAlertProjectRuleHistoriesSeverity) SetTo(v ListAlertProjectRuleHistoriesSeverity) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListAlertProjectRuleHistoriesSeverity) Get() (v ListAlertProjectRuleHistoriesSeverity, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListAlertProjectRuleHistoriesSeverity) Or(d ListAlertProjectRuleHistoriesSeverity) ListAlertProjectRuleHistoriesSeverity {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListLogStoragesBucketClassification returns new OptListLogStoragesBucketClassification with value set to v.
+func NewOptListLogStoragesBucketClassification(v ListLogStoragesBucketClassification) OptListLogStoragesBucketClassification {
+	return OptListLogStoragesBucketClassification{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListLogStoragesBucketClassification is optional ListLogStoragesBucketClassification.
+type OptListLogStoragesBucketClassification struct {
+	Value ListLogStoragesBucketClassification
+	Set   bool
+}
+
+// IsSet returns true if OptListLogStoragesBucketClassification was set.
+func (o OptListLogStoragesBucketClassification) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListLogStoragesBucketClassification) Reset() {
+	var v ListLogStoragesBucketClassification
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListLogStoragesBucketClassification) SetTo(v ListLogStoragesBucketClassification) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListLogStoragesBucketClassification) Get() (v ListLogStoragesBucketClassification, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListLogStoragesBucketClassification) Or(d ListLogStoragesBucketClassification) ListLogStoragesBucketClassification {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListLogStoragesStatus returns new OptListLogStoragesStatus with value set to v.
+func NewOptListLogStoragesStatus(v ListLogStoragesStatus) OptListLogStoragesStatus {
+	return OptListLogStoragesStatus{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListLogStoragesStatus is optional ListLogStoragesStatus.
+type OptListLogStoragesStatus struct {
+	Value ListLogStoragesStatus
+	Set   bool
+}
+
+// IsSet returns true if OptListLogStoragesStatus was set.
+func (o OptListLogStoragesStatus) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListLogStoragesStatus) Reset() {
+	var v ListLogStoragesStatus
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListLogStoragesStatus) SetTo(v ListLogStoragesStatus) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListLogStoragesStatus) Get() (v ListLogStoragesStatus, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListLogStoragesStatus) Or(d ListLogStoragesStatus) ListLogStoragesStatus {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListTraceStoragesLogStorageBucketClassification returns new OptListTraceStoragesLogStorageBucketClassification with value set to v.
+func NewOptListTraceStoragesLogStorageBucketClassification(v ListTraceStoragesLogStorageBucketClassification) OptListTraceStoragesLogStorageBucketClassification {
+	return OptListTraceStoragesLogStorageBucketClassification{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListTraceStoragesLogStorageBucketClassification is optional ListTraceStoragesLogStorageBucketClassification.
+type OptListTraceStoragesLogStorageBucketClassification struct {
+	Value ListTraceStoragesLogStorageBucketClassification
+	Set   bool
+}
+
+// IsSet returns true if OptListTraceStoragesLogStorageBucketClassification was set.
+func (o OptListTraceStoragesLogStorageBucketClassification) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListTraceStoragesLogStorageBucketClassification) Reset() {
+	var v ListTraceStoragesLogStorageBucketClassification
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListTraceStoragesLogStorageBucketClassification) SetTo(v ListTraceStoragesLogStorageBucketClassification) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListTraceStoragesLogStorageBucketClassification) Get() (v ListTraceStoragesLogStorageBucketClassification, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListTraceStoragesLogStorageBucketClassification) Or(d ListTraceStoragesLogStorageBucketClassification) ListTraceStoragesLogStorageBucketClassification {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptLogMeasureRuleModelRequest returns new OptLogMeasureRuleModelRequest with value set to v.
 func NewOptLogMeasureRuleModelRequest(v LogMeasureRuleModelRequest) OptLogMeasureRuleModelRequest {
 	return OptLogMeasureRuleModelRequest{
@@ -5629,98 +6091,6 @@ func (o OptLogStorageRequest) Get() (v LogStorageRequest, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptLogStorageRequest) Or(d LogStorageRequest) LogStorageRequest {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptLogsStoragesListBucketClassification returns new OptLogsStoragesListBucketClassification with value set to v.
-func NewOptLogsStoragesListBucketClassification(v LogsStoragesListBucketClassification) OptLogsStoragesListBucketClassification {
-	return OptLogsStoragesListBucketClassification{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptLogsStoragesListBucketClassification is optional LogsStoragesListBucketClassification.
-type OptLogsStoragesListBucketClassification struct {
-	Value LogsStoragesListBucketClassification
-	Set   bool
-}
-
-// IsSet returns true if OptLogsStoragesListBucketClassification was set.
-func (o OptLogsStoragesListBucketClassification) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptLogsStoragesListBucketClassification) Reset() {
-	var v LogsStoragesListBucketClassification
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptLogsStoragesListBucketClassification) SetTo(v LogsStoragesListBucketClassification) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptLogsStoragesListBucketClassification) Get() (v LogsStoragesListBucketClassification, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptLogsStoragesListBucketClassification) Or(d LogsStoragesListBucketClassification) LogsStoragesListBucketClassification {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptLogsStoragesListStatus returns new OptLogsStoragesListStatus with value set to v.
-func NewOptLogsStoragesListStatus(v LogsStoragesListStatus) OptLogsStoragesListStatus {
-	return OptLogsStoragesListStatus{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptLogsStoragesListStatus is optional LogsStoragesListStatus.
-type OptLogsStoragesListStatus struct {
-	Value LogsStoragesListStatus
-	Set   bool
-}
-
-// IsSet returns true if OptLogsStoragesListStatus was set.
-func (o OptLogsStoragesListStatus) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptLogsStoragesListStatus) Reset() {
-	var v LogsStoragesListStatus
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptLogsStoragesListStatus) SetTo(v LogsStoragesListStatus) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptLogsStoragesListStatus) Get() (v LogsStoragesListStatus, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptLogsStoragesListStatus) Or(d LogsStoragesListStatus) LogsStoragesListStatus {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -6989,52 +7359,6 @@ func (o OptTraceStorageRequest) Or(d TraceStorageRequest) TraceStorageRequest {
 	return d
 }
 
-// NewOptTracesStoragesListLogStorageBucketClassification returns new OptTracesStoragesListLogStorageBucketClassification with value set to v.
-func NewOptTracesStoragesListLogStorageBucketClassification(v TracesStoragesListLogStorageBucketClassification) OptTracesStoragesListLogStorageBucketClassification {
-	return OptTracesStoragesListLogStorageBucketClassification{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptTracesStoragesListLogStorageBucketClassification is optional TracesStoragesListLogStorageBucketClassification.
-type OptTracesStoragesListLogStorageBucketClassification struct {
-	Value TracesStoragesListLogStorageBucketClassification
-	Set   bool
-}
-
-// IsSet returns true if OptTracesStoragesListLogStorageBucketClassification was set.
-func (o OptTracesStoragesListLogStorageBucketClassification) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptTracesStoragesListLogStorageBucketClassification) Reset() {
-	var v TracesStoragesListLogStorageBucketClassification
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptTracesStoragesListLogStorageBucketClassification) SetTo(v TracesStoragesListLogStorageBucketClassification) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptTracesStoragesListLogStorageBucketClassification) Get() (v TracesStoragesListLogStorageBucketClassification, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptTracesStoragesListLogStorageBucketClassification) Or(d TracesStoragesListLogStorageBucketClassification) TracesStoragesListLogStorageBucketClassification {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptUUID returns new OptUUID with value set to v.
 func NewOptUUID(v uuid.UUID) OptUUID {
 	return OptUUID{
@@ -7083,12 +7407,12 @@ func (o OptUUID) Or(d uuid.UUID) uuid.UUID {
 
 // Ref: #/components/schemas/OrMatcher
 type OrMatcher struct {
-	Type     Type           `json:"type"`
+	Type     OrMatcherType  `json:"type"`
 	Matchers []FieldMatcher `json:"matchers"`
 }
 
 // GetType returns the value of Type.
-func (s *OrMatcher) GetType() Type {
+func (s *OrMatcher) GetType() OrMatcherType {
 	return s.Type
 }
 
@@ -7098,13 +7422,47 @@ func (s *OrMatcher) GetMatchers() []FieldMatcher {
 }
 
 // SetType sets the value of Type.
-func (s *OrMatcher) SetType(val Type) {
+func (s *OrMatcher) SetType(val OrMatcherType) {
 	s.Type = val
 }
 
 // SetMatchers sets the value of Matchers.
 func (s *OrMatcher) SetMatchers(val []FieldMatcher) {
 	s.Matchers = val
+}
+
+type OrMatcherType string
+
+const (
+	OrMatcherTypeOr OrMatcherType = "or"
+)
+
+// AllValues returns all OrMatcherType values.
+func (OrMatcherType) AllValues() []OrMatcherType {
+	return []OrMatcherType{
+		OrMatcherTypeOr,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OrMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case OrMatcherTypeOr:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OrMatcherType) UnmarshalText(data []byte) error {
+	switch OrMatcherType(data) {
+	case OrMatcherTypeOr:
+		*s = OrMatcherTypeOr
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/PaginatedAlertProjectList
@@ -8649,14 +9007,6 @@ func (s *PatchedTraceStorageRequest) SetServicePrincipalID(val OptNilInt64) {
 	s.ServicePrincipalID = val
 }
 
-type PostProvisioningInitializeCreated Provisioning
-
-func (*PostProvisioningInitializeCreated) postProvisioningInitializeRes() {}
-
-type PostProvisioningInitializeOK Provisioning
-
-func (*PostProvisioningInitializeOK) postProvisioningInitializeRes() {}
-
 // Ref: #/components/schemas/Provisioning
 type Provisioning struct {
 	Logs    ProvisioningExist `json:"logs"`
@@ -8947,6 +9297,9 @@ func (s *PublisherVariantSystem) UnmarshalText(data []byte) error {
 	}
 }
 
+// ReorderAlertProjectNotificationRoutingsNoContent is response for ReorderAlertProjectNotificationRoutings operation.
+type ReorderAlertProjectNotificationRoutingsNoContent struct{}
+
 // Ref: #/components/schemas/ResourceItemLimits
 type ResourceItemLimits struct {
 	// Max number of user shared resources.
@@ -9066,7 +9419,7 @@ func (s *SetTraceStorageExpireDayRequest) SetDays(val int) {
 
 // Ref: #/components/schemas/StrMatcher
 type StrMatcher struct {
-	Type      Type2           `json:"type"`
+	Type      StrMatcherType  `json:"type"`
 	Operator  Operator        `json:"operator"`
 	Field     StringFieldName `json:"field"`
 	Value     string          `json:"value"`
@@ -9074,7 +9427,7 @@ type StrMatcher struct {
 }
 
 // GetType returns the value of Type.
-func (s *StrMatcher) GetType() Type2 {
+func (s *StrMatcher) GetType() StrMatcherType {
 	return s.Type
 }
 
@@ -9099,7 +9452,7 @@ func (s *StrMatcher) GetValueList() []string {
 }
 
 // SetType sets the value of Type.
-func (s *StrMatcher) SetType(val Type2) {
+func (s *StrMatcher) SetType(val StrMatcherType) {
 	s.Type = val
 }
 
@@ -9121,6 +9474,40 @@ func (s *StrMatcher) SetValue(val string) {
 // SetValueList sets the value of ValueList.
 func (s *StrMatcher) SetValueList(val []string) {
 	s.ValueList = val
+}
+
+type StrMatcherType string
+
+const (
+	StrMatcherTypeString StrMatcherType = "string"
+)
+
+// AllValues returns all StrMatcherType values.
+func (StrMatcherType) AllValues() []StrMatcherType {
+	return []StrMatcherType{
+		StrMatcherTypeString,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StrMatcherType) MarshalText() ([]byte, error) {
+	switch s {
+	case StrMatcherTypeString:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StrMatcherType) UnmarshalText(data []byte) error {
+	switch StrMatcherType(data) {
+	case StrMatcherTypeString:
+		*s = StrMatcherTypeString
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/StringFieldName
@@ -9835,403 +10222,6 @@ func (s *TraceStorageRequest) SetDescription(val OptString) {
 // SetServicePrincipalID sets the value of ServicePrincipalID.
 func (s *TraceStorageRequest) SetServicePrincipalID(val OptNilInt64) {
 	s.ServicePrincipalID = val
-}
-
-// TracesStoragesDestroyNoContent is response for TracesStoragesDestroy operation.
-type TracesStoragesDestroyNoContent struct{}
-
-// TracesStoragesKeysDestroyNoContent is response for TracesStoragesKeysDestroy operation.
-type TracesStoragesKeysDestroyNoContent struct{}
-
-type TracesStoragesListLogStorageBucketClassification string
-
-const (
-	TracesStoragesListLogStorageBucketClassificationDedicated TracesStoragesListLogStorageBucketClassification = "dedicated"
-	TracesStoragesListLogStorageBucketClassificationShared    TracesStoragesListLogStorageBucketClassification = "shared"
-)
-
-// AllValues returns all TracesStoragesListLogStorageBucketClassification values.
-func (TracesStoragesListLogStorageBucketClassification) AllValues() []TracesStoragesListLogStorageBucketClassification {
-	return []TracesStoragesListLogStorageBucketClassification{
-		TracesStoragesListLogStorageBucketClassificationDedicated,
-		TracesStoragesListLogStorageBucketClassificationShared,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s TracesStoragesListLogStorageBucketClassification) MarshalText() ([]byte, error) {
-	switch s {
-	case TracesStoragesListLogStorageBucketClassificationDedicated:
-		return []byte(s), nil
-	case TracesStoragesListLogStorageBucketClassificationShared:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *TracesStoragesListLogStorageBucketClassification) UnmarshalText(data []byte) error {
-	switch TracesStoragesListLogStorageBucketClassification(data) {
-	case TracesStoragesListLogStorageBucketClassificationDedicated:
-		*s = TracesStoragesListLogStorageBucketClassificationDedicated
-		return nil
-	case TracesStoragesListLogStorageBucketClassificationShared:
-		*s = TracesStoragesListLogStorageBucketClassificationShared
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type
-type Type string
-
-const (
-	TypeOr Type = "or"
-)
-
-// AllValues returns all Type values.
-func (Type) AllValues() []Type {
-	return []Type{
-		TypeOr,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type) MarshalText() ([]byte, error) {
-	switch s {
-	case TypeOr:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type) UnmarshalText(data []byte) error {
-	switch Type(data) {
-	case TypeOr:
-		*s = TypeOr
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type1
-type Type1 string
-
-const (
-	Type1And Type1 = "and"
-)
-
-// AllValues returns all Type1 values.
-func (Type1) AllValues() []Type1 {
-	return []Type1{
-		Type1And,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type1) MarshalText() ([]byte, error) {
-	switch s {
-	case Type1And:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type1) UnmarshalText(data []byte) error {
-	switch Type1(data) {
-	case Type1And:
-		*s = Type1And
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type2
-type Type2 string
-
-const (
-	Type2String Type2 = "string"
-)
-
-// AllValues returns all Type2 values.
-func (Type2) AllValues() []Type2 {
-	return []Type2{
-		Type2String,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type2) MarshalText() ([]byte, error) {
-	switch s {
-	case Type2String:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type2) UnmarshalText(data []byte) error {
-	switch Type2(data) {
-	case Type2String:
-		*s = Type2String
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type3
-type Type3 string
-
-const (
-	Type3Number Type3 = "number"
-)
-
-// AllValues returns all Type3 values.
-func (Type3) AllValues() []Type3 {
-	return []Type3{
-		Type3Number,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type3) MarshalText() ([]byte, error) {
-	switch s {
-	case Type3Number:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type3) UnmarshalText(data []byte) error {
-	switch Type3(data) {
-	case Type3Number:
-		*s = Type3Number
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type4
-type Type4 string
-
-const (
-	Type4Enum Type4 = "enum"
-)
-
-// AllValues returns all Type4 values.
-func (Type4) AllValues() []Type4 {
-	return []Type4{
-		Type4Enum,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type4) MarshalText() ([]byte, error) {
-	switch s {
-	case Type4Enum:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type4) UnmarshalText(data []byte) error {
-	switch Type4(data) {
-	case Type4Enum:
-		*s = Type4Enum
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type5
-type Type5 string
-
-const (
-	Type5Boolean Type5 = "boolean"
-)
-
-// AllValues returns all Type5 values.
-func (Type5) AllValues() []Type5 {
-	return []Type5{
-		Type5Boolean,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type5) MarshalText() ([]byte, error) {
-	switch s {
-	case Type5Boolean:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type5) UnmarshalText(data []byte) error {
-	switch Type5(data) {
-	case Type5Boolean:
-		*s = Type5Boolean
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type6
-type Type6 string
-
-const (
-	Type6MapKeyExists Type6 = "map-key-exists"
-)
-
-// AllValues returns all Type6 values.
-func (Type6) AllValues() []Type6 {
-	return []Type6{
-		Type6MapKeyExists,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type6) MarshalText() ([]byte, error) {
-	switch s {
-	case Type6MapKeyExists:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type6) UnmarshalText(data []byte) error {
-	switch Type6(data) {
-	case Type6MapKeyExists:
-		*s = Type6MapKeyExists
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type7
-type Type7 string
-
-const (
-	Type7MapKeyValueMatcher Type7 = "map-key-value-matcher"
-)
-
-// AllValues returns all Type7 values.
-func (Type7) AllValues() []Type7 {
-	return []Type7{
-		Type7MapKeyValueMatcher,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type7) MarshalText() ([]byte, error) {
-	switch s {
-	case Type7MapKeyValueMatcher:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type7) UnmarshalText(data []byte) error {
-	switch Type7(data) {
-	case Type7MapKeyValueMatcher:
-		*s = Type7MapKeyValueMatcher
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type8
-type Type8 string
-
-const (
-	Type8MapValueString Type8 = "map-value-string"
-)
-
-// AllValues returns all Type8 values.
-func (Type8) AllValues() []Type8 {
-	return []Type8{
-		Type8MapValueString,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type8) MarshalText() ([]byte, error) {
-	switch s {
-	case Type8MapValueString:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type8) UnmarshalText(data []byte) error {
-	switch Type8(data) {
-	case Type8MapValueString:
-		*s = Type8MapValueString
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Ref: #/components/schemas/Type9
-type Type9 string
-
-const (
-	Type9MapValueNumber Type9 = "map-value-number"
-)
-
-// AllValues returns all Type9 values.
-func (Type9) AllValues() []Type9 {
-	return []Type9{
-		Type9MapValueNumber,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s Type9) MarshalText() ([]byte, error) {
-	switch s {
-	case Type9MapValueNumber:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *Type9) UnmarshalText(data []byte) error {
-	switch Type9(data) {
-	case Type9MapValueNumber:
-		*s = Type9MapValueNumber
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // Ref: #/components/schemas/ValueEnum

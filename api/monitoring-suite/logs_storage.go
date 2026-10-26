@@ -55,12 +55,12 @@ func NewLogsStorageOp(client *v1.Client) LogsStorageAPI {
 
 type LogsStoragesListParams struct {
 	AccountID            *string
-	BucketClassification *v1.LogsStoragesListBucketClassification
+	BucketClassification *v1.ListLogStoragesBucketClassification
 	Count                *int
 	From                 *int
 	IsSystem             *bool
 	ResourceID           *string
-	Status               *v1.LogsStoragesListStatus
+	Status               *v1.ListLogStoragesStatus
 }
 
 func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) (ret []v1.LogStorage, err error) {
@@ -69,14 +69,14 @@ func (op *logsStorageOp) List(ctx context.Context, p LogsStoragesListParams) (re
 		if err != nil {
 			return nil, fmt.Errorf("LogsStoragesListParams.ResourceID: %w", err)
 		}
-		return op.client.LogsStoragesList(ctx, v1.LogsStoragesListParams{
+		return op.client.ListLogStorages(ctx, v1.ListLogStoragesParams{
 			AccountID:            into.Opt[v1.OptString](p.AccountID),
-			BucketClassification: into.Opt[v1.OptLogsStoragesListBucketClassification](p.BucketClassification),
+			BucketClassification: into.Opt[v1.OptListLogStoragesBucketClassification](p.BucketClassification),
 			Count:                into.Opt[v1.OptInt](p.Count),
 			From:                 into.Opt[v1.OptInt](p.From),
 			IsSystem:             into.Opt[v1.OptBool](p.IsSystem),
 			ResourceID:           id,
-			Status:               into.Opt[v1.OptLogsStoragesListStatus](p.Status),
+			Status:               into.Opt[v1.OptListLogStoragesStatus](p.Status),
 		})
 	})
 	if err == nil {
@@ -91,34 +91,39 @@ func (op *logsStorageOp) Read(ctx context.Context, resourceID string) (*v1.LogSt
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesRetrieve(ctx, v1.LogsStoragesRetrieveParams{ResourceID: id})
+		return op.client.ReadLogStorage(ctx, v1.ReadLogStorageParams{ResourceId: id})
 	})
 	return unwrapE[*v1.LogStorage](res, err)
 }
 
 type LogStorageCreateParams struct {
-	Name           string
-	Description    *string
-	IsSystem       bool
-	Classification *v1.LogStorageCreateRequestClassification
+	Name               string
+	Description        *string
+	IsSystem           bool
+	Classification     *v1.LogStorageCreateRequestClassification
+	KmsKeyID           v1.OptNilInt64
+	ServicePrincipalID v1.OptNilInt64
 }
 
 func (op *logsStorageOp) Create(ctx context.Context, params LogStorageCreateParams) (*v1.LogStorage, error) {
 	res, err := errorFromDecodedResponse("LogsStorage.Create", func() (*v1.LogStorage, error) {
 		req := v1.LogStorageCreateRequest{
-			Classification: into.Opt[v1.OptLogStorageCreateRequestClassification](params.Classification),
-			IsSystem:       params.IsSystem,
-			Name:           params.Name,
-			Description:    into.Opt[v1.OptString](params.Description),
+			Classification:     into.Opt[v1.OptLogStorageCreateRequestClassification](params.Classification),
+			IsSystem:           params.IsSystem,
+			Name:               params.Name,
+			Description:        into.Opt[v1.OptString](params.Description),
+			KmsKeyID:           params.KmsKeyID,
+			ServicePrincipalID: params.ServicePrincipalID,
 		}
-		return op.client.LogsStoragesCreate(ctx, &req)
+		return op.client.CreateLogStorage(ctx, &req)
 	})
 	return unwrapE[*v1.LogStorage](res, err)
 }
 
 type LogStorageUpdateParams struct {
-	Name        *string
-	Description *string
+	Name               *string
+	Description        *string
+	ServicePrincipalID v1.OptNilInt64
 }
 
 func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpdateParams) (*v1.LogStorage, error) {
@@ -127,10 +132,11 @@ func (op *logsStorageOp) Update(ctx context.Context, id string, p LogStorageUpda
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesPartialUpdate(ctx, v1.NewOptPatchedLogStorageRequest(v1.PatchedLogStorageRequest{
-			Name:        into.Opt[v1.OptString](p.Name),
-			Description: into.Opt[v1.OptString](p.Description),
-		}), v1.LogsStoragesPartialUpdateParams{ResourceID: rid})
+		return op.client.PatchLogStorage(ctx, v1.NewOptPatchedLogStorageRequest(v1.PatchedLogStorageRequest{
+			Name:               into.Opt[v1.OptString](p.Name),
+			Description:        into.Opt[v1.OptString](p.Description),
+			ServicePrincipalID: p.ServicePrincipalID,
+		}), v1.PatchLogStorageParams{ResourceId: rid})
 	})
 	return unwrapE[*v1.LogStorage](res, err)
 }
@@ -141,7 +147,7 @@ func (op *logsStorageOp) Delete(ctx context.Context, id string) error {
 		if err != nil {
 			return err
 		}
-		return op.client.LogsStoragesDestroy(ctx, v1.LogsStoragesDestroyParams{ResourceID: rid})
+		return op.client.DeleteLogStorage(ctx, v1.DeleteLogStorageParams{ResourceId: rid})
 	})
 }
 
@@ -151,10 +157,10 @@ func (op *logsStorageOp) SetExpire(ctx context.Context, resourceID string, days 
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesSetExpireCreate(
+		return op.client.SetLogStorageExpire(
 			ctx,
 			&v1.SetLogStorageExpireDayRequest{Days: days},
-			v1.LogsStoragesSetExpireCreateParams{ResourceID: rid},
+			v1.SetLogStorageExpireParams{ResourceId: rid},
 		)
 	})
 	return unwrapE[*v1.LogStorage](res, err)
@@ -166,8 +172,8 @@ func (op *logsStorageOp) ReadDailyStats(ctx context.Context, resourceID string, 
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesStatsDailyRetrieve(ctx, v1.LogsStoragesStatsDailyRetrieveParams{
-			ResourceID: rid,
+		return op.client.ReadLogStorageStatsDaily(ctx, v1.ReadLogStorageStatsDailyParams{
+			ResourceId: rid,
 			StartDate:  into.Opt[v1.OptDate](startDate),
 			EndDate:    into.Opt[v1.OptDate](endDate),
 		})
@@ -184,8 +190,8 @@ func (op *logsStorageOp) ReadMonthlyStats(ctx context.Context, resourceID string
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesStatsMonthlyRetrieve(ctx, v1.LogsStoragesStatsMonthlyRetrieveParams{
-			ResourceID: rid,
+		return op.client.ReadLogStorageStatsMonthly(ctx, v1.ReadLogStorageStatsMonthlyParams{
+			ResourceId: rid,
 			Year:       year,
 		})
 	})
@@ -201,10 +207,10 @@ func (op *logsStorageOp) ListKeys(ctx context.Context, logResourceId string, cou
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesKeysList(ctx, v1.LogsStoragesKeysListParams{
+		return op.client.ListLogStorageKeys(ctx, v1.ListLogStorageKeysParams{
 			Count:         into.Opt[v1.OptInt](count),
 			From:          into.Opt[v1.OptInt](from),
-			LogResourceID: rid,
+			LogResourceId: rid,
 		})
 	})
 	if err == nil {
@@ -219,9 +225,9 @@ func (op *logsStorageOp) CreateKey(ctx context.Context, logResourceId string, de
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesKeysCreate(ctx, v1.NewOptLogStorageAccessKeyRequest(v1.LogStorageAccessKeyRequest{
+		return op.client.CreateLogStorageKey(ctx, v1.NewOptLogStorageAccessKeyRequest(v1.LogStorageAccessKeyRequest{
 			Description: into.Opt[v1.OptString](description),
-		}), v1.LogsStoragesKeysCreateParams{LogResourceID: rid})
+		}), v1.CreateLogStorageKeyParams{LogResourceId: rid})
 	})
 	return unwrapE[*v1.LogStorageAccessKey](res, err)
 }
@@ -232,8 +238,8 @@ func (op *logsStorageOp) ReadKey(ctx context.Context, logResourceId string, id u
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesKeysRetrieve(ctx, v1.LogsStoragesKeysRetrieveParams{
-			LogResourceID: rid,
+		return op.client.ReadLogStorageKey(ctx, v1.ReadLogStorageKeyParams{
+			LogResourceId: rid,
 			UID:           id,
 		})
 	})
@@ -246,10 +252,10 @@ func (op *logsStorageOp) UpdateKey(ctx context.Context, logResourceId string, id
 		if err != nil {
 			return nil, err
 		}
-		return op.client.LogsStoragesKeysUpdate(ctx, v1.NewOptLogStorageAccessKeyRequest(v1.LogStorageAccessKeyRequest{
+		return op.client.UpdateLogStorageKey(ctx, v1.NewOptLogStorageAccessKeyRequest(v1.LogStorageAccessKeyRequest{
 			Description: into.Opt[v1.OptString](description),
-		}), v1.LogsStoragesKeysUpdateParams{
-			LogResourceID: rid,
+		}), v1.UpdateLogStorageKeyParams{
+			LogResourceId: rid,
 			UID:           id,
 		})
 	})
@@ -262,8 +268,8 @@ func (op *logsStorageOp) DeleteKey(ctx context.Context, logResourceId string, id
 		if err != nil {
 			return err
 		}
-		return op.client.LogsStoragesKeysDestroy(ctx, v1.LogsStoragesKeysDestroyParams{
-			LogResourceID: rid,
+		return op.client.DeleteLogStorageKey(ctx, v1.DeleteLogStorageKeyParams{
+			LogResourceId: rid,
 			UID:           id,
 		})
 	})

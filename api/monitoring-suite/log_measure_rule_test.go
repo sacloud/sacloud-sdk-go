@@ -37,7 +37,7 @@ func TestLogMeasureRuleOp_List(t *testing.T) {
 	client := newTestClient(expected)
 	api := NewLogMeasureRuleOp(client)
 	ctx := t.Context()
-	rules, err := api.List(ctx, "12345", nil, nil)
+	rules, err := api.List(ctx, "12345", LogMeasureRulesListParams{})
 	require.NoError(t, err)
 	require.NotNil(t, rules)
 	require.Equal(t, 1, len(rules))
@@ -53,7 +53,7 @@ func TestLogMeasureRuleOp_List_403(t *testing.T) {
 	client := newTestClient(expected, http.StatusForbidden)
 	api := NewLogMeasureRuleOp(client)
 	ctx := t.Context()
-	_, err := api.List(ctx, "12345", nil, nil)
+	_, err := api.List(ctx, "12345", LogMeasureRulesListParams{})
 	require.Error(t, err)
 	require.ErrorContains(t, err, "request not authorized")
 }
@@ -297,7 +297,7 @@ func TestLogMeasureRuleIntegrated(t *testing.T) {
 	require.Equal(t, rename, updated.GetName().Or("failure"))
 
 	// List rules
-	rules, err := api.List(ctx, projectId, nil, nil)
+	rules, err := api.List(ctx, projectId, LogMeasureRulesListParams{})
 	require.NoError(t, err)
 	require.NotNil(t, rules)
 

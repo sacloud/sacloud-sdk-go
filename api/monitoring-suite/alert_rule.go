@@ -52,8 +52,8 @@ func (op *alertRuleOp) List(ctx context.Context, projectId string, count *int, f
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsRulesList(ctx, v1.AlertsProjectsRulesListParams{
-			ProjectResourceID: id,
+		return op.client.ListAlertProjectRules(ctx, v1.ListAlertProjectRulesParams{
+			ProjectResourceId: id,
 			Count:             into.Opt[v1.OptInt](count),
 			From:              into.Opt[v1.OptInt](from),
 		})
@@ -88,7 +88,7 @@ func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRule
 		if err != nil {
 			return nil, fmt.Errorf("AlertRuleCreateParams.MetricsStorageID: %w", err)
 		}
-		return op.client.AlertsProjectsRulesCreate(ctx, &v1.AlertRuleRequest{
+		return op.client.CreateAlertProjectRule(ctx, &v1.AlertRuleRequest{
 			MetricsStorageID:          into.Nil[v1.NilInt64](&intStorageId),
 			Name:                      into.Opt[v1.OptString](p.Name),
 			Query:                     p.Query,
@@ -100,8 +100,8 @@ func (op *alertRuleOp) Create(ctx context.Context, projectId string, p AlertRule
 			ThresholdCritical:         into.OptNil[v1.OptNilString](p.ThresholdCritical),
 			ThresholdDurationWarning:  into.Opt[v1.OptInt64](p.ThresholdDurationWarning),
 			ThresholdDurationCritical: into.Opt[v1.OptInt64](p.ThresholdDurationCritical),
-		}, v1.AlertsProjectsRulesCreateParams{
-			ProjectResourceID: intProjectId,
+		}, v1.CreateAlertProjectRuleParams{
+			ProjectResourceId: intProjectId,
 		})
 	})
 }
@@ -112,8 +112,8 @@ func (op *alertRuleOp) Read(ctx context.Context, projectId string, ruleId uuid.U
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsRulesRetrieve(ctx, v1.AlertsProjectsRulesRetrieveParams{
-			ProjectResourceID: intProjectId,
+		return op.client.ReadAlertProjectRule(ctx, v1.ReadAlertProjectRuleParams{
+			ProjectResourceId: intProjectId,
 			UID:               ruleId,
 		})
 	})
@@ -143,7 +143,7 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid
 		if err != nil {
 			return nil, fmt.Errorf("AlertRuleUpdateParams.MetricsStorageID: %w", err)
 		}
-		return op.client.AlertsProjectsRulesPartialUpdate(ctx, v1.NewOptPatchedAlertRuleRequest(v1.PatchedAlertRuleRequest{
+		return op.client.PatchAlertProjectRule(ctx, v1.NewOptPatchedAlertRuleRequest(v1.PatchedAlertRuleRequest{
 			MetricsStorageID:          storageId,
 			Name:                      into.Opt[v1.OptString](p.Name),
 			Query:                     into.Opt[v1.OptString](p.Query),
@@ -155,8 +155,8 @@ func (op *alertRuleOp) Update(ctx context.Context, projectId string, ruleId uuid
 			ThresholdCritical:         into.OptNil[v1.OptNilString](p.ThresholdCritical),
 			ThresholdDurationWarning:  into.Opt[v1.OptInt64](p.ThresholdDurationWarning),
 			ThresholdDurationCritical: into.Opt[v1.OptInt64](p.ThresholdDurationCritical),
-		}), v1.AlertsProjectsRulesPartialUpdateParams{
-			ProjectResourceID: intProjectId,
+		}), v1.PatchAlertProjectRuleParams{
+			ProjectResourceId: intProjectId,
 			UID:               ruleId,
 		})
 	})
@@ -168,8 +168,8 @@ func (op *alertRuleOp) Delete(ctx context.Context, projectId string, ruleId uuid
 		if err != nil {
 			return err
 		}
-		return op.client.AlertsProjectsRulesDestroy(ctx, v1.AlertsProjectsRulesDestroyParams{
-			ProjectResourceID: intProjectId,
+		return op.client.DeleteAlertProjectRule(ctx, v1.DeleteAlertProjectRuleParams{
+			ProjectResourceId: intProjectId,
 			UID:               ruleId,
 		})
 	})
@@ -179,7 +179,7 @@ type AlertRuleListHistoriesParams struct {
 	Count    *int
 	From     *int
 	Open     *bool
-	Severity *v1.AlertsProjectsRulesHistoriesListSeverity
+	Severity *v1.ListAlertProjectRuleHistoriesSeverity
 	StartsAt *time.Time
 }
 
@@ -189,13 +189,13 @@ func (op *alertRuleOp) ListHistories(ctx context.Context, projectId string, rule
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsRulesHistoriesList(ctx, v1.AlertsProjectsRulesHistoriesListParams{
-			ProjectResourceID: intProjectId,
-			RuleUID:           ruleId,
+		return op.client.ListAlertProjectRuleHistories(ctx, v1.ListAlertProjectRuleHistoriesParams{
+			ProjectResourceId: intProjectId,
+			RuleUid:           ruleId,
 			Count:             into.Opt[v1.OptInt](p.Count),
 			From:              into.Opt[v1.OptInt](p.From),
 			Open:              into.Opt[v1.OptBool](p.Open),
-			Severity:          into.Opt[v1.OptAlertsProjectsRulesHistoriesListSeverity](p.Severity),
+			Severity:          into.Opt[v1.OptListAlertProjectRuleHistoriesSeverity](p.Severity),
 			StartsAt:          into.Opt[v1.OptDateTime](p.StartsAt),
 		})
 	})
@@ -211,9 +211,9 @@ func (op *alertRuleOp) ReadHistory(ctx context.Context, projectId string, ruleId
 		if err != nil {
 			return nil, err
 		}
-		return op.client.AlertsProjectsRulesHistoriesRetrieve(ctx, v1.AlertsProjectsRulesHistoriesRetrieveParams{
-			ProjectResourceID: intProjectId,
-			RuleUID:           ruleId,
+		return op.client.ReadAlertProjectRuleHistory(ctx, v1.ReadAlertProjectRuleHistoryParams{
+			ProjectResourceId: intProjectId,
+			RuleUid:           ruleId,
 			UID:               historyId,
 		})
 	})
