@@ -9,9 +9,9 @@ https://manual.sakura.ad.jp/api/cloud/nosql/
 この実装では不具合やogenへの対応のために定義を変更しています。
 OpenAPI定義もしくはAPI側が修正され次第更新します。
 
-- patternにanyOfがあることで `Feature "sum types with same names" is not implemented yet.`が発生する問題
-- データベースの削除時のレスポンスにおいて、レスポンスがおかしくnullableじゃないDiskのEncryptionKeyフィールドに`null`が返ってくる問題
-- `NosqlCreateResponse`に実際は存在しないフィールド群があり、そのうちのIDがrequiredに指定されている問題
+- patternフィールドがanyOfを利用していることによって、 `Feature "sum types with same names" is not implemented yet.` が発生する問題 (ogenの問題)
+- データベースの削除時のレスポンスにおいて、nullableじゃないDiskのEncryptionKeyフィールドに`null`が返ってくる問題
+- `NosqlCreateResponse`に実際は存在しないフィールド群があり、そのうちのIDフィールドがrequiredに指定されている問題
 
 ```diff
 --- openapi-orig.json	2026-10-23 17:48:27

@@ -1741,7 +1741,7 @@
           }
         },
         "required": [
-          "Appliance",
+          "Appliance"
         ]
       },
       "NosqlUpdateRequest": {
