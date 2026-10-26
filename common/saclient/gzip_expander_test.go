@@ -17,6 +17,8 @@ package saclient
 import (
 	"bytes"
 	"compress/gzip"
+	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"net/http/httptest"
@@ -57,6 +59,58 @@ func gzipBytes(t *testing.T, s string) []byte {
 		t.Fatalf("failed to close gzip writer: %v", err)
 	}
 	return buf.Bytes()
+}
+
+type trackedGzipBody struct {
+	io.Reader
+	closed bool
+	err    error
+}
+
+func (body *trackedGzipBody) Close() error {
+	body.closed = true
+	return body.err
+}
+
+func TestGzipExpanderClosesSource(t *testing.T) {
+	for _, closeErr := range []error{nil, errors.New("source close failed")} {
+		t.Run(fmt.Sprint(closeErr), func(t *testing.T) {
+			source := &trackedGzipBody{
+				Reader: bytes.NewReader(gzipBytes(t, "partially read response")),
+				err:    closeErr,
+			}
+			original := &http.Response{
+				Header: http.Header{"Content-Encoding": []string{"gzip"}},
+				Body:   source,
+			}
+			req, err := http.NewRequest(http.MethodGet, "https://example.com", nil)
+			if err != nil {
+				t.Fatal(err)
+			}
+			resp, err := gzipExpander(req, singlePull(func(*http.Request, func() (Middleware, bool)) (*http.Response, error) {
+				return original, nil
+			}))
+			if err != nil {
+				t.Fatal(err)
+			}
+			prefix := make([]byte, 4)
+			if _, err := io.ReadFull(resp.Body, prefix); err != nil {
+				t.Fatal(err)
+			}
+			if string(prefix) != "part" {
+				t.Fatalf("unexpected decompressed prefix: %q", prefix)
+			}
+			if source.closed {
+				t.Fatal("source closed before response body")
+			}
+			if err := resp.Body.Close(); !errors.Is(err, closeErr) {
+				t.Fatalf("Close() = %v, want %v", err, closeErr)
+			}
+			if !source.closed {
+				t.Fatal("source body was not closed")
+			}
+		})
+	}
 }
 
 func TestGzipExpander(t *testing.T) {

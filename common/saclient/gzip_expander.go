@@ -21,6 +21,17 @@ import (
 	"net/http"
 )
 
+type gzipReaderBody struct {
+	*gzip.Reader
+	src io.Closer
+}
+
+func (body *gzipReaderBody) Close() error {
+	readerErr := body.Reader.Close()
+	srcErr := body.src.Close()
+	return errors.Join(readerErr, srcErr)
+}
+
 var gzipExpander Middleware = func(req *http.Request, pull func() (Middleware, bool)) (*http.Response, error) {
 	if resp, err := pullThenCall(pull, req); err != nil {
 		return resp, err
@@ -35,7 +46,7 @@ var gzipExpander Middleware = func(req *http.Request, pull func() (Middleware, b
 		return resp, err
 
 	} else {
-		resp.Body = body
+		resp.Body = &gzipReaderBody{Reader: body, src: resp.Body}
 		resp.Header.Del("Content-Encoding")
 		resp.Header.Del("Content-Length") // unknown length
 		resp.ContentLength = -1           // ditto
