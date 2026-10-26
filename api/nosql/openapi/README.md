@@ -2,19 +2,21 @@ NoSQL OpenAPI定義は以下のページで公開されています。
 
 https://manual.sakura.ad.jp/api/cloud/nosql/
 
-現在はv2.0.1を利用しています。
+現在はv2.1.1を利用しています。
 
 # diff
 
 この実装では不具合やogenへの対応のために定義を変更しています。
 OpenAPI定義もしくはAPI側が修正され次第更新します。
 
+- patternフィールドがanyOfを利用していることによって、 `Feature "sum types with same names" is not implemented yet.` が発生する問題 (ogenの問題)
+- データベースの削除時のレスポンスにおいて、nullableじゃないDiskのEncryptionKeyフィールドに`null`が返ってくる問題
+- `NosqlCreateResponse`に実際は存在しないフィールド群があり、そのうちのIDフィールドがrequiredに指定されている問題
+
 ```diff
-diff --git a/openapi-orig.json b/openapi/openapi.json
-index 80bf3e0..e7e7377 100644
---- a/openapi-orig.json
-+++ b/openapi/openapi.json
-@@ -1163,14 +1163,7 @@
+--- openapi-orig.json	2026-10-23 17:48:27
++++ openapi/openapi.json	2026-10-26 09:40:04
+@@ -1200,14 +1200,7 @@
                  "type": "string",
                  "nullable": true,
                  "description": "データベースバージョン  \n**新規作成時必須**\n",
@@ -30,7 +32,7 @@ index 80bf3e0..e7e7377 100644
                  "example": "4.1.9"
                },
                "DefaultUser": {
-@@ -1179,14 +1172,7 @@
+@@ -1216,14 +1209,7 @@
                  "description": "デフォルトユーザ名  \n**新規作成時必須**\n",
                  "example": "defaultuser01",
                  "maxLength": 20,
@@ -46,7 +48,7 @@ index 80bf3e0..e7e7377 100644
                },
                "DiskSize": {
                  "type": "integer",
-@@ -1440,9 +1426,11 @@
+@@ -1477,9 +1463,11 @@
                    "EncryptionKey": {
                      "type": "object",
                      "description": "暗号化キー情報",
@@ -58,10 +60,11 @@ index 80bf3e0..e7e7377 100644
                          "description": "KMSキーID",
                          "example": "113700349294"
                        }
-@@ -1708,98 +1696,6 @@
+@@ -1744,99 +1732,7 @@
+         "properties": {
            "Appliance": {
              "$ref": "#/components/schemas/NosqlAppliance"
-           },
+-          },
 -          "Class": {
 -            "type": "string",
 -            "description": "クラス",
@@ -73,7 +76,7 @@ index 80bf3e0..e7e7377 100644
 -            "example": "CassandraName",
 -            "minLength": 1,
 -            "maxLength": 64
--          },
+           },
 -          "Description": {
 -            "type": "string",
 -            "description": "NoSQLの説明",
@@ -157,13 +160,11 @@ index 80bf3e0..e7e7377 100644
            "Success": {
              "$ref": "#/components/schemas/Success"
            },
-@@ -1809,7 +1705,8 @@
+@@ -1846,7 +1742,6 @@
          },
          "required": [
            "Appliance",
 -          "ID"
-+          "Success",
-+          "is_ok"
          ]
        },
        "NosqlUpdateRequest": {

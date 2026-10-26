@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.3",
   "info": {
-    "version": "2.0.1",
+    "version": "2.1.1",
     "title": "NoSQL APIドキュメント",
     "contact": {
       "name": "SAKURA internet Inc."
@@ -50,7 +50,7 @@
         ],
         "summary": "NoSQL一覧取得API",
         "description": "NoSQLの一覧取得を行います。",
-        "operationId": "ListDB",
+        "operationId": "listNosqlDatabases",
         "parameters": [
           {
             "name": "Filter.Class",
@@ -91,7 +91,7 @@
         ],
         "summary": "NoSQL作成API",
         "description": "NoSQLの新規作成および既存NoSQLへのノード追加を行います。  \n新規作成時とノード追加時では、必要となる項目が異なります。  \n各操作ごとの必須項目は、スキーマ定義内の各プロパティの説明欄に明記していますので、詳細はそちらをご参照ください。  \n- **新規作成時必須**: 新規作成の際に必須の項目\n- **ノード追加時必須**: ノード追加の際に必須の項目\n- **新規作成時・ノード追加時必須**: 新規作成・ノード追加の両方で必須の項目\n\n※ノード追加では、既存NoSQLの設定情報（**ノード追加時必須**以外の項目）と一致させるか未指定である必要があります。  \n",
-        "operationId": "CreateDB",
+        "operationId": "createNosqlDatabase",
         "requestBody": {
           "description": "NoSQLの作成を行うためのリクエストボディ",
           "content": {
@@ -136,7 +136,7 @@
         ],
         "summary": "NoSQL取得API",
         "description": "対象のNoSQLの取得を行います。",
-        "operationId": "GetDB",
+        "operationId": "readNosqlDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -148,7 +148,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NosqlGetResponse"
+                  "$ref": "#/components/schemas/NosqlReadResponse"
                 }
               }
             }
@@ -173,7 +173,7 @@
         ],
         "summary": "NoSQL更新API",
         "description": "対象のNoSQLに対しての更新を行います。  \n追加ノードのアプライアンスIDを指定して更新を行うことはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が適用されます。\n",
-        "operationId": "UpdateDB",
+        "operationId": "updateNosqlDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -224,7 +224,7 @@
         ],
         "summary": "NoSQL削除API",
         "description": "対象のNoSQLを削除します。  \nプライマリノードのアプライアンスIDを指定して削除する場合、ノード追加したデータは削除されません。  \nノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に削除する必要があります。\n",
-        "operationId": "DeleteDB",
+        "operationId": "deleteNosqlDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -266,7 +266,7 @@
         ],
         "summary": "NoSQL反映API",
         "description": "対象のNoSQLに対しての更新を反映します。  \n追加ノードのアプライアンスIDを指定して反映処理をすることはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が反映されます。\n",
-        "operationId": "UpdateConfigDB",
+        "operationId": "applyNosqlDatabaseConfig",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -294,9 +294,9 @@
         "tags": [
           "電源"
         ],
-        "summary": "NoSQL起動",
+        "summary": "NoSQL起動API",
         "description": "対象のNoSQLを起動します。  \nプライマリノードのアプライアンスIDを指定しての起動では、ノード追加したデータは起動しません。  \nノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に起動する必要があります。\n",
-        "operationId": "PutAppliancePower",
+        "operationId": "powerOnNosqlDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -334,9 +334,9 @@
         "tags": [
           "電源"
         ],
-        "summary": "NoSQL停止",
+        "summary": "NoSQL停止API",
         "description": "対象のNoSQLを停止します。  \nプライマリノードのアプライアンスIDを指定しての停止では、ノード追加したデータは停止しません。  \nノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に停止する必要があります。\n",
-        "operationId": "DeleteAppliancePower",
+        "operationId": "powerOffNosqlDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -369,6 +369,43 @@
             "$ref": "#/components/responses/ServerErrorResponse"
           }
         }
+      },
+      "get": {
+        "tags": [
+          "電源"
+        ],
+        "summary": "NoSQLの電源状態取得API",
+        "description": "対象のNoSQLの電源状態を取得します。",
+        "operationId": "getNosqlDatabasePower",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/ApplianceID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功時のレスポンス",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NosqlPower"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequestResponse"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedResponse"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFoundResponse"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerErrorResponse"
+          }
+        }
       }
     },
     "/appliance/{applianceID}/nosql/nodes/health": {
@@ -378,7 +415,7 @@
         ],
         "summary": "NoSQLの起動状態確認API",
         "description": "対象のNoSQL全体の起動状態を確認します。",
-        "operationId": "GetNoSQLNodeHealth",
+        "operationId": "readNosqlDatabaseNodeHealth",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -417,7 +454,7 @@
         ],
         "summary": "NoSQL状態復旧API",
         "description": "対象のNoSQLのノードを復旧します。\n起動状態を確認し、停止している場合は、再起動を試みます。\n",
-        "operationId": "RecoverNoSQLNode",
+        "operationId": "recoverNosqlDatabaseNode",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -476,7 +513,7 @@
         ],
         "summary": "NoSQL状態確認API",
         "description": "対象のNoSQLの情報を取得します。  \n追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。  \n",
-        "operationId": "ConfirmStatusDB",
+        "operationId": "readNosqlDatabaseStatus",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -512,7 +549,7 @@
         ],
         "summary": "NoSQLバックアップ取得API",
         "description": "対象NoSQLのバックアップ情報を取得します。  \n追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。\n",
-        "operationId": "GetBackupByApplianceID",
+        "operationId": "listNosqlDatabaseBackups",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -546,7 +583,7 @@
         ],
         "summary": "NoSQLバックアップ作成API",
         "description": "対象のNoSQLに対してバックアップ作成を行います。  \n追加ノードのアプライアンスIDを指定してバックアップを作成することはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバックアップが作成されます。\n",
-        "operationId": "createBackup",
+        "operationId": "createNosqlDatabaseBackup",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -588,7 +625,7 @@
         ],
         "summary": "NoSQLバックアップ復元API",
         "description": "対象のNoSQLに対してバックアップ復元を開始します。  \nバックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。  \n追加ノードのアプライアンスIDを指定してバックアップを復元することはできません。  \nプライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの復元が適用されます。\n",
-        "operationId": "restoreBackup",
+        "operationId": "restoreNosqlDatabaseBackup",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -631,7 +668,7 @@
         ],
         "summary": "NoSQLバックアップ削除API",
         "description": "対象のNoSQLのバックアップ削除を開始します。  \nバックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。  \n追加ノードのアプライアンスIDを指定してバックアップを削除することはできません。  \nプライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの削除が適用されます。\n",
-        "operationId": "deleteBackup",
+        "operationId": "deleteNosqlDatabaseBackup",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -676,7 +713,7 @@
         ],
         "summary": "NoSQLパラメータ取得API",
         "description": "対象のNoSQLのパラメータ設定情報を取得します。  \n追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。\n",
-        "operationId": "getParameter",
+        "operationId": "listNosqlDatabaseParameters",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -688,7 +725,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetParameterResponse"
+                  "$ref": "#/components/schemas/NosqlParametersResponse"
                 }
               }
             }
@@ -710,7 +747,7 @@
         ],
         "summary": "NoSQLパラメータ反映API",
         "description": "対象のNoSQLに対してのパラメータ設定を行います。  \n追加ノードのアプライアンスIDを指定してパラメータ設定を行うことはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対してもパラメータ設定を行うことができます。\n",
-        "operationId": "putParameter",
+        "operationId": "updateNosqlDatabaseParameters",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -721,7 +758,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PutParameterRequest"
+                "$ref": "#/components/schemas/UpdateNosqlParametersRequest"
               }
             }
           }
@@ -732,7 +769,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PutParameterResponse"
+                  "$ref": "#/components/schemas/UpdateNosqlParametersResponse"
                 }
               }
             }
@@ -759,7 +796,7 @@
         ],
         "summary": "NoSQLバージョン取得API",
         "description": "対象のNoSQLの更新可能なバージョンを取得します。  \n追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。\n",
-        "operationId": "getVersion",
+        "operationId": "listNosqlDatabaseVersions",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -771,7 +808,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NosqlGetVersionResponse"
+                  "$ref": "#/components/schemas/NosqlVersionsResponse"
                 }
               }
             }
@@ -793,7 +830,7 @@
         ],
         "summary": "NoSQLバージョン更新API",
         "description": "対象のNoSQLに対してのバージョン更新を行います。  \n追加ノードのアプライアンスIDを指定してバージョン更新を行うことはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバージョン更新を行うことができます。\n",
-        "operationId": "putVersion",
+        "operationId": "updateNosqlDatabaseVersion",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -804,7 +841,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NosqlPutVersionRequest"
+                "$ref": "#/components/schemas/NosqlUpdateVersionRequest"
               }
             }
           }
@@ -815,7 +852,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/NosqlPutVersionResponse"
+                  "$ref": "#/components/schemas/NosqlUpdateVersionResponse"
                 }
               }
             }
@@ -842,7 +879,7 @@
         ],
         "summary": "NoSQLリペア実行API",
         "description": "プライマリノードを対象にNoSQLのリペアを開始します。\n「増分リペア」または「完全リペア」を実行します。<br>\nリペアとはデータの整合性（一貫性）を維持するために、複数のノード間で発生したデータのずれを検出・修復するメンテナンス作業です。<br>\n増分リペアは、前回のリペア実行以降に更新されたデータのみを対象に修復を行います。<br>\n完全リペアは、クラスタ内のすべてのデータを対象に修復を行います。<br>\n追加ノードのアプライアンスIDを指定してリペアを実行することはできません。  \nプライマリノードのアプライアンスIDを指定することで、追加ノードに対してもリペアが実行されます。\n",
-        "operationId": "PostNoSQLRepair",
+        "operationId": "repairNosqlDatabase",
         "parameters": [
           {
             "$ref": "#/components/parameters/ApplianceID"
@@ -1704,9 +1741,7 @@
           }
         },
         "required": [
-          "Appliance",
-          "Success",
-          "is_ok"
+          "Appliance"
         ]
       },
       "NosqlUpdateRequest": {
@@ -1760,7 +1795,7 @@
           "Appliances": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GetNosqlAppliance"
+              "$ref": "#/components/schemas/NosqlApplianceResponse"
             }
           },
           "is_ok": {
@@ -1774,11 +1809,11 @@
           "Appliances"
         ]
       },
-      "NosqlGetResponse": {
+      "NosqlReadResponse": {
         "type": "object",
         "properties": {
           "Appliance": {
-            "$ref": "#/components/schemas/GetNosqlAppliance"
+            "$ref": "#/components/schemas/NosqlApplianceResponse"
           },
           "is_ok": {
             "$ref": "#/components/schemas/is_ok"
@@ -2032,7 +2067,7 @@
           }
         }
       },
-      "NosqlGetParameter": {
+      "NosqlParameter": {
         "type": "object",
         "required": [
           "settingItemId",
@@ -2078,7 +2113,7 @@
           }
         }
       },
-      "GetParameterResponse": {
+      "NosqlParametersResponse": {
         "type": "object",
         "properties": {
           "nosql": {
@@ -2087,7 +2122,7 @@
               "parameters": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/NosqlGetParameter"
+                  "$ref": "#/components/schemas/NosqlParameter"
                 }
               }
             }
@@ -2097,7 +2132,7 @@
           }
         }
       },
-      "NosqlPutParameter": {
+      "NosqlParameterSetting": {
         "type": "object",
         "properties": {
           "settingItemId": {
@@ -2116,7 +2151,7 @@
           "settingValue"
         ]
       },
-      "PutParameterRequest": {
+      "UpdateNosqlParametersRequest": {
         "type": "object",
         "properties": {
           "nosql": {
@@ -2125,7 +2160,7 @@
               "parameters": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/NosqlPutParameter"
+                  "$ref": "#/components/schemas/NosqlParameterSetting"
                 }
               }
             }
@@ -2135,7 +2170,7 @@
           "nosql"
         ]
       },
-      "PutParameterResponse": {
+      "UpdateNosqlParametersResponse": {
         "type": "object",
         "properties": {
           "nosql": {
@@ -2144,7 +2179,7 @@
               "parameters": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/NosqlPutParameter"
+                  "$ref": "#/components/schemas/NosqlParameterSetting"
                 }
               }
             }
@@ -2165,7 +2200,7 @@
           }
         }
       },
-      "NosqlGetVersionResponse": {
+      "NosqlVersionsResponse": {
         "type": "object",
         "properties": {
           "nosql": {
@@ -2206,7 +2241,7 @@
           }
         }
       },
-      "NosqlPutVersionRequest": {
+      "NosqlUpdateVersionRequest": {
         "type": "object",
         "required": [
           "nosql"
@@ -2217,7 +2252,7 @@
           }
         }
       },
-      "NosqlPutVersionResponse": {
+      "NosqlUpdateVersionResponse": {
         "type": "object",
         "properties": {
           "nosql": {
@@ -2281,6 +2316,26 @@
             }
           }
         ]
+      },
+      "NosqlPower": {
+        "type": "object",
+        "properties": {
+          "Instance": {
+            "type": "object",
+            "properties": {
+              "Status": {
+                "type": "string",
+                "description": "NoSQLノードの起動状態\n1ノードでも起動している場合、up\n全ノード停止している場合、down\n",
+                "example": "up"
+              }
+            }
+          },
+          "is_ok": {
+            "type": "boolean",
+            "description": "成功のレスポンス(true:成功)",
+            "example": true
+          }
+        }
       },
       "NosqlRepairRequest": {
         "type": "object",
@@ -2347,7 +2402,7 @@
           }
         }
       },
-      "GetNosqlSettings": {
+      "NosqlSettingsResponse": {
         "type": "object",
         "properties": {
           "Backup": {
@@ -2496,7 +2551,7 @@
           }
         }
       },
-      "GetNosqlRemark": {
+      "NosqlRemarkResponse": {
         "type": "object",
         "properties": {
           "Nosql": {
@@ -2643,12 +2698,12 @@
           }
         }
       },
-      "GetServiceClass": {
+      "NosqlServiceClass": {
         "type": "string",
         "description": "サービスクラス\n\n| プラン名      | サービスクラスパス          | \n|--------------|----------------------------|\n| 40GBプラン       |  cloud/nosql/plan/1        |\n| 100GBプラン       |  cloud/nosql/plan/2        |\n| 100GBプラン/ノード |  cloud/nosql/plan/2/node  |\n| 250GBプラン       |  cloud/nosql/plan/3        |\n| 250GBプラン/ノード |  cloud/nosql/plan/3/node  |\n",
         "example": "cloud/nosql/plan/1"
       },
-      "GetPlan": {
+      "NosqlPlan": {
         "type": "object",
         "description": "プラン",
         "properties": {
@@ -2659,7 +2714,7 @@
           }
         }
       },
-      "GetNosqlApplianceInput": {
+      "NosqlApplianceInputResponse": {
         "type": "object",
         "properties": {
           "Class": {
@@ -2686,11 +2741,11 @@
           }
         }
       },
-      "GetNosqlAppliance": {
+      "NosqlApplianceResponse": {
         "type": "object",
         "allOf": [
           {
-            "$ref": "#/components/schemas/GetNosqlApplianceInput"
+            "$ref": "#/components/schemas/NosqlApplianceInputResponse"
           },
           {
             "type": "object",
@@ -2701,10 +2756,10 @@
                 "example": "113600097295"
               },
               "Plan": {
-                "$ref": "#/components/schemas/GetPlan"
+                "$ref": "#/components/schemas/NosqlPlan"
               },
               "Settings": {
-                "$ref": "#/components/schemas/GetNosqlSettings"
+                "$ref": "#/components/schemas/NosqlSettingsResponse"
               },
               "SettingsHash": {
                 "type": "string",
@@ -2713,7 +2768,7 @@
               "Remark": {
                 "allOf": [
                   {
-                    "$ref": "#/components/schemas/GetNosqlRemark"
+                    "$ref": "#/components/schemas/NosqlRemarkResponse"
                   },
                   {
                     "type": "object",
@@ -2770,7 +2825,7 @@
                 }
               },
               "ServiceClass": {
-                "$ref": "#/components/schemas/GetServiceClass"
+                "$ref": "#/components/schemas/NosqlServiceClass"
               },
               "Generation": {
                 "type": "integer",
@@ -3072,3 +3127,4 @@
     }
   }
 }
+

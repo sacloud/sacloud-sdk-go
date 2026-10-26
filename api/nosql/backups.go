@@ -30,7 +30,7 @@ func NewBackupOp(client *v1.Client, dbId string) BackupAPI {
 }
 
 func (op *backupOp) List(ctx context.Context) ([]v1.NosqlBackup, error) {
-	res, err := op.client.GetBackupByApplianceID(ctx, v1.GetBackupByApplianceIDParams{ApplianceID: op.dbId})
+	res, err := op.client.ListNosqlDatabaseBackups(ctx, v1.ListNosqlDatabaseBackupsParams{ApplianceID: op.dbId})
 	if err != nil {
 		return nil, NewAPIError("Backup.List", 0, err)
 	}
@@ -50,7 +50,7 @@ func (op *backupOp) List(ctx context.Context) ([]v1.NosqlBackup, error) {
 }
 
 func (op *backupOp) Create(ctx context.Context) error {
-	res, err := op.client.CreateBackup(ctx, v1.CreateBackupParams{ApplianceID: op.dbId})
+	res, err := op.client.CreateNosqlDatabaseBackup(ctx, v1.CreateNosqlDatabaseBackupParams{ApplianceID: op.dbId})
 	if err != nil {
 		return NewAPIError("Backup.Create", 0, err)
 	}
@@ -72,7 +72,7 @@ func (op *backupOp) Create(ctx context.Context) error {
 }
 
 func (op *backupOp) Restore(ctx context.Context, id uuid.UUID) error {
-	res, err := op.client.RestoreBackup(ctx, v1.RestoreBackupParams{ApplianceID: op.dbId, BackupID: id})
+	res, err := op.client.RestoreNosqlDatabaseBackup(ctx, v1.RestoreNosqlDatabaseBackupParams{ApplianceID: op.dbId, BackupID: id})
 	if err != nil {
 		return NewAPIError("Backup.Restore", 0, err)
 	}
@@ -94,7 +94,7 @@ func (op *backupOp) Restore(ctx context.Context, id uuid.UUID) error {
 }
 
 func (op *backupOp) Delete(ctx context.Context, id uuid.UUID) error {
-	res, err := op.client.DeleteBackup(ctx, v1.DeleteBackupParams{ApplianceID: op.dbId, BackupID: id})
+	res, err := op.client.DeleteNosqlDatabaseBackup(ctx, v1.DeleteNosqlDatabaseBackupParams{ApplianceID: op.dbId, BackupID: id})
 	if err != nil {
 		return NewAPIError("Backup.Delete", 0, err)
 	}
