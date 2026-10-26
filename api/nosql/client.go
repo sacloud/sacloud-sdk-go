@@ -47,6 +47,7 @@ func NewClientWithAPIRootURL(client saclient.ClientAPI, apiRootURL string) (*v1.
 
 	augmented, err := dupable.DupWith(
 		saclient.WithUserAgent(UserAgent),
+		saclient.WithZone("tk1b"),  // 現在はtk1bでしか提供されていないので固定
 		saclient.WithBigInt(false), // 文字列を勝手に数値に変換しないようヘッダーで指定
 	)
 	if err != nil {
