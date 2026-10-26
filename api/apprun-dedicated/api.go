@@ -8,6 +8,7 @@ import (
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/autoscalinggroup"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/certificate"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/cluster"
+	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/limit"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/loadbalancer"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/service_class"
 	"github.com/sacloud/sacloud-sdk-go/api/apprun-dedicated/apis/version"
@@ -22,6 +23,7 @@ type LoadBalancerAPI = loadbalancer.LoadBalancerAPI
 type ServiceClassAPI = service_class.ServiceClassAPI
 type VersionAPI = version.VersionAPI
 type WorkerNodeAPI = workernode.WorkerNodeAPI
+type LimitAPI = limit.LimitAPI
 
 var NewApplicationOp = application.NewApplicationOp
 var NewAutoScalingGroupOp = autoscalinggroup.NewAutoScalingGroupOp
@@ -31,3 +33,4 @@ var NewLoadBalancerOp = loadbalancer.NewLoadBalancerOp
 var NewServiceClassOp = service_class.NewServiceClassOp
 var NewVersionOp = version.NewVersionOp
 var NewWorkerNodeOp = workernode.NewWorkerNodeOp
+var NewLimitOp = limit.NewLimitOp

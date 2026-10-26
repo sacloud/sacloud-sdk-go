@@ -58,59 +58,9 @@ type DeleteLoadBalancerParams struct {
 	LoadBalancerID     LoadBalancerID
 }
 
-// GetApplicationParams is parameters of getApplication operation.
-type GetApplicationParams struct {
+// ListApplicationContainersParams is parameters of listApplicationContainers operation.
+type ListApplicationContainersParams struct {
 	ApplicationID ApplicationID
-}
-
-// GetApplicationContainersParams is parameters of getApplicationContainers operation.
-type GetApplicationContainersParams struct {
-	ApplicationID ApplicationID
-}
-
-// GetApplicationVersionParams is parameters of getApplicationVersion operation.
-type GetApplicationVersionParams struct {
-	ApplicationID ApplicationID
-	Version       ApplicationVersionNumber
-}
-
-// GetAutoScalingGroupParams is parameters of getAutoScalingGroup operation.
-type GetAutoScalingGroupParams struct {
-	ClusterID          ClusterID
-	AutoScalingGroupID AutoScalingGroupID
-}
-
-// GetCertificateParams is parameters of getCertificate operation.
-type GetCertificateParams struct {
-	ClusterID     ClusterID
-	CertificateID CertificateID
-}
-
-// GetClusterParams is parameters of getCluster operation.
-type GetClusterParams struct {
-	ClusterID ClusterID
-}
-
-// GetLoadBalancerParams is parameters of getLoadBalancer operation.
-type GetLoadBalancerParams struct {
-	ClusterID          ClusterID
-	AutoScalingGroupID AutoScalingGroupID
-	LoadBalancerID     LoadBalancerID
-}
-
-// GetLoadBalancerNodeParams is parameters of getLoadBalancerNode operation.
-type GetLoadBalancerNodeParams struct {
-	ClusterID          ClusterID
-	AutoScalingGroupID AutoScalingGroupID
-	LoadBalancerID     LoadBalancerID
-	LoadBalancerNodeID LoadBalancerNodeID
-}
-
-// GetWorkerNodeParams is parameters of getWorkerNode operation.
-type GetWorkerNodeParams struct {
-	ClusterID          ClusterID
-	AutoScalingGroupID AutoScalingGroupID
-	WorkerNodeID       WorkerNodeID
 }
 
 // ListApplicationVersionsParams is parameters of listApplicationVersions operation.
@@ -125,7 +75,7 @@ type ListApplicationVersionsParams struct {
 type ListApplicationsParams struct {
 	ClusterID OptClusterID `json:",omitempty,omitzero"`
 	// 前ページの最後のID。これ以降のデータを取得するためのカーソル。ページネーションに利用します。.
-	Cursor OptString `json:",omitempty,omitzero"`
+	Cursor OptApplicationID `json:",omitempty,omitzero"`
 	// 1ページあたりの最大取得件数。.
 	MaxItems int64
 }
@@ -139,10 +89,9 @@ type ListAutoScalingGroupsParams struct {
 	MaxItems int64
 }
 
-// ListCertificateParams is parameters of listCertificate operation.
-type ListCertificateParams struct {
-	ClusterID         ClusterID
-	LastCertificateID OptCertificateID `json:",omitempty,omitzero"`
+// ListCertificatesParams is parameters of listCertificates operation.
+type ListCertificatesParams struct {
+	ClusterID ClusterID
 	// 前ページの最後のID。これ以降のデータを取得するためのカーソル。.
 	Cursor   OptCertificateID `json:",omitempty,omitzero"`
 	MaxItems int64
@@ -161,7 +110,7 @@ type ListLoadBalancerNodesParams struct {
 	ClusterID          ClusterID
 	AutoScalingGroupID AutoScalingGroupID
 	LoadBalancerID     LoadBalancerID
-	Cursor             OptLoadBalancerID `json:",omitempty,omitzero"`
+	Cursor             OptLoadBalancerNodeID `json:",omitempty,omitzero"`
 	MaxItems           int64
 }
 
@@ -181,6 +130,66 @@ type ListWorkerNodesParams struct {
 	MaxItems           int64
 }
 
+// PatchClusterLoadBalancerParams is parameters of patchClusterLoadBalancer operation.
+type PatchClusterLoadBalancerParams struct {
+	ClusterID ClusterID
+}
+
+// ReadApplicationParams is parameters of readApplication operation.
+type ReadApplicationParams struct {
+	ApplicationID ApplicationID
+}
+
+// ReadApplicationVersionParams is parameters of readApplicationVersion operation.
+type ReadApplicationVersionParams struct {
+	ApplicationID ApplicationID
+	Version       ApplicationVersionNumber
+}
+
+// ReadAutoScalingGroupParams is parameters of readAutoScalingGroup operation.
+type ReadAutoScalingGroupParams struct {
+	ClusterID          ClusterID
+	AutoScalingGroupID AutoScalingGroupID
+}
+
+// ReadCertificateParams is parameters of readCertificate operation.
+type ReadCertificateParams struct {
+	ClusterID     ClusterID
+	CertificateID CertificateID
+}
+
+// ReadClusterParams is parameters of readCluster operation.
+type ReadClusterParams struct {
+	ClusterID ClusterID
+}
+
+// ReadClusterLoadBalancerParams is parameters of readClusterLoadBalancer operation.
+type ReadClusterLoadBalancerParams struct {
+	ClusterID ClusterID
+}
+
+// ReadLoadBalancerParams is parameters of readLoadBalancer operation.
+type ReadLoadBalancerParams struct {
+	ClusterID          ClusterID
+	AutoScalingGroupID AutoScalingGroupID
+	LoadBalancerID     LoadBalancerID
+}
+
+// ReadLoadBalancerNodeParams is parameters of readLoadBalancerNode operation.
+type ReadLoadBalancerNodeParams struct {
+	ClusterID          ClusterID
+	AutoScalingGroupID AutoScalingGroupID
+	LoadBalancerID     LoadBalancerID
+	LoadBalancerNodeID LoadBalancerNodeID
+}
+
+// ReadWorkerNodeParams is parameters of readWorkerNode operation.
+type ReadWorkerNodeParams struct {
+	ClusterID          ClusterID
+	AutoScalingGroupID AutoScalingGroupID
+	WorkerNodeID       WorkerNodeID
+}
+
 // UpdateApplicationParams is parameters of updateApplication operation.
 type UpdateApplicationParams struct {
 	ApplicationID ApplicationID
@@ -197,8 +206,8 @@ type UpdateClusterParams struct {
 	ClusterID ClusterID
 }
 
-// UpdateWorkerNodeDrainingStateParams is parameters of updateWorkerNodeDrainingState operation.
-type UpdateWorkerNodeDrainingStateParams struct {
+// UpdateWorkerNodeDrainingParams is parameters of updateWorkerNodeDraining operation.
+type UpdateWorkerNodeDrainingParams struct {
 	ClusterID          ClusterID
 	AutoScalingGroupID AutoScalingGroupID
 	WorkerNodeID       WorkerNodeID

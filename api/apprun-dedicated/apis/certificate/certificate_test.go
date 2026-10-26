@@ -32,7 +32,7 @@ func TestNewCertificateOp(t *testing.T) {
 }
 
 func TestList(t *testing.T) {
-	var expected v1.ListCertificateResponse
+	var expected v1.ListCertificatesResponse
 	expected.SetFake()
 	expected.SetCertificates(make([]v1.ReadCertificate, 2))
 	expected.Certificates[0] = apprun_test.FakeCertificate()
@@ -98,14 +98,14 @@ func TestCreate_failed(t *testing.T) {
 }
 
 func TestRead(t *testing.T) {
-	var expected v1.GetCertificateResponse
-	cid := uuid.New()
+	var expected v1.ReadCertificateResponse
+	cid := v1.CertificateID(uuid.New())
 	expected.SetFake()
 	expected.Certificate = apprun_test.FakeCertificate()
 	expected.Certificate.SetCertificateID(cid)
 	assert, api := setup(t, &expected)
 
-	actual, err := api.Read(t.Context(), v1.CertificateID(cid))
+	actual, err := api.Read(t.Context(), cid)
 
 	assert.NoError(err)
 	assert.NotNil(actual)

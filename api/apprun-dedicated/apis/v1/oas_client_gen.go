@@ -28,37 +28,37 @@ type Invoker interface {
 	// 指定したクラスタに新しいアプリケーションを作成します。1アカウントにつき最大10個まで作成可能です。.
 	//
 	// POST /applications
-	CreateApplication(ctx context.Context, request *CreateApplication) (*CreateApplicationResponse, error)
+	CreateApplication(ctx context.Context, request *CreateApplicationRequest) (*CreateApplicationResponse, error)
 	// CreateApplicationVersion invokes createApplicationVersion operation.
 	//
-	// アプリケーションバージョンを作成します｡アプリケーションバージョンを作成するだけではノードにデプロイされません｡アプリケーションのアクティブバージョンに指定するとノードにデプロイされます｡.
+	// アプリケーションバージョンを作成します。アプリケーションバージョンを作成するだけではノードにデプロイされません。アプリケーションのアクティブバージョンに指定するとノードにデプロイされます。.
 	//
 	// POST /applications/{applicationID}/versions
-	CreateApplicationVersion(ctx context.Context, request *CreateApplicationVersion, params CreateApplicationVersionParams) (*CreateApplicationVersionResponse, error)
+	CreateApplicationVersion(ctx context.Context, request *CreateApplicationVersionRequest, params CreateApplicationVersionParams) (*CreateApplicationVersionResponse, error)
 	// CreateAutoScalingGroup invokes createAutoScalingGroup operation.
 	//
-	// 新しい Auto Scaling Group を作成します。.
+	// 新しいオートスケーリンググループを作成します。.
 	//
 	// POST /clusters/{clusterID}/asg
-	CreateAutoScalingGroup(ctx context.Context, request *CreateAutoScalingGroup, params CreateAutoScalingGroupParams) (*CreateAutoScalingGroupResponse, error)
+	CreateAutoScalingGroup(ctx context.Context, request *CreateAutoScalingGroupRequest, params CreateAutoScalingGroupParams) (*CreateAutoScalingGroupResponse, error)
 	// CreateCertificate invokes createCertificate operation.
 	//
 	// 新しい証明書を作成します。.
 	//
 	// POST /clusters/{clusterID}/certificates
-	CreateCertificate(ctx context.Context, request *CreateCertificate, params CreateCertificateParams) (*CreateCertificateResponse, error)
+	CreateCertificate(ctx context.Context, request *CreateCertificateRequest, params CreateCertificateParams) (*CreateCertificateResponse, error)
 	// CreateCluster invokes createCluster operation.
 	//
 	// 新しいクラスタを作成します。作成後にクラスタIDを返します。.
 	//
 	// POST /clusters
-	CreateCluster(ctx context.Context, request *CreateCluster) (*CreateClusterResponse, error)
+	CreateCluster(ctx context.Context, request *CreateClusterRequest) (*CreateClusterResponse, error)
 	// CreateLoadBalancer invokes createLoadBalancer operation.
 	//
-	// 指定したAuto Scaling Groupにロードバランサーを作成します。.
+	// 指定したオートスケーリンググループにロードバランサを作成します。.
 	//
 	// POST /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers
-	CreateLoadBalancer(ctx context.Context, request *CreateLoadBalancer, params CreateLoadBalancerParams) (*CreateLoadBalancerResponse, error)
+	CreateLoadBalancer(ctx context.Context, request *CreateLoadBalancerRequest, params CreateLoadBalancerParams) (*CreateLoadBalancerResponse, error)
 	// DeleteApplication invokes deleteApplication operation.
 	//
 	// 指定したアプリケーションを削除します。
@@ -66,20 +66,20 @@ type Invoker interface {
 	// # 前提条件
 	//
 	//  - 当該アプリケーションに アクティブなバージョンが存在しない こと
-	//  - いずれのワーカーノードでも当該アプリケーションの
+	//  - いずれのワーカノードでも当該アプリケーションの
 	//    コンテナが稼働していない こと
 	//
 	// DELETE /applications/{applicationID}
 	DeleteApplication(ctx context.Context, params DeleteApplicationParams) error
 	// DeleteApplicationVersion invokes deleteApplicationVersion operation.
 	//
-	// 現在ノードにデプロイされているバージョンおよびアクティブなバージョンは削除出来ない｡.
+	// 現在ノードにデプロイされているバージョンおよびアクティブなバージョンは削除できません。.
 	//
 	// DELETE /applications/{applicationID}/versions/{version}
 	DeleteApplicationVersion(ctx context.Context, params DeleteApplicationVersionParams) error
 	// DeleteAutoScalingGroup invokes deleteAutoScalingGroup operation.
 	//
-	// 指定した Auto Scaling Group を削除します。.
+	// 指定したオートスケーリンググループを削除します。.
 	//
 	// DELETE /clusters/{clusterID}/asg/{autoScalingGroupID}
 	DeleteAutoScalingGroup(ctx context.Context, params DeleteAutoScalingGroupParams) error
@@ -97,153 +97,167 @@ type Invoker interface {
 	DeleteCluster(ctx context.Context, params DeleteClusterParams) error
 	// DeleteLoadBalancer invokes deleteLoadBalancer operation.
 	//
-	// 指定したロードバランサーを削除します。.
+	// 指定したロードバランサを削除します。.
 	//
 	// DELETE /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}
 	DeleteLoadBalancer(ctx context.Context, params DeleteLoadBalancerParams) error
-	// GetApplication invokes getApplication operation.
+	// ListApplicationContainers invokes listApplicationContainers operation.
 	//
-	// 指定したアプリケーションIDの詳細情報を返します。.
-	//
-	// GET /applications/{applicationID}
-	GetApplication(ctx context.Context, params GetApplicationParams) (*GetApplicationResponse, error)
-	// GetApplicationContainers invokes getApplicationContainers operation.
-	//
-	// 指定したアプリケーションの各ワーカーノード上でのコンテナ配置情報を返します。.
+	// 指定したアプリケーションの各ワーカノード上でのコンテナ配置情報を返します。.
 	//
 	// GET /applications/{applicationID}/containers
-	GetApplicationContainers(ctx context.Context, params GetApplicationContainersParams) (*GetApplicationContainersResponse, error)
-	// GetApplicationVersion invokes getApplicationVersion operation.
-	//
-	// 指定されたバージョンの詳細取得.
-	//
-	// GET /applications/{applicationID}/versions/{version}
-	GetApplicationVersion(ctx context.Context, params GetApplicationVersionParams) (*GetApplicationVersionResponse, error)
-	// GetAutoScalingGroup invokes getAutoScalingGroup operation.
-	//
-	// 指定した Auto Scaling Group の詳細情報を返します。.
-	//
-	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}
-	GetAutoScalingGroup(ctx context.Context, params GetAutoScalingGroupParams) (*GetAutoScalingGroupResponse, error)
-	// GetCertificate invokes getCertificate operation.
-	//
-	// 指定した証明書の詳細情報を返します。.
-	//
-	// GET /clusters/{clusterID}/certificates/{certificateID}
-	GetCertificate(ctx context.Context, params GetCertificateParams) (*GetCertificateResponse, error)
-	// GetCluster invokes getCluster operation.
-	//
-	// 指定したクラスタの詳細情報を返します。.
-	//
-	// GET /clusters/{clusterID}
-	GetCluster(ctx context.Context, params GetClusterParams) (*GetClusterResponse, error)
-	// GetLoadBalancer invokes getLoadBalancer operation.
-	//
-	// 指定したロードバランサーの詳細情報を返します。.
-	//
-	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}
-	GetLoadBalancer(ctx context.Context, params GetLoadBalancerParams) (*GetLoadBalancerResponse, error)
-	// GetLoadBalancerNode invokes getLoadBalancerNode operation.
-	//
-	// 指定したロードバランサーノードの詳細情報を返します。.
-	//
-	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}/load_balancer_nodes/{loadBalancerNodeID}
-	GetLoadBalancerNode(ctx context.Context, params GetLoadBalancerNodeParams) (*GetLoadBalancerNodeResponse, error)
-	// GetWorkerNode invokes getWorkerNode operation.
-	//
-	// 指定したワーカーノードの詳細情報を返します。.
-	//
-	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/worker_nodes/{workerNodeID}
-	GetWorkerNode(ctx context.Context, params GetWorkerNodeParams) (*GetWorkerNodeResponse, error)
+	ListApplicationContainers(ctx context.Context, params ListApplicationContainersParams) (*ListApplicationContainersResponse, error)
 	// ListApplicationVersions invokes listApplicationVersions operation.
 	//
-	// 指定されたアプリケーションのバージョン一覧取得.
+	// 指定されたアプリケーションのバージョン一覧を返します。.
 	//
 	// GET /applications/{applicationID}/versions
-	ListApplicationVersions(ctx context.Context, params ListApplicationVersionsParams) (*ListApplicationVersionResponse, error)
+	ListApplicationVersions(ctx context.Context, params ListApplicationVersionsParams) (*ListApplicationVersionsResponse, error)
 	// ListApplications invokes listApplications operation.
 	//
 	// 指定したアカウントに紐づくアプリケーションの一覧を返します。.
 	//
 	// GET /applications
-	ListApplications(ctx context.Context, params ListApplicationsParams) (*ListApplicationResponse, error)
+	ListApplications(ctx context.Context, params ListApplicationsParams) (*ListApplicationsResponse, error)
 	// ListAutoScalingGroups invokes listAutoScalingGroups operation.
 	//
-	// クラスタに所属する Auto Scaling Group
-	// の一覧を返します。ページネーションに対応します。.
+	// クラスタに所属するオートスケーリンググループの一覧を返します。ページネーションに対応します。.
 	//
 	// GET /clusters/{clusterID}/asg
-	ListAutoScalingGroups(ctx context.Context, params ListAutoScalingGroupsParams) (*ListAutoScalingGroupResponse, error)
-	// ListCertificate invokes listCertificate operation.
+	ListAutoScalingGroups(ctx context.Context, params ListAutoScalingGroupsParams) (*ListAutoScalingGroupsResponse, error)
+	// ListCertificates invokes listCertificates operation.
 	//
 	// クラスタ内の証明書一覧を返します。ページネーションに対応します。.
 	//
 	// GET /clusters/{clusterID}/certificates
-	ListCertificate(ctx context.Context, params ListCertificateParams) (*ListCertificateResponse, error)
+	ListCertificates(ctx context.Context, params ListCertificatesParams) (*ListCertificatesResponse, error)
 	// ListClusters invokes listClusters operation.
 	//
 	// アカウントに紐づくクラスタの一覧を返します。ページネーションに対応します。.
 	//
 	// GET /clusters
-	ListClusters(ctx context.Context, params ListClustersParams) (*ListClusterResponse, error)
-	// ListLbServiceClasses invokes listLbServiceClasses operation.
-	//
-	// ロードバランサ用のサービスクラス一覧を返します。.
-	//
-	// GET /service_classes/lb
-	ListLbServiceClasses(ctx context.Context) (*ListLbServiceClassResponse, error)
+	ListClusters(ctx context.Context, params ListClustersParams) (*ListClustersResponse, error)
 	// ListLoadBalancerNodes invokes listLoadBalancerNodes operation.
 	//
-	// 指定したロードバランサーに属するノードの一覧を返します。.
+	// 指定したロードバランサに属するノードの一覧を返します。.
 	//
 	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}/load_balancer_nodes
 	ListLoadBalancerNodes(ctx context.Context, params ListLoadBalancerNodesParams) (*ListLoadBalancerNodesResponse, error)
+	// ListLoadBalancerServiceClasses invokes listLoadBalancerServiceClasses operation.
+	//
+	// ロードバランササービスクラスの一覧を返します。.
+	//
+	// GET /service_classes/lb
+	ListLoadBalancerServiceClasses(ctx context.Context) (*ListLoadBalancerServiceClassesResponse, error)
 	// ListLoadBalancers invokes listLoadBalancers operation.
 	//
-	// Auto Scaling Group
-	// に属するロードバランサーの一覧を返します。ページネーションに対応します。.
+	// オートスケーリンググループに属するロードバランサの一覧を返します。ページネーションに対応します。.
 	//
 	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers
 	ListLoadBalancers(ctx context.Context, params ListLoadBalancersParams) (*ListLoadBalancersResponse, error)
 	// ListWorkerNodes invokes listWorkerNodes operation.
 	//
-	// Auto Scaling Group
-	// に所属するワーカーノードの一覧を返します。ページネーションに対応します。.
+	// オートスケーリンググループに所属するワーカノードの一覧を返します。ページネーションに対応します。.
 	//
 	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/worker_nodes
 	ListWorkerNodes(ctx context.Context, params ListWorkerNodesParams) (*ListWorkerNodesResponse, error)
 	// ListWorkerServiceClasses invokes listWorkerServiceClasses operation.
 	//
-	// ワーカーノード用のサービスクラス一覧を返します。.
+	// ワーカノードサービスクラスの一覧を返します。.
 	//
 	// GET /service_classes/worker
-	ListWorkerServiceClasses(ctx context.Context) (*ListWorkerServiceClassResponse, error)
+	ListWorkerServiceClasses(ctx context.Context) (*ListWorkerServiceClassesResponse, error)
+	// PatchClusterLoadBalancer invokes patchClusterLoadBalancer operation.
+	//
+	// 指定したクラスタに紐づくロードバランサ設定を部分更新します。未指定の項目は既存値を維持します。.
+	//
+	// PATCH /clusters/{clusterID}/load_balancer
+	PatchClusterLoadBalancer(ctx context.Context, request *PatchClusterLoadBalancerRequest, params PatchClusterLoadBalancerParams) error
+	// ReadApplication invokes readApplication operation.
+	//
+	// 指定したアプリケーションIDの詳細を返します。.
+	//
+	// GET /applications/{applicationID}
+	ReadApplication(ctx context.Context, params ReadApplicationParams) (*ReadApplicationResponse, error)
+	// ReadApplicationVersion invokes readApplicationVersion operation.
+	//
+	// 指定されたバージョンの詳細を返します。.
+	//
+	// GET /applications/{applicationID}/versions/{version}
+	ReadApplicationVersion(ctx context.Context, params ReadApplicationVersionParams) (*ReadApplicationVersionResponse, error)
+	// ReadAutoScalingGroup invokes readAutoScalingGroup operation.
+	//
+	// 指定したオートスケーリンググループの詳細を返します。.
+	//
+	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}
+	ReadAutoScalingGroup(ctx context.Context, params ReadAutoScalingGroupParams) (*ReadAutoScalingGroupResponse, error)
+	// ReadCertificate invokes readCertificate operation.
+	//
+	// 指定した証明書の詳細を返します。.
+	//
+	// GET /clusters/{clusterID}/certificates/{certificateID}
+	ReadCertificate(ctx context.Context, params ReadCertificateParams) (*ReadCertificateResponse, error)
+	// ReadCluster invokes readCluster operation.
+	//
+	// 指定したクラスタの詳細を返します。.
+	//
+	// GET /clusters/{clusterID}
+	ReadCluster(ctx context.Context, params ReadClusterParams) (*ReadClusterResponse, error)
+	// ReadClusterLoadBalancer invokes readClusterLoadBalancer operation.
+	//
+	// 指定したクラスタに紐づくロードバランサ設定（Let's Encrypt
+	// メール設定の有無と公開ポート設定）を返します。.
+	//
+	// GET /clusters/{clusterID}/load_balancer
+	ReadClusterLoadBalancer(ctx context.Context, params ReadClusterLoadBalancerParams) (*ReadClusterLoadBalancerResponse, error)
+	// ReadLimits invokes readLimits operation.
+	//
+	// プロジェクトに紐づくリソース制限値を返します。.
+	//
+	// GET /limits
+	ReadLimits(ctx context.Context) (*ReadLimitsResponse, error)
+	// ReadLoadBalancer invokes readLoadBalancer operation.
+	//
+	// 指定したロードバランサの詳細を返します。.
+	//
+	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}
+	ReadLoadBalancer(ctx context.Context, params ReadLoadBalancerParams) (*ReadLoadBalancerResponse, error)
+	// ReadLoadBalancerNode invokes readLoadBalancerNode operation.
+	//
+	// 指定したロードバランサノードの詳細を返します。.
+	//
+	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}/load_balancer_nodes/{loadBalancerNodeID}
+	ReadLoadBalancerNode(ctx context.Context, params ReadLoadBalancerNodeParams) (*ReadLoadBalancerNodeResponse, error)
+	// ReadWorkerNode invokes readWorkerNode operation.
+	//
+	// 指定したワーカノードの詳細を返します。.
+	//
+	// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/worker_nodes/{workerNodeID}
+	ReadWorkerNode(ctx context.Context, params ReadWorkerNodeParams) (*ReadWorkerNodeResponse, error)
 	// UpdateApplication invokes updateApplication operation.
 	//
-	// アプリケーションのactiveVersionなどを更新します。クラスタの変更はできません。activeVersionを変更すると指定したバージョンがデプロイされます。activeVersionをnullにするとアプリケーションは非アクティブ状態になり､デプロイされなくなります。アプリケーション削除前には
-	// activeVersion を null にする必要があります｡.
+	// アプリケーションのactiveVersionなどを更新します。クラスタの変更はできません。activeVersionを変更すると指定したバージョンがデプロイされます。activeVersionをnullにするとアプリケーションは非アクティブ状態になり、デプロイされなくなります。アプリケーション削除前にはactiveVersionをnullにする必要があります。.
 	//
 	// PUT /applications/{applicationID}
-	UpdateApplication(ctx context.Context, request *UpdateApplication, params UpdateApplicationParams) error
+	UpdateApplication(ctx context.Context, request *UpdateApplicationRequest, params UpdateApplicationParams) error
 	// UpdateCertificate invokes updateCertificate operation.
 	//
 	// 指定した証明書を更新します。.
 	//
 	// PUT /clusters/{clusterID}/certificates/{certificateID}
-	UpdateCertificate(ctx context.Context, request *UpdateCertificate, params UpdateCertificateParams) error
+	UpdateCertificate(ctx context.Context, request *UpdateCertificateRequest, params UpdateCertificateParams) error
 	// UpdateCluster invokes updateCluster operation.
 	//
 	// 指定したクラスタの設定を更新します。.
 	//
 	// PUT /clusters/{clusterID}
-	UpdateCluster(ctx context.Context, request *UpdateCluster, params UpdateClusterParams) error
-	// UpdateWorkerNodeDrainingState invokes updateWorkerNodeDrainingState operation.
+	UpdateCluster(ctx context.Context, request *UpdateClusterRequest, params UpdateClusterParams) error
+	// UpdateWorkerNodeDraining invokes updateWorkerNodeDraining operation.
 	//
-	// 指定したワーカーノードのdraining状態を更新します（draining
-	// を有効/無効にします）。.
+	// 指定したワーカノードのドレイン状態を更新します（ドレインを有効/無効にします）。.
 	//
 	// PUT /clusters/{clusterID}/asg/{autoScalingGroupID}/worker_nodes/{workerNodeID}/draining
-	UpdateWorkerNodeDrainingState(ctx context.Context, request *UpdateWorkerNodeDrainingRequest, params UpdateWorkerNodeDrainingStateParams) error
+	UpdateWorkerNodeDraining(ctx context.Context, request *UpdateWorkerNodeDrainingRequest, params UpdateWorkerNodeDrainingParams) error
 }
 
 // Client implements OAS client.
@@ -292,12 +306,12 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 // 指定したクラスタに新しいアプリケーションを作成します。1アカウントにつき最大10個まで作成可能です。.
 //
 // POST /applications
-func (c *Client) CreateApplication(ctx context.Context, request *CreateApplication) (*CreateApplicationResponse, error) {
+func (c *Client) CreateApplication(ctx context.Context, request *CreateApplicationRequest) (*CreateApplicationResponse, error) {
 	res, err := c.sendCreateApplication(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendCreateApplication(ctx context.Context, request *CreateApplication) (res *CreateApplicationResponse, err error) {
+func (c *Client) sendCreateApplication(ctx context.Context, request *CreateApplicationRequest) (res *CreateApplicationResponse, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -377,15 +391,15 @@ func (c *Client) sendCreateApplication(ctx context.Context, request *CreateAppli
 
 // CreateApplicationVersion invokes createApplicationVersion operation.
 //
-// アプリケーションバージョンを作成します｡アプリケーションバージョンを作成するだけではノードにデプロイされません｡アプリケーションのアクティブバージョンに指定するとノードにデプロイされます｡.
+// アプリケーションバージョンを作成します。アプリケーションバージョンを作成するだけではノードにデプロイされません。アプリケーションのアクティブバージョンに指定するとノードにデプロイされます。.
 //
 // POST /applications/{applicationID}/versions
-func (c *Client) CreateApplicationVersion(ctx context.Context, request *CreateApplicationVersion, params CreateApplicationVersionParams) (*CreateApplicationVersionResponse, error) {
+func (c *Client) CreateApplicationVersion(ctx context.Context, request *CreateApplicationVersionRequest, params CreateApplicationVersionParams) (*CreateApplicationVersionResponse, error) {
 	res, err := c.sendCreateApplicationVersion(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateApplicationVersion(ctx context.Context, request *CreateApplicationVersion, params CreateApplicationVersionParams) (res *CreateApplicationVersionResponse, err error) {
+func (c *Client) sendCreateApplicationVersion(ctx context.Context, request *CreateApplicationVersionRequest, params CreateApplicationVersionParams) (res *CreateApplicationVersionResponse, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -487,15 +501,15 @@ func (c *Client) sendCreateApplicationVersion(ctx context.Context, request *Crea
 
 // CreateAutoScalingGroup invokes createAutoScalingGroup operation.
 //
-// 新しい Auto Scaling Group を作成します。.
+// 新しいオートスケーリンググループを作成します。.
 //
 // POST /clusters/{clusterID}/asg
-func (c *Client) CreateAutoScalingGroup(ctx context.Context, request *CreateAutoScalingGroup, params CreateAutoScalingGroupParams) (*CreateAutoScalingGroupResponse, error) {
+func (c *Client) CreateAutoScalingGroup(ctx context.Context, request *CreateAutoScalingGroupRequest, params CreateAutoScalingGroupParams) (*CreateAutoScalingGroupResponse, error) {
 	res, err := c.sendCreateAutoScalingGroup(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateAutoScalingGroup(ctx context.Context, request *CreateAutoScalingGroup, params CreateAutoScalingGroupParams) (res *CreateAutoScalingGroupResponse, err error) {
+func (c *Client) sendCreateAutoScalingGroup(ctx context.Context, request *CreateAutoScalingGroupRequest, params CreateAutoScalingGroupParams) (res *CreateAutoScalingGroupResponse, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -600,12 +614,12 @@ func (c *Client) sendCreateAutoScalingGroup(ctx context.Context, request *Create
 // 新しい証明書を作成します。.
 //
 // POST /clusters/{clusterID}/certificates
-func (c *Client) CreateCertificate(ctx context.Context, request *CreateCertificate, params CreateCertificateParams) (*CreateCertificateResponse, error) {
+func (c *Client) CreateCertificate(ctx context.Context, request *CreateCertificateRequest, params CreateCertificateParams) (*CreateCertificateResponse, error) {
 	res, err := c.sendCreateCertificate(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateCertificate(ctx context.Context, request *CreateCertificate, params CreateCertificateParams) (res *CreateCertificateResponse, err error) {
+func (c *Client) sendCreateCertificate(ctx context.Context, request *CreateCertificateRequest, params CreateCertificateParams) (res *CreateCertificateResponse, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -710,12 +724,12 @@ func (c *Client) sendCreateCertificate(ctx context.Context, request *CreateCerti
 // 新しいクラスタを作成します。作成後にクラスタIDを返します。.
 //
 // POST /clusters
-func (c *Client) CreateCluster(ctx context.Context, request *CreateCluster) (*CreateClusterResponse, error) {
+func (c *Client) CreateCluster(ctx context.Context, request *CreateClusterRequest) (*CreateClusterResponse, error) {
 	res, err := c.sendCreateCluster(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendCreateCluster(ctx context.Context, request *CreateCluster) (res *CreateClusterResponse, err error) {
+func (c *Client) sendCreateCluster(ctx context.Context, request *CreateClusterRequest) (res *CreateClusterResponse, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -795,15 +809,15 @@ func (c *Client) sendCreateCluster(ctx context.Context, request *CreateCluster) 
 
 // CreateLoadBalancer invokes createLoadBalancer operation.
 //
-// 指定したAuto Scaling Groupにロードバランサーを作成します。.
+// 指定したオートスケーリンググループにロードバランサを作成します。.
 //
 // POST /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers
-func (c *Client) CreateLoadBalancer(ctx context.Context, request *CreateLoadBalancer, params CreateLoadBalancerParams) (*CreateLoadBalancerResponse, error) {
+func (c *Client) CreateLoadBalancer(ctx context.Context, request *CreateLoadBalancerRequest, params CreateLoadBalancerParams) (*CreateLoadBalancerResponse, error) {
 	res, err := c.sendCreateLoadBalancer(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateLoadBalancer(ctx context.Context, request *CreateLoadBalancer, params CreateLoadBalancerParams) (res *CreateLoadBalancerResponse, err error) {
+func (c *Client) sendCreateLoadBalancer(ctx context.Context, request *CreateLoadBalancerRequest, params CreateLoadBalancerParams) (res *CreateLoadBalancerResponse, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -932,7 +946,7 @@ func (c *Client) sendCreateLoadBalancer(ctx context.Context, request *CreateLoad
 // # 前提条件
 //
 //   - 当該アプリケーションに アクティブなバージョンが存在しない こと
-//   - いずれのワーカーノードでも当該アプリケーションの
+//   - いずれのワーカノードでも当該アプリケーションの
 //     コンテナが稼働していない こと
 //
 // DELETE /applications/{applicationID}
@@ -1030,7 +1044,7 @@ func (c *Client) sendDeleteApplication(ctx context.Context, params DeleteApplica
 
 // DeleteApplicationVersion invokes deleteApplicationVersion operation.
 //
-// 現在ノードにデプロイされているバージョンおよびアクティブなバージョンは削除出来ない｡.
+// 現在ノードにデプロイされているバージョンおよびアクティブなバージョンは削除できません。.
 //
 // DELETE /applications/{applicationID}/versions/{version}
 func (c *Client) DeleteApplicationVersion(ctx context.Context, params DeleteApplicationVersionParams) error {
@@ -1149,7 +1163,7 @@ func (c *Client) sendDeleteApplicationVersion(ctx context.Context, params Delete
 
 // DeleteAutoScalingGroup invokes deleteAutoScalingGroup operation.
 //
-// 指定した Auto Scaling Group を削除します。.
+// 指定したオートスケーリンググループを削除します。.
 //
 // DELETE /clusters/{clusterID}/asg/{autoScalingGroupID}
 func (c *Client) DeleteAutoScalingGroup(ctx context.Context, params DeleteAutoScalingGroupParams) error {
@@ -1484,7 +1498,7 @@ func (c *Client) sendDeleteCluster(ctx context.Context, params DeleteClusterPara
 
 // DeleteLoadBalancer invokes deleteLoadBalancer operation.
 //
-// 指定したロードバランサーを削除します。.
+// 指定したロードバランサを削除します。.
 //
 // DELETE /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}
 func (c *Client) DeleteLoadBalancer(ctx context.Context, params DeleteLoadBalancerParams) error {
@@ -1623,114 +1637,17 @@ func (c *Client) sendDeleteLoadBalancer(ctx context.Context, params DeleteLoadBa
 	return result, nil
 }
 
-// GetApplication invokes getApplication operation.
+// ListApplicationContainers invokes listApplicationContainers operation.
 //
-// 指定したアプリケーションIDの詳細情報を返します。.
-//
-// GET /applications/{applicationID}
-func (c *Client) GetApplication(ctx context.Context, params GetApplicationParams) (*GetApplicationResponse, error) {
-	res, err := c.sendGetApplication(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetApplication(ctx context.Context, params GetApplicationParams) (res *GetApplicationResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/applications/"
-	{
-		// Encode "applicationID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applicationID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.ApplicationID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetApplicationOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetApplicationResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetApplicationContainers invokes getApplicationContainers operation.
-//
-// 指定したアプリケーションの各ワーカーノード上でのコンテナ配置情報を返します。.
+// 指定したアプリケーションの各ワーカノード上でのコンテナ配置情報を返します。.
 //
 // GET /applications/{applicationID}/containers
-func (c *Client) GetApplicationContainers(ctx context.Context, params GetApplicationContainersParams) (*GetApplicationContainersResponse, error) {
-	res, err := c.sendGetApplicationContainers(ctx, params)
+func (c *Client) ListApplicationContainers(ctx context.Context, params ListApplicationContainersParams) (*ListApplicationContainersResponse, error) {
+	res, err := c.sendListApplicationContainers(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetApplicationContainers(ctx context.Context, params GetApplicationContainersParams) (res *GetApplicationContainersResponse, err error) {
+func (c *Client) sendListApplicationContainers(ctx context.Context, params ListApplicationContainersParams) (res *ListApplicationContainersResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -1769,7 +1686,7 @@ func (c *Client) sendGetApplicationContainers(ctx context.Context, params GetApp
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, GetApplicationContainersOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListApplicationContainersOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1810,906 +1727,7 @@ func (c *Client) sendGetApplicationContainers(ctx context.Context, params GetApp
 		_ = body.Close()
 	}()
 
-	result, err := decodeGetApplicationContainersResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetApplicationVersion invokes getApplicationVersion operation.
-//
-// 指定されたバージョンの詳細取得.
-//
-// GET /applications/{applicationID}/versions/{version}
-func (c *Client) GetApplicationVersion(ctx context.Context, params GetApplicationVersionParams) (*GetApplicationVersionResponse, error) {
-	res, err := c.sendGetApplicationVersion(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetApplicationVersion(ctx context.Context, params GetApplicationVersionParams) (res *GetApplicationVersionResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/applications/"
-	{
-		// Encode "applicationID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applicationID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.ApplicationID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/versions/"
-	{
-		// Encode "version" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "version",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := int32(params.Version); true {
-				return e.EncodeValue(conv.Int32ToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetApplicationVersionOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetApplicationVersionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAutoScalingGroup invokes getAutoScalingGroup operation.
-//
-// 指定した Auto Scaling Group の詳細情報を返します。.
-//
-// GET /clusters/{clusterID}/asg/{autoScalingGroupID}
-func (c *Client) GetAutoScalingGroup(ctx context.Context, params GetAutoScalingGroupParams) (*GetAutoScalingGroupResponse, error) {
-	res, err := c.sendGetAutoScalingGroup(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAutoScalingGroup(ctx context.Context, params GetAutoScalingGroupParams) (res *GetAutoScalingGroupResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/clusters/"
-	{
-		// Encode "clusterID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "clusterID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.ClusterID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/asg/"
-	{
-		// Encode "autoScalingGroupID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "autoScalingGroupID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.AutoScalingGroupID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetAutoScalingGroupOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetAutoScalingGroupResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetCertificate invokes getCertificate operation.
-//
-// 指定した証明書の詳細情報を返します。.
-//
-// GET /clusters/{clusterID}/certificates/{certificateID}
-func (c *Client) GetCertificate(ctx context.Context, params GetCertificateParams) (*GetCertificateResponse, error) {
-	res, err := c.sendGetCertificate(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetCertificate(ctx context.Context, params GetCertificateParams) (res *GetCertificateResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/clusters/"
-	{
-		// Encode "clusterID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "clusterID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.ClusterID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/certificates/"
-	{
-		// Encode "certificateID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "certificateID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.CertificateID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetCertificateOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetCertificateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetCluster invokes getCluster operation.
-//
-// 指定したクラスタの詳細情報を返します。.
-//
-// GET /clusters/{clusterID}
-func (c *Client) GetCluster(ctx context.Context, params GetClusterParams) (*GetClusterResponse, error) {
-	res, err := c.sendGetCluster(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetCluster(ctx context.Context, params GetClusterParams) (res *GetClusterResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/clusters/"
-	{
-		// Encode "clusterID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "clusterID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.ClusterID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetClusterOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetClusterResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetLoadBalancer invokes getLoadBalancer operation.
-//
-// 指定したロードバランサーの詳細情報を返します。.
-//
-// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}
-func (c *Client) GetLoadBalancer(ctx context.Context, params GetLoadBalancerParams) (*GetLoadBalancerResponse, error) {
-	res, err := c.sendGetLoadBalancer(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetLoadBalancer(ctx context.Context, params GetLoadBalancerParams) (res *GetLoadBalancerResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [6]string
-	pathParts[0] = "/clusters/"
-	{
-		// Encode "clusterID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "clusterID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.ClusterID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/asg/"
-	{
-		// Encode "autoScalingGroupID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "autoScalingGroupID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.AutoScalingGroupID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/load_balancers/"
-	{
-		// Encode "loadBalancerID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "loadBalancerID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.LoadBalancerID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[5] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetLoadBalancerOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetLoadBalancerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetLoadBalancerNode invokes getLoadBalancerNode operation.
-//
-// 指定したロードバランサーノードの詳細情報を返します。.
-//
-// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}/load_balancer_nodes/{loadBalancerNodeID}
-func (c *Client) GetLoadBalancerNode(ctx context.Context, params GetLoadBalancerNodeParams) (*GetLoadBalancerNodeResponse, error) {
-	res, err := c.sendGetLoadBalancerNode(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetLoadBalancerNode(ctx context.Context, params GetLoadBalancerNodeParams) (res *GetLoadBalancerNodeResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [8]string
-	pathParts[0] = "/clusters/"
-	{
-		// Encode "clusterID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "clusterID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.ClusterID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/asg/"
-	{
-		// Encode "autoScalingGroupID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "autoScalingGroupID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.AutoScalingGroupID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/load_balancers/"
-	{
-		// Encode "loadBalancerID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "loadBalancerID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.LoadBalancerID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[5] = encoded
-	}
-	pathParts[6] = "/load_balancer_nodes/"
-	{
-		// Encode "loadBalancerNodeID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "loadBalancerNodeID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.LoadBalancerNodeID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[7] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetLoadBalancerNodeOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetLoadBalancerNodeResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetWorkerNode invokes getWorkerNode operation.
-//
-// 指定したワーカーノードの詳細情報を返します。.
-//
-// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/worker_nodes/{workerNodeID}
-func (c *Client) GetWorkerNode(ctx context.Context, params GetWorkerNodeParams) (*GetWorkerNodeResponse, error) {
-	res, err := c.sendGetWorkerNode(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetWorkerNode(ctx context.Context, params GetWorkerNodeParams) (res *GetWorkerNodeResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [6]string
-	pathParts[0] = "/clusters/"
-	{
-		// Encode "clusterID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "clusterID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.ClusterID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/asg/"
-	{
-		// Encode "autoScalingGroupID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "autoScalingGroupID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.AutoScalingGroupID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/worker_nodes/"
-	{
-		// Encode "workerNodeID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "workerNodeID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			if unwrapped := uuid.UUID(params.WorkerNodeID); true {
-				return e.EncodeValue(conv.UUIDToString(unwrapped))
-			}
-			return nil
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[5] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, GetWorkerNodeOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetWorkerNodeResponse(resp)
+	result, err := decodeListApplicationContainersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2719,15 +1737,15 @@ func (c *Client) sendGetWorkerNode(ctx context.Context, params GetWorkerNodePara
 
 // ListApplicationVersions invokes listApplicationVersions operation.
 //
-// 指定されたアプリケーションのバージョン一覧取得.
+// 指定されたアプリケーションのバージョン一覧を返します。.
 //
 // GET /applications/{applicationID}/versions
-func (c *Client) ListApplicationVersions(ctx context.Context, params ListApplicationVersionsParams) (*ListApplicationVersionResponse, error) {
+func (c *Client) ListApplicationVersions(ctx context.Context, params ListApplicationVersionsParams) (*ListApplicationVersionsResponse, error) {
 	res, err := c.sendListApplicationVersions(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListApplicationVersions(ctx context.Context, params ListApplicationVersionsParams) (res *ListApplicationVersionResponse, err error) {
+func (c *Client) sendListApplicationVersions(ctx context.Context, params ListApplicationVersionsParams) (res *ListApplicationVersionsResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -2857,12 +1875,12 @@ func (c *Client) sendListApplicationVersions(ctx context.Context, params ListApp
 // 指定したアカウントに紐づくアプリケーションの一覧を返します。.
 //
 // GET /applications
-func (c *Client) ListApplications(ctx context.Context, params ListApplicationsParams) (*ListApplicationResponse, error) {
+func (c *Client) ListApplications(ctx context.Context, params ListApplicationsParams) (*ListApplicationsResponse, error) {
 	res, err := c.sendListApplications(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListApplications(ctx context.Context, params ListApplicationsParams) (res *ListApplicationResponse, err error) {
+func (c *Client) sendListApplications(ctx context.Context, params ListApplicationsParams) (res *ListApplicationsResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -2900,7 +1918,10 @@ func (c *Client) sendListApplications(ctx context.Context, params ListApplicatio
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Cursor.Get(); ok {
-				return e.EncodeValue(conv.StringToString(val))
+				if unwrapped := uuid.UUID(val); true {
+					return e.EncodeValue(conv.UUIDToString(unwrapped))
+				}
+				return nil
 			}
 			return nil
 		}); err != nil {
@@ -2984,16 +2005,15 @@ func (c *Client) sendListApplications(ctx context.Context, params ListApplicatio
 
 // ListAutoScalingGroups invokes listAutoScalingGroups operation.
 //
-// クラスタに所属する Auto Scaling Group
-// の一覧を返します。ページネーションに対応します。.
+// クラスタに所属するオートスケーリンググループの一覧を返します。ページネーションに対応します。.
 //
 // GET /clusters/{clusterID}/asg
-func (c *Client) ListAutoScalingGroups(ctx context.Context, params ListAutoScalingGroupsParams) (*ListAutoScalingGroupResponse, error) {
+func (c *Client) ListAutoScalingGroups(ctx context.Context, params ListAutoScalingGroupsParams) (*ListAutoScalingGroupsResponse, error) {
 	res, err := c.sendListAutoScalingGroups(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListAutoScalingGroups(ctx context.Context, params ListAutoScalingGroupsParams) (res *ListAutoScalingGroupResponse, err error) {
+func (c *Client) sendListAutoScalingGroups(ctx context.Context, params ListAutoScalingGroupsParams) (res *ListAutoScalingGroupsResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -3138,17 +2158,17 @@ func (c *Client) sendListAutoScalingGroups(ctx context.Context, params ListAutoS
 	return result, nil
 }
 
-// ListCertificate invokes listCertificate operation.
+// ListCertificates invokes listCertificates operation.
 //
 // クラスタ内の証明書一覧を返します。ページネーションに対応します。.
 //
 // GET /clusters/{clusterID}/certificates
-func (c *Client) ListCertificate(ctx context.Context, params ListCertificateParams) (*ListCertificateResponse, error) {
-	res, err := c.sendListCertificate(ctx, params)
+func (c *Client) ListCertificates(ctx context.Context, params ListCertificatesParams) (*ListCertificatesResponse, error) {
+	res, err := c.sendListCertificates(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListCertificate(ctx context.Context, params ListCertificateParams) (res *ListCertificateResponse, err error) {
+func (c *Client) sendListCertificates(ctx context.Context, params ListCertificatesParams) (res *ListCertificatesResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -3178,26 +2198,6 @@ func (c *Client) sendListCertificate(ctx context.Context, params ListCertificate
 	uri.AddPathParts(u, pathParts[:]...)
 
 	q := uri.NewQueryEncoder()
-	{
-		// Encode "lastCertificateID" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "lastCertificateID",
-			Style:   uri.QueryStyleForm,
-			Explode: false,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.LastCertificateID.Get(); ok {
-				if unwrapped := uuid.UUID(val); true {
-					return e.EncodeValue(conv.UUIDToString(unwrapped))
-				}
-				return nil
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
 	{
 		// Encode "cursor" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
@@ -3244,7 +2244,7 @@ func (c *Client) sendListCertificate(ctx context.Context, params ListCertificate
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, ListCertificateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, ListCertificatesOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -3285,7 +2285,7 @@ func (c *Client) sendListCertificate(ctx context.Context, params ListCertificate
 		_ = body.Close()
 	}()
 
-	result, err := decodeListCertificateResponse(resp)
+	result, err := decodeListCertificatesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3298,12 +2298,12 @@ func (c *Client) sendListCertificate(ctx context.Context, params ListCertificate
 // アカウントに紐づくクラスタの一覧を返します。ページネーションに対応します。.
 //
 // GET /clusters
-func (c *Client) ListClusters(ctx context.Context, params ListClustersParams) (*ListClusterResponse, error) {
+func (c *Client) ListClusters(ctx context.Context, params ListClustersParams) (*ListClustersResponse, error) {
 	res, err := c.sendListClusters(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListClusters(ctx context.Context, params ListClustersParams) (res *ListClusterResponse, err error) {
+func (c *Client) sendListClusters(ctx context.Context, params ListClustersParams) (res *ListClustersResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -3426,85 +2426,9 @@ func (c *Client) sendListClusters(ctx context.Context, params ListClustersParams
 	return result, nil
 }
 
-// ListLbServiceClasses invokes listLbServiceClasses operation.
-//
-// ロードバランサ用のサービスクラス一覧を返します。.
-//
-// GET /service_classes/lb
-func (c *Client) ListLbServiceClasses(ctx context.Context) (*ListLbServiceClassResponse, error) {
-	res, err := c.sendListLbServiceClasses(ctx)
-	return res, err
-}
-
-func (c *Client) sendListLbServiceClasses(ctx context.Context) (res *ListLbServiceClassResponse, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/service_classes/lb"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBasicAuth(ctx, ListLbServiceClassesOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BasicAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeListLbServiceClassesResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // ListLoadBalancerNodes invokes listLoadBalancerNodes operation.
 //
-// 指定したロードバランサーに属するノードの一覧を返します。.
+// 指定したロードバランサに属するノードの一覧を返します。.
 //
 // GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}/load_balancer_nodes
 func (c *Client) ListLoadBalancerNodes(ctx context.Context, params ListLoadBalancerNodesParams) (*ListLoadBalancerNodesResponse, error) {
@@ -3681,10 +2605,85 @@ func (c *Client) sendListLoadBalancerNodes(ctx context.Context, params ListLoadB
 	return result, nil
 }
 
+// ListLoadBalancerServiceClasses invokes listLoadBalancerServiceClasses operation.
+//
+// ロードバランササービスクラスの一覧を返します。.
+//
+// GET /service_classes/lb
+func (c *Client) ListLoadBalancerServiceClasses(ctx context.Context) (*ListLoadBalancerServiceClassesResponse, error) {
+	res, err := c.sendListLoadBalancerServiceClasses(ctx)
+	return res, err
+}
+
+func (c *Client) sendListLoadBalancerServiceClasses(ctx context.Context) (res *ListLoadBalancerServiceClassesResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/service_classes/lb"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ListLoadBalancerServiceClassesOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListLoadBalancerServiceClassesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // ListLoadBalancers invokes listLoadBalancers operation.
 //
-// Auto Scaling Group
-// に属するロードバランサーの一覧を返します。ページネーションに対応します。.
+// オートスケーリンググループに属するロードバランサの一覧を返します。ページネーションに対応します。.
 //
 // GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers
 func (c *Client) ListLoadBalancers(ctx context.Context, params ListLoadBalancersParams) (*ListLoadBalancersResponse, error) {
@@ -3841,8 +2840,7 @@ func (c *Client) sendListLoadBalancers(ctx context.Context, params ListLoadBalan
 
 // ListWorkerNodes invokes listWorkerNodes operation.
 //
-// Auto Scaling Group
-// に所属するワーカーノードの一覧を返します。ページネーションに対応します。.
+// オートスケーリンググループに所属するワーカノードの一覧を返します。ページネーションに対応します。.
 //
 // GET /clusters/{clusterID}/asg/{autoScalingGroupID}/worker_nodes
 func (c *Client) ListWorkerNodes(ctx context.Context, params ListWorkerNodesParams) (*ListWorkerNodesResponse, error) {
@@ -3999,15 +2997,15 @@ func (c *Client) sendListWorkerNodes(ctx context.Context, params ListWorkerNodes
 
 // ListWorkerServiceClasses invokes listWorkerServiceClasses operation.
 //
-// ワーカーノード用のサービスクラス一覧を返します。.
+// ワーカノードサービスクラスの一覧を返します。.
 //
 // GET /service_classes/worker
-func (c *Client) ListWorkerServiceClasses(ctx context.Context) (*ListWorkerServiceClassResponse, error) {
+func (c *Client) ListWorkerServiceClasses(ctx context.Context) (*ListWorkerServiceClassesResponse, error) {
 	res, err := c.sendListWorkerServiceClasses(ctx)
 	return res, err
 }
 
-func (c *Client) sendListWorkerServiceClasses(ctx context.Context) (res *ListWorkerServiceClassResponse, err error) {
+func (c *Client) sendListWorkerServiceClasses(ctx context.Context) (res *ListWorkerServiceClassesResponse, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -4073,18 +3071,1307 @@ func (c *Client) sendListWorkerServiceClasses(ctx context.Context) (res *ListWor
 	return result, nil
 }
 
+// PatchClusterLoadBalancer invokes patchClusterLoadBalancer operation.
+//
+// 指定したクラスタに紐づくロードバランサ設定を部分更新します。未指定の項目は既存値を維持します。.
+//
+// PATCH /clusters/{clusterID}/load_balancer
+func (c *Client) PatchClusterLoadBalancer(ctx context.Context, request *PatchClusterLoadBalancerRequest, params PatchClusterLoadBalancerParams) error {
+	_, err := c.sendPatchClusterLoadBalancer(ctx, request, params)
+	return err
+}
+
+func (c *Client) sendPatchClusterLoadBalancer(ctx context.Context, request *PatchClusterLoadBalancerRequest, params PatchClusterLoadBalancerParams) (res *PatchClusterLoadBalancerNoContent, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "clusterID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ClusterID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/load_balancer"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodePatchClusterLoadBalancerRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, PatchClusterLoadBalancerOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePatchClusterLoadBalancerResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadApplication invokes readApplication operation.
+//
+// 指定したアプリケーションIDの詳細を返します。.
+//
+// GET /applications/{applicationID}
+func (c *Client) ReadApplication(ctx context.Context, params ReadApplicationParams) (*ReadApplicationResponse, error) {
+	res, err := c.sendReadApplication(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadApplication(ctx context.Context, params ReadApplicationParams) (res *ReadApplicationResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/applications/"
+	{
+		// Encode "applicationID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applicationID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ApplicationID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadApplicationOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadApplicationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadApplicationVersion invokes readApplicationVersion operation.
+//
+// 指定されたバージョンの詳細を返します。.
+//
+// GET /applications/{applicationID}/versions/{version}
+func (c *Client) ReadApplicationVersion(ctx context.Context, params ReadApplicationVersionParams) (*ReadApplicationVersionResponse, error) {
+	res, err := c.sendReadApplicationVersion(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadApplicationVersion(ctx context.Context, params ReadApplicationVersionParams) (res *ReadApplicationVersionResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/applications/"
+	{
+		// Encode "applicationID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applicationID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ApplicationID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/versions/"
+	{
+		// Encode "version" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "version",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := int32(params.Version); true {
+				return e.EncodeValue(conv.Int32ToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadApplicationVersionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadApplicationVersionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadAutoScalingGroup invokes readAutoScalingGroup operation.
+//
+// 指定したオートスケーリンググループの詳細を返します。.
+//
+// GET /clusters/{clusterID}/asg/{autoScalingGroupID}
+func (c *Client) ReadAutoScalingGroup(ctx context.Context, params ReadAutoScalingGroupParams) (*ReadAutoScalingGroupResponse, error) {
+	res, err := c.sendReadAutoScalingGroup(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadAutoScalingGroup(ctx context.Context, params ReadAutoScalingGroupParams) (res *ReadAutoScalingGroupResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "clusterID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ClusterID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/asg/"
+	{
+		// Encode "autoScalingGroupID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "autoScalingGroupID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.AutoScalingGroupID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadAutoScalingGroupOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadAutoScalingGroupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadCertificate invokes readCertificate operation.
+//
+// 指定した証明書の詳細を返します。.
+//
+// GET /clusters/{clusterID}/certificates/{certificateID}
+func (c *Client) ReadCertificate(ctx context.Context, params ReadCertificateParams) (*ReadCertificateResponse, error) {
+	res, err := c.sendReadCertificate(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadCertificate(ctx context.Context, params ReadCertificateParams) (res *ReadCertificateResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "clusterID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ClusterID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/certificates/"
+	{
+		// Encode "certificateID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "certificateID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.CertificateID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadCertificateOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadCertificateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadCluster invokes readCluster operation.
+//
+// 指定したクラスタの詳細を返します。.
+//
+// GET /clusters/{clusterID}
+func (c *Client) ReadCluster(ctx context.Context, params ReadClusterParams) (*ReadClusterResponse, error) {
+	res, err := c.sendReadCluster(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadCluster(ctx context.Context, params ReadClusterParams) (res *ReadClusterResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "clusterID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ClusterID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadClusterOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadClusterResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadClusterLoadBalancer invokes readClusterLoadBalancer operation.
+//
+// 指定したクラスタに紐づくロードバランサ設定（Let's Encrypt
+// メール設定の有無と公開ポート設定）を返します。.
+//
+// GET /clusters/{clusterID}/load_balancer
+func (c *Client) ReadClusterLoadBalancer(ctx context.Context, params ReadClusterLoadBalancerParams) (*ReadClusterLoadBalancerResponse, error) {
+	res, err := c.sendReadClusterLoadBalancer(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadClusterLoadBalancer(ctx context.Context, params ReadClusterLoadBalancerParams) (res *ReadClusterLoadBalancerResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "clusterID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ClusterID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/load_balancer"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadClusterLoadBalancerOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadClusterLoadBalancerResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadLimits invokes readLimits operation.
+//
+// プロジェクトに紐づくリソース制限値を返します。.
+//
+// GET /limits
+func (c *Client) ReadLimits(ctx context.Context) (*ReadLimitsResponse, error) {
+	res, err := c.sendReadLimits(ctx)
+	return res, err
+}
+
+func (c *Client) sendReadLimits(ctx context.Context) (res *ReadLimitsResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/limits"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadLimitsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadLimitsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadLoadBalancer invokes readLoadBalancer operation.
+//
+// 指定したロードバランサの詳細を返します。.
+//
+// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}
+func (c *Client) ReadLoadBalancer(ctx context.Context, params ReadLoadBalancerParams) (*ReadLoadBalancerResponse, error) {
+	res, err := c.sendReadLoadBalancer(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadLoadBalancer(ctx context.Context, params ReadLoadBalancerParams) (res *ReadLoadBalancerResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [6]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "clusterID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ClusterID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/asg/"
+	{
+		// Encode "autoScalingGroupID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "autoScalingGroupID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.AutoScalingGroupID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/load_balancers/"
+	{
+		// Encode "loadBalancerID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "loadBalancerID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.LoadBalancerID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[5] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadLoadBalancerOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadLoadBalancerResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadLoadBalancerNode invokes readLoadBalancerNode operation.
+//
+// 指定したロードバランサノードの詳細を返します。.
+//
+// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/load_balancers/{loadBalancerID}/load_balancer_nodes/{loadBalancerNodeID}
+func (c *Client) ReadLoadBalancerNode(ctx context.Context, params ReadLoadBalancerNodeParams) (*ReadLoadBalancerNodeResponse, error) {
+	res, err := c.sendReadLoadBalancerNode(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadLoadBalancerNode(ctx context.Context, params ReadLoadBalancerNodeParams) (res *ReadLoadBalancerNodeResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [8]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "clusterID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ClusterID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/asg/"
+	{
+		// Encode "autoScalingGroupID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "autoScalingGroupID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.AutoScalingGroupID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/load_balancers/"
+	{
+		// Encode "loadBalancerID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "loadBalancerID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.LoadBalancerID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[5] = encoded
+	}
+	pathParts[6] = "/load_balancer_nodes/"
+	{
+		// Encode "loadBalancerNodeID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "loadBalancerNodeID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.LoadBalancerNodeID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[7] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadLoadBalancerNodeOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadLoadBalancerNodeResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadWorkerNode invokes readWorkerNode operation.
+//
+// 指定したワーカノードの詳細を返します。.
+//
+// GET /clusters/{clusterID}/asg/{autoScalingGroupID}/worker_nodes/{workerNodeID}
+func (c *Client) ReadWorkerNode(ctx context.Context, params ReadWorkerNodeParams) (*ReadWorkerNodeResponse, error) {
+	res, err := c.sendReadWorkerNode(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadWorkerNode(ctx context.Context, params ReadWorkerNodeParams) (res *ReadWorkerNodeResponse, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [6]string
+	pathParts[0] = "/clusters/"
+	{
+		// Encode "clusterID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.ClusterID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/asg/"
+	{
+		// Encode "autoScalingGroupID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "autoScalingGroupID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.AutoScalingGroupID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/worker_nodes/"
+	{
+		// Encode "workerNodeID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "workerNodeID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			if unwrapped := uuid.UUID(params.WorkerNodeID); true {
+				return e.EncodeValue(conv.UUIDToString(unwrapped))
+			}
+			return nil
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[5] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBasicAuth(ctx, ReadWorkerNodeOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BasicAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadWorkerNodeResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateApplication invokes updateApplication operation.
 //
-// アプリケーションのactiveVersionなどを更新します。クラスタの変更はできません。activeVersionを変更すると指定したバージョンがデプロイされます。activeVersionをnullにするとアプリケーションは非アクティブ状態になり､デプロイされなくなります。アプリケーション削除前には
-// activeVersion を null にする必要があります｡.
+// アプリケーションのactiveVersionなどを更新します。クラスタの変更はできません。activeVersionを変更すると指定したバージョンがデプロイされます。activeVersionをnullにするとアプリケーションは非アクティブ状態になり、デプロイされなくなります。アプリケーション削除前にはactiveVersionをnullにする必要があります。.
 //
 // PUT /applications/{applicationID}
-func (c *Client) UpdateApplication(ctx context.Context, request *UpdateApplication, params UpdateApplicationParams) error {
+func (c *Client) UpdateApplication(ctx context.Context, request *UpdateApplicationRequest, params UpdateApplicationParams) error {
 	_, err := c.sendUpdateApplication(ctx, request, params)
 	return err
 }
 
-func (c *Client) sendUpdateApplication(ctx context.Context, request *UpdateApplication, params UpdateApplicationParams) (res *UpdateApplicationNoContent, err error) {
+func (c *Client) sendUpdateApplication(ctx context.Context, request *UpdateApplicationRequest, params UpdateApplicationParams) (res *UpdateApplicationNoContent, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -4179,12 +4466,12 @@ func (c *Client) sendUpdateApplication(ctx context.Context, request *UpdateAppli
 // 指定した証明書を更新します。.
 //
 // PUT /clusters/{clusterID}/certificates/{certificateID}
-func (c *Client) UpdateCertificate(ctx context.Context, request *UpdateCertificate, params UpdateCertificateParams) error {
+func (c *Client) UpdateCertificate(ctx context.Context, request *UpdateCertificateRequest, params UpdateCertificateParams) error {
 	_, err := c.sendUpdateCertificate(ctx, request, params)
 	return err
 }
 
-func (c *Client) sendUpdateCertificate(ctx context.Context, request *UpdateCertificate, params UpdateCertificateParams) (res *UpdateCertificateNoContent, err error) {
+func (c *Client) sendUpdateCertificate(ctx context.Context, request *UpdateCertificateRequest, params UpdateCertificateParams) (res *UpdateCertificateNoContent, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -4310,12 +4597,12 @@ func (c *Client) sendUpdateCertificate(ctx context.Context, request *UpdateCerti
 // 指定したクラスタの設定を更新します。.
 //
 // PUT /clusters/{clusterID}
-func (c *Client) UpdateCluster(ctx context.Context, request *UpdateCluster, params UpdateClusterParams) error {
+func (c *Client) UpdateCluster(ctx context.Context, request *UpdateClusterRequest, params UpdateClusterParams) error {
 	_, err := c.sendUpdateCluster(ctx, request, params)
 	return err
 }
 
-func (c *Client) sendUpdateCluster(ctx context.Context, request *UpdateCluster, params UpdateClusterParams) (res *UpdateClusterNoContent, err error) {
+func (c *Client) sendUpdateCluster(ctx context.Context, request *UpdateClusterRequest, params UpdateClusterParams) (res *UpdateClusterNoContent, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -4414,18 +4701,17 @@ func (c *Client) sendUpdateCluster(ctx context.Context, request *UpdateCluster, 
 	return result, nil
 }
 
-// UpdateWorkerNodeDrainingState invokes updateWorkerNodeDrainingState operation.
+// UpdateWorkerNodeDraining invokes updateWorkerNodeDraining operation.
 //
-// 指定したワーカーノードのdraining状態を更新します（draining
-// を有効/無効にします）。.
+// 指定したワーカノードのドレイン状態を更新します（ドレインを有効/無効にします）。.
 //
 // PUT /clusters/{clusterID}/asg/{autoScalingGroupID}/worker_nodes/{workerNodeID}/draining
-func (c *Client) UpdateWorkerNodeDrainingState(ctx context.Context, request *UpdateWorkerNodeDrainingRequest, params UpdateWorkerNodeDrainingStateParams) error {
-	_, err := c.sendUpdateWorkerNodeDrainingState(ctx, request, params)
+func (c *Client) UpdateWorkerNodeDraining(ctx context.Context, request *UpdateWorkerNodeDrainingRequest, params UpdateWorkerNodeDrainingParams) error {
+	_, err := c.sendUpdateWorkerNodeDraining(ctx, request, params)
 	return err
 }
 
-func (c *Client) sendUpdateWorkerNodeDrainingState(ctx context.Context, request *UpdateWorkerNodeDrainingRequest, params UpdateWorkerNodeDrainingStateParams) (res *UpdateWorkerNodeDrainingStateNoContent, err error) {
+func (c *Client) sendUpdateWorkerNodeDraining(ctx context.Context, request *UpdateWorkerNodeDrainingRequest, params UpdateWorkerNodeDrainingParams) (res *UpdateWorkerNodeDrainingNoContent, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [7]string
@@ -4502,7 +4788,7 @@ func (c *Client) sendUpdateWorkerNodeDrainingState(ctx context.Context, request 
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeUpdateWorkerNodeDrainingStateRequest(request, r); err != nil {
+	if err := encodeUpdateWorkerNodeDrainingRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -4511,7 +4797,7 @@ func (c *Client) sendUpdateWorkerNodeDrainingState(ctx context.Context, request 
 		var satisfied bitset
 		{
 
-			switch err := c.securityBasicAuth(ctx, UpdateWorkerNodeDrainingStateOperation, r); {
+			switch err := c.securityBasicAuth(ctx, UpdateWorkerNodeDrainingOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -4552,7 +4838,7 @@ func (c *Client) sendUpdateWorkerNodeDrainingState(ctx context.Context, request 
 		_ = body.Close()
 	}()
 
-	result, err := decodeUpdateWorkerNodeDrainingStateResponse(resp)
+	result, err := decodeUpdateWorkerNodeDrainingResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

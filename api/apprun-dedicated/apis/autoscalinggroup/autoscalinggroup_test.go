@@ -29,10 +29,10 @@ func setup(t *testing.T, v interface{ Encode(*jx.Encoder) }, s ...int) (assert *
 
 func TestList(t *testing.T) {
 	next := v1.AutoScalingGroupID(uuid.New())
-	var expected v1.ListAutoScalingGroupResponse
+	var expected v1.ListAutoScalingGroupsResponse
 	expected.SetFake()
 	expected.NextCursor.SetTo(next)
-	expected.SetAutoScalingGroups(make([]v1.ReadAutoScalingGroupDetail, 3))
+	expected.SetAutoScalingGroups(make([]v1.ReadAutoScalingGroup, 3))
 	for i := 0; i < len(expected.GetAutoScalingGroups()); i++ {
 		expected.AutoScalingGroups[i] = apprun_test.FakeAutoScalingGroup()
 	}
@@ -66,7 +66,7 @@ func TestCreate(t *testing.T) {
 	actual, err := api.Create(t.Context(), CreateParams{
 		Name:                   "test-asg",
 		Zone:                   "is1a",
-		NameServers:            []v1.IPv4{"133.242.0.3"},
+		NameServers:            []v1.Ipv4{"133.242.0.3"},
 		WorkerServiceClassPath: "/is1a/server/1/core-2-2",
 		MinNodes:               1,
 		MaxNodes:               3,
@@ -98,7 +98,7 @@ func TestCreate_failed(t *testing.T) {
 }
 
 func TestRead(t *testing.T) {
-	var expected v1.GetAutoScalingGroupResponse
+	var expected v1.ReadAutoScalingGroupResponse
 	fake := apprun_test.FakeAutoScalingGroup()
 	id := fake.AutoScalingGroupID
 	expected.SetAutoScalingGroup(fake)
@@ -164,7 +164,7 @@ func TestIntegrated(t *testing.T) {
 		defer deleter()
 
 		t.Run("List", func(t *testing.T) {
-			list := apprun_test.RepeatedList(func(cursor *v1.AutoScalingGroupID) (res []v1.ReadAutoScalingGroupDetail, next *v1.AutoScalingGroupID) {
+			list := apprun_test.RepeatedList(func(cursor *v1.AutoScalingGroupID) (res []v1.ReadAutoScalingGroup, next *v1.AutoScalingGroupID) {
 				res, next, err := api.List(t.Context(), 10, cursor)
 				assert.NoError(err)
 				return

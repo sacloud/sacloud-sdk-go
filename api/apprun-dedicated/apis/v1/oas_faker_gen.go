@@ -7,7 +7,7 @@ import (
 )
 
 // SetFake set fake values.
-func (s *ApplicationContainerSummary) SetFake() {
+func (s *ApplicationCurrentContainer) SetFake() {
 	{
 		{
 			s.ID = "string"
@@ -35,28 +35,28 @@ func (s *ApplicationContainerSummary) SetFake() {
 	}
 	{
 		{
-			s.ApplicationID = "string"
+			s.ApplicationID.SetFake()
 		}
 	}
 	{
 		{
-			s.ApplicationVersion = int64(0)
+			s.ApplicationVersion.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ApplicationContainersStats) SetFake() {
+func (s *ApplicationCurrentContainers) SetFake() {
 	{
 		{
-			s.CollectedAtSec = int64(0)
+			s.CollectedAtSec = int(0)
 		}
 	}
 	{
 		{
 			s.Containers = nil
 			for i := 0; i < 0; i++ {
-				var elem ApplicationContainerSummary
+				var elem ApplicationCurrentContainer
 				{
 					elem.SetFake()
 				}
@@ -70,12 +70,12 @@ func (s *ApplicationContainersStats) SetFake() {
 func (s *ApplicationDesiredContainer) SetFake() {
 	{
 		{
-			s.ApplicationID = "string"
+			s.ApplicationID.SetFake()
 		}
 	}
 	{
 		{
-			s.ApplicationVersion = int64(0)
+			s.ApplicationVersion.SetFake()
 		}
 	}
 	{
@@ -96,16 +96,7 @@ func (s *ApplicationDesiredContainer) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ApplicationID) SetFake() {
-	var unwrapped uuid.UUID
-	{
-		unwrapped = uuid.New()
-	}
-	*s = ApplicationID(unwrapped)
-}
-
-// SetFake set fake values.
-func (s *ApplicationPeekDesiredContainersResponse) SetFake() {
+func (s *ApplicationDesiredContainers) SetFake() {
 	{
 		{
 			s.Containers = nil
@@ -121,7 +112,43 @@ func (s *ApplicationPeekDesiredContainersResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ApplicationVersionDeploymentStatus) SetFake() {
+func (s *ApplicationID) SetFake() {
+	var unwrapped uuid.UUID
+	{
+		unwrapped = uuid.New()
+	}
+	*s = ApplicationID(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ApplicationIdentifier) SetFake() {
+	{
+		{
+			s.ApplicationID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ApplicationVersionIdentifier) SetFake() {
+	{
+		{
+			s.Version.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ApplicationVersionNumber) SetFake() {
+	var unwrapped int32
+	{
+		unwrapped = int32(0)
+	}
+	*s = ApplicationVersionNumber(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *ApplicationVersionSummary) SetFake() {
 	{
 		{
 			s.Version.SetFake()
@@ -145,21 +172,21 @@ func (s *ApplicationVersionDeploymentStatus) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ApplicationVersionNumber) SetFake() {
-	var unwrapped int32
-	{
-		unwrapped = int32(0)
-	}
-	*s = ApplicationVersionNumber(unwrapped)
-}
-
-// SetFake set fake values.
 func (s *AutoScalingGroupID) SetFake() {
 	var unwrapped uuid.UUID
 	{
 		unwrapped = uuid.New()
 	}
 	*s = AutoScalingGroupID(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *AutoScalingGroupIdentifier) SetFake() {
+	{
+		{
+			s.AutoScalingGroupID.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -218,6 +245,15 @@ func (s *CertificateID) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *CertificateIdentifier) SetFake() {
+	{
+		{
+			s.CertificateID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *ClusterID) SetFake() {
 	var unwrapped uuid.UUID
 	{
@@ -227,7 +263,54 @@ func (s *ClusterID) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CreateApplication) SetFake() {
+func (s *ClusterIdentifier) SetFake() {
+	{
+		{
+			s.ClusterID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ClusterLoadBalancerPort) SetFake() {
+	{
+		{
+			s.Port = uint16(0)
+		}
+	}
+	{
+		{
+			s.Protocol.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly) SetFake() {
+	{
+		{
+			s.Port = uint16(0)
+		}
+	}
+	{
+		{
+			s.Protocol.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocol) SetFake() {
+	*s = ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnlyProtocolHTTP
+}
+
+// SetFake set fake values.
+func (s *ClusterLoadBalancerPortProtocol) SetFake() {
+	*s = ClusterLoadBalancerPortProtocolHTTP
+}
+
+// SetFake set fake values.
+func (s *CreateApplicationRequest) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -250,7 +333,12 @@ func (s *CreateApplicationResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CreateApplicationVersion) SetFake() {
+func (s *CreateApplicationVersionRequest) SetFake() {
+	{
+		{
+			s.Image = "string"
+		}
+	}
 	{
 		{
 			s.CPU = int64(0)
@@ -289,11 +377,6 @@ func (s *CreateApplicationVersion) SetFake() {
 	{
 		{
 			s.ScaleOutThreshold.SetFake()
-		}
-	}
-	{
-		{
-			s.Image = "string"
 		}
 	}
 	{
@@ -359,7 +442,7 @@ func (s *CreateApplicationVersionResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CreateAutoScalingGroup) SetFake() {
+func (s *CreateAutoScalingGroupRequest) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -374,7 +457,7 @@ func (s *CreateAutoScalingGroup) SetFake() {
 		{
 			s.NameServers = nil
 			for i := 0; i < 1; i++ {
-				var elem IPv4
+				var elem Ipv4
 				{
 					elem.SetFake()
 				}
@@ -421,7 +504,7 @@ func (s *CreateAutoScalingGroupResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CreateCertificate) SetFake() {
+func (s *CreateCertificateRequest) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -454,7 +537,7 @@ func (s *CreateCertificateResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CreateCluster) SetFake() {
+func (s *CreateClusterRequest) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -469,7 +552,7 @@ func (s *CreateCluster) SetFake() {
 		{
 			s.Ports = nil
 			for i := 0; i < 0; i++ {
-				var elem CreateLoadBalancerPort
+				var elem ClusterLoadBalancerPort
 				{
 					elem.SetFake()
 				}
@@ -479,7 +562,7 @@ func (s *CreateCluster) SetFake() {
 	}
 	{
 		{
-			s.ServicePrincipalID = "string"
+			s.ServicePrincipalID.SetFake()
 		}
 	}
 }
@@ -502,18 +585,18 @@ func (s *CreateEnvironmentVariable) SetFake() {
 	}
 	{
 		{
-			s.Value.SetFake()
+			s.Secret = true
 		}
 	}
 	{
 		{
-			s.Secret = true
+			s.Value.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *CreateLoadBalancer) SetFake() {
+func (s *CreateLoadBalancerRequest) SetFake() {
 	{
 		{
 			s.Name = "string"
@@ -528,7 +611,7 @@ func (s *CreateLoadBalancer) SetFake() {
 		{
 			s.NameServers = nil
 			for i := 0; i < 1; i++ {
-				var elem IPv4
+				var elem Ipv4
 				{
 					elem.SetFake()
 				}
@@ -551,25 +634,6 @@ func (s *CreateLoadBalancer) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CreateLoadBalancerPort) SetFake() {
-	{
-		{
-			s.Port = uint16(0)
-		}
-	}
-	{
-		{
-			s.Protocol.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CreateLoadBalancerPortProtocol) SetFake() {
-	*s = CreateLoadBalancerPortProtocolHTTP
-}
-
-// SetFake set fake values.
 func (s *CreateLoadBalancerResponse) SetFake() {
 	{
 		{
@@ -579,48 +643,26 @@ func (s *CreateLoadBalancerResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *CreatedApplication) SetFake() {
+func (s *EnoughResources) SetFake() {
 	{
 		{
-			s.ApplicationID.SetFake()
+			s.CPU.SetFake()
+		}
+	}
+	{
+		{
+			s.Memory.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *CreatedAutoScalingGroup) SetFake() {
+func (s *EnvironmentVariableValue) SetFake() {
+	var unwrapped string
 	{
-		{
-			s.AutoScalingGroupID.SetFake()
-		}
+		unwrapped = "string"
 	}
-}
-
-// SetFake set fake values.
-func (s *CreatedCertificate) SetFake() {
-	{
-		{
-			s.CertificateID.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CreatedCluster) SetFake() {
-	{
-		{
-			s.ClusterID.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *CreatedLoadBalancer) SetFake() {
-	{
-		{
-			s.LoadBalancerID.SetFake()
-		}
-	}
+	*s = EnvironmentVariableValue(unwrapped)
 }
 
 // SetFake set fake values.
@@ -658,9 +700,9 @@ func (s *ExposedPort) SetFake() {
 		{
 			s.Host = nil
 			for i := 0; i < 0; i++ {
-				var elem string
+				var elem Hostname
 				{
-					elem = "string"
+					elem.SetFake()
 				}
 				s.Host = append(s.Host, elem)
 			}
@@ -669,94 +711,6 @@ func (s *ExposedPort) SetFake() {
 	{
 		{
 			s.HealthCheck.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetApplicationContainersResponse) SetFake() {
-	{
-		{
-			s.Nodes = nil
-			for i := 0; i < 0; i++ {
-				var elem NodeContainerPlacementInfo
-				{
-					elem.SetFake()
-				}
-				s.Nodes = append(s.Nodes, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetApplicationResponse) SetFake() {
-	{
-		{
-			s.Application.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetApplicationVersionResponse) SetFake() {
-	{
-		{
-			s.ApplicationVersion.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetAutoScalingGroupResponse) SetFake() {
-	{
-		{
-			s.AutoScalingGroup.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetCertificateResponse) SetFake() {
-	{
-		{
-			s.Certificate.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetClusterResponse) SetFake() {
-	{
-		{
-			s.Cluster.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetLoadBalancerNodeResponse) SetFake() {
-	{
-		{
-			s.LoadBalancerNode.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetLoadBalancerResponse) SetFake() {
-	{
-		{
-			s.LoadBalancer.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetWorkerNodeResponse) SetFake() {
-	{
-		{
-			s.WorkerNode.SetFake()
 		}
 	}
 }
@@ -781,12 +735,12 @@ func (s *HealthCheck) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *IPv4) SetFake() {
+func (s *Hostname) SetFake() {
 	var unwrapped string
 	{
 		unwrapped = "string"
 	}
-	*s = IPv4(unwrapped)
+	*s = Hostname(unwrapped)
 }
 
 // SetFake set fake values.
@@ -804,33 +758,71 @@ func (s *IpRange) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListApplicationResponse) SetFake() {
+func (s *Ipv4) SetFake() {
+	var unwrapped string
+	{
+		unwrapped = "string"
+	}
+	*s = Ipv4(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *Limit) SetFake() {
 	{
 		{
-			s.Applications = nil
-			for i := 0; i < 0; i++ {
-				var elem ReadApplicationDetail
-				{
-					elem.SetFake()
-				}
-				s.Applications = append(s.Applications, elem)
-			}
+			s.ClusterCount = int64(0)
 		}
 	}
 	{
 		{
-			s.NextCursor.SetFake()
+			s.AutoScalingGroupCount = int64(0)
+		}
+	}
+	{
+		{
+			s.WorkerNodeCount = int64(0)
+		}
+	}
+	{
+		{
+			s.LoadBalancerNodeCount = int64(0)
+		}
+	}
+	{
+		{
+			s.ApplicationCount = int64(0)
+		}
+	}
+	{
+		{
+			s.ApplicationVersionCountPerApplication = int64(0)
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ListApplicationVersionResponse) SetFake() {
+func (s *ListApplicationContainersResponse) SetFake() {
+	{
+		{
+			s.Nodes = nil
+			for i := 0; i < 0; i++ {
+				var elem WorkerNodeContainerPlacement
+				{
+					elem.SetFake()
+				}
+				s.Nodes = append(s.Nodes, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListApplicationVersionsResponse) SetFake() {
 	{
 		{
 			s.Versions = nil
 			for i := 0; i < 0; i++ {
-				var elem ApplicationVersionDeploymentStatus
+				var elem ApplicationVersionSummary
 				{
 					elem.SetFake()
 				}
@@ -846,12 +838,33 @@ func (s *ListApplicationVersionResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListAutoScalingGroupResponse) SetFake() {
+func (s *ListApplicationsResponse) SetFake() {
+	{
+		{
+			s.Applications = nil
+			for i := 0; i < 0; i++ {
+				var elem ReadApplication
+				{
+					elem.SetFake()
+				}
+				s.Applications = append(s.Applications, elem)
+			}
+		}
+	}
+	{
+		{
+			s.NextCursor.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListAutoScalingGroupsResponse) SetFake() {
 	{
 		{
 			s.AutoScalingGroups = nil
 			for i := 0; i < 0; i++ {
-				var elem ReadAutoScalingGroupDetail
+				var elem ReadAutoScalingGroup
 				{
 					elem.SetFake()
 				}
@@ -867,7 +880,7 @@ func (s *ListAutoScalingGroupResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListCertificateResponse) SetFake() {
+func (s *ListCertificatesResponse) SetFake() {
 	{
 		{
 			s.Certificates = nil
@@ -888,7 +901,7 @@ func (s *ListCertificateResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListClusterResponse) SetFake() {
+func (s *ListClustersResponse) SetFake() {
 	{
 		{
 			s.Clusters = nil
@@ -909,28 +922,12 @@ func (s *ListClusterResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListLbServiceClassResponse) SetFake() {
-	{
-		{
-			s.LbServiceClasses = nil
-			for i := 0; i < 0; i++ {
-				var elem ReadLbServiceClass
-				{
-					elem.SetFake()
-				}
-				s.LbServiceClasses = append(s.LbServiceClasses, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *ListLoadBalancerNodesResponse) SetFake() {
 	{
 		{
 			s.LoadBalancerNodes = nil
 			for i := 0; i < 0; i++ {
-				var elem ReadLoadBalancerNodeSummary
+				var elem LoadBalancerNode
 				{
 					elem.SetFake()
 				}
@@ -941,6 +938,22 @@ func (s *ListLoadBalancerNodesResponse) SetFake() {
 	{
 		{
 			s.NextCursor.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ListLoadBalancerServiceClassesResponse) SetFake() {
+	{
+		{
+			s.LbServiceClasses = nil
+			for i := 0; i < 0; i++ {
+				var elem LoadBalancerServiceClass
+				{
+					elem.SetFake()
+				}
+				s.LbServiceClasses = append(s.LbServiceClasses, elem)
+			}
 		}
 	}
 }
@@ -972,7 +985,7 @@ func (s *ListWorkerNodesResponse) SetFake() {
 		{
 			s.WorkerNodes = nil
 			for i := 0; i < 0; i++ {
-				var elem ReadWorkerNodeSummary
+				var elem WorkerNodeSummary
 				{
 					elem.SetFake()
 				}
@@ -988,12 +1001,12 @@ func (s *ListWorkerNodesResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ListWorkerServiceClassResponse) SetFake() {
+func (s *ListWorkerServiceClassesResponse) SetFake() {
 	{
 		{
 			s.WorkerServiceClasses = nil
 			for i := 0; i < 0; i++ {
-				var elem ReadWorkerServiceClass
+				var elem WorkerServiceClass
 				{
 					elem.SetFake()
 				}
@@ -1010,6 +1023,15 @@ func (s *LoadBalancerID) SetFake() {
 		unwrapped = uuid.New()
 	}
 	*s = LoadBalancerID(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *LoadBalancerIdentifier) SetFake() {
+	{
+		{
+			s.LoadBalancerID.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
@@ -1064,6 +1086,52 @@ func (s *LoadBalancerInterface) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *LoadBalancerNode) SetFake() {
+	{
+		{
+			s.LoadBalancerNodeID.SetFake()
+		}
+	}
+	{
+		{
+			s.ResourceID.SetFake()
+		}
+	}
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.Interfaces = nil
+			for i := 0; i < 0; i++ {
+				var elem LoadBalancerNodeInterface
+				{
+					elem.SetFake()
+				}
+				s.Interfaces = append(s.Interfaces, elem)
+			}
+		}
+	}
+	{
+		{
+			s.ArchiveVersion.SetFake()
+		}
+	}
+	{
+		{
+			s.CreateErrorMessage.SetFake()
+		}
+	}
+	{
+		{
+			s.Created = int(0)
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *LoadBalancerNodeID) SetFake() {
 	var unwrapped uuid.UUID
 	{
@@ -1073,17 +1141,86 @@ func (s *LoadBalancerNodeID) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *LoadBalancerNodeInterface) SetFake() {
+	{
+		{
+			s.InterfaceIndex = int16(0)
+		}
+	}
+	{
+		{
+			s.Addresses = nil
+			for i := 0; i < 0; i++ {
+				var elem LoadBalancerNodeInterfaceAddress
+				{
+					elem.SetFake()
+				}
+				s.Addresses = append(s.Addresses, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *LoadBalancerNodeInterfaceAddress) SetFake() {
+	{
+		{
+			s.Address = "string"
+		}
+	}
+	{
+		{
+			s.Vip = true
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *LoadBalancerNodeStatus) SetFake() {
 	*s = LoadBalancerNodeStatusHealthy
 }
 
 // SetFake set fake values.
-func (s *NilApplicationContainersStats) SetFake() {
+func (s *LoadBalancerServiceClass) SetFake() {
+	{
+		{
+			s.Path = "string"
+		}
+	}
+	{
+		{
+			s.NodeCount = int16(0)
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NilApplicationCurrentContainers) SetFake() {
 	s.Null = true
 }
 
 // SetFake set fake values.
-func (s *NilApplicationPeekDesiredContainersResponse) SetFake() {
+func (s *NilApplicationDesiredContainers) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
+func (s *NilApplicationVersionNumber) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
+func (s *NilBool) SetFake() {
+	s.Null = true
+}
+
+// SetFake set fake values.
+func (s *NilEnvironmentVariableValue) SetFake() {
 	s.Null = true
 }
 
@@ -1108,22 +1245,12 @@ func (s *NilString) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NodeContainerPlacementInfo) SetFake() {
+func (s *OptApplicationID) SetFake() {
+	var elem ApplicationID
 	{
-		{
-			s.NodeID = "string"
-		}
+		elem.SetFake()
 	}
-	{
-		{
-			s.ContainersStats.SetFake()
-		}
-	}
-	{
-		{
-			s.Desired.SetFake()
-		}
-	}
+	s.SetTo(elem)
 }
 
 // SetFake set fake values.
@@ -1156,6 +1283,15 @@ func (s *OptCertificateID) SetFake() {
 // SetFake set fake values.
 func (s *OptClusterID) SetFake() {
 	var elem ClusterID
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptEnvironmentVariableValue) SetFake() {
+	var elem EnvironmentVariableValue
 	{
 		elem.SetFake()
 	}
@@ -1199,6 +1335,12 @@ func (s *OptLoadBalancerNodeID) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptNilString) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
 func (s *OptString) SetFake() {
 	var elem string
 	{
@@ -1217,6 +1359,27 @@ func (s *OptWorkerNodeID) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *PatchClusterLoadBalancerRequest) SetFake() {
+	{
+		{
+			s.LetsEncryptEmail.SetFake()
+		}
+	}
+	{
+		{
+			s.Ports = nil
+			for i := 0; i < 0; i++ {
+				var elem ClusterLoadBalancerPortMergePatchCreateOrUpdateReplaceOnly
+				{
+					elem.SetFake()
+				}
+				s.Ports = append(s.Ports, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *Port) SetFake() {
 	var unwrapped uint16
 	{
@@ -1226,7 +1389,7 @@ func (s *Port) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ReadApplicationDetail) SetFake() {
+func (s *ReadApplication) SetFake() {
 	{
 		{
 			s.ApplicationID.SetFake()
@@ -1262,13 +1425,42 @@ func (s *ReadApplicationDetail) SetFake() {
 			s.ScalingCooldownSeconds = int32(0)
 		}
 	}
+	{
+		{
+			s.EnoughResources.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *ReadApplicationVersionDetail) SetFake() {
+func (s *ReadApplicationResponse) SetFake() {
+	{
+		{
+			s.Application.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadApplicationVersion) SetFake() {
 	{
 		{
 			s.Version.SetFake()
+		}
+	}
+	{
+		{
+			s.Image = "string"
+		}
+	}
+	{
+		{
+			s.ActiveNodeCount = int64(0)
+		}
+	}
+	{
+		{
+			s.Created = int(0)
 		}
 	}
 	{
@@ -1313,11 +1505,6 @@ func (s *ReadApplicationVersionDetail) SetFake() {
 	}
 	{
 		{
-			s.Image = "string"
-		}
-	}
-	{
-		{
 			s.Cmd = nil
 			for i := 0; i < 0; i++ {
 				var elem string
@@ -1336,16 +1523,6 @@ func (s *ReadApplicationVersionDetail) SetFake() {
 	{
 		{
 			s.RegistryPassword.SetFake()
-		}
-	}
-	{
-		{
-			s.ActiveNodeCount = int64(0)
-		}
-	}
-	{
-		{
-			s.Created = int(0)
 		}
 	}
 	{
@@ -1375,16 +1552,16 @@ func (s *ReadApplicationVersionDetail) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ReadApplicationVersionSummary) SetFake() {
+func (s *ReadApplicationVersionResponse) SetFake() {
 	{
 		{
-			s.Version.SetFake()
+			s.ApplicationVersion.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ReadAutoScalingGroupDetail) SetFake() {
+func (s *ReadAutoScalingGroup) SetFake() {
 	{
 		{
 			s.AutoScalingGroupID.SetFake()
@@ -1404,7 +1581,7 @@ func (s *ReadAutoScalingGroupDetail) SetFake() {
 		{
 			s.NameServers = nil
 			for i := 0; i < 1; i++ {
-				var elem IPv4
+				var elem Ipv4
 				{
 					elem.SetFake()
 				}
@@ -1434,11 +1611,6 @@ func (s *ReadAutoScalingGroupDetail) SetFake() {
 	}
 	{
 		{
-			s.Deleting = true
-		}
-	}
-	{
-		{
 			s.Interfaces = nil
 			for i := 0; i < 1; i++ {
 				var elem AutoScalingGroupNodeInterface
@@ -1449,13 +1621,27 @@ func (s *ReadAutoScalingGroupDetail) SetFake() {
 			}
 		}
 	}
+	{
+		{
+			s.Deleting = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadAutoScalingGroupResponse) SetFake() {
+	{
+		{
+			s.AutoScalingGroup.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
 func (s *ReadCertificate) SetFake() {
 	{
 		{
-			s.CertificateID = uuid.New()
+			s.CertificateID.SetFake()
 		}
 	}
 	{
@@ -1503,12 +1689,16 @@ func (s *ReadCertificate) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ReadClusterDetail) SetFake() {
+func (s *ReadCertificateResponse) SetFake() {
 	{
 		{
-			s.Name = "string"
+			s.Certificate.SetFake()
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *ReadCluster) SetFake() {
 	{
 		{
 			s.ClusterID.SetFake()
@@ -1516,19 +1706,12 @@ func (s *ReadClusterDetail) SetFake() {
 	}
 	{
 		{
-			s.Ports = nil
-			for i := 0; i < 0; i++ {
-				var elem ReadLoadBalancerPort
-				{
-					elem.SetFake()
-				}
-				s.Ports = append(s.Ports, elem)
-			}
+			s.Name = "string"
 		}
 	}
 	{
 		{
-			s.ServicePrincipalID = "string"
+			s.Created = int(0)
 		}
 	}
 	{
@@ -1538,7 +1721,58 @@ func (s *ReadClusterDetail) SetFake() {
 	}
 	{
 		{
-			s.Created = int(0)
+			s.Ports = nil
+			for i := 0; i < 0; i++ {
+				var elem ClusterLoadBalancerPort
+				{
+					elem.SetFake()
+				}
+				s.Ports = append(s.Ports, elem)
+			}
+		}
+	}
+	{
+		{
+			s.ServicePrincipalID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadClusterLoadBalancer) SetFake() {
+	{
+		{
+			s.HasLetsEncryptEmail = true
+		}
+	}
+	{
+		{
+			s.Ports = nil
+			for i := 0; i < 0; i++ {
+				var elem ClusterLoadBalancerPort
+				{
+					elem.SetFake()
+				}
+				s.Ports = append(s.Ports, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadClusterLoadBalancerResponse) SetFake() {
+	{
+		{
+			s.LoadBalancer.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadClusterResponse) SetFake() {
+	{
+		{
+			s.Cluster.SetFake()
 		}
 	}
 }
@@ -1547,12 +1781,12 @@ func (s *ReadClusterDetail) SetFake() {
 func (s *ReadClusterSummary) SetFake() {
 	{
 		{
-			s.Name = "string"
+			s.ClusterID.SetFake()
 		}
 	}
 	{
 		{
-			s.ClusterID.SetFake()
+			s.Name = "string"
 		}
 	}
 	{
@@ -1571,37 +1805,27 @@ func (s *ReadEnvironmentVariable) SetFake() {
 	}
 	{
 		{
-			s.Value.SetFake()
-		}
-	}
-	{
-		{
 			s.Secret = true
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *ReadLbServiceClass) SetFake() {
 	{
 		{
-			s.Path = "string"
-		}
-	}
-	{
-		{
-			s.NodeCount = int16(0)
-		}
-	}
-	{
-		{
-			s.Name = "string"
+			s.Value.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ReadLoadBalancerDetail) SetFake() {
+func (s *ReadLimitsResponse) SetFake() {
+	{
+		{
+			s.Limit.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *ReadLoadBalancer) SetFake() {
 	{
 		{
 			s.LoadBalancerID.SetFake()
@@ -1621,12 +1845,22 @@ func (s *ReadLoadBalancerDetail) SetFake() {
 		{
 			s.NameServers = nil
 			for i := 0; i < 1; i++ {
-				var elem IPv4
+				var elem Ipv4
 				{
 					elem.SetFake()
 				}
 				s.NameServers = append(s.NameServers, elem)
 			}
+		}
+	}
+	{
+		{
+			s.Created = int(0)
+		}
+	}
+	{
+		{
+			s.Deleting = true
 		}
 	}
 	{
@@ -1641,162 +1875,24 @@ func (s *ReadLoadBalancerDetail) SetFake() {
 			}
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *ReadLoadBalancerNodeResponse) SetFake() {
 	{
 		{
-			s.Created = int(0)
-		}
-	}
-	{
-		{
-			s.Deleting = true
+			s.LoadBalancerNode.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ReadLoadBalancerNode) SetFake() {
+func (s *ReadLoadBalancerResponse) SetFake() {
 	{
 		{
-			s.LoadBalancerNodeID.SetFake()
+			s.LoadBalancer.SetFake()
 		}
 	}
-	{
-		{
-			s.ResourceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Interfaces = nil
-			for i := 0; i < 0; i++ {
-				var elem ReadLoadBalancerNodeInterface
-				{
-					elem.SetFake()
-				}
-				s.Interfaces = append(s.Interfaces, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Status.SetFake()
-		}
-	}
-	{
-		{
-			s.ArchiveVersion.SetFake()
-		}
-	}
-	{
-		{
-			s.CreateErrorMessage.SetFake()
-		}
-	}
-	{
-		{
-			s.Created = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ReadLoadBalancerNodeInterface) SetFake() {
-	{
-		{
-			s.InterfaceIndex = int16(0)
-		}
-	}
-	{
-		{
-			s.Addresses = nil
-			for i := 0; i < 0; i++ {
-				var elem ReadLoadBalancerNodeInterfaceAddress
-				{
-					elem.SetFake()
-				}
-				s.Addresses = append(s.Addresses, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ReadLoadBalancerNodeInterfaceAddress) SetFake() {
-	{
-		{
-			s.Address = "string"
-		}
-	}
-	{
-		{
-			s.Vip = true
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ReadLoadBalancerNodeSummary) SetFake() {
-	{
-		{
-			s.LoadBalancerNodeID.SetFake()
-		}
-	}
-	{
-		{
-			s.ResourceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Status.SetFake()
-		}
-	}
-	{
-		{
-			s.Interfaces = nil
-			for i := 0; i < 0; i++ {
-				var elem ReadLoadBalancerNodeInterface
-				{
-					elem.SetFake()
-				}
-				s.Interfaces = append(s.Interfaces, elem)
-			}
-		}
-	}
-	{
-		{
-			s.ArchiveVersion.SetFake()
-		}
-	}
-	{
-		{
-			s.CreateErrorMessage.SetFake()
-		}
-	}
-	{
-		{
-			s.Created = int(0)
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ReadLoadBalancerPort) SetFake() {
-	{
-		{
-			s.Port = uint16(0)
-		}
-	}
-	{
-		{
-			s.Protocol.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ReadLoadBalancerPortProtocol) SetFake() {
-	*s = ReadLoadBalancerPortProtocolHTTP
 }
 
 // SetFake set fake values.
@@ -1820,7 +1916,7 @@ func (s *ReadLoadBalancerSummary) SetFake() {
 		{
 			s.NameServers = nil
 			for i := 0; i < 1; i++ {
-				var elem IPv4
+				var elem Ipv4
 				{
 					elem.SetFake()
 				}
@@ -1841,7 +1937,103 @@ func (s *ReadLoadBalancerSummary) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ReadWorkerNodeDetail) SetFake() {
+func (s *ReadWorkerNodeResponse) SetFake() {
+	{
+		{
+			s.WorkerNode.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *RegistryPasswordAction) SetFake() {
+	*s = RegistryPasswordActionKeep
+}
+
+// SetFake set fake values.
+func (s *ScalingMode) SetFake() {
+	*s = ScalingModeManual
+}
+
+// SetFake set fake values.
+func (s *ServicePrincipalID) SetFake() {
+	var unwrapped string
+	{
+		unwrapped = "string"
+	}
+	*s = ServicePrincipalID(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *UpdateApplicationRequest) SetFake() {
+	{
+		{
+			s.ActiveVersion.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateCertificateRequest) SetFake() {
+	{
+		{
+			s.Name = "string"
+		}
+	}
+	{
+		{
+			s.CertificatePem = "string"
+		}
+	}
+	{
+		{
+			s.PrivatekeyPem = "string"
+		}
+	}
+	{
+		{
+			s.IntermediateCertificatePem.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateClusterRequest) SetFake() {
+	{
+		{
+			s.LetsEncryptEmail.SetFake()
+		}
+	}
+	{
+		{
+			s.ServicePrincipalID.SetFake()
+		}
+	}
+	{
+		{
+			s.Ports = nil
+			for i := 0; i < 0; i++ {
+				var elem ClusterLoadBalancerPort
+				{
+					elem.SetFake()
+				}
+				s.Ports = append(s.Ports, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateWorkerNodeDrainingRequest) SetFake() {
+	{
+		{
+			s.Draining = true
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WorkerNode) SetFake() {
 	{
 		{
 			s.WorkerNodeID.SetFake()
@@ -1860,6 +2052,33 @@ func (s *ReadWorkerNodeDetail) SetFake() {
 	{
 		{
 			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.NetworkInterfaces = nil
+			for i := 0; i < 0; i++ {
+				var elem WorkerNodeNetworkInterface
+				{
+					elem.SetFake()
+				}
+				s.NetworkInterfaces = append(s.NetworkInterfaces, elem)
+			}
+		}
+	}
+	{
+		{
+			s.ArchiveVersion.SetFake()
+		}
+	}
+	{
+		{
+			s.Created = int(0)
+		}
+	}
+	{
+		{
+			s.CreateErrorMessage.SetFake()
 		}
 	}
 	{
@@ -1874,14 +2093,9 @@ func (s *ReadWorkerNodeDetail) SetFake() {
 	}
 	{
 		{
-			s.Created = int(0)
-		}
-	}
-	{
-		{
 			s.RunningContainers = nil
 			for i := 0; i < 0; i++ {
-				var elem RunningContainer
+				var elem WorkerNodeRunningContainer
 				{
 					elem.SetFake()
 				}
@@ -1889,32 +2103,38 @@ func (s *ReadWorkerNodeDetail) SetFake() {
 			}
 		}
 	}
+}
+
+// SetFake set fake values.
+func (s *WorkerNodeContainerPlacement) SetFake() {
 	{
 		{
-			s.NetworkInterfaces = nil
-			for i := 0; i < 0; i++ {
-				var elem ReadWorkerNodeNetworkInterface
-				{
-					elem.SetFake()
-				}
-				s.NetworkInterfaces = append(s.NetworkInterfaces, elem)
-			}
+			s.NodeID.SetFake()
 		}
 	}
 	{
 		{
-			s.ArchiveVersion.SetFake()
+			s.ContainersStats.SetFake()
 		}
 	}
 	{
 		{
-			s.CreateErrorMessage.SetFake()
+			s.Desired.SetFake()
 		}
 	}
 }
 
 // SetFake set fake values.
-func (s *ReadWorkerNodeInterfaceAddress) SetFake() {
+func (s *WorkerNodeID) SetFake() {
+	var unwrapped uuid.UUID
+	{
+		unwrapped = uuid.New()
+	}
+	*s = WorkerNodeID(unwrapped)
+}
+
+// SetFake set fake values.
+func (s *WorkerNodeInterfaceAddress) SetFake() {
 	{
 		{
 			s.Address = "string"
@@ -1923,7 +2143,7 @@ func (s *ReadWorkerNodeInterfaceAddress) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ReadWorkerNodeNetworkInterface) SetFake() {
+func (s *WorkerNodeNetworkInterface) SetFake() {
 	{
 		{
 			s.InterfaceIndex = int16(0)
@@ -1933,7 +2153,7 @@ func (s *ReadWorkerNodeNetworkInterface) SetFake() {
 		{
 			s.Addresses = nil
 			for i := 0; i < 0; i++ {
-				var elem ReadWorkerNodeInterfaceAddress
+				var elem WorkerNodeInterfaceAddress
 				{
 					elem.SetFake()
 				}
@@ -1944,77 +2164,7 @@ func (s *ReadWorkerNodeNetworkInterface) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *ReadWorkerNodeSummary) SetFake() {
-	{
-		{
-			s.WorkerNodeID.SetFake()
-		}
-	}
-	{
-		{
-			s.ResourceID.SetFake()
-		}
-	}
-	{
-		{
-			s.Draining = true
-		}
-	}
-	{
-		{
-			s.Status.SetFake()
-		}
-	}
-	{
-		{
-			s.NetworkInterfaces = nil
-			for i := 0; i < 0; i++ {
-				var elem ReadWorkerNodeNetworkInterface
-				{
-					elem.SetFake()
-				}
-				s.NetworkInterfaces = append(s.NetworkInterfaces, elem)
-			}
-		}
-	}
-	{
-		{
-			s.ArchiveVersion.SetFake()
-		}
-	}
-	{
-		{
-			s.Created = int(0)
-		}
-	}
-	{
-		{
-			s.CreateErrorMessage.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *ReadWorkerServiceClass) SetFake() {
-	{
-		{
-			s.Path = "string"
-		}
-	}
-	{
-		{
-			s.Name = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *RegistryPasswordAction) SetFake() {
-	*s = RegistryPasswordActionKeep
-}
-
-// SetFake set fake values.
-func (s *RunningContainer) SetFake() {
+func (s *WorkerNodeRunningContainer) SetFake() {
 	{
 		{
 			s.ContainerID = "string"
@@ -2052,82 +2202,77 @@ func (s *RunningContainer) SetFake() {
 	}
 	{
 		{
-			s.ApplicationVersion = int32(0)
+			s.ApplicationVersion.SetFake()
 		}
 	}
-}
-
-// SetFake set fake values.
-func (s *ScalingMode) SetFake() {
-	*s = ScalingModeManual
-}
-
-// SetFake set fake values.
-func (s *UpdateApplication) SetFake() {
-	{
-		{
-			s.ActiveVersion.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *UpdateCertificate) SetFake() {
-	{
-		{
-			s.Name = "string"
-		}
-	}
-	{
-		{
-			s.CertificatePem = "string"
-		}
-	}
-	{
-		{
-			s.PrivatekeyPem = "string"
-		}
-	}
-	{
-		{
-			s.IntermediateCertificatePem.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *UpdateCluster) SetFake() {
-	{
-		{
-			s.LetsEncryptEmail.SetFake()
-		}
-	}
-	{
-		{
-			s.ServicePrincipalID = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *UpdateWorkerNodeDrainingRequest) SetFake() {
-	{
-		{
-			s.Draining = true
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *WorkerNodeID) SetFake() {
-	var unwrapped uuid.UUID
-	{
-		unwrapped = uuid.New()
-	}
-	*s = WorkerNodeID(unwrapped)
 }
 
 // SetFake set fake values.
 func (s *WorkerNodeStatus) SetFake() {
 	*s = WorkerNodeStatusHealthy
+}
+
+// SetFake set fake values.
+func (s *WorkerNodeSummary) SetFake() {
+	{
+		{
+			s.WorkerNodeID.SetFake()
+		}
+	}
+	{
+		{
+			s.ResourceID.SetFake()
+		}
+	}
+	{
+		{
+			s.Draining = true
+		}
+	}
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
+	{
+		{
+			s.NetworkInterfaces = nil
+			for i := 0; i < 0; i++ {
+				var elem WorkerNodeNetworkInterface
+				{
+					elem.SetFake()
+				}
+				s.NetworkInterfaces = append(s.NetworkInterfaces, elem)
+			}
+		}
+	}
+	{
+		{
+			s.ArchiveVersion.SetFake()
+		}
+	}
+	{
+		{
+			s.Created = int(0)
+		}
+	}
+	{
+		{
+			s.CreateErrorMessage.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *WorkerServiceClass) SetFake() {
+	{
+		{
+			s.Path = "string"
+		}
+	}
+	{
+		{
+			s.Name = "string"
+		}
+	}
 }

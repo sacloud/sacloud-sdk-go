@@ -204,7 +204,7 @@ func OreSign() (certPEM, keyPEM []byte, err error) {
 	return
 }
 
-func FakeApplicationVersion() (ret v1.ReadApplicationVersionDetail) {
+func FakeApplicationVersion() (ret v1.ReadApplicationVersion) {
 	ret.SetFake()
 	ret.SetVersion(1)
 	ret.SetCPU(128)
@@ -228,11 +228,11 @@ func FakeAutoScalingGroupNodeInterface() (ret v1.AutoScalingGroupNodeInterface) 
 	return
 }
 
-func FakeAutoScalingGroup() (ret v1.ReadAutoScalingGroupDetail) {
+func FakeAutoScalingGroup() (ret v1.ReadAutoScalingGroup) {
 	ret.SetAutoScalingGroupID(v1.AutoScalingGroupID(uuid.New()))
 	ret.SetName("test-asg")
 	ret.SetZone("is1a")
-	ret.SetNameServers([]v1.IPv4{"133.242.0.3"})
+	ret.SetNameServers([]v1.Ipv4{"133.242.0.3"})
 	ret.SetWorkerServiceClassPath("/is1a/server/1/core-2-2")
 	ret.SetMinNodes(1)
 	ret.SetMaxNodes(3)
@@ -242,7 +242,7 @@ func FakeAutoScalingGroup() (ret v1.ReadAutoScalingGroupDetail) {
 	return
 }
 
-func FakeApplication() (ret v1.ReadApplicationDetail) {
+func FakeApplication() (ret v1.ReadApplication) {
 	ret.SetApplicationID(v1.ApplicationID(uuid.New()))
 	ret.SetName("test-app")
 	ret.SetClusterID(v1.ClusterID(uuid.New()))
@@ -269,41 +269,41 @@ func FakeLoadBalancer() (ret v1.ReadLoadBalancerSummary) {
 	ret.SetLoadBalancerID(v1.LoadBalancerID(uuid.New()))
 	ret.SetName("test-lb")
 	ret.SetServiceClassPath("/is1a/load-balancer/1/core-2-2")
-	ret.SetNameServers([]v1.IPv4{"133.242.0.3"})
+	ret.SetNameServers([]v1.Ipv4{"133.242.0.3"})
 	ret.SetCreated(1234567890)
 	ret.SetDeleting(false)
 	return
 }
 
-func FakeLoadBalancerDetail() (ret v1.ReadLoadBalancerDetail) {
+func FakeLoadBalancerDetail() (ret v1.ReadLoadBalancer) {
 	ret.SetLoadBalancerID(v1.LoadBalancerID(uuid.New()))
 	ret.SetName("test-lb")
 	ret.SetServiceClassPath("/is1a/load-balancer/1/core-2-2")
-	ret.SetNameServers([]v1.IPv4{"133.242.0.3"})
+	ret.SetNameServers([]v1.Ipv4{"133.242.0.3"})
 	ret.SetInterfaces([]v1.LoadBalancerInterface{FakeLoadBalancerInterface()})
 	ret.SetCreated(1234567890)
 	ret.SetDeleting(false)
 	return
 }
 
-func FakeLoadBalancerNodeInterfaceAddress() (ret v1.ReadLoadBalancerNodeInterfaceAddress) {
+func FakeLoadBalancerNodeInterfaceAddress() (ret v1.LoadBalancerNodeInterfaceAddress) {
 	ret.SetAddress("192.168.1.100")
 	ret.SetVip(true)
 	return
 }
 
-func FakeLoadBalancerNodeInterface() (ret v1.ReadLoadBalancerNodeInterface) {
+func FakeLoadBalancerNodeInterface() (ret v1.LoadBalancerNodeInterface) {
 	ret.SetInterfaceIndex(0)
-	ret.SetAddresses([]v1.ReadLoadBalancerNodeInterfaceAddress{FakeLoadBalancerNodeInterfaceAddress()})
+	ret.SetAddresses([]v1.LoadBalancerNodeInterfaceAddress{FakeLoadBalancerNodeInterfaceAddress()})
 	return
 }
 
-func FakeLoadBalancerNode() (ret v1.ReadLoadBalancerNode) {
+func FakeLoadBalancerNode() (ret v1.LoadBalancerNode) {
 	ret.SetLoadBalancerNodeID(v1.LoadBalancerNodeID(uuid.New()))
 	var nilString v1.NilString
 	nilString.SetToNull()
 	ret.SetResourceID(nilString)
-	ret.SetInterfaces([]v1.ReadLoadBalancerNodeInterface{FakeLoadBalancerNodeInterface()})
+	ret.SetInterfaces([]v1.LoadBalancerNodeInterface{FakeLoadBalancerNodeInterface()})
 	ret.SetStatus(v1.LoadBalancerNodeStatusHealthy)
 	ret.ArchiveVersion.SetTo("1.0.0")
 	ret.CreateErrorMessage.Reset()
@@ -311,12 +311,12 @@ func FakeLoadBalancerNode() (ret v1.ReadLoadBalancerNode) {
 	return
 }
 
-func FakeLoadBalancerNodeSummary() (ret v1.ReadLoadBalancerNodeSummary) {
+func FakeLoadBalancerNodeSummary() (ret v1.LoadBalancerNode) {
 	ret.SetLoadBalancerNodeID(v1.LoadBalancerNodeID(uuid.New()))
 	var nilString v1.NilString
 	nilString.SetToNull()
 	ret.SetResourceID(nilString)
-	ret.SetInterfaces([]v1.ReadLoadBalancerNodeInterface{FakeLoadBalancerNodeInterface()})
+	ret.SetInterfaces([]v1.LoadBalancerNodeInterface{FakeLoadBalancerNodeInterface()})
 	ret.SetStatus(v1.LoadBalancerNodeStatusHealthy)
 	ret.ArchiveVersion.SetTo("1.0.0")
 	ret.CreateErrorMessage.Reset()
@@ -347,10 +347,10 @@ func IntegratedCluster(ctx context.Context, assert *require.Assertions, client *
 		Name:               clusterName,
 		ServicePrincipalID: spid,
 		LetsEncryptEmail:   nil,
-		Ports: []v1.CreateLoadBalancerPort{
+		Ports: []v1.ClusterLoadBalancerPort{
 			{
 				Port:     443,
-				Protocol: v1.CreateLoadBalancerPortProtocolHTTPS,
+				Protocol: v1.ClusterLoadBalancerPortProtocolHTTPS,
 			},
 		},
 	})
@@ -374,7 +374,7 @@ func IntegratedAsg(ctx context.Context, assert *require.Assertions, client *v1.C
 	asg, err := api.Create(ctx, autoscalinggroup.CreateParams{
 		Name:                   asgName,
 		Zone:                   "is1a",
-		NameServers:            []v1.IPv4{"133.242.0.3"},
+		NameServers:            []v1.Ipv4{"133.242.0.3"},
 		WorkerServiceClassPath: "cloud/apprun/dedicated/worker/1vcpu_2gb", // :FIXME: there is no way to find a minimal class
 		MinNodes:               1,
 		MaxNodes:               1,

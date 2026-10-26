@@ -11,17 +11,17 @@ import (
 )
 
 type ServiceClassAPI interface {
-	ListLB(ctx context.Context) (classes []v1.ReadLbServiceClass, err error)
-	ListWorker(ctx context.Context) (classes []v1.ReadWorkerServiceClass, err error)
+	ListLB(ctx context.Context) (classes []v1.LoadBalancerServiceClass, err error)
+	ListWorker(ctx context.Context) (classes []v1.WorkerServiceClass, err error)
 }
 
 type ServiceClassOp struct{ *v1.Client }
 
 func NewServiceClassOp(client *v1.Client) *ServiceClassOp { return &ServiceClassOp{Client: client} }
 
-func (op *ServiceClassOp) ListLB(ctx context.Context) (classes []v1.ReadLbServiceClass, err error) {
-	res, err := common.ErrorFromDecodedResponse("ServiceClass.ListLB", func() (*v1.ListLbServiceClassResponse, error) {
-		return op.Client.ListLbServiceClasses(ctx)
+func (op *ServiceClassOp) ListLB(ctx context.Context) (classes []v1.LoadBalancerServiceClass, err error) {
+	res, err := common.ErrorFromDecodedResponse("ServiceClass.ListLB", func() (*v1.ListLoadBalancerServiceClassesResponse, error) {
+		return op.Client.ListLoadBalancerServiceClasses(ctx)
 	})
 
 	if res != nil {
@@ -31,8 +31,8 @@ func (op *ServiceClassOp) ListLB(ctx context.Context) (classes []v1.ReadLbServic
 	return
 }
 
-func (op *ServiceClassOp) ListWorker(ctx context.Context) (classes []v1.ReadWorkerServiceClass, err error) {
-	res, err := common.ErrorFromDecodedResponse("ServiceClass.ListWorker", func() (*v1.ListWorkerServiceClassResponse, error) {
+func (op *ServiceClassOp) ListWorker(ctx context.Context) (classes []v1.WorkerServiceClass, err error) {
+	res, err := common.ErrorFromDecodedResponse("ServiceClass.ListWorker", func() (*v1.ListWorkerServiceClassesResponse, error) {
 		return op.Client.ListWorkerServiceClasses(ctx)
 	})
 
