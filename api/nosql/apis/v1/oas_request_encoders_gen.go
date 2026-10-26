@@ -10,7 +10,7 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
-func encodeCreateDBRequest(
+func encodeCreateNosqlDatabaseRequest(
 	req *NosqlCreateRequest,
 	r *http.Request,
 ) error {
@@ -24,7 +24,7 @@ func encodeCreateDBRequest(
 	return nil
 }
 
-func encodePostNoSQLRepairRequest(
+func encodeRepairNosqlDatabaseRequest(
 	req *NosqlRepairRequest,
 	r *http.Request,
 ) error {
@@ -38,36 +38,36 @@ func encodePostNoSQLRepairRequest(
 	return nil
 }
 
-func encodePutParameterRequest(
-	req *PutParameterRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodePutVersionRequest(
-	req *NosqlPutVersionRequest,
-	r *http.Request,
-) error {
-	const contentType = "application/json"
-	e := new(jx.Encoder)
-	{
-		req.Encode(e)
-	}
-	encoded := e.Bytes()
-	ht.SetBody(r, bytes.NewReader(encoded), contentType)
-	return nil
-}
-
-func encodeUpdateDBRequest(
+func encodeUpdateNosqlDatabaseRequest(
 	req *NosqlUpdateRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateNosqlDatabaseParametersRequest(
+	req *UpdateNosqlParametersRequest,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		req.Encode(e)
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateNosqlDatabaseVersionRequest(
+	req *NosqlUpdateVersionRequest,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

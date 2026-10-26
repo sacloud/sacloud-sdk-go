@@ -6,120 +6,126 @@ import (
 	"github.com/google/uuid"
 )
 
-// ConfirmStatusDBParams is parameters of ConfirmStatusDB operation.
-type ConfirmStatusDBParams struct {
+// ApplyNosqlDatabaseConfigParams is parameters of applyNosqlDatabaseConfig operation.
+type ApplyNosqlDatabaseConfigParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// CreateBackupParams is parameters of createBackup operation.
-type CreateBackupParams struct {
+// CreateNosqlDatabaseBackupParams is parameters of createNosqlDatabaseBackup operation.
+type CreateNosqlDatabaseBackupParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// DeleteAppliancePowerParams is parameters of DeleteAppliancePower operation.
-type DeleteAppliancePowerParams struct {
+// DeleteNosqlDatabaseParams is parameters of deleteNosqlDatabase operation.
+type DeleteNosqlDatabaseParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// DeleteBackupParams is parameters of deleteBackup operation.
-type DeleteBackupParams struct {
+// DeleteNosqlDatabaseBackupParams is parameters of deleteNosqlDatabaseBackup operation.
+type DeleteNosqlDatabaseBackupParams struct {
 	// アプライアンスID.
 	ApplianceID string
 	// バックアップID.
 	BackupID uuid.UUID
 }
 
-// DeleteDBParams is parameters of DeleteDB operation.
-type DeleteDBParams struct {
+// GetNosqlDatabasePowerParams is parameters of getNosqlDatabasePower operation.
+type GetNosqlDatabasePowerParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// GetBackupByApplianceIDParams is parameters of GetBackupByApplianceID operation.
-type GetBackupByApplianceIDParams struct {
+// ListNosqlDatabaseBackupsParams is parameters of listNosqlDatabaseBackups operation.
+type ListNosqlDatabaseBackupsParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// GetDBParams is parameters of GetDB operation.
-type GetDBParams struct {
+// ListNosqlDatabaseParametersParams is parameters of listNosqlDatabaseParameters operation.
+type ListNosqlDatabaseParametersParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// GetNoSQLNodeHealthParams is parameters of GetNoSQLNodeHealth operation.
-type GetNoSQLNodeHealthParams struct {
+// ListNosqlDatabaseVersionsParams is parameters of listNosqlDatabaseVersions operation.
+type ListNosqlDatabaseVersionsParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// GetParameterParams is parameters of getParameter operation.
-type GetParameterParams struct {
-	// アプライアンスID.
-	ApplianceID string
-}
-
-// GetVersionParams is parameters of getVersion operation.
-type GetVersionParams struct {
-	// アプライアンスID.
-	ApplianceID string
-}
-
-// ListDBParams is parameters of ListDB operation.
-type ListDBParams struct {
+// ListNosqlDatabasesParams is parameters of listNosqlDatabases operation.
+type ListNosqlDatabasesParams struct {
 	// Class固定.
 	FilterClass string
 }
 
-// PostNoSQLRepairParams is parameters of PostNoSQLRepair operation.
-type PostNoSQLRepairParams struct {
+// PowerOffNosqlDatabaseParams is parameters of powerOffNosqlDatabase operation.
+type PowerOffNosqlDatabaseParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// PutAppliancePowerParams is parameters of PutAppliancePower operation.
-type PutAppliancePowerParams struct {
+// PowerOnNosqlDatabaseParams is parameters of powerOnNosqlDatabase operation.
+type PowerOnNosqlDatabaseParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// PutParameterParams is parameters of putParameter operation.
-type PutParameterParams struct {
+// ReadNosqlDatabaseParams is parameters of readNosqlDatabase operation.
+type ReadNosqlDatabaseParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// PutVersionParams is parameters of putVersion operation.
-type PutVersionParams struct {
+// ReadNosqlDatabaseNodeHealthParams is parameters of readNosqlDatabaseNodeHealth operation.
+type ReadNosqlDatabaseNodeHealthParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// RecoverNoSQLNodeParams is parameters of RecoverNoSQLNode operation.
-type RecoverNoSQLNodeParams struct {
+// ReadNosqlDatabaseStatusParams is parameters of readNosqlDatabaseStatus operation.
+type ReadNosqlDatabaseStatusParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// RestoreBackupParams is parameters of restoreBackup operation.
-type RestoreBackupParams struct {
+// RecoverNosqlDatabaseNodeParams is parameters of recoverNosqlDatabaseNode operation.
+type RecoverNosqlDatabaseNodeParams struct {
+	// アプライアンスID.
+	ApplianceID string
+}
+
+// RepairNosqlDatabaseParams is parameters of repairNosqlDatabase operation.
+type RepairNosqlDatabaseParams struct {
+	// アプライアンスID.
+	ApplianceID string
+}
+
+// RestoreNosqlDatabaseBackupParams is parameters of restoreNosqlDatabaseBackup operation.
+type RestoreNosqlDatabaseBackupParams struct {
 	// アプライアンスID.
 	ApplianceID string
 	// バックアップID.
 	BackupID uuid.UUID
 }
 
-// UpdateConfigDBParams is parameters of UpdateConfigDB operation.
-type UpdateConfigDBParams struct {
+// UpdateNosqlDatabaseParams is parameters of updateNosqlDatabase operation.
+type UpdateNosqlDatabaseParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }
 
-// UpdateDBParams is parameters of UpdateDB operation.
-type UpdateDBParams struct {
+// UpdateNosqlDatabaseParametersParams is parameters of updateNosqlDatabaseParameters operation.
+type UpdateNosqlDatabaseParametersParams struct {
+	// アプライアンスID.
+	ApplianceID string
+}
+
+// UpdateNosqlDatabaseVersionParams is parameters of updateNosqlDatabaseVersion operation.
+type UpdateNosqlDatabaseVersionParams struct {
 	// アプライアンスID.
 	ApplianceID string
 }

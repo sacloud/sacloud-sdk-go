@@ -11,10 +11,10 @@ import (
 )
 
 type InstanceAPI interface {
-	GetVersion(ctx context.Context) (*v1.NosqlGetVersionResponseNosql, error)
+	GetVersion(ctx context.Context) (*v1.NosqlVersionsResponseNosql, error)
 	UpgradeVersion(ctx context.Context, version string) error
-	GetParameters(ctx context.Context) ([]v1.NosqlGetParameter, error)
-	SetParameters(ctx context.Context, params []v1.NosqlPutParameter) error
+	GetParameters(ctx context.Context) ([]v1.NosqlParameter, error)
+	SetParameters(ctx context.Context, params []v1.NosqlParameterSetting) error
 	GetNodeHealth(ctx context.Context) (v1.NodeHealthNosqlStatus, error)
 	AddNodes(ctx context.Context, plan Plan, request v1.NosqlCreateRequestAppliance) (*v1.NosqlAppliance, error)
 	Recover(ctx context.Context) (string, error)
@@ -35,14 +35,14 @@ func NewInstanceOp(client *v1.Client, dbId string, zone string) InstanceAPI {
 	return &instanceOp{client: client, dbId: dbId, zone: zone}
 }
 
-func (op *instanceOp) GetVersion(ctx context.Context) (*v1.NosqlGetVersionResponseNosql, error) {
-	res, err := op.client.GetVersion(ctx, v1.GetVersionParams{ApplianceID: op.dbId})
+func (op *instanceOp) GetVersion(ctx context.Context) (*v1.NosqlVersionsResponseNosql, error) {
+	res, err := op.client.ListNosqlDatabaseVersions(ctx, v1.ListNosqlDatabaseVersionsParams{ApplianceID: op.dbId})
 	if err != nil {
 		return nil, NewAPIError("Instance.GetVersion", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.NosqlGetVersionResponse:
+	case *v1.NosqlVersionsResponse:
 		return &p.Nosql.Value, nil
 	case *v1.BadRequestResponse:
 		return nil, NewAPIError("Instance.GetVersion", 400, errors.New(p.ErrorMsg.Value))
@@ -56,15 +56,15 @@ func (op *instanceOp) GetVersion(ctx context.Context) (*v1.NosqlGetVersionRespon
 }
 
 func (op *instanceOp) UpgradeVersion(ctx context.Context, version string) error {
-	res, err := op.client.PutVersion(ctx, &v1.NosqlPutVersionRequest{
+	res, err := op.client.UpdateNosqlDatabaseVersion(ctx, &v1.NosqlUpdateVersionRequest{
 		Nosql: v1.NosqlVersion{Version: v1.NewOptString(version)}},
-		v1.PutVersionParams{ApplianceID: op.dbId})
+		v1.UpdateNosqlDatabaseVersionParams{ApplianceID: op.dbId})
 	if err != nil {
 		return NewAPIError("Instance.UpgradeVersion", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.NosqlPutVersionResponse:
+	case *v1.NosqlUpdateVersionResponse:
 		return nil
 	case *v1.BadRequestResponse:
 		return NewAPIError("Instance.UpgradeVersion", 400, errors.New(p.ErrorMsg.Value))
@@ -79,14 +79,14 @@ func (op *instanceOp) UpgradeVersion(ctx context.Context, version string) error 
 	}
 }
 
-func (op *instanceOp) GetParameters(ctx context.Context) ([]v1.NosqlGetParameter, error) {
-	res, err := op.client.GetParameter(ctx, v1.GetParameterParams{ApplianceID: op.dbId})
+func (op *instanceOp) GetParameters(ctx context.Context) ([]v1.NosqlParameter, error) {
+	res, err := op.client.ListNosqlDatabaseParameters(ctx, v1.ListNosqlDatabaseParametersParams{ApplianceID: op.dbId})
 	if err != nil {
 		return nil, NewAPIError("Instance.GetParameters", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.GetParameterResponse:
+	case *v1.NosqlParametersResponse:
 		return p.Nosql.Value.Parameters, nil
 	case *v1.BadRequestResponse:
 		return nil, NewAPIError("Instance.GetParameters", 400, errors.New(p.ErrorMsg.Value))
@@ -99,16 +99,16 @@ func (op *instanceOp) GetParameters(ctx context.Context) ([]v1.NosqlGetParameter
 	}
 }
 
-func (op *instanceOp) SetParameters(ctx context.Context, params []v1.NosqlPutParameter) error {
-	res, err := op.client.PutParameter(ctx, &v1.PutParameterRequest{
-		Nosql: v1.PutParameterRequestNosql{Parameters: params}},
-		v1.PutParameterParams{ApplianceID: op.dbId})
+func (op *instanceOp) SetParameters(ctx context.Context, params []v1.NosqlParameterSetting) error {
+	res, err := op.client.UpdateNosqlDatabaseParameters(ctx, &v1.UpdateNosqlParametersRequest{
+		Nosql: v1.UpdateNosqlParametersRequestNosql{Parameters: params}},
+		v1.UpdateNosqlDatabaseParametersParams{ApplianceID: op.dbId})
 	if err != nil {
 		return NewAPIError("Instance.SetParameters", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.PutParameterResponse:
+	case *v1.UpdateNosqlParametersResponse:
 		return nil
 	case *v1.BadRequestResponse:
 		return NewAPIError("Instance.SetParameters", 400, errors.New(p.ErrorMsg.Value))
@@ -124,7 +124,7 @@ func (op *instanceOp) SetParameters(ctx context.Context, params []v1.NosqlPutPar
 }
 
 func (op *instanceOp) GetNodeHealth(ctx context.Context) (v1.NodeHealthNosqlStatus, error) {
-	res, err := op.client.GetNoSQLNodeHealth(ctx, v1.GetNoSQLNodeHealthParams{ApplianceID: op.dbId})
+	res, err := op.client.ReadNosqlDatabaseNodeHealth(ctx, v1.ReadNosqlDatabaseNodeHealthParams{ApplianceID: op.dbId})
 	if err != nil {
 		return v1.NodeHealthNosqlStatus(""), NewAPIError("Instance.GetNodeHealth", 0, err)
 	}
@@ -156,7 +156,7 @@ func (op *instanceOp) AddNodes(ctx context.Context, plan Plan, request v1.NosqlC
 	request.Remark.Nosql.PrimaryNodes = v1.NewOptNosqlRemarkNosqlPrimaryNodes(v1.NosqlRemarkNosqlPrimaryNodes{
 		Appliance: v1.NosqlRemarkNosqlPrimaryNodesAppliance{ID: op.dbId, Zone: v1.NosqlRemarkNosqlPrimaryNodesApplianceZone{Name: op.zone}},
 	})
-	res, err := op.client.CreateDB(ctx, &v1.NosqlCreateRequest{Appliance: request})
+	res, err := op.client.CreateNosqlDatabase(ctx, &v1.NosqlCreateRequest{Appliance: request})
 	if err != nil {
 		return nil, NewAPIError("Instance.AddNodes", 0, err)
 	}
@@ -178,15 +178,15 @@ func (op *instanceOp) AddNodes(ctx context.Context, plan Plan, request v1.NosqlC
 }
 
 func (op *instanceOp) Recover(ctx context.Context) (string, error) {
-	res, err := op.client.RecoverNoSQLNode(ctx, v1.RecoverNoSQLNodeParams{ApplianceID: op.dbId})
+	res, err := op.client.RecoverNosqlDatabaseNode(ctx, v1.RecoverNosqlDatabaseNodeParams{ApplianceID: op.dbId})
 	if err != nil {
 		return "", NewAPIError("Instance.Recover", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.RecoverNoSQLNodeOK:
+	case *v1.RecoverNosqlDatabaseNodeOK:
 		return "ok", nil
-	case *v1.RecoverNoSQLNodeAccepted:
+	case *v1.RecoverNosqlDatabaseNodeAccepted:
 		return "in_progress", nil
 	case *v1.BadRequestResponse:
 		return "", NewAPIError("Instance.Recover", 400, errors.New(p.ErrorMsg.Value))
@@ -202,9 +202,9 @@ func (op *instanceOp) Recover(ctx context.Context) (string, error) {
 }
 
 func (op *instanceOp) Repair(ctx context.Context, repairType string) error {
-	res, err := op.client.PostNoSQLRepair(ctx, &v1.NosqlRepairRequest{
+	res, err := op.client.RepairNosqlDatabase(ctx, &v1.NosqlRepairRequest{
 		Nosql: v1.NewOptNosqlRepairRequestNosql(v1.NosqlRepairRequestNosql{RepairType: v1.NewOptNosqlRepairRequestNosqlRepairType(v1.NosqlRepairRequestNosqlRepairType(repairType))})},
-		v1.PostNoSQLRepairParams{ApplianceID: op.dbId})
+		v1.RepairNosqlDatabaseParams{ApplianceID: op.dbId})
 	if err != nil {
 		return NewAPIError("Instance.Repair", 0, err)
 	}
@@ -228,7 +228,7 @@ func (op *instanceOp) Repair(ctx context.Context, repairType string) error {
 }
 
 func (op *instanceOp) Start(ctx context.Context) error {
-	res, err := op.client.PutAppliancePower(ctx, v1.PutAppliancePowerParams{ApplianceID: op.dbId})
+	res, err := op.client.PowerOnNosqlDatabase(ctx, v1.PowerOnNosqlDatabaseParams{ApplianceID: op.dbId})
 	if err != nil {
 		return NewAPIError("Instance.Start", 0, err)
 	}
@@ -252,7 +252,7 @@ func (op *instanceOp) Start(ctx context.Context) error {
 }
 
 func (op *instanceOp) Stop(ctx context.Context) error {
-	res, err := op.client.DeleteAppliancePower(ctx, v1.DeleteAppliancePowerParams{ApplianceID: op.dbId})
+	res, err := op.client.PowerOffNosqlDatabase(ctx, v1.PowerOffNosqlDatabaseParams{ApplianceID: op.dbId})
 	if err != nil {
 		return NewAPIError("Instance.Stop", 0, err)
 	}

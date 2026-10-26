@@ -11,9 +11,9 @@ import (
 )
 
 type DatabaseAPI interface {
-	List(ctx context.Context) ([]v1.GetNosqlAppliance, error)
+	List(ctx context.Context) ([]v1.NosqlApplianceResponse, error)
 	Create(ctx context.Context, plan Plan, request v1.NosqlCreateRequestAppliance) (*v1.NosqlAppliance, error)
-	Read(ctx context.Context, id string) (*v1.GetNosqlAppliance, error)
+	Read(ctx context.Context, id string) (*v1.NosqlApplianceResponse, error)
 	Update(ctx context.Context, id string, request v1.NosqlUpdateRequestAppliance) error
 	Delete(ctx context.Context, id string) error
 	ApplyChanges(ctx context.Context, id string) error
@@ -30,8 +30,8 @@ func NewDatabaseOp(client *v1.Client) DatabaseAPI {
 	return &databaseOp{client: client}
 }
 
-func (op *databaseOp) List(ctx context.Context) ([]v1.GetNosqlAppliance, error) {
-	res, err := op.client.ListDB(ctx, v1.ListDBParams{FilterClass: "nosql"})
+func (op *databaseOp) List(ctx context.Context) ([]v1.NosqlApplianceResponse, error) {
+	res, err := op.client.ListNosqlDatabases(ctx, v1.ListNosqlDatabasesParams{FilterClass: "nosql"})
 	if err != nil {
 		return nil, NewAPIError("Database.List", 0, err)
 	}
@@ -60,7 +60,7 @@ func (op *databaseOp) Create(ctx context.Context, plan Plan, request v1.NosqlCre
 	request.Remark.Nosql.Nodes = v1.NewOptNilInt(plan.GetNodes())
 	request.Remark.Nosql.Virtualcore = v1.NewOptNilInt(plan.GetVirtualCore())
 
-	res, err := op.client.CreateDB(ctx, &v1.NosqlCreateRequest{Appliance: request})
+	res, err := op.client.CreateNosqlDatabase(ctx, &v1.NosqlCreateRequest{Appliance: request})
 	if err != nil {
 		return nil, NewAPIError("Database.Create", 0, err)
 	}
@@ -81,14 +81,14 @@ func (op *databaseOp) Create(ctx context.Context, plan Plan, request v1.NosqlCre
 	}
 }
 
-func (op *databaseOp) Read(ctx context.Context, id string) (*v1.GetNosqlAppliance, error) {
-	res, err := op.client.GetDB(ctx, v1.GetDBParams{ApplianceID: id})
+func (op *databaseOp) Read(ctx context.Context, id string) (*v1.NosqlApplianceResponse, error) {
+	res, err := op.client.ReadNosqlDatabase(ctx, v1.ReadNosqlDatabaseParams{ApplianceID: id})
 	if err != nil {
 		return nil, NewAPIError("Database.Read", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.NosqlGetResponse:
+	case *v1.NosqlReadResponse:
 		return &p.Appliance, nil
 	case *v1.BadRequestResponse:
 		return nil, NewAPIError("Database.Read", 400, errors.New(p.ErrorMsg.Value))
@@ -104,8 +104,8 @@ func (op *databaseOp) Read(ctx context.Context, id string) (*v1.GetNosqlApplianc
 }
 
 func (op *databaseOp) Update(ctx context.Context, id string, request v1.NosqlUpdateRequestAppliance) error {
-	res, err := op.client.UpdateDB(ctx, &v1.NosqlUpdateRequest{Appliance: request},
-		v1.UpdateDBParams{ApplianceID: id})
+	res, err := op.client.UpdateNosqlDatabase(ctx, &v1.NosqlUpdateRequest{Appliance: request},
+		v1.UpdateNosqlDatabaseParams{ApplianceID: id})
 	if err != nil {
 		return NewAPIError("Database.Update", 0, err)
 	}
@@ -129,7 +129,7 @@ func (op *databaseOp) Update(ctx context.Context, id string, request v1.NosqlUpd
 }
 
 func (op *databaseOp) Delete(ctx context.Context, id string) error {
-	res, err := op.client.DeleteDB(ctx, v1.DeleteDBParams{ApplianceID: id})
+	res, err := op.client.DeleteNosqlDatabase(ctx, v1.DeleteNosqlDatabaseParams{ApplianceID: id})
 	if err != nil {
 		return NewAPIError("Database.Delete", 0, err)
 	}
@@ -153,7 +153,7 @@ func (op *databaseOp) Delete(ctx context.Context, id string) error {
 }
 
 func (op *databaseOp) ApplyChanges(ctx context.Context, id string) error {
-	res, err := op.client.UpdateConfigDB(ctx, v1.UpdateConfigDBParams{ApplianceID: id})
+	res, err := op.client.ApplyNosqlDatabaseConfig(ctx, v1.ApplyNosqlDatabaseConfigParams{ApplianceID: id})
 	if err != nil {
 		return NewAPIError("Database.ApplyChanges", 0, err)
 	}
@@ -169,7 +169,7 @@ func (op *databaseOp) ApplyChanges(ctx context.Context, id string) error {
 }
 
 func (op *databaseOp) GetStatus(ctx context.Context, id string) (*v1.NosqlStatusResponseApplianceSettingsResponseNosql, error) {
-	res, err := op.client.ConfirmStatusDB(ctx, v1.ConfirmStatusDBParams{ApplianceID: id})
+	res, err := op.client.ReadNosqlDatabaseStatus(ctx, v1.ReadNosqlDatabaseStatusParams{ApplianceID: id})
 	if err != nil {
 		return nil, NewAPIError("Database.GetStatus", 0, err)
 	}

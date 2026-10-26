@@ -21,22 +21,15 @@ func trimTrailingSlashes(u *url.URL) {
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// ConfirmStatusDB invokes ConfirmStatusDB operation.
+	// ApplyNosqlDatabaseConfig invokes applyNosqlDatabaseConfig operation.
 	//
-	// 対象のNoSQLの情報を取得します。
-	// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
+	// 対象のNoSQLに対しての更新を反映します。
+	// 追加ノードのアプライアンスIDを指定して反映処理をすることはできません。
+	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が反映されます。.
 	//
-	// GET /appliance/{applianceID}/status
-	ConfirmStatusDB(ctx context.Context, params ConfirmStatusDBParams) (ConfirmStatusDBRes, error)
-	// CreateBackup invokes createBackup operation.
-	//
-	// 対象のNoSQLに対してバックアップ作成を行います。
-	// 追加ノードのアプライアンスIDを指定してバックアップを作成することはできません。
-	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバックアップが作成されます。.
-	//
-	// POST /appliance/{applianceID}/nosql/backup
-	CreateBackup(ctx context.Context, params CreateBackupParams) (CreateBackupRes, error)
-	// CreateDB invokes CreateDB operation.
+	// PUT /appliance/{applianceID}/config
+	ApplyNosqlDatabaseConfig(ctx context.Context, params ApplyNosqlDatabaseConfigParams) (ApplyNosqlDatabaseConfigRes, error)
+	// CreateNosqlDatabase invokes createNosqlDatabase operation.
 	//
 	// NoSQLの新規作成および既存NoSQLへのノード追加を行います。
 	// 新規作成時とノード追加時では、必要となる項目が異なります。
@@ -50,16 +43,24 @@ type Invoker interface {
 	// ※ノード追加では、既存NoSQLの設定情報（ノード追加時必須以外の項目）と一致させるか未指定である必要があります。.
 	//
 	// POST /appliance
-	CreateDB(ctx context.Context, request *NosqlCreateRequest) (CreateDBRes, error)
-	// DeleteAppliancePower invokes DeleteAppliancePower operation.
+	CreateNosqlDatabase(ctx context.Context, request *NosqlCreateRequest) (CreateNosqlDatabaseRes, error)
+	// CreateNosqlDatabaseBackup invokes createNosqlDatabaseBackup operation.
 	//
-	// 対象のNoSQLを停止します。
-	// プライマリノードのアプライアンスIDを指定しての停止では、ノード追加したデータは停止しません。
-	// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に停止する必要があります。.
+	// 対象のNoSQLに対してバックアップ作成を行います。
+	// 追加ノードのアプライアンスIDを指定してバックアップを作成することはできません。
+	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバックアップが作成されます。.
 	//
-	// DELETE /appliance/{applianceID}/power
-	DeleteAppliancePower(ctx context.Context, params DeleteAppliancePowerParams) (DeleteAppliancePowerRes, error)
-	// DeleteBackup invokes deleteBackup operation.
+	// POST /appliance/{applianceID}/nosql/backup
+	CreateNosqlDatabaseBackup(ctx context.Context, params CreateNosqlDatabaseBackupParams) (CreateNosqlDatabaseBackupRes, error)
+	// DeleteNosqlDatabase invokes deleteNosqlDatabase operation.
+	//
+	// 対象のNoSQLを削除します。
+	// プライマリノードのアプライアンスIDを指定して削除する場合、ノード追加したデータは削除されません。
+	// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に削除する必要があります。.
+	//
+	// DELETE /appliance/{applianceID}
+	DeleteNosqlDatabase(ctx context.Context, params DeleteNosqlDatabaseParams) (DeleteNosqlDatabaseRes, error)
+	// DeleteNosqlDatabaseBackup invokes deleteNosqlDatabaseBackup operation.
 	//
 	// 対象のNoSQLのバックアップ削除を開始します。
 	// バックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。
@@ -67,55 +68,83 @@ type Invoker interface {
 	// プライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの削除が適用されます。.
 	//
 	// DELETE /appliance/{applianceID}/nosql/backup/{backupID}
-	DeleteBackup(ctx context.Context, params DeleteBackupParams) (DeleteBackupRes, error)
-	// DeleteDB invokes DeleteDB operation.
+	DeleteNosqlDatabaseBackup(ctx context.Context, params DeleteNosqlDatabaseBackupParams) (DeleteNosqlDatabaseBackupRes, error)
+	// GetNosqlDatabasePower invokes getNosqlDatabasePower operation.
 	//
-	// 対象のNoSQLを削除します。
-	// プライマリノードのアプライアンスIDを指定して削除する場合、ノード追加したデータは削除されません。
-	// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に削除する必要があります。.
+	// 対象のNoSQLの電源状態を取得します。.
 	//
-	// DELETE /appliance/{applianceID}
-	DeleteDB(ctx context.Context, params DeleteDBParams) (DeleteDBRes, error)
-	// GetBackupByApplianceID invokes GetBackupByApplianceID operation.
+	// GET /appliance/{applianceID}/power
+	GetNosqlDatabasePower(ctx context.Context, params GetNosqlDatabasePowerParams) (GetNosqlDatabasePowerRes, error)
+	// ListNosqlDatabaseBackups invokes listNosqlDatabaseBackups operation.
 	//
 	// 対象NoSQLのバックアップ情報を取得します。
 	// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
 	//
 	// GET /appliance/{applianceID}/nosql/backup
-	GetBackupByApplianceID(ctx context.Context, params GetBackupByApplianceIDParams) (GetBackupByApplianceIDRes, error)
-	// GetDB invokes GetDB operation.
-	//
-	// 対象のNoSQLの取得を行います。.
-	//
-	// GET /appliance/{applianceID}
-	GetDB(ctx context.Context, params GetDBParams) (GetDBRes, error)
-	// GetNoSQLNodeHealth invokes GetNoSQLNodeHealth operation.
-	//
-	// 対象のNoSQL全体の起動状態を確認します。.
-	//
-	// GET /appliance/{applianceID}/nosql/nodes/health
-	GetNoSQLNodeHealth(ctx context.Context, params GetNoSQLNodeHealthParams) (GetNoSQLNodeHealthRes, error)
-	// GetParameter invokes getParameter operation.
+	ListNosqlDatabaseBackups(ctx context.Context, params ListNosqlDatabaseBackupsParams) (ListNosqlDatabaseBackupsRes, error)
+	// ListNosqlDatabaseParameters invokes listNosqlDatabaseParameters operation.
 	//
 	// 対象のNoSQLのパラメータ設定情報を取得します。
 	// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
 	//
 	// GET /appliance/{applianceID}/nosql/parameter
-	GetParameter(ctx context.Context, params GetParameterParams) (GetParameterRes, error)
-	// GetVersion invokes getVersion operation.
+	ListNosqlDatabaseParameters(ctx context.Context, params ListNosqlDatabaseParametersParams) (ListNosqlDatabaseParametersRes, error)
+	// ListNosqlDatabaseVersions invokes listNosqlDatabaseVersions operation.
 	//
 	// 対象のNoSQLの更新可能なバージョンを取得します。
 	// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
 	//
 	// GET /appliance/{applianceID}/nosql/version
-	GetVersion(ctx context.Context, params GetVersionParams) (GetVersionRes, error)
-	// ListDB invokes ListDB operation.
+	ListNosqlDatabaseVersions(ctx context.Context, params ListNosqlDatabaseVersionsParams) (ListNosqlDatabaseVersionsRes, error)
+	// ListNosqlDatabases invokes listNosqlDatabases operation.
 	//
 	// NoSQLの一覧取得を行います。.
 	//
 	// GET /appliance
-	ListDB(ctx context.Context, params ListDBParams) (ListDBRes, error)
-	// PostNoSQLRepair invokes PostNoSQLRepair operation.
+	ListNosqlDatabases(ctx context.Context, params ListNosqlDatabasesParams) (ListNosqlDatabasesRes, error)
+	// PowerOffNosqlDatabase invokes powerOffNosqlDatabase operation.
+	//
+	// 対象のNoSQLを停止します。
+	// プライマリノードのアプライアンスIDを指定しての停止では、ノード追加したデータは停止しません。
+	// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に停止する必要があります。.
+	//
+	// DELETE /appliance/{applianceID}/power
+	PowerOffNosqlDatabase(ctx context.Context, params PowerOffNosqlDatabaseParams) (PowerOffNosqlDatabaseRes, error)
+	// PowerOnNosqlDatabase invokes powerOnNosqlDatabase operation.
+	//
+	// 対象のNoSQLを起動します。
+	// プライマリノードのアプライアンスIDを指定しての起動では、ノード追加したデータは起動しません。
+	// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に起動する必要があります。.
+	//
+	// PUT /appliance/{applianceID}/power
+	PowerOnNosqlDatabase(ctx context.Context, params PowerOnNosqlDatabaseParams) (PowerOnNosqlDatabaseRes, error)
+	// ReadNosqlDatabase invokes readNosqlDatabase operation.
+	//
+	// 対象のNoSQLの取得を行います。.
+	//
+	// GET /appliance/{applianceID}
+	ReadNosqlDatabase(ctx context.Context, params ReadNosqlDatabaseParams) (ReadNosqlDatabaseRes, error)
+	// ReadNosqlDatabaseNodeHealth invokes readNosqlDatabaseNodeHealth operation.
+	//
+	// 対象のNoSQL全体の起動状態を確認します。.
+	//
+	// GET /appliance/{applianceID}/nosql/nodes/health
+	ReadNosqlDatabaseNodeHealth(ctx context.Context, params ReadNosqlDatabaseNodeHealthParams) (ReadNosqlDatabaseNodeHealthRes, error)
+	// ReadNosqlDatabaseStatus invokes readNosqlDatabaseStatus operation.
+	//
+	// 対象のNoSQLの情報を取得します。
+	// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
+	//
+	// GET /appliance/{applianceID}/status
+	ReadNosqlDatabaseStatus(ctx context.Context, params ReadNosqlDatabaseStatusParams) (ReadNosqlDatabaseStatusRes, error)
+	// RecoverNosqlDatabaseNode invokes recoverNosqlDatabaseNode operation.
+	//
+	// 対象のNoSQLのノードを復旧します。
+	// 起動状態を確認し、停止している場合は、再起動を試みます。.
+	//
+	// POST /appliance/{applianceID}/nosql/nodes/recover
+	RecoverNosqlDatabaseNode(ctx context.Context, params RecoverNosqlDatabaseNodeParams) (RecoverNosqlDatabaseNodeRes, error)
+	// RepairNosqlDatabase invokes repairNosqlDatabase operation.
 	//
 	// プライマリノードを対象にNoSQLのリペアを開始します。
 	// 「増分リペア」または「完全リペア」を実行します。
@@ -126,39 +155,8 @@ type Invoker interface {
 	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもリペアが実行されます。.
 	//
 	// POST /appliance/{applianceID}/nosql/repair
-	PostNoSQLRepair(ctx context.Context, request *NosqlRepairRequest, params PostNoSQLRepairParams) (PostNoSQLRepairRes, error)
-	// PutAppliancePower invokes PutAppliancePower operation.
-	//
-	// 対象のNoSQLを起動します。
-	// プライマリノードのアプライアンスIDを指定しての起動では、ノード追加したデータは起動しません。
-	// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に起動する必要があります。.
-	//
-	// PUT /appliance/{applianceID}/power
-	PutAppliancePower(ctx context.Context, params PutAppliancePowerParams) (PutAppliancePowerRes, error)
-	// PutParameter invokes putParameter operation.
-	//
-	// 対象のNoSQLに対してのパラメータ設定を行います。
-	// 追加ノードのアプライアンスIDを指定してパラメータ設定を行うことはできません。
-	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもパラメータ設定を行うことができます。.
-	//
-	// PUT /appliance/{applianceID}/nosql/parameter
-	PutParameter(ctx context.Context, request *PutParameterRequest, params PutParameterParams) (PutParameterRes, error)
-	// PutVersion invokes putVersion operation.
-	//
-	// 対象のNoSQLに対してのバージョン更新を行います。
-	// 追加ノードのアプライアンスIDを指定してバージョン更新を行うことはできません。
-	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバージョン更新を行うことができます。.
-	//
-	// PUT /appliance/{applianceID}/nosql/version
-	PutVersion(ctx context.Context, request *NosqlPutVersionRequest, params PutVersionParams) (PutVersionRes, error)
-	// RecoverNoSQLNode invokes RecoverNoSQLNode operation.
-	//
-	// 対象のNoSQLのノードを復旧します。
-	// 起動状態を確認し、停止している場合は、再起動を試みます。.
-	//
-	// POST /appliance/{applianceID}/nosql/nodes/recover
-	RecoverNoSQLNode(ctx context.Context, params RecoverNoSQLNodeParams) (RecoverNoSQLNodeRes, error)
-	// RestoreBackup invokes restoreBackup operation.
+	RepairNosqlDatabase(ctx context.Context, request *NosqlRepairRequest, params RepairNosqlDatabaseParams) (RepairNosqlDatabaseRes, error)
+	// RestoreNosqlDatabaseBackup invokes restoreNosqlDatabaseBackup operation.
 	//
 	// 対象のNoSQLに対してバックアップ復元を開始します。
 	// バックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。
@@ -166,23 +164,31 @@ type Invoker interface {
 	// プライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの復元が適用されます。.
 	//
 	// PUT /appliance/{applianceID}/nosql/backup/{backupID}
-	RestoreBackup(ctx context.Context, params RestoreBackupParams) (RestoreBackupRes, error)
-	// UpdateConfigDB invokes UpdateConfigDB operation.
-	//
-	// 対象のNoSQLに対しての更新を反映します。
-	// 追加ノードのアプライアンスIDを指定して反映処理をすることはできません。
-	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が反映されます。.
-	//
-	// PUT /appliance/{applianceID}/config
-	UpdateConfigDB(ctx context.Context, params UpdateConfigDBParams) (UpdateConfigDBRes, error)
-	// UpdateDB invokes UpdateDB operation.
+	RestoreNosqlDatabaseBackup(ctx context.Context, params RestoreNosqlDatabaseBackupParams) (RestoreNosqlDatabaseBackupRes, error)
+	// UpdateNosqlDatabase invokes updateNosqlDatabase operation.
 	//
 	// 対象のNoSQLに対しての更新を行います。
 	// 追加ノードのアプライアンスIDを指定して更新を行うことはできません。
 	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が適用されます。.
 	//
 	// PUT /appliance/{applianceID}
-	UpdateDB(ctx context.Context, request *NosqlUpdateRequest, params UpdateDBParams) (UpdateDBRes, error)
+	UpdateNosqlDatabase(ctx context.Context, request *NosqlUpdateRequest, params UpdateNosqlDatabaseParams) (UpdateNosqlDatabaseRes, error)
+	// UpdateNosqlDatabaseParameters invokes updateNosqlDatabaseParameters operation.
+	//
+	// 対象のNoSQLに対してのパラメータ設定を行います。
+	// 追加ノードのアプライアンスIDを指定してパラメータ設定を行うことはできません。
+	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもパラメータ設定を行うことができます。.
+	//
+	// PUT /appliance/{applianceID}/nosql/parameter
+	UpdateNosqlDatabaseParameters(ctx context.Context, request *UpdateNosqlParametersRequest, params UpdateNosqlDatabaseParametersParams) (UpdateNosqlDatabaseParametersRes, error)
+	// UpdateNosqlDatabaseVersion invokes updateNosqlDatabaseVersion operation.
+	//
+	// 対象のNoSQLに対してのバージョン更新を行います。
+	// 追加ノードのアプライアンスIDを指定してバージョン更新を行うことはできません。
+	// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバージョン更新を行うことができます。.
+	//
+	// PUT /appliance/{applianceID}/nosql/version
+	UpdateNosqlDatabaseVersion(ctx context.Context, request *NosqlUpdateVersionRequest, params UpdateNosqlDatabaseVersionParams) (UpdateNosqlDatabaseVersionRes, error)
 }
 
 // Client implements OAS client.
@@ -224,1225 +230,19 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// ConfirmStatusDB invokes ConfirmStatusDB operation.
-//
-// 対象のNoSQLの情報を取得します。
-// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
-//
-// GET /appliance/{applianceID}/status
-func (c *Client) ConfirmStatusDB(ctx context.Context, params ConfirmStatusDBParams) (ConfirmStatusDBRes, error) {
-	res, err := c.sendConfirmStatusDB(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendConfirmStatusDB(ctx context.Context, params ConfirmStatusDBParams) (res ConfirmStatusDBRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/status"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeConfirmStatusDBResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateBackup invokes createBackup operation.
-//
-// 対象のNoSQLに対してバックアップ作成を行います。
-// 追加ノードのアプライアンスIDを指定してバックアップを作成することはできません。
-// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバックアップが作成されます。.
-//
-// POST /appliance/{applianceID}/nosql/backup
-func (c *Client) CreateBackup(ctx context.Context, params CreateBackupParams) (CreateBackupRes, error) {
-	res, err := c.sendCreateBackup(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendCreateBackup(ctx context.Context, params CreateBackupParams) (res CreateBackupRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/backup"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateBackupResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateDB invokes CreateDB operation.
-//
-// NoSQLの新規作成および既存NoSQLへのノード追加を行います。
-// 新規作成時とノード追加時では、必要となる項目が異なります。
-// 各操作ごとの必須項目は、スキーマ定義内の各プロパティの説明欄に明記していますので、詳細はそちらをご参照ください。
-//
-//   - 新規作成時必須: 新規作成の際に必須の項目
-//   - ノード追加時必須: ノード追加の際に必須の項目
-//   - 新規作成時・ノード追加時必須:
-//     新規作成・ノード追加の両方で必須の項目
-//
-// ※ノード追加では、既存NoSQLの設定情報（ノード追加時必須以外の項目）と一致させるか未指定である必要があります。.
-//
-// POST /appliance
-func (c *Client) CreateDB(ctx context.Context, request *NosqlCreateRequest) (CreateDBRes, error) {
-	res, err := c.sendCreateDB(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateDB(ctx context.Context, request *NosqlCreateRequest) (res CreateDBRes, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/appliance"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateDBRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateDBResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteAppliancePower invokes DeleteAppliancePower operation.
-//
-// 対象のNoSQLを停止します。
-// プライマリノードのアプライアンスIDを指定しての停止では、ノード追加したデータは停止しません。
-// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に停止する必要があります。.
-//
-// DELETE /appliance/{applianceID}/power
-func (c *Client) DeleteAppliancePower(ctx context.Context, params DeleteAppliancePowerParams) (DeleteAppliancePowerRes, error) {
-	res, err := c.sendDeleteAppliancePower(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteAppliancePower(ctx context.Context, params DeleteAppliancePowerParams) (res DeleteAppliancePowerRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/power"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteAppliancePowerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteBackup invokes deleteBackup operation.
-//
-// 対象のNoSQLのバックアップ削除を開始します。
-// バックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。
-// 追加ノードのアプライアンスIDを指定してバックアップを削除することはできません。
-// プライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの削除が適用されます。.
-//
-// DELETE /appliance/{applianceID}/nosql/backup/{backupID}
-func (c *Client) DeleteBackup(ctx context.Context, params DeleteBackupParams) (DeleteBackupRes, error) {
-	res, err := c.sendDeleteBackup(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteBackup(ctx context.Context, params DeleteBackupParams) (res DeleteBackupRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/backup/"
-	{
-		// Encode "backupID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "backupID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.BackupID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteBackupResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DeleteDB invokes DeleteDB operation.
-//
-// 対象のNoSQLを削除します。
-// プライマリノードのアプライアンスIDを指定して削除する場合、ノード追加したデータは削除されません。
-// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に削除する必要があります。.
-//
-// DELETE /appliance/{applianceID}
-func (c *Client) DeleteDB(ctx context.Context, params DeleteDBParams) (DeleteDBRes, error) {
-	res, err := c.sendDeleteDB(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteDB(ctx context.Context, params DeleteDBParams) (res DeleteDBRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteDBResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBackupByApplianceID invokes GetBackupByApplianceID operation.
-//
-// 対象NoSQLのバックアップ情報を取得します。
-// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
-//
-// GET /appliance/{applianceID}/nosql/backup
-func (c *Client) GetBackupByApplianceID(ctx context.Context, params GetBackupByApplianceIDParams) (GetBackupByApplianceIDRes, error) {
-	res, err := c.sendGetBackupByApplianceID(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBackupByApplianceID(ctx context.Context, params GetBackupByApplianceIDParams) (res GetBackupByApplianceIDRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/backup"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetBackupByApplianceIDResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetDB invokes GetDB operation.
-//
-// 対象のNoSQLの取得を行います。.
-//
-// GET /appliance/{applianceID}
-func (c *Client) GetDB(ctx context.Context, params GetDBParams) (GetDBRes, error) {
-	res, err := c.sendGetDB(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetDB(ctx context.Context, params GetDBParams) (res GetDBRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetDBResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetNoSQLNodeHealth invokes GetNoSQLNodeHealth operation.
-//
-// 対象のNoSQL全体の起動状態を確認します。.
-//
-// GET /appliance/{applianceID}/nosql/nodes/health
-func (c *Client) GetNoSQLNodeHealth(ctx context.Context, params GetNoSQLNodeHealthParams) (GetNoSQLNodeHealthRes, error) {
-	res, err := c.sendGetNoSQLNodeHealth(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetNoSQLNodeHealth(ctx context.Context, params GetNoSQLNodeHealthParams) (res GetNoSQLNodeHealthRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/nodes/health"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetNoSQLNodeHealthResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetParameter invokes getParameter operation.
-//
-// 対象のNoSQLのパラメータ設定情報を取得します。
-// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
-//
-// GET /appliance/{applianceID}/nosql/parameter
-func (c *Client) GetParameter(ctx context.Context, params GetParameterParams) (GetParameterRes, error) {
-	res, err := c.sendGetParameter(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetParameter(ctx context.Context, params GetParameterParams) (res GetParameterRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/parameter"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetParameterResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetVersion invokes getVersion operation.
-//
-// 対象のNoSQLの更新可能なバージョンを取得します。
-// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
-//
-// GET /appliance/{applianceID}/nosql/version
-func (c *Client) GetVersion(ctx context.Context, params GetVersionParams) (GetVersionRes, error) {
-	res, err := c.sendGetVersion(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetVersion(ctx context.Context, params GetVersionParams) (res GetVersionRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/version"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetVersionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ListDB invokes ListDB operation.
-//
-// NoSQLの一覧取得を行います。.
-//
-// GET /appliance
-func (c *Client) ListDB(ctx context.Context, params ListDBParams) (ListDBRes, error) {
-	res, err := c.sendListDB(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendListDB(ctx context.Context, params ListDBParams) (res ListDBRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/appliance"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "Filter.Class" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Filter.Class",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeValue(conv.StringToString(params.FilterClass))
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeListDBResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// PostNoSQLRepair invokes PostNoSQLRepair operation.
-//
-// プライマリノードを対象にNoSQLのリペアを開始します。
-// 「増分リペア」または「完全リペア」を実行します。
-// リペアとはデータの整合性（一貫性）を維持するために、複数のノード間で発生したデータのずれを検出・修復するメンテナンス作業です。
-// 増分リペアは、前回のリペア実行以降に更新されたデータのみを対象に修復を行います。
-// 完全リペアは、クラスタ内のすべてのデータを対象に修復を行います。
-// 追加ノードのアプライアンスIDを指定してリペアを実行することはできません。
-// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもリペアが実行されます。.
-//
-// POST /appliance/{applianceID}/nosql/repair
-func (c *Client) PostNoSQLRepair(ctx context.Context, request *NosqlRepairRequest, params PostNoSQLRepairParams) (PostNoSQLRepairRes, error) {
-	res, err := c.sendPostNoSQLRepair(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendPostNoSQLRepair(ctx context.Context, request *NosqlRepairRequest, params PostNoSQLRepairParams) (res PostNoSQLRepairRes, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/repair"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodePostNoSQLRepairRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodePostNoSQLRepairResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// PutAppliancePower invokes PutAppliancePower operation.
-//
-// 対象のNoSQLを起動します。
-// プライマリノードのアプライアンスIDを指定しての起動では、ノード追加したデータは起動しません。
-// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に起動する必要があります。.
-//
-// PUT /appliance/{applianceID}/power
-func (c *Client) PutAppliancePower(ctx context.Context, params PutAppliancePowerParams) (PutAppliancePowerRes, error) {
-	res, err := c.sendPutAppliancePower(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendPutAppliancePower(ctx context.Context, params PutAppliancePowerParams) (res PutAppliancePowerRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/power"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodePutAppliancePowerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// PutParameter invokes putParameter operation.
-//
-// 対象のNoSQLに対してのパラメータ設定を行います。
-// 追加ノードのアプライアンスIDを指定してパラメータ設定を行うことはできません。
-// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもパラメータ設定を行うことができます。.
-//
-// PUT /appliance/{applianceID}/nosql/parameter
-func (c *Client) PutParameter(ctx context.Context, request *PutParameterRequest, params PutParameterParams) (PutParameterRes, error) {
-	res, err := c.sendPutParameter(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendPutParameter(ctx context.Context, request *PutParameterRequest, params PutParameterParams) (res PutParameterRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/parameter"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodePutParameterRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodePutParameterResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// PutVersion invokes putVersion operation.
-//
-// 対象のNoSQLに対してのバージョン更新を行います。
-// 追加ノードのアプライアンスIDを指定してバージョン更新を行うことはできません。
-// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバージョン更新を行うことができます。.
-//
-// PUT /appliance/{applianceID}/nosql/version
-func (c *Client) PutVersion(ctx context.Context, request *NosqlPutVersionRequest, params PutVersionParams) (PutVersionRes, error) {
-	res, err := c.sendPutVersion(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendPutVersion(ctx context.Context, request *NosqlPutVersionRequest, params PutVersionParams) (res PutVersionRes, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/version"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodePutVersionRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodePutVersionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RecoverNoSQLNode invokes RecoverNoSQLNode operation.
-//
-// 対象のNoSQLのノードを復旧します。
-// 起動状態を確認し、停止している場合は、再起動を試みます。.
-//
-// POST /appliance/{applianceID}/nosql/nodes/recover
-func (c *Client) RecoverNoSQLNode(ctx context.Context, params RecoverNoSQLNodeParams) (RecoverNoSQLNodeRes, error) {
-	res, err := c.sendRecoverNoSQLNode(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRecoverNoSQLNode(ctx context.Context, params RecoverNoSQLNodeParams) (res RecoverNoSQLNodeRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/nodes/recover"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeRecoverNoSQLNodeResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RestoreBackup invokes restoreBackup operation.
-//
-// 対象のNoSQLに対してバックアップ復元を開始します。
-// バックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。
-// 追加ノードのアプライアンスIDを指定してバックアップを復元することはできません。
-// プライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの復元が適用されます。.
-//
-// PUT /appliance/{applianceID}/nosql/backup/{backupID}
-func (c *Client) RestoreBackup(ctx context.Context, params RestoreBackupParams) (RestoreBackupRes, error) {
-	res, err := c.sendRestoreBackup(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRestoreBackup(ctx context.Context, params RestoreBackupParams) (res RestoreBackupRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/appliance/"
-	{
-		// Encode "applianceID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "applianceID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApplianceID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/nosql/backup/"
-	{
-		// Encode "backupID" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "backupID",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.UUIDToString(params.BackupID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PUT", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeRestoreBackupResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// UpdateConfigDB invokes UpdateConfigDB operation.
+// ApplyNosqlDatabaseConfig invokes applyNosqlDatabaseConfig operation.
 //
 // 対象のNoSQLに対しての更新を反映します。
 // 追加ノードのアプライアンスIDを指定して反映処理をすることはできません。
 // プライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が反映されます。.
 //
 // PUT /appliance/{applianceID}/config
-func (c *Client) UpdateConfigDB(ctx context.Context, params UpdateConfigDBParams) (UpdateConfigDBRes, error) {
-	res, err := c.sendUpdateConfigDB(ctx, params)
+func (c *Client) ApplyNosqlDatabaseConfig(ctx context.Context, params ApplyNosqlDatabaseConfigParams) (ApplyNosqlDatabaseConfigRes, error) {
+	res, err := c.sendApplyNosqlDatabaseConfig(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendUpdateConfigDB(ctx context.Context, params UpdateConfigDBParams) (res UpdateConfigDBRes, err error) {
+func (c *Client) sendApplyNosqlDatabaseConfig(ctx context.Context, params ApplyNosqlDatabaseConfigParams) (res ApplyNosqlDatabaseConfigRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -1486,7 +286,7 @@ func (c *Client) sendUpdateConfigDB(ctx context.Context, params UpdateConfigDBPa
 		_ = body.Close()
 	}()
 
-	result, err := decodeUpdateConfigDBResponse(resp)
+	result, err := decodeApplyNosqlDatabaseConfigResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1494,19 +294,1144 @@ func (c *Client) sendUpdateConfigDB(ctx context.Context, params UpdateConfigDBPa
 	return result, nil
 }
 
-// UpdateDB invokes UpdateDB operation.
+// CreateNosqlDatabase invokes createNosqlDatabase operation.
+//
+// NoSQLの新規作成および既存NoSQLへのノード追加を行います。
+// 新規作成時とノード追加時では、必要となる項目が異なります。
+// 各操作ごとの必須項目は、スキーマ定義内の各プロパティの説明欄に明記していますので、詳細はそちらをご参照ください。
+//
+//   - 新規作成時必須: 新規作成の際に必須の項目
+//   - ノード追加時必須: ノード追加の際に必須の項目
+//   - 新規作成時・ノード追加時必須:
+//     新規作成・ノード追加の両方で必須の項目
+//
+// ※ノード追加では、既存NoSQLの設定情報（ノード追加時必須以外の項目）と一致させるか未指定である必要があります。.
+//
+// POST /appliance
+func (c *Client) CreateNosqlDatabase(ctx context.Context, request *NosqlCreateRequest) (CreateNosqlDatabaseRes, error) {
+	res, err := c.sendCreateNosqlDatabase(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateNosqlDatabase(ctx context.Context, request *NosqlCreateRequest) (res CreateNosqlDatabaseRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/appliance"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateNosqlDatabaseRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateNosqlDatabaseResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateNosqlDatabaseBackup invokes createNosqlDatabaseBackup operation.
+//
+// 対象のNoSQLに対してバックアップ作成を行います。
+// 追加ノードのアプライアンスIDを指定してバックアップを作成することはできません。
+// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバックアップが作成されます。.
+//
+// POST /appliance/{applianceID}/nosql/backup
+func (c *Client) CreateNosqlDatabaseBackup(ctx context.Context, params CreateNosqlDatabaseBackupParams) (CreateNosqlDatabaseBackupRes, error) {
+	res, err := c.sendCreateNosqlDatabaseBackup(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendCreateNosqlDatabaseBackup(ctx context.Context, params CreateNosqlDatabaseBackupParams) (res CreateNosqlDatabaseBackupRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/backup"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateNosqlDatabaseBackupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteNosqlDatabase invokes deleteNosqlDatabase operation.
+//
+// 対象のNoSQLを削除します。
+// プライマリノードのアプライアンスIDを指定して削除する場合、ノード追加したデータは削除されません。
+// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に削除する必要があります。.
+//
+// DELETE /appliance/{applianceID}
+func (c *Client) DeleteNosqlDatabase(ctx context.Context, params DeleteNosqlDatabaseParams) (DeleteNosqlDatabaseRes, error) {
+	res, err := c.sendDeleteNosqlDatabase(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteNosqlDatabase(ctx context.Context, params DeleteNosqlDatabaseParams) (res DeleteNosqlDatabaseRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteNosqlDatabaseResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteNosqlDatabaseBackup invokes deleteNosqlDatabaseBackup operation.
+//
+// 対象のNoSQLのバックアップ削除を開始します。
+// バックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。
+// 追加ノードのアプライアンスIDを指定してバックアップを削除することはできません。
+// プライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの削除が適用されます。.
+//
+// DELETE /appliance/{applianceID}/nosql/backup/{backupID}
+func (c *Client) DeleteNosqlDatabaseBackup(ctx context.Context, params DeleteNosqlDatabaseBackupParams) (DeleteNosqlDatabaseBackupRes, error) {
+	res, err := c.sendDeleteNosqlDatabaseBackup(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteNosqlDatabaseBackup(ctx context.Context, params DeleteNosqlDatabaseBackupParams) (res DeleteNosqlDatabaseBackupRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/backup/"
+	{
+		// Encode "backupID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "backupID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.BackupID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteNosqlDatabaseBackupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetNosqlDatabasePower invokes getNosqlDatabasePower operation.
+//
+// 対象のNoSQLの電源状態を取得します。.
+//
+// GET /appliance/{applianceID}/power
+func (c *Client) GetNosqlDatabasePower(ctx context.Context, params GetNosqlDatabasePowerParams) (GetNosqlDatabasePowerRes, error) {
+	res, err := c.sendGetNosqlDatabasePower(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetNosqlDatabasePower(ctx context.Context, params GetNosqlDatabasePowerParams) (res GetNosqlDatabasePowerRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/power"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeGetNosqlDatabasePowerResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListNosqlDatabaseBackups invokes listNosqlDatabaseBackups operation.
+//
+// 対象NoSQLのバックアップ情報を取得します。
+// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
+//
+// GET /appliance/{applianceID}/nosql/backup
+func (c *Client) ListNosqlDatabaseBackups(ctx context.Context, params ListNosqlDatabaseBackupsParams) (ListNosqlDatabaseBackupsRes, error) {
+	res, err := c.sendListNosqlDatabaseBackups(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListNosqlDatabaseBackups(ctx context.Context, params ListNosqlDatabaseBackupsParams) (res ListNosqlDatabaseBackupsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/backup"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListNosqlDatabaseBackupsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListNosqlDatabaseParameters invokes listNosqlDatabaseParameters operation.
+//
+// 対象のNoSQLのパラメータ設定情報を取得します。
+// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
+//
+// GET /appliance/{applianceID}/nosql/parameter
+func (c *Client) ListNosqlDatabaseParameters(ctx context.Context, params ListNosqlDatabaseParametersParams) (ListNosqlDatabaseParametersRes, error) {
+	res, err := c.sendListNosqlDatabaseParameters(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListNosqlDatabaseParameters(ctx context.Context, params ListNosqlDatabaseParametersParams) (res ListNosqlDatabaseParametersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/parameter"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListNosqlDatabaseParametersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListNosqlDatabaseVersions invokes listNosqlDatabaseVersions operation.
+//
+// 対象のNoSQLの更新可能なバージョンを取得します。
+// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
+//
+// GET /appliance/{applianceID}/nosql/version
+func (c *Client) ListNosqlDatabaseVersions(ctx context.Context, params ListNosqlDatabaseVersionsParams) (ListNosqlDatabaseVersionsRes, error) {
+	res, err := c.sendListNosqlDatabaseVersions(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListNosqlDatabaseVersions(ctx context.Context, params ListNosqlDatabaseVersionsParams) (res ListNosqlDatabaseVersionsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/version"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListNosqlDatabaseVersionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListNosqlDatabases invokes listNosqlDatabases operation.
+//
+// NoSQLの一覧取得を行います。.
+//
+// GET /appliance
+func (c *Client) ListNosqlDatabases(ctx context.Context, params ListNosqlDatabasesParams) (ListNosqlDatabasesRes, error) {
+	res, err := c.sendListNosqlDatabases(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListNosqlDatabases(ctx context.Context, params ListNosqlDatabasesParams) (res ListNosqlDatabasesRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/appliance"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Filter.Class" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Filter.Class",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.FilterClass))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListNosqlDatabasesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PowerOffNosqlDatabase invokes powerOffNosqlDatabase operation.
+//
+// 対象のNoSQLを停止します。
+// プライマリノードのアプライアンスIDを指定しての停止では、ノード追加したデータは停止しません。
+// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に停止する必要があります。.
+//
+// DELETE /appliance/{applianceID}/power
+func (c *Client) PowerOffNosqlDatabase(ctx context.Context, params PowerOffNosqlDatabaseParams) (PowerOffNosqlDatabaseRes, error) {
+	res, err := c.sendPowerOffNosqlDatabase(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendPowerOffNosqlDatabase(ctx context.Context, params PowerOffNosqlDatabaseParams) (res PowerOffNosqlDatabaseRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/power"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePowerOffNosqlDatabaseResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// PowerOnNosqlDatabase invokes powerOnNosqlDatabase operation.
+//
+// 対象のNoSQLを起動します。
+// プライマリノードのアプライアンスIDを指定しての起動では、ノード追加したデータは起動しません。
+// ノード追加している場合は、追加ノードのアプライアンスIDを指定して、個別に起動する必要があります。.
+//
+// PUT /appliance/{applianceID}/power
+func (c *Client) PowerOnNosqlDatabase(ctx context.Context, params PowerOnNosqlDatabaseParams) (PowerOnNosqlDatabaseRes, error) {
+	res, err := c.sendPowerOnNosqlDatabase(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendPowerOnNosqlDatabase(ctx context.Context, params PowerOnNosqlDatabaseParams) (res PowerOnNosqlDatabaseRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/power"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodePowerOnNosqlDatabaseResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadNosqlDatabase invokes readNosqlDatabase operation.
+//
+// 対象のNoSQLの取得を行います。.
+//
+// GET /appliance/{applianceID}
+func (c *Client) ReadNosqlDatabase(ctx context.Context, params ReadNosqlDatabaseParams) (ReadNosqlDatabaseRes, error) {
+	res, err := c.sendReadNosqlDatabase(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadNosqlDatabase(ctx context.Context, params ReadNosqlDatabaseParams) (res ReadNosqlDatabaseRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadNosqlDatabaseResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadNosqlDatabaseNodeHealth invokes readNosqlDatabaseNodeHealth operation.
+//
+// 対象のNoSQL全体の起動状態を確認します。.
+//
+// GET /appliance/{applianceID}/nosql/nodes/health
+func (c *Client) ReadNosqlDatabaseNodeHealth(ctx context.Context, params ReadNosqlDatabaseNodeHealthParams) (ReadNosqlDatabaseNodeHealthRes, error) {
+	res, err := c.sendReadNosqlDatabaseNodeHealth(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadNosqlDatabaseNodeHealth(ctx context.Context, params ReadNosqlDatabaseNodeHealthParams) (res ReadNosqlDatabaseNodeHealthRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/nodes/health"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadNosqlDatabaseNodeHealthResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadNosqlDatabaseStatus invokes readNosqlDatabaseStatus operation.
+//
+// 対象のNoSQLの情報を取得します。
+// 追加ノードのアプライアンスIDを指定して呼び出した場合、返却される情報はプライマリノードを指定した場合と同一の内容となります。.
+//
+// GET /appliance/{applianceID}/status
+func (c *Client) ReadNosqlDatabaseStatus(ctx context.Context, params ReadNosqlDatabaseStatusParams) (ReadNosqlDatabaseStatusRes, error) {
+	res, err := c.sendReadNosqlDatabaseStatus(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadNosqlDatabaseStatus(ctx context.Context, params ReadNosqlDatabaseStatusParams) (res ReadNosqlDatabaseStatusRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/status"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadNosqlDatabaseStatusResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RecoverNosqlDatabaseNode invokes recoverNosqlDatabaseNode operation.
+//
+// 対象のNoSQLのノードを復旧します。
+// 起動状態を確認し、停止している場合は、再起動を試みます。.
+//
+// POST /appliance/{applianceID}/nosql/nodes/recover
+func (c *Client) RecoverNosqlDatabaseNode(ctx context.Context, params RecoverNosqlDatabaseNodeParams) (RecoverNosqlDatabaseNodeRes, error) {
+	res, err := c.sendRecoverNosqlDatabaseNode(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRecoverNosqlDatabaseNode(ctx context.Context, params RecoverNosqlDatabaseNodeParams) (res RecoverNosqlDatabaseNodeRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/nodes/recover"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeRecoverNosqlDatabaseNodeResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RepairNosqlDatabase invokes repairNosqlDatabase operation.
+//
+// プライマリノードを対象にNoSQLのリペアを開始します。
+// 「増分リペア」または「完全リペア」を実行します。
+// リペアとはデータの整合性（一貫性）を維持するために、複数のノード間で発生したデータのずれを検出・修復するメンテナンス作業です。
+// 増分リペアは、前回のリペア実行以降に更新されたデータのみを対象に修復を行います。
+// 完全リペアは、クラスタ内のすべてのデータを対象に修復を行います。
+// 追加ノードのアプライアンスIDを指定してリペアを実行することはできません。
+// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもリペアが実行されます。.
+//
+// POST /appliance/{applianceID}/nosql/repair
+func (c *Client) RepairNosqlDatabase(ctx context.Context, request *NosqlRepairRequest, params RepairNosqlDatabaseParams) (RepairNosqlDatabaseRes, error) {
+	res, err := c.sendRepairNosqlDatabase(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendRepairNosqlDatabase(ctx context.Context, request *NosqlRepairRequest, params RepairNosqlDatabaseParams) (res RepairNosqlDatabaseRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/repair"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeRepairNosqlDatabaseRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeRepairNosqlDatabaseResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RestoreNosqlDatabaseBackup invokes restoreNosqlDatabaseBackup operation.
+//
+// 対象のNoSQLに対してバックアップ復元を開始します。
+// バックアップデータの確認はNoSQLバックアップ一覧取得APIにて行ってください。
+// 追加ノードのアプライアンスIDを指定してバックアップを復元することはできません。
+// プライマリノードのアプライアンスIDとバックアップIDを指定することで、追加ノードに対してもバックアップの復元が適用されます。.
+//
+// PUT /appliance/{applianceID}/nosql/backup/{backupID}
+func (c *Client) RestoreNosqlDatabaseBackup(ctx context.Context, params RestoreNosqlDatabaseBackupParams) (RestoreNosqlDatabaseBackupRes, error) {
+	res, err := c.sendRestoreNosqlDatabaseBackup(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRestoreNosqlDatabaseBackup(ctx context.Context, params RestoreNosqlDatabaseBackupParams) (res RestoreNosqlDatabaseBackupRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/backup/"
+	{
+		// Encode "backupID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "backupID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.UUIDToString(params.BackupID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeRestoreNosqlDatabaseBackupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateNosqlDatabase invokes updateNosqlDatabase operation.
 //
 // 対象のNoSQLに対しての更新を行います。
 // 追加ノードのアプライアンスIDを指定して更新を行うことはできません。
 // プライマリノードのアプライアンスIDを指定することで、追加ノードに対しても更新が適用されます。.
 //
 // PUT /appliance/{applianceID}
-func (c *Client) UpdateDB(ctx context.Context, request *NosqlUpdateRequest, params UpdateDBParams) (UpdateDBRes, error) {
-	res, err := c.sendUpdateDB(ctx, request, params)
+func (c *Client) UpdateNosqlDatabase(ctx context.Context, request *NosqlUpdateRequest, params UpdateNosqlDatabaseParams) (UpdateNosqlDatabaseRes, error) {
+	res, err := c.sendUpdateNosqlDatabase(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendUpdateDB(ctx context.Context, request *NosqlUpdateRequest, params UpdateDBParams) (res UpdateDBRes, err error) {
+func (c *Client) sendUpdateNosqlDatabase(ctx context.Context, request *NosqlUpdateRequest, params UpdateNosqlDatabaseParams) (res UpdateNosqlDatabaseRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -1544,7 +1469,7 @@ func (c *Client) sendUpdateDB(ctx context.Context, request *NosqlUpdateRequest, 
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeUpdateDBRequest(request, r); err != nil {
+	if err := encodeUpdateNosqlDatabaseRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -1561,7 +1486,150 @@ func (c *Client) sendUpdateDB(ctx context.Context, request *NosqlUpdateRequest, 
 		_ = body.Close()
 	}()
 
-	result, err := decodeUpdateDBResponse(resp)
+	result, err := decodeUpdateNosqlDatabaseResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateNosqlDatabaseParameters invokes updateNosqlDatabaseParameters operation.
+//
+// 対象のNoSQLに対してのパラメータ設定を行います。
+// 追加ノードのアプライアンスIDを指定してパラメータ設定を行うことはできません。
+// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもパラメータ設定を行うことができます。.
+//
+// PUT /appliance/{applianceID}/nosql/parameter
+func (c *Client) UpdateNosqlDatabaseParameters(ctx context.Context, request *UpdateNosqlParametersRequest, params UpdateNosqlDatabaseParametersParams) (UpdateNosqlDatabaseParametersRes, error) {
+	res, err := c.sendUpdateNosqlDatabaseParameters(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateNosqlDatabaseParameters(ctx context.Context, request *UpdateNosqlParametersRequest, params UpdateNosqlDatabaseParametersParams) (res UpdateNosqlDatabaseParametersRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/parameter"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateNosqlDatabaseParametersRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateNosqlDatabaseParametersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateNosqlDatabaseVersion invokes updateNosqlDatabaseVersion operation.
+//
+// 対象のNoSQLに対してのバージョン更新を行います。
+// 追加ノードのアプライアンスIDを指定してバージョン更新を行うことはできません。
+// プライマリノードのアプライアンスIDを指定することで、追加ノードに対してもバージョン更新を行うことができます。.
+//
+// PUT /appliance/{applianceID}/nosql/version
+func (c *Client) UpdateNosqlDatabaseVersion(ctx context.Context, request *NosqlUpdateVersionRequest, params UpdateNosqlDatabaseVersionParams) (UpdateNosqlDatabaseVersionRes, error) {
+	res, err := c.sendUpdateNosqlDatabaseVersion(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateNosqlDatabaseVersion(ctx context.Context, request *NosqlUpdateVersionRequest, params UpdateNosqlDatabaseVersionParams) (res UpdateNosqlDatabaseVersionRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/appliance/"
+	{
+		// Encode "applianceID" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "applianceID",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApplianceID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/nosql/version"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PUT", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateNosqlDatabaseVersionRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeUpdateNosqlDatabaseVersionResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

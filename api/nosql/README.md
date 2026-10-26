@@ -27,8 +27,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-    
-    ctx := context.Background()
+
+	ctx := context.Background()
 	databaseOp := nosql.NewDatabaseOp(client)
 	// 以下はテスト用のセットアップ。アドレスなどは実際の環境向けに編集する
 	resCreated, err := databaseOp.Create(ctx, nosql.Plan100GB, v1.NosqlCreateRequestAppliance{
@@ -96,13 +96,13 @@ func main() {
 	}
 	fmt.Printf("Created Database: %+v\n", resCreated)
 
-	res, err := databaseOp.Read(ctx, resCreated.ID)
+	res, err := databaseOp.Read(ctx, resCreated.ID.Value)
 	if err != nil {
 		panic(err)
 	}
 	fmt.Printf("Read Database: %+v\n", res)
 
-	instanceOp := nosql.NewInstanceOp(client, res.ID, "tk1b")
+	instanceOp := nosql.NewInstanceOp(client, res.ID.Value, "tk1b")
 	version, err := instanceOp.GetVersion(ctx)
 	if err != nil {
 		panic(err)
@@ -110,7 +110,7 @@ func main() {
 	fmt.Printf("Version: %+v\n", version)
 
 	// Backup API
-	// backupOp := nosql.NewBackupOp(client, res.ID)
+	// backupOp := nosql.NewBackupOp(client, res.ID.Value)
 }
 ```
 
@@ -119,11 +119,10 @@ func main() {
 
 ### ノードの追加
 
-```
-func main()
-{
-    // 省略
-	instanceOp := nosql.NewInstanceOpWithZone(client, primaryNodeId, "tk1b")
+```go
+func main() {
+	// 省略
+	instanceOp := nosql.NewInstanceOp(client, primaryNodeId, "tk1b")
 	resAdded, err := instanceOp.AddNodes(ctx, nosql.Plan100GB, v1.NosqlCreateRequestAppliance{
 		Name: "sdk-test-db-add",
 		Settings: v1.NosqlSettings{
@@ -154,6 +153,10 @@ func main()
 			},
 		},
 	})
+	if err != nil {
+		panic(err)
+	}
+	fmt.Printf("Added Nodes: %+v\n", resAdded)
 }
 ```
 

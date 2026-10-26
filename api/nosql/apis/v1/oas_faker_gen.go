@@ -73,581 +73,6 @@ func (s *ConflictErrorResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *GetNosqlAppliance) SetFake() {
-	{
-		{
-			s.Class.SetFake()
-		}
-	}
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-	{
-		{
-			s.Description.SetFake()
-		}
-	}
-	{
-		{
-			s.Tags.SetFake()
-		}
-	}
-	{
-		{
-			s.ID.SetFake()
-		}
-	}
-	{
-		{
-			s.Plan.SetFake()
-		}
-	}
-	{
-		{
-			s.Settings.SetFake()
-		}
-	}
-	{
-		{
-			s.SettingsHash.SetFake()
-		}
-	}
-	{
-		{
-			s.Remark.SetFake()
-		}
-	}
-	{
-		{
-			s.Availability.SetFake()
-		}
-	}
-	{
-		{
-			s.Instance.SetFake()
-		}
-	}
-	{
-		{
-			s.Disk.SetFake()
-		}
-	}
-	{
-		{
-			s.ServiceClass.SetFake()
-		}
-	}
-	{
-		{
-			s.Generation.SetFake()
-		}
-	}
-	{
-		{
-			s.CreatedAt.SetFake()
-		}
-	}
-	{
-		{
-			s.Interfaces = nil
-			for i := 0; i < 0; i++ {
-				var elem NilGetNosqlApplianceInterfacesItem
-				{
-					elem.SetFake()
-				}
-				s.Interfaces = append(s.Interfaces, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceDisk) SetFake() {
-	{
-		{
-			s.EncryptionKey.SetFake()
-		}
-	}
-	{
-		{
-			s.EncryptionAlgorithm.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceDiskEncryptionKey) SetFake() {
-	{
-		{
-			s.KMSKeyID.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceInterfacesItem) SetFake() {
-	{
-		{
-			s.IPAddress.SetFake()
-		}
-	}
-	{
-		{
-			s.UserIPAddress.SetFake()
-		}
-	}
-	{
-		{
-			s.HostName.SetFake()
-		}
-	}
-	{
-		{
-			s.Switch.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceInterfacesItemSwitch) SetFake() {
-	{
-		{
-			s.ID.SetFake()
-		}
-	}
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-	{
-		{
-			s.Scope.SetFake()
-		}
-	}
-	{
-		{
-			s.Subnet.SetFake()
-		}
-	}
-	{
-		{
-			s.UserSubnet.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceInterfacesItemSwitchSubnet) SetFake() {
-	{
-		{
-			s.NetworkAddress.SetFake()
-		}
-	}
-	{
-		{
-			s.NetworkMaskLen.SetFake()
-		}
-	}
-	{
-		{
-			s.DefaultRoute.SetFake()
-		}
-	}
-	{
-		{
-			s.Internet.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceInterfacesItemSwitchSubnetInternet) SetFake() {
-	{
-		{
-			s.BandWidthMbps.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceInterfacesItemSwitchUserSubnet) SetFake() {
-	{
-		{
-			s.DefaultRoute.SetFake()
-		}
-	}
-	{
-		{
-			s.NetworkMaskLen.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemark) SetFake() {
-	{
-		{
-			s.Nosql.SetFake()
-		}
-	}
-	{
-		{
-			s.Servers = nil
-			for i := 0; i < 0; i++ {
-				var elem GetNosqlApplianceRemarkServersItem
-				{
-					elem.SetFake()
-				}
-				s.Servers = append(s.Servers, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Network.SetFake()
-		}
-	}
-	{
-		{
-			s.Zone.SetFake()
-		}
-	}
-	{
-		{
-			s.ServiceClass.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNetwork) SetFake() {
-	{
-		{
-			s.DefaultRoute.SetFake()
-		}
-	}
-	{
-		{
-			s.NetworkMaskLen.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosql) SetFake() {
-	{
-		{
-			s.PrimaryNodes.SetFake()
-		}
-	}
-	{
-		{
-			s.DatabaseEngine.SetFake()
-		}
-	}
-	{
-		{
-			s.DatabaseVersion.SetFake()
-		}
-	}
-	{
-		{
-			s.DefaultUser.SetFake()
-		}
-	}
-	{
-		{
-			s.DiskSize.SetFake()
-		}
-	}
-	{
-		{
-			s.Memory.SetFake()
-		}
-	}
-	{
-		{
-			s.Nodes.SetFake()
-		}
-	}
-	{
-		{
-			s.Port.SetFake()
-		}
-	}
-	{
-		{
-			s.Storage.SetFake()
-		}
-	}
-	{
-		{
-			s.Virtualcore.SetFake()
-		}
-	}
-	{
-		{
-			s.Zone.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosqlDatabaseEngine) SetFake() {
-	*s = GetNosqlApplianceRemarkNosqlDatabaseEngineCassandra
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosqlDiskSize) SetFake() {
-	*s = GetNosqlApplianceRemarkNosqlDiskSize40960
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosqlMemory) SetFake() {
-	*s = GetNosqlApplianceRemarkNosqlMemory4096
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosqlPrimaryNodes) SetFake() {
-	{
-		{
-			s.Appliance.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosqlPrimaryNodesAppliance) SetFake() {
-	{
-		{
-			s.ID.SetFake()
-		}
-	}
-	{
-		{
-			s.Zone.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosqlPrimaryNodesApplianceZone) SetFake() {
-	{
-		{
-			s.Name.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosqlStorage) SetFake() {
-	*s = GetNosqlApplianceRemarkNosqlStorageSSD
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkNosqlVirtualcore) SetFake() {
-	*s = GetNosqlApplianceRemarkNosqlVirtualcore2
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkServersItem) SetFake() {
-	{
-		{
-			s.UserIPAddress.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlApplianceRemarkZone) SetFake() {
-	{
-		{
-			s.ID.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettings) SetFake() {
-	{
-		{
-			s.Backup.SetFake()
-		}
-	}
-	{
-		{
-			s.SourceNetwork = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.SourceNetwork = append(s.SourceNetwork, elem)
-			}
-		}
-	}
-	{
-		{
-			s.ReserveIPAddress.SetFake()
-		}
-	}
-	{
-		{
-			s.Repair.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettingsBackup) SetFake() {
-	{
-		{
-			s.Connect.SetFake()
-		}
-	}
-	{
-		{
-			s.DayOfWeek.SetFake()
-		}
-	}
-	{
-		{
-			s.Time.SetFake()
-		}
-	}
-	{
-		{
-			s.Rotate.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettingsBackupDayOfWeekItem) SetFake() {
-	*s = GetNosqlSettingsBackupDayOfWeekItemSun
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettingsRepair) SetFake() {
-	{
-		{
-			s.Incremental.SetFake()
-		}
-	}
-	{
-		{
-			s.Full.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettingsRepairFull) SetFake() {
-	{
-		{
-			s.Interval.SetFake()
-		}
-	}
-	{
-		{
-			s.DayOfWeek.SetFake()
-		}
-	}
-	{
-		{
-			s.Time.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettingsRepairFullDayOfWeek) SetFake() {
-	*s = GetNosqlSettingsRepairFullDayOfWeekSun
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettingsRepairFullInterval) SetFake() {
-	*s = GetNosqlSettingsRepairFullInterval7
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettingsRepairIncremental) SetFake() {
-	{
-		{
-			s.DaysOfWeek = nil
-			for i := 0; i < 0; i++ {
-				var elem GetNosqlSettingsRepairIncrementalDaysOfWeekItem
-				{
-					elem.SetFake()
-				}
-				s.DaysOfWeek = append(s.DaysOfWeek, elem)
-			}
-		}
-	}
-	{
-		{
-			s.Time.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetNosqlSettingsRepairIncrementalDaysOfWeekItem) SetFake() {
-	*s = GetNosqlSettingsRepairIncrementalDaysOfWeekItemSun
-}
-
-// SetFake set fake values.
-func (s *GetParameterResponse) SetFake() {
-	{
-		{
-			s.Nosql.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetParameterResponseNosql) SetFake() {
-	{
-		{
-			s.Parameters = nil
-			for i := 0; i < 0; i++ {
-				var elem NosqlGetParameter
-				{
-					elem.SetFake()
-				}
-				s.Parameters = append(s.Parameters, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetPlan) SetFake() {
-	{
-		{
-			s.ID.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *GetServiceClass) SetFake() {
-	var unwrapped string
-	{
-		unwrapped = "string"
-	}
-	*s = GetServiceClass(unwrapped)
-}
-
-// SetFake set fake values.
 func (s *Instance) SetFake() {
 	{
 		{
@@ -716,12 +141,12 @@ func (s *IsOk) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NilGetNosqlApplianceInterfacesItem) SetFake() {
+func (s *NilNosqlApplianceInterfacesItem) SetFake() {
 	s.Null = true
 }
 
 // SetFake set fake values.
-func (s *NilNosqlApplianceInterfacesItem) SetFake() {
+func (s *NilNosqlApplianceResponseInterfacesItem) SetFake() {
 	s.Null = true
 }
 
@@ -1142,6 +567,404 @@ func (s *NosqlApplianceRemarkZone) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *NosqlApplianceResponse) SetFake() {
+	{
+		{
+			s.Class.SetFake()
+		}
+	}
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Description.SetFake()
+		}
+	}
+	{
+		{
+			s.Tags.SetFake()
+		}
+	}
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
+	{
+		{
+			s.Plan.SetFake()
+		}
+	}
+	{
+		{
+			s.Settings.SetFake()
+		}
+	}
+	{
+		{
+			s.SettingsHash.SetFake()
+		}
+	}
+	{
+		{
+			s.Remark.SetFake()
+		}
+	}
+	{
+		{
+			s.Availability.SetFake()
+		}
+	}
+	{
+		{
+			s.Instance.SetFake()
+		}
+	}
+	{
+		{
+			s.Disk.SetFake()
+		}
+	}
+	{
+		{
+			s.ServiceClass.SetFake()
+		}
+	}
+	{
+		{
+			s.Generation.SetFake()
+		}
+	}
+	{
+		{
+			s.CreatedAt.SetFake()
+		}
+	}
+	{
+		{
+			s.Interfaces = nil
+			for i := 0; i < 0; i++ {
+				var elem NilNosqlApplianceResponseInterfacesItem
+				{
+					elem.SetFake()
+				}
+				s.Interfaces = append(s.Interfaces, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseDisk) SetFake() {
+	{
+		{
+			s.EncryptionKey.SetFake()
+		}
+	}
+	{
+		{
+			s.EncryptionAlgorithm.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseDiskEncryptionKey) SetFake() {
+	{
+		{
+			s.KMSKeyID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseInterfacesItem) SetFake() {
+	{
+		{
+			s.IPAddress.SetFake()
+		}
+	}
+	{
+		{
+			s.UserIPAddress.SetFake()
+		}
+	}
+	{
+		{
+			s.HostName.SetFake()
+		}
+	}
+	{
+		{
+			s.Switch.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseInterfacesItemSwitch) SetFake() {
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+	{
+		{
+			s.Scope.SetFake()
+		}
+	}
+	{
+		{
+			s.Subnet.SetFake()
+		}
+	}
+	{
+		{
+			s.UserSubnet.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseInterfacesItemSwitchSubnet) SetFake() {
+	{
+		{
+			s.NetworkAddress.SetFake()
+		}
+	}
+	{
+		{
+			s.NetworkMaskLen.SetFake()
+		}
+	}
+	{
+		{
+			s.DefaultRoute.SetFake()
+		}
+	}
+	{
+		{
+			s.Internet.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseInterfacesItemSwitchSubnetInternet) SetFake() {
+	{
+		{
+			s.BandWidthMbps.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseInterfacesItemSwitchUserSubnet) SetFake() {
+	{
+		{
+			s.DefaultRoute.SetFake()
+		}
+	}
+	{
+		{
+			s.NetworkMaskLen.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemark) SetFake() {
+	{
+		{
+			s.Nosql.SetFake()
+		}
+	}
+	{
+		{
+			s.Servers = nil
+			for i := 0; i < 0; i++ {
+				var elem NosqlApplianceResponseRemarkServersItem
+				{
+					elem.SetFake()
+				}
+				s.Servers = append(s.Servers, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Network.SetFake()
+		}
+	}
+	{
+		{
+			s.Zone.SetFake()
+		}
+	}
+	{
+		{
+			s.ServiceClass.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNetwork) SetFake() {
+	{
+		{
+			s.DefaultRoute.SetFake()
+		}
+	}
+	{
+		{
+			s.NetworkMaskLen.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosql) SetFake() {
+	{
+		{
+			s.PrimaryNodes.SetFake()
+		}
+	}
+	{
+		{
+			s.DatabaseEngine.SetFake()
+		}
+	}
+	{
+		{
+			s.DatabaseVersion.SetFake()
+		}
+	}
+	{
+		{
+			s.DefaultUser.SetFake()
+		}
+	}
+	{
+		{
+			s.DiskSize.SetFake()
+		}
+	}
+	{
+		{
+			s.Memory.SetFake()
+		}
+	}
+	{
+		{
+			s.Nodes.SetFake()
+		}
+	}
+	{
+		{
+			s.Port.SetFake()
+		}
+	}
+	{
+		{
+			s.Storage.SetFake()
+		}
+	}
+	{
+		{
+			s.Virtualcore.SetFake()
+		}
+	}
+	{
+		{
+			s.Zone.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosqlDatabaseEngine) SetFake() {
+	*s = NosqlApplianceResponseRemarkNosqlDatabaseEngineCassandra
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosqlDiskSize) SetFake() {
+	*s = NosqlApplianceResponseRemarkNosqlDiskSize40960
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosqlMemory) SetFake() {
+	*s = NosqlApplianceResponseRemarkNosqlMemory4096
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosqlPrimaryNodes) SetFake() {
+	{
+		{
+			s.Appliance.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosqlPrimaryNodesAppliance) SetFake() {
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
+	{
+		{
+			s.Zone.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosqlPrimaryNodesApplianceZone) SetFake() {
+	{
+		{
+			s.Name.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosqlStorage) SetFake() {
+	*s = NosqlApplianceResponseRemarkNosqlStorageSSD
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkNosqlVirtualcore) SetFake() {
+	*s = NosqlApplianceResponseRemarkNosqlVirtualcore2
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkServersItem) SetFake() {
+	{
+		{
+			s.UserIPAddress.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlApplianceResponseRemarkZone) SetFake() {
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *NosqlBackup) SetFake() {
 	{
 		{
@@ -1375,105 +1198,6 @@ func (s *NosqlCreateResponse) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NosqlGetParameter) SetFake() {
-	{
-		{
-			s.SettingItemId = "string"
-		}
-	}
-	{
-		{
-			s.SettingItem = "string"
-		}
-	}
-	{
-		{
-			s.DefaultValue.SetFake()
-		}
-	}
-	{
-		{
-			s.Description = "string"
-		}
-	}
-	{
-		{
-			s.ParameterOptions = nil
-			for i := 0; i < 0; i++ {
-				var elem string
-				{
-					elem = "string"
-				}
-				s.ParameterOptions = append(s.ParameterOptions, elem)
-			}
-		}
-	}
-	{
-		{
-			s.SettingValue.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *NosqlGetResponse) SetFake() {
-	{
-		{
-			s.Appliance.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *NosqlGetVersionResponse) SetFake() {
-	{
-		{
-			s.Nosql.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *NosqlGetVersionResponseNosql) SetFake() {
-	{
-		{
-			s.DatabaseVersion = "string"
-		}
-	}
-	{
-		{
-			s.UpgradableVersions = nil
-			for i := 0; i < 0; i++ {
-				var elem NosqlGetVersionResponseNosqlUpgradableVersionsItem
-				{
-					elem.SetFake()
-				}
-				s.UpgradableVersions = append(s.UpgradableVersions, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *NosqlGetVersionResponseNosqlUpgradableVersionsItem) SetFake() {
-	{
-		{
-			s.Version = "string"
-		}
-	}
-}
-
-// SetFake set fake values.
 func (s *NosqlIsOkResponse) SetFake() {
 	{
 		{
@@ -1517,7 +1241,7 @@ func (s *NosqlListResponse) SetFake() {
 		{
 			s.Appliances = nil
 			for i := 0; i < 0; i++ {
-				var elem GetNosqlAppliance
+				var elem NosqlApplianceResponse
 				{
 					elem.SetFake()
 				}
@@ -1596,7 +1320,48 @@ func (s *NosqlOkResponseNosql) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NosqlPutParameter) SetFake() {
+func (s *NosqlParameter) SetFake() {
+	{
+		{
+			s.SettingItemId = "string"
+		}
+	}
+	{
+		{
+			s.SettingItem = "string"
+		}
+	}
+	{
+		{
+			s.DefaultValue.SetFake()
+		}
+	}
+	{
+		{
+			s.Description = "string"
+		}
+	}
+	{
+		{
+			s.ParameterOptions = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.ParameterOptions = append(s.ParameterOptions, elem)
+			}
+		}
+	}
+	{
+		{
+			s.SettingValue.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlParameterSetting) SetFake() {
 	{
 		{
 			s.SettingItemId = "string"
@@ -1610,19 +1375,72 @@ func (s *NosqlPutParameter) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *NosqlPutVersionRequest) SetFake() {
+func (s *NosqlParametersResponse) SetFake() {
 	{
 		{
 			s.Nosql.SetFake()
 		}
 	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
 }
 
 // SetFake set fake values.
-func (s *NosqlPutVersionResponse) SetFake() {
+func (s *NosqlParametersResponseNosql) SetFake() {
 	{
 		{
-			s.Nosql.SetFake()
+			s.Parameters = nil
+			for i := 0; i < 0; i++ {
+				var elem NosqlParameter
+				{
+					elem.SetFake()
+				}
+				s.Parameters = append(s.Parameters, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlPlan) SetFake() {
+	{
+		{
+			s.ID.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlPower) SetFake() {
+	{
+		{
+			s.Instance.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlPowerInstance) SetFake() {
+	{
+		{
+			s.Status.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlReadResponse) SetFake() {
+	{
+		{
+			s.Appliance.SetFake()
 		}
 	}
 	{
@@ -1834,6 +1652,15 @@ func (s *NosqlRepairResponseNosqlRepairType) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *NosqlServiceClass) SetFake() {
+	var unwrapped string
+	{
+		unwrapped = "string"
+	}
+	*s = NosqlServiceClass(unwrapped)
+}
+
+// SetFake set fake values.
 func (s *NosqlSettings) SetFake() {
 	{
 		{
@@ -1965,6 +1792,135 @@ func (s *NosqlSettingsRepairIncremental) SetFake() {
 // SetFake set fake values.
 func (s *NosqlSettingsRepairIncrementalDaysOfWeekItem) SetFake() {
 	*s = NosqlSettingsRepairIncrementalDaysOfWeekItemSun
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponse) SetFake() {
+	{
+		{
+			s.Backup.SetFake()
+		}
+	}
+	{
+		{
+			s.SourceNetwork = nil
+			for i := 0; i < 0; i++ {
+				var elem string
+				{
+					elem = "string"
+				}
+				s.SourceNetwork = append(s.SourceNetwork, elem)
+			}
+		}
+	}
+	{
+		{
+			s.ReserveIPAddress.SetFake()
+		}
+	}
+	{
+		{
+			s.Repair.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponseBackup) SetFake() {
+	{
+		{
+			s.Connect.SetFake()
+		}
+	}
+	{
+		{
+			s.DayOfWeek.SetFake()
+		}
+	}
+	{
+		{
+			s.Time.SetFake()
+		}
+	}
+	{
+		{
+			s.Rotate.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponseBackupDayOfWeekItem) SetFake() {
+	*s = NosqlSettingsResponseBackupDayOfWeekItemSun
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponseRepair) SetFake() {
+	{
+		{
+			s.Incremental.SetFake()
+		}
+	}
+	{
+		{
+			s.Full.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponseRepairFull) SetFake() {
+	{
+		{
+			s.Interval.SetFake()
+		}
+	}
+	{
+		{
+			s.DayOfWeek.SetFake()
+		}
+	}
+	{
+		{
+			s.Time.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponseRepairFullDayOfWeek) SetFake() {
+	*s = NosqlSettingsResponseRepairFullDayOfWeekSun
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponseRepairFullInterval) SetFake() {
+	*s = NosqlSettingsResponseRepairFullInterval7
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponseRepairIncremental) SetFake() {
+	{
+		{
+			s.DaysOfWeek = nil
+			for i := 0; i < 0; i++ {
+				var elem NosqlSettingsResponseRepairIncrementalDaysOfWeekItem
+				{
+					elem.SetFake()
+				}
+				s.DaysOfWeek = append(s.DaysOfWeek, elem)
+			}
+		}
+	}
+	{
+		{
+			s.Time.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlSettingsResponseRepairIncrementalDaysOfWeekItem) SetFake() {
+	*s = NosqlSettingsResponseRepairIncrementalDaysOfWeekItemSun
 }
 
 // SetFake set fake values.
@@ -2142,10 +2098,77 @@ func (s *NosqlUpdateRequestAppliance) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *NosqlUpdateVersionRequest) SetFake() {
+	{
+		{
+			s.Nosql.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlUpdateVersionResponse) SetFake() {
+	{
+		{
+			s.Nosql.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
 func (s *NosqlVersion) SetFake() {
 	{
 		{
 			s.Version.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlVersionsResponse) SetFake() {
+	{
+		{
+			s.Nosql.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlVersionsResponseNosql) SetFake() {
+	{
+		{
+			s.DatabaseVersion = "string"
+		}
+	}
+	{
+		{
+			s.UpgradableVersions = nil
+			for i := 0; i < 0; i++ {
+				var elem NosqlVersionsResponseNosqlUpgradableVersionsItem
+				{
+					elem.SetFake()
+				}
+				s.UpgradableVersions = append(s.UpgradableVersions, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *NosqlVersionsResponseNosqlUpgradableVersionsItem) SetFake() {
+	{
+		{
+			s.Version = "string"
 		}
 	}
 }
@@ -2231,213 +2254,6 @@ func (s *OptDateTime) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptGetNosqlApplianceInterfacesItemSwitch) SetFake() {
-	var elem GetNosqlApplianceInterfacesItemSwitch
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceInterfacesItemSwitchSubnetInternet) SetFake() {
-	var elem GetNosqlApplianceInterfacesItemSwitchSubnetInternet
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceInterfacesItemSwitchUserSubnet) SetFake() {
-	var elem GetNosqlApplianceInterfacesItemSwitchUserSubnet
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemark) SetFake() {
-	var elem GetNosqlApplianceRemark
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNetwork) SetFake() {
-	var elem GetNosqlApplianceRemarkNetwork
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosql) SetFake() {
-	var elem GetNosqlApplianceRemarkNosql
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosqlDatabaseEngine) SetFake() {
-	var elem GetNosqlApplianceRemarkNosqlDatabaseEngine
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosqlDiskSize) SetFake() {
-	var elem GetNosqlApplianceRemarkNosqlDiskSize
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosqlMemory) SetFake() {
-	var elem GetNosqlApplianceRemarkNosqlMemory
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosqlPrimaryNodes) SetFake() {
-	var elem GetNosqlApplianceRemarkNosqlPrimaryNodes
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosqlPrimaryNodesAppliance) SetFake() {
-	var elem GetNosqlApplianceRemarkNosqlPrimaryNodesAppliance
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosqlPrimaryNodesApplianceZone) SetFake() {
-	var elem GetNosqlApplianceRemarkNosqlPrimaryNodesApplianceZone
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosqlStorage) SetFake() {
-	var elem GetNosqlApplianceRemarkNosqlStorage
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkNosqlVirtualcore) SetFake() {
-	var elem GetNosqlApplianceRemarkNosqlVirtualcore
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlApplianceRemarkZone) SetFake() {
-	var elem GetNosqlApplianceRemarkZone
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlSettings) SetFake() {
-	var elem GetNosqlSettings
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlSettingsRepairFull) SetFake() {
-	var elem GetNosqlSettingsRepairFull
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlSettingsRepairFullDayOfWeek) SetFake() {
-	var elem GetNosqlSettingsRepairFullDayOfWeek
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlSettingsRepairFullInterval) SetFake() {
-	var elem GetNosqlSettingsRepairFullInterval
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetNosqlSettingsRepairIncremental) SetFake() {
-	var elem GetNosqlSettingsRepairIncremental
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetParameterResponseNosql) SetFake() {
-	var elem GetParameterResponseNosql
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetPlan) SetFake() {
-	var elem GetPlan
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptGetServiceClass) SetFake() {
-	var elem GetServiceClass
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
 func (s *OptIPv4) SetFake() {
 	var elem netip.Addr
 	{
@@ -2475,42 +2291,6 @@ func (s *OptIsOk) SetFake() {
 
 // SetFake set fake values.
 func (s *OptNilDateTime) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilGetNosqlApplianceDisk) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilGetNosqlApplianceDiskEncryptionKey) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilGetNosqlApplianceInterfacesItemSwitchSubnet) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilGetNosqlSettingsBackup) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilGetNosqlSettingsBackupDayOfWeekItemArray) SetFake() {
-	s.Null = true
-	s.Set = true
-}
-
-// SetFake set fake values.
-func (s *OptNilGetNosqlSettingsRepair) SetFake() {
 	s.Null = true
 	s.Set = true
 }
@@ -2558,6 +2338,24 @@ func (s *OptNilNosqlApplianceRemarkNosqlStorage) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptNilNosqlApplianceResponseDisk) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilNosqlApplianceResponseDiskEncryptionKey) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilNosqlApplianceResponseInterfacesItemSwitchSubnet) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
 func (s *OptNilNosqlCreateRequestApplianceDisk) SetFake() {
 	s.Null = true
 	s.Set = true
@@ -2595,6 +2393,24 @@ func (s *OptNilNosqlSettingsBackupDayOfWeekItemArray) SetFake() {
 
 // SetFake set fake values.
 func (s *OptNilNosqlSettingsRepair) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilNosqlSettingsResponseBackup) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilNosqlSettingsResponseBackupDayOfWeekItemArray) SetFake() {
+	s.Null = true
+	s.Set = true
+}
+
+// SetFake set fake values.
+func (s *OptNilNosqlSettingsResponseRepair) SetFake() {
 	s.Null = true
 	s.Set = true
 }
@@ -2693,8 +2509,8 @@ func (s *OptNosqlApplianceRemarkZone) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptNosqlBackupResponseNosql) SetFake() {
-	var elem NosqlBackupResponseNosql
+func (s *OptNosqlApplianceResponseInterfacesItemSwitch) SetFake() {
+	var elem NosqlApplianceResponseInterfacesItemSwitch
 	{
 		elem.SetFake()
 	}
@@ -2702,8 +2518,134 @@ func (s *OptNosqlBackupResponseNosql) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *OptNosqlGetVersionResponseNosql) SetFake() {
-	var elem NosqlGetVersionResponseNosql
+func (s *OptNosqlApplianceResponseInterfacesItemSwitchSubnetInternet) SetFake() {
+	var elem NosqlApplianceResponseInterfacesItemSwitchSubnetInternet
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseInterfacesItemSwitchUserSubnet) SetFake() {
+	var elem NosqlApplianceResponseInterfacesItemSwitchUserSubnet
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemark) SetFake() {
+	var elem NosqlApplianceResponseRemark
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNetwork) SetFake() {
+	var elem NosqlApplianceResponseRemarkNetwork
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosql) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosql
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosqlDatabaseEngine) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosqlDatabaseEngine
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosqlDiskSize) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosqlDiskSize
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosqlMemory) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosqlMemory
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosqlPrimaryNodes) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosqlPrimaryNodes
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosqlPrimaryNodesAppliance) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosqlPrimaryNodesAppliance
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosqlPrimaryNodesApplianceZone) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosqlPrimaryNodesApplianceZone
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosqlStorage) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosqlStorage
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkNosqlVirtualcore) SetFake() {
+	var elem NosqlApplianceResponseRemarkNosqlVirtualcore
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlApplianceResponseRemarkZone) SetFake() {
+	var elem NosqlApplianceResponseRemarkZone
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlBackupResponseNosql) SetFake() {
+	var elem NosqlBackupResponseNosql
 	{
 		elem.SetFake()
 	}
@@ -2740,6 +2682,33 @@ func (s *OptNosqlNodeApplianceZone) SetFake() {
 // SetFake set fake values.
 func (s *OptNosqlOkResponseNosql) SetFake() {
 	var elem NosqlOkResponseNosql
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlParametersResponseNosql) SetFake() {
+	var elem NosqlParametersResponseNosql
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlPlan) SetFake() {
+	var elem NosqlPlan
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlPowerInstance) SetFake() {
+	var elem NosqlPowerInstance
 	{
 		elem.SetFake()
 	}
@@ -2792,6 +2761,15 @@ func (s *OptNosqlRepairResponseNosqlRepairType) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptNosqlServiceClass) SetFake() {
+	var elem NosqlServiceClass
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
 func (s *OptNosqlSettings) SetFake() {
 	var elem NosqlSettings
 	{
@@ -2812,6 +2790,51 @@ func (s *OptNosqlSettingsRepairFull) SetFake() {
 // SetFake set fake values.
 func (s *OptNosqlSettingsRepairIncremental) SetFake() {
 	var elem NosqlSettingsRepairIncremental
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlSettingsResponse) SetFake() {
+	var elem NosqlSettingsResponse
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlSettingsResponseRepairFull) SetFake() {
+	var elem NosqlSettingsResponseRepairFull
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlSettingsResponseRepairFullDayOfWeek) SetFake() {
+	var elem NosqlSettingsResponseRepairFullDayOfWeek
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlSettingsResponseRepairFullInterval) SetFake() {
+	var elem NosqlSettingsResponseRepairFullInterval
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
+func (s *OptNosqlSettingsResponseRepairIncremental) SetFake() {
+	var elem NosqlSettingsResponseRepairIncremental
 	{
 		elem.SetFake()
 	}
@@ -2864,6 +2887,15 @@ func (s *OptNosqlVersion) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptNosqlVersionsResponseNosql) SetFake() {
+	var elem NosqlVersionsResponseNosql
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
 func (s *OptNosqldbNodeStatusNodeType) SetFake() {
 	var elem NosqldbNodeStatusNodeType
 	{
@@ -2884,15 +2916,6 @@ func (s *OptPassword) SetFake() {
 // SetFake set fake values.
 func (s *OptPlan) SetFake() {
 	var elem Plan
-	{
-		elem.SetFake()
-	}
-	s.SetTo(elem)
-}
-
-// SetFake set fake values.
-func (s *OptPutParameterResponseNosql) SetFake() {
-	var elem PutParameterResponseNosql
 	{
 		elem.SetFake()
 	}
@@ -2927,6 +2950,15 @@ func (s *OptSuccess) SetFake() {
 }
 
 // SetFake set fake values.
+func (s *OptUpdateNosqlParametersResponseNosql) SetFake() {
+	var elem UpdateNosqlParametersResponseNosql
+	{
+		elem.SetFake()
+	}
+	s.SetTo(elem)
+}
+
+// SetFake set fake values.
 func (s *Password) SetFake() {
 	var unwrapped string
 	{
@@ -2945,76 +2977,21 @@ func (s *Plan) SetFake() {
 }
 
 // SetFake set fake values.
-func (s *PutParameterRequest) SetFake() {
-	{
-		{
-			s.Nosql.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PutParameterRequestNosql) SetFake() {
-	{
-		{
-			s.Parameters = nil
-			for i := 0; i < 0; i++ {
-				var elem NosqlPutParameter
-				{
-					elem.SetFake()
-				}
-				s.Parameters = append(s.Parameters, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PutParameterResponse) SetFake() {
-	{
-		{
-			s.Nosql.SetFake()
-		}
-	}
-	{
-		{
-			s.IsOk.SetFake()
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *PutParameterResponseNosql) SetFake() {
-	{
-		{
-			s.Parameters = nil
-			for i := 0; i < 0; i++ {
-				var elem NosqlPutParameter
-				{
-					elem.SetFake()
-				}
-				s.Parameters = append(s.Parameters, elem)
-			}
-		}
-	}
-}
-
-// SetFake set fake values.
-func (s *RecoverNoSQLNodeAccepted) SetFake() {
+func (s *RecoverNosqlDatabaseNodeAccepted) SetFake() {
 	var unwrapped SuccessResponse
 	{
 		unwrapped.SetFake()
 	}
-	*s = RecoverNoSQLNodeAccepted(unwrapped)
+	*s = RecoverNosqlDatabaseNodeAccepted(unwrapped)
 }
 
 // SetFake set fake values.
-func (s *RecoverNoSQLNodeOK) SetFake() {
+func (s *RecoverNosqlDatabaseNodeOK) SetFake() {
 	var unwrapped SuccessResponse
 	{
 		unwrapped.SetFake()
 	}
-	*s = RecoverNoSQLNodeOK(unwrapped)
+	*s = RecoverNosqlDatabaseNodeOK(unwrapped)
 }
 
 // SetFake set fake values.
@@ -3120,6 +3097,61 @@ func (s *UnauthorizedResponse) SetFake() {
 	{
 		{
 			s.ErrorMsg.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateNosqlParametersRequest) SetFake() {
+	{
+		{
+			s.Nosql.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateNosqlParametersRequestNosql) SetFake() {
+	{
+		{
+			s.Parameters = nil
+			for i := 0; i < 0; i++ {
+				var elem NosqlParameterSetting
+				{
+					elem.SetFake()
+				}
+				s.Parameters = append(s.Parameters, elem)
+			}
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateNosqlParametersResponse) SetFake() {
+	{
+		{
+			s.Nosql.SetFake()
+		}
+	}
+	{
+		{
+			s.IsOk.SetFake()
+		}
+	}
+}
+
+// SetFake set fake values.
+func (s *UpdateNosqlParametersResponseNosql) SetFake() {
+	{
+		{
+			s.Parameters = nil
+			for i := 0; i < 0; i++ {
+				var elem NosqlParameterSetting
+				{
+					elem.SetFake()
+				}
+				s.Parameters = append(s.Parameters, elem)
+			}
 		}
 	}
 }
