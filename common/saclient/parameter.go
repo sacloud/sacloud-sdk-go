@@ -869,11 +869,11 @@ func (p *parameter) populateString(c *config, key string) error {
 }
 
 func (p *parameter) populateUInt64(c *config, key string) error {
-	return p.populateUInt64OrDefault(c, key, option[int64]{})
+	return p.populateUInt64OrDefault(c, key, optionNone[int64]())
 }
 
 func (p *parameter) populateUInt64WithDefault(c *config, key string, defaultValue int64) error {
-	return p.populateUInt64OrDefault(c, key, option[int64]{set: true, some: defaultValue})
+	return p.populateUInt64OrDefault(c, key, optionSome(defaultValue))
 }
 
 func (p *parameter) populateUInt64OrDefault(c *config, key string, defaultValue option[int64]) error {
@@ -1253,21 +1253,21 @@ var _ flag.Value = (*option[[]string])(nil)
 // values copied from: sacloud/api-client-go/options.go:defaultOption
 var defaults = storage{
 	// absent keys are "not defaults"
-	profileName:         option[string]{set: true, some: "default"},
-	retryMax:            option[int64]{set: true, some: 10},
-	retryWaitMax:        option[int64]{set: true, some: 64},
-	retryWaitMin:        option[int64]{set: true, some: 1},
-	apiRequestTimeout:   option[time.Duration]{set: true, some: 300 * time.Second},
-	apiRequestRateLimit: option[int64]{set: true, some: 5},
-	tokenEndpoint:       option[string]{set: true, some: "https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token"},
-	checkRetryFunc:      option[retryablehttp.CheckRetry]{set: true, some: retryablehttp.DefaultRetryPolicy},
-	userAgent: option[string]{set: true, some: fmt.Sprintf(
+	profileName:         optionSome("default"),
+	retryMax:            optionSome[int64](10),
+	retryWaitMax:        optionSome[int64](64),
+	retryWaitMin:        optionSome[int64](1),
+	apiRequestTimeout:   optionSome(300 * time.Second),
+	apiRequestRateLimit: optionSome[int64](5),
+	tokenEndpoint:       optionSome("https://secure.sakura.ad.jp/cloud/api/iam/1.0/service-principals/oauth2/token"),
+	checkRetryFunc:      optionSome[retryablehttp.CheckRetry](retryablehttp.DefaultRetryPolicy),
+	userAgent: optionSome(fmt.Sprintf(
 		// :INTENTIONAL: keeping "api-client-go" here for backward compatibility
 		"api-client-go/v%s (%s/%s; +https://github.com/sacloud/saclient-go)",
 		Version,
 		runtime.GOOS,
 		runtime.GOARCH,
-	)},
+	)),
 }
 
 func normalizeServiceKey(key string) string {

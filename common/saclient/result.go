@@ -39,7 +39,8 @@ type resultOption[T any] struct {
 func (m *option[T]) from(src func() (T, bool)) {
 	if m != nil {
 		value, set := src()
-		*m = option[T]{value, set}
+		m.set = set
+		m.some = value
 	}
 }
 
@@ -183,8 +184,14 @@ func (r resultOption[T]) asPtr() *T {
 }
 func (r resultOption[T]) decompose() (v T, ok bool, err error) { return r.option.some, r.set, r.err }
 
+func optionFrom[T any](src func() (T, bool)) (ret option[T]) {
+	ret.from(src)
+	return
+}
+func optionNone[T any]() (ret option[T])               { return }
+func optionSome[T any](some T) option[T]               { return optionFrom(func() (T, bool) { return some, true }) }
 func resultOptionErr[T any](err error) resultOption[T] { return resultOption[T]{err: err} }
-func resultOptionNone[T any]() resultOption[T]         { return resultOption[T]{} }
+func resultOptionNone[T any]() (ret resultOption[T])   { return }
 func resultOptionSome[T any](some T) resultOption[T] {
-	return resultOption[T]{option: option[T]{some: some, set: true}}
+	return resultOption[T]{option: optionSome(some)}
 }
