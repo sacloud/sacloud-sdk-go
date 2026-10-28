@@ -508,7 +508,7 @@ func (p *parameter) populatePrivateKeyPath(c *config) error {
 		return NewErrorf("private key not a file: %s", v)
 	}
 
-	return sanePrivateKeyPermissions(s)
+	return sanePrivateKeyPermissions(s, v)
 }
 
 func (p *parameter) populatePrivateKey(c *config) error {

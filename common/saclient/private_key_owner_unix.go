@@ -10,7 +10,7 @@ import (
 	"syscall"
 )
 
-func sanePrivateKeyPermissions(s os.FileInfo) error {
+func sanePrivateKeyPermissions(s os.FileInfo, v string) error {
 	// Here, "me" is the UID of the current user, not the effective UID of the process.
 	// This distinction is important when the process is running with elevated privileges (e.g., setuid)
 	// When invoked via sudo, the real UID is normally the target user's UID (root by default).
@@ -26,10 +26,10 @@ func sanePrivateKeyPermissions(s os.FileInfo) error {
 		return nil
 
 	case int(stat.Uid) == me:
-		return NewErrorf("private key file %s permission is too lax: %o", s.Name(), perm)
+		return NewErrorf("private key file %s permission is too lax: %o", v, perm)
 
 	case perm&0o037 != 0:
-		return NewErrorf("private key file %s permission is too lax: %o", s.Name(), perm)
+		return NewErrorf("private key file %s permission is too lax: %o", v, perm)
 
 	default:
 		return nil

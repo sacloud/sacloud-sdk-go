@@ -7,7 +7,7 @@ package saclient
 
 import "os"
 
-func sanePrivateKeyPermissions(os.FileInfo) error {
+func sanePrivateKeyPermissions(os.FileInfo, string) error {
 	// There is no concept like world writable directory on Windows.
 	// Permission checks make no sense here.
 	return nil
