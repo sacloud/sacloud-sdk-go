@@ -46,12 +46,8 @@ func TestPrivateKeyPermissionsTooLax(t *testing.T) {
 					Uid: uint32(tt.ownerUID), // #nosec G115 -- no overflow here
 				},
 			}
-			if err := sanePrivateKeyPermissions(info); err == nil {
-				// expected
-			} else if tt.wantTooLax {
-				// expected
-			} else {
-				t.Errorf("sanePrivateKeyPermissions() = %v, want %v", err, !tt.wantTooLax)
+			if err := sanePrivateKeyPermissions(info); (err != nil) != tt.wantTooLax {
+				t.Errorf("sanePrivateKeyPermissions() = %v, wantTooLax %v", err, tt.wantTooLax)
 			}
 		})
 	}
