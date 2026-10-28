@@ -955,59 +955,55 @@ func (this *Profile) populateV1Fields() {
 }
 
 func profileStringOption(attrs map[string]any, key string) option[string] {
-	value, ok := attrs[key].(string)
-	return option[string]{some: value, set: ok}
+	return profileTypedOption(attrs, key, func(v any) (str string, ok bool) {
+		str, ok = v.(string)
+		return
+	})
 }
 
 func profileBoolOption(attrs map[string]any, key string) option[bool] {
-	value, ok := attrs[key].(bool)
-	return option[bool]{some: value, set: ok}
+	return profileTypedOption(attrs, key, func(v any) (ret, ok bool) {
+		ret, ok = v.(bool)
+		return
+	})
 }
 
 func profileInt64Option(attrs map[string]any, key string) option[int64] {
-	value, ok := attrs[key]
-	if !ok {
-		return option[int64]{}
-	}
-
-	var ret int64
-	switch value := value.(type) {
-	case int:
-		ret = int64(value)
-	case int64:
-		ret = value
-	case uint64:
-		ret = int64(value) //nolint:gosec
-	case float64:
-		ret = int64(value)
-	default:
-		return option[int64]{}
-	}
-	return option[int64]{some: ret, set: true}
+	return profileTypedOption(attrs, key, func(value any) (ret int64, ok bool) {
+		switch value := value.(type) {
+		case int:
+			return int64(value), true
+		case int64:
+			return value, true
+		case uint64:
+			return int64(value), true //nolint:gosec
+		case float64:
+			return int64(value), true
+		default:
+			return 0, false
+		}
+	})
 }
 
 func profileStringsOption(attrs map[string]any, key string) option[[]string] {
-	value, ok := attrs[key]
-	if !ok {
-		return option[[]string]{}
-	}
-
-	switch values := value.(type) {
-	case []string:
-		return option[[]string]{some: slices.Clone(values), set: true}
-	case []any:
-		ret := make([]string, 0, len(values))
-		for _, value := range values {
-			str, ok := value.(string)
-			if !ok {
-				return option[[]string]{}
+	return profileTypedOption(attrs, key, func(value any) ([]string, bool) {
+		switch values := value.(type) {
+		case []string:
+			return slices.Clone(values), true
+		case []any:
+			ret := make([]string, 0, len(values))
+			for _, value := range values {
+				str, ok := value.(string)
+				if !ok {
+					return nil, false
+				}
+				ret = append(ret, str)
 			}
-			ret = append(ret, str)
+			return ret, true
+		default:
+			return nil, false
 		}
-		return option[[]string]{some: ret, set: true}
-	default:
-		return option[[]string]{}
-	}
+	})
 }
 
 func isJSONProfile(trimmed []byte, pathname string) bool {
@@ -1106,4 +1102,12 @@ func lookupEnv(envp []string, key string) (string, bool) {
 	j := intoSeq2(i, func(e string) (string, string, bool) { return strings.Cut(e, "=") })
 	_, v, ok := findFirst(j, func(k, _ string) bool { return k == key })
 	return v, ok
+}
+
+func profileTypedOption[T, U any, K comparable](attrs map[K]U, key K, convert func(U) (T, bool)) option[T] {
+	if vany, ok := attrs[key]; !ok {
+		return optionNone[T]()
+	} else {
+		return optionFrom(func() (T, bool) { return convert(vany) })
+	}
 }
