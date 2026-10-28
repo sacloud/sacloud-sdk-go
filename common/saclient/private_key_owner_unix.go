@@ -13,7 +13,7 @@ import (
 func sanePrivateKeyPermissions(s os.FileInfo) error {
 	// Here, "me" is the UID of the current user, not the effective UID of the process.
 	// This distinction is important when the process is running with elevated privileges (e.g., setuid)
-	// For instance when under `sudo usacloud`, "me" here is that of the original user, not root.
+	// When invoked via sudo, the real UID is normally the target user's UID (root by default).
 	me := syscall.Getuid()
 	stat, ok := s.Sys().(*syscall.Stat_t)
 	perm := s.Mode().Perm()
