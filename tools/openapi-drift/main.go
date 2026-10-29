@@ -428,8 +428,10 @@ func writeFindings(summary []summaryRow, findings []finding) error {
 	output.WriteString("|---|---:|---:|---|---:|\n")
 	for _, row := range summary {
 		status := ":white_check_mark:"
-		if row.localVersion != row.portalVersion || row.differenceCount > 0 {
+		if row.localVersion != row.portalVersion {
 			status = ":x:"
+		} else if row.differenceCount > 0 {
+			status = ":warning:"
 		}
 		fmt.Fprintf(
 			&output,
