@@ -109,6 +109,31 @@ func TestTracesStorageOp_Create(t *testing.T) {
 	// Add more field checks as appropriate for TraceStorage
 }
 
+func TestTracesStorageOp_Create_Dedicated(t *testing.T) {
+	expected := TemplateTraceStorage
+	expected.Classification = v1.TraceStorageClassificationDedicated
+	expected.KmsKeyID = v1.NewNilInt64(110000000001)
+	expected.ServicePrincipalID = v1.NewOptNilInt64(110000000002)
+	client := newTestClient(expected, http.StatusCreated)
+	api := NewTracesStorageOp(client)
+	ctx := t.Context()
+
+	createReq := TracesStorageCreateParams{
+		Name:               "dedicated-trace-storage",
+		Description:        new("Dedicated trace storage with KMS"),
+		Classification:     new(v1.TraceStorageCreateRequestClassificationDedicated),
+		KmsKeyID:           v1.NewOptNilInt64(110000000001),
+		ServicePrincipalID: v1.NewOptNilInt64(110000000002),
+	}
+	actual, err := api.Create(ctx, createReq)
+	require.NoError(t, err)
+	require.NotNil(t, actual)
+	require.Equal(t, expected.GetClassification(), actual.GetClassification())
+	require.Equal(t, expected.GetKmsKeyID(), actual.GetKmsKeyID())
+	require.Equal(t, expected.GetServicePrincipalID(), actual.GetServicePrincipalID())
+	require.Equal(t, expected, *actual)
+}
+
 func TestTracesStorageOp_Create_400(t *testing.T) {
 	expected := newErrorResponse(400, "Invalid request body.")
 	client := newTestClient(expected, http.StatusBadRequest)
