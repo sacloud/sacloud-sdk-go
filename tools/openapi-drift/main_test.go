@@ -40,7 +40,7 @@ func TestRunSeparatesVersionAndStructuralDifferences(t *testing.T) {
 			version:    "1.0.0",
 			paths:      `{"/new": {}}`,
 			wantCounts: "version differences: 0; APIs with structural differences: 1.",
-			wantRow:    "| Test API | 1.0.0 | 1.0.0 | :x: | 1 |",
+			wantRow:    "| Test API | 1.0.0 | 1.0.0 | :warning: | 1 |",
 		},
 		{
 			name:       "version and structure",
