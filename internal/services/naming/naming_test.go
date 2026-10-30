@@ -91,6 +91,11 @@ func TestNames(t *testing.T) {
 			in:  "simple-monitor",
 			out: "SimpleMonitor",
 		},
+		{
+			f:   ToFlagName,
+			in:  "tag[0]",
+			out: "--tag[0]",
+		},
 	}
 
 	for _, tc := range cases {

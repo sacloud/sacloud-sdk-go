@@ -50,7 +50,7 @@ func toDelimitedLower(s string, delimiter rune) string {
 		case isConnector(r):
 			result.WriteRune(delimiter)
 			lastOutputIsDelimiter = true
-		case unicode.IsPunct(r):
+		case unicode.IsPunct(r) && r != '[' && r != ']':
 			continue
 		default:
 			if i > 0 && result.Len() > 0 && needsDelimiter(runes, i) && !lastOutputIsDelimiter {
