@@ -13,8 +13,9 @@ go run ./tools/openapi-drift
 
 It starts with a summary table showing each component's repository and portal
 `info.version`, difference status, and number of structural differences. The
-status is `:x:` when versions or structures differ, and `:white_check_mark:`
-otherwise. GitHub Actions also displays the report in the workflow run's job
+status is `:x:` when versions differ, `:warning:` when versions match but
+structures differ, and `:white_check_mark:` otherwise.
+GitHub Actions also displays the report in the workflow run's job
 summary, without requiring you to open step logs. Detailed
 differences in component definitions, schemas, and paths follow the table. The
 process exits successfully when the comparison and report output complete, even
@@ -46,7 +47,7 @@ Compared APIs: 18; version differences: 10; APIs with structural differences: 12
 | SimpleMQ message | 1.1.2 | 1.1.4 | :x: | 1 |
 | SimpleMQ queue | 1.1.2 | 1.1.2 | :white_check_mark: | 0 |
 ...
-| AppRun shared | 1.5.0 | 1.5.0 | :x: | 3 |
+| AppRun shared | 1.5.0 | 1.5.0 | :warning: | 3 |
 ...
 
 # OpenAPI structural differences
@@ -58,5 +59,5 @@ Compared APIs: 18; version differences: 10; APIs with structural differences: 12
 ```
 
 In GitHub Actions, the summary is rendered as a Markdown table with status
-icons. A component can have matching versions but still show `:x:` because
+icons. A component can have matching versions but still show `:warning:` because
 its structure differs, as with AppRun shared above.

@@ -4,24 +4,24 @@ package v1
 
 // DeleteCommonServiceItemParams is parameters of deleteCommonServiceItem operation.
 type DeleteCommonServiceItemParams struct {
-	// キューのリソースID.
+	// リソースID.
 	ID string
 }
 
-// GetCommonServiceItemParams is parameters of getCommonServiceItem operation.
-type GetCommonServiceItemParams struct {
-	// キューのリソースID.
+// ReadCommonServiceItemParams is parameters of readCommonServiceItem operation.
+type ReadCommonServiceItemParams struct {
+	// リソースID.
 	ID string
 }
 
 // SetProcessConfigurationSecretParams is parameters of setProcessConfigurationSecret operation.
 type SetProcessConfigurationSecretParams struct {
-	// キューのリソースID.
+	// リソースID.
 	ID string
 }
 
 // UpdateCommonServiceItemParams is parameters of updateCommonServiceItem operation.
 type UpdateCommonServiceItemParams struct {
-	// キューのリソースID.
+	// リソースID.
 	ID string
 }

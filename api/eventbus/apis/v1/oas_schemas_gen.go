@@ -445,121 +445,6 @@ func (s *Error) SetErrorMsg(val OptString) {
 	s.ErrorMsg = val
 }
 
-type GetCommonServiceItemBadRequest Error
-
-func (*GetCommonServiceItemBadRequest) getCommonServiceItemRes() {}
-
-type GetCommonServiceItemInternalServerError Error
-
-func (*GetCommonServiceItemInternalServerError) getCommonServiceItemRes() {}
-
-type GetCommonServiceItemNotFound Error
-
-func (*GetCommonServiceItemNotFound) getCommonServiceItemRes() {}
-
-type GetCommonServiceItemOK struct {
-	CommonServiceItem CommonServiceItem `json:"CommonServiceItem"`
-	IsOk              OptBool           `json:"is_ok"`
-}
-
-// GetCommonServiceItem returns the value of CommonServiceItem.
-func (s *GetCommonServiceItemOK) GetCommonServiceItem() CommonServiceItem {
-	return s.CommonServiceItem
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetCommonServiceItemOK) GetIsOk() OptBool {
-	return s.IsOk
-}
-
-// SetCommonServiceItem sets the value of CommonServiceItem.
-func (s *GetCommonServiceItemOK) SetCommonServiceItem(val CommonServiceItem) {
-	s.CommonServiceItem = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetCommonServiceItemOK) SetIsOk(val OptBool) {
-	s.IsOk = val
-}
-
-func (*GetCommonServiceItemOK) getCommonServiceItemRes() {}
-
-type GetCommonServiceItemUnauthorized Error
-
-func (*GetCommonServiceItemUnauthorized) getCommonServiceItemRes() {}
-
-type GetCommonServiceItemsBadRequest Error
-
-func (*GetCommonServiceItemsBadRequest) getCommonServiceItemsRes() {}
-
-type GetCommonServiceItemsInternalServerError Error
-
-func (*GetCommonServiceItemsInternalServerError) getCommonServiceItemsRes() {}
-
-type GetCommonServiceItemsOK struct {
-	From               OptInt              `json:"From"`
-	Count              OptInt              `json:"Count"`
-	Total              OptInt              `json:"Total"`
-	CommonServiceItems []CommonServiceItem `json:"CommonServiceItems"`
-	IsOk               OptBool             `json:"is_ok"`
-}
-
-// GetFrom returns the value of From.
-func (s *GetCommonServiceItemsOK) GetFrom() OptInt {
-	return s.From
-}
-
-// GetCount returns the value of Count.
-func (s *GetCommonServiceItemsOK) GetCount() OptInt {
-	return s.Count
-}
-
-// GetTotal returns the value of Total.
-func (s *GetCommonServiceItemsOK) GetTotal() OptInt {
-	return s.Total
-}
-
-// GetCommonServiceItems returns the value of CommonServiceItems.
-func (s *GetCommonServiceItemsOK) GetCommonServiceItems() []CommonServiceItem {
-	return s.CommonServiceItems
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetCommonServiceItemsOK) GetIsOk() OptBool {
-	return s.IsOk
-}
-
-// SetFrom sets the value of From.
-func (s *GetCommonServiceItemsOK) SetFrom(val OptInt) {
-	s.From = val
-}
-
-// SetCount sets the value of Count.
-func (s *GetCommonServiceItemsOK) SetCount(val OptInt) {
-	s.Count = val
-}
-
-// SetTotal sets the value of Total.
-func (s *GetCommonServiceItemsOK) SetTotal(val OptInt) {
-	s.Total = val
-}
-
-// SetCommonServiceItems sets the value of CommonServiceItems.
-func (s *GetCommonServiceItemsOK) SetCommonServiceItems(val []CommonServiceItem) {
-	s.CommonServiceItems = val
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetCommonServiceItemsOK) SetIsOk(val OptBool) {
-	s.IsOk = val
-}
-
-func (*GetCommonServiceItemsOK) getCommonServiceItemsRes() {}
-
-type GetCommonServiceItemsUnauthorized Error
-
-func (*GetCommonServiceItemsUnauthorized) getCommonServiceItemsRes() {}
-
 // Ref: #/components/schemas/Icon
 type Icon struct {
 	ID    OptString `json:"ID"`
@@ -618,6 +503,78 @@ func (s *Icon) SetScope(val OptString) {
 func (s *Icon) SetTags(val []string) {
 	s.Tags = val
 }
+
+type ListCommonServiceItemsBadRequest Error
+
+func (*ListCommonServiceItemsBadRequest) listCommonServiceItemsRes() {}
+
+type ListCommonServiceItemsInternalServerError Error
+
+func (*ListCommonServiceItemsInternalServerError) listCommonServiceItemsRes() {}
+
+type ListCommonServiceItemsOK struct {
+	From               OptInt              `json:"From"`
+	Count              OptInt              `json:"Count"`
+	Total              OptInt              `json:"Total"`
+	CommonServiceItems []CommonServiceItem `json:"CommonServiceItems"`
+	IsOk               OptBool             `json:"is_ok"`
+}
+
+// GetFrom returns the value of From.
+func (s *ListCommonServiceItemsOK) GetFrom() OptInt {
+	return s.From
+}
+
+// GetCount returns the value of Count.
+func (s *ListCommonServiceItemsOK) GetCount() OptInt {
+	return s.Count
+}
+
+// GetTotal returns the value of Total.
+func (s *ListCommonServiceItemsOK) GetTotal() OptInt {
+	return s.Total
+}
+
+// GetCommonServiceItems returns the value of CommonServiceItems.
+func (s *ListCommonServiceItemsOK) GetCommonServiceItems() []CommonServiceItem {
+	return s.CommonServiceItems
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListCommonServiceItemsOK) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// SetFrom sets the value of From.
+func (s *ListCommonServiceItemsOK) SetFrom(val OptInt) {
+	s.From = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListCommonServiceItemsOK) SetCount(val OptInt) {
+	s.Count = val
+}
+
+// SetTotal sets the value of Total.
+func (s *ListCommonServiceItemsOK) SetTotal(val OptInt) {
+	s.Total = val
+}
+
+// SetCommonServiceItems sets the value of CommonServiceItems.
+func (s *ListCommonServiceItemsOK) SetCommonServiceItems(val []CommonServiceItem) {
+	s.CommonServiceItems = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListCommonServiceItemsOK) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+func (*ListCommonServiceItemsOK) listCommonServiceItemsRes() {}
+
+type ListCommonServiceItemsUnauthorized Error
+
+func (*ListCommonServiceItemsUnauthorized) listCommonServiceItemsRes() {}
 
 // NewOptBool returns new OptBool with value set to v.
 func NewOptBool(v bool) OptBool {
@@ -1453,6 +1410,49 @@ func (s *ProviderClass) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+type ReadCommonServiceItemBadRequest Error
+
+func (*ReadCommonServiceItemBadRequest) readCommonServiceItemRes() {}
+
+type ReadCommonServiceItemInternalServerError Error
+
+func (*ReadCommonServiceItemInternalServerError) readCommonServiceItemRes() {}
+
+type ReadCommonServiceItemNotFound Error
+
+func (*ReadCommonServiceItemNotFound) readCommonServiceItemRes() {}
+
+type ReadCommonServiceItemOK struct {
+	CommonServiceItem CommonServiceItem `json:"CommonServiceItem"`
+	IsOk              OptBool           `json:"is_ok"`
+}
+
+// GetCommonServiceItem returns the value of CommonServiceItem.
+func (s *ReadCommonServiceItemOK) GetCommonServiceItem() CommonServiceItem {
+	return s.CommonServiceItem
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadCommonServiceItemOK) GetIsOk() OptBool {
+	return s.IsOk
+}
+
+// SetCommonServiceItem sets the value of CommonServiceItem.
+func (s *ReadCommonServiceItemOK) SetCommonServiceItem(val CommonServiceItem) {
+	s.CommonServiceItem = val
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadCommonServiceItemOK) SetIsOk(val OptBool) {
+	s.IsOk = val
+}
+
+func (*ReadCommonServiceItemOK) readCommonServiceItemRes() {}
+
+type ReadCommonServiceItemUnauthorized Error
+
+func (*ReadCommonServiceItemUnauthorized) readCommonServiceItemRes() {}
 
 // Ref: #/components/schemas/SacloudAPISecret
 type SacloudAPISecret struct {

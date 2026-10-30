@@ -43,19 +43,19 @@ func NewProcessConfigurationOp(client *v1.Client) ProcessConfigurationAPI {
 
 func (op *processConfigurationOp) List(ctx context.Context) ([]v1.CommonServiceItem, error) {
 	ctx = setFilterProviderClass(ctx, v1.ProviderClassEventbusprocessconfiguration)
-	res, err := op.client.GetCommonServiceItems(ctx)
+	res, err := op.client.ListCommonServiceItems(ctx)
 	if err != nil {
 		return nil, NewAPIError("ProcessConfiguration.List", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.GetCommonServiceItemsOK:
+	case *v1.ListCommonServiceItemsOK:
 		return p.CommonServiceItems, nil
-	case *v1.GetCommonServiceItemsUnauthorized:
+	case *v1.ListCommonServiceItemsUnauthorized:
 		return nil, NewAPIError("ProcessConfiguration.List", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemsBadRequest:
+	case *v1.ListCommonServiceItemsBadRequest:
 		return nil, NewAPIError("ProcessConfiguration.List", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemsInternalServerError:
+	case *v1.ListCommonServiceItemsInternalServerError:
 		return nil, NewAPIError("ProcessConfiguration.List", 500, errors.New(p.ErrorMsg.Value))
 	default:
 		return nil, NewAPIError("ProcessConfiguration.List", 0, nil)
@@ -63,21 +63,21 @@ func (op *processConfigurationOp) List(ctx context.Context) ([]v1.CommonServiceI
 }
 
 func (op *processConfigurationOp) Read(ctx context.Context, id string) (*v1.CommonServiceItem, error) {
-	res, err := op.client.GetCommonServiceItem(ctx, v1.GetCommonServiceItemParams{ID: id})
+	res, err := op.client.ReadCommonServiceItem(ctx, v1.ReadCommonServiceItemParams{ID: id})
 	if err != nil {
 		return nil, NewAPIError("ProcessConfiguration.Read", 0, err)
 	}
 
 	switch p := res.(type) {
-	case *v1.GetCommonServiceItemOK:
+	case *v1.ReadCommonServiceItemOK:
 		return &p.CommonServiceItem, nil
-	case *v1.GetCommonServiceItemUnauthorized:
+	case *v1.ReadCommonServiceItemUnauthorized:
 		return nil, NewAPIError("ProcessConfiguration.Read", 401, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemBadRequest:
+	case *v1.ReadCommonServiceItemBadRequest:
 		return nil, NewAPIError("ProcessConfiguration.Read", 400, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemNotFound:
+	case *v1.ReadCommonServiceItemNotFound:
 		return nil, NewAPIError("ProcessConfiguration.Read", 404, errors.New(p.ErrorMsg.Value))
-	case *v1.GetCommonServiceItemInternalServerError:
+	case *v1.ReadCommonServiceItemInternalServerError:
 		return nil, NewAPIError("ProcessConfiguration.Read", 500, errors.New(p.ErrorMsg.Value))
 	default:
 		return nil, NewAPIError("CommonServiceItem.Read", 0, nil)

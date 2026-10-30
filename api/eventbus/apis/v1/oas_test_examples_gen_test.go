@@ -214,114 +214,6 @@ func TestError_Examples(t *testing.T) {
 		})
 	}
 }
-func TestGetCommonServiceItemBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemNotFound_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemNotFound
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemNotFound
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemOK_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemsBadRequest_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemsBadRequest
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemsBadRequest
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemsInternalServerError_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemsInternalServerError
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemsInternalServerError
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemsOK_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemsOK
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemsOK
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
-func TestGetCommonServiceItemsUnauthorized_EncodeDecode(t *testing.T) {
-	var typ GetCommonServiceItemsUnauthorized
-	typ.SetFake()
-
-	e := jx.Encoder{}
-	typ.Encode(&e)
-	data := e.Bytes()
-	require.True(t, std.Valid(data), "Encoded: %s", data)
-
-	var typ2 GetCommonServiceItemsUnauthorized
-	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
-}
 func TestIcon_EncodeDecode(t *testing.T) {
 	var typ Icon
 	typ.SetFake()
@@ -332,6 +224,54 @@ func TestIcon_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 Icon
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListCommonServiceItemsBadRequest_EncodeDecode(t *testing.T) {
+	var typ ListCommonServiceItemsBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListCommonServiceItemsBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListCommonServiceItemsInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ListCommonServiceItemsInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListCommonServiceItemsInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListCommonServiceItemsOK_EncodeDecode(t *testing.T) {
+	var typ ListCommonServiceItemsOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListCommonServiceItemsOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestListCommonServiceItemsUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ListCommonServiceItemsUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ListCommonServiceItemsUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestProcessConfigurationSettings_EncodeDecode(t *testing.T) {
@@ -380,6 +320,66 @@ func TestProviderClass_EncodeDecode(t *testing.T) {
 	require.True(t, std.Valid(data), "Encoded: %s", data)
 
 	var typ2 ProviderClass
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadCommonServiceItemBadRequest_EncodeDecode(t *testing.T) {
+	var typ ReadCommonServiceItemBadRequest
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadCommonServiceItemBadRequest
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadCommonServiceItemInternalServerError_EncodeDecode(t *testing.T) {
+	var typ ReadCommonServiceItemInternalServerError
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadCommonServiceItemInternalServerError
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadCommonServiceItemNotFound_EncodeDecode(t *testing.T) {
+	var typ ReadCommonServiceItemNotFound
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadCommonServiceItemNotFound
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadCommonServiceItemOK_EncodeDecode(t *testing.T) {
+	var typ ReadCommonServiceItemOK
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadCommonServiceItemOK
+	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
+}
+func TestReadCommonServiceItemUnauthorized_EncodeDecode(t *testing.T) {
+	var typ ReadCommonServiceItemUnauthorized
+	typ.SetFake()
+
+	e := jx.Encoder{}
+	typ.Encode(&e)
+	data := e.Bytes()
+	require.True(t, std.Valid(data), "Encoded: %s", data)
+
+	var typ2 ReadCommonServiceItemUnauthorized
 	require.NoError(t, typ2.Decode(jx.DecodeBytes(data)))
 }
 func TestSacloudAPISecret_EncodeDecode(t *testing.T) {
