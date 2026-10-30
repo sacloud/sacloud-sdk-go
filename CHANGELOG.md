@@ -1,5 +1,31 @@
 # Changelog
 
+## [v0.5.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.4.0...v0.5.0) - 2026-10-30
+
+### 🚀 New Features
+- feat(simple-notification): 公式OpenAPI定義に追従する by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/294
+- api/apprun-dedicated: openapi.json 1.4.0 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/295
+- Update NoSQL API client by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/306
+- eventbus: Update OpenAPI spec to v1.1.0 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/315
+- monitoring-suite: Update OpenAPI spec to v1.3.0 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/313
+- workflows: Update OpenAPI spec to v1.1.0 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/317
+### ✨ Ordinary Updates
+- fix(openapi-drift): 差分検出時も成功終了する by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/293
+- common/packages: add `into.OptNonnilArray` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/297
+- saclient: Use default value when rate limit value is 0 by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/298
+- fix(saclient): errorトレースモードでリクエストが失敗した際にpanicしない by @tokuhirom in https://github.com/sacloud/sacloud-sdk-go/pull/305
+- gzip_expander: Need to close source body by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/307
+- common/saclient: refactor hoist out `optionSome` by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/308
+- openapi-drift: use other mark for same versiion but local diff case. by @repeatedly in https://github.com/sacloud/sacloud-sdk-go/pull/314
+- go.mod: toolchain go1.27.3 by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/301
+- common/saclient: allow group-readable private key files by @shyouhei in https://github.com/sacloud/sacloud-sdk-go/pull/311
+### 📦 Dependency Updates
+- go: bump golang.org/x/crypto from 0.57.0 to 0.58.0 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/292
+- ci: bump Songmu/tagpr from 1.21.2 to 1.21.3 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/303
+- ci: bump github/codeql-action/upload-sarif from 4.38.3 to 4.39.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/312
+- go: bump github.com/sacloud/sacloud-sdk-go from 0.3.0 to 0.4.0 in /api/iaas/trace/otel by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/309
+- go: bump github.com/minio/minio-go/v7 from 7.3.0 to 7.4.1 by @dependabot[bot] in https://github.com/sacloud/sacloud-sdk-go/pull/299
+
 ## [v0.4.0](https://github.com/sacloud/sacloud-sdk-go/compare/v0.3.1...v0.4.0) - 2026-10-19
 
 ### 🚀 New Features
