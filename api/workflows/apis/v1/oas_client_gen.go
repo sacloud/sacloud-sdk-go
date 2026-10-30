@@ -34,6 +34,12 @@ type Invoker interface {
 	//
 	// POST /workflows/{id}/executions
 	CreateExecution(ctx context.Context, request OptCreateExecutionReq, params CreateExecutionParams) (CreateExecutionRes, error)
+	// CreateRevision invokes createRevision operation.
+	//
+	// ワークフローのリビジョンを追加する.
+	//
+	// POST /workflows/{id}/revisions
+	CreateRevision(ctx context.Context, request *CreateRevisionReq, params CreateRevisionParams) (CreateRevisionRes, error)
 	// CreateSubscription invokes createSubscription operation.
 	//
 	// ワークフローの課金プランの設定をする.
@@ -46,18 +52,18 @@ type Invoker interface {
 	//
 	// POST /workflows
 	CreateWorkflow(ctx context.Context, request *CreateWorkflowReq) (CreateWorkflowRes, error)
-	// CreateWorkflowRevision invokes createWorkflowRevision operation.
-	//
-	// ワークフローのリビジョンを追加する.
-	//
-	// POST /workflows/{id}/revisions
-	CreateWorkflowRevision(ctx context.Context, request *CreateWorkflowRevisionReq, params CreateWorkflowRevisionParams) (CreateWorkflowRevisionRes, error)
 	// DeleteExecution invokes deleteExecution operation.
 	//
 	// ワークフローの実行を削除する.
 	//
 	// DELETE /workflows/{id}/executions/{executionId}
 	DeleteExecution(ctx context.Context, params DeleteExecutionParams) (DeleteExecutionRes, error)
+	// DeleteRevisionAlias invokes deleteRevisionAlias operation.
+	//
+	// ワークフローのリビジョンエイリアスを削除する.
+	//
+	// DELETE /workflows/{id}/revisions/{revisionId}/revision_alias
+	DeleteRevisionAlias(ctx context.Context, params DeleteRevisionAliasParams) (DeleteRevisionAliasRes, error)
 	// DeleteSubscription invokes deleteSubscription operation.
 	//
 	// ワークフローの課金プランの削除をする.
@@ -70,84 +76,78 @@ type Invoker interface {
 	//
 	// DELETE /workflows/{id}
 	DeleteWorkflow(ctx context.Context, params DeleteWorkflowParams) (DeleteWorkflowRes, error)
-	// DeleteWorkflowRevisionAlias invokes deleteWorkflowRevisionAlias operation.
-	//
-	// ワークフローのリビジョンエイリアスを削除する.
-	//
-	// DELETE /workflows/{id}/revisions/{revisionId}/revision_alias
-	DeleteWorkflowRevisionAlias(ctx context.Context, params DeleteWorkflowRevisionAliasParams) (DeleteWorkflowRevisionAliasRes, error)
-	// GetExecution invokes getExecution operation.
-	//
-	// ワークフローの実行を取得する.
-	//
-	// GET /workflows/{id}/executions/{executionId}
-	GetExecution(ctx context.Context, params GetExecutionParams) (GetExecutionRes, error)
-	// GetSubscription invokes getSubscription operation.
-	//
-	// ワークフローの課金プランの取得をする.
-	//
-	// GET /subscriptions
-	GetSubscription(ctx context.Context) (GetSubscriptionRes, error)
-	// GetWorkflow invokes getWorkflow operation.
-	//
-	// ワークフローを取得する.
-	//
-	// GET /workflows/{id}
-	GetWorkflow(ctx context.Context, params GetWorkflowParams) (GetWorkflowRes, error)
-	// GetWorkflowRevisions invokes getWorkflowRevisions operation.
-	//
-	// ワークフローのリビジョンを取得する.
-	//
-	// GET /workflows/{id}/revisions/{revisionId}
-	GetWorkflowRevisions(ctx context.Context, params GetWorkflowRevisionsParams) (GetWorkflowRevisionsRes, error)
-	// ListExecution invokes listExecution operation.
-	//
-	// ワークフローの実行の一覧を取得する.
-	//
-	// GET /workflows/{id}/executions
-	ListExecution(ctx context.Context, params ListExecutionParams) (ListExecutionRes, error)
-	// ListExecutionHistory invokes listExecutionHistory operation.
+	// ListExecutionHistories invokes listExecutionHistories operation.
 	//
 	// ワークフローの実行履歴を取得する.
 	//
 	// GET /workflows/{id}/executions/{executionId}/exec_history
-	ListExecutionHistory(ctx context.Context, params ListExecutionHistoryParams) (ListExecutionHistoryRes, error)
+	ListExecutionHistories(ctx context.Context, params ListExecutionHistoriesParams) (ListExecutionHistoriesRes, error)
+	// ListExecutions invokes listExecutions operation.
+	//
+	// ワークフローの実行の一覧を取得する.
+	//
+	// GET /workflows/{id}/executions
+	ListExecutions(ctx context.Context, params ListExecutionsParams) (ListExecutionsRes, error)
 	// ListPlans invokes listPlans operation.
 	//
 	// 現在契約可能な Workflows の料金プランの一覧を取得します。.
 	//
 	// GET /plans
 	ListPlans(ctx context.Context) (ListPlansRes, error)
-	// ListWorkflow invokes listWorkflow operation.
-	//
-	// ワークフローの一覧を取得する.
-	//
-	// GET /workflows
-	ListWorkflow(ctx context.Context, params ListWorkflowParams) (ListWorkflowRes, error)
-	// ListWorkflowRevisions invokes listWorkflowRevisions operation.
+	// ListRevisions invokes listRevisions operation.
 	//
 	// ワークフローのリビジョンの一覧を取得する.
 	//
 	// GET /workflows/{id}/revisions
-	ListWorkflowRevisions(ctx context.Context, params ListWorkflowRevisionsParams) (ListWorkflowRevisionsRes, error)
-	// ListWorkflowSuggest invokes listWorkflowSuggest operation.
+	ListRevisions(ctx context.Context, params ListRevisionsParams) (ListRevisionsRes, error)
+	// ListSuggestions invokes listSuggestions operation.
 	//
 	// ワークフローのサジェストを取得する.
 	//
 	// GET /workflows/suggest
-	ListWorkflowSuggest(ctx context.Context, params ListWorkflowSuggestParams) (ListWorkflowSuggestRes, error)
-	// UpdateWorkflow invokes updateWorkflow operation.
+	ListSuggestions(ctx context.Context, params ListSuggestionsParams) (ListSuggestionsRes, error)
+	// ListWorkflows invokes listWorkflows operation.
+	//
+	// ワークフローの一覧を取得する.
+	//
+	// GET /workflows
+	ListWorkflows(ctx context.Context, params ListWorkflowsParams) (ListWorkflowsRes, error)
+	// PatchWorkflow invokes patchWorkflow operation.
 	//
 	// ワークフローを更新する.
 	//
 	// PATCH /workflows/{id}
-	UpdateWorkflow(ctx context.Context, request *UpdateWorkflowReq, params UpdateWorkflowParams) (UpdateWorkflowRes, error)
-	// UpdateWorkflowRevisionAlias invokes updateWorkflowRevisionAlias operation.
+	PatchWorkflow(ctx context.Context, request *PatchWorkflowReq, params PatchWorkflowParams) (PatchWorkflowRes, error)
+	// ReadExecution invokes readExecution operation.
+	//
+	// ワークフローの実行を取得する.
+	//
+	// GET /workflows/{id}/executions/{executionId}
+	ReadExecution(ctx context.Context, params ReadExecutionParams) (ReadExecutionRes, error)
+	// ReadRevision invokes readRevision operation.
+	//
+	// ワークフローのリビジョンを取得する.
+	//
+	// GET /workflows/{id}/revisions/{revisionId}
+	ReadRevision(ctx context.Context, params ReadRevisionParams) (ReadRevisionRes, error)
+	// ReadSubscription invokes readSubscription operation.
+	//
+	// ワークフローの課金プランの取得をする.
+	//
+	// GET /subscriptions
+	ReadSubscription(ctx context.Context) (ReadSubscriptionRes, error)
+	// ReadWorkflow invokes readWorkflow operation.
+	//
+	// ワークフローを取得する.
+	//
+	// GET /workflows/{id}
+	ReadWorkflow(ctx context.Context, params ReadWorkflowParams) (ReadWorkflowRes, error)
+	// UpdateRevisionAlias invokes updateRevisionAlias operation.
 	//
 	// ワークフローのリビジョンエイリアスを更新する.
 	//
 	// PUT /workflows/{id}/revisions/{revisionId}/revision_alias
-	UpdateWorkflowRevisionAlias(ctx context.Context, request *UpdateWorkflowRevisionAliasReq, params UpdateWorkflowRevisionAliasParams) (UpdateWorkflowRevisionAliasRes, error)
+	UpdateRevisionAlias(ctx context.Context, request *UpdateRevisionAliasReq, params UpdateRevisionAliasParams) (UpdateRevisionAliasRes, error)
 }
 
 // Client implements OAS client.
@@ -419,6 +419,113 @@ func (c *Client) sendCreateExecution(ctx context.Context, request OptCreateExecu
 	return result, nil
 }
 
+// CreateRevision invokes createRevision operation.
+//
+// ワークフローのリビジョンを追加する.
+//
+// POST /workflows/{id}/revisions
+func (c *Client) CreateRevision(ctx context.Context, request *CreateRevisionReq, params CreateRevisionParams) (CreateRevisionRes, error) {
+	res, err := c.sendCreateRevision(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateRevision(ctx context.Context, request *CreateRevisionReq, params CreateRevisionParams) (res CreateRevisionRes, err error) {
+	// Validate request before sending.
+	if err := func() error {
+		if err := request.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/workflows/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/revisions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateRevisionRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, CreateRevisionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeCreateRevisionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateSubscription invokes createSubscription operation.
 //
 // ワークフローの課金プランの設定をする.
@@ -595,113 +702,6 @@ func (c *Client) sendCreateWorkflow(ctx context.Context, request *CreateWorkflow
 	return result, nil
 }
 
-// CreateWorkflowRevision invokes createWorkflowRevision operation.
-//
-// ワークフローのリビジョンを追加する.
-//
-// POST /workflows/{id}/revisions
-func (c *Client) CreateWorkflowRevision(ctx context.Context, request *CreateWorkflowRevisionReq, params CreateWorkflowRevisionParams) (CreateWorkflowRevisionRes, error) {
-	res, err := c.sendCreateWorkflowRevision(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendCreateWorkflowRevision(ctx context.Context, request *CreateWorkflowRevisionReq, params CreateWorkflowRevisionParams) (res CreateWorkflowRevisionRes, err error) {
-	// Validate request before sending.
-	if err := func() error {
-		if err := request.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		return res, errors.Wrap(err, "validate")
-	}
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/workflows/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/revisions"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateWorkflowRevisionRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, CreateWorkflowRevisionOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeCreateWorkflowRevisionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // DeleteExecution invokes deleteExecution operation.
 //
 // ワークフローの実行を削除する.
@@ -808,6 +808,120 @@ func (c *Client) sendDeleteExecution(ctx context.Context, params DeleteExecution
 	}()
 
 	result, err := decodeDeleteExecutionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteRevisionAlias invokes deleteRevisionAlias operation.
+//
+// ワークフローのリビジョンエイリアスを削除する.
+//
+// DELETE /workflows/{id}/revisions/{revisionId}/revision_alias
+func (c *Client) DeleteRevisionAlias(ctx context.Context, params DeleteRevisionAliasParams) (DeleteRevisionAliasRes, error) {
+	res, err := c.sendDeleteRevisionAlias(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteRevisionAlias(ctx context.Context, params DeleteRevisionAliasParams) (res DeleteRevisionAliasRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/workflows/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/revisions/"
+	{
+		// Encode "revisionId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "revisionId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.IntToString(params.RevisionId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/revision_alias"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, DeleteRevisionAliasOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeDeleteRevisionAliasResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -985,676 +1099,17 @@ func (c *Client) sendDeleteWorkflow(ctx context.Context, params DeleteWorkflowPa
 	return result, nil
 }
 
-// DeleteWorkflowRevisionAlias invokes deleteWorkflowRevisionAlias operation.
-//
-// ワークフローのリビジョンエイリアスを削除する.
-//
-// DELETE /workflows/{id}/revisions/{revisionId}/revision_alias
-func (c *Client) DeleteWorkflowRevisionAlias(ctx context.Context, params DeleteWorkflowRevisionAliasParams) (DeleteWorkflowRevisionAliasRes, error) {
-	res, err := c.sendDeleteWorkflowRevisionAlias(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendDeleteWorkflowRevisionAlias(ctx context.Context, params DeleteWorkflowRevisionAliasParams) (res DeleteWorkflowRevisionAliasRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/workflows/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/revisions/"
-	{
-		// Encode "revisionId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "revisionId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.RevisionId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/revision_alias"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, DeleteWorkflowRevisionAliasOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeDeleteWorkflowRevisionAliasResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetExecution invokes getExecution operation.
-//
-// ワークフローの実行を取得する.
-//
-// GET /workflows/{id}/executions/{executionId}
-func (c *Client) GetExecution(ctx context.Context, params GetExecutionParams) (GetExecutionRes, error) {
-	res, err := c.sendGetExecution(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetExecution(ctx context.Context, params GetExecutionParams) (res GetExecutionRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/workflows/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/executions/"
-	{
-		// Encode "executionId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "executionId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ExecutionId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, GetExecutionOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetExecutionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetSubscription invokes getSubscription operation.
-//
-// ワークフローの課金プランの取得をする.
-//
-// GET /subscriptions
-func (c *Client) GetSubscription(ctx context.Context) (GetSubscriptionRes, error) {
-	res, err := c.sendGetSubscription(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetSubscription(ctx context.Context) (res GetSubscriptionRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/subscriptions"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, GetSubscriptionOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetSubscriptionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetWorkflow invokes getWorkflow operation.
-//
-// ワークフローを取得する.
-//
-// GET /workflows/{id}
-func (c *Client) GetWorkflow(ctx context.Context, params GetWorkflowParams) (GetWorkflowRes, error) {
-	res, err := c.sendGetWorkflow(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetWorkflow(ctx context.Context, params GetWorkflowParams) (res GetWorkflowRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/workflows/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, GetWorkflowOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetWorkflowResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetWorkflowRevisions invokes getWorkflowRevisions operation.
-//
-// ワークフローのリビジョンを取得する.
-//
-// GET /workflows/{id}/revisions/{revisionId}
-func (c *Client) GetWorkflowRevisions(ctx context.Context, params GetWorkflowRevisionsParams) (GetWorkflowRevisionsRes, error) {
-	res, err := c.sendGetWorkflowRevisions(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetWorkflowRevisions(ctx context.Context, params GetWorkflowRevisionsParams) (res GetWorkflowRevisionsRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/workflows/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/revisions/"
-	{
-		// Encode "revisionId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "revisionId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.IntToString(params.RevisionId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, GetWorkflowRevisionsOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeGetWorkflowRevisionsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ListExecution invokes listExecution operation.
-//
-// ワークフローの実行の一覧を取得する.
-//
-// GET /workflows/{id}/executions
-func (c *Client) ListExecution(ctx context.Context, params ListExecutionParams) (ListExecutionRes, error) {
-	res, err := c.sendListExecution(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendListExecution(ctx context.Context, params ListExecutionParams) (res ListExecutionRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/workflows/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/executions"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "Page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Page",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "PageLimit" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "PageLimit",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.PageLimit.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "Order" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Order",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Order.Get(); ok {
-				return e.EncodeValue(conv.StringToString(string(val)))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, ListExecutionOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeListExecutionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ListExecutionHistory invokes listExecutionHistory operation.
+// ListExecutionHistories invokes listExecutionHistories operation.
 //
 // ワークフローの実行履歴を取得する.
 //
 // GET /workflows/{id}/executions/{executionId}/exec_history
-func (c *Client) ListExecutionHistory(ctx context.Context, params ListExecutionHistoryParams) (ListExecutionHistoryRes, error) {
-	res, err := c.sendListExecutionHistory(ctx, params)
+func (c *Client) ListExecutionHistories(ctx context.Context, params ListExecutionHistoriesParams) (ListExecutionHistoriesRes, error) {
+	res, err := c.sendListExecutionHistories(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListExecutionHistory(ctx context.Context, params ListExecutionHistoryParams) (res ListExecutionHistoryRes, err error) {
+func (c *Client) sendListExecutionHistories(ctx context.Context, params ListExecutionHistoriesParams) (res ListExecutionHistoriesRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -1763,7 +1218,7 @@ func (c *Client) sendListExecutionHistory(ctx context.Context, params ListExecut
 		var satisfied bitset
 		{
 
-			switch err := c.securityApiKeyAuth(ctx, ListExecutionHistoryOperation, r); {
+			switch err := c.securityApiKeyAuth(ctx, ListExecutionHistoriesOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1804,7 +1259,156 @@ func (c *Client) sendListExecutionHistory(ctx context.Context, params ListExecut
 		_ = body.Close()
 	}()
 
-	result, err := decodeListExecutionHistoryResponse(resp)
+	result, err := decodeListExecutionHistoriesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListExecutions invokes listExecutions operation.
+//
+// ワークフローの実行の一覧を取得する.
+//
+// GET /workflows/{id}/executions
+func (c *Client) ListExecutions(ctx context.Context, params ListExecutionsParams) (ListExecutionsRes, error) {
+	res, err := c.sendListExecutions(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListExecutions(ctx context.Context, params ListExecutionsParams) (res ListExecutionsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/workflows/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/executions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Page",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "PageLimit" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "PageLimit",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageLimit.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "Order" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Order",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Order.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ListExecutionsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListExecutionsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1888,17 +1492,361 @@ func (c *Client) sendListPlans(ctx context.Context) (res ListPlansRes, err error
 	return result, nil
 }
 
-// ListWorkflow invokes listWorkflow operation.
+// ListRevisions invokes listRevisions operation.
+//
+// ワークフローのリビジョンの一覧を取得する.
+//
+// GET /workflows/{id}/revisions
+func (c *Client) ListRevisions(ctx context.Context, params ListRevisionsParams) (ListRevisionsRes, error) {
+	res, err := c.sendListRevisions(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListRevisions(ctx context.Context, params ListRevisionsParams) (res ListRevisionsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/workflows/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/revisions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Page",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "PageLimit" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "PageLimit",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageLimit.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "SortBy" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "SortBy",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.SortBy.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "Order" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Order",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Order.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "Published" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Published",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Published.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ListRevisionsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListRevisionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListSuggestions invokes listSuggestions operation.
+//
+// ワークフローのサジェストを取得する.
+//
+// GET /workflows/suggest
+func (c *Client) ListSuggestions(ctx context.Context, params ListSuggestionsParams) (ListSuggestionsRes, error) {
+	res, err := c.sendListSuggestions(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendListSuggestions(ctx context.Context, params ListSuggestionsParams) (res ListSuggestionsRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/workflows/suggest"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "Name" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Name",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.Name))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "Page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Page",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "PageLimit" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "PageLimit",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.PageLimit.Get(); ok {
+				return e.EncodeValue(conv.IntToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "SortBy" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "SortBy",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.SortBy.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "Order" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "Order",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Order.Get(); ok {
+				return e.EncodeValue(conv.StringToString(string(val)))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ListSuggestionsOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeListSuggestionsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ListWorkflows invokes listWorkflows operation.
 //
 // ワークフローの一覧を取得する.
 //
 // GET /workflows
-func (c *Client) ListWorkflow(ctx context.Context, params ListWorkflowParams) (ListWorkflowRes, error) {
-	res, err := c.sendListWorkflow(ctx, params)
+func (c *Client) ListWorkflows(ctx context.Context, params ListWorkflowsParams) (ListWorkflowsRes, error) {
+	res, err := c.sendListWorkflows(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendListWorkflow(ctx context.Context, params ListWorkflowParams) (res ListWorkflowRes, err error) {
+func (c *Client) sendListWorkflows(ctx context.Context, params ListWorkflowsParams) (res ListWorkflowsRes, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -2037,7 +1985,7 @@ func (c *Client) sendListWorkflow(ctx context.Context, params ListWorkflowParams
 		var satisfied bitset
 		{
 
-			switch err := c.securityApiKeyAuth(ctx, ListWorkflowOperation, r); {
+			switch err := c.securityApiKeyAuth(ctx, ListWorkflowsOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -2078,7 +2026,7 @@ func (c *Client) sendListWorkflow(ctx context.Context, params ListWorkflowParams
 		_ = body.Close()
 	}()
 
-	result, err := decodeListWorkflowResponse(resp)
+	result, err := decodeListWorkflowsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2086,361 +2034,17 @@ func (c *Client) sendListWorkflow(ctx context.Context, params ListWorkflowParams
 	return result, nil
 }
 
-// ListWorkflowRevisions invokes listWorkflowRevisions operation.
-//
-// ワークフローのリビジョンの一覧を取得する.
-//
-// GET /workflows/{id}/revisions
-func (c *Client) ListWorkflowRevisions(ctx context.Context, params ListWorkflowRevisionsParams) (ListWorkflowRevisionsRes, error) {
-	res, err := c.sendListWorkflowRevisions(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendListWorkflowRevisions(ctx context.Context, params ListWorkflowRevisionsParams) (res ListWorkflowRevisionsRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/workflows/"
-	{
-		// Encode "id" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "id",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ID))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/revisions"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "Page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Page",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "PageLimit" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "PageLimit",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.PageLimit.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "SortBy" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "SortBy",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.SortBy.Get(); ok {
-				return e.EncodeValue(conv.StringToString(string(val)))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "Order" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Order",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Order.Get(); ok {
-				return e.EncodeValue(conv.StringToString(string(val)))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "Published" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Published",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Published.Get(); ok {
-				return e.EncodeValue(conv.BoolToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, ListWorkflowRevisionsOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeListWorkflowRevisionsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ListWorkflowSuggest invokes listWorkflowSuggest operation.
-//
-// ワークフローのサジェストを取得する.
-//
-// GET /workflows/suggest
-func (c *Client) ListWorkflowSuggest(ctx context.Context, params ListWorkflowSuggestParams) (ListWorkflowSuggestRes, error) {
-	res, err := c.sendListWorkflowSuggest(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendListWorkflowSuggest(ctx context.Context, params ListWorkflowSuggestParams) (res ListWorkflowSuggestRes, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/workflows/suggest"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "Name" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Name",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeValue(conv.StringToString(params.Name))
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "Page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Page",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "PageLimit" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "PageLimit",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.PageLimit.Get(); ok {
-				return e.EncodeValue(conv.IntToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "SortBy" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "SortBy",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.SortBy.Get(); ok {
-				return e.EncodeValue(conv.StringToString(string(val)))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "Order" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "Order",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Order.Get(); ok {
-				return e.EncodeValue(conv.StringToString(string(val)))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityApiKeyAuth(ctx, ListWorkflowSuggestOperation, r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	body := resp.Body
-	defer func() {
-		// Drain the body to EOF before closing, so the underlying
-		// connection can be reused by the Transport regardless of the
-		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
-		_, _ = io.Copy(io.Discard, body)
-		_ = body.Close()
-	}()
-
-	result, err := decodeListWorkflowSuggestResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// UpdateWorkflow invokes updateWorkflow operation.
+// PatchWorkflow invokes patchWorkflow operation.
 //
 // ワークフローを更新する.
 //
 // PATCH /workflows/{id}
-func (c *Client) UpdateWorkflow(ctx context.Context, request *UpdateWorkflowReq, params UpdateWorkflowParams) (UpdateWorkflowRes, error) {
-	res, err := c.sendUpdateWorkflow(ctx, request, params)
+func (c *Client) PatchWorkflow(ctx context.Context, request *PatchWorkflowReq, params PatchWorkflowParams) (PatchWorkflowRes, error) {
+	res, err := c.sendPatchWorkflow(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendUpdateWorkflow(ctx context.Context, request *UpdateWorkflowReq, params UpdateWorkflowParams) (res UpdateWorkflowRes, err error) {
+func (c *Client) sendPatchWorkflow(ctx context.Context, request *PatchWorkflowReq, params PatchWorkflowParams) (res PatchWorkflowRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -2478,7 +2082,7 @@ func (c *Client) sendUpdateWorkflow(ctx context.Context, request *UpdateWorkflow
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeUpdateWorkflowRequest(request, r); err != nil {
+	if err := encodePatchWorkflowRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -2487,7 +2091,7 @@ func (c *Client) sendUpdateWorkflow(ctx context.Context, request *UpdateWorkflow
 		var satisfied bitset
 		{
 
-			switch err := c.securityApiKeyAuth(ctx, UpdateWorkflowOperation, r); {
+			switch err := c.securityApiKeyAuth(ctx, PatchWorkflowOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -2528,7 +2132,7 @@ func (c *Client) sendUpdateWorkflow(ctx context.Context, request *UpdateWorkflow
 		_ = body.Close()
 	}()
 
-	result, err := decodeUpdateWorkflowResponse(resp)
+	result, err := decodePatchWorkflowResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2536,17 +2140,413 @@ func (c *Client) sendUpdateWorkflow(ctx context.Context, request *UpdateWorkflow
 	return result, nil
 }
 
-// UpdateWorkflowRevisionAlias invokes updateWorkflowRevisionAlias operation.
+// ReadExecution invokes readExecution operation.
+//
+// ワークフローの実行を取得する.
+//
+// GET /workflows/{id}/executions/{executionId}
+func (c *Client) ReadExecution(ctx context.Context, params ReadExecutionParams) (ReadExecutionRes, error) {
+	res, err := c.sendReadExecution(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadExecution(ctx context.Context, params ReadExecutionParams) (res ReadExecutionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/workflows/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/executions/"
+	{
+		// Encode "executionId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "executionId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ExecutionId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ReadExecutionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadExecutionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadRevision invokes readRevision operation.
+//
+// ワークフローのリビジョンを取得する.
+//
+// GET /workflows/{id}/revisions/{revisionId}
+func (c *Client) ReadRevision(ctx context.Context, params ReadRevisionParams) (ReadRevisionRes, error) {
+	res, err := c.sendReadRevision(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadRevision(ctx context.Context, params ReadRevisionParams) (res ReadRevisionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/workflows/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/revisions/"
+	{
+		// Encode "revisionId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "revisionId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.IntToString(params.RevisionId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ReadRevisionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadRevisionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadSubscription invokes readSubscription operation.
+//
+// ワークフローの課金プランの取得をする.
+//
+// GET /subscriptions
+func (c *Client) ReadSubscription(ctx context.Context) (ReadSubscriptionRes, error) {
+	res, err := c.sendReadSubscription(ctx)
+	return res, err
+}
+
+func (c *Client) sendReadSubscription(ctx context.Context) (res ReadSubscriptionRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/subscriptions"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ReadSubscriptionOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadSubscriptionResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ReadWorkflow invokes readWorkflow operation.
+//
+// ワークフローを取得する.
+//
+// GET /workflows/{id}
+func (c *Client) ReadWorkflow(ctx context.Context, params ReadWorkflowParams) (ReadWorkflowRes, error) {
+	res, err := c.sendReadWorkflow(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendReadWorkflow(ctx context.Context, params ReadWorkflowParams) (res ReadWorkflowRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/workflows/"
+	{
+		// Encode "id" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "id",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ID))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityApiKeyAuth(ctx, ReadWorkflowOperation, r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"ApiKeyAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	body := resp.Body
+	defer func() {
+		// Drain the body to EOF before closing, so the underlying
+		// connection can be reused by the Transport regardless of the
+		// response status code. See https://github.com/ogen-go/ogen/issues/1670.
+		_, _ = io.Copy(io.Discard, body)
+		_ = body.Close()
+	}()
+
+	result, err := decodeReadWorkflowResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateRevisionAlias invokes updateRevisionAlias operation.
 //
 // ワークフローのリビジョンエイリアスを更新する.
 //
 // PUT /workflows/{id}/revisions/{revisionId}/revision_alias
-func (c *Client) UpdateWorkflowRevisionAlias(ctx context.Context, request *UpdateWorkflowRevisionAliasReq, params UpdateWorkflowRevisionAliasParams) (UpdateWorkflowRevisionAliasRes, error) {
-	res, err := c.sendUpdateWorkflowRevisionAlias(ctx, request, params)
+func (c *Client) UpdateRevisionAlias(ctx context.Context, request *UpdateRevisionAliasReq, params UpdateRevisionAliasParams) (UpdateRevisionAliasRes, error) {
+	res, err := c.sendUpdateRevisionAlias(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendUpdateWorkflowRevisionAlias(ctx context.Context, request *UpdateWorkflowRevisionAliasReq, params UpdateWorkflowRevisionAliasParams) (res UpdateWorkflowRevisionAliasRes, err error) {
+func (c *Client) sendUpdateRevisionAlias(ctx context.Context, request *UpdateRevisionAliasReq, params UpdateRevisionAliasParams) (res UpdateRevisionAliasRes, err error) {
 	// Validate request before sending.
 	if err := func() error {
 		if err := request.Validate(); err != nil {
@@ -2604,7 +2604,7 @@ func (c *Client) sendUpdateWorkflowRevisionAlias(ctx context.Context, request *U
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeUpdateWorkflowRevisionAliasRequest(request, r); err != nil {
+	if err := encodeUpdateRevisionAliasRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -2613,7 +2613,7 @@ func (c *Client) sendUpdateWorkflowRevisionAlias(ctx context.Context, request *U
 		var satisfied bitset
 		{
 
-			switch err := c.securityApiKeyAuth(ctx, UpdateWorkflowRevisionAliasOperation, r); {
+			switch err := c.securityApiKeyAuth(ctx, UpdateRevisionAliasOperation, r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -2654,7 +2654,7 @@ func (c *Client) sendUpdateWorkflowRevisionAlias(ctx context.Context, request *U
 		_ = body.Close()
 	}()
 
-	result, err := decodeUpdateWorkflowRevisionAliasResponse(resp)
+	result, err := decodeUpdateRevisionAliasResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

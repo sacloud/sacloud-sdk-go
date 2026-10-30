@@ -2059,6 +2059,316 @@ func (s *CreateExecutionUnauthorized) SetMessage(val string) {
 
 func (*CreateExecutionUnauthorized) createExecutionRes() {}
 
+type CreateRevisionBadRequest struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateRevisionBadRequest) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateRevisionBadRequest) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateRevisionBadRequest) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateRevisionBadRequest) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateRevisionBadRequest) createRevisionRes() {}
+
+type CreateRevisionConflict struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateRevisionConflict) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateRevisionConflict) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateRevisionConflict) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateRevisionConflict) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateRevisionConflict) createRevisionRes() {}
+
+type CreateRevisionCreated struct {
+	IsOk     bool                          `json:"is_ok"`
+	Revision CreateRevisionCreatedRevision `json:"Revision"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateRevisionCreated) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetRevision returns the value of Revision.
+func (s *CreateRevisionCreated) GetRevision() CreateRevisionCreatedRevision {
+	return s.Revision
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateRevisionCreated) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetRevision sets the value of Revision.
+func (s *CreateRevisionCreated) SetRevision(val CreateRevisionCreatedRevision) {
+	s.Revision = val
+}
+
+func (*CreateRevisionCreated) createRevisionRes() {}
+
+type CreateRevisionCreatedRevision struct {
+	RevisionId    int       `json:"RevisionId"`
+	WorkflowId    string    `json:"WorkflowId"`
+	RevisionAlias OptString `json:"RevisionAlias"`
+	Runbook       string    `json:"Runbook"`
+	CreatedAt     time.Time `json:"CreatedAt"`
+	UpdatedAt     time.Time `json:"UpdatedAt"`
+}
+
+// GetRevisionId returns the value of RevisionId.
+func (s *CreateRevisionCreatedRevision) GetRevisionId() int {
+	return s.RevisionId
+}
+
+// GetWorkflowId returns the value of WorkflowId.
+func (s *CreateRevisionCreatedRevision) GetWorkflowId() string {
+	return s.WorkflowId
+}
+
+// GetRevisionAlias returns the value of RevisionAlias.
+func (s *CreateRevisionCreatedRevision) GetRevisionAlias() OptString {
+	return s.RevisionAlias
+}
+
+// GetRunbook returns the value of Runbook.
+func (s *CreateRevisionCreatedRevision) GetRunbook() string {
+	return s.Runbook
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *CreateRevisionCreatedRevision) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *CreateRevisionCreatedRevision) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// SetRevisionId sets the value of RevisionId.
+func (s *CreateRevisionCreatedRevision) SetRevisionId(val int) {
+	s.RevisionId = val
+}
+
+// SetWorkflowId sets the value of WorkflowId.
+func (s *CreateRevisionCreatedRevision) SetWorkflowId(val string) {
+	s.WorkflowId = val
+}
+
+// SetRevisionAlias sets the value of RevisionAlias.
+func (s *CreateRevisionCreatedRevision) SetRevisionAlias(val OptString) {
+	s.RevisionAlias = val
+}
+
+// SetRunbook sets the value of Runbook.
+func (s *CreateRevisionCreatedRevision) SetRunbook(val string) {
+	s.Runbook = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *CreateRevisionCreatedRevision) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *CreateRevisionCreatedRevision) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+type CreateRevisionForbidden struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateRevisionForbidden) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateRevisionForbidden) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateRevisionForbidden) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateRevisionForbidden) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateRevisionForbidden) createRevisionRes() {}
+
+type CreateRevisionInternalServerError struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateRevisionInternalServerError) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateRevisionInternalServerError) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateRevisionInternalServerError) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateRevisionInternalServerError) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateRevisionInternalServerError) createRevisionRes() {}
+
+type CreateRevisionNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateRevisionNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateRevisionNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateRevisionNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateRevisionNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateRevisionNotFound) createRevisionRes() {}
+
+type CreateRevisionPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateRevisionPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateRevisionPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateRevisionPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateRevisionPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateRevisionPaymentRequired) createRevisionRes() {}
+
+type CreateRevisionReq struct {
+	Runbook       string    `json:"Runbook"`
+	RevisionAlias OptString `json:"RevisionAlias"`
+}
+
+// GetRunbook returns the value of Runbook.
+func (s *CreateRevisionReq) GetRunbook() string {
+	return s.Runbook
+}
+
+// GetRevisionAlias returns the value of RevisionAlias.
+func (s *CreateRevisionReq) GetRevisionAlias() OptString {
+	return s.RevisionAlias
+}
+
+// SetRunbook sets the value of Runbook.
+func (s *CreateRevisionReq) SetRunbook(val string) {
+	s.Runbook = val
+}
+
+// SetRevisionAlias sets the value of RevisionAlias.
+func (s *CreateRevisionReq) SetRevisionAlias(val OptString) {
+	s.RevisionAlias = val
+}
+
+type CreateRevisionUnauthorized struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *CreateRevisionUnauthorized) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *CreateRevisionUnauthorized) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *CreateRevisionUnauthorized) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *CreateRevisionUnauthorized) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*CreateRevisionUnauthorized) createRevisionRes() {}
+
 type CreateSubscriptionBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -2852,316 +3162,6 @@ func (s *CreateWorkflowReqTagsItem) SetName(val string) {
 	s.Name = val
 }
 
-type CreateWorkflowRevisionBadRequest struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *CreateWorkflowRevisionBadRequest) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *CreateWorkflowRevisionBadRequest) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *CreateWorkflowRevisionBadRequest) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *CreateWorkflowRevisionBadRequest) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*CreateWorkflowRevisionBadRequest) createWorkflowRevisionRes() {}
-
-type CreateWorkflowRevisionConflict struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *CreateWorkflowRevisionConflict) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *CreateWorkflowRevisionConflict) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *CreateWorkflowRevisionConflict) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *CreateWorkflowRevisionConflict) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*CreateWorkflowRevisionConflict) createWorkflowRevisionRes() {}
-
-type CreateWorkflowRevisionCreated struct {
-	IsOk     bool                                  `json:"is_ok"`
-	Revision CreateWorkflowRevisionCreatedRevision `json:"Revision"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *CreateWorkflowRevisionCreated) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetRevision returns the value of Revision.
-func (s *CreateWorkflowRevisionCreated) GetRevision() CreateWorkflowRevisionCreatedRevision {
-	return s.Revision
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *CreateWorkflowRevisionCreated) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetRevision sets the value of Revision.
-func (s *CreateWorkflowRevisionCreated) SetRevision(val CreateWorkflowRevisionCreatedRevision) {
-	s.Revision = val
-}
-
-func (*CreateWorkflowRevisionCreated) createWorkflowRevisionRes() {}
-
-type CreateWorkflowRevisionCreatedRevision struct {
-	RevisionId    int       `json:"RevisionId"`
-	WorkflowId    string    `json:"WorkflowId"`
-	RevisionAlias OptString `json:"RevisionAlias"`
-	Runbook       string    `json:"Runbook"`
-	CreatedAt     time.Time `json:"CreatedAt"`
-	UpdatedAt     time.Time `json:"UpdatedAt"`
-}
-
-// GetRevisionId returns the value of RevisionId.
-func (s *CreateWorkflowRevisionCreatedRevision) GetRevisionId() int {
-	return s.RevisionId
-}
-
-// GetWorkflowId returns the value of WorkflowId.
-func (s *CreateWorkflowRevisionCreatedRevision) GetWorkflowId() string {
-	return s.WorkflowId
-}
-
-// GetRevisionAlias returns the value of RevisionAlias.
-func (s *CreateWorkflowRevisionCreatedRevision) GetRevisionAlias() OptString {
-	return s.RevisionAlias
-}
-
-// GetRunbook returns the value of Runbook.
-func (s *CreateWorkflowRevisionCreatedRevision) GetRunbook() string {
-	return s.Runbook
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *CreateWorkflowRevisionCreatedRevision) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *CreateWorkflowRevisionCreatedRevision) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// SetRevisionId sets the value of RevisionId.
-func (s *CreateWorkflowRevisionCreatedRevision) SetRevisionId(val int) {
-	s.RevisionId = val
-}
-
-// SetWorkflowId sets the value of WorkflowId.
-func (s *CreateWorkflowRevisionCreatedRevision) SetWorkflowId(val string) {
-	s.WorkflowId = val
-}
-
-// SetRevisionAlias sets the value of RevisionAlias.
-func (s *CreateWorkflowRevisionCreatedRevision) SetRevisionAlias(val OptString) {
-	s.RevisionAlias = val
-}
-
-// SetRunbook sets the value of Runbook.
-func (s *CreateWorkflowRevisionCreatedRevision) SetRunbook(val string) {
-	s.Runbook = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *CreateWorkflowRevisionCreatedRevision) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *CreateWorkflowRevisionCreatedRevision) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-type CreateWorkflowRevisionForbidden struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *CreateWorkflowRevisionForbidden) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *CreateWorkflowRevisionForbidden) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *CreateWorkflowRevisionForbidden) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *CreateWorkflowRevisionForbidden) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*CreateWorkflowRevisionForbidden) createWorkflowRevisionRes() {}
-
-type CreateWorkflowRevisionInternalServerError struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *CreateWorkflowRevisionInternalServerError) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *CreateWorkflowRevisionInternalServerError) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *CreateWorkflowRevisionInternalServerError) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *CreateWorkflowRevisionInternalServerError) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*CreateWorkflowRevisionInternalServerError) createWorkflowRevisionRes() {}
-
-type CreateWorkflowRevisionNotFound struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *CreateWorkflowRevisionNotFound) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *CreateWorkflowRevisionNotFound) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *CreateWorkflowRevisionNotFound) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *CreateWorkflowRevisionNotFound) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*CreateWorkflowRevisionNotFound) createWorkflowRevisionRes() {}
-
-type CreateWorkflowRevisionPaymentRequired struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *CreateWorkflowRevisionPaymentRequired) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *CreateWorkflowRevisionPaymentRequired) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *CreateWorkflowRevisionPaymentRequired) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *CreateWorkflowRevisionPaymentRequired) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*CreateWorkflowRevisionPaymentRequired) createWorkflowRevisionRes() {}
-
-type CreateWorkflowRevisionReq struct {
-	Runbook       string    `json:"Runbook"`
-	RevisionAlias OptString `json:"RevisionAlias"`
-}
-
-// GetRunbook returns the value of Runbook.
-func (s *CreateWorkflowRevisionReq) GetRunbook() string {
-	return s.Runbook
-}
-
-// GetRevisionAlias returns the value of RevisionAlias.
-func (s *CreateWorkflowRevisionReq) GetRevisionAlias() OptString {
-	return s.RevisionAlias
-}
-
-// SetRunbook sets the value of Runbook.
-func (s *CreateWorkflowRevisionReq) SetRunbook(val string) {
-	s.Runbook = val
-}
-
-// SetRevisionAlias sets the value of RevisionAlias.
-func (s *CreateWorkflowRevisionReq) SetRevisionAlias(val OptString) {
-	s.RevisionAlias = val
-}
-
-type CreateWorkflowRevisionUnauthorized struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *CreateWorkflowRevisionUnauthorized) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *CreateWorkflowRevisionUnauthorized) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *CreateWorkflowRevisionUnauthorized) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *CreateWorkflowRevisionUnauthorized) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*CreateWorkflowRevisionUnauthorized) createWorkflowRevisionRes() {}
-
 type CreateWorkflowUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -3393,6 +3393,264 @@ func (s *DeleteExecutionUnauthorized) SetMessage(val string) {
 }
 
 func (*DeleteExecutionUnauthorized) deleteExecutionRes() {}
+
+type DeleteRevisionAliasBadRequest struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteRevisionAliasBadRequest) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteRevisionAliasBadRequest) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteRevisionAliasBadRequest) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteRevisionAliasBadRequest) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteRevisionAliasBadRequest) deleteRevisionAliasRes() {}
+
+type DeleteRevisionAliasForbidden struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteRevisionAliasForbidden) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteRevisionAliasForbidden) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteRevisionAliasForbidden) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteRevisionAliasForbidden) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteRevisionAliasForbidden) deleteRevisionAliasRes() {}
+
+type DeleteRevisionAliasInternalServerError struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteRevisionAliasInternalServerError) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteRevisionAliasInternalServerError) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteRevisionAliasInternalServerError) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteRevisionAliasInternalServerError) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteRevisionAliasInternalServerError) deleteRevisionAliasRes() {}
+
+type DeleteRevisionAliasNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteRevisionAliasNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteRevisionAliasNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteRevisionAliasNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteRevisionAliasNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteRevisionAliasNotFound) deleteRevisionAliasRes() {}
+
+type DeleteRevisionAliasOK struct {
+	IsOk     bool                          `json:"is_ok"`
+	Revision DeleteRevisionAliasOKRevision `json:"Revision"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteRevisionAliasOK) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetRevision returns the value of Revision.
+func (s *DeleteRevisionAliasOK) GetRevision() DeleteRevisionAliasOKRevision {
+	return s.Revision
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteRevisionAliasOK) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetRevision sets the value of Revision.
+func (s *DeleteRevisionAliasOK) SetRevision(val DeleteRevisionAliasOKRevision) {
+	s.Revision = val
+}
+
+func (*DeleteRevisionAliasOK) deleteRevisionAliasRes() {}
+
+type DeleteRevisionAliasOKRevision struct {
+	RevisionId    int       `json:"RevisionId"`
+	WorkflowId    string    `json:"WorkflowId"`
+	RevisionAlias OptString `json:"RevisionAlias"`
+	Runbook       string    `json:"Runbook"`
+	CreatedAt     time.Time `json:"CreatedAt"`
+	UpdatedAt     time.Time `json:"UpdatedAt"`
+}
+
+// GetRevisionId returns the value of RevisionId.
+func (s *DeleteRevisionAliasOKRevision) GetRevisionId() int {
+	return s.RevisionId
+}
+
+// GetWorkflowId returns the value of WorkflowId.
+func (s *DeleteRevisionAliasOKRevision) GetWorkflowId() string {
+	return s.WorkflowId
+}
+
+// GetRevisionAlias returns the value of RevisionAlias.
+func (s *DeleteRevisionAliasOKRevision) GetRevisionAlias() OptString {
+	return s.RevisionAlias
+}
+
+// GetRunbook returns the value of Runbook.
+func (s *DeleteRevisionAliasOKRevision) GetRunbook() string {
+	return s.Runbook
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *DeleteRevisionAliasOKRevision) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *DeleteRevisionAliasOKRevision) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// SetRevisionId sets the value of RevisionId.
+func (s *DeleteRevisionAliasOKRevision) SetRevisionId(val int) {
+	s.RevisionId = val
+}
+
+// SetWorkflowId sets the value of WorkflowId.
+func (s *DeleteRevisionAliasOKRevision) SetWorkflowId(val string) {
+	s.WorkflowId = val
+}
+
+// SetRevisionAlias sets the value of RevisionAlias.
+func (s *DeleteRevisionAliasOKRevision) SetRevisionAlias(val OptString) {
+	s.RevisionAlias = val
+}
+
+// SetRunbook sets the value of Runbook.
+func (s *DeleteRevisionAliasOKRevision) SetRunbook(val string) {
+	s.Runbook = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *DeleteRevisionAliasOKRevision) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *DeleteRevisionAliasOKRevision) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+type DeleteRevisionAliasPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteRevisionAliasPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteRevisionAliasPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteRevisionAliasPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteRevisionAliasPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteRevisionAliasPaymentRequired) deleteRevisionAliasRes() {}
+
+type DeleteRevisionAliasUnauthorized struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *DeleteRevisionAliasUnauthorized) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *DeleteRevisionAliasUnauthorized) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *DeleteRevisionAliasUnauthorized) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *DeleteRevisionAliasUnauthorized) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*DeleteRevisionAliasUnauthorized) deleteRevisionAliasRes() {}
 
 type DeleteSubscriptionBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
@@ -3712,264 +3970,6 @@ func (s *DeleteWorkflowPaymentRequired) SetMessage(val string) {
 
 func (*DeleteWorkflowPaymentRequired) deleteWorkflowRes() {}
 
-type DeleteWorkflowRevisionAliasBadRequest struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasBadRequest) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *DeleteWorkflowRevisionAliasBadRequest) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasBadRequest) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *DeleteWorkflowRevisionAliasBadRequest) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*DeleteWorkflowRevisionAliasBadRequest) deleteWorkflowRevisionAliasRes() {}
-
-type DeleteWorkflowRevisionAliasForbidden struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasForbidden) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *DeleteWorkflowRevisionAliasForbidden) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasForbidden) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *DeleteWorkflowRevisionAliasForbidden) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*DeleteWorkflowRevisionAliasForbidden) deleteWorkflowRevisionAliasRes() {}
-
-type DeleteWorkflowRevisionAliasInternalServerError struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasInternalServerError) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *DeleteWorkflowRevisionAliasInternalServerError) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasInternalServerError) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *DeleteWorkflowRevisionAliasInternalServerError) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*DeleteWorkflowRevisionAliasInternalServerError) deleteWorkflowRevisionAliasRes() {}
-
-type DeleteWorkflowRevisionAliasNotFound struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasNotFound) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *DeleteWorkflowRevisionAliasNotFound) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasNotFound) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *DeleteWorkflowRevisionAliasNotFound) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*DeleteWorkflowRevisionAliasNotFound) deleteWorkflowRevisionAliasRes() {}
-
-type DeleteWorkflowRevisionAliasOK struct {
-	IsOk     bool                                  `json:"is_ok"`
-	Revision DeleteWorkflowRevisionAliasOKRevision `json:"Revision"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasOK) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetRevision returns the value of Revision.
-func (s *DeleteWorkflowRevisionAliasOK) GetRevision() DeleteWorkflowRevisionAliasOKRevision {
-	return s.Revision
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasOK) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetRevision sets the value of Revision.
-func (s *DeleteWorkflowRevisionAliasOK) SetRevision(val DeleteWorkflowRevisionAliasOKRevision) {
-	s.Revision = val
-}
-
-func (*DeleteWorkflowRevisionAliasOK) deleteWorkflowRevisionAliasRes() {}
-
-type DeleteWorkflowRevisionAliasOKRevision struct {
-	RevisionId    int       `json:"RevisionId"`
-	WorkflowId    string    `json:"WorkflowId"`
-	RevisionAlias OptString `json:"RevisionAlias"`
-	Runbook       string    `json:"Runbook"`
-	CreatedAt     time.Time `json:"CreatedAt"`
-	UpdatedAt     time.Time `json:"UpdatedAt"`
-}
-
-// GetRevisionId returns the value of RevisionId.
-func (s *DeleteWorkflowRevisionAliasOKRevision) GetRevisionId() int {
-	return s.RevisionId
-}
-
-// GetWorkflowId returns the value of WorkflowId.
-func (s *DeleteWorkflowRevisionAliasOKRevision) GetWorkflowId() string {
-	return s.WorkflowId
-}
-
-// GetRevisionAlias returns the value of RevisionAlias.
-func (s *DeleteWorkflowRevisionAliasOKRevision) GetRevisionAlias() OptString {
-	return s.RevisionAlias
-}
-
-// GetRunbook returns the value of Runbook.
-func (s *DeleteWorkflowRevisionAliasOKRevision) GetRunbook() string {
-	return s.Runbook
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *DeleteWorkflowRevisionAliasOKRevision) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *DeleteWorkflowRevisionAliasOKRevision) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// SetRevisionId sets the value of RevisionId.
-func (s *DeleteWorkflowRevisionAliasOKRevision) SetRevisionId(val int) {
-	s.RevisionId = val
-}
-
-// SetWorkflowId sets the value of WorkflowId.
-func (s *DeleteWorkflowRevisionAliasOKRevision) SetWorkflowId(val string) {
-	s.WorkflowId = val
-}
-
-// SetRevisionAlias sets the value of RevisionAlias.
-func (s *DeleteWorkflowRevisionAliasOKRevision) SetRevisionAlias(val OptString) {
-	s.RevisionAlias = val
-}
-
-// SetRunbook sets the value of Runbook.
-func (s *DeleteWorkflowRevisionAliasOKRevision) SetRunbook(val string) {
-	s.Runbook = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *DeleteWorkflowRevisionAliasOKRevision) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *DeleteWorkflowRevisionAliasOKRevision) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-type DeleteWorkflowRevisionAliasPaymentRequired struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasPaymentRequired) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *DeleteWorkflowRevisionAliasPaymentRequired) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasPaymentRequired) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *DeleteWorkflowRevisionAliasPaymentRequired) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*DeleteWorkflowRevisionAliasPaymentRequired) deleteWorkflowRevisionAliasRes() {}
-
-type DeleteWorkflowRevisionAliasUnauthorized struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasUnauthorized) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *DeleteWorkflowRevisionAliasUnauthorized) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *DeleteWorkflowRevisionAliasUnauthorized) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *DeleteWorkflowRevisionAliasUnauthorized) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*DeleteWorkflowRevisionAliasUnauthorized) deleteWorkflowRevisionAliasRes() {}
-
 type DeleteWorkflowUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
@@ -3997,2195 +3997,326 @@ func (s *DeleteWorkflowUnauthorized) SetMessage(val string) {
 
 func (*DeleteWorkflowUnauthorized) deleteWorkflowRes() {}
 
-type GetExecutionBadRequest struct {
+type ListExecutionHistoriesBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *GetExecutionBadRequest) GetIsOk() bool {
+func (s *ListExecutionHistoriesBadRequest) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *GetExecutionBadRequest) GetMessage() string {
+func (s *ListExecutionHistoriesBadRequest) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *GetExecutionBadRequest) SetIsOk(val bool) {
+func (s *ListExecutionHistoriesBadRequest) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *GetExecutionBadRequest) SetMessage(val string) {
+func (s *ListExecutionHistoriesBadRequest) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*GetExecutionBadRequest) getExecutionRes() {}
+func (*ListExecutionHistoriesBadRequest) listExecutionHistoriesRes() {}
 
-type GetExecutionForbidden struct {
+type ListExecutionHistoriesForbidden struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *GetExecutionForbidden) GetIsOk() bool {
+func (s *ListExecutionHistoriesForbidden) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *GetExecutionForbidden) GetMessage() string {
+func (s *ListExecutionHistoriesForbidden) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *GetExecutionForbidden) SetIsOk(val bool) {
+func (s *ListExecutionHistoriesForbidden) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *GetExecutionForbidden) SetMessage(val string) {
+func (s *ListExecutionHistoriesForbidden) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*GetExecutionForbidden) getExecutionRes() {}
+func (*ListExecutionHistoriesForbidden) listExecutionHistoriesRes() {}
 
-type GetExecutionInternalServerError struct {
+type ListExecutionHistoriesInternalServerError struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *GetExecutionInternalServerError) GetIsOk() bool {
+func (s *ListExecutionHistoriesInternalServerError) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *GetExecutionInternalServerError) GetMessage() string {
+func (s *ListExecutionHistoriesInternalServerError) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *GetExecutionInternalServerError) SetIsOk(val bool) {
+func (s *ListExecutionHistoriesInternalServerError) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *GetExecutionInternalServerError) SetMessage(val string) {
+func (s *ListExecutionHistoriesInternalServerError) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*GetExecutionInternalServerError) getExecutionRes() {}
+func (*ListExecutionHistoriesInternalServerError) listExecutionHistoriesRes() {}
 
-type GetExecutionNotFound struct {
+type ListExecutionHistoriesNotFound struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *GetExecutionNotFound) GetIsOk() bool {
+func (s *ListExecutionHistoriesNotFound) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *GetExecutionNotFound) GetMessage() string {
+func (s *ListExecutionHistoriesNotFound) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *GetExecutionNotFound) SetIsOk(val bool) {
+func (s *ListExecutionHistoriesNotFound) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *GetExecutionNotFound) SetMessage(val string) {
+func (s *ListExecutionHistoriesNotFound) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*GetExecutionNotFound) getExecutionRes() {}
+func (*ListExecutionHistoriesNotFound) listExecutionHistoriesRes() {}
 
-type GetExecutionOK struct {
-	IsOk      bool                    `json:"is_ok"`
-	Execution GetExecutionOKExecution `json:"Execution"`
+type ListExecutionHistoriesOK struct {
+	IsOk      bool                                    `json:"is_ok"`
+	Total     int                                     `json:"Total"`
+	From      int                                     `json:"From"`
+	Count     int                                     `json:"Count"`
+	Histories []ListExecutionHistoriesOKHistoriesItem `json:"Histories"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *GetExecutionOK) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetExecution returns the value of Execution.
-func (s *GetExecutionOK) GetExecution() GetExecutionOKExecution {
-	return s.Execution
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetExecutionOK) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetExecution sets the value of Execution.
-func (s *GetExecutionOK) SetExecution(val GetExecutionOKExecution) {
-	s.Execution = val
-}
-
-func (*GetExecutionOK) getExecutionRes() {}
-
-type GetExecutionOKExecution struct {
-	ExecutionId       string                          `json:"ExecutionId"`
-	Name              string                          `json:"Name"`
-	Workflow          GetExecutionOKExecutionWorkflow `json:"Workflow"`
-	Status            GetExecutionOKExecutionStatus   `json:"Status"`
-	Revision          int                             `json:"Revision"`
-	RevisionAlias     string                          `json:"RevisionAlias"`
-	Args              string                          `json:"Args"`
-	StepCount         int                             `json:"StepCount"`
-	Result            string                          `json:"Result"`
-	Error             string                          `json:"Error"`
-	CreatedAt         time.Time                       `json:"CreatedAt"`
-	UpdatedAt         time.Time                       `json:"UpdatedAt"`
-	RunAt             OptDateTime                     `json:"RunAt"`
-	FailedAt          OptDateTime                     `json:"FailedAt"`
-	SucceededAt       OptDateTime                     `json:"SucceededAt"`
-	CancelRequestedAt OptDateTime                     `json:"CancelRequestedAt"`
-	CanceledAt        OptDateTime                     `json:"CanceledAt"`
-}
-
-// GetExecutionId returns the value of ExecutionId.
-func (s *GetExecutionOKExecution) GetExecutionId() string {
-	return s.ExecutionId
-}
-
-// GetName returns the value of Name.
-func (s *GetExecutionOKExecution) GetName() string {
-	return s.Name
-}
-
-// GetWorkflow returns the value of Workflow.
-func (s *GetExecutionOKExecution) GetWorkflow() GetExecutionOKExecutionWorkflow {
-	return s.Workflow
-}
-
-// GetStatus returns the value of Status.
-func (s *GetExecutionOKExecution) GetStatus() GetExecutionOKExecutionStatus {
-	return s.Status
-}
-
-// GetRevision returns the value of Revision.
-func (s *GetExecutionOKExecution) GetRevision() int {
-	return s.Revision
-}
-
-// GetRevisionAlias returns the value of RevisionAlias.
-func (s *GetExecutionOKExecution) GetRevisionAlias() string {
-	return s.RevisionAlias
-}
-
-// GetArgs returns the value of Args.
-func (s *GetExecutionOKExecution) GetArgs() string {
-	return s.Args
-}
-
-// GetStepCount returns the value of StepCount.
-func (s *GetExecutionOKExecution) GetStepCount() int {
-	return s.StepCount
-}
-
-// GetResult returns the value of Result.
-func (s *GetExecutionOKExecution) GetResult() string {
-	return s.Result
-}
-
-// GetError returns the value of Error.
-func (s *GetExecutionOKExecution) GetError() string {
-	return s.Error
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *GetExecutionOKExecution) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *GetExecutionOKExecution) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// GetRunAt returns the value of RunAt.
-func (s *GetExecutionOKExecution) GetRunAt() OptDateTime {
-	return s.RunAt
-}
-
-// GetFailedAt returns the value of FailedAt.
-func (s *GetExecutionOKExecution) GetFailedAt() OptDateTime {
-	return s.FailedAt
-}
-
-// GetSucceededAt returns the value of SucceededAt.
-func (s *GetExecutionOKExecution) GetSucceededAt() OptDateTime {
-	return s.SucceededAt
-}
-
-// GetCancelRequestedAt returns the value of CancelRequestedAt.
-func (s *GetExecutionOKExecution) GetCancelRequestedAt() OptDateTime {
-	return s.CancelRequestedAt
-}
-
-// GetCanceledAt returns the value of CanceledAt.
-func (s *GetExecutionOKExecution) GetCanceledAt() OptDateTime {
-	return s.CanceledAt
-}
-
-// SetExecutionId sets the value of ExecutionId.
-func (s *GetExecutionOKExecution) SetExecutionId(val string) {
-	s.ExecutionId = val
-}
-
-// SetName sets the value of Name.
-func (s *GetExecutionOKExecution) SetName(val string) {
-	s.Name = val
-}
-
-// SetWorkflow sets the value of Workflow.
-func (s *GetExecutionOKExecution) SetWorkflow(val GetExecutionOKExecutionWorkflow) {
-	s.Workflow = val
-}
-
-// SetStatus sets the value of Status.
-func (s *GetExecutionOKExecution) SetStatus(val GetExecutionOKExecutionStatus) {
-	s.Status = val
-}
-
-// SetRevision sets the value of Revision.
-func (s *GetExecutionOKExecution) SetRevision(val int) {
-	s.Revision = val
-}
-
-// SetRevisionAlias sets the value of RevisionAlias.
-func (s *GetExecutionOKExecution) SetRevisionAlias(val string) {
-	s.RevisionAlias = val
-}
-
-// SetArgs sets the value of Args.
-func (s *GetExecutionOKExecution) SetArgs(val string) {
-	s.Args = val
-}
-
-// SetStepCount sets the value of StepCount.
-func (s *GetExecutionOKExecution) SetStepCount(val int) {
-	s.StepCount = val
-}
-
-// SetResult sets the value of Result.
-func (s *GetExecutionOKExecution) SetResult(val string) {
-	s.Result = val
-}
-
-// SetError sets the value of Error.
-func (s *GetExecutionOKExecution) SetError(val string) {
-	s.Error = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *GetExecutionOKExecution) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *GetExecutionOKExecution) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-// SetRunAt sets the value of RunAt.
-func (s *GetExecutionOKExecution) SetRunAt(val OptDateTime) {
-	s.RunAt = val
-}
-
-// SetFailedAt sets the value of FailedAt.
-func (s *GetExecutionOKExecution) SetFailedAt(val OptDateTime) {
-	s.FailedAt = val
-}
-
-// SetSucceededAt sets the value of SucceededAt.
-func (s *GetExecutionOKExecution) SetSucceededAt(val OptDateTime) {
-	s.SucceededAt = val
-}
-
-// SetCancelRequestedAt sets the value of CancelRequestedAt.
-func (s *GetExecutionOKExecution) SetCancelRequestedAt(val OptDateTime) {
-	s.CancelRequestedAt = val
-}
-
-// SetCanceledAt sets the value of CanceledAt.
-func (s *GetExecutionOKExecution) SetCanceledAt(val OptDateTime) {
-	s.CanceledAt = val
-}
-
-type GetExecutionOKExecutionStatus string
-
-const (
-	GetExecutionOKExecutionStatusQueued    GetExecutionOKExecutionStatus = "Queued"
-	GetExecutionOKExecutionStatusRunning   GetExecutionOKExecutionStatus = "Running"
-	GetExecutionOKExecutionStatusSucceeded GetExecutionOKExecutionStatus = "Succeeded"
-	GetExecutionOKExecutionStatusFailed    GetExecutionOKExecutionStatus = "Failed"
-	GetExecutionOKExecutionStatusCanceling GetExecutionOKExecutionStatus = "Canceling"
-	GetExecutionOKExecutionStatusCanceled  GetExecutionOKExecutionStatus = "Canceled"
-)
-
-// AllValues returns all GetExecutionOKExecutionStatus values.
-func (GetExecutionOKExecutionStatus) AllValues() []GetExecutionOKExecutionStatus {
-	return []GetExecutionOKExecutionStatus{
-		GetExecutionOKExecutionStatusQueued,
-		GetExecutionOKExecutionStatusRunning,
-		GetExecutionOKExecutionStatusSucceeded,
-		GetExecutionOKExecutionStatusFailed,
-		GetExecutionOKExecutionStatusCanceling,
-		GetExecutionOKExecutionStatusCanceled,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s GetExecutionOKExecutionStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case GetExecutionOKExecutionStatusQueued:
-		return []byte(s), nil
-	case GetExecutionOKExecutionStatusRunning:
-		return []byte(s), nil
-	case GetExecutionOKExecutionStatusSucceeded:
-		return []byte(s), nil
-	case GetExecutionOKExecutionStatusFailed:
-		return []byte(s), nil
-	case GetExecutionOKExecutionStatusCanceling:
-		return []byte(s), nil
-	case GetExecutionOKExecutionStatusCanceled:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *GetExecutionOKExecutionStatus) UnmarshalText(data []byte) error {
-	switch GetExecutionOKExecutionStatus(data) {
-	case GetExecutionOKExecutionStatusQueued:
-		*s = GetExecutionOKExecutionStatusQueued
-		return nil
-	case GetExecutionOKExecutionStatusRunning:
-		*s = GetExecutionOKExecutionStatusRunning
-		return nil
-	case GetExecutionOKExecutionStatusSucceeded:
-		*s = GetExecutionOKExecutionStatusSucceeded
-		return nil
-	case GetExecutionOKExecutionStatusFailed:
-		*s = GetExecutionOKExecutionStatusFailed
-		return nil
-	case GetExecutionOKExecutionStatusCanceling:
-		*s = GetExecutionOKExecutionStatusCanceling
-		return nil
-	case GetExecutionOKExecutionStatusCanceled:
-		*s = GetExecutionOKExecutionStatusCanceled
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type GetExecutionOKExecutionWorkflow struct {
-	ID                 string                                               `json:"Id"`
-	Name               string                                               `json:"Name"`
-	Description        OptString                                            `json:"Description"`
-	Publish            bool                                                 `json:"Publish"`
-	Logging            bool                                                 `json:"Logging"`
-	Tags               []GetExecutionOKExecutionWorkflowTagsItem            `json:"Tags"`
-	ServicePrincipalId OptGetExecutionOKExecutionWorkflowServicePrincipalId `json:"ServicePrincipalId"`
-	CreatedAt          time.Time                                            `json:"CreatedAt"`
-	UpdatedAt          time.Time                                            `json:"UpdatedAt"`
-	ConcurrencyMode    OptGetExecutionOKExecutionWorkflowConcurrencyMode    `json:"ConcurrencyMode"`
-}
-
-// GetID returns the value of ID.
-func (s *GetExecutionOKExecutionWorkflow) GetID() string {
-	return s.ID
-}
-
-// GetName returns the value of Name.
-func (s *GetExecutionOKExecutionWorkflow) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *GetExecutionOKExecutionWorkflow) GetDescription() OptString {
-	return s.Description
-}
-
-// GetPublish returns the value of Publish.
-func (s *GetExecutionOKExecutionWorkflow) GetPublish() bool {
-	return s.Publish
-}
-
-// GetLogging returns the value of Logging.
-func (s *GetExecutionOKExecutionWorkflow) GetLogging() bool {
-	return s.Logging
-}
-
-// GetTags returns the value of Tags.
-func (s *GetExecutionOKExecutionWorkflow) GetTags() []GetExecutionOKExecutionWorkflowTagsItem {
-	return s.Tags
-}
-
-// GetServicePrincipalId returns the value of ServicePrincipalId.
-func (s *GetExecutionOKExecutionWorkflow) GetServicePrincipalId() OptGetExecutionOKExecutionWorkflowServicePrincipalId {
-	return s.ServicePrincipalId
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *GetExecutionOKExecutionWorkflow) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *GetExecutionOKExecutionWorkflow) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// GetConcurrencyMode returns the value of ConcurrencyMode.
-func (s *GetExecutionOKExecutionWorkflow) GetConcurrencyMode() OptGetExecutionOKExecutionWorkflowConcurrencyMode {
-	return s.ConcurrencyMode
-}
-
-// SetID sets the value of ID.
-func (s *GetExecutionOKExecutionWorkflow) SetID(val string) {
-	s.ID = val
-}
-
-// SetName sets the value of Name.
-func (s *GetExecutionOKExecutionWorkflow) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *GetExecutionOKExecutionWorkflow) SetDescription(val OptString) {
-	s.Description = val
-}
-
-// SetPublish sets the value of Publish.
-func (s *GetExecutionOKExecutionWorkflow) SetPublish(val bool) {
-	s.Publish = val
-}
-
-// SetLogging sets the value of Logging.
-func (s *GetExecutionOKExecutionWorkflow) SetLogging(val bool) {
-	s.Logging = val
-}
-
-// SetTags sets the value of Tags.
-func (s *GetExecutionOKExecutionWorkflow) SetTags(val []GetExecutionOKExecutionWorkflowTagsItem) {
-	s.Tags = val
-}
-
-// SetServicePrincipalId sets the value of ServicePrincipalId.
-func (s *GetExecutionOKExecutionWorkflow) SetServicePrincipalId(val OptGetExecutionOKExecutionWorkflowServicePrincipalId) {
-	s.ServicePrincipalId = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *GetExecutionOKExecutionWorkflow) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *GetExecutionOKExecutionWorkflow) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-// SetConcurrencyMode sets the value of ConcurrencyMode.
-func (s *GetExecutionOKExecutionWorkflow) SetConcurrencyMode(val OptGetExecutionOKExecutionWorkflowConcurrencyMode) {
-	s.ConcurrencyMode = val
-}
-
-type GetExecutionOKExecutionWorkflowConcurrencyMode string
-
-const (
-	GetExecutionOKExecutionWorkflowConcurrencyModeParallel GetExecutionOKExecutionWorkflowConcurrencyMode = "parallel"
-	GetExecutionOKExecutionWorkflowConcurrencyModeLock     GetExecutionOKExecutionWorkflowConcurrencyMode = "lock"
-	GetExecutionOKExecutionWorkflowConcurrencyModeQueue    GetExecutionOKExecutionWorkflowConcurrencyMode = "queue"
-)
-
-// AllValues returns all GetExecutionOKExecutionWorkflowConcurrencyMode values.
-func (GetExecutionOKExecutionWorkflowConcurrencyMode) AllValues() []GetExecutionOKExecutionWorkflowConcurrencyMode {
-	return []GetExecutionOKExecutionWorkflowConcurrencyMode{
-		GetExecutionOKExecutionWorkflowConcurrencyModeParallel,
-		GetExecutionOKExecutionWorkflowConcurrencyModeLock,
-		GetExecutionOKExecutionWorkflowConcurrencyModeQueue,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s GetExecutionOKExecutionWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
-	switch s {
-	case GetExecutionOKExecutionWorkflowConcurrencyModeParallel:
-		return []byte(s), nil
-	case GetExecutionOKExecutionWorkflowConcurrencyModeLock:
-		return []byte(s), nil
-	case GetExecutionOKExecutionWorkflowConcurrencyModeQueue:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *GetExecutionOKExecutionWorkflowConcurrencyMode) UnmarshalText(data []byte) error {
-	switch GetExecutionOKExecutionWorkflowConcurrencyMode(data) {
-	case GetExecutionOKExecutionWorkflowConcurrencyModeParallel:
-		*s = GetExecutionOKExecutionWorkflowConcurrencyModeParallel
-		return nil
-	case GetExecutionOKExecutionWorkflowConcurrencyModeLock:
-		*s = GetExecutionOKExecutionWorkflowConcurrencyModeLock
-		return nil
-	case GetExecutionOKExecutionWorkflowConcurrencyModeQueue:
-		*s = GetExecutionOKExecutionWorkflowConcurrencyModeQueue
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// GetExecutionOKExecutionWorkflowServicePrincipalId represents sum type.
-type GetExecutionOKExecutionWorkflowServicePrincipalId struct {
-	// Type selects the active sum variant, switch on this field.
-	Type    GetExecutionOKExecutionWorkflowServicePrincipalIdType
-	String  string
-	Float64 float64
-}
-
-// GetExecutionOKExecutionWorkflowServicePrincipalIdType is oneOf type of GetExecutionOKExecutionWorkflowServicePrincipalId.
-type GetExecutionOKExecutionWorkflowServicePrincipalIdType string
-
-// Possible values for GetExecutionOKExecutionWorkflowServicePrincipalIdType.
-const (
-	StringGetExecutionOKExecutionWorkflowServicePrincipalId  GetExecutionOKExecutionWorkflowServicePrincipalIdType = "string"
-	Float64GetExecutionOKExecutionWorkflowServicePrincipalId GetExecutionOKExecutionWorkflowServicePrincipalIdType = "float64"
-)
-
-// IsString reports whether GetExecutionOKExecutionWorkflowServicePrincipalId is string.
-func (s GetExecutionOKExecutionWorkflowServicePrincipalId) IsString() bool {
-	return s.Type == StringGetExecutionOKExecutionWorkflowServicePrincipalId
-}
-
-// IsFloat64 reports whether GetExecutionOKExecutionWorkflowServicePrincipalId is float64.
-func (s GetExecutionOKExecutionWorkflowServicePrincipalId) IsFloat64() bool {
-	return s.Type == Float64GetExecutionOKExecutionWorkflowServicePrincipalId
-}
-
-// SetString sets GetExecutionOKExecutionWorkflowServicePrincipalId to string.
-func (s *GetExecutionOKExecutionWorkflowServicePrincipalId) SetString(v string) {
-	s.Type = StringGetExecutionOKExecutionWorkflowServicePrincipalId
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetExecutionOKExecutionWorkflowServicePrincipalId is string.
-func (s GetExecutionOKExecutionWorkflowServicePrincipalId) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetExecutionOKExecutionWorkflowServicePrincipalId returns new GetExecutionOKExecutionWorkflowServicePrincipalId from string.
-func NewStringGetExecutionOKExecutionWorkflowServicePrincipalId(v string) GetExecutionOKExecutionWorkflowServicePrincipalId {
-	var s GetExecutionOKExecutionWorkflowServicePrincipalId
-	s.SetString(v)
-	return s
-}
-
-// SetFloat64 sets GetExecutionOKExecutionWorkflowServicePrincipalId to float64.
-func (s *GetExecutionOKExecutionWorkflowServicePrincipalId) SetFloat64(v float64) {
-	s.Type = Float64GetExecutionOKExecutionWorkflowServicePrincipalId
-	s.Float64 = v
-}
-
-// GetFloat64 returns float64 and true boolean if GetExecutionOKExecutionWorkflowServicePrincipalId is float64.
-func (s GetExecutionOKExecutionWorkflowServicePrincipalId) GetFloat64() (v float64, ok bool) {
-	if !s.IsFloat64() {
-		return v, false
-	}
-	return s.Float64, true
-}
-
-// NewFloat64GetExecutionOKExecutionWorkflowServicePrincipalId returns new GetExecutionOKExecutionWorkflowServicePrincipalId from float64.
-func NewFloat64GetExecutionOKExecutionWorkflowServicePrincipalId(v float64) GetExecutionOKExecutionWorkflowServicePrincipalId {
-	var s GetExecutionOKExecutionWorkflowServicePrincipalId
-	s.SetFloat64(v)
-	return s
-}
-
-type GetExecutionOKExecutionWorkflowTagsItem struct {
-	Name string `json:"Name"`
-}
-
-// GetName returns the value of Name.
-func (s *GetExecutionOKExecutionWorkflowTagsItem) GetName() string {
-	return s.Name
-}
-
-// SetName sets the value of Name.
-func (s *GetExecutionOKExecutionWorkflowTagsItem) SetName(val string) {
-	s.Name = val
-}
-
-type GetExecutionPaymentRequired struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetExecutionPaymentRequired) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetExecutionPaymentRequired) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetExecutionPaymentRequired) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetExecutionPaymentRequired) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetExecutionPaymentRequired) getExecutionRes() {}
-
-type GetExecutionUnauthorized struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetExecutionUnauthorized) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetExecutionUnauthorized) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetExecutionUnauthorized) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetExecutionUnauthorized) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetExecutionUnauthorized) getExecutionRes() {}
-
-type GetSubscriptionBadRequest struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetSubscriptionBadRequest) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetSubscriptionBadRequest) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetSubscriptionBadRequest) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetSubscriptionBadRequest) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetSubscriptionBadRequest) getSubscriptionRes() {}
-
-type GetSubscriptionForbidden struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetSubscriptionForbidden) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetSubscriptionForbidden) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetSubscriptionForbidden) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetSubscriptionForbidden) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetSubscriptionForbidden) getSubscriptionRes() {}
-
-type GetSubscriptionInternalServerError struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetSubscriptionInternalServerError) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetSubscriptionInternalServerError) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetSubscriptionInternalServerError) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetSubscriptionInternalServerError) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetSubscriptionInternalServerError) getSubscriptionRes() {}
-
-type GetSubscriptionNotFound struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetSubscriptionNotFound) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetSubscriptionNotFound) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetSubscriptionNotFound) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetSubscriptionNotFound) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetSubscriptionNotFound) getSubscriptionRes() {}
-
-type GetSubscriptionOK struct {
-	IsOk             bool                                 `json:"is_ok"`
-	CurrentPlan      OptNilGetSubscriptionOKCurrentPlan   `json:"CurrentPlan"`
-	MonthAppliedPlan OptGetSubscriptionOKMonthAppliedPlan `json:"MonthAppliedPlan"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetSubscriptionOK) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetCurrentPlan returns the value of CurrentPlan.
-func (s *GetSubscriptionOK) GetCurrentPlan() OptNilGetSubscriptionOKCurrentPlan {
-	return s.CurrentPlan
-}
-
-// GetMonthAppliedPlan returns the value of MonthAppliedPlan.
-func (s *GetSubscriptionOK) GetMonthAppliedPlan() OptGetSubscriptionOKMonthAppliedPlan {
-	return s.MonthAppliedPlan
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetSubscriptionOK) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetCurrentPlan sets the value of CurrentPlan.
-func (s *GetSubscriptionOK) SetCurrentPlan(val OptNilGetSubscriptionOKCurrentPlan) {
-	s.CurrentPlan = val
-}
-
-// SetMonthAppliedPlan sets the value of MonthAppliedPlan.
-func (s *GetSubscriptionOK) SetMonthAppliedPlan(val OptGetSubscriptionOKMonthAppliedPlan) {
-	s.MonthAppliedPlan = val
-}
-
-func (*GetSubscriptionOK) getSubscriptionRes() {}
-
-type GetSubscriptionOKCurrentPlan struct {
-	ID            string      `json:"id"`
-	AccountId     string      `json:"accountId"`
-	ContractId    string      `json:"contractId"`
-	PlanId        int         `json:"planId"`
-	ActivateFrom  time.Time   `json:"activateFrom"`
-	ActivateUntil NilDateTime `json:"activateUntil"`
-	CreatedAt     time.Time   `json:"createdAt"`
-	UpdatedAt     time.Time   `json:"updatedAt"`
-	PlanName      string      `json:"planName"`
-}
-
-// GetID returns the value of ID.
-func (s *GetSubscriptionOKCurrentPlan) GetID() string {
-	return s.ID
-}
-
-// GetAccountId returns the value of AccountId.
-func (s *GetSubscriptionOKCurrentPlan) GetAccountId() string {
-	return s.AccountId
-}
-
-// GetContractId returns the value of ContractId.
-func (s *GetSubscriptionOKCurrentPlan) GetContractId() string {
-	return s.ContractId
-}
-
-// GetPlanId returns the value of PlanId.
-func (s *GetSubscriptionOKCurrentPlan) GetPlanId() int {
-	return s.PlanId
-}
-
-// GetActivateFrom returns the value of ActivateFrom.
-func (s *GetSubscriptionOKCurrentPlan) GetActivateFrom() time.Time {
-	return s.ActivateFrom
-}
-
-// GetActivateUntil returns the value of ActivateUntil.
-func (s *GetSubscriptionOKCurrentPlan) GetActivateUntil() NilDateTime {
-	return s.ActivateUntil
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *GetSubscriptionOKCurrentPlan) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *GetSubscriptionOKCurrentPlan) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// GetPlanName returns the value of PlanName.
-func (s *GetSubscriptionOKCurrentPlan) GetPlanName() string {
-	return s.PlanName
-}
-
-// SetID sets the value of ID.
-func (s *GetSubscriptionOKCurrentPlan) SetID(val string) {
-	s.ID = val
-}
-
-// SetAccountId sets the value of AccountId.
-func (s *GetSubscriptionOKCurrentPlan) SetAccountId(val string) {
-	s.AccountId = val
-}
-
-// SetContractId sets the value of ContractId.
-func (s *GetSubscriptionOKCurrentPlan) SetContractId(val string) {
-	s.ContractId = val
-}
-
-// SetPlanId sets the value of PlanId.
-func (s *GetSubscriptionOKCurrentPlan) SetPlanId(val int) {
-	s.PlanId = val
-}
-
-// SetActivateFrom sets the value of ActivateFrom.
-func (s *GetSubscriptionOKCurrentPlan) SetActivateFrom(val time.Time) {
-	s.ActivateFrom = val
-}
-
-// SetActivateUntil sets the value of ActivateUntil.
-func (s *GetSubscriptionOKCurrentPlan) SetActivateUntil(val NilDateTime) {
-	s.ActivateUntil = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *GetSubscriptionOKCurrentPlan) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *GetSubscriptionOKCurrentPlan) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-// SetPlanName sets the value of PlanName.
-func (s *GetSubscriptionOKCurrentPlan) SetPlanName(val string) {
-	s.PlanName = val
-}
-
-type GetSubscriptionOKMonthAppliedPlan struct {
-	ID                  string      `json:"id"`
-	AccountId           string      `json:"accountId"`
-	ContractId          string      `json:"contractId"`
-	PlanId              int         `json:"planId"`
-	ActivateFrom        time.Time   `json:"activateFrom"`
-	ActivateUntil       NilDateTime `json:"activateUntil"`
-	CreatedAt           time.Time   `json:"createdAt"`
-	UpdatedAt           time.Time   `json:"updatedAt"`
-	PlanName            string      `json:"planName"`
-	PlanGrade           int         `json:"planGrade"`
-	BasePrice           int         `json:"basePrice"`
-	IncludedSteps       int         `json:"includedSteps"`
-	OverageStepUnit     int         `json:"overageStepUnit"`
-	OveragePricePerUnit int         `json:"overagePricePerUnit"`
-}
-
-// GetID returns the value of ID.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetID() string {
-	return s.ID
-}
-
-// GetAccountId returns the value of AccountId.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetAccountId() string {
-	return s.AccountId
-}
-
-// GetContractId returns the value of ContractId.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetContractId() string {
-	return s.ContractId
-}
-
-// GetPlanId returns the value of PlanId.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetPlanId() int {
-	return s.PlanId
-}
-
-// GetActivateFrom returns the value of ActivateFrom.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetActivateFrom() time.Time {
-	return s.ActivateFrom
-}
-
-// GetActivateUntil returns the value of ActivateUntil.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetActivateUntil() NilDateTime {
-	return s.ActivateUntil
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// GetPlanName returns the value of PlanName.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetPlanName() string {
-	return s.PlanName
-}
-
-// GetPlanGrade returns the value of PlanGrade.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetPlanGrade() int {
-	return s.PlanGrade
-}
-
-// GetBasePrice returns the value of BasePrice.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetBasePrice() int {
-	return s.BasePrice
-}
-
-// GetIncludedSteps returns the value of IncludedSteps.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetIncludedSteps() int {
-	return s.IncludedSteps
-}
-
-// GetOverageStepUnit returns the value of OverageStepUnit.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetOverageStepUnit() int {
-	return s.OverageStepUnit
-}
-
-// GetOveragePricePerUnit returns the value of OveragePricePerUnit.
-func (s *GetSubscriptionOKMonthAppliedPlan) GetOveragePricePerUnit() int {
-	return s.OveragePricePerUnit
-}
-
-// SetID sets the value of ID.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetID(val string) {
-	s.ID = val
-}
-
-// SetAccountId sets the value of AccountId.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetAccountId(val string) {
-	s.AccountId = val
-}
-
-// SetContractId sets the value of ContractId.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetContractId(val string) {
-	s.ContractId = val
-}
-
-// SetPlanId sets the value of PlanId.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetPlanId(val int) {
-	s.PlanId = val
-}
-
-// SetActivateFrom sets the value of ActivateFrom.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetActivateFrom(val time.Time) {
-	s.ActivateFrom = val
-}
-
-// SetActivateUntil sets the value of ActivateUntil.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetActivateUntil(val NilDateTime) {
-	s.ActivateUntil = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-// SetPlanName sets the value of PlanName.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetPlanName(val string) {
-	s.PlanName = val
-}
-
-// SetPlanGrade sets the value of PlanGrade.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetPlanGrade(val int) {
-	s.PlanGrade = val
-}
-
-// SetBasePrice sets the value of BasePrice.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetBasePrice(val int) {
-	s.BasePrice = val
-}
-
-// SetIncludedSteps sets the value of IncludedSteps.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetIncludedSteps(val int) {
-	s.IncludedSteps = val
-}
-
-// SetOverageStepUnit sets the value of OverageStepUnit.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetOverageStepUnit(val int) {
-	s.OverageStepUnit = val
-}
-
-// SetOveragePricePerUnit sets the value of OveragePricePerUnit.
-func (s *GetSubscriptionOKMonthAppliedPlan) SetOveragePricePerUnit(val int) {
-	s.OveragePricePerUnit = val
-}
-
-type GetSubscriptionUnauthorized struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetSubscriptionUnauthorized) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetSubscriptionUnauthorized) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetSubscriptionUnauthorized) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetSubscriptionUnauthorized) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetSubscriptionUnauthorized) getSubscriptionRes() {}
-
-type GetWorkflowBadRequest struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowBadRequest) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowBadRequest) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowBadRequest) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowBadRequest) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowBadRequest) getWorkflowRes() {}
-
-type GetWorkflowForbidden struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowForbidden) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowForbidden) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowForbidden) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowForbidden) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowForbidden) getWorkflowRes() {}
-
-type GetWorkflowInternalServerError struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowInternalServerError) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowInternalServerError) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowInternalServerError) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowInternalServerError) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowInternalServerError) getWorkflowRes() {}
-
-type GetWorkflowNotFound struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowNotFound) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowNotFound) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowNotFound) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowNotFound) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowNotFound) getWorkflowRes() {}
-
-type GetWorkflowOK struct {
-	IsOk     bool                  `json:"is_ok"`
-	Workflow GetWorkflowOKWorkflow `json:"Workflow"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowOK) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetWorkflow returns the value of Workflow.
-func (s *GetWorkflowOK) GetWorkflow() GetWorkflowOKWorkflow {
-	return s.Workflow
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowOK) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetWorkflow sets the value of Workflow.
-func (s *GetWorkflowOK) SetWorkflow(val GetWorkflowOKWorkflow) {
-	s.Workflow = val
-}
-
-func (*GetWorkflowOK) getWorkflowRes() {}
-
-type GetWorkflowOKWorkflow struct {
-	ID                 string                                     `json:"Id"`
-	Name               string                                     `json:"Name"`
-	Description        OptString                                  `json:"Description"`
-	Publish            bool                                       `json:"Publish"`
-	Logging            bool                                       `json:"Logging"`
-	Tags               []GetWorkflowOKWorkflowTagsItem            `json:"Tags"`
-	ServicePrincipalId OptGetWorkflowOKWorkflowServicePrincipalId `json:"ServicePrincipalId"`
-	CreatedAt          time.Time                                  `json:"CreatedAt"`
-	UpdatedAt          time.Time                                  `json:"UpdatedAt"`
-	ConcurrencyMode    OptGetWorkflowOKWorkflowConcurrencyMode    `json:"ConcurrencyMode"`
-}
-
-// GetID returns the value of ID.
-func (s *GetWorkflowOKWorkflow) GetID() string {
-	return s.ID
-}
-
-// GetName returns the value of Name.
-func (s *GetWorkflowOKWorkflow) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *GetWorkflowOKWorkflow) GetDescription() OptString {
-	return s.Description
-}
-
-// GetPublish returns the value of Publish.
-func (s *GetWorkflowOKWorkflow) GetPublish() bool {
-	return s.Publish
-}
-
-// GetLogging returns the value of Logging.
-func (s *GetWorkflowOKWorkflow) GetLogging() bool {
-	return s.Logging
-}
-
-// GetTags returns the value of Tags.
-func (s *GetWorkflowOKWorkflow) GetTags() []GetWorkflowOKWorkflowTagsItem {
-	return s.Tags
-}
-
-// GetServicePrincipalId returns the value of ServicePrincipalId.
-func (s *GetWorkflowOKWorkflow) GetServicePrincipalId() OptGetWorkflowOKWorkflowServicePrincipalId {
-	return s.ServicePrincipalId
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *GetWorkflowOKWorkflow) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *GetWorkflowOKWorkflow) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// GetConcurrencyMode returns the value of ConcurrencyMode.
-func (s *GetWorkflowOKWorkflow) GetConcurrencyMode() OptGetWorkflowOKWorkflowConcurrencyMode {
-	return s.ConcurrencyMode
-}
-
-// SetID sets the value of ID.
-func (s *GetWorkflowOKWorkflow) SetID(val string) {
-	s.ID = val
-}
-
-// SetName sets the value of Name.
-func (s *GetWorkflowOKWorkflow) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *GetWorkflowOKWorkflow) SetDescription(val OptString) {
-	s.Description = val
-}
-
-// SetPublish sets the value of Publish.
-func (s *GetWorkflowOKWorkflow) SetPublish(val bool) {
-	s.Publish = val
-}
-
-// SetLogging sets the value of Logging.
-func (s *GetWorkflowOKWorkflow) SetLogging(val bool) {
-	s.Logging = val
-}
-
-// SetTags sets the value of Tags.
-func (s *GetWorkflowOKWorkflow) SetTags(val []GetWorkflowOKWorkflowTagsItem) {
-	s.Tags = val
-}
-
-// SetServicePrincipalId sets the value of ServicePrincipalId.
-func (s *GetWorkflowOKWorkflow) SetServicePrincipalId(val OptGetWorkflowOKWorkflowServicePrincipalId) {
-	s.ServicePrincipalId = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *GetWorkflowOKWorkflow) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *GetWorkflowOKWorkflow) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-// SetConcurrencyMode sets the value of ConcurrencyMode.
-func (s *GetWorkflowOKWorkflow) SetConcurrencyMode(val OptGetWorkflowOKWorkflowConcurrencyMode) {
-	s.ConcurrencyMode = val
-}
-
-type GetWorkflowOKWorkflowConcurrencyMode string
-
-const (
-	GetWorkflowOKWorkflowConcurrencyModeParallel GetWorkflowOKWorkflowConcurrencyMode = "parallel"
-	GetWorkflowOKWorkflowConcurrencyModeLock     GetWorkflowOKWorkflowConcurrencyMode = "lock"
-	GetWorkflowOKWorkflowConcurrencyModeQueue    GetWorkflowOKWorkflowConcurrencyMode = "queue"
-)
-
-// AllValues returns all GetWorkflowOKWorkflowConcurrencyMode values.
-func (GetWorkflowOKWorkflowConcurrencyMode) AllValues() []GetWorkflowOKWorkflowConcurrencyMode {
-	return []GetWorkflowOKWorkflowConcurrencyMode{
-		GetWorkflowOKWorkflowConcurrencyModeParallel,
-		GetWorkflowOKWorkflowConcurrencyModeLock,
-		GetWorkflowOKWorkflowConcurrencyModeQueue,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s GetWorkflowOKWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
-	switch s {
-	case GetWorkflowOKWorkflowConcurrencyModeParallel:
-		return []byte(s), nil
-	case GetWorkflowOKWorkflowConcurrencyModeLock:
-		return []byte(s), nil
-	case GetWorkflowOKWorkflowConcurrencyModeQueue:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *GetWorkflowOKWorkflowConcurrencyMode) UnmarshalText(data []byte) error {
-	switch GetWorkflowOKWorkflowConcurrencyMode(data) {
-	case GetWorkflowOKWorkflowConcurrencyModeParallel:
-		*s = GetWorkflowOKWorkflowConcurrencyModeParallel
-		return nil
-	case GetWorkflowOKWorkflowConcurrencyModeLock:
-		*s = GetWorkflowOKWorkflowConcurrencyModeLock
-		return nil
-	case GetWorkflowOKWorkflowConcurrencyModeQueue:
-		*s = GetWorkflowOKWorkflowConcurrencyModeQueue
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// GetWorkflowOKWorkflowServicePrincipalId represents sum type.
-type GetWorkflowOKWorkflowServicePrincipalId struct {
-	// Type selects the active sum variant, switch on this field.
-	Type    GetWorkflowOKWorkflowServicePrincipalIdType
-	String  string
-	Float64 float64
-}
-
-// GetWorkflowOKWorkflowServicePrincipalIdType is oneOf type of GetWorkflowOKWorkflowServicePrincipalId.
-type GetWorkflowOKWorkflowServicePrincipalIdType string
-
-// Possible values for GetWorkflowOKWorkflowServicePrincipalIdType.
-const (
-	StringGetWorkflowOKWorkflowServicePrincipalId  GetWorkflowOKWorkflowServicePrincipalIdType = "string"
-	Float64GetWorkflowOKWorkflowServicePrincipalId GetWorkflowOKWorkflowServicePrincipalIdType = "float64"
-)
-
-// IsString reports whether GetWorkflowOKWorkflowServicePrincipalId is string.
-func (s GetWorkflowOKWorkflowServicePrincipalId) IsString() bool {
-	return s.Type == StringGetWorkflowOKWorkflowServicePrincipalId
-}
-
-// IsFloat64 reports whether GetWorkflowOKWorkflowServicePrincipalId is float64.
-func (s GetWorkflowOKWorkflowServicePrincipalId) IsFloat64() bool {
-	return s.Type == Float64GetWorkflowOKWorkflowServicePrincipalId
-}
-
-// SetString sets GetWorkflowOKWorkflowServicePrincipalId to string.
-func (s *GetWorkflowOKWorkflowServicePrincipalId) SetString(v string) {
-	s.Type = StringGetWorkflowOKWorkflowServicePrincipalId
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetWorkflowOKWorkflowServicePrincipalId is string.
-func (s GetWorkflowOKWorkflowServicePrincipalId) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetWorkflowOKWorkflowServicePrincipalId returns new GetWorkflowOKWorkflowServicePrincipalId from string.
-func NewStringGetWorkflowOKWorkflowServicePrincipalId(v string) GetWorkflowOKWorkflowServicePrincipalId {
-	var s GetWorkflowOKWorkflowServicePrincipalId
-	s.SetString(v)
-	return s
-}
-
-// SetFloat64 sets GetWorkflowOKWorkflowServicePrincipalId to float64.
-func (s *GetWorkflowOKWorkflowServicePrincipalId) SetFloat64(v float64) {
-	s.Type = Float64GetWorkflowOKWorkflowServicePrincipalId
-	s.Float64 = v
-}
-
-// GetFloat64 returns float64 and true boolean if GetWorkflowOKWorkflowServicePrincipalId is float64.
-func (s GetWorkflowOKWorkflowServicePrincipalId) GetFloat64() (v float64, ok bool) {
-	if !s.IsFloat64() {
-		return v, false
-	}
-	return s.Float64, true
-}
-
-// NewFloat64GetWorkflowOKWorkflowServicePrincipalId returns new GetWorkflowOKWorkflowServicePrincipalId from float64.
-func NewFloat64GetWorkflowOKWorkflowServicePrincipalId(v float64) GetWorkflowOKWorkflowServicePrincipalId {
-	var s GetWorkflowOKWorkflowServicePrincipalId
-	s.SetFloat64(v)
-	return s
-}
-
-type GetWorkflowOKWorkflowTagsItem struct {
-	Name string `json:"Name"`
-}
-
-// GetName returns the value of Name.
-func (s *GetWorkflowOKWorkflowTagsItem) GetName() string {
-	return s.Name
-}
-
-// SetName sets the value of Name.
-func (s *GetWorkflowOKWorkflowTagsItem) SetName(val string) {
-	s.Name = val
-}
-
-type GetWorkflowPaymentRequired struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowPaymentRequired) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowPaymentRequired) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowPaymentRequired) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowPaymentRequired) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowPaymentRequired) getWorkflowRes() {}
-
-type GetWorkflowRevisionsBadRequest struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowRevisionsBadRequest) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowRevisionsBadRequest) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowRevisionsBadRequest) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowRevisionsBadRequest) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowRevisionsBadRequest) getWorkflowRevisionsRes() {}
-
-type GetWorkflowRevisionsForbidden struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowRevisionsForbidden) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowRevisionsForbidden) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowRevisionsForbidden) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowRevisionsForbidden) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowRevisionsForbidden) getWorkflowRevisionsRes() {}
-
-type GetWorkflowRevisionsInternalServerError struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowRevisionsInternalServerError) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowRevisionsInternalServerError) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowRevisionsInternalServerError) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowRevisionsInternalServerError) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowRevisionsInternalServerError) getWorkflowRevisionsRes() {}
-
-type GetWorkflowRevisionsNotFound struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowRevisionsNotFound) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowRevisionsNotFound) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowRevisionsNotFound) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowRevisionsNotFound) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowRevisionsNotFound) getWorkflowRevisionsRes() {}
-
-type GetWorkflowRevisionsOK struct {
-	IsOk     bool                           `json:"is_ok"`
-	Revision GetWorkflowRevisionsOKRevision `json:"Revision"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowRevisionsOK) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetRevision returns the value of Revision.
-func (s *GetWorkflowRevisionsOK) GetRevision() GetWorkflowRevisionsOKRevision {
-	return s.Revision
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowRevisionsOK) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetRevision sets the value of Revision.
-func (s *GetWorkflowRevisionsOK) SetRevision(val GetWorkflowRevisionsOKRevision) {
-	s.Revision = val
-}
-
-func (*GetWorkflowRevisionsOK) getWorkflowRevisionsRes() {}
-
-type GetWorkflowRevisionsOKRevision struct {
-	RevisionId    int       `json:"RevisionId"`
-	WorkflowId    string    `json:"WorkflowId"`
-	RevisionAlias OptString `json:"RevisionAlias"`
-	Runbook       string    `json:"Runbook"`
-	CreatedAt     time.Time `json:"CreatedAt"`
-	UpdatedAt     time.Time `json:"UpdatedAt"`
-}
-
-// GetRevisionId returns the value of RevisionId.
-func (s *GetWorkflowRevisionsOKRevision) GetRevisionId() int {
-	return s.RevisionId
-}
-
-// GetWorkflowId returns the value of WorkflowId.
-func (s *GetWorkflowRevisionsOKRevision) GetWorkflowId() string {
-	return s.WorkflowId
-}
-
-// GetRevisionAlias returns the value of RevisionAlias.
-func (s *GetWorkflowRevisionsOKRevision) GetRevisionAlias() OptString {
-	return s.RevisionAlias
-}
-
-// GetRunbook returns the value of Runbook.
-func (s *GetWorkflowRevisionsOKRevision) GetRunbook() string {
-	return s.Runbook
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *GetWorkflowRevisionsOKRevision) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *GetWorkflowRevisionsOKRevision) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// SetRevisionId sets the value of RevisionId.
-func (s *GetWorkflowRevisionsOKRevision) SetRevisionId(val int) {
-	s.RevisionId = val
-}
-
-// SetWorkflowId sets the value of WorkflowId.
-func (s *GetWorkflowRevisionsOKRevision) SetWorkflowId(val string) {
-	s.WorkflowId = val
-}
-
-// SetRevisionAlias sets the value of RevisionAlias.
-func (s *GetWorkflowRevisionsOKRevision) SetRevisionAlias(val OptString) {
-	s.RevisionAlias = val
-}
-
-// SetRunbook sets the value of Runbook.
-func (s *GetWorkflowRevisionsOKRevision) SetRunbook(val string) {
-	s.Runbook = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *GetWorkflowRevisionsOKRevision) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *GetWorkflowRevisionsOKRevision) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-type GetWorkflowRevisionsPaymentRequired struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowRevisionsPaymentRequired) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowRevisionsPaymentRequired) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowRevisionsPaymentRequired) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowRevisionsPaymentRequired) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowRevisionsPaymentRequired) getWorkflowRevisionsRes() {}
-
-type GetWorkflowRevisionsUnauthorized struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowRevisionsUnauthorized) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowRevisionsUnauthorized) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowRevisionsUnauthorized) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowRevisionsUnauthorized) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowRevisionsUnauthorized) getWorkflowRevisionsRes() {}
-
-type GetWorkflowUnauthorized struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *GetWorkflowUnauthorized) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *GetWorkflowUnauthorized) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *GetWorkflowUnauthorized) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *GetWorkflowUnauthorized) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*GetWorkflowUnauthorized) getWorkflowRes() {}
-
-type ListExecutionBadRequest struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListExecutionBadRequest) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListExecutionBadRequest) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListExecutionBadRequest) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListExecutionBadRequest) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListExecutionBadRequest) listExecutionRes() {}
-
-type ListExecutionForbidden struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListExecutionForbidden) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListExecutionForbidden) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListExecutionForbidden) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListExecutionForbidden) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListExecutionForbidden) listExecutionRes() {}
-
-type ListExecutionHistoryBadRequest struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListExecutionHistoryBadRequest) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListExecutionHistoryBadRequest) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListExecutionHistoryBadRequest) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListExecutionHistoryBadRequest) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListExecutionHistoryBadRequest) listExecutionHistoryRes() {}
-
-type ListExecutionHistoryForbidden struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListExecutionHistoryForbidden) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListExecutionHistoryForbidden) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListExecutionHistoryForbidden) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListExecutionHistoryForbidden) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListExecutionHistoryForbidden) listExecutionHistoryRes() {}
-
-type ListExecutionHistoryInternalServerError struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListExecutionHistoryInternalServerError) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListExecutionHistoryInternalServerError) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListExecutionHistoryInternalServerError) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListExecutionHistoryInternalServerError) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListExecutionHistoryInternalServerError) listExecutionHistoryRes() {}
-
-type ListExecutionHistoryNotFound struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListExecutionHistoryNotFound) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListExecutionHistoryNotFound) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListExecutionHistoryNotFound) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListExecutionHistoryNotFound) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListExecutionHistoryNotFound) listExecutionHistoryRes() {}
-
-type ListExecutionHistoryOK struct {
-	IsOk      bool                                  `json:"is_ok"`
-	Total     int                                   `json:"Total"`
-	From      int                                   `json:"From"`
-	Count     int                                   `json:"Count"`
-	Histories []ListExecutionHistoryOKHistoriesItem `json:"Histories"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListExecutionHistoryOK) GetIsOk() bool {
+func (s *ListExecutionHistoriesOK) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetTotal returns the value of Total.
-func (s *ListExecutionHistoryOK) GetTotal() int {
+func (s *ListExecutionHistoriesOK) GetTotal() int {
 	return s.Total
 }
 
 // GetFrom returns the value of From.
-func (s *ListExecutionHistoryOK) GetFrom() int {
+func (s *ListExecutionHistoriesOK) GetFrom() int {
 	return s.From
 }
 
 // GetCount returns the value of Count.
-func (s *ListExecutionHistoryOK) GetCount() int {
+func (s *ListExecutionHistoriesOK) GetCount() int {
 	return s.Count
 }
 
 // GetHistories returns the value of Histories.
-func (s *ListExecutionHistoryOK) GetHistories() []ListExecutionHistoryOKHistoriesItem {
+func (s *ListExecutionHistoriesOK) GetHistories() []ListExecutionHistoriesOKHistoriesItem {
 	return s.Histories
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListExecutionHistoryOK) SetIsOk(val bool) {
+func (s *ListExecutionHistoriesOK) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetTotal sets the value of Total.
-func (s *ListExecutionHistoryOK) SetTotal(val int) {
+func (s *ListExecutionHistoriesOK) SetTotal(val int) {
 	s.Total = val
 }
 
 // SetFrom sets the value of From.
-func (s *ListExecutionHistoryOK) SetFrom(val int) {
+func (s *ListExecutionHistoriesOK) SetFrom(val int) {
 	s.From = val
 }
 
 // SetCount sets the value of Count.
-func (s *ListExecutionHistoryOK) SetCount(val int) {
+func (s *ListExecutionHistoriesOK) SetCount(val int) {
 	s.Count = val
 }
 
 // SetHistories sets the value of Histories.
-func (s *ListExecutionHistoryOK) SetHistories(val []ListExecutionHistoryOKHistoriesItem) {
+func (s *ListExecutionHistoriesOK) SetHistories(val []ListExecutionHistoriesOKHistoriesItem) {
 	s.Histories = val
 }
 
-func (*ListExecutionHistoryOK) listExecutionHistoryRes() {}
+func (*ListExecutionHistoriesOK) listExecutionHistoriesRes() {}
 
-type ListExecutionHistoryOKHistoriesItem struct {
-	WorkflowExecutionId string                                  `json:"WorkflowExecutionId"`
-	JobId               string                                  `json:"JobId"`
-	ThreadId            string                                  `json:"ThreadId"`
-	Type                ListExecutionHistoryOKHistoriesItemType `json:"Type"`
-	CreatedAt           time.Time                               `json:"CreatedAt"`
-	Meta                string                                  `json:"Meta"`
-	StackTrace          string                                  `json:"StackTrace"`
-	Variables           string                                  `json:"Variables"`
+type ListExecutionHistoriesOKHistoriesItem struct {
+	WorkflowExecutionId string                                    `json:"WorkflowExecutionId"`
+	JobId               string                                    `json:"JobId"`
+	ThreadId            string                                    `json:"ThreadId"`
+	Type                ListExecutionHistoriesOKHistoriesItemType `json:"Type"`
+	CreatedAt           time.Time                                 `json:"CreatedAt"`
+	Meta                string                                    `json:"Meta"`
+	StackTrace          string                                    `json:"StackTrace"`
+	Variables           string                                    `json:"Variables"`
 }
 
 // GetWorkflowExecutionId returns the value of WorkflowExecutionId.
-func (s *ListExecutionHistoryOKHistoriesItem) GetWorkflowExecutionId() string {
+func (s *ListExecutionHistoriesOKHistoriesItem) GetWorkflowExecutionId() string {
 	return s.WorkflowExecutionId
 }
 
 // GetJobId returns the value of JobId.
-func (s *ListExecutionHistoryOKHistoriesItem) GetJobId() string {
+func (s *ListExecutionHistoriesOKHistoriesItem) GetJobId() string {
 	return s.JobId
 }
 
 // GetThreadId returns the value of ThreadId.
-func (s *ListExecutionHistoryOKHistoriesItem) GetThreadId() string {
+func (s *ListExecutionHistoriesOKHistoriesItem) GetThreadId() string {
 	return s.ThreadId
 }
 
 // GetType returns the value of Type.
-func (s *ListExecutionHistoryOKHistoriesItem) GetType() ListExecutionHistoryOKHistoriesItemType {
+func (s *ListExecutionHistoriesOKHistoriesItem) GetType() ListExecutionHistoriesOKHistoriesItemType {
 	return s.Type
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *ListExecutionHistoryOKHistoriesItem) GetCreatedAt() time.Time {
+func (s *ListExecutionHistoriesOKHistoriesItem) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // GetMeta returns the value of Meta.
-func (s *ListExecutionHistoryOKHistoriesItem) GetMeta() string {
+func (s *ListExecutionHistoriesOKHistoriesItem) GetMeta() string {
 	return s.Meta
 }
 
 // GetStackTrace returns the value of StackTrace.
-func (s *ListExecutionHistoryOKHistoriesItem) GetStackTrace() string {
+func (s *ListExecutionHistoriesOKHistoriesItem) GetStackTrace() string {
 	return s.StackTrace
 }
 
 // GetVariables returns the value of Variables.
-func (s *ListExecutionHistoryOKHistoriesItem) GetVariables() string {
+func (s *ListExecutionHistoriesOKHistoriesItem) GetVariables() string {
 	return s.Variables
 }
 
 // SetWorkflowExecutionId sets the value of WorkflowExecutionId.
-func (s *ListExecutionHistoryOKHistoriesItem) SetWorkflowExecutionId(val string) {
+func (s *ListExecutionHistoriesOKHistoriesItem) SetWorkflowExecutionId(val string) {
 	s.WorkflowExecutionId = val
 }
 
 // SetJobId sets the value of JobId.
-func (s *ListExecutionHistoryOKHistoriesItem) SetJobId(val string) {
+func (s *ListExecutionHistoriesOKHistoriesItem) SetJobId(val string) {
 	s.JobId = val
 }
 
 // SetThreadId sets the value of ThreadId.
-func (s *ListExecutionHistoryOKHistoriesItem) SetThreadId(val string) {
+func (s *ListExecutionHistoriesOKHistoriesItem) SetThreadId(val string) {
 	s.ThreadId = val
 }
 
 // SetType sets the value of Type.
-func (s *ListExecutionHistoryOKHistoriesItem) SetType(val ListExecutionHistoryOKHistoriesItemType) {
+func (s *ListExecutionHistoriesOKHistoriesItem) SetType(val ListExecutionHistoriesOKHistoriesItemType) {
 	s.Type = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *ListExecutionHistoryOKHistoriesItem) SetCreatedAt(val time.Time) {
+func (s *ListExecutionHistoriesOKHistoriesItem) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
 // SetMeta sets the value of Meta.
-func (s *ListExecutionHistoryOKHistoriesItem) SetMeta(val string) {
+func (s *ListExecutionHistoriesOKHistoriesItem) SetMeta(val string) {
 	s.Meta = val
 }
 
 // SetStackTrace sets the value of StackTrace.
-func (s *ListExecutionHistoryOKHistoriesItem) SetStackTrace(val string) {
+func (s *ListExecutionHistoriesOKHistoriesItem) SetStackTrace(val string) {
 	s.StackTrace = val
 }
 
 // SetVariables sets the value of Variables.
-func (s *ListExecutionHistoryOKHistoriesItem) SetVariables(val string) {
+func (s *ListExecutionHistoriesOKHistoriesItem) SetVariables(val string) {
 	s.Variables = val
 }
 
-type ListExecutionHistoryOKHistoriesItemType string
+type ListExecutionHistoriesOKHistoriesItemType string
 
 const (
-	ListExecutionHistoryOKHistoriesItemTypeWorkflowWillStart    ListExecutionHistoryOKHistoriesItemType = "workflowWillStart"
-	ListExecutionHistoryOKHistoriesItemTypeWorkflowDidSuspended ListExecutionHistoryOKHistoriesItemType = "workflowDidSuspended"
-	ListExecutionHistoryOKHistoriesItemTypeWorkflowWillResume   ListExecutionHistoryOKHistoriesItemType = "workflowWillResume"
-	ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted ListExecutionHistoryOKHistoriesItemType = "workflowDidCompleted"
-	ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed    ListExecutionHistoryOKHistoriesItemType = "workflowDidFailed"
-	ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled  ListExecutionHistoryOKHistoriesItemType = "workflowDidCanceled"
-	ListExecutionHistoryOKHistoriesItemTypeStepWillExecute      ListExecutionHistoryOKHistoriesItemType = "stepWillExecute"
-	ListExecutionHistoryOKHistoriesItemTypeStepDidExecuted      ListExecutionHistoryOKHistoriesItemType = "stepDidExecuted"
-	ListExecutionHistoryOKHistoriesItemTypeFunctionWillCall     ListExecutionHistoryOKHistoriesItemType = "functionWillCall"
-	ListExecutionHistoryOKHistoriesItemTypeFunctionWillRun      ListExecutionHistoryOKHistoriesItemType = "functionWillRun"
-	ListExecutionHistoryOKHistoriesItemTypeFunctionDidRun       ListExecutionHistoryOKHistoriesItemType = "functionDidRun"
-	ListExecutionHistoryOKHistoriesItemTypeFunctionDidFailed    ListExecutionHistoryOKHistoriesItemType = "functionDidFailed"
+	ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillStart    ListExecutionHistoriesOKHistoriesItemType = "workflowWillStart"
+	ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidSuspended ListExecutionHistoriesOKHistoriesItemType = "workflowDidSuspended"
+	ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillResume   ListExecutionHistoriesOKHistoriesItemType = "workflowWillResume"
+	ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCompleted ListExecutionHistoriesOKHistoriesItemType = "workflowDidCompleted"
+	ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidFailed    ListExecutionHistoriesOKHistoriesItemType = "workflowDidFailed"
+	ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCanceled  ListExecutionHistoriesOKHistoriesItemType = "workflowDidCanceled"
+	ListExecutionHistoriesOKHistoriesItemTypeStepWillExecute      ListExecutionHistoriesOKHistoriesItemType = "stepWillExecute"
+	ListExecutionHistoriesOKHistoriesItemTypeStepDidExecuted      ListExecutionHistoriesOKHistoriesItemType = "stepDidExecuted"
+	ListExecutionHistoriesOKHistoriesItemTypeFunctionWillCall     ListExecutionHistoriesOKHistoriesItemType = "functionWillCall"
+	ListExecutionHistoriesOKHistoriesItemTypeFunctionWillRun      ListExecutionHistoriesOKHistoriesItemType = "functionWillRun"
+	ListExecutionHistoriesOKHistoriesItemTypeFunctionDidRun       ListExecutionHistoriesOKHistoriesItemType = "functionDidRun"
+	ListExecutionHistoriesOKHistoriesItemTypeFunctionDidFailed    ListExecutionHistoriesOKHistoriesItemType = "functionDidFailed"
 )
 
-// AllValues returns all ListExecutionHistoryOKHistoriesItemType values.
-func (ListExecutionHistoryOKHistoriesItemType) AllValues() []ListExecutionHistoryOKHistoriesItemType {
-	return []ListExecutionHistoryOKHistoriesItemType{
-		ListExecutionHistoryOKHistoriesItemTypeWorkflowWillStart,
-		ListExecutionHistoryOKHistoriesItemTypeWorkflowDidSuspended,
-		ListExecutionHistoryOKHistoriesItemTypeWorkflowWillResume,
-		ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted,
-		ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed,
-		ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled,
-		ListExecutionHistoryOKHistoriesItemTypeStepWillExecute,
-		ListExecutionHistoryOKHistoriesItemTypeStepDidExecuted,
-		ListExecutionHistoryOKHistoriesItemTypeFunctionWillCall,
-		ListExecutionHistoryOKHistoriesItemTypeFunctionWillRun,
-		ListExecutionHistoryOKHistoriesItemTypeFunctionDidRun,
-		ListExecutionHistoryOKHistoriesItemTypeFunctionDidFailed,
+// AllValues returns all ListExecutionHistoriesOKHistoriesItemType values.
+func (ListExecutionHistoriesOKHistoriesItemType) AllValues() []ListExecutionHistoriesOKHistoriesItemType {
+	return []ListExecutionHistoriesOKHistoriesItemType{
+		ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillStart,
+		ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidSuspended,
+		ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillResume,
+		ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCompleted,
+		ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidFailed,
+		ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCanceled,
+		ListExecutionHistoriesOKHistoriesItemTypeStepWillExecute,
+		ListExecutionHistoriesOKHistoriesItemTypeStepDidExecuted,
+		ListExecutionHistoriesOKHistoriesItemTypeFunctionWillCall,
+		ListExecutionHistoriesOKHistoriesItemTypeFunctionWillRun,
+		ListExecutionHistoriesOKHistoriesItemTypeFunctionDidRun,
+		ListExecutionHistoriesOKHistoriesItemTypeFunctionDidFailed,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListExecutionHistoryOKHistoriesItemType) MarshalText() ([]byte, error) {
+func (s ListExecutionHistoriesOKHistoriesItemType) MarshalText() ([]byte, error) {
 	switch s {
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowWillStart:
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillStart:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidSuspended:
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidSuspended:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowWillResume:
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillResume:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted:
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCompleted:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed:
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidFailed:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled:
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCanceled:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeStepWillExecute:
+	case ListExecutionHistoriesOKHistoriesItemTypeStepWillExecute:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeStepDidExecuted:
+	case ListExecutionHistoriesOKHistoriesItemTypeStepDidExecuted:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeFunctionWillCall:
+	case ListExecutionHistoriesOKHistoriesItemTypeFunctionWillCall:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeFunctionWillRun:
+	case ListExecutionHistoriesOKHistoriesItemTypeFunctionWillRun:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeFunctionDidRun:
+	case ListExecutionHistoriesOKHistoriesItemTypeFunctionDidRun:
 		return []byte(s), nil
-	case ListExecutionHistoryOKHistoriesItemTypeFunctionDidFailed:
+	case ListExecutionHistoriesOKHistoriesItemTypeFunctionDidFailed:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -6193,97 +4324,97 @@ func (s ListExecutionHistoryOKHistoriesItemType) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListExecutionHistoryOKHistoriesItemType) UnmarshalText(data []byte) error {
-	switch ListExecutionHistoryOKHistoriesItemType(data) {
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowWillStart:
-		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowWillStart
+func (s *ListExecutionHistoriesOKHistoriesItemType) UnmarshalText(data []byte) error {
+	switch ListExecutionHistoriesOKHistoriesItemType(data) {
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillStart:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillStart
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidSuspended:
-		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidSuspended
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidSuspended:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidSuspended
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowWillResume:
-		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowWillResume
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillResume:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeWorkflowWillResume
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted:
-		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCompleted
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCompleted:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCompleted
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed:
-		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidFailed
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidFailed:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidFailed
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled:
-		*s = ListExecutionHistoryOKHistoriesItemTypeWorkflowDidCanceled
+	case ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCanceled:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeWorkflowDidCanceled
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeStepWillExecute:
-		*s = ListExecutionHistoryOKHistoriesItemTypeStepWillExecute
+	case ListExecutionHistoriesOKHistoriesItemTypeStepWillExecute:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeStepWillExecute
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeStepDidExecuted:
-		*s = ListExecutionHistoryOKHistoriesItemTypeStepDidExecuted
+	case ListExecutionHistoriesOKHistoriesItemTypeStepDidExecuted:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeStepDidExecuted
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeFunctionWillCall:
-		*s = ListExecutionHistoryOKHistoriesItemTypeFunctionWillCall
+	case ListExecutionHistoriesOKHistoriesItemTypeFunctionWillCall:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeFunctionWillCall
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeFunctionWillRun:
-		*s = ListExecutionHistoryOKHistoriesItemTypeFunctionWillRun
+	case ListExecutionHistoriesOKHistoriesItemTypeFunctionWillRun:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeFunctionWillRun
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeFunctionDidRun:
-		*s = ListExecutionHistoryOKHistoriesItemTypeFunctionDidRun
+	case ListExecutionHistoriesOKHistoriesItemTypeFunctionDidRun:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeFunctionDidRun
 		return nil
-	case ListExecutionHistoryOKHistoriesItemTypeFunctionDidFailed:
-		*s = ListExecutionHistoryOKHistoriesItemTypeFunctionDidFailed
+	case ListExecutionHistoriesOKHistoriesItemTypeFunctionDidFailed:
+		*s = ListExecutionHistoriesOKHistoriesItemTypeFunctionDidFailed
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ListExecutionHistoryPaymentRequired struct {
+type ListExecutionHistoriesPaymentRequired struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListExecutionHistoryPaymentRequired) GetIsOk() bool {
+func (s *ListExecutionHistoriesPaymentRequired) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListExecutionHistoryPaymentRequired) GetMessage() string {
+func (s *ListExecutionHistoriesPaymentRequired) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListExecutionHistoryPaymentRequired) SetIsOk(val bool) {
+func (s *ListExecutionHistoriesPaymentRequired) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListExecutionHistoryPaymentRequired) SetMessage(val string) {
+func (s *ListExecutionHistoriesPaymentRequired) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListExecutionHistoryPaymentRequired) listExecutionHistoryRes() {}
+func (*ListExecutionHistoriesPaymentRequired) listExecutionHistoriesRes() {}
 
-type ListExecutionHistorySortOrder string
+type ListExecutionHistoriesSortOrder string
 
 const (
-	ListExecutionHistorySortOrderAsc  ListExecutionHistorySortOrder = "asc"
-	ListExecutionHistorySortOrderDesc ListExecutionHistorySortOrder = "desc"
+	ListExecutionHistoriesSortOrderAsc  ListExecutionHistoriesSortOrder = "asc"
+	ListExecutionHistoriesSortOrderDesc ListExecutionHistoriesSortOrder = "desc"
 )
 
-// AllValues returns all ListExecutionHistorySortOrder values.
-func (ListExecutionHistorySortOrder) AllValues() []ListExecutionHistorySortOrder {
-	return []ListExecutionHistorySortOrder{
-		ListExecutionHistorySortOrderAsc,
-		ListExecutionHistorySortOrderDesc,
+// AllValues returns all ListExecutionHistoriesSortOrder values.
+func (ListExecutionHistoriesSortOrder) AllValues() []ListExecutionHistoriesSortOrder {
+	return []ListExecutionHistoriesSortOrder{
+		ListExecutionHistoriesSortOrderAsc,
+		ListExecutionHistoriesSortOrderDesc,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListExecutionHistorySortOrder) MarshalText() ([]byte, error) {
+func (s ListExecutionHistoriesSortOrder) MarshalText() ([]byte, error) {
 	switch s {
-	case ListExecutionHistorySortOrderAsc:
+	case ListExecutionHistoriesSortOrderAsc:
 		return []byte(s), nil
-	case ListExecutionHistorySortOrderDesc:
+	case ListExecutionHistoriesSortOrderDesc:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -6291,387 +4422,441 @@ func (s ListExecutionHistorySortOrder) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListExecutionHistorySortOrder) UnmarshalText(data []byte) error {
-	switch ListExecutionHistorySortOrder(data) {
-	case ListExecutionHistorySortOrderAsc:
-		*s = ListExecutionHistorySortOrderAsc
+func (s *ListExecutionHistoriesSortOrder) UnmarshalText(data []byte) error {
+	switch ListExecutionHistoriesSortOrder(data) {
+	case ListExecutionHistoriesSortOrderAsc:
+		*s = ListExecutionHistoriesSortOrderAsc
 		return nil
-	case ListExecutionHistorySortOrderDesc:
-		*s = ListExecutionHistorySortOrderDesc
+	case ListExecutionHistoriesSortOrderDesc:
+		*s = ListExecutionHistoriesSortOrderDesc
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ListExecutionHistoryUnauthorized struct {
+type ListExecutionHistoriesUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListExecutionHistoryUnauthorized) GetIsOk() bool {
+func (s *ListExecutionHistoriesUnauthorized) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListExecutionHistoryUnauthorized) GetMessage() string {
+func (s *ListExecutionHistoriesUnauthorized) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListExecutionHistoryUnauthorized) SetIsOk(val bool) {
+func (s *ListExecutionHistoriesUnauthorized) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListExecutionHistoryUnauthorized) SetMessage(val string) {
+func (s *ListExecutionHistoriesUnauthorized) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListExecutionHistoryUnauthorized) listExecutionHistoryRes() {}
+func (*ListExecutionHistoriesUnauthorized) listExecutionHistoriesRes() {}
 
-type ListExecutionInternalServerError struct {
+type ListExecutionsBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListExecutionInternalServerError) GetIsOk() bool {
+func (s *ListExecutionsBadRequest) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListExecutionInternalServerError) GetMessage() string {
+func (s *ListExecutionsBadRequest) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListExecutionInternalServerError) SetIsOk(val bool) {
+func (s *ListExecutionsBadRequest) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListExecutionInternalServerError) SetMessage(val string) {
+func (s *ListExecutionsBadRequest) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListExecutionInternalServerError) listExecutionRes() {}
+func (*ListExecutionsBadRequest) listExecutionsRes() {}
 
-type ListExecutionNotFound struct {
+type ListExecutionsForbidden struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListExecutionNotFound) GetIsOk() bool {
+func (s *ListExecutionsForbidden) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListExecutionNotFound) GetMessage() string {
+func (s *ListExecutionsForbidden) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListExecutionNotFound) SetIsOk(val bool) {
+func (s *ListExecutionsForbidden) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListExecutionNotFound) SetMessage(val string) {
+func (s *ListExecutionsForbidden) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListExecutionNotFound) listExecutionRes() {}
+func (*ListExecutionsForbidden) listExecutionsRes() {}
 
-type ListExecutionOK struct {
-	IsOk       bool                            `json:"is_ok"`
-	Total      int                             `json:"Total"`
-	From       int                             `json:"From"`
-	Count      int                             `json:"Count"`
-	Executions []ListExecutionOKExecutionsItem `json:"Executions"`
+type ListExecutionsInternalServerError struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListExecutionOK) GetIsOk() bool {
+func (s *ListExecutionsInternalServerError) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListExecutionsInternalServerError) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListExecutionsInternalServerError) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListExecutionsInternalServerError) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListExecutionsInternalServerError) listExecutionsRes() {}
+
+type ListExecutionsNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListExecutionsNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListExecutionsNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListExecutionsNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListExecutionsNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListExecutionsNotFound) listExecutionsRes() {}
+
+type ListExecutionsOK struct {
+	IsOk       bool                             `json:"is_ok"`
+	Total      int                              `json:"Total"`
+	From       int                              `json:"From"`
+	Count      int                              `json:"Count"`
+	Executions []ListExecutionsOKExecutionsItem `json:"Executions"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListExecutionsOK) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetTotal returns the value of Total.
-func (s *ListExecutionOK) GetTotal() int {
+func (s *ListExecutionsOK) GetTotal() int {
 	return s.Total
 }
 
 // GetFrom returns the value of From.
-func (s *ListExecutionOK) GetFrom() int {
+func (s *ListExecutionsOK) GetFrom() int {
 	return s.From
 }
 
 // GetCount returns the value of Count.
-func (s *ListExecutionOK) GetCount() int {
+func (s *ListExecutionsOK) GetCount() int {
 	return s.Count
 }
 
 // GetExecutions returns the value of Executions.
-func (s *ListExecutionOK) GetExecutions() []ListExecutionOKExecutionsItem {
+func (s *ListExecutionsOK) GetExecutions() []ListExecutionsOKExecutionsItem {
 	return s.Executions
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListExecutionOK) SetIsOk(val bool) {
+func (s *ListExecutionsOK) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetTotal sets the value of Total.
-func (s *ListExecutionOK) SetTotal(val int) {
+func (s *ListExecutionsOK) SetTotal(val int) {
 	s.Total = val
 }
 
 // SetFrom sets the value of From.
-func (s *ListExecutionOK) SetFrom(val int) {
+func (s *ListExecutionsOK) SetFrom(val int) {
 	s.From = val
 }
 
 // SetCount sets the value of Count.
-func (s *ListExecutionOK) SetCount(val int) {
+func (s *ListExecutionsOK) SetCount(val int) {
 	s.Count = val
 }
 
 // SetExecutions sets the value of Executions.
-func (s *ListExecutionOK) SetExecutions(val []ListExecutionOKExecutionsItem) {
+func (s *ListExecutionsOK) SetExecutions(val []ListExecutionsOKExecutionsItem) {
 	s.Executions = val
 }
 
-func (*ListExecutionOK) listExecutionRes() {}
+func (*ListExecutionsOK) listExecutionsRes() {}
 
-type ListExecutionOKExecutionsItem struct {
-	ExecutionId       string                                `json:"ExecutionId"`
-	Name              string                                `json:"Name"`
-	Workflow          ListExecutionOKExecutionsItemWorkflow `json:"Workflow"`
-	Status            ListExecutionOKExecutionsItemStatus   `json:"Status"`
-	Revision          int                                   `json:"Revision"`
-	RevisionAlias     string                                `json:"RevisionAlias"`
-	Args              string                                `json:"Args"`
-	StepCount         int                                   `json:"StepCount"`
-	Result            string                                `json:"Result"`
-	Error             string                                `json:"Error"`
-	CreatedAt         time.Time                             `json:"CreatedAt"`
-	UpdatedAt         time.Time                             `json:"UpdatedAt"`
-	RunAt             OptDateTime                           `json:"RunAt"`
-	FailedAt          OptDateTime                           `json:"FailedAt"`
-	SucceededAt       OptDateTime                           `json:"SucceededAt"`
-	CancelRequestedAt OptDateTime                           `json:"CancelRequestedAt"`
-	CanceledAt        OptDateTime                           `json:"CanceledAt"`
+type ListExecutionsOKExecutionsItem struct {
+	ExecutionId       string                                 `json:"ExecutionId"`
+	Name              string                                 `json:"Name"`
+	Workflow          ListExecutionsOKExecutionsItemWorkflow `json:"Workflow"`
+	Status            ListExecutionsOKExecutionsItemStatus   `json:"Status"`
+	Revision          int                                    `json:"Revision"`
+	RevisionAlias     string                                 `json:"RevisionAlias"`
+	Args              string                                 `json:"Args"`
+	StepCount         int                                    `json:"StepCount"`
+	Result            string                                 `json:"Result"`
+	Error             string                                 `json:"Error"`
+	CreatedAt         time.Time                              `json:"CreatedAt"`
+	UpdatedAt         time.Time                              `json:"UpdatedAt"`
+	RunAt             OptDateTime                            `json:"RunAt"`
+	FailedAt          OptDateTime                            `json:"FailedAt"`
+	SucceededAt       OptDateTime                            `json:"SucceededAt"`
+	CancelRequestedAt OptDateTime                            `json:"CancelRequestedAt"`
+	CanceledAt        OptDateTime                            `json:"CanceledAt"`
 }
 
 // GetExecutionId returns the value of ExecutionId.
-func (s *ListExecutionOKExecutionsItem) GetExecutionId() string {
+func (s *ListExecutionsOKExecutionsItem) GetExecutionId() string {
 	return s.ExecutionId
 }
 
 // GetName returns the value of Name.
-func (s *ListExecutionOKExecutionsItem) GetName() string {
+func (s *ListExecutionsOKExecutionsItem) GetName() string {
 	return s.Name
 }
 
 // GetWorkflow returns the value of Workflow.
-func (s *ListExecutionOKExecutionsItem) GetWorkflow() ListExecutionOKExecutionsItemWorkflow {
+func (s *ListExecutionsOKExecutionsItem) GetWorkflow() ListExecutionsOKExecutionsItemWorkflow {
 	return s.Workflow
 }
 
 // GetStatus returns the value of Status.
-func (s *ListExecutionOKExecutionsItem) GetStatus() ListExecutionOKExecutionsItemStatus {
+func (s *ListExecutionsOKExecutionsItem) GetStatus() ListExecutionsOKExecutionsItemStatus {
 	return s.Status
 }
 
 // GetRevision returns the value of Revision.
-func (s *ListExecutionOKExecutionsItem) GetRevision() int {
+func (s *ListExecutionsOKExecutionsItem) GetRevision() int {
 	return s.Revision
 }
 
 // GetRevisionAlias returns the value of RevisionAlias.
-func (s *ListExecutionOKExecutionsItem) GetRevisionAlias() string {
+func (s *ListExecutionsOKExecutionsItem) GetRevisionAlias() string {
 	return s.RevisionAlias
 }
 
 // GetArgs returns the value of Args.
-func (s *ListExecutionOKExecutionsItem) GetArgs() string {
+func (s *ListExecutionsOKExecutionsItem) GetArgs() string {
 	return s.Args
 }
 
 // GetStepCount returns the value of StepCount.
-func (s *ListExecutionOKExecutionsItem) GetStepCount() int {
+func (s *ListExecutionsOKExecutionsItem) GetStepCount() int {
 	return s.StepCount
 }
 
 // GetResult returns the value of Result.
-func (s *ListExecutionOKExecutionsItem) GetResult() string {
+func (s *ListExecutionsOKExecutionsItem) GetResult() string {
 	return s.Result
 }
 
 // GetError returns the value of Error.
-func (s *ListExecutionOKExecutionsItem) GetError() string {
+func (s *ListExecutionsOKExecutionsItem) GetError() string {
 	return s.Error
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *ListExecutionOKExecutionsItem) GetCreatedAt() time.Time {
+func (s *ListExecutionsOKExecutionsItem) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // GetUpdatedAt returns the value of UpdatedAt.
-func (s *ListExecutionOKExecutionsItem) GetUpdatedAt() time.Time {
+func (s *ListExecutionsOKExecutionsItem) GetUpdatedAt() time.Time {
 	return s.UpdatedAt
 }
 
 // GetRunAt returns the value of RunAt.
-func (s *ListExecutionOKExecutionsItem) GetRunAt() OptDateTime {
+func (s *ListExecutionsOKExecutionsItem) GetRunAt() OptDateTime {
 	return s.RunAt
 }
 
 // GetFailedAt returns the value of FailedAt.
-func (s *ListExecutionOKExecutionsItem) GetFailedAt() OptDateTime {
+func (s *ListExecutionsOKExecutionsItem) GetFailedAt() OptDateTime {
 	return s.FailedAt
 }
 
 // GetSucceededAt returns the value of SucceededAt.
-func (s *ListExecutionOKExecutionsItem) GetSucceededAt() OptDateTime {
+func (s *ListExecutionsOKExecutionsItem) GetSucceededAt() OptDateTime {
 	return s.SucceededAt
 }
 
 // GetCancelRequestedAt returns the value of CancelRequestedAt.
-func (s *ListExecutionOKExecutionsItem) GetCancelRequestedAt() OptDateTime {
+func (s *ListExecutionsOKExecutionsItem) GetCancelRequestedAt() OptDateTime {
 	return s.CancelRequestedAt
 }
 
 // GetCanceledAt returns the value of CanceledAt.
-func (s *ListExecutionOKExecutionsItem) GetCanceledAt() OptDateTime {
+func (s *ListExecutionsOKExecutionsItem) GetCanceledAt() OptDateTime {
 	return s.CanceledAt
 }
 
 // SetExecutionId sets the value of ExecutionId.
-func (s *ListExecutionOKExecutionsItem) SetExecutionId(val string) {
+func (s *ListExecutionsOKExecutionsItem) SetExecutionId(val string) {
 	s.ExecutionId = val
 }
 
 // SetName sets the value of Name.
-func (s *ListExecutionOKExecutionsItem) SetName(val string) {
+func (s *ListExecutionsOKExecutionsItem) SetName(val string) {
 	s.Name = val
 }
 
 // SetWorkflow sets the value of Workflow.
-func (s *ListExecutionOKExecutionsItem) SetWorkflow(val ListExecutionOKExecutionsItemWorkflow) {
+func (s *ListExecutionsOKExecutionsItem) SetWorkflow(val ListExecutionsOKExecutionsItemWorkflow) {
 	s.Workflow = val
 }
 
 // SetStatus sets the value of Status.
-func (s *ListExecutionOKExecutionsItem) SetStatus(val ListExecutionOKExecutionsItemStatus) {
+func (s *ListExecutionsOKExecutionsItem) SetStatus(val ListExecutionsOKExecutionsItemStatus) {
 	s.Status = val
 }
 
 // SetRevision sets the value of Revision.
-func (s *ListExecutionOKExecutionsItem) SetRevision(val int) {
+func (s *ListExecutionsOKExecutionsItem) SetRevision(val int) {
 	s.Revision = val
 }
 
 // SetRevisionAlias sets the value of RevisionAlias.
-func (s *ListExecutionOKExecutionsItem) SetRevisionAlias(val string) {
+func (s *ListExecutionsOKExecutionsItem) SetRevisionAlias(val string) {
 	s.RevisionAlias = val
 }
 
 // SetArgs sets the value of Args.
-func (s *ListExecutionOKExecutionsItem) SetArgs(val string) {
+func (s *ListExecutionsOKExecutionsItem) SetArgs(val string) {
 	s.Args = val
 }
 
 // SetStepCount sets the value of StepCount.
-func (s *ListExecutionOKExecutionsItem) SetStepCount(val int) {
+func (s *ListExecutionsOKExecutionsItem) SetStepCount(val int) {
 	s.StepCount = val
 }
 
 // SetResult sets the value of Result.
-func (s *ListExecutionOKExecutionsItem) SetResult(val string) {
+func (s *ListExecutionsOKExecutionsItem) SetResult(val string) {
 	s.Result = val
 }
 
 // SetError sets the value of Error.
-func (s *ListExecutionOKExecutionsItem) SetError(val string) {
+func (s *ListExecutionsOKExecutionsItem) SetError(val string) {
 	s.Error = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *ListExecutionOKExecutionsItem) SetCreatedAt(val time.Time) {
+func (s *ListExecutionsOKExecutionsItem) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
 // SetUpdatedAt sets the value of UpdatedAt.
-func (s *ListExecutionOKExecutionsItem) SetUpdatedAt(val time.Time) {
+func (s *ListExecutionsOKExecutionsItem) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
 
 // SetRunAt sets the value of RunAt.
-func (s *ListExecutionOKExecutionsItem) SetRunAt(val OptDateTime) {
+func (s *ListExecutionsOKExecutionsItem) SetRunAt(val OptDateTime) {
 	s.RunAt = val
 }
 
 // SetFailedAt sets the value of FailedAt.
-func (s *ListExecutionOKExecutionsItem) SetFailedAt(val OptDateTime) {
+func (s *ListExecutionsOKExecutionsItem) SetFailedAt(val OptDateTime) {
 	s.FailedAt = val
 }
 
 // SetSucceededAt sets the value of SucceededAt.
-func (s *ListExecutionOKExecutionsItem) SetSucceededAt(val OptDateTime) {
+func (s *ListExecutionsOKExecutionsItem) SetSucceededAt(val OptDateTime) {
 	s.SucceededAt = val
 }
 
 // SetCancelRequestedAt sets the value of CancelRequestedAt.
-func (s *ListExecutionOKExecutionsItem) SetCancelRequestedAt(val OptDateTime) {
+func (s *ListExecutionsOKExecutionsItem) SetCancelRequestedAt(val OptDateTime) {
 	s.CancelRequestedAt = val
 }
 
 // SetCanceledAt sets the value of CanceledAt.
-func (s *ListExecutionOKExecutionsItem) SetCanceledAt(val OptDateTime) {
+func (s *ListExecutionsOKExecutionsItem) SetCanceledAt(val OptDateTime) {
 	s.CanceledAt = val
 }
 
-type ListExecutionOKExecutionsItemStatus string
+type ListExecutionsOKExecutionsItemStatus string
 
 const (
-	ListExecutionOKExecutionsItemStatusQueued    ListExecutionOKExecutionsItemStatus = "Queued"
-	ListExecutionOKExecutionsItemStatusRunning   ListExecutionOKExecutionsItemStatus = "Running"
-	ListExecutionOKExecutionsItemStatusSucceeded ListExecutionOKExecutionsItemStatus = "Succeeded"
-	ListExecutionOKExecutionsItemStatusFailed    ListExecutionOKExecutionsItemStatus = "Failed"
-	ListExecutionOKExecutionsItemStatusCanceling ListExecutionOKExecutionsItemStatus = "Canceling"
-	ListExecutionOKExecutionsItemStatusCanceled  ListExecutionOKExecutionsItemStatus = "Canceled"
+	ListExecutionsOKExecutionsItemStatusQueued    ListExecutionsOKExecutionsItemStatus = "Queued"
+	ListExecutionsOKExecutionsItemStatusRunning   ListExecutionsOKExecutionsItemStatus = "Running"
+	ListExecutionsOKExecutionsItemStatusSucceeded ListExecutionsOKExecutionsItemStatus = "Succeeded"
+	ListExecutionsOKExecutionsItemStatusFailed    ListExecutionsOKExecutionsItemStatus = "Failed"
+	ListExecutionsOKExecutionsItemStatusCanceling ListExecutionsOKExecutionsItemStatus = "Canceling"
+	ListExecutionsOKExecutionsItemStatusCanceled  ListExecutionsOKExecutionsItemStatus = "Canceled"
 )
 
-// AllValues returns all ListExecutionOKExecutionsItemStatus values.
-func (ListExecutionOKExecutionsItemStatus) AllValues() []ListExecutionOKExecutionsItemStatus {
-	return []ListExecutionOKExecutionsItemStatus{
-		ListExecutionOKExecutionsItemStatusQueued,
-		ListExecutionOKExecutionsItemStatusRunning,
-		ListExecutionOKExecutionsItemStatusSucceeded,
-		ListExecutionOKExecutionsItemStatusFailed,
-		ListExecutionOKExecutionsItemStatusCanceling,
-		ListExecutionOKExecutionsItemStatusCanceled,
+// AllValues returns all ListExecutionsOKExecutionsItemStatus values.
+func (ListExecutionsOKExecutionsItemStatus) AllValues() []ListExecutionsOKExecutionsItemStatus {
+	return []ListExecutionsOKExecutionsItemStatus{
+		ListExecutionsOKExecutionsItemStatusQueued,
+		ListExecutionsOKExecutionsItemStatusRunning,
+		ListExecutionsOKExecutionsItemStatusSucceeded,
+		ListExecutionsOKExecutionsItemStatusFailed,
+		ListExecutionsOKExecutionsItemStatusCanceling,
+		ListExecutionsOKExecutionsItemStatusCanceled,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListExecutionOKExecutionsItemStatus) MarshalText() ([]byte, error) {
+func (s ListExecutionsOKExecutionsItemStatus) MarshalText() ([]byte, error) {
 	switch s {
-	case ListExecutionOKExecutionsItemStatusQueued:
+	case ListExecutionsOKExecutionsItemStatusQueued:
 		return []byte(s), nil
-	case ListExecutionOKExecutionsItemStatusRunning:
+	case ListExecutionsOKExecutionsItemStatusRunning:
 		return []byte(s), nil
-	case ListExecutionOKExecutionsItemStatusSucceeded:
+	case ListExecutionsOKExecutionsItemStatusSucceeded:
 		return []byte(s), nil
-	case ListExecutionOKExecutionsItemStatusFailed:
+	case ListExecutionsOKExecutionsItemStatusFailed:
 		return []byte(s), nil
-	case ListExecutionOKExecutionsItemStatusCanceling:
+	case ListExecutionsOKExecutionsItemStatusCanceling:
 		return []byte(s), nil
-	case ListExecutionOKExecutionsItemStatusCanceled:
+	case ListExecutionsOKExecutionsItemStatusCanceled:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -6679,169 +4864,169 @@ func (s ListExecutionOKExecutionsItemStatus) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListExecutionOKExecutionsItemStatus) UnmarshalText(data []byte) error {
-	switch ListExecutionOKExecutionsItemStatus(data) {
-	case ListExecutionOKExecutionsItemStatusQueued:
-		*s = ListExecutionOKExecutionsItemStatusQueued
+func (s *ListExecutionsOKExecutionsItemStatus) UnmarshalText(data []byte) error {
+	switch ListExecutionsOKExecutionsItemStatus(data) {
+	case ListExecutionsOKExecutionsItemStatusQueued:
+		*s = ListExecutionsOKExecutionsItemStatusQueued
 		return nil
-	case ListExecutionOKExecutionsItemStatusRunning:
-		*s = ListExecutionOKExecutionsItemStatusRunning
+	case ListExecutionsOKExecutionsItemStatusRunning:
+		*s = ListExecutionsOKExecutionsItemStatusRunning
 		return nil
-	case ListExecutionOKExecutionsItemStatusSucceeded:
-		*s = ListExecutionOKExecutionsItemStatusSucceeded
+	case ListExecutionsOKExecutionsItemStatusSucceeded:
+		*s = ListExecutionsOKExecutionsItemStatusSucceeded
 		return nil
-	case ListExecutionOKExecutionsItemStatusFailed:
-		*s = ListExecutionOKExecutionsItemStatusFailed
+	case ListExecutionsOKExecutionsItemStatusFailed:
+		*s = ListExecutionsOKExecutionsItemStatusFailed
 		return nil
-	case ListExecutionOKExecutionsItemStatusCanceling:
-		*s = ListExecutionOKExecutionsItemStatusCanceling
+	case ListExecutionsOKExecutionsItemStatusCanceling:
+		*s = ListExecutionsOKExecutionsItemStatusCanceling
 		return nil
-	case ListExecutionOKExecutionsItemStatusCanceled:
-		*s = ListExecutionOKExecutionsItemStatusCanceled
+	case ListExecutionsOKExecutionsItemStatusCanceled:
+		*s = ListExecutionsOKExecutionsItemStatusCanceled
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ListExecutionOKExecutionsItemWorkflow struct {
-	ID                 string                                                     `json:"Id"`
-	Name               string                                                     `json:"Name"`
-	Description        OptString                                                  `json:"Description"`
-	Publish            bool                                                       `json:"Publish"`
-	Logging            bool                                                       `json:"Logging"`
-	Tags               []ListExecutionOKExecutionsItemWorkflowTagsItem            `json:"Tags"`
-	ServicePrincipalId OptListExecutionOKExecutionsItemWorkflowServicePrincipalId `json:"ServicePrincipalId"`
-	CreatedAt          time.Time                                                  `json:"CreatedAt"`
-	UpdatedAt          time.Time                                                  `json:"UpdatedAt"`
-	ConcurrencyMode    OptListExecutionOKExecutionsItemWorkflowConcurrencyMode    `json:"ConcurrencyMode"`
+type ListExecutionsOKExecutionsItemWorkflow struct {
+	ID                 string                                                      `json:"Id"`
+	Name               string                                                      `json:"Name"`
+	Description        OptString                                                   `json:"Description"`
+	Publish            bool                                                        `json:"Publish"`
+	Logging            bool                                                        `json:"Logging"`
+	Tags               []ListExecutionsOKExecutionsItemWorkflowTagsItem            `json:"Tags"`
+	ServicePrincipalId OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId `json:"ServicePrincipalId"`
+	CreatedAt          time.Time                                                   `json:"CreatedAt"`
+	UpdatedAt          time.Time                                                   `json:"UpdatedAt"`
+	ConcurrencyMode    OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode    `json:"ConcurrencyMode"`
 }
 
 // GetID returns the value of ID.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetID() string {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetID() string {
 	return s.ID
 }
 
 // GetName returns the value of Name.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetName() string {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetDescription() OptString {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetDescription() OptString {
 	return s.Description
 }
 
 // GetPublish returns the value of Publish.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetPublish() bool {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetPublish() bool {
 	return s.Publish
 }
 
 // GetLogging returns the value of Logging.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetLogging() bool {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetLogging() bool {
 	return s.Logging
 }
 
 // GetTags returns the value of Tags.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetTags() []ListExecutionOKExecutionsItemWorkflowTagsItem {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetTags() []ListExecutionsOKExecutionsItemWorkflowTagsItem {
 	return s.Tags
 }
 
 // GetServicePrincipalId returns the value of ServicePrincipalId.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetServicePrincipalId() OptListExecutionOKExecutionsItemWorkflowServicePrincipalId {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetServicePrincipalId() OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId {
 	return s.ServicePrincipalId
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetCreatedAt() time.Time {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // GetUpdatedAt returns the value of UpdatedAt.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetUpdatedAt() time.Time {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetUpdatedAt() time.Time {
 	return s.UpdatedAt
 }
 
 // GetConcurrencyMode returns the value of ConcurrencyMode.
-func (s *ListExecutionOKExecutionsItemWorkflow) GetConcurrencyMode() OptListExecutionOKExecutionsItemWorkflowConcurrencyMode {
+func (s *ListExecutionsOKExecutionsItemWorkflow) GetConcurrencyMode() OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode {
 	return s.ConcurrencyMode
 }
 
 // SetID sets the value of ID.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetID(val string) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetID(val string) {
 	s.ID = val
 }
 
 // SetName sets the value of Name.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetName(val string) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetDescription(val OptString) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetDescription(val OptString) {
 	s.Description = val
 }
 
 // SetPublish sets the value of Publish.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetPublish(val bool) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetPublish(val bool) {
 	s.Publish = val
 }
 
 // SetLogging sets the value of Logging.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetLogging(val bool) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetLogging(val bool) {
 	s.Logging = val
 }
 
 // SetTags sets the value of Tags.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetTags(val []ListExecutionOKExecutionsItemWorkflowTagsItem) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetTags(val []ListExecutionsOKExecutionsItemWorkflowTagsItem) {
 	s.Tags = val
 }
 
 // SetServicePrincipalId sets the value of ServicePrincipalId.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetServicePrincipalId(val OptListExecutionOKExecutionsItemWorkflowServicePrincipalId) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetServicePrincipalId(val OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId) {
 	s.ServicePrincipalId = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetCreatedAt(val time.Time) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
 // SetUpdatedAt sets the value of UpdatedAt.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetUpdatedAt(val time.Time) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
 
 // SetConcurrencyMode sets the value of ConcurrencyMode.
-func (s *ListExecutionOKExecutionsItemWorkflow) SetConcurrencyMode(val OptListExecutionOKExecutionsItemWorkflowConcurrencyMode) {
+func (s *ListExecutionsOKExecutionsItemWorkflow) SetConcurrencyMode(val OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode) {
 	s.ConcurrencyMode = val
 }
 
-type ListExecutionOKExecutionsItemWorkflowConcurrencyMode string
+type ListExecutionsOKExecutionsItemWorkflowConcurrencyMode string
 
 const (
-	ListExecutionOKExecutionsItemWorkflowConcurrencyModeParallel ListExecutionOKExecutionsItemWorkflowConcurrencyMode = "parallel"
-	ListExecutionOKExecutionsItemWorkflowConcurrencyModeLock     ListExecutionOKExecutionsItemWorkflowConcurrencyMode = "lock"
-	ListExecutionOKExecutionsItemWorkflowConcurrencyModeQueue    ListExecutionOKExecutionsItemWorkflowConcurrencyMode = "queue"
+	ListExecutionsOKExecutionsItemWorkflowConcurrencyModeParallel ListExecutionsOKExecutionsItemWorkflowConcurrencyMode = "parallel"
+	ListExecutionsOKExecutionsItemWorkflowConcurrencyModeLock     ListExecutionsOKExecutionsItemWorkflowConcurrencyMode = "lock"
+	ListExecutionsOKExecutionsItemWorkflowConcurrencyModeQueue    ListExecutionsOKExecutionsItemWorkflowConcurrencyMode = "queue"
 )
 
-// AllValues returns all ListExecutionOKExecutionsItemWorkflowConcurrencyMode values.
-func (ListExecutionOKExecutionsItemWorkflowConcurrencyMode) AllValues() []ListExecutionOKExecutionsItemWorkflowConcurrencyMode {
-	return []ListExecutionOKExecutionsItemWorkflowConcurrencyMode{
-		ListExecutionOKExecutionsItemWorkflowConcurrencyModeParallel,
-		ListExecutionOKExecutionsItemWorkflowConcurrencyModeLock,
-		ListExecutionOKExecutionsItemWorkflowConcurrencyModeQueue,
+// AllValues returns all ListExecutionsOKExecutionsItemWorkflowConcurrencyMode values.
+func (ListExecutionsOKExecutionsItemWorkflowConcurrencyMode) AllValues() []ListExecutionsOKExecutionsItemWorkflowConcurrencyMode {
+	return []ListExecutionsOKExecutionsItemWorkflowConcurrencyMode{
+		ListExecutionsOKExecutionsItemWorkflowConcurrencyModeParallel,
+		ListExecutionsOKExecutionsItemWorkflowConcurrencyModeLock,
+		ListExecutionsOKExecutionsItemWorkflowConcurrencyModeQueue,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListExecutionOKExecutionsItemWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
+func (s ListExecutionsOKExecutionsItemWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
 	switch s {
-	case ListExecutionOKExecutionsItemWorkflowConcurrencyModeParallel:
+	case ListExecutionsOKExecutionsItemWorkflowConcurrencyModeParallel:
 		return []byte(s), nil
-	case ListExecutionOKExecutionsItemWorkflowConcurrencyModeLock:
+	case ListExecutionsOKExecutionsItemWorkflowConcurrencyModeLock:
 		return []byte(s), nil
-	case ListExecutionOKExecutionsItemWorkflowConcurrencyModeQueue:
+	case ListExecutionsOKExecutionsItemWorkflowConcurrencyModeQueue:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -6849,126 +5034,126 @@ func (s ListExecutionOKExecutionsItemWorkflowConcurrencyMode) MarshalText() ([]b
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListExecutionOKExecutionsItemWorkflowConcurrencyMode) UnmarshalText(data []byte) error {
-	switch ListExecutionOKExecutionsItemWorkflowConcurrencyMode(data) {
-	case ListExecutionOKExecutionsItemWorkflowConcurrencyModeParallel:
-		*s = ListExecutionOKExecutionsItemWorkflowConcurrencyModeParallel
+func (s *ListExecutionsOKExecutionsItemWorkflowConcurrencyMode) UnmarshalText(data []byte) error {
+	switch ListExecutionsOKExecutionsItemWorkflowConcurrencyMode(data) {
+	case ListExecutionsOKExecutionsItemWorkflowConcurrencyModeParallel:
+		*s = ListExecutionsOKExecutionsItemWorkflowConcurrencyModeParallel
 		return nil
-	case ListExecutionOKExecutionsItemWorkflowConcurrencyModeLock:
-		*s = ListExecutionOKExecutionsItemWorkflowConcurrencyModeLock
+	case ListExecutionsOKExecutionsItemWorkflowConcurrencyModeLock:
+		*s = ListExecutionsOKExecutionsItemWorkflowConcurrencyModeLock
 		return nil
-	case ListExecutionOKExecutionsItemWorkflowConcurrencyModeQueue:
-		*s = ListExecutionOKExecutionsItemWorkflowConcurrencyModeQueue
+	case ListExecutionsOKExecutionsItemWorkflowConcurrencyModeQueue:
+		*s = ListExecutionsOKExecutionsItemWorkflowConcurrencyModeQueue
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// ListExecutionOKExecutionsItemWorkflowServicePrincipalId represents sum type.
-type ListExecutionOKExecutionsItemWorkflowServicePrincipalId struct {
+// ListExecutionsOKExecutionsItemWorkflowServicePrincipalId represents sum type.
+type ListExecutionsOKExecutionsItemWorkflowServicePrincipalId struct {
 	// Type selects the active sum variant, switch on this field.
-	Type    ListExecutionOKExecutionsItemWorkflowServicePrincipalIdType
+	Type    ListExecutionsOKExecutionsItemWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
 
-// ListExecutionOKExecutionsItemWorkflowServicePrincipalIdType is oneOf type of ListExecutionOKExecutionsItemWorkflowServicePrincipalId.
-type ListExecutionOKExecutionsItemWorkflowServicePrincipalIdType string
+// ListExecutionsOKExecutionsItemWorkflowServicePrincipalIdType is oneOf type of ListExecutionsOKExecutionsItemWorkflowServicePrincipalId.
+type ListExecutionsOKExecutionsItemWorkflowServicePrincipalIdType string
 
-// Possible values for ListExecutionOKExecutionsItemWorkflowServicePrincipalIdType.
+// Possible values for ListExecutionsOKExecutionsItemWorkflowServicePrincipalIdType.
 const (
-	StringListExecutionOKExecutionsItemWorkflowServicePrincipalId  ListExecutionOKExecutionsItemWorkflowServicePrincipalIdType = "string"
-	Float64ListExecutionOKExecutionsItemWorkflowServicePrincipalId ListExecutionOKExecutionsItemWorkflowServicePrincipalIdType = "float64"
+	StringListExecutionsOKExecutionsItemWorkflowServicePrincipalId  ListExecutionsOKExecutionsItemWorkflowServicePrincipalIdType = "string"
+	Float64ListExecutionsOKExecutionsItemWorkflowServicePrincipalId ListExecutionsOKExecutionsItemWorkflowServicePrincipalIdType = "float64"
 )
 
-// IsString reports whether ListExecutionOKExecutionsItemWorkflowServicePrincipalId is string.
-func (s ListExecutionOKExecutionsItemWorkflowServicePrincipalId) IsString() bool {
-	return s.Type == StringListExecutionOKExecutionsItemWorkflowServicePrincipalId
+// IsString reports whether ListExecutionsOKExecutionsItemWorkflowServicePrincipalId is string.
+func (s ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) IsString() bool {
+	return s.Type == StringListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 }
 
-// IsFloat64 reports whether ListExecutionOKExecutionsItemWorkflowServicePrincipalId is float64.
-func (s ListExecutionOKExecutionsItemWorkflowServicePrincipalId) IsFloat64() bool {
-	return s.Type == Float64ListExecutionOKExecutionsItemWorkflowServicePrincipalId
+// IsFloat64 reports whether ListExecutionsOKExecutionsItemWorkflowServicePrincipalId is float64.
+func (s ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) IsFloat64() bool {
+	return s.Type == Float64ListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 }
 
-// SetString sets ListExecutionOKExecutionsItemWorkflowServicePrincipalId to string.
-func (s *ListExecutionOKExecutionsItemWorkflowServicePrincipalId) SetString(v string) {
-	s.Type = StringListExecutionOKExecutionsItemWorkflowServicePrincipalId
+// SetString sets ListExecutionsOKExecutionsItemWorkflowServicePrincipalId to string.
+func (s *ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) SetString(v string) {
+	s.Type = StringListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 	s.String = v
 }
 
-// GetString returns string and true boolean if ListExecutionOKExecutionsItemWorkflowServicePrincipalId is string.
-func (s ListExecutionOKExecutionsItemWorkflowServicePrincipalId) GetString() (v string, ok bool) {
+// GetString returns string and true boolean if ListExecutionsOKExecutionsItemWorkflowServicePrincipalId is string.
+func (s ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) GetString() (v string, ok bool) {
 	if !s.IsString() {
 		return v, false
 	}
 	return s.String, true
 }
 
-// NewStringListExecutionOKExecutionsItemWorkflowServicePrincipalId returns new ListExecutionOKExecutionsItemWorkflowServicePrincipalId from string.
-func NewStringListExecutionOKExecutionsItemWorkflowServicePrincipalId(v string) ListExecutionOKExecutionsItemWorkflowServicePrincipalId {
-	var s ListExecutionOKExecutionsItemWorkflowServicePrincipalId
+// NewStringListExecutionsOKExecutionsItemWorkflowServicePrincipalId returns new ListExecutionsOKExecutionsItemWorkflowServicePrincipalId from string.
+func NewStringListExecutionsOKExecutionsItemWorkflowServicePrincipalId(v string) ListExecutionsOKExecutionsItemWorkflowServicePrincipalId {
+	var s ListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 	s.SetString(v)
 	return s
 }
 
-// SetFloat64 sets ListExecutionOKExecutionsItemWorkflowServicePrincipalId to float64.
-func (s *ListExecutionOKExecutionsItemWorkflowServicePrincipalId) SetFloat64(v float64) {
-	s.Type = Float64ListExecutionOKExecutionsItemWorkflowServicePrincipalId
+// SetFloat64 sets ListExecutionsOKExecutionsItemWorkflowServicePrincipalId to float64.
+func (s *ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) SetFloat64(v float64) {
+	s.Type = Float64ListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 	s.Float64 = v
 }
 
-// GetFloat64 returns float64 and true boolean if ListExecutionOKExecutionsItemWorkflowServicePrincipalId is float64.
-func (s ListExecutionOKExecutionsItemWorkflowServicePrincipalId) GetFloat64() (v float64, ok bool) {
+// GetFloat64 returns float64 and true boolean if ListExecutionsOKExecutionsItemWorkflowServicePrincipalId is float64.
+func (s ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) GetFloat64() (v float64, ok bool) {
 	if !s.IsFloat64() {
 		return v, false
 	}
 	return s.Float64, true
 }
 
-// NewFloat64ListExecutionOKExecutionsItemWorkflowServicePrincipalId returns new ListExecutionOKExecutionsItemWorkflowServicePrincipalId from float64.
-func NewFloat64ListExecutionOKExecutionsItemWorkflowServicePrincipalId(v float64) ListExecutionOKExecutionsItemWorkflowServicePrincipalId {
-	var s ListExecutionOKExecutionsItemWorkflowServicePrincipalId
+// NewFloat64ListExecutionsOKExecutionsItemWorkflowServicePrincipalId returns new ListExecutionsOKExecutionsItemWorkflowServicePrincipalId from float64.
+func NewFloat64ListExecutionsOKExecutionsItemWorkflowServicePrincipalId(v float64) ListExecutionsOKExecutionsItemWorkflowServicePrincipalId {
+	var s ListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 	s.SetFloat64(v)
 	return s
 }
 
-type ListExecutionOKExecutionsItemWorkflowTagsItem struct {
+type ListExecutionsOKExecutionsItemWorkflowTagsItem struct {
 	Name string `json:"Name"`
 }
 
 // GetName returns the value of Name.
-func (s *ListExecutionOKExecutionsItemWorkflowTagsItem) GetName() string {
+func (s *ListExecutionsOKExecutionsItemWorkflowTagsItem) GetName() string {
 	return s.Name
 }
 
 // SetName sets the value of Name.
-func (s *ListExecutionOKExecutionsItemWorkflowTagsItem) SetName(val string) {
+func (s *ListExecutionsOKExecutionsItemWorkflowTagsItem) SetName(val string) {
 	s.Name = val
 }
 
-type ListExecutionOrder string
+type ListExecutionsOrder string
 
 const (
-	ListExecutionOrderAsc  ListExecutionOrder = "asc"
-	ListExecutionOrderDesc ListExecutionOrder = "desc"
+	ListExecutionsOrderAsc  ListExecutionsOrder = "asc"
+	ListExecutionsOrderDesc ListExecutionsOrder = "desc"
 )
 
-// AllValues returns all ListExecutionOrder values.
-func (ListExecutionOrder) AllValues() []ListExecutionOrder {
-	return []ListExecutionOrder{
-		ListExecutionOrderAsc,
-		ListExecutionOrderDesc,
+// AllValues returns all ListExecutionsOrder values.
+func (ListExecutionsOrder) AllValues() []ListExecutionsOrder {
+	return []ListExecutionsOrder{
+		ListExecutionsOrderAsc,
+		ListExecutionsOrderDesc,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListExecutionOrder) MarshalText() ([]byte, error) {
+func (s ListExecutionsOrder) MarshalText() ([]byte, error) {
 	switch s {
-	case ListExecutionOrderAsc:
+	case ListExecutionsOrderAsc:
 		return []byte(s), nil
-	case ListExecutionOrderDesc:
+	case ListExecutionsOrderDesc:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -6976,72 +5161,72 @@ func (s ListExecutionOrder) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListExecutionOrder) UnmarshalText(data []byte) error {
-	switch ListExecutionOrder(data) {
-	case ListExecutionOrderAsc:
-		*s = ListExecutionOrderAsc
+func (s *ListExecutionsOrder) UnmarshalText(data []byte) error {
+	switch ListExecutionsOrder(data) {
+	case ListExecutionsOrderAsc:
+		*s = ListExecutionsOrderAsc
 		return nil
-	case ListExecutionOrderDesc:
-		*s = ListExecutionOrderDesc
+	case ListExecutionsOrderDesc:
+		*s = ListExecutionsOrderDesc
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ListExecutionPaymentRequired struct {
+type ListExecutionsPaymentRequired struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListExecutionPaymentRequired) GetIsOk() bool {
+func (s *ListExecutionsPaymentRequired) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListExecutionPaymentRequired) GetMessage() string {
+func (s *ListExecutionsPaymentRequired) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListExecutionPaymentRequired) SetIsOk(val bool) {
+func (s *ListExecutionsPaymentRequired) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListExecutionPaymentRequired) SetMessage(val string) {
+func (s *ListExecutionsPaymentRequired) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListExecutionPaymentRequired) listExecutionRes() {}
+func (*ListExecutionsPaymentRequired) listExecutionsRes() {}
 
-type ListExecutionUnauthorized struct {
+type ListExecutionsUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListExecutionUnauthorized) GetIsOk() bool {
+func (s *ListExecutionsUnauthorized) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListExecutionUnauthorized) GetMessage() string {
+func (s *ListExecutionsUnauthorized) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListExecutionUnauthorized) SetIsOk(val bool) {
+func (s *ListExecutionsUnauthorized) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListExecutionUnauthorized) SetMessage(val string) {
+func (s *ListExecutionsUnauthorized) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListExecutionUnauthorized) listExecutionRes() {}
+func (*ListExecutionsUnauthorized) listExecutionsRes() {}
 
 type ListPlansBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
@@ -7307,696 +5492,175 @@ func (s *ListPlansUnauthorized) SetMessage(val string) {
 
 func (*ListPlansUnauthorized) listPlansRes() {}
 
-type ListWorkflowBadRequest struct {
+type ListRevisionsBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowBadRequest) GetIsOk() bool {
+func (s *ListRevisionsBadRequest) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowBadRequest) GetMessage() string {
+func (s *ListRevisionsBadRequest) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowBadRequest) SetIsOk(val bool) {
+func (s *ListRevisionsBadRequest) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowBadRequest) SetMessage(val string) {
+func (s *ListRevisionsBadRequest) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowBadRequest) listWorkflowRes() {}
+func (*ListRevisionsBadRequest) listRevisionsRes() {}
 
-type ListWorkflowForbidden struct {
+type ListRevisionsForbidden struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowForbidden) GetIsOk() bool {
+func (s *ListRevisionsForbidden) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowForbidden) GetMessage() string {
+func (s *ListRevisionsForbidden) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowForbidden) SetIsOk(val bool) {
+func (s *ListRevisionsForbidden) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowForbidden) SetMessage(val string) {
+func (s *ListRevisionsForbidden) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowForbidden) listWorkflowRes() {}
+func (*ListRevisionsForbidden) listRevisionsRes() {}
 
-type ListWorkflowInternalServerError struct {
+type ListRevisionsInternalServerError struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowInternalServerError) GetIsOk() bool {
+func (s *ListRevisionsInternalServerError) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowInternalServerError) GetMessage() string {
+func (s *ListRevisionsInternalServerError) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowInternalServerError) SetIsOk(val bool) {
+func (s *ListRevisionsInternalServerError) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowInternalServerError) SetMessage(val string) {
+func (s *ListRevisionsInternalServerError) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowInternalServerError) listWorkflowRes() {}
+func (*ListRevisionsInternalServerError) listRevisionsRes() {}
 
-type ListWorkflowNameMatchType string
-
-const (
-	ListWorkflowNameMatchTypePartial ListWorkflowNameMatchType = "partial"
-	ListWorkflowNameMatchTypePrefix  ListWorkflowNameMatchType = "prefix"
-)
-
-// AllValues returns all ListWorkflowNameMatchType values.
-func (ListWorkflowNameMatchType) AllValues() []ListWorkflowNameMatchType {
-	return []ListWorkflowNameMatchType{
-		ListWorkflowNameMatchTypePartial,
-		ListWorkflowNameMatchTypePrefix,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ListWorkflowNameMatchType) MarshalText() ([]byte, error) {
-	switch s {
-	case ListWorkflowNameMatchTypePartial:
-		return []byte(s), nil
-	case ListWorkflowNameMatchTypePrefix:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListWorkflowNameMatchType) UnmarshalText(data []byte) error {
-	switch ListWorkflowNameMatchType(data) {
-	case ListWorkflowNameMatchTypePartial:
-		*s = ListWorkflowNameMatchTypePartial
-		return nil
-	case ListWorkflowNameMatchTypePrefix:
-		*s = ListWorkflowNameMatchTypePrefix
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type ListWorkflowNotFound struct {
+type ListRevisionsNotFound struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowNotFound) GetIsOk() bool {
+func (s *ListRevisionsNotFound) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowNotFound) GetMessage() string {
+func (s *ListRevisionsNotFound) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowNotFound) SetIsOk(val bool) {
+func (s *ListRevisionsNotFound) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowNotFound) SetMessage(val string) {
+func (s *ListRevisionsNotFound) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowNotFound) listWorkflowRes() {}
+func (*ListRevisionsNotFound) listRevisionsRes() {}
 
-type ListWorkflowOK struct {
-	IsOk      bool                          `json:"is_ok"`
-	Total     int                           `json:"Total"`
-	From      int                           `json:"From"`
-	Count     int                           `json:"Count"`
-	Workflows []ListWorkflowOKWorkflowsItem `json:"Workflows"`
+type ListRevisionsOK struct {
+	IsOk      bool                           `json:"is_ok"`
+	Total     int                            `json:"Total"`
+	From      int                            `json:"From"`
+	Count     int                            `json:"Count"`
+	Revisions []ListRevisionsOKRevisionsItem `json:"Revisions"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowOK) GetIsOk() bool {
+func (s *ListRevisionsOK) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetTotal returns the value of Total.
-func (s *ListWorkflowOK) GetTotal() int {
+func (s *ListRevisionsOK) GetTotal() int {
 	return s.Total
 }
 
 // GetFrom returns the value of From.
-func (s *ListWorkflowOK) GetFrom() int {
+func (s *ListRevisionsOK) GetFrom() int {
 	return s.From
 }
 
 // GetCount returns the value of Count.
-func (s *ListWorkflowOK) GetCount() int {
-	return s.Count
-}
-
-// GetWorkflows returns the value of Workflows.
-func (s *ListWorkflowOK) GetWorkflows() []ListWorkflowOKWorkflowsItem {
-	return s.Workflows
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListWorkflowOK) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetTotal sets the value of Total.
-func (s *ListWorkflowOK) SetTotal(val int) {
-	s.Total = val
-}
-
-// SetFrom sets the value of From.
-func (s *ListWorkflowOK) SetFrom(val int) {
-	s.From = val
-}
-
-// SetCount sets the value of Count.
-func (s *ListWorkflowOK) SetCount(val int) {
-	s.Count = val
-}
-
-// SetWorkflows sets the value of Workflows.
-func (s *ListWorkflowOK) SetWorkflows(val []ListWorkflowOKWorkflowsItem) {
-	s.Workflows = val
-}
-
-func (*ListWorkflowOK) listWorkflowRes() {}
-
-type ListWorkflowOKWorkflowsItem struct {
-	ID                 string                                           `json:"Id"`
-	Name               string                                           `json:"Name"`
-	Description        OptString                                        `json:"Description"`
-	Publish            bool                                             `json:"Publish"`
-	Logging            bool                                             `json:"Logging"`
-	Tags               []ListWorkflowOKWorkflowsItemTagsItem            `json:"Tags"`
-	ServicePrincipalId OptListWorkflowOKWorkflowsItemServicePrincipalId `json:"ServicePrincipalId"`
-	CreatedAt          time.Time                                        `json:"CreatedAt"`
-	UpdatedAt          time.Time                                        `json:"UpdatedAt"`
-	ConcurrencyMode    OptListWorkflowOKWorkflowsItemConcurrencyMode    `json:"ConcurrencyMode"`
-}
-
-// GetID returns the value of ID.
-func (s *ListWorkflowOKWorkflowsItem) GetID() string {
-	return s.ID
-}
-
-// GetName returns the value of Name.
-func (s *ListWorkflowOKWorkflowsItem) GetName() string {
-	return s.Name
-}
-
-// GetDescription returns the value of Description.
-func (s *ListWorkflowOKWorkflowsItem) GetDescription() OptString {
-	return s.Description
-}
-
-// GetPublish returns the value of Publish.
-func (s *ListWorkflowOKWorkflowsItem) GetPublish() bool {
-	return s.Publish
-}
-
-// GetLogging returns the value of Logging.
-func (s *ListWorkflowOKWorkflowsItem) GetLogging() bool {
-	return s.Logging
-}
-
-// GetTags returns the value of Tags.
-func (s *ListWorkflowOKWorkflowsItem) GetTags() []ListWorkflowOKWorkflowsItemTagsItem {
-	return s.Tags
-}
-
-// GetServicePrincipalId returns the value of ServicePrincipalId.
-func (s *ListWorkflowOKWorkflowsItem) GetServicePrincipalId() OptListWorkflowOKWorkflowsItemServicePrincipalId {
-	return s.ServicePrincipalId
-}
-
-// GetCreatedAt returns the value of CreatedAt.
-func (s *ListWorkflowOKWorkflowsItem) GetCreatedAt() time.Time {
-	return s.CreatedAt
-}
-
-// GetUpdatedAt returns the value of UpdatedAt.
-func (s *ListWorkflowOKWorkflowsItem) GetUpdatedAt() time.Time {
-	return s.UpdatedAt
-}
-
-// GetConcurrencyMode returns the value of ConcurrencyMode.
-func (s *ListWorkflowOKWorkflowsItem) GetConcurrencyMode() OptListWorkflowOKWorkflowsItemConcurrencyMode {
-	return s.ConcurrencyMode
-}
-
-// SetID sets the value of ID.
-func (s *ListWorkflowOKWorkflowsItem) SetID(val string) {
-	s.ID = val
-}
-
-// SetName sets the value of Name.
-func (s *ListWorkflowOKWorkflowsItem) SetName(val string) {
-	s.Name = val
-}
-
-// SetDescription sets the value of Description.
-func (s *ListWorkflowOKWorkflowsItem) SetDescription(val OptString) {
-	s.Description = val
-}
-
-// SetPublish sets the value of Publish.
-func (s *ListWorkflowOKWorkflowsItem) SetPublish(val bool) {
-	s.Publish = val
-}
-
-// SetLogging sets the value of Logging.
-func (s *ListWorkflowOKWorkflowsItem) SetLogging(val bool) {
-	s.Logging = val
-}
-
-// SetTags sets the value of Tags.
-func (s *ListWorkflowOKWorkflowsItem) SetTags(val []ListWorkflowOKWorkflowsItemTagsItem) {
-	s.Tags = val
-}
-
-// SetServicePrincipalId sets the value of ServicePrincipalId.
-func (s *ListWorkflowOKWorkflowsItem) SetServicePrincipalId(val OptListWorkflowOKWorkflowsItemServicePrincipalId) {
-	s.ServicePrincipalId = val
-}
-
-// SetCreatedAt sets the value of CreatedAt.
-func (s *ListWorkflowOKWorkflowsItem) SetCreatedAt(val time.Time) {
-	s.CreatedAt = val
-}
-
-// SetUpdatedAt sets the value of UpdatedAt.
-func (s *ListWorkflowOKWorkflowsItem) SetUpdatedAt(val time.Time) {
-	s.UpdatedAt = val
-}
-
-// SetConcurrencyMode sets the value of ConcurrencyMode.
-func (s *ListWorkflowOKWorkflowsItem) SetConcurrencyMode(val OptListWorkflowOKWorkflowsItemConcurrencyMode) {
-	s.ConcurrencyMode = val
-}
-
-type ListWorkflowOKWorkflowsItemConcurrencyMode string
-
-const (
-	ListWorkflowOKWorkflowsItemConcurrencyModeParallel ListWorkflowOKWorkflowsItemConcurrencyMode = "parallel"
-	ListWorkflowOKWorkflowsItemConcurrencyModeLock     ListWorkflowOKWorkflowsItemConcurrencyMode = "lock"
-	ListWorkflowOKWorkflowsItemConcurrencyModeQueue    ListWorkflowOKWorkflowsItemConcurrencyMode = "queue"
-)
-
-// AllValues returns all ListWorkflowOKWorkflowsItemConcurrencyMode values.
-func (ListWorkflowOKWorkflowsItemConcurrencyMode) AllValues() []ListWorkflowOKWorkflowsItemConcurrencyMode {
-	return []ListWorkflowOKWorkflowsItemConcurrencyMode{
-		ListWorkflowOKWorkflowsItemConcurrencyModeParallel,
-		ListWorkflowOKWorkflowsItemConcurrencyModeLock,
-		ListWorkflowOKWorkflowsItemConcurrencyModeQueue,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ListWorkflowOKWorkflowsItemConcurrencyMode) MarshalText() ([]byte, error) {
-	switch s {
-	case ListWorkflowOKWorkflowsItemConcurrencyModeParallel:
-		return []byte(s), nil
-	case ListWorkflowOKWorkflowsItemConcurrencyModeLock:
-		return []byte(s), nil
-	case ListWorkflowOKWorkflowsItemConcurrencyModeQueue:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListWorkflowOKWorkflowsItemConcurrencyMode) UnmarshalText(data []byte) error {
-	switch ListWorkflowOKWorkflowsItemConcurrencyMode(data) {
-	case ListWorkflowOKWorkflowsItemConcurrencyModeParallel:
-		*s = ListWorkflowOKWorkflowsItemConcurrencyModeParallel
-		return nil
-	case ListWorkflowOKWorkflowsItemConcurrencyModeLock:
-		*s = ListWorkflowOKWorkflowsItemConcurrencyModeLock
-		return nil
-	case ListWorkflowOKWorkflowsItemConcurrencyModeQueue:
-		*s = ListWorkflowOKWorkflowsItemConcurrencyModeQueue
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// ListWorkflowOKWorkflowsItemServicePrincipalId represents sum type.
-type ListWorkflowOKWorkflowsItemServicePrincipalId struct {
-	// Type selects the active sum variant, switch on this field.
-	Type    ListWorkflowOKWorkflowsItemServicePrincipalIdType
-	String  string
-	Float64 float64
-}
-
-// ListWorkflowOKWorkflowsItemServicePrincipalIdType is oneOf type of ListWorkflowOKWorkflowsItemServicePrincipalId.
-type ListWorkflowOKWorkflowsItemServicePrincipalIdType string
-
-// Possible values for ListWorkflowOKWorkflowsItemServicePrincipalIdType.
-const (
-	StringListWorkflowOKWorkflowsItemServicePrincipalId  ListWorkflowOKWorkflowsItemServicePrincipalIdType = "string"
-	Float64ListWorkflowOKWorkflowsItemServicePrincipalId ListWorkflowOKWorkflowsItemServicePrincipalIdType = "float64"
-)
-
-// IsString reports whether ListWorkflowOKWorkflowsItemServicePrincipalId is string.
-func (s ListWorkflowOKWorkflowsItemServicePrincipalId) IsString() bool {
-	return s.Type == StringListWorkflowOKWorkflowsItemServicePrincipalId
-}
-
-// IsFloat64 reports whether ListWorkflowOKWorkflowsItemServicePrincipalId is float64.
-func (s ListWorkflowOKWorkflowsItemServicePrincipalId) IsFloat64() bool {
-	return s.Type == Float64ListWorkflowOKWorkflowsItemServicePrincipalId
-}
-
-// SetString sets ListWorkflowOKWorkflowsItemServicePrincipalId to string.
-func (s *ListWorkflowOKWorkflowsItemServicePrincipalId) SetString(v string) {
-	s.Type = StringListWorkflowOKWorkflowsItemServicePrincipalId
-	s.String = v
-}
-
-// GetString returns string and true boolean if ListWorkflowOKWorkflowsItemServicePrincipalId is string.
-func (s ListWorkflowOKWorkflowsItemServicePrincipalId) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringListWorkflowOKWorkflowsItemServicePrincipalId returns new ListWorkflowOKWorkflowsItemServicePrincipalId from string.
-func NewStringListWorkflowOKWorkflowsItemServicePrincipalId(v string) ListWorkflowOKWorkflowsItemServicePrincipalId {
-	var s ListWorkflowOKWorkflowsItemServicePrincipalId
-	s.SetString(v)
-	return s
-}
-
-// SetFloat64 sets ListWorkflowOKWorkflowsItemServicePrincipalId to float64.
-func (s *ListWorkflowOKWorkflowsItemServicePrincipalId) SetFloat64(v float64) {
-	s.Type = Float64ListWorkflowOKWorkflowsItemServicePrincipalId
-	s.Float64 = v
-}
-
-// GetFloat64 returns float64 and true boolean if ListWorkflowOKWorkflowsItemServicePrincipalId is float64.
-func (s ListWorkflowOKWorkflowsItemServicePrincipalId) GetFloat64() (v float64, ok bool) {
-	if !s.IsFloat64() {
-		return v, false
-	}
-	return s.Float64, true
-}
-
-// NewFloat64ListWorkflowOKWorkflowsItemServicePrincipalId returns new ListWorkflowOKWorkflowsItemServicePrincipalId from float64.
-func NewFloat64ListWorkflowOKWorkflowsItemServicePrincipalId(v float64) ListWorkflowOKWorkflowsItemServicePrincipalId {
-	var s ListWorkflowOKWorkflowsItemServicePrincipalId
-	s.SetFloat64(v)
-	return s
-}
-
-type ListWorkflowOKWorkflowsItemTagsItem struct {
-	Name string `json:"Name"`
-}
-
-// GetName returns the value of Name.
-func (s *ListWorkflowOKWorkflowsItemTagsItem) GetName() string {
-	return s.Name
-}
-
-// SetName sets the value of Name.
-func (s *ListWorkflowOKWorkflowsItemTagsItem) SetName(val string) {
-	s.Name = val
-}
-
-type ListWorkflowOrder string
-
-const (
-	ListWorkflowOrderAsc  ListWorkflowOrder = "asc"
-	ListWorkflowOrderDesc ListWorkflowOrder = "desc"
-)
-
-// AllValues returns all ListWorkflowOrder values.
-func (ListWorkflowOrder) AllValues() []ListWorkflowOrder {
-	return []ListWorkflowOrder{
-		ListWorkflowOrderAsc,
-		ListWorkflowOrderDesc,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ListWorkflowOrder) MarshalText() ([]byte, error) {
-	switch s {
-	case ListWorkflowOrderAsc:
-		return []byte(s), nil
-	case ListWorkflowOrderDesc:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListWorkflowOrder) UnmarshalText(data []byte) error {
-	switch ListWorkflowOrder(data) {
-	case ListWorkflowOrderAsc:
-		*s = ListWorkflowOrderAsc
-		return nil
-	case ListWorkflowOrderDesc:
-		*s = ListWorkflowOrderDesc
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type ListWorkflowPaymentRequired struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListWorkflowPaymentRequired) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListWorkflowPaymentRequired) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListWorkflowPaymentRequired) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListWorkflowPaymentRequired) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListWorkflowPaymentRequired) listWorkflowRes() {}
-
-type ListWorkflowRevisionsBadRequest struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListWorkflowRevisionsBadRequest) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListWorkflowRevisionsBadRequest) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListWorkflowRevisionsBadRequest) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListWorkflowRevisionsBadRequest) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListWorkflowRevisionsBadRequest) listWorkflowRevisionsRes() {}
-
-type ListWorkflowRevisionsForbidden struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListWorkflowRevisionsForbidden) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListWorkflowRevisionsForbidden) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListWorkflowRevisionsForbidden) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListWorkflowRevisionsForbidden) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListWorkflowRevisionsForbidden) listWorkflowRevisionsRes() {}
-
-type ListWorkflowRevisionsInternalServerError struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListWorkflowRevisionsInternalServerError) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListWorkflowRevisionsInternalServerError) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListWorkflowRevisionsInternalServerError) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListWorkflowRevisionsInternalServerError) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListWorkflowRevisionsInternalServerError) listWorkflowRevisionsRes() {}
-
-type ListWorkflowRevisionsNotFound struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListWorkflowRevisionsNotFound) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListWorkflowRevisionsNotFound) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListWorkflowRevisionsNotFound) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListWorkflowRevisionsNotFound) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListWorkflowRevisionsNotFound) listWorkflowRevisionsRes() {}
-
-type ListWorkflowRevisionsOK struct {
-	IsOk      bool                                   `json:"is_ok"`
-	Total     int                                    `json:"Total"`
-	From      int                                    `json:"From"`
-	Count     int                                    `json:"Count"`
-	Revisions []ListWorkflowRevisionsOKRevisionsItem `json:"Revisions"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListWorkflowRevisionsOK) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetTotal returns the value of Total.
-func (s *ListWorkflowRevisionsOK) GetTotal() int {
-	return s.Total
-}
-
-// GetFrom returns the value of From.
-func (s *ListWorkflowRevisionsOK) GetFrom() int {
-	return s.From
-}
-
-// GetCount returns the value of Count.
-func (s *ListWorkflowRevisionsOK) GetCount() int {
+func (s *ListRevisionsOK) GetCount() int {
 	return s.Count
 }
 
 // GetRevisions returns the value of Revisions.
-func (s *ListWorkflowRevisionsOK) GetRevisions() []ListWorkflowRevisionsOKRevisionsItem {
+func (s *ListRevisionsOK) GetRevisions() []ListRevisionsOKRevisionsItem {
 	return s.Revisions
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowRevisionsOK) SetIsOk(val bool) {
+func (s *ListRevisionsOK) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetTotal sets the value of Total.
-func (s *ListWorkflowRevisionsOK) SetTotal(val int) {
+func (s *ListRevisionsOK) SetTotal(val int) {
 	s.Total = val
 }
 
 // SetFrom sets the value of From.
-func (s *ListWorkflowRevisionsOK) SetFrom(val int) {
+func (s *ListRevisionsOK) SetFrom(val int) {
 	s.From = val
 }
 
 // SetCount sets the value of Count.
-func (s *ListWorkflowRevisionsOK) SetCount(val int) {
+func (s *ListRevisionsOK) SetCount(val int) {
 	s.Count = val
 }
 
 // SetRevisions sets the value of Revisions.
-func (s *ListWorkflowRevisionsOK) SetRevisions(val []ListWorkflowRevisionsOKRevisionsItem) {
+func (s *ListRevisionsOK) SetRevisions(val []ListRevisionsOKRevisionsItem) {
 	s.Revisions = val
 }
 
-func (*ListWorkflowRevisionsOK) listWorkflowRevisionsRes() {}
+func (*ListRevisionsOK) listRevisionsRes() {}
 
-type ListWorkflowRevisionsOKRevisionsItem struct {
+type ListRevisionsOKRevisionsItem struct {
 	RevisionId    int       `json:"RevisionId"`
 	WorkflowId    string    `json:"WorkflowId"`
 	RevisionAlias OptString `json:"RevisionAlias"`
@@ -8006,86 +5670,86 @@ type ListWorkflowRevisionsOKRevisionsItem struct {
 }
 
 // GetRevisionId returns the value of RevisionId.
-func (s *ListWorkflowRevisionsOKRevisionsItem) GetRevisionId() int {
+func (s *ListRevisionsOKRevisionsItem) GetRevisionId() int {
 	return s.RevisionId
 }
 
 // GetWorkflowId returns the value of WorkflowId.
-func (s *ListWorkflowRevisionsOKRevisionsItem) GetWorkflowId() string {
+func (s *ListRevisionsOKRevisionsItem) GetWorkflowId() string {
 	return s.WorkflowId
 }
 
 // GetRevisionAlias returns the value of RevisionAlias.
-func (s *ListWorkflowRevisionsOKRevisionsItem) GetRevisionAlias() OptString {
+func (s *ListRevisionsOKRevisionsItem) GetRevisionAlias() OptString {
 	return s.RevisionAlias
 }
 
 // GetRunbook returns the value of Runbook.
-func (s *ListWorkflowRevisionsOKRevisionsItem) GetRunbook() string {
+func (s *ListRevisionsOKRevisionsItem) GetRunbook() string {
 	return s.Runbook
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *ListWorkflowRevisionsOKRevisionsItem) GetCreatedAt() time.Time {
+func (s *ListRevisionsOKRevisionsItem) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // GetUpdatedAt returns the value of UpdatedAt.
-func (s *ListWorkflowRevisionsOKRevisionsItem) GetUpdatedAt() time.Time {
+func (s *ListRevisionsOKRevisionsItem) GetUpdatedAt() time.Time {
 	return s.UpdatedAt
 }
 
 // SetRevisionId sets the value of RevisionId.
-func (s *ListWorkflowRevisionsOKRevisionsItem) SetRevisionId(val int) {
+func (s *ListRevisionsOKRevisionsItem) SetRevisionId(val int) {
 	s.RevisionId = val
 }
 
 // SetWorkflowId sets the value of WorkflowId.
-func (s *ListWorkflowRevisionsOKRevisionsItem) SetWorkflowId(val string) {
+func (s *ListRevisionsOKRevisionsItem) SetWorkflowId(val string) {
 	s.WorkflowId = val
 }
 
 // SetRevisionAlias sets the value of RevisionAlias.
-func (s *ListWorkflowRevisionsOKRevisionsItem) SetRevisionAlias(val OptString) {
+func (s *ListRevisionsOKRevisionsItem) SetRevisionAlias(val OptString) {
 	s.RevisionAlias = val
 }
 
 // SetRunbook sets the value of Runbook.
-func (s *ListWorkflowRevisionsOKRevisionsItem) SetRunbook(val string) {
+func (s *ListRevisionsOKRevisionsItem) SetRunbook(val string) {
 	s.Runbook = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *ListWorkflowRevisionsOKRevisionsItem) SetCreatedAt(val time.Time) {
+func (s *ListRevisionsOKRevisionsItem) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
 // SetUpdatedAt sets the value of UpdatedAt.
-func (s *ListWorkflowRevisionsOKRevisionsItem) SetUpdatedAt(val time.Time) {
+func (s *ListRevisionsOKRevisionsItem) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
 
-type ListWorkflowRevisionsOrder string
+type ListRevisionsOrder string
 
 const (
-	ListWorkflowRevisionsOrderAsc  ListWorkflowRevisionsOrder = "asc"
-	ListWorkflowRevisionsOrderDesc ListWorkflowRevisionsOrder = "desc"
+	ListRevisionsOrderAsc  ListRevisionsOrder = "asc"
+	ListRevisionsOrderDesc ListRevisionsOrder = "desc"
 )
 
-// AllValues returns all ListWorkflowRevisionsOrder values.
-func (ListWorkflowRevisionsOrder) AllValues() []ListWorkflowRevisionsOrder {
-	return []ListWorkflowRevisionsOrder{
-		ListWorkflowRevisionsOrderAsc,
-		ListWorkflowRevisionsOrderDesc,
+// AllValues returns all ListRevisionsOrder values.
+func (ListRevisionsOrder) AllValues() []ListRevisionsOrder {
+	return []ListRevisionsOrder{
+		ListRevisionsOrderAsc,
+		ListRevisionsOrderDesc,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListWorkflowRevisionsOrder) MarshalText() ([]byte, error) {
+func (s ListRevisionsOrder) MarshalText() ([]byte, error) {
 	switch s {
-	case ListWorkflowRevisionsOrderAsc:
+	case ListRevisionsOrderAsc:
 		return []byte(s), nil
-	case ListWorkflowRevisionsOrderDesc:
+	case ListRevisionsOrderDesc:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -8093,71 +5757,71 @@ func (s ListWorkflowRevisionsOrder) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListWorkflowRevisionsOrder) UnmarshalText(data []byte) error {
-	switch ListWorkflowRevisionsOrder(data) {
-	case ListWorkflowRevisionsOrderAsc:
-		*s = ListWorkflowRevisionsOrderAsc
+func (s *ListRevisionsOrder) UnmarshalText(data []byte) error {
+	switch ListRevisionsOrder(data) {
+	case ListRevisionsOrderAsc:
+		*s = ListRevisionsOrderAsc
 		return nil
-	case ListWorkflowRevisionsOrderDesc:
-		*s = ListWorkflowRevisionsOrderDesc
+	case ListRevisionsOrderDesc:
+		*s = ListRevisionsOrderDesc
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ListWorkflowRevisionsPaymentRequired struct {
+type ListRevisionsPaymentRequired struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowRevisionsPaymentRequired) GetIsOk() bool {
+func (s *ListRevisionsPaymentRequired) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowRevisionsPaymentRequired) GetMessage() string {
+func (s *ListRevisionsPaymentRequired) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowRevisionsPaymentRequired) SetIsOk(val bool) {
+func (s *ListRevisionsPaymentRequired) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowRevisionsPaymentRequired) SetMessage(val string) {
+func (s *ListRevisionsPaymentRequired) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowRevisionsPaymentRequired) listWorkflowRevisionsRes() {}
+func (*ListRevisionsPaymentRequired) listRevisionsRes() {}
 
-type ListWorkflowRevisionsSortBy string
+type ListRevisionsSortBy string
 
 const (
-	ListWorkflowRevisionsSortByCreatedAt ListWorkflowRevisionsSortBy = "createdAt"
-	ListWorkflowRevisionsSortByUpdatedAt ListWorkflowRevisionsSortBy = "updatedAt"
-	ListWorkflowRevisionsSortByID        ListWorkflowRevisionsSortBy = "id"
+	ListRevisionsSortByCreatedAt ListRevisionsSortBy = "createdAt"
+	ListRevisionsSortByUpdatedAt ListRevisionsSortBy = "updatedAt"
+	ListRevisionsSortByID        ListRevisionsSortBy = "id"
 )
 
-// AllValues returns all ListWorkflowRevisionsSortBy values.
-func (ListWorkflowRevisionsSortBy) AllValues() []ListWorkflowRevisionsSortBy {
-	return []ListWorkflowRevisionsSortBy{
-		ListWorkflowRevisionsSortByCreatedAt,
-		ListWorkflowRevisionsSortByUpdatedAt,
-		ListWorkflowRevisionsSortByID,
+// AllValues returns all ListRevisionsSortBy values.
+func (ListRevisionsSortBy) AllValues() []ListRevisionsSortBy {
+	return []ListRevisionsSortBy{
+		ListRevisionsSortByCreatedAt,
+		ListRevisionsSortByUpdatedAt,
+		ListRevisionsSortByID,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListWorkflowRevisionsSortBy) MarshalText() ([]byte, error) {
+func (s ListRevisionsSortBy) MarshalText() ([]byte, error) {
 	switch s {
-	case ListWorkflowRevisionsSortByCreatedAt:
+	case ListRevisionsSortByCreatedAt:
 		return []byte(s), nil
-	case ListWorkflowRevisionsSortByUpdatedAt:
+	case ListRevisionsSortByUpdatedAt:
 		return []byte(s), nil
-	case ListWorkflowRevisionsSortByID:
+	case ListRevisionsSortByID:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -8165,311 +5829,263 @@ func (s ListWorkflowRevisionsSortBy) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListWorkflowRevisionsSortBy) UnmarshalText(data []byte) error {
-	switch ListWorkflowRevisionsSortBy(data) {
-	case ListWorkflowRevisionsSortByCreatedAt:
-		*s = ListWorkflowRevisionsSortByCreatedAt
+func (s *ListRevisionsSortBy) UnmarshalText(data []byte) error {
+	switch ListRevisionsSortBy(data) {
+	case ListRevisionsSortByCreatedAt:
+		*s = ListRevisionsSortByCreatedAt
 		return nil
-	case ListWorkflowRevisionsSortByUpdatedAt:
-		*s = ListWorkflowRevisionsSortByUpdatedAt
+	case ListRevisionsSortByUpdatedAt:
+		*s = ListRevisionsSortByUpdatedAt
 		return nil
-	case ListWorkflowRevisionsSortByID:
-		*s = ListWorkflowRevisionsSortByID
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type ListWorkflowRevisionsUnauthorized struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *ListWorkflowRevisionsUnauthorized) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *ListWorkflowRevisionsUnauthorized) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *ListWorkflowRevisionsUnauthorized) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *ListWorkflowRevisionsUnauthorized) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*ListWorkflowRevisionsUnauthorized) listWorkflowRevisionsRes() {}
-
-type ListWorkflowSortBy string
-
-const (
-	ListWorkflowSortByCreatedAt ListWorkflowSortBy = "createdAt"
-	ListWorkflowSortByUpdatedAt ListWorkflowSortBy = "updatedAt"
-	ListWorkflowSortByID        ListWorkflowSortBy = "id"
-)
-
-// AllValues returns all ListWorkflowSortBy values.
-func (ListWorkflowSortBy) AllValues() []ListWorkflowSortBy {
-	return []ListWorkflowSortBy{
-		ListWorkflowSortByCreatedAt,
-		ListWorkflowSortByUpdatedAt,
-		ListWorkflowSortByID,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ListWorkflowSortBy) MarshalText() ([]byte, error) {
-	switch s {
-	case ListWorkflowSortByCreatedAt:
-		return []byte(s), nil
-	case ListWorkflowSortByUpdatedAt:
-		return []byte(s), nil
-	case ListWorkflowSortByID:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListWorkflowSortBy) UnmarshalText(data []byte) error {
-	switch ListWorkflowSortBy(data) {
-	case ListWorkflowSortByCreatedAt:
-		*s = ListWorkflowSortByCreatedAt
-		return nil
-	case ListWorkflowSortByUpdatedAt:
-		*s = ListWorkflowSortByUpdatedAt
-		return nil
-	case ListWorkflowSortByID:
-		*s = ListWorkflowSortByID
+	case ListRevisionsSortByID:
+		*s = ListRevisionsSortByID
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ListWorkflowSuggestBadRequest struct {
+type ListRevisionsUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowSuggestBadRequest) GetIsOk() bool {
+func (s *ListRevisionsUnauthorized) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowSuggestBadRequest) GetMessage() string {
+func (s *ListRevisionsUnauthorized) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowSuggestBadRequest) SetIsOk(val bool) {
+func (s *ListRevisionsUnauthorized) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowSuggestBadRequest) SetMessage(val string) {
+func (s *ListRevisionsUnauthorized) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowSuggestBadRequest) listWorkflowSuggestRes() {}
+func (*ListRevisionsUnauthorized) listRevisionsRes() {}
 
-type ListWorkflowSuggestForbidden struct {
+type ListSuggestionsBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowSuggestForbidden) GetIsOk() bool {
+func (s *ListSuggestionsBadRequest) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowSuggestForbidden) GetMessage() string {
+func (s *ListSuggestionsBadRequest) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowSuggestForbidden) SetIsOk(val bool) {
+func (s *ListSuggestionsBadRequest) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowSuggestForbidden) SetMessage(val string) {
+func (s *ListSuggestionsBadRequest) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowSuggestForbidden) listWorkflowSuggestRes() {}
+func (*ListSuggestionsBadRequest) listSuggestionsRes() {}
 
-type ListWorkflowSuggestInternalServerError struct {
+type ListSuggestionsForbidden struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowSuggestInternalServerError) GetIsOk() bool {
+func (s *ListSuggestionsForbidden) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowSuggestInternalServerError) GetMessage() string {
+func (s *ListSuggestionsForbidden) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowSuggestInternalServerError) SetIsOk(val bool) {
+func (s *ListSuggestionsForbidden) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowSuggestInternalServerError) SetMessage(val string) {
+func (s *ListSuggestionsForbidden) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowSuggestInternalServerError) listWorkflowSuggestRes() {}
+func (*ListSuggestionsForbidden) listSuggestionsRes() {}
 
-type ListWorkflowSuggestNotFound struct {
+type ListSuggestionsInternalServerError struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowSuggestNotFound) GetIsOk() bool {
+func (s *ListSuggestionsInternalServerError) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowSuggestNotFound) GetMessage() string {
+func (s *ListSuggestionsInternalServerError) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowSuggestNotFound) SetIsOk(val bool) {
+func (s *ListSuggestionsInternalServerError) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowSuggestNotFound) SetMessage(val string) {
+func (s *ListSuggestionsInternalServerError) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowSuggestNotFound) listWorkflowSuggestRes() {}
+func (*ListSuggestionsInternalServerError) listSuggestionsRes() {}
 
-type ListWorkflowSuggestOK struct {
-	IsOk     bool                                `json:"is_ok"`
-	Total    int                                 `json:"Total"`
-	From     int                                 `json:"From"`
-	Count    int                                 `json:"Count"`
-	Suggests []ListWorkflowSuggestOKSuggestsItem `json:"Suggests"`
+type ListSuggestionsNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowSuggestOK) GetIsOk() bool {
+func (s *ListSuggestionsNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListSuggestionsNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListSuggestionsNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListSuggestionsNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListSuggestionsNotFound) listSuggestionsRes() {}
+
+type ListSuggestionsOK struct {
+	IsOk     bool                            `json:"is_ok"`
+	Total    int                             `json:"Total"`
+	From     int                             `json:"From"`
+	Count    int                             `json:"Count"`
+	Suggests []ListSuggestionsOKSuggestsItem `json:"Suggests"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListSuggestionsOK) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetTotal returns the value of Total.
-func (s *ListWorkflowSuggestOK) GetTotal() int {
+func (s *ListSuggestionsOK) GetTotal() int {
 	return s.Total
 }
 
 // GetFrom returns the value of From.
-func (s *ListWorkflowSuggestOK) GetFrom() int {
+func (s *ListSuggestionsOK) GetFrom() int {
 	return s.From
 }
 
 // GetCount returns the value of Count.
-func (s *ListWorkflowSuggestOK) GetCount() int {
+func (s *ListSuggestionsOK) GetCount() int {
 	return s.Count
 }
 
 // GetSuggests returns the value of Suggests.
-func (s *ListWorkflowSuggestOK) GetSuggests() []ListWorkflowSuggestOKSuggestsItem {
+func (s *ListSuggestionsOK) GetSuggests() []ListSuggestionsOKSuggestsItem {
 	return s.Suggests
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowSuggestOK) SetIsOk(val bool) {
+func (s *ListSuggestionsOK) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetTotal sets the value of Total.
-func (s *ListWorkflowSuggestOK) SetTotal(val int) {
+func (s *ListSuggestionsOK) SetTotal(val int) {
 	s.Total = val
 }
 
 // SetFrom sets the value of From.
-func (s *ListWorkflowSuggestOK) SetFrom(val int) {
+func (s *ListSuggestionsOK) SetFrom(val int) {
 	s.From = val
 }
 
 // SetCount sets the value of Count.
-func (s *ListWorkflowSuggestOK) SetCount(val int) {
+func (s *ListSuggestionsOK) SetCount(val int) {
 	s.Count = val
 }
 
 // SetSuggests sets the value of Suggests.
-func (s *ListWorkflowSuggestOK) SetSuggests(val []ListWorkflowSuggestOKSuggestsItem) {
+func (s *ListSuggestionsOK) SetSuggests(val []ListSuggestionsOKSuggestsItem) {
 	s.Suggests = val
 }
 
-func (*ListWorkflowSuggestOK) listWorkflowSuggestRes() {}
+func (*ListSuggestionsOK) listSuggestionsRes() {}
 
-type ListWorkflowSuggestOKSuggestsItem struct {
+type ListSuggestionsOKSuggestsItem struct {
 	Name  string `json:"Name"`
 	Count int    `json:"Count"`
 }
 
 // GetName returns the value of Name.
-func (s *ListWorkflowSuggestOKSuggestsItem) GetName() string {
+func (s *ListSuggestionsOKSuggestsItem) GetName() string {
 	return s.Name
 }
 
 // GetCount returns the value of Count.
-func (s *ListWorkflowSuggestOKSuggestsItem) GetCount() int {
+func (s *ListSuggestionsOKSuggestsItem) GetCount() int {
 	return s.Count
 }
 
 // SetName sets the value of Name.
-func (s *ListWorkflowSuggestOKSuggestsItem) SetName(val string) {
+func (s *ListSuggestionsOKSuggestsItem) SetName(val string) {
 	s.Name = val
 }
 
 // SetCount sets the value of Count.
-func (s *ListWorkflowSuggestOKSuggestsItem) SetCount(val int) {
+func (s *ListSuggestionsOKSuggestsItem) SetCount(val int) {
 	s.Count = val
 }
 
-type ListWorkflowSuggestOrder string
+type ListSuggestionsOrder string
 
 const (
-	ListWorkflowSuggestOrderAsc  ListWorkflowSuggestOrder = "asc"
-	ListWorkflowSuggestOrderDesc ListWorkflowSuggestOrder = "desc"
+	ListSuggestionsOrderAsc  ListSuggestionsOrder = "asc"
+	ListSuggestionsOrderDesc ListSuggestionsOrder = "desc"
 )
 
-// AllValues returns all ListWorkflowSuggestOrder values.
-func (ListWorkflowSuggestOrder) AllValues() []ListWorkflowSuggestOrder {
-	return []ListWorkflowSuggestOrder{
-		ListWorkflowSuggestOrderAsc,
-		ListWorkflowSuggestOrderDesc,
+// AllValues returns all ListSuggestionsOrder values.
+func (ListSuggestionsOrder) AllValues() []ListSuggestionsOrder {
+	return []ListSuggestionsOrder{
+		ListSuggestionsOrderAsc,
+		ListSuggestionsOrderDesc,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListWorkflowSuggestOrder) MarshalText() ([]byte, error) {
+func (s ListSuggestionsOrder) MarshalText() ([]byte, error) {
 	switch s {
-	case ListWorkflowSuggestOrderAsc:
+	case ListSuggestionsOrderAsc:
 		return []byte(s), nil
-	case ListWorkflowSuggestOrderDesc:
+	case ListSuggestionsOrderDesc:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -8477,67 +6093,67 @@ func (s ListWorkflowSuggestOrder) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListWorkflowSuggestOrder) UnmarshalText(data []byte) error {
-	switch ListWorkflowSuggestOrder(data) {
-	case ListWorkflowSuggestOrderAsc:
-		*s = ListWorkflowSuggestOrderAsc
+func (s *ListSuggestionsOrder) UnmarshalText(data []byte) error {
+	switch ListSuggestionsOrder(data) {
+	case ListSuggestionsOrderAsc:
+		*s = ListSuggestionsOrderAsc
 		return nil
-	case ListWorkflowSuggestOrderDesc:
-		*s = ListWorkflowSuggestOrderDesc
+	case ListSuggestionsOrderDesc:
+		*s = ListSuggestionsOrderDesc
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ListWorkflowSuggestPaymentRequired struct {
+type ListSuggestionsPaymentRequired struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowSuggestPaymentRequired) GetIsOk() bool {
+func (s *ListSuggestionsPaymentRequired) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowSuggestPaymentRequired) GetMessage() string {
+func (s *ListSuggestionsPaymentRequired) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowSuggestPaymentRequired) SetIsOk(val bool) {
+func (s *ListSuggestionsPaymentRequired) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowSuggestPaymentRequired) SetMessage(val string) {
+func (s *ListSuggestionsPaymentRequired) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowSuggestPaymentRequired) listWorkflowSuggestRes() {}
+func (*ListSuggestionsPaymentRequired) listSuggestionsRes() {}
 
-type ListWorkflowSuggestSortBy string
+type ListSuggestionsSortBy string
 
 const (
-	ListWorkflowSuggestSortByName  ListWorkflowSuggestSortBy = "name"
-	ListWorkflowSuggestSortByCount ListWorkflowSuggestSortBy = "count"
+	ListSuggestionsSortByName  ListSuggestionsSortBy = "name"
+	ListSuggestionsSortByCount ListSuggestionsSortBy = "count"
 )
 
-// AllValues returns all ListWorkflowSuggestSortBy values.
-func (ListWorkflowSuggestSortBy) AllValues() []ListWorkflowSuggestSortBy {
-	return []ListWorkflowSuggestSortBy{
-		ListWorkflowSuggestSortByName,
-		ListWorkflowSuggestSortByCount,
+// AllValues returns all ListSuggestionsSortBy values.
+func (ListSuggestionsSortBy) AllValues() []ListSuggestionsSortBy {
+	return []ListSuggestionsSortBy{
+		ListSuggestionsSortByName,
+		ListSuggestionsSortByCount,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s ListWorkflowSuggestSortBy) MarshalText() ([]byte, error) {
+func (s ListSuggestionsSortBy) MarshalText() ([]byte, error) {
 	switch s {
-	case ListWorkflowSuggestSortByName:
+	case ListSuggestionsSortByName:
 		return []byte(s), nil
-	case ListWorkflowSuggestSortByCount:
+	case ListSuggestionsSortByCount:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -8545,72 +6161,641 @@ func (s ListWorkflowSuggestSortBy) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ListWorkflowSuggestSortBy) UnmarshalText(data []byte) error {
-	switch ListWorkflowSuggestSortBy(data) {
-	case ListWorkflowSuggestSortByName:
-		*s = ListWorkflowSuggestSortByName
+func (s *ListSuggestionsSortBy) UnmarshalText(data []byte) error {
+	switch ListSuggestionsSortBy(data) {
+	case ListSuggestionsSortByName:
+		*s = ListSuggestionsSortByName
 		return nil
-	case ListWorkflowSuggestSortByCount:
-		*s = ListWorkflowSuggestSortByCount
+	case ListSuggestionsSortByCount:
+		*s = ListSuggestionsSortByCount
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type ListWorkflowSuggestUnauthorized struct {
+type ListSuggestionsUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowSuggestUnauthorized) GetIsOk() bool {
+func (s *ListSuggestionsUnauthorized) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowSuggestUnauthorized) GetMessage() string {
+func (s *ListSuggestionsUnauthorized) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowSuggestUnauthorized) SetIsOk(val bool) {
+func (s *ListSuggestionsUnauthorized) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowSuggestUnauthorized) SetMessage(val string) {
+func (s *ListSuggestionsUnauthorized) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowSuggestUnauthorized) listWorkflowSuggestRes() {}
+func (*ListSuggestionsUnauthorized) listSuggestionsRes() {}
 
-type ListWorkflowUnauthorized struct {
+type ListWorkflowsBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *ListWorkflowUnauthorized) GetIsOk() bool {
+func (s *ListWorkflowsBadRequest) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *ListWorkflowUnauthorized) GetMessage() string {
+func (s *ListWorkflowsBadRequest) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *ListWorkflowUnauthorized) SetIsOk(val bool) {
+func (s *ListWorkflowsBadRequest) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *ListWorkflowUnauthorized) SetMessage(val string) {
+func (s *ListWorkflowsBadRequest) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*ListWorkflowUnauthorized) listWorkflowRes() {}
+func (*ListWorkflowsBadRequest) listWorkflowsRes() {}
+
+type ListWorkflowsForbidden struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowsForbidden) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListWorkflowsForbidden) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowsForbidden) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListWorkflowsForbidden) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListWorkflowsForbidden) listWorkflowsRes() {}
+
+type ListWorkflowsInternalServerError struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowsInternalServerError) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListWorkflowsInternalServerError) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowsInternalServerError) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListWorkflowsInternalServerError) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListWorkflowsInternalServerError) listWorkflowsRes() {}
+
+type ListWorkflowsNameMatchType string
+
+const (
+	ListWorkflowsNameMatchTypePartial ListWorkflowsNameMatchType = "partial"
+	ListWorkflowsNameMatchTypePrefix  ListWorkflowsNameMatchType = "prefix"
+)
+
+// AllValues returns all ListWorkflowsNameMatchType values.
+func (ListWorkflowsNameMatchType) AllValues() []ListWorkflowsNameMatchType {
+	return []ListWorkflowsNameMatchType{
+		ListWorkflowsNameMatchTypePartial,
+		ListWorkflowsNameMatchTypePrefix,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListWorkflowsNameMatchType) MarshalText() ([]byte, error) {
+	switch s {
+	case ListWorkflowsNameMatchTypePartial:
+		return []byte(s), nil
+	case ListWorkflowsNameMatchTypePrefix:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListWorkflowsNameMatchType) UnmarshalText(data []byte) error {
+	switch ListWorkflowsNameMatchType(data) {
+	case ListWorkflowsNameMatchTypePartial:
+		*s = ListWorkflowsNameMatchTypePartial
+		return nil
+	case ListWorkflowsNameMatchTypePrefix:
+		*s = ListWorkflowsNameMatchTypePrefix
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListWorkflowsNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowsNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListWorkflowsNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowsNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListWorkflowsNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListWorkflowsNotFound) listWorkflowsRes() {}
+
+type ListWorkflowsOK struct {
+	IsOk      bool                           `json:"is_ok"`
+	Total     int                            `json:"Total"`
+	From      int                            `json:"From"`
+	Count     int                            `json:"Count"`
+	Workflows []ListWorkflowsOKWorkflowsItem `json:"Workflows"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowsOK) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetTotal returns the value of Total.
+func (s *ListWorkflowsOK) GetTotal() int {
+	return s.Total
+}
+
+// GetFrom returns the value of From.
+func (s *ListWorkflowsOK) GetFrom() int {
+	return s.From
+}
+
+// GetCount returns the value of Count.
+func (s *ListWorkflowsOK) GetCount() int {
+	return s.Count
+}
+
+// GetWorkflows returns the value of Workflows.
+func (s *ListWorkflowsOK) GetWorkflows() []ListWorkflowsOKWorkflowsItem {
+	return s.Workflows
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowsOK) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetTotal sets the value of Total.
+func (s *ListWorkflowsOK) SetTotal(val int) {
+	s.Total = val
+}
+
+// SetFrom sets the value of From.
+func (s *ListWorkflowsOK) SetFrom(val int) {
+	s.From = val
+}
+
+// SetCount sets the value of Count.
+func (s *ListWorkflowsOK) SetCount(val int) {
+	s.Count = val
+}
+
+// SetWorkflows sets the value of Workflows.
+func (s *ListWorkflowsOK) SetWorkflows(val []ListWorkflowsOKWorkflowsItem) {
+	s.Workflows = val
+}
+
+func (*ListWorkflowsOK) listWorkflowsRes() {}
+
+type ListWorkflowsOKWorkflowsItem struct {
+	ID                 string                                            `json:"Id"`
+	Name               string                                            `json:"Name"`
+	Description        OptString                                         `json:"Description"`
+	Publish            bool                                              `json:"Publish"`
+	Logging            bool                                              `json:"Logging"`
+	Tags               []ListWorkflowsOKWorkflowsItemTagsItem            `json:"Tags"`
+	ServicePrincipalId OptListWorkflowsOKWorkflowsItemServicePrincipalId `json:"ServicePrincipalId"`
+	CreatedAt          time.Time                                         `json:"CreatedAt"`
+	UpdatedAt          time.Time                                         `json:"UpdatedAt"`
+	ConcurrencyMode    OptListWorkflowsOKWorkflowsItemConcurrencyMode    `json:"ConcurrencyMode"`
+}
+
+// GetID returns the value of ID.
+func (s *ListWorkflowsOKWorkflowsItem) GetID() string {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *ListWorkflowsOKWorkflowsItem) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *ListWorkflowsOKWorkflowsItem) GetDescription() OptString {
+	return s.Description
+}
+
+// GetPublish returns the value of Publish.
+func (s *ListWorkflowsOKWorkflowsItem) GetPublish() bool {
+	return s.Publish
+}
+
+// GetLogging returns the value of Logging.
+func (s *ListWorkflowsOKWorkflowsItem) GetLogging() bool {
+	return s.Logging
+}
+
+// GetTags returns the value of Tags.
+func (s *ListWorkflowsOKWorkflowsItem) GetTags() []ListWorkflowsOKWorkflowsItemTagsItem {
+	return s.Tags
+}
+
+// GetServicePrincipalId returns the value of ServicePrincipalId.
+func (s *ListWorkflowsOKWorkflowsItem) GetServicePrincipalId() OptListWorkflowsOKWorkflowsItemServicePrincipalId {
+	return s.ServicePrincipalId
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ListWorkflowsOKWorkflowsItem) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ListWorkflowsOKWorkflowsItem) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// GetConcurrencyMode returns the value of ConcurrencyMode.
+func (s *ListWorkflowsOKWorkflowsItem) GetConcurrencyMode() OptListWorkflowsOKWorkflowsItemConcurrencyMode {
+	return s.ConcurrencyMode
+}
+
+// SetID sets the value of ID.
+func (s *ListWorkflowsOKWorkflowsItem) SetID(val string) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *ListWorkflowsOKWorkflowsItem) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *ListWorkflowsOKWorkflowsItem) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetPublish sets the value of Publish.
+func (s *ListWorkflowsOKWorkflowsItem) SetPublish(val bool) {
+	s.Publish = val
+}
+
+// SetLogging sets the value of Logging.
+func (s *ListWorkflowsOKWorkflowsItem) SetLogging(val bool) {
+	s.Logging = val
+}
+
+// SetTags sets the value of Tags.
+func (s *ListWorkflowsOKWorkflowsItem) SetTags(val []ListWorkflowsOKWorkflowsItemTagsItem) {
+	s.Tags = val
+}
+
+// SetServicePrincipalId sets the value of ServicePrincipalId.
+func (s *ListWorkflowsOKWorkflowsItem) SetServicePrincipalId(val OptListWorkflowsOKWorkflowsItemServicePrincipalId) {
+	s.ServicePrincipalId = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ListWorkflowsOKWorkflowsItem) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ListWorkflowsOKWorkflowsItem) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+// SetConcurrencyMode sets the value of ConcurrencyMode.
+func (s *ListWorkflowsOKWorkflowsItem) SetConcurrencyMode(val OptListWorkflowsOKWorkflowsItemConcurrencyMode) {
+	s.ConcurrencyMode = val
+}
+
+type ListWorkflowsOKWorkflowsItemConcurrencyMode string
+
+const (
+	ListWorkflowsOKWorkflowsItemConcurrencyModeParallel ListWorkflowsOKWorkflowsItemConcurrencyMode = "parallel"
+	ListWorkflowsOKWorkflowsItemConcurrencyModeLock     ListWorkflowsOKWorkflowsItemConcurrencyMode = "lock"
+	ListWorkflowsOKWorkflowsItemConcurrencyModeQueue    ListWorkflowsOKWorkflowsItemConcurrencyMode = "queue"
+)
+
+// AllValues returns all ListWorkflowsOKWorkflowsItemConcurrencyMode values.
+func (ListWorkflowsOKWorkflowsItemConcurrencyMode) AllValues() []ListWorkflowsOKWorkflowsItemConcurrencyMode {
+	return []ListWorkflowsOKWorkflowsItemConcurrencyMode{
+		ListWorkflowsOKWorkflowsItemConcurrencyModeParallel,
+		ListWorkflowsOKWorkflowsItemConcurrencyModeLock,
+		ListWorkflowsOKWorkflowsItemConcurrencyModeQueue,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListWorkflowsOKWorkflowsItemConcurrencyMode) MarshalText() ([]byte, error) {
+	switch s {
+	case ListWorkflowsOKWorkflowsItemConcurrencyModeParallel:
+		return []byte(s), nil
+	case ListWorkflowsOKWorkflowsItemConcurrencyModeLock:
+		return []byte(s), nil
+	case ListWorkflowsOKWorkflowsItemConcurrencyModeQueue:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListWorkflowsOKWorkflowsItemConcurrencyMode) UnmarshalText(data []byte) error {
+	switch ListWorkflowsOKWorkflowsItemConcurrencyMode(data) {
+	case ListWorkflowsOKWorkflowsItemConcurrencyModeParallel:
+		*s = ListWorkflowsOKWorkflowsItemConcurrencyModeParallel
+		return nil
+	case ListWorkflowsOKWorkflowsItemConcurrencyModeLock:
+		*s = ListWorkflowsOKWorkflowsItemConcurrencyModeLock
+		return nil
+	case ListWorkflowsOKWorkflowsItemConcurrencyModeQueue:
+		*s = ListWorkflowsOKWorkflowsItemConcurrencyModeQueue
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ListWorkflowsOKWorkflowsItemServicePrincipalId represents sum type.
+type ListWorkflowsOKWorkflowsItemServicePrincipalId struct {
+	// Type selects the active sum variant, switch on this field.
+	Type    ListWorkflowsOKWorkflowsItemServicePrincipalIdType
+	String  string
+	Float64 float64
+}
+
+// ListWorkflowsOKWorkflowsItemServicePrincipalIdType is oneOf type of ListWorkflowsOKWorkflowsItemServicePrincipalId.
+type ListWorkflowsOKWorkflowsItemServicePrincipalIdType string
+
+// Possible values for ListWorkflowsOKWorkflowsItemServicePrincipalIdType.
+const (
+	StringListWorkflowsOKWorkflowsItemServicePrincipalId  ListWorkflowsOKWorkflowsItemServicePrincipalIdType = "string"
+	Float64ListWorkflowsOKWorkflowsItemServicePrincipalId ListWorkflowsOKWorkflowsItemServicePrincipalIdType = "float64"
+)
+
+// IsString reports whether ListWorkflowsOKWorkflowsItemServicePrincipalId is string.
+func (s ListWorkflowsOKWorkflowsItemServicePrincipalId) IsString() bool {
+	return s.Type == StringListWorkflowsOKWorkflowsItemServicePrincipalId
+}
+
+// IsFloat64 reports whether ListWorkflowsOKWorkflowsItemServicePrincipalId is float64.
+func (s ListWorkflowsOKWorkflowsItemServicePrincipalId) IsFloat64() bool {
+	return s.Type == Float64ListWorkflowsOKWorkflowsItemServicePrincipalId
+}
+
+// SetString sets ListWorkflowsOKWorkflowsItemServicePrincipalId to string.
+func (s *ListWorkflowsOKWorkflowsItemServicePrincipalId) SetString(v string) {
+	s.Type = StringListWorkflowsOKWorkflowsItemServicePrincipalId
+	s.String = v
+}
+
+// GetString returns string and true boolean if ListWorkflowsOKWorkflowsItemServicePrincipalId is string.
+func (s ListWorkflowsOKWorkflowsItemServicePrincipalId) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringListWorkflowsOKWorkflowsItemServicePrincipalId returns new ListWorkflowsOKWorkflowsItemServicePrincipalId from string.
+func NewStringListWorkflowsOKWorkflowsItemServicePrincipalId(v string) ListWorkflowsOKWorkflowsItemServicePrincipalId {
+	var s ListWorkflowsOKWorkflowsItemServicePrincipalId
+	s.SetString(v)
+	return s
+}
+
+// SetFloat64 sets ListWorkflowsOKWorkflowsItemServicePrincipalId to float64.
+func (s *ListWorkflowsOKWorkflowsItemServicePrincipalId) SetFloat64(v float64) {
+	s.Type = Float64ListWorkflowsOKWorkflowsItemServicePrincipalId
+	s.Float64 = v
+}
+
+// GetFloat64 returns float64 and true boolean if ListWorkflowsOKWorkflowsItemServicePrincipalId is float64.
+func (s ListWorkflowsOKWorkflowsItemServicePrincipalId) GetFloat64() (v float64, ok bool) {
+	if !s.IsFloat64() {
+		return v, false
+	}
+	return s.Float64, true
+}
+
+// NewFloat64ListWorkflowsOKWorkflowsItemServicePrincipalId returns new ListWorkflowsOKWorkflowsItemServicePrincipalId from float64.
+func NewFloat64ListWorkflowsOKWorkflowsItemServicePrincipalId(v float64) ListWorkflowsOKWorkflowsItemServicePrincipalId {
+	var s ListWorkflowsOKWorkflowsItemServicePrincipalId
+	s.SetFloat64(v)
+	return s
+}
+
+type ListWorkflowsOKWorkflowsItemTagsItem struct {
+	Name string `json:"Name"`
+}
+
+// GetName returns the value of Name.
+func (s *ListWorkflowsOKWorkflowsItemTagsItem) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *ListWorkflowsOKWorkflowsItemTagsItem) SetName(val string) {
+	s.Name = val
+}
+
+type ListWorkflowsOrder string
+
+const (
+	ListWorkflowsOrderAsc  ListWorkflowsOrder = "asc"
+	ListWorkflowsOrderDesc ListWorkflowsOrder = "desc"
+)
+
+// AllValues returns all ListWorkflowsOrder values.
+func (ListWorkflowsOrder) AllValues() []ListWorkflowsOrder {
+	return []ListWorkflowsOrder{
+		ListWorkflowsOrderAsc,
+		ListWorkflowsOrderDesc,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListWorkflowsOrder) MarshalText() ([]byte, error) {
+	switch s {
+	case ListWorkflowsOrderAsc:
+		return []byte(s), nil
+	case ListWorkflowsOrderDesc:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListWorkflowsOrder) UnmarshalText(data []byte) error {
+	switch ListWorkflowsOrder(data) {
+	case ListWorkflowsOrderAsc:
+		*s = ListWorkflowsOrderAsc
+		return nil
+	case ListWorkflowsOrderDesc:
+		*s = ListWorkflowsOrderDesc
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListWorkflowsPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowsPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListWorkflowsPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowsPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListWorkflowsPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListWorkflowsPaymentRequired) listWorkflowsRes() {}
+
+type ListWorkflowsSortBy string
+
+const (
+	ListWorkflowsSortByCreatedAt ListWorkflowsSortBy = "createdAt"
+	ListWorkflowsSortByUpdatedAt ListWorkflowsSortBy = "updatedAt"
+	ListWorkflowsSortByID        ListWorkflowsSortBy = "id"
+)
+
+// AllValues returns all ListWorkflowsSortBy values.
+func (ListWorkflowsSortBy) AllValues() []ListWorkflowsSortBy {
+	return []ListWorkflowsSortBy{
+		ListWorkflowsSortByCreatedAt,
+		ListWorkflowsSortByUpdatedAt,
+		ListWorkflowsSortByID,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ListWorkflowsSortBy) MarshalText() ([]byte, error) {
+	switch s {
+	case ListWorkflowsSortByCreatedAt:
+		return []byte(s), nil
+	case ListWorkflowsSortByUpdatedAt:
+		return []byte(s), nil
+	case ListWorkflowsSortByID:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ListWorkflowsSortBy) UnmarshalText(data []byte) error {
+	switch ListWorkflowsSortBy(data) {
+	case ListWorkflowsSortByCreatedAt:
+		*s = ListWorkflowsSortByCreatedAt
+		return nil
+	case ListWorkflowsSortByUpdatedAt:
+		*s = ListWorkflowsSortByUpdatedAt
+		return nil
+	case ListWorkflowsSortByID:
+		*s = ListWorkflowsSortByID
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ListWorkflowsUnauthorized struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ListWorkflowsUnauthorized) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ListWorkflowsUnauthorized) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ListWorkflowsUnauthorized) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ListWorkflowsUnauthorized) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ListWorkflowsUnauthorized) listWorkflowsRes() {}
 
 // NewNilDateTime returns new NilDateTime with value set to v.
 func NewNilDateTime(v time.Time) NilDateTime {
@@ -9255,236 +7440,6 @@ func (o OptDateTime) Or(d time.Time) time.Time {
 	return d
 }
 
-// NewOptGetExecutionOKExecutionWorkflowConcurrencyMode returns new OptGetExecutionOKExecutionWorkflowConcurrencyMode with value set to v.
-func NewOptGetExecutionOKExecutionWorkflowConcurrencyMode(v GetExecutionOKExecutionWorkflowConcurrencyMode) OptGetExecutionOKExecutionWorkflowConcurrencyMode {
-	return OptGetExecutionOKExecutionWorkflowConcurrencyMode{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetExecutionOKExecutionWorkflowConcurrencyMode is optional GetExecutionOKExecutionWorkflowConcurrencyMode.
-type OptGetExecutionOKExecutionWorkflowConcurrencyMode struct {
-	Value GetExecutionOKExecutionWorkflowConcurrencyMode
-	Set   bool
-}
-
-// IsSet returns true if OptGetExecutionOKExecutionWorkflowConcurrencyMode was set.
-func (o OptGetExecutionOKExecutionWorkflowConcurrencyMode) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetExecutionOKExecutionWorkflowConcurrencyMode) Reset() {
-	var v GetExecutionOKExecutionWorkflowConcurrencyMode
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetExecutionOKExecutionWorkflowConcurrencyMode) SetTo(v GetExecutionOKExecutionWorkflowConcurrencyMode) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetExecutionOKExecutionWorkflowConcurrencyMode) Get() (v GetExecutionOKExecutionWorkflowConcurrencyMode, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetExecutionOKExecutionWorkflowConcurrencyMode) Or(d GetExecutionOKExecutionWorkflowConcurrencyMode) GetExecutionOKExecutionWorkflowConcurrencyMode {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetExecutionOKExecutionWorkflowServicePrincipalId returns new OptGetExecutionOKExecutionWorkflowServicePrincipalId with value set to v.
-func NewOptGetExecutionOKExecutionWorkflowServicePrincipalId(v GetExecutionOKExecutionWorkflowServicePrincipalId) OptGetExecutionOKExecutionWorkflowServicePrincipalId {
-	return OptGetExecutionOKExecutionWorkflowServicePrincipalId{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetExecutionOKExecutionWorkflowServicePrincipalId is optional GetExecutionOKExecutionWorkflowServicePrincipalId.
-type OptGetExecutionOKExecutionWorkflowServicePrincipalId struct {
-	Value GetExecutionOKExecutionWorkflowServicePrincipalId
-	Set   bool
-}
-
-// IsSet returns true if OptGetExecutionOKExecutionWorkflowServicePrincipalId was set.
-func (o OptGetExecutionOKExecutionWorkflowServicePrincipalId) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetExecutionOKExecutionWorkflowServicePrincipalId) Reset() {
-	var v GetExecutionOKExecutionWorkflowServicePrincipalId
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetExecutionOKExecutionWorkflowServicePrincipalId) SetTo(v GetExecutionOKExecutionWorkflowServicePrincipalId) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetExecutionOKExecutionWorkflowServicePrincipalId) Get() (v GetExecutionOKExecutionWorkflowServicePrincipalId, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetExecutionOKExecutionWorkflowServicePrincipalId) Or(d GetExecutionOKExecutionWorkflowServicePrincipalId) GetExecutionOKExecutionWorkflowServicePrincipalId {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetSubscriptionOKMonthAppliedPlan returns new OptGetSubscriptionOKMonthAppliedPlan with value set to v.
-func NewOptGetSubscriptionOKMonthAppliedPlan(v GetSubscriptionOKMonthAppliedPlan) OptGetSubscriptionOKMonthAppliedPlan {
-	return OptGetSubscriptionOKMonthAppliedPlan{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetSubscriptionOKMonthAppliedPlan is optional GetSubscriptionOKMonthAppliedPlan.
-type OptGetSubscriptionOKMonthAppliedPlan struct {
-	Value GetSubscriptionOKMonthAppliedPlan
-	Set   bool
-}
-
-// IsSet returns true if OptGetSubscriptionOKMonthAppliedPlan was set.
-func (o OptGetSubscriptionOKMonthAppliedPlan) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetSubscriptionOKMonthAppliedPlan) Reset() {
-	var v GetSubscriptionOKMonthAppliedPlan
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetSubscriptionOKMonthAppliedPlan) SetTo(v GetSubscriptionOKMonthAppliedPlan) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetSubscriptionOKMonthAppliedPlan) Get() (v GetSubscriptionOKMonthAppliedPlan, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetSubscriptionOKMonthAppliedPlan) Or(d GetSubscriptionOKMonthAppliedPlan) GetSubscriptionOKMonthAppliedPlan {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetWorkflowOKWorkflowConcurrencyMode returns new OptGetWorkflowOKWorkflowConcurrencyMode with value set to v.
-func NewOptGetWorkflowOKWorkflowConcurrencyMode(v GetWorkflowOKWorkflowConcurrencyMode) OptGetWorkflowOKWorkflowConcurrencyMode {
-	return OptGetWorkflowOKWorkflowConcurrencyMode{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetWorkflowOKWorkflowConcurrencyMode is optional GetWorkflowOKWorkflowConcurrencyMode.
-type OptGetWorkflowOKWorkflowConcurrencyMode struct {
-	Value GetWorkflowOKWorkflowConcurrencyMode
-	Set   bool
-}
-
-// IsSet returns true if OptGetWorkflowOKWorkflowConcurrencyMode was set.
-func (o OptGetWorkflowOKWorkflowConcurrencyMode) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetWorkflowOKWorkflowConcurrencyMode) Reset() {
-	var v GetWorkflowOKWorkflowConcurrencyMode
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetWorkflowOKWorkflowConcurrencyMode) SetTo(v GetWorkflowOKWorkflowConcurrencyMode) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetWorkflowOKWorkflowConcurrencyMode) Get() (v GetWorkflowOKWorkflowConcurrencyMode, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetWorkflowOKWorkflowConcurrencyMode) Or(d GetWorkflowOKWorkflowConcurrencyMode) GetWorkflowOKWorkflowConcurrencyMode {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetWorkflowOKWorkflowServicePrincipalId returns new OptGetWorkflowOKWorkflowServicePrincipalId with value set to v.
-func NewOptGetWorkflowOKWorkflowServicePrincipalId(v GetWorkflowOKWorkflowServicePrincipalId) OptGetWorkflowOKWorkflowServicePrincipalId {
-	return OptGetWorkflowOKWorkflowServicePrincipalId{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetWorkflowOKWorkflowServicePrincipalId is optional GetWorkflowOKWorkflowServicePrincipalId.
-type OptGetWorkflowOKWorkflowServicePrincipalId struct {
-	Value GetWorkflowOKWorkflowServicePrincipalId
-	Set   bool
-}
-
-// IsSet returns true if OptGetWorkflowOKWorkflowServicePrincipalId was set.
-func (o OptGetWorkflowOKWorkflowServicePrincipalId) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetWorkflowOKWorkflowServicePrincipalId) Reset() {
-	var v GetWorkflowOKWorkflowServicePrincipalId
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetWorkflowOKWorkflowServicePrincipalId) SetTo(v GetWorkflowOKWorkflowServicePrincipalId) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetWorkflowOKWorkflowServicePrincipalId) Get() (v GetWorkflowOKWorkflowServicePrincipalId, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetWorkflowOKWorkflowServicePrincipalId) Or(d GetWorkflowOKWorkflowServicePrincipalId) GetWorkflowOKWorkflowServicePrincipalId {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptInt returns new OptInt with value set to v.
 func NewOptInt(v int) OptInt {
 	return OptInt{
@@ -9531,38 +7486,38 @@ func (o OptInt) Or(d int) int {
 	return d
 }
 
-// NewOptListExecutionHistorySortOrder returns new OptListExecutionHistorySortOrder with value set to v.
-func NewOptListExecutionHistorySortOrder(v ListExecutionHistorySortOrder) OptListExecutionHistorySortOrder {
-	return OptListExecutionHistorySortOrder{
+// NewOptListExecutionHistoriesSortOrder returns new OptListExecutionHistoriesSortOrder with value set to v.
+func NewOptListExecutionHistoriesSortOrder(v ListExecutionHistoriesSortOrder) OptListExecutionHistoriesSortOrder {
+	return OptListExecutionHistoriesSortOrder{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListExecutionHistorySortOrder is optional ListExecutionHistorySortOrder.
-type OptListExecutionHistorySortOrder struct {
-	Value ListExecutionHistorySortOrder
+// OptListExecutionHistoriesSortOrder is optional ListExecutionHistoriesSortOrder.
+type OptListExecutionHistoriesSortOrder struct {
+	Value ListExecutionHistoriesSortOrder
 	Set   bool
 }
 
-// IsSet returns true if OptListExecutionHistorySortOrder was set.
-func (o OptListExecutionHistorySortOrder) IsSet() bool { return o.Set }
+// IsSet returns true if OptListExecutionHistoriesSortOrder was set.
+func (o OptListExecutionHistoriesSortOrder) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListExecutionHistorySortOrder) Reset() {
-	var v ListExecutionHistorySortOrder
+func (o *OptListExecutionHistoriesSortOrder) Reset() {
+	var v ListExecutionHistoriesSortOrder
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListExecutionHistorySortOrder) SetTo(v ListExecutionHistorySortOrder) {
+func (o *OptListExecutionHistoriesSortOrder) SetTo(v ListExecutionHistoriesSortOrder) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListExecutionHistorySortOrder) Get() (v ListExecutionHistorySortOrder, ok bool) {
+func (o OptListExecutionHistoriesSortOrder) Get() (v ListExecutionHistoriesSortOrder, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9570,45 +7525,45 @@ func (o OptListExecutionHistorySortOrder) Get() (v ListExecutionHistorySortOrder
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListExecutionHistorySortOrder) Or(d ListExecutionHistorySortOrder) ListExecutionHistorySortOrder {
+func (o OptListExecutionHistoriesSortOrder) Or(d ListExecutionHistoriesSortOrder) ListExecutionHistoriesSortOrder {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListExecutionOKExecutionsItemWorkflowConcurrencyMode returns new OptListExecutionOKExecutionsItemWorkflowConcurrencyMode with value set to v.
-func NewOptListExecutionOKExecutionsItemWorkflowConcurrencyMode(v ListExecutionOKExecutionsItemWorkflowConcurrencyMode) OptListExecutionOKExecutionsItemWorkflowConcurrencyMode {
-	return OptListExecutionOKExecutionsItemWorkflowConcurrencyMode{
+// NewOptListExecutionsOKExecutionsItemWorkflowConcurrencyMode returns new OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode with value set to v.
+func NewOptListExecutionsOKExecutionsItemWorkflowConcurrencyMode(v ListExecutionsOKExecutionsItemWorkflowConcurrencyMode) OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode {
+	return OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListExecutionOKExecutionsItemWorkflowConcurrencyMode is optional ListExecutionOKExecutionsItemWorkflowConcurrencyMode.
-type OptListExecutionOKExecutionsItemWorkflowConcurrencyMode struct {
-	Value ListExecutionOKExecutionsItemWorkflowConcurrencyMode
+// OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode is optional ListExecutionsOKExecutionsItemWorkflowConcurrencyMode.
+type OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode struct {
+	Value ListExecutionsOKExecutionsItemWorkflowConcurrencyMode
 	Set   bool
 }
 
-// IsSet returns true if OptListExecutionOKExecutionsItemWorkflowConcurrencyMode was set.
-func (o OptListExecutionOKExecutionsItemWorkflowConcurrencyMode) IsSet() bool { return o.Set }
+// IsSet returns true if OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode was set.
+func (o OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListExecutionOKExecutionsItemWorkflowConcurrencyMode) Reset() {
-	var v ListExecutionOKExecutionsItemWorkflowConcurrencyMode
+func (o *OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode) Reset() {
+	var v ListExecutionsOKExecutionsItemWorkflowConcurrencyMode
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListExecutionOKExecutionsItemWorkflowConcurrencyMode) SetTo(v ListExecutionOKExecutionsItemWorkflowConcurrencyMode) {
+func (o *OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode) SetTo(v ListExecutionsOKExecutionsItemWorkflowConcurrencyMode) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListExecutionOKExecutionsItemWorkflowConcurrencyMode) Get() (v ListExecutionOKExecutionsItemWorkflowConcurrencyMode, ok bool) {
+func (o OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode) Get() (v ListExecutionsOKExecutionsItemWorkflowConcurrencyMode, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9616,45 +7571,45 @@ func (o OptListExecutionOKExecutionsItemWorkflowConcurrencyMode) Get() (v ListEx
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListExecutionOKExecutionsItemWorkflowConcurrencyMode) Or(d ListExecutionOKExecutionsItemWorkflowConcurrencyMode) ListExecutionOKExecutionsItemWorkflowConcurrencyMode {
+func (o OptListExecutionsOKExecutionsItemWorkflowConcurrencyMode) Or(d ListExecutionsOKExecutionsItemWorkflowConcurrencyMode) ListExecutionsOKExecutionsItemWorkflowConcurrencyMode {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListExecutionOKExecutionsItemWorkflowServicePrincipalId returns new OptListExecutionOKExecutionsItemWorkflowServicePrincipalId with value set to v.
-func NewOptListExecutionOKExecutionsItemWorkflowServicePrincipalId(v ListExecutionOKExecutionsItemWorkflowServicePrincipalId) OptListExecutionOKExecutionsItemWorkflowServicePrincipalId {
-	return OptListExecutionOKExecutionsItemWorkflowServicePrincipalId{
+// NewOptListExecutionsOKExecutionsItemWorkflowServicePrincipalId returns new OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId with value set to v.
+func NewOptListExecutionsOKExecutionsItemWorkflowServicePrincipalId(v ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId {
+	return OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListExecutionOKExecutionsItemWorkflowServicePrincipalId is optional ListExecutionOKExecutionsItemWorkflowServicePrincipalId.
-type OptListExecutionOKExecutionsItemWorkflowServicePrincipalId struct {
-	Value ListExecutionOKExecutionsItemWorkflowServicePrincipalId
+// OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId is optional ListExecutionsOKExecutionsItemWorkflowServicePrincipalId.
+type OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId struct {
+	Value ListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 	Set   bool
 }
 
-// IsSet returns true if OptListExecutionOKExecutionsItemWorkflowServicePrincipalId was set.
-func (o OptListExecutionOKExecutionsItemWorkflowServicePrincipalId) IsSet() bool { return o.Set }
+// IsSet returns true if OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId was set.
+func (o OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListExecutionOKExecutionsItemWorkflowServicePrincipalId) Reset() {
-	var v ListExecutionOKExecutionsItemWorkflowServicePrincipalId
+func (o *OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId) Reset() {
+	var v ListExecutionsOKExecutionsItemWorkflowServicePrincipalId
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListExecutionOKExecutionsItemWorkflowServicePrincipalId) SetTo(v ListExecutionOKExecutionsItemWorkflowServicePrincipalId) {
+func (o *OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId) SetTo(v ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListExecutionOKExecutionsItemWorkflowServicePrincipalId) Get() (v ListExecutionOKExecutionsItemWorkflowServicePrincipalId, ok bool) {
+func (o OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId) Get() (v ListExecutionsOKExecutionsItemWorkflowServicePrincipalId, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9662,45 +7617,45 @@ func (o OptListExecutionOKExecutionsItemWorkflowServicePrincipalId) Get() (v Lis
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListExecutionOKExecutionsItemWorkflowServicePrincipalId) Or(d ListExecutionOKExecutionsItemWorkflowServicePrincipalId) ListExecutionOKExecutionsItemWorkflowServicePrincipalId {
+func (o OptListExecutionsOKExecutionsItemWorkflowServicePrincipalId) Or(d ListExecutionsOKExecutionsItemWorkflowServicePrincipalId) ListExecutionsOKExecutionsItemWorkflowServicePrincipalId {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListExecutionOrder returns new OptListExecutionOrder with value set to v.
-func NewOptListExecutionOrder(v ListExecutionOrder) OptListExecutionOrder {
-	return OptListExecutionOrder{
+// NewOptListExecutionsOrder returns new OptListExecutionsOrder with value set to v.
+func NewOptListExecutionsOrder(v ListExecutionsOrder) OptListExecutionsOrder {
+	return OptListExecutionsOrder{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListExecutionOrder is optional ListExecutionOrder.
-type OptListExecutionOrder struct {
-	Value ListExecutionOrder
+// OptListExecutionsOrder is optional ListExecutionsOrder.
+type OptListExecutionsOrder struct {
+	Value ListExecutionsOrder
 	Set   bool
 }
 
-// IsSet returns true if OptListExecutionOrder was set.
-func (o OptListExecutionOrder) IsSet() bool { return o.Set }
+// IsSet returns true if OptListExecutionsOrder was set.
+func (o OptListExecutionsOrder) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListExecutionOrder) Reset() {
-	var v ListExecutionOrder
+func (o *OptListExecutionsOrder) Reset() {
+	var v ListExecutionsOrder
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListExecutionOrder) SetTo(v ListExecutionOrder) {
+func (o *OptListExecutionsOrder) SetTo(v ListExecutionsOrder) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListExecutionOrder) Get() (v ListExecutionOrder, ok bool) {
+func (o OptListExecutionsOrder) Get() (v ListExecutionsOrder, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9708,45 +7663,45 @@ func (o OptListExecutionOrder) Get() (v ListExecutionOrder, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListExecutionOrder) Or(d ListExecutionOrder) ListExecutionOrder {
+func (o OptListExecutionsOrder) Or(d ListExecutionsOrder) ListExecutionsOrder {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowNameMatchType returns new OptListWorkflowNameMatchType with value set to v.
-func NewOptListWorkflowNameMatchType(v ListWorkflowNameMatchType) OptListWorkflowNameMatchType {
-	return OptListWorkflowNameMatchType{
+// NewOptListRevisionsOrder returns new OptListRevisionsOrder with value set to v.
+func NewOptListRevisionsOrder(v ListRevisionsOrder) OptListRevisionsOrder {
+	return OptListRevisionsOrder{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowNameMatchType is optional ListWorkflowNameMatchType.
-type OptListWorkflowNameMatchType struct {
-	Value ListWorkflowNameMatchType
+// OptListRevisionsOrder is optional ListRevisionsOrder.
+type OptListRevisionsOrder struct {
+	Value ListRevisionsOrder
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowNameMatchType was set.
-func (o OptListWorkflowNameMatchType) IsSet() bool { return o.Set }
+// IsSet returns true if OptListRevisionsOrder was set.
+func (o OptListRevisionsOrder) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowNameMatchType) Reset() {
-	var v ListWorkflowNameMatchType
+func (o *OptListRevisionsOrder) Reset() {
+	var v ListRevisionsOrder
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowNameMatchType) SetTo(v ListWorkflowNameMatchType) {
+func (o *OptListRevisionsOrder) SetTo(v ListRevisionsOrder) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowNameMatchType) Get() (v ListWorkflowNameMatchType, ok bool) {
+func (o OptListRevisionsOrder) Get() (v ListRevisionsOrder, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9754,45 +7709,45 @@ func (o OptListWorkflowNameMatchType) Get() (v ListWorkflowNameMatchType, ok boo
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowNameMatchType) Or(d ListWorkflowNameMatchType) ListWorkflowNameMatchType {
+func (o OptListRevisionsOrder) Or(d ListRevisionsOrder) ListRevisionsOrder {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowOKWorkflowsItemConcurrencyMode returns new OptListWorkflowOKWorkflowsItemConcurrencyMode with value set to v.
-func NewOptListWorkflowOKWorkflowsItemConcurrencyMode(v ListWorkflowOKWorkflowsItemConcurrencyMode) OptListWorkflowOKWorkflowsItemConcurrencyMode {
-	return OptListWorkflowOKWorkflowsItemConcurrencyMode{
+// NewOptListRevisionsSortBy returns new OptListRevisionsSortBy with value set to v.
+func NewOptListRevisionsSortBy(v ListRevisionsSortBy) OptListRevisionsSortBy {
+	return OptListRevisionsSortBy{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowOKWorkflowsItemConcurrencyMode is optional ListWorkflowOKWorkflowsItemConcurrencyMode.
-type OptListWorkflowOKWorkflowsItemConcurrencyMode struct {
-	Value ListWorkflowOKWorkflowsItemConcurrencyMode
+// OptListRevisionsSortBy is optional ListRevisionsSortBy.
+type OptListRevisionsSortBy struct {
+	Value ListRevisionsSortBy
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowOKWorkflowsItemConcurrencyMode was set.
-func (o OptListWorkflowOKWorkflowsItemConcurrencyMode) IsSet() bool { return o.Set }
+// IsSet returns true if OptListRevisionsSortBy was set.
+func (o OptListRevisionsSortBy) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowOKWorkflowsItemConcurrencyMode) Reset() {
-	var v ListWorkflowOKWorkflowsItemConcurrencyMode
+func (o *OptListRevisionsSortBy) Reset() {
+	var v ListRevisionsSortBy
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowOKWorkflowsItemConcurrencyMode) SetTo(v ListWorkflowOKWorkflowsItemConcurrencyMode) {
+func (o *OptListRevisionsSortBy) SetTo(v ListRevisionsSortBy) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowOKWorkflowsItemConcurrencyMode) Get() (v ListWorkflowOKWorkflowsItemConcurrencyMode, ok bool) {
+func (o OptListRevisionsSortBy) Get() (v ListRevisionsSortBy, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9800,45 +7755,45 @@ func (o OptListWorkflowOKWorkflowsItemConcurrencyMode) Get() (v ListWorkflowOKWo
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowOKWorkflowsItemConcurrencyMode) Or(d ListWorkflowOKWorkflowsItemConcurrencyMode) ListWorkflowOKWorkflowsItemConcurrencyMode {
+func (o OptListRevisionsSortBy) Or(d ListRevisionsSortBy) ListRevisionsSortBy {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowOKWorkflowsItemServicePrincipalId returns new OptListWorkflowOKWorkflowsItemServicePrincipalId with value set to v.
-func NewOptListWorkflowOKWorkflowsItemServicePrincipalId(v ListWorkflowOKWorkflowsItemServicePrincipalId) OptListWorkflowOKWorkflowsItemServicePrincipalId {
-	return OptListWorkflowOKWorkflowsItemServicePrincipalId{
+// NewOptListSuggestionsOrder returns new OptListSuggestionsOrder with value set to v.
+func NewOptListSuggestionsOrder(v ListSuggestionsOrder) OptListSuggestionsOrder {
+	return OptListSuggestionsOrder{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowOKWorkflowsItemServicePrincipalId is optional ListWorkflowOKWorkflowsItemServicePrincipalId.
-type OptListWorkflowOKWorkflowsItemServicePrincipalId struct {
-	Value ListWorkflowOKWorkflowsItemServicePrincipalId
+// OptListSuggestionsOrder is optional ListSuggestionsOrder.
+type OptListSuggestionsOrder struct {
+	Value ListSuggestionsOrder
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowOKWorkflowsItemServicePrincipalId was set.
-func (o OptListWorkflowOKWorkflowsItemServicePrincipalId) IsSet() bool { return o.Set }
+// IsSet returns true if OptListSuggestionsOrder was set.
+func (o OptListSuggestionsOrder) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowOKWorkflowsItemServicePrincipalId) Reset() {
-	var v ListWorkflowOKWorkflowsItemServicePrincipalId
+func (o *OptListSuggestionsOrder) Reset() {
+	var v ListSuggestionsOrder
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowOKWorkflowsItemServicePrincipalId) SetTo(v ListWorkflowOKWorkflowsItemServicePrincipalId) {
+func (o *OptListSuggestionsOrder) SetTo(v ListSuggestionsOrder) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowOKWorkflowsItemServicePrincipalId) Get() (v ListWorkflowOKWorkflowsItemServicePrincipalId, ok bool) {
+func (o OptListSuggestionsOrder) Get() (v ListSuggestionsOrder, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9846,45 +7801,45 @@ func (o OptListWorkflowOKWorkflowsItemServicePrincipalId) Get() (v ListWorkflowO
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowOKWorkflowsItemServicePrincipalId) Or(d ListWorkflowOKWorkflowsItemServicePrincipalId) ListWorkflowOKWorkflowsItemServicePrincipalId {
+func (o OptListSuggestionsOrder) Or(d ListSuggestionsOrder) ListSuggestionsOrder {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowOrder returns new OptListWorkflowOrder with value set to v.
-func NewOptListWorkflowOrder(v ListWorkflowOrder) OptListWorkflowOrder {
-	return OptListWorkflowOrder{
+// NewOptListSuggestionsSortBy returns new OptListSuggestionsSortBy with value set to v.
+func NewOptListSuggestionsSortBy(v ListSuggestionsSortBy) OptListSuggestionsSortBy {
+	return OptListSuggestionsSortBy{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowOrder is optional ListWorkflowOrder.
-type OptListWorkflowOrder struct {
-	Value ListWorkflowOrder
+// OptListSuggestionsSortBy is optional ListSuggestionsSortBy.
+type OptListSuggestionsSortBy struct {
+	Value ListSuggestionsSortBy
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowOrder was set.
-func (o OptListWorkflowOrder) IsSet() bool { return o.Set }
+// IsSet returns true if OptListSuggestionsSortBy was set.
+func (o OptListSuggestionsSortBy) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowOrder) Reset() {
-	var v ListWorkflowOrder
+func (o *OptListSuggestionsSortBy) Reset() {
+	var v ListSuggestionsSortBy
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowOrder) SetTo(v ListWorkflowOrder) {
+func (o *OptListSuggestionsSortBy) SetTo(v ListSuggestionsSortBy) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowOrder) Get() (v ListWorkflowOrder, ok bool) {
+func (o OptListSuggestionsSortBy) Get() (v ListSuggestionsSortBy, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9892,45 +7847,45 @@ func (o OptListWorkflowOrder) Get() (v ListWorkflowOrder, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowOrder) Or(d ListWorkflowOrder) ListWorkflowOrder {
+func (o OptListSuggestionsSortBy) Or(d ListSuggestionsSortBy) ListSuggestionsSortBy {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowRevisionsOrder returns new OptListWorkflowRevisionsOrder with value set to v.
-func NewOptListWorkflowRevisionsOrder(v ListWorkflowRevisionsOrder) OptListWorkflowRevisionsOrder {
-	return OptListWorkflowRevisionsOrder{
+// NewOptListWorkflowsNameMatchType returns new OptListWorkflowsNameMatchType with value set to v.
+func NewOptListWorkflowsNameMatchType(v ListWorkflowsNameMatchType) OptListWorkflowsNameMatchType {
+	return OptListWorkflowsNameMatchType{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowRevisionsOrder is optional ListWorkflowRevisionsOrder.
-type OptListWorkflowRevisionsOrder struct {
-	Value ListWorkflowRevisionsOrder
+// OptListWorkflowsNameMatchType is optional ListWorkflowsNameMatchType.
+type OptListWorkflowsNameMatchType struct {
+	Value ListWorkflowsNameMatchType
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowRevisionsOrder was set.
-func (o OptListWorkflowRevisionsOrder) IsSet() bool { return o.Set }
+// IsSet returns true if OptListWorkflowsNameMatchType was set.
+func (o OptListWorkflowsNameMatchType) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowRevisionsOrder) Reset() {
-	var v ListWorkflowRevisionsOrder
+func (o *OptListWorkflowsNameMatchType) Reset() {
+	var v ListWorkflowsNameMatchType
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowRevisionsOrder) SetTo(v ListWorkflowRevisionsOrder) {
+func (o *OptListWorkflowsNameMatchType) SetTo(v ListWorkflowsNameMatchType) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowRevisionsOrder) Get() (v ListWorkflowRevisionsOrder, ok bool) {
+func (o OptListWorkflowsNameMatchType) Get() (v ListWorkflowsNameMatchType, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9938,45 +7893,45 @@ func (o OptListWorkflowRevisionsOrder) Get() (v ListWorkflowRevisionsOrder, ok b
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowRevisionsOrder) Or(d ListWorkflowRevisionsOrder) ListWorkflowRevisionsOrder {
+func (o OptListWorkflowsNameMatchType) Or(d ListWorkflowsNameMatchType) ListWorkflowsNameMatchType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowRevisionsSortBy returns new OptListWorkflowRevisionsSortBy with value set to v.
-func NewOptListWorkflowRevisionsSortBy(v ListWorkflowRevisionsSortBy) OptListWorkflowRevisionsSortBy {
-	return OptListWorkflowRevisionsSortBy{
+// NewOptListWorkflowsOKWorkflowsItemConcurrencyMode returns new OptListWorkflowsOKWorkflowsItemConcurrencyMode with value set to v.
+func NewOptListWorkflowsOKWorkflowsItemConcurrencyMode(v ListWorkflowsOKWorkflowsItemConcurrencyMode) OptListWorkflowsOKWorkflowsItemConcurrencyMode {
+	return OptListWorkflowsOKWorkflowsItemConcurrencyMode{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowRevisionsSortBy is optional ListWorkflowRevisionsSortBy.
-type OptListWorkflowRevisionsSortBy struct {
-	Value ListWorkflowRevisionsSortBy
+// OptListWorkflowsOKWorkflowsItemConcurrencyMode is optional ListWorkflowsOKWorkflowsItemConcurrencyMode.
+type OptListWorkflowsOKWorkflowsItemConcurrencyMode struct {
+	Value ListWorkflowsOKWorkflowsItemConcurrencyMode
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowRevisionsSortBy was set.
-func (o OptListWorkflowRevisionsSortBy) IsSet() bool { return o.Set }
+// IsSet returns true if OptListWorkflowsOKWorkflowsItemConcurrencyMode was set.
+func (o OptListWorkflowsOKWorkflowsItemConcurrencyMode) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowRevisionsSortBy) Reset() {
-	var v ListWorkflowRevisionsSortBy
+func (o *OptListWorkflowsOKWorkflowsItemConcurrencyMode) Reset() {
+	var v ListWorkflowsOKWorkflowsItemConcurrencyMode
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowRevisionsSortBy) SetTo(v ListWorkflowRevisionsSortBy) {
+func (o *OptListWorkflowsOKWorkflowsItemConcurrencyMode) SetTo(v ListWorkflowsOKWorkflowsItemConcurrencyMode) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowRevisionsSortBy) Get() (v ListWorkflowRevisionsSortBy, ok bool) {
+func (o OptListWorkflowsOKWorkflowsItemConcurrencyMode) Get() (v ListWorkflowsOKWorkflowsItemConcurrencyMode, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -9984,45 +7939,45 @@ func (o OptListWorkflowRevisionsSortBy) Get() (v ListWorkflowRevisionsSortBy, ok
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowRevisionsSortBy) Or(d ListWorkflowRevisionsSortBy) ListWorkflowRevisionsSortBy {
+func (o OptListWorkflowsOKWorkflowsItemConcurrencyMode) Or(d ListWorkflowsOKWorkflowsItemConcurrencyMode) ListWorkflowsOKWorkflowsItemConcurrencyMode {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowSortBy returns new OptListWorkflowSortBy with value set to v.
-func NewOptListWorkflowSortBy(v ListWorkflowSortBy) OptListWorkflowSortBy {
-	return OptListWorkflowSortBy{
+// NewOptListWorkflowsOKWorkflowsItemServicePrincipalId returns new OptListWorkflowsOKWorkflowsItemServicePrincipalId with value set to v.
+func NewOptListWorkflowsOKWorkflowsItemServicePrincipalId(v ListWorkflowsOKWorkflowsItemServicePrincipalId) OptListWorkflowsOKWorkflowsItemServicePrincipalId {
+	return OptListWorkflowsOKWorkflowsItemServicePrincipalId{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowSortBy is optional ListWorkflowSortBy.
-type OptListWorkflowSortBy struct {
-	Value ListWorkflowSortBy
+// OptListWorkflowsOKWorkflowsItemServicePrincipalId is optional ListWorkflowsOKWorkflowsItemServicePrincipalId.
+type OptListWorkflowsOKWorkflowsItemServicePrincipalId struct {
+	Value ListWorkflowsOKWorkflowsItemServicePrincipalId
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowSortBy was set.
-func (o OptListWorkflowSortBy) IsSet() bool { return o.Set }
+// IsSet returns true if OptListWorkflowsOKWorkflowsItemServicePrincipalId was set.
+func (o OptListWorkflowsOKWorkflowsItemServicePrincipalId) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowSortBy) Reset() {
-	var v ListWorkflowSortBy
+func (o *OptListWorkflowsOKWorkflowsItemServicePrincipalId) Reset() {
+	var v ListWorkflowsOKWorkflowsItemServicePrincipalId
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowSortBy) SetTo(v ListWorkflowSortBy) {
+func (o *OptListWorkflowsOKWorkflowsItemServicePrincipalId) SetTo(v ListWorkflowsOKWorkflowsItemServicePrincipalId) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowSortBy) Get() (v ListWorkflowSortBy, ok bool) {
+func (o OptListWorkflowsOKWorkflowsItemServicePrincipalId) Get() (v ListWorkflowsOKWorkflowsItemServicePrincipalId, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -10030,45 +7985,45 @@ func (o OptListWorkflowSortBy) Get() (v ListWorkflowSortBy, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowSortBy) Or(d ListWorkflowSortBy) ListWorkflowSortBy {
+func (o OptListWorkflowsOKWorkflowsItemServicePrincipalId) Or(d ListWorkflowsOKWorkflowsItemServicePrincipalId) ListWorkflowsOKWorkflowsItemServicePrincipalId {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowSuggestOrder returns new OptListWorkflowSuggestOrder with value set to v.
-func NewOptListWorkflowSuggestOrder(v ListWorkflowSuggestOrder) OptListWorkflowSuggestOrder {
-	return OptListWorkflowSuggestOrder{
+// NewOptListWorkflowsOrder returns new OptListWorkflowsOrder with value set to v.
+func NewOptListWorkflowsOrder(v ListWorkflowsOrder) OptListWorkflowsOrder {
+	return OptListWorkflowsOrder{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowSuggestOrder is optional ListWorkflowSuggestOrder.
-type OptListWorkflowSuggestOrder struct {
-	Value ListWorkflowSuggestOrder
+// OptListWorkflowsOrder is optional ListWorkflowsOrder.
+type OptListWorkflowsOrder struct {
+	Value ListWorkflowsOrder
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowSuggestOrder was set.
-func (o OptListWorkflowSuggestOrder) IsSet() bool { return o.Set }
+// IsSet returns true if OptListWorkflowsOrder was set.
+func (o OptListWorkflowsOrder) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowSuggestOrder) Reset() {
-	var v ListWorkflowSuggestOrder
+func (o *OptListWorkflowsOrder) Reset() {
+	var v ListWorkflowsOrder
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowSuggestOrder) SetTo(v ListWorkflowSuggestOrder) {
+func (o *OptListWorkflowsOrder) SetTo(v ListWorkflowsOrder) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowSuggestOrder) Get() (v ListWorkflowSuggestOrder, ok bool) {
+func (o OptListWorkflowsOrder) Get() (v ListWorkflowsOrder, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -10076,45 +8031,45 @@ func (o OptListWorkflowSuggestOrder) Get() (v ListWorkflowSuggestOrder, ok bool)
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowSuggestOrder) Or(d ListWorkflowSuggestOrder) ListWorkflowSuggestOrder {
+func (o OptListWorkflowsOrder) Or(d ListWorkflowsOrder) ListWorkflowsOrder {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptListWorkflowSuggestSortBy returns new OptListWorkflowSuggestSortBy with value set to v.
-func NewOptListWorkflowSuggestSortBy(v ListWorkflowSuggestSortBy) OptListWorkflowSuggestSortBy {
-	return OptListWorkflowSuggestSortBy{
+// NewOptListWorkflowsSortBy returns new OptListWorkflowsSortBy with value set to v.
+func NewOptListWorkflowsSortBy(v ListWorkflowsSortBy) OptListWorkflowsSortBy {
+	return OptListWorkflowsSortBy{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptListWorkflowSuggestSortBy is optional ListWorkflowSuggestSortBy.
-type OptListWorkflowSuggestSortBy struct {
-	Value ListWorkflowSuggestSortBy
+// OptListWorkflowsSortBy is optional ListWorkflowsSortBy.
+type OptListWorkflowsSortBy struct {
+	Value ListWorkflowsSortBy
 	Set   bool
 }
 
-// IsSet returns true if OptListWorkflowSuggestSortBy was set.
-func (o OptListWorkflowSuggestSortBy) IsSet() bool { return o.Set }
+// IsSet returns true if OptListWorkflowsSortBy was set.
+func (o OptListWorkflowsSortBy) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptListWorkflowSuggestSortBy) Reset() {
-	var v ListWorkflowSuggestSortBy
+func (o *OptListWorkflowsSortBy) Reset() {
+	var v ListWorkflowsSortBy
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptListWorkflowSuggestSortBy) SetTo(v ListWorkflowSuggestSortBy) {
+func (o *OptListWorkflowsSortBy) SetTo(v ListWorkflowsSortBy) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptListWorkflowSuggestSortBy) Get() (v ListWorkflowSuggestSortBy, ok bool) {
+func (o OptListWorkflowsSortBy) Get() (v ListWorkflowsSortBy, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -10122,64 +8077,64 @@ func (o OptListWorkflowSuggestSortBy) Get() (v ListWorkflowSuggestSortBy, ok boo
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptListWorkflowSuggestSortBy) Or(d ListWorkflowSuggestSortBy) ListWorkflowSuggestSortBy {
+func (o OptListWorkflowsSortBy) Or(d ListWorkflowsSortBy) ListWorkflowsSortBy {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilGetSubscriptionOKCurrentPlan returns new OptNilGetSubscriptionOKCurrentPlan with value set to v.
-func NewOptNilGetSubscriptionOKCurrentPlan(v GetSubscriptionOKCurrentPlan) OptNilGetSubscriptionOKCurrentPlan {
-	return OptNilGetSubscriptionOKCurrentPlan{
+// NewOptNilReadSubscriptionOKCurrentPlan returns new OptNilReadSubscriptionOKCurrentPlan with value set to v.
+func NewOptNilReadSubscriptionOKCurrentPlan(v ReadSubscriptionOKCurrentPlan) OptNilReadSubscriptionOKCurrentPlan {
+	return OptNilReadSubscriptionOKCurrentPlan{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilGetSubscriptionOKCurrentPlan is optional nullable GetSubscriptionOKCurrentPlan.
-type OptNilGetSubscriptionOKCurrentPlan struct {
-	Value GetSubscriptionOKCurrentPlan
+// OptNilReadSubscriptionOKCurrentPlan is optional nullable ReadSubscriptionOKCurrentPlan.
+type OptNilReadSubscriptionOKCurrentPlan struct {
+	Value ReadSubscriptionOKCurrentPlan
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilGetSubscriptionOKCurrentPlan was set.
-func (o OptNilGetSubscriptionOKCurrentPlan) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilReadSubscriptionOKCurrentPlan was set.
+func (o OptNilReadSubscriptionOKCurrentPlan) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilGetSubscriptionOKCurrentPlan) Reset() {
-	var v GetSubscriptionOKCurrentPlan
+func (o *OptNilReadSubscriptionOKCurrentPlan) Reset() {
+	var v ReadSubscriptionOKCurrentPlan
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilGetSubscriptionOKCurrentPlan) SetTo(v GetSubscriptionOKCurrentPlan) {
+func (o *OptNilReadSubscriptionOKCurrentPlan) SetTo(v ReadSubscriptionOKCurrentPlan) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsNull returns true if value is Null.
-func (o OptNilGetSubscriptionOKCurrentPlan) IsNull() bool { return o.Null }
+func (o OptNilReadSubscriptionOKCurrentPlan) IsNull() bool { return o.Null }
 
 // SetToNull sets value to null.
-func (o *OptNilGetSubscriptionOKCurrentPlan) SetToNull() {
+func (o *OptNilReadSubscriptionOKCurrentPlan) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v GetSubscriptionOKCurrentPlan
+	var v ReadSubscriptionOKCurrentPlan
 	o.Value = v
 }
 
 // IsEmpty returns true if the field was omitted from the payload (not Set and not Null).
-func (o OptNilGetSubscriptionOKCurrentPlan) IsEmpty() bool {
+func (o OptNilReadSubscriptionOKCurrentPlan) IsEmpty() bool {
 	return !o.Set && !o.Null
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilGetSubscriptionOKCurrentPlan) Get() (v GetSubscriptionOKCurrentPlan, ok bool) {
+func (o OptNilReadSubscriptionOKCurrentPlan) Get() (v ReadSubscriptionOKCurrentPlan, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -10190,7 +8145,375 @@ func (o OptNilGetSubscriptionOKCurrentPlan) Get() (v GetSubscriptionOKCurrentPla
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilGetSubscriptionOKCurrentPlan) Or(d GetSubscriptionOKCurrentPlan) GetSubscriptionOKCurrentPlan {
+func (o OptNilReadSubscriptionOKCurrentPlan) Or(d ReadSubscriptionOKCurrentPlan) ReadSubscriptionOKCurrentPlan {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPatchWorkflowOKWorkflowConcurrencyMode returns new OptPatchWorkflowOKWorkflowConcurrencyMode with value set to v.
+func NewOptPatchWorkflowOKWorkflowConcurrencyMode(v PatchWorkflowOKWorkflowConcurrencyMode) OptPatchWorkflowOKWorkflowConcurrencyMode {
+	return OptPatchWorkflowOKWorkflowConcurrencyMode{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPatchWorkflowOKWorkflowConcurrencyMode is optional PatchWorkflowOKWorkflowConcurrencyMode.
+type OptPatchWorkflowOKWorkflowConcurrencyMode struct {
+	Value PatchWorkflowOKWorkflowConcurrencyMode
+	Set   bool
+}
+
+// IsSet returns true if OptPatchWorkflowOKWorkflowConcurrencyMode was set.
+func (o OptPatchWorkflowOKWorkflowConcurrencyMode) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPatchWorkflowOKWorkflowConcurrencyMode) Reset() {
+	var v PatchWorkflowOKWorkflowConcurrencyMode
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPatchWorkflowOKWorkflowConcurrencyMode) SetTo(v PatchWorkflowOKWorkflowConcurrencyMode) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPatchWorkflowOKWorkflowConcurrencyMode) Get() (v PatchWorkflowOKWorkflowConcurrencyMode, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPatchWorkflowOKWorkflowConcurrencyMode) Or(d PatchWorkflowOKWorkflowConcurrencyMode) PatchWorkflowOKWorkflowConcurrencyMode {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPatchWorkflowOKWorkflowServicePrincipalId returns new OptPatchWorkflowOKWorkflowServicePrincipalId with value set to v.
+func NewOptPatchWorkflowOKWorkflowServicePrincipalId(v PatchWorkflowOKWorkflowServicePrincipalId) OptPatchWorkflowOKWorkflowServicePrincipalId {
+	return OptPatchWorkflowOKWorkflowServicePrincipalId{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPatchWorkflowOKWorkflowServicePrincipalId is optional PatchWorkflowOKWorkflowServicePrincipalId.
+type OptPatchWorkflowOKWorkflowServicePrincipalId struct {
+	Value PatchWorkflowOKWorkflowServicePrincipalId
+	Set   bool
+}
+
+// IsSet returns true if OptPatchWorkflowOKWorkflowServicePrincipalId was set.
+func (o OptPatchWorkflowOKWorkflowServicePrincipalId) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPatchWorkflowOKWorkflowServicePrincipalId) Reset() {
+	var v PatchWorkflowOKWorkflowServicePrincipalId
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPatchWorkflowOKWorkflowServicePrincipalId) SetTo(v PatchWorkflowOKWorkflowServicePrincipalId) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPatchWorkflowOKWorkflowServicePrincipalId) Get() (v PatchWorkflowOKWorkflowServicePrincipalId, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPatchWorkflowOKWorkflowServicePrincipalId) Or(d PatchWorkflowOKWorkflowServicePrincipalId) PatchWorkflowOKWorkflowServicePrincipalId {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPatchWorkflowReqConcurrencyMode returns new OptPatchWorkflowReqConcurrencyMode with value set to v.
+func NewOptPatchWorkflowReqConcurrencyMode(v PatchWorkflowReqConcurrencyMode) OptPatchWorkflowReqConcurrencyMode {
+	return OptPatchWorkflowReqConcurrencyMode{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPatchWorkflowReqConcurrencyMode is optional PatchWorkflowReqConcurrencyMode.
+type OptPatchWorkflowReqConcurrencyMode struct {
+	Value PatchWorkflowReqConcurrencyMode
+	Set   bool
+}
+
+// IsSet returns true if OptPatchWorkflowReqConcurrencyMode was set.
+func (o OptPatchWorkflowReqConcurrencyMode) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPatchWorkflowReqConcurrencyMode) Reset() {
+	var v PatchWorkflowReqConcurrencyMode
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPatchWorkflowReqConcurrencyMode) SetTo(v PatchWorkflowReqConcurrencyMode) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPatchWorkflowReqConcurrencyMode) Get() (v PatchWorkflowReqConcurrencyMode, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPatchWorkflowReqConcurrencyMode) Or(d PatchWorkflowReqConcurrencyMode) PatchWorkflowReqConcurrencyMode {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReadExecutionOKExecutionWorkflowConcurrencyMode returns new OptReadExecutionOKExecutionWorkflowConcurrencyMode with value set to v.
+func NewOptReadExecutionOKExecutionWorkflowConcurrencyMode(v ReadExecutionOKExecutionWorkflowConcurrencyMode) OptReadExecutionOKExecutionWorkflowConcurrencyMode {
+	return OptReadExecutionOKExecutionWorkflowConcurrencyMode{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReadExecutionOKExecutionWorkflowConcurrencyMode is optional ReadExecutionOKExecutionWorkflowConcurrencyMode.
+type OptReadExecutionOKExecutionWorkflowConcurrencyMode struct {
+	Value ReadExecutionOKExecutionWorkflowConcurrencyMode
+	Set   bool
+}
+
+// IsSet returns true if OptReadExecutionOKExecutionWorkflowConcurrencyMode was set.
+func (o OptReadExecutionOKExecutionWorkflowConcurrencyMode) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReadExecutionOKExecutionWorkflowConcurrencyMode) Reset() {
+	var v ReadExecutionOKExecutionWorkflowConcurrencyMode
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReadExecutionOKExecutionWorkflowConcurrencyMode) SetTo(v ReadExecutionOKExecutionWorkflowConcurrencyMode) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReadExecutionOKExecutionWorkflowConcurrencyMode) Get() (v ReadExecutionOKExecutionWorkflowConcurrencyMode, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReadExecutionOKExecutionWorkflowConcurrencyMode) Or(d ReadExecutionOKExecutionWorkflowConcurrencyMode) ReadExecutionOKExecutionWorkflowConcurrencyMode {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReadExecutionOKExecutionWorkflowServicePrincipalId returns new OptReadExecutionOKExecutionWorkflowServicePrincipalId with value set to v.
+func NewOptReadExecutionOKExecutionWorkflowServicePrincipalId(v ReadExecutionOKExecutionWorkflowServicePrincipalId) OptReadExecutionOKExecutionWorkflowServicePrincipalId {
+	return OptReadExecutionOKExecutionWorkflowServicePrincipalId{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReadExecutionOKExecutionWorkflowServicePrincipalId is optional ReadExecutionOKExecutionWorkflowServicePrincipalId.
+type OptReadExecutionOKExecutionWorkflowServicePrincipalId struct {
+	Value ReadExecutionOKExecutionWorkflowServicePrincipalId
+	Set   bool
+}
+
+// IsSet returns true if OptReadExecutionOKExecutionWorkflowServicePrincipalId was set.
+func (o OptReadExecutionOKExecutionWorkflowServicePrincipalId) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReadExecutionOKExecutionWorkflowServicePrincipalId) Reset() {
+	var v ReadExecutionOKExecutionWorkflowServicePrincipalId
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReadExecutionOKExecutionWorkflowServicePrincipalId) SetTo(v ReadExecutionOKExecutionWorkflowServicePrincipalId) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReadExecutionOKExecutionWorkflowServicePrincipalId) Get() (v ReadExecutionOKExecutionWorkflowServicePrincipalId, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReadExecutionOKExecutionWorkflowServicePrincipalId) Or(d ReadExecutionOKExecutionWorkflowServicePrincipalId) ReadExecutionOKExecutionWorkflowServicePrincipalId {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReadSubscriptionOKMonthAppliedPlan returns new OptReadSubscriptionOKMonthAppliedPlan with value set to v.
+func NewOptReadSubscriptionOKMonthAppliedPlan(v ReadSubscriptionOKMonthAppliedPlan) OptReadSubscriptionOKMonthAppliedPlan {
+	return OptReadSubscriptionOKMonthAppliedPlan{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReadSubscriptionOKMonthAppliedPlan is optional ReadSubscriptionOKMonthAppliedPlan.
+type OptReadSubscriptionOKMonthAppliedPlan struct {
+	Value ReadSubscriptionOKMonthAppliedPlan
+	Set   bool
+}
+
+// IsSet returns true if OptReadSubscriptionOKMonthAppliedPlan was set.
+func (o OptReadSubscriptionOKMonthAppliedPlan) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReadSubscriptionOKMonthAppliedPlan) Reset() {
+	var v ReadSubscriptionOKMonthAppliedPlan
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReadSubscriptionOKMonthAppliedPlan) SetTo(v ReadSubscriptionOKMonthAppliedPlan) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReadSubscriptionOKMonthAppliedPlan) Get() (v ReadSubscriptionOKMonthAppliedPlan, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReadSubscriptionOKMonthAppliedPlan) Or(d ReadSubscriptionOKMonthAppliedPlan) ReadSubscriptionOKMonthAppliedPlan {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReadWorkflowOKWorkflowConcurrencyMode returns new OptReadWorkflowOKWorkflowConcurrencyMode with value set to v.
+func NewOptReadWorkflowOKWorkflowConcurrencyMode(v ReadWorkflowOKWorkflowConcurrencyMode) OptReadWorkflowOKWorkflowConcurrencyMode {
+	return OptReadWorkflowOKWorkflowConcurrencyMode{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReadWorkflowOKWorkflowConcurrencyMode is optional ReadWorkflowOKWorkflowConcurrencyMode.
+type OptReadWorkflowOKWorkflowConcurrencyMode struct {
+	Value ReadWorkflowOKWorkflowConcurrencyMode
+	Set   bool
+}
+
+// IsSet returns true if OptReadWorkflowOKWorkflowConcurrencyMode was set.
+func (o OptReadWorkflowOKWorkflowConcurrencyMode) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReadWorkflowOKWorkflowConcurrencyMode) Reset() {
+	var v ReadWorkflowOKWorkflowConcurrencyMode
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReadWorkflowOKWorkflowConcurrencyMode) SetTo(v ReadWorkflowOKWorkflowConcurrencyMode) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReadWorkflowOKWorkflowConcurrencyMode) Get() (v ReadWorkflowOKWorkflowConcurrencyMode, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReadWorkflowOKWorkflowConcurrencyMode) Or(d ReadWorkflowOKWorkflowConcurrencyMode) ReadWorkflowOKWorkflowConcurrencyMode {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptReadWorkflowOKWorkflowServicePrincipalId returns new OptReadWorkflowOKWorkflowServicePrincipalId with value set to v.
+func NewOptReadWorkflowOKWorkflowServicePrincipalId(v ReadWorkflowOKWorkflowServicePrincipalId) OptReadWorkflowOKWorkflowServicePrincipalId {
+	return OptReadWorkflowOKWorkflowServicePrincipalId{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptReadWorkflowOKWorkflowServicePrincipalId is optional ReadWorkflowOKWorkflowServicePrincipalId.
+type OptReadWorkflowOKWorkflowServicePrincipalId struct {
+	Value ReadWorkflowOKWorkflowServicePrincipalId
+	Set   bool
+}
+
+// IsSet returns true if OptReadWorkflowOKWorkflowServicePrincipalId was set.
+func (o OptReadWorkflowOKWorkflowServicePrincipalId) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptReadWorkflowOKWorkflowServicePrincipalId) Reset() {
+	var v ReadWorkflowOKWorkflowServicePrincipalId
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptReadWorkflowOKWorkflowServicePrincipalId) SetTo(v ReadWorkflowOKWorkflowServicePrincipalId) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptReadWorkflowOKWorkflowServicePrincipalId) Get() (v ReadWorkflowOKWorkflowServicePrincipalId, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptReadWorkflowOKWorkflowServicePrincipalId) Or(d ReadWorkflowOKWorkflowServicePrincipalId) ReadWorkflowOKWorkflowServicePrincipalId {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -10243,417 +8566,279 @@ func (o OptString) Or(d string) string {
 	return d
 }
 
-// NewOptUpdateWorkflowOKWorkflowConcurrencyMode returns new OptUpdateWorkflowOKWorkflowConcurrencyMode with value set to v.
-func NewOptUpdateWorkflowOKWorkflowConcurrencyMode(v UpdateWorkflowOKWorkflowConcurrencyMode) OptUpdateWorkflowOKWorkflowConcurrencyMode {
-	return OptUpdateWorkflowOKWorkflowConcurrencyMode{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptUpdateWorkflowOKWorkflowConcurrencyMode is optional UpdateWorkflowOKWorkflowConcurrencyMode.
-type OptUpdateWorkflowOKWorkflowConcurrencyMode struct {
-	Value UpdateWorkflowOKWorkflowConcurrencyMode
-	Set   bool
-}
-
-// IsSet returns true if OptUpdateWorkflowOKWorkflowConcurrencyMode was set.
-func (o OptUpdateWorkflowOKWorkflowConcurrencyMode) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptUpdateWorkflowOKWorkflowConcurrencyMode) Reset() {
-	var v UpdateWorkflowOKWorkflowConcurrencyMode
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptUpdateWorkflowOKWorkflowConcurrencyMode) SetTo(v UpdateWorkflowOKWorkflowConcurrencyMode) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptUpdateWorkflowOKWorkflowConcurrencyMode) Get() (v UpdateWorkflowOKWorkflowConcurrencyMode, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptUpdateWorkflowOKWorkflowConcurrencyMode) Or(d UpdateWorkflowOKWorkflowConcurrencyMode) UpdateWorkflowOKWorkflowConcurrencyMode {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptUpdateWorkflowOKWorkflowServicePrincipalId returns new OptUpdateWorkflowOKWorkflowServicePrincipalId with value set to v.
-func NewOptUpdateWorkflowOKWorkflowServicePrincipalId(v UpdateWorkflowOKWorkflowServicePrincipalId) OptUpdateWorkflowOKWorkflowServicePrincipalId {
-	return OptUpdateWorkflowOKWorkflowServicePrincipalId{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptUpdateWorkflowOKWorkflowServicePrincipalId is optional UpdateWorkflowOKWorkflowServicePrincipalId.
-type OptUpdateWorkflowOKWorkflowServicePrincipalId struct {
-	Value UpdateWorkflowOKWorkflowServicePrincipalId
-	Set   bool
-}
-
-// IsSet returns true if OptUpdateWorkflowOKWorkflowServicePrincipalId was set.
-func (o OptUpdateWorkflowOKWorkflowServicePrincipalId) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptUpdateWorkflowOKWorkflowServicePrincipalId) Reset() {
-	var v UpdateWorkflowOKWorkflowServicePrincipalId
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptUpdateWorkflowOKWorkflowServicePrincipalId) SetTo(v UpdateWorkflowOKWorkflowServicePrincipalId) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptUpdateWorkflowOKWorkflowServicePrincipalId) Get() (v UpdateWorkflowOKWorkflowServicePrincipalId, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptUpdateWorkflowOKWorkflowServicePrincipalId) Or(d UpdateWorkflowOKWorkflowServicePrincipalId) UpdateWorkflowOKWorkflowServicePrincipalId {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptUpdateWorkflowReqConcurrencyMode returns new OptUpdateWorkflowReqConcurrencyMode with value set to v.
-func NewOptUpdateWorkflowReqConcurrencyMode(v UpdateWorkflowReqConcurrencyMode) OptUpdateWorkflowReqConcurrencyMode {
-	return OptUpdateWorkflowReqConcurrencyMode{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptUpdateWorkflowReqConcurrencyMode is optional UpdateWorkflowReqConcurrencyMode.
-type OptUpdateWorkflowReqConcurrencyMode struct {
-	Value UpdateWorkflowReqConcurrencyMode
-	Set   bool
-}
-
-// IsSet returns true if OptUpdateWorkflowReqConcurrencyMode was set.
-func (o OptUpdateWorkflowReqConcurrencyMode) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptUpdateWorkflowReqConcurrencyMode) Reset() {
-	var v UpdateWorkflowReqConcurrencyMode
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptUpdateWorkflowReqConcurrencyMode) SetTo(v UpdateWorkflowReqConcurrencyMode) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptUpdateWorkflowReqConcurrencyMode) Get() (v UpdateWorkflowReqConcurrencyMode, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptUpdateWorkflowReqConcurrencyMode) Or(d UpdateWorkflowReqConcurrencyMode) UpdateWorkflowReqConcurrencyMode {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-type UpdateWorkflowBadRequest struct {
+type PatchWorkflowBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowBadRequest) GetIsOk() bool {
+func (s *PatchWorkflowBadRequest) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowBadRequest) GetMessage() string {
+func (s *PatchWorkflowBadRequest) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowBadRequest) SetIsOk(val bool) {
+func (s *PatchWorkflowBadRequest) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowBadRequest) SetMessage(val string) {
+func (s *PatchWorkflowBadRequest) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowBadRequest) updateWorkflowRes() {}
+func (*PatchWorkflowBadRequest) patchWorkflowRes() {}
 
-type UpdateWorkflowForbidden struct {
+type PatchWorkflowForbidden struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowForbidden) GetIsOk() bool {
+func (s *PatchWorkflowForbidden) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowForbidden) GetMessage() string {
+func (s *PatchWorkflowForbidden) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowForbidden) SetIsOk(val bool) {
+func (s *PatchWorkflowForbidden) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowForbidden) SetMessage(val string) {
+func (s *PatchWorkflowForbidden) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowForbidden) updateWorkflowRes() {}
+func (*PatchWorkflowForbidden) patchWorkflowRes() {}
 
-type UpdateWorkflowInternalServerError struct {
+type PatchWorkflowInternalServerError struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowInternalServerError) GetIsOk() bool {
+func (s *PatchWorkflowInternalServerError) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowInternalServerError) GetMessage() string {
+func (s *PatchWorkflowInternalServerError) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowInternalServerError) SetIsOk(val bool) {
+func (s *PatchWorkflowInternalServerError) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowInternalServerError) SetMessage(val string) {
+func (s *PatchWorkflowInternalServerError) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowInternalServerError) updateWorkflowRes() {}
+func (*PatchWorkflowInternalServerError) patchWorkflowRes() {}
 
-type UpdateWorkflowNotFound struct {
+type PatchWorkflowNotFound struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowNotFound) GetIsOk() bool {
+func (s *PatchWorkflowNotFound) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowNotFound) GetMessage() string {
+func (s *PatchWorkflowNotFound) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowNotFound) SetIsOk(val bool) {
+func (s *PatchWorkflowNotFound) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowNotFound) SetMessage(val string) {
+func (s *PatchWorkflowNotFound) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowNotFound) updateWorkflowRes() {}
+func (*PatchWorkflowNotFound) patchWorkflowRes() {}
 
-type UpdateWorkflowOK struct {
-	IsOk     bool                     `json:"is_ok"`
-	Workflow UpdateWorkflowOKWorkflow `json:"Workflow"`
+type PatchWorkflowOK struct {
+	IsOk     bool                    `json:"is_ok"`
+	Workflow PatchWorkflowOKWorkflow `json:"Workflow"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowOK) GetIsOk() bool {
+func (s *PatchWorkflowOK) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetWorkflow returns the value of Workflow.
-func (s *UpdateWorkflowOK) GetWorkflow() UpdateWorkflowOKWorkflow {
+func (s *PatchWorkflowOK) GetWorkflow() PatchWorkflowOKWorkflow {
 	return s.Workflow
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowOK) SetIsOk(val bool) {
+func (s *PatchWorkflowOK) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetWorkflow sets the value of Workflow.
-func (s *UpdateWorkflowOK) SetWorkflow(val UpdateWorkflowOKWorkflow) {
+func (s *PatchWorkflowOK) SetWorkflow(val PatchWorkflowOKWorkflow) {
 	s.Workflow = val
 }
 
-func (*UpdateWorkflowOK) updateWorkflowRes() {}
+func (*PatchWorkflowOK) patchWorkflowRes() {}
 
-type UpdateWorkflowOKWorkflow struct {
-	ID                 string                                        `json:"Id"`
-	Name               string                                        `json:"Name"`
-	Description        OptString                                     `json:"Description"`
-	Publish            bool                                          `json:"Publish"`
-	Logging            bool                                          `json:"Logging"`
-	Tags               []UpdateWorkflowOKWorkflowTagsItem            `json:"Tags"`
-	ServicePrincipalId OptUpdateWorkflowOKWorkflowServicePrincipalId `json:"ServicePrincipalId"`
-	CreatedAt          time.Time                                     `json:"CreatedAt"`
-	UpdatedAt          time.Time                                     `json:"UpdatedAt"`
-	ConcurrencyMode    OptUpdateWorkflowOKWorkflowConcurrencyMode    `json:"ConcurrencyMode"`
+type PatchWorkflowOKWorkflow struct {
+	ID                 string                                       `json:"Id"`
+	Name               string                                       `json:"Name"`
+	Description        OptString                                    `json:"Description"`
+	Publish            bool                                         `json:"Publish"`
+	Logging            bool                                         `json:"Logging"`
+	Tags               []PatchWorkflowOKWorkflowTagsItem            `json:"Tags"`
+	ServicePrincipalId OptPatchWorkflowOKWorkflowServicePrincipalId `json:"ServicePrincipalId"`
+	CreatedAt          time.Time                                    `json:"CreatedAt"`
+	UpdatedAt          time.Time                                    `json:"UpdatedAt"`
+	ConcurrencyMode    OptPatchWorkflowOKWorkflowConcurrencyMode    `json:"ConcurrencyMode"`
 }
 
 // GetID returns the value of ID.
-func (s *UpdateWorkflowOKWorkflow) GetID() string {
+func (s *PatchWorkflowOKWorkflow) GetID() string {
 	return s.ID
 }
 
 // GetName returns the value of Name.
-func (s *UpdateWorkflowOKWorkflow) GetName() string {
+func (s *PatchWorkflowOKWorkflow) GetName() string {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *UpdateWorkflowOKWorkflow) GetDescription() OptString {
+func (s *PatchWorkflowOKWorkflow) GetDescription() OptString {
 	return s.Description
 }
 
 // GetPublish returns the value of Publish.
-func (s *UpdateWorkflowOKWorkflow) GetPublish() bool {
+func (s *PatchWorkflowOKWorkflow) GetPublish() bool {
 	return s.Publish
 }
 
 // GetLogging returns the value of Logging.
-func (s *UpdateWorkflowOKWorkflow) GetLogging() bool {
+func (s *PatchWorkflowOKWorkflow) GetLogging() bool {
 	return s.Logging
 }
 
 // GetTags returns the value of Tags.
-func (s *UpdateWorkflowOKWorkflow) GetTags() []UpdateWorkflowOKWorkflowTagsItem {
+func (s *PatchWorkflowOKWorkflow) GetTags() []PatchWorkflowOKWorkflowTagsItem {
 	return s.Tags
 }
 
 // GetServicePrincipalId returns the value of ServicePrincipalId.
-func (s *UpdateWorkflowOKWorkflow) GetServicePrincipalId() OptUpdateWorkflowOKWorkflowServicePrincipalId {
+func (s *PatchWorkflowOKWorkflow) GetServicePrincipalId() OptPatchWorkflowOKWorkflowServicePrincipalId {
 	return s.ServicePrincipalId
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *UpdateWorkflowOKWorkflow) GetCreatedAt() time.Time {
+func (s *PatchWorkflowOKWorkflow) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // GetUpdatedAt returns the value of UpdatedAt.
-func (s *UpdateWorkflowOKWorkflow) GetUpdatedAt() time.Time {
+func (s *PatchWorkflowOKWorkflow) GetUpdatedAt() time.Time {
 	return s.UpdatedAt
 }
 
 // GetConcurrencyMode returns the value of ConcurrencyMode.
-func (s *UpdateWorkflowOKWorkflow) GetConcurrencyMode() OptUpdateWorkflowOKWorkflowConcurrencyMode {
+func (s *PatchWorkflowOKWorkflow) GetConcurrencyMode() OptPatchWorkflowOKWorkflowConcurrencyMode {
 	return s.ConcurrencyMode
 }
 
 // SetID sets the value of ID.
-func (s *UpdateWorkflowOKWorkflow) SetID(val string) {
+func (s *PatchWorkflowOKWorkflow) SetID(val string) {
 	s.ID = val
 }
 
 // SetName sets the value of Name.
-func (s *UpdateWorkflowOKWorkflow) SetName(val string) {
+func (s *PatchWorkflowOKWorkflow) SetName(val string) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *UpdateWorkflowOKWorkflow) SetDescription(val OptString) {
+func (s *PatchWorkflowOKWorkflow) SetDescription(val OptString) {
 	s.Description = val
 }
 
 // SetPublish sets the value of Publish.
-func (s *UpdateWorkflowOKWorkflow) SetPublish(val bool) {
+func (s *PatchWorkflowOKWorkflow) SetPublish(val bool) {
 	s.Publish = val
 }
 
 // SetLogging sets the value of Logging.
-func (s *UpdateWorkflowOKWorkflow) SetLogging(val bool) {
+func (s *PatchWorkflowOKWorkflow) SetLogging(val bool) {
 	s.Logging = val
 }
 
 // SetTags sets the value of Tags.
-func (s *UpdateWorkflowOKWorkflow) SetTags(val []UpdateWorkflowOKWorkflowTagsItem) {
+func (s *PatchWorkflowOKWorkflow) SetTags(val []PatchWorkflowOKWorkflowTagsItem) {
 	s.Tags = val
 }
 
 // SetServicePrincipalId sets the value of ServicePrincipalId.
-func (s *UpdateWorkflowOKWorkflow) SetServicePrincipalId(val OptUpdateWorkflowOKWorkflowServicePrincipalId) {
+func (s *PatchWorkflowOKWorkflow) SetServicePrincipalId(val OptPatchWorkflowOKWorkflowServicePrincipalId) {
 	s.ServicePrincipalId = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *UpdateWorkflowOKWorkflow) SetCreatedAt(val time.Time) {
+func (s *PatchWorkflowOKWorkflow) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
 // SetUpdatedAt sets the value of UpdatedAt.
-func (s *UpdateWorkflowOKWorkflow) SetUpdatedAt(val time.Time) {
+func (s *PatchWorkflowOKWorkflow) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
 
 // SetConcurrencyMode sets the value of ConcurrencyMode.
-func (s *UpdateWorkflowOKWorkflow) SetConcurrencyMode(val OptUpdateWorkflowOKWorkflowConcurrencyMode) {
+func (s *PatchWorkflowOKWorkflow) SetConcurrencyMode(val OptPatchWorkflowOKWorkflowConcurrencyMode) {
 	s.ConcurrencyMode = val
 }
 
-type UpdateWorkflowOKWorkflowConcurrencyMode string
+type PatchWorkflowOKWorkflowConcurrencyMode string
 
 const (
-	UpdateWorkflowOKWorkflowConcurrencyModeParallel UpdateWorkflowOKWorkflowConcurrencyMode = "parallel"
-	UpdateWorkflowOKWorkflowConcurrencyModeLock     UpdateWorkflowOKWorkflowConcurrencyMode = "lock"
-	UpdateWorkflowOKWorkflowConcurrencyModeQueue    UpdateWorkflowOKWorkflowConcurrencyMode = "queue"
+	PatchWorkflowOKWorkflowConcurrencyModeParallel PatchWorkflowOKWorkflowConcurrencyMode = "parallel"
+	PatchWorkflowOKWorkflowConcurrencyModeLock     PatchWorkflowOKWorkflowConcurrencyMode = "lock"
+	PatchWorkflowOKWorkflowConcurrencyModeQueue    PatchWorkflowOKWorkflowConcurrencyMode = "queue"
 )
 
-// AllValues returns all UpdateWorkflowOKWorkflowConcurrencyMode values.
-func (UpdateWorkflowOKWorkflowConcurrencyMode) AllValues() []UpdateWorkflowOKWorkflowConcurrencyMode {
-	return []UpdateWorkflowOKWorkflowConcurrencyMode{
-		UpdateWorkflowOKWorkflowConcurrencyModeParallel,
-		UpdateWorkflowOKWorkflowConcurrencyModeLock,
-		UpdateWorkflowOKWorkflowConcurrencyModeQueue,
+// AllValues returns all PatchWorkflowOKWorkflowConcurrencyMode values.
+func (PatchWorkflowOKWorkflowConcurrencyMode) AllValues() []PatchWorkflowOKWorkflowConcurrencyMode {
+	return []PatchWorkflowOKWorkflowConcurrencyMode{
+		PatchWorkflowOKWorkflowConcurrencyModeParallel,
+		PatchWorkflowOKWorkflowConcurrencyModeLock,
+		PatchWorkflowOKWorkflowConcurrencyModeQueue,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s UpdateWorkflowOKWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
+func (s PatchWorkflowOKWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
 	switch s {
-	case UpdateWorkflowOKWorkflowConcurrencyModeParallel:
+	case PatchWorkflowOKWorkflowConcurrencyModeParallel:
 		return []byte(s), nil
-	case UpdateWorkflowOKWorkflowConcurrencyModeLock:
+	case PatchWorkflowOKWorkflowConcurrencyModeLock:
 		return []byte(s), nil
-	case UpdateWorkflowOKWorkflowConcurrencyModeQueue:
+	case PatchWorkflowOKWorkflowConcurrencyModeQueue:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -10661,226 +8846,226 @@ func (s UpdateWorkflowOKWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *UpdateWorkflowOKWorkflowConcurrencyMode) UnmarshalText(data []byte) error {
-	switch UpdateWorkflowOKWorkflowConcurrencyMode(data) {
-	case UpdateWorkflowOKWorkflowConcurrencyModeParallel:
-		*s = UpdateWorkflowOKWorkflowConcurrencyModeParallel
+func (s *PatchWorkflowOKWorkflowConcurrencyMode) UnmarshalText(data []byte) error {
+	switch PatchWorkflowOKWorkflowConcurrencyMode(data) {
+	case PatchWorkflowOKWorkflowConcurrencyModeParallel:
+		*s = PatchWorkflowOKWorkflowConcurrencyModeParallel
 		return nil
-	case UpdateWorkflowOKWorkflowConcurrencyModeLock:
-		*s = UpdateWorkflowOKWorkflowConcurrencyModeLock
+	case PatchWorkflowOKWorkflowConcurrencyModeLock:
+		*s = PatchWorkflowOKWorkflowConcurrencyModeLock
 		return nil
-	case UpdateWorkflowOKWorkflowConcurrencyModeQueue:
-		*s = UpdateWorkflowOKWorkflowConcurrencyModeQueue
+	case PatchWorkflowOKWorkflowConcurrencyModeQueue:
+		*s = PatchWorkflowOKWorkflowConcurrencyModeQueue
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// UpdateWorkflowOKWorkflowServicePrincipalId represents sum type.
-type UpdateWorkflowOKWorkflowServicePrincipalId struct {
+// PatchWorkflowOKWorkflowServicePrincipalId represents sum type.
+type PatchWorkflowOKWorkflowServicePrincipalId struct {
 	// Type selects the active sum variant, switch on this field.
-	Type    UpdateWorkflowOKWorkflowServicePrincipalIdType
+	Type    PatchWorkflowOKWorkflowServicePrincipalIdType
 	String  string
 	Float64 float64
 }
 
-// UpdateWorkflowOKWorkflowServicePrincipalIdType is oneOf type of UpdateWorkflowOKWorkflowServicePrincipalId.
-type UpdateWorkflowOKWorkflowServicePrincipalIdType string
+// PatchWorkflowOKWorkflowServicePrincipalIdType is oneOf type of PatchWorkflowOKWorkflowServicePrincipalId.
+type PatchWorkflowOKWorkflowServicePrincipalIdType string
 
-// Possible values for UpdateWorkflowOKWorkflowServicePrincipalIdType.
+// Possible values for PatchWorkflowOKWorkflowServicePrincipalIdType.
 const (
-	StringUpdateWorkflowOKWorkflowServicePrincipalId  UpdateWorkflowOKWorkflowServicePrincipalIdType = "string"
-	Float64UpdateWorkflowOKWorkflowServicePrincipalId UpdateWorkflowOKWorkflowServicePrincipalIdType = "float64"
+	StringPatchWorkflowOKWorkflowServicePrincipalId  PatchWorkflowOKWorkflowServicePrincipalIdType = "string"
+	Float64PatchWorkflowOKWorkflowServicePrincipalId PatchWorkflowOKWorkflowServicePrincipalIdType = "float64"
 )
 
-// IsString reports whether UpdateWorkflowOKWorkflowServicePrincipalId is string.
-func (s UpdateWorkflowOKWorkflowServicePrincipalId) IsString() bool {
-	return s.Type == StringUpdateWorkflowOKWorkflowServicePrincipalId
+// IsString reports whether PatchWorkflowOKWorkflowServicePrincipalId is string.
+func (s PatchWorkflowOKWorkflowServicePrincipalId) IsString() bool {
+	return s.Type == StringPatchWorkflowOKWorkflowServicePrincipalId
 }
 
-// IsFloat64 reports whether UpdateWorkflowOKWorkflowServicePrincipalId is float64.
-func (s UpdateWorkflowOKWorkflowServicePrincipalId) IsFloat64() bool {
-	return s.Type == Float64UpdateWorkflowOKWorkflowServicePrincipalId
+// IsFloat64 reports whether PatchWorkflowOKWorkflowServicePrincipalId is float64.
+func (s PatchWorkflowOKWorkflowServicePrincipalId) IsFloat64() bool {
+	return s.Type == Float64PatchWorkflowOKWorkflowServicePrincipalId
 }
 
-// SetString sets UpdateWorkflowOKWorkflowServicePrincipalId to string.
-func (s *UpdateWorkflowOKWorkflowServicePrincipalId) SetString(v string) {
-	s.Type = StringUpdateWorkflowOKWorkflowServicePrincipalId
+// SetString sets PatchWorkflowOKWorkflowServicePrincipalId to string.
+func (s *PatchWorkflowOKWorkflowServicePrincipalId) SetString(v string) {
+	s.Type = StringPatchWorkflowOKWorkflowServicePrincipalId
 	s.String = v
 }
 
-// GetString returns string and true boolean if UpdateWorkflowOKWorkflowServicePrincipalId is string.
-func (s UpdateWorkflowOKWorkflowServicePrincipalId) GetString() (v string, ok bool) {
+// GetString returns string and true boolean if PatchWorkflowOKWorkflowServicePrincipalId is string.
+func (s PatchWorkflowOKWorkflowServicePrincipalId) GetString() (v string, ok bool) {
 	if !s.IsString() {
 		return v, false
 	}
 	return s.String, true
 }
 
-// NewStringUpdateWorkflowOKWorkflowServicePrincipalId returns new UpdateWorkflowOKWorkflowServicePrincipalId from string.
-func NewStringUpdateWorkflowOKWorkflowServicePrincipalId(v string) UpdateWorkflowOKWorkflowServicePrincipalId {
-	var s UpdateWorkflowOKWorkflowServicePrincipalId
+// NewStringPatchWorkflowOKWorkflowServicePrincipalId returns new PatchWorkflowOKWorkflowServicePrincipalId from string.
+func NewStringPatchWorkflowOKWorkflowServicePrincipalId(v string) PatchWorkflowOKWorkflowServicePrincipalId {
+	var s PatchWorkflowOKWorkflowServicePrincipalId
 	s.SetString(v)
 	return s
 }
 
-// SetFloat64 sets UpdateWorkflowOKWorkflowServicePrincipalId to float64.
-func (s *UpdateWorkflowOKWorkflowServicePrincipalId) SetFloat64(v float64) {
-	s.Type = Float64UpdateWorkflowOKWorkflowServicePrincipalId
+// SetFloat64 sets PatchWorkflowOKWorkflowServicePrincipalId to float64.
+func (s *PatchWorkflowOKWorkflowServicePrincipalId) SetFloat64(v float64) {
+	s.Type = Float64PatchWorkflowOKWorkflowServicePrincipalId
 	s.Float64 = v
 }
 
-// GetFloat64 returns float64 and true boolean if UpdateWorkflowOKWorkflowServicePrincipalId is float64.
-func (s UpdateWorkflowOKWorkflowServicePrincipalId) GetFloat64() (v float64, ok bool) {
+// GetFloat64 returns float64 and true boolean if PatchWorkflowOKWorkflowServicePrincipalId is float64.
+func (s PatchWorkflowOKWorkflowServicePrincipalId) GetFloat64() (v float64, ok bool) {
 	if !s.IsFloat64() {
 		return v, false
 	}
 	return s.Float64, true
 }
 
-// NewFloat64UpdateWorkflowOKWorkflowServicePrincipalId returns new UpdateWorkflowOKWorkflowServicePrincipalId from float64.
-func NewFloat64UpdateWorkflowOKWorkflowServicePrincipalId(v float64) UpdateWorkflowOKWorkflowServicePrincipalId {
-	var s UpdateWorkflowOKWorkflowServicePrincipalId
+// NewFloat64PatchWorkflowOKWorkflowServicePrincipalId returns new PatchWorkflowOKWorkflowServicePrincipalId from float64.
+func NewFloat64PatchWorkflowOKWorkflowServicePrincipalId(v float64) PatchWorkflowOKWorkflowServicePrincipalId {
+	var s PatchWorkflowOKWorkflowServicePrincipalId
 	s.SetFloat64(v)
 	return s
 }
 
-type UpdateWorkflowOKWorkflowTagsItem struct {
+type PatchWorkflowOKWorkflowTagsItem struct {
 	Name string `json:"Name"`
 }
 
 // GetName returns the value of Name.
-func (s *UpdateWorkflowOKWorkflowTagsItem) GetName() string {
+func (s *PatchWorkflowOKWorkflowTagsItem) GetName() string {
 	return s.Name
 }
 
 // SetName sets the value of Name.
-func (s *UpdateWorkflowOKWorkflowTagsItem) SetName(val string) {
+func (s *PatchWorkflowOKWorkflowTagsItem) SetName(val string) {
 	s.Name = val
 }
 
-type UpdateWorkflowPaymentRequired struct {
+type PatchWorkflowPaymentRequired struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowPaymentRequired) GetIsOk() bool {
+func (s *PatchWorkflowPaymentRequired) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowPaymentRequired) GetMessage() string {
+func (s *PatchWorkflowPaymentRequired) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowPaymentRequired) SetIsOk(val bool) {
+func (s *PatchWorkflowPaymentRequired) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowPaymentRequired) SetMessage(val string) {
+func (s *PatchWorkflowPaymentRequired) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowPaymentRequired) updateWorkflowRes() {}
+func (*PatchWorkflowPaymentRequired) patchWorkflowRes() {}
 
-type UpdateWorkflowReq struct {
-	Name            OptString                           `json:"Name"`
-	Description     OptString                           `json:"Description"`
-	Publish         OptBool                             `json:"Publish"`
-	Logging         OptBool                             `json:"Logging"`
-	Tags            []UpdateWorkflowReqTagsItem         `json:"Tags"`
-	ConcurrencyMode OptUpdateWorkflowReqConcurrencyMode `json:"ConcurrencyMode"`
+type PatchWorkflowReq struct {
+	Name            OptString                          `json:"Name"`
+	Description     OptString                          `json:"Description"`
+	Publish         OptBool                            `json:"Publish"`
+	Logging         OptBool                            `json:"Logging"`
+	Tags            []PatchWorkflowReqTagsItem         `json:"Tags"`
+	ConcurrencyMode OptPatchWorkflowReqConcurrencyMode `json:"ConcurrencyMode"`
 }
 
 // GetName returns the value of Name.
-func (s *UpdateWorkflowReq) GetName() OptString {
+func (s *PatchWorkflowReq) GetName() OptString {
 	return s.Name
 }
 
 // GetDescription returns the value of Description.
-func (s *UpdateWorkflowReq) GetDescription() OptString {
+func (s *PatchWorkflowReq) GetDescription() OptString {
 	return s.Description
 }
 
 // GetPublish returns the value of Publish.
-func (s *UpdateWorkflowReq) GetPublish() OptBool {
+func (s *PatchWorkflowReq) GetPublish() OptBool {
 	return s.Publish
 }
 
 // GetLogging returns the value of Logging.
-func (s *UpdateWorkflowReq) GetLogging() OptBool {
+func (s *PatchWorkflowReq) GetLogging() OptBool {
 	return s.Logging
 }
 
 // GetTags returns the value of Tags.
-func (s *UpdateWorkflowReq) GetTags() []UpdateWorkflowReqTagsItem {
+func (s *PatchWorkflowReq) GetTags() []PatchWorkflowReqTagsItem {
 	return s.Tags
 }
 
 // GetConcurrencyMode returns the value of ConcurrencyMode.
-func (s *UpdateWorkflowReq) GetConcurrencyMode() OptUpdateWorkflowReqConcurrencyMode {
+func (s *PatchWorkflowReq) GetConcurrencyMode() OptPatchWorkflowReqConcurrencyMode {
 	return s.ConcurrencyMode
 }
 
 // SetName sets the value of Name.
-func (s *UpdateWorkflowReq) SetName(val OptString) {
+func (s *PatchWorkflowReq) SetName(val OptString) {
 	s.Name = val
 }
 
 // SetDescription sets the value of Description.
-func (s *UpdateWorkflowReq) SetDescription(val OptString) {
+func (s *PatchWorkflowReq) SetDescription(val OptString) {
 	s.Description = val
 }
 
 // SetPublish sets the value of Publish.
-func (s *UpdateWorkflowReq) SetPublish(val OptBool) {
+func (s *PatchWorkflowReq) SetPublish(val OptBool) {
 	s.Publish = val
 }
 
 // SetLogging sets the value of Logging.
-func (s *UpdateWorkflowReq) SetLogging(val OptBool) {
+func (s *PatchWorkflowReq) SetLogging(val OptBool) {
 	s.Logging = val
 }
 
 // SetTags sets the value of Tags.
-func (s *UpdateWorkflowReq) SetTags(val []UpdateWorkflowReqTagsItem) {
+func (s *PatchWorkflowReq) SetTags(val []PatchWorkflowReqTagsItem) {
 	s.Tags = val
 }
 
 // SetConcurrencyMode sets the value of ConcurrencyMode.
-func (s *UpdateWorkflowReq) SetConcurrencyMode(val OptUpdateWorkflowReqConcurrencyMode) {
+func (s *PatchWorkflowReq) SetConcurrencyMode(val OptPatchWorkflowReqConcurrencyMode) {
 	s.ConcurrencyMode = val
 }
 
-type UpdateWorkflowReqConcurrencyMode string
+type PatchWorkflowReqConcurrencyMode string
 
 const (
-	UpdateWorkflowReqConcurrencyModeParallel UpdateWorkflowReqConcurrencyMode = "parallel"
-	UpdateWorkflowReqConcurrencyModeLock     UpdateWorkflowReqConcurrencyMode = "lock"
-	UpdateWorkflowReqConcurrencyModeQueue    UpdateWorkflowReqConcurrencyMode = "queue"
+	PatchWorkflowReqConcurrencyModeParallel PatchWorkflowReqConcurrencyMode = "parallel"
+	PatchWorkflowReqConcurrencyModeLock     PatchWorkflowReqConcurrencyMode = "lock"
+	PatchWorkflowReqConcurrencyModeQueue    PatchWorkflowReqConcurrencyMode = "queue"
 )
 
-// AllValues returns all UpdateWorkflowReqConcurrencyMode values.
-func (UpdateWorkflowReqConcurrencyMode) AllValues() []UpdateWorkflowReqConcurrencyMode {
-	return []UpdateWorkflowReqConcurrencyMode{
-		UpdateWorkflowReqConcurrencyModeParallel,
-		UpdateWorkflowReqConcurrencyModeLock,
-		UpdateWorkflowReqConcurrencyModeQueue,
+// AllValues returns all PatchWorkflowReqConcurrencyMode values.
+func (PatchWorkflowReqConcurrencyMode) AllValues() []PatchWorkflowReqConcurrencyMode {
+	return []PatchWorkflowReqConcurrencyMode{
+		PatchWorkflowReqConcurrencyModeParallel,
+		PatchWorkflowReqConcurrencyModeLock,
+		PatchWorkflowReqConcurrencyModeQueue,
 	}
 }
 
 // MarshalText implements encoding.TextMarshaler.
-func (s UpdateWorkflowReqConcurrencyMode) MarshalText() ([]byte, error) {
+func (s PatchWorkflowReqConcurrencyMode) MarshalText() ([]byte, error) {
 	switch s {
-	case UpdateWorkflowReqConcurrencyModeParallel:
+	case PatchWorkflowReqConcurrencyModeParallel:
 		return []byte(s), nil
-	case UpdateWorkflowReqConcurrencyModeLock:
+	case PatchWorkflowReqConcurrencyModeLock:
 		return []byte(s), nil
-	case UpdateWorkflowReqConcurrencyModeQueue:
+	case PatchWorkflowReqConcurrencyModeQueue:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -10888,199 +9073,891 @@ func (s UpdateWorkflowReqConcurrencyMode) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *UpdateWorkflowReqConcurrencyMode) UnmarshalText(data []byte) error {
-	switch UpdateWorkflowReqConcurrencyMode(data) {
-	case UpdateWorkflowReqConcurrencyModeParallel:
-		*s = UpdateWorkflowReqConcurrencyModeParallel
+func (s *PatchWorkflowReqConcurrencyMode) UnmarshalText(data []byte) error {
+	switch PatchWorkflowReqConcurrencyMode(data) {
+	case PatchWorkflowReqConcurrencyModeParallel:
+		*s = PatchWorkflowReqConcurrencyModeParallel
 		return nil
-	case UpdateWorkflowReqConcurrencyModeLock:
-		*s = UpdateWorkflowReqConcurrencyModeLock
+	case PatchWorkflowReqConcurrencyModeLock:
+		*s = PatchWorkflowReqConcurrencyModeLock
 		return nil
-	case UpdateWorkflowReqConcurrencyModeQueue:
-		*s = UpdateWorkflowReqConcurrencyModeQueue
+	case PatchWorkflowReqConcurrencyModeQueue:
+		*s = PatchWorkflowReqConcurrencyModeQueue
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type UpdateWorkflowReqTagsItem struct {
+type PatchWorkflowReqTagsItem struct {
 	Name string `json:"Name"`
 }
 
 // GetName returns the value of Name.
-func (s *UpdateWorkflowReqTagsItem) GetName() string {
+func (s *PatchWorkflowReqTagsItem) GetName() string {
 	return s.Name
 }
 
 // SetName sets the value of Name.
-func (s *UpdateWorkflowReqTagsItem) SetName(val string) {
+func (s *PatchWorkflowReqTagsItem) SetName(val string) {
 	s.Name = val
 }
 
-type UpdateWorkflowRevisionAliasBadRequest struct {
+type PatchWorkflowUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasBadRequest) GetIsOk() bool {
+func (s *PatchWorkflowUnauthorized) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowRevisionAliasBadRequest) GetMessage() string {
+func (s *PatchWorkflowUnauthorized) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasBadRequest) SetIsOk(val bool) {
+func (s *PatchWorkflowUnauthorized) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowRevisionAliasBadRequest) SetMessage(val string) {
+func (s *PatchWorkflowUnauthorized) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowRevisionAliasBadRequest) updateWorkflowRevisionAliasRes() {}
+func (*PatchWorkflowUnauthorized) patchWorkflowRes() {}
 
-type UpdateWorkflowRevisionAliasConflict struct {
+type ReadExecutionBadRequest struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasConflict) GetIsOk() bool {
+func (s *ReadExecutionBadRequest) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowRevisionAliasConflict) GetMessage() string {
+func (s *ReadExecutionBadRequest) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasConflict) SetIsOk(val bool) {
+func (s *ReadExecutionBadRequest) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowRevisionAliasConflict) SetMessage(val string) {
+func (s *ReadExecutionBadRequest) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowRevisionAliasConflict) updateWorkflowRevisionAliasRes() {}
+func (*ReadExecutionBadRequest) readExecutionRes() {}
 
-type UpdateWorkflowRevisionAliasForbidden struct {
+type ReadExecutionForbidden struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasForbidden) GetIsOk() bool {
+func (s *ReadExecutionForbidden) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowRevisionAliasForbidden) GetMessage() string {
+func (s *ReadExecutionForbidden) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasForbidden) SetIsOk(val bool) {
+func (s *ReadExecutionForbidden) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowRevisionAliasForbidden) SetMessage(val string) {
+func (s *ReadExecutionForbidden) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowRevisionAliasForbidden) updateWorkflowRevisionAliasRes() {}
+func (*ReadExecutionForbidden) readExecutionRes() {}
 
-type UpdateWorkflowRevisionAliasInternalServerError struct {
+type ReadExecutionInternalServerError struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasInternalServerError) GetIsOk() bool {
+func (s *ReadExecutionInternalServerError) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowRevisionAliasInternalServerError) GetMessage() string {
+func (s *ReadExecutionInternalServerError) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasInternalServerError) SetIsOk(val bool) {
+func (s *ReadExecutionInternalServerError) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowRevisionAliasInternalServerError) SetMessage(val string) {
+func (s *ReadExecutionInternalServerError) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowRevisionAliasInternalServerError) updateWorkflowRevisionAliasRes() {}
+func (*ReadExecutionInternalServerError) readExecutionRes() {}
 
-type UpdateWorkflowRevisionAliasNotFound struct {
+type ReadExecutionNotFound struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasNotFound) GetIsOk() bool {
+func (s *ReadExecutionNotFound) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowRevisionAliasNotFound) GetMessage() string {
+func (s *ReadExecutionNotFound) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasNotFound) SetIsOk(val bool) {
+func (s *ReadExecutionNotFound) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowRevisionAliasNotFound) SetMessage(val string) {
+func (s *ReadExecutionNotFound) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowRevisionAliasNotFound) updateWorkflowRevisionAliasRes() {}
+func (*ReadExecutionNotFound) readExecutionRes() {}
 
-type UpdateWorkflowRevisionAliasOK struct {
-	IsOk     bool                                  `json:"is_ok"`
-	Revision UpdateWorkflowRevisionAliasOKRevision `json:"Revision"`
+type ReadExecutionOK struct {
+	IsOk      bool                     `json:"is_ok"`
+	Execution ReadExecutionOKExecution `json:"Execution"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasOK) GetIsOk() bool {
+func (s *ReadExecutionOK) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetExecution returns the value of Execution.
+func (s *ReadExecutionOK) GetExecution() ReadExecutionOKExecution {
+	return s.Execution
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadExecutionOK) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetExecution sets the value of Execution.
+func (s *ReadExecutionOK) SetExecution(val ReadExecutionOKExecution) {
+	s.Execution = val
+}
+
+func (*ReadExecutionOK) readExecutionRes() {}
+
+type ReadExecutionOKExecution struct {
+	ExecutionId       string                           `json:"ExecutionId"`
+	Name              string                           `json:"Name"`
+	Workflow          ReadExecutionOKExecutionWorkflow `json:"Workflow"`
+	Status            ReadExecutionOKExecutionStatus   `json:"Status"`
+	Revision          int                              `json:"Revision"`
+	RevisionAlias     string                           `json:"RevisionAlias"`
+	Args              string                           `json:"Args"`
+	StepCount         int                              `json:"StepCount"`
+	Result            string                           `json:"Result"`
+	Error             string                           `json:"Error"`
+	CreatedAt         time.Time                        `json:"CreatedAt"`
+	UpdatedAt         time.Time                        `json:"UpdatedAt"`
+	RunAt             OptDateTime                      `json:"RunAt"`
+	FailedAt          OptDateTime                      `json:"FailedAt"`
+	SucceededAt       OptDateTime                      `json:"SucceededAt"`
+	CancelRequestedAt OptDateTime                      `json:"CancelRequestedAt"`
+	CanceledAt        OptDateTime                      `json:"CanceledAt"`
+}
+
+// GetExecutionId returns the value of ExecutionId.
+func (s *ReadExecutionOKExecution) GetExecutionId() string {
+	return s.ExecutionId
+}
+
+// GetName returns the value of Name.
+func (s *ReadExecutionOKExecution) GetName() string {
+	return s.Name
+}
+
+// GetWorkflow returns the value of Workflow.
+func (s *ReadExecutionOKExecution) GetWorkflow() ReadExecutionOKExecutionWorkflow {
+	return s.Workflow
+}
+
+// GetStatus returns the value of Status.
+func (s *ReadExecutionOKExecution) GetStatus() ReadExecutionOKExecutionStatus {
+	return s.Status
+}
+
+// GetRevision returns the value of Revision.
+func (s *ReadExecutionOKExecution) GetRevision() int {
+	return s.Revision
+}
+
+// GetRevisionAlias returns the value of RevisionAlias.
+func (s *ReadExecutionOKExecution) GetRevisionAlias() string {
+	return s.RevisionAlias
+}
+
+// GetArgs returns the value of Args.
+func (s *ReadExecutionOKExecution) GetArgs() string {
+	return s.Args
+}
+
+// GetStepCount returns the value of StepCount.
+func (s *ReadExecutionOKExecution) GetStepCount() int {
+	return s.StepCount
+}
+
+// GetResult returns the value of Result.
+func (s *ReadExecutionOKExecution) GetResult() string {
+	return s.Result
+}
+
+// GetError returns the value of Error.
+func (s *ReadExecutionOKExecution) GetError() string {
+	return s.Error
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ReadExecutionOKExecution) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ReadExecutionOKExecution) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// GetRunAt returns the value of RunAt.
+func (s *ReadExecutionOKExecution) GetRunAt() OptDateTime {
+	return s.RunAt
+}
+
+// GetFailedAt returns the value of FailedAt.
+func (s *ReadExecutionOKExecution) GetFailedAt() OptDateTime {
+	return s.FailedAt
+}
+
+// GetSucceededAt returns the value of SucceededAt.
+func (s *ReadExecutionOKExecution) GetSucceededAt() OptDateTime {
+	return s.SucceededAt
+}
+
+// GetCancelRequestedAt returns the value of CancelRequestedAt.
+func (s *ReadExecutionOKExecution) GetCancelRequestedAt() OptDateTime {
+	return s.CancelRequestedAt
+}
+
+// GetCanceledAt returns the value of CanceledAt.
+func (s *ReadExecutionOKExecution) GetCanceledAt() OptDateTime {
+	return s.CanceledAt
+}
+
+// SetExecutionId sets the value of ExecutionId.
+func (s *ReadExecutionOKExecution) SetExecutionId(val string) {
+	s.ExecutionId = val
+}
+
+// SetName sets the value of Name.
+func (s *ReadExecutionOKExecution) SetName(val string) {
+	s.Name = val
+}
+
+// SetWorkflow sets the value of Workflow.
+func (s *ReadExecutionOKExecution) SetWorkflow(val ReadExecutionOKExecutionWorkflow) {
+	s.Workflow = val
+}
+
+// SetStatus sets the value of Status.
+func (s *ReadExecutionOKExecution) SetStatus(val ReadExecutionOKExecutionStatus) {
+	s.Status = val
+}
+
+// SetRevision sets the value of Revision.
+func (s *ReadExecutionOKExecution) SetRevision(val int) {
+	s.Revision = val
+}
+
+// SetRevisionAlias sets the value of RevisionAlias.
+func (s *ReadExecutionOKExecution) SetRevisionAlias(val string) {
+	s.RevisionAlias = val
+}
+
+// SetArgs sets the value of Args.
+func (s *ReadExecutionOKExecution) SetArgs(val string) {
+	s.Args = val
+}
+
+// SetStepCount sets the value of StepCount.
+func (s *ReadExecutionOKExecution) SetStepCount(val int) {
+	s.StepCount = val
+}
+
+// SetResult sets the value of Result.
+func (s *ReadExecutionOKExecution) SetResult(val string) {
+	s.Result = val
+}
+
+// SetError sets the value of Error.
+func (s *ReadExecutionOKExecution) SetError(val string) {
+	s.Error = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ReadExecutionOKExecution) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ReadExecutionOKExecution) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+// SetRunAt sets the value of RunAt.
+func (s *ReadExecutionOKExecution) SetRunAt(val OptDateTime) {
+	s.RunAt = val
+}
+
+// SetFailedAt sets the value of FailedAt.
+func (s *ReadExecutionOKExecution) SetFailedAt(val OptDateTime) {
+	s.FailedAt = val
+}
+
+// SetSucceededAt sets the value of SucceededAt.
+func (s *ReadExecutionOKExecution) SetSucceededAt(val OptDateTime) {
+	s.SucceededAt = val
+}
+
+// SetCancelRequestedAt sets the value of CancelRequestedAt.
+func (s *ReadExecutionOKExecution) SetCancelRequestedAt(val OptDateTime) {
+	s.CancelRequestedAt = val
+}
+
+// SetCanceledAt sets the value of CanceledAt.
+func (s *ReadExecutionOKExecution) SetCanceledAt(val OptDateTime) {
+	s.CanceledAt = val
+}
+
+type ReadExecutionOKExecutionStatus string
+
+const (
+	ReadExecutionOKExecutionStatusQueued    ReadExecutionOKExecutionStatus = "Queued"
+	ReadExecutionOKExecutionStatusRunning   ReadExecutionOKExecutionStatus = "Running"
+	ReadExecutionOKExecutionStatusSucceeded ReadExecutionOKExecutionStatus = "Succeeded"
+	ReadExecutionOKExecutionStatusFailed    ReadExecutionOKExecutionStatus = "Failed"
+	ReadExecutionOKExecutionStatusCanceling ReadExecutionOKExecutionStatus = "Canceling"
+	ReadExecutionOKExecutionStatusCanceled  ReadExecutionOKExecutionStatus = "Canceled"
+)
+
+// AllValues returns all ReadExecutionOKExecutionStatus values.
+func (ReadExecutionOKExecutionStatus) AllValues() []ReadExecutionOKExecutionStatus {
+	return []ReadExecutionOKExecutionStatus{
+		ReadExecutionOKExecutionStatusQueued,
+		ReadExecutionOKExecutionStatusRunning,
+		ReadExecutionOKExecutionStatusSucceeded,
+		ReadExecutionOKExecutionStatusFailed,
+		ReadExecutionOKExecutionStatusCanceling,
+		ReadExecutionOKExecutionStatusCanceled,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReadExecutionOKExecutionStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ReadExecutionOKExecutionStatusQueued:
+		return []byte(s), nil
+	case ReadExecutionOKExecutionStatusRunning:
+		return []byte(s), nil
+	case ReadExecutionOKExecutionStatusSucceeded:
+		return []byte(s), nil
+	case ReadExecutionOKExecutionStatusFailed:
+		return []byte(s), nil
+	case ReadExecutionOKExecutionStatusCanceling:
+		return []byte(s), nil
+	case ReadExecutionOKExecutionStatusCanceled:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReadExecutionOKExecutionStatus) UnmarshalText(data []byte) error {
+	switch ReadExecutionOKExecutionStatus(data) {
+	case ReadExecutionOKExecutionStatusQueued:
+		*s = ReadExecutionOKExecutionStatusQueued
+		return nil
+	case ReadExecutionOKExecutionStatusRunning:
+		*s = ReadExecutionOKExecutionStatusRunning
+		return nil
+	case ReadExecutionOKExecutionStatusSucceeded:
+		*s = ReadExecutionOKExecutionStatusSucceeded
+		return nil
+	case ReadExecutionOKExecutionStatusFailed:
+		*s = ReadExecutionOKExecutionStatusFailed
+		return nil
+	case ReadExecutionOKExecutionStatusCanceling:
+		*s = ReadExecutionOKExecutionStatusCanceling
+		return nil
+	case ReadExecutionOKExecutionStatusCanceled:
+		*s = ReadExecutionOKExecutionStatusCanceled
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ReadExecutionOKExecutionWorkflow struct {
+	ID                 string                                                `json:"Id"`
+	Name               string                                                `json:"Name"`
+	Description        OptString                                             `json:"Description"`
+	Publish            bool                                                  `json:"Publish"`
+	Logging            bool                                                  `json:"Logging"`
+	Tags               []ReadExecutionOKExecutionWorkflowTagsItem            `json:"Tags"`
+	ServicePrincipalId OptReadExecutionOKExecutionWorkflowServicePrincipalId `json:"ServicePrincipalId"`
+	CreatedAt          time.Time                                             `json:"CreatedAt"`
+	UpdatedAt          time.Time                                             `json:"UpdatedAt"`
+	ConcurrencyMode    OptReadExecutionOKExecutionWorkflowConcurrencyMode    `json:"ConcurrencyMode"`
+}
+
+// GetID returns the value of ID.
+func (s *ReadExecutionOKExecutionWorkflow) GetID() string {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *ReadExecutionOKExecutionWorkflow) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *ReadExecutionOKExecutionWorkflow) GetDescription() OptString {
+	return s.Description
+}
+
+// GetPublish returns the value of Publish.
+func (s *ReadExecutionOKExecutionWorkflow) GetPublish() bool {
+	return s.Publish
+}
+
+// GetLogging returns the value of Logging.
+func (s *ReadExecutionOKExecutionWorkflow) GetLogging() bool {
+	return s.Logging
+}
+
+// GetTags returns the value of Tags.
+func (s *ReadExecutionOKExecutionWorkflow) GetTags() []ReadExecutionOKExecutionWorkflowTagsItem {
+	return s.Tags
+}
+
+// GetServicePrincipalId returns the value of ServicePrincipalId.
+func (s *ReadExecutionOKExecutionWorkflow) GetServicePrincipalId() OptReadExecutionOKExecutionWorkflowServicePrincipalId {
+	return s.ServicePrincipalId
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ReadExecutionOKExecutionWorkflow) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ReadExecutionOKExecutionWorkflow) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// GetConcurrencyMode returns the value of ConcurrencyMode.
+func (s *ReadExecutionOKExecutionWorkflow) GetConcurrencyMode() OptReadExecutionOKExecutionWorkflowConcurrencyMode {
+	return s.ConcurrencyMode
+}
+
+// SetID sets the value of ID.
+func (s *ReadExecutionOKExecutionWorkflow) SetID(val string) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *ReadExecutionOKExecutionWorkflow) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *ReadExecutionOKExecutionWorkflow) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetPublish sets the value of Publish.
+func (s *ReadExecutionOKExecutionWorkflow) SetPublish(val bool) {
+	s.Publish = val
+}
+
+// SetLogging sets the value of Logging.
+func (s *ReadExecutionOKExecutionWorkflow) SetLogging(val bool) {
+	s.Logging = val
+}
+
+// SetTags sets the value of Tags.
+func (s *ReadExecutionOKExecutionWorkflow) SetTags(val []ReadExecutionOKExecutionWorkflowTagsItem) {
+	s.Tags = val
+}
+
+// SetServicePrincipalId sets the value of ServicePrincipalId.
+func (s *ReadExecutionOKExecutionWorkflow) SetServicePrincipalId(val OptReadExecutionOKExecutionWorkflowServicePrincipalId) {
+	s.ServicePrincipalId = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ReadExecutionOKExecutionWorkflow) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ReadExecutionOKExecutionWorkflow) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+// SetConcurrencyMode sets the value of ConcurrencyMode.
+func (s *ReadExecutionOKExecutionWorkflow) SetConcurrencyMode(val OptReadExecutionOKExecutionWorkflowConcurrencyMode) {
+	s.ConcurrencyMode = val
+}
+
+type ReadExecutionOKExecutionWorkflowConcurrencyMode string
+
+const (
+	ReadExecutionOKExecutionWorkflowConcurrencyModeParallel ReadExecutionOKExecutionWorkflowConcurrencyMode = "parallel"
+	ReadExecutionOKExecutionWorkflowConcurrencyModeLock     ReadExecutionOKExecutionWorkflowConcurrencyMode = "lock"
+	ReadExecutionOKExecutionWorkflowConcurrencyModeQueue    ReadExecutionOKExecutionWorkflowConcurrencyMode = "queue"
+)
+
+// AllValues returns all ReadExecutionOKExecutionWorkflowConcurrencyMode values.
+func (ReadExecutionOKExecutionWorkflowConcurrencyMode) AllValues() []ReadExecutionOKExecutionWorkflowConcurrencyMode {
+	return []ReadExecutionOKExecutionWorkflowConcurrencyMode{
+		ReadExecutionOKExecutionWorkflowConcurrencyModeParallel,
+		ReadExecutionOKExecutionWorkflowConcurrencyModeLock,
+		ReadExecutionOKExecutionWorkflowConcurrencyModeQueue,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReadExecutionOKExecutionWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
+	switch s {
+	case ReadExecutionOKExecutionWorkflowConcurrencyModeParallel:
+		return []byte(s), nil
+	case ReadExecutionOKExecutionWorkflowConcurrencyModeLock:
+		return []byte(s), nil
+	case ReadExecutionOKExecutionWorkflowConcurrencyModeQueue:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReadExecutionOKExecutionWorkflowConcurrencyMode) UnmarshalText(data []byte) error {
+	switch ReadExecutionOKExecutionWorkflowConcurrencyMode(data) {
+	case ReadExecutionOKExecutionWorkflowConcurrencyModeParallel:
+		*s = ReadExecutionOKExecutionWorkflowConcurrencyModeParallel
+		return nil
+	case ReadExecutionOKExecutionWorkflowConcurrencyModeLock:
+		*s = ReadExecutionOKExecutionWorkflowConcurrencyModeLock
+		return nil
+	case ReadExecutionOKExecutionWorkflowConcurrencyModeQueue:
+		*s = ReadExecutionOKExecutionWorkflowConcurrencyModeQueue
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ReadExecutionOKExecutionWorkflowServicePrincipalId represents sum type.
+type ReadExecutionOKExecutionWorkflowServicePrincipalId struct {
+	// Type selects the active sum variant, switch on this field.
+	Type    ReadExecutionOKExecutionWorkflowServicePrincipalIdType
+	String  string
+	Float64 float64
+}
+
+// ReadExecutionOKExecutionWorkflowServicePrincipalIdType is oneOf type of ReadExecutionOKExecutionWorkflowServicePrincipalId.
+type ReadExecutionOKExecutionWorkflowServicePrincipalIdType string
+
+// Possible values for ReadExecutionOKExecutionWorkflowServicePrincipalIdType.
+const (
+	StringReadExecutionOKExecutionWorkflowServicePrincipalId  ReadExecutionOKExecutionWorkflowServicePrincipalIdType = "string"
+	Float64ReadExecutionOKExecutionWorkflowServicePrincipalId ReadExecutionOKExecutionWorkflowServicePrincipalIdType = "float64"
+)
+
+// IsString reports whether ReadExecutionOKExecutionWorkflowServicePrincipalId is string.
+func (s ReadExecutionOKExecutionWorkflowServicePrincipalId) IsString() bool {
+	return s.Type == StringReadExecutionOKExecutionWorkflowServicePrincipalId
+}
+
+// IsFloat64 reports whether ReadExecutionOKExecutionWorkflowServicePrincipalId is float64.
+func (s ReadExecutionOKExecutionWorkflowServicePrincipalId) IsFloat64() bool {
+	return s.Type == Float64ReadExecutionOKExecutionWorkflowServicePrincipalId
+}
+
+// SetString sets ReadExecutionOKExecutionWorkflowServicePrincipalId to string.
+func (s *ReadExecutionOKExecutionWorkflowServicePrincipalId) SetString(v string) {
+	s.Type = StringReadExecutionOKExecutionWorkflowServicePrincipalId
+	s.String = v
+}
+
+// GetString returns string and true boolean if ReadExecutionOKExecutionWorkflowServicePrincipalId is string.
+func (s ReadExecutionOKExecutionWorkflowServicePrincipalId) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringReadExecutionOKExecutionWorkflowServicePrincipalId returns new ReadExecutionOKExecutionWorkflowServicePrincipalId from string.
+func NewStringReadExecutionOKExecutionWorkflowServicePrincipalId(v string) ReadExecutionOKExecutionWorkflowServicePrincipalId {
+	var s ReadExecutionOKExecutionWorkflowServicePrincipalId
+	s.SetString(v)
+	return s
+}
+
+// SetFloat64 sets ReadExecutionOKExecutionWorkflowServicePrincipalId to float64.
+func (s *ReadExecutionOKExecutionWorkflowServicePrincipalId) SetFloat64(v float64) {
+	s.Type = Float64ReadExecutionOKExecutionWorkflowServicePrincipalId
+	s.Float64 = v
+}
+
+// GetFloat64 returns float64 and true boolean if ReadExecutionOKExecutionWorkflowServicePrincipalId is float64.
+func (s ReadExecutionOKExecutionWorkflowServicePrincipalId) GetFloat64() (v float64, ok bool) {
+	if !s.IsFloat64() {
+		return v, false
+	}
+	return s.Float64, true
+}
+
+// NewFloat64ReadExecutionOKExecutionWorkflowServicePrincipalId returns new ReadExecutionOKExecutionWorkflowServicePrincipalId from float64.
+func NewFloat64ReadExecutionOKExecutionWorkflowServicePrincipalId(v float64) ReadExecutionOKExecutionWorkflowServicePrincipalId {
+	var s ReadExecutionOKExecutionWorkflowServicePrincipalId
+	s.SetFloat64(v)
+	return s
+}
+
+type ReadExecutionOKExecutionWorkflowTagsItem struct {
+	Name string `json:"Name"`
+}
+
+// GetName returns the value of Name.
+func (s *ReadExecutionOKExecutionWorkflowTagsItem) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *ReadExecutionOKExecutionWorkflowTagsItem) SetName(val string) {
+	s.Name = val
+}
+
+type ReadExecutionPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadExecutionPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadExecutionPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadExecutionPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadExecutionPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadExecutionPaymentRequired) readExecutionRes() {}
+
+type ReadExecutionUnauthorized struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadExecutionUnauthorized) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadExecutionUnauthorized) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadExecutionUnauthorized) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadExecutionUnauthorized) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadExecutionUnauthorized) readExecutionRes() {}
+
+type ReadRevisionBadRequest struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadRevisionBadRequest) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadRevisionBadRequest) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadRevisionBadRequest) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadRevisionBadRequest) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadRevisionBadRequest) readRevisionRes() {}
+
+type ReadRevisionForbidden struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadRevisionForbidden) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadRevisionForbidden) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadRevisionForbidden) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadRevisionForbidden) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadRevisionForbidden) readRevisionRes() {}
+
+type ReadRevisionInternalServerError struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadRevisionInternalServerError) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadRevisionInternalServerError) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadRevisionInternalServerError) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadRevisionInternalServerError) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadRevisionInternalServerError) readRevisionRes() {}
+
+type ReadRevisionNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadRevisionNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadRevisionNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadRevisionNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadRevisionNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadRevisionNotFound) readRevisionRes() {}
+
+type ReadRevisionOK struct {
+	IsOk     bool                   `json:"is_ok"`
+	Revision ReadRevisionOKRevision `json:"Revision"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadRevisionOK) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetRevision returns the value of Revision.
-func (s *UpdateWorkflowRevisionAliasOK) GetRevision() UpdateWorkflowRevisionAliasOKRevision {
+func (s *ReadRevisionOK) GetRevision() ReadRevisionOKRevision {
 	return s.Revision
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasOK) SetIsOk(val bool) {
+func (s *ReadRevisionOK) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetRevision sets the value of Revision.
-func (s *UpdateWorkflowRevisionAliasOK) SetRevision(val UpdateWorkflowRevisionAliasOKRevision) {
+func (s *ReadRevisionOK) SetRevision(val ReadRevisionOKRevision) {
 	s.Revision = val
 }
 
-func (*UpdateWorkflowRevisionAliasOK) updateWorkflowRevisionAliasRes() {}
+func (*ReadRevisionOK) readRevisionRes() {}
 
-type UpdateWorkflowRevisionAliasOKRevision struct {
+type ReadRevisionOKRevision struct {
 	RevisionId    int       `json:"RevisionId"`
 	WorkflowId    string    `json:"WorkflowId"`
 	RevisionAlias OptString `json:"RevisionAlias"`
@@ -11090,156 +9967,1279 @@ type UpdateWorkflowRevisionAliasOKRevision struct {
 }
 
 // GetRevisionId returns the value of RevisionId.
-func (s *UpdateWorkflowRevisionAliasOKRevision) GetRevisionId() int {
+func (s *ReadRevisionOKRevision) GetRevisionId() int {
 	return s.RevisionId
 }
 
 // GetWorkflowId returns the value of WorkflowId.
-func (s *UpdateWorkflowRevisionAliasOKRevision) GetWorkflowId() string {
+func (s *ReadRevisionOKRevision) GetWorkflowId() string {
 	return s.WorkflowId
 }
 
 // GetRevisionAlias returns the value of RevisionAlias.
-func (s *UpdateWorkflowRevisionAliasOKRevision) GetRevisionAlias() OptString {
+func (s *ReadRevisionOKRevision) GetRevisionAlias() OptString {
 	return s.RevisionAlias
 }
 
 // GetRunbook returns the value of Runbook.
-func (s *UpdateWorkflowRevisionAliasOKRevision) GetRunbook() string {
+func (s *ReadRevisionOKRevision) GetRunbook() string {
 	return s.Runbook
 }
 
 // GetCreatedAt returns the value of CreatedAt.
-func (s *UpdateWorkflowRevisionAliasOKRevision) GetCreatedAt() time.Time {
+func (s *ReadRevisionOKRevision) GetCreatedAt() time.Time {
 	return s.CreatedAt
 }
 
 // GetUpdatedAt returns the value of UpdatedAt.
-func (s *UpdateWorkflowRevisionAliasOKRevision) GetUpdatedAt() time.Time {
+func (s *ReadRevisionOKRevision) GetUpdatedAt() time.Time {
 	return s.UpdatedAt
 }
 
 // SetRevisionId sets the value of RevisionId.
-func (s *UpdateWorkflowRevisionAliasOKRevision) SetRevisionId(val int) {
+func (s *ReadRevisionOKRevision) SetRevisionId(val int) {
 	s.RevisionId = val
 }
 
 // SetWorkflowId sets the value of WorkflowId.
-func (s *UpdateWorkflowRevisionAliasOKRevision) SetWorkflowId(val string) {
+func (s *ReadRevisionOKRevision) SetWorkflowId(val string) {
 	s.WorkflowId = val
 }
 
 // SetRevisionAlias sets the value of RevisionAlias.
-func (s *UpdateWorkflowRevisionAliasOKRevision) SetRevisionAlias(val OptString) {
+func (s *ReadRevisionOKRevision) SetRevisionAlias(val OptString) {
 	s.RevisionAlias = val
 }
 
 // SetRunbook sets the value of Runbook.
-func (s *UpdateWorkflowRevisionAliasOKRevision) SetRunbook(val string) {
+func (s *ReadRevisionOKRevision) SetRunbook(val string) {
 	s.Runbook = val
 }
 
 // SetCreatedAt sets the value of CreatedAt.
-func (s *UpdateWorkflowRevisionAliasOKRevision) SetCreatedAt(val time.Time) {
+func (s *ReadRevisionOKRevision) SetCreatedAt(val time.Time) {
 	s.CreatedAt = val
 }
 
 // SetUpdatedAt sets the value of UpdatedAt.
-func (s *UpdateWorkflowRevisionAliasOKRevision) SetUpdatedAt(val time.Time) {
+func (s *ReadRevisionOKRevision) SetUpdatedAt(val time.Time) {
 	s.UpdatedAt = val
 }
 
-type UpdateWorkflowRevisionAliasPaymentRequired struct {
+type ReadRevisionPaymentRequired struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasPaymentRequired) GetIsOk() bool {
+func (s *ReadRevisionPaymentRequired) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowRevisionAliasPaymentRequired) GetMessage() string {
+func (s *ReadRevisionPaymentRequired) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasPaymentRequired) SetIsOk(val bool) {
+func (s *ReadRevisionPaymentRequired) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowRevisionAliasPaymentRequired) SetMessage(val string) {
+func (s *ReadRevisionPaymentRequired) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowRevisionAliasPaymentRequired) updateWorkflowRevisionAliasRes() {}
+func (*ReadRevisionPaymentRequired) readRevisionRes() {}
 
-type UpdateWorkflowRevisionAliasReq struct {
+type ReadRevisionUnauthorized struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadRevisionUnauthorized) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadRevisionUnauthorized) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadRevisionUnauthorized) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadRevisionUnauthorized) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadRevisionUnauthorized) readRevisionRes() {}
+
+type ReadSubscriptionBadRequest struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadSubscriptionBadRequest) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadSubscriptionBadRequest) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadSubscriptionBadRequest) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadSubscriptionBadRequest) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadSubscriptionBadRequest) readSubscriptionRes() {}
+
+type ReadSubscriptionForbidden struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadSubscriptionForbidden) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadSubscriptionForbidden) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadSubscriptionForbidden) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadSubscriptionForbidden) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadSubscriptionForbidden) readSubscriptionRes() {}
+
+type ReadSubscriptionInternalServerError struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadSubscriptionInternalServerError) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadSubscriptionInternalServerError) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadSubscriptionInternalServerError) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadSubscriptionInternalServerError) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadSubscriptionInternalServerError) readSubscriptionRes() {}
+
+type ReadSubscriptionNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadSubscriptionNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadSubscriptionNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadSubscriptionNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadSubscriptionNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadSubscriptionNotFound) readSubscriptionRes() {}
+
+type ReadSubscriptionOK struct {
+	IsOk             bool                                  `json:"is_ok"`
+	CurrentPlan      OptNilReadSubscriptionOKCurrentPlan   `json:"CurrentPlan"`
+	MonthAppliedPlan OptReadSubscriptionOKMonthAppliedPlan `json:"MonthAppliedPlan"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadSubscriptionOK) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetCurrentPlan returns the value of CurrentPlan.
+func (s *ReadSubscriptionOK) GetCurrentPlan() OptNilReadSubscriptionOKCurrentPlan {
+	return s.CurrentPlan
+}
+
+// GetMonthAppliedPlan returns the value of MonthAppliedPlan.
+func (s *ReadSubscriptionOK) GetMonthAppliedPlan() OptReadSubscriptionOKMonthAppliedPlan {
+	return s.MonthAppliedPlan
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadSubscriptionOK) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetCurrentPlan sets the value of CurrentPlan.
+func (s *ReadSubscriptionOK) SetCurrentPlan(val OptNilReadSubscriptionOKCurrentPlan) {
+	s.CurrentPlan = val
+}
+
+// SetMonthAppliedPlan sets the value of MonthAppliedPlan.
+func (s *ReadSubscriptionOK) SetMonthAppliedPlan(val OptReadSubscriptionOKMonthAppliedPlan) {
+	s.MonthAppliedPlan = val
+}
+
+func (*ReadSubscriptionOK) readSubscriptionRes() {}
+
+type ReadSubscriptionOKCurrentPlan struct {
+	ID            string      `json:"id"`
+	AccountId     string      `json:"accountId"`
+	ContractId    string      `json:"contractId"`
+	PlanId        int         `json:"planId"`
+	ActivateFrom  time.Time   `json:"activateFrom"`
+	ActivateUntil NilDateTime `json:"activateUntil"`
+	CreatedAt     time.Time   `json:"createdAt"`
+	UpdatedAt     time.Time   `json:"updatedAt"`
+	PlanName      string      `json:"planName"`
+}
+
+// GetID returns the value of ID.
+func (s *ReadSubscriptionOKCurrentPlan) GetID() string {
+	return s.ID
+}
+
+// GetAccountId returns the value of AccountId.
+func (s *ReadSubscriptionOKCurrentPlan) GetAccountId() string {
+	return s.AccountId
+}
+
+// GetContractId returns the value of ContractId.
+func (s *ReadSubscriptionOKCurrentPlan) GetContractId() string {
+	return s.ContractId
+}
+
+// GetPlanId returns the value of PlanId.
+func (s *ReadSubscriptionOKCurrentPlan) GetPlanId() int {
+	return s.PlanId
+}
+
+// GetActivateFrom returns the value of ActivateFrom.
+func (s *ReadSubscriptionOKCurrentPlan) GetActivateFrom() time.Time {
+	return s.ActivateFrom
+}
+
+// GetActivateUntil returns the value of ActivateUntil.
+func (s *ReadSubscriptionOKCurrentPlan) GetActivateUntil() NilDateTime {
+	return s.ActivateUntil
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ReadSubscriptionOKCurrentPlan) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ReadSubscriptionOKCurrentPlan) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// GetPlanName returns the value of PlanName.
+func (s *ReadSubscriptionOKCurrentPlan) GetPlanName() string {
+	return s.PlanName
+}
+
+// SetID sets the value of ID.
+func (s *ReadSubscriptionOKCurrentPlan) SetID(val string) {
+	s.ID = val
+}
+
+// SetAccountId sets the value of AccountId.
+func (s *ReadSubscriptionOKCurrentPlan) SetAccountId(val string) {
+	s.AccountId = val
+}
+
+// SetContractId sets the value of ContractId.
+func (s *ReadSubscriptionOKCurrentPlan) SetContractId(val string) {
+	s.ContractId = val
+}
+
+// SetPlanId sets the value of PlanId.
+func (s *ReadSubscriptionOKCurrentPlan) SetPlanId(val int) {
+	s.PlanId = val
+}
+
+// SetActivateFrom sets the value of ActivateFrom.
+func (s *ReadSubscriptionOKCurrentPlan) SetActivateFrom(val time.Time) {
+	s.ActivateFrom = val
+}
+
+// SetActivateUntil sets the value of ActivateUntil.
+func (s *ReadSubscriptionOKCurrentPlan) SetActivateUntil(val NilDateTime) {
+	s.ActivateUntil = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ReadSubscriptionOKCurrentPlan) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ReadSubscriptionOKCurrentPlan) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+// SetPlanName sets the value of PlanName.
+func (s *ReadSubscriptionOKCurrentPlan) SetPlanName(val string) {
+	s.PlanName = val
+}
+
+type ReadSubscriptionOKMonthAppliedPlan struct {
+	ID                  string      `json:"id"`
+	AccountId           string      `json:"accountId"`
+	ContractId          string      `json:"contractId"`
+	PlanId              int         `json:"planId"`
+	ActivateFrom        time.Time   `json:"activateFrom"`
+	ActivateUntil       NilDateTime `json:"activateUntil"`
+	CreatedAt           time.Time   `json:"createdAt"`
+	UpdatedAt           time.Time   `json:"updatedAt"`
+	PlanName            string      `json:"planName"`
+	PlanGrade           int         `json:"planGrade"`
+	BasePrice           int         `json:"basePrice"`
+	IncludedSteps       int         `json:"includedSteps"`
+	OverageStepUnit     int         `json:"overageStepUnit"`
+	OveragePricePerUnit int         `json:"overagePricePerUnit"`
+}
+
+// GetID returns the value of ID.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetID() string {
+	return s.ID
+}
+
+// GetAccountId returns the value of AccountId.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetAccountId() string {
+	return s.AccountId
+}
+
+// GetContractId returns the value of ContractId.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetContractId() string {
+	return s.ContractId
+}
+
+// GetPlanId returns the value of PlanId.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetPlanId() int {
+	return s.PlanId
+}
+
+// GetActivateFrom returns the value of ActivateFrom.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetActivateFrom() time.Time {
+	return s.ActivateFrom
+}
+
+// GetActivateUntil returns the value of ActivateUntil.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetActivateUntil() NilDateTime {
+	return s.ActivateUntil
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// GetPlanName returns the value of PlanName.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetPlanName() string {
+	return s.PlanName
+}
+
+// GetPlanGrade returns the value of PlanGrade.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetPlanGrade() int {
+	return s.PlanGrade
+}
+
+// GetBasePrice returns the value of BasePrice.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetBasePrice() int {
+	return s.BasePrice
+}
+
+// GetIncludedSteps returns the value of IncludedSteps.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetIncludedSteps() int {
+	return s.IncludedSteps
+}
+
+// GetOverageStepUnit returns the value of OverageStepUnit.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetOverageStepUnit() int {
+	return s.OverageStepUnit
+}
+
+// GetOveragePricePerUnit returns the value of OveragePricePerUnit.
+func (s *ReadSubscriptionOKMonthAppliedPlan) GetOveragePricePerUnit() int {
+	return s.OveragePricePerUnit
+}
+
+// SetID sets the value of ID.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetID(val string) {
+	s.ID = val
+}
+
+// SetAccountId sets the value of AccountId.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetAccountId(val string) {
+	s.AccountId = val
+}
+
+// SetContractId sets the value of ContractId.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetContractId(val string) {
+	s.ContractId = val
+}
+
+// SetPlanId sets the value of PlanId.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetPlanId(val int) {
+	s.PlanId = val
+}
+
+// SetActivateFrom sets the value of ActivateFrom.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetActivateFrom(val time.Time) {
+	s.ActivateFrom = val
+}
+
+// SetActivateUntil sets the value of ActivateUntil.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetActivateUntil(val NilDateTime) {
+	s.ActivateUntil = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+// SetPlanName sets the value of PlanName.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetPlanName(val string) {
+	s.PlanName = val
+}
+
+// SetPlanGrade sets the value of PlanGrade.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetPlanGrade(val int) {
+	s.PlanGrade = val
+}
+
+// SetBasePrice sets the value of BasePrice.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetBasePrice(val int) {
+	s.BasePrice = val
+}
+
+// SetIncludedSteps sets the value of IncludedSteps.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetIncludedSteps(val int) {
+	s.IncludedSteps = val
+}
+
+// SetOverageStepUnit sets the value of OverageStepUnit.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetOverageStepUnit(val int) {
+	s.OverageStepUnit = val
+}
+
+// SetOveragePricePerUnit sets the value of OveragePricePerUnit.
+func (s *ReadSubscriptionOKMonthAppliedPlan) SetOveragePricePerUnit(val int) {
+	s.OveragePricePerUnit = val
+}
+
+type ReadSubscriptionUnauthorized struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadSubscriptionUnauthorized) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadSubscriptionUnauthorized) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadSubscriptionUnauthorized) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadSubscriptionUnauthorized) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadSubscriptionUnauthorized) readSubscriptionRes() {}
+
+type ReadWorkflowBadRequest struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadWorkflowBadRequest) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadWorkflowBadRequest) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadWorkflowBadRequest) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadWorkflowBadRequest) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadWorkflowBadRequest) readWorkflowRes() {}
+
+type ReadWorkflowForbidden struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadWorkflowForbidden) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadWorkflowForbidden) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadWorkflowForbidden) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadWorkflowForbidden) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadWorkflowForbidden) readWorkflowRes() {}
+
+type ReadWorkflowInternalServerError struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadWorkflowInternalServerError) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadWorkflowInternalServerError) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadWorkflowInternalServerError) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadWorkflowInternalServerError) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadWorkflowInternalServerError) readWorkflowRes() {}
+
+type ReadWorkflowNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadWorkflowNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadWorkflowNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadWorkflowNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadWorkflowNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadWorkflowNotFound) readWorkflowRes() {}
+
+type ReadWorkflowOK struct {
+	IsOk     bool                   `json:"is_ok"`
+	Workflow ReadWorkflowOKWorkflow `json:"Workflow"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadWorkflowOK) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetWorkflow returns the value of Workflow.
+func (s *ReadWorkflowOK) GetWorkflow() ReadWorkflowOKWorkflow {
+	return s.Workflow
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadWorkflowOK) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetWorkflow sets the value of Workflow.
+func (s *ReadWorkflowOK) SetWorkflow(val ReadWorkflowOKWorkflow) {
+	s.Workflow = val
+}
+
+func (*ReadWorkflowOK) readWorkflowRes() {}
+
+type ReadWorkflowOKWorkflow struct {
+	ID                 string                                      `json:"Id"`
+	Name               string                                      `json:"Name"`
+	Description        OptString                                   `json:"Description"`
+	Publish            bool                                        `json:"Publish"`
+	Logging            bool                                        `json:"Logging"`
+	Tags               []ReadWorkflowOKWorkflowTagsItem            `json:"Tags"`
+	ServicePrincipalId OptReadWorkflowOKWorkflowServicePrincipalId `json:"ServicePrincipalId"`
+	CreatedAt          time.Time                                   `json:"CreatedAt"`
+	UpdatedAt          time.Time                                   `json:"UpdatedAt"`
+	ConcurrencyMode    OptReadWorkflowOKWorkflowConcurrencyMode    `json:"ConcurrencyMode"`
+}
+
+// GetID returns the value of ID.
+func (s *ReadWorkflowOKWorkflow) GetID() string {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *ReadWorkflowOKWorkflow) GetName() string {
+	return s.Name
+}
+
+// GetDescription returns the value of Description.
+func (s *ReadWorkflowOKWorkflow) GetDescription() OptString {
+	return s.Description
+}
+
+// GetPublish returns the value of Publish.
+func (s *ReadWorkflowOKWorkflow) GetPublish() bool {
+	return s.Publish
+}
+
+// GetLogging returns the value of Logging.
+func (s *ReadWorkflowOKWorkflow) GetLogging() bool {
+	return s.Logging
+}
+
+// GetTags returns the value of Tags.
+func (s *ReadWorkflowOKWorkflow) GetTags() []ReadWorkflowOKWorkflowTagsItem {
+	return s.Tags
+}
+
+// GetServicePrincipalId returns the value of ServicePrincipalId.
+func (s *ReadWorkflowOKWorkflow) GetServicePrincipalId() OptReadWorkflowOKWorkflowServicePrincipalId {
+	return s.ServicePrincipalId
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *ReadWorkflowOKWorkflow) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *ReadWorkflowOKWorkflow) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// GetConcurrencyMode returns the value of ConcurrencyMode.
+func (s *ReadWorkflowOKWorkflow) GetConcurrencyMode() OptReadWorkflowOKWorkflowConcurrencyMode {
+	return s.ConcurrencyMode
+}
+
+// SetID sets the value of ID.
+func (s *ReadWorkflowOKWorkflow) SetID(val string) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *ReadWorkflowOKWorkflow) SetName(val string) {
+	s.Name = val
+}
+
+// SetDescription sets the value of Description.
+func (s *ReadWorkflowOKWorkflow) SetDescription(val OptString) {
+	s.Description = val
+}
+
+// SetPublish sets the value of Publish.
+func (s *ReadWorkflowOKWorkflow) SetPublish(val bool) {
+	s.Publish = val
+}
+
+// SetLogging sets the value of Logging.
+func (s *ReadWorkflowOKWorkflow) SetLogging(val bool) {
+	s.Logging = val
+}
+
+// SetTags sets the value of Tags.
+func (s *ReadWorkflowOKWorkflow) SetTags(val []ReadWorkflowOKWorkflowTagsItem) {
+	s.Tags = val
+}
+
+// SetServicePrincipalId sets the value of ServicePrincipalId.
+func (s *ReadWorkflowOKWorkflow) SetServicePrincipalId(val OptReadWorkflowOKWorkflowServicePrincipalId) {
+	s.ServicePrincipalId = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *ReadWorkflowOKWorkflow) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *ReadWorkflowOKWorkflow) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+// SetConcurrencyMode sets the value of ConcurrencyMode.
+func (s *ReadWorkflowOKWorkflow) SetConcurrencyMode(val OptReadWorkflowOKWorkflowConcurrencyMode) {
+	s.ConcurrencyMode = val
+}
+
+type ReadWorkflowOKWorkflowConcurrencyMode string
+
+const (
+	ReadWorkflowOKWorkflowConcurrencyModeParallel ReadWorkflowOKWorkflowConcurrencyMode = "parallel"
+	ReadWorkflowOKWorkflowConcurrencyModeLock     ReadWorkflowOKWorkflowConcurrencyMode = "lock"
+	ReadWorkflowOKWorkflowConcurrencyModeQueue    ReadWorkflowOKWorkflowConcurrencyMode = "queue"
+)
+
+// AllValues returns all ReadWorkflowOKWorkflowConcurrencyMode values.
+func (ReadWorkflowOKWorkflowConcurrencyMode) AllValues() []ReadWorkflowOKWorkflowConcurrencyMode {
+	return []ReadWorkflowOKWorkflowConcurrencyMode{
+		ReadWorkflowOKWorkflowConcurrencyModeParallel,
+		ReadWorkflowOKWorkflowConcurrencyModeLock,
+		ReadWorkflowOKWorkflowConcurrencyModeQueue,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReadWorkflowOKWorkflowConcurrencyMode) MarshalText() ([]byte, error) {
+	switch s {
+	case ReadWorkflowOKWorkflowConcurrencyModeParallel:
+		return []byte(s), nil
+	case ReadWorkflowOKWorkflowConcurrencyModeLock:
+		return []byte(s), nil
+	case ReadWorkflowOKWorkflowConcurrencyModeQueue:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReadWorkflowOKWorkflowConcurrencyMode) UnmarshalText(data []byte) error {
+	switch ReadWorkflowOKWorkflowConcurrencyMode(data) {
+	case ReadWorkflowOKWorkflowConcurrencyModeParallel:
+		*s = ReadWorkflowOKWorkflowConcurrencyModeParallel
+		return nil
+	case ReadWorkflowOKWorkflowConcurrencyModeLock:
+		*s = ReadWorkflowOKWorkflowConcurrencyModeLock
+		return nil
+	case ReadWorkflowOKWorkflowConcurrencyModeQueue:
+		*s = ReadWorkflowOKWorkflowConcurrencyModeQueue
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ReadWorkflowOKWorkflowServicePrincipalId represents sum type.
+type ReadWorkflowOKWorkflowServicePrincipalId struct {
+	// Type selects the active sum variant, switch on this field.
+	Type    ReadWorkflowOKWorkflowServicePrincipalIdType
+	String  string
+	Float64 float64
+}
+
+// ReadWorkflowOKWorkflowServicePrincipalIdType is oneOf type of ReadWorkflowOKWorkflowServicePrincipalId.
+type ReadWorkflowOKWorkflowServicePrincipalIdType string
+
+// Possible values for ReadWorkflowOKWorkflowServicePrincipalIdType.
+const (
+	StringReadWorkflowOKWorkflowServicePrincipalId  ReadWorkflowOKWorkflowServicePrincipalIdType = "string"
+	Float64ReadWorkflowOKWorkflowServicePrincipalId ReadWorkflowOKWorkflowServicePrincipalIdType = "float64"
+)
+
+// IsString reports whether ReadWorkflowOKWorkflowServicePrincipalId is string.
+func (s ReadWorkflowOKWorkflowServicePrincipalId) IsString() bool {
+	return s.Type == StringReadWorkflowOKWorkflowServicePrincipalId
+}
+
+// IsFloat64 reports whether ReadWorkflowOKWorkflowServicePrincipalId is float64.
+func (s ReadWorkflowOKWorkflowServicePrincipalId) IsFloat64() bool {
+	return s.Type == Float64ReadWorkflowOKWorkflowServicePrincipalId
+}
+
+// SetString sets ReadWorkflowOKWorkflowServicePrincipalId to string.
+func (s *ReadWorkflowOKWorkflowServicePrincipalId) SetString(v string) {
+	s.Type = StringReadWorkflowOKWorkflowServicePrincipalId
+	s.String = v
+}
+
+// GetString returns string and true boolean if ReadWorkflowOKWorkflowServicePrincipalId is string.
+func (s ReadWorkflowOKWorkflowServicePrincipalId) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringReadWorkflowOKWorkflowServicePrincipalId returns new ReadWorkflowOKWorkflowServicePrincipalId from string.
+func NewStringReadWorkflowOKWorkflowServicePrincipalId(v string) ReadWorkflowOKWorkflowServicePrincipalId {
+	var s ReadWorkflowOKWorkflowServicePrincipalId
+	s.SetString(v)
+	return s
+}
+
+// SetFloat64 sets ReadWorkflowOKWorkflowServicePrincipalId to float64.
+func (s *ReadWorkflowOKWorkflowServicePrincipalId) SetFloat64(v float64) {
+	s.Type = Float64ReadWorkflowOKWorkflowServicePrincipalId
+	s.Float64 = v
+}
+
+// GetFloat64 returns float64 and true boolean if ReadWorkflowOKWorkflowServicePrincipalId is float64.
+func (s ReadWorkflowOKWorkflowServicePrincipalId) GetFloat64() (v float64, ok bool) {
+	if !s.IsFloat64() {
+		return v, false
+	}
+	return s.Float64, true
+}
+
+// NewFloat64ReadWorkflowOKWorkflowServicePrincipalId returns new ReadWorkflowOKWorkflowServicePrincipalId from float64.
+func NewFloat64ReadWorkflowOKWorkflowServicePrincipalId(v float64) ReadWorkflowOKWorkflowServicePrincipalId {
+	var s ReadWorkflowOKWorkflowServicePrincipalId
+	s.SetFloat64(v)
+	return s
+}
+
+type ReadWorkflowOKWorkflowTagsItem struct {
+	Name string `json:"Name"`
+}
+
+// GetName returns the value of Name.
+func (s *ReadWorkflowOKWorkflowTagsItem) GetName() string {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *ReadWorkflowOKWorkflowTagsItem) SetName(val string) {
+	s.Name = val
+}
+
+type ReadWorkflowPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadWorkflowPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadWorkflowPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadWorkflowPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadWorkflowPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadWorkflowPaymentRequired) readWorkflowRes() {}
+
+type ReadWorkflowUnauthorized struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *ReadWorkflowUnauthorized) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *ReadWorkflowUnauthorized) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *ReadWorkflowUnauthorized) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *ReadWorkflowUnauthorized) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*ReadWorkflowUnauthorized) readWorkflowRes() {}
+
+type UpdateRevisionAliasBadRequest struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateRevisionAliasBadRequest) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *UpdateRevisionAliasBadRequest) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateRevisionAliasBadRequest) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *UpdateRevisionAliasBadRequest) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*UpdateRevisionAliasBadRequest) updateRevisionAliasRes() {}
+
+type UpdateRevisionAliasConflict struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateRevisionAliasConflict) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *UpdateRevisionAliasConflict) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateRevisionAliasConflict) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *UpdateRevisionAliasConflict) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*UpdateRevisionAliasConflict) updateRevisionAliasRes() {}
+
+type UpdateRevisionAliasForbidden struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateRevisionAliasForbidden) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *UpdateRevisionAliasForbidden) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateRevisionAliasForbidden) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *UpdateRevisionAliasForbidden) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*UpdateRevisionAliasForbidden) updateRevisionAliasRes() {}
+
+type UpdateRevisionAliasInternalServerError struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateRevisionAliasInternalServerError) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *UpdateRevisionAliasInternalServerError) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateRevisionAliasInternalServerError) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *UpdateRevisionAliasInternalServerError) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*UpdateRevisionAliasInternalServerError) updateRevisionAliasRes() {}
+
+type UpdateRevisionAliasNotFound struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateRevisionAliasNotFound) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *UpdateRevisionAliasNotFound) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateRevisionAliasNotFound) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *UpdateRevisionAliasNotFound) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*UpdateRevisionAliasNotFound) updateRevisionAliasRes() {}
+
+type UpdateRevisionAliasOK struct {
+	IsOk     bool                          `json:"is_ok"`
+	Revision UpdateRevisionAliasOKRevision `json:"Revision"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateRevisionAliasOK) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetRevision returns the value of Revision.
+func (s *UpdateRevisionAliasOK) GetRevision() UpdateRevisionAliasOKRevision {
+	return s.Revision
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateRevisionAliasOK) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetRevision sets the value of Revision.
+func (s *UpdateRevisionAliasOK) SetRevision(val UpdateRevisionAliasOKRevision) {
+	s.Revision = val
+}
+
+func (*UpdateRevisionAliasOK) updateRevisionAliasRes() {}
+
+type UpdateRevisionAliasOKRevision struct {
+	RevisionId    int       `json:"RevisionId"`
+	WorkflowId    string    `json:"WorkflowId"`
+	RevisionAlias OptString `json:"RevisionAlias"`
+	Runbook       string    `json:"Runbook"`
+	CreatedAt     time.Time `json:"CreatedAt"`
+	UpdatedAt     time.Time `json:"UpdatedAt"`
+}
+
+// GetRevisionId returns the value of RevisionId.
+func (s *UpdateRevisionAliasOKRevision) GetRevisionId() int {
+	return s.RevisionId
+}
+
+// GetWorkflowId returns the value of WorkflowId.
+func (s *UpdateRevisionAliasOKRevision) GetWorkflowId() string {
+	return s.WorkflowId
+}
+
+// GetRevisionAlias returns the value of RevisionAlias.
+func (s *UpdateRevisionAliasOKRevision) GetRevisionAlias() OptString {
+	return s.RevisionAlias
+}
+
+// GetRunbook returns the value of Runbook.
+func (s *UpdateRevisionAliasOKRevision) GetRunbook() string {
+	return s.Runbook
+}
+
+// GetCreatedAt returns the value of CreatedAt.
+func (s *UpdateRevisionAliasOKRevision) GetCreatedAt() time.Time {
+	return s.CreatedAt
+}
+
+// GetUpdatedAt returns the value of UpdatedAt.
+func (s *UpdateRevisionAliasOKRevision) GetUpdatedAt() time.Time {
+	return s.UpdatedAt
+}
+
+// SetRevisionId sets the value of RevisionId.
+func (s *UpdateRevisionAliasOKRevision) SetRevisionId(val int) {
+	s.RevisionId = val
+}
+
+// SetWorkflowId sets the value of WorkflowId.
+func (s *UpdateRevisionAliasOKRevision) SetWorkflowId(val string) {
+	s.WorkflowId = val
+}
+
+// SetRevisionAlias sets the value of RevisionAlias.
+func (s *UpdateRevisionAliasOKRevision) SetRevisionAlias(val OptString) {
+	s.RevisionAlias = val
+}
+
+// SetRunbook sets the value of Runbook.
+func (s *UpdateRevisionAliasOKRevision) SetRunbook(val string) {
+	s.Runbook = val
+}
+
+// SetCreatedAt sets the value of CreatedAt.
+func (s *UpdateRevisionAliasOKRevision) SetCreatedAt(val time.Time) {
+	s.CreatedAt = val
+}
+
+// SetUpdatedAt sets the value of UpdatedAt.
+func (s *UpdateRevisionAliasOKRevision) SetUpdatedAt(val time.Time) {
+	s.UpdatedAt = val
+}
+
+type UpdateRevisionAliasPaymentRequired struct {
+	IsOk    bool   `json:"is_ok"`
+	Message string `json:"Message"`
+}
+
+// GetIsOk returns the value of IsOk.
+func (s *UpdateRevisionAliasPaymentRequired) GetIsOk() bool {
+	return s.IsOk
+}
+
+// GetMessage returns the value of Message.
+func (s *UpdateRevisionAliasPaymentRequired) GetMessage() string {
+	return s.Message
+}
+
+// SetIsOk sets the value of IsOk.
+func (s *UpdateRevisionAliasPaymentRequired) SetIsOk(val bool) {
+	s.IsOk = val
+}
+
+// SetMessage sets the value of Message.
+func (s *UpdateRevisionAliasPaymentRequired) SetMessage(val string) {
+	s.Message = val
+}
+
+func (*UpdateRevisionAliasPaymentRequired) updateRevisionAliasRes() {}
+
+type UpdateRevisionAliasReq struct {
 	RevisionAlias string `json:"RevisionAlias"`
 }
 
 // GetRevisionAlias returns the value of RevisionAlias.
-func (s *UpdateWorkflowRevisionAliasReq) GetRevisionAlias() string {
+func (s *UpdateRevisionAliasReq) GetRevisionAlias() string {
 	return s.RevisionAlias
 }
 
 // SetRevisionAlias sets the value of RevisionAlias.
-func (s *UpdateWorkflowRevisionAliasReq) SetRevisionAlias(val string) {
+func (s *UpdateRevisionAliasReq) SetRevisionAlias(val string) {
 	s.RevisionAlias = val
 }
 
-type UpdateWorkflowRevisionAliasUnauthorized struct {
+type UpdateRevisionAliasUnauthorized struct {
 	IsOk    bool   `json:"is_ok"`
 	Message string `json:"Message"`
 }
 
 // GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasUnauthorized) GetIsOk() bool {
+func (s *UpdateRevisionAliasUnauthorized) GetIsOk() bool {
 	return s.IsOk
 }
 
 // GetMessage returns the value of Message.
-func (s *UpdateWorkflowRevisionAliasUnauthorized) GetMessage() string {
+func (s *UpdateRevisionAliasUnauthorized) GetMessage() string {
 	return s.Message
 }
 
 // SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowRevisionAliasUnauthorized) SetIsOk(val bool) {
+func (s *UpdateRevisionAliasUnauthorized) SetIsOk(val bool) {
 	s.IsOk = val
 }
 
 // SetMessage sets the value of Message.
-func (s *UpdateWorkflowRevisionAliasUnauthorized) SetMessage(val string) {
+func (s *UpdateRevisionAliasUnauthorized) SetMessage(val string) {
 	s.Message = val
 }
 
-func (*UpdateWorkflowRevisionAliasUnauthorized) updateWorkflowRevisionAliasRes() {}
-
-type UpdateWorkflowUnauthorized struct {
-	IsOk    bool   `json:"is_ok"`
-	Message string `json:"Message"`
-}
-
-// GetIsOk returns the value of IsOk.
-func (s *UpdateWorkflowUnauthorized) GetIsOk() bool {
-	return s.IsOk
-}
-
-// GetMessage returns the value of Message.
-func (s *UpdateWorkflowUnauthorized) GetMessage() string {
-	return s.Message
-}
-
-// SetIsOk sets the value of IsOk.
-func (s *UpdateWorkflowUnauthorized) SetIsOk(val bool) {
-	s.IsOk = val
-}
-
-// SetMessage sets the value of Message.
-func (s *UpdateWorkflowUnauthorized) SetMessage(val string) {
-	s.Message = val
-}
-
-func (*UpdateWorkflowUnauthorized) updateWorkflowRes() {}
+func (*UpdateRevisionAliasUnauthorized) updateRevisionAliasRes() {}

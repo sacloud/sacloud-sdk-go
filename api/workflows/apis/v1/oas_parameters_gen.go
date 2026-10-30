@@ -16,8 +16,8 @@ type CreateExecutionParams struct {
 	ID string
 }
 
-// CreateWorkflowRevisionParams is parameters of createWorkflowRevision operation.
-type CreateWorkflowRevisionParams struct {
+// CreateRevisionParams is parameters of createRevision operation.
+type CreateRevisionParams struct {
 	// Workflow ID.
 	ID string
 }
@@ -30,104 +30,64 @@ type DeleteExecutionParams struct {
 	ExecutionId string
 }
 
+// DeleteRevisionAliasParams is parameters of deleteRevisionAlias operation.
+type DeleteRevisionAliasParams struct {
+	// Workflow ID.
+	ID string
+	// Revision ID.
+	RevisionId int
+}
+
 // DeleteWorkflowParams is parameters of deleteWorkflow operation.
 type DeleteWorkflowParams struct {
 	// Workflow ID.
 	ID string
 }
 
-// DeleteWorkflowRevisionAliasParams is parameters of deleteWorkflowRevisionAlias operation.
-type DeleteWorkflowRevisionAliasParams struct {
-	// Workflow ID.
-	ID string
-	// Revision ID.
-	RevisionId int
-}
-
-// GetExecutionParams is parameters of getExecution operation.
-type GetExecutionParams struct {
+// ListExecutionHistoriesParams is parameters of listExecutionHistories operation.
+type ListExecutionHistoriesParams struct {
+	// ページ番号.
+	Page OptInt `json:",omitempty,omitzero"`
+	// 1ページあたりのリソースの取得数.
+	PageLimit OptInt `json:",omitempty,omitzero"`
+	// ソートの順序.
+	SortOrder OptListExecutionHistoriesSortOrder `json:",omitempty,omitzero"`
 	// Workflow ID.
 	ID string
 	// Execution ID.
 	ExecutionId string
 }
 
-// GetWorkflowParams is parameters of getWorkflow operation.
-type GetWorkflowParams struct {
-	// Workflow ID.
-	ID string
-}
-
-// GetWorkflowRevisionsParams is parameters of getWorkflowRevisions operation.
-type GetWorkflowRevisionsParams struct {
-	// Workflow ID.
-	ID string
-	// Revision ID.
-	RevisionId int
-}
-
-// ListExecutionParams is parameters of listExecution operation.
-type ListExecutionParams struct {
+// ListExecutionsParams is parameters of listExecutions operation.
+type ListExecutionsParams struct {
 	// ページ番号.
 	Page OptInt `json:",omitempty,omitzero"`
 	// 1ページあたりのリソースの取得数.
 	PageLimit OptInt `json:",omitempty,omitzero"`
 	// ソートの順序.
-	Order OptListExecutionOrder `json:",omitempty,omitzero"`
+	Order OptListExecutionsOrder `json:",omitempty,omitzero"`
 	// Workflow ID.
 	ID string
 }
 
-// ListExecutionHistoryParams is parameters of listExecutionHistory operation.
-type ListExecutionHistoryParams struct {
-	// ページ番号.
-	Page OptInt `json:",omitempty,omitzero"`
-	// 1ページあたりのリソースの取得数.
-	PageLimit OptInt `json:",omitempty,omitzero"`
-	// ソートの順序.
-	SortOrder OptListExecutionHistorySortOrder `json:",omitempty,omitzero"`
-	// Workflow ID.
-	ID string
-	// Execution ID.
-	ExecutionId string
-}
-
-// ListWorkflowParams is parameters of listWorkflow operation.
-type ListWorkflowParams struct {
+// ListRevisionsParams is parameters of listRevisions operation.
+type ListRevisionsParams struct {
 	// ページ番号.
 	Page OptInt `json:",omitempty,omitzero"`
 	// 1ページあたりのリソースの取得数.
 	PageLimit OptInt `json:",omitempty,omitzero"`
 	// Workflowのソートに利用するプロパティ.
-	SortBy OptListWorkflowSortBy `json:",omitempty,omitzero"`
+	SortBy OptListRevisionsSortBy `json:",omitempty,omitzero"`
 	// ソートの順序.
-	Order OptListWorkflowOrder `json:",omitempty,omitzero"`
-	// 公開状態の絞り込み.
-	Published OptBool `json:",omitempty,omitzero"`
-	// ワークフロー名の絞り込み.
-	Name OptString `json:",omitempty,omitzero"`
-	// ワークフロー名の絞り込み方法.
-	NameMatchType OptListWorkflowNameMatchType `json:",omitempty,omitzero"`
-}
-
-// ListWorkflowRevisionsParams is parameters of listWorkflowRevisions operation.
-type ListWorkflowRevisionsParams struct {
-	// ページ番号.
-	Page OptInt `json:",omitempty,omitzero"`
-	// 1ページあたりのリソースの取得数.
-	PageLimit OptInt `json:",omitempty,omitzero"`
-	// Workflowのソートに利用するプロパティ.
-	SortBy OptListWorkflowRevisionsSortBy `json:",omitempty,omitzero"`
-	// ソートの順序.
-	Order OptListWorkflowRevisionsOrder `json:",omitempty,omitzero"`
+	Order OptListRevisionsOrder `json:",omitempty,omitzero"`
 	// 公開状態の絞り込み.
 	Published OptBool `json:",omitempty,omitzero"`
 	// Workflow ID.
 	ID string
 }
 
-// ListWorkflowSuggestParams is parameters of listWorkflowSuggest operation.
-type ListWorkflowSuggestParams struct {
+// ListSuggestionsParams is parameters of listSuggestions operation.
+type ListSuggestionsParams struct {
 	// ワークフロー名の絞り込み.
 	Name string
 	// ページ番号.
@@ -135,19 +95,59 @@ type ListWorkflowSuggestParams struct {
 	// 1ページあたりのリソースの取得数.
 	PageLimit OptInt `json:",omitempty,omitzero"`
 	// サジェストのソートに利用するプロパティ.
-	SortBy OptListWorkflowSuggestSortBy `json:",omitempty,omitzero"`
+	SortBy OptListSuggestionsSortBy `json:",omitempty,omitzero"`
 	// ソートの順序.
-	Order OptListWorkflowSuggestOrder `json:",omitempty,omitzero"`
+	Order OptListSuggestionsOrder `json:",omitempty,omitzero"`
 }
 
-// UpdateWorkflowParams is parameters of updateWorkflow operation.
-type UpdateWorkflowParams struct {
+// ListWorkflowsParams is parameters of listWorkflows operation.
+type ListWorkflowsParams struct {
+	// ページ番号.
+	Page OptInt `json:",omitempty,omitzero"`
+	// 1ページあたりのリソースの取得数.
+	PageLimit OptInt `json:",omitempty,omitzero"`
+	// Workflowのソートに利用するプロパティ.
+	SortBy OptListWorkflowsSortBy `json:",omitempty,omitzero"`
+	// ソートの順序.
+	Order OptListWorkflowsOrder `json:",omitempty,omitzero"`
+	// 公開状態の絞り込み.
+	Published OptBool `json:",omitempty,omitzero"`
+	// ワークフロー名の絞り込み.
+	Name OptString `json:",omitempty,omitzero"`
+	// ワークフロー名の絞り込み方法.
+	NameMatchType OptListWorkflowsNameMatchType `json:",omitempty,omitzero"`
+}
+
+// PatchWorkflowParams is parameters of patchWorkflow operation.
+type PatchWorkflowParams struct {
 	// Workflow ID.
 	ID string
 }
 
-// UpdateWorkflowRevisionAliasParams is parameters of updateWorkflowRevisionAlias operation.
-type UpdateWorkflowRevisionAliasParams struct {
+// ReadExecutionParams is parameters of readExecution operation.
+type ReadExecutionParams struct {
+	// Workflow ID.
+	ID string
+	// Execution ID.
+	ExecutionId string
+}
+
+// ReadRevisionParams is parameters of readRevision operation.
+type ReadRevisionParams struct {
+	// Workflow ID.
+	ID string
+	// Revision ID.
+	RevisionId int
+}
+
+// ReadWorkflowParams is parameters of readWorkflow operation.
+type ReadWorkflowParams struct {
+	// Workflow ID.
+	ID string
+}
+
+// UpdateRevisionAliasParams is parameters of updateRevisionAlias operation.
+type UpdateRevisionAliasParams struct {
 	// Workflow ID.
 	ID string
 	// Revision ID.

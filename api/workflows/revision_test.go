@@ -53,7 +53,7 @@ func TestRevisionAPI(t *testing.T) {
 	revisionAPI := workflows.NewRevisionOp(client)
 
 	// Create
-	respCreate, err := revisionAPI.Create(ctx, workflow.ID, v1.CreateWorkflowRevisionReq{
+	respCreate, err := revisionAPI.Create(ctx, workflow.ID, v1.CreateRevisionReq{
 		Runbook:       sampleRunbook,
 		RevisionAlias: v1.NewOptString("v1"),
 	})
@@ -71,7 +71,7 @@ func TestRevisionAPI(t *testing.T) {
 	assert.Equal(t, v1.NewOptString("v1"), respRead.RevisionAlias)
 
 	// List
-	respList, err := revisionAPI.List(ctx, v1.ListWorkflowRevisionsParams{
+	respList, err := revisionAPI.List(ctx, v1.ListRevisionsParams{
 		ID: workflow.ID,
 	})
 	require.NoError(t, err)
@@ -87,7 +87,7 @@ func TestRevisionAPI(t *testing.T) {
 	assert.True(t, found, "Created Revision not found in list")
 
 	// UpdateAlias
-	respUpdate, err := revisionAPI.UpdateAlias(ctx, workflow.ID, respCreate.RevisionId, v1.UpdateWorkflowRevisionAliasReq{
+	respUpdate, err := revisionAPI.UpdateAlias(ctx, workflow.ID, respCreate.RevisionId, v1.UpdateRevisionAliasReq{
 		RevisionAlias: "v2",
 	})
 	require.NoError(t, err)

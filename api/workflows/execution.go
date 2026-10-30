@@ -24,11 +24,11 @@ import (
 
 type ExecutionAPI interface {
 	Create(ctx context.Context, workflowID string, req v1.OptCreateExecutionReq) (*v1.CreateExecutionCreatedExecution, error)
-	List(ctx context.Context, params v1.ListExecutionParams) (*v1.ListExecutionOK, error)
-	Read(ctx context.Context, workflowID, executionID string) (*v1.GetExecutionOKExecution, error)
+	List(ctx context.Context, params v1.ListExecutionsParams) (*v1.ListExecutionsOK, error)
+	Read(ctx context.Context, workflowID, executionID string) (*v1.ReadExecutionOKExecution, error)
 	Cancel(ctx context.Context, workflowID, executionID string) (*v1.CancelExecutionOKExecution, error)
 	Delete(ctx context.Context, workflowID, executionID string) error
-	ListHistory(ctx context.Context, params v1.ListExecutionHistoryParams) (*v1.ListExecutionHistoryOK, error)
+	ListHistory(ctx context.Context, params v1.ListExecutionHistoriesParams) (*v1.ListExecutionHistoriesOK, error)
 }
 
 var _ ExecutionAPI = (*executionOp)(nil)
@@ -69,36 +69,36 @@ func (op *executionOp) Create(ctx context.Context, workflowID string, req v1.Opt
 	}
 }
 
-func (op *executionOp) List(ctx context.Context, params v1.ListExecutionParams) (*v1.ListExecutionOK, error) {
+func (op *executionOp) List(ctx context.Context, params v1.ListExecutionsParams) (*v1.ListExecutionsOK, error) {
 	const methodName = "Execution.List"
 
-	res, err := op.client.ListExecution(ctx, params)
+	res, err := op.client.ListExecutions(ctx, params)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.ListExecutionOK:
+	case *v1.ListExecutionsOK:
 		return r, nil
-	case *v1.ListExecutionBadRequest:
+	case *v1.ListExecutionsBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ListExecutionUnauthorized:
+	case *v1.ListExecutionsUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ListExecutionForbidden:
+	case *v1.ListExecutionsForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ListExecutionNotFound:
+	case *v1.ListExecutionsNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ListExecutionInternalServerError:
+	case *v1.ListExecutionsInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
 	}
 }
 
-func (op *executionOp) Read(ctx context.Context, workflowID, executionID string) (*v1.GetExecutionOKExecution, error) {
+func (op *executionOp) Read(ctx context.Context, workflowID, executionID string) (*v1.ReadExecutionOKExecution, error) {
 	const methodName = "Execution.Read"
 
-	res, err := op.client.GetExecution(ctx, v1.GetExecutionParams{
+	res, err := op.client.ReadExecution(ctx, v1.ReadExecutionParams{
 		ID:          workflowID,
 		ExecutionId: executionID,
 	})
@@ -107,17 +107,17 @@ func (op *executionOp) Read(ctx context.Context, workflowID, executionID string)
 	}
 
 	switch r := res.(type) {
-	case *v1.GetExecutionOK:
+	case *v1.ReadExecutionOK:
 		return &r.Execution, nil
-	case *v1.GetExecutionBadRequest:
+	case *v1.ReadExecutionBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.GetExecutionUnauthorized:
+	case *v1.ReadExecutionUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.GetExecutionForbidden:
+	case *v1.ReadExecutionForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.GetExecutionNotFound:
+	case *v1.ReadExecutionNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.GetExecutionInternalServerError:
+	case *v1.ReadExecutionInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
@@ -182,26 +182,26 @@ func (op *executionOp) Delete(ctx context.Context, workflowID, executionID strin
 	}
 }
 
-func (op *executionOp) ListHistory(ctx context.Context, params v1.ListExecutionHistoryParams) (*v1.ListExecutionHistoryOK, error) {
+func (op *executionOp) ListHistory(ctx context.Context, params v1.ListExecutionHistoriesParams) (*v1.ListExecutionHistoriesOK, error) {
 	const methodName = "Execution.ListHistory"
 
-	res, err := op.client.ListExecutionHistory(ctx, params)
+	res, err := op.client.ListExecutionHistories(ctx, params)
 	if err != nil {
 		return nil, NewAPIError(methodName, 0, err)
 	}
 
 	switch r := res.(type) {
-	case *v1.ListExecutionHistoryOK:
+	case *v1.ListExecutionHistoriesOK:
 		return r, nil
-	case *v1.ListExecutionHistoryBadRequest:
+	case *v1.ListExecutionHistoriesBadRequest:
 		return nil, NewAPIError(methodName, http.StatusBadRequest, errors.New(r.Message))
-	case *v1.ListExecutionHistoryUnauthorized:
+	case *v1.ListExecutionHistoriesUnauthorized:
 		return nil, NewAPIError(methodName, http.StatusUnauthorized, errors.New(r.Message))
-	case *v1.ListExecutionHistoryForbidden:
+	case *v1.ListExecutionHistoriesForbidden:
 		return nil, NewAPIError(methodName, http.StatusForbidden, errors.New(r.Message))
-	case *v1.ListExecutionHistoryNotFound:
+	case *v1.ListExecutionHistoriesNotFound:
 		return nil, NewAPIError(methodName, http.StatusNotFound, errors.New(r.Message))
-	case *v1.ListExecutionHistoryInternalServerError:
+	case *v1.ListExecutionHistoriesInternalServerError:
 		return nil, NewAPIError(methodName, http.StatusInternalServerError, errors.New(r.Message))
 	default:
 		return nil, NewAPIError(methodName, 0, err)
