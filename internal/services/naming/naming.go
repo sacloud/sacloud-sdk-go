@@ -17,8 +17,6 @@ package naming
 import (
 	"fmt"
 	"strings"
-
-	"github.com/huandu/xstrings"
 )
 
 var normalizationWords = map[string]string{
@@ -34,12 +32,13 @@ var normalizationWords = map[string]string{
 	"ipv_6":  "ipv6",
 	"i-pv-4": "ipv4",
 	"i-pv-6": "ipv6",
+	"i-pv6":  "ipv6",
 	"ipv-4":  "ipv4",
 	"ipv-6":  "ipv6",
 
 	"l_2tp":  "l2tp",
 	"l-2tp":  "l2tp",
-	"dns-11": "dns1", // xstrings.ToKebabCase対応
+	"dns-11": "dns1",
 	"dns-22": "dns2",
 
 	"Ipsec": "IPsec",
@@ -67,23 +66,23 @@ func Normalize(name string) string {
 }
 
 func ToSnakeCase(name string) string {
-	return Normalize(xstrings.ToSnakeCase(name))
+	return Normalize(SnakeCase(name))
 }
 
 func ToKebabCase(name string) string {
-	return Normalize(xstrings.ToKebabCase(name))
+	return Normalize(KebabCase(name))
 }
 
 func ToUpperCamelCase(name string) string {
-	return Normalize(xstrings.ToPascalCase(xstrings.ToSnakeCase(name)))
+	return Normalize(PascalCase(SnakeCase(name)))
 }
 
 func ToCamelCase(name string) string {
-	return Normalize(xstrings.FirstRuneToLower(xstrings.ToCamelCase(xstrings.ToSnakeCase(name))))
+	return Normalize(FirstRuneToLower(CamelCase(SnakeCase(name))))
 }
 
 func ToLower(name string) string {
-	return strings.ToLower(Normalize(xstrings.ToCamelCase(xstrings.ToSnakeCase(name))))
+	return strings.ToLower(Normalize(CamelCase(SnakeCase(name))))
 }
 
 func ToFlagName(name string) string {
