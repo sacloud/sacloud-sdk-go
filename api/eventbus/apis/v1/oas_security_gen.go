@@ -20,8 +20,8 @@ type SecuritySource interface {
 var operationRolesApiKeyAuth = map[string][]string{
 	CreateCommonServiceItemOperation:       []string{},
 	DeleteCommonServiceItemOperation:       []string{},
-	GetCommonServiceItemOperation:          []string{},
-	GetCommonServiceItemsOperation:         []string{},
+	ListCommonServiceItemsOperation:        []string{},
+	ReadCommonServiceItemOperation:         []string{},
 	SetProcessConfigurationSecretOperation: []string{},
 	UpdateCommonServiceItemOperation:       []string{},
 }

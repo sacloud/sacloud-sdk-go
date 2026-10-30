@@ -157,30 +157,7 @@ func (s *DeleteCommonServiceItemOK) Validate() error {
 	return nil
 }
 
-func (s *GetCommonServiceItemOK) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.CommonServiceItem.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "CommonServiceItem",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *GetCommonServiceItemsOK) Validate() error {
+func (s *ListCommonServiceItemsOK) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -290,6 +267,29 @@ func (s ProviderClass) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *ReadCommonServiceItemOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.CommonServiceItem.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "CommonServiceItem",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *ScheduleSettings) Validate() error {

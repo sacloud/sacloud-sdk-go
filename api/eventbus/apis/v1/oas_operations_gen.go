@@ -8,8 +8,8 @@ type OperationName = string
 const (
 	CreateCommonServiceItemOperation       OperationName = "CreateCommonServiceItem"
 	DeleteCommonServiceItemOperation       OperationName = "DeleteCommonServiceItem"
-	GetCommonServiceItemOperation          OperationName = "GetCommonServiceItem"
-	GetCommonServiceItemsOperation         OperationName = "GetCommonServiceItems"
+	ListCommonServiceItemsOperation        OperationName = "ListCommonServiceItems"
+	ReadCommonServiceItemOperation         OperationName = "ReadCommonServiceItem"
 	SetProcessConfigurationSecretOperation OperationName = "SetProcessConfigurationSecret"
 	UpdateCommonServiceItemOperation       OperationName = "UpdateCommonServiceItem"
 )

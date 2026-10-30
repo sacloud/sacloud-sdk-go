@@ -1,12 +1,12 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "title": "EventBus さくらのクラウドAPI",
     "contact": {
       "url": "https://help.sakura.ad.jp/contact/"
     },
-    "description": "---\nCopyright SAKURA internet Inc.\n\n# はじめに\n\n「EventBus」は、さくらのクラウド上でイベント駆動型の処理を実現するためのサービスです。\nEventBusのリソース（実行設定・スケジュール）を作成・削除するには、さくらのクラウド コントロールパネルか下記APIを利用します。\n詳細は[EventBus クラウドマニュアル](https://manual.sakura.ad.jp/cloud/appliance/eventbus/index.html)を参照してください。\n\n# 基本的な使い方\n## APIキーの発行\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## APIエンドポイント\nhttps://secure.sakura.ad.jp/cloud/zone/is1a/api/cloud/1.1"
+    "description": "---\nCopyright SAKURA internet Inc.\n\n# はじめに\n\n「EventBus」は、さくらのクラウド上でイベント駆動型の処理を実現するためのサービスです。\nEventBusのリソース（実行設定・スケジュール・トリガー）を作成・削除するには、さくらのクラウド コントロールパネルか下記APIを利用します。\n詳細は[EventBus クラウドマニュアル](https://manual.sakura.ad.jp/cloud/appliance/eventbus/index.html)を参照してください。\n\n# 基本的な使い方\n## APIキーの発行\nAPIを利用するためには、認証のための「APIキー」が必要です。事前にキーを発行しておきます。\nAPIキーは「ユーザーID」「パスワード」に相当する「トークン」と呼ばれる認証情報で構成されています。\n|   項目名   | APIキー発行時の項目名        | このドキュメント内での例             |\n|------------|------------------------------|--------------------------------------|\n| ユーザーID | アクセストークン(UUID)       | 01234567-89ab-cdef-0123-456789abcdef |\n| パスワード | アクセストークンシークレット | SAMPLETOKENSAMPLETOKENSAMPLETOKENSAM |\n<div class=\"warning\">\n  <b>操作マニュアル</b><br />\n  <ul><li><a href=\"https://manual.sakura.ad.jp/cloud/api/apikey.html\">APIキー | さくらのクラウド ドキュメント</a></li></ul>\n</div>\n\n## APIエンドポイント\nhttps://secure.sakura.ad.jp/cloud/zone/is1a/api/cloud/1.1"
   },
   "servers": [
     {
@@ -23,7 +23,7 @@
     "/commonserviceitem": {
       "get": {
         "summary": "実行設定・スケジュール・トリガーの一覧取得",
-        "operationId": "getCommonServiceItems",
+        "operationId": "listCommonServiceItems",
         "description": "Provider.Classでeventbusschedule、eventbustriggerまたはeventbusprocessconfigurationを指定してフィルタ可能。\nクエリパラメータに下記のようにフィルタを設定することでスケジュール、トリガーまたは実行設定のリソースのみを取得できます\n`/commonserviceitem?{\"Filter\":{\"Provider.Class\":\"eventbusschedule\"}}`\n`/commonserviceitem?{\"Filter\":{\"Provider.Class\":\"eventbustrigger\"}}`\n`/commonserviceitem?{\"Filter\":{\"Provider.Class\":\"eventbusprocessconfiguration\"}}`\n",
         "responses": {
           "200": {
@@ -210,7 +210,7 @@
     "/commonserviceitem/{id}": {
       "get": {
         "summary": "実行設定・スケジュール・トリガーの取得",
-        "operationId": "getCommonServiceItem",
+        "operationId": "readCommonServiceItem",
         "parameters": [
           {
             "$ref": "#/components/parameters/resourceIdPathParam"
@@ -540,7 +540,7 @@
       "resourceIdPathParam": {
         "in": "path",
         "name": "id",
-        "description": "キューのリソースID",
+        "description": "リソースID",
         "schema": {
           "type": "string"
         },
@@ -1004,3 +1004,4 @@
     }
   }
 }
+
